@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvCheck"
+        android:layout_width="42dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="18dp"
+        android:minHeight="42dp"
+        android:minWidth="42dp"
+        android:focusable="false"
+        android:background="@drawable/habits_item_check" />

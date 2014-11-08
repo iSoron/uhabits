@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">μHabits</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    
+    <string name="add_habit">Add habit</string>
+    <string name="color_picker_default_title">Select a Color</string>
+    <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
+    <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+    
+    <string name="toast_habit_created">Habit created.</string>
+    <string name="toast_habit_deleted">Habit deleted.</string>
+    <string name="toast_nothing_to_undo">Nothing to undo.</string>
+    <string name="toast_nothing_to_redo">Nothing to redo.</string>
+    <string name="toast_habit_changed">Habit changed.</string>
+    <string name="toast_habit_changed_back">Habit changed back.</string>
+    <string name="toast_repetition_toggled">Repetition toggled.</string>
+    
+    <string name="habit_key"></string>
+    <string name="offset_key"></string>
+
+</resources>
