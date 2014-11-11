@@ -9,6 +9,7 @@ import org.isoron.uhabits.R;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -258,7 +259,7 @@ public class Habit extends Model
 
 	public int[] getReps(long timeFrom, long timeTo)
 	{
-		long timeFromExtended = timeFrom - freq_den * DateHelper.millisecondsInOneDay;
+		long timeFromExtended = timeFrom - (long)(freq_den) * DateHelper.millisecondsInOneDay;
 		List<Repetition> reps = selectRepsFromTo(timeFromExtended, timeTo).execute();
 
 		int nDaysExtended = (int) ((timeTo - timeFromExtended) / DateHelper.millisecondsInOneDay);

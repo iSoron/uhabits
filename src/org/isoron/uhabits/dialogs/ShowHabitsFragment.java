@@ -231,8 +231,8 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 		listView.setOnTouchListener(controller);
 		listView.setDragEnabled(true);
 
-		GregorianCalendar day = new GregorianCalendar();
-		day.setTimeInMillis(DateHelper.getLocalTime());
+		GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+		day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
 		
 		for (int i = 0; i < button_count; i++)
 		{
