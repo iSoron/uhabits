@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="458"
@@ -15,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="ic_launcher.svg"
+   sodipodi:docname="ic_notification.svg"
    inkscape:export-filename="/home/isoron/Android/uHabits/art/ic_launcher.png"
    inkscape:export-xdpi="300.06549"
    inkscape:export-ydpi="300.06549">
@@ -32,53 +31,6 @@
          offset="1"
          id="stop3009" />
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3005"
-       id="linearGradient3011"
-       x1="302.45276"
-       y1="619.70703"
-       x2="302.45276"
-       y2="178.3795"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3005"
-       id="linearGradient3783"
-       gradientUnits="userSpaceOnUse"
-       x1="302.45276"
-       y1="619.70703"
-       x2="302.45276"
-       y2="178.3795" />
-    <filter
-       inkscape:collect="always"
-       id="filter3882"
-       color-interpolation-filters="sRGB">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.2443362"
-         id="feGaussianBlur3884" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3943"
-       x="-0.11004367"
-       width="1.2200873"
-       y="-0.11004367"
-       height="1.2200873">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="5.7621265"
-         id="feGaussianBlur3945" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter4588">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.9052045"
-         id="feGaussianBlur4590" />
-    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -112,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -121,11 +73,20 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-143.04724,-297.18109)">
+    <rect
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffa07a;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       id="rect3570"
+       width="588.31287"
+       height="558.61438"
+       x="86.478699"
+       y="267.2774"
+       rx="25.6453"
+       ry="25.6453" />
     <circle
        id="path3003"
-       style="fill:url(#linearGradient3011);fill-opacity:1.0;stroke:none"
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
        transform="translate(61.047241,122.81891)"
-       d="m 540,403.36218 c 0,126.47321 -102.52679,229 -229,229 -126.47321,0 -229,-102.52679 -229,-229 0,-126.47321 102.52679,-229 229,-229 126.47321,0 229,102.52679 229,229 z"
+       d="m 540,403.36218 a 229,229 0 0 1 -229,229 229,229 0 0 1 -229,-229 229,229 0 0 1 229,-229 229,229 0 0 1 229,229 z"
        sodipodi:type="arc"
        sodipodi:ry="229"
        sodipodi:rx="229"
@@ -142,17 +103,7 @@
            x="251.42857"
            y="540.93359"
            style="font-size:24px" /></flowRegion><flowPara
-         id="flowPara2991" /></flowRoot>    <path
-       sodipodi:type="arc"
-       style="fill:url(#linearGradient3783);fill-opacity:1;stroke:none"
-       id="path3781"
-       sodipodi:cx="311"
-       sodipodi:cy="403.36218"
-       sodipodi:rx="229"
-       sodipodi:ry="229"
-       d="m 540,403.36218 c 0,126.47321 -102.52679,229 -229,229 -126.47321,0 -229,-102.52679 -229,-229 0,-126.47321 102.52679,-229 229,-229 126.47321,0 229,102.52679 229,229 z"
-       transform="matrix(0.93886463,0,0,-0.93886463,80.06034,912.88358)" />
-    <flowRoot
+         id="flowPara2991" /></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot2993"
        style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#ff0000;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome Bold"
@@ -165,23 +116,9 @@
            y="375.21933"
            style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ff0000;font-family:FontAwesome;-inkscape-font-specification:FontAwesome Bold" /></flowRegion><flowPara
          id="flowPara2999">aaahjoaaa</flowPara></flowRoot>    <flowRoot
-       transform="matrix(1.0677632e-8,-2.2314814,2.2314814,1.0677632e-8,-30.518064,759.73426)"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:none;stroke:#000000;stroke-width:3.58506237000000016;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:GLYPHICONS;-inkscape-font-specification:GLYPHICONS Bold;opacity:0.50000000000000000;filter:url(#filter4588)"
-       id="flowRoot3931"
-       xml:space="preserve"><flowRegion
-         id="flowRegion3933"
-         style="stroke-width:2.24066401"><rect
-           style="font-size:144px;fill:none;stroke:#000000;stroke-width:3.58506237;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-           y="79"
-           x="-221"
-           height="343"
-           width="383"
-           id="rect3935" /></flowRegion><flowPara
-         style="fill:none;stroke:#000000;stroke-width:3.58506237;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="flowPara3937"></flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3923"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#ffffff;fill-opacity:1;stroke:none;font-family:GLYPHICONS;-inkscape-font-specification:GLYPHICONS Bold"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:GLYPHICONS;-inkscape-font-specification:GLYPHICONS Bold;"
        transform="matrix(1.0677632e-8,-2.2314814,2.2314814,1.0677632e-8,-30.518064,761.73426)"><flowRegion
          id="flowRegion3925"><rect
            id="rect3927"
@@ -189,7 +126,7 @@
            height="343"
            x="-221"
            y="79"
-           style="font-size:144px;fill:#ffffff;fill-opacity:1;stroke:none" /></flowRegion><flowPara
+           style="font-size:144px;fill:#000000;fill-opacity:1;stroke:none;" /></flowRegion><flowPara
          id="flowPara3929"
-         style="fill:#ffffff;fill-opacity:1;stroke:none"></flowPara></flowRoot>  </g>
+         style="fill:#000000;fill-opacity:1;stroke:none;"></flowPara></flowRoot>  </g>
 </svg>

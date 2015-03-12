@@ -1,5 +1,9 @@
 package org.isoron.uhabits.dialogs;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.uhabits.R;
@@ -21,6 +25,9 @@ import android.widget.TextView;
 
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
+import com.android.datetimepicker.time.RadialPickerLayout;
+import com.android.datetimepicker.time.TimePickerDialog;
+import com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 public class EditHabitFragment extends DialogFragment implements OnClickListener
 {
@@ -31,7 +38,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 	private OnSavedListener onSavedListener;
 
 	private Habit originalHabit, modifiedHabit;
-	private TextView tvName, tvDescription, tvFreqNum, tvFreqDen;
+	private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvInputReminder;
 
 	static class SolidColorMatrix extends ColorMatrix
 	{
@@ -80,12 +87,14 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		tvDescription = (TextView) view.findViewById(R.id.input_description);
 		tvFreqNum = (TextView) view.findViewById(R.id.input_freq_num);
 		tvFreqDen = (TextView) view.findViewById(R.id.input_freq_den);
+		tvInputReminder = (TextView) view.findViewById(R.id.input_reminder_time);
 
 		Button buttonSave = (Button) view.findViewById(R.id.button_save);
 		Button buttonDiscard = (Button) view.findViewById(R.id.button_discard);
 
 		buttonSave.setOnClickListener(this);
 		buttonDiscard.setOnClickListener(this);
+		tvInputReminder.setOnClickListener(this);
 
 		ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.button_pick_color);
 
@@ -112,6 +121,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		}
 
 		changeColor(modifiedHabit.color);
+		updateReminder();
 
 		buttonPickColor.setOnClickListener(new OnClickListener()
 		{
@@ -146,6 +156,21 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		tvName.setBackgroundDrawable(background);
 		tvName.setTextColor(color);
 	}
+	
+	private void updateReminder()
+	{
+		if(modifiedHabit.reminder_hour != null)
+		{
+			tvInputReminder.setTextColor(Color.BLACK);
+			tvInputReminder.setText(String.format("%02d:%02d", modifiedHabit.reminder_hour,
+					modifiedHabit.reminder_min));
+		}
+		else
+		{
+			tvInputReminder.setTextColor(Color.GRAY);
+			tvInputReminder.setText("Off");
+		}
+	}
 
 	public void setOnSavedListener(OnSavedListener onSavedListener)
 	{
@@ -160,6 +185,31 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 	public void onClick(View v)
 	{
 		int id = v.getId();
+		
+		/* Due date spinner */
+		if(id == R.id.input_reminder_time)
+		{
+			TimePickerDialog timePicker = TimePickerDialog.newInstance(new OnTimeSetListener()
+			{
+
+				@Override
+				public void onTimeSet(RadialPickerLayout view, int hour, int minute)
+				{
+					modifiedHabit.reminder_hour = hour;
+					modifiedHabit.reminder_min = minute;
+					updateReminder();
+				}
+
+				@Override
+				public void onTimeCleared(RadialPickerLayout view)
+				{
+					modifiedHabit.reminder_hour = null;
+					modifiedHabit.reminder_min = null;
+					updateReminder();
+				}
+			}, 8, 0, true);
+			timePicker.show(getFragmentManager(), "timePicker");
+		}
 
 		/* Save button */
 		if(id == R.id.button_save)

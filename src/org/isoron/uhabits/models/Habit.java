@@ -53,6 +53,12 @@ public class Habit extends Model
 
 	@Column(name = "position")
 	public Integer position;
+	
+	@Column(name = "reminder_hour")
+	public Integer reminder_hour;
+	
+	@Column(name = "reminder_min")
+	public Integer reminder_min;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *                                          Commands                                         *
@@ -188,6 +194,8 @@ public class Habit extends Model
 		this.freq_den = model.freq_den;
 		this.color = model.color;
 		this.position = model.position;
+		this.reminder_hour = model.reminder_hour;
+		this.reminder_min = model.reminder_min;
 	}
 
 	public Habit()

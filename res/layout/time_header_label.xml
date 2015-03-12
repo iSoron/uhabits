@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/time_display"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center"
+      android:background="@color/white" >
+        <View
+            android:id="@+id/center_view"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="#00000000"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/hour_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_placeholder"
+            android:layout_toLeftOf="@+id/separator"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            style="@style/time_label"
+            android:importantForAccessibility="no" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignRight="@+id/hour_space"
+            android:layout_alignLeft="@+id/hour_space"
+            android:layout_marginLeft="@dimen/extra_time_label_margin"
+            android:layout_marginRight="@dimen/extra_time_label_margin"
+            android:layout_centerVertical="true" >
+            <com.android.datetimepicker.AccessibleTextView
+                android:id="@+id/hours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_placeholder"
+                android:textColor="@color/blue"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                style="@style/time_label" />
+            </FrameLayout>
+
+        <TextView
+            android:id="@+id/separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_separator"
+            android:paddingLeft="@dimen/separator_padding"
+            android:paddingRight="@dimen/separator_padding"
+            android:layout_alignRight="@+id/center_view"
+            android:layout_centerVertical="true"
+            style="@style/time_label"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/minutes_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_placeholder"
+            android:layout_toRightOf="@+id/separator"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            style="@style/time_label"
+            android:importantForAccessibility="no" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignRight="@+id/minutes_space"
+            android:layout_alignLeft="@+id/minutes_space"
+            android:layout_marginLeft="@dimen/extra_time_label_margin"
+            android:layout_marginRight="@dimen/extra_time_label_margin"
+            android:layout_centerVertical="true" >
+            <com.android.datetimepicker.AccessibleTextView
+                android:id="@+id/minutes"
+                style="@style/time_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/time_placeholder"
+                android:layout_gravity="center" />
+        </FrameLayout>
+        <com.android.datetimepicker.AccessibleTextView
+            android:id="@+id/ampm_hitspace"
+            android:layout_width="@dimen/ampm_label_size"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/ampm_label"
+            android:layout_alignRight="@+id/ampm_label" />
+        <TextView
+            android:id="@+id/ampm_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time_placeholder"
+            android:paddingLeft="@dimen/ampm_left_padding"
+            android:paddingRight="@dimen/ampm_left_padding"
+            android:layout_toRightOf="@+id/minutes_space"
+            android:layout_alignBaseline="@+id/separator"
+            style="@style/ampm_label"
+            android:importantForAccessibility="no" />
+  </RelativeLayout>

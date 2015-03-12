@@ -4,10 +4,19 @@ import java.util.LinkedList;
 
 import org.isoron.helpers.Command;
 import org.isoron.uhabits.dialogs.ShowHabitsFragment;
-import org.isoron.uhabits.models.Habit;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -38,6 +47,24 @@ public class MainActivity extends Activity
 
 		undoList = new LinkedList<Command>();
 		redoList = new LinkedList<Command>();
+		
+//		startAlarm("http://hello-world.com/", 5);
+//		startAlarm("http://ola-mundo.com.br/", 10);
+	}
+	
+	private void startAlarm(String data, int interval)
+	{
+		Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+		alarmIntent.setData(Uri.parse(data));
+		
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() +
+                interval * 1000, pendingIntent);
+        
+        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
