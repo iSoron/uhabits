@@ -1,22 +1,22 @@
 package org.isoron.uhabits;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 import org.isoron.helpers.Command;
 import org.isoron.uhabits.dialogs.ShowHabitsFragment;
+import org.isoron.uhabits.models.Habit;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -39,8 +39,7 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//		Habit.rebuildOrder();
-		//		Habit.roundTimestamps();
+		
 		setContentView(R.layout.main_activity);
 		showHabitsFragment = (ShowHabitsFragment) getFragmentManager().findFragmentById(
 				R.id.fragment1);
@@ -48,23 +47,39 @@ public class MainActivity extends Activity
 		undoList = new LinkedList<Command>();
 		redoList = new LinkedList<Command>();
 		
-//		startAlarm("http://hello-world.com/", 5);
-//		startAlarm("http://ola-mundo.com.br/", 10);
+		createReminderAlarms();
 	}
 	
-	private void startAlarm(String data, int interval)
+	public void createReminderAlarms()
 	{
-		Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-		alarmIntent.setData(Uri.parse(data));
-		
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-        
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() +
-                interval * 1000, pendingIntent);
-        
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+		for(Habit habit : Habit.getHabitsWithReminder())
+		{
+			Uri uri = Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId());
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			calendar.set(Calendar.HOUR_OF_DAY, habit.reminder_hour);
+			calendar.set(Calendar.MINUTE, habit.reminder_min);
+			calendar.set(Calendar.SECOND, 0);
+			
+			long reminderTime = calendar.getTimeInMillis();
+			
+			if(System.currentTimeMillis() > reminderTime) {
+				reminderTime += AlarmManager.INTERVAL_DAY;
+			}
+			
+			Intent alarmIntent = new Intent(MainActivity.this, ReminderAlarmReceiver.class);
+			alarmIntent.setData(uri);
+			
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 100,
+					alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			
+			AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+			
+			Log.d("Alarm", String.format("Setting alarm (%s): %s", DateFormat.getDateTimeInstance()
+					.format(new Date(reminderTime)), habit.name));
+		}
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

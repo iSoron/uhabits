@@ -1,6 +1,5 @@
 package org.isoron.uhabits.dialogs;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -20,7 +19,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -53,6 +51,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 	private int button_count;
 	ShowHabitsAdapter adapter;
 	DragSortListView listView;
+	MainActivity mainActivity;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *                                    Adapter                                    *
@@ -245,6 +244,8 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 
 			day.add(GregorianCalendar.DAY_OF_MONTH, -1);
 		}
+		
+		mainActivity = (MainActivity) getActivity();
 
 		setHasOptionsMenu(true);
 		return view;
@@ -311,6 +312,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 	public void onSaved(Command command)
 	{
 		executeCommand(command);
+		mainActivity.createReminderAlarms();
 	}
 
 	public void notifyDataSetChanged()
@@ -344,7 +346,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 
 	private void executeCommand(Command c)
 	{
-		((MainActivity) getActivity()).executeCommand(c, false);
+		mainActivity.executeCommand(c, false);
 		adapter.notifyDataSetChanged();
 	}
 

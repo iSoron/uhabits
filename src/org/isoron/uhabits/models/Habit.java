@@ -1,6 +1,5 @@
 package org.isoron.uhabits.models;
 
-import java.util.Date;
 import java.util.List;
 
 import org.isoron.helpers.Command;
@@ -9,7 +8,6 @@ import org.isoron.uhabits.R;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -236,6 +234,17 @@ public class Habit extends Model
 	{
 		return select().offset(position).executeSingle();
 	}
+	
+	public static java.util.List<Habit> getHabits()
+	{
+		return select().execute();
+	}
+	
+	public static java.util.List<Habit> getHabitsWithReminder()
+	{
+		return select().where("reminder_hour is not null").execute();
+	}
+
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *                                        Repetitions                                        *

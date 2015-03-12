@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="20" />
+        android:targetSdkVersion="22" />
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         
-        <receiver android:name="AlarmReceiver"> 
+        <receiver android:name="ReminderAlarmReceiver"> 
 		</receiver>
     </application>
 
