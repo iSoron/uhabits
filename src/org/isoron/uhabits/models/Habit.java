@@ -57,6 +57,9 @@ public class Habit extends Model
 	
 	@Column(name = "reminder_min")
 	public Integer reminder_min;
+	
+	@Column(name = "highlight")
+	public Integer highlight;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *                                          Commands                                         *
@@ -238,6 +241,12 @@ public class Habit extends Model
 	public static java.util.List<Habit> getHabits()
 	{
 		return select().execute();
+	}
+	
+	public static java.util.List<Habit> getHighlightedHabits()
+	{
+		return select().where("highlight = 1").orderBy("reminder_hour desc, reminder_min desc")
+				.execute();
 	}
 	
 	public static java.util.List<Habit> getHabitsWithReminder()

@@ -20,7 +20,7 @@
             android:value="uhabits.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="5" />
+            android:value="6" />
         
         <activity
             android:name="org.isoron.uhabits.MainActivity"
@@ -35,6 +35,10 @@
         
         <receiver android:name="ReminderAlarmReceiver"> 
 		</receiver>
+		
+		<receiver android:name="ReminderAlarmDismissReceiver"> 
+		</receiver>
+        
     </application>
 
 </manifest>

@@ -71,7 +71,8 @@ public class MainActivity extends Activity
 			Intent alarmIntent = new Intent(MainActivity.this, ReminderAlarmReceiver.class);
 			alarmIntent.setData(uri);
 			
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 100,
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
+					((int)(habit.getId() % Integer.MAX_VALUE)) + 1,
 					alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
