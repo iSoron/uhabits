@@ -15,7 +15,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,44 +45,65 @@ public class MainActivity extends Activity
 		setContentView(R.layout.main_activity);
 		showHabitsFragment = (ShowHabitsFragment) getFragmentManager().findFragmentById(
 				R.id.fragment1);
+	
+		Log.d("MainActivity", "Creating activity");
 
 		undoList = new LinkedList<Command>();
 		redoList = new LinkedList<Command>();
 		
-		createReminderAlarms();
+		createReminderAlarms(MainActivity.this);
 	}
 	
-	public void createReminderAlarms()
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		showHabitsFragment.notifyDataSetChanged();
+		Log.d("MainActivity", "Starting activity");
+	}
+	
+	public static void createReminderAlarms(Context context)
 	{
 		for(Habit habit : Habit.getHabitsWithReminder())
+			createReminderAlarm(context, habit, null);
+	}
+	
+	public static void createReminderAlarm(Context context, Habit habit, Long reminderTime)
+	{
+		Uri uri = Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId());
+		
+		if(reminderTime == null)
 		{
-			Uri uri = Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId());
-			
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(System.currentTimeMillis());
 			calendar.set(Calendar.HOUR_OF_DAY, habit.reminder_hour);
 			calendar.set(Calendar.MINUTE, habit.reminder_min);
 			calendar.set(Calendar.SECOND, 0);
 			
-			long reminderTime = calendar.getTimeInMillis();
+			reminderTime = calendar.getTimeInMillis();
 			
 			if(System.currentTimeMillis() > reminderTime) {
 				reminderTime += AlarmManager.INTERVAL_DAY;
 			}
-			
-			Intent alarmIntent = new Intent(MainActivity.this, ReminderAlarmReceiver.class);
-			alarmIntent.setData(uri);
-			
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
-					((int)(habit.getId() % Integer.MAX_VALUE)) + 1,
-					alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-			
-			AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-			manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
-			
-			Log.d("Alarm", String.format("Setting alarm (%s): %s", DateFormat.getDateTimeInstance()
-					.format(new Date(reminderTime)), habit.name));
 		}
+		
+		Intent alarmIntent = new Intent(context, ReminderAlarmReceiver.class);
+		alarmIntent.setAction(ReminderAlarmReceiver.ACTION_REMIND);
+		alarmIntent.setData(uri);
+		
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+				((int)(habit.getId() % Integer.MAX_VALUE)) + 1,
+				alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		if (Build.VERSION.SDK_INT >= 19) {
+			manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+		} else {
+			manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+		}
+		
+		Log.d("Alarm", String.format("Setting alarm (%s): %s", DateFormat.getDateTimeInstance()
+				.format(new Date(reminderTime)), habit.name));
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

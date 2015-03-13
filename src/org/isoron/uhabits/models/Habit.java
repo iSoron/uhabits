@@ -276,6 +276,11 @@ public class Habit extends Model
 		int count = selectReps().where("timestamp = ?", timestamp).count();
 		return (count > 0);
 	}
+	
+	public boolean hasRepToday()
+	{
+		return hasRep(DateHelper.getStartOfToday());
+	}
 
 	public void deleteReps(long timestamp)
 	{
@@ -318,6 +323,13 @@ public class Habit extends Model
 		
 		return check;
 	}
+	
+	public boolean hasImplicitRepToday()
+	{
+		long today = DateHelper.getStartOfToday();
+		int reps[] = getReps(today - DateHelper.millisecondsInOneDay, today);
+		return (reps[0] > 0);
+	}
 
 	public Repetition getOldestRep()
 	{
@@ -339,6 +351,11 @@ public class Habit extends Model
 		}
 
 		deleteScoresNewerThan(timestamp);
+	}
+	
+	public void toggleRepetitionToday()
+	{
+		toggleRepetition(DateHelper.getStartOfToday());
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

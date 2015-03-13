@@ -20,6 +20,11 @@ public class DateHelper
 	{
 		return (timestamp / millisecondsInOneDay) * millisecondsInOneDay;
 	}
+	
+	public static long getStartOfToday()
+	{
+		return getStartOfDay(DateHelper.getLocalTime());
+	}
 
 //	public static Date getStartOfDay(Date date)
 //	{

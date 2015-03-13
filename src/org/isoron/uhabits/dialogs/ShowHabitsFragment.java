@@ -46,7 +46,7 @@ import com.mobeta.android.dslv.DragSortListView.DropListener;
 public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnItemClickListener,
 		OnLongClickListener, DropListener
 {
-
+	
 	private int tvNameWidth;
 	private int button_count;
 	ShowHabitsAdapter adapter;
@@ -102,8 +102,8 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 		public View getView(int position, View view, ViewGroup parent)
 		{
 			final Habit habit = (Habit) getItem(position);
-
-			if(view == null)
+			
+			if(view == null || (Long) view.getTag(R.id.KEY_TIMESTAMP) != DateHelper.getStartOfToday())
 			{
 				view = inflater.inflate(R.layout.show_habits_item, null);
 				((TextView) view.findViewById(R.id.tvStar)).setTypeface(fontawesome);
@@ -125,6 +125,8 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 					btCheck.setOnLongClickListener(ShowHabitsFragment.this);
 					((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
 				}
+				
+				view.setTag(R.id.KEY_TIMESTAMP, DateHelper.getStartOfToday());
 			}
 
 			TextView tvStar = (TextView) view.findViewById(R.id.tvStar);
@@ -312,7 +314,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 	public void onSaved(Command command)
 	{
 		executeCommand(command);
-		mainActivity.createReminderAlarms();
+		MainActivity.createReminderAlarms(mainActivity);
 	}
 
 	public void notifyDataSetChanged()
