@@ -49,5 +49,4 @@
     <dimen name="day_number_size">16sp</dimen>
     <dimen name="year_label_height">64dp</dimen>
     <dimen name="year_label_text_size">22dp</dimen>
-
 </resources>

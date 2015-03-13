@@ -7,4 +7,5 @@
     android:focusable="false"
     android:minHeight="42dp"
     android:minWidth="42dp"
-    android:textSize="10sp" />
+    android:textSize="10sp"
+    android:textColor="#606060" />

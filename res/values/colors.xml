@@ -15,8 +15,14 @@
      limitations under the License.
 -->
 <resources>
+    
+    <color name="primary">#00517b</color>
+    <color name="primary_darker">#003d5d</color>
+    <color name="accent">#9a4000</color>
 
     <color name="white">#ffffff</color>
+    <color name="grey">#cccccc</color>
+    
     <color name="circle_background">#f2f2f2</color>
     <color name="line_background">#cccccc</color>
     <color name="ampm_text_color">#8c8c8c</color>
@@ -24,6 +30,7 @@
     <color name="done_text_color_disabled">#cccccc</color>
     <color name="numbers_text_color">#8c8c8c</color>
 
+    <color name="transparent">#00000000</color>
     <color name="transparent_black">#7f000000</color>
     <color name="blue">#33b5e5</color>
     <color name="blue_focused">#c1e8f7</color>

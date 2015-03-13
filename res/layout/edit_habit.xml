@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="8dp"
     tools:context="org.isoron.uhabits.dialogs.EditHabitFragment"
     tools:ignore="MergeRootFrame" >
 
@@ -13,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        android:padding="8dp" >
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        >
 
         <LinearLayout
             android:id="@+id/namePanel"
@@ -27,7 +30,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
-                android:background="@drawable/apptheme_edit_text_holo_light"
                 android:ems="10"
                 android:hint="Name"
                 android:textColor="#cc2222" >
@@ -55,6 +57,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minWidth="280dp"
             android:orientation="horizontal"
             android:gravity="start">
 
@@ -126,37 +129,36 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/buttonPanel"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="?android:attr/dividerHorizontal"
-        android:dividerPadding="0dip"
-        android:orientation="vertical"
-        android:showDividers="beginning" >
+        android:layout_height="48dp"
+        android:gravity="end"
+        android:onClick="onClick"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            style="?android:attr/buttonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:orientation="horizontal" >
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/button_discard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="8dp"
+            android:text="Discard" />
 
-            <Button
-                android:id="@+id/button_discard"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Discard" />
-
-            <Button
-                android:id="@+id/button_save"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Save" />
-        </LinearLayout>
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:padding="8dp"
+            android:text="Save" />
     </LinearLayout>
 
 </LinearLayout>

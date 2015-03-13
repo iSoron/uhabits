@@ -14,6 +14,7 @@ import org.isoron.uhabits.models.Habit;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -117,12 +119,17 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 				Point size = new Point();
 				display.getSize(size);
 
+				LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				llp.setMargins(10, 5, 10, 5);
+				
 				for (int i = 0; i < button_count; i++)
 				{
 					View check = inflater.inflate(R.layout.show_habits_item_check, null);
-					Button btCheck = (Button) check.findViewById(R.id.tvCheck);
+					TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
 					btCheck.setTypeface(fontawesome);
 					btCheck.setOnLongClickListener(ShowHabitsFragment.this);
+//					btCheck.setLayoutParams(llp);
 					((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
 				}
 				
@@ -139,6 +146,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 			}
 
 			int inactiveColor = Color.rgb(230, 230, 230);
+			int inactiveBackgroundColor = Color.WHITE;
 			int activeColor = habit.color;
 
 			tvName.setText(habit.name);
@@ -172,7 +180,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 			for (int i = 0; i < m; i++)
 			{
 
-				Button tvCheck = (Button) llButtons.getChildAt(i);
+				TextView tvCheck = (TextView) llButtons.getChildAt(i);
 				tvCheck.setTag(R.string.habit_key, habit.getId());
 				tvCheck.setTag(R.string.offset_key, i);
 

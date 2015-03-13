@@ -17,8 +17,8 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#00000000"
-        android:dividerHeight="0dp"
+        android:divider="#10000000"
+        android:dividerHeight="1dp"
         dslv:drag_enabled="true"
         dslv:drag_handle_id="@drawable/habits_header_check"
         dslv:drag_start_mode="onMove"
@@ -31,7 +31,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/habits_header" >
+        android:elevation="2dp"
+        android:background="#ffffff"
+        android:paddingRight="4dp"
+        >
 
         <TextView
             android:id="@+id/tvStarHeader"

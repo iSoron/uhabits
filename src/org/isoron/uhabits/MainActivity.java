@@ -42,6 +42,8 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
+		getActionBar().setElevation(5);
+		
 		setContentView(R.layout.main_activity);
 		showHabitsFragment = (ShowHabitsFragment) getFragmentManager().findFragmentById(
 				R.id.fragment1);

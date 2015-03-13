@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="AppBaseTheme" parent="android:Theme.Material">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_darker</item>
+        <item name="android:dialogTheme">@style/MyDialogStyle</item>
+        <item name="android:alertDialogTheme">@style/MyDialogStyle</item>
+        
+    </style>
+
+    <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">
+    </style>
+
+</resources>

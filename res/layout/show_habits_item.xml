@@ -2,34 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/habits_item"
+    android:background="#10000000"
     android:baselineAligned="false"
+    android:clipToPadding="false"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
-
-    <TextView
-        android:id="@+id/tvStar"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="0dp"
-        android:gravity="center"
-        android:paddingTop="1dp"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingBottom="6dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="6dp"
-        android:paddingTop="6dp" />
+    android:orientation="horizontal"
+    android:paddingTop="0dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    >
 
     <LinearLayout
-        android:id="@+id/llButtons"
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:orientation="horizontal" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_background"
+        android:elevation="1dp" >
+
+        <TextView
+            android:id="@+id/tvStar"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:paddingTop="1dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="6dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="6dp"
+            android:paddingTop="10dp" />
+
+        <LinearLayout
+            android:id="@+id/llButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
+    </LinearLayout>
 
 </LinearLayout>

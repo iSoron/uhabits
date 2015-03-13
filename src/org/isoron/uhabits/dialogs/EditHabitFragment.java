@@ -144,12 +144,12 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
 	private void changeColor(Integer color)
 	{
-		SolidColorMatrix matrix = new SolidColorMatrix(color);
-		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-		Drawable background = getActivity().getResources().getDrawable(
-				R.drawable.apptheme_edit_text_holo_light);
-		background.setColorFilter(filter);
-		tvName.setBackgroundDrawable(background);
+//		SolidColorMatrix matrix = new SolidColorMatrix(color);
+//		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+//		Drawable background = getActivity().getResources().getDrawable(
+//				R.drawable.apptheme_edit_text_holo_light);
+//		background.setColorFilter(filter);
+//		tvName.setBackgroundDrawable(background);
 		tvName.setTextColor(color);
 	}
 	
