@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dslv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <com.mobeta.android.dslv.DragSortListView
+        android:id="@+id/listView"
+        style="@style/habitsListStyle"
+        dslv:drag_enabled="true"
+        dslv:drag_handle_id="@drawable/habits_header_check"
+        dslv:drag_start_mode="onMove"
+        dslv:float_alpha="0.5"
+        dslv:sort_enabled="true"
+        dslv:track_drag_sort="false"
+        dslv:use_default_controller="true" />
+
+    <LinearLayout style="@style/habitsListHeaderStyle">
+
+        <TextView
+            android:id="@+id/tvStarHeader"
+            style="@style/habitsListStarStyle" />
+
+        <TextView
+            android:id="@+id/tvNameHeader"
+            style="@style/habitsListNameStyle"
+            android:text="" />
+
+        <LinearLayout
+            android:id="@+id/llButtonsHeader"
+            style="@style/habitsListButtonsPanelStyle" />
+    </LinearLayout>
+
+</RelativeLayout>

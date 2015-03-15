@@ -1,0 +1,105 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    tools:context="org.isoron.uhabits.dialogs.EditHabitFragment"
+    tools:ignore="MergeRootFrame"
+    style="@style/dialogForm">
+
+    <LinearLayout
+        android:id="@+id/formPanel"
+        style="@style/dialogFormPanel">
+
+        <LinearLayout
+            android:id="@+id/namePanel"
+            style="@style/dialogFormRow">
+
+            <EditText
+                android:id="@+id/input_name"
+                android:hint="Name"
+                style="@style/dialogFormInput">
+
+                <requestFocus />
+            </EditText>
+
+            <ImageButton
+                android:id="@+id/button_pick_color"
+                android:src="@drawable/ic_action_pick_color"
+                style="@style/dialogFormInputColor" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/input_description"
+            android:hint="Description"
+            style="@style/dialogFormInputMultiline" />
+
+        <LinearLayout
+            style="@style/dialogFormRow"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/textView1"
+                style="@style/dialogFormLabel"
+                android:text="Repeat " />
+
+            <EditText
+                android:id="@+id/input_freq_num"
+                android:text="3"
+                style="@style/dialogFormInputSmallNumber" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" times every " />
+
+            <EditText
+                android:id="@+id/input_freq_den"
+                android:text="7"
+                style="@style/dialogFormInputSmallNumber" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" days" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/reminedPanel"
+            style="@style/dialogFormRow">
+
+            <TextView
+                android:id="@+id/TextView2"
+                style="@style/dialogFormLabel"
+                android:text="Reminder" />
+
+            <TextView
+                android:id="@+id/input_reminder_time"
+                style="@style/dialogFormTimePicker" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:onClick="onClick"
+        android:paddingEnd="16dp">
+
+        <Button
+            android:id="@+id/buttonDiscard"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Discard" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tvCheck"
-    android:focusable="false"
-    android:minHeight="42dp"
-    android:minWidth="42dp"
-    android:gravity="center"
-    android:background="@drawable/ripple_background" />

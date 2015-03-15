@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="habitsListStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:divider">@color/windowBackground</item>
+        <item name="android:dividerHeight">1dp</item>
+        <item name="android:paddingTop">42dp</item>
+        <item name="android:background">@color/windowBackground</item>
+    </style>
+
+    <style name="habitsListHeaderStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">#f0f0f0</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="habitsListStarStyle">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="habitsListNameStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
+
+    <style name="habitsListButtonsPanelStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="habitsListItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/windowBackground</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="habitsListItemInnerPanelStyle" parent="cardStyle">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">3dp</item>
+    </style>
+
+    <style name="habitsListCheckStyle">
+        <item name="android:focusable">false</item>
+        <item name="android:minHeight">42dp</item>
+        <item name="android:minWidth">42dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/ripple_background</item>
+    </style>
+
+    <style name="habitsListHeaderCheckStyle" parent="habitsListCheckStyle">
+        <item name="android:layout_width">42dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#f0f0f0</item>
+        <item name="android:focusable">false</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#606060</item>
+    </style>
+</resources>
