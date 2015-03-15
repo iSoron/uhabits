@@ -1,5 +1,6 @@
 package org.isoron.uhabits.dialogs;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -9,17 +10,22 @@ import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.models.Habit;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Outline;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.format.Time;
+import android.transition.Explode;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -28,9 +34,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -45,21 +51,22 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnItemClickListener,
-		OnLongClickListener, DropListener
+public class ListHabitsFragment extends Fragment implements OnSavedListener, OnItemClickListener,
+		OnLongClickListener, DropListener, OnClickListener
 {
 	
 	private int tvNameWidth;
 	private int button_count;
-	ShowHabitsAdapter adapter;
+	ListHabitsAdapter adapter;
 	DragSortListView listView;
 	MainActivity mainActivity;
+	TextView tvNameHeader;
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *                                    Adapter                                    *
 	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-	class ShowHabitsAdapter extends BaseAdapter
+	class ListHabitsAdapter extends BaseAdapter
 	{
 
 		private Context context;
@@ -70,7 +77,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 				"go to school",
 				"cook dinner & lunch" };
 
-		public ShowHabitsAdapter(Context context)
+		public ListHabitsAdapter(Context context)
 		{
 			this.context = context;
 
@@ -81,22 +88,18 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 		@Override
 		public int getCount()
 		{
-			return Habit.getCount() + 1;
+			return Habit.getCount();
 		}
 
 		@Override
 		public Object getItem(int position)
 		{
-			if(position == 0)
-				return null;
-			return Habit.getByPosition(position - 1);
+			return Habit.getByPosition(position);
 		}
 
 		@Override
 		public long getItemId(int position)
 		{
-			if(position == 0)
-				return 0;
 			return ((Habit) getItem(position)).getId();
 		}
 
@@ -107,7 +110,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 			
 			if(view == null || (Long) view.getTag(R.id.KEY_TIMESTAMP) != DateHelper.getStartOfToday())
 			{
-				view = inflater.inflate(R.layout.show_habits_item, null);
+				view = inflater.inflate(R.layout.list_habits_item, null);
 				((TextView) view.findViewById(R.id.tvStar)).setTypeface(fontawesome);
 
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(tvNameWidth,
@@ -121,47 +124,54 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 
 				LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				llp.setMargins(10, 5, 10, 5);
+				llp.setMargins(2, 0, 2, 0);
 				
 				for (int i = 0; i < button_count; i++)
 				{
-					View check = inflater.inflate(R.layout.show_habits_item_check, null);
+					View check = inflater.inflate(R.layout.list_habits_item_check, null);
 					TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
 					btCheck.setTypeface(fontawesome);
-					btCheck.setOnLongClickListener(ShowHabitsFragment.this);
+					btCheck.setOnLongClickListener(ListHabitsFragment.this);
 //					btCheck.setLayoutParams(llp);
 					((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
 				}
+				
+//				LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
+//				llInner.setOnClickListener(ListHabitsFragment.this);
 				
 				view.setTag(R.id.KEY_TIMESTAMP, DateHelper.getStartOfToday());
 			}
 
 			TextView tvStar = (TextView) view.findViewById(R.id.tvStar);
 			TextView tvName = (TextView) view.findViewById(R.id.tvName);
+			
 
 			if(habit == null)
 			{
 				tvName.setText(null);
 				return view;
 			}
+			
+			LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
+			llInner.setTag(R.string.habit_key, habit.getId());
 
 			int inactiveColor = Color.rgb(230, 230, 230);
-			int inactiveBackgroundColor = Color.WHITE;
 			int activeColor = habit.color;
 
 			tvName.setText(habit.name);
 			tvName.setTextColor(activeColor);
 
 			int score = habit.getScore();
-			if(score < 5999000)
+			
+			if(score < Habit.HALF_STAR_CUTOFF)
 			{
 				tvStar.setText(context.getString(R.string.fa_star_o));
-				tvStar.setTextColor(Color.LTGRAY);
+				tvStar.setTextColor(inactiveColor);
 			}
-			else if(score < 12973000)
+			else if(score < Habit.FULL_STAR_CUTOFF)
 			{
 				tvStar.setText(context.getString(R.string.fa_star_half_o));
-				tvStar.setTextColor(Color.LTGRAY);
+				tvStar.setTextColor(inactiveColor);
 			}
 			else
 			{
@@ -216,14 +226,17 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.show_habits, container, false);
+		View view = inflater.inflate(R.layout.list_habits, container, false);
 
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 		int width = (int) (dm.widthPixels / dm.density);
 		button_count = (int) ((width - 160) / 42);
 		tvNameWidth = (int) ((width - 30 - button_count * 42) * dm.density);
+		
+		tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
+//		updateStarCount();
 
-		adapter = new ShowHabitsAdapter(getActivity());
+		adapter = new ListHabitsAdapter(getActivity());
 		listView = (DragSortListView) view.findViewById(R.id.listView);
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(this);
@@ -245,7 +258,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 		
 		for (int i = 0; i < button_count; i++)
 		{
-			View check = inflater.inflate(R.layout.show_habits_header_check, null);
+			View check = inflater.inflate(R.layout.list_habits_header_check, null);
 			Button btCheck = (Button) check.findViewById(R.id.tvCheck);
 			btCheck.setText(day.getDisplayName(GregorianCalendar.DAY_OF_WEEK,
 					GregorianCalendar.SHORT, Locale.US) + "\n"
@@ -312,10 +325,22 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 
 		return super.onContextItemSelected(menuItem);
 	}
+	
+	long lastLongClick = 0;
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		if(new Date().getTime() - lastLongClick < 1000) return;
+		
+		Habit habit = Habit.getByPosition(position);
+		Log.d("ItemClick", Long.toString(id));
+				
+		Intent intent = new Intent(getActivity(), ShowHabitActivity.class);
+		intent.setData(Uri.parse("content://org.isoron.uhabits/habit/"
+				+ habit.getId()));
+		getActivity().getWindow().setExitTransition(new Explode());
+	    startActivity(intent);
 	}
 
 	@Override
@@ -337,6 +362,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 
 		if(id == R.id.tvCheck)
 		{
+			lastLongClick = new Date().getTime();
 			Habit habit = Habit.get((Long) v.getTag(R.string.habit_key));
 			int offset = (Integer) v.getTag(R.string.offset_key);
 			long timestamp = DateHelper.getStartOfDay(DateHelper.getLocalTime() - offset
@@ -346,8 +372,7 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 
 			Vibrator vb = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 			vb.vibrate(100);
-
-			adapter.notifyDataSetChanged();
+			
 			return true;
 		}
 
@@ -357,13 +382,32 @@ public class ShowHabitsFragment extends Fragment implements OnSavedListener, OnI
 	private void executeCommand(Command c)
 	{
 		mainActivity.executeCommand(c, false);
-		adapter.notifyDataSetChanged();
+		notifyDataSetChanged();
 	}
 
 	@Override
 	public void drop(int from, int to)
 	{
-		Habit.reorder(from - 1, to - 1);
-		adapter.notifyDataSetChanged();
+		Habit.reorder(from, to);
+		notifyDataSetChanged();
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+	}
+	
+	void updateStarCount()
+	{
+		Log.d("StarCount", "updating star count");
+		String msg = "";
+		int starCount = Habit.getStarCount();
+		
+		if(starCount == 1)
+			msg = String.format("%d star", starCount);
+		else if(starCount > 1)
+			msg = String.format("%d stars", starCount);
+			
+		tvNameHeader.setText(msg);
 	}
 }

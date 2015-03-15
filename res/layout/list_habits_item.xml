@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llOuter"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#10000000"
+    android:background="@color/windowBackground"
     android:baselineAligned="false"
     android:clipToPadding="false"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingTop="0dp"
     android:paddingBottom="4dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
     >
 
     <LinearLayout
+        android:id="@+id/llInner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_background"

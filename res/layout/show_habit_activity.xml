@@ -3,12 +3,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.isoron.uhabits.MainActivity"
+    tools:context="org.isoron.uhabits.ShowHabitActivity"
     tools:ignore="MergeRootFrame" >
 
     <fragment
-        android:id="@+id/fragment1"
-        android:name="org.isoron.uhabits.dialogs.ListHabitsFragment"
+        android:id="@+id/fragment2"
+        android:name="org.isoron.uhabits.dialogs.ShowHabitFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

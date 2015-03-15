@@ -19,17 +19,18 @@
     <color name="primary">#00517b</color>
     <color name="primary_darker">#003d5d</color>
     <color name="accent">#9a4000</color>
+    <color name="windowBackground">#e6e6e6</color>
 
     <color name="white">#ffffff</color>
     <color name="grey">#cccccc</color>
-    
+
+    <!-- Time and Date picker -->
     <color name="circle_background">#f2f2f2</color>
     <color name="line_background">#cccccc</color>
     <color name="ampm_text_color">#8c8c8c</color>
     <color name="done_text_color_normal">#000000</color>
     <color name="done_text_color_disabled">#cccccc</color>
     <color name="numbers_text_color">#8c8c8c</color>
-
     <color name="transparent">#00000000</color>
     <color name="transparent_black">#7f000000</color>
     <color name="blue">#33b5e5</color>
@@ -37,11 +38,9 @@
     <color name="neutral_pressed">#33999999</color>
     <color name="darker_blue">#0099cc</color>
     <color name="date_picker_text_normal">#ff999999</color>
-
     <color name="calendar_header">#999999</color>
     <color name="date_picker_view_animator">#f2f2f2</color>
     <color name="calendar_selected_date_text">#ffd1d2d4</color>
-
     <color name="done_text_color">#888888</color>
     <color name="done_text_color_dark">#888888</color>
     

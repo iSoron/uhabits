@@ -8,6 +8,7 @@ import org.isoron.uhabits.R;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -33,6 +34,10 @@ public class Habit extends Model
 			Color.parseColor("#114896"), Color.parseColor("#501394"),
 			Color.parseColor("#872086"), Color.parseColor("#c31764"),
 			Color.parseColor("#000000"), Color.parseColor("#aaaaaa") };
+	
+	public static final int HALF_STAR_CUTOFF = 5999000;
+	public static final int FULL_STAR_CUTOFF = 12973000;
+	public static final int MAX_SCORE = 19259500;
 
 	@Column(name = "name")
 	public String name;
@@ -197,12 +202,14 @@ public class Habit extends Model
 		this.position = model.position;
 		this.reminder_hour = model.reminder_hour;
 		this.reminder_min = model.reminder_min;
+		this.highlight = model.highlight;
 	}
 
 	public Habit()
 	{
 		this.color = colors[11];
 		this.position = Habit.getCount();
+		this.highlight = 0;
 	}
 
 	public static Habit get(Long id)
@@ -424,6 +431,7 @@ public class Habit extends Model
 
 		return lastScore;
 	}
+	
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 *                                          Ordering                                         *
@@ -467,5 +475,19 @@ public class Habit extends Model
 			r.timestamp = DateHelper.getStartOfDay(r.timestamp);
 			r.save();
 		}
+	}
+
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 *                                         Statistics                                        *
+	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	
+	public static int getStarCount()
+	{
+		String args[] = {};
+		return SQLiteUtils.intQuery(
+				"select count(*) from (select score, max(timestamp) from " +
+						"score group by habit) as scores where scores.score >= "
+						+ Integer.toString(12973000), args);
+		
 	}
 }

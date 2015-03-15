@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import org.isoron.helpers.Command;
-import org.isoron.uhabits.dialogs.ShowHabitsFragment;
+import org.isoron.uhabits.dialogs.ListHabitsFragment;
 import org.isoron.uhabits.models.Habit;
 
 import android.app.Activity;
@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity
 {
 
-	private ShowHabitsFragment showHabitsFragment;
+	private ListHabitsFragment listHabitsFragment;
 
 	private LinkedList<Command> undoList;
 	private LinkedList<Command> redoList;
@@ -45,7 +45,8 @@ public class MainActivity extends Activity
 		getActionBar().setElevation(5);
 		
 		setContentView(R.layout.main_activity);
-		showHabitsFragment = (ShowHabitsFragment) getFragmentManager().findFragmentById(
+		
+		listHabitsFragment = (ListHabitsFragment) getFragmentManager().findFragmentById(
 				R.id.fragment1);
 	
 		Log.d("MainActivity", "Creating activity");
@@ -60,7 +61,7 @@ public class MainActivity extends Activity
 	protected void onStart()
 	{
 		super.onStart();
-		showHabitsFragment.notifyDataSetChanged();
+		listHabitsFragment.notifyDataSetChanged();
 		Log.d("MainActivity", "Starting activity");
 	}
 	
@@ -151,7 +152,7 @@ public class MainActivity extends Activity
 		showToast(command.getExecuteStringId());
 		if(datasetChanged)
 		{
-			showHabitsFragment.notifyDataSetChanged();
+			listHabitsFragment.notifyDataSetChanged();
 		}
 	}
 
@@ -168,7 +169,7 @@ public class MainActivity extends Activity
 		last.undo();
 		showToast(last.getUndoStringId());
 
-		showHabitsFragment.notifyDataSetChanged();
+		listHabitsFragment.notifyDataSetChanged();
 	}
 
 	public void redo()
