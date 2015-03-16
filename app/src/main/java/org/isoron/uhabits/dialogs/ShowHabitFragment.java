@@ -10,6 +10,8 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.views.HabitStreakView;
+import org.isoron.uhabits.views.RingView;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -27,9 +29,8 @@ import android.widget.TextView;
 public class ShowHabitFragment extends Fragment
 {
 	protected ShowHabitActivity activity;
-	private Habit habit;
 
-	@Override
+    @Override
 	public void onStart()
 	{
 		super.onStart();
@@ -43,24 +44,34 @@ public class ShowHabitFragment extends Fragment
 
 		View view = inflater.inflate(R.layout.show_habit, container, false);
 		activity = (ShowHabitActivity) getActivity();
-		habit = activity.habit;
+        Habit habit = activity.habit;
 
-		int darkerHabitColor = ColorHelper.mixColors(habit.color, Color.BLACK, 0.75f);
-		activity.getWindow().setStatusBarColor(darkerHabitColor);
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            int darkerHabitColor = ColorHelper.mixColors(habit.color, Color.BLACK, 0.75f);
+            activity.getWindow().setStatusBarColor(darkerHabitColor);
+        }
 
 		TextView tvHistory = (TextView) view.findViewById(R.id.tvHistory);
 		TextView tvOverview = (TextView) view.findViewById(R.id.tvOverview);
+        TextView tvStreaks= (TextView) view.findViewById(R.id.tvStreaks);
 		tvHistory.setTextColor(habit.color);
 		tvOverview.setTextColor(habit.color);
-		
-		TextView tvStrength = (TextView) view.findViewById(R.id.tvStrength);
-		tvStrength.setText(String.format("%.2f%%", ((float) habit.getScore() / Habit.MAX_SCORE) * 100));
-		
-		LinearLayout llHistory = (LinearLayout) view.findViewById(R.id.llHistory);
+        tvStreaks.setTextColor(habit.color);
 
-		HabitHistoryView hhv = new HabitHistoryView(activity, habit, 40);
-		llHistory.addView(hhv);
-			
+        LinearLayout llOverview = (LinearLayout) view.findViewById(R.id.llOverview);
+        llOverview.addView(new RingView(activity, 200, habit.color, ((float) habit.getScore() / Habit.MAX_SCORE), "Habit strength"));
+
+		LinearLayout llHistory = (LinearLayout) view.findViewById(R.id.llHistory);
+        HabitHistoryView hhv = new HabitHistoryView(activity, habit,
+                (int) activity.getResources().getDimension(R.dimen.square_size));
+        llHistory.addView(hhv);
+
+        LinearLayout llStreaks = (LinearLayout) view.findViewById(R.id.llStreaks);
+        HabitStreakView hsv = new HabitStreakView(activity, habit,
+                (int) activity.getResources().getDimension(R.dimen.square_size));
+        llStreaks.addView(hsv);
+
 		return view;
 	}
 }

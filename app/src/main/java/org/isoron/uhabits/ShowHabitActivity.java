@@ -16,22 +16,24 @@ public class ShowHabitActivity extends Activity
 {
 
 	public Habit habit;
-	private ShowHabitFragment showHabitFragment;
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		getActionBar().setElevation(5);
-		Uri data = getIntent().getData();
-		habit = Habit.get(ContentUris.parseId(data));
-		getActionBar().setTitle(habit.name);
-		getActionBar().setBackgroundDrawable(new ColorDrawable(habit.color));
+
+        Uri data = getIntent().getData();
+        habit = Habit.get(ContentUris.parseId(data));
+        getActionBar().setTitle(habit.name);
+
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            getActionBar().setElevation(5);
+            getActionBar().setBackgroundDrawable(new ColorDrawable(habit.color));
+        }
+
 
 		setContentView(R.layout.show_habit_activity);
-		showHabitFragment = (ShowHabitFragment) getFragmentManager().findFragmentById(
-				R.id.fragment2);
 	}
 
 	@Override

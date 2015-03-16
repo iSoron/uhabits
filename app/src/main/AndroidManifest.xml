@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
     package="org.isoron.uhabits"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="22" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21"/>
 
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="uhabits.db" />
+            android:value="uhabits.db"/>
+
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="6" />
+            android:value="6"/>
 
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleInstance" >
+            android:launchMode="singleInstance">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <receiver android:name=".ReminderAlarmReceiver" >
+        <receiver android:name=".ReminderAlarmReceiver">
         </receiver>
 
         <activity
             android:name=".ShowHabitActivity"
             android:label="@string/title_activity_show_habit"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.isoron.uhabits.MainActivity" />
+                android:value="org.isoron.uhabits.MainActivity"/>
         </activity>
     </application>
 

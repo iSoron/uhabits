@@ -40,8 +40,7 @@ public class DateHelper
 	public static int differenceInDays(Date from, Date to)
 	{
 		long milliseconds = getStartOfDay(to.getTime()) - getStartOfDay(from.getTime());
-		int days = (int) (milliseconds / millisecondsInOneDay);
-		return days;
+        return (int) (milliseconds / millisecondsInOneDay);
 	}
 
 	public static String differenceInWords(Date from, Date to)

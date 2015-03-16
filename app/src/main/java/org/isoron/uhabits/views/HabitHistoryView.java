@@ -30,8 +30,7 @@ public class HabitHistoryView extends View
 	private Context context;
 	private Paint pSquareBg, pSquareFg, pTextHeader;
 
-	private int width, height;
-	private int squareSize, squareSpacing;
+    private int squareSize, squareSpacing;
 	private int nColumns, offsetWeeks;
 
 	private int colorPrimary, colorPrimaryBrighter, grey;
@@ -78,9 +77,7 @@ public class HabitHistoryView extends View
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh)
 	{
-		width = w;
-		height = h;
-		nColumns = (w / squareSize) - 1;
+        nColumns = (w / squareSize) - 1;
 		fetchReps();
 	}
 

@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:minHeight="48dp"
-        android:text="Clear"
+        android:text="@string/clear"
         android:textSize="@dimen/done_label_size"
         android:textColor="@color/done_text_color" />
 

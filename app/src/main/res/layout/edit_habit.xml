@@ -29,7 +29,7 @@
 
         <EditText
             android:id="@+id/input_description"
-            android:hint="Description"
+            android:hint="@string/description"
             style="@style/dialogFormInputMultiline" />
 
         <LinearLayout
@@ -39,29 +39,29 @@
             <TextView
                 android:id="@+id/textView1"
                 style="@style/dialogFormLabel"
-                android:text="Repeat " />
+                android:text="@string/repeat" />
 
             <EditText
                 android:id="@+id/input_freq_num"
-                android:text="3"
+                android:text="@string/default_freq_num"
                 style="@style/dialogFormInputSmallNumber" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" times every " />
+                android:text="@string/times_every" />
 
             <EditText
                 android:id="@+id/input_freq_den"
-                android:text="7"
+                android:text="@string/default_freq_den"
                 style="@style/dialogFormInputSmallNumber" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" days" />
+                android:text="@string/days" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,7 +71,7 @@
             <TextView
                 android:id="@+id/TextView2"
                 style="@style/dialogFormLabel"
-                android:text="Reminder" />
+                android:text="@string/reminder" />
 
             <TextView
                 android:id="@+id/input_reminder_time"
@@ -85,7 +85,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:onClick="onClick"
         android:paddingEnd="16dp">
 
         <Button
@@ -93,13 +92,13 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Discard" />
+            android:text="@string/discard" />
 
         <Button
             android:id="@+id/buttonSave"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:text="@string/save" />
     </LinearLayout>
 </LinearLayout>

@@ -91,8 +91,6 @@ public class DatePickerDialog extends DialogFragment implements
     private TextView mYearView;
     private DayPickerView mDayPickerView;
     private YearPickerView mYearPickerView;
-    private Button mDoneButton;
-    private Button mClearButton;
 
     private int mCurrentView = UNINITIALIZED;
 
@@ -245,25 +243,31 @@ public class DatePickerDialog extends DialogFragment implements
         animation2.setDuration(ANIMATION_DURATION);
         mAnimator.setOutAnimation(animation2);
 
-        mDoneButton = (Button) view.findViewById(R.id.done);
-        mDoneButton.setOnClickListener(new OnClickListener() {
+        Button mDoneButton = (Button) view.findViewById(R.id.done);
+        mDoneButton.setOnClickListener(new OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 tryVibrate();
-                if (mCallBack != null) {
+                if (mCallBack != null)
+                {
                     mCallBack.onDateSet(DatePickerDialog.this, mCalendar.get(Calendar.YEAR),
                             mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
                 }
                 dismiss();
             }
         });
-        
-        mClearButton = (Button) view.findViewById(R.id.clear);
-        mClearButton.setOnClickListener(new OnClickListener() {
+
+        Button mClearButton = (Button) view.findViewById(R.id.clear);
+        mClearButton.setOnClickListener(new OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 tryVibrate();
-                if (mCallBack != null) {
+                if (mCallBack != null)
+                {
                     mCallBack.onDateCleared(DatePickerDialog.this);
                 }
                 dismiss();

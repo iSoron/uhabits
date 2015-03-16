@@ -83,7 +83,8 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        getActionBar().setElevation(5);
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            getActionBar().setElevation(5);
 
         setContentView(R.layout.list_habits_activity);
 

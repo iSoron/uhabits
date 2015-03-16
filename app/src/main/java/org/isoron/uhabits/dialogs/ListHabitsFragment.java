@@ -338,7 +338,6 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnI
 		Intent intent = new Intent(getActivity(), ShowHabitActivity.class);
 		intent.setData(Uri.parse("content://org.isoron.uhabits/habit/"
 				+ habit.getId()));
-		getActivity().getWindow().setExitTransition(new Explode());
 	    startActivity(intent);
 	}
 

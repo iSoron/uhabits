@@ -42,5 +42,19 @@
 
     <string name="title_activity_show_habit">ShowHabitActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="overview">Overview</string>
+    <string name="habit_strength">Habit strength</string>
+    <string name="history">History</string>
+    <string name="clear">Clear</string>
+    <string name="description">Description</string>
+    <string name="repeat">Repeat</string>
+    <string name="default_freq_num">3</string>
+    <string name="times_every">times every</string>
+    <string name="default_freq_den">7</string>
+    <string name="days">days</string>
+    <string name="reminder">Reminder</string>
+    <string name="discard">Discard</string>
+    <string name="save">Save</string>
+    <string name="streaks">Streaks</string>
 
 </resources>

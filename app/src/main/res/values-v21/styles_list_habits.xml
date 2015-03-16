@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="habitsListHeaderStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">#f0f0f0</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="habitsListCheckStyle">
+        <item name="android:focusable">false</item>
+        <item name="android:minHeight">42dp</item>
+        <item name="android:minWidth">42dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/ripple_background</item>
+    </style>
+</resources>

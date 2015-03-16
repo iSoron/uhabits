@@ -4,6 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="square_size">20dp</dimen>
+
     <!-- Color picker -->
     <dimen name="color_swatch_large">64dip</dimen>
     <dimen name="color_swatch_small">48dip</dimen>

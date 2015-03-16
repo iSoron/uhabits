@@ -2,31 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/windowBackground">
 
     <LinearLayout
         style="@style/cardsListStyle"
         tools:context="org.isoron.uhabits.ShowHabitActivity">
 
-        <LinearLayout style="@style/cardStyle">
+        <LinearLayout style="@style/cardStyle"
+            android:id="@+id/llOverview">
 
             <TextView
                 android:id="@+id/tvOverview"
                 style="@style/cardHeaderStyle"
-                android:text="Overview" />
-
-            <LinearLayout style="@style/cardRowStyle">
-
-                <TextView
-                    style="@style/cardLabelStyle"
-                    android:text="Habit strength" />
-
-                <TextView
-                    android:id="@+id/tvStrength"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-            </LinearLayout>
+                android:text="@string/overview" />
 
         </LinearLayout>
 
@@ -35,10 +24,24 @@
             <TextView
                 android:id="@+id/tvHistory"
                 style="@style/cardHeaderStyle"
-                android:text="History" />
+                android:text="@string/history" />
 
             <LinearLayout
                 android:id="@+id/llHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/cardStyle">
+
+            <TextView
+                android:id="@+id/tvStreaks"
+                style="@style/cardHeaderStyle"
+                android:text="@string/streaks" />
+
+            <LinearLayout
+                android:id="@+id/llStreaks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />

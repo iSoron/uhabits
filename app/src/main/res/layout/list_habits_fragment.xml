@@ -14,7 +14,8 @@
         dslv:float_alpha="0.5"
         dslv:sort_enabled="true"
         dslv:track_drag_sort="false"
-        dslv:use_default_controller="true" />
+        dslv:use_default_controller="true"
+        />
 
     <LinearLayout style="@style/habitsListHeaderStyle">
 
