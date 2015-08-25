@@ -10,11 +10,15 @@
         <item name="android:background">@color/windowBackground</item>
     </style>
 
-    <style name="habitsListHeaderStyle">
+
+    <style name="habitsListHeaderBasicStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="habitsListHeaderStyle" parent="habitsListHeaderBasicStyle">
         <item name="android:background">@drawable/habits_list_header_background</item>
     </style>
 
@@ -58,11 +62,14 @@
         <item name="android:padding">3dp</item>
     </style>
 
-    <style name="habitsListCheckStyle">
+    <style name="habitsListCheckBasicStyle">
         <item name="android:focusable">false</item>
-        <item name="android:minHeight">42dp</item>
-        <item name="android:minWidth">42dp</item>
+        <item name="android:minHeight">@dimen/check_square_size</item>
+        <item name="android:minWidth">@dimen/check_square_size</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="habitsListCheckStyle" parent="habitsListCheckBasicStyle">
     </style>
 
     <style name="habitsListHeaderCheckStyle" parent="habitsListCheckStyle">

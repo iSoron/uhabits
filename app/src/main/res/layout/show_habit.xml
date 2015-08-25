@@ -1,21 +1,35 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
-    android:background="@color/windowBackground">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/windowBackground"
+            android:fillViewport="true">
 
     <LinearLayout
         style="@style/cardsListStyle"
         tools:context="org.isoron.uhabits.ShowHabitActivity">
 
-        <LinearLayout style="@style/cardStyle"
-            android:id="@+id/llOverview">
+        <LinearLayout
+            android:id="@+id/llOverview"
+            style="@style/cardStyle"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tvOverview"
                 style="@style/cardHeaderStyle"
-                android:text="@string/overview" />
+                android:text="@string/overview"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llStrength"
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvStrength"
+                style="@style/cardHeaderStyle"
+                android:text="@string/habit_strength"/>
 
         </LinearLayout>
 
@@ -24,13 +38,13 @@
             <TextView
                 android:id="@+id/tvHistory"
                 style="@style/cardHeaderStyle"
-                android:text="@string/history" />
+                android:text="@string/history"/>
 
             <LinearLayout
                 android:id="@+id/llHistory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"/>
         </LinearLayout>
 
         <LinearLayout style="@style/cardStyle">
@@ -38,13 +52,13 @@
             <TextView
                 android:id="@+id/tvStreaks"
                 style="@style/cardHeaderStyle"
-                android:text="@string/streaks" />
+                android:text="@string/streaks"/>
 
             <LinearLayout
                 android:id="@+id/llStreaks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

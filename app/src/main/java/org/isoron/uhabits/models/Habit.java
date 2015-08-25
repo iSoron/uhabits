@@ -3,6 +3,7 @@ package org.isoron.uhabits.models;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.activeandroid.Cache;
@@ -20,6 +21,7 @@ import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 
+import java.util.Date;
 import java.util.List;
 
 @Table(name = "Habits")
@@ -77,8 +79,7 @@ public class Habit extends Model
     @SuppressLint("DefaultLocale")
     public static void updateId(long oldId, long newId)
     {
-        SQLiteUtils.execSql(String.format(
-                "update Habits set Id = %d where Id = %d", newId, oldId));
+        SQLiteUtils.execSql(String.format("update Habits set Id = %d where Id = %d", newId, oldId));
     }
 
     protected static From select()
@@ -114,18 +115,13 @@ public class Habit extends Model
 
     public static void reorder(int from, int to)
     {
-        if (from == to)
-            return;
+        if (from == to) return;
 
         Habit h = Habit.getByPosition(from);
-        if (to < from)
-            new Update(Habit.class).set("position = position + 1")
-                    .where("position >= ? and position < ?", to, from)
-                    .execute();
-        else
-            new Update(Habit.class).set("position = position - 1")
-                    .where("position > ? and position <= ?", from, to)
-                    .execute();
+        if (to < from) new Update(Habit.class).set("position = position + 1")
+                .where("position >= ? and position < ?", to, from).execute();
+        else new Update(Habit.class).set("position = position - 1")
+                .where("position > ? and position <= ?", from, to).execute();
 
         h.position = to;
         h.save();
@@ -152,13 +148,20 @@ public class Habit extends Model
         }
     }
 
+    public static void recomputeAllScores()
+    {
+        for (Habit habit : getHabits())
+        {
+            habit.deleteScoresNewerThan(0);
+        }
+    }
+
     public static int getStarCount()
     {
         String args[] = {};
-        return SQLiteUtils.intQuery(
-                "select count(*) from (select score, max(timestamp) from " +
-                        "score group by habit) as scores where scores.score >= "
-                        + Integer.toString(12973000), args);
+        return SQLiteUtils.intQuery("select count(*) from (select score, max(timestamp) from " +
+                "score group by habit) as scores where scores.score >= " +
+                Integer.toString(12973000), args);
 
     }
 
@@ -184,14 +187,12 @@ public class Habit extends Model
 
     protected From selectReps()
     {
-        return new Select().from(Repetition.class).where("habit = ?", getId())
-                .orderBy("timestamp");
+        return new Select().from(Repetition.class).where("habit = ?", getId()).orderBy("timestamp");
     }
 
     protected From selectRepsFromTo(long timeFrom, long timeTo)
     {
-        return selectReps().and("timestamp >= ?", timeFrom).and(
-                "timestamp <= ?", timeTo);
+        return selectReps().and("timestamp >= ?", timeFrom).and("timestamp <= ?", timeTo);
     }
 
     public boolean hasRep(long timestamp)
@@ -236,8 +237,7 @@ public class Habit extends Model
             for (int j = 0; j < freq_den; j++)
                 if (checkExtended[i + j] == 2) counter++;
 
-            if (counter >= freq_num)
-                checkExtended[i] = Math.max(checkExtended[i], 1);
+            if (counter >= freq_num) checkExtended[i] = Math.max(checkExtended[i], 1);
         }
 
         int check[] = new int[nDays + 1];
@@ -245,6 +245,13 @@ public class Habit extends Model
             check[i] = checkExtended[i];
 
         return check;
+    }
+
+    public int getRepsCount(int days)
+    {
+        long timeTo = DateHelper.getStartOfToday();
+        long timeFrom = timeTo - DateHelper.millisecondsInOneDay * days;
+        return selectRepsFromTo(timeFrom, timeTo).count();
     }
 
     public boolean hasImplicitRepToday()
@@ -282,14 +289,14 @@ public class Habit extends Model
 
     public Score getNewestScore()
     {
-        return new Select().from(Score.class).where("habit = ?", getId())
-                .orderBy("timestamp desc").limit(1).executeSingle();
+        return new Select().from(Score.class).where("habit = ?", getId()).orderBy("timestamp desc")
+                .limit(1).executeSingle();
     }
 
     public void deleteScoresNewerThan(long timestamp)
     {
-        new Delete().from(Score.class).where("habit = ?", getId())
-                .and("timestamp >= ?", timestamp).execute();
+        new Delete().from(Score.class).where("habit = ?", getId()).and("timestamp >= ?", timestamp)
+                .execute();
     }
 
     public Integer getScore()
@@ -307,8 +314,7 @@ public class Habit extends Model
         if (newestScore == null)
         {
             Repetition oldestRep = getOldestRep();
-            if (oldestRep == null)
-                return 0;
+            if (oldestRep == null) return 0;
             beginningTime = oldestRep.timestamp;
             beginningScore = 0;
         } else
@@ -318,8 +324,7 @@ public class Habit extends Model
         }
 
         long nDays = (today - beginningTime) / day;
-        if (nDays < 0)
-            return newestScore.score;
+        if (nDays < 0) return newestScore.score;
 
         int reps[] = getReps(beginningTime, today);
 
@@ -343,13 +348,26 @@ public class Habit extends Model
         return lastScore;
     }
 
+    public List<Score> getScores(long fromTimestamp, long toTimestamp)
+    {
+        return getScores(fromTimestamp, toTimestamp, 1, 0);
+    }
+
+    public List<Score> getScores(long fromTimestamp, long toTimestamp, int divisor, long offset)
+    {
+        return new Select().from(Score.class).where("habit = ? and timestamp > ? and " +
+                "timestamp <= ? and (timestamp - ?) % ? = 0", getId(), fromTimestamp, toTimestamp,
+                offset, divisor).execute();
+    }
+
     public long[] getStreaks()
     {
-        String query = "create temporary table T as select distinct r1.habit as habit, r1.timestamp as time,\n" +
-                "    (select count(*) from repetitions r2 where r1.habit = r2.habit and\n" +
-                "        (r1.timestamp = r2.timestamp - 24*60*60*1000 or\n" +
-                "        r1.timestamp = r2.timestamp + 24*60*60*1000)) as neighbors\n" +
-                "from repetitions r1 where r1.habit = ?";
+        String query =
+                "create temporary table T as select distinct r1.habit as habit, r1.timestamp as time,\n" +
+                        "    (select count(*) from repetitions r2 where r1.habit = r2.habit and\n" +
+                        "        (r1.timestamp = r2.timestamp - 24*60*60*1000 or\n" +
+                        "        r1.timestamp = r2.timestamp + 24*60*60*1000)) as neighbors\n" +
+                        "from repetitions r1 where r1.habit = ?";
 
         String query2 =
                 "select time from T, (select 0 union select 1) where neighbors = 0 union all\n" +
@@ -436,8 +454,8 @@ public class Habit extends Model
             this.modified = new Habit(modified);
             this.original = new Habit(Habit.this);
 
-            hasIntervalChanged = (this.original.freq_den != this.modified.freq_den
-                    || this.original.freq_num != this.modified.freq_num);
+            hasIntervalChanged = (this.original.freq_den != this.modified.freq_den ||
+                    this.original.freq_num != this.modified.freq_num);
         }
 
         public void execute()
@@ -446,7 +464,30 @@ public class Habit extends Model
             habit.copyAttributes(modified);
             habit.save();
             if (hasIntervalChanged)
-                habit.deleteScoresNewerThan(0);
+            {
+                new AsyncTask<Habit, Integer, Integer>()
+                {
+                    @Override
+                    protected Integer doInBackground(Habit... habits)
+                    {
+                        // HACK: We wait one second before deleting old score, otherwise the view will
+                        // trigger the very slow getScore on the main thread at the same time, or even
+                        // before us.
+                        try
+                        {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        habits[0].deleteScoresNewerThan(0);
+                        habits[0].getScore();
+
+                        return 0;
+                    }
+                }.execute(habit);
+            }
         }
 
         public void undo()
@@ -455,7 +496,28 @@ public class Habit extends Model
             habit.copyAttributes(original);
             habit.save();
             if (hasIntervalChanged)
-                habit.deleteScoresNewerThan(0);
+            {
+                new AsyncTask<Habit, Integer, Integer>()
+                {
+                    @Override
+                    protected Integer doInBackground(Habit... habits)
+                    {
+                        try
+                        {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        habits[0].deleteScoresNewerThan(0);
+                        habits[0].getScore();
+
+                        return 0;
+                    }
+                }.execute(habit);
+
+            }
         }
 
         public Integer getExecuteStringId()

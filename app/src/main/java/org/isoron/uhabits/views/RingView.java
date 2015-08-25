@@ -28,11 +28,8 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setAntiAlias(true);
         pRing.setTextAlign(Paint.Align.CENTER);
-        pRing.setTextSize(size * 0.15f);
 
         this.label = label;
-
-        lineHeight = pRing.getFontSpacing();
     }
 
     @Override
@@ -52,16 +49,19 @@ public class RingView extends View
         RectF r = new RectF(0, 0, size, size);
         canvas.drawArc(r, -90, 360 * perc, true, pRing);
 
-
         pRing.setColor(Color.rgb(230, 230, 230));
-        canvas.drawArc(r, 360 * perc - 90 + 2, 360 * (1-perc) - 4, true, pRing);
+        canvas.drawArc(r, 360 * perc - 90 + 2, 360 * (1 - perc) - 4, true, pRing);
 
         pRing.setColor(Color.WHITE);
         r.inset(thickness, thickness);
         canvas.drawArc(r, -90, 360, true, pRing);
 
         pRing.setColor(Color.GRAY);
-        canvas.drawText(String.format("%.2f%%", perc*100), r.centerX(), r.centerY()+lineHeight/3, pRing);
+        pRing.setTextSize(size * 0.2f);
+        lineHeight = pRing.getFontSpacing();
+        canvas.drawText(String.format("%.0f%%", perc * 100), r.centerX(), r.centerY()+lineHeight/3, pRing);
+
+        pRing.setTextSize(size * 0.15f);
         canvas.drawText(label, size/2, size + lineHeight * 1.2f, pRing);
     }
 }

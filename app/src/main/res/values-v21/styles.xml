@@ -14,19 +14,9 @@
     <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">
     </style>
 
-    <style name="cardStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="cardStyle" parent="cardBasicStyle">
         <item name="android:background">@color/white</item>
         <item name="android:elevation">1dp</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">4dp</item>
-        <item name="android:layout_marginBottom">3dp</item>
-        <item name="android:layout_marginLeft">3dp</item>
-        <item name="android:layout_marginRight">3dp</item>
     </style>
 
 </resources>

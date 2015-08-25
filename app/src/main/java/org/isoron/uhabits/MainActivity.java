@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -125,25 +126,24 @@ public class MainActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    public void executeCommand(Command command, boolean datasetChanged)
+    public void executeCommand(Command command)
     {
-        executeCommand(command, datasetChanged, true);
+        executeCommand(command, false);
     }
 
-    public void executeCommand(Command command, boolean datasetChanged, boolean clearRedoStack)
+
+    public void executeCommand(Command command, boolean clearRedoStack)
     {
         undoList.push(command);
         if (undoList.size() > MAX_UNDO_LEVEL)
             undoList.removeLast();
         if (clearRedoStack)
             redoList.clear();
+
         command.execute();
+        listHabitsFragment.notifyDataSetChanged();
 
         showToast(command.getExecuteStringId());
-        if (datasetChanged)
-        {
-            listHabitsFragment.notifyDataSetChanged();
-        }
     }
 
     public void undo()
@@ -170,7 +170,7 @@ public class MainActivity extends Activity
             return;
         }
         Command last = redoList.pop();
-        executeCommand(last, true, false);
+        executeCommand(last, false);
     }
 
     private void showToast(Integer stringId)

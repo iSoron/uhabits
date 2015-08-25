@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.v4.view.MotionEventCompat;
+import android.view.MotionEvent;
 import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
@@ -22,6 +24,7 @@ public class HabitStreakView extends View
 
     private Paint pText, pBar;
     private long streaks[];
+    private int dataOffset;
 
     private long streakStart[], streakEnd[], streakLength[];
     private long maxStreakLength;
@@ -29,6 +32,8 @@ public class HabitStreakView extends View
     private int barHeaderHeight;
 
     private int[] colors;
+    private float prevX;
+    private float prevY;
 
     public HabitStreakView(Context context, Habit habit, int columnWidth)
     {
@@ -98,7 +103,7 @@ public class HabitStreakView extends View
         float lineHeight = pText.getFontSpacing();
         float barHeaderOffset = lineHeight * 0.4f;
 
-        int start = Math.max(0, streakStart.length - nColumns);
+        int start = Math.max(0, streakStart.length - nColumns - dataOffset);
         SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
 
         String previousMonth = "";
@@ -124,5 +129,52 @@ public class HabitStreakView extends View
 
             previousMonth = month;
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        int action = event.getAction();
+
+        int pointerIndex = MotionEventCompat.getActionIndex(event);
+        final float x = MotionEventCompat.getX(event, pointerIndex);
+        final float y = MotionEventCompat.getY(event, pointerIndex);
+
+        if (action == MotionEvent.ACTION_DOWN)
+        {
+            prevX = x;
+            prevY = y;
+        }
+
+        if (action == MotionEvent.ACTION_MOVE)
+        {
+            float dx = x - prevX;
+            float dy = y - prevY;
+
+            if (Math.abs(dy) > Math.abs(dx)) return false;
+            getParent().requestDisallowInterceptTouchEvent(true);
+            if(move(dx))
+            {
+                prevX = x;
+                prevY = y;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean move(float dx)
+    {
+        int newDataOffset = dataOffset + (int) (dx / columnWidth);
+        newDataOffset = Math.max(0, Math.min(streakStart.length - nColumns, newDataOffset));
+
+        if (newDataOffset != dataOffset)
+        {
+            dataOffset = newDataOffset;
+            invalidate();
+            return true;
+        }
+        else
+            return false;
     }
 }
