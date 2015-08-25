@@ -2,8 +2,8 @@
 
 µHabits is a simple app for building and tracking habits on Android.
 
-<sub>This software is in alpha-stage! Expect occasional bugs and incomplete features.
-Suggestions, comments and criticism are very welcome.</sub>
+<sub>This software is in alpha stage. Expect occasional bugs and incomplete features.
+Suggestions and pull requests are very welcome.</sub>
 
 ## Features
 
