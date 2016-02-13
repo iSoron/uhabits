@@ -167,6 +167,12 @@ public class ListHabitsFragment extends Fragment
             return true;
         }
 
+        if (id == R.id.action_archive_habit)
+        {
+            Command c = habit.new ArchiveCommand();
+            executeCommand(c);
+        }
+
         return super.onContextItemSelected(menuItem);
     }
 
@@ -176,7 +182,6 @@ public class ListHabitsFragment extends Fragment
         if (new Date().getTime() - lastLongClick < 1000) return;
 
         Habit habit = Habit.getByPosition(position);
-        Log.d("ItemClick", Long.toString(id));
 
         Intent intent = new Intent(getActivity(), ShowHabitActivity.class);
         intent.setData(Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId()));
