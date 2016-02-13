@@ -66,7 +66,7 @@ public class Habit extends Model
 
     public Habit()
     {
-        this.color = ColorHelper.palette[11];
+        this.color = ColorHelper.palette[7];
         this.position = Habit.getCount();
         this.highlight = 0;
     }
