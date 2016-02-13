@@ -29,7 +29,7 @@
 
         <EditText
             android:id="@+id/input_description"
-            android:hint="@string/description"
+            android:hint="@string/description_hint"
             style="@style/dialogFormInputMultiline" />
 
         <LinearLayout

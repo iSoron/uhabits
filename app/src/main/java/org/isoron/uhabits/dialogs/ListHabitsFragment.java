@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
@@ -61,8 +60,8 @@ public class ListHabitsFragment extends Fragment
     TextView tvNameHeader;
     long lastLongClick = 0;
     private int tvNameWidth;
-
     private int button_count;
+    private View llEmpty;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,16 +94,11 @@ public class ListHabitsFragment extends Fragment
         listView.setOnTouchListener(controller);
         listView.setDragEnabled(true);
 
-        if (Habit.getCount() == 0)
-        {
-            Log.d("x", "Removing listView");
-            Typeface fontawesome =
-                    Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
-
-            ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
-
-            ((ViewGroup) listView.getParent()).removeView(listView);
-        }
+        Typeface fontawesome =
+                Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
+        ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
+        llEmpty = view.findViewById(R.id.llEmpty);
+        updateEmptyMessage();
 
         GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
@@ -198,7 +192,14 @@ public class ListHabitsFragment extends Fragment
 
     public void notifyDataSetChanged()
     {
+        updateEmptyMessage();
         adapter.notifyDataSetChanged();
+    }
+
+    private void updateEmptyMessage()
+    {
+        Log.d("x", "updating empty message");
+        llEmpty.setVisibility(Habit.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
     @Override

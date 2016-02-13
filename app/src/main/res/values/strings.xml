@@ -47,6 +47,7 @@
     <string name="history">History</string>
     <string name="clear">Clear</string>
     <string name="description">Description</string>
+    <string name="description_hint">Description</string>
     <string name="repeat">Repeat</string>
     <string name="default_freq_num">3</string>
     <string name="times_every">times every</string>
