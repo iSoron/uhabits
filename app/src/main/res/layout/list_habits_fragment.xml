@@ -17,6 +17,27 @@
         dslv:use_default_controller="true"
         />
 
+    <LinearLayout
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvStarEmpty"
+            style="@style/habitsListEmptyStyle"
+            android:text="@string/fa_star_half_o"
+            android:textSize="80sp"/>
+
+        <TextView
+            android:text="@string/no_habits_found"
+            style="@style/habitsListEmptyStyle"/>
+
+    </LinearLayout>
+
+
+
     <LinearLayout style="@style/habitsListHeaderStyle">
 
         <TextView

@@ -80,4 +80,14 @@
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">#606060</item>
     </style>
+
+
+    <style name="habitsListEmptyStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">#c0c0c0</item>
+    </style>
+
 </resources>

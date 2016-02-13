@@ -95,6 +95,17 @@ public class ListHabitsFragment extends Fragment
         listView.setOnTouchListener(controller);
         listView.setDragEnabled(true);
 
+        if (Habit.getCount() == 0)
+        {
+            Log.d("x", "Removing listView");
+            Typeface fontawesome =
+                    Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
+
+            ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
+
+            ((ViewGroup) listView.getParent()).removeView(listView);
+        }
+
         GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
 
@@ -245,9 +256,6 @@ public class ListHabitsFragment extends Fragment
 
     class ListHabitsAdapter extends BaseAdapter
     {
-
-        String habits[] = {"wake up early", "work out", "meditate", "take vitamins", "go to school",
-                "cook dinner & lunch"};
         private Context context;
         private LayoutInflater inflater;
         private Typeface fontawesome;
@@ -344,11 +352,13 @@ public class ListHabitsFragment extends Fragment
             {
                 tvStar.setText(context.getString(R.string.fa_star_o));
                 tvStar.setTextColor(inactiveColor);
-            } else if (score < Habit.FULL_STAR_CUTOFF)
+            }
+            else if (score < Habit.FULL_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_half_o));
                 tvStar.setTextColor(inactiveColor);
-            } else
+            }
+            else
             {
                 tvStar.setText(context.getString(R.string.fa_star));
                 tvStar.setTextColor(activeColor);
