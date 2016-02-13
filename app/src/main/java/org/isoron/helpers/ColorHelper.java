@@ -10,7 +10,7 @@ public class ColorHelper
             Color.parseColor("#06965b"), Color.parseColor("#069a95"),
             Color.parseColor("#114896"), Color.parseColor("#501394"),
             Color.parseColor("#872086"), Color.parseColor("#c31764"),
-            Color.parseColor("#000000"), Color.parseColor("#aaaaaa") };
+            Color.parseColor("#303030"), Color.parseColor("#aaaaaa") };
 
     public static int mixColors(int color1, int color2, float amount)
 	{
