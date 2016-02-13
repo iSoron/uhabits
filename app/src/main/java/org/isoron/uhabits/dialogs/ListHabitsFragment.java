@@ -203,7 +203,6 @@ public class ListHabitsFragment extends Fragment
 
     private void updateEmptyMessage()
     {
-        Log.d("x", "updating empty message");
         llEmpty.setVisibility(Habit.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
@@ -250,10 +249,9 @@ public class ListHabitsFragment extends Fragment
 
     void updateStarCount()
     {
-        Log.d("StarCount", "updating star count");
         String msg = "";
         int starCount = Habit.getStarCount();
-
+        
         if (starCount == 1) msg = String.format("%d star", starCount);
         else if (starCount > 1) msg = String.format("%d stars", starCount);
 
