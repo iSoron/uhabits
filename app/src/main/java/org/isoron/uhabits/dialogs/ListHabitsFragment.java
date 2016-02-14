@@ -47,6 +47,7 @@ import org.isoron.uhabits.models.Habit;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class ListHabitsFragment extends Fragment
@@ -94,32 +95,52 @@ public class ListHabitsFragment extends Fragment
         listView.setOnTouchListener(controller);
         listView.setDragEnabled(true);
 
-        Typeface fontawesome =
-                Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
+        Typeface fontawesome = Typeface.createFromAsset(getActivity().getAssets(),
+                "fontawesome-webfont.ttf");
         ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
         llEmpty = view.findViewById(R.id.llEmpty);
+
         updateEmptyMessage();
-
-        GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
-
-        for (int i = 0; i < button_count; i++)
-        {
-            View check = inflater.inflate(R.layout.list_habits_header_check, null);
-            Button btCheck = (Button) check.findViewById(R.id.tvCheck);
-            btCheck.setText(
-                    day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, GregorianCalendar.SHORT,
-                            Locale.US) + "\n" +
-                            Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH)));
-            ((LinearLayout) view.findViewById(R.id.llButtonsHeader)).addView(check);
-
-            day.add(GregorianCalendar.DAY_OF_MONTH, -1);
-        }
 
         mainActivity = (MainActivity) getActivity();
 
         setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updateHeader();
+    }
+
+    private void updateHeader()
+    {
+        LayoutInflater inflater = mainActivity.getLayoutInflater();
+        View view = getView();
+
+        if(view == null) return;
+
+        GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
+
+        LinearLayout llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
+        llButtonsHeader.removeAllViews();
+
+        Random r = new Random();
+
+        for (int i = 0; i < button_count; i++)
+        {
+            View check = inflater.inflate(R.layout.list_habits_header_check, null);
+            Button btCheck = (Button) check.findViewById(R.id.tvCheck);
+            btCheck.setText(day.getDisplayName(GregorianCalendar.DAY_OF_WEEK,
+                    GregorianCalendar.SHORT, Locale.US) + "\n" +
+                    Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH)));
+            llButtonsHeader.addView(check);
+
+            day.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        }
     }
 
     @Override
@@ -251,7 +272,7 @@ public class ListHabitsFragment extends Fragment
     {
         String msg = "";
         int starCount = Habit.getStarCount();
-        
+
         if (starCount == 1) msg = String.format("%d star", starCount);
         else if (starCount > 1) msg = String.format("%d stars", starCount);
 
@@ -295,14 +316,14 @@ public class ListHabitsFragment extends Fragment
         {
             final Habit habit = (Habit) getItem(position);
 
-            if (view == null ||
-                    (Long) view.getTag(R.id.KEY_TIMESTAMP) != DateHelper.getStartOfToday())
+            if (view == null || (Long) view.getTag(R.id.KEY_TIMESTAMP) !=
+                    DateHelper.getStartOfToday())
             {
                 view = inflater.inflate(R.layout.list_habits_item, null);
                 ((TextView) view.findViewById(R.id.tvStar)).setTypeface(fontawesome);
 
-                LinearLayout.LayoutParams params =
-                        new LinearLayout.LayoutParams(tvNameWidth, LayoutParams.WRAP_CONTENT, 1);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(tvNameWidth,
+                        LayoutParams.WRAP_CONTENT, 1);
                 ((TextView) view.findViewById(R.id.tvName)).setLayoutParams(params);
 
                 Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
@@ -310,9 +331,8 @@ public class ListHabitsFragment extends Fragment
                 Point size = new Point();
                 display.getSize(size);
 
-                LinearLayout.LayoutParams llp =
-                        new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                                LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
+                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 llp.setMargins(2, 0, 2, 0);
 
                 for (int i = 0; i < button_count; i++)
