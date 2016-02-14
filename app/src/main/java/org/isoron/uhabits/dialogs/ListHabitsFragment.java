@@ -152,8 +152,8 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.show_habits_options, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.show_habits_options, menu);
     }
 
     @Override
