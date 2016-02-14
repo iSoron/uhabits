@@ -45,7 +45,7 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
     {
         int delayMinutes = 60;
         Habit habit = Habit.get(ContentUris.parseId(data));
-        MainActivity.createReminderAlarm(context, habit,
+        ReminderHelper.createReminderAlarm(context, habit,
                 new Date().getTime() + delayMinutes * 60 * 1000);
         dismissNotification(context, habit);
     }

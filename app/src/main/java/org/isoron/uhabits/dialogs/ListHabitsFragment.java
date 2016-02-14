@@ -3,15 +3,12 @@ package org.isoron.uhabits.dialogs;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -40,30 +37,28 @@ import com.mobeta.android.dslv.DragSortListView.DropListener;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
-import org.isoron.uhabits.MainActivity;
+import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ShowHabitActivity;
+import org.isoron.uhabits.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.Random;
 import java.util.TimeZone;
 
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
         OnClickListener
 {
-
     public interface OnHabitClickListener
     {
-        public void onHabitClicked(Habit habit);
+        void onHabitClicked(Habit habit);
     }
 
     ListHabitsAdapter adapter;
     DragSortListView listView;
-    MainActivity mainActivity;
+    ReplayableActivity activity;
     TextView tvNameHeader;
     long lastLongClick = 0;
     private int tvNameWidth;
@@ -110,8 +105,6 @@ public class ListHabitsFragment extends Fragment
 
         updateEmptyMessage();
 
-        mainActivity = (MainActivity) getActivity();
-
         setHasOptionsMenu(true);
         return view;
     }
@@ -121,6 +114,7 @@ public class ListHabitsFragment extends Fragment
     {
         super.onAttach(activity);
         habitClickListener = (OnHabitClickListener) activity;
+        this.activity = (ReplayableActivity) activity;
     }
 
     @Override
@@ -132,7 +126,7 @@ public class ListHabitsFragment extends Fragment
 
     private void updateHeader()
     {
-        LayoutInflater inflater = mainActivity.getLayoutInflater();
+        LayoutInflater inflater = activity.getLayoutInflater();
         View view = getView();
 
         if (view == null) return;
@@ -223,7 +217,7 @@ public class ListHabitsFragment extends Fragment
     public void onSaved(Command command)
     {
         executeCommand(command);
-        MainActivity.createReminderAlarms(mainActivity);
+        ReminderHelper.createReminderAlarms(activity);
     }
 
     public void notifyDataSetChanged()
@@ -263,7 +257,7 @@ public class ListHabitsFragment extends Fragment
 
     private void executeCommand(Command c)
     {
-        mainActivity.executeCommand(c);
+        activity.executeCommand(c);
     }
 
     @Override
