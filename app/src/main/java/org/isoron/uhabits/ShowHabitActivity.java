@@ -27,11 +27,7 @@ public class ShowHabitActivity extends Activity
         getActionBar().setTitle(habit.name);
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
-        {
-            getActionBar().setElevation(5);
             getActionBar().setBackgroundDrawable(new ColorDrawable(habit.color));
-        }
-
 
 		setContentView(R.layout.show_habit_activity);
 	}
