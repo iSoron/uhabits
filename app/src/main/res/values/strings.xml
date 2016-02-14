@@ -43,7 +43,7 @@
 
     <item name="KEY_TIMESTAMP" type="id"/>
 
-    <string name="title_activity_show_habit">ShowHabitActivity</string>
+    <string name="title_activity_show_habit"></string>
     <string name="hello_world">Hello world!</string>
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
