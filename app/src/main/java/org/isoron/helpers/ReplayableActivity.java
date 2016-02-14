@@ -42,8 +42,6 @@ abstract public class ReplayableActivity extends Activity
         redoList.push(last);
         last.undo();
         showToast(last.getUndoStringId());
-
-        onCommandExecuted(last);
     }
 
     protected void redo()
@@ -73,13 +71,6 @@ abstract public class ReplayableActivity extends Activity
         if (clearRedoStack) redoList.clear();
 
         command.execute();
-        onCommandExecuted(command);
-
         showToast(command.getExecuteStringId());
-    }
-
-    protected void onCommandExecuted(Command command)
-    {
-
     }
 }
