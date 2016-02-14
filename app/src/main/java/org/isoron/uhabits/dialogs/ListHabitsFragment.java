@@ -79,7 +79,6 @@ public class ListHabitsFragment extends Fragment
         tvNameWidth = (int) ((width - 30 - button_count * 42) * dm.density);
 
         tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
-//		updateStarCount();
 
         adapter = new ListHabitsAdapter(getActivity());
         listView = (DragSortListView) view.findViewById(R.id.listView);
@@ -272,17 +271,6 @@ public class ListHabitsFragment extends Fragment
     {
     }
 
-    void updateStarCount()
-    {
-        String msg = "";
-        int starCount = Habit.getStarCount();
-
-        if (starCount == 1) msg = String.format("%d star", starCount);
-        else if (starCount > 1) msg = String.format("%d stars", starCount);
-
-        tvNameHeader.setText(msg);
-    }
-
     class ListHabitsAdapter extends BaseAdapter
     {
         private Context context;
@@ -328,16 +316,12 @@ public class ListHabitsFragment extends Fragment
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(tvNameWidth,
                         LayoutParams.WRAP_CONTENT, 1);
-                ((TextView) view.findViewById(R.id.tvName)).setLayoutParams(params);
+                view.findViewById(R.id.tvName).setLayoutParams(params);
 
                 Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
                         .getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
-
-                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
-                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                llp.setMargins(2, 0, 2, 0);
 
                 for (int i = 0; i < button_count; i++)
                 {
@@ -345,19 +329,14 @@ public class ListHabitsFragment extends Fragment
                     TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
                     btCheck.setTypeface(fontawesome);
                     btCheck.setOnLongClickListener(ListHabitsFragment.this);
-//					btCheck.setLayoutParams(llp);
                     ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
                 }
-
-//				LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
-//				llInner.setOnClickListener(ListHabitsFragment.this);
 
                 view.setTag(R.id.KEY_TIMESTAMP, DateHelper.getStartOfToday());
             }
 
             TextView tvStar = (TextView) view.findViewById(R.id.tvStar);
             TextView tvName = (TextView) view.findViewById(R.id.tvName);
-
 
             if (habit == null)
             {
