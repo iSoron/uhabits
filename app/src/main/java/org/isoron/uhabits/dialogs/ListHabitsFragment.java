@@ -1,5 +1,6 @@
 package org.isoron.uhabits.dialogs;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -55,6 +56,11 @@ public class ListHabitsFragment extends Fragment
         OnClickListener
 {
 
+    public interface OnHabitClickListener
+    {
+        public void onHabitClicked(Habit habit);
+    }
+
     ListHabitsAdapter adapter;
     DragSortListView listView;
     MainActivity mainActivity;
@@ -63,6 +69,8 @@ public class ListHabitsFragment extends Fragment
     private int tvNameWidth;
     private int button_count;
     private View llEmpty;
+
+    private OnHabitClickListener habitClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,6 +117,13 @@ public class ListHabitsFragment extends Fragment
     }
 
     @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        habitClickListener = (OnHabitClickListener) activity;
+    }
+
+    @Override
     public void onResume()
     {
         super.onResume();
@@ -120,15 +135,13 @@ public class ListHabitsFragment extends Fragment
         LayoutInflater inflater = mainActivity.getLayoutInflater();
         View view = getView();
 
-        if(view == null) return;
+        if (view == null) return;
 
         GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
 
         LinearLayout llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llButtonsHeader.removeAllViews();
-
-        Random r = new Random();
 
         for (int i = 0; i < button_count; i++)
         {
@@ -203,10 +216,7 @@ public class ListHabitsFragment extends Fragment
         if (new Date().getTime() - lastLongClick < 1000) return;
 
         Habit habit = Habit.getByPosition(position);
-
-        Intent intent = new Intent(getActivity(), ShowHabitActivity.class);
-        intent.setData(Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId()));
-        startActivity(intent);
+        habitClickListener.onHabitClicked(habit);
     }
 
     @Override
