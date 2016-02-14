@@ -180,6 +180,7 @@ public class Habit extends Model
         this.reminder_hour = model.reminder_hour;
         this.reminder_min = model.reminder_min;
         this.highlight = model.highlight;
+        this.archived = model.archived;
     }
 
     public void save(Long id)
