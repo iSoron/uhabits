@@ -1,7 +1,5 @@
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.dialogs.ListHabitsFragment;
-import org.isoron.uhabits.dialogs.ShowHabitFragment;
 import org.isoron.uhabits.models.Habit;
 
 import android.app.Activity;
@@ -35,7 +33,7 @@ public class ShowHabitActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.show_habit, menu);
+		getMenuInflater().inflate(R.menu.show_habit_menu, menu);
 		return true;
 	}
 

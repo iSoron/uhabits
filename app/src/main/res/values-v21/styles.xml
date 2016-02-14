@@ -9,6 +9,10 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:actionBarPopupTheme">@style/actionBarStyle</item>
+    </style>
+
+    <style name="actionBarStyle" parent="android:ThemeOverlay.Material.Light">
     </style>
 
     <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">

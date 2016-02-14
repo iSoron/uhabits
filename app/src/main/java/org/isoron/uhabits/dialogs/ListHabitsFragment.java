@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -34,6 +35,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
+import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
@@ -153,30 +155,51 @@ public class ListHabitsFragment extends Fragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.show_habits_options, menu);
+        inflater.inflate(R.menu.list_habits_options, menu);
+
+        MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
+        showArchivedItem.setChecked(Habit.isIncludeArchived());
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, view, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.show_habits_context, menu);
+        getActivity().getMenuInflater().inflate(R.menu.list_habits_context, menu);
+
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+        final Habit habit = Habit.get(info.id);
+
+        if(habit.isArchived())
+            menu.findItem(R.id.action_archive_habit).setVisible(false);
+        else
+            menu.findItem(R.id.action_unarchive_habit).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        int id = item.getItemId();
-
-        if (id == R.id.action_add)
+        switch(item.getItemId())
         {
-            EditHabitFragment frag = EditHabitFragment.createHabitFragment();
-            frag.setOnSavedListener(this);
-            frag.show(getFragmentManager(), "dialog");
-            return true;
-        }
+            case R.id.action_add:
+            {
+                EditHabitFragment frag = EditHabitFragment.createHabitFragment();
+                frag.setOnSavedListener(this);
+                frag.show(getFragmentManager(), "dialog");
+                return true;
+            }
 
-        return super.onOptionsItemSelected(item);
+            case R.id.action_show_archived:
+            {
+                Habit.setIncludeArchived(!Habit.isIncludeArchived());
+                notifyDataSetChanged();
+                activity.invalidateOptionsMenu();
+                return true;
+            }
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -193,10 +216,14 @@ public class ListHabitsFragment extends Fragment
             frag.show(getFragmentManager(), "dialog");
             return true;
         }
-
-        if (id == R.id.action_archive_habit)
+        else if (id == R.id.action_archive_habit)
         {
             Command c = habit.new ArchiveCommand();
+            executeCommand(c);
+        }
+        else if (id == R.id.action_unarchive_habit)
+        {
+            Command c = habit.new UnarchiveCommand();
             executeCommand(c);
         }
 
@@ -353,23 +380,35 @@ public class ListHabitsFragment extends Fragment
             tvName.setText(habit.name);
             tvName.setTextColor(activeColor);
 
-            int score = habit.getScore();
+            if(habit.isArchived())
+            {
+                activeColor = ColorHelper.palette[12];
+                tvName.setTextColor(activeColor);
 
-            if (score < Habit.HALF_STAR_CUTOFF)
-            {
-                tvStar.setText(context.getString(R.string.fa_star_o));
-                tvStar.setTextColor(inactiveColor);
-            }
-            else if (score < Habit.FULL_STAR_CUTOFF)
-            {
-                tvStar.setText(context.getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(inactiveColor);
+                tvStar.setText(context.getString(R.string.fa_archive));
+                tvStar.setTextColor(activeColor);
             }
             else
             {
-                tvStar.setText(context.getString(R.string.fa_star));
-                tvStar.setTextColor(activeColor);
+                int score = habit.getScore();
+
+                if (score < Habit.HALF_STAR_CUTOFF)
+                {
+                    tvStar.setText(context.getString(R.string.fa_star_o));
+                    tvStar.setTextColor(inactiveColor);
+                }
+                else if (score < Habit.FULL_STAR_CUTOFF)
+                {
+                    tvStar.setText(context.getString(R.string.fa_star_half_o));
+                    tvStar.setTextColor(inactiveColor);
+                }
+                else
+                {
+                    tvStar.setText(context.getString(R.string.fa_star));
+                    tvStar.setTextColor(activeColor);
+                }
             }
+
 
             LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
             int m = llButtons.getChildCount();

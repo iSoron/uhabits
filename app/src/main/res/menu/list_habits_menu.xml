@@ -2,6 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.isoron.uhabits.MainActivity" >
 
+    <item android:id="@+id/action_show_archived"
+          android:title="Show archived"
+          android:enabled="true"
+          android:checkable="true" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

@@ -21,7 +21,6 @@ import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 
-import java.util.Date;
 import java.util.List;
 
 @Table(name = "Habits")
@@ -31,6 +30,8 @@ public class Habit extends Model
     public static final int HALF_STAR_CUTOFF = 5999000;
     public static final int FULL_STAR_CUTOFF = 12973000;
     public static final int MAX_SCORE = 19259500;
+
+    private static boolean includeArchived = false;
 
     @Column(name = "name")
     public String name;
@@ -88,7 +89,20 @@ public class Habit extends Model
 
     protected static From select()
     {
-        return new Select().from(Habit.class).where("archived = 0").orderBy("position");
+        if(includeArchived)
+            return new Select().from(Habit.class).orderBy("position");
+        else
+            return new Select().from(Habit.class).where("archived = 0").orderBy("position");
+    }
+
+    public static void setIncludeArchived(boolean includeArchived)
+    {
+        Habit.includeArchived = includeArchived;
+    }
+
+    public static boolean isIncludeArchived()
+    {
+        return Habit.includeArchived;
     }
 
     public static int getCount()
@@ -296,6 +310,11 @@ public class Habit extends Model
     {
         archived = 0;
         save();
+    }
+
+    public boolean isArchived()
+    {
+        return archived != 0;
     }
 
     public void toggleRepetitionToday()
@@ -593,6 +612,33 @@ public class Habit extends Model
         public Integer getUndoStringId()
         {
             return R.string.toast_habit_unarchived;
+        }
+    }
+
+    public class UnarchiveCommand extends Command
+    {
+        @Override
+        public void execute()
+        {
+            unarchive();
+            Habit.rebuildOrder();
+        }
+
+        @Override
+        public void undo()
+        {
+            archive();
+            Habit.rebuildOrder();
+        }
+
+        public Integer getExecuteStringId()
+        {
+            return R.string.toast_habit_unarchived;
+        }
+
+        public Integer getUndoStringId()
+        {
+            return R.string.toast_habit_archived;
         }
     }
 }

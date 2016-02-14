@@ -5,9 +5,15 @@
         android:id="@+id/action_edit_habit"
         android:title="@string/edit">
     </item>
+
     <item
         android:id="@+id/action_archive_habit"
         android:title="@string/archive">
+    </item>
+
+    <item
+        android:id="@+id/action_unarchive_habit"
+        android:title="@string/unarchive">
     </item>
 
 </menu>
