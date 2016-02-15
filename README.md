@@ -30,11 +30,11 @@ Suggestions and pull requests are very welcome.</sub>
 [![Habit strength][screen3th]][screen3]
 [![Habit history and streaks][screen4th]][screen4]
 
-[screen1]: screenshots/uhabits1.png
-[screen2]: screenshots/uhabits2.png
-[screen3]: screenshots/uhabits3.png
-[screen4]: screenshots/uhabits4.png
-[screen1th]: screenshots/uhabits1.thumb.png
-[screen2th]: screenshots/uhabits2.thumb.png
-[screen3th]: screenshots/uhabits3.thumb.png
-[screen4th]: screenshots/uhabits4.thumb.png
+[screen1]: screenshots/original/uhabits1.png
+[screen2]: screenshots/original/uhabits2.png
+[screen3]: screenshots/original/uhabits3.png
+[screen4]: screenshots/original/uhabits4.png
+[screen1th]: screenshots/thumbs/uhabits1.png
+[screen2th]: screenshots/thumbs/uhabits2.png
+[screen3th]: screenshots/thumbs/uhabits3.png
+[screen4th]: screenshots/thumbs/uhabits4.png

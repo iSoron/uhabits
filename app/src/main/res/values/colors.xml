@@ -16,8 +16,8 @@
 -->
 <resources>
     
-    <color name="primary">#114896</color>
-    <color name="primary_darker">#0b235f</color>
+    <color name="primary">#37474f</color>
+    <color name="primary_darker">#263238</color>
     <color name="accent">#9a4000</color>
     <color name="windowBackground">#e6e6e6</color>
 
