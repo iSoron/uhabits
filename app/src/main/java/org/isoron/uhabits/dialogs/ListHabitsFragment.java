@@ -260,22 +260,23 @@ public class ListHabitsFragment extends Fragment
     @Override
     public boolean onLongClick(View v)
     {
-        int id = v.getId();
-
-        if (id == R.id.tvCheck)
+        switch(v.getId())
         {
-            lastLongClick = new Date().getTime();
-            Habit habit = Habit.get((Long) v.getTag(R.string.habit_key));
-            int offset = (Integer) v.getTag(R.string.offset_key);
-            long timestamp = DateHelper.getStartOfDay(
-                    DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
+            case R.id.tvCheck:
+            {
+                lastLongClick = new Date().getTime();
+                Habit habit = Habit.get((Long) v.getTag(R.string.habit_key));
+                int offset = (Integer) v.getTag(R.string.offset_key);
+                long timestamp = DateHelper.getStartOfDay(
+                        DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
 
-            executeCommand(habit.new ToggleRepetitionCommand(timestamp));
+                executeCommand(habit.new ToggleRepetitionCommand(timestamp));
 
-            Vibrator vb = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-            vb.vibrate(100);
+                Vibrator vb = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                vb.vibrate(100);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
@@ -296,6 +297,12 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void onClick(View v)
     {
+        switch(v.getId())
+        {
+            case R.id.tvCheck:
+                activity.showToast(R.string.long_press_to_toggle);
+                return;
+        }
     }
 
     class ListHabitsAdapter extends BaseAdapter
@@ -356,6 +363,7 @@ public class ListHabitsFragment extends Fragment
                     TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
                     btCheck.setTypeface(fontawesome);
                     btCheck.setOnLongClickListener(ListHabitsFragment.this);
+                    btCheck.setOnClickListener(ListHabitsFragment.this);
                     ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
                 }
 
