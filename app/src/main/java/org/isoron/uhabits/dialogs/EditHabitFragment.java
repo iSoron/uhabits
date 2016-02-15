@@ -232,9 +232,15 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 				valid = false;
 			}
 
-			if(modified_habit.freq_num <= 0)
+			if(modified_habit.freq_den <= 0)
 			{
-				tvFreqNum.setError("Frequency has to be positive.");
+				tvFreqNum.setError("Number must be positive.");
+				valid = false;
+			}
+
+			if(modified_habit.freq_num > modified_habit.freq_den)
+			{
+				tvFreqNum.setError("You can have at most one repetition per day");
 				valid = false;
 			}
 
