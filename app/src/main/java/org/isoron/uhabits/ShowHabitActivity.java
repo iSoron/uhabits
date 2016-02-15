@@ -1,5 +1,6 @@
 package org.isoron.uhabits;
 
+import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.models.Habit;
 
 import android.app.Activity;
@@ -10,7 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ShowHabitActivity extends Activity
+public class ShowHabitActivity extends ReplayableActivity
 {
 
 	public Habit habit;
@@ -33,18 +34,19 @@ public class ShowHabitActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.show_habit_menu, menu);
+		getMenuInflater().inflate(R.menu.show_habit_activity_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		int id = item.getItemId();
-		if(id == R.id.action_settings)
-		{
-			return true;
-		}
+        switch(item.getItemId())
+        {
+            case R.id.action_settings:
+                return true;
+        }
+
 		return super.onOptionsItemSelected(item);
 	}
 }
