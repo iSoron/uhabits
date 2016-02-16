@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_key_behaviour_settings"
+        android:title="Behavior">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_short_toggle"
+            android:summary="More convenient, but might cause accidental toggles."
+            android:title="Toggle repetitions with short press"/>
+
+        <ListPreference
+            android:defaultValue="@string/snooze_interval_default"
+            android:dialogTitle="Snooze interval"
+            android:entries="@array/snooze_interval_names"
+            android:entryValues="@array/snooze_interval_values"
+            android:key="pref_snooze_interval"
+            android:title="Snooze interval on reminders"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:key="pref_key_links"
+        android:title="Links">
+
+        <Preference android:title="Rate this app in Google Play">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="market://details?id=org.isoron.uhabits"/>
+        </Preference>
+
+        <Preference android:title="Send feedback to developer">
+            <intent
+                android:action="android.intent.action.SENDTO"
+                android:data="mailto:isoron@gmail.com?subject=Feedback%20for%20Habits%20Tracker"/>
+        </Preference>
+
+        <Preference android:title="View source code at GitHub">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/iSoron/uhabits"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

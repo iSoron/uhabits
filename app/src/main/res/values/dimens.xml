@@ -3,4 +3,24 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="small_square_size">20dp</dimen>
     <dimen name="check_square_size">42dp</dimen>
+
+    <string-array name="snooze_interval_names">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>4 hours</item>
+        <item>8 hours</item>
+    </string-array>
+
+    <string-array name="snooze_interval_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>480</item>
+    </string-array>
+
+    <string name="snooze_interval_default">15 minutes</string>
 </resources>

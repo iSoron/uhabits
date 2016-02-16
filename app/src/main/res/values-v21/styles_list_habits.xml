@@ -9,5 +9,4 @@
     <style name="habitsListCheckStyle" parent="habitsListCheckBasicStyle">
         <item name="android:background">@drawable/ripple_background</item>
     </style>
-
 </resources>

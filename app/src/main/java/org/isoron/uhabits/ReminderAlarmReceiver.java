@@ -8,9 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -43,7 +45,10 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
 
     private void snoozeHabit(Context context, Uri data)
     {
-        int delayMinutes = 60;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        long delayMinutes = Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
+
         Habit habit = Habit.get(ContentUris.parseId(data));
         ReminderHelper.createReminderAlarm(context, habit,
                 new Date().getTime() + delayMinutes * 60 * 1000);

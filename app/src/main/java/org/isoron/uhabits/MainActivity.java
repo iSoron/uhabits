@@ -3,6 +3,7 @@ package org.isoron.uhabits;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,6 +22,8 @@ public class MainActivity extends ReplayableActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_habits_activity);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         listHabitsFragment = (ListHabitsFragment) getFragmentManager().findFragmentById(
                 R.id.fragment1);
@@ -45,9 +48,11 @@ public class MainActivity extends ReplayableActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch(item.getItemId())
+        switch (item.getItemId())
         {
             case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

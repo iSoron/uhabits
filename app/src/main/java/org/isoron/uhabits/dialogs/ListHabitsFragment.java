@@ -3,13 +3,14 @@ package org.isoron.uhabits.dialogs;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -68,6 +69,7 @@ public class ListHabitsFragment extends Fragment
     private View llEmpty;
 
     private OnHabitClickListener habitClickListener;
+    private boolean short_toggle_enabled;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,6 +125,9 @@ public class ListHabitsFragment extends Fragment
     {
         super.onResume();
         updateHeader();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        short_toggle_enabled = prefs.getBoolean("pref_short_toggle", false);
     }
 
     private void updateHeader()
@@ -265,21 +270,28 @@ public class ListHabitsFragment extends Fragment
             case R.id.tvCheck:
             {
                 lastLongClick = new Date().getTime();
-                Habit habit = Habit.get((Long) v.getTag(R.string.habit_key));
-                int offset = (Integer) v.getTag(R.string.offset_key);
-                long timestamp = DateHelper.getStartOfDay(
-                        DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
-
-                executeCommand(habit.new ToggleRepetitionCommand(timestamp));
-
-                Vibrator vb = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                vb.vibrate(100);
+                if(!short_toggle_enabled)
+                {
+                    toggleCheck(v);
+                    Vibrator vb = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                    vb.vibrate(100);
+                }
 
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void toggleCheck(View v)
+    {
+        Habit habit = Habit.get((Long) v.getTag(R.string.habit_key));
+        int offset = (Integer) v.getTag(R.string.offset_key);
+        long timestamp = DateHelper.getStartOfDay(
+                DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
+
+        executeCommand(habit.new ToggleRepetitionCommand(timestamp));
     }
 
     private void executeCommand(Command c)
@@ -300,7 +312,10 @@ public class ListHabitsFragment extends Fragment
         switch(v.getId())
         {
             case R.id.tvCheck:
-                activity.showToast(R.string.long_press_to_toggle);
+                if(short_toggle_enabled)
+                    toggleCheck(v);
+                else
+                    activity.showToast(R.string.long_press_to_toggle);
                 return;
         }
     }
