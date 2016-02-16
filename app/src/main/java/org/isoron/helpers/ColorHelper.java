@@ -4,13 +4,22 @@ import android.graphics.Color;
 
 public class ColorHelper
 {
-    public static final int[] palette = { Color.parseColor("#900000"),
-            Color.parseColor("#c54100"), Color.parseColor("#c0ab00"),
-            Color.parseColor("#8db600"), Color.parseColor("#117209"),
-            Color.parseColor("#06965b"), Color.parseColor("#069a95"),
-            Color.parseColor("#114896"), Color.parseColor("#501394"),
-            Color.parseColor("#872086"), Color.parseColor("#c31764"),
-            Color.parseColor("#303030"), Color.parseColor("#aaaaaa") };
+    public static final int[] palette =
+	{
+			Color.parseColor("#D32F2F"), // red
+            Color.parseColor("#E64A19"), // orange
+			Color.parseColor("#F9A825"), // yellow
+            Color.parseColor("#AFB42B"), // light green
+			Color.parseColor("#388E3C"), // dark green
+            Color.parseColor("#00897B"), // teal
+			Color.parseColor("#00ACC1"), // cyan
+            Color.parseColor("#039BE5"), // blue
+			Color.parseColor("#5E35B1"), // deep purple
+            Color.parseColor("#8E24AA"), // purple
+			Color.parseColor("#D81B60"), // pink
+            Color.parseColor("#303030"), // dark grey
+			Color.parseColor("#aaaaaa")  // light grey
+	};
 
     public static int mixColors(int color1, int color2, float amount)
 	{
