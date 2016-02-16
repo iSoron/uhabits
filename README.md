@@ -1,7 +1,7 @@
 # Habits Tracker
 
 Habits Tracker is a simple and beautiful app for tracking the progress of your habits on Android. Features detailed graphs and statistics. It is
-completely ad-free and open source.
+completely ad-free and open source. Join the open beta at [Google Play Store](https://play.google.com/apps/testing/org.isoron.uhabits).
 
 
 ## Features
