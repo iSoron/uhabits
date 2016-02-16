@@ -98,6 +98,7 @@ public class Habit extends Model
     public static void setIncludeArchived(boolean includeArchived)
     {
         Habit.includeArchived = includeArchived;
+        rebuildOrder();
     }
 
     public static boolean isIncludeArchived()
@@ -147,6 +148,8 @@ public class Habit extends Model
 
     public static void rebuildOrder()
     {
+        Log.d("X", "rebuilding order");
+
         List<Habit> habits = select().execute();
         int i = 0;
         for (Habit h : habits)
@@ -303,7 +306,10 @@ public class Habit extends Model
     public void archive()
     {
         archived = 1;
+        position = 9999;
         save();
+
+        if(!isIncludeArchived()) Habit.rebuildOrder();
     }
 
     public void unarchive()
@@ -594,14 +600,12 @@ public class Habit extends Model
         public void execute()
         {
             archive();
-            Habit.rebuildOrder();
         }
 
         @Override
         public void undo()
         {
             unarchive();
-            Habit.rebuildOrder();
         }
 
         public Integer getExecuteStringId()
@@ -621,14 +625,12 @@ public class Habit extends Model
         public void execute()
         {
             unarchive();
-            Habit.rebuildOrder();
         }
 
         @Override
         public void undo()
         {
             archive();
-            Habit.rebuildOrder();
         }
 
         public Integer getExecuteStringId()
