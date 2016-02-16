@@ -1,27 +1,18 @@
-# µHabits
+# Habits Tracker
 
-µHabits is a simple app for building and tracking habits on Android.
+Habits Tracker is a simple and beautiful app for tracking the progress of your habits on Android. Features detailed graphs and statistics. It is
+completely ad-free and open source.
 
-<sub>This software is in alpha stage. Expect occasional bugs and incomplete features.
-Suggestions and pull requests are very welcome.</sub>
 
 ## Features
 
-* A **simple and beautiful interface**, following material design guidelines.
-
-* Advanced algorithm for calculating the **strength of the habits**. Every repetition
-    makes your habit stronger, and every missed day makes it weaker. A single missed
-    day after a long streak, however, will not completely destroy your entire progress.
-    
-* Support for both **daily habits** and habits with more **complex schedules**, such as 3 times
-  every week; one time every other week; or every other day.
-  
-* Habit **reminders**, at a chosen hour of the day.
-
-* **Complete history** of your habit strength and repetitions. Scroll back and see
-    how did your habits improved (or not) over time.
-  
-* **Current streak** and past streaks.
+* **Simple and beautiful interface**, following the Material Design guidelines.
+* **Advanced algorithms for calculating the strength of your habits**. Every repetition makes your habit stronger, and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your entire progress.
+* **Detailed graphs and statistics**, showing how did you habits improve over time. Scroll back to see the complete history of your habit.
+* Support for both **daily habits** and **habits with more complex schedules**, such as 3 times every week; one time every other week; or every other day.
+* **Habit reminders** at a chosen hour of the day.
+* **Support for Android Wear**. Reminders can be checked or dismissed from the watch.
+* **Completely ad-free and open source**. There are absolutely no advertisements, annoying notifications or intrusive permissions in this app, and there will never be. The complete source code is available under the GPLv3.
 
 ## Screenshots
 
