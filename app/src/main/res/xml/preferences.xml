@@ -35,7 +35,7 @@
         <Preference android:title="Send feedback to developer">
             <intent
                 android:action="android.intent.action.SENDTO"
-                android:data="mailto:isoron@gmail.com?subject=Feedback%20for%20Habits%20Tracker"/>
+                android:data="mailto:isoron+habits@gmail.com?subject=Feedback%20for%20Habits%20Tracker"/>
         </Preference>
 
         <Preference android:title="View source code at GitHub">
