@@ -15,7 +15,7 @@ public class IntroActivity extends AppIntro2
         showStatusBar(false);
 
         addSlide(AppIntroFragment.newInstance("Welcome",
-                "Habits Tracker helps you create and mantain good habits.", R.drawable.tutorial_1,
+                "Habits Tracker helps you create and maintain good habits.", R.drawable.tutorial_1,
                 Color.parseColor("#194673")));
 
         addSlide(AppIntroFragment.newInstance("Create some new habits",
