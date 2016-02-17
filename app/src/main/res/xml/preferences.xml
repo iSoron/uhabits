@@ -43,6 +43,18 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/iSoron/uhabits"/>
         </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_misc"
+        android:title="Miscellaneous">
+
+
+        <Preference android:title="Replay app introduction">
+            <intent
+                android:targetClass="org.isoron.uhabits.IntroActivity"
+                android:targetPackage="org.isoron.uhabits"/>
+        </Preference>
 
     </PreferenceCategory>
 

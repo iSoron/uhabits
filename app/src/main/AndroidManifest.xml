@@ -56,6 +56,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.isoron.uhabits.MainActivity"/>
         </activity>
+
+        <activity android:name=".IntroActivity"
+                  android:label=""
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

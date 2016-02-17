@@ -1,6 +1,8 @@
 package org.isoron.uhabits;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +31,24 @@ public class MainActivity extends ReplayableActivity
                 R.id.fragment1);
 
         ReminderHelper.createReminderAlarms(MainActivity.this);
+
+        showTutorial();
+    }
+
+    private void showTutorial()
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean firstRun = prefs.getBoolean("pref_first_run", true);
+
+        if(firstRun)
+        {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("pref_first_run", false);
+            editor.apply();
+
+            Intent intent = new Intent(this, IntroActivity.class);
+            this.startActivity(intent);
+        }
     }
 
     @Override
