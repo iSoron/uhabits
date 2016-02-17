@@ -51,7 +51,7 @@
     <string name="history">History</string>
     <string name="clear">Clear</string>
     <string name="description">Description</string>
-    <string name="description_hint">Description</string>
+    <string name="description_hint">Question (Did you ... today?)</string>
     <string name="repeat">Repeat</string>
     <string name="times_every">times every</string>
     <string name="days">days</string>
