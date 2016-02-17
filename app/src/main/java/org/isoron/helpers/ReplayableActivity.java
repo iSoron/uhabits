@@ -1,6 +1,7 @@
 package org.isoron.helpers;
 
 import android.app.Activity;
+import android.app.backup.BackupManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ abstract public class ReplayableActivity extends Activity
     public void executeCommand(Command command)
     {
         executeCommand(command, false);
+        BackupManager.dataChanged("org.isoron.uhabits");
     }
 
     protected void undo()
