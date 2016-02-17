@@ -7,9 +7,11 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import android.app.DialogFragment;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +36,8 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
 	private Habit originalHabit, modified_habit;
 	private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvInputReminder;
+
+	private SharedPreferences prefs;
 
 	static class SolidColorMatrix extends ColorMatrix
 	{
@@ -93,6 +97,8 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
 		ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.button_pick_color);
 
+		prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
 		Bundle args = getArguments();
 		mode = (Integer) args.get("editMode");
 
@@ -100,7 +106,15 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		{
 			getDialog().setTitle("Create habit");
 			modified_habit = new Habit();
-		}
+
+			int defaultNum = prefs.getInt("pref_default_habit_freq_num", modified_habit.freq_num);
+			int defaultDen = prefs.getInt("pref_default_habit_freq_den", modified_habit.freq_den);
+			int defaultColor = prefs.getInt("pref_default_habit_color", modified_habit.color);
+
+			modified_habit.color = defaultColor;
+			modified_habit.freq_num = defaultNum;
+			modified_habit.freq_den = defaultDen;
+        }
 		else if(mode == EDIT_MODE)
 		{
 			originalHabit = Habit.get((Long) args.get("habitId"));
@@ -109,11 +123,10 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 			getDialog().setTitle("Edit habit");
 			tvName.append(modified_habit.name);
 			tvDescription.append(modified_habit.description);
-			tvFreqNum.setText(null);
-			tvFreqDen.setText(null);
-			tvFreqNum.append(modified_habit.freq_num.toString());
-			tvFreqDen.append(modified_habit.freq_den.toString());
 		}
+
+		tvFreqNum.append(modified_habit.freq_num.toString());
+		tvFreqDen.append(modified_habit.freq_den.toString());
 
 		changeColor(modified_habit.color);
 		updateReminder();
@@ -130,7 +143,6 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 				{
 					public void onColorSelected(int color)
 					{
-						modified_habit.color = color;
 						changeColor(color);
 					}
 				});
@@ -143,15 +155,14 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
 	private void changeColor(Integer color)
 	{
-//		SolidColorMatrix matrix = new SolidColorMatrix(color);
-//		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-//		Drawable background = getActivity().getResources().getDrawable(
-//				R.drawable.apptheme_edit_text_holo_light);
-//		background.setColorFilter(filter);
-//		tvName.setBackgroundDrawable(background);
+		modified_habit.color = color;
 		tvName.setTextColor(color);
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt("pref_default_habit_color", color);
+		editor.apply();
 	}
-	
+
 	private void updateReminder()
 	{
 		if(modified_habit.reminder_hour != null)
@@ -186,12 +197,12 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		{
 			int default_hour = 8;
 			int default_min  = 0;
-			
+
 			if(modified_habit.reminder_hour != null) {
 				default_hour = modified_habit.reminder_hour;
 				default_min = modified_habit.reminder_min;
 			}
-			
+
 			TimePickerDialog timePicker = TimePickerDialog.newInstance(new OnTimeSetListener()
 			{
 
@@ -246,6 +257,11 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
 			if(!valid)
 				return;
+
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putInt("pref_default_habit_freq_num", modified_habit.freq_num);
+			editor.putInt("pref_default_habit_freq_den", modified_habit.freq_den);
+			editor.apply();
 
 			if(mode == EDIT_MODE)
 				command = originalHabit.new EditCommand(modified_habit);

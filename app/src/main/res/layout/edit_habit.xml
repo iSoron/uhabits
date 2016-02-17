@@ -43,7 +43,6 @@
 
             <EditText
                 android:id="@+id/input_freq_num"
-                android:text="@string/default_freq_num"
                 style="@style/dialogFormInputSmallNumber" />
 
             <TextView
@@ -54,7 +53,6 @@
 
             <EditText
                 android:id="@+id/input_freq_den"
-                android:text="@string/default_freq_den"
                 style="@style/dialogFormInputSmallNumber" />
 
             <TextView

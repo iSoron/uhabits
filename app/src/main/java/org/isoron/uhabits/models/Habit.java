@@ -70,10 +70,12 @@ public class Habit extends Model
 
     public Habit()
     {
-        this.color = ColorHelper.palette[7];
+        this.color = ColorHelper.palette[5];
         this.position = Habit.getCount();
         this.highlight = 0;
         this.archived = 0;
+        this.freq_den = 7;
+        this.freq_num = 3;
     }
 
     public static Habit get(Long id)
