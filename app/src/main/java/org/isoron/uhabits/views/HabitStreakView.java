@@ -12,10 +12,10 @@ import android.view.View;
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Streak;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.List;
 
 public class HabitStreakView extends View
 {
@@ -23,10 +23,9 @@ public class HabitStreakView extends View
     private int columnWidth, columnHeight, nColumns;
 
     private Paint pText, pBar;
-    private long streaks[];
+    private List<Streak> streaks;
     private int dataOffset;
 
-    private long streakStart[], streakEnd[], streakLength[];
     private long maxStreakLength;
 
     private int barHeaderHeight;
@@ -68,17 +67,9 @@ public class HabitStreakView extends View
     private void fetchStreaks()
     {
         streaks = habit.getStreaks();
-        streakStart = new long[streaks.length / 2];
-        streakEnd = new long[streaks.length / 2];
-        streakLength = new long[streaks.length / 2];
 
-        for(int i=0; i<streaks.length / 2; i++)
-        {
-            streakStart[i] = streaks[i * 2];
-            streakEnd[i] = streaks[i * 2 + 1];
-            streakLength[i] = (streakEnd[i] - streakStart[i]) / DateHelper.millisecondsInOneDay + 1;
-            maxStreakLength = Math.max(maxStreakLength, streakLength[i]);
-        }
+        for(Streak s : streaks)
+            maxStreakLength = Math.max(maxStreakLength, s.length);
     }
 
     @Override
@@ -103,16 +94,17 @@ public class HabitStreakView extends View
         float lineHeight = pText.getFontSpacing();
         float barHeaderOffset = lineHeight * 0.4f;
 
-        int start = Math.max(0, streakStart.length - nColumns - dataOffset);
+        int nStreaks = streaks.size();
+        int start = Math.max(0, nStreaks - nColumns - dataOffset);
         SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
 
         String previousMonth = "";
 
-        for (int offset = 0; offset < nColumns && start+offset < streakStart.length; offset++)
+        for (int offset = 0; offset < nColumns && start+offset < nStreaks; offset++)
         {
-            String month = dfMonth.format(streakStart[start+offset]);
+            String month = dfMonth.format(streaks.get(start+offset).start);
 
-            long l = streakLength[offset+start];
+            long l = streaks.get(offset+start).length;
             double lRelative = ((double) l) / maxStreakLength;
 
             pBar.setColor(colors[(int) Math.floor(lRelative*3)]);
@@ -122,7 +114,7 @@ public class HabitStreakView extends View
             r.offset(offset * columnWidth, barHeaderHeight + columnHeight - height);
 
             canvas.drawRect(r, pBar);
-            canvas.drawText(Long.toString(streakLength[offset+start]), r.centerX(), r.top - barHeaderOffset, pBar);
+            canvas.drawText(Long.toString(l), r.centerX(), r.top - barHeaderOffset, pBar);
 
             if(!month.equals(previousMonth))
                 canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
@@ -166,7 +158,7 @@ public class HabitStreakView extends View
     private boolean move(float dx)
     {
         int newDataOffset = dataOffset + (int) (dx / columnWidth);
-        newDataOffset = Math.max(0, Math.min(streakStart.length - nColumns, newDataOffset));
+        newDataOffset = Math.max(0, Math.min(streaks.size() - nColumns, newDataOffset));
 
         if (newDataOffset != dataOffset)
         {

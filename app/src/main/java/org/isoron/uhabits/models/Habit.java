@@ -3,9 +3,8 @@ package org.isoron.uhabits.models;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -21,6 +20,8 @@ import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Table(name = "Habits")
@@ -81,6 +82,19 @@ public class Habit extends Model
     public static Habit get(Long id)
     {
         return Habit.load(Habit.class, id);
+    }
+
+    public static HashMap<Long, Habit> getAll()
+    {
+        List<Habit> habits = select().execute();
+        HashMap<Long, Habit> map = new HashMap<>();
+
+        for(Habit h : habits)
+        {
+            map.put(h.getId(), h);
+        }
+
+        return map;
     }
 
     @SuppressLint("DefaultLocale")
@@ -150,15 +164,25 @@ public class Habit extends Model
 
     public static void rebuildOrder()
     {
-        Log.d("X", "rebuilding order");
-
         List<Habit> habits = select().execute();
-        int i = 0;
-        for (Habit h : habits)
+
+        ActiveAndroid.beginTransaction();
+        try
         {
-            h.position = i++;
-            h.save();
+            int i = 0;
+            for (Habit h : habits)
+            {
+                h.position = i++;
+                h.save();
+            }
+
+            ActiveAndroid.setTransactionSuccessful();
         }
+        finally
+        {
+            ActiveAndroid.endTransaction();
+        }
+
     }
 
     public static void roundTimestamps()
@@ -235,39 +259,127 @@ public class Habit extends Model
                 .and("timestamp = ?", timestamp).execute();
     }
 
-    public int[] getReps(long timeFrom, long timeTo)
+    public void deleteCheckmarksNewerThan(long timestamp)
     {
-        long timeFromExtended = timeFrom - (long) (freq_den) * DateHelper.millisecondsInOneDay;
-        List<Repetition> reps = selectRepsFromTo(timeFromExtended, timeTo).execute();
+        new Delete().from(Checkmark.class)
+                .where("habit = ?", getId())
+                .and("timestamp >= ?", timestamp)
+                .execute();
+    }
 
-        int nDaysExtended = (int) ((timeTo - timeFromExtended) / DateHelper.millisecondsInOneDay);
-        int checkExtended[] = new int[nDaysExtended + 1];
+    public void deleteStreaksNewerThan(long timestamp)
+    {
+        new Delete().from(Streak.class)
+                .where("habit = ?", getId())
+                .and("end >= ?", timestamp - DateHelper.millisecondsInOneDay)
+                .execute();
+    }
 
-        int nDays = (int) ((timeTo - timeFrom) / DateHelper.millisecondsInOneDay);
+    public int[] getCheckmarks(Long fromTimestamp, Long toTimestamp)
+    {
+        updateCheckmarks();
 
-        // mark explicit checks
-        for (Repetition rep : reps)
+        String query = "select value, timestamp from Checkmarks where " +
+                "habit = ? and timestamp >= ? and timestamp <= ?";
+
+        SQLiteDatabase db = Cache.openDatabase();
+        String args[] = {getId().toString(), fromTimestamp.toString(), toTimestamp.toString()};
+        Cursor cursor = db.rawQuery(query, args);
+
+        long day = DateHelper.millisecondsInOneDay;
+        int nDays = (int) ((toTimestamp - fromTimestamp) / day) + 1;
+        int[] checks = new int[nDays];
+
+        if(cursor.moveToFirst())
         {
-            int offset = (int) ((rep.timestamp - timeFrom) / DateHelper.millisecondsInOneDay);
-            checkExtended[nDays - offset] = 2;
+            do
+            {
+                long timestamp = cursor.getLong(1);
+                int offset = (int) ((timestamp - fromTimestamp) / day);
+                checks[nDays - offset - 1] = cursor.getInt(0);
+
+            } while (cursor.moveToNext());
         }
 
-        // marks implicit checks
+        return checks;
+    }
+
+    public void updateCheckmarks()
+    {
+        long beginning;
+        long today = DateHelper.getStartOfToday();
+        long day = DateHelper.millisecondsInOneDay;
+
+        Checkmark newestCheckmark = getNewestCheckmark();
+        if(newestCheckmark == null)
+        {
+            Repetition oldestRep = getOldestRep();
+            if (oldestRep == null) return;
+
+            beginning = oldestRep.timestamp;
+        }
+        else
+        {
+            beginning = newestCheckmark.timestamp + day;
+        }
+
+        if(beginning > today)
+            return;
+
+        long beginningExtended = beginning - (long) (freq_den) * day;
+        List<Repetition> reps = selectRepsFromTo(beginningExtended, today).execute();
+
+        int nDays = (int) ((today - beginning) / day) + 1;
+        int nDaysExtended = (int) ((today - beginningExtended) / day) + 1;
+
+        int checks[] = new int[nDaysExtended];
+
+        // explicit checks
+        for (Repetition rep : reps)
+        {
+            int offset = (int) ((rep.timestamp - beginningExtended) / day);
+            checks[nDaysExtended - offset - 1] = 2;
+        }
+
+        // implicit checks
         for (int i = 0; i < nDays; i++)
         {
             int counter = 0;
 
             for (int j = 0; j < freq_den; j++)
-                if (checkExtended[i + j] == 2) counter++;
+                if (checks[i + j] == 2) counter++;
 
-            if (counter >= freq_num) checkExtended[i] = Math.max(checkExtended[i], 1);
+            if (counter >= freq_num) checks[i] = Math.max(checks[i], 1);
         }
 
-        int check[] = new int[nDays + 1];
-        for (int i = 0; i < nDays + 1; i++)
-            check[i] = checkExtended[i];
+        ActiveAndroid.beginTransaction();
 
-        return check;
+        try
+        {
+            for (int i = 0; i < nDays; i++)
+            {
+                Checkmark c = new Checkmark();
+                c.habit = this;
+                c.timestamp = today - i * day;
+                c.value = checks[i];
+                c.save();
+            }
+
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally
+        {
+            ActiveAndroid.endTransaction();
+        }
+    }
+
+    public Checkmark getNewestCheckmark()
+    {
+        return new Select().from(Checkmark.class)
+                .where("habit = ?", getId())
+                .orderBy("timestamp desc")
+                .limit(1)
+                .executeSingle();
     }
 
     public int getRepsCount(int days)
@@ -280,7 +392,7 @@ public class Habit extends Model
     public boolean hasImplicitRepToday()
     {
         long today = DateHelper.getStartOfToday();
-        int reps[] = getReps(today - DateHelper.millisecondsInOneDay, today);
+        int reps[] = getCheckmarks(today - DateHelper.millisecondsInOneDay, today);
         return (reps[0] > 0);
     }
 
@@ -289,12 +401,21 @@ public class Habit extends Model
         return (Repetition) selectReps().limit(1).executeSingle();
     }
 
+    public Repetition getOldestRepNewerThan(long timestamp)
+    {
+        return selectReps()
+                .where("timestamp > ?", timestamp)
+                .limit(1)
+                .executeSingle();
+    }
+
     public void toggleRepetition(long timestamp)
     {
         if (hasRep(timestamp))
         {
             deleteReps(timestamp);
-        } else
+        }
+        else
         {
             Repetition rep = new Repetition();
             rep.habit = this;
@@ -303,6 +424,8 @@ public class Habit extends Model
         }
 
         deleteScoresNewerThan(timestamp);
+        deleteCheckmarksNewerThan(timestamp);
+        deleteStreaksNewerThan(timestamp);
     }
 
     public void archive()
@@ -311,7 +434,7 @@ public class Habit extends Model
         position = 9999;
         save();
 
-        if(!isIncludeArchived()) Habit.rebuildOrder();
+        Habit.rebuildOrder();
     }
 
     public void unarchive()
@@ -360,7 +483,8 @@ public class Habit extends Model
             if (oldestRep == null) return 0;
             beginningTime = oldestRep.timestamp;
             beginningScore = 0;
-        } else
+        }
+        else
         {
             beginningTime = newestScore.timestamp + day;
             beginningScore = newestScore.score;
@@ -369,23 +493,34 @@ public class Habit extends Model
         long nDays = (today - beginningTime) / day;
         if (nDays < 0) return newestScore.score;
 
-        int reps[] = getReps(beginningTime, today);
+        int reps[] = getCheckmarks(beginningTime, today);
 
+        ActiveAndroid.beginTransaction();
         int lastScore = beginningScore;
-        for (int i = 0; i < reps.length; i++)
-        {
-            Score s = new Score();
-            s.habit = this;
-            s.timestamp = beginningTime + day * i;
-            s.score = (int) (lastScore * multiplier);
-            if (reps[reps.length - i - 1] == 2)
-            {
-                s.score += 1000000;
-                s.score = Math.min(s.score, 19259500);
-            }
-            s.save();
 
-            lastScore = s.score;
+        try
+        {
+            for (int i = 0; i < reps.length; i++)
+            {
+                Score s = new Score();
+                s.habit = this;
+                s.timestamp = beginningTime + day * i;
+                s.score = (int) (lastScore * multiplier);
+                if (reps[reps.length - i - 1] == 2)
+                {
+                    s.score += 1000000;
+                    s.score = Math.min(s.score, 19259500);
+                }
+                s.save();
+
+                lastScore = s.score;
+            }
+
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally
+        {
+            ActiveAndroid.endTransaction();
         }
 
         return lastScore;
@@ -403,41 +538,89 @@ public class Habit extends Model
                 offset, divisor).execute();
     }
 
-    public long[] getStreaks()
+    public List<Streak> getStreaks()
     {
-        String query =
-                "create temporary table T as select distinct r1.habit as habit, r1.timestamp as time,\n" +
-                        "    (select count(*) from repetitions r2 where r1.habit = r2.habit and\n" +
-                        "        (r1.timestamp = r2.timestamp - 24*60*60*1000 or\n" +
-                        "        r1.timestamp = r2.timestamp + 24*60*60*1000)) as neighbors\n" +
-                        "from repetitions r1 where r1.habit = ?";
+        updateStreaks();
 
-        String query2 =
-                "select time from T, (select 0 union select 1) where neighbors = 0 union all\n" +
-                        "select time from T where neighbors = 1 order by time;";
+        return new Select()
+                .from(Streak.class)
+                .where("habit = ?", getId())
+                .orderBy("end asc")
+                .execute();
+    }
 
-        String args[] = {getId().toString()};
+    public Streak getNewestStreak()
+    {
+        return new Select()
+                .from(Streak.class)
+                .where("habit = ?", getId())
+                .orderBy("end desc")
+                .limit(1)
+                .executeSingle();
+    }
 
-        SQLiteDatabase db = Cache.openDatabase();
-        db.beginTransaction();
-        db.execSQL(query, args);
-        Cursor cursor = db.rawQuery(query2, null);
+    public void updateStreaks()
+    {
+        long beginning;
+        long today = DateHelper.getStartOfToday();
+        long day = DateHelper.millisecondsInOneDay;
 
-        long streaks[] = new long[cursor.getCount()];
-        int current = 0;
-
-        Log.d("Streaks", String.format("%d rows", cursor.getCount()));
-
-        if (cursor.moveToFirst())
+        Streak newestStreak = getNewestStreak();
+        if(newestStreak == null)
         {
-            do
-            {
-                streaks[current++] = cursor.getLong(0);
-            } while (cursor.moveToNext());
+            Repetition oldestRep = getOldestRep();
+            if (oldestRep == null) return;
+
+            beginning = oldestRep.timestamp;
+        }
+        else
+        {
+            Repetition oldestRep = getOldestRepNewerThan(newestStreak.end);
+            if (oldestRep == null) return;
+
+            beginning = oldestRep.timestamp;
         }
 
-        db.endTransaction();
-        return streaks;
+        if(beginning > today) return;
+
+        int checks[] = getCheckmarks(beginning, today);
+        ArrayList<Long> list = new ArrayList<>();
+
+        long current = beginning;
+        list.add(current);
+
+        for(int i = 1; i < checks.length; i++)
+        {
+            current += day;
+            int j = checks.length - i - 1;
+
+            if((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
+            if((checks[j + 1] > 0 && checks[j] == 0)) list.add(current - day);
+        }
+
+        if(list.size() % 2 == 1)
+            list.add(current);
+
+        ActiveAndroid.beginTransaction();
+
+        try
+        {
+            for (int i = 0; i < list.size(); i += 2)
+            {
+                Streak streak = new Streak();
+                streak.habit = this;
+                streak.start = list.get(i);
+                streak.end = list.get(i + 1);
+                streak.length = (streak.end - streak.start) / day + 1;
+                streak.save();
+            }
+
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally
+        {
+            ActiveAndroid.endTransaction();
+        }
     }
 
     public static class CreateCommand extends Command
@@ -508,28 +691,9 @@ public class Habit extends Model
             habit.save();
             if (hasIntervalChanged)
             {
-                new AsyncTask<Habit, Integer, Integer>()
-                {
-                    @Override
-                    protected Integer doInBackground(Habit... habits)
-                    {
-                        // HACK: We wait one second before deleting old score, otherwise the view will
-                        // trigger the very slow getScore on the main thread at the same time, or even
-                        // before us.
-                        try
-                        {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                        habits[0].deleteScoresNewerThan(0);
-                        habits[0].getScore();
-
-                        return 0;
-                    }
-                }.execute(habit);
+                habit.deleteCheckmarksNewerThan(0);
+                habit.deleteStreaksNewerThan(0);
+                habit.deleteScoresNewerThan(0);
             }
         }
 
@@ -540,26 +704,9 @@ public class Habit extends Model
             habit.save();
             if (hasIntervalChanged)
             {
-                new AsyncTask<Habit, Integer, Integer>()
-                {
-                    @Override
-                    protected Integer doInBackground(Habit... habits)
-                    {
-                        try
-                        {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                        habits[0].deleteScoresNewerThan(0);
-                        habits[0].getScore();
-
-                        return 0;
-                    }
-                }.execute(habit);
-
+                habit.deleteCheckmarksNewerThan(0);
+                habit.deleteStreaksNewerThan(0);
+                habit.deleteScoresNewerThan(0);
             }
         }
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -33,6 +34,7 @@ public class MainActivity extends ReplayableActivity
         ReminderHelper.createReminderAlarms(MainActivity.this);
 
         showTutorial();
+
     }
 
     private void showTutorial()
@@ -49,13 +51,6 @@ public class MainActivity extends ReplayableActivity
             Intent intent = new Intent(this, IntroActivity.class);
             this.startActivity(intent);
         }
-    }
-
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        listHabitsFragment.notifyDataSetChanged();
     }
 
     @Override
@@ -89,9 +84,8 @@ public class MainActivity extends ReplayableActivity
     }
 
     @Override
-    public void executeCommand(Command command)
+    public void onPostExecuteCommand(Long refreshKey)
     {
-        super.executeCommand(command);
-        listHabitsFragment.notifyDataSetChanged();
+        listHabitsFragment.onPostExecuteCommand(refreshKey);
     }
 }

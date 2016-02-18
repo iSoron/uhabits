@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="7"/>
+            android:value="9"/>
 
         <meta-data
             android:name="com.google.android.backup.api_key"

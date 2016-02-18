@@ -41,6 +41,7 @@
     <string name="day_of_week_label_typeface">sans-serif</string>
     <string name="habit_key"></string>
     <string name="offset_key"></string>
+    <string name="toggle_key"></string>
 
     <item name="KEY_TIMESTAMP" type="id"/>
 

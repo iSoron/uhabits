@@ -29,7 +29,7 @@ public abstract class DialogHelper
 
 	public static interface OnSavedListener
 	{
-		public void onSaved(Command command);
+		public void onSaved(Command command, Object savedObject);
 	}
 
 	public static void showSoftKeyboard(View view)

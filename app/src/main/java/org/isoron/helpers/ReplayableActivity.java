@@ -2,6 +2,7 @@ package org.isoron.helpers;
 
 import android.app.Activity;
 import android.app.backup.BackupManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -26,10 +27,9 @@ abstract public class ReplayableActivity extends Activity
         redoList = new LinkedList<>();
     }
 
-    public void executeCommand(Command command)
+    public void executeCommand(Command command, Long refreshKey)
     {
-        executeCommand(command, false);
-        BackupManager.dataChanged("org.isoron.uhabits");
+        executeCommand(command, false, refreshKey);
     }
 
     protected void undo()
@@ -54,7 +54,7 @@ abstract public class ReplayableActivity extends Activity
             return;
         }
         Command last = redoList.pop();
-        executeCommand(last, false);
+        executeCommand(last, false, null);
     }
 
     public void showToast(Integer stringId)
@@ -65,14 +65,36 @@ abstract public class ReplayableActivity extends Activity
         toast.show();
     }
 
-
-    public void executeCommand(Command command, boolean clearRedoStack)
+    public void executeCommand(final Command command, Boolean clearRedoStack,
+                               final Long refreshKey)
     {
         undoList.push(command);
+
         if (undoList.size() > MAX_UNDO_LEVEL) undoList.removeLast();
         if (clearRedoStack) redoList.clear();
 
-        command.execute();
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                command.execute();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                ReplayableActivity.this.onPostExecuteCommand(refreshKey);
+                BackupManager.dataChanged("org.isoron.uhabits");
+            }
+        }.execute();
+
+
         showToast(command.getExecuteStringId());
+    }
+
+    public void onPostExecuteCommand(Long refreshKey)
+    {
     }
 }

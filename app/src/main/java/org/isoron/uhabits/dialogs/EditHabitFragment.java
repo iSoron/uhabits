@@ -263,14 +263,19 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 			editor.putInt("pref_default_habit_freq_den", modified_habit.freq_den);
 			editor.apply();
 
+			Habit savedHabit = null;
+
 			if(mode == EDIT_MODE)
+			{
 				command = originalHabit.new EditCommand(modified_habit);
+				savedHabit = originalHabit;
+			}
 
 			if(mode == CREATE_MODE)
 				command = new Habit.CreateCommand(modified_habit);
 
 			if(onSavedListener != null)
-				onSavedListener.onSaved(command);
+				onSavedListener.onSaved(command, savedHabit);
 
 			dismiss();
 		}

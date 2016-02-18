@@ -46,6 +46,8 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         activity = (ShowHabitActivity) getActivity();
         habit = activity.habit;
 
+        habit.updateCheckmarks();
+
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
             int darkerHabitColor = ColorHelper.mixColors(habit.color, Color.BLACK, 0.75f);
@@ -108,9 +110,13 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
     }
 
     @Override
-    public void onSaved(Command command)
+    public void onSaved(Command command, Object savedObject)
     {
-        activity.executeCommand(command);
+        Habit h = (Habit) savedObject;
+
+        if(h == null) activity.executeCommand(command, null);
+        else activity.executeCommand(command, h.getId());
+
         ReminderHelper.createReminderAlarms(activity);
         activity.recreate();
     }

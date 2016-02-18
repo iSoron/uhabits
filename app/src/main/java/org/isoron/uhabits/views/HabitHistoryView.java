@@ -13,17 +13,19 @@ import android.view.View;
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class HabitHistoryView extends View
 {
 
     private Habit habit;
-    private int reps[];
+    private int[] checks;
 
     private Context context;
     private Paint pSquareBg, pSquareFg, pTextHeader;
@@ -93,7 +95,7 @@ public class HabitHistoryView extends View
         for (int i = 0; i < nColumns * 7; i++)
             dateFrom -= DateHelper.millisecondsInOneDay;
 
-        reps = habit.getReps(dateFrom, dateTo);
+        checks = habit.getCheckmarks(dateFrom, dateTo);
     }
 
     @Override
@@ -159,7 +161,9 @@ public class HabitHistoryView extends View
             {
                 if (!(i == nColumns - 1 && offsetWeeks == 0 && j > todayWeekday))
                 {
-                    pSquareBg.setColor(colors[reps[k]]);
+                    if(k >= checks.length) pSquareBg.setColor(colors[0]);
+                    else pSquareBg.setColor(colors[checks[k]]);
+
                     canvas.drawRect(square, pSquareBg);
                     canvas.drawText(Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH)),
                             square.centerX(), square.centerY() + squareTextOffset, pSquareFg);

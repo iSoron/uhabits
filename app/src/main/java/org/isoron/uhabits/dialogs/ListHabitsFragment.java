@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -30,6 +32,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mobeta.android.dslv.DragSortController;
@@ -47,6 +50,7 @@ import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -54,6 +58,9 @@ public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
         OnClickListener
 {
+
+    public static final int INACTIVE_COLOR = Color.rgb(230, 230, 230);
+
     public interface OnHabitClickListener
     {
         void onHabitClicked(Habit habit);
@@ -67,22 +74,38 @@ public class ListHabitsFragment extends Fragment
     private int tvNameWidth;
     private int button_count;
     private View llEmpty;
+    private ProgressBar progressBar;
 
     private OnHabitClickListener habitClickListener;
     private boolean short_toggle_enabled;
+
+    private HashMap<Long, Habit> habits;
+    private HashMap<Integer, Habit> positionToHabit;
+    private HashMap<Long, int[]> checkmarks;
+    private HashMap<Long, Integer> scores;
+
+    private Long lastLoadedTimestamp = null;
+    private AsyncTask<Void, Integer, Void> currentFetchTask = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
-
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int width = (int) (dm.widthPixels / dm.density);
         button_count = (int) ((width - 160) / 42);
         tvNameWidth = (int) ((width - 30 - button_count * 42) * dm.density);
 
+        habits = new HashMap<>();
+        positionToHabit = new HashMap<>();
+        checkmarks = new HashMap<>();
+        scores = new HashMap<>();
+
+        View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
         tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         adapter = new ListHabitsAdapter(getActivity());
         listView = (DragSortListView) view.findViewById(R.id.listView);
@@ -107,7 +130,6 @@ public class ListHabitsFragment extends Fragment
         llEmpty = view.findViewById(R.id.llEmpty);
 
         updateEmptyMessage();
-
         setHasOptionsMenu(true);
         return view;
     }
@@ -124,7 +146,14 @@ public class ListHabitsFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        updateHeader();
+        if(lastLoadedTimestamp == null || lastLoadedTimestamp != DateHelper.getStartOfToday())
+        {
+            updateHeader();
+            fetchAllHabits();
+            updateEmptyMessage();
+        }
+
+        adapter.notifyDataSetChanged();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         short_toggle_enabled = prefs.getBoolean("pref_short_toggle", false);
@@ -156,6 +185,139 @@ public class ListHabitsFragment extends Fragment
         }
     }
 
+    private void fetchAllHabits()
+    {
+        if(currentFetchTask != null) currentFetchTask.cancel(true);
+
+        currentFetchTask = new AsyncTask<Void, Integer, Void>()
+        {
+            HashMap<Long, Habit> newHabits = Habit.getAll();
+            HashMap<Integer, Habit> newPositionToHabit = new HashMap<>();
+            HashMap<Long, int[]> newCheckmarks = new HashMap<>();
+            HashMap<Long, Integer> newScores = new HashMap<>();
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
+                long dateFrom = dateTo - (button_count - 1) * DateHelper.millisecondsInOneDay;
+                int[] empty = new int[button_count];
+
+                for(Habit h : newHabits.values())
+                {
+                    newScores.put(h.getId(), 0);
+                    newPositionToHabit.put(h.position, h);
+                    newCheckmarks.put(h.getId(), empty);
+                }
+
+                int current = 0;
+                for(int i = 0; i < newHabits.size(); i++)
+                {
+                    if(isCancelled()) return null;
+
+                    Habit h = newPositionToHabit.get(i);
+                    newScores.put(h.getId(), h.getScore());
+                    newCheckmarks.put(h.getId(), h.getCheckmarks(dateFrom, dateTo));
+
+                    publishProgress(current++, newHabits.size());
+                }
+
+                commit();
+
+                return null;
+            }
+
+            private void commit()
+            {
+                habits = newHabits;
+                positionToHabit = newPositionToHabit;
+                checkmarks = newCheckmarks;
+                scores = newScores;
+            }
+
+            @Override
+            protected void onPreExecute()
+            {
+                progressBar.setIndeterminate(false);
+                progressBar.setProgress(0);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values)
+            {
+                progressBar.setMax(values[1]);
+                progressBar.setProgress(values[0]);
+
+                if(lastLoadedTimestamp == null)
+                {
+                    commit();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                if(isCancelled()) return;
+
+                adapter.notifyDataSetChanged();
+                updateEmptyMessage();
+
+                progressBar.setVisibility(View.INVISIBLE);
+                currentFetchTask = null;
+                lastLoadedTimestamp = DateHelper.getStartOfToday();
+            }
+
+        };
+
+        currentFetchTask.execute();
+    }
+
+    private void fetchHabit(final Long id)
+    {
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
+                long dateFrom = dateTo - (button_count - 1) * DateHelper.millisecondsInOneDay;
+
+                Habit h = Habit.get(id);
+                habits.put(id, h);
+                scores.put(id, h.getScore());
+                checkmarks.put(id, h.getCheckmarks(dateFrom, dateTo));
+
+                return null;
+            }
+
+            @Override
+            protected void onPreExecute()
+            {
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if(getStatus() == Status.RUNNING)
+                        {
+                            progressBar.setIndeterminate(true);
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }, 500);
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                progressBar.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            }
+        }.execute();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
@@ -173,7 +335,7 @@ public class ListHabitsFragment extends Fragment
         getActivity().getMenuInflater().inflate(R.menu.list_habits_context, menu);
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        final Habit habit = Habit.get(info.id);
+        final Habit habit = habits.get(info.id);
 
         if(habit.isArchived())
             menu.findItem(R.id.action_archive_habit).setVisible(false);
@@ -197,7 +359,7 @@ public class ListHabitsFragment extends Fragment
             case R.id.action_show_archived:
             {
                 Habit.setIncludeArchived(!Habit.isIncludeArchived());
-                notifyDataSetChanged();
+                fetchAllHabits();
                 activity.invalidateOptionsMenu();
                 return true;
             }
@@ -212,7 +374,7 @@ public class ListHabitsFragment extends Fragment
     {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuItem.getMenuInfo();
         final int id = menuItem.getItemId();
-        final Habit habit = Habit.get(info.id);
+        final Habit habit = habits.get(info.id);
 
         if (id == R.id.action_edit_habit)
         {
@@ -224,12 +386,12 @@ public class ListHabitsFragment extends Fragment
         else if (id == R.id.action_archive_habit)
         {
             Command c = habit.new ArchiveCommand();
-            executeCommand(c);
+            executeCommand(c, null);
         }
         else if (id == R.id.action_unarchive_habit)
         {
             Command c = habit.new UnarchiveCommand();
-            executeCommand(c);
+            executeCommand(c, null);
         }
 
         return super.onContextItemSelected(menuItem);
@@ -240,26 +402,28 @@ public class ListHabitsFragment extends Fragment
     {
         if (new Date().getTime() - lastLongClick < 1000) return;
 
-        Habit habit = Habit.getByPosition(position);
+        Habit habit = positionToHabit.get(position);
         habitClickListener.onHabitClicked(habit);
     }
 
     @Override
-    public void onSaved(Command command)
+    public void onSaved(Command command, Object savedObject)
     {
-        executeCommand(command);
-        ReminderHelper.createReminderAlarms(activity);
-    }
+        Habit h = (Habit) savedObject;
 
-    public void notifyDataSetChanged()
-    {
-        updateEmptyMessage();
+        if(h == null) activity.executeCommand(command, null);
+        else activity.executeCommand(command, h.getId());
         adapter.notifyDataSetChanged();
+
+        ReminderHelper.createReminderAlarms(activity);
     }
 
     private void updateEmptyMessage()
     {
-        llEmpty.setVisibility(Habit.getCount() > 0 ? View.GONE : View.VISIBLE);
+        if(lastLoadedTimestamp == null)
+            llEmpty.setVisibility(View.GONE);
+        else
+            llEmpty.setVisibility(habits.size() > 0 ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -286,24 +450,35 @@ public class ListHabitsFragment extends Fragment
 
     private void toggleCheck(View v)
     {
-        Habit habit = Habit.get((Long) v.getTag(R.string.habit_key));
+        Habit habit = habits.get((Long) v.getTag(R.string.habit_key));
+
         int offset = (Integer) v.getTag(R.string.offset_key);
         long timestamp = DateHelper.getStartOfDay(
                 DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
 
-        executeCommand(habit.new ToggleRepetitionCommand(timestamp));
+        if(v.getTag(R.string.toggle_key).equals(2))
+            updateCheck(habit.color, (TextView) v, 0);
+        else
+            updateCheck(habit.color, (TextView) v, 2);
+
+        executeCommand(habit.new ToggleRepetitionCommand(timestamp), habit.getId());
     }
 
-    private void executeCommand(Command c)
+    private void executeCommand(Command c, Long refreshKey)
     {
-        activity.executeCommand(c);
+        activity.executeCommand(c, refreshKey);
     }
 
     @Override
     public void drop(int from, int to)
     {
+        Habit fromHabit = positionToHabit.get(from);
+        Habit toHabit = positionToHabit.get(to);
+        positionToHabit.put(to, fromHabit);
+        positionToHabit.put(from, toHabit);
+        adapter.notifyDataSetChanged();
+
         Habit.reorder(from, to);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -337,13 +512,13 @@ public class ListHabitsFragment extends Fragment
         @Override
         public int getCount()
         {
-            return Habit.getCount();
+            return habits.size();
         }
 
         @Override
         public Object getItem(int position)
         {
-            return Habit.getByPosition(position);
+            return positionToHabit.get(position);
         }
 
         @Override
@@ -355,7 +530,7 @@ public class ListHabitsFragment extends Fragment
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-            final Habit habit = (Habit) getItem(position);
+            final Habit habit = positionToHabit.get(position);
 
             if (view == null || (Long) view.getTag(R.id.KEY_TIMESTAMP) !=
                     DateHelper.getStartOfToday())
@@ -397,7 +572,6 @@ public class ListHabitsFragment extends Fragment
             LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
             llInner.setTag(R.string.habit_key, habit.getId());
 
-            int inactiveColor = Color.rgb(230, 230, 230);
             int activeColor = habit.color;
 
             tvName.setText(habit.name);
@@ -413,17 +587,17 @@ public class ListHabitsFragment extends Fragment
             }
             else
             {
-                int score = habit.getScore();
+                int score = scores.get(habit.getId());
 
                 if (score < Habit.HALF_STAR_CUTOFF)
                 {
                     tvStar.setText(context.getString(R.string.fa_star_o));
-                    tvStar.setTextColor(inactiveColor);
+                    tvStar.setTextColor(INACTIVE_COLOR);
                 }
                 else if (score < Habit.FULL_STAR_CUTOFF)
                 {
                     tvStar.setText(context.getString(R.string.fa_star_half_o));
-                    tvStar.setTextColor(inactiveColor);
+                    tvStar.setTextColor(INACTIVE_COLOR);
                 }
                 else
                 {
@@ -432,14 +606,10 @@ public class ListHabitsFragment extends Fragment
                 }
             }
 
-
             LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
             int m = llButtons.getChildCount();
 
-            long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
-            long dateFrom = dateTo - m * DateHelper.millisecondsInOneDay;
-
-            int isChecked[] = habit.getReps(dateFrom, dateTo);
+            int isChecked[] = checkmarks.get(habit.getId());
 
             for (int i = 0; i < m; i++)
             {
@@ -447,28 +617,40 @@ public class ListHabitsFragment extends Fragment
                 TextView tvCheck = (TextView) llButtons.getChildAt(i);
                 tvCheck.setTag(R.string.habit_key, habit.getId());
                 tvCheck.setTag(R.string.offset_key, i);
-
-                switch (isChecked[i])
-                {
-                    case 2:
-                        tvCheck.setText(R.string.fa_check);
-                        tvCheck.setTextColor(activeColor);
-                        break;
-
-                    case 1:
-                        tvCheck.setText(R.string.fa_check);
-                        tvCheck.setTextColor(inactiveColor);
-                        break;
-
-                    case 0:
-                        tvCheck.setText(R.string.fa_times);
-                        tvCheck.setTextColor(inactiveColor);
-                        break;
-                }
+                updateCheck(activeColor, tvCheck, isChecked[i]);
             }
 
             return view;
         }
+    }
 
+    private void updateCheck(int activeColor, TextView tvCheck, int check)
+    {
+        switch (check)
+        {
+            case 2:
+                tvCheck.setText(R.string.fa_check);
+                tvCheck.setTextColor(activeColor);
+                tvCheck.setTag(R.string.toggle_key, 2);
+                break;
+
+            case 1:
+                tvCheck.setText(R.string.fa_check);
+                tvCheck.setTextColor(INACTIVE_COLOR);
+                tvCheck.setTag(R.string.toggle_key, 1);
+                break;
+
+            case 0:
+                tvCheck.setText(R.string.fa_times);
+                tvCheck.setTextColor(INACTIVE_COLOR);
+                tvCheck.setTag(R.string.toggle_key, 0);
+                break;
+        }
+    }
+
+    public void onPostExecuteCommand(Long refreshKey)
+    {
+        if(refreshKey == null) fetchAllHabits();
+        else fetchHabit(refreshKey);
     }
 }
