@@ -1,18 +1,17 @@
 # Habits Tracker
 
-Habits Tracker is a simple and beautiful app for tracking the progress of your habits on Android. Features detailed graphs and statistics. It is
-completely ad-free and open source. Join the open beta at [Google Play Store](https://play.google.com/apps/testing/org.isoron.uhabits).
+Habits Tracker is a simple Android app that helps you create and maintain good habits. Detailed graphs and statistics show you how your habits improved over time. It is completely ad-free and open source, with no intrusive permissions. Join the open beta at [Google Play Store](https://play.google.com/apps/testing/org.isoron.uhabits).
 
 
 ## Features
 
-* **Simple and beautiful interface**, following the Material Design guidelines.
-* **Advanced algorithms for calculating the strength of your habits**. Every repetition makes your habit stronger, and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your entire progress.
-* **Detailed graphs and statistics**, showing how did you habits improve over time. Scroll back to see the complete history of your habit.
-* Support for both **daily habits** and **habits with more complex schedules**, such as 3 times every week; one time every other week; or every other day.
-* **Habit reminders** at a chosen hour of the day.
-* **Support for Android Wear**. Reminders can be checked or dismissed from the watch.
-* **Completely ad-free and open source**. There are absolutely no advertisements, annoying notifications or intrusive permissions in this app, and there will never be. The complete source code is available under the GPLv3.
+* Simple and beautiful interface, following the Material Design guidelines.
+* Advanced algorithms for calculating the strength of your habits. Every repetition makes your habit stronger, and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your entire progress.
+* Detailed graphs and statistics, showing how did you habits improve over time. Scroll back to see the complete history of your habit.
+* Support for both daily habits and habits with more complex schedules, such as 3 times every week; one time every other week; or every other day.
+* Habit reminders at a chosen hour of the day.
+* Support for Android Wear. Reminders can be checked or dismissed from the watch.
+* Completely ad-free and open source. There are absolutely no advertisements, annoying notifications or intrusive permissions in this app, and there will never be. The complete source code is available under the GPLv3.
 
 ## Screenshots
 
