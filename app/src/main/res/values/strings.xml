@@ -63,5 +63,9 @@
     <string name="streaks">Streaks</string>
     <string name="no_habits_found">You have no active habits</string>
     <string name="long_press_to_toggle">Long press to check or uncheck</string>
+    <string name="reminder_off">Off</string>
+    <string name="validation_name_should_not_be_blank">Name cannot be blank.</string>
+    <string name="validation_number_should_be_positive">Number must be positive.</string>
+    <string name="validation_at_most_one_rep_per_day">You can have at most one repetition per day</string>
 
 </resources>

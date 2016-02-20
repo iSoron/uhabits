@@ -57,10 +57,10 @@ public class Habit extends Model
     public String description;
 
     @Column(name = "freq_num")
-    public Integer freq_num;
+    public Integer freqNum;
 
     @Column(name = "freq_den")
-    public Integer freq_den;
+    public Integer freqDen;
 
     @Column(name = "color")
     public Integer color;
@@ -69,10 +69,10 @@ public class Habit extends Model
     public Integer position;
 
     @Column(name = "reminder_hour")
-    public Integer reminder_hour;
+    public Integer reminderHour;
 
     @Column(name = "reminder_min")
-    public Integer reminder_min;
+    public Integer reminderMin;
 
     @Column(name = "highlight")
     public Integer highlight;
@@ -91,8 +91,8 @@ public class Habit extends Model
         this.position = Habit.getCount();
         this.highlight = 0;
         this.archived = 0;
-        this.freq_den = 7;
-        this.freq_num = 3;
+        this.freqDen = 7;
+        this.freqNum = 3;
     }
 
     public static Habit get(Long id)
@@ -232,12 +232,12 @@ public class Habit extends Model
     {
         this.name = model.name;
         this.description = model.description;
-        this.freq_num = model.freq_num;
-        this.freq_den = model.freq_den;
+        this.freqNum = model.freqNum;
+        this.freqDen = model.freqDen;
         this.color = model.color;
         this.position = model.position;
-        this.reminder_hour = model.reminder_hour;
-        this.reminder_min = model.reminder_min;
+        this.reminderHour = model.reminderHour;
+        this.reminderMin = model.reminderMin;
         this.highlight = model.highlight;
         this.archived = model.archived;
     }
@@ -343,7 +343,7 @@ public class Habit extends Model
 
         if (beginning > today) return;
 
-        long beginningExtended = beginning - (long) (freq_den) * day;
+        long beginningExtended = beginning - (long) (freqDen) * day;
         List<Repetition> reps = selectRepsFromTo(beginningExtended, today).execute();
 
         int nDays = (int) ((today - beginning) / day) + 1;
@@ -363,10 +363,10 @@ public class Habit extends Model
         {
             int counter = 0;
 
-            for (int j = 0; j < freq_den; j++)
+            for (int j = 0; j < freqDen; j++)
                 if (checks[i + j] == 2) counter++;
 
-            if (counter >= freq_num) checks[i] = Math.max(checks[i], 1);
+            if (counter >= freqNum) checks[i] = Math.max(checks[i], 1);
         }
 
         ActiveAndroid.beginTransaction();
@@ -491,7 +491,7 @@ public class Habit extends Model
         long today = DateHelper.getStartOfDay(DateHelper.getLocalTime());
         long day = DateHelper.millisecondsInOneDay;
 
-        double freq = ((double) freq_num) / freq_den;
+        double freq = ((double) freqNum) / freqDen;
         double multiplier = Math.pow(0.5, 1.0 / (14.0 / freq - 1));
 
         Score newestScore = getNewestScore();
@@ -696,8 +696,8 @@ public class Habit extends Model
             this.modified = new Habit(modified);
             this.original = new Habit(Habit.this);
 
-            hasIntervalChanged = (this.original.freq_den != this.modified.freq_den ||
-                    this.original.freq_num != this.modified.freq_num);
+            hasIntervalChanged = (this.original.freqDen != this.modified.freqDen ||
+                    this.original.freqNum != this.modified.freqNum);
         }
 
         public void execute()

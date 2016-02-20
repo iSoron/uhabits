@@ -46,8 +46,8 @@ public class ReminderHelper
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, habit.reminder_hour);
-            calendar.set(Calendar.MINUTE, habit.reminder_min);
+            calendar.set(Calendar.HOUR_OF_DAY, habit.reminderHour);
+            calendar.set(Calendar.MINUTE, habit.reminderMin);
             calendar.set(Calendar.SECOND, 0);
 
             reminderTime = calendar.getTimeInMillis();

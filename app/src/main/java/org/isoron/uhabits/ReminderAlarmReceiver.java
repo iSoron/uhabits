@@ -110,7 +110,7 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
         habit.save();
 
         // Check if reminder has been turned off after alarm was scheduled
-        if (habit.reminder_hour == null) return;
+        if (habit.reminderHour == null) return;
 
         Intent contentIntent = new Intent(context, MainActivity.class);
         contentIntent.setData(data);

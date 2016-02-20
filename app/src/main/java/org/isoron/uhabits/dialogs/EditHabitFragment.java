@@ -19,7 +19,6 @@ package org.isoron.uhabits.dialogs;
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -46,32 +45,17 @@ import org.isoron.uhabits.models.Habit;
 
 public class EditHabitFragment extends DialogFragment implements OnClickListener
 {
-    private int mode;
+    private Integer mode;
     static final int EDIT_MODE = 0;
     static final int CREATE_MODE = 1;
 
     private OnSavedListener onSavedListener;
 
-    private Habit originalHabit, modified_habit;
+    private Habit originalHabit, modifiedHabit;
     private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvInputReminder;
 
     private SharedPreferences prefs;
     private boolean is24HourMode;
-
-    static class SolidColorMatrix extends ColorMatrix
-    {
-        public SolidColorMatrix(int color)
-        {
-            float matrix[] = {0.0f, 0.0f, 0.0f, 0.0f, Color.red(color), 0.0f, 0.0f, 0.0f, 0.0f,
-                    Color.green(color), 0.0f, 0.0f, 0.0f, 0.0f, Color.blue(color), 0.0f, 0.0f, 0.0f,
-                    1.0f, 0};
-            set(matrix);
-        }
-    }
-
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     *                                    Factory                                    *
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
     static EditHabitFragment editSingleHabitFragment(long id)
     {
@@ -92,11 +76,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
         return frag;
     }
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *                                   Creation                                    *
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-    @Override
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
@@ -105,7 +85,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
         tvDescription = (TextView) view.findViewById(R.id.input_description);
         tvFreqNum = (TextView) view.findViewById(R.id.input_freq_num);
         tvFreqDen = (TextView) view.findViewById(R.id.input_freq_den);
-        tvInputReminder = (TextView) view.findViewById(R.id.input_reminder_time);
+        tvInputReminder = (TextView) view.findViewById(R.id.inputReminderTime);
 
         Button buttonSave = (Button) view.findViewById(R.id.buttonSave);
         Button buttonDiscard = (Button) view.findViewById(R.id.buttonDiscard);
@@ -114,70 +94,52 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
         buttonDiscard.setOnClickListener(this);
         tvInputReminder.setOnClickListener(this);
 
-        ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.button_pick_color);
+        ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.buttonPickColor);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         Bundle args = getArguments();
         mode = (Integer) args.get("editMode");
 
-        is24HourMode = DateFormat.is24HourFormat(getContext());
+        is24HourMode = DateFormat.is24HourFormat(getActivity());
 
         if (mode == CREATE_MODE)
         {
             getDialog().setTitle("Create habit");
-            modified_habit = new Habit();
+            modifiedHabit = new Habit();
 
-            int defaultNum = prefs.getInt("pref_default_habit_freq_num", modified_habit.freq_num);
-            int defaultDen = prefs.getInt("pref_default_habit_freq_den", modified_habit.freq_den);
-            int defaultColor = prefs.getInt("pref_default_habit_color", modified_habit.color);
+            int defaultNum = prefs.getInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
+            int defaultDen = prefs.getInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
+            int defaultColor = prefs.getInt("pref_default_habit_color", modifiedHabit.color);
 
-            modified_habit.color = defaultColor;
-            modified_habit.freq_num = defaultNum;
-            modified_habit.freq_den = defaultDen;
+            modifiedHabit.color = defaultColor;
+            modifiedHabit.freqNum = defaultNum;
+            modifiedHabit.freqDen = defaultDen;
         }
         else if (mode == EDIT_MODE)
         {
             originalHabit = Habit.get((Long) args.get("habitId"));
-            modified_habit = new Habit(originalHabit);
+            modifiedHabit = new Habit(originalHabit);
 
             getDialog().setTitle("Edit habit");
-            tvName.append(modified_habit.name);
-            tvDescription.append(modified_habit.description);
+            tvName.append(modifiedHabit.name);
+            tvDescription.append(modifiedHabit.description);
         }
 
-        tvFreqNum.append(modified_habit.freq_num.toString());
-        tvFreqDen.append(modified_habit.freq_den.toString());
+        tvFreqNum.append(modifiedHabit.freqNum.toString());
+        tvFreqDen.append(modifiedHabit.freqDen.toString());
 
-        changeColor(modified_habit.color);
+        changeColor(modifiedHabit.color);
         updateReminder();
 
-        buttonPickColor.setOnClickListener(new OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                ColorPickerDialog picker =
-                        ColorPickerDialog.newInstance(R.string.color_picker_default_title,
-                                ColorHelper.palette, modified_habit.color, 4,
-                                ColorPickerDialog.SIZE_SMALL);
-
-                picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
-                {
-                    public void onColorSelected(int color)
-                    {
-                        changeColor(color);
-                    }
-                });
-                picker.show(getFragmentManager(), "picker");
-            }
-        });
+        buttonPickColor.setOnClickListener(this);
 
         return view;
     }
 
     private void changeColor(Integer color)
     {
-        modified_habit.color = color;
+        modifiedHabit.color = color;
         tvName.setTextColor(color);
 
         SharedPreferences.Editor editor = prefs.edit();
@@ -187,17 +149,16 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
     private void updateReminder()
     {
-        if (modified_habit.reminder_hour != null)
+        if (modifiedHabit.reminderHour != null)
         {
             tvInputReminder.setTextColor(Color.BLACK);
-            tvInputReminder.setText(
-                    DateHelper.formatTime(getActivity(), modified_habit.reminder_hour,
-                            modified_habit.reminder_min));
+            tvInputReminder.setText(DateHelper.formatTime(getActivity(),
+                    modifiedHabit.reminderHour, modifiedHabit.reminderMin));
         }
         else
         {
             tvInputReminder.setTextColor(Color.GRAY);
-            tvInputReminder.setText("Off");
+            tvInputReminder.setText(R.string.reminder_off);
         }
     }
 
@@ -206,105 +167,131 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
         this.onSavedListener = onSavedListener;
     }
 
-	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 *                                    Callback                                   *
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-    @Override
+	@Override
     public void onClick(View v)
     {
-        int id = v.getId();
-		
-		/* Due date spinner */
-        if (id == R.id.input_reminder_time)
+        switch(v.getId())
         {
-            int default_hour = 8;
-            int default_min = 0;
+            case R.id.inputReminderTime:
+                onDateSpinnerClick();
+                break;
 
-            if (modified_habit.reminder_hour != null)
+            case R.id.buttonSave:
+                onSaveButtonClick();
+                break;
+
+            case R.id.buttonDiscard:
+                dismiss();
+                break;
+
+            case R.id.buttonPickColor:
+                onColorButtonClick();
+                break;
+        }
+    }
+
+    private void onColorButtonClick()
+    {
+        ColorPickerDialog picker = ColorPickerDialog.newInstance(
+                R.string.color_picker_default_title, ColorHelper.palette, modifiedHabit.color, 4,
+                ColorPickerDialog.SIZE_SMALL);
+
+        picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
+        {
+            public void onColorSelected(int color)
             {
-                default_hour = modified_habit.reminder_hour;
-                default_min = modified_habit.reminder_min;
+                changeColor(color);
             }
+        });
+        picker.show(getFragmentManager(), "picker");
+    }
 
-            TimePickerDialog timePicker = TimePickerDialog.newInstance(new OnTimeSetListener()
-            {
+    private void onSaveButtonClick()
+    {
+        Command command = null;
 
-                @Override
-                public void onTimeSet(RadialPickerLayout view, int hour, int minute)
-                {
-                    modified_habit.reminder_hour = hour;
-                    modified_habit.reminder_min = minute;
-                    updateReminder();
-                }
+        modifiedHabit.name = tvName.getText().toString().trim();
+        modifiedHabit.description = tvDescription.getText().toString().trim();
+        modifiedHabit.freqNum = Integer.parseInt(tvFreqNum.getText().toString());
+        modifiedHabit.freqDen = Integer.parseInt(tvFreqDen.getText().toString());
 
-                @Override
-                public void onTimeCleared(RadialPickerLayout view)
-                {
-                    modified_habit.reminder_hour = null;
-                    modified_habit.reminder_min = null;
-                    updateReminder();
-                }
-            }, default_hour, default_min, is24HourMode);
-            timePicker.show(getFragmentManager(), "timePicker");
+        if (!validate()) return;
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
+        editor.putInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
+        editor.apply();
+
+        Habit savedHabit = null;
+
+        if (mode == EDIT_MODE)
+        {
+            command = originalHabit.new EditCommand(modifiedHabit);
+            savedHabit = originalHabit;
         }
 
-		/* Save button */
-        if (id == R.id.buttonSave)
+        if (mode == CREATE_MODE) command = new Habit.CreateCommand(modifiedHabit);
+
+        if (onSavedListener != null) onSavedListener.onSaved(command, savedHabit);
+
+        dismiss();
+    }
+
+    private boolean validate()
+    {
+        Boolean valid = true;
+
+        if (modifiedHabit.name.length() == 0)
         {
-            Command command = null;
-
-            modified_habit.name = tvName.getText().toString().trim();
-            modified_habit.description = tvDescription.getText().toString().trim();
-            modified_habit.freq_num = Integer.parseInt(tvFreqNum.getText().toString());
-            modified_habit.freq_den = Integer.parseInt(tvFreqDen.getText().toString());
-
-            Boolean valid = true;
-
-            if (modified_habit.name.length() == 0)
-            {
-                tvName.setError("Name cannot be blank.");
-                valid = false;
-            }
-
-            if (modified_habit.freq_den <= 0)
-            {
-                tvFreqNum.setError("Number must be positive.");
-                valid = false;
-            }
-
-            if (modified_habit.freq_num > modified_habit.freq_den)
-            {
-                tvFreqNum.setError("You can have at most one repetition per day");
-                valid = false;
-            }
-
-            if (!valid) return;
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("pref_default_habit_freq_num", modified_habit.freq_num);
-            editor.putInt("pref_default_habit_freq_den", modified_habit.freq_den);
-            editor.apply();
-
-            Habit savedHabit = null;
-
-            if (mode == EDIT_MODE)
-            {
-                command = originalHabit.new EditCommand(modified_habit);
-                savedHabit = originalHabit;
-            }
-
-            if (mode == CREATE_MODE) command = new Habit.CreateCommand(modified_habit);
-
-            if (onSavedListener != null) onSavedListener.onSaved(command, savedHabit);
-
-            dismiss();
+            tvName.setError(getString(R.string.validation_name_should_not_be_blank));
+            valid = false;
         }
 
-		/* Discard button */
-        if (id == R.id.buttonDiscard)
+        if (modifiedHabit.freqNum <= 0)
         {
-            dismiss();
+            tvFreqNum.setError(getString(R.string.validation_number_should_be_positive));
+            valid = false;
         }
+
+        if (modifiedHabit.freqNum > modifiedHabit.freqDen)
+        {
+            tvFreqNum.setError(getString(R.string.validation_at_most_one_rep_per_day));
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    private void onDateSpinnerClick()
+    {
+        int defaultHour = 8;
+        int defaultMin = 0;
+
+        if (modifiedHabit.reminderHour != null)
+        {
+            defaultHour = modifiedHabit.reminderHour;
+            defaultMin = modifiedHabit.reminderMin;
+        }
+
+        TimePickerDialog timePicker = TimePickerDialog.newInstance(new OnTimeSetListener()
+        {
+            @Override
+            public void onTimeSet(RadialPickerLayout view, int hour, int minute)
+            {
+                modifiedHabit.reminderHour = hour;
+                modifiedHabit.reminderMin = minute;
+                updateReminder();
+            }
+
+            @Override
+            public void onTimeCleared(RadialPickerLayout view)
+            {
+                modifiedHabit.reminderHour = null;
+                modifiedHabit.reminderMin = null;
+                updateReminder();
+            }
+        }, defaultHour, defaultMin, is24HourMode);
+
+        timePicker.show(getFragmentManager(), "timePicker");
     }
 }
