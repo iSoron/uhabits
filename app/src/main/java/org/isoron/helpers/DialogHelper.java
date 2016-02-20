@@ -19,33 +19,22 @@ package org.isoron.helpers;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Typeface;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
+import org.isoron.uhabits.R;
 
 public abstract class DialogHelper
 {
 
-    //	public static AlertDialog alert(Activity context, String title, String message, OnClickListener positiveClickListener) {
-    //		return new AlertDialog.Builder(context)
-    //			.setTitle(title)
-    //			.setMessage(message)
-    //			.setPositiveButton(android.R.string.yes, positiveClickListener)
-    //			.setNegativeButton(android.R.string.no, null).show();
-    //	}
+    private static Typeface fontawesome;
 
-    public static abstract class SimpleClickListener implements OnClickListener
+    public interface OnSavedListener
     {
-        public abstract void onClick();
-
-        public void onClick(DialogInterface dialog, int whichButton)
-        {
-            onClick();
-        }
-    }
-
-    public static interface OnSavedListener
-    {
-        public void onSaved(Command command, Object savedObject);
+        void onSaved(Command command, Object savedObject);
     }
 
     public static void showSoftKeyboard(View view)
@@ -53,5 +42,11 @@ public abstract class DialogHelper
         InputMethodManager imm = (InputMethodManager) view.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public static void vibrate(Context context, int duration)
+    {
+        Vibrator vb = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        vb.vibrate(duration);
     }
 }

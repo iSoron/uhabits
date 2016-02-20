@@ -21,18 +21,12 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -56,26 +49,23 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
+import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ReminderHelper;
+import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
-        OnClickListener
+        OnClickListener, HabitListLoader.Listener
 {
-
     public static final int INACTIVE_COLOR = Color.rgb(230, 230, 230);
 
     public interface OnHabitClickListener
@@ -88,21 +78,15 @@ public class ListHabitsFragment extends Fragment
     ReplayableActivity activity;
     TextView tvNameHeader;
     long lastLongClick = 0;
+
     private int tvNameWidth;
-    private int button_count;
+    private int buttonCount;
     private View llEmpty;
-    private ProgressBar progressBar;
 
     private OnHabitClickListener habitClickListener;
-    private boolean short_toggle_enabled;
+    private boolean isShortToggleEnabled;
 
-    private HashMap<Long, Habit> habits;
-    private HashMap<Integer, Habit> positionToHabit;
-    private HashMap<Long, int[]> checkmarks;
-    private HashMap<Long, Integer> scores;
-
-    private Long lastLoadedTimestamp = null;
-    private AsyncTask<Void, Integer, Void> currentFetchTask = null;
+    private HabitListLoader loader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,19 +94,19 @@ public class ListHabitsFragment extends Fragment
     {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int width = (int) (dm.widthPixels / dm.density);
-        button_count = (int) ((width - 160) / 42);
-        tvNameWidth = (int) ((width - 30 - button_count * 42) * dm.density);
+        buttonCount = (int) ((width - 160) / 42.0);
+        tvNameWidth = (int) ((width - 30 - buttonCount * 42) * dm.density);
 
-        habits = new HashMap<>();
-        positionToHabit = new HashMap<>();
-        checkmarks = new HashMap<>();
-        scores = new HashMap<>();
+        loader = new HabitListLoader();
+        loader.setListener(this);
+        loader.setCheckmarkCount(buttonCount);
 
         View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
         tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+        loader.setProgressBar(progressBar);
 
         adapter = new ListHabitsAdapter(getActivity());
         listView = (DragSortListView) view.findViewById(R.id.listView);
@@ -141,17 +125,19 @@ public class ListHabitsFragment extends Fragment
         listView.setOnTouchListener(controller);
         listView.setDragEnabled(true);
 
-        Typeface fontawesome =
-                Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
+        Typeface fontawesome = Typeface.createFromAsset(getActivity().getAssets(),
+                "fontawesome-webfont.ttf");
         ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
         llEmpty = view.findViewById(R.id.llEmpty);
 
-        updateEmptyMessage();
+        loader.updateAllHabits();
         setHasOptionsMenu(true);
+
         return view;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
@@ -163,17 +149,17 @@ public class ListHabitsFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        if (lastLoadedTimestamp == null || lastLoadedTimestamp != DateHelper.getStartOfToday())
-        {
-            updateHeader();
-            fetchAllHabits();
-            updateEmptyMessage();
-        }
+        Long timestamp = loader.getLastLoadTimestamp();
 
+        if (timestamp != null && timestamp != DateHelper.getStartOfToday())
+            loader.updateAllHabits();
+
+        updateEmptyMessage();
+        updateHeader();
         adapter.notifyDataSetChanged();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        short_toggle_enabled = prefs.getBoolean("pref_short_toggle", false);
+        isShortToggleEnabled = prefs.getBoolean("pref_short_toggle", false);
     }
 
     private void updateHeader()
@@ -183,157 +169,27 @@ public class ListHabitsFragment extends Fragment
 
         if (view == null) return;
 
-        GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
+        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
 
         LinearLayout llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llButtonsHeader.removeAllViews();
 
-        for (int i = 0; i < button_count; i++)
+        for (int i = 0; i < buttonCount; i++)
         {
-            View check = inflater.inflate(R.layout.list_habits_header_check, null);
-            Button btCheck = (Button) check.findViewById(R.id.tvCheck);
-            btCheck.setText(
-                    day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, GregorianCalendar.SHORT,
-                            Locale.US) + "\n" +
-                            Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH)));
-            llButtonsHeader.addView(check);
+            View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
+            Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
+            btCheck.setText(DateHelper.formatHeaderDate(day));
+            llButtonsHeader.addView(tvDay);
 
             day.add(GregorianCalendar.DAY_OF_MONTH, -1);
         }
     }
 
-    private void fetchAllHabits()
+    @Override
+    public void onLoadFinished()
     {
-        if (currentFetchTask != null) currentFetchTask.cancel(true);
-
-        currentFetchTask = new AsyncTask<Void, Integer, Void>()
-        {
-            HashMap<Long, Habit> newHabits = Habit.getAll();
-            HashMap<Integer, Habit> newPositionToHabit = new HashMap<>();
-            HashMap<Long, int[]> newCheckmarks = new HashMap<>();
-            HashMap<Long, Integer> newScores = new HashMap<>();
-
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
-                long dateFrom = dateTo - (button_count - 1) * DateHelper.millisecondsInOneDay;
-                int[] empty = new int[button_count];
-
-                for (Habit h : newHabits.values())
-                {
-                    newScores.put(h.getId(), 0);
-                    newPositionToHabit.put(h.position, h);
-                    newCheckmarks.put(h.getId(), empty);
-                }
-
-                int current = 0;
-                for (int i = 0; i < newHabits.size(); i++)
-                {
-                    if (isCancelled()) return null;
-
-                    Habit h = newPositionToHabit.get(i);
-                    newScores.put(h.getId(), h.getScore());
-                    newCheckmarks.put(h.getId(), h.getCheckmarks(dateFrom, dateTo));
-
-                    publishProgress(current++, newHabits.size());
-                }
-
-                commit();
-
-                return null;
-            }
-
-            private void commit()
-            {
-                habits = newHabits;
-                positionToHabit = newPositionToHabit;
-                checkmarks = newCheckmarks;
-                scores = newScores;
-            }
-
-            @Override
-            protected void onPreExecute()
-            {
-                progressBar.setIndeterminate(false);
-                progressBar.setProgress(0);
-                progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values)
-            {
-                progressBar.setMax(values[1]);
-                progressBar.setProgress(values[0]);
-
-                if (lastLoadedTimestamp == null)
-                {
-                    commit();
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                if (isCancelled()) return;
-
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.INVISIBLE);
-
-                lastLoadedTimestamp = DateHelper.getStartOfToday();
-                currentFetchTask = null;
-                updateEmptyMessage();
-            }
-
-        };
-
-        currentFetchTask.execute();
-    }
-
-    private void fetchHabit(final Long id)
-    {
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
-                long dateFrom = dateTo - (button_count - 1) * DateHelper.millisecondsInOneDay;
-
-                Habit h = Habit.get(id);
-                habits.put(id, h);
-                scores.put(id, h.getScore());
-                checkmarks.put(id, h.getCheckmarks(dateFrom, dateTo));
-
-                return null;
-            }
-
-            @Override
-            protected void onPreExecute()
-            {
-                new Handler().postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        if (getStatus() == Status.RUNNING)
-                        {
-                            progressBar.setIndeterminate(true);
-                            progressBar.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }, 500);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                progressBar.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
-            }
-        }.execute();
+        adapter.notifyDataSetChanged();
+        updateEmptyMessage();
     }
 
     @Override
@@ -353,7 +209,7 @@ public class ListHabitsFragment extends Fragment
         getActivity().getMenuInflater().inflate(R.menu.list_habits_context, menu);
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        final Habit habit = habits.get(info.id);
+        final Habit habit = loader.habits.get(info.id);
 
         if (habit.isArchived()) menu.findItem(R.id.action_archive_habit).setVisible(false);
         else menu.findItem(R.id.action_unarchive_habit).setVisible(false);
@@ -375,7 +231,7 @@ public class ListHabitsFragment extends Fragment
             case R.id.action_show_archived:
             {
                 Habit.setIncludeArchived(!Habit.isIncludeArchived());
-                fetchAllHabits();
+                loader.updateAllHabits();
                 activity.invalidateOptionsMenu();
                 return true;
             }
@@ -389,36 +245,41 @@ public class ListHabitsFragment extends Fragment
     public boolean onContextItemSelected(MenuItem menuItem)
     {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuItem.getMenuInfo();
-        final int id = menuItem.getItemId();
-        final Habit habit = habits.get(info.id);
+        final Habit habit = loader.habits.get(info.id);
 
-        if (id == R.id.action_edit_habit)
+        switch(menuItem.getItemId())
         {
-            EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(habit.getId());
-            frag.setOnSavedListener(this);
-            frag.show(getFragmentManager(), "dialog");
-            return true;
-        }
-        else if (id == R.id.action_archive_habit)
-        {
-            Command c = habit.new ArchiveCommand();
-            executeCommand(c, null);
-        }
-        else if (id == R.id.action_unarchive_habit)
-        {
-            Command c = habit.new UnarchiveCommand();
-            executeCommand(c, null);
+            case R.id.action_edit_habit:
+            {
+                EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(habit.getId());
+                frag.setOnSavedListener(this);
+                frag.show(getFragmentManager(), "dialog");
+                return true;
+            }
+
+            case R.id.action_archive_habit:
+            {
+                Command c = habit.new ArchiveCommand();
+                executeCommand(c, null);
+                return true;
+            }
+
+            case R.id.action_unarchive_habit:
+            {
+                Command c = habit.new UnarchiveCommand();
+                executeCommand(c, null);
+            }
         }
 
         return super.onContextItemSelected(menuItem);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    public void onItemClick(AdapterView parent, View view, int position, long id)
     {
         if (new Date().getTime() - lastLongClick < 1000) return;
 
-        Habit habit = positionToHabit.get(position);
+        Habit habit = loader.positionToHabit.get(position);
         habitClickListener.onHabitClicked(habit);
     }
 
@@ -436,43 +297,44 @@ public class ListHabitsFragment extends Fragment
 
     private void updateEmptyMessage()
     {
-        if (lastLoadedTimestamp == null) llEmpty.setVisibility(View.GONE);
-        else llEmpty.setVisibility(habits.size() > 0 ? View.GONE : View.VISIBLE);
+        if (loader.getLastLoadTimestamp() == null) llEmpty.setVisibility(View.GONE);
+        else llEmpty.setVisibility(loader.habits.size() > 0 ? View.GONE : View.VISIBLE);
     }
 
     @Override
     public boolean onLongClick(View v)
     {
+        lastLongClick = new Date().getTime();
+
         switch (v.getId())
         {
             case R.id.tvCheck:
-            {
-                lastLongClick = new Date().getTime();
-                if (!short_toggle_enabled)
-                {
-                    toggleCheck(v);
-                    Vibrator vb =
-                            (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                    vb.vibrate(100);
-                }
-
+                onCheckmarkLongClick(v);
                 return true;
-            }
         }
 
         return false;
     }
 
+    private void onCheckmarkLongClick(View v)
+    {
+        if (isShortToggleEnabled) return;
+
+        toggleCheck(v);
+        DialogHelper.vibrate(activity, 100);
+    }
+
     private void toggleCheck(View v)
     {
-        Habit habit = habits.get((Long) v.getTag(R.string.habit_key));
+        Long tag = (Long) v.getTag(R.string.habit_key);
+        Habit habit = loader.habits.get(tag);
 
         int offset = (Integer) v.getTag(R.string.offset_key);
         long timestamp = DateHelper.getStartOfDay(
                 DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
 
-        if (v.getTag(R.string.toggle_key).equals(2)) updateCheck(habit.color, (TextView) v, 0);
-        else updateCheck(habit.color, (TextView) v, 2);
+        if (v.getTag(R.string.toggle_key).equals(2)) updateCheckmark(habit.color, (TextView) v, 0);
+        else updateCheckmark(habit.color, (TextView) v, 2);
 
         executeCommand(habit.new ToggleRepetitionCommand(timestamp), habit.getId());
     }
@@ -485,10 +347,10 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void drop(int from, int to)
     {
-        Habit fromHabit = positionToHabit.get(from);
-        Habit toHabit = positionToHabit.get(to);
-        positionToHabit.put(to, fromHabit);
-        positionToHabit.put(from, toHabit);
+        Habit fromHabit = loader.positionToHabit.get(from);
+        Habit toHabit = loader.positionToHabit.get(to);
+        loader.positionToHabit.put(to, fromHabit);
+        loader.positionToHabit.put(from, toHabit);
         adapter.notifyDataSetChanged();
 
         Habit.reorder(from, to);
@@ -500,21 +362,19 @@ public class ListHabitsFragment extends Fragment
         switch (v.getId())
         {
             case R.id.tvCheck:
-                if (short_toggle_enabled) toggleCheck(v);
+                if (isShortToggleEnabled) toggleCheck(v);
                 else activity.showToast(R.string.long_press_to_toggle);
-                return;
+                break;
         }
     }
 
     class ListHabitsAdapter extends BaseAdapter
     {
-        private Context context;
         private LayoutInflater inflater;
         private Typeface fontawesome;
 
         public ListHabitsAdapter(Context context)
         {
-            this.context = context;
 
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
@@ -523,13 +383,13 @@ public class ListHabitsFragment extends Fragment
         @Override
         public int getCount()
         {
-            return habits.size();
+            return loader.habits.size();
         }
 
         @Override
         public Object getItem(int position)
         {
-            return positionToHabit.get(position);
+            return loader.positionToHabit.get(position);
         }
 
         @Override
@@ -541,7 +401,7 @@ public class ListHabitsFragment extends Fragment
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-            final Habit habit = positionToHabit.get(position);
+            final Habit habit = loader.positionToHabit.get(position);
 
             if (view == null ||
                     (Long) view.getTag(R.id.KEY_TIMESTAMP) != DateHelper.getStartOfToday())
@@ -553,89 +413,97 @@ public class ListHabitsFragment extends Fragment
                         new LinearLayout.LayoutParams(tvNameWidth, LayoutParams.WRAP_CONTENT, 1);
                 view.findViewById(R.id.tvName).setLayoutParams(params);
 
-                Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
-                        .getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-
-                for (int i = 0; i < button_count; i++)
-                {
-                    View check = inflater.inflate(R.layout.list_habits_item_check, null);
-                    TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-                    btCheck.setTypeface(fontawesome);
-                    btCheck.setOnLongClickListener(ListHabitsFragment.this);
-                    btCheck.setOnClickListener(ListHabitsFragment.this);
-                    ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
-                }
+                inflateCheckmarkButtons(view);
 
                 view.setTag(R.id.KEY_TIMESTAMP, DateHelper.getStartOfToday());
             }
 
-            TextView tvStar = (TextView) view.findViewById(R.id.tvStar);
+            TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
             TextView tvName = (TextView) view.findViewById(R.id.tvName);
-
-            if (habit == null)
-            {
-                tvName.setText(null);
-                return view;
-            }
-
             LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
+            LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
+
             llInner.setTag(R.string.habit_key, habit.getId());
 
-            int activeColor = habit.color;
-
-            tvName.setText(habit.name);
-            tvName.setTextColor(activeColor);
-
-            if (habit.isArchived())
-            {
-                activeColor = ColorHelper.palette[12];
-                tvName.setTextColor(activeColor);
-
-                tvStar.setText(context.getString(R.string.fa_archive));
-                tvStar.setTextColor(activeColor);
-            }
-            else
-            {
-                int score = scores.get(habit.getId());
-
-                if (score < Habit.HALF_STAR_CUTOFF)
-                {
-                    tvStar.setText(context.getString(R.string.fa_star_o));
-                    tvStar.setTextColor(INACTIVE_COLOR);
-                }
-                else if (score < Habit.FULL_STAR_CUTOFF)
-                {
-                    tvStar.setText(context.getString(R.string.fa_star_half_o));
-                    tvStar.setTextColor(INACTIVE_COLOR);
-                }
-                else
-                {
-                    tvStar.setText(context.getString(R.string.fa_star));
-                    tvStar.setTextColor(activeColor);
-                }
-            }
-
-            LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
-            int m = llButtons.getChildCount();
-
-            int isChecked[] = checkmarks.get(habit.getId());
-
-            for (int i = 0; i < m; i++)
-            {
-
-                TextView tvCheck = (TextView) llButtons.getChildAt(i);
-                tvCheck.setTag(R.string.habit_key, habit.getId());
-                tvCheck.setTag(R.string.offset_key, i);
-                updateCheck(activeColor, tvCheck, isChecked[i]);
-            }
+            updateNameAndIcon(habit, tvStar, tvName);
+            updateCheckmarkButtons(habit, llButtons);
 
             return view;
         }
+
+        private void inflateCheckmarkButtons(View view)
+        {
+            for (int i = 0; i < buttonCount; i++)
+            {
+                View check = inflater.inflate(R.layout.list_habits_item_check, null);
+                TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
+                btCheck.setTypeface(fontawesome);
+                btCheck.setOnLongClickListener(ListHabitsFragment.this);
+                btCheck.setOnClickListener(ListHabitsFragment.this);
+                ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
+            }
+        }
     }
 
-    private void updateCheck(int activeColor, TextView tvCheck, int check)
+    private void updateCheckmarkButtons(Habit habit, LinearLayout llButtons)
+    {
+        int activeColor = getActiveColor(habit);
+
+        int m = llButtons.getChildCount();
+        int isChecked[] = loader.checkmarks.get(habit.getId());
+
+        for (int i = 0; i < m; i++)
+        {
+
+            TextView tvCheck = (TextView) llButtons.getChildAt(i);
+            tvCheck.setTag(R.string.habit_key, habit.getId());
+            tvCheck.setTag(R.string.offset_key, i);
+            updateCheckmark(activeColor, tvCheck, isChecked[i]);
+        }
+    }
+
+    private void  updateNameAndIcon(Habit habit, TextView tvStar, TextView tvName)
+    {
+        int activeColor = getActiveColor(habit);
+
+        tvName.setText(habit.name);
+        tvName.setTextColor(activeColor);
+
+        if (habit.isArchived())
+        {
+            tvStar.setText(getString(R.string.fa_archive));
+            tvStar.setTextColor(activeColor);
+        }
+        else
+        {
+            int score = loader.scores.get(habit.getId());
+
+            if (score < Habit.HALF_STAR_CUTOFF)
+            {
+                tvStar.setText(getString(R.string.fa_star_o));
+                tvStar.setTextColor(INACTIVE_COLOR);
+            }
+            else if (score < Habit.FULL_STAR_CUTOFF)
+            {
+                tvStar.setText(getString(R.string.fa_star_half_o));
+                tvStar.setTextColor(INACTIVE_COLOR);
+            }
+            else
+            {
+                tvStar.setText(getString(R.string.fa_star));
+                tvStar.setTextColor(activeColor);
+            }
+        }
+    }
+
+    private int getActiveColor(Habit habit)
+    {
+        int activeColor = habit.color;
+        if(habit.isArchived()) activeColor = INACTIVE_COLOR;
+        return activeColor;
+    }
+
+    private void updateCheckmark(int activeColor, TextView tvCheck, int check)
     {
         switch (check)
         {
@@ -661,7 +529,7 @@ public class ListHabitsFragment extends Fragment
 
     public void onPostExecuteCommand(Long refreshKey)
     {
-        if (refreshKey == null) fetchAllHabits();
-        else fetchHabit(refreshKey);
+        if (refreshKey == null) loader.updateAllHabits();
+        else loader.updateHabit(refreshKey);
     }
 }
