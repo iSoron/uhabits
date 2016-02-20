@@ -19,8 +19,6 @@ package org.isoron.helpers;
 import android.content.Context;
 import android.text.format.DateFormat;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -70,7 +68,7 @@ public class DateHelper
     {
         String dayOfMonth = Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH));
         String dayOfWeek = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK,
-                GregorianCalendar.SHORT, Locale.US);
+                GregorianCalendar.SHORT, Locale.getDefault());
 
         return dayOfWeek + "\n" + dayOfMonth;
     }
@@ -81,53 +79,21 @@ public class DateHelper
         return (int) (milliseconds / millisecondsInOneDay);
     }
 
-    public static String differenceInWords(Date from, Date to)
+    public static String[] getShortDayNames()
     {
-        Integer days = differenceInDays(from, to);
-        boolean negative = (days < 0);
-        days = Math.abs(days);
+        String[] wdays = new String[7];
 
-        Integer weeks = (int) Math.round(days / 7.0);
-        Double months = days / 30.4;
-        Double years = days / 365.0;
+        GregorianCalendar day = new GregorianCalendar();
+        day.set(GregorianCalendar.DAY_OF_WEEK, 0);
 
-        StringBuffer s = new StringBuffer();
-        DecimalFormat df = new DecimalFormat("#.#");
-
-        if (months > 18)
+        for (int i = 0; i < 7; i++)
         {
-            s.append(df.format(years));
-            s.append(" years");
-        }
-        else if (weeks > 6)
-        {
-            s.append(df.format(months));
-            s.append(" months");
-        }
-        else if (days > 13)
-        {
-            s.append(weeks);
-            s.append(" weeks");
-        }
-        else if (days > 6)
-        {
-            s.append(days);
-            s.append(" days");
-        }
-        else
-        {
-            if (days == 0) s.append("Today");
-            else if (days == 1 && negative) s.append("Yesterday");
-            else if (days == 1 && !negative) s.append("Tomorrow");
-            else
-            {
-                if (negative) s.append("past ");
-                s.append(new SimpleDateFormat("EEEE").format(to));
-            }
+            wdays[i] = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, GregorianCalendar.SHORT,
+                    Locale.getDefault());
+            day.add(GregorianCalendar.DAY_OF_MONTH, 1);
         }
 
-        if (negative && days > 6) s.append(" ago");
-
-        return s.toString();
+        return wdays;
     }
+
 }

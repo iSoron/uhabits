@@ -50,6 +50,8 @@ public class HabitHistoryView extends View
     private int colorPrimary, colorPrimaryBrighter, grey;
     private Float prevX, prevY;
 
+    private String wdays[];
+
     public HabitHistoryView(Context context, Habit habit, int squareSize)
     {
         super(context);
@@ -76,6 +78,8 @@ public class HabitHistoryView extends View
         pSquareFg.setAntiAlias(true);
         pSquareFg.setTextSize(squareSize * 0.5f);
         pSquareFg.setTextAlign(Align.CENTER);
+
+        wdays = DateHelper.getShortDayNames();
     }
 
     @Override
@@ -192,8 +196,6 @@ public class HabitHistoryView extends View
 
             square.offset(squareSize, -8 * squareSize);
         }
-
-        String wdays[] = {"Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
 
         for (int i = 0; i < 7; i++)
         {

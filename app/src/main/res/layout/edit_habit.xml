@@ -15,7 +15,7 @@
 
             <EditText
                 android:id="@+id/input_name"
-                android:hint="Name"
+                android:hint="@string/name"
                 style="@style/dialogFormInput">
 
                 <requestFocus />

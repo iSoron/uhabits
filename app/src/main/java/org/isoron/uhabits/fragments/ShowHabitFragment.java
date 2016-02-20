@@ -79,7 +79,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         LinearLayout llOverview = (LinearLayout) view.findViewById(R.id.llOverview);
         llOverview.addView(new RingView(activity,
                 (int) activity.getResources().getDimension(R.dimen.small_square_size) * 4,
-                habit.color, ((float) habit.getScore() / Habit.MAX_SCORE), "Habit strength"));
+                habit.color, ((float) habit.getScore() / Habit.MAX_SCORE), activity.getString(R.string.habit_strength)));
 
         LinearLayout llStrength = (LinearLayout) view.findViewById(R.id.llStrength);
         llStrength.addView(new HabitScoreView(activity, habit,

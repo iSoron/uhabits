@@ -3,7 +3,7 @@
     tools:context="org.isoron.uhabits.MainActivity" >
 
     <item android:id="@+id/action_show_archived"
-          android:title="Show archived"
+          android:title="@string/show_archived"
           android:enabled="true"
           android:checkable="true" />
 

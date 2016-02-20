@@ -10,8 +10,7 @@
     <string name="unarchive">Unarchive</string>
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Select a Color</string>
-    <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
-    <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+
     <string name="toast_habit_created">Habit created.</string>
     <string name="toast_habit_deleted">Habit deleted.</string>
     <string name="toast_nothing_to_undo">Nothing to undo.</string>
@@ -21,6 +20,9 @@
     <string name="toast_repetition_toggled">Repetition toggled.</string>
     <string name="toast_habit_archived">Habit archived.</string>
     <string name="toast_habit_unarchived">Habit unarchived.</string>
+
+    <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
+    <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
 
     <!-- Date and time picker -->
     <string name="done_label">Done</string>
@@ -40,20 +42,14 @@
     <string name="radial_numbers_typeface">sans-serif</string>
     <string name="sans_serif">sans-serif</string>
     <string name="day_of_week_label_typeface">sans-serif</string>
-    <string name="habit_key"></string>
-    <string name="offset_key"></string>
-    <string name="toggle_key"></string>
 
-    <item name="KEY_TIMESTAMP" type="id"/>
-
-    <string name="title_activity_show_habit"></string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_show_habit" />
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
     <string name="history">History</string>
     <string name="clear">Clear</string>
     <string name="description">Description</string>
-    <string name="description_hint">Question (Did you ... today?)</string>
+    <string name="description_hint">Question (Did you … today?)</string>
     <string name="repeat">Repeat</string>
     <string name="times_every">times every</string>
     <string name="days">days</string>
@@ -67,10 +63,14 @@
     <string name="validation_name_should_not_be_blank">Name cannot be blank.</string>
     <string name="validation_number_should_be_positive">Number must be positive.</string>
     <string name="validation_at_most_one_rep_per_day">You can have at most one repetition per day</string>
+    <string name="create_habit">Create habit</string>
+    <string name="edit_habit">Edit habit</string>
+    <string name="check">Check</string>
+    <string name="snooze">Later</string>
 
     <!-- App introduction -->
     <string name="intro_title_1">Welcome</string>
-    <string name="intro_description_1">Loop helps you create and maintain good habits.</string>
+    <string name="intro_description_1">Loop Habit Tracker helps you create and maintain good habits.</string>
 
     <string name="intro_title_2">Create some new habits</string>
     <string name="intro_description_2">Every day, after performing your habit, put a checkmark on the app.</string>
@@ -80,4 +80,25 @@
 
     <string name="intro_title_4">Track your progress</string>
     <string name="intro_description_4">Detailed graphs show you how your habits improved over time.</string>
+
+    <string name="interval_15_minutes">15 minutes</string>
+    <string name="interval_30_minutes">30 minutes</string>
+    <string name="interval_1_hour">1 hour</string>
+    <string name="interval_2_hour">2 hours</string>
+    <string name="interval_4_hour">4 hours</string>
+    <string name="interval_8_hour">8 hours</string>
+    <string name="pref_toggle_title">Toggle repetitions with short press</string>
+    <string name="pref_toggle_description">More convenient, but might cause accidental toggles.</string>
+    <string name="pref_snooze_interval_title">Snooze interval on reminders</string>
+    <string name="pref_rate_this_app">Rate this app in Google Play</string>
+    <string name="pref_send_feedback">Send feedback to developer</string>
+    <string name="pref_view_source_code">View source code at GitHub</string>
+    <string name="pref_view_app_introduction">View app introduction</string>
+    <string name="links">Links</string>
+    <string name="behavior">Behavior</string>
+    <string name="name">Name</string>
+    <string name="show_archived">Show archived</string>
+    <string name="settings">Settings</string>
+    <string name="snooze_interval">Snooze interval</string>
+
 </resources>

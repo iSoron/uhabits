@@ -30,7 +30,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
@@ -106,7 +105,6 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
 
         if (habit.hasImplicitRepToday()) return;
 
-        Log.d("Alarm", String.format("Applying highlight: %s", habit.name));
         habit.highlight = 1;
         habit.save();
 
@@ -144,8 +142,10 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
                         .setContentText(habit.description)
                         .setContentIntent(contentPendingIntent)
                         .setDeleteIntent(deletePendingIntent)
-                        .addAction(R.drawable.ic_action_check, "Check", checkIntentPending)
-                        .addAction(R.drawable.ic_action_snooze, "Later", snoozeIntentPending)
+                        .addAction(R.drawable.ic_action_check,
+                                context.getString(R.string.check), checkIntentPending)
+                        .addAction(R.drawable.ic_action_snooze,
+                                context.getString(R.string.snooze), snoozeIntentPending)
                         .setSound(soundUri)
                         .extend(wearableExtender)
                         .build();

@@ -51,7 +51,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="Settings"
+            android:label="@string/settings"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

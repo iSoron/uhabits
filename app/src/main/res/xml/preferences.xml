@@ -3,49 +3,49 @@
 
     <PreferenceCategory
         android:key="pref_key_behaviour_settings"
-        android:title="Behavior">
+        android:title="@string/behavior">
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_short_toggle"
-            android:summary="More convenient, but might cause accidental toggles."
-            android:title="Toggle repetitions with short press"/>
+            android:summary="@string/pref_toggle_description"
+            android:title="@string/pref_toggle_title"/>
 
         <ListPreference
             android:defaultValue="@string/snooze_interval_default"
-            android:dialogTitle="Snooze interval"
+            android:dialogTitle="@string/snooze_interval"
             android:entries="@array/snooze_interval_names"
             android:entryValues="@array/snooze_interval_values"
             android:key="pref_snooze_interval"
-            android:title="Snooze interval on reminders"/>
+            android:title="@string/pref_snooze_interval_title"/>
 
     </PreferenceCategory>
 
 
     <PreferenceCategory
         android:key="pref_key_links"
-        android:title="Links">
+        android:title="@string/links">
 
-        <Preference android:title="Rate this app in Google Play">
+        <Preference android:title="@string/pref_rate_this_app">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="market://details?id=org.isoron.uhabits"/>
         </Preference>
 
-        <Preference android:title="Send feedback to developer">
+        <Preference android:title="@string/pref_send_feedback">
             <intent
                 android:action="android.intent.action.SENDTO"
                 android:data="mailto:isoron+habits@gmail.com?subject=Feedback%20for%20Habits%20Tracker"/>
         </Preference>
 
-        <Preference android:title="View source code at GitHub">
+        <Preference android:title="@string/pref_view_source_code">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/iSoron/uhabits"/>
         </Preference>
 
 
-        <Preference android:title="View app introduction">
+        <Preference android:title="@string/pref_view_app_introduction">
             <intent
                 android:targetClass="org.isoron.uhabits.IntroActivity"
                 android:targetPackage="org.isoron.uhabits"/>

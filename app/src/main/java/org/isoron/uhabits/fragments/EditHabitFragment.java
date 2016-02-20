@@ -105,7 +105,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 
         if (mode == CREATE_MODE)
         {
-            getDialog().setTitle("Create habit");
+            getDialog().setTitle(R.string.create_habit);
             modifiedHabit = new Habit();
 
             int defaultNum = prefs.getInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
@@ -121,7 +121,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
             originalHabit = Habit.get((Long) args.get("habitId"));
             modifiedHabit = new Habit(originalHabit);
 
-            getDialog().setTitle("Edit habit");
+            getDialog().setTitle(R.string.edit_habit);
             tvName.append(modifiedHabit.name);
             tvDescription.append(modifiedHabit.description);
         }
