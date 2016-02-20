@@ -22,6 +22,8 @@ import android.text.format.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateHelper
@@ -40,6 +42,14 @@ public class DateHelper
         return (timestamp / millisecondsInOneDay) * millisecondsInOneDay;
     }
 
+    public static GregorianCalendar getStartOfTodayCalendar()
+    {
+        GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
+
+        return day;
+    }
+
     public static long getStartOfToday()
     {
         return getStartOfDay(DateHelper.getLocalTime());
@@ -56,16 +66,14 @@ public class DateHelper
         return df.format(date);
     }
 
-//	public static Date getStartOfDay(Date date)
-//	{
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(date);
-//		calendar.set(Calendar.HOUR_OF_DAY, 0);
-//		calendar.set(Calendar.MINUTE, 0);
-//		calendar.set(Calendar.SECOND, 0);
-//		calendar.set(Calendar.MILLISECOND, 0);
-//		return calendar.getTime();
-//	}
+    public static String formatHeaderDate(GregorianCalendar day)
+    {
+        String dayOfMonth = Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH));
+        String dayOfWeek = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK,
+                GregorianCalendar.SHORT, Locale.US);
+
+        return dayOfWeek + "\n" + dayOfMonth;
+    }
 
     public static int differenceInDays(Date from, Date to)
     {
