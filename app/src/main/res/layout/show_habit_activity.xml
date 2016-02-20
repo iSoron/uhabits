@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment2"
-        android:name="org.isoron.uhabits.dialogs.ShowHabitFragment"
+        android:name="org.isoron.uhabits.fragments.ShowHabitFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

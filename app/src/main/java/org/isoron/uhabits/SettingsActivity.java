@@ -19,7 +19,7 @@ package org.isoron.uhabits;
 import android.app.Activity;
 import android.os.Bundle;
 
-import org.isoron.uhabits.dialogs.SettingsFragment;
+import org.isoron.uhabits.fragments.SettingsFragment;
 
 public class SettingsActivity extends Activity
 {

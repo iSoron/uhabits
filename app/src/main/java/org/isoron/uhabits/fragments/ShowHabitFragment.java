@@ -14,7 +14,7 @@
  * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.fragments;
 
 import android.app.Fragment;
 import android.graphics.Color;

@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    tools:context="org.isoron.uhabits.dialogs.EditHabitFragment"
+    tools:context="org.isoron.uhabits.fragments.EditHabitFragment"
     tools:ignore="MergeRootFrame"
     style="@style/dialogForm">
 

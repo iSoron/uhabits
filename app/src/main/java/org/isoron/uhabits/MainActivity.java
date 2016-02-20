@@ -25,7 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.isoron.helpers.ReplayableActivity;
-import org.isoron.uhabits.dialogs.ListHabitsFragment;
+import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.models.Habit;
 
 public class MainActivity extends ReplayableActivity
