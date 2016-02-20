@@ -1,7 +1,6 @@
-# Habits Tracker
+# Loop Habit Tracker
 
-Habits Tracker is a simple Android app that helps you create and maintain good habits. Detailed graphs and statistics show you how your habits improved over time. It is completely ad-free and open source, with no intrusive permissions. Join the open beta at [Google Play Store](https://play.google.com/apps/testing/org.isoron.uhabits).
-
+Loop is a simple Android app that helps you create and maintain good habits. Detailed graphs and statistics show you how your habits improved over time. It is completely ad-free and open source, with no intrusive permissions. Join the open beta at [Google Play Store](https://play.google.com/apps/testing/org.isoron.uhabits).
 
 ## Features
 
