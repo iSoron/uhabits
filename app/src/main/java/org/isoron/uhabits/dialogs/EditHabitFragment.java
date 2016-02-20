@@ -16,18 +16,14 @@
 
 package org.isoron.uhabits.dialogs;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.Command;
-import org.isoron.helpers.DialogHelper.OnSavedListener;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +38,16 @@ import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 import com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
+import org.isoron.helpers.ColorHelper;
+import org.isoron.helpers.Command;
+import org.isoron.helpers.DateHelper;
+import org.isoron.helpers.DialogHelper.OnSavedListener;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Habit;
+
+import java.util.Date;
+import java.util.TimeZone;
+
 public class EditHabitFragment extends DialogFragment implements OnClickListener
 {
 	private int mode;
@@ -54,6 +60,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 	private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvInputReminder;
 
 	private SharedPreferences prefs;
+	private boolean is24HourMode;
 
 	static class SolidColorMatrix extends ColorMatrix
 	{
@@ -118,7 +125,9 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		Bundle args = getArguments();
 		mode = (Integer) args.get("editMode");
 
-		if(mode == CREATE_MODE)
+        is24HourMode = DateFormat.is24HourFormat(getContext());
+
+        if(mode == CREATE_MODE)
 		{
 			getDialog().setTitle("Create habit");
 			modified_habit = new Habit();
@@ -184,8 +193,8 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 		if(modified_habit.reminder_hour != null)
 		{
 			tvInputReminder.setTextColor(Color.BLACK);
-			tvInputReminder.setText(String.format("%02d:%02d", modified_habit.reminder_hour,
-					modified_habit.reminder_min));
+			tvInputReminder.setText(DateHelper.formatTime(getActivity(),
+                    modified_habit.reminder_hour, modified_habit.reminder_min));
 		}
 		else
 		{
@@ -237,7 +246,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
 					modified_habit.reminder_min = null;
 					updateReminder();
 				}
-			}, default_hour, default_min, true);
+			}, default_hour, default_min, is24HourMode);
 			timePicker.show(getFragmentManager(), "timePicker");
 		}
 

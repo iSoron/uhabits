@@ -16,6 +16,9 @@
 
 package org.isoron.helpers;
 
+import android.content.Context;
+import android.text.format.DateFormat;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +43,17 @@ public class DateHelper
 	public static long getStartOfToday()
 	{
 		return getStartOfDay(DateHelper.getLocalTime());
+	}
+
+	public static String formatTime(Context context, int hours, int minutes)
+	{
+		int reminderMilliseconds = (hours * 60 + minutes) * 60 * 1000;
+
+		Date date = new Date(reminderMilliseconds);
+		java.text.DateFormat df = DateFormat.getTimeFormat(context);
+		df.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+		return df.format(date);
 	}
 
 //	public static Date getStartOfDay(Date date)
