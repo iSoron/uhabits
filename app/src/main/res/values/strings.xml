@@ -68,4 +68,16 @@
     <string name="validation_number_should_be_positive">Number must be positive.</string>
     <string name="validation_at_most_one_rep_per_day">You can have at most one repetition per day</string>
 
+    <!-- App introduction -->
+    <string name="intro_title_1">Welcome</string>
+    <string name="intro_description_1">Loop helps you create and maintain good habits.</string>
+
+    <string name="intro_title_2">Create some new habits</string>
+    <string name="intro_description_2">Every day, after performing your habit, put a checkmark on the app.</string>
+
+    <string name="intro_title_3">Keep doing it</string>
+    <string name="intro_description_3">Habits performed consistently for a long time will earn a full star.</string>
+
+    <string name="intro_title_4">Track your progress</string>
+    <string name="intro_description_4">Detailed graphs show you how your habits improved over time.</string>
 </resources>

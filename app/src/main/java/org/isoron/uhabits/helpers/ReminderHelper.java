@@ -14,7 +14,7 @@
  * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.helpers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import org.isoron.uhabits.ReminderAlarmReceiver;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.DateFormat;

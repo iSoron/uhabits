@@ -29,27 +29,26 @@ public class IntroActivity extends AppIntro2
     {
         showStatusBar(false);
 
-        addSlide(AppIntroFragment.newInstance("Welcome",
-                "Loop helps you create and maintain good habits.", R.drawable.tutorial_1,
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_1),
+                getString(R.string.intro_description_1), R.drawable.intro_icon_1,
                 Color.parseColor("#194673")));
 
-        addSlide(AppIntroFragment.newInstance("Create some new habits",
-                "Every day, after performing your habit, put a checkmark on the app.",
-                R.drawable.tutorial_2, Color.parseColor("#ffa726")));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_2),
+                getString(R.string.intro_description_2), R.drawable.intro_icon_2,
+                Color.parseColor("#ffa726")));
 
-        addSlide(AppIntroFragment.newInstance("Keep doing it",
-                "Habits performed consistently for a long time will earn a full star.",
-                R.drawable.tutorial_3, Color.parseColor("#7cb342")));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_3),
+                getString(R.string.intro_description_3), R.drawable.intro_icon_3,
+                Color.parseColor("#7cb342")));
 
-        addSlide(AppIntroFragment.newInstance("Track your progress",
-                "Detailed graphs show you how your habits improved over time.",
-                R.drawable.tutorial_4, Color.parseColor("#9575cd")));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_4),
+                getString(R.string.intro_description_4), R.drawable.intro_icon_4,
+                Color.parseColor("#9575cd")));
     }
 
     @Override
     public void onNextPressed()
     {
-
     }
 
     @Override
@@ -61,6 +60,5 @@ public class IntroActivity extends AppIntro2
     @Override
     public void onSlideChanged()
     {
-
     }
 }

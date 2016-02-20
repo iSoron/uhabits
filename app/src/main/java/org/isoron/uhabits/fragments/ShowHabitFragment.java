@@ -32,7 +32,7 @@ import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ReminderHelper;
+import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.HabitHistoryView;

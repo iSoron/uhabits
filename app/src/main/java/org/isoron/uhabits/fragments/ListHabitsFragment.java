@@ -55,7 +55,7 @@ import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ReminderHelper;
+import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
