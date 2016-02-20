@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Display;
@@ -279,11 +280,11 @@ public class ListHabitsFragment extends Fragment
                 if (isCancelled()) return;
 
                 adapter.notifyDataSetChanged();
-                updateEmptyMessage();
-
                 progressBar.setVisibility(View.INVISIBLE);
-                currentFetchTask = null;
+
                 lastLoadedTimestamp = DateHelper.getStartOfToday();
+                currentFetchTask = null;
+                updateEmptyMessage();
             }
 
         };
