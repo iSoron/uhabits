@@ -26,7 +26,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Streak;
 
@@ -84,7 +83,7 @@ public class HabitStreakView extends View
     {
         streaks = habit.getStreaks();
 
-        for(Streak s : streaks)
+        for (Streak s : streaks)
             maxStreakLength = Math.max(maxStreakLength, s.length);
     }
 
@@ -92,7 +91,7 @@ public class HabitStreakView extends View
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), columnHeight + 2*barHeaderHeight);
+        setMeasuredDimension(getMeasuredWidth(), columnHeight + 2 * barHeaderHeight);
     }
 
     @Override
@@ -116,23 +115,23 @@ public class HabitStreakView extends View
 
         String previousMonth = "";
 
-        for (int offset = 0; offset < nColumns && start+offset < nStreaks; offset++)
+        for (int offset = 0; offset < nColumns && start + offset < nStreaks; offset++)
         {
-            String month = dfMonth.format(streaks.get(start+offset).start);
+            String month = dfMonth.format(streaks.get(start + offset).start);
 
-            long l = streaks.get(offset+start).length;
+            long l = streaks.get(offset + start).length;
             double lRelative = ((double) l) / maxStreakLength;
 
-            pBar.setColor(colors[(int) Math.floor(lRelative*3)]);
+            pBar.setColor(colors[(int) Math.floor(lRelative * 3)]);
 
             int height = (int) (columnHeight * lRelative);
-            Rect r = new Rect(0,0,columnWidth-2, height);
+            Rect r = new Rect(0, 0, columnWidth - 2, height);
             r.offset(offset * columnWidth, barHeaderHeight + columnHeight - height);
 
             canvas.drawRect(r, pBar);
             canvas.drawText(Long.toString(l), r.centerX(), r.top - barHeaderOffset, pBar);
 
-            if(!month.equals(previousMonth))
+            if (!month.equals(previousMonth))
                 canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
@@ -161,7 +160,7 @@ public class HabitStreakView extends View
 
             if (Math.abs(dy) > Math.abs(dx)) return false;
             getParent().requestDisallowInterceptTouchEvent(true);
-            if(move(dx))
+            if (move(dx))
             {
                 prevX = x;
                 prevY = y;
@@ -182,7 +181,6 @@ public class HabitStreakView extends View
             invalidate();
             return true;
         }
-        else
-            return false;
+        else return false;
     }
 }

@@ -81,8 +81,7 @@ abstract public class ReplayableActivity extends Activity
         toast.show();
     }
 
-    public void executeCommand(final Command command, Boolean clearRedoStack,
-                               final Long refreshKey)
+    public void executeCommand(final Command command, Boolean clearRedoStack, final Long refreshKey)
     {
         undoList.push(command);
 

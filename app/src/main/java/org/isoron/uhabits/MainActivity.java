@@ -41,8 +41,8 @@ public class MainActivity extends ReplayableActivity
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
-        listHabitsFragment = (ListHabitsFragment) getFragmentManager().findFragmentById(
-                R.id.fragment1);
+        listHabitsFragment =
+                (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
 
         ReminderHelper.createReminderAlarms(MainActivity.this);
 
@@ -55,7 +55,7 @@ public class MainActivity extends ReplayableActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean firstRun = prefs.getBoolean("pref_first_run", true);
 
-        if(firstRun)
+        if (firstRun)
         {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("pref_first_run", false);

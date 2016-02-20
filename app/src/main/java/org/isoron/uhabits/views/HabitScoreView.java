@@ -98,8 +98,8 @@ public class HabitScoreView extends View
         for (int i = 0; i < nColumns * BUCKET_SIZE; i++)
             fromTimestamp -= DateHelper.millisecondsInOneDay;
 
-        scores = habit.getScores(fromTimestamp, toTimestamp, BUCKET_SIZE * DateHelper.millisecondsInOneDay,
-                toTimestamp);
+        scores = habit.getScores(fromTimestamp, toTimestamp,
+                BUCKET_SIZE * DateHelper.millisecondsInOneDay, toTimestamp);
     }
 
     @Override
@@ -167,7 +167,8 @@ public class HabitScoreView extends View
             if (!month.equals(previousMonth))
             {
                 canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
-            } else
+            }
+            else
             {
                 canvas.drawText(day, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
             }
@@ -263,6 +264,7 @@ public class HabitScoreView extends View
             fetchScores();
             invalidate();
             return true;
-        } else return false;
+        }
+        else return false;
     }
 }

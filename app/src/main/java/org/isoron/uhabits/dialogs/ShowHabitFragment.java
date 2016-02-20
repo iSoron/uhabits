@@ -80,9 +80,9 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         tvStreaks.setTextColor(habit.color);
 
         LinearLayout llOverview = (LinearLayout) view.findViewById(R.id.llOverview);
-        llOverview.addView(new RingView(activity, (int) activity.getResources().getDimension(
-                R.dimen.small_square_size) * 4, habit.color,
-                ((float) habit.getScore() / Habit.MAX_SCORE), "Habit strength"));
+        llOverview.addView(new RingView(activity,
+                (int) activity.getResources().getDimension(R.dimen.small_square_size) * 4,
+                habit.color, ((float) habit.getScore() / Habit.MAX_SCORE), "Habit strength"));
 
         LinearLayout llStrength = (LinearLayout) view.findViewById(R.id.llStrength);
         llStrength.addView(new HabitScoreView(activity, habit,
@@ -130,7 +130,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
     {
         Habit h = (Habit) savedObject;
 
-        if(h == null) activity.executeCommand(command, null);
+        if (h == null) activity.executeCommand(command, null);
         else activity.executeCommand(command, h.getId());
 
         ReminderHelper.createReminderAlarms(activity);

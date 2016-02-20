@@ -52,7 +52,7 @@ public class RingView extends View
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(size, size + (int) (2*lineHeight));
+        setMeasuredDimension(size, size + (int) (2 * lineHeight));
     }
 
     @Override
@@ -75,9 +75,10 @@ public class RingView extends View
         pRing.setColor(Color.GRAY);
         pRing.setTextSize(size * 0.2f);
         lineHeight = pRing.getFontSpacing();
-        canvas.drawText(String.format("%.0f%%", perc * 100), r.centerX(), r.centerY()+lineHeight/3, pRing);
+        canvas.drawText(String.format("%.0f%%", perc * 100), r.centerX(),
+                r.centerY() + lineHeight / 3, pRing);
 
         pRing.setTextSize(size * 0.15f);
-        canvas.drawText(label, size/2, size + lineHeight * 1.2f, pRing);
+        canvas.drawText(label, size / 2, size + lineHeight * 1.2f, pRing);
     }
 }

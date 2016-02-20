@@ -62,9 +62,9 @@ public class ReminderHelper
         alarmIntent.setAction(ReminderAlarmReceiver.ACTION_REMIND);
         alarmIntent.setData(uri);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                ((int) (habit.getId() % Integer.MAX_VALUE)) + 1, alarmIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(context, ((int) (habit.getId() % Integer.MAX_VALUE)) + 1,
+                        alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= 19)

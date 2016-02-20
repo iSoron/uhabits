@@ -16,10 +16,6 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.helpers.ReplayableActivity;
-import org.isoron.uhabits.models.Habit;
-
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -27,6 +23,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends ReplayableActivity
 {

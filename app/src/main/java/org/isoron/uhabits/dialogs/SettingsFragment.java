@@ -23,7 +23,8 @@ import android.preference.PreferenceFragment;
 
 import org.isoron.uhabits.R;
 
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
+public class SettingsFragment extends PreferenceFragment
+        implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     @Override
     public void onCreate(Bundle savedInstanceState)

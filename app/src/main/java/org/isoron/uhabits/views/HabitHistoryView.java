@@ -29,13 +29,11 @@ import android.view.View;
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class HabitHistoryView extends View
 {
@@ -122,7 +120,7 @@ public class HabitHistoryView extends View
         Rect square = new Rect(0, 0, squareSize - squareSpacing, squareSize - squareSpacing);
 
         Calendar currentDate = new GregorianCalendar();
-        currentDate.add(Calendar.DAY_OF_YEAR, - (offsetWeeks - 1) * 7);
+        currentDate.add(Calendar.DAY_OF_YEAR, -(offsetWeeks - 1) * 7);
 
         int nDays = nColumns * 7;
         int todayWeekday = new GregorianCalendar().get(Calendar.DAY_OF_WEEK) % 7;
@@ -160,12 +158,14 @@ public class HabitHistoryView extends View
                         pTextHeader);
                 previousMonth = month;
                 justPrintedYear = false;
-            } else if (!year.equals(previousYear))
+            }
+            else if (!year.equals(previousYear))
             {
                 canvas.drawText(year, square.left, square.bottom - headerTextOffset, pTextHeader);
                 previousYear = year;
                 justPrintedYear = true;
-            } else
+            }
+            else
             {
                 justPrintedYear = false;
             }
@@ -177,7 +177,7 @@ public class HabitHistoryView extends View
             {
                 if (!(i == nColumns - 1 && offsetWeeks == 0 && j > todayWeekday))
                 {
-                    if(k >= checks.length) pSquareBg.setColor(colors[0]);
+                    if (k >= checks.length) pSquareBg.setColor(colors[0]);
                     else pSquareBg.setColor(colors[checks[k]]);
 
                     canvas.drawRect(square, pSquareBg);
@@ -225,7 +225,7 @@ public class HabitHistoryView extends View
 
             if (Math.abs(dy) > Math.abs(dx)) return false;
             getParent().requestDisallowInterceptTouchEvent(true);
-            if(move(dx))
+            if (move(dx))
             {
                 prevX = x;
                 prevY = y;
@@ -247,7 +247,6 @@ public class HabitHistoryView extends View
             invalidate();
             return true;
         }
-        else
-            return false;
+        else return false;
     }
 }

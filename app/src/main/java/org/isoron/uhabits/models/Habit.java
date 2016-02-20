@@ -105,7 +105,7 @@ public class Habit extends Model
         List<Habit> habits = select().execute();
         HashMap<Long, Habit> map = new HashMap<>();
 
-        for(Habit h : habits)
+        for (Habit h : habits)
         {
             map.put(h.getId(), h);
         }
@@ -121,10 +121,8 @@ public class Habit extends Model
 
     protected static From select()
     {
-        if(includeArchived)
-            return new Select().from(Habit.class).orderBy("position");
-        else
-            return new Select().from(Habit.class).where("archived = 0").orderBy("position");
+        if (includeArchived) return new Select().from(Habit.class).orderBy("position");
+        else return new Select().from(Habit.class).where("archived = 0").orderBy("position");
     }
 
     public static void setIncludeArchived(boolean includeArchived)
@@ -155,7 +153,8 @@ public class Habit extends Model
 
     public static java.util.List<Habit> getHighlightedHabits()
     {
-        return select().where("highlight = 1").orderBy("reminder_hour desc, reminder_min desc")
+        return select().where("highlight = 1")
+                .orderBy("reminder_hour desc, reminder_min desc")
                 .execute();
     }
 
@@ -170,9 +169,11 @@ public class Habit extends Model
 
         Habit h = Habit.getByPosition(from);
         if (to < from) new Update(Habit.class).set("position = position + 1")
-                .where("position >= ? and position < ?", to, from).execute();
+                .where("position >= ? and position < ?", to, from)
+                .execute();
         else new Update(Habit.class).set("position = position - 1")
-                .where("position > ? and position <= ?", from, to).execute();
+                .where("position > ? and position <= ?", from, to)
+                .execute();
 
         h.position = to;
         h.save();
@@ -193,8 +194,7 @@ public class Habit extends Model
             }
 
             ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             ActiveAndroid.endTransaction();
         }
@@ -271,8 +271,10 @@ public class Habit extends Model
 
     public void deleteReps(long timestamp)
     {
-        new Delete().from(Repetition.class).where("habit = ?", getId())
-                .and("timestamp = ?", timestamp).execute();
+        new Delete().from(Repetition.class)
+                .where("habit = ?", getId())
+                .and("timestamp = ?", timestamp)
+                .execute();
     }
 
     public void deleteCheckmarksNewerThan(long timestamp)
@@ -306,7 +308,7 @@ public class Habit extends Model
         int nDays = (int) ((toTimestamp - fromTimestamp) / day) + 1;
         int[] checks = new int[nDays];
 
-        if(cursor.moveToFirst())
+        if (cursor.moveToFirst())
         {
             do
             {
@@ -327,7 +329,7 @@ public class Habit extends Model
         long day = DateHelper.millisecondsInOneDay;
 
         Checkmark newestCheckmark = getNewestCheckmark();
-        if(newestCheckmark == null)
+        if (newestCheckmark == null)
         {
             Repetition oldestRep = getOldestRep();
             if (oldestRep == null) return;
@@ -339,8 +341,7 @@ public class Habit extends Model
             beginning = newestCheckmark.timestamp + day;
         }
 
-        if(beginning > today)
-            return;
+        if (beginning > today) return;
 
         long beginningExtended = beginning - (long) (freq_den) * day;
         List<Repetition> reps = selectRepsFromTo(beginningExtended, today).execute();
@@ -382,8 +383,7 @@ public class Habit extends Model
             }
 
             ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             ActiveAndroid.endTransaction();
         }
@@ -419,10 +419,7 @@ public class Habit extends Model
 
     public Repetition getOldestRepNewerThan(long timestamp)
     {
-        return selectReps()
-                .where("timestamp > ?", timestamp)
-                .limit(1)
-                .executeSingle();
+        return selectReps().where("timestamp > ?", timestamp).limit(1).executeSingle();
     }
 
     public void toggleRepetition(long timestamp)
@@ -471,13 +468,18 @@ public class Habit extends Model
 
     public Score getNewestScore()
     {
-        return new Select().from(Score.class).where("habit = ?", getId()).orderBy("timestamp desc")
-                .limit(1).executeSingle();
+        return new Select().from(Score.class)
+                .where("habit = ?", getId())
+                .orderBy("timestamp desc")
+                .limit(1)
+                .executeSingle();
     }
 
     public void deleteScoresNewerThan(long timestamp)
     {
-        new Delete().from(Score.class).where("habit = ?", getId()).and("timestamp >= ?", timestamp)
+        new Delete().from(Score.class)
+                .where("habit = ?", getId())
+                .and("timestamp >= ?", timestamp)
                 .execute();
     }
 
@@ -533,8 +535,7 @@ public class Habit extends Model
             }
 
             ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             ActiveAndroid.endTransaction();
         }
@@ -549,17 +550,18 @@ public class Habit extends Model
 
     public List<Score> getScores(long fromTimestamp, long toTimestamp, int divisor, long offset)
     {
-        return new Select().from(Score.class).where("habit = ? and timestamp > ? and " +
-                "timestamp <= ? and (timestamp - ?) % ? = 0", getId(), fromTimestamp, toTimestamp,
-                offset, divisor).execute();
+        return new Select().from(Score.class)
+                .where("habit = ? and timestamp > ? and " +
+                                "timestamp <= ? and (timestamp - ?) % ? = 0", getId(), fromTimestamp,
+                        toTimestamp, offset, divisor)
+                .execute();
     }
 
     public List<Streak> getStreaks()
     {
         updateStreaks();
 
-        return new Select()
-                .from(Streak.class)
+        return new Select().from(Streak.class)
                 .where("habit = ?", getId())
                 .orderBy("end asc")
                 .execute();
@@ -567,8 +569,7 @@ public class Habit extends Model
 
     public Streak getNewestStreak()
     {
-        return new Select()
-                .from(Streak.class)
+        return new Select().from(Streak.class)
                 .where("habit = ?", getId())
                 .orderBy("end desc")
                 .limit(1)
@@ -582,7 +583,7 @@ public class Habit extends Model
         long day = DateHelper.millisecondsInOneDay;
 
         Streak newestStreak = getNewestStreak();
-        if(newestStreak == null)
+        if (newestStreak == null)
         {
             Repetition oldestRep = getOldestRep();
             if (oldestRep == null) return;
@@ -597,7 +598,7 @@ public class Habit extends Model
             beginning = oldestRep.timestamp;
         }
 
-        if(beginning > today) return;
+        if (beginning > today) return;
 
         int checks[] = getCheckmarks(beginning, today);
         ArrayList<Long> list = new ArrayList<>();
@@ -605,17 +606,16 @@ public class Habit extends Model
         long current = beginning;
         list.add(current);
 
-        for(int i = 1; i < checks.length; i++)
+        for (int i = 1; i < checks.length; i++)
         {
             current += day;
             int j = checks.length - i - 1;
 
-            if((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
-            if((checks[j + 1] > 0 && checks[j] == 0)) list.add(current - day);
+            if ((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
+            if ((checks[j + 1] > 0 && checks[j] == 0)) list.add(current - day);
         }
 
-        if(list.size() % 2 == 1)
-            list.add(current);
+        if (list.size() % 2 == 1) list.add(current);
 
         ActiveAndroid.beginTransaction();
 
@@ -632,8 +632,7 @@ public class Habit extends Model
             }
 
             ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
+        } finally
         {
             ActiveAndroid.endTransaction();
         }
@@ -657,7 +656,8 @@ public class Habit extends Model
             {
                 savedHabit.save();
                 savedId = savedHabit.getId();
-            } else
+            }
+            else
             {
                 savedHabit.save(savedId);
             }
