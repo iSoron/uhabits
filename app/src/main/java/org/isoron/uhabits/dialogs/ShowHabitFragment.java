@@ -19,7 +19,6 @@ package org.isoron.uhabits.dialogs;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,8 +55,6 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        Log.d("ShowHabitActivity", "Creating view...");
-
         View view = inflater.inflate(R.layout.show_habit, container, false);
         activity = (ShowHabitActivity) getActivity();
         habit = activity.habit;
