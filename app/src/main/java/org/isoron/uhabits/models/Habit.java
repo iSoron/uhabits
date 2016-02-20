@@ -201,33 +201,6 @@ public class Habit extends Model
 
     }
 
-    public static void roundTimestamps()
-    {
-        List<Repetition> reps = new Select().from(Repetition.class).execute();
-        for (Repetition r : reps)
-        {
-            r.timestamp = DateHelper.getStartOfDay(r.timestamp);
-            r.save();
-        }
-    }
-
-    public static void recomputeAllScores()
-    {
-        for (Habit habit : getHabits())
-        {
-            habit.deleteScoresNewerThan(0);
-        }
-    }
-
-    public static int getStarCount()
-    {
-        String args[] = {};
-        return SQLiteUtils.intQuery("select count(*) from (select score, max(timestamp) from " +
-                "score group by habit) as scores where scores.score >= " +
-                Integer.toString(12973000), args);
-
-    }
-
     public void copyAttributes(Habit model)
     {
         this.name = model.name;
@@ -262,11 +235,6 @@ public class Habit extends Model
     {
         int count = selectReps().where("timestamp = ?", timestamp).count();
         return (count > 0);
-    }
-
-    public boolean hasRepToday()
-    {
-        return hasRep(DateHelper.getStartOfToday());
     }
 
     public void deleteReps(long timestamp)
@@ -541,11 +509,6 @@ public class Habit extends Model
         }
 
         return lastScore;
-    }
-
-    public List<Score> getScores(long fromTimestamp, long toTimestamp)
-    {
-        return getScores(fromTimestamp, toTimestamp, 1, 0);
     }
 
     public List<Score> getScores(long fromTimestamp, long toTimestamp, int divisor, long offset)
