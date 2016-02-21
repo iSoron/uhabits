@@ -70,7 +70,7 @@ public class HabitHistoryView extends ScrollableDataView
         baseDate = new GregorianCalendar();
         baseDate.add(Calendar.DAY_OF_YEAR, -(dataOffset - 1) * 7);
 
-        nDays = nColumns * 7;
+        nDays = (nColumns - 1) * 7;
         todayWeekday = new GregorianCalendar().get(Calendar.DAY_OF_WEEK) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
@@ -138,7 +138,7 @@ public class HabitHistoryView extends ScrollableDataView
             dateTo -= DateHelper.millisecondsInOneDay;
 
         long dateFrom = dateTo;
-        for (int i = 0; i < nColumns * 7; i++)
+        for (int i = 0; i < (nColumns - 1) * 7; i++)
             dateFrom -= DateHelper.millisecondsInOneDay;
 
         checkmarks = habit.getCheckmarks(dateFrom, dateTo);
