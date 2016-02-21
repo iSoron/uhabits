@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <string name="app_name">循环习惯记录</string>
+  <string name="main_activity_title">习惯</string>
+  <string name="action_settings">设置</string>
+  <string name="edit">编辑</string>
+  <string name="delete">删除</string>
+  <string name="archive">存档</string>
+  <string name="unarchive">取消存档</string>
+  <string name="add_habit">添加新习惯</string>
+  <string name="color_picker_default_title">选择颜色</string>
+
+  <string name="toast_habit_created">习惯建成.</string>
+  <string name="toast_habit_deleted">习惯删除.</string>
+  <string name="toast_nothing_to_undo">Nothing to undo.</string>
+  <string name="toast_nothing_to_redo">Nothing to redo.</string>
+  <string name="toast_habit_changed">习惯修改了.</string>
+  <string name="toast_habit_changed_back">取消了修改.</string>
+  <string name="toast_repetition_toggled">Repetition toggled.</string>
+  <string name="toast_habit_archived">习惯存档成功.</string>
+  <string name="toast_habit_unarchived">习惯取消存档成功.</string>
+
+  <!-- Date and time picker -->
+  <string name="done_label">完陈</string>
+  <string name="clear_label">取消</string>
+  <string name="select_hours">选择小时</string>
+  <string name="select_minutes">选择分钟</string>
+  <string name="year_picker_description">Year list</string>
+  <string name="select_day">Select month and day</string>
+  <string name="select_year">Select year</string>
+
+  <string name="title_activity_show_habit" />
+  <string name="overview">总览</string>
+  <string name="habit_strength">习惯强度</string>
+  <string name="history">历史</string>
+  <string name="clear">取消</string>
+  <string name="description">描叙</string>
+  <string name="description_hint">提醒问题（你xxx了吗）</string>
+  <string name="repeat">重复</string>
+  <string name="times_every">次每</string>
+  <string name="days">天</string>
+  <string name="reminder">提醒</string>
+  <string name="discard">丢弃</string>
+  <string name="save">保存</string>
+  <string name="streaks">链条</string>
+  <string name="no_habits_found">你没有习惯</string>
+  <string name="long_press_to_toggle">长按 标记/取消标记</string>
+  <string name="reminder_off">关</string>
+  <string name="validation_name_should_not_be_blank">名字不能是空白.</string>
+  <string name="validation_number_should_be_positive">数字必须大于零.</string>
+  <string name="validation_at_most_one_rep_per_day">每天最多重复一次</string>
+  <string name="create_habit">新建习惯</string>
+  <string name="edit_habit">编辑习惯</string>
+  <string name="check">标记</string>
+  <string name="snooze">以后再说</string>
+
+  <!-- App introduction -->
+  <string name="intro_title_1">欢迎</string>
+  <string name="intro_description_1">循环习惯记录器帮助你建立和维持好习惯.</string>
+
+  <string name="intro_title_2">建立一些新习惯</string>
+  <string name="intro_description_2">每天，你完成一项习惯后，在应用上做一个标记</string>
+
+  <string name="intro_title_3">保持习惯</string>
+  <string name="intro_description_3">你可以得到一个完整的星星在连续性的完成习惯达到一定时间</string>
+
+  <string name="intro_title_4">记录你的进步</string>
+  <string name="intro_description_4">详细的图形显示你的进步</string>
+
+  <string name="interval_15_minutes">15分钟</string>
+  <string name="interval_30_minutes">30分钟</string>
+  <string name="interval_1_hour">1小时</string>
+  <string name="interval_2_hour">2小时</string>
+  <string name="interval_4_hour">4小时</string>
+  <string name="interval_8_hour">8小时</string>
+  <string name="pref_toggle_title">短时间按来记录习惯</string>
+  <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
+  <string name="pref_snooze_interval_title">提醒延迟间隔</string>
+  <string name="pref_rate_this_app">评价这个应用在Play商店</string>
+  <string name="pref_send_feedback">发送反馈给开发者</string>
+  <string name="pref_view_source_code">看源代码在GitHub</string>
+  <string name="pref_view_app_introduction">阅读应用介绍</string>
+
+  <string name="links">链接</string>
+  <string name="behavior">功能</string>
+  <string name="name">名字</string>
+  <string name="show_archived">显示存档的习惯</string>
+  <string name="settings">设置</string>
+  <string name="snooze_interval">延迟时间间隔</string>
+</resources>
