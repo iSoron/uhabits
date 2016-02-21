@@ -21,9 +21,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.v4.view.MotionEventCompat;
-import android.view.MotionEvent;
-import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -33,30 +30,23 @@ import org.isoron.uhabits.models.Score;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class HabitScoreView extends View
+public class HabitScoreView extends ScrollableDataView
 {
     public static final int BUCKET_SIZE = 7;
 
     private final Paint pGrid;
     private final float em;
     private Habit habit;
-    private int columnWidth, columnHeight, nColumns;
 
     private Paint pText, pGraph;
-    private int dataOffset;
-
-    private int barHeaderHeight;
 
     private int[] colors;
-    private float prevX;
-    private float prevY;
     private List<Score> scores;
 
     public HabitScoreView(Context context, Habit habit, int columnWidth)
     {
         super(context);
         this.habit = habit;
-        this.columnWidth = columnWidth;
 
         pText = new Paint();
         pText.setColor(Color.LTGRAY);
@@ -75,8 +65,11 @@ public class HabitScoreView extends View
         pGrid.setAntiAlias(true);
         pGrid.setStrokeWidth(columnWidth * 0.05f);
 
+        this.columnWidth = columnWidth;
         columnHeight = 8 * columnWidth;
-        barHeaderHeight = columnWidth;
+        headerHeight = columnWidth;
+        footerHeight = columnWidth;
+
         em = pText.getFontSpacing();
 
         colors = new int[4];
@@ -87,7 +80,7 @@ public class HabitScoreView extends View
         colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
     }
 
-    private void fetchScores()
+    protected void fetchData()
     {
 
         long toTimestamp = DateHelper.getStartOfToday();
@@ -103,30 +96,14 @@ public class HabitScoreView extends View
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), columnHeight + 2 * barHeaderHeight);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
-    {
-        super.onSizeChanged(w, h, oldw, oldh);
-        nColumns = w / columnWidth;
-        fetchScores();
-    }
-
-    @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
 
         float lineHeight = pText.getFontSpacing();
-        float barHeaderOffset = lineHeight * 0.4f;
 
         RectF rGrid = new RectF(0, 0, nColumns * columnWidth, columnHeight);
-        rGrid.offset(0, barHeaderHeight);
+        rGrid.offset(0, headerHeight);
         drawGrid(canvas, rGrid);
 
         SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
@@ -150,7 +127,7 @@ public class HabitScoreView extends View
 
             RectF r = new RectF(0, 0, columnWidth, columnWidth);
             r.offset(offset * columnWidth,
-                    barHeaderHeight + columnHeight - height - columnWidth / 2);
+                    headerHeight + columnHeight - height - columnWidth / 2);
 
             if (prevR != null)
             {
@@ -163,15 +140,11 @@ public class HabitScoreView extends View
             prevR = r;
 
             r = new RectF(0, 0, columnWidth, columnHeight);
-            r.offset(offset * columnWidth, barHeaderHeight);
+            r.offset(offset * columnWidth, headerHeight);
             if (!month.equals(previousMonth))
-            {
                 canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
-            }
             else
-            {
                 canvas.drawText(day, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
-            }
 
             previousMonth = month;
 
@@ -180,10 +153,6 @@ public class HabitScoreView extends View
 
     private void drawGrid(Canvas canvas, RectF rGrid)
     {
-//        pGrid.setColor(Color.rgb(230, 230, 230));
-//        pGrid.setStyle(Paint.Style.STROKE);
-//        canvas.drawRect(rGrid, pGrid);
-
         int nRows = 5;
         float rowHeight = rGrid.height() / nRows;
 
@@ -219,52 +188,5 @@ public class HabitScoreView extends View
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
         pGraph.setColor(Color.WHITE);
         canvas.drawOval(rect, pGraph);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        int action = event.getAction();
-
-        int pointerIndex = MotionEventCompat.getActionIndex(event);
-        final float x = MotionEventCompat.getX(event, pointerIndex);
-        final float y = MotionEventCompat.getY(event, pointerIndex);
-
-        if (action == MotionEvent.ACTION_DOWN)
-        {
-            prevX = x;
-            prevY = y;
-        }
-
-        if (action == MotionEvent.ACTION_MOVE)
-        {
-            float dx = x - prevX;
-            float dy = y - prevY;
-
-            if (Math.abs(dy) > Math.abs(dx)) return false;
-            getParent().requestDisallowInterceptTouchEvent(true);
-            if (move(dx))
-            {
-                prevX = x;
-                prevY = y;
-            }
-        }
-
-        return true;
-    }
-
-    private boolean move(float dx)
-    {
-        int newDataOffset = dataOffset + (int) (dx / columnWidth);
-        newDataOffset = Math.max(0, newDataOffset);
-
-        if (newDataOffset != dataOffset)
-        {
-            dataOffset = newDataOffset;
-            fetchScores();
-            invalidate();
-            return true;
-        }
-        else return false;
     }
 }
