@@ -87,6 +87,7 @@ public class ListHabitsFragment extends Fragment
     private boolean isShortToggleEnabled;
 
     private HabitListLoader loader;
+    boolean showArchived;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,7 +131,7 @@ public class ListHabitsFragment extends Fragment
         ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
         llEmpty = view.findViewById(R.id.llEmpty);
 
-        loader.updateAllHabits();
+        loader.updateAllHabits(true);
         setHasOptionsMenu(true);
 
         return view;
@@ -152,7 +153,7 @@ public class ListHabitsFragment extends Fragment
         Long timestamp = loader.getLastLoadTimestamp();
 
         if (timestamp != null && timestamp != DateHelper.getStartOfToday())
-            loader.updateAllHabits();
+            loader.updateAllHabits(true);
 
         updateEmptyMessage();
         updateHeader();
@@ -199,7 +200,7 @@ public class ListHabitsFragment extends Fragment
         inflater.inflate(R.menu.list_habits_options, menu);
 
         MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
-        showArchivedItem.setChecked(Habit.isIncludeArchived());
+        showArchivedItem.setChecked(showArchived);
     }
 
     @Override
@@ -230,8 +231,9 @@ public class ListHabitsFragment extends Fragment
 
             case R.id.action_show_archived:
             {
-                Habit.setIncludeArchived(!Habit.isIncludeArchived());
-                loader.updateAllHabits();
+                showArchived = !showArchived;
+                loader.setIncludeArchived(showArchived);
+                loader.updateAllHabits(true);
                 activity.invalidateOptionsMenu();
                 return true;
             }
@@ -279,7 +281,7 @@ public class ListHabitsFragment extends Fragment
     {
         if (new Date().getTime() - lastLongClick < 1000) return;
 
-        Habit habit = loader.positionToHabit.get(position);
+        Habit habit = loader.habitsList.get(position);
         habitClickListener.onHabitClicked(habit);
     }
 
@@ -347,13 +349,9 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void drop(int from, int to)
     {
-        Habit fromHabit = loader.positionToHabit.get(from);
-        Habit toHabit = loader.positionToHabit.get(to);
-        loader.positionToHabit.put(to, fromHabit);
-        loader.positionToHabit.put(from, toHabit);
+        loader.reorder(from, to);
         adapter.notifyDataSetChanged();
-
-        Habit.reorder(from, to);
+        loader.updateAllHabits(false);
     }
 
     @Override
@@ -389,7 +387,7 @@ public class ListHabitsFragment extends Fragment
         @Override
         public Object getItem(int position)
         {
-            return loader.positionToHabit.get(position);
+            return loader.habitsList.get(position);
         }
 
         @Override
@@ -401,7 +399,7 @@ public class ListHabitsFragment extends Fragment
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-            final Habit habit = loader.positionToHabit.get(position);
+            final Habit habit = loader.habitsList.get(position);
 
             if (view == null ||
                     (Long) view.getTag(R.id.KEY_TIMESTAMP) != DateHelper.getStartOfToday())
@@ -448,15 +446,16 @@ public class ListHabitsFragment extends Fragment
     private void updateCheckmarkButtons(Habit habit, LinearLayout llButtons)
     {
         int activeColor = getActiveColor(habit);
-
         int m = llButtons.getChildCount();
-        int isChecked[] = loader.checkmarks.get(habit.getId());
+        Long habitId = habit.getId();
+
+        int isChecked[] = loader.checkmarks.get(habitId);
 
         for (int i = 0; i < m; i++)
         {
 
             TextView tvCheck = (TextView) llButtons.getChildAt(i);
-            tvCheck.setTag(R.string.habit_key, habit.getId());
+            tvCheck.setTag(R.string.habit_key, habitId);
             tvCheck.setTag(R.string.offset_key, i);
             updateCheckmark(activeColor, tvCheck, isChecked[i]);
         }
@@ -529,7 +528,7 @@ public class ListHabitsFragment extends Fragment
 
     public void onPostExecuteCommand(Long refreshKey)
     {
-        if (refreshKey == null) loader.updateAllHabits();
+        if (refreshKey == null) loader.updateAllHabits(true);
         else loader.updateHabit(refreshKey);
     }
 }

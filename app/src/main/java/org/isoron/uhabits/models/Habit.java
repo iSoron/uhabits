@@ -37,7 +37,6 @@ import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Table(name = "Habits")
@@ -47,8 +46,6 @@ public class Habit extends Model
     public static final int HALF_STAR_CUTOFF = 5999000;
     public static final int FULL_STAR_CUTOFF = 12973000;
     public static final int MAX_SCORE = 19259500;
-
-    private static boolean includeArchived = false;
 
     @Column(name = "name")
     public String name;
@@ -100,17 +97,10 @@ public class Habit extends Model
         return Habit.load(Habit.class, id);
     }
 
-    public static HashMap<Long, Habit> getAll()
+    public static List<Habit> getAll(boolean includeArchive)
     {
-        List<Habit> habits = select().execute();
-        HashMap<Long, Habit> map = new HashMap<>();
-
-        for (Habit h : habits)
-        {
-            map.put(h.getId(), h);
-        }
-
-        return map;
+        if(includeArchive) return selectWithArchived().execute();
+        else return select().execute();
     }
 
     @SuppressLint("DefaultLocale")
@@ -121,34 +111,17 @@ public class Habit extends Model
 
     protected static From select()
     {
-        if (includeArchived) return new Select().from(Habit.class).orderBy("position");
-        else return new Select().from(Habit.class).where("archived = 0").orderBy("position");
+        return new Select().from(Habit.class).where("archived = 0").orderBy("position");
     }
 
-    public static void setIncludeArchived(boolean includeArchived)
+    public static From selectWithArchived()
     {
-        Habit.includeArchived = includeArchived;
-        rebuildOrder();
-    }
-
-    public static boolean isIncludeArchived()
-    {
-        return Habit.includeArchived;
+        return new Select().from(Habit.class).orderBy("position");
     }
 
     public static int getCount()
     {
         return select().count();
-    }
-
-    public static Habit getByPosition(int position)
-    {
-        return select().offset(position).executeSingle();
-    }
-
-    public static java.util.List<Habit> getHabits()
-    {
-        return select().execute();
     }
 
     public static java.util.List<Habit> getHighlightedHabits()
@@ -163,25 +136,30 @@ public class Habit extends Model
         return select().where("reminder_hour is not null").execute();
     }
 
-    public static void reorder(int from, int to)
+    public static void reorder(Habit from, Habit to)
     {
-        if (from == to) return;
+        if(from == to) return;
 
-        Habit h = Habit.getByPosition(from);
-        if (to < from) new Update(Habit.class).set("position = position + 1")
-                .where("position >= ? and position < ?", to, from)
-                .execute();
-        else new Update(Habit.class).set("position = position - 1")
-                .where("position > ? and position <= ?", from, to)
-                .execute();
+        if (to.position < from.position)
+        {
+            new Update(Habit.class).set("position = position + 1")
+                    .where("position >= ? and position < ?", to.position, from.position)
+                    .execute();
+        }
+        else
+        {
+            new Update(Habit.class).set("position = position - 1")
+                    .where("position > ? and position <= ?", from.position, to.position)
+                    .execute();
+        }
 
-        h.position = to;
-        h.save();
+        from.position = to.position;
+        from.save();
     }
 
     public static void rebuildOrder()
     {
-        List<Habit> habits = select().execute();
+        List<Habit> habits = selectWithArchived().execute();
 
         ActiveAndroid.beginTransaction();
         try
@@ -412,10 +390,7 @@ public class Habit extends Model
     public void archive()
     {
         archived = 1;
-        position = 9999;
         save();
-
-        Habit.rebuildOrder();
     }
 
     public void unarchive()

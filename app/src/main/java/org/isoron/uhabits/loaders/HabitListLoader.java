@@ -28,6 +28,7 @@ import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class HabitListLoader
 {
@@ -44,9 +45,16 @@ public class HabitListLoader
     private Long lastLoadTimestamp;
 
     public HashMap<Long, Habit> habits;
-    public HashMap<Integer, Habit> positionToHabit;
+    public List<Habit> habitsList;
     public HashMap<Long, int[]> checkmarks;
     public HashMap<Long, Integer> scores;
+
+    boolean includeArchived;
+
+    public void setIncludeArchived(boolean includeArchived)
+    {
+        this.includeArchived = includeArchived;
+    }
 
     public void setProgressBar(ProgressBar progressBar)
     {
@@ -71,56 +79,86 @@ public class HabitListLoader
     public HabitListLoader()
     {
         habits = new HashMap<>();
-        positionToHabit = new HashMap<>();
         checkmarks = new HashMap<>();
         scores = new HashMap<>();
     }
 
-    private void resetData()
+    public void reorder(int from, int to)
     {
-        habits.clear();
-        positionToHabit.clear();
-        checkmarks.clear();
-        scores.clear();
+        Habit fromHabit = habitsList.get(from);
+        Habit toHabit = habitsList.get(to);
+
+        habitsList.remove(from);
+        habitsList.add(to, fromHabit);
+
+        Habit.reorder(fromHabit, toHabit);
     }
 
-    public void updateAllHabits()
+    public void updateAllHabits(final boolean updateScoresAndCheckmarks)
     {
         if (currentFetchTask != null) currentFetchTask.cancel(true);
 
         currentFetchTask = new AsyncTask<Void, Integer, Void>()
         {
+            public HashMap<Long, Habit> newHabits;
+            public HashMap<Long, int[]> newCheckmarks;
+            public HashMap<Long, Integer> newScores;
+            public List<Habit> newHabitList;
+
             @Override
             protected Void doInBackground(Void... params)
             {
-                resetData();
-
-                habits = Habit.getAll();
+                newHabits = new HashMap<>();
+                newCheckmarks = new HashMap<>();
+                newScores = new HashMap<>();
+                newHabitList = Habit.getAll(includeArchived);
 
                 long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
                 long dateFrom = dateTo - (checkmarkCount - 1) * DateHelper.millisecondsInOneDay;
                 int[] empty = new int[checkmarkCount];
 
-                for (Habit h : habits.values())
+                for(Habit h : newHabitList)
                 {
-                    scores.put(h.getId(), 0);
-                    positionToHabit.put(h.position, h);
-                    checkmarks.put(h.getId(), empty);
+                    Long id = h.getId();
+
+                    newHabits.put(id, h);
+
+                    if(checkmarks.containsKey(id))
+                        newCheckmarks.put(id, checkmarks.get(id));
+                    else
+                        newCheckmarks.put(id, empty);
+
+                    if(scores.containsKey(id))
+                        newScores.put(id, scores.get(id));
+                    else
+                        newScores.put(id, 0);
                 }
 
+                commit();
+
+                if(!updateScoresAndCheckmarks) return null;
+
                 int current = 0;
-                for (int i = 0; i < habits.size(); i++)
+                for (Habit h : newHabitList)
                 {
                     if (isCancelled()) return null;
 
-                    Habit h = positionToHabit.get(i);
-                    scores.put(h.getId(), h.getScore());
-                    checkmarks.put(h.getId(), h.getCheckmarks(dateFrom, dateTo));
+                    Long id = h.getId();
+                    newScores.put(id, h.getScore());
+                    newCheckmarks.put(id, h.getCheckmarks(dateFrom, dateTo));
 
-                    publishProgress(current++, habits.size());
+                    publishProgress(current++, newHabits.size());
                 }
 
                 return null;
+            }
+
+            private void commit()
+            {
+                habits = newHabits;
+                scores = newScores;
+                checkmarks = newCheckmarks;
+                habitsList = newHabitList;
             }
 
             @Override
@@ -137,10 +175,7 @@ public class HabitListLoader
                 progressBar.setMax(values[1]);
                 progressBar.setProgress(values[0]);
 
-                if (lastLoadTimestamp == null)
-                {
-                    listener.onLoadFinished();
-                }
+                if(listener != null) listener.onLoadFinished();
             }
 
             @Override
@@ -151,6 +186,8 @@ public class HabitListLoader
                 progressBar.setVisibility(View.INVISIBLE);
                 lastLoadTimestamp = DateHelper.getStartOfToday();
                 currentFetchTask = null;
+
+                if(listener != null) listener.onLoadFinished();
             }
 
         };
