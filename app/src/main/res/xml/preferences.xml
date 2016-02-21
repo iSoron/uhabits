@@ -35,7 +35,7 @@
         <Preference android:title="@string/pref_send_feedback">
             <intent
                 android:action="android.intent.action.SENDTO"
-                android:data="mailto:isoron+habits@gmail.com?subject=Feedback%20for%20Habits%20Tracker"/>
+                android:data="mailto:isoron+habits@gmail.com?subject=Feedback%20about%20Loop%20Habit%20Tracker"/>
         </Preference>
 
         <Preference android:title="@string/pref_view_source_code">
