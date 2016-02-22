@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
@@ -33,6 +34,7 @@ public class MainActivity extends ReplayableActivity
         implements ListHabitsFragment.OnHabitClickListener
 {
     private ListHabitsFragment listHabitsFragment;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,20 +42,23 @@ public class MainActivity extends ReplayableActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_habits_activity);
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listHabitsFragment =
                 (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
 
+        onStartup();
+    }
+
+    private void onStartup()
+    {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         ReminderHelper.createReminderAlarms(MainActivity.this);
-
+        DialogHelper.incrementLaunchCount(this);
         showTutorial();
-
     }
 
     private void showTutorial()
     {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean firstRun = prefs.getBoolean("pref_first_run", true);
 
         if (firstRun)

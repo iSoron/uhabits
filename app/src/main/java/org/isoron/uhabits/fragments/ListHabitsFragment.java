@@ -16,6 +16,8 @@
 
 package org.isoron.uhabits.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -68,6 +70,9 @@ public class ListHabitsFragment extends Fragment
 {
     public static final int INACTIVE_COLOR = Color.rgb(230, 230, 230);
 
+    public static final int HINT_INTERVAL = 5;
+    public static final int HINT_INTERVAL_OFFSET = 2;
+
     public interface OnHabitClickListener
     {
         void onHabitClicked(Habit habit);
@@ -82,12 +87,14 @@ public class ListHabitsFragment extends Fragment
     private int tvNameWidth;
     private int buttonCount;
     private View llEmpty;
+    private View llHint;
 
     private OnHabitClickListener habitClickListener;
     private boolean isShortToggleEnabled;
 
     private HabitListLoader loader;
-    boolean showArchived;
+    private boolean showArchived;
+    private SharedPreferences prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,7 +113,6 @@ public class ListHabitsFragment extends Fragment
         tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
 
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
         loader.setProgressBar(progressBar);
 
         adapter = new ListHabitsAdapter(getActivity());
@@ -126,6 +132,9 @@ public class ListHabitsFragment extends Fragment
         listView.setOnTouchListener(controller);
         listView.setDragEnabled(true);
 
+        llHint = view.findViewById(R.id.llHint);
+        llHint.setOnClickListener(this);
+
         Typeface fontawesome = Typeface.createFromAsset(getActivity().getAssets(),
                 "fontawesome-webfont.ttf");
         ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
@@ -133,6 +142,8 @@ public class ListHabitsFragment extends Fragment
 
         loader.updateAllHabits(true);
         setHasOptionsMenu(true);
+
+
 
         return view;
     }
@@ -142,8 +153,10 @@ public class ListHabitsFragment extends Fragment
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        habitClickListener = (OnHabitClickListener) activity;
         this.activity = (ReplayableActivity) activity;
+
+        habitClickListener = (OnHabitClickListener) activity;
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
     @Override
@@ -157,9 +170,9 @@ public class ListHabitsFragment extends Fragment
 
         updateEmptyMessage();
         updateHeader();
-        adapter.notifyDataSetChanged();
+        showNextHint();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        adapter.notifyDataSetChanged();
         isShortToggleEnabled = prefs.getBoolean("pref_short_toggle", false);
     }
 
@@ -346,6 +359,44 @@ public class ListHabitsFragment extends Fragment
         activity.executeCommand(c, refreshKey);
     }
 
+    private void hideHint()
+    {
+        llHint.animate().alpha(0f).setDuration(500).setListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                llHint.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void showNextHint()
+    {
+        int launchCount = DialogHelper.getLaunchCount(activity);
+        if(launchCount % HINT_INTERVAL == HINT_INTERVAL_OFFSET)
+        {
+            int lastHint = prefs.getInt("last_shown_hint", -1);
+            showHint(lastHint + 1);
+        }
+
+    }
+
+    private void showHint(int number)
+    {
+        String[] hints = activity.getResources().getStringArray(R.array.hints);
+        if(number >= hints.length) return;
+
+        prefs.edit().putInt("last_shown_hint", number).apply();
+
+        TextView tvContent = (TextView) llHint.findViewById(R.id.hintContent);
+        tvContent.setText(hints[number]);
+
+        llHint.setAlpha(0.0f);
+        llHint.setVisibility(View.VISIBLE);
+        llHint.animate().alpha(1f).setDuration(500);
+    }
+
     @Override
     public void drop(int from, int to)
     {
@@ -362,6 +413,10 @@ public class ListHabitsFragment extends Fragment
             case R.id.tvCheck:
                 if (isShortToggleEnabled) toggleCheck(v);
                 else activity.showToast(R.string.long_press_to_toggle);
+                break;
+
+            case R.id.llHint:
+                hideHint();
                 break;
         }
     }

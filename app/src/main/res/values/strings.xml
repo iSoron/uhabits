@@ -101,4 +101,13 @@
     <string name="settings">Settings</string>
     <string name="snooze_interval">Snooze interval</string>
 
+    <string name="hint_title">Did you know?</string>
+    <string name="hint_drag">To rearrange the entries, you can drag them by the star.</string>
+    <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
+
+    <string-array name="hints">
+        <item>@string/hint_drag</item>
+        <item>@string/hint_landscape</item>
+    </string-array>
+
 </resources>

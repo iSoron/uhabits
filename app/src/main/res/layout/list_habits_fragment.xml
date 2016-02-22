@@ -60,4 +60,32 @@
         android:layout_marginTop="37dp"
         />
 
+    <LinearLayout
+        android:id="@+id/llHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/indigo_500"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
+        android:visibility="invisible"
+        style="@style/cardStyle">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hint_title"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:id="@+id/hintContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_weight="5"/>
+
+    </LinearLayout>
+
 </RelativeLayout>
