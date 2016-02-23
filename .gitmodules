@@ -1,0 +1,3 @@
+[submodule "libs/drag-sort-listview"]
+	path = libs/drag-sort-listview
+	url = https://github.com/iSoron/drag-sort-listview.git
