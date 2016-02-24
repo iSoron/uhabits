@@ -103,7 +103,7 @@
     <string name="snooze_interval">Snooze interval</string>
 
     <string name="hint_title">Did you know?</string>
-    <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it.</string>
+    <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
     <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
