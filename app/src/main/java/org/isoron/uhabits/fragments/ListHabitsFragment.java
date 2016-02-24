@@ -555,24 +555,23 @@ public class ListHabitsFragment extends Fragment
 
     private void showNextHint()
     {
-        int launchCount = DialogHelper.getLaunchCount(activity);
-        if(launchCount % HINT_INTERVAL == HINT_INTERVAL_OFFSET)
-        {
-            int lastHint = prefs.getInt("last_shown_hint", -1);
-            showHint(lastHint + 1);
-        }
+        Integer lastHintNumber = prefs.getInt("last_hint_number", -1);
+        Long lastHintTimestamp = prefs.getLong("last_hint_timestamp", -1);
 
+        if(DateHelper.getStartOfToday() > lastHintTimestamp)
+            showHint(lastHintNumber + 1);
     }
 
-    private void showHint(int number)
+    private void showHint(int hintNumber)
     {
         String[] hints = activity.getResources().getStringArray(R.array.hints);
-        if(number >= hints.length) return;
+        if(hintNumber >= hints.length) return;
 
-        prefs.edit().putInt("last_shown_hint", number).apply();
+        prefs.edit().putInt("last_hint_number", hintNumber).apply();
+        prefs.edit().putLong("last_hint_timestamp", DateHelper.getStartOfToday()).apply();
 
         TextView tvContent = (TextView) llHint.findViewById(R.id.hintContent);
-        tvContent.setText(hints[number]);
+        tvContent.setText(hints[hintNumber]);
 
         llHint.setAlpha(0.0f);
         llHint.setVisibility(View.VISIBLE);
