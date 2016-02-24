@@ -108,8 +108,9 @@
     <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
     <string name="weekends">Weekends</string>
-    <string name="any_weekday">Any weekday</string>
+    <string name="any_weekday">Weekdays</string>
     <string name="any_day">Any day</string>
+    <string name="select_weekdays">Select days</string>
 
     <string-array name="hints">
         <item>@string/hint_drag</item>

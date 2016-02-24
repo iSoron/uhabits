@@ -88,4 +88,14 @@
   <string name="show_archived">显示存档的习惯</string>
   <string name="settings">设置</string>
   <string name="snooze_interval">延迟时间间隔</string>
+  <string name="any_day">任意</string>
+  <string name="any_weekday">工做日</string>
+  <string name="delete_habits">删除</string>
+  <string name="delete_habits_message">习惯会永久的删除，操作不可恢复</string>
+  <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
+  <string name="hint_landscape">横过来手机可以看到更多天数的习惯</string>
+  <string name="hint_title">你知道吗？</string>
+  <string name="select_weekdays">选择天数</string>
+  <string name="toast_habit_restored">习惯恢复成功</string>
+  <string name="weekends">周末</string>
 </resources>
