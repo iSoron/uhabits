@@ -43,9 +43,9 @@ import java.util.List;
 public class Habit extends Model
 {
 
-    public static final int HALF_STAR_CUTOFF = 5999000;
-    public static final int FULL_STAR_CUTOFF = 12973000;
-    public static final int MAX_SCORE = 19259500;
+    public static final int HALF_STAR_CUTOFF =  9629750;
+    public static final int FULL_STAR_CUTOFF = 15407600;
+    public static final int MAX_SCORE        = 19259500;
 
     @Column(name = "name")
     public String name;
@@ -496,7 +496,7 @@ public class Habit extends Model
                 if (reps[reps.length - i - 1] == 2)
                 {
                     s.score += 1000000;
-                    s.score = Math.min(s.score, 19259500);
+                    s.score = Math.min(s.score, MAX_SCORE);
                 }
                 s.save();
 
