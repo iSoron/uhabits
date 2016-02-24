@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -46,34 +47,44 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
     public static final String ACTION_SNOOZE = "org.isoron.uhabits.ACTION_SNOOZE";
 
     @Override
-    public void onReceive(Context context, Intent intent)
+    public void onReceive(final Context context, Intent intent)
     {
         switch (intent.getAction())
         {
             case ACTION_REMIND:
-                createNotification(context, intent.getData());
+                createNotification(context, intent);
+                createReminderAlarms(context);
                 break;
 
             case ACTION_DISMISS:
                 dismissAllHabits();
-                ReminderHelper.createReminderAlarms(context);
                 break;
 
             case ACTION_CHECK:
-                checkHabit(context, intent.getData());
-                ReminderHelper.createReminderAlarms(context);
+                checkHabit(context, intent);
                 break;
 
             case ACTION_SNOOZE:
-                snoozeHabit(context, intent.getData());
-                ReminderHelper.createReminderAlarms(context);
+                snoozeHabit(context, intent);
                 break;
         }
     }
 
-    private void snoozeHabit(Context context, Uri data)
+    private void createReminderAlarms(final Context context)
     {
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                ReminderHelper.createReminderAlarms(context);
+            }
+        }, 5000);
+    }
 
+    private void snoozeHabit(Context context, Intent intent)
+    {
+        Uri data = intent.getData();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         long delayMinutes = Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
 
@@ -83,8 +94,9 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
         dismissNotification(context, habit);
     }
 
-    private void checkHabit(Context context, Uri data)
+    private void checkHabit(Context context, Intent intent)
     {
+        Uri data = intent.getData();
         Long timestamp = DateHelper.getStartOfToday();
         String paramTimestamp = data.getQueryParameter("timestamp");
 
@@ -115,15 +127,17 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
     }
 
 
-    private void createNotification(Context context, Uri data)
+    private void createNotification(Context context, Intent intent)
     {
-
+        Uri data = intent.getData();
         Habit habit = Habit.get(ContentUris.parseId(data));
 
         if (habit.hasImplicitRepToday()) return;
 
         habit.highlight = 1;
         habit.save();
+
+        if (!checkWeekday(intent, habit)) return;
 
         // Check if reminder has been turned off after alarm was scheduled
         if (habit.reminderHour == null) return;
@@ -149,6 +163,8 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
 
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
+
         NotificationCompat.WearableExtender wearableExtender =
                 new NotificationCompat.WearableExtender().setBackground(
                         BitmapFactory.decodeResource(context.getResources(), R.drawable.stripe));
@@ -165,6 +181,8 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
                                 context.getString(R.string.snooze), snoozeIntentPending)
                         .setSound(soundUri)
                         .extend(wearableExtender)
+                        .setWhen(reminderTime)
+                        .setShowWhen(true)
                         .build();
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -174,6 +192,16 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
 
         int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
         notificationManager.notify(notificationId, notification);
+    }
+
+    private boolean checkWeekday(Intent intent, Habit habit)
+    {
+        Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
+
+        boolean reminderDays[] = DateHelper.unpackWeekdayList(habit.reminderDays);
+        int weekday = DateHelper.getWeekday(timestamp);
+
+        return reminderDays[weekday];
     }
 
 }

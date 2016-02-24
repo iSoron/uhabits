@@ -19,6 +19,8 @@ package org.isoron.helpers;
 import android.content.Context;
 import android.text.format.DateFormat;
 
+import org.isoron.uhabits.R;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -51,8 +53,20 @@ public class DateHelper
     {
         GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
-
         return day;
+    }
+
+    public static GregorianCalendar getCalendar(long timestamp)
+    {
+        GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        day.setTimeInMillis(timestamp);
+        return day;
+    }
+
+    public static int getWeekday(long timestamp)
+    {
+        GregorianCalendar day = getCalendar(timestamp);
+        return day.get(GregorianCalendar.DAY_OF_WEEK) % 7;
     }
 
     public static long getStartOfToday()
@@ -88,6 +102,17 @@ public class DateHelper
 
     public static String[] getShortDayNames()
     {
+        return getDayNames(GregorianCalendar.SHORT);
+    }
+
+    public static String[] getLongDayNames()
+    {
+        return getDayNames(GregorianCalendar.LONG);
+    }
+
+
+    public static String[] getDayNames(int format)
+    {
         String[] wdays = new String[7];
 
         GregorianCalendar day = new GregorianCalendar();
@@ -95,12 +120,69 @@ public class DateHelper
 
         for (int i = 0; i < 7; i++)
         {
-            wdays[i] = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, GregorianCalendar.SHORT,
+            wdays[i] = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, format,
                     Locale.getDefault());
             day.add(GregorianCalendar.DAY_OF_MONTH, 1);
         }
 
         return wdays;
+    }
+
+    public static String formatWeekdayList(Context context, boolean weekday[])
+    {
+        String shortDayNames[] = getShortDayNames();
+        String longDayNames[] = getLongDayNames();
+        StringBuilder buffer = new StringBuilder();
+
+        int count = 0;
+        int first = 0;
+        boolean isFirst = true;
+        for(int i = 0; i < 7; i++)
+        {
+            if(weekday[i])
+            {
+                if(isFirst) first = i;
+                else buffer.append(", ");
+
+                buffer.append(shortDayNames[i]);
+                isFirst = false;
+                count++;
+            }
+        }
+
+        if(count == 1) return longDayNames[first];
+        if(count == 2 && weekday[0] && weekday[1]) return context.getString(R.string.weekends);
+        if(count == 5 && !weekday[0] && !weekday[1]) return context.getString(R.string.any_weekday);
+        if(count == 7) return context.getString(R.string.any_day);
+        return buffer.toString();
+    }
+
+    public static Integer packWeekdayList(boolean weekday[])
+    {
+        int list = 0;
+        int current = 1;
+
+        for(int i = 0; i < 7; i++)
+        {
+            if(weekday[i]) list |= current;
+            current = current << 1;
+        }
+
+        return list;
+    }
+
+    public static boolean[] unpackWeekdayList(int list)
+    {
+        boolean[] weekday = new boolean[7];
+        int current = 1;
+
+        for(int i = 0; i < 7; i++)
+        {
+            if((list & current) != 0) weekday[i] = true;
+            current = current << 1;
+        }
+
+        return weekday;
     }
 
 }

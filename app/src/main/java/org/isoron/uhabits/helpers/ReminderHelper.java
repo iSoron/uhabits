@@ -58,14 +58,13 @@ public class ReminderHelper
 
         long timestamp = DateHelper.getStartOfDay(DateHelper.toLocalTime(reminderTime));
 
-        Uri uri = Uri.parse(String.format("content://org.isoron.uhabits/habit/%d?timestamp=%d",
-                habit.getId(), timestamp));
-
-        Log.d("Alarm", uri.toString());
+        Uri uri = Uri.parse(String.format("content://org.isoron.uhabits/habit/%d", habit.getId()));
 
         Intent alarmIntent = new Intent(context, ReminderAlarmReceiver.class);
         alarmIntent.setAction(ReminderAlarmReceiver.ACTION_REMIND);
         alarmIntent.setData(uri);
+        alarmIntent.putExtra("timestamp", timestamp);
+        alarmIntent.putExtra("reminderTime", reminderTime);
 
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, ((int) (habit.getId() % Integer.MAX_VALUE)) + 1,
@@ -77,7 +76,7 @@ public class ReminderHelper
         else
             manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
 
-        Log.d("Alarm", String.format("Setting alarm (%s): %s",
+        Log.d("ReminderHelper", String.format("Setting alarm (%s): %s",
                 DateFormat.getDateTimeInstance().format(new Date(reminderTime)), habit.name));
     }
 }

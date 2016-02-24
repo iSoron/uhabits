@@ -71,6 +71,9 @@ public class Habit extends Model
     @Column(name = "reminder_min")
     public Integer reminderMin;
 
+    @Column(name = "reminder_days")
+    public Integer reminderDays;
+
     @Column(name = "highlight")
     public Integer highlight;
 
@@ -90,6 +93,7 @@ public class Habit extends Model
         this.archived = 0;
         this.freqDen = 7;
         this.freqNum = 3;
+        this.reminderDays = 127;
     }
 
     public static Habit get(Long id)
@@ -189,6 +193,7 @@ public class Habit extends Model
         this.position = model.position;
         this.reminderHour = model.reminderHour;
         this.reminderMin = model.reminderMin;
+        this.reminderDays = model.reminderDays;
         this.highlight = model.highlight;
         this.archived = model.archived;
     }

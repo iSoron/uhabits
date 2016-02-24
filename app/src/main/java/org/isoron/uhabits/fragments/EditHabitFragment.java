@@ -34,16 +34,18 @@ import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
-import com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
 import org.isoron.uhabits.models.Habit;
 
-public class EditHabitFragment extends DialogFragment implements OnClickListener
+public class EditHabitFragment extends DialogFragment
+        implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
+        TimePickerDialog.OnTimeSetListener
 {
     private Integer mode;
     static final int EDIT_MODE = 0;
@@ -52,7 +54,7 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
     private OnSavedListener onSavedListener;
 
     private Habit originalHabit, modifiedHabit;
-    private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvInputReminder;
+    private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvReminderTime, tvReminderDays;
 
     private SharedPreferences prefs;
     private boolean is24HourMode;
@@ -85,14 +87,16 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
         tvDescription = (TextView) view.findViewById(R.id.input_description);
         tvFreqNum = (TextView) view.findViewById(R.id.input_freq_num);
         tvFreqDen = (TextView) view.findViewById(R.id.input_freq_den);
-        tvInputReminder = (TextView) view.findViewById(R.id.inputReminderTime);
+        tvReminderTime = (TextView) view.findViewById(R.id.inputReminderTime);
+        tvReminderDays = (TextView) view.findViewById(R.id.inputReminderDays);
 
         Button buttonSave = (Button) view.findViewById(R.id.buttonSave);
         Button buttonDiscard = (Button) view.findViewById(R.id.buttonDiscard);
 
         buttonSave.setOnClickListener(this);
         buttonDiscard.setOnClickListener(this);
-        tvInputReminder.setOnClickListener(this);
+        tvReminderTime.setOnClickListener(this);
+        tvReminderDays.setOnClickListener(this);
 
         ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.buttonPickColor);
 
@@ -151,15 +155,20 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
     {
         if (modifiedHabit.reminderHour != null)
         {
-            tvInputReminder.setTextColor(Color.BLACK);
-            tvInputReminder.setText(DateHelper.formatTime(getActivity(),
-                    modifiedHabit.reminderHour, modifiedHabit.reminderMin));
+            tvReminderTime.setTextColor(Color.BLACK);
+            tvReminderTime.setText(DateHelper.formatTime(getActivity(), modifiedHabit.reminderHour,
+                    modifiedHabit.reminderMin));
+            tvReminderDays.setVisibility(View.VISIBLE);
         }
         else
         {
-            tvInputReminder.setTextColor(Color.GRAY);
-            tvInputReminder.setText(R.string.reminder_off);
+            tvReminderTime.setTextColor(Color.GRAY);
+            tvReminderTime.setText(R.string.reminder_off);
+            tvReminderDays.setVisibility(View.GONE);
         }
+
+        boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
+        tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
     }
 
     public void setOnSavedListener(OnSavedListener onSavedListener)
@@ -174,6 +183,10 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
         {
             case R.id.inputReminderTime:
                 onDateSpinnerClick();
+                break;
+
+            case R.id.inputReminderDays:
+                onWeekdayClick();
                 break;
 
             case R.id.buttonSave:
@@ -273,25 +286,39 @@ public class EditHabitFragment extends DialogFragment implements OnClickListener
             defaultMin = modifiedHabit.reminderMin;
         }
 
-        TimePickerDialog timePicker = TimePickerDialog.newInstance(new OnTimeSetListener()
-        {
-            @Override
-            public void onTimeSet(RadialPickerLayout view, int hour, int minute)
-            {
-                modifiedHabit.reminderHour = hour;
-                modifiedHabit.reminderMin = minute;
-                updateReminder();
-            }
-
-            @Override
-            public void onTimeCleared(RadialPickerLayout view)
-            {
-                modifiedHabit.reminderHour = null;
-                modifiedHabit.reminderMin = null;
-                updateReminder();
-            }
-        }, defaultHour, defaultMin, is24HourMode);
-
+        TimePickerDialog timePicker =
+                TimePickerDialog.newInstance(this, defaultHour, defaultMin, is24HourMode);
         timePicker.show(getFragmentManager(), "timePicker");
+    }
+
+    private void onWeekdayClick()
+    {
+        WeekdayPickerDialog dialog = new WeekdayPickerDialog();
+        dialog.setListener(this);
+        dialog.setSelectedDays(DateHelper.unpackWeekdayList(modifiedHabit.reminderDays));
+        dialog.show(getFragmentManager(), "weekdayPicker");
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hour, int minute)
+    {
+        modifiedHabit.reminderHour = hour;
+        modifiedHabit.reminderMin = minute;
+        updateReminder();
+    }
+
+    @Override
+    public void onTimeCleared(RadialPickerLayout view)
+    {
+        modifiedHabit.reminderHour = null;
+        modifiedHabit.reminderMin = null;
+        updateReminder();
+    }
+
+    @Override
+    public void onWeekdaysPicked(boolean[] selectedDays)
+    {
+        modifiedHabit.reminderDays = DateHelper.packWeekdayList(selectedDays);
+        updateReminder();
     }
 }

@@ -75,6 +75,11 @@
                 android:id="@+id/inputReminderTime"
                 style="@style/dialogFormTimePicker" />
 
+            <TextView
+                android:id="@+id/inputReminderDays"
+                android:text="Any weekday"
+                style="@style/dialogFormTimePicker" />
+
         </LinearLayout>
     </LinearLayout>
 
