@@ -35,6 +35,13 @@ public class DateHelper
         return now + tz.getOffset(now);
     }
 
+    public static long toLocalTime(long timestamp)
+    {
+        TimeZone tz = TimeZone.getDefault();
+        long now = new Date(timestamp).getTime();
+        return now + tz.getOffset(now);
+    }
+
     public static long getStartOfDay(long timestamp)
     {
         return (timestamp / millisecondsInOneDay) * millisecondsInOneDay;

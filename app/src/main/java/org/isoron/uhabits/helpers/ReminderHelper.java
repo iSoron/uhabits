@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.ReminderAlarmReceiver;
 import org.isoron.uhabits.models.Habit;
 
@@ -41,8 +42,6 @@ public class ReminderHelper
 
     public static void createReminderAlarm(Context context, Habit habit, Long reminderTime)
     {
-        Uri uri = Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId());
-
         if (reminderTime == null)
         {
             Calendar calendar = Calendar.getInstance();
@@ -54,10 +53,15 @@ public class ReminderHelper
             reminderTime = calendar.getTimeInMillis();
 
             if (System.currentTimeMillis() > reminderTime)
-            {
                 reminderTime += AlarmManager.INTERVAL_DAY;
-            }
         }
+
+        long timestamp = DateHelper.getStartOfDay(DateHelper.toLocalTime(reminderTime));
+
+        Uri uri = Uri.parse(String.format("content://org.isoron.uhabits/habit/%d?timestamp=%d",
+                habit.getId(), timestamp));
+
+        Log.d("Alarm", uri.toString());
 
         Intent alarmIntent = new Intent(context, ReminderAlarmReceiver.class);
         alarmIntent.setAction(ReminderAlarmReceiver.ACTION_REMIND);
@@ -69,13 +73,9 @@ public class ReminderHelper
 
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= 19)
-        {
             manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
-        }
         else
-        {
             manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
-        }
 
         Log.d("Alarm", String.format("Setting alarm (%s): %s",
                 DateFormat.getDateTimeInstance().format(new Date(reminderTime)), habit.name));

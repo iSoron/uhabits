@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
+import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 
@@ -38,25 +39,36 @@ import java.util.Date;
 
 public class ReminderAlarmReceiver extends BroadcastReceiver
 {
-
-    public static String ACTION_CHECK = "org.isoron.uhabits.ACTION_CHECK";
-    public static String ACTION_DISMISS = "org.isoron.uhabits.ACTION_DISMISS";
-    public static String ACTION_REMIND = "org.isoron.uhabits.ACTION_REMIND";
-    public static String ACTION_REMOVE_REMINDER = "org.isoron.uhabits.ACTION_REMOVE_REMINDER";
-    public static String ACTION_SNOOZE = "org.isoron.uhabits.ACTION_SNOOZE";
+    public static final String ACTION_CHECK = "org.isoron.uhabits.ACTION_CHECK";
+    public static final String ACTION_DISMISS = "org.isoron.uhabits.ACTION_DISMISS";
+    public static final String ACTION_REMIND = "org.isoron.uhabits.ACTION_REMIND";
+    public static final String ACTION_REMOVE_REMINDER = "org.isoron.uhabits.ACTION_REMOVE_REMINDER";
+    public static final String ACTION_SNOOZE = "org.isoron.uhabits.ACTION_SNOOZE";
 
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        String action = intent.getAction();
+        switch (intent.getAction())
+        {
+            case ACTION_REMIND:
+                createNotification(context, intent.getData());
+                break;
 
-        if (action.equals(ACTION_REMIND)) createNotification(context, intent.getData());
+            case ACTION_DISMISS:
+                dismissAllHabits();
+                ReminderHelper.createReminderAlarms(context);
+                break;
 
-        else if (action.equals(ACTION_DISMISS)) dismissAllHabits();
+            case ACTION_CHECK:
+                checkHabit(context, intent.getData());
+                ReminderHelper.createReminderAlarms(context);
+                break;
 
-        else if (action.equals(ACTION_CHECK)) checkHabit(context, intent.getData());
-
-        else if (action.equals(ACTION_SNOOZE)) snoozeHabit(context, intent.getData());
+            case ACTION_SNOOZE:
+                snoozeHabit(context, intent.getData());
+                ReminderHelper.createReminderAlarms(context);
+                break;
+        }
     }
 
     private void snoozeHabit(Context context, Uri data)
@@ -73,8 +85,13 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
 
     private void checkHabit(Context context, Uri data)
     {
+        Long timestamp = DateHelper.getStartOfToday();
+        String paramTimestamp = data.getQueryParameter("timestamp");
+
+        if(paramTimestamp != null) timestamp = Long.parseLong(paramTimestamp);
+
         Habit habit = Habit.get(ContentUris.parseId(data));
-        habit.toggleRepetitionToday();
+        habit.toggleRepetition(timestamp);
         habit.save();
         dismissNotification(context, habit);
     }
