@@ -97,4 +97,7 @@
   <string name="hint_title">Dica</string>
   <string name="hint_drag">Para mudar a ordem dos hábitos, aperte no nome do hábito, sustente e arraste.</string>
   <string name="hint_landscape">Para ver mais dias, coloque seu aparelho em modo paisagem.</string>
+  <string name="delete_habits">Deletar hábitos</string>
+  <string name="toast_habit_restored">Hábitos restaurados.</string>
+  <string name="delete_habits_message">Os hábitos escolhidos serão deletados permanentemente. Esta ação não pode ser desfeita.</string>
 </resources>

@@ -215,6 +215,27 @@ public class Habit extends Model
         return (count > 0);
     }
 
+    public void cascadeDelete()
+    {
+        Long id = getId();
+
+        ActiveAndroid.beginTransaction();
+        try
+        {
+            new Delete().from(Checkmark.class).where("habit = ?", id).execute();
+            new Delete().from(Repetition.class).where("habit = ?", id).execute();
+            new Delete().from(Score.class).where("habit = ?", id).execute();
+            new Delete().from(Streak.class).where("habit = ?", id).execute();
+            delete();
+
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally
+        {
+            ActiveAndroid.endTransaction();
+        }
+    }
+
     public void deleteReps(long timestamp)
     {
         new Delete().from(Repetition.class)

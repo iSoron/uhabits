@@ -19,16 +19,16 @@ package org.isoron.uhabits.fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -65,6 +65,7 @@ import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
+import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
@@ -177,6 +178,23 @@ public class ListHabitsFragment extends Fragment
                         }
                     });
                     picker.show(getFragmentManager(), "picker");
+                }
+
+                case R.id.action_delete:
+                {
+                    new AlertDialog.Builder(activity)
+                            .setTitle(R.string.delete_habits)
+                            .setMessage(R.string.delete_habits_message)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    executeCommand(new DeleteHabitsCommand(selectedHabits), null);
+                                    mode.finish();
+                                }
+                            }).setNegativeButton(android.R.string.no, null)
+                            .show();
                 }
             }
 
