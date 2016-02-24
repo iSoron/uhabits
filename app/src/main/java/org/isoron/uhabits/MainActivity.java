@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
@@ -65,6 +66,7 @@ public class MainActivity extends ReplayableActivity
         {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("pref_first_run", false);
+            editor.putLong("last_hint_timestamp", DateHelper.getStartOfToday()).apply();
             editor.apply();
 
             Intent intent = new Intent(this, IntroActivity.class);
