@@ -178,6 +178,7 @@ public class ListHabitsFragment extends Fragment
                         }
                     });
                     picker.show(getFragmentManager(), "picker");
+                    return true;
                 }
 
                 case R.id.action_delete:
@@ -195,6 +196,8 @@ public class ListHabitsFragment extends Fragment
                                 }
                             }).setNegativeButton(android.R.string.no, null)
                             .show();
+
+                    return true;
                 }
             }
 
