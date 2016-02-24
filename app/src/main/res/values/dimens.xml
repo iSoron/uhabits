@@ -22,5 +22,5 @@
         <item>480</item>
     </string-array>
 
-    <string name="snooze_interval_default">15</string>
+    <string name="snooze_interval_default" translatable="false">15</string>
 </resources>

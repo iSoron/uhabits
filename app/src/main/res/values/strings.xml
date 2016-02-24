@@ -21,29 +21,29 @@
     <string name="toast_habit_archived">Habits archived.</string>
     <string name="toast_habit_unarchived">Habits unarchived.</string>
 
-    <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
-    <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+    <string name="color_swatch_description" translatable="false">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
+    <string name="color_swatch_description_selected" translatable="false">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
 
     <!-- Date and time picker -->
     <string name="done_label">Done</string>
     <string name="clear_label">Clear</string>
-    <string name="hour_picker_description">Hours circular slider</string>
-    <string name="minute_picker_description">Minutes circular slider</string>
+    <string name="hour_picker_description" translatable="false">Hours circular slider</string>
+    <string name="minute_picker_description" translatable="false">Minutes circular slider</string>
     <string name="select_hours">Select hours</string>
     <string name="select_minutes">Select minutes</string>
-    <string name="day_picker_description">Month grid of days</string>
-    <string name="year_picker_description">Year list</string>
+    <string name="day_picker_description" translatable="false">Month grid of days</string>
+    <string name="year_picker_description" translatable="false">Year list</string>
     <string name="select_day">Select month and day</string>
     <string name="select_year">Select year</string>
-    <string name="item_is_selected"><xliff:g id="item" example="2013">%1$s</xliff:g> selected</string>
-    <string name="deleted_key"><xliff:g id="key" example="4">%1$s</xliff:g> deleted</string>
-    <string name="time_placeholder">--</string>
-    <string name="time_separator">:</string>
-    <string name="radial_numbers_typeface">sans-serif</string>
-    <string name="sans_serif">sans-serif</string>
-    <string name="day_of_week_label_typeface">sans-serif</string>
+    <string name="item_is_selected" translatable="false"><xliff:g id="item" example="2013">%1$s</xliff:g> selected</string>
+    <string name="deleted_key" translatable="false"><xliff:g id="key" example="4">%1$s</xliff:g> deleted</string>
+    <string name="time_placeholder" translatable="false">--</string>
+    <string name="time_separator" translatable="false">:</string>
+    <string name="radial_numbers_typeface" translatable="false">sans-serif</string>
+    <string name="sans_serif" translatable="false">sans-serif</string>
+    <string name="day_of_week_label_typeface" translatable="false">sans-serif</string>
 
-    <string name="title_activity_show_habit" />
+    <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
     <string name="history">History</string>
@@ -51,14 +51,14 @@
     <string name="description">Description</string>
     <string name="description_hint">Question (Did you … today?)</string>
     <string name="repeat">Repeat</string>
-    <string name="times_every">times every</string>
+    <string name="times_every">times in</string>
     <string name="days">days</string>
     <string name="reminder">Reminder</string>
     <string name="discard">Discard</string>
     <string name="save">Save</string>
     <string name="streaks">Streaks</string>
     <string name="no_habits_found">You have no active habits</string>
-    <string name="long_press_to_toggle">Long press to check or uncheck</string>
+    <string name="long_press_to_toggle">Press-and-hold to check or uncheck</string>
     <string name="reminder_off">Off</string>
     <string name="validation_name_should_not_be_blank">Name cannot be blank.</string>
     <string name="validation_number_should_be_positive">Number must be positive.</string>

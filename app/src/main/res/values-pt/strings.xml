@@ -94,4 +94,7 @@
   <string name="intro_title_3">Continue praticando</string>
   <string name="intro_title_4">Acompanhe o seu progresso</string>
   <string name="intro_description_4">Veja como seus hábitos estão progredindo através de diagramas.</string>
+  <string name="hint_title">Dica</string>
+  <string name="hint_drag">Para mudar a ordem dos hábitos, aperte no nome do hábito, sustente e arraste.</string>
+  <string name="hint_landscape">Para ver mais dias, coloque seu aparelho em modo paisagem.</string>
 </resources>
