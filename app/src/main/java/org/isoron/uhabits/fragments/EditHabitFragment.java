@@ -43,6 +43,8 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
 import org.isoron.uhabits.models.Habit;
 
+import java.util.Arrays;
+
 public class EditHabitFragment extends DialogFragment
         implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
         TimePickerDialog.OnTimeSetListener
@@ -318,6 +320,11 @@ public class EditHabitFragment extends DialogFragment
     @Override
     public void onWeekdaysPicked(boolean[] selectedDays)
     {
+        int count = 0;
+        for(int i = 0; i < 7; i++)
+            if(selectedDays[i]) count++;
+        if(count == 0) Arrays.fill(selectedDays, true);
+
         modifiedHabit.reminderDays = DateHelper.packWeekdayList(selectedDays);
         updateReminder();
     }
