@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.R;
 
 public class WeekdayPickerDialog extends DialogFragment
         implements DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnClickListener
@@ -34,7 +35,7 @@ public class WeekdayPickerDialog extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select weekdays")
+        builder.setTitle(R.string.select_weekdays)
                 .setMultiChoiceItems(DateHelper.getLongDayNames(), selectedDays, this)
                 .setPositiveButton(android.R.string.yes, this)
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
