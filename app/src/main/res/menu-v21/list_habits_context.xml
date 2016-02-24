@@ -4,21 +4,21 @@
     <item
         android:id="@+id/action_edit_habit"
         android:title="@string/edit"
-        android:icon="@drawable/ic_action_edit_light"/>
+        android:icon="@drawable/ic_action_edit_dark"/>
 
     <item
         android:id="@+id/action_color"
         android:title="@string/color_picker_default_title"
-        android:icon="@drawable/ic_action_color_light"/>
+        android:icon="@drawable/ic_action_color_dark"/>
 
     <item
         android:id="@+id/action_archive_habit"
         android:title="@string/archive"
-        android:icon="@drawable/ic_action_archive_light" />
+        android:icon="@drawable/ic_action_archive_dark" />
 
     <item
         android:id="@+id/action_unarchive_habit"
         android:title="@string/unarchive"
-        android:icon="@drawable/ic_action_unarchive_light"/>
+        android:icon="@drawable/ic_action_unarchive_dark"/>
 
 </menu>

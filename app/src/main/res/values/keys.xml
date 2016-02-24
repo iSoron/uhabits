@@ -19,8 +19,8 @@
   -->
 
 <resources>
-    <string name="habit_key" translatable="false"></string>
-    <string name="offset_key" translatable="false"></string>
-    <string name="toggle_key" translatable="false"></string>
-    <item name="KEY_TIMESTAMP" type="id"/>
+    <string name="habit_key" translatable="false" />
+    <string name="offset_key" translatable="false" />
+    <string name="toggle_key" translatable="false" />
+    <item name="timestamp_key" type="id"/>
 </resources>

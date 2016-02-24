@@ -23,7 +23,7 @@
 
             <ImageButton
                 android:id="@+id/buttonPickColor"
-                android:src="@drawable/ic_action_pick_color"
+                android:src="@drawable/ic_action_color_light"
                 style="@style/dialogFormInputColor" />
         </LinearLayout>
 

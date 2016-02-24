@@ -7,6 +7,13 @@
     </style>
 
     <style name="habitsListCheckStyle" parent="habitsListCheckBasicStyle">
-        <item name="android:background">@drawable/ripple_background</item>
+        <item name="android:background">@drawable/ripple_transparent</item>
+    </style>
+
+    <style name="habitsListItemInnerPanelStyle" parent="cardStyle">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:background">@drawable/ripple_white</item>
+        <item name="android:elevation">1dp</item>
     </style>
 </resources>

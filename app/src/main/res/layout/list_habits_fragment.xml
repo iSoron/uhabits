@@ -9,12 +9,9 @@
         android:id="@+id/listView"
         style="@style/habitsListStyle"
         dslv:drag_enabled="true"
-        dslv:drag_handle_id="@drawable/habits_header_check"
-        dslv:drag_start_mode="onMove"
-        dslv:float_alpha="0.5"
+        dslv:drag_start_mode="onLongPress"
         dslv:sort_enabled="true"
         dslv:track_drag_sort="false"
-        dslv:use_default_controller="true"
         />
 
     <LinearLayout

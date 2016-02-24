@@ -23,10 +23,13 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -47,28 +50,153 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.ColorPickerSwatch;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
+import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.commands.ArchiveHabitsCommand;
+import org.isoron.uhabits.commands.ChangeHabitColorCommand;
+import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
-        OnClickListener, HabitListLoader.Listener
+        OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener
 {
-    public static final int INACTIVE_COLOR = Color.rgb(230, 230, 230);
+    private class ListHabitsActionBarCallback implements ActionMode.Callback
+    {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu)
+        {
+            getActivity().getMenuInflater().inflate(R.menu.list_habits_context, menu);
+            updateTitle(mode);
+            updateActions(menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+        {
+            updateTitle(mode);
+            updateActions(menu);
+            return true;
+        }
+
+        private void updateActions(Menu menu)
+        {
+            boolean showEdit = (selectedPositions.size() == 1);
+            boolean showColor = true;
+            boolean showArchive = true;
+            boolean showUnarchive = true;
+
+            if(showEdit) showColor = false;
+            for(int i : selectedPositions)
+            {
+                Habit h = loader.habitsList.get(i);
+                if(h.isArchived())
+                {
+                    showColor = false;
+                    showArchive = false;
+                }
+                else showUnarchive = false;
+            }
+
+            MenuItem itemEdit = menu.findItem(R.id.action_edit_habit);
+            MenuItem itemColor = menu.findItem(R.id.action_color);
+            MenuItem itemArchive = menu.findItem(R.id.action_archive_habit);
+            MenuItem itemUnarchive = menu.findItem(R.id.action_unarchive_habit);
+
+            itemEdit.setVisible(showEdit);
+            itemColor.setVisible(showColor);
+            itemArchive.setVisible(showArchive);
+            itemUnarchive.setVisible(showUnarchive);
+        }
+
+        private void updateTitle(ActionMode mode)
+        {
+            mode.setTitle("" + selectedPositions.size());
+        }
+
+        @Override
+        public boolean onActionItemClicked(final ActionMode mode, MenuItem item)
+        {
+            final LinkedList<Habit> selectedHabits = new LinkedList<>();
+            for(int i : selectedPositions)
+                selectedHabits.add(loader.habitsList.get(i));
+
+            Habit firstHabit = selectedHabits.getFirst();
+
+            switch(item.getItemId())
+            {
+                case R.id.action_archive_habit:
+                    executeCommand(new ArchiveHabitsCommand(selectedHabits), null);
+                    mode.finish();
+                    return true;
+
+                case R.id.action_unarchive_habit:
+                    executeCommand(new UnarchiveHabitsCommand(selectedHabits), null);
+                    mode.finish();
+                    return true;
+
+                case R.id.action_edit_habit:
+                {
+                    EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(firstHabit.getId());
+                    frag.setOnSavedListener(ListHabitsFragment.this);
+                    frag.show(getFragmentManager(), "dialog");
+                    return true;
+                }
+
+                case R.id.action_color:
+                {
+                    ColorPickerDialog picker = ColorPickerDialog.newInstance(
+                            R.string.color_picker_default_title, ColorHelper.palette,
+                            firstHabit.color, 4, ColorPickerDialog.SIZE_SMALL);
+
+                    picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
+                    {
+                        public void onColorSelected(int color)
+                        {
+                            executeCommand(new ChangeHabitColorCommand(selectedHabits, color), null);
+                            mode.finish();
+                        }
+                    });
+                    picker.show(getFragmentManager(), "picker");
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode)
+        {
+            actionMode = null;
+
+            selectedPositions.clear();
+            adapter.notifyDataSetChanged();
+
+            listView.setDragEnabled(true);
+        }
+    }
+
+    public static final int INACTIVE_COLOR = Color.rgb(200, 200, 200);
+    public static final int INACTIVE_CHECKMARK_COLOR = Color.rgb(230, 230, 230);
 
     public static final int HINT_INTERVAL = 5;
     public static final int HINT_INTERVAL_OFFSET = 2;
@@ -96,6 +224,10 @@ public class ListHabitsFragment extends Fragment
     private boolean showArchived;
     private SharedPreferences prefs;
 
+    private ActionMode actionMode;
+    private List<Integer> selectedPositions;
+    private DragSortController dragSortController;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -119,18 +251,39 @@ public class ListHabitsFragment extends Fragment
         listView = (DragSortListView) view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        registerForContextMenu(listView);
+        listView.setOnItemLongClickListener(this);
         listView.setDropListener(this);
+        listView.setDragListener(new DragSortListView.DragListener()
+        {
+            @Override
+            public void drag(int from, int to)
+            {
+            }
 
-        DragSortController controller = new DragSortController(listView);
-        controller.setDragHandleId(R.id.tvStar);
-        controller.setRemoveEnabled(false);
-        controller.setSortEnabled(true);
-        controller.setDragInitMode(1);
+            @Override
+            public void startDrag(int position)
+            {
+                selectItem(position);
+            }
+        });
 
-        listView.setFloatViewManager(controller);
-        listView.setOnTouchListener(controller);
+        dragSortController = new DragSortController(listView) {
+                @Override
+                public View onCreateFloatView(int position)
+                {
+                     return adapter.getView(position, null, null);
+                }
+
+            @Override
+            public void onDestroyFloatView(View floatView)
+            {
+            }
+        };
+        dragSortController.setRemoveEnabled(false);
+
+        listView.setFloatViewManager(dragSortController);
         listView.setDragEnabled(true);
+        listView.setLongClickable(true);
 
         llHint = view.findViewById(R.id.llHint);
         llHint.setOnClickListener(this);
@@ -143,7 +296,7 @@ public class ListHabitsFragment extends Fragment
         loader.updateAllHabits(true);
         setHasOptionsMenu(true);
 
-
+        selectedPositions = new LinkedList<>();
 
         return view;
     }
@@ -257,45 +410,51 @@ public class ListHabitsFragment extends Fragment
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem menuItem)
-    {
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuItem.getMenuInfo();
-        final Habit habit = loader.habits.get(info.id);
-
-        switch(menuItem.getItemId())
-        {
-            case R.id.action_edit_habit:
-            {
-                EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(habit.getId());
-                frag.setOnSavedListener(this);
-                frag.show(getFragmentManager(), "dialog");
-                return true;
-            }
-
-            case R.id.action_archive_habit:
-            {
-                Command c = habit.new ArchiveCommand();
-                executeCommand(c, null);
-                return true;
-            }
-
-            case R.id.action_unarchive_habit:
-            {
-                Command c = habit.new UnarchiveCommand();
-                executeCommand(c, null);
-            }
-        }
-
-        return super.onContextItemSelected(menuItem);
-    }
-
-    @Override
     public void onItemClick(AdapterView parent, View view, int position, long id)
     {
         if (new Date().getTime() - lastLongClick < 1000) return;
 
-        Habit habit = loader.habitsList.get(position);
-        habitClickListener.onHabitClicked(habit);
+        if(actionMode == null)
+        {
+            Habit habit = loader.habitsList.get(position);
+            habitClickListener.onHabitClicked(habit);
+        }
+        else
+        {
+            int k = selectedPositions.indexOf(position);
+            if(k < 0)
+                selectedPositions.add(position);
+            else
+                selectedPositions.remove(k);
+
+            if(selectedPositions.isEmpty()) actionMode.finish();
+            else actionMode.invalidate();
+
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        selectItem(position);
+        return true;
+    }
+
+    private void selectItem(int position)
+    {
+        if(!selectedPositions.contains(position))
+            selectedPositions.add(position);
+
+        adapter.notifyDataSetChanged();
+
+        if(actionMode == null)
+        {
+            actionMode = getActivity().startActionMode(new ListHabitsActionBarCallback());
+//            listView.setDragEnabled(false);
+        }
+
+        if(actionMode != null) actionMode.invalidate();
     }
 
     @Override
@@ -308,6 +467,8 @@ public class ListHabitsFragment extends Fragment
         adapter.notifyDataSetChanged();
 
         ReminderHelper.createReminderAlarms(activity);
+
+        if(actionMode != null) actionMode.finish();
     }
 
     private void updateEmptyMessage()
@@ -400,6 +561,9 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void drop(int from, int to)
     {
+        if(from == to) return;
+        if(actionMode != null) actionMode.finish();
+
         loader.reorder(from, to);
         adapter.notifyDataSetChanged();
         loader.updateAllHabits(false);
@@ -457,7 +621,7 @@ public class ListHabitsFragment extends Fragment
             final Habit habit = loader.habitsList.get(position);
 
             if (view == null ||
-                    (Long) view.getTag(R.id.KEY_TIMESTAMP) != DateHelper.getStartOfToday())
+                    (Long) view.getTag(R.id.timestamp_key) != DateHelper.getStartOfToday())
             {
                 view = inflater.inflate(R.layout.list_habits_item, null);
                 ((TextView) view.findViewById(R.id.tvStar)).setTypeface(fontawesome);
@@ -468,7 +632,7 @@ public class ListHabitsFragment extends Fragment
 
                 inflateCheckmarkButtons(view);
 
-                view.setTag(R.id.KEY_TIMESTAMP, DateHelper.getStartOfToday());
+                view.setTag(R.id.timestamp_key, DateHelper.getStartOfToday());
             }
 
             TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
@@ -480,6 +644,17 @@ public class ListHabitsFragment extends Fragment
 
             updateNameAndIcon(habit, tvStar, tvName);
             updateCheckmarkButtons(habit, llButtons);
+
+            boolean selected = selectedPositions.contains(position);
+            if(selected)
+                llInner.setBackgroundResource(R.drawable.selected_box);
+            else
+            {
+                if (android.os.Build.VERSION.SDK_INT >= 21)
+                    llInner.setBackgroundResource(R.drawable.ripple_white);
+                else
+                    llInner.setBackgroundColor(Color.WHITE);
+            }
 
             return view;
         }
@@ -554,6 +729,7 @@ public class ListHabitsFragment extends Fragment
     {
         int activeColor = habit.color;
         if(habit.isArchived()) activeColor = INACTIVE_COLOR;
+
         return activeColor;
     }
 
@@ -569,13 +745,13 @@ public class ListHabitsFragment extends Fragment
 
             case 1:
                 tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(INACTIVE_COLOR);
+                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
                 tvCheck.setTag(R.string.toggle_key, 1);
                 break;
 
             case 0:
                 tvCheck.setText(R.string.fa_times);
-                tvCheck.setTextColor(INACTIVE_COLOR);
+                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
                 tvCheck.setTag(R.string.toggle_key, 0);
                 break;
         }

@@ -164,16 +164,22 @@ public class HabitListLoader
             @Override
             protected void onPreExecute()
             {
-                progressBar.setIndeterminate(false);
-                progressBar.setProgress(0);
-                progressBar.setVisibility(View.VISIBLE);
+                if(progressBar != null)
+                {
+                    progressBar.setIndeterminate(false);
+                    progressBar.setProgress(0);
+                    progressBar.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             protected void onProgressUpdate(Integer... values)
             {
-                progressBar.setMax(values[1]);
-                progressBar.setProgress(values[0]);
+                if(progressBar != null)
+                {
+                    progressBar.setMax(values[1]);
+                    progressBar.setProgress(values[0]);
+                }
 
                 if(listener != null) listener.onLoadFinished();
             }
@@ -183,7 +189,7 @@ public class HabitListLoader
             {
                 if (isCancelled()) return;
 
-                progressBar.setVisibility(View.INVISIBLE);
+                if(progressBar != null) progressBar.setVisibility(View.INVISIBLE);
                 lastLoadTimestamp = DateHelper.getStartOfToday();
                 currentFetchTask = null;
 
@@ -223,8 +229,11 @@ public class HabitListLoader
                     {
                         if (getStatus() == Status.RUNNING)
                         {
-                            progressBar.setIndeterminate(true);
-                            progressBar.setVisibility(View.VISIBLE);
+                            if(progressBar != null)
+                            {
+                                progressBar.setIndeterminate(true);
+                                progressBar.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                 }, 500);
@@ -233,7 +242,7 @@ public class HabitListLoader
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                progressBar.setVisibility(View.GONE);
+                if(progressBar != null) progressBar.setVisibility(View.GONE);
 
                 if(listener != null)
                     listener.onLoadFinished();

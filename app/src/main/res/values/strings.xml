@@ -9,7 +9,7 @@
     <string name="archive">Archive</string>
     <string name="unarchive">Unarchive</string>
     <string name="add_habit">Add habit</string>
-    <string name="color_picker_default_title">Select a Color</string>
+    <string name="color_picker_default_title">Change color</string>
 
     <string name="toast_habit_created">Habit created.</string>
     <string name="toast_habit_deleted">Habit deleted.</string>
@@ -18,8 +18,8 @@
     <string name="toast_habit_changed">Habit changed.</string>
     <string name="toast_habit_changed_back">Habit changed back.</string>
     <string name="toast_repetition_toggled">Repetition toggled.</string>
-    <string name="toast_habit_archived">Habit archived.</string>
-    <string name="toast_habit_unarchived">Habit unarchived.</string>
+    <string name="toast_habit_archived">Habits archived.</string>
+    <string name="toast_habit_unarchived">Habits unarchived.</string>
 
     <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
     <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
@@ -102,7 +102,7 @@
     <string name="snooze_interval">Snooze interval</string>
 
     <string name="hint_title">Did you know?</string>
-    <string name="hint_drag">To rearrange the entries, you can drag them by the star.</string>
+    <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it.</string>
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
 
     <string-array name="hints">

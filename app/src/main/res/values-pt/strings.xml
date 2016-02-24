@@ -26,7 +26,7 @@
   <string name="check">Marcar</string>
   <string name="clear">Limpar</string>
   <string name="clear_label">Limpar</string>
-  <string name="color_picker_default_title">Selecionar cor</string>
+  <string name="color_picker_default_title">Mudar cor</string>
   <string name="create_habit">Criar hábito</string>
   <string name="days">dias</string>
   <string name="delete">Deletar</string>
@@ -59,12 +59,12 @@
   <string name="streaks">Correntes</string>
   <string name="no_habits_found">Você não tem nenhum hábito ativo</string>
   <string name="time_separator"></string>
-  <string name="toast_habit_archived">Hábito arquivado.</string>
+  <string name="toast_habit_archived">Hábitos arquivados.</string>
   <string name="toast_habit_changed">Hábito modificado.</string>
   <string name="toast_habit_changed_back">Hábito restaurado.</string>
   <string name="toast_habit_created">Hábito criado.</string>
   <string name="toast_habit_deleted">Hábito deletado.</string>
-  <string name="toast_habit_unarchived">Hábito restaurado.</string>
+  <string name="toast_habit_unarchived">Hábitos restaurados.</string>
   <string name="toast_nothing_to_redo">Nada para refazer.</string>
   <string name="toast_nothing_to_undo">Nada para desfazer.</string>
   <string name="toast_repetition_toggled">Marcado.</string>
