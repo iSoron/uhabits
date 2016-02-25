@@ -23,9 +23,12 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -68,9 +71,11 @@ import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.io.CSVExporter;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
+import java.io.File;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -199,6 +204,12 @@ public class ListHabitsFragment extends Fragment
 
                     return true;
                 }
+
+                case R.id.action_export_csv:
+                {
+                    onExportHabitsClick(selectedHabits);
+                    return true;
+                }
             }
 
             return false;
@@ -248,6 +259,7 @@ public class ListHabitsFragment extends Fragment
     private ActionMode actionMode;
     private List<Integer> selectedPositions;
     private DragSortController dragSortController;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -265,7 +277,7 @@ public class ListHabitsFragment extends Fragment
         View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
         tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
 
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         loader.setProgressBar(progressBar);
 
         adapter = new ListHabitsAdapter(getActivity());
@@ -781,5 +793,44 @@ public class ListHabitsFragment extends Fragment
     {
         if (refreshKey == null) loader.updateAllHabits(true);
         else loader.updateHabit(refreshKey);
+    }
+
+    private void onExportHabitsClick(final LinkedList<Habit> selectedHabits)
+    {
+        new AsyncTask<Void, Void, Void>()
+        {
+            String filename;
+
+            @Override
+            protected void onPreExecute()
+            {
+                progressBar.setIndeterminate(true);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                if(filename != null)
+                {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.setType("application/zip");
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filename)));
+
+                    startActivity(intent);
+                }
+
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                CSVExporter exporter = new CSVExporter(activity, selectedHabits);
+                filename = exporter.writeArchive();
+                return null;
+            }
+        }.execute();
     }
 }
