@@ -126,22 +126,7 @@ public class HabitHistoryView extends ScrollableDataView
 
     protected void fetchData()
     {
-        Calendar currentDate = new GregorianCalendar();
-        currentDate.add(Calendar.DAY_OF_YEAR, -dataOffset * 7);
-        int dayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK) % 7;
-
-        long dateTo = DateHelper.getStartOfToday();
-        for (int i = 0; i < 7 - dayOfWeek; i++)
-            dateTo += DateHelper.millisecondsInOneDay;
-
-        for (int i = 0; i < dataOffset * 7; i++)
-            dateTo -= DateHelper.millisecondsInOneDay;
-
-        long dateFrom = dateTo;
-        for (int i = 0; i < (nColumns - 1) * 7; i++)
-            dateFrom -= DateHelper.millisecondsInOneDay;
-
-        checkmarks = habit.getCheckmarks(dateFrom, dateTo);
+        checkmarks = habit.getAllCheckmarks();
         updateDate();
     }
 
@@ -160,6 +145,7 @@ public class HabitHistoryView extends ScrollableDataView
         previousYear = "";
         justPrintedYear = false;
 
+        updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
 
         for (int column = 0; column < nColumns - 1; column++)
@@ -180,7 +166,7 @@ public class HabitHistoryView extends ScrollableDataView
         {
             if (!(column == nColumns - 2 && dataOffset == 0 && j > todayWeekday))
             {
-                int checkmarkOffset = nDays - 7 * column - j;
+                int checkmarkOffset = dataOffset * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 

@@ -294,6 +294,16 @@ public class Habit extends Model
         return checks;
     }
 
+    public int[] getAllCheckmarks()
+    {
+        Repetition oldestRep = getOldestRep();
+        if(oldestRep == null) return new int[0];
+
+        Long toTimestamp = DateHelper.getStartOfToday();
+        Long fromTimestamp = oldestRep.timestamp;
+        return getCheckmarks(fromTimestamp, toTimestamp);
+    }
+
     public void updateCheckmarks()
     {
         long beginning;
@@ -512,13 +522,40 @@ public class Habit extends Model
         return lastScore;
     }
 
-    public List<Score> getScores(long fromTimestamp, long toTimestamp, int divisor, long offset)
+    public int[] getScores(Long fromTimestamp, Long toTimestamp, Integer divisor, Long offset)
     {
-        return new Select().from(Score.class)
-                .where("habit = ? and timestamp > ? and " +
-                                "timestamp <= ? and (timestamp - ?) % ? = 0", getId(), fromTimestamp,
-                        toTimestamp, offset, divisor)
-                .execute();
+        String query = "select score from Score where habit = ? and timestamp > ? and " +
+                "timestamp <= ? and (timestamp - ?) % ? = 0 order by timestamp desc";
+
+        String params[] = {getId().toString(), fromTimestamp.toString(), toTimestamp.toString(),
+                offset.toString(), divisor.toString()};
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor c = db.rawQuery(query, params);
+
+        if(!c.moveToFirst()) return new int[0];
+
+        int k = 0;
+        int[] scores = new int[c.getCount()];
+
+        do
+        {
+            scores[k++] = c.getInt(0);
+        }
+        while (c.moveToNext());
+
+        return scores;
+
+    }
+
+    public int[] getAllScores(int divisor)
+    {
+        Repetition oldestRep = getOldestRep();
+        if(oldestRep == null) return new int[0];
+
+        long fromTimestamp = oldestRep.timestamp;
+        long toTimestamp = DateHelper.getStartOfToday();
+        return getScores(fromTimestamp, toTimestamp, divisor, toTimestamp);
     }
 
     public List<Streak> getStreaks()

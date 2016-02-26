@@ -96,13 +96,14 @@ public class HabitStreakView extends ScrollableDataView
         float barHeaderOffset = lineHeight * 0.4f;
 
         int nStreaks = streaks.size();
-        int start = Math.max(0, nStreaks - nColumns - dataOffset);
+        int start = nStreaks - nColumns - dataOffset;
         SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
 
         String previousMonth = "";
 
         for (int offset = 0; offset < nColumns && start + offset < nStreaks; offset++)
         {
+            if(start + offset < 0) continue;
             String month = dfMonth.format(streaks.get(start + offset).start);
 
             long l = streaks.get(offset + start).length;

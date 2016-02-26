@@ -49,7 +49,6 @@ public abstract class ScrollableDataView extends View
         if (newDataOffset != dataOffset)
         {
             dataOffset = newDataOffset;
-            fetchData();
             invalidate();
             return true;
         }

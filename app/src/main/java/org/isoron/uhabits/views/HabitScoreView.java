@@ -25,10 +25,8 @@ import android.graphics.RectF;
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 public class HabitScoreView extends ScrollableDataView
 {
@@ -41,7 +39,7 @@ public class HabitScoreView extends ScrollableDataView
     private Paint pText, pGraph;
 
     private int[] colors;
-    private List<Score> scores;
+    private int[] scores;
 
     public HabitScoreView(Context context, Habit habit, int columnWidth)
     {
@@ -82,17 +80,7 @@ public class HabitScoreView extends ScrollableDataView
 
     protected void fetchData()
     {
-
-        long toTimestamp = DateHelper.getStartOfToday();
-        for (int i = 0; i < dataOffset * BUCKET_SIZE; i++)
-            toTimestamp -= DateHelper.millisecondsInOneDay;
-
-        long fromTimestamp = toTimestamp;
-        for (int i = 0; i < nColumns * BUCKET_SIZE; i++)
-            fromTimestamp -= DateHelper.millisecondsInOneDay;
-
-        scores = habit.getScores(fromTimestamp, toTimestamp,
-                BUCKET_SIZE * DateHelper.millisecondsInOneDay, toTimestamp);
+        scores = habit.getAllScores(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
     }
 
     @Override
@@ -114,19 +102,25 @@ public class HabitScoreView extends ScrollableDataView
         pGraph.setColor(habit.color);
         RectF prevR = null;
 
-        for (int offset = nColumns - scores.size(); offset < nColumns; offset++)
+        long currentDate = DateHelper.getStartOfToday();
+
+        for(int k = 0; k < nColumns + dataOffset - 1; k++)
+            currentDate -= 7 * DateHelper.millisecondsInOneDay;
+
+        for (int k = 0; k < nColumns; k++)
         {
-            Score score = scores.get(offset - nColumns + scores.size());
-            String month = dfMonth.format(score.timestamp);
-            String day = dfDay.format(score.timestamp);
+            String month = dfMonth.format(currentDate);
+            String day = dfDay.format(currentDate);
 
-            long s = score.score;
-            double sRelative = ((double) s) / Habit.MAX_SCORE;
+            int score = 0;
+            int offset = nColumns - k - 1 + dataOffset;
+            if(offset < scores.length) score = scores[offset];
 
+            double sRelative = ((double) score) / Habit.MAX_SCORE;
             int height = (int) (columnHeight * sRelative);
 
             RectF r = new RectF(0, 0, columnWidth, columnWidth);
-            r.offset(offset * columnWidth,
+            r.offset(k * columnWidth,
                     headerHeight + columnHeight - height - columnWidth / 2);
 
             if (prevR != null)
@@ -135,19 +129,19 @@ public class HabitScoreView extends ScrollableDataView
                 drawMarker(canvas, prevR);
             }
 
-            if (offset == nColumns - 1) drawMarker(canvas, r);
+            if (k == nColumns - 1) drawMarker(canvas, r);
 
             prevR = r;
 
             r = new RectF(0, 0, columnWidth, columnHeight);
-            r.offset(offset * columnWidth, headerHeight);
+            r.offset(k * columnWidth, headerHeight);
             if (!month.equals(previousMonth))
                 canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
             else
                 canvas.drawText(day, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
-
+            currentDate += 7 * DateHelper.millisecondsInOneDay;
         }
     }
 
