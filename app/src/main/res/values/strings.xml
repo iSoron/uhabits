@@ -18,7 +18,6 @@
     <string name="toast_nothing_to_redo">Nothing to redo.</string>
     <string name="toast_habit_changed">Habit changed.</string>
     <string name="toast_habit_changed_back">Habit changed back.</string>
-    <string name="toast_repetition_toggled">Repetition toggled.</string>
     <string name="toast_habit_archived">Habits archived.</string>
     <string name="toast_habit_unarchived">Habits unarchived.</string>
 
@@ -49,7 +48,6 @@
     <string name="habit_strength">Habit strength</string>
     <string name="history">History</string>
     <string name="clear">Clear</string>
-    <string name="description">Description</string>
     <string name="description_hint">Question (Did you … today?)</string>
     <string name="repeat">Repeat</string>
     <string name="times_every">times in</string>

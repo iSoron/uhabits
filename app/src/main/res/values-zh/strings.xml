@@ -17,7 +17,6 @@
   <string name="toast_nothing_to_redo">Nothing to redo.</string>
   <string name="toast_habit_changed">习惯修改了.</string>
   <string name="toast_habit_changed_back">取消了修改.</string>
-  <string name="toast_repetition_toggled">Repetition toggled.</string>
   <string name="toast_habit_archived">习惯存档成功.</string>
   <string name="toast_habit_unarchived">习惯取消存档成功.</string>
 
@@ -31,7 +30,6 @@
   <string name="habit_strength">习惯强度</string>
   <string name="history">历史</string>
   <string name="clear">取消</string>
-  <string name="description">描叙</string>
   <string name="description_hint">提醒问题（你xxx了吗）</string>
   <string name="repeat">重复</string>
   <string name="times_every">次每</string>
