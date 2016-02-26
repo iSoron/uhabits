@@ -58,7 +58,6 @@
   <string name="snooze">Mais tarde</string>
   <string name="streaks">Correntes</string>
   <string name="no_habits_found">Você não tem nenhum hábito ativo</string>
-  <string name="time_separator"></string>
   <string name="toast_habit_archived">Hábitos arquivados.</string>
   <string name="toast_habit_changed">Hábito modificado.</string>
   <string name="toast_habit_changed_back">Hábito restaurado.</string>

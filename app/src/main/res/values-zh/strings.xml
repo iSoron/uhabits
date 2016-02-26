@@ -26,11 +26,7 @@
   <string name="clear_label">取消</string>
   <string name="select_hours">选择小时</string>
   <string name="select_minutes">选择分钟</string>
-  <string name="year_picker_description">Year list</string>
-  <string name="select_day">Select month and day</string>
-  <string name="select_year">Select year</string>
 
-  <string name="title_activity_show_habit" />
   <string name="overview">总览</string>
   <string name="habit_strength">习惯强度</string>
   <string name="history">历史</string>
