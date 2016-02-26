@@ -19,12 +19,15 @@
 
 package org.isoron.uhabits.views;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Scroller;
 
-public abstract class ScrollableDataView extends View
+public abstract class ScrollableDataView extends View implements GestureDetector.OnGestureListener,
+        ValueAnimator.AnimatorUpdateListener
 {
 
     protected int dataOffset;
@@ -32,60 +35,26 @@ public abstract class ScrollableDataView extends View
     protected int columnWidth, columnHeight;
     protected int headerHeight, footerHeight;
 
-    private float prevX, prevY;
+    private GestureDetector detector;
+    private Scroller scroller;
+    private ValueAnimator scrollAnimator;
 
     public ScrollableDataView(Context context)
     {
         super(context);
+
+        detector = new GestureDetector(context, this);
+        scroller = new Scroller(context, null, true);
+        scrollAnimator = ValueAnimator.ofFloat(0, 1);
+        scrollAnimator.addUpdateListener(this);
     }
 
     protected abstract void fetchData();
 
-    protected boolean move(float dx)
-    {
-        int newDataOffset = dataOffset + (int) (dx / columnWidth);
-        newDataOffset = Math.max(0, newDataOffset);
-
-        if (newDataOffset != dataOffset)
-        {
-            dataOffset = newDataOffset;
-            fetchData();
-            invalidate();
-            return true;
-        }
-        else return false;
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        int action = event.getAction();
-
-        int pointerIndex = MotionEventCompat.getActionIndex(event);
-        final float x = MotionEventCompat.getX(event, pointerIndex);
-        final float y = MotionEventCompat.getY(event, pointerIndex);
-
-        if (action == MotionEvent.ACTION_DOWN)
-        {
-            prevX = x;
-            prevY = y;
-        }
-
-        if (action == MotionEvent.ACTION_MOVE)
-        {
-            float dx = x - prevX;
-            float dy = y - prevY;
-
-            if (Math.abs(dy) > Math.abs(dx)) return false;
-            getParent().requestDisallowInterceptTouchEvent(true);
-            if (move(dx))
-            {
-                prevX = x;
-                prevY = y;
-            }
-        }
-
-        return true;
+        return detector.onTouchEvent(event);
     }
 
     @Override
@@ -101,5 +70,70 @@ public abstract class ScrollableDataView extends View
         super.onSizeChanged(w, h, oldw, oldh);
         nColumns = w / columnWidth;
         fetchData();
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e)
+    {
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e)
+    {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy)
+    {
+        if(Math.abs(dx) > Math.abs(dy))
+            getParent().requestDisallowInterceptTouchEvent(true);
+
+        scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) -dx, (int) dy, 0);
+        scroller.computeScrollOffset();
+        dataOffset = Math.max(0, scroller.getCurrX() / columnWidth);
+        postInvalidate();
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e)
+    {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+    {
+        scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX / 2, 0, 0, 100000,
+                0, 0);
+        invalidate();
+
+        scrollAnimator.setDuration(scroller.getDuration());
+        scrollAnimator.start();
+
+        return false;
+    }
+
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation)
+    {
+        if (!scroller.isFinished())
+        {
+            scroller.computeScrollOffset();
+            dataOffset = Math.max(0, scroller.getCurrX() / columnWidth);
+            postInvalidate();
+        }
+        else
+        {
+            scrollAnimator.cancel();
+        }
     }
 }
