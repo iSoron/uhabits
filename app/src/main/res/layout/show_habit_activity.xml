@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.isoron.uhabits.ShowHabitActivity"
-    tools:ignore="MergeRootFrame" >
+    tools:ignore="MergeRootFrame"
+    tools:menu="show_habit_activity_menu,show_habit_fragment_menu">
 
     <fragment
         android:id="@+id/fragment2"
         android:name="org.isoron.uhabits.fragments.ShowHabitFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/show_habit"
+        android:layout_gravity="center"/>
 
 </FrameLayout>

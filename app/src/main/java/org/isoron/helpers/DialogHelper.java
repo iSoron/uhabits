@@ -17,21 +17,18 @@
 package org.isoron.helpers;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-
-import org.isoron.uhabits.R;
 
 public abstract class DialogHelper
 {
 
+    public static final String ISORON_NAMESPACE = "http://isoron.org/android";
     private static Typeface fontawesome;
 
     public interface OnSavedListener
@@ -64,5 +61,15 @@ public abstract class DialogHelper
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getInt("launch_count", 0);
+    }
+
+    public static String getAttribute(Context context, AttributeSet attrs, String name)
+    {
+        int resId = attrs.getAttributeResourceValue(ISORON_NAMESPACE, name, 0);
+
+        if(resId != 0)
+            return context.getResources().getString(resId);
+        else
+            return attrs.getAttributeValue(ISORON_NAMESPACE, name);
     }
 }

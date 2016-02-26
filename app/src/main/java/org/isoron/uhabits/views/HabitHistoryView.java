@@ -22,19 +22,21 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView
 {
-
     private Habit habit;
     private int[] checkmarks;
     private Paint pSquareBg, pSquareFg, pTextHeader;
@@ -52,13 +54,29 @@ public class HabitHistoryView extends ScrollableDataView
     private int todayWeekday;
     private int colors[];
     private Rect baseLocation;
+    private int baseSize;
+    private int primaryColor;
 
-    public HabitHistoryView(Context context, Habit habit, int baseSize)
+    public HabitHistoryView(Context context, AttributeSet attrs)
     {
-        super(context);
-        this.habit = habit;
+        super(context, attrs);
+        this.primaryColor = ColorHelper.palette[7];
+        this.baseSize = (int) context.getResources().getDimension(R.dimen.small_square_size);
+        init();
+    }
 
-        setDimensions(baseSize);
+    public void setHabit(Habit habit)
+    {
+        this.habit = habit;
+        this.primaryColor = habit.color;
+        createColors();
+        fetchData();
+        postInvalidate();
+    }
+
+    private void init()
+    {
+        setDimensions(this.baseSize);
         createPaints();
         createColors();
 
@@ -90,7 +108,6 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void createColors()
     {
-        int primaryColor = habit.color;
         int primaryColorBright = ColorHelper.mixColors(primaryColor, Color.WHITE, 0.5f);
         int grey = Color.rgb(230, 230, 230);
 
@@ -116,7 +133,7 @@ public class HabitHistoryView extends ScrollableDataView
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
-        pSquareBg.setColor(habit.color);
+        pSquareBg.setColor(primaryColor);
 
         pSquareFg = new Paint();
         pSquareFg.setColor(Color.WHITE);
@@ -130,8 +147,39 @@ public class HabitHistoryView extends ScrollableDataView
 
     protected void fetchData()
     {
-        checkmarks = habit.getAllCheckmarks();
+        if(isInEditMode())
+            generateRandomData();
+        else
+        {
+            if(habit == null)
+            {
+                checkmarks = new int[0];
+                return;
+            }
+
+            checkmarks = habit.getAllCheckmarks();
+        }
+
         updateDate();
+    }
+
+    private void generateRandomData()
+    {
+        Random random = new Random();
+        checkmarks = new int[100];
+
+        for(int i = 0; i < 100; i++)
+            if(random.nextFloat() < 0.3) checkmarks[i] = 2;
+
+        for(int i = 0; i < 100 - 7; i++)
+        {
+            int count = 0;
+            for (int j = 0; j < 7; j++)
+                if(checkmarks[i + j] != 0)
+                    count++;
+
+            if(count >= 3) checkmarks[i] = Math.max(checkmarks[i], 1);
+        }
     }
 
     private String previousMonth;

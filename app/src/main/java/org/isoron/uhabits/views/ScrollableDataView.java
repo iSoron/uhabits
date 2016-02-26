@@ -21,6 +21,7 @@ package org.isoron.uhabits.views;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +43,17 @@ public abstract class ScrollableDataView extends View implements GestureDetector
     public ScrollableDataView(Context context)
     {
         super(context);
+        init(context);
+    }
 
+    public ScrollableDataView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context)
+    {
         detector = new GestureDetector(context, this);
         scroller = new Scroller(context, null, true);
         scrollAnimator = ValueAnimator.ofFloat(0, 1);

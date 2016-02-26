@@ -21,65 +21,56 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Random;
 
 public class HabitScoreView extends ScrollableDataView
 {
     public static final int BUCKET_SIZE = 7;
 
-    private final Paint pGrid;
-    private final float em;
+    private Paint pGrid;
+    private float em;
     private Habit habit;
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfDay;
 
     private Paint pText, pGraph;
     private RectF rect, prevRect;
+    private int baseSize;
 
     private int[] colors;
     private int[] scores;
+    private int primaryColor;
 
-    public HabitScoreView(Context context, Habit habit, int columnWidth)
+    public HabitScoreView(Context context, AttributeSet attrs)
     {
-        super(context);
+        super(context, attrs);
+        this.baseSize = (int) context.getResources().getDimension(R.dimen.small_square_size);
+        this.primaryColor = ColorHelper.palette[7];
+        init();
+    }
+
+    public void setHabit(Habit habit)
+    {
         this.habit = habit;
+        this.primaryColor = habit.color;
+        fetchData();
+        postInvalidate();
+    }
 
-        pText = new Paint();
-        pText.setColor(Color.LTGRAY);
-        pText.setTextAlign(Paint.Align.LEFT);
-        pText.setTextSize(columnWidth * 0.5f);
-        pText.setAntiAlias(true);
-
-        pGraph = new Paint();
-        pGraph.setTextAlign(Paint.Align.CENTER);
-        pGraph.setTextSize(columnWidth * 0.5f);
-        pGraph.setAntiAlias(true);
-        pGraph.setStrokeWidth(columnWidth * 0.1f);
-
-        pGrid = new Paint();
-        pGrid.setColor(Color.LTGRAY);
-        pGrid.setAntiAlias(true);
-        pGrid.setStrokeWidth(columnWidth * 0.05f);
-
-        this.columnWidth = columnWidth;
-        columnHeight = 8 * columnWidth;
-        headerHeight = columnWidth;
-        footerHeight = columnWidth;
-
-        em = pText.getFontSpacing();
-
-        colors = new int[4];
-
-        colors[0] = Color.rgb(230, 230, 230);
-        colors[3] = habit.color;
-        colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
-        colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+    private void init()
+    {
+        createPaints();
+        setDimensions();
+        createColors();
 
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfDay = new SimpleDateFormat("d", Locale.getDefault());
@@ -88,9 +79,74 @@ public class HabitScoreView extends ScrollableDataView
         prevRect = new RectF();
     }
 
+    private void setDimensions()
+    {
+        this.columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        headerHeight = baseSize;
+        footerHeight = baseSize;
+        em = pText.getFontSpacing();
+    }
+
+    private void createColors()
+    {
+        colors = new int[4];
+
+        colors[0] = Color.rgb(230, 230, 230);
+        colors[3] = primaryColor;
+        colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
+        colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+    }
+
+    private void createPaints()
+    {
+        pText = new Paint();
+        pText.setColor(Color.LTGRAY);
+        pText.setTextAlign(Paint.Align.LEFT);
+        pText.setTextSize(baseSize * 0.5f);
+        pText.setAntiAlias(true);
+
+        pGraph = new Paint();
+        pGraph.setTextAlign(Paint.Align.CENTER);
+        pGraph.setTextSize(baseSize * 0.5f);
+        pGraph.setAntiAlias(true);
+        pGraph.setStrokeWidth(baseSize * 0.1f);
+
+        pGrid = new Paint();
+        pGrid.setColor(Color.LTGRAY);
+        pGrid.setAntiAlias(true);
+        pGrid.setStrokeWidth(baseSize * 0.05f);
+    }
+
     protected void fetchData()
     {
-        scores = habit.getAllScores(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
+        if(isInEditMode())
+            generateRandomData();
+        else
+        {
+            if (habit == null)
+            {
+                scores = new int[0];
+                return;
+            }
+
+            scores = habit.getAllScores(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
+        }
+
+    }
+
+    private void generateRandomData()
+    {
+        Random random = new Random();
+        scores = new int[100];
+        scores[0] = Habit.MAX_SCORE / 2;
+
+        for(int i = 1; i < 100; i++)
+        {
+            int step = Habit.MAX_SCORE / 10;
+            scores[i] = scores[i - 1] + random.nextInt(step * 2) - step;
+            scores[i] = Math.max(0, Math.min(Habit.MAX_SCORE, scores[i]));
+        }
     }
 
     @Override
@@ -106,7 +162,7 @@ public class HabitScoreView extends ScrollableDataView
 
         String previousMonth = "";
 
-        pGraph.setColor(habit.color);
+        pGraph.setColor(primaryColor);
         prevRect.setEmpty();
 
         long currentDate = DateHelper.getStartOfToday();
@@ -171,7 +227,7 @@ public class HabitScoreView extends ScrollableDataView
 
     private void drawLine(Canvas canvas, RectF rectFrom, RectF rectTo)
     {
-        pGraph.setColor(habit.color);
+        pGraph.setColor(primaryColor);
         canvas.drawLine(rectFrom.centerX(), rectFrom.centerY(), rectTo.centerX(), rectTo.centerY(),
                 pGraph);
     }
@@ -183,7 +239,7 @@ public class HabitScoreView extends ScrollableDataView
         canvas.drawOval(rect, pGraph);
 
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
-        pGraph.setColor(habit.color);
+        pGraph.setColor(primaryColor);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
