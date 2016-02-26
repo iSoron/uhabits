@@ -27,6 +27,7 @@ import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class HabitScoreView extends ScrollableDataView
 {
@@ -35,6 +36,8 @@ public class HabitScoreView extends ScrollableDataView
     private final Paint pGrid;
     private final float em;
     private Habit habit;
+    private SimpleDateFormat dfMonth;
+    private SimpleDateFormat dfDay;
 
     private Paint pText, pGraph;
 
@@ -76,6 +79,9 @@ public class HabitScoreView extends ScrollableDataView
         colors[3] = habit.color;
         colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
         colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+
+        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+        dfDay = new SimpleDateFormat("d", Locale.getDefault());
     }
 
     protected void fetchData()
@@ -93,9 +99,6 @@ public class HabitScoreView extends ScrollableDataView
         RectF rGrid = new RectF(0, 0, nColumns * columnWidth, columnHeight);
         rGrid.offset(0, headerHeight);
         drawGrid(canvas, rGrid);
-
-        SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
-        SimpleDateFormat dfDay = new SimpleDateFormat("d");
 
         String previousMonth = "";
 

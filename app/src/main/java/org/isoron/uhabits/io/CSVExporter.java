@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -42,7 +43,7 @@ public class CSVExporter
 
         basePath = String.format("%s/export/", context.getFilesDir());
 
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
