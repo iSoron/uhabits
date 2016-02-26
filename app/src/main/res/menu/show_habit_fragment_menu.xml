@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_edit_habit"
-        android:icon="@drawable/ic_action_edit"
+        android:icon="@drawable/ic_action_edit_light"
         android:title="@string/edit"
         app:showAsAction="ifRoom"/>
 
