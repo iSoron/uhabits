@@ -291,6 +291,7 @@ public class Habit extends Model
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
         return checks;
     }
 
@@ -531,19 +532,20 @@ public class Habit extends Model
                 offset.toString(), divisor.toString()};
 
         SQLiteDatabase db = Cache.openDatabase();
-        Cursor c = db.rawQuery(query, params);
+        Cursor cursor = db.rawQuery(query, params);
 
-        if(!c.moveToFirst()) return new int[0];
+        if(!cursor.moveToFirst()) return new int[0];
 
         int k = 0;
-        int[] scores = new int[c.getCount()];
+        int[] scores = new int[cursor.getCount()];
 
         do
         {
-            scores[k++] = c.getInt(0);
+            scores[k++] = cursor.getInt(0);
         }
-        while (c.moveToNext());
+        while (cursor.moveToNext());
 
+        cursor.close();
         return scores;
 
     }
