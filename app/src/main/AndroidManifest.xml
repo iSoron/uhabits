@@ -13,6 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
         android:theme="@style/AppBaseTheme"
+        android:allowBackup="true"
         android:backupAgent=".HabitsBackupAgent">
 
         <meta-data
