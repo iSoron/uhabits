@@ -40,6 +40,7 @@ public class HabitScoreView extends ScrollableDataView
     private SimpleDateFormat dfDay;
 
     private Paint pText, pGraph;
+    private RectF rect, prevRect;
 
     private int[] colors;
     private int[] scores;
@@ -82,6 +83,9 @@ public class HabitScoreView extends ScrollableDataView
 
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfDay = new SimpleDateFormat("d", Locale.getDefault());
+
+        rect = new RectF();
+        prevRect = new RectF();
     }
 
     protected void fetchData()
@@ -96,14 +100,14 @@ public class HabitScoreView extends ScrollableDataView
 
         float lineHeight = pText.getFontSpacing();
 
-        RectF rGrid = new RectF(0, 0, nColumns * columnWidth, columnHeight);
-        rGrid.offset(0, headerHeight);
-        drawGrid(canvas, rGrid);
+        rect.set(0, 0, nColumns * columnWidth, columnHeight);
+        rect.offset(0, headerHeight);
+        drawGrid(canvas, rect);
 
         String previousMonth = "";
 
         pGraph.setColor(habit.color);
-        RectF prevR = null;
+        prevRect.setEmpty();
 
         long currentDate = DateHelper.getStartOfToday();
 
@@ -122,26 +126,26 @@ public class HabitScoreView extends ScrollableDataView
             double sRelative = ((double) score) / Habit.MAX_SCORE;
             int height = (int) (columnHeight * sRelative);
 
-            RectF r = new RectF(0, 0, columnWidth, columnWidth);
-            r.offset(k * columnWidth,
+            rect.set(0, 0, columnWidth, columnWidth);
+            rect.offset(k * columnWidth,
                     headerHeight + columnHeight - height - columnWidth / 2);
 
-            if (prevR != null)
+            if (!prevRect.isEmpty())
             {
-                drawLine(canvas, prevR, r);
-                drawMarker(canvas, prevR);
+                drawLine(canvas, prevRect, rect);
+                drawMarker(canvas, prevRect);
             }
 
-            if (k == nColumns - 1) drawMarker(canvas, r);
+            if (k == nColumns - 1) drawMarker(canvas, rect);
 
-            prevR = r;
+            prevRect.set(rect);
 
-            r = new RectF(0, 0, columnWidth, columnHeight);
-            r.offset(k * columnWidth, headerHeight);
+            rect.set(0, 0, columnWidth, columnHeight);
+            rect.offset(k * columnWidth, headerHeight);
             if (!month.equals(previousMonth))
-                canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
+                canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
             else
-                canvas.drawText(day, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
+                canvas.drawText(day, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
             currentDate += 7 * DateHelper.millisecondsInOneDay;

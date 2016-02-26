@@ -32,6 +32,7 @@ public class RingView extends View
     private Paint pRing;
     private float lineHeight;
     private String label;
+    private RectF rect;
 
     public RingView(Context context, int size, int color, float perc, String label)
     {
@@ -44,6 +45,8 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setAntiAlias(true);
         pRing.setTextAlign(Paint.Align.CENTER);
+
+        rect = new RectF();
 
         this.label = label;
     }
@@ -62,21 +65,21 @@ public class RingView extends View
         float thickness = size * 0.15f;
 
         pRing.setColor(color);
-        RectF r = new RectF(0, 0, size, size);
-        canvas.drawArc(r, -90, 360 * perc, true, pRing);
+        rect.set(0, 0, size, size);
+        canvas.drawArc(rect, -90, 360 * perc, true, pRing);
 
         pRing.setColor(Color.rgb(230, 230, 230));
-        canvas.drawArc(r, 360 * perc - 90 + 2, 360 * (1 - perc) - 4, true, pRing);
+        canvas.drawArc(rect, 360 * perc - 90 + 2, 360 * (1 - perc) - 4, true, pRing);
 
         pRing.setColor(Color.WHITE);
-        r.inset(thickness, thickness);
-        canvas.drawArc(r, -90, 360, true, pRing);
+        rect.inset(thickness, thickness);
+        canvas.drawArc(rect, -90, 360, true, pRing);
 
         pRing.setColor(Color.GRAY);
         pRing.setTextSize(size * 0.2f);
         lineHeight = pRing.getFontSpacing();
-        canvas.drawText(String.format("%.0f%%", perc * 100), r.centerX(),
-                r.centerY() + lineHeight / 3, pRing);
+        canvas.drawText(String.format("%.0f%%", perc * 100), rect.centerX(),
+                rect.centerY() + lineHeight / 3, pRing);
 
         pRing.setTextSize(size * 0.15f);
         canvas.drawText(label, size / 2, size + lineHeight * 1.2f, pRing);

@@ -51,6 +51,7 @@ public class HabitHistoryView extends ScrollableDataView
     private int nDays;
     private int todayWeekday;
     private int colors[];
+    private Rect baseLocation;
 
     public HabitHistoryView(Context context, Habit habit, int baseSize)
     {
@@ -64,6 +65,8 @@ public class HabitHistoryView extends ScrollableDataView
         wdays = DateHelper.getShortDayNames();
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+
+        baseLocation = new Rect();
     }
 
     private void updateDate()
@@ -140,7 +143,7 @@ public class HabitHistoryView extends ScrollableDataView
     {
         super.onDraw(canvas);
 
-        Rect location = new Rect(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
+        baseLocation.set(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
 
         previousMonth = "";
         previousYear = "";
@@ -151,11 +154,11 @@ public class HabitHistoryView extends ScrollableDataView
 
         for (int column = 0; column < nColumns - 1; column++)
         {
-            drawColumn(canvas, location, currentDate, column);
-            location.offset(columnWidth, -columnHeight);
+            drawColumn(canvas, baseLocation, currentDate, column);
+            baseLocation.offset(columnWidth, -columnHeight);
         }
 
-        drawAxis(canvas, location);
+        drawAxis(canvas, baseLocation);
     }
 
     private void drawColumn(Canvas canvas, Rect location, GregorianCalendar date, int column)

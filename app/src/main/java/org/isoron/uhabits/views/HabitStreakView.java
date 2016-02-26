@@ -28,6 +28,7 @@ import org.isoron.uhabits.models.Streak;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class HabitStreakView extends ScrollableDataView
 {
@@ -36,6 +37,8 @@ public class HabitStreakView extends ScrollableDataView
     private List<Streak> streaks;
     private long maxStreakLength;
     private int[] colors;
+    private SimpleDateFormat dfMonth;
+    private Rect rect;
 
     public HabitStreakView(Context context, Habit habit, int columnWidth)
     {
@@ -45,6 +48,9 @@ public class HabitStreakView extends ScrollableDataView
         setDimensions(columnWidth);
         createPaints();
         createColors();
+
+        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+        rect = new Rect();
     }
 
     private void setDimensions(int baseSize)
@@ -97,7 +103,6 @@ public class HabitStreakView extends ScrollableDataView
 
         int nStreaks = streaks.size();
         int start = nStreaks - nColumns - dataOffset;
-        SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
 
         String previousMonth = "";
 
@@ -112,14 +117,14 @@ public class HabitStreakView extends ScrollableDataView
             pBar.setColor(colors[(int) Math.floor(lRelative * 3)]);
 
             int height = (int) (columnHeight * lRelative);
-            Rect r = new Rect(0, 0, columnWidth - 2, height);
-            r.offset(offset * columnWidth, headerHeight + columnHeight - height);
+            rect.set(0, 0, columnWidth - 2, height);
+            rect.offset(offset * columnWidth, headerHeight + columnHeight - height);
 
-            canvas.drawRect(r, pBar);
-            canvas.drawText(Long.toString(l), r.centerX(), r.top - barHeaderOffset, pBar);
+            canvas.drawRect(rect, pBar);
+            canvas.drawText(Long.toString(l), rect.centerX(), rect.top - barHeaderOffset, pBar);
 
             if (!month.equals(previousMonth))
-                canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
+                canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
         }
