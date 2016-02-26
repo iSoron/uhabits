@@ -23,7 +23,6 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ChangeHabitColorCommand extends Command

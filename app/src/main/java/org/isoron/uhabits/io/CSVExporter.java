@@ -111,8 +111,6 @@ public class CSVExporter
 
     private void writeFiles(Habit habit) throws IOException
     {
-        boolean success;
-
         String path = String.format("%s/", habit.name);
         new File(basePath + path).mkdirs();
         generateDirs.add(path);
