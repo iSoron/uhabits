@@ -64,6 +64,9 @@ public class SmallWidgetProvider extends AppWidgetProvider
 ;
         remoteViews.setTextViewText(R.id.tvName, habit.name);
         remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
+        remoteViews.setOnClickPendingIntent(R.id.imageView,
+                HabitBroadcastReceiver.buildCheckIntent(context, habit, null));
         manager.updateAppWidget(widgetId, remoteViews);
     }
+
 }

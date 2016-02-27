@@ -38,12 +38,11 @@ import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
 
-public class ReminderAlarmReceiver extends BroadcastReceiver
+public class HabitBroadcastReceiver extends BroadcastReceiver
 {
     public static final String ACTION_CHECK = "org.isoron.uhabits.ACTION_CHECK";
     public static final String ACTION_DISMISS = "org.isoron.uhabits.ACTION_DISMISS";
-    public static final String ACTION_REMIND = "org.isoron.uhabits.ACTION_REMIND";
-    public static final String ACTION_REMOVE_REMINDER = "org.isoron.uhabits.ACTION_REMOVE_REMINDER";
+    public static final String ACTION_SHOW_REMINDER = "org.isoron.uhabits.ACTION_SHOW_REMINDER";
     public static final String ACTION_SNOOZE = "org.isoron.uhabits.ACTION_SNOOZE";
 
     @Override
@@ -51,7 +50,7 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
     {
         switch (intent.getAction())
         {
-            case ACTION_REMIND:
+            case ACTION_SHOW_REMINDER:
                 createNotification(context, intent);
                 createReminderAlarms(context);
                 break;
@@ -148,21 +147,9 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
         PendingIntent contentPendingIntent =
                 PendingIntent.getActivity(context, 0, contentIntent, 0);
 
-        Intent deleteIntent = new Intent(context, ReminderAlarmReceiver.class);
-        deleteIntent.setAction(ACTION_DISMISS);
-        PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
-
-        Intent checkIntent = new Intent(context, ReminderAlarmReceiver.class);
-        checkIntent.setData(data);
-        checkIntent.setAction(ACTION_CHECK);
-        checkIntent.putExtra("timestamp", timestamp);
-        PendingIntent checkIntentPending =
-                PendingIntent.getBroadcast(context, 0, checkIntent, PendingIntent.FLAG_ONE_SHOT);
-
-        Intent snoozeIntent = new Intent(context, ReminderAlarmReceiver.class);
-        snoozeIntent.setData(data);
-        snoozeIntent.setAction(ACTION_SNOOZE);
-        PendingIntent snoozeIntentPending = PendingIntent.getBroadcast(context, 0, snoozeIntent, 0);
+        PendingIntent dismissPendingIntent = buildDismissIntent(context);
+        PendingIntent checkIntentPending = buildCheckIntent(context, habit, timestamp);
+        PendingIntent snoozeIntentPending = buildSnoozeIntent(context, habit);
 
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -175,7 +162,7 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
                         .setContentTitle(habit.name)
                         .setContentText(habit.description)
                         .setContentIntent(contentPendingIntent)
-                        .setDeleteIntent(deletePendingIntent)
+                        .setDeleteIntent(dismissPendingIntent)
                         .addAction(R.drawable.ic_action_check,
                                 context.getString(R.string.check), checkIntentPending)
                         .addAction(R.drawable.ic_action_snooze,
@@ -193,6 +180,32 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
 
         int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
         notificationManager.notify(notificationId, notification);
+    }
+
+    public static PendingIntent buildSnoozeIntent(Context context, Habit habit)
+    {
+        Uri data = habit.getUri();
+        Intent snoozeIntent = new Intent(context, HabitBroadcastReceiver.class);
+        snoozeIntent.setData(data);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        return PendingIntent.getBroadcast(context, 0, snoozeIntent, 0);
+    }
+
+    public static PendingIntent buildCheckIntent(Context context, Habit habit, Long timestamp)
+    {
+        Uri data = habit.getUri();
+        Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
+        checkIntent.setData(data);
+        checkIntent.setAction(ACTION_CHECK);
+        if(timestamp != null) checkIntent.putExtra("timestamp", timestamp);
+        return PendingIntent.getBroadcast(context, 0, checkIntent, PendingIntent.FLAG_ONE_SHOT);
+    }
+
+    public static PendingIntent buildDismissIntent(Context context)
+    {
+        Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
+        deleteIntent.setAction(ACTION_DISMISS);
+        return PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
     }
 
     private boolean checkWeekday(Intent intent, Habit habit)

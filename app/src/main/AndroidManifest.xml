@@ -39,7 +39,7 @@
         </activity>
 
         <receiver
-            android:name=".ReminderAlarmReceiver" />
+            android:name=".HabitBroadcastReceiver" />
 
         <activity
             android:name=".ShowHabitActivity"
