@@ -62,6 +62,16 @@
         <activity android:name=".IntroActivity"
                   android:label=""
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <receiver android:name="SmallWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/small_widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>
