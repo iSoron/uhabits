@@ -10,11 +10,11 @@
 
     <application
         android:name="com.activeandroid.app.Application"
+        android:allowBackup="true"
+        android:backupAgent=".HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
-        android:theme="@style/AppBaseTheme"
-        android:allowBackup="true"
-        android:backupAgent=".HabitsBackupAgent">
+        android:theme="@style/AppBaseTheme">
 
         <meta-data
             android:name="AA_DB_NAME"
@@ -26,7 +26,7 @@
 
         <meta-data
             android:name="com.google.android.backup.api_key"
-            android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw" />
+            android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw"/>
 
         <activity
             android:name=".MainActivity"
@@ -39,7 +39,7 @@
         </activity>
 
         <receiver
-            android:name=".HabitBroadcastReceiver" />
+            android:name=".HabitBroadcastReceiver"/>
 
         <activity
             android:name=".ShowHabitActivity"
@@ -59,18 +59,29 @@
                 android:value="org.isoron.uhabits.MainActivity"/>
         </activity>
 
-        <activity android:name=".IntroActivity"
-                  android:label=""
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".IntroActivity"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <receiver android:name="SmallWidgetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/small_widget_info" />
+                android:resource="@xml/small_widget_info"/>
         </receiver>
+
+        <activity
+            android:name=".HabitWidgetConfigure"
+            android:theme="@style/Theme.AppCompat.Dialog">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+
+        </activity>
 
     </application>
 

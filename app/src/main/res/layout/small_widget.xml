@@ -25,6 +25,6 @@
         android:textSize="12sp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:text="Meditate"/>
+        android:text="@string/main_activity_title"/>
 
 </LinearLayout>

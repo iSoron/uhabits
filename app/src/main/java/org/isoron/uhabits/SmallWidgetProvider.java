@@ -19,7 +19,9 @@ package org.isoron.uhabits;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import org.isoron.uhabits.models.Habit;
@@ -27,6 +29,7 @@ import org.isoron.uhabits.views.SmallWidgetView;
 
 public class SmallWidgetProvider extends AppWidgetProvider
 {
+
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds)
     {
@@ -37,8 +40,13 @@ public class SmallWidgetProvider extends AppWidgetProvider
     private void updateWidget(Context context, AppWidgetManager manager, int widgetId)
     {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.small_widget);
+        Context appContext = context.getApplicationContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
 
-        Habit habit = Habit.get(1L);
+        Long habitId = prefs.getLong(getWidgetPrefKey(widgetId), -1L);
+        if(habitId < 0) return;
+
+        Habit habit = Habit.get(habitId);
 
         SmallWidgetView widgetView = new SmallWidgetView(context);
         widgetView.setDrawingCacheEnabled(true);
@@ -56,4 +64,18 @@ public class SmallWidgetProvider extends AppWidgetProvider
         manager.updateAppWidget(widgetId, remoteViews);
     }
 
+    public static String getWidgetPrefKey(long widgetId)
+    {
+        return String.format("widget-%03d", widgetId);
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds)
+    {
+        Context appContext = context.getApplicationContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+
+        for(Integer id : appWidgetIds)
+            prefs.edit().remove(getWidgetPrefKey(id));
+    }
 }
