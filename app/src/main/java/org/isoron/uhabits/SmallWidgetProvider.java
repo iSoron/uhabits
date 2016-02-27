@@ -20,9 +20,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.widget.RemoteViews;
 
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.SmallWidgetView;
 
 import java.io.FileNotFoundException;
@@ -41,11 +41,14 @@ public class SmallWidgetProvider extends AppWidgetProvider
     {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.small_widget);
 
+        Habit habit = Habit.get((long) widgetId);
+
         SmallWidgetView widgetView = new SmallWidgetView(context);
         widgetView.setDrawingCacheEnabled(true);
         widgetView.measure(200, 200);
         widgetView.layout(0, 0, 200, 200);
         widgetView.buildDrawingCache(true);
+        widgetView.setHabit(habit);
 
         Bitmap drawingCache = widgetView.getDrawingCache();
 
@@ -58,8 +61,8 @@ public class SmallWidgetProvider extends AppWidgetProvider
         {
             e.printStackTrace();
         }
-
-        Log.d("SmallWidgetProvider", drawingCache.toString());
+;
+        remoteViews.setTextViewText(R.id.tvName, habit.name);
         remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
         manager.updateAppWidget(widgetId, remoteViews);
     }

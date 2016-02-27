@@ -103,6 +103,8 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
         habit.toggleRepetition(timestamp);
         habit.save();
         dismissNotification(context, habit);
+
+        MainActivity.updateWidgets(context);
     }
 
     private void dismissAllHabits()

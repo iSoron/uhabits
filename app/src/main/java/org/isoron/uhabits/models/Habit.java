@@ -381,6 +381,24 @@ public class Habit extends Model
                 .executeSingle();
     }
 
+    public int getCurrentCheckmarkStatus()
+    {
+        updateCheckmarks();
+        Checkmark c = getNewestCheckmark();
+
+        if(c != null) return c.value;
+        else return 0;
+    }
+
+    public int getCurrentStarStatus()
+    {
+        int score = getScore();
+
+        if(score >= FULL_STAR_CUTOFF) return 2;
+        else if(score >= HALF_STAR_CUTOFF) return 1;
+        else return 0;
+    }
+
     public int getRepsCount(int days)
     {
         long timeTo = DateHelper.getStartOfToday();

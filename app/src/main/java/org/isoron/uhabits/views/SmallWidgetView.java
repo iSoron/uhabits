@@ -31,6 +31,7 @@ import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Habit;
 
 public class SmallWidgetView extends View
 {
@@ -84,12 +85,18 @@ public class SmallWidgetView extends View
         fa_full_star = context.getString(R.string.fa_star);
 
         primaryColor = ColorHelper.palette[10];
-        grey = Color.rgb(150, 150, 150);
+        grey = Color.rgb(175, 175, 175);
 
         textBounds = new Rect();
+        check_status = 0;
+        star_status = 0;
+    }
 
-        check_status = 2;
-        star_status = 2;
+    public void setHabit(Habit habit)
+    {
+        this.check_status = habit.getCurrentCheckmarkStatus();
+        this.star_status = habit.getCurrentStarStatus();
+        this.primaryColor = habit.color;
     }
 
     @Override

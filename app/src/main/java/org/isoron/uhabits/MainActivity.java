@@ -16,6 +16,9 @@
 
 package org.isoron.uhabits;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -108,5 +111,18 @@ public class MainActivity extends ReplayableActivity
     public void onPostExecuteCommand(Long refreshKey)
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
+        updateWidgets(this);
+    }
+
+    public static void updateWidgets(Context context)
+    {
+        ComponentName provider = new ComponentName(context, SmallWidgetProvider.class);
+
+        Intent intent = new Intent(context, SmallWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(provider);
+
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
 }
