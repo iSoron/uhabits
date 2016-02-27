@@ -26,7 +26,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
@@ -153,7 +152,6 @@ public class SmallWidgetView extends View
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         size = Math.min(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(size, size);
-        Log.d("SmallWidgetView", "" + size);
     }
 
     @Override

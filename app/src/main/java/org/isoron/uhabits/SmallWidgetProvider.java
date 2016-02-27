@@ -25,9 +25,6 @@ import android.widget.RemoteViews;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.SmallWidgetView;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
 public class SmallWidgetProvider extends AppWidgetProvider
 {
     @Override
@@ -41,7 +38,7 @@ public class SmallWidgetProvider extends AppWidgetProvider
     {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.small_widget);
 
-        Habit habit = Habit.get((long) widgetId);
+        Habit habit = Habit.get(1L);
 
         SmallWidgetView widgetView = new SmallWidgetView(context);
         widgetView.setDrawingCacheEnabled(true);
@@ -52,16 +49,6 @@ public class SmallWidgetProvider extends AppWidgetProvider
 
         Bitmap drawingCache = widgetView.getDrawingCache();
 
-        try
-        {
-            drawingCache.compress(Bitmap.CompressFormat.PNG, 100,
-                    new FileOutputStream(context.getFilesDir() + "/widget.png"));
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-;
         remoteViews.setTextViewText(R.id.tvName, habit.name);
         remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
         remoteViews.setOnClickPendingIntent(R.id.imageView,
