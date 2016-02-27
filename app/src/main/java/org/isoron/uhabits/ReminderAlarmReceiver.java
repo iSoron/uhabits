@@ -97,10 +97,7 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
     private void checkHabit(Context context, Intent intent)
     {
         Uri data = intent.getData();
-        Long timestamp = DateHelper.getStartOfToday();
-        String paramTimestamp = data.getQueryParameter("timestamp");
-
-        if(paramTimestamp != null) timestamp = Long.parseLong(paramTimestamp);
+        Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
 
         Habit habit = Habit.get(ContentUris.parseId(data));
         habit.toggleRepetition(timestamp);
@@ -131,6 +128,8 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
     {
         Uri data = intent.getData();
         Habit habit = Habit.get(ContentUris.parseId(data));
+        Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
+        Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
 
         if (habit.hasImplicitRepToday()) return;
 
@@ -154,7 +153,9 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
         Intent checkIntent = new Intent(context, ReminderAlarmReceiver.class);
         checkIntent.setData(data);
         checkIntent.setAction(ACTION_CHECK);
-        PendingIntent checkIntentPending = PendingIntent.getBroadcast(context, 0, checkIntent, 0);
+        checkIntent.putExtra("timestamp", timestamp);
+        PendingIntent checkIntentPending =
+                PendingIntent.getBroadcast(context, 0, checkIntent, PendingIntent.FLAG_ONE_SHOT);
 
         Intent snoozeIntent = new Intent(context, ReminderAlarmReceiver.class);
         snoozeIntent.setData(data);
@@ -162,8 +163,6 @@ public class ReminderAlarmReceiver extends BroadcastReceiver
         PendingIntent snoozeIntentPending = PendingIntent.getBroadcast(context, 0, snoozeIntent, 0);
 
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
 
         NotificationCompat.WearableExtender wearableExtender =
                 new NotificationCompat.WearableExtender().setBackground(
