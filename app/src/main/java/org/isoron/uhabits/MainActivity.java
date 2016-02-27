@@ -17,13 +17,16 @@
 package org.isoron.uhabits;
 
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -38,7 +41,11 @@ public class MainActivity extends ReplayableActivity
         implements ListHabitsFragment.OnHabitClickListener
 {
     private ListHabitsFragment listHabitsFragment;
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    private BroadcastReceiver receiver;
+    private LocalBroadcastManager localBroadcastManager;
+
+    public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +56,10 @@ public class MainActivity extends ReplayableActivity
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listHabitsFragment =
                 (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
+
+        receiver = new Receiver();
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter(ACTION_REFRESH));
 
         onStartup();
     }
@@ -124,5 +135,21 @@ public class MainActivity extends ReplayableActivity
 
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        localBroadcastManager.unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    class Receiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            listHabitsFragment.onPostExecuteCommand(null);
+        }
     }
 }

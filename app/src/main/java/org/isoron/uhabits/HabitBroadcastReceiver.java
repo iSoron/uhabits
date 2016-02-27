@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
@@ -102,6 +103,10 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         habit.toggleRepetition(timestamp);
         habit.save();
         dismissNotification(context, habit);
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
+        Intent refreshIntent = new Intent(MainActivity.ACTION_REFRESH);
+        manager.sendBroadcast(refreshIntent);
 
         MainActivity.updateWidgets(context);
     }
