@@ -64,7 +64,7 @@
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <receiver android:name="SmallWidgetProvider">
+        <receiver android:name=".HabitWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>

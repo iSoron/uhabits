@@ -127,9 +127,9 @@ public class MainActivity extends ReplayableActivity
 
     public static void updateWidgets(Context context)
     {
-        ComponentName provider = new ComponentName(context, SmallWidgetProvider.class);
+        ComponentName provider = new ComponentName(context, HabitWidgetProvider.class);
 
-        Intent intent = new Intent(context, SmallWidgetProvider.class);
+        Intent intent = new Intent(context, HabitWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(provider);
 

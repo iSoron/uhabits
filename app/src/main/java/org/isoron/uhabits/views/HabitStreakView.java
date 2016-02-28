@@ -88,13 +88,15 @@ public class HabitStreakView extends ScrollableDataView
     private void createColors()
     {
         colors = new int[4];
-        colors[0] = Color.rgb(230, 230, 230);
         colors[3] = primaryColor;
-        colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
-        colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+        colors[1] = Color.argb(80, Color.red(primaryColor), Color.green(primaryColor), Color.blue(
+                primaryColor));
+        colors[2] = Color.argb(170, Color.red(primaryColor), Color.green(primaryColor), Color.blue(
+                primaryColor));
+        colors[0] = Color.argb(30, 0, 0, 0);
     }
 
-    private void createPaints()
+    protected void createPaints()
     {
         pText = new Paint();
         pText.setColor(Color.LTGRAY);

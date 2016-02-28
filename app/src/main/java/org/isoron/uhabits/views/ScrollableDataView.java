@@ -22,17 +22,20 @@ package org.isoron.uhabits.views;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
+
+import org.isoron.uhabits.R;
 
 public abstract class ScrollableDataView extends View implements GestureDetector.OnGestureListener,
         ValueAnimator.AnimatorUpdateListener
 {
 
     protected int dataOffset;
-    protected int nColumns;
+    protected int nColumns, nRows;
     protected int columnWidth, columnHeight;
     protected int headerHeight, footerHeight;
 
@@ -54,6 +57,7 @@ public abstract class ScrollableDataView extends View implements GestureDetector
 
     private void init(Context context)
     {
+        this.columnWidth = (int) context.getResources().getDimension(R.dimen.small_square_size);
         detector = new GestureDetector(context, this);
         scroller = new Scroller(context, null, true);
         scrollAnimator = ValueAnimator.ofFloat(0, 1);
@@ -72,7 +76,25 @@ public abstract class ScrollableDataView extends View implements GestureDetector
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), columnHeight + headerHeight + footerHeight);
+
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        Log.d("ScrollableDataView", String.format("onMeasure width=%d height=%d", width, height));
+
+        columnWidth = height / 8;
+        columnHeight = columnWidth * 8 + footerHeight + headerHeight;
+
+        height = columnHeight;
+        width = (width / columnWidth) * columnWidth;
+
+        setMeasuredDimension(width, height);
+        updateDimensions();
+    }
+
+    protected void updateDimensions()
+    {
+
     }
 
     @Override

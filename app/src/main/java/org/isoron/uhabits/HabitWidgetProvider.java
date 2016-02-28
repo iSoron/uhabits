@@ -21,25 +21,39 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.RemoteViews;
 
+import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.SmallWidgetView;
+import org.isoron.uhabits.views.HabitHistoryView;
 
-public class SmallWidgetProvider extends AppWidgetProvider
+public class HabitWidgetProvider extends AppWidgetProvider
 {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds)
     {
         for(int id : appWidgetIds)
-            updateWidget(context, manager, id);
+        {
+            Bundle options = manager.getAppWidgetOptions(id);
+            updateWidget(context, manager, id, options);
+        }
     }
 
-    private void updateWidget(Context context, AppWidgetManager manager, int widgetId)
+    private void updateWidget(Context context, AppWidgetManager manager, int widgetId, Bundle options)
     {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.small_widget);
+        int max_height = (int) DialogHelper.dpToPixels(context, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
+        int min_height = (int) DialogHelper.dpToPixels(context, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
+        int max_width =  (int) DialogHelper.dpToPixels(context, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
+        int min_width =  (int) DialogHelper.dpToPixels(context, options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
+
+        Log.d("HabitWidgetProvider", String.format("max_h=%d min_h=%d max_w=%d min_w=%d",
+                max_height, min_height, max_width, min_width));
+
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_graph);
         Context appContext = context.getApplicationContext();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
 
@@ -48,13 +62,23 @@ public class SmallWidgetProvider extends AppWidgetProvider
 
         Habit habit = Habit.get(habitId);
 
-        SmallWidgetView widgetView = new SmallWidgetView(context);
-        widgetView.setDrawingCacheEnabled(true);
-        widgetView.measure(180, 200);
-        widgetView.layout(0, 0, 180, 200);
-        widgetView.buildDrawingCache(true);
+//        SmallWidgetView widgetView = new SmallWidgetView(context);
+        HabitHistoryView widgetView = new HabitHistoryView(context, null);
+//        HabitScoreView widgetView = new HabitScoreView(context, null);
+//        HabitStreakView widgetView = new HabitStreakView(context, null);
         widgetView.setHabit(habit);
+        widgetView.setDrawingCacheEnabled(true);
+        widgetView.measure(max_width, max_height);
+        widgetView.layout(0, 0, max_width, max_height);
 
+        int width = widgetView.getMeasuredWidth();
+        int height = widgetView.getMeasuredHeight();
+        Log.d("SmallWidgetProvider", String.format("width=%d height=%d\n", width, height));
+
+        height -= DialogHelper.dpToPixels(context, 12f);
+        widgetView.measure(width, height);
+        widgetView.layout(0, 0, width, height);
+        widgetView.buildDrawingCache(true);
         Bitmap drawingCache = widgetView.getDrawingCache();
 
         remoteViews.setTextViewText(R.id.tvName, habit.name);
@@ -77,5 +101,12 @@ public class SmallWidgetProvider extends AppWidgetProvider
 
         for(Integer id : appWidgetIds)
             prefs.edit().remove(getWidgetPrefKey(id));
+    }
+
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
+                                          int appWidgetId, Bundle newOptions)
+    {
+        updateWidget(context, appWidgetManager, appWidgetId, newOptions);
     }
 }

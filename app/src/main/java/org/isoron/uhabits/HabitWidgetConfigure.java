@@ -27,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class HabitWidgetConfigure extends Activity implements AdapterView.OnItem
         Long habitId = habitIds.get(position);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
                 getApplicationContext());
-        prefs.edit().putLong(SmallWidgetProvider.getWidgetPrefKey(widgetId), habitId).commit();
+        prefs.edit().putLong(HabitWidgetProvider.getWidgetPrefKey(widgetId), habitId).commit();
 
         MainActivity.updateWidgets(this);
 

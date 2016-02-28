@@ -54,14 +54,12 @@ public class HabitHistoryView extends ScrollableDataView
     private int todayWeekday;
     private int colors[];
     private Rect baseLocation;
-    private int baseSize;
     private int primaryColor;
 
     public HabitHistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
-        this.baseSize = (int) context.getResources().getDimension(R.dimen.small_square_size);
         init();
     }
 
@@ -76,9 +74,9 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void init()
     {
-        setDimensions(this.baseSize);
         createPaints();
         createColors();
+        updateDimensions();
 
         wdays = DateHelper.getShortDayNames();
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
@@ -108,8 +106,9 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void createColors()
     {
-        int primaryColorBright = ColorHelper.mixColors(primaryColor, Color.WHITE, 0.5f);
-        int grey = Color.rgb(230, 230, 230);
+        int primaryColorBright = Color.argb(127, Color.red(primaryColor), Color.green(primaryColor),
+                Color.blue(primaryColor));
+        int grey = Color.argb(25, 0, 0, 0);
 
         colors = new int[3];
         colors[0] = grey;
@@ -117,19 +116,20 @@ public class HabitHistoryView extends ScrollableDataView
         colors[2] = primaryColor;
     }
 
-    private void setDimensions(int baseSize)
+    protected void updateDimensions()
     {
-        columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        squareSpacing = 2;
+        squareSpacing = columnWidth / 10;
+        pSquareFg.setTextSize(columnWidth * 0.5f);
+        pTextHeader.setTextSize(columnWidth * 0.5f);
+        squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
+        headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
     }
 
-    private void createPaints()
+    protected void createPaints()
     {
         pTextHeader = new Paint();
         pTextHeader.setColor(Color.LTGRAY);
         pTextHeader.setTextAlign(Align.LEFT);
-        pTextHeader.setTextSize(columnWidth * 0.5f);
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
@@ -138,11 +138,7 @@ public class HabitHistoryView extends ScrollableDataView
         pSquareFg = new Paint();
         pSquareFg.setColor(Color.WHITE);
         pSquareFg.setAntiAlias(true);
-        pSquareFg.setTextSize(columnWidth * 0.5f);
         pSquareFg.setTextAlign(Align.CENTER);
-
-        squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
-        headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
     }
 
     protected void fetchData()
@@ -203,7 +199,7 @@ public class HabitHistoryView extends ScrollableDataView
         for (int column = 0; column < nColumns - 1; column++)
         {
             drawColumn(canvas, baseLocation, currentDate, column);
-            baseLocation.offset(columnWidth, -columnHeight);
+            baseLocation.offset(columnWidth, - columnHeight);
         }
 
         drawAxis(canvas, baseLocation);
@@ -248,6 +244,8 @@ public class HabitHistoryView extends ScrollableDataView
         }
     }
 
+    private boolean justSkippedColumn = false;
+
     private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
     {
         String month = dfMonth.format(date.getTime());
@@ -256,21 +254,32 @@ public class HabitHistoryView extends ScrollableDataView
         if (!month.equals(previousMonth))
         {
             int offset = 0;
-            if (justPrintedYear) offset += columnWidth;
+            if (justPrintedYear)
+            {
+                offset += columnWidth;
+                justSkippedColumn = true;
+            }
 
             canvas.drawText(month, location.left + offset, location.bottom - headerTextOffset,
                     pTextHeader);
+
             previousMonth = month;
             justPrintedYear = false;
         }
         else if (!year.equals(previousYear))
         {
-            canvas.drawText(year, location.left, location.bottom - headerTextOffset, pTextHeader);
-            previousYear = year;
-            justPrintedYear = true;
+            if(!justSkippedColumn)
+            {
+                canvas.drawText(year, location.left, location.bottom - headerTextOffset, pTextHeader);
+                previousYear = year;
+                justPrintedYear = true;
+            }
+
+            justSkippedColumn = false;
         }
         else
         {
+            justSkippedColumn = false;
             justPrintedYear = false;
         }
     }
