@@ -269,6 +269,8 @@ public class Habit extends Model
     {
         updateCheckmarks();
 
+        if(fromTimestamp > toTimestamp) return new int[0];
+
         String query = "select value, timestamp from Checkmarks where " +
                 "habit = ? and timestamp >= ? and timestamp <= ?";
 

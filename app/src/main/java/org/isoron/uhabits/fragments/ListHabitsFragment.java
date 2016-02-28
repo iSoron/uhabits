@@ -267,7 +267,7 @@ public class ListHabitsFragment extends Fragment
     {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int width = (int) (dm.widthPixels / dm.density);
-        buttonCount = (int) ((width - 160) / 42.0);
+        buttonCount = Math.max(0, (int) ((width - 160) / 42.0));
         tvNameWidth = (int) ((width - 30 - buttonCount * 42) * dm.density);
 
         loader = new HabitListLoader();
@@ -719,7 +719,8 @@ public class ListHabitsFragment extends Fragment
             TextView tvCheck = (TextView) llButtons.getChildAt(i);
             tvCheck.setTag(R.string.habit_key, habitId);
             tvCheck.setTag(R.string.offset_key, i);
-            updateCheckmark(activeColor, tvCheck, isChecked[i]);
+            if(isChecked.length > i)
+                updateCheckmark(activeColor, tvCheck, isChecked[i]);
         }
     }
 
