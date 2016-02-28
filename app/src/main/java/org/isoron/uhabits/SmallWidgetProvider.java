@@ -50,8 +50,8 @@ public class SmallWidgetProvider extends AppWidgetProvider
 
         SmallWidgetView widgetView = new SmallWidgetView(context);
         widgetView.setDrawingCacheEnabled(true);
-        widgetView.measure(200, 200);
-        widgetView.layout(0, 0, 200, 200);
+        widgetView.measure(180, 200);
+        widgetView.layout(0, 0, 180, 200);
         widgetView.buildDrawingCache(true);
         widgetView.setHabit(habit);
 

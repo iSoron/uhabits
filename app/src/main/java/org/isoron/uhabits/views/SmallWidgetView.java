@@ -25,6 +25,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,12 +37,20 @@ import org.isoron.uhabits.models.Habit;
 
 public class SmallWidgetView extends View
 {
-    private Paint pCircle;
-    private Paint pText;
+    private Paint pCard;
+    private Paint pIcon;
 
     private int primaryColor;
-    private int grey;
-    private int size;
+    private int backgroundColor;
+    private int timesColor;
+    private int darkGrey;
+
+    private int width;
+    private int height;
+    private int leftMargin;
+    private int topMargin;
+    private int padding;
+    private String label;
 
     private String fa_check;
     private String fa_times;
@@ -50,7 +61,9 @@ public class SmallWidgetView extends View
     private int check_status;
     private int star_status;
 
-    private Rect textBounds;
+    private Rect rect;
+    private TextPaint textPaint;
+    private StaticLayout labelLayout;
 
     public SmallWidgetView(Context context)
     {
@@ -69,13 +82,17 @@ public class SmallWidgetView extends View
         Typeface fontawesome =
                 Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
 
-        pCircle = new Paint();
-        pCircle.setAntiAlias(true);
+        pCard = new Paint();
+        pCard.setAntiAlias(true);
 
-        pText = new Paint();
-        pText.setAntiAlias(true);
-        pText.setTypeface(fontawesome);
-        pText.setTextAlign(Paint.Align.CENTER);
+        pIcon = new Paint();
+        pIcon.setAntiAlias(true);
+        pIcon.setTypeface(fontawesome);
+        pIcon.setTextAlign(Paint.Align.CENTER);
+
+        textPaint = new TextPaint();
+        textPaint.setColor(Color.WHITE);
+        textPaint.setAntiAlias(true);
 
         fa_check = context.getString(R.string.fa_check);
         fa_times = context.getString(R.string.fa_times);
@@ -84,79 +101,109 @@ public class SmallWidgetView extends View
         fa_full_star = context.getString(R.string.fa_star);
 
         primaryColor = ColorHelper.palette[10];
-        grey = Color.rgb(175, 175, 175);
+        backgroundColor = Color.argb(255, 255, 255, 255);
+        timesColor = Color.argb(128, 255, 255, 255);
+        darkGrey = Color.argb(64, 0, 0, 0);
 
-        textBounds = new Rect();
-        check_status = 0;
+        rect = new Rect();
+        check_status = 2;
         star_status = 0;
+        label = "Wake up early";
     }
 
     public void setHabit(Habit habit)
     {
         this.check_status = habit.getCurrentCheckmarkStatus();
         this.star_status = habit.getCurrentStarStatus();
-        this.primaryColor = habit.color;
+        this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color), Color.blue(habit.color));
+        this.label = habit.name;
+        updateLabel();
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        int s = size - (int) (size * 0.025);
-        pCircle.setShadowLayer(size * 0.025f, size * 0.01f, size * 0.01f, 0x60000000);
 
-        drawBigCircle(canvas, s);
-        drawSmallCircle(canvas, s);
+        drawBackground(canvas);
+        drawCheckmark(canvas);
+        drawLabel(canvas);
     }
 
-    private void drawSmallCircle(Canvas canvas, int s)
+    private void drawBackground(Canvas canvas)
     {
-        String text;
-        int color = (star_status == 2 ? primaryColor : grey);
+        int color = (check_status == 2 ? primaryColor : darkGrey);
 
-        if(star_status == 0)
-            text = fa_empty_star;
-        else if(star_status == 1)
-            text = fa_half_star;
-        else
-            text = fa_full_star;
-
-        int r2 = (int) (s * 0.20);
-        pCircle.setColor(Color.WHITE);
-        canvas.drawCircle(s - r2, s - r2, r2, pCircle);
-
-        pText.setTextSize(s * 0.3f);
-        pText.setColor(color);
-        pText.getTextBounds(text, 0, text.length(), textBounds);
-        canvas.drawText(text, s - r2, s - r2 - textBounds.exactCenterY() - s / 90, pText);
+        pCard.setColor(color);
+        canvas.drawRoundRect(leftMargin, topMargin, width - leftMargin, height - topMargin, padding,
+                padding, pCard);
     }
 
-    private void drawBigCircle(Canvas canvas, int s)
+    private void drawCheckmark(Canvas canvas)
     {
         String text = (check_status == 0 ? fa_times : fa_check);
-        int color = (check_status == 2 ? primaryColor : grey);
+        int color = (check_status == 2 ? Color.WHITE : timesColor);
 
-        int r1 = (int) (s * 0.45);
-        pCircle.setColor(color);
-        canvas.drawCircle(r1, r1, r1, pCircle);
+        pIcon.setColor(color);
+        pIcon.setTextSize(width * 0.5f);
+        pIcon.getTextBounds(text, 0, 1, rect);
 
-        pText.setTextSize(s * 0.7f);
-        pText.setColor(Color.WHITE);
-        pText.getTextBounds(text, 0, text.length(), textBounds);
-        canvas.drawText(text, r1, r1 - textBounds.exactCenterY(), pText);
+//        canvas.drawLine(0, 0.67f * height, width, 0.67f * height, pIcon);
+
+        int y = (int) ((0.67f * height - rect.bottom - rect.top) / 2);
+        canvas.drawText(text, width / 2, y, pIcon);
+    }
+
+    private void drawLabel(Canvas canvas)
+    {
+        canvas.save();
+        float y;
+        int nLines = labelLayout.getLineCount();
+
+        if(nLines == 1)
+            y = height * 0.8f - padding;
+        else
+            y = height * 0.7f - padding;
+
+        canvas.translate(leftMargin + padding, y);
+
+        labelLayout.draw(canvas);
+        canvas.restore();
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    protected void onMeasure(int width, int height)
     {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        size = Math.min(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(size, size);
+        super.onMeasure(width, height);
+        setMeasuredDimension(width, height);
+        updateSize(width, height);
+        updateLabel();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
     {
         super.onSizeChanged(w, h, oldw, oldh);
+        updateSize(w, h);
+        updateLabel();
     }
+
+    private void updateSize(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+
+        leftMargin = (int) (width * 0.015);
+        topMargin = (int) (height * 0.015);
+        padding = 8 * leftMargin;
+        textPaint.setTextSize(0.15f * width);
+    }
+
+    private void updateLabel()
+    {
+        textPaint.setColor(Color.WHITE);
+        labelLayout = new StaticLayout(label, textPaint, width - 2 * leftMargin - 2 * padding,
+                Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+    }
+
 }
