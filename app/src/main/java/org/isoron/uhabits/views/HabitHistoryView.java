@@ -26,7 +26,6 @@ import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -44,6 +43,11 @@ public class HabitHistoryView extends ScrollableDataView
 
     private float squareTextOffset;
     private float headerTextOffset;
+
+    private int columnWidth;
+    private int columnHeight;
+    private int nColumns;
+    private int baseSize;
 
     private String wdays[];
     private SimpleDateFormat dfMonth;
@@ -76,7 +80,6 @@ public class HabitHistoryView extends ScrollableDataView
     {
         createPaints();
         createColors();
-        updateDimensions();
 
         wdays = DateHelper.getShortDayNames();
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
@@ -88,7 +91,7 @@ public class HabitHistoryView extends ScrollableDataView
     private void updateDate()
     {
         baseDate = new GregorianCalendar();
-        baseDate.add(Calendar.DAY_OF_YEAR, -(dataOffset - 1) * 7);
+        baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
         todayWeekday = new GregorianCalendar().get(Calendar.DAY_OF_WEEK) % 7;
@@ -98,9 +101,34 @@ public class HabitHistoryView extends ScrollableDataView
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        super.onSizeChanged(w, h, oldw, oldh);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        int b = height / 8;
+        height = b * 8;
+        width = (width / b) * b;
+
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
+    {
+        baseSize = height / 8;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        nColumns = width / baseSize;
+
+        squareSpacing = baseSize / 10;
+        pSquareFg.setTextSize(baseSize * 0.5f);
+        pTextHeader.setTextSize(baseSize * 0.5f);
+        squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
+        headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
+
         updateDate();
     }
 
@@ -114,15 +142,6 @@ public class HabitHistoryView extends ScrollableDataView
         colors[0] = grey;
         colors[1] = primaryColorBright;
         colors[2] = primaryColor;
-    }
-
-    protected void updateDimensions()
-    {
-        squareSpacing = columnWidth / 10;
-        pSquareFg.setTextSize(columnWidth * 0.5f);
-        pTextHeader.setTextSize(columnWidth * 0.5f);
-        squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
-        headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
     }
 
     protected void createPaints()
@@ -212,9 +231,9 @@ public class HabitHistoryView extends ScrollableDataView
 
         for (int j = 0; j < 7; j++)
         {
-            if (!(column == nColumns - 2 && dataOffset == 0 && j > todayWeekday))
+            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayWeekday))
             {
-                int checkmarkOffset = dataOffset * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
+                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 

@@ -28,7 +28,7 @@ import android.widget.RemoteViews;
 
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.views.HabitScoreView;
 
 public class HabitWidgetProvider extends AppWidgetProvider
 {
@@ -63,9 +63,10 @@ public class HabitWidgetProvider extends AppWidgetProvider
         Habit habit = Habit.get(habitId);
 
 //        SmallWidgetView widgetView = new SmallWidgetView(context);
-        HabitHistoryView widgetView = new HabitHistoryView(context, null);
-//        HabitScoreView widgetView = new HabitScoreView(context, null);
+//        HabitHistoryView widgetView = new HabitHistoryView(context, null);
+        HabitScoreView widgetView = new HabitScoreView(context, null);
 //        HabitStreakView widgetView = new HabitStreakView(context, null);
+        widgetView.setIsBackgroundTransparent(true);
         widgetView.setHabit(habit);
         widgetView.setDrawingCacheEnabled(true);
         widgetView.measure(max_width, max_height);

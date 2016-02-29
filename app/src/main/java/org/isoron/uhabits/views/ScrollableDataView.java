@@ -22,22 +22,17 @@ package org.isoron.uhabits.views;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 
-import org.isoron.uhabits.R;
-
 public abstract class ScrollableDataView extends View implements GestureDetector.OnGestureListener,
         ValueAnimator.AnimatorUpdateListener
 {
 
-    protected int dataOffset;
-    protected int nColumns, nRows;
-    protected int columnWidth, columnHeight;
-    protected int headerHeight, footerHeight;
+    private int dataOffset;
+    private int scrollerBucketSize;
 
     private GestureDetector detector;
     private Scroller scroller;
@@ -57,7 +52,6 @@ public abstract class ScrollableDataView extends View implements GestureDetector
 
     private void init(Context context)
     {
-        this.columnWidth = (int) context.getResources().getDimension(R.dimen.small_square_size);
         detector = new GestureDetector(context, this);
         scroller = new Scroller(context, null, true);
         scrollAnimator = ValueAnimator.ofFloat(0, 1);
@@ -70,39 +64,6 @@ public abstract class ScrollableDataView extends View implements GestureDetector
     public boolean onTouchEvent(MotionEvent event)
     {
         return detector.onTouchEvent(event);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-
-        Log.d("ScrollableDataView", String.format("onMeasure width=%d height=%d", width, height));
-
-        columnWidth = height / 8;
-        columnHeight = columnWidth * 8 + footerHeight + headerHeight;
-
-        height = columnHeight;
-        width = (width / columnWidth) * columnWidth;
-
-        setMeasuredDimension(width, height);
-        updateDimensions();
-    }
-
-    protected void updateDimensions()
-    {
-
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
-    {
-        super.onSizeChanged(w, h, oldw, oldh);
-        nColumns = w / columnWidth;
-        fetchData();
     }
 
     @Override
@@ -126,13 +87,17 @@ public abstract class ScrollableDataView extends View implements GestureDetector
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy)
     {
+        if(scrollerBucketSize == 0)
+            return false;
+
         if(Math.abs(dx) > Math.abs(dy))
             getParent().requestDisallowInterceptTouchEvent(true);
 
         scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) -dx, (int) dy, 0);
         scroller.computeScrollOffset();
-        dataOffset = Math.max(0, scroller.getCurrX() / columnWidth);
+        dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
         postInvalidate();
+
         return true;
     }
 
@@ -161,12 +126,22 @@ public abstract class ScrollableDataView extends View implements GestureDetector
         if (!scroller.isFinished())
         {
             scroller.computeScrollOffset();
-            dataOffset = Math.max(0, scroller.getCurrX() / columnWidth);
+            dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
             postInvalidate();
         }
         else
         {
             scrollAnimator.cancel();
         }
+    }
+
+    public int getDataOffset()
+    {
+        return dataOffset;
+    }
+
+    public void setScrollerBucketSize(int scrollerBucketSize)
+    {
+        this.scrollerBucketSize = scrollerBucketSize;
     }
 }
