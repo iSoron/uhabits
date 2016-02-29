@@ -16,11 +16,17 @@
 
 package org.isoron.uhabits;
 
+import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,12 +36,21 @@ import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.widgets.BaseWidgetProvider;
+import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
+import org.isoron.uhabits.widgets.HistoryWidgetProvider;
+import org.isoron.uhabits.widgets.ScoreWidgetProvider;
+import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
 public class MainActivity extends ReplayableActivity
         implements ListHabitsFragment.OnHabitClickListener
 {
     private ListHabitsFragment listHabitsFragment;
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    private BroadcastReceiver receiver;
+    private LocalBroadcastManager localBroadcastManager;
+
+    public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,6 +62,10 @@ public class MainActivity extends ReplayableActivity
         listHabitsFragment =
                 (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
 
+        receiver = new Receiver();
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter(ACTION_REFRESH));
+
         onStartup();
     }
 
@@ -56,6 +75,7 @@ public class MainActivity extends ReplayableActivity
         ReminderHelper.createReminderAlarms(MainActivity.this);
         DialogHelper.incrementLaunchCount(this);
         showTutorial();
+        updateWidgets(this);
     }
 
     private void showTutorial()
@@ -108,5 +128,40 @@ public class MainActivity extends ReplayableActivity
     public void onPostExecuteCommand(Long refreshKey)
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
+        updateWidgets(this);
+    }
+
+    public static void updateWidgets(Context context)
+    {
+        updateWidgets(context, CheckmarkWidgetProvider.class);
+        updateWidgets(context, HistoryWidgetProvider.class);
+        updateWidgets(context, ScoreWidgetProvider.class);
+        updateWidgets(context, StreakWidgetProvider.class);
+    }
+
+    private static void updateWidgets(Context context, Class providerClass)
+    {
+        ComponentName provider = new ComponentName(context, providerClass);
+        Intent intent = new Intent(context, providerClass);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(provider);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        localBroadcastManager.unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    class Receiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            listHabitsFragment.onPostExecuteCommand(null);
+        }
     }
 }

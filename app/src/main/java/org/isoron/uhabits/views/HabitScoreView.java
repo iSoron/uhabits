@@ -20,12 +20,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -35,6 +36,10 @@ import java.util.Random;
 public class HabitScoreView extends ScrollableDataView
 {
     public static final int BUCKET_SIZE = 7;
+    public static final PorterDuffXfermode XFERMODE_CLEAR =
+            new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+    public static final PorterDuffXfermode XFERMODE_SRC =
+            new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
     private Paint pGrid;
     private float em;
@@ -46,14 +51,18 @@ public class HabitScoreView extends ScrollableDataView
     private RectF rect, prevRect;
     private int baseSize;
 
+    private int columnWidth;
+    private int columnHeight;
+    private int nColumns;
+
     private int[] colors;
     private int[] scores;
     private int primaryColor;
+    private boolean isBackgroundTransparent;
 
     public HabitScoreView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.baseSize = (int) context.getResources().getDimension(R.dimen.small_square_size);
         this.primaryColor = ColorHelper.palette[7];
         init();
     }
@@ -69,7 +78,6 @@ public class HabitScoreView extends ScrollableDataView
     private void init()
     {
         createPaints();
-        setDimensions();
         createColors();
 
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
@@ -77,15 +85,6 @@ public class HabitScoreView extends ScrollableDataView
 
         rect = new RectF();
         prevRect = new RectF();
-    }
-
-    private void setDimensions()
-    {
-        this.columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        headerHeight = baseSize;
-        footerHeight = baseSize;
-        em = pText.getFontSpacing();
     }
 
     private void createColors()
@@ -98,24 +97,54 @@ public class HabitScoreView extends ScrollableDataView
         colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
     }
 
-    private void createPaints()
+    protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.LTGRAY);
+        pText.setColor(Color.argb(64, 0, 0, 0));
         pText.setTextAlign(Paint.Align.LEFT);
-        pText.setTextSize(baseSize * 0.5f);
         pText.setAntiAlias(true);
 
         pGraph = new Paint();
         pGraph.setTextAlign(Paint.Align.CENTER);
-        pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setAntiAlias(true);
-        pGraph.setStrokeWidth(baseSize * 0.1f);
 
         pGrid = new Paint();
-        pGrid.setColor(Color.LTGRAY);
+        pGrid.setColor(Color.argb(64, 0, 0, 0));
         pGrid.setAntiAlias(true);
+
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        if(height > 0)
+        {
+            int b = height / 9;
+            height = b * 9;
+            width = (width / b) * b;
+        }
+
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
+    {
+        baseSize = height / 9;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        nColumns = width / baseSize;
+
+        pText.setTextSize(baseSize * 0.5f);
+        pGraph.setTextSize(baseSize * 0.5f);
+        pGraph.setStrokeWidth(baseSize * 0.1f);
         pGrid.setStrokeWidth(baseSize * 0.05f);
+        em = pText.getFontSpacing();
     }
 
     protected void fetchData()
@@ -157,7 +186,6 @@ public class HabitScoreView extends ScrollableDataView
         float lineHeight = pText.getFontSpacing();
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
-        rect.offset(0, headerHeight);
         drawGrid(canvas, rect);
 
         String previousMonth = "";
@@ -167,7 +195,7 @@ public class HabitScoreView extends ScrollableDataView
 
         long currentDate = DateHelper.getStartOfToday();
 
-        for(int k = 0; k < nColumns + dataOffset - 1; k++)
+        for(int k = 0; k < nColumns + getDataOffset() - 1; k++)
             currentDate -= 7 * DateHelper.millisecondsInOneDay;
 
         for (int k = 0; k < nColumns; k++)
@@ -176,15 +204,14 @@ public class HabitScoreView extends ScrollableDataView
             String day = dfDay.format(currentDate);
 
             int score = 0;
-            int offset = nColumns - k - 1 + dataOffset;
+            int offset = nColumns - k - 1 + getDataOffset();
             if(offset < scores.length) score = scores[offset];
 
             double sRelative = ((double) score) / Habit.MAX_SCORE;
             int height = (int) (columnHeight * sRelative);
 
-            rect.set(0, 0, columnWidth, columnWidth);
-            rect.offset(k * columnWidth,
-                    headerHeight + columnHeight - height - columnWidth / 2);
+            rect.set(0, 0, baseSize, baseSize);
+            rect.offset(k * columnWidth, columnHeight - height - columnWidth / 2);
 
             if (!prevRect.isEmpty())
             {
@@ -197,7 +224,7 @@ public class HabitScoreView extends ScrollableDataView
             prevRect.set(rect);
 
             rect.set(0, 0, columnWidth, columnHeight);
-            rect.offset(k * columnWidth, headerHeight);
+            rect.offset(k * columnWidth, 0);
             if (!month.equals(previousMonth))
                 canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
             else
@@ -213,7 +240,7 @@ public class HabitScoreView extends ScrollableDataView
         int nRows = 5;
         float rowHeight = rGrid.height() / nRows;
 
-        pGrid.setColor(Color.rgb(240, 240, 240));
+        pGrid.setColor(Color.argb(20, 0, 0, 0));
         for (int i = 0; i < nRows; i++)
         {
             canvas.drawText(String.format("%d%%", (100 - i * 100 / nRows)), rGrid.left + 0.5f * em,
@@ -235,15 +262,31 @@ public class HabitScoreView extends ScrollableDataView
     private void drawMarker(Canvas canvas, RectF rect)
     {
         rect.inset(columnWidth * 0.15f, columnWidth * 0.15f);
-        pGraph.setColor(Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
-        pGraph.setColor(primaryColor);
+        setModeOrColor(pGraph, XFERMODE_SRC, primaryColor);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
-        pGraph.setColor(Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
         canvas.drawOval(rect, pGraph);
+
+        if(isBackgroundTransparent)
+            pGraph.setXfermode(XFERMODE_SRC);
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+    }
+
+    private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)
+    {
+        if(isBackgroundTransparent)
+            p.setXfermode(mode);
+        else
+            p.setColor(color);
     }
 }

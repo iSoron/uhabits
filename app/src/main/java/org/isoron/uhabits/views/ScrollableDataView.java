@@ -31,10 +31,8 @@ public abstract class ScrollableDataView extends View implements GestureDetector
         ValueAnimator.AnimatorUpdateListener
 {
 
-    protected int dataOffset;
-    protected int nColumns;
-    protected int columnWidth, columnHeight;
-    protected int headerHeight, footerHeight;
+    private int dataOffset;
+    private int scrollerBucketSize;
 
     private GestureDetector detector;
     private Scroller scroller;
@@ -69,21 +67,6 @@ public abstract class ScrollableDataView extends View implements GestureDetector
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), columnHeight + headerHeight + footerHeight);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
-    {
-        super.onSizeChanged(w, h, oldw, oldh);
-        nColumns = w / columnWidth;
-        fetchData();
-    }
-
-    @Override
     public boolean onDown(MotionEvent e)
     {
         return true;
@@ -104,13 +87,17 @@ public abstract class ScrollableDataView extends View implements GestureDetector
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy)
     {
+        if(scrollerBucketSize == 0)
+            return false;
+
         if(Math.abs(dx) > Math.abs(dy))
             getParent().requestDisallowInterceptTouchEvent(true);
 
         scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) -dx, (int) dy, 0);
         scroller.computeScrollOffset();
-        dataOffset = Math.max(0, scroller.getCurrX() / columnWidth);
+        dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
         postInvalidate();
+
         return true;
     }
 
@@ -139,12 +126,22 @@ public abstract class ScrollableDataView extends View implements GestureDetector
         if (!scroller.isFinished())
         {
             scroller.computeScrollOffset();
-            dataOffset = Math.max(0, scroller.getCurrX() / columnWidth);
+            dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
             postInvalidate();
         }
         else
         {
             scrollAnimator.cancel();
         }
+    }
+
+    public int getDataOffset()
+    {
+        return dataOffset;
+    }
+
+    public void setScrollerBucketSize(int scrollerBucketSize)
+    {
+        this.scrollerBucketSize = scrollerBucketSize;
     }
 }

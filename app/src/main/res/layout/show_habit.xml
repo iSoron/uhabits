@@ -11,7 +11,6 @@
         tools:context="org.isoron.uhabits.ShowHabitActivity">
 
         <LinearLayout
-            android:id="@+id/llOverview"
             style="@style/cardStyle"
             android:gravity="center">
 
@@ -28,10 +27,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llStrength"
-            style="@style/cardStyle"
-            android:gravity="center">
+        <LinearLayout style="@style/cardStyle">
 
             <TextView
                 android:id="@+id/tvStrength"
@@ -41,7 +37,7 @@
             <org.isoron.uhabits.views.HabitScoreView
                 android:id="@+id/scoreView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="200dp"/>
 
         </LinearLayout>
 
@@ -61,7 +57,7 @@
             <org.isoron.uhabits.views.HabitHistoryView
                 android:id="@+id/historyView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="180dp"/>
 
         </LinearLayout>
 
@@ -81,7 +77,7 @@
             <org.isoron.uhabits.views.HabitStreakView
                 android:id="@+id/streakView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="200dp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

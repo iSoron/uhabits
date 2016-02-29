@@ -19,6 +19,7 @@ package org.isoron.uhabits.models;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
@@ -383,6 +384,24 @@ public class Habit extends Model
                 .executeSingle();
     }
 
+    public int getCurrentCheckmarkStatus()
+    {
+        updateCheckmarks();
+        Checkmark c = getNewestCheckmark();
+
+        if(c != null) return c.value;
+        else return 0;
+    }
+
+    public int getCurrentStarStatus()
+    {
+        int score = getScore();
+
+        if(score >= FULL_STAR_CUTOFF) return 2;
+        else if(score >= HALF_STAR_CUTOFF) return 1;
+        else return 0;
+    }
+
     public int getRepsCount(int days)
     {
         long timeTo = DateHelper.getStartOfToday();
@@ -424,6 +443,11 @@ public class Habit extends Model
         deleteScoresNewerThan(timestamp);
         deleteCheckmarksNewerThan(timestamp);
         deleteStreaksNewerThan(timestamp);
+    }
+
+    public Uri getUri()
+    {
+        return Uri.parse(String.format("content://org.isoron.uhabits/habit/%d", getId()));
     }
 
     public void archive()

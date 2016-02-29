@@ -18,10 +18,12 @@ package org.isoron.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -71,5 +73,12 @@ public abstract class DialogHelper
             return context.getResources().getString(resId);
         else
             return attrs.getAttributeValue(ISORON_NAMESPACE, name);
+    }
+
+    public static float dpToPixels(Context context, float dp)
+    {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }

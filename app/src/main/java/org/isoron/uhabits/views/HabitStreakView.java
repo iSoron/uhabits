@@ -43,6 +43,11 @@ public class HabitStreakView extends ScrollableDataView
     private long[] endTimes;
     private long[] lengths;
 
+    private int columnWidth;
+    private int columnHeight;
+    private int headerHeight;
+    private int nColumns;
+
     private long maxStreakLength;
     private int[] colors;
     private SimpleDateFormat dfMonth;
@@ -53,7 +58,6 @@ public class HabitStreakView extends ScrollableDataView
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.baseSize = (int) context.getResources().getDimension(R.dimen.small_square_size);
         this.primaryColor = ColorHelper.palette[7];
         init();
     }
@@ -62,6 +66,7 @@ public class HabitStreakView extends ScrollableDataView
     {
         this.habit = habit;
         this.primaryColor = habit.color;
+
         createColors();
         fetchData();
         postInvalidate();
@@ -69,7 +74,6 @@ public class HabitStreakView extends ScrollableDataView
 
     private void init()
     {
-        setDimensions(baseSize);
         createPaints();
         createColors();
 
@@ -77,34 +81,54 @@ public class HabitStreakView extends ScrollableDataView
         rect = new Rect();
     }
 
-    private void setDimensions(int baseSize)
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        this.columnWidth = baseSize;
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        int b = height / 10;
+        height = b * 10;
+        width = (width / b) * b;
+
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
+    {
+        baseSize = height / 10;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
         columnHeight = 8 * baseSize;
         headerHeight = baseSize;
-        footerHeight = baseSize;
+        nColumns = width / baseSize - 1;
+
+        pText.setTextSize(baseSize * 0.5f);
+        pBar.setTextSize(baseSize * 0.5f);
     }
 
     private void createColors()
     {
         colors = new int[4];
-        colors[0] = Color.rgb(230, 230, 230);
         colors[3] = primaryColor;
-        colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
-        colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+        colors[1] = Color.argb(80, Color.red(primaryColor), Color.green(primaryColor), Color.blue(
+                primaryColor));
+        colors[2] = Color.argb(170, Color.red(primaryColor), Color.green(primaryColor),
+                Color.blue(primaryColor));
+        colors[0] = Color.argb(30, 0, 0, 0);
     }
 
-    private void createPaints()
+    protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.LTGRAY);
+        pText.setColor(Color.argb(64, 0, 0, 0));
         pText.setTextAlign(Paint.Align.CENTER);
-        pText.setTextSize(columnWidth * 0.5f);
         pText.setAntiAlias(true);
 
         pBar = new Paint();
         pBar.setTextAlign(Paint.Align.CENTER);
-        pBar.setTextSize(columnWidth * 0.5f);
         pBar.setAntiAlias(true);
     }
 
@@ -173,7 +197,7 @@ public class HabitStreakView extends ScrollableDataView
         float barHeaderOffset = lineHeight * 0.4f;
 
         int nStreaks = startTimes.length;
-        int start = nStreaks - nColumns - dataOffset;
+        int start = nStreaks - nColumns - getDataOffset();
 
         String previousMonth = "";
 

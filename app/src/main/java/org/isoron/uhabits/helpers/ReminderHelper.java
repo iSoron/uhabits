@@ -25,7 +25,7 @@ import android.os.Build;
 import android.util.Log;
 
 import org.isoron.helpers.DateHelper;
-import org.isoron.uhabits.ReminderAlarmReceiver;
+import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.DateFormat;
@@ -58,10 +58,10 @@ public class ReminderHelper
 
         long timestamp = DateHelper.getStartOfDay(DateHelper.toLocalTime(reminderTime));
 
-        Uri uri = Uri.parse(String.format("content://org.isoron.uhabits/habit/%d", habit.getId()));
+        Uri uri = habit.getUri();
 
-        Intent alarmIntent = new Intent(context, ReminderAlarmReceiver.class);
-        alarmIntent.setAction(ReminderAlarmReceiver.ACTION_REMIND);
+        Intent alarmIntent = new Intent(context, HabitBroadcastReceiver.class);
+        alarmIntent.setAction(HabitBroadcastReceiver.ACTION_SHOW_REMINDER);
         alarmIntent.setData(uri);
         alarmIntent.putExtra("timestamp", timestamp);
         alarmIntent.putExtra("reminderTime", reminderTime);
