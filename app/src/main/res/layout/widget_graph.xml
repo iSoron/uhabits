@@ -11,7 +11,7 @@
     android:paddingRight="0dp">
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

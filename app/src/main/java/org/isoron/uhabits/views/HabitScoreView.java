@@ -120,9 +120,12 @@ public class HabitScoreView extends ScrollableDataView
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        int b = height / 9;
-        height = b * 9;
-        width = (width / b) * b;
+        if(height > 0)
+        {
+            int b = height / 9;
+            height = b * 9;
+            width = (width / b) * b;
+        }
 
         setMeasuredDimension(width, height);
     }

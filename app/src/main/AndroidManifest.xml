@@ -64,18 +64,53 @@
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <receiver android:name=".HabitWidgetProvider">
+        <receiver
+            android:name=".widgets.CheckmarkWidgetProvider"
+            android:label="Checkmark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/small_widget_info"/>
+                android:resource="@xml/widget_checkmark_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".widgets.HistoryWidgetProvider"
+            android:label="History">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_history_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".widgets.ScoreWidgetProvider"
+            android:label="Score">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_score_info"/>
+        </receiver>
+
+        <receiver
+            android:name=".widgets.StreakWidgetProvider"
+            android:label="Streaks">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_streak_info"/>
         </receiver>
 
         <activity
-            android:name=".HabitWidgetConfigure"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:name=".widgets.HabitPickerDialog"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>

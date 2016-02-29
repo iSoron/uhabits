@@ -660,7 +660,7 @@ public class ListHabitsFragment extends Fragment
 
                 LinearLayout.LayoutParams params =
                         new LinearLayout.LayoutParams(tvNameWidth, LayoutParams.WRAP_CONTENT, 1);
-                view.findViewById(R.id.tvName).setLayoutParams(params);
+                view.findViewById(R.id.label).setLayoutParams(params);
 
                 inflateCheckmarkButtons(view);
 
@@ -668,7 +668,7 @@ public class ListHabitsFragment extends Fragment
             }
 
             TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
-            TextView tvName = (TextView) view.findViewById(R.id.tvName);
+            TextView tvName = (TextView) view.findViewById(R.id.label);
             LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
             LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
 

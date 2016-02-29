@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2016 Alinson Santos Xavier
+/* Copyright (C) 2016 Alinson Santos Xavier
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -13,8 +12,6 @@
  *
  * You  should  have  received  a  copy  of the GNU General Public License
  * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
- *
- *
  */
 
 package org.isoron.uhabits.views;
@@ -25,6 +22,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -35,7 +33,7 @@ import org.isoron.helpers.ColorHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
-public class SmallWidgetView extends View
+public class CheckmarkView extends View
 {
     private Paint pCard;
     private Paint pIcon;
@@ -65,13 +63,13 @@ public class SmallWidgetView extends View
     private TextPaint textPaint;
     private StaticLayout labelLayout;
 
-    public SmallWidgetView(Context context)
+    public CheckmarkView(Context context)
     {
         super(context);
         init(context);
     }
 
-    public SmallWidgetView(Context context, AttributeSet attrs)
+    public CheckmarkView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(context);
@@ -135,8 +133,15 @@ public class SmallWidgetView extends View
         int color = (check_status == 2 ? primaryColor : darkGrey);
 
         pCard.setColor(color);
-        canvas.drawRoundRect(leftMargin, topMargin, width - leftMargin, height - topMargin, padding,
-                padding, pCard);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            canvas.drawRoundRect(leftMargin, topMargin, width - leftMargin, height - topMargin, padding,
+                    padding, pCard);
+        }
+        else
+        {
+            canvas.drawRect(leftMargin, topMargin, width - leftMargin, height - topMargin, pCard);
+        }
     }
 
     private void drawCheckmark(Canvas canvas)
@@ -176,8 +181,6 @@ public class SmallWidgetView extends View
     {
         super.onMeasure(width, height);
         setMeasuredDimension(width, height);
-        updateSize(width, height);
-        updateLabel();
     }
 
     @Override

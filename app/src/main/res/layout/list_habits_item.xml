@@ -12,7 +12,7 @@
             style="@style/habitsListStarStyle" />
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/label"
             style="@style/habitsListNameStyle" />
 
         <LinearLayout

@@ -14,7 +14,7 @@
  * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.widgets;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -27,20 +27,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.isoron.uhabits.MainActivity;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.widgets.BaseWidgetProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HabitWidgetConfigure extends Activity implements AdapterView.OnItemClickListener
+public class HabitPickerDialog extends Activity implements AdapterView.OnItemClickListener
 {
 
     private Integer widgetId;
-    private ListView listView;
-
     private ArrayList<Long> habitIds;
-    private ArrayList<String> habitNames;
-    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,10 +53,10 @@ public class HabitWidgetConfigure extends Activity implements AdapterView.OnItem
         if (extras != null) widgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
-        listView = (ListView) findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.listView);
 
         habitIds = new ArrayList<>();
-        habitNames = new ArrayList<>();
+        ArrayList<String> habitNames = new ArrayList<>();
 
         List<Habit> habits = Habit.getAll(false);
         for(Habit h : habits)
@@ -66,7 +65,8 @@ public class HabitWidgetConfigure extends Activity implements AdapterView.OnItem
             habitNames.add(h.name);
         }
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitNames);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
     }
@@ -77,7 +77,7 @@ public class HabitWidgetConfigure extends Activity implements AdapterView.OnItem
         Long habitId = habitIds.get(position);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
                 getApplicationContext());
-        prefs.edit().putLong(HabitWidgetProvider.getWidgetPrefKey(widgetId), habitId).commit();
+        prefs.edit().putLong(BaseWidgetProvider.getHabitIdKey(widgetId), habitId).commit();
 
         MainActivity.updateWidgets(this);
 

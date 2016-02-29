@@ -36,6 +36,11 @@ import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.widgets.BaseWidgetProvider;
+import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
+import org.isoron.uhabits.widgets.HistoryWidgetProvider;
+import org.isoron.uhabits.widgets.ScoreWidgetProvider;
+import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
 public class MainActivity extends ReplayableActivity
         implements ListHabitsFragment.OnHabitClickListener
@@ -70,6 +75,7 @@ public class MainActivity extends ReplayableActivity
         ReminderHelper.createReminderAlarms(MainActivity.this);
         DialogHelper.incrementLaunchCount(this);
         showTutorial();
+        updateWidgets(this);
     }
 
     private void showTutorial()
@@ -127,12 +133,18 @@ public class MainActivity extends ReplayableActivity
 
     public static void updateWidgets(Context context)
     {
-        ComponentName provider = new ComponentName(context, HabitWidgetProvider.class);
+        updateWidgets(context, CheckmarkWidgetProvider.class);
+        updateWidgets(context, HistoryWidgetProvider.class);
+        updateWidgets(context, ScoreWidgetProvider.class);
+        updateWidgets(context, StreakWidgetProvider.class);
+    }
 
-        Intent intent = new Intent(context, HabitWidgetProvider.class);
+    private static void updateWidgets(Context context, Class providerClass)
+    {
+        ComponentName provider = new ComponentName(context, providerClass);
+        Intent intent = new Intent(context, providerClass);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(provider);
-
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
     }
