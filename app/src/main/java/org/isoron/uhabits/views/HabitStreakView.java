@@ -103,7 +103,7 @@ public class HabitStreakView extends ScrollableDataView
         columnWidth = baseSize;
         columnHeight = 8 * baseSize;
         headerHeight = baseSize;
-        nColumns = width / baseSize;
+        nColumns = width / baseSize - 1;
 
         pText.setTextSize(baseSize * 0.5f);
         pBar.setTextSize(baseSize * 0.5f);
@@ -123,7 +123,7 @@ public class HabitStreakView extends ScrollableDataView
     protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.LTGRAY);
+        pText.setColor(Color.argb(64, 0, 0, 0));
         pText.setTextAlign(Paint.Align.CENTER);
         pText.setAntiAlias(true);
 

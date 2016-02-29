@@ -11,5 +11,4 @@
                     android:configure="org.isoron.uhabits.widgets.HabitPickerDialog"
                     android:widgetCategory="home_screen">
 
-
 </appwidget-provider>

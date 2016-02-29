@@ -147,7 +147,7 @@ public class HabitHistoryView extends ScrollableDataView
     protected void createPaints()
     {
         pTextHeader = new Paint();
-        pTextHeader.setColor(Color.LTGRAY);
+        pTextHeader.setColor(Color.argb(64, 0, 0, 0));
         pTextHeader.setTextAlign(Align.LEFT);
         pTextHeader.setAntiAlias(true);
 

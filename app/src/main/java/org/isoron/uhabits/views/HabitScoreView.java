@@ -100,7 +100,7 @@ public class HabitScoreView extends ScrollableDataView
     protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.LTGRAY);
+        pText.setColor(Color.argb(64, 0, 0, 0));
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setAntiAlias(true);
 
@@ -109,7 +109,7 @@ public class HabitScoreView extends ScrollableDataView
         pGraph.setAntiAlias(true);
 
         pGrid = new Paint();
-        pGrid.setColor(Color.LTGRAY);
+        pGrid.setColor(Color.argb(64, 0, 0, 0));
         pGrid.setAntiAlias(true);
 
     }
@@ -240,7 +240,7 @@ public class HabitScoreView extends ScrollableDataView
         int nRows = 5;
         float rowHeight = rGrid.height() / nRows;
 
-        pGrid.setColor(Color.rgb(240, 240, 240));
+        pGrid.setColor(Color.argb(20, 0, 0, 0));
         for (int i = 0; i < nRows; i++)
         {
             canvas.drawText(String.format("%d%%", (100 - i * 100 / nRows)), rGrid.left + 0.5f * em,

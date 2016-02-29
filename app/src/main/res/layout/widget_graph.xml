@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Wake up early"
-        android:textColor="@color/white"/>
+        android:textColor="#3f000000"/>
 
     <ImageView
         android:id="@+id/imageView"
