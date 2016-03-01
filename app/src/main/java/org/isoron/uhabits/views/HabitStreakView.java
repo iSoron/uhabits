@@ -25,7 +25,6 @@ import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Streak;
 
@@ -55,6 +54,10 @@ public class HabitStreakView extends ScrollableDataView
     private int baseSize;
     private int primaryColor;
 
+    private boolean isBackgroundTransparent;
+    private int textColor;
+    private Paint pBarText;
+
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -65,7 +68,6 @@ public class HabitStreakView extends ScrollableDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        this.primaryColor = habit.color;
 
         createColors();
         fetchData();
@@ -111,19 +113,44 @@ public class HabitStreakView extends ScrollableDataView
 
     private void createColors()
     {
-        colors = new int[4];
-        colors[3] = primaryColor;
-        colors[1] = Color.argb(80, Color.red(primaryColor), Color.green(primaryColor), Color.blue(
-                primaryColor));
-        colors[2] = Color.argb(170, Color.red(primaryColor), Color.green(primaryColor),
-                Color.blue(primaryColor));
-        colors[0] = Color.argb(30, 0, 0, 0);
+        if(habit != null)
+            this.primaryColor = habit.color;
+
+        if(isBackgroundTransparent)
+        {
+            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
+            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
+        }
+
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        if(isBackgroundTransparent)
+        {
+            colors = new int[4];
+            colors[3] = primaryColor;
+            colors[2] = Color.argb(213, red, green, blue);
+            colors[1] = Color.argb(170, red, green, blue);
+            colors[0] = Color.argb(128, red, green, blue);
+            textColor = Color.rgb(255, 255, 255);
+            pBarText = pText;
+        }
+        else
+        {
+            colors = new int[4];
+            colors[3] = primaryColor;
+            colors[2] = Color.argb(192, red, green, blue);
+            colors[1] = Color.argb(96, red, green, blue);
+            colors[0] = Color.argb(32, 0, 0, 0);
+            textColor = Color.argb(128, 0, 0, 0);
+            pBarText = pBar;
+        }
     }
 
     protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.argb(64, 0, 0, 0));
         pText.setTextAlign(Paint.Align.CENTER);
         pText.setAntiAlias(true);
 
@@ -199,6 +226,8 @@ public class HabitStreakView extends ScrollableDataView
         int nStreaks = startTimes.length;
         int start = nStreaks - nColumns - getDataOffset();
 
+        pText.setColor(textColor);
+
         String previousMonth = "";
 
         for (int offset = 0; offset < nColumns && start + offset < nStreaks; offset++)
@@ -216,12 +245,18 @@ public class HabitStreakView extends ScrollableDataView
             rect.offset(offset * columnWidth, headerHeight + columnHeight - height);
 
             canvas.drawRect(rect, pBar);
-            canvas.drawText(Long.toString(l), rect.centerX(), rect.top - barHeaderOffset, pBar);
+            canvas.drawText(Long.toString(l), rect.centerX(), rect.top - barHeaderOffset, pBarText);
 
             if (!month.equals(previousMonth))
                 canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
         }
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+        createColors();
     }
 }

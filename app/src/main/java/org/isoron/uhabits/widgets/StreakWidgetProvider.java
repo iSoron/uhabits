@@ -22,7 +22,6 @@ import android.view.View;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
 
 public class StreakWidgetProvider extends  BaseWidgetProvider
@@ -31,6 +30,7 @@ public class StreakWidgetProvider extends  BaseWidgetProvider
     protected View buildCustomView(Context context, int maxHeight, int maxWidth, Habit habit)
     {
         HabitStreakView view = new HabitStreakView(context, null);
+        view.setIsBackgroundTransparent(true);
         view.setHabit(habit);
         view.measure(maxWidth, maxHeight);
         view.layout(0, 0, maxWidth, maxHeight);

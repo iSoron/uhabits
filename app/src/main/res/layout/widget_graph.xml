@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Wake up early"
-        android:textColor="#3f000000"/>
+        android:text="Habit"
+        android:textColor="#ffffff"/>
 
     <ImageView
         android:id="@+id/imageView"

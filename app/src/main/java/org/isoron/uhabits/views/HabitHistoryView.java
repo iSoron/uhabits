@@ -60,6 +60,9 @@ public class HabitHistoryView extends ScrollableDataView
     private Rect baseLocation;
     private int primaryColor;
 
+    private boolean isBackgroundTransparent;
+    private int textColor;
+
     public HabitHistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -70,7 +73,6 @@ public class HabitHistoryView extends ScrollableDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        this.primaryColor = habit.color;
         createColors();
         fetchData();
         postInvalidate();
@@ -134,20 +136,39 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void createColors()
     {
-        int primaryColorBright = Color.argb(127, Color.red(primaryColor), Color.green(primaryColor),
-                Color.blue(primaryColor));
-        int grey = Color.argb(25, 0, 0, 0);
+        if(habit != null)
+            this.primaryColor = habit.color;
 
-        colors = new int[3];
-        colors[0] = grey;
-        colors[1] = primaryColorBright;
-        colors[2] = primaryColor;
+        if(isBackgroundTransparent)
+        {
+            primaryColor = ColorHelper.setMinValue(primaryColor, 0.75f);
+        }
+
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        if(isBackgroundTransparent)
+        {
+            colors = new int[3];
+            colors[0] = Color.argb(64, 0, 0, 0);
+            colors[1] = Color.argb(128, red, green, blue);
+            colors[2] = primaryColor;
+            textColor = Color.rgb(255, 255, 255);
+        }
+        else
+        {
+            colors = new int[3];
+            colors[0] = Color.argb(25, 0, 0, 0);
+            colors[1] = Color.argb(127, red, green, blue);
+            colors[2] = primaryColor;
+            textColor = Color.argb(128, 0, 0, 0);
+        }
     }
 
     protected void createPaints()
     {
         pTextHeader = new Paint();
-        pTextHeader.setColor(Color.argb(64, 0, 0, 0));
         pTextHeader.setTextAlign(Align.LEFT);
         pTextHeader.setAntiAlias(true);
 
@@ -211,6 +232,8 @@ public class HabitHistoryView extends ScrollableDataView
         previousMonth = "";
         previousYear = "";
         justPrintedYear = false;
+
+        pTextHeader.setColor(textColor);
 
         updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
@@ -301,5 +324,11 @@ public class HabitHistoryView extends ScrollableDataView
             justSkippedColumn = false;
             justPrintedYear = false;
         }
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+        createColors();
     }
 }

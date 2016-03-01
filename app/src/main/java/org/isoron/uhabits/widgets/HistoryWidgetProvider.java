@@ -30,6 +30,7 @@ public class HistoryWidgetProvider extends  BaseWidgetProvider
     protected View buildCustomView(Context context, int maxHeight, int maxWidth, Habit habit)
     {
         HabitHistoryView view = new HabitHistoryView(context, null);
+        view.setIsBackgroundTransparent(true);
         view.setHabit(habit);
         view.measure(maxWidth, maxHeight);
         view.layout(0, 0, maxWidth, maxHeight);

@@ -55,6 +55,8 @@ public class HabitScoreView extends ScrollableDataView
     private int columnHeight;
     private int nColumns;
 
+    private int textColor;
+    private int dimmedTextColor;
     private int[] colors;
     private int[] scores;
     private int primaryColor;
@@ -70,7 +72,7 @@ public class HabitScoreView extends ScrollableDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        this.primaryColor = habit.color;
+        createColors();
         fetchData();
         postInvalidate();
     }
@@ -89,6 +91,26 @@ public class HabitScoreView extends ScrollableDataView
 
     private void createColors()
     {
+        if(habit != null)
+            this.primaryColor = habit.color;
+
+        if(isBackgroundTransparent)
+        {
+            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
+            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
+        }
+
+        if(isBackgroundTransparent)
+        {
+            textColor = Color.argb(192, 255, 255, 255);
+            dimmedTextColor = Color.argb(128, 255, 255, 255);
+        }
+        else
+        {
+            textColor = Color.argb(128, 0, 0, 0);
+            dimmedTextColor = Color.argb(32, 0, 0, 0);
+        }
+
         colors = new int[4];
 
         colors[0] = Color.rgb(230, 230, 230);
@@ -100,18 +122,14 @@ public class HabitScoreView extends ScrollableDataView
     protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.argb(64, 0, 0, 0));
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setAntiAlias(true);
 
         pGraph = new Paint();
         pGraph.setTextAlign(Paint.Align.CENTER);
         pGraph.setAntiAlias(true);
-
         pGrid = new Paint();
-        pGrid.setColor(Color.argb(64, 0, 0, 0));
         pGrid.setAntiAlias(true);
-
     }
 
     @Override
@@ -186,10 +204,13 @@ public class HabitScoreView extends ScrollableDataView
         float lineHeight = pText.getFontSpacing();
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
+        rect.offset(0, 1f);
+
         drawGrid(canvas, rect);
 
         String previousMonth = "";
 
+        pText.setColor(textColor);
         pGraph.setColor(primaryColor);
         prevRect.setEmpty();
 
@@ -240,7 +261,7 @@ public class HabitScoreView extends ScrollableDataView
         int nRows = 5;
         float rowHeight = rGrid.height() / nRows;
 
-        pGrid.setColor(Color.argb(20, 0, 0, 0));
+        pGrid.setColor(dimmedTextColor);
         for (int i = 0; i < nRows; i++)
         {
             canvas.drawText(String.format("%d%%", (100 - i * 100 / nRows)), rGrid.left + 0.5f * em,
@@ -280,6 +301,7 @@ public class HabitScoreView extends ScrollableDataView
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
+        createColors();
     }
 
     private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)
