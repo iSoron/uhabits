@@ -21,11 +21,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -36,6 +37,8 @@ import org.isoron.uhabits.models.Habit;
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
 
+    private int width, height;
+
     protected abstract int getDefaultHeight();
 
     protected abstract int getDefaultWidth();
@@ -44,8 +47,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     protected abstract  int getLayoutId();
 
-    protected abstract View buildCustomView(Context context, int max_height, int max_width,
-                                            Habit habit);
+    protected abstract View buildCustomView(Context context, Habit habit);
 
     public static String getHabitIdKey(long widgetId)
     {
@@ -85,16 +87,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     private void updateWidget(Context context, AppWidgetManager manager, int widgetId, Bundle options)
     {
-        int maxWidth = getDefaultWidth();
-        int maxHeight = getDefaultHeight();
-
-        if (options != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-        {
-            maxWidth = (int) DialogHelper.dpToPixels(context,
-                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
-            maxHeight = (int) DialogHelper.dpToPixels(context,
-                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
-        }
+        updateWidgetSize(context, options);
 
         Context appContext = context.getApplicationContext();
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
@@ -104,7 +97,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if(habitId < 0) return;
 
         Habit habit = Habit.get(habitId);
-        View widgetView = buildCustomView(context, maxHeight, maxWidth, habit);
+        View widgetView = buildCustomView(context, habit);
+        measureCustomView(context, width, height, widgetView);
+
         widgetView.setDrawingCacheEnabled(true);
         widgetView.buildDrawingCache(true);
         Bitmap drawingCache = widgetView.getDrawingCache();
@@ -116,5 +111,49 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if(onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView, onClickIntent);
 
         manager.updateAppWidget(widgetId, remoteViews);
+    }
+
+    private void updateWidgetSize(Context context, Bundle options)
+    {
+        int maxWidth = getDefaultWidth();
+        int minWidth = getDefaultWidth();
+        int maxHeight = getDefaultHeight();
+        int minHeight = getDefaultHeight();
+
+        if (options != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+        {
+            maxWidth = (int) DialogHelper.dpToPixels(context,
+                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
+            maxHeight = (int) DialogHelper.dpToPixels(context,
+                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
+            minWidth = (int) DialogHelper.dpToPixels(context,
+                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
+            minHeight = (int) DialogHelper.dpToPixels(context,
+                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
+        }
+
+        width = maxWidth;
+        height = maxHeight;
+    }
+
+    private void measureCustomView(Context context, int w, int h, View customView)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View entireView = inflater.inflate(getLayoutId(), null);
+
+        int specWidth = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
+        int specHeight = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
+
+        entireView.measure(specWidth, specHeight);
+        entireView.layout(0, 0, entireView.getMeasuredWidth(), entireView.getMeasuredHeight());
+
+        View imageView = entireView.findViewById(R.id.imageView);
+        w = imageView.getMeasuredWidth();
+        h = imageView.getMeasuredHeight();
+
+        specWidth = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
+        specHeight = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
+        customView.measure(specWidth, specHeight);
+        customView.layout(0, 0, customView.getMeasuredWidth(), customView.getMeasuredHeight());
     }
 }

@@ -88,11 +88,6 @@ public class HabitStreakView extends ScrollableDataView
     {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-
-        int b = height / 10;
-        height = b * 10;
-        width = (width / b) * b;
-
         setMeasuredDimension(width, height);
     }
 

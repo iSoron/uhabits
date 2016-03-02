@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -107,17 +108,14 @@ public class HabitHistoryView extends ScrollableDataView
     {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-
-        int b = height / 8;
-        height = b * 8;
-        width = (width / b) * b;
-
         setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
+        if(height < 8) height = 200;
+
         baseSize = height / 8;
         setScrollerBucketSize(baseSize);
 

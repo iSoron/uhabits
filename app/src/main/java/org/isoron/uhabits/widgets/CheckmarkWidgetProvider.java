@@ -27,20 +27,11 @@ import org.isoron.uhabits.views.CheckmarkView;
 public class CheckmarkWidgetProvider extends  BaseWidgetProvider
 {
     @Override
-    protected View buildCustomView(Context context, int maxHeight, int maxWidth, Habit habit)
+    protected View buildCustomView(Context context, Habit habit)
     {
-        CheckmarkView widgetView = new CheckmarkView(context);
-
-        widgetView.setHabit(habit);
-        widgetView.measure(maxWidth, maxHeight);
-        widgetView.layout(0, 0, maxWidth, maxHeight);
-
-        int width = widgetView.getMeasuredWidth();
-        int height = widgetView.getMeasuredHeight();
-        widgetView.measure(width, height);
-        widgetView.layout(0, 0, width, height);
-
-        return widgetView;
+        CheckmarkView view = new CheckmarkView(context);
+        view.setHabit(habit);
+        return view;
     }
 
     @Override
@@ -58,7 +49,7 @@ public class CheckmarkWidgetProvider extends  BaseWidgetProvider
     @Override
     protected int getDefaultWidth()
     {
-        return 160;
+        return 200;
     }
 
     @Override

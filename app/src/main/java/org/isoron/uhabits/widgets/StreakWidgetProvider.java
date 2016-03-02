@@ -19,7 +19,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.view.View;
 
-import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.HabitStreakView;
@@ -27,20 +26,11 @@ import org.isoron.uhabits.views.HabitStreakView;
 public class StreakWidgetProvider extends  BaseWidgetProvider
 {
     @Override
-    protected View buildCustomView(Context context, int maxHeight, int maxWidth, Habit habit)
+    protected View buildCustomView(Context context, Habit habit)
     {
         HabitStreakView view = new HabitStreakView(context, null);
         view.setIsBackgroundTransparent(true);
         view.setHabit(habit);
-        view.measure(maxWidth, maxHeight);
-        view.layout(0, 0, maxWidth, maxHeight);
-
-        int width = view.getMeasuredWidth();
-        int height = view.getMeasuredHeight();
-        height -= DialogHelper.dpToPixels(context, 12);
-        view.measure(width, height);
-        view.layout(0, 0, width, height);
-
         return view;
     }
 

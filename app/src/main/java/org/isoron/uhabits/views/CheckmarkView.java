@@ -27,6 +27,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
@@ -134,14 +135,10 @@ public class CheckmarkView extends View
 
         pCard.setColor(color);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
             canvas.drawRoundRect(leftMargin, topMargin, width - leftMargin, height - topMargin, padding,
                     padding, pCard);
-        }
         else
-        {
             canvas.drawRect(leftMargin, topMargin, width - leftMargin, height - topMargin, pCard);
-        }
     }
 
     private void drawCheckmark(Canvas canvas)
@@ -177,29 +174,24 @@ public class CheckmarkView extends View
     }
 
     @Override
-    protected void onMeasure(int width, int height)
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        super.onMeasure(width, height);
-        setMeasuredDimension(width, height);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        setMeasuredDimension(width, (int) (width * 1.25));
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
-        super.onSizeChanged(w, h, oldw, oldh);
-        updateSize(w, h);
-        updateLabel();
-    }
-
-    private void updateSize(int width, int height)
-    {
-        this.width = width;
-        this.height = height;
+        this.width = getMeasuredWidth();
+        this.height = getMeasuredHeight();
 
         leftMargin = (int) (width * 0.015);
         topMargin = (int) (height * 0.015);
         padding = 8 * leftMargin;
         textPaint.setTextSize(0.15f * width);
+
+        updateLabel();
     }
 
     private void updateLabel()

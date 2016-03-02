@@ -7,8 +7,9 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingTop="4dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="0dp">
+    android:paddingBottom="0dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
 
     <TextView
         android:id="@+id/label"
