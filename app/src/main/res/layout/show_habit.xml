@@ -57,7 +57,7 @@
             <org.isoron.uhabits.views.HabitHistoryView
                 android:id="@+id/historyView"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"/>
+                android:layout_height="160dp"/>
 
         </LinearLayout>
 

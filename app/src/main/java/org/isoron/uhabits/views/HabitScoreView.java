@@ -94,21 +94,18 @@ public class HabitScoreView extends ScrollableDataView
         if(habit != null)
             this.primaryColor = habit.color;
 
-        if(isBackgroundTransparent)
+        if (isBackgroundTransparent)
         {
             primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
             primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
-        }
 
-        if(isBackgroundTransparent)
-        {
             textColor = Color.argb(192, 255, 255, 255);
             dimmedTextColor = Color.argb(128, 255, 255, 255);
         }
         else
         {
-            textColor = Color.argb(128, 0, 0, 0);
-            dimmedTextColor = Color.argb(32, 0, 0, 0);
+            textColor = Color.argb(64, 0, 0, 0);
+            dimmedTextColor = Color.argb(16, 0, 0, 0);
         }
 
         colors = new int[4];
@@ -122,12 +119,12 @@ public class HabitScoreView extends ScrollableDataView
     protected void createPaints()
     {
         pText = new Paint();
-        pText.setTextAlign(Paint.Align.LEFT);
         pText.setAntiAlias(true);
 
         pGraph = new Paint();
         pGraph.setTextAlign(Paint.Align.CENTER);
         pGraph.setAntiAlias(true);
+
         pGrid = new Paint();
         pGrid.setAntiAlias(true);
     }
@@ -204,6 +201,7 @@ public class HabitScoreView extends ScrollableDataView
 
         String previousMonth = "";
 
+        pText.setTextAlign(Paint.Align.CENTER);
         pText.setColor(textColor);
         pGraph.setColor(primaryColor);
         prevRect.setEmpty();
@@ -240,6 +238,7 @@ public class HabitScoreView extends ScrollableDataView
 
             rect.set(0, 0, columnWidth, columnHeight);
             rect.offset(k * columnWidth, 0);
+
             if (!month.equals(previousMonth))
                 canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
             else
@@ -255,7 +254,10 @@ public class HabitScoreView extends ScrollableDataView
         int nRows = 5;
         float rowHeight = rGrid.height() / nRows;
 
+        pText.setTextAlign(Paint.Align.LEFT);
+        pText.setColor(textColor);
         pGrid.setColor(dimmedTextColor);
+
         for (int i = 0; i < nRows; i++)
         {
             canvas.drawText(String.format("%d%%", (100 - i * 100 / nRows)), rGrid.left + 0.5f * em,

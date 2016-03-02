@@ -123,7 +123,7 @@ public class HabitHistoryView extends ScrollableDataView
         columnHeight = 8 * baseSize;
         nColumns = width / baseSize;
 
-        squareSpacing = baseSize / 10;
+        squareSpacing = (int) Math.floor(baseSize / 15.0);
         pSquareFg.setTextSize(baseSize * 0.5f);
         pTextHeader.setTextSize(baseSize * 0.5f);
         squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
@@ -138,9 +138,7 @@ public class HabitHistoryView extends ScrollableDataView
             this.primaryColor = habit.color;
 
         if(isBackgroundTransparent)
-        {
             primaryColor = ColorHelper.setMinValue(primaryColor, 0.75f);
-        }
 
         int red = Color.red(primaryColor);
         int green = Color.green(primaryColor);
@@ -149,7 +147,7 @@ public class HabitHistoryView extends ScrollableDataView
         if(isBackgroundTransparent)
         {
             colors = new int[3];
-            colors[0] = Color.argb(64, 0, 0, 0);
+            colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
             textColor = Color.rgb(255, 255, 255);
@@ -160,7 +158,7 @@ public class HabitHistoryView extends ScrollableDataView
             colors[0] = Color.argb(25, 0, 0, 0);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.argb(128, 0, 0, 0);
+            textColor = Color.argb(64, 0, 0, 0);
         }
     }
 

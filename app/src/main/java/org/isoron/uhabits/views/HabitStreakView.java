@@ -138,7 +138,7 @@ public class HabitStreakView extends ScrollableDataView
             colors[2] = Color.argb(192, red, green, blue);
             colors[1] = Color.argb(96, red, green, blue);
             colors[0] = Color.argb(32, 0, 0, 0);
-            textColor = Color.argb(128, 0, 0, 0);
+            textColor = Color.argb(64, 0, 0, 0);
             pBarText = pBar;
         }
     }
