@@ -33,12 +33,15 @@ There are absolutely no advertisements, annoying notifications or intrusive perm
 [![Edit habit][screen2th]][screen2]
 [![Habit strength][screen3th]][screen3]
 [![Habit history and streaks][screen4th]][screen4]
+[![Widgets][screen5th]][screen5]
 
 [screen1]: screenshots/original/uhabits1.png
 [screen2]: screenshots/original/uhabits2.png
 [screen3]: screenshots/original/uhabits3.png
 [screen4]: screenshots/original/uhabits4.png
+[screen5]: screenshots/original/uhabits5.png
 [screen1th]: screenshots/thumbs/uhabits1.png
 [screen2th]: screenshots/thumbs/uhabits2.png
 [screen3th]: screenshots/thumbs/uhabits3.png
 [screen4th]: screenshots/thumbs/uhabits4.png
+[screen5th]: screenshots/thumbs/uhabits5.png
