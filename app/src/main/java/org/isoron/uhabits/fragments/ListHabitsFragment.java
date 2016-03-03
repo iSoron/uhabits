@@ -69,6 +69,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
+import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.io.CSVExporter;
@@ -545,7 +546,7 @@ public class ListHabitsFragment extends Fragment
         if (v.getTag(R.string.toggle_key).equals(2)) updateCheckmark(habit.color, (TextView) v, 0);
         else updateCheckmark(habit.color, (TextView) v, 2);
 
-        executeCommand(habit.new ToggleRepetitionCommand(timestamp), habit.getId());
+        executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
     }
 
     private void executeCommand(Command c, Long refreshKey)

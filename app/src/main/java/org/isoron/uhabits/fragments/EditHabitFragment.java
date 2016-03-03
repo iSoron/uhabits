@@ -40,6 +40,8 @@ import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.commands.CreateHabitCommand;
+import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
 import org.isoron.uhabits.models.Habit;
 
@@ -241,11 +243,11 @@ public class EditHabitFragment extends DialogFragment
 
         if (mode == EDIT_MODE)
         {
-            command = originalHabit.new EditCommand(modifiedHabit);
+            command = new EditHabitCommand(originalHabit, modifiedHabit);
             savedHabit = originalHabit;
         }
 
-        if (mode == CREATE_MODE) command = new Habit.CreateCommand(modifiedHabit);
+        if (mode == CREATE_MODE) command = new CreateHabitCommand(modifiedHabit);
 
         if (onSavedListener != null) onSavedListener.onSaved(command, savedHabit);
 
