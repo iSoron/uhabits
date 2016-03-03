@@ -5,7 +5,7 @@
                     android:minResizeWidth="40dp"
                     android:minResizeHeight="40dp"
                     android:initialLayout="@layout/widget_graph"
-                    android:previewImage="@mipmap/ic_small_widget_preview"
+                    android:previewImage="@drawable/widget_preview_streaks"
                     android:resizeMode="vertical|horizontal"
                     android:updatePeriodMillis="3600000"
                     android:configure="org.isoron.uhabits.widgets.HabitPickerDialog"

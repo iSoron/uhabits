@@ -3,7 +3,7 @@
                     android:minHeight="40dp"
                     android:minWidth="40dp"
                     android:initialLayout="@layout/widget_checkmark"
-                    android:previewImage="@mipmap/ic_small_widget_preview"
+                    android:previewImage="@drawable/widget_preview_checkmark"
                     android:resizeMode="none"
                     android:updatePeriodMillis="3600000"
                     android:configure="org.isoron.uhabits.widgets.HabitPickerDialog"
