@@ -109,7 +109,7 @@
     <string name="any_weekday">Weekdays</string>
     <string name="any_day">Any day</string>
     <string name="select_weekdays">Select days</string>
-    <string name="export_to_csv">Export to CSV</string>
+    <string name="export_to_csv">Export data</string>
 
     <string-array name="hints">
         <item>@string/hint_drag</item>
