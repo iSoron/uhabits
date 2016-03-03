@@ -44,9 +44,9 @@ public class EditHabitCommand extends Command
         habit.save();
         if (hasIntervalChanged)
         {
-            habit.deleteCheckmarksNewerThan(0);
-            habit.deleteStreaksNewerThan(0);
-            habit.deleteScoresNewerThan(0);
+            habit.checkmarks.deleteNewerThan(0);
+            habit.streaks.deleteNewerThan(0);
+            habit.scores.deleteNewerThan(0);
         }
     }
 
@@ -57,9 +57,9 @@ public class EditHabitCommand extends Command
         habit.save();
         if (hasIntervalChanged)
         {
-            habit.deleteCheckmarksNewerThan(0);
-            habit.deleteStreaksNewerThan(0);
-            habit.deleteScoresNewerThan(0);
+            habit.checkmarks.deleteNewerThan(0);
+            habit.streaks.deleteNewerThan(0);
+            habit.scores.deleteNewerThan(0);
         }
     }
 

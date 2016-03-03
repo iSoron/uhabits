@@ -75,6 +75,7 @@ import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.io.CSVExporter;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Score;
 
 import java.io.File;
 import java.util.Date;
@@ -741,12 +742,12 @@ public class ListHabitsFragment extends Fragment
         {
             int score = loader.scores.get(habit.getId());
 
-            if (score < Habit.HALF_STAR_CUTOFF)
+            if (score < Score.HALF_STAR_CUTOFF)
             {
                 tvStar.setText(getString(R.string.fa_star_o));
                 tvStar.setTextColor(INACTIVE_COLOR);
             }
-            else if (score < Habit.FULL_STAR_CUTOFF)
+            else if (score < Score.FULL_STAR_CUTOFF)
             {
                 tvStar.setText(getString(R.string.fa_star_half_o));
                 tvStar.setTextColor(INACTIVE_COLOR);

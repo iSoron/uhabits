@@ -33,7 +33,7 @@ public class ToggleRepetitionCommand extends Command
     @Override
     public void execute()
     {
-        habit.toggleRepetition(offset);
+        habit.repetitions.toggle(offset);
     }
 
     @Override

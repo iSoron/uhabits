@@ -27,7 +27,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
@@ -112,8 +111,8 @@ public class CheckmarkView extends View
 
     public void setHabit(Habit habit)
     {
-        this.check_status = habit.getCurrentCheckmarkStatus();
-        this.star_status = habit.getCurrentStarStatus();
+        this.check_status = habit.checkmarks.getCurrentValue();
+        this.star_status = habit.scores.getCurrentStarStatus();
         this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color), Color.blue(habit.color));
         this.label = habit.name;
         updateLabel();

@@ -23,7 +23,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -189,7 +188,7 @@ public class HabitHistoryView extends ScrollableDataView
                 return;
             }
 
-            checkmarks = habit.getAllCheckmarks();
+            checkmarks = habit.checkmarks.getAllValues();
         }
 
         updateDate();

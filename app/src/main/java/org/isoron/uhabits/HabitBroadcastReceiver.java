@@ -100,7 +100,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
 
         Habit habit = Habit.get(ContentUris.parseId(data));
-        habit.toggleRepetition(timestamp);
+        habit.repetitions.toggle(timestamp);
         habit.save();
         dismissNotification(context, habit);
 
@@ -137,7 +137,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
         Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
 
-        if (habit.hasImplicitRepToday()) return;
+        if (habit.repetitions.hasImplicitRepToday()) return;
 
         habit.highlight = 1;
         habit.save();

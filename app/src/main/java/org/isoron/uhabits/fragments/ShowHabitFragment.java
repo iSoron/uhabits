@@ -34,6 +34,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.views.HabitHistoryView;
 import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
@@ -58,7 +59,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         activity = (ShowHabitActivity) getActivity();
         habit = activity.habit;
 
-        habit.updateCheckmarks();
+        habit.checkmarks.rebuild();
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
@@ -81,7 +82,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         tvStreaks.setTextColor(habit.color);
 
         scoreRing.setColor(habit.color);
-        scoreRing.setPercentage((float) habit.getScore() / Habit.MAX_SCORE);
+        scoreRing.setPercentage((float) habit.scores.getNewestValue() / Score.MAX_SCORE);
         streakView.setHabit(habit);
         scoreView.setHabit(habit);
         historyView.setHabit(habit);

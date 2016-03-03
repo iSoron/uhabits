@@ -28,6 +28,7 @@ import android.util.AttributeSet;
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Score;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -168,7 +169,7 @@ public class HabitScoreView extends ScrollableDataView
                 return;
             }
 
-            scores = habit.getAllScores(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
+            scores = habit.scores.getAllValues(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
         }
 
     }
@@ -177,13 +178,13 @@ public class HabitScoreView extends ScrollableDataView
     {
         Random random = new Random();
         scores = new int[100];
-        scores[0] = Habit.MAX_SCORE / 2;
+        scores[0] = Score.MAX_SCORE / 2;
 
         for(int i = 1; i < 100; i++)
         {
-            int step = Habit.MAX_SCORE / 10;
+            int step = Score.MAX_SCORE / 10;
             scores[i] = scores[i - 1] + random.nextInt(step * 2) - step;
-            scores[i] = Math.max(0, Math.min(Habit.MAX_SCORE, scores[i]));
+            scores[i] = Math.max(0, Math.min(Score.MAX_SCORE, scores[i]));
         }
     }
 
@@ -220,7 +221,7 @@ public class HabitScoreView extends ScrollableDataView
             int offset = nColumns - k - 1 + getDataOffset();
             if(offset < scores.length) score = scores[offset];
 
-            double sRelative = ((double) score) / Habit.MAX_SCORE;
+            double sRelative = ((double) score) / Score.MAX_SCORE;
             int height = (int) (columnHeight * sRelative);
 
             rect.set(0, 0, baseSize, baseSize);

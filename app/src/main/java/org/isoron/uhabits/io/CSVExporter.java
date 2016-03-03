@@ -8,6 +8,7 @@ import com.activeandroid.Cache;
 
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Score;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,7 +55,7 @@ public class CSVExporter
 
     public String formatScore(int score)
     {
-        return String.format("%.2f", ((float) score) / Habit.MAX_SCORE);
+        return String.format("%.2f", ((float) score) / Score.MAX_SCORE);
     }
 
     private void writeScores(String dirPath, Habit habit) throws IOException

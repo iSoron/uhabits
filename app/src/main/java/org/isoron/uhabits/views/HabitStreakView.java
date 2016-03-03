@@ -166,7 +166,7 @@ public class HabitStreakView extends ScrollableDataView
                 return;
             }
 
-            List<Streak> streaks = habit.getStreaks();
+            List<Streak> streaks = habit.streaks.getAll();
             int size = streaks.size();
 
             startTimes = new long[size];
