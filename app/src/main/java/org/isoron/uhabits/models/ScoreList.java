@@ -121,13 +121,16 @@ public class ScoreList
         return lastScore;
     }
 
-    public int[] getAllValues(Long fromTimestamp, Long toTimestamp, Integer divisor, Long offset)
+    public int[] getAllValues(Long fromTimestamp, Long toTimestamp, Integer divisor)
     {
-        String query = "select score from Score where habit = ? and timestamp > ? and " +
-                "timestamp <= ? and (timestamp - ?) % ? = 0 order by timestamp desc";
+        Long offset = toTimestamp - (divisor - 1) * DateHelper.millisecondsInOneDay;
 
-        String params[] = { habit.getId().toString(), fromTimestamp.toString(),
-                toTimestamp.toString(), offset.toString(), divisor.toString()};
+        String query = "select ((timestamp - ?) / ?) as time, avg(score) from Score " +
+                "where habit = ? and timestamp > ? and timestamp <= ? " +
+                "group by time order by time desc";
+
+        String params[] = { offset.toString(), divisor.toString(), habit.getId().toString(),
+                fromTimestamp.toString(), toTimestamp.toString()};
 
         SQLiteDatabase db = Cache.openDatabase();
         Cursor cursor = db.rawQuery(query, params);
@@ -139,7 +142,7 @@ public class ScoreList
 
         do
         {
-            scores[k++] = cursor.getInt(0);
+            scores[k++] = (int) cursor.getLong(1);
         }
         while (cursor.moveToNext());
 
@@ -155,6 +158,6 @@ public class ScoreList
 
         long fromTimestamp = oldestRep.timestamp;
         long toTimestamp = DateHelper.getStartOfToday();
-        return getAllValues(fromTimestamp, toTimestamp, divisor, toTimestamp);
+        return getAllValues(fromTimestamp, toTimestamp, divisor);
     }
 }
