@@ -21,18 +21,24 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
@@ -107,10 +113,43 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         remoteViews.setTextViewText(R.id.label, habit.name);
         remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
 
+        //savePreview(context, widgetId, drawingCache);
+
         PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
         if(onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView, onClickIntent);
 
         manager.updateAppWidget(widgetId, remoteViews);
+    }
+
+    private void savePreview(Context context, int widgetId, Bitmap widgetCache)
+    {
+        try
+        {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(getLayoutId(), null);
+
+            ImageView iv = (ImageView) view.findViewById(R.id.imageView);
+            iv.setImageBitmap(widgetCache);
+
+            view.measure(width, height);
+            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+            view.setDrawingCacheEnabled(true);
+            view.buildDrawingCache();
+            Bitmap previewCache = view.getDrawingCache();
+
+            String filename = String.format("%s/%d.png", context.getExternalCacheDir(), widgetId);
+            Log.d("BaseWidgetProvider", String.format("Writing %s", filename));
+            FileOutputStream out = new FileOutputStream(filename);
+
+            if(previewCache != null)
+                previewCache.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            out.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void updateWidgetSize(Context context, Bundle options)
