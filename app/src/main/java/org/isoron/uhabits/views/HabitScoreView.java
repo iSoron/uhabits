@@ -51,6 +51,7 @@ public class HabitScoreView extends ScrollableDataView
     private Paint pText, pGraph;
     private RectF rect, prevRect;
     private int baseSize;
+    private int paddingTop;
 
     private int columnWidth;
     private int columnHeight;
@@ -149,6 +150,7 @@ public class HabitScoreView extends ScrollableDataView
         columnWidth = baseSize;
         columnHeight = 8 * baseSize;
         nColumns = width / baseSize;
+        paddingTop = (int) (baseSize * 0.15f);
 
         pText.setTextSize(baseSize * 0.5f);
         pGraph.setTextSize(baseSize * 0.5f);
@@ -196,7 +198,7 @@ public class HabitScoreView extends ScrollableDataView
         float lineHeight = pText.getFontSpacing();
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
-        rect.offset(0, 1f);
+        rect.offset(0, paddingTop);
 
         drawGrid(canvas, rect);
 
@@ -225,7 +227,7 @@ public class HabitScoreView extends ScrollableDataView
             int height = (int) (columnHeight * sRelative);
 
             rect.set(0, 0, baseSize, baseSize);
-            rect.offset(k * columnWidth, columnHeight - height - columnWidth / 2);
+            rect.offset(k * columnWidth, paddingTop + columnHeight - height - columnWidth / 2);
 
             if (!prevRect.isEmpty())
             {
@@ -238,7 +240,7 @@ public class HabitScoreView extends ScrollableDataView
             prevRect.set(rect);
 
             rect.set(0, 0, columnWidth, columnHeight);
-            rect.offset(k * columnWidth, 0);
+            rect.offset(k * columnWidth, paddingTop);
 
             if (!month.equals(previousMonth))
                 canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
