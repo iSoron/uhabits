@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_edit_habit"
         android:icon="@drawable/ic_action_edit_light"
         android:title="@string/edit"
-        app:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom"/>
 
 </menu>
