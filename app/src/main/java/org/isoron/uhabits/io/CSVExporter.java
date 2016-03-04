@@ -3,6 +3,7 @@ package org.isoron.uhabits.io;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.activeandroid.Cache;
 
@@ -161,7 +162,16 @@ public class CSVExporter
     public String writeArchive()
     {
         String date = formatDate(DateHelper.getStartOfToday());
-        String zipFilename = String.format("%s/habits-%s.zip", context.getExternalCacheDir(), date);
+
+        File dir = context.getExternalCacheDir();
+
+        if(dir == null)
+        {
+            Log.e("CSVExporter", "No suitable directory found.");
+            return null;
+        }
+
+        String zipFilename = String.format("%s/habits-%s.zip", dir, date);
 
         try
         {

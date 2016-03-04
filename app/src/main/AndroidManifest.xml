@@ -8,6 +8,10 @@
     <uses-permission
         android:name="android.permission.VIBRATE"/>
 
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
