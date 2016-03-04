@@ -83,7 +83,7 @@ public class Habit extends Model
     public Habit()
     {
         this.color = ColorHelper.palette[5];
-        this.position = Habit.count();
+        this.position = Habit.countWithArchived();
         this.highlight = 0;
         this.archived = 0;
         this.freqDen = 7;
@@ -130,6 +130,11 @@ public class Habit extends Model
     public static int count()
     {
         return select().count();
+    }
+
+    public static int countWithArchived()
+    {
+        return selectWithArchived().count();
     }
 
     public static java.util.List<Habit> getHighlightedHabits()
