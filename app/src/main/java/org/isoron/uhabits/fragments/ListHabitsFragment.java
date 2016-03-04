@@ -687,7 +687,7 @@ public class ListHabitsFragment extends Fragment
                 if (android.os.Build.VERSION.SDK_INT >= 21)
                     llInner.setBackgroundResource(R.drawable.ripple_white);
                 else
-                    llInner.setBackgroundColor(Color.WHITE);
+                    llInner.setBackgroundResource(R.drawable.card_background);
             }
 
             return view;
