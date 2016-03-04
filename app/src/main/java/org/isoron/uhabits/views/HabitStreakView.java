@@ -21,71 +21,194 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
+import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Streak;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 public class HabitStreakView extends ScrollableDataView
 {
     private Habit habit;
     private Paint pText, pBar;
-    private List<Streak> streaks;
+
+    private long[] startTimes;
+    private long[] endTimes;
+    private long[] lengths;
+
+    private int columnWidth;
+    private int columnHeight;
+    private int headerHeight;
+    private int nColumns;
+
     private long maxStreakLength;
     private int[] colors;
+    private SimpleDateFormat dfMonth;
+    private Rect rect;
+    private int baseSize;
+    private int primaryColor;
 
-    public HabitStreakView(Context context, Habit habit, int columnWidth)
+    private boolean isBackgroundTransparent;
+    private int textColor;
+    private Paint pBarText;
+
+    public HabitStreakView(Context context, AttributeSet attrs)
     {
-        super(context);
-        this.habit = habit;
-
-        setDimensions(columnWidth);
-        createPaints();
-        createColors();
+        super(context, attrs);
+        this.primaryColor = ColorHelper.palette[7];
+        init();
     }
 
-    private void setDimensions(int baseSize)
+    public void setHabit(Habit habit)
     {
-        this.columnWidth = baseSize;
+        this.habit = habit;
+
+        createColors();
+        fetchData();
+        postInvalidate();
+    }
+
+    private void init()
+    {
+        createPaints();
+        createColors();
+
+        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+        rect = new Rect();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
+    {
+        baseSize = height / 10;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
         columnHeight = 8 * baseSize;
         headerHeight = baseSize;
-        footerHeight = baseSize;
+        nColumns = width / baseSize - 1;
+
+        pText.setTextSize(baseSize * 0.5f);
+        pBar.setTextSize(baseSize * 0.5f);
     }
 
     private void createColors()
     {
-        colors = new int[4];
-        colors[0] = Color.rgb(230, 230, 230);
-        colors[3] = habit.color;
-        colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
-        colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+        if(habit != null)
+            this.primaryColor = habit.color;
+
+        if(isBackgroundTransparent)
+        {
+            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
+            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
+        }
+
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        if(isBackgroundTransparent)
+        {
+            colors = new int[4];
+            colors[3] = primaryColor;
+            colors[2] = Color.argb(213, red, green, blue);
+            colors[1] = Color.argb(170, red, green, blue);
+            colors[0] = Color.argb(128, red, green, blue);
+            textColor = Color.rgb(255, 255, 255);
+            pBarText = pText;
+        }
+        else
+        {
+            colors = new int[4];
+            colors[3] = primaryColor;
+            colors[2] = Color.argb(192, red, green, blue);
+            colors[1] = Color.argb(96, red, green, blue);
+            colors[0] = Color.argb(32, 0, 0, 0);
+            textColor = Color.argb(64, 0, 0, 0);
+            pBarText = pBar;
+        }
     }
 
-    private void createPaints()
+    protected void createPaints()
     {
         pText = new Paint();
-        pText.setColor(Color.LTGRAY);
         pText.setTextAlign(Paint.Align.CENTER);
-        pText.setTextSize(columnWidth * 0.5f);
         pText.setAntiAlias(true);
 
         pBar = new Paint();
         pBar.setTextAlign(Paint.Align.CENTER);
-        pBar.setTextSize(columnWidth * 0.5f);
         pBar.setAntiAlias(true);
     }
 
     protected void fetchData()
     {
-        streaks = habit.getStreaks();
+        if(isInEditMode())
+            generateRandomData();
+        else
+        {
+            if(habit == null)
+            {
+                startTimes = endTimes = lengths = new long[0];
+                return;
+            }
 
-        for (Streak s : streaks)
-            maxStreakLength = Math.max(maxStreakLength, s.length);
+            List<Streak> streaks = habit.streaks.getAll();
+            int size = streaks.size();
+
+            startTimes = new long[size];
+            endTimes = new long[size];
+            lengths = new long[size];
+
+            int k = 0;
+            for (Streak s : streaks)
+            {
+                startTimes[k] = s.start;
+                endTimes[k] = s.end;
+                lengths[k] = s.length;
+                k++;
+
+                maxStreakLength = Math.max(maxStreakLength, s.length);
+            }
+        }
     }
 
+    private void generateRandomData()
+    {
+        int size = 30;
+
+        startTimes = new long[size];
+        endTimes = new long[size];
+        lengths = new long[size];
+
+        Random random = new Random();
+        Long date = DateHelper.getStartOfToday();
+
+        for(int i = 0; i < size; i++)
+        {
+            int l = (int) Math.pow(2, random.nextFloat() * 5 + 1);
+
+            endTimes[i] = date;
+            date -= l * DateHelper.millisecondsInOneDay;
+            lengths[i] = (long) l;
+            startTimes[i] = date;
+
+            maxStreakLength = Math.max(maxStreakLength, l);
+        }
+    }
 
     @Override
     protected void onDraw(Canvas canvas)
@@ -95,32 +218,40 @@ public class HabitStreakView extends ScrollableDataView
         float lineHeight = pText.getFontSpacing();
         float barHeaderOffset = lineHeight * 0.4f;
 
-        int nStreaks = streaks.size();
-        int start = Math.max(0, nStreaks - nColumns - dataOffset);
-        SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
+        int nStreaks = startTimes.length;
+        int start = nStreaks - nColumns - getDataOffset();
+
+        pText.setColor(textColor);
 
         String previousMonth = "";
 
         for (int offset = 0; offset < nColumns && start + offset < nStreaks; offset++)
         {
-            String month = dfMonth.format(streaks.get(start + offset).start);
+            if(start + offset < 0) continue;
+            String month = dfMonth.format(startTimes[start + offset]);
 
-            long l = streaks.get(offset + start).length;
+            long l = lengths[offset + start];
             double lRelative = ((double) l) / maxStreakLength;
 
             pBar.setColor(colors[(int) Math.floor(lRelative * 3)]);
 
             int height = (int) (columnHeight * lRelative);
-            Rect r = new Rect(0, 0, columnWidth - 2, height);
-            r.offset(offset * columnWidth, headerHeight + columnHeight - height);
+            rect.set(0, 0, columnWidth - 2, height);
+            rect.offset(offset * columnWidth, headerHeight + columnHeight - height);
 
-            canvas.drawRect(r, pBar);
-            canvas.drawText(Long.toString(l), r.centerX(), r.top - barHeaderOffset, pBar);
+            canvas.drawRect(rect, pBar);
+            canvas.drawText(Long.toString(l), rect.centerX(), rect.top - barHeaderOffset, pBarText);
 
             if (!month.equals(previousMonth))
-                canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
+                canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
         }
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+        createColors();
     }
 }

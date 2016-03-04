@@ -23,6 +23,7 @@ import java.util.Locale;
 import org.isoron.uhabits.R;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -132,6 +133,7 @@ public class TimePickerDialog extends DialogFragment implements OnValueSelectedL
         // Empty constructor required for dialog fragment.
     }
 
+    @SuppressLint("Java")
     public TimePickerDialog(Context context, int theme, OnTimeSetListener callback,
             int hourOfDay, int minute, boolean is24HourMode) {
         // Empty constructor required for dialog fragment.

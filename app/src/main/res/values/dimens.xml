@@ -1,6 +1,4 @@
 <resources>
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="small_square_size">20dp</dimen>
     <dimen name="check_square_size">42dp</dimen>
 
@@ -13,7 +11,7 @@
         <item>@string/interval_8_hour</item>
     </string-array>
 
-    <string-array name="snooze_interval_values">
+    <string-array name="snooze_interval_values" translatable="false">
         <item>15</item>
         <item>30</item>
         <item>60</item>

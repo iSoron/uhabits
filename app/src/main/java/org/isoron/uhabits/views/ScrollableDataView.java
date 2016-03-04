@@ -19,87 +19,129 @@
 
 package org.isoron.uhabits.views;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
+import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Scroller;
 
-public abstract class ScrollableDataView extends View
+public abstract class ScrollableDataView extends View implements GestureDetector.OnGestureListener,
+        ValueAnimator.AnimatorUpdateListener
 {
 
-    protected int dataOffset;
-    protected int nColumns;
-    protected int columnWidth, columnHeight;
-    protected int headerHeight, footerHeight;
+    private int dataOffset;
+    private int scrollerBucketSize;
 
-    private float prevX, prevY;
+    private GestureDetector detector;
+    private Scroller scroller;
+    private ValueAnimator scrollAnimator;
 
     public ScrollableDataView(Context context)
     {
         super(context);
+        init(context);
+    }
+
+    public ScrollableDataView(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context)
+    {
+        detector = new GestureDetector(context, this);
+        scroller = new Scroller(context, null, true);
+        scrollAnimator = ValueAnimator.ofFloat(0, 1);
+        scrollAnimator.addUpdateListener(this);
     }
 
     protected abstract void fetchData();
 
-    protected boolean move(float dx)
-    {
-        int newDataOffset = dataOffset + (int) (dx / columnWidth);
-        newDataOffset = Math.max(0, newDataOffset);
-
-        if (newDataOffset != dataOffset)
-        {
-            dataOffset = newDataOffset;
-            fetchData();
-            invalidate();
-            return true;
-        }
-        else return false;
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        int action = event.getAction();
+        return detector.onTouchEvent(event);
+    }
 
-        int pointerIndex = MotionEventCompat.getActionIndex(event);
-        final float x = MotionEventCompat.getX(event, pointerIndex);
-        final float y = MotionEventCompat.getY(event, pointerIndex);
+    @Override
+    public boolean onDown(MotionEvent e)
+    {
+        return true;
+    }
 
-        if (action == MotionEvent.ACTION_DOWN)
-        {
-            prevX = x;
-            prevY = y;
-        }
+    @Override
+    public void onShowPress(MotionEvent e)
+    {
 
-        if (action == MotionEvent.ACTION_MOVE)
-        {
-            float dx = x - prevX;
-            float dy = y - prevY;
+    }
 
-            if (Math.abs(dy) > Math.abs(dx)) return false;
+    @Override
+    public boolean onSingleTapUp(MotionEvent e)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy)
+    {
+        if(scrollerBucketSize == 0)
+            return false;
+
+        if(Math.abs(dx) > Math.abs(dy))
             getParent().requestDisallowInterceptTouchEvent(true);
-            if (move(dx))
-            {
-                prevX = x;
-                prevY = y;
-            }
-        }
+
+        scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) -dx, (int) dy, 0);
+        scroller.computeScrollOffset();
+        dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
+        postInvalidate();
 
         return true;
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    public void onLongPress(MotionEvent e)
     {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), columnHeight + headerHeight + footerHeight);
+
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
     {
-        super.onSizeChanged(w, h, oldw, oldh);
-        nColumns = w / columnWidth;
-        fetchData();
+        scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX / 2, 0, 0, 100000,
+                0, 0);
+        invalidate();
+
+        scrollAnimator.setDuration(scroller.getDuration());
+        scrollAnimator.start();
+
+        return false;
+    }
+
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation)
+    {
+        if (!scroller.isFinished())
+        {
+            scroller.computeScrollOffset();
+            dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
+            postInvalidate();
+        }
+        else
+        {
+            scrollAnimator.cancel();
+        }
+    }
+
+    public int getDataOffset()
+    {
+        return dataOffset;
+    }
+
+    public void setScrollerBucketSize(int scrollerBucketSize)
+    {
+        this.scrollerBucketSize = scrollerBucketSize;
     }
 }

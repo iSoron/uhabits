@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:minHeight="80dp"
+                    android:minWidth="80dp"
+                    android:minResizeWidth="40dp"
+                    android:minResizeHeight="40dp"
+                    android:initialLayout="@layout/widget_graph"
+                    android:previewImage="@drawable/widget_preview_score"
+                    android:resizeMode="vertical|horizontal"
+                    android:updatePeriodMillis="3600000"
+                    android:configure="org.isoron.uhabits.widgets.HabitPickerDialog"
+                    android:widgetCategory="home_screen">
+
+</appwidget-provider>

@@ -57,4 +57,35 @@ public class ColorHelper
 
         return a << ALPHA_CHANNEL | r << RED_CHANNEL | g << GREEN_CHANNEL | b << BLUE_CHANNEL;
     }
+
+    public static int setHue(int color, float newHue)
+    {
+        return setHSVParameter(color, newHue, 0);
+    }
+
+    public static int setSaturation(int color, float newSaturation)
+    {
+        return setHSVParameter(color, newSaturation, 1);
+    }
+
+    public static int setValue(int color, float newValue)
+    {
+        return setHSVParameter(color, newValue, 2);
+    }
+
+    public static int setMinValue(int color, float newValue)
+    {
+        float hsv[] = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] = Math.max(hsv[2], newValue);
+        return Color.HSVToColor(hsv);
+    }
+
+    private static int setHSVParameter(int color, float newValue, int index)
+    {
+        float hsv[] = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[index] = newValue;
+        return Color.HSVToColor(hsv);
+    }
 }

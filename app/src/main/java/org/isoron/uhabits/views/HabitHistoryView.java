@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -30,10 +31,11 @@ import org.isoron.uhabits.models.Habit;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView
 {
-
     private Habit habit;
     private int[] checkmarks;
     private Paint pSquareBg, pSquareFg, pTextHeader;
@@ -41,6 +43,11 @@ public class HabitHistoryView extends ScrollableDataView
 
     private float squareTextOffset;
     private float headerTextOffset;
+
+    private int columnWidth;
+    private int columnHeight;
+    private int nColumns;
+    private int baseSize;
 
     private String wdays[];
     private SimpleDateFormat dfMonth;
@@ -50,25 +57,43 @@ public class HabitHistoryView extends ScrollableDataView
     private int nDays;
     private int todayWeekday;
     private int colors[];
+    private Rect baseLocation;
+    private int primaryColor;
 
-    public HabitHistoryView(Context context, Habit habit, int baseSize)
+    private boolean isBackgroundTransparent;
+    private int textColor;
+
+    public HabitHistoryView(Context context, AttributeSet attrs)
     {
-        super(context);
-        this.habit = habit;
+        super(context, attrs);
+        this.primaryColor = ColorHelper.palette[7];
+        init();
+    }
 
-        setDimensions(baseSize);
+    public void setHabit(Habit habit)
+    {
+        this.habit = habit;
+        createColors();
+        fetchData();
+        postInvalidate();
+    }
+
+    private void init()
+    {
         createPaints();
         createColors();
 
         wdays = DateHelper.getShortDayNames();
-        dfMonth = new SimpleDateFormat("MMM");
-        dfYear = new SimpleDateFormat("yyyy");
+        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+        dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+
+        baseLocation = new Rect();
     }
 
     private void updateDate()
     {
         baseDate = new GregorianCalendar();
-        baseDate.add(Calendar.DAY_OF_YEAR, -(dataOffset - 1) * 7);
+        baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
         todayWeekday = new GregorianCalendar().get(Calendar.DAY_OF_WEEK) % 7;
@@ -78,71 +103,114 @@ public class HabitHistoryView extends ScrollableDataView
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        super.onSizeChanged(w, h, oldw, oldh);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
+    {
+        if(height < 8) height = 200;
+
+        baseSize = height / 8;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        nColumns = width / baseSize;
+
+        squareSpacing = (int) Math.floor(baseSize / 15.0);
+        pSquareFg.setTextSize(baseSize * 0.5f);
+        pTextHeader.setTextSize(baseSize * 0.5f);
+        squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
+        headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
+
         updateDate();
     }
 
     private void createColors()
     {
-        int primaryColor = habit.color;
-        int primaryColorBright = ColorHelper.mixColors(primaryColor, Color.WHITE, 0.5f);
-        int grey = Color.rgb(230, 230, 230);
+        if(habit != null)
+            this.primaryColor = habit.color;
 
-        colors = new int[3];
-        colors[0] = grey;
-        colors[1] = primaryColorBright;
-        colors[2] = primaryColor;
+        if(isBackgroundTransparent)
+            primaryColor = ColorHelper.setMinValue(primaryColor, 0.75f);
+
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        if(isBackgroundTransparent)
+        {
+            colors = new int[3];
+            colors[0] = Color.argb(16, 255, 255, 255);
+            colors[1] = Color.argb(128, red, green, blue);
+            colors[2] = primaryColor;
+            textColor = Color.rgb(255, 255, 255);
+        }
+        else
+        {
+            colors = new int[3];
+            colors[0] = Color.argb(25, 0, 0, 0);
+            colors[1] = Color.argb(127, red, green, blue);
+            colors[2] = primaryColor;
+            textColor = Color.argb(64, 0, 0, 0);
+        }
     }
 
-    private void setDimensions(int baseSize)
-    {
-        columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        squareSpacing = 2;
-    }
-
-    private void createPaints()
+    protected void createPaints()
     {
         pTextHeader = new Paint();
-        pTextHeader.setColor(Color.LTGRAY);
         pTextHeader.setTextAlign(Align.LEFT);
-        pTextHeader.setTextSize(columnWidth * 0.5f);
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
-        pSquareBg.setColor(habit.color);
+        pSquareBg.setColor(primaryColor);
 
         pSquareFg = new Paint();
         pSquareFg.setColor(Color.WHITE);
         pSquareFg.setAntiAlias(true);
-        pSquareFg.setTextSize(columnWidth * 0.5f);
         pSquareFg.setTextAlign(Align.CENTER);
-
-        squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
-        headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
     }
 
     protected void fetchData()
     {
-        Calendar currentDate = new GregorianCalendar();
-        currentDate.add(Calendar.DAY_OF_YEAR, -dataOffset * 7);
-        int dayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK) % 7;
+        if(isInEditMode())
+            generateRandomData();
+        else
+        {
+            if(habit == null)
+            {
+                checkmarks = new int[0];
+                return;
+            }
 
-        long dateTo = DateHelper.getStartOfToday();
-        for (int i = 0; i < 7 - dayOfWeek; i++)
-            dateTo += DateHelper.millisecondsInOneDay;
+            checkmarks = habit.checkmarks.getAllValues();
+        }
 
-        for (int i = 0; i < dataOffset * 7; i++)
-            dateTo -= DateHelper.millisecondsInOneDay;
-
-        long dateFrom = dateTo;
-        for (int i = 0; i < (nColumns - 1) * 7; i++)
-            dateFrom -= DateHelper.millisecondsInOneDay;
-
-        checkmarks = habit.getCheckmarks(dateFrom, dateTo);
         updateDate();
+    }
+
+    private void generateRandomData()
+    {
+        Random random = new Random();
+        checkmarks = new int[100];
+
+        for(int i = 0; i < 100; i++)
+            if(random.nextFloat() < 0.3) checkmarks[i] = 2;
+
+        for(int i = 0; i < 100 - 7; i++)
+        {
+            int count = 0;
+            for (int j = 0; j < 7; j++)
+                if(checkmarks[i + j] != 0)
+                    count++;
+
+            if(count >= 3) checkmarks[i] = Math.max(checkmarks[i], 1);
+        }
     }
 
     private String previousMonth;
@@ -154,21 +222,24 @@ public class HabitHistoryView extends ScrollableDataView
     {
         super.onDraw(canvas);
 
-        Rect location = new Rect(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
+        baseLocation.set(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
 
         previousMonth = "";
         previousYear = "";
         justPrintedYear = false;
 
+        pTextHeader.setColor(textColor);
+
+        updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
 
         for (int column = 0; column < nColumns - 1; column++)
         {
-            drawColumn(canvas, location, currentDate, column);
-            location.offset(columnWidth, -columnHeight);
+            drawColumn(canvas, baseLocation, currentDate, column);
+            baseLocation.offset(columnWidth, - columnHeight);
         }
 
-        drawAxis(canvas, location);
+        drawAxis(canvas, baseLocation);
     }
 
     private void drawColumn(Canvas canvas, Rect location, GregorianCalendar date, int column)
@@ -178,9 +249,9 @@ public class HabitHistoryView extends ScrollableDataView
 
         for (int j = 0; j < 7; j++)
         {
-            if (!(column == nColumns - 2 && dataOffset == 0 && j > todayWeekday))
+            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayWeekday))
             {
-                int checkmarkOffset = nDays - 7 * column - j;
+                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 
@@ -210,6 +281,8 @@ public class HabitHistoryView extends ScrollableDataView
         }
     }
 
+    private boolean justSkippedColumn = false;
+
     private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
     {
         String month = dfMonth.format(date.getTime());
@@ -218,22 +291,39 @@ public class HabitHistoryView extends ScrollableDataView
         if (!month.equals(previousMonth))
         {
             int offset = 0;
-            if (justPrintedYear) offset += columnWidth;
+            if (justPrintedYear)
+            {
+                offset += columnWidth;
+                justSkippedColumn = true;
+            }
 
             canvas.drawText(month, location.left + offset, location.bottom - headerTextOffset,
                     pTextHeader);
+
             previousMonth = month;
             justPrintedYear = false;
         }
         else if (!year.equals(previousYear))
         {
-            canvas.drawText(year, location.left, location.bottom - headerTextOffset, pTextHeader);
-            previousYear = year;
-            justPrintedYear = true;
+            if(!justSkippedColumn)
+            {
+                canvas.drawText(year, location.left, location.bottom - headerTextOffset, pTextHeader);
+                previousYear = year;
+                justPrintedYear = true;
+            }
+
+            justSkippedColumn = false;
         }
         else
         {
+            justSkippedColumn = false;
             justPrintedYear = false;
         }
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+        createColors();
     }
 }

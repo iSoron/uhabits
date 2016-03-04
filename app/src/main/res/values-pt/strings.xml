@@ -30,7 +30,6 @@
   <string name="create_habit">Criar hábito</string>
   <string name="days">dias</string>
   <string name="delete">Deletar</string>
-  <string name="description">Descrição</string>
   <string name="description_hint">Pergunta (por ex., \"você meditou hoje?\")</string>
   <string name="discard">Cancelar</string>
   <string name="edit">Editar</string>
@@ -58,7 +57,6 @@
   <string name="snooze">Mais tarde</string>
   <string name="streaks">Correntes</string>
   <string name="no_habits_found">Você não tem nenhum hábito ativo</string>
-  <string name="time_separator"></string>
   <string name="toast_habit_archived">Hábitos arquivados.</string>
   <string name="toast_habit_changed">Hábito modificado.</string>
   <string name="toast_habit_changed_back">Hábito restaurado.</string>
@@ -67,7 +65,6 @@
   <string name="toast_habit_unarchived">Hábitos restaurados.</string>
   <string name="toast_nothing_to_redo">Nada para refazer.</string>
   <string name="toast_nothing_to_undo">Nada para desfazer.</string>
-  <string name="toast_repetition_toggled">Marcado.</string>
   <string name="unarchive">Desarquivar</string>
   <string name="validation_at_most_one_rep_per_day">Você pode ter no máximo uma repetição por dia.</string>
   <string name="validation_name_should_not_be_blank">Nome não pode ficar em branco.</string>
@@ -104,4 +101,5 @@
   <string name="any_weekday">Segunda a sexta</string>
   <string name="any_day">Qualquer dia</string>
   <string name="select_weekdays">Selecionar dias</string>
+  <string name="export_to_csv">Exportar dados</string>
 </resources>

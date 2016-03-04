@@ -20,7 +20,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -28,71 +31,163 @@ import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 public class HabitScoreView extends ScrollableDataView
 {
     public static final int BUCKET_SIZE = 7;
+    public static final PorterDuffXfermode XFERMODE_CLEAR =
+            new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+    public static final PorterDuffXfermode XFERMODE_SRC =
+            new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
-    private final Paint pGrid;
-    private final float em;
+    private Paint pGrid;
+    private float em;
     private Habit habit;
+    private SimpleDateFormat dfMonth;
+    private SimpleDateFormat dfDay;
 
     private Paint pText, pGraph;
+    private RectF rect, prevRect;
+    private int baseSize;
+    private int paddingTop;
 
+    private int columnWidth;
+    private int columnHeight;
+    private int nColumns;
+
+    private int textColor;
+    private int dimmedTextColor;
     private int[] colors;
-    private List<Score> scores;
+    private int[] scores;
+    private int primaryColor;
+    private boolean isBackgroundTransparent;
 
-    public HabitScoreView(Context context, Habit habit, int columnWidth)
+    public HabitScoreView(Context context, AttributeSet attrs)
     {
-        super(context);
+        super(context, attrs);
+        this.primaryColor = ColorHelper.palette[7];
+        init();
+    }
+
+    public void setHabit(Habit habit)
+    {
         this.habit = habit;
+        createColors();
+        fetchData();
+        postInvalidate();
+    }
 
-        pText = new Paint();
-        pText.setColor(Color.LTGRAY);
-        pText.setTextAlign(Paint.Align.LEFT);
-        pText.setTextSize(columnWidth * 0.5f);
-        pText.setAntiAlias(true);
+    private void init()
+    {
+        createPaints();
+        createColors();
 
-        pGraph = new Paint();
-        pGraph.setTextAlign(Paint.Align.CENTER);
-        pGraph.setTextSize(columnWidth * 0.5f);
-        pGraph.setAntiAlias(true);
-        pGraph.setStrokeWidth(columnWidth * 0.1f);
+        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+        dfDay = new SimpleDateFormat("d", Locale.getDefault());
 
-        pGrid = new Paint();
-        pGrid.setColor(Color.LTGRAY);
-        pGrid.setAntiAlias(true);
-        pGrid.setStrokeWidth(columnWidth * 0.05f);
+        rect = new RectF();
+        prevRect = new RectF();
+    }
 
-        this.columnWidth = columnWidth;
-        columnHeight = 8 * columnWidth;
-        headerHeight = columnWidth;
-        footerHeight = columnWidth;
+    private void createColors()
+    {
+        if(habit != null)
+            this.primaryColor = habit.color;
 
-        em = pText.getFontSpacing();
+        if (isBackgroundTransparent)
+        {
+            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
+            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
+
+            textColor = Color.argb(192, 255, 255, 255);
+            dimmedTextColor = Color.argb(128, 255, 255, 255);
+        }
+        else
+        {
+            textColor = Color.argb(64, 0, 0, 0);
+            dimmedTextColor = Color.argb(16, 0, 0, 0);
+        }
 
         colors = new int[4];
 
         colors[0] = Color.rgb(230, 230, 230);
-        colors[3] = habit.color;
+        colors[3] = primaryColor;
         colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
         colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
     }
 
+    protected void createPaints()
+    {
+        pText = new Paint();
+        pText.setAntiAlias(true);
+
+        pGraph = new Paint();
+        pGraph.setTextAlign(Paint.Align.CENTER);
+        pGraph.setAntiAlias(true);
+
+        pGrid = new Paint();
+        pGrid.setAntiAlias(true);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
+    {
+        if(height < 9) height = 200;
+
+        baseSize = height / 9;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        nColumns = width / baseSize;
+        paddingTop = (int) (baseSize * 0.15f);
+
+        pText.setTextSize(baseSize * 0.5f);
+        pGraph.setTextSize(baseSize * 0.5f);
+        pGraph.setStrokeWidth(baseSize * 0.1f);
+        pGrid.setStrokeWidth(baseSize * 0.05f);
+        em = pText.getFontSpacing();
+    }
+
     protected void fetchData()
     {
+        if(isInEditMode())
+            generateRandomData();
+        else
+        {
+            if (habit == null)
+            {
+                scores = new int[0];
+                return;
+            }
 
-        long toTimestamp = DateHelper.getStartOfToday();
-        for (int i = 0; i < dataOffset * BUCKET_SIZE; i++)
-            toTimestamp -= DateHelper.millisecondsInOneDay;
+            scores = habit.scores.getAllValues(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
+        }
 
-        long fromTimestamp = toTimestamp;
-        for (int i = 0; i < nColumns * BUCKET_SIZE; i++)
-            fromTimestamp -= DateHelper.millisecondsInOneDay;
+    }
 
-        scores = habit.getScores(fromTimestamp, toTimestamp,
-                BUCKET_SIZE * DateHelper.millisecondsInOneDay, toTimestamp);
+    private void generateRandomData()
+    {
+        Random random = new Random();
+        scores = new int[100];
+        scores[0] = Score.MAX_SCORE / 2;
+
+        for(int i = 1; i < 100; i++)
+        {
+            int step = Score.MAX_SCORE / 10;
+            scores[i] = scores[i - 1] + random.nextInt(step * 2) - step;
+            scores[i] = Math.max(0, Math.min(Score.MAX_SCORE, scores[i]));
+        }
     }
 
     @Override
@@ -102,52 +197,58 @@ public class HabitScoreView extends ScrollableDataView
 
         float lineHeight = pText.getFontSpacing();
 
-        RectF rGrid = new RectF(0, 0, nColumns * columnWidth, columnHeight);
-        rGrid.offset(0, headerHeight);
-        drawGrid(canvas, rGrid);
+        rect.set(0, 0, nColumns * columnWidth, columnHeight);
+        rect.offset(0, paddingTop);
 
-        SimpleDateFormat dfMonth = new SimpleDateFormat("MMM");
-        SimpleDateFormat dfDay = new SimpleDateFormat("d");
+        drawGrid(canvas, rect);
 
         String previousMonth = "";
 
-        pGraph.setColor(habit.color);
-        RectF prevR = null;
+        pText.setTextAlign(Paint.Align.CENTER);
+        pText.setColor(textColor);
+        pGraph.setColor(primaryColor);
+        prevRect.setEmpty();
 
-        for (int offset = nColumns - scores.size(); offset < nColumns; offset++)
+        long currentDate = DateHelper.getStartOfToday();
+
+        for(int k = 0; k < nColumns + getDataOffset() - 1; k++)
+            currentDate -= 7 * DateHelper.millisecondsInOneDay;
+
+        for (int k = 0; k < nColumns; k++)
         {
-            Score score = scores.get(offset - nColumns + scores.size());
-            String month = dfMonth.format(score.timestamp);
-            String day = dfDay.format(score.timestamp);
+            String month = dfMonth.format(currentDate);
+            String day = dfDay.format(currentDate);
 
-            long s = score.score;
-            double sRelative = ((double) s) / Habit.MAX_SCORE;
+            int score = 0;
+            int offset = nColumns - k - 1 + getDataOffset();
+            if(offset < scores.length) score = scores[offset];
 
+            double sRelative = ((double) score) / Score.MAX_SCORE;
             int height = (int) (columnHeight * sRelative);
 
-            RectF r = new RectF(0, 0, columnWidth, columnWidth);
-            r.offset(offset * columnWidth,
-                    headerHeight + columnHeight - height - columnWidth / 2);
+            rect.set(0, 0, baseSize, baseSize);
+            rect.offset(k * columnWidth, paddingTop + columnHeight - height - columnWidth / 2);
 
-            if (prevR != null)
+            if (!prevRect.isEmpty())
             {
-                drawLine(canvas, prevR, r);
-                drawMarker(canvas, prevR);
+                drawLine(canvas, prevRect, rect);
+                drawMarker(canvas, prevRect);
             }
 
-            if (offset == nColumns - 1) drawMarker(canvas, r);
+            if (k == nColumns - 1) drawMarker(canvas, rect);
 
-            prevR = r;
+            prevRect.set(rect);
 
-            r = new RectF(0, 0, columnWidth, columnHeight);
-            r.offset(offset * columnWidth, headerHeight);
+            rect.set(0, 0, columnWidth, columnHeight);
+            rect.offset(k * columnWidth, paddingTop);
+
             if (!month.equals(previousMonth))
-                canvas.drawText(month, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
+                canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
             else
-                canvas.drawText(day, r.centerX(), r.bottom + lineHeight * 1.2f, pText);
+                canvas.drawText(day, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
 
             previousMonth = month;
-
+            currentDate += 7 * DateHelper.millisecondsInOneDay;
         }
     }
 
@@ -156,7 +257,10 @@ public class HabitScoreView extends ScrollableDataView
         int nRows = 5;
         float rowHeight = rGrid.height() / nRows;
 
-        pGrid.setColor(Color.rgb(240, 240, 240));
+        pText.setTextAlign(Paint.Align.LEFT);
+        pText.setColor(textColor);
+        pGrid.setColor(dimmedTextColor);
+
         for (int i = 0; i < nRows; i++)
         {
             canvas.drawText(String.format("%d%%", (100 - i * 100 / nRows)), rGrid.left + 0.5f * em,
@@ -170,7 +274,7 @@ public class HabitScoreView extends ScrollableDataView
 
     private void drawLine(Canvas canvas, RectF rectFrom, RectF rectTo)
     {
-        pGraph.setColor(habit.color);
+        pGraph.setColor(primaryColor);
         canvas.drawLine(rectFrom.centerX(), rectFrom.centerY(), rectTo.centerX(), rectTo.centerY(),
                 pGraph);
     }
@@ -178,15 +282,32 @@ public class HabitScoreView extends ScrollableDataView
     private void drawMarker(Canvas canvas, RectF rect)
     {
         rect.inset(columnWidth * 0.15f, columnWidth * 0.15f);
-        pGraph.setColor(Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
-        pGraph.setColor(habit.color);
+        setModeOrColor(pGraph, XFERMODE_SRC, primaryColor);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
-        pGraph.setColor(Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
         canvas.drawOval(rect, pGraph);
+
+        if(isBackgroundTransparent)
+            pGraph.setXfermode(XFERMODE_SRC);
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+        createColors();
+    }
+
+    private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)
+    {
+        if(isBackgroundTransparent)
+            p.setXfermode(mode);
+        else
+            p.setColor(color);
     }
 }

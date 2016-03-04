@@ -23,6 +23,10 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Score")
 public class Score extends Model
 {
+    public static final int HALF_STAR_CUTOFF =  9629750;
+    public static final int FULL_STAR_CUTOFF = 15407600;
+    public static final int MAX_SCORE        = 19259500;
+
     @Column(name = "habit")
     public Habit habit;
 

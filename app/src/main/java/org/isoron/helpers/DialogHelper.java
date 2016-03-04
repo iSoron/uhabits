@@ -17,21 +17,22 @@
 package org.isoron.helpers;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.BuildConfig;
 
 public abstract class DialogHelper
 {
 
+    public static final String ISORON_NAMESPACE = "http://isoron.org/android";
     private static Typeface fontawesome;
 
     public interface OnSavedListener
@@ -60,9 +61,32 @@ public abstract class DialogHelper
         prefs.edit().putInt("launch_count", count + 1).apply();
     }
 
+    public static void updateLastAppVersion(Context context)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putInt("last_version", BuildConfig.VERSION_CODE).apply();
+    }
+
     public static int getLaunchCount(Context context)
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getInt("launch_count", 0);
+    }
+
+    public static String getAttribute(Context context, AttributeSet attrs, String name)
+    {
+        int resId = attrs.getAttributeResourceValue(ISORON_NAMESPACE, name, 0);
+
+        if(resId != 0)
+            return context.getResources().getString(resId);
+        else
+            return attrs.getAttributeValue(ISORON_NAMESPACE, name);
+    }
+
+    public static float dpToPixels(Context context, float dp)
+    {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }

@@ -21,31 +21,57 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.AttributeSet;
 import android.view.View;
+
+import org.isoron.helpers.ColorHelper;
+import org.isoron.helpers.DialogHelper;
+import org.isoron.uhabits.R;
 
 public class RingView extends View
 {
 
     private int size;
     private int color;
-    private float perc;
+    private float percentage;
     private Paint pRing;
     private float lineHeight;
     private String label;
+    private RectF rect;
 
-    public RingView(Context context, int size, int color, float perc, String label)
+    public RingView(Context context, AttributeSet attrs)
     {
-        super(context);
-        this.size = size;
+        super(context, attrs);
+
+        this.size = (int) context.getResources().getDimension(R.dimen.small_square_size) * 4;
+        this.label = DialogHelper.getAttribute(context, attrs, "label");
+        this.color = ColorHelper.palette[7];
+        this.percentage = 0.75f;
+        init();
+    }
+
+    public void setColor(int color)
+    {
         this.color = color;
-        this.perc = perc;
-
-        pRing = new Paint();
         pRing.setColor(color);
-        pRing.setAntiAlias(true);
-        pRing.setTextAlign(Paint.Align.CENTER);
+        postInvalidate();
+    }
 
-        this.label = label;
+    public void setPercentage(float percentage)
+    {
+        this.percentage = percentage;
+        postInvalidate();
+    }
+
+    private void init()
+    {
+        pRing = new Paint();
+        pRing.setAntiAlias(true);
+        pRing.setColor(color);
+        pRing.setTextAlign(Paint.Align.CENTER);
+        pRing.setTextSize(size * 0.2f);
+        lineHeight = pRing.getFontSpacing();
+        rect = new RectF();
     }
 
     @Override
@@ -62,21 +88,20 @@ public class RingView extends View
         float thickness = size * 0.15f;
 
         pRing.setColor(color);
-        RectF r = new RectF(0, 0, size, size);
-        canvas.drawArc(r, -90, 360 * perc, true, pRing);
+        rect.set(0, 0, size, size);
+        canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
         pRing.setColor(Color.rgb(230, 230, 230));
-        canvas.drawArc(r, 360 * perc - 90 + 2, 360 * (1 - perc) - 4, true, pRing);
+        canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
         pRing.setColor(Color.WHITE);
-        r.inset(thickness, thickness);
-        canvas.drawArc(r, -90, 360, true, pRing);
+        rect.inset(thickness, thickness);
+        canvas.drawArc(rect, -90, 360, true, pRing);
 
         pRing.setColor(Color.GRAY);
         pRing.setTextSize(size * 0.2f);
-        lineHeight = pRing.getFontSpacing();
-        canvas.drawText(String.format("%.0f%%", perc * 100), r.centerX(),
-                r.centerY() + lineHeight / 3, pRing);
+        canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
+                rect.centerY() + lineHeight / 3, pRing);
 
         pRing.setTextSize(size * 0.15f);
         canvas.drawText(label, size / 2, size + lineHeight * 1.2f, pRing);
