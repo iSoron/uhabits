@@ -27,6 +27,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import org.isoron.uhabits.BuildConfig;
+
 public abstract class DialogHelper
 {
 
@@ -57,6 +59,12 @@ public abstract class DialogHelper
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         int count = prefs.getInt("launch_count", 0);
         prefs.edit().putInt("launch_count", count + 1).apply();
+    }
+
+    public static void updateLastAppVersion(Context context)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putInt("last_version", BuildConfig.VERSION_CODE).apply();
     }
 
     public static int getLaunchCount(Context context)

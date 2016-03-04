@@ -73,6 +73,7 @@ public class MainActivity extends ReplayableActivity
     {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         DialogHelper.incrementLaunchCount(this);
+        DialogHelper.updateLastAppVersion(this);
         showTutorial();
 
         new AsyncTask<Void, Void, Void>() {
