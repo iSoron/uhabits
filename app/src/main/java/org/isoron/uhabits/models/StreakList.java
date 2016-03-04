@@ -60,16 +60,13 @@ public class StreakList
         long day = DateHelper.millisecondsInOneDay;
 
         Streak newestStreak = getNewest();
-        if (newestStreak == null)
+        if (newestStreak != null)
         {
-            Repetition oldestRep = habit.repetitions.getOldest();
-            if (oldestRep == null) return;
-
-            beginning = oldestRep.timestamp;
+            beginning = newestStreak.start;
         }
         else
         {
-            Repetition oldestRep = habit.repetitions.getOldestNewerThan(newestStreak.end);
+            Repetition oldestRep = habit.repetitions.getOldest();
             if (oldestRep == null) return;
 
             beginning = oldestRep.timestamp;
@@ -95,6 +92,8 @@ public class StreakList
         if (list.size() % 2 == 1) list.add(current);
 
         ActiveAndroid.beginTransaction();
+
+        if(newestStreak != null) newestStreak.delete();
 
         try
         {
