@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -36,7 +37,6 @@ import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.widgets.BaseWidgetProvider;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
@@ -72,10 +72,19 @@ public class MainActivity extends ReplayableActivity
     private void onStartup()
     {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        ReminderHelper.createReminderAlarms(MainActivity.this);
         DialogHelper.incrementLaunchCount(this);
         showTutorial();
-        updateWidgets(this);
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                ReminderHelper.createReminderAlarms(MainActivity.this);
+                updateWidgets(MainActivity.this);
+                return null;
+            }
+        }.execute();
+
     }
 
     private void showTutorial()
