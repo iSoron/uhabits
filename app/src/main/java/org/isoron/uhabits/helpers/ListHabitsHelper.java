@@ -2,7 +2,10 @@ package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,11 +21,19 @@ public class ListHabitsHelper
 
     private final Context context;
     private final HabitListLoader loader;
+    private Typeface fontawesome;
 
     public ListHabitsHelper(Context context, HabitListLoader loader)
     {
         this.context = context;
         this.loader = loader;
+
+        fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
+    }
+
+    public Typeface getFontawesome()
+    {
+        return fontawesome;
     }
 
     public int getButtonCount()
@@ -122,6 +133,32 @@ public class ListHabitsHelper
                 tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
                 tvCheck.setTag(R.string.toggle_key, 0);
                 break;
+        }
+    }
+
+    public void updateHabitBackground(View view, boolean isSelected)
+    {
+        if (isSelected)
+            view.setBackgroundResource(R.drawable.selected_box);
+        else
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 21)
+                view.setBackgroundResource(R.drawable.ripple_white);
+            else view.setBackgroundResource(R.drawable.card_background);
+        }
+    }
+
+    public void inflateCheckmarkButtons(View view, View.OnLongClickListener onLongClickListener,
+                                        View.OnClickListener onClickListener, LayoutInflater inflater)
+    {
+        for (int i = 0; i < getButtonCount(); i++)
+        {
+            View check = inflater.inflate(R.layout.list_habits_item_check, null);
+            TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
+            btCheck.setTypeface(fontawesome);
+            btCheck.setOnLongClickListener(onLongClickListener);
+            btCheck.setOnClickListener(onClickListener);
+            ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
         }
     }
 }

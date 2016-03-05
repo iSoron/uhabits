@@ -1,7 +1,6 @@
 package org.isoron.uhabits.fragments;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ class HabitListAdapter extends BaseAdapter
     private final int buttonCount;
     private final int tvNameWidth;
     private LayoutInflater inflater;
-    private Typeface fontawesome;
     private HabitListLoader loader;
     private ListHabitsHelper helper;
     private List selectedPositions;
@@ -34,7 +32,6 @@ class HabitListAdapter extends BaseAdapter
         this.loader = loader;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
         helper = new ListHabitsHelper(context, loader);
 
         buttonCount = helper.getButtonCount();
@@ -67,13 +64,14 @@ class HabitListAdapter extends BaseAdapter
         if (view == null || (Long) view.getTag(R.id.timestamp_key) != DateHelper.getStartOfToday())
         {
             view = inflater.inflate(R.layout.list_habits_item, null);
-            ((TextView) view.findViewById(R.id.tvStar)).setTypeface(fontawesome);
+            ((TextView) view.findViewById(R.id.tvStar)).setTypeface(helper.getFontawesome());
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(tvNameWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT, 1);
             view.findViewById(R.id.label).setLayoutParams(params);
 
-            inflateCheckmarkButtons(view);
+            helper.inflateCheckmarkButtons(view, onCheckmarkLongClickListener,
+                    onCheckmarkClickListener, inflater);
 
             view.setTag(R.id.timestamp_key, DateHelper.getStartOfToday());
         }
@@ -89,28 +87,9 @@ class HabitListAdapter extends BaseAdapter
         helper.updateCheckmarkButtons(habit, llButtons);
 
         boolean selected = selectedPositions.contains(position);
-        if (selected) llInner.setBackgroundResource(R.drawable.selected_box);
-        else
-        {
-            if (android.os.Build.VERSION.SDK_INT >= 21)
-                llInner.setBackgroundResource(R.drawable.ripple_white);
-            else llInner.setBackgroundResource(R.drawable.card_background);
-        }
+        helper.updateHabitBackground(llInner, selected);
 
         return view;
-    }
-
-    private void inflateCheckmarkButtons(View view)
-    {
-        for (int i = 0; i < buttonCount; i++)
-        {
-            View check = inflater.inflate(R.layout.list_habits_item_check, null);
-            TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-            btCheck.setTypeface(fontawesome);
-            btCheck.setOnLongClickListener(onCheckmarkLongClickListener);
-            btCheck.setOnClickListener(onCheckmarkClickListener);
-            ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
-        }
     }
 
     public void setSelectedPositions(List selectedPositions)
