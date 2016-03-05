@@ -1,5 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<?xml version="1.0" encoding="utf-8" ?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <dimen name="color_swatch_large">64dip</dimen>
+    <dimen name="color_swatch_small">48dip</dimen>
+    <dimen name="color_swatch_margins_large">8dip</dimen>
+    <dimen name="color_swatch_margins_small">4dip</dimen>
+
     <item name="circle_radius_multiplier" format="float" type="string" translatable="false">0.82</item>
     <item name="circle_radius_multiplier_24HourMode" format="float" type="string" translatable="false">0.85</item>
     <item name="selection_radius_multiplier" format="float" type="string" translatable="false">0.16</item>
@@ -39,4 +44,22 @@
     <dimen name="day_number_size">16sp</dimen>
     <dimen name="year_label_height">64dp</dimen>
     <dimen name="year_label_text_size">22dp</dimen>
+
+    <string name="color_swatch_description" translatable="false">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
+    <string name="color_swatch_description_selected" translatable="false">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+
+    <!-- Date and time picker -->
+    <string name="hour_picker_description" translatable="false">Hours circular slider</string>
+    <string name="minute_picker_description" translatable="false">Minutes circular slider</string>
+    <string name="day_picker_description" translatable="false">Month grid of days</string>
+    <string name="year_picker_description" translatable="false">Year list</string>
+    <string name="select_day" translatable="false">Select month and day</string>
+    <string name="select_year" translatable="false">Select year</string>
+    <string name="item_is_selected" translatable="false"><xliff:g id="item" example="2013">%1$s</xliff:g> selected</string>
+    <string name="deleted_key" translatable="false"><xliff:g id="key" example="4">%1$s</xliff:g> deleted</string>
+    <string name="time_placeholder" translatable="false">--</string>
+    <string name="time_separator" translatable="false">:</string>
+    <string name="radial_numbers_typeface" translatable="false">sans-serif</string>
+    <string name="sans_serif" translatable="false">sans-serif</string>
+    <string name="day_of_week_label_typeface" translatable="false">sans-serif</string>
 </resources>
