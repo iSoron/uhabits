@@ -18,13 +18,10 @@ package org.isoron.uhabits.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -39,10 +36,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -59,10 +54,10 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.dialogs.HabitSelectionCallback;
 import org.isoron.uhabits.dialogs.HintManager;
+import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -74,23 +69,17 @@ public class ListHabitsFragment extends Fragment
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
         HabitSelectionCallback.Listener
 {
-
-    public static final int INACTIVE_COLOR = Color.rgb(200, 200, 200);
-    public static final int INACTIVE_CHECKMARK_COLOR = Color.rgb(230, 230, 230);
-
     public interface OnHabitClickListener
     {
         void onHabitClicked(Habit habit);
     }
 
-    ListHabitsAdapter adapter;
+    HabitListAdapter adapter;
     DragSortListView listView;
     ReplayableActivity activity;
     TextView tvNameHeader;
     long lastLongClick = 0;
 
-    private int tvNameWidth;
-    private int buttonCount;
     private View llEmpty;
 
     private OnHabitClickListener habitClickListener;
@@ -105,19 +94,18 @@ public class ListHabitsFragment extends Fragment
     private ProgressBar progressBar;
 
     private HintManager hintManager;
+    private ListHabitsHelper helper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        buttonCount = Math.max(0, (int) ((width - 160) / 42.0));
-        tvNameWidth = (int) ((width - 30 - buttonCount * 42) * dm.density);
-
+        selectedPositions = new LinkedList<>();
         loader = new HabitListLoader();
+        helper = new ListHabitsHelper(activity, loader);
+
         loader.setListener(this);
-        loader.setCheckmarkCount(buttonCount);
+        loader.setCheckmarkCount(helper.getButtonCount());
 
         View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
         tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
@@ -125,7 +113,11 @@ public class ListHabitsFragment extends Fragment
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         loader.setProgressBar(progressBar);
 
-        adapter = new ListHabitsAdapter(getActivity());
+        adapter = new HabitListAdapter(getActivity(), loader);
+        adapter.setSelectedPositions(selectedPositions);
+        adapter.setOnCheckmarkClickListener(this);
+        adapter.setOnCheckmarkLongClickListener(this);
+
         listView = (DragSortListView) view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -177,7 +169,6 @@ public class ListHabitsFragment extends Fragment
         loader.updateAllHabits(true);
         setHasOptionsMenu(true);
 
-        selectedPositions = new LinkedList<>();
         return view;
     }
 
@@ -221,7 +212,7 @@ public class ListHabitsFragment extends Fragment
         LinearLayout llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llButtonsHeader.removeAllViews();
 
-        for (int i = 0; i < buttonCount; i++)
+        for (int i = 0; i < helper.getButtonCount(); i++)
         {
             View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
             Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
@@ -394,8 +385,10 @@ public class ListHabitsFragment extends Fragment
         long timestamp = DateHelper.getStartOfDay(
                 DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
 
-        if (v.getTag(R.string.toggle_key).equals(2)) updateCheckmark(habit.color, (TextView) v, 0);
-        else updateCheckmark(habit.color, (TextView) v, 2);
+        if (v.getTag(R.string.toggle_key).equals(2))
+            helper.updateCheckmark(habit.color, (TextView) v, 0);
+        else
+            helper.updateCheckmark(habit.color, (TextView) v, 2);
 
         executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
     }
@@ -428,179 +421,6 @@ public class ListHabitsFragment extends Fragment
 
             case R.id.llHint:
                 hintManager.dismissHint();
-                break;
-        }
-    }
-
-    class ListHabitsAdapter extends BaseAdapter
-    {
-        private LayoutInflater inflater;
-        private Typeface fontawesome;
-
-        public ListHabitsAdapter(Context context)
-        {
-
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
-        }
-
-        @Override
-        public int getCount()
-        {
-            return loader.habits.size();
-        }
-
-        @Override
-        public Object getItem(int position)
-        {
-            return loader.habitsList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position)
-        {
-            return ((Habit) getItem(position)).getId();
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent)
-        {
-            final Habit habit = loader.habitsList.get(position);
-
-            if (view == null ||
-                    (Long) view.getTag(R.id.timestamp_key) != DateHelper.getStartOfToday())
-            {
-                view = inflater.inflate(R.layout.list_habits_item, null);
-                ((TextView) view.findViewById(R.id.tvStar)).setTypeface(fontawesome);
-
-                LinearLayout.LayoutParams params =
-                        new LinearLayout.LayoutParams(tvNameWidth, LayoutParams.WRAP_CONTENT, 1);
-                view.findViewById(R.id.label).setLayoutParams(params);
-
-                inflateCheckmarkButtons(view);
-
-                view.setTag(R.id.timestamp_key, DateHelper.getStartOfToday());
-            }
-
-            TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
-            TextView tvName = (TextView) view.findViewById(R.id.label);
-            LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
-            LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
-
-            llInner.setTag(R.string.habit_key, habit.getId());
-
-            updateNameAndIcon(habit, tvStar, tvName);
-            updateCheckmarkButtons(habit, llButtons);
-
-            boolean selected = selectedPositions.contains(position);
-            if(selected)
-                llInner.setBackgroundResource(R.drawable.selected_box);
-            else
-            {
-                if (android.os.Build.VERSION.SDK_INT >= 21)
-                    llInner.setBackgroundResource(R.drawable.ripple_white);
-                else
-                    llInner.setBackgroundResource(R.drawable.card_background);
-            }
-
-            return view;
-        }
-
-        private void inflateCheckmarkButtons(View view)
-        {
-            for (int i = 0; i < buttonCount; i++)
-            {
-                View check = inflater.inflate(R.layout.list_habits_item_check, null);
-                TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-                btCheck.setTypeface(fontawesome);
-                btCheck.setOnLongClickListener(ListHabitsFragment.this);
-                btCheck.setOnClickListener(ListHabitsFragment.this);
-                ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
-            }
-        }
-    }
-
-    private void updateCheckmarkButtons(Habit habit, LinearLayout llButtons)
-    {
-        int activeColor = getActiveColor(habit);
-        int m = llButtons.getChildCount();
-        Long habitId = habit.getId();
-
-        int isChecked[] = loader.checkmarks.get(habitId);
-
-        for (int i = 0; i < m; i++)
-        {
-
-            TextView tvCheck = (TextView) llButtons.getChildAt(i);
-            tvCheck.setTag(R.string.habit_key, habitId);
-            tvCheck.setTag(R.string.offset_key, i);
-            if(isChecked.length > i)
-                updateCheckmark(activeColor, tvCheck, isChecked[i]);
-        }
-    }
-
-    private void  updateNameAndIcon(Habit habit, TextView tvStar, TextView tvName)
-    {
-        int activeColor = getActiveColor(habit);
-
-        tvName.setText(habit.name);
-        tvName.setTextColor(activeColor);
-
-        if (habit.isArchived())
-        {
-            tvStar.setText(getString(R.string.fa_archive));
-            tvStar.setTextColor(activeColor);
-        }
-        else
-        {
-            int score = loader.scores.get(habit.getId());
-
-            if (score < Score.HALF_STAR_CUTOFF)
-            {
-                tvStar.setText(getString(R.string.fa_star_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
-            }
-            else if (score < Score.FULL_STAR_CUTOFF)
-            {
-                tvStar.setText(getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
-            }
-            else
-            {
-                tvStar.setText(getString(R.string.fa_star));
-                tvStar.setTextColor(activeColor);
-            }
-        }
-    }
-
-    private int getActiveColor(Habit habit)
-    {
-        int activeColor = habit.color;
-        if(habit.isArchived()) activeColor = INACTIVE_COLOR;
-
-        return activeColor;
-    }
-
-    private void updateCheckmark(int activeColor, TextView tvCheck, int check)
-    {
-        switch (check)
-        {
-            case 2:
-                tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(activeColor);
-                tvCheck.setTag(R.string.toggle_key, 2);
-                break;
-
-            case 1:
-                tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
-                tvCheck.setTag(R.string.toggle_key, 1);
-                break;
-
-            case 0:
-                tvCheck.setText(R.string.fa_times);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
-                tvCheck.setTag(R.string.toggle_key, 0);
                 break;
         }
     }
