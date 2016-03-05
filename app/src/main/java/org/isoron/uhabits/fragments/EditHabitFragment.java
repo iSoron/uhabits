@@ -70,7 +70,7 @@ public class EditHabitFragment extends DialogFragment
     private SharedPreferences prefs;
     private boolean is24HourMode;
 
-    static EditHabitFragment editSingleHabitFragment(long id)
+    public static EditHabitFragment editSingleHabitFragment(long id)
     {
         EditHabitFragment frag = new EditHabitFragment();
         Bundle args = new Bundle();
@@ -80,7 +80,7 @@ public class EditHabitFragment extends DialogFragment
         return frag;
     }
 
-    static EditHabitFragment createHabitFragment()
+    public static EditHabitFragment createHabitFragment()
     {
         EditHabitFragment frag = new EditHabitFragment();
         Bundle args = new Bundle();

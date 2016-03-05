@@ -16,19 +16,12 @@
 
 package org.isoron.uhabits.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -53,31 +46,24 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerSwatch;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.ArchiveHabitsCommand;
-import org.isoron.uhabits.commands.ChangeHabitColorCommand;
-import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
+import org.isoron.uhabits.dialogs.HabitSelectionCallback;
+import org.isoron.uhabits.dialogs.HintManager;
 import org.isoron.uhabits.helpers.ReminderHelper;
-import org.isoron.uhabits.io.CSVExporter;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 
-import java.io.File;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -85,155 +71,12 @@ import java.util.List;
 
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
-        OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener
+        OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
+        HabitSelectionCallback.Listener
 {
-    private class ListHabitsActionBarCallback implements ActionMode.Callback
-    {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu)
-        {
-            getActivity().getMenuInflater().inflate(R.menu.list_habits_context, menu);
-            updateTitle(mode);
-            updateActions(menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu)
-        {
-            updateTitle(mode);
-            updateActions(menu);
-            return true;
-        }
-
-        private void updateActions(Menu menu)
-        {
-            boolean showEdit = (selectedPositions.size() == 1);
-            boolean showColor = true;
-            boolean showArchive = true;
-            boolean showUnarchive = true;
-
-            if(showEdit) showColor = false;
-            for(int i : selectedPositions)
-            {
-                Habit h = loader.habitsList.get(i);
-                if(h.isArchived())
-                {
-                    showColor = false;
-                    showArchive = false;
-                }
-                else showUnarchive = false;
-            }
-
-            MenuItem itemEdit = menu.findItem(R.id.action_edit_habit);
-            MenuItem itemColor = menu.findItem(R.id.action_color);
-            MenuItem itemArchive = menu.findItem(R.id.action_archive_habit);
-            MenuItem itemUnarchive = menu.findItem(R.id.action_unarchive_habit);
-
-            itemEdit.setVisible(showEdit);
-            itemColor.setVisible(showColor);
-            itemArchive.setVisible(showArchive);
-            itemUnarchive.setVisible(showUnarchive);
-        }
-
-        private void updateTitle(ActionMode mode)
-        {
-            mode.setTitle("" + selectedPositions.size());
-        }
-
-        @Override
-        public boolean onActionItemClicked(final ActionMode mode, MenuItem item)
-        {
-            final LinkedList<Habit> selectedHabits = new LinkedList<>();
-            for(int i : selectedPositions)
-                selectedHabits.add(loader.habitsList.get(i));
-
-            Habit firstHabit = selectedHabits.getFirst();
-
-            switch(item.getItemId())
-            {
-                case R.id.action_archive_habit:
-                    executeCommand(new ArchiveHabitsCommand(selectedHabits), null);
-                    mode.finish();
-                    return true;
-
-                case R.id.action_unarchive_habit:
-                    executeCommand(new UnarchiveHabitsCommand(selectedHabits), null);
-                    mode.finish();
-                    return true;
-
-                case R.id.action_edit_habit:
-                {
-                    EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(firstHabit.getId());
-                    frag.setOnSavedListener(ListHabitsFragment.this);
-                    frag.show(getFragmentManager(), "dialog");
-                    return true;
-                }
-
-                case R.id.action_color:
-                {
-                    ColorPickerDialog picker = ColorPickerDialog.newInstance(
-                            R.string.color_picker_default_title, ColorHelper.palette,
-                            firstHabit.color, 4, ColorPickerDialog.SIZE_SMALL);
-
-                    picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
-                    {
-                        public void onColorSelected(int color)
-                        {
-                            executeCommand(new ChangeHabitColorCommand(selectedHabits, color), null);
-                            mode.finish();
-                        }
-                    });
-                    picker.show(getFragmentManager(), "picker");
-                    return true;
-                }
-
-                case R.id.action_delete:
-                {
-                    new AlertDialog.Builder(activity)
-                            .setTitle(R.string.delete_habits)
-                            .setMessage(R.string.delete_habits_message)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
-                                    executeCommand(new DeleteHabitsCommand(selectedHabits), null);
-                                    mode.finish();
-                                }
-                            }).setNegativeButton(android.R.string.no, null)
-                            .show();
-
-                    return true;
-                }
-
-                case R.id.action_export_csv:
-                {
-                    onExportHabitsClick(selectedHabits);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode)
-        {
-            actionMode = null;
-
-            selectedPositions.clear();
-            adapter.notifyDataSetChanged();
-
-            listView.setDragEnabled(true);
-        }
-    }
 
     public static final int INACTIVE_COLOR = Color.rgb(200, 200, 200);
     public static final int INACTIVE_CHECKMARK_COLOR = Color.rgb(230, 230, 230);
-
-    public static final int HINT_INTERVAL = 5;
-    public static final int HINT_INTERVAL_OFFSET = 2;
 
     public interface OnHabitClickListener
     {
@@ -249,7 +92,6 @@ public class ListHabitsFragment extends Fragment
     private int tvNameWidth;
     private int buttonCount;
     private View llEmpty;
-    private View llHint;
 
     private OnHabitClickListener habitClickListener;
     private boolean isShortToggleEnabled;
@@ -260,8 +102,9 @@ public class ListHabitsFragment extends Fragment
 
     private ActionMode actionMode;
     private List<Integer> selectedPositions;
-    private DragSortController dragSortController;
     private ProgressBar progressBar;
+
+    private HintManager hintManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -302,26 +145,29 @@ public class ListHabitsFragment extends Fragment
             }
         });
 
-        dragSortController = new DragSortController(listView) {
-                @Override
-                public View onCreateFloatView(int position)
-                {
-                     return adapter.getView(position, null, null);
-                }
+        DragSortController dragSortController = new DragSortController(listView)
+        {
+            @Override
+            public View onCreateFloatView(int position)
+            {
+                return adapter.getView(position, null, null);
+            }
 
             @Override
             public void onDestroyFloatView(View floatView)
             {
             }
         };
+
         dragSortController.setRemoveEnabled(false);
 
         listView.setFloatViewManager(dragSortController);
         listView.setDragEnabled(true);
         listView.setLongClickable(true);
 
-        llHint = view.findViewById(R.id.llHint);
+        View llHint = view.findViewById(R.id.llHint);
         llHint.setOnClickListener(this);
+        hintManager = new HintManager(activity, llHint);
 
         Typeface fontawesome = Typeface.createFromAsset(getActivity().getAssets(),
                 "fontawesome-webfont.ttf");
@@ -332,7 +178,6 @@ public class ListHabitsFragment extends Fragment
         setHasOptionsMenu(true);
 
         selectedPositions = new LinkedList<>();
-
         return view;
     }
 
@@ -358,7 +203,7 @@ public class ListHabitsFragment extends Fragment
 
         updateEmptyMessage();
         updateHeader();
-        showNextHint();
+        hintManager.showHintIfAppropriate();
 
         adapter.notifyDataSetChanged();
         isShortToggleEnabled = prefs.getBoolean("pref_short_toggle", false);
@@ -485,8 +330,13 @@ public class ListHabitsFragment extends Fragment
 
         if(actionMode == null)
         {
-            actionMode = getActivity().startActionMode(new ListHabitsActionBarCallback());
-//            listView.setDragEnabled(false);
+            HabitSelectionCallback callback = new HabitSelectionCallback(activity, loader);
+            callback.setSelectedPositions(selectedPositions);
+            callback.setProgressBar(progressBar);
+            callback.setOnSavedListener(this);
+            callback.setListener(this);
+
+            actionMode = getActivity().startActionMode(callback);
         }
 
         if(actionMode != null) actionMode.invalidate();
@@ -555,43 +405,6 @@ public class ListHabitsFragment extends Fragment
         activity.executeCommand(c, refreshKey);
     }
 
-    private void hideHint()
-    {
-        llHint.animate().alpha(0f).setDuration(500).setListener(new AnimatorListenerAdapter()
-        {
-            @Override
-            public void onAnimationEnd(Animator animation)
-            {
-                llHint.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void showNextHint()
-    {
-        Integer lastHintNumber = prefs.getInt("last_hint_number", -1);
-        Long lastHintTimestamp = prefs.getLong("last_hint_timestamp", -1);
-
-        if(DateHelper.getStartOfToday() > lastHintTimestamp)
-            showHint(lastHintNumber + 1);
-    }
-
-    private void showHint(int hintNumber)
-    {
-        String[] hints = activity.getResources().getStringArray(R.array.hints);
-        if(hintNumber >= hints.length) return;
-
-        prefs.edit().putInt("last_hint_number", hintNumber).apply();
-        prefs.edit().putLong("last_hint_timestamp", DateHelper.getStartOfToday()).apply();
-
-        TextView tvContent = (TextView) llHint.findViewById(R.id.hintContent);
-        tvContent.setText(hints[hintNumber]);
-
-        llHint.setAlpha(0.0f);
-        llHint.setVisibility(View.VISIBLE);
-        llHint.animate().alpha(1f).setDuration(500);
-    }
-
     @Override
     public void drop(int from, int to)
     {
@@ -614,7 +427,7 @@ public class ListHabitsFragment extends Fragment
                 break;
 
             case R.id.llHint:
-                hideHint();
+                hintManager.dismissHint();
                 break;
         }
     }
@@ -798,42 +611,11 @@ public class ListHabitsFragment extends Fragment
         else loader.updateHabit(refreshKey);
     }
 
-    private void onExportHabitsClick(final LinkedList<Habit> selectedHabits)
+    public void onActionModeDestroyed(ActionMode mode)
     {
-        new AsyncTask<Void, Void, Void>()
-        {
-            String filename;
-
-            @Override
-            protected void onPreExecute()
-            {
-                progressBar.setIndeterminate(true);
-                progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                if(filename != null)
-                {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("application/zip");
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filename)));
-
-                    startActivity(intent);
-                }
-
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                CSVExporter exporter = new CSVExporter(activity, selectedHabits);
-                filename = exporter.writeArchive();
-                return null;
-            }
-        }.execute();
+        actionMode = null;
+        selectedPositions.clear();
+        adapter.notifyDataSetChanged();
+        listView.setDragEnabled(true);
     }
 }
