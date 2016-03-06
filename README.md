@@ -35,6 +35,25 @@ There are absolutely no advertisements, annoying notifications or intrusive perm
 [![Habit history and streaks][screen4th]][screen4]
 [![Widgets][screen5th]][screen5]
 
+## Contributing
+
+Loop is an open source project developed entirely by volunteers. If you would like to
+contribute to the project, you are very welcome. There are many ways to contribute,
+even if you are not a software developer.
+
+* **Report bugs, suggest features.** The easiest way to contribute is to simply
+  use the app and let us know if you find any problems or have any suggestions to improve
+  it. You can either use the link inside the app, or open an issue at GitHub.
+
+* **Translate the app into your own language.** If you are not a native English speaker, and would
+  like to see the app translated into your own language, please join our [open translation project
+  at POEditor][poedit].
+
+* **Write some code.** If you are an Android developer, code contributions are very welcome. This
+  repository uses the [git-flow branching model][gitflow]. Please, submit pull requests against the
+  dev branch. This is the branch that will eventually become the next version of the app.
+
+
 [screen1]: screenshots/original/uhabits1.png
 [screen2]: screenshots/original/uhabits2.png
 [screen3]: screenshots/original/uhabits3.png
@@ -45,3 +64,5 @@ There are absolutely no advertisements, annoying notifications or intrusive perm
 [screen3th]: screenshots/thumbs/uhabits3.png
 [screen4th]: screenshots/thumbs/uhabits4.png
 [screen5th]: screenshots/thumbs/uhabits5.png
+[poedit]: https://poeditor.com/join/project/8DWX5pfjS0
+[gitflow]: http://nvie.com/posts/a-successful-git-branching-model/
