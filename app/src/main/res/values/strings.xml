@@ -21,8 +21,8 @@
     <string name="toast_habit_archived">Habits archived.</string>
     <string name="toast_habit_unarchived">Habits unarchived.</string>
 
-    <string name="color_swatch_description" translatable="false">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
-    <string name="color_swatch_description_selected" translatable="false">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+    <string name="color_swatch_description" translatable="false">Color <xliff:g example="14" id="color_index">%1$d</xliff:g></string>
+    <string name="color_swatch_description_selected" translatable="false">Color <xliff:g example="14" id="color_index">%1$d</xliff:g> selected</string>
 
     <!-- Date and time picker -->
     <string name="done_label">Done</string>
@@ -35,8 +35,8 @@
     <string name="year_picker_description" translatable="false">Year list</string>
     <string name="select_day">Select month and day</string>
     <string name="select_year">Select year</string>
-    <string name="item_is_selected" translatable="false"><xliff:g id="item" example="2013">%1$s</xliff:g> selected</string>
-    <string name="deleted_key" translatable="false"><xliff:g id="key" example="4">%1$s</xliff:g> deleted</string>
+    <string name="item_is_selected" translatable="false"><xliff:g example="2013" id="item">%1$s</xliff:g> selected</string>
+    <string name="deleted_key" translatable="false"><xliff:g example="4" id="key">%1$s</xliff:g> deleted</string>
     <string name="time_placeholder" translatable="false">--</string>
     <string name="time_separator" translatable="false">:</string>
     <string name="radial_numbers_typeface" translatable="false">sans-serif</string>
@@ -115,5 +115,10 @@
         <item>@string/hint_drag</item>
         <item>@string/hint_landscape</item>
     </string-array>
+
+    <string name="about">About</string>
+    <string name="translators">Translators</string>
+    <string name="developers">Developers</string>
+    <string name="version">Version</string>
 
 </resources>

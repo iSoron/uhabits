@@ -19,7 +19,7 @@
   -->
 
 <resources>
-    <string name="app_name">Hábitos</string>
+    <string name="app_name">Loop Habit Tracker</string>
   <string name="action_settings">Configurações</string>
   <string name="add_habit">Adicionar hábito</string>
   <string name="archive">Arquivar</string>
@@ -102,4 +102,8 @@
   <string name="any_day">Qualquer dia</string>
   <string name="select_weekdays">Selecionar dias</string>
   <string name="export_to_csv">Exportar dados</string>
+  <string name="about">Sobre</string>
+  <string name="developers">Desenvolvedores</string>
+  <string name="translators">Tradutores</string>
+  <string name="version">Versão</string>
 </resources>

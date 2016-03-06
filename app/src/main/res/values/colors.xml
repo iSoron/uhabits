@@ -259,7 +259,7 @@
     <!--<color name="blue_400">#42A5F5</color>-->
     <!--<color name="blue_500">#2196F3</color>-->
     <!--<color name="blue_600">#1E88E5</color>-->
-    <!--<color name="blue_700">#1976D2</color>-->
+    <color name="blue_700">#1976D2</color>
     <!--<color name="blue_800">#1565C0</color>-->
     <!--<color name="blue_900">#0D47A1</color>-->
     <!--<color name="blue_A100">#82B1FF</color>-->

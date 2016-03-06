@@ -21,36 +21,11 @@
 
     </PreferenceCategory>
 
-
-    <PreferenceCategory
-        android:key="pref_key_links"
-        android:title="@string/links">
-
-        <Preference android:title="@string/pref_rate_this_app">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="market://details?id=org.isoron.uhabits"/>
-        </Preference>
-
-        <Preference android:title="@string/pref_send_feedback">
-            <intent
-                android:action="android.intent.action.SENDTO"
-                android:data="mailto:isoron+habits@gmail.com?subject=Feedback%20about%20Loop%20Habit%20Tracker"/>
-        </Preference>
-
-        <Preference android:title="@string/pref_view_source_code">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/iSoron/uhabits"/>
-        </Preference>
-
-
-        <Preference android:title="@string/pref_view_app_introduction">
-            <intent
-                android:targetClass="org.isoron.uhabits.IntroActivity"
-                android:targetPackage="org.isoron.uhabits"/>
-        </Preference>
-
-    </PreferenceCategory>
+    <Preference android:title="@string/about">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="org.isoron.uhabits.AboutActivity"
+            android:targetPackage="org.isoron.uhabits"/>
+    </Preference>
 
 </PreferenceScreen>

@@ -117,9 +117,18 @@ public class MainActivity extends ReplayableActivity
         switch (item.getItemId())
         {
             case R.id.action_settings:
+            {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
+            }
+
+            case R.id.action_about:
+            {
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            }
 
             default:
                 return super.onOptionsItemSelected(item);
