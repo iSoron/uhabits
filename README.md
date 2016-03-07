@@ -56,6 +56,21 @@ even if you are not a software developer.
   This repository uses the [git-flow branching model][gitflow]. Please, submit pull requests against the
   dev branch. This is the branch that will eventually become the next version of the app.
 
+## Installing
+
+The easiest way to install Loop is through the [Google Play Store][playstore]. You may also download and install
+the APK from the [releases page][releases]; note, however, that the app will not be updated automatically.
+To build this app from the source code, you will need to install the [Android SDK Manager][sdk], then run the following commands.
+
+    git clone https://github.com/iSoron/uhabits.git
+    cd uhabits
+    git submodule update --init
+    ./gradlew assembleDebug
+
+The generated APK will be located in `app/build/outputs/apk/`. It can be installed on the
+device through [adb][adb]:
+
+    adb install app/build/outputs/apk/app-debug.apk
 
 [screen1]: screenshots/original/uhabits1.png
 [screen2]: screenshots/original/uhabits2.png
@@ -69,3 +84,7 @@ even if you are not a software developer.
 [screen5th]: screenshots/thumbs/uhabits5.png
 [poedit]: https://poeditor.com/join/project/8DWX5pfjS0
 [gitflow]: http://nvie.com/posts/a-successful-git-branching-model/
+[sdk]: https://developer.android.com/sdk/installing/index.html?pkg=studio
+[playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
+[releases]: https://github.com/iSoron/uhabits/releases
+[adb]: https://developer.android.com/tools/help/adb.html
