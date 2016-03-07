@@ -49,8 +49,11 @@ even if you are not a software developer.
   like to see the app translated into your own language, please join our [open translation project
   at POEditor][poedit].
 
-* **Write some code.** If you are an Android developer, code contributions are very welcome. This
-  repository uses the [git-flow branching model][gitflow]. Please, submit pull requests against the
+* **Write some code.** If you are an Android developer, you are very welcome to contribute with code.
+  If you already have an idea in mind, you can either implement it and then send a pull request, or open an issue
+  first, to discuss your idea before you start your work. If you are out of ideas, have a look at the open issues.
+  Tasks that are easier to implement have the green label *small-task*.
+  This repository uses the [git-flow branching model][gitflow]. Please, submit pull requests against the
   dev branch. This is the branch that will eventually become the next version of the app.
 
 
