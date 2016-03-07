@@ -19,7 +19,6 @@ package org.isoron.uhabits.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
@@ -67,103 +66,65 @@ public class ListHabitsFragment extends Fragment
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
         HabitSelectionCallback.Listener
 {
-    public interface OnHabitClickListener
-    {
-        void onHabitClicked(Habit habit);
-    }
-
-    private HabitListAdapter adapter;
-    private DragSortListView listView;
-    private ReplayableActivity activity;
-    private TextView tvNameHeader;
-    private LinearLayout llButtonsHeader;
-
     long lastLongClick = 0;
-
-    private View llEmpty;
-
-    private OnHabitClickListener habitClickListener;
     private boolean isShortToggleEnabled;
-
-    private HabitListLoader loader;
     private boolean showArchived;
-    private SharedPreferences prefs;
 
     private ActionMode actionMode;
-    private List<Integer> selectedPositions;
-    private ProgressBar progressBar;
-
+    private HabitListAdapter adapter;
+    private HabitListLoader loader;
     private HintManager hintManager;
     private ListHabitsHelper helper;
+    private List<Integer> selectedPositions;
+    private OnHabitClickListener habitClickListener;
+    private ReplayableActivity activity;
+    private SharedPreferences prefs;
+
+    private DragSortListView listView;
+    private LinearLayout llButtonsHeader;
+    private ProgressBar progressBar;
+    private View llEmpty;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
+        View llHint = view.findViewById(R.id.llHint);
+        TextView tvStarEmpty = (TextView) view.findViewById(R.id.tvStarEmpty);
+        listView = (DragSortListView) view.findViewById(R.id.listView);
+        llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
+        llEmpty = view.findViewById(R.id.llEmpty);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
         selectedPositions = new LinkedList<>();
         loader = new HabitListLoader();
         helper = new ListHabitsHelper(activity, loader);
+        hintManager = new HintManager(activity, llHint);
 
         loader.setListener(this);
         loader.setCheckmarkCount(helper.getButtonCount());
-
-        View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
-        tvNameHeader = (TextView) view.findViewById(R.id.tvNameHeader);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         loader.setProgressBar(progressBar);
+
+        llHint.setOnClickListener(this);
+        tvStarEmpty.setTypeface(helper.getFontawesome());
 
         adapter = new HabitListAdapter(getActivity(), loader);
         adapter.setSelectedPositions(selectedPositions);
         adapter.setOnCheckmarkClickListener(this);
         adapter.setOnCheckmarkLongClickListener(this);
 
-        listView = (DragSortListView) view.findViewById(R.id.listView);
+        DragSortListView.DragListener dragListener = new HabitsDragListener();
+        DragSortController dragSortController = new HabitsDragSortController();
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
         listView.setDropListener(this);
-        listView.setDragListener(new DragSortListView.DragListener()
-        {
-            @Override
-            public void drag(int from, int to)
-            {
-            }
-
-            @Override
-            public void startDrag(int position)
-            {
-                selectItem(position);
-            }
-        });
-
-        DragSortController dragSortController = new DragSortController(listView)
-        {
-            @Override
-            public View onCreateFloatView(int position)
-            {
-                return adapter.getView(position, null, null);
-            }
-
-            @Override
-            public void onDestroyFloatView(View floatView)
-            {
-            }
-        };
-
-        dragSortController.setRemoveEnabled(false);
-
+        listView.setDragListener(dragListener);
         listView.setFloatViewManager(dragSortController);
         listView.setDragEnabled(true);
         listView.setLongClickable(true);
-
-        View llHint = view.findViewById(R.id.llHint);
-        llHint.setOnClickListener(this);
-        hintManager = new HintManager(activity, llHint);
-
-        ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(helper.getFontawesome());
-        llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
-        llEmpty = view.findViewById(R.id.llEmpty);
 
         loader.updateAllHabits(true);
         setHasOptionsMenu(true);
@@ -404,5 +365,44 @@ public class ListHabitsFragment extends Fragment
         selectedPositions.clear();
         adapter.notifyDataSetChanged();
         listView.setDragEnabled(true);
+    }
+
+    public interface OnHabitClickListener
+    {
+        void onHabitClicked(Habit habit);
+    }
+
+    private class HabitsDragSortController extends DragSortController
+    {
+        public HabitsDragSortController()
+        {
+            super(ListHabitsFragment.this.listView);
+            setRemoveEnabled(false);
+        }
+
+        @Override
+        public View onCreateFloatView(int position)
+        {
+            return adapter.getView(position, null, null);
+        }
+
+        @Override
+        public void onDestroyFloatView(View floatView)
+        {
+        }
+    }
+
+    private class HabitsDragListener implements DragSortListView.DragListener
+    {
+        @Override
+        public void drag(int from, int to)
+        {
+        }
+
+        @Override
+        public void startDrag(int position)
+        {
+            selectItem(position);
+        }
     }
 }
