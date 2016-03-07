@@ -105,5 +105,5 @@
   <string name="about">Sobre</string>
   <string name="developers">Desenvolvedores</string>
   <string name="translators">Tradutores</string>
-  <string name="version">Versão</string>
+  <string name="version_n">Versão %s</string>
 </resources>

@@ -49,7 +49,7 @@ public class AboutActivity extends Activity implements View.OnClickListener
         TextView tvFeedback = (TextView) findViewById(R.id.tvFeedback);
         TextView tvSource = (TextView) findViewById(R.id.tvSource);
 
-        tvVersion.setText(String.format("%s %s", getResources().getString(R.string.version),
+        tvVersion.setText(String.format(getResources().getString(R.string.version_n),
                 BuildConfig.VERSION_NAME));
         tvRate.setOnClickListener(this);
         tvFeedback.setOnClickListener(this);

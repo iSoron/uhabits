@@ -119,6 +119,6 @@
     <string name="about">About</string>
     <string name="translators">Translators</string>
     <string name="developers">Developers</string>
-    <string name="version">Version</string>
+    <string name="version_n">Version %s</string>
 
 </resources>
