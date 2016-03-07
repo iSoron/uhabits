@@ -33,8 +33,8 @@ public class EditHabitCommand extends Command
         this.modified = new Habit(modified);
         this.original = new Habit(original);
 
-        hasIntervalChanged = (this.original.freqDen != this.modified.freqDen ||
-                this.original.freqNum != this.modified.freqNum);
+        hasIntervalChanged = (!this.original.freqDen.equals(this.modified.freqDen) ||
+                !this.original.freqNum.equals(this.modified.freqNum));
     }
 
     public void execute()

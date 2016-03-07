@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
 
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">Habits</string>
@@ -20,28 +20,6 @@
     <string name="toast_habit_changed_back">Habit changed back.</string>
     <string name="toast_habit_archived">Habits archived.</string>
     <string name="toast_habit_unarchived">Habits unarchived.</string>
-
-    <string name="color_swatch_description" translatable="false">Color <xliff:g example="14" id="color_index">%1$d</xliff:g></string>
-    <string name="color_swatch_description_selected" translatable="false">Color <xliff:g example="14" id="color_index">%1$d</xliff:g> selected</string>
-
-    <!-- Date and time picker -->
-    <string name="done_label">Done</string>
-    <string name="clear_label">Clear</string>
-    <string name="hour_picker_description" translatable="false">Hours circular slider</string>
-    <string name="minute_picker_description" translatable="false">Minutes circular slider</string>
-    <string name="select_hours">Select hours</string>
-    <string name="select_minutes">Select minutes</string>
-    <string name="day_picker_description" translatable="false">Month grid of days</string>
-    <string name="year_picker_description" translatable="false">Year list</string>
-    <string name="select_day">Select month and day</string>
-    <string name="select_year">Select year</string>
-    <string name="item_is_selected" translatable="false"><xliff:g example="2013" id="item">%1$s</xliff:g> selected</string>
-    <string name="deleted_key" translatable="false"><xliff:g example="4" id="key">%1$s</xliff:g> deleted</string>
-    <string name="time_placeholder" translatable="false">--</string>
-    <string name="time_separator" translatable="false">:</string>
-    <string name="radial_numbers_typeface" translatable="false">sans-serif</string>
-    <string name="sans_serif" translatable="false">sans-serif</string>
-    <string name="day_of_week_label_typeface" translatable="false">sans-serif</string>
 
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
@@ -110,6 +88,11 @@
     <string name="any_day">Any day</string>
     <string name="select_weekdays">Select days</string>
     <string name="export_to_csv">Export data</string>
+
+    <string name="done_label">Done</string>
+    <string name="clear_label">Clear</string>
+    <string name="select_hours">Select hours</string>
+    <string name="select_minutes">Select minutes</string>
 
     <string-array name="hints">
         <item>@string/hint_drag</item>

@@ -41,7 +41,7 @@ public class DeleteHabitsCommand extends Command
     @Override
     public void undo()
     {
-
+        throw new UnsupportedOperationException();
     }
 
     public Integer getExecuteStringId()
