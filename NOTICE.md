@@ -80,3 +80,12 @@ under the SIL OFL 1.1.
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+### Material Design Icons
+
+<https://github.com/google/material-design-icons>
+
+Material design icons are the official icon set from Google that are designed
+under the material design guidelines. Available under the Creative Common
+Attribution 4.0 International License (CC-BY 4.0).
+
