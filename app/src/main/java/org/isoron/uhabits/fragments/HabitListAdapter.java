@@ -18,8 +18,6 @@ import java.util.List;
 
 class HabitListAdapter extends BaseAdapter
 {
-    private final int buttonCount;
-    private final int tvNameWidth;
     private LayoutInflater inflater;
     private HabitListLoader loader;
     private ListHabitsHelper helper;
@@ -31,11 +29,8 @@ class HabitListAdapter extends BaseAdapter
     {
         this.loader = loader;
 
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = LayoutInflater.from(context);
         helper = new ListHabitsHelper(context, loader);
-
-        buttonCount = helper.getButtonCount();
-        tvNameWidth = helper.getHabitNameWidth();
     }
 
     @Override
@@ -64,16 +59,9 @@ class HabitListAdapter extends BaseAdapter
         if (view == null || (Long) view.getTag(R.id.timestamp_key) != DateHelper.getStartOfToday())
         {
             view = inflater.inflate(R.layout.list_habits_item, null);
-            ((TextView) view.findViewById(R.id.tvStar)).setTypeface(helper.getFontawesome());
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(tvNameWidth,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-            view.findViewById(R.id.label).setLayoutParams(params);
-
+            helper.initializeLabelAndIcon(view);
             helper.inflateCheckmarkButtons(view, onCheckmarkLongClickListener,
                     onCheckmarkClickListener, inflater);
-
-            view.setTag(R.id.timestamp_key, DateHelper.getStartOfToday());
         }
 
         TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));

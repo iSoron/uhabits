@@ -82,8 +82,17 @@ public class ListHabitsHelper
         return activeColor;
     }
 
-    public void updateNameAndIcon(Habit habit, TextView tvStar,
-                                          TextView tvName)
+    public void initializeLabelAndIcon(View itemView)
+    {
+        TextView tvStar = (TextView) itemView.findViewById(R.id.tvStar);
+        tvStar.setTypeface(getFontawesome());
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getHabitNameWidth(),
+                LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+        itemView.findViewById(R.id.label).setLayoutParams(params);
+    }
+
+    public void updateNameAndIcon(Habit habit, TextView tvStar, TextView tvName)
     {
         int activeColor = getActiveColor(habit);
 
@@ -165,6 +174,8 @@ public class ListHabitsHelper
             btCheck.setOnClickListener(onClickListener);
             ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
         }
+
+        view.setTag(R.id.timestamp_key, DateHelper.getStartOfToday());
     }
 
     public void updateHeader(ViewGroup header)
