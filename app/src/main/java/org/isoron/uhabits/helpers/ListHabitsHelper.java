@@ -6,13 +6,18 @@ import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+
+import java.util.GregorianCalendar;
 
 public class ListHabitsHelper
 {
@@ -160,5 +165,36 @@ public class ListHabitsHelper
             btCheck.setOnClickListener(onClickListener);
             ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
         }
+    }
+
+    public void updateHeader(ViewGroup header)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+        header.removeAllViews();
+
+        for (int i = 0; i < getButtonCount(); i++)
+        {
+            View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
+            Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
+            btCheck.setText(DateHelper.formatHeaderDate(day));
+            header.addView(tvDay);
+
+            day.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        }
+    }
+
+    public void updateEmptyMessage(View view)
+    {
+        if (loader.getLastLoadTimestamp() == null) view.setVisibility(View.GONE);
+        else view.setVisibility(loader.habits.size() > 0 ? View.GONE : View.VISIBLE);
+    }
+
+    public void toggleCheckmarkView(View v, Habit habit)
+    {
+        if (v.getTag(R.string.toggle_key).equals(2))
+            updateCheckmark(habit.color, (TextView) v, 0);
+        else
+            updateCheckmark(habit.color, (TextView) v, 2);
     }
 }

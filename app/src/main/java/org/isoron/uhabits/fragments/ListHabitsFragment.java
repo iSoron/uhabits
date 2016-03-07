@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,7 +59,6 @@ import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,10 +72,12 @@ public class ListHabitsFragment extends Fragment
         void onHabitClicked(Habit habit);
     }
 
-    HabitListAdapter adapter;
-    DragSortListView listView;
-    ReplayableActivity activity;
-    TextView tvNameHeader;
+    private HabitListAdapter adapter;
+    private DragSortListView listView;
+    private ReplayableActivity activity;
+    private TextView tvNameHeader;
+    private LinearLayout llButtonsHeader;
+
     long lastLongClick = 0;
 
     private View llEmpty;
@@ -161,9 +161,8 @@ public class ListHabitsFragment extends Fragment
         llHint.setOnClickListener(this);
         hintManager = new HintManager(activity, llHint);
 
-        Typeface fontawesome = Typeface.createFromAsset(getActivity().getAssets(),
-                "fontawesome-webfont.ttf");
-        ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(fontawesome);
+        ((TextView) view.findViewById(R.id.tvStarEmpty)).setTypeface(helper.getFontawesome());
+        llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llEmpty = view.findViewById(R.id.llEmpty);
 
         loader.updateAllHabits(true);
@@ -192,42 +191,19 @@ public class ListHabitsFragment extends Fragment
         if (timestamp != null && timestamp != DateHelper.getStartOfToday())
             loader.updateAllHabits(true);
 
-        updateEmptyMessage();
-        updateHeader();
+        helper.updateEmptyMessage(llEmpty);
+        helper.updateHeader(llButtonsHeader);
         hintManager.showHintIfAppropriate();
 
         adapter.notifyDataSetChanged();
         isShortToggleEnabled = prefs.getBoolean("pref_short_toggle", false);
     }
 
-    private void updateHeader()
-    {
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View view = getView();
-
-        if (view == null) return;
-
-        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
-
-        LinearLayout llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
-        llButtonsHeader.removeAllViews();
-
-        for (int i = 0; i < helper.getButtonCount(); i++)
-        {
-            View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
-            Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
-            btCheck.setText(DateHelper.formatHeaderDate(day));
-            llButtonsHeader.addView(tvDay);
-
-            day.add(GregorianCalendar.DAY_OF_MONTH, -1);
-        }
-    }
-
     @Override
     public void onLoadFinished()
     {
         adapter.notifyDataSetChanged();
-        updateEmptyMessage();
+        helper.updateEmptyMessage(llEmpty);
     }
 
     @Override
@@ -347,12 +323,6 @@ public class ListHabitsFragment extends Fragment
         if(actionMode != null) actionMode.finish();
     }
 
-    private void updateEmptyMessage()
-    {
-        if (loader.getLastLoadTimestamp() == null) llEmpty.setVisibility(View.GONE);
-        else llEmpty.setVisibility(loader.habits.size() > 0 ? View.GONE : View.VISIBLE);
-    }
-
     @Override
     public boolean onLongClick(View v)
     {
@@ -379,17 +349,14 @@ public class ListHabitsFragment extends Fragment
     private void toggleCheck(View v)
     {
         Long tag = (Long) v.getTag(R.string.habit_key);
-        Habit habit = loader.habits.get(tag);
-
-        int offset = (Integer) v.getTag(R.string.offset_key);
+        Integer offset = (Integer) v.getTag(R.string.offset_key);
         long timestamp = DateHelper.getStartOfDay(
                 DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
 
-        if (v.getTag(R.string.toggle_key).equals(2))
-            helper.updateCheckmark(habit.color, (TextView) v, 0);
-        else
-            helper.updateCheckmark(habit.color, (TextView) v, 2);
+        Habit habit = loader.habits.get(tag);
+        if(habit == null) return;
 
+        helper.toggleCheckmarkView(v, habit);
         executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
     }
 
