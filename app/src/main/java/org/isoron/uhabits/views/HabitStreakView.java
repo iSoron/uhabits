@@ -74,13 +74,13 @@ public class HabitStreakView extends ScrollableDataView
         this.habit = habit;
 
         createColors();
-        fetchData();
+        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
-        fetchData();
+        refreshData();
         createPaints();
         createColors();
 
@@ -159,7 +159,7 @@ public class HabitStreakView extends ScrollableDataView
         pBar.setAntiAlias(true);
     }
 
-    protected void fetchData()
+    public void refreshData()
     {
         if(isInEditMode())
             generateRandomData();
@@ -185,6 +185,8 @@ public class HabitStreakView extends ScrollableDataView
                 maxStreakLength = Math.max(maxStreakLength, s.length);
             }
         }
+
+        invalidate();
     }
 
     private void generateRandomData()

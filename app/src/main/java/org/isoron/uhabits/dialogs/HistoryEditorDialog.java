@@ -36,6 +36,7 @@ public class HistoryEditorDialog extends DialogFragment
     implements DialogInterface.OnClickListener
 {
     private Habit habit;
+    private Listener listener;
     HabitHistoryView historyView;
 
     @Override
@@ -75,12 +76,21 @@ public class HistoryEditorDialog extends DialogFragment
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-
+        if(listener != null) listener.onHistoryEditorClosed();
     }
 
     public void setHabit(Habit habit)
     {
         this.habit = habit;
         if(historyView != null) historyView.setHabit(habit);
+    }
+
+    public void setListener(Listener listener)
+    {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+        void onHistoryEditorClosed();
     }
 }

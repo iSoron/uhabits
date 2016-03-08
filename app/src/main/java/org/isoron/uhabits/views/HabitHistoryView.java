@@ -80,13 +80,13 @@ public class HabitHistoryView extends ScrollableDataView
     {
         this.habit = habit;
         createColors();
-        fetchData();
+        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
-        fetchData();
+        refreshData();
         createPaints();
         createColors();
 
@@ -202,7 +202,7 @@ public class HabitHistoryView extends ScrollableDataView
         pSquareFg.setTextAlign(Align.CENTER);
     }
 
-    protected void fetchData()
+    public void refreshData()
     {
         if(isInEditMode())
             generateRandomData();
@@ -213,6 +213,7 @@ public class HabitHistoryView extends ScrollableDataView
         }
 
         updateDate();
+        invalidate();
     }
 
     private void generateRandomData()
@@ -371,7 +372,7 @@ public class HabitHistoryView extends ScrollableDataView
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                fetchData();
+                refreshData();
                 invalidate();
             }
         }.execute();
