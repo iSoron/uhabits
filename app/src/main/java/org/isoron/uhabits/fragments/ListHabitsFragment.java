@@ -129,9 +129,16 @@ public class ListHabitsFragment extends Fragment
         listView.setDragEnabled(true);
         listView.setLongClickable(true);
 
-        loader.updateAllHabits(true);
-        setHasOptionsMenu(true);
+        if(savedInstanceState != null)
+        {
+            EditHabitFragment frag = (EditHabitFragment) getFragmentManager()
+                    .findFragmentByTag("editHabit");
+            if(frag != null) frag.setOnSavedListener(this);
+        }
 
+        loader.updateAllHabits(true);
+
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -202,7 +209,7 @@ public class ListHabitsFragment extends Fragment
             {
                 EditHabitFragment frag = EditHabitFragment.createHabitFragment();
                 frag.setOnSavedListener(this);
-                frag.show(getFragmentManager(), "dialog");
+                frag.show(getFragmentManager(), "editHabit");
                 return true;
             }
 

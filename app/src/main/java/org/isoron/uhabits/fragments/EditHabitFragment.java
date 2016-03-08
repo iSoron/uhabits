@@ -144,6 +144,21 @@ public class EditHabitFragment extends DialogFragment
             tvDescription.append(modifiedHabit.description);
         }
 
+        if(savedInstanceState != null)
+        {
+            modifiedHabit.color = savedInstanceState.getInt("color", modifiedHabit.color);
+            modifiedHabit.reminderMin = savedInstanceState.getInt("reminderMin", -1);
+            modifiedHabit.reminderHour = savedInstanceState.getInt("reminderHour", -1);
+            modifiedHabit.reminderDays = savedInstanceState.getInt("reminderDays", -1);
+
+            if(modifiedHabit.reminderMin < 0)
+            {
+                modifiedHabit.reminderMin = null;
+                modifiedHabit.reminderHour = null;
+                modifiedHabit.reminderDays = 127;
+            }
+        }
+
         tvFreqNum.append(modifiedHabit.freqNum.toString());
         tvFreqDen.append(modifiedHabit.freqDen.toString());
 
@@ -339,5 +354,19 @@ public class EditHabitFragment extends DialogFragment
 
         modifiedHabit.reminderDays = DateHelper.packWeekdayList(selectedDays);
         updateReminder();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("color", modifiedHabit.color);
+        if(modifiedHabit.reminderHour != null)
+        {
+            outState.putInt("reminderMin", modifiedHabit.reminderMin);
+            outState.putInt("reminderHour", modifiedHabit.reminderHour);
+            outState.putInt("reminderDays", modifiedHabit.reminderDays);
+        }
     }
 }
