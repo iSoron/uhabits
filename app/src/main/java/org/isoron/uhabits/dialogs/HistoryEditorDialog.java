@@ -49,6 +49,7 @@ public class HistoryEditorDialog extends DialogFragment
         historyView = new HabitHistoryView(context, null);
         historyView.setPadding(p, 0, p, 0);
         historyView.setHabit(habit);
+        historyView.setIsEditable(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("History Editor")

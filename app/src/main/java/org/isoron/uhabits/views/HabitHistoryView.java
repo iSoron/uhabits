@@ -67,12 +67,14 @@ public class HabitHistoryView extends ScrollableDataView
 
     private boolean isBackgroundTransparent;
     private int textColor;
+    private boolean isEditable;
 
     public HabitHistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
         this.checkmarks = new int[0];
+        this.isEditable = false;
         init();
     }
 
@@ -353,6 +355,8 @@ public class HabitHistoryView extends ScrollableDataView
     @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
+        if(!isEditable) return false;
+
         int pointerId = e.getPointerId(0);
         float x = e.getX(pointerId);
         float y = e.getY(pointerId);
@@ -396,5 +400,10 @@ public class HabitHistoryView extends ScrollableDataView
             return null;
 
         return date.getTimeInMillis();
+    }
+
+    public void setIsEditable(boolean isEditable)
+    {
+        this.isEditable = isEditable;
     }
 }
