@@ -28,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.isoron.helpers.ColorHelper;
@@ -35,6 +36,7 @@ import org.isoron.helpers.Command;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
+import org.isoron.uhabits.dialogs.HistoryEditorDialog;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
@@ -75,6 +77,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         TextView tvStrength = (TextView) view.findViewById(R.id.tvStrength);
         TextView tvStreaks = (TextView) view.findViewById(R.id.tvStreaks);
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
+        Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
         HabitStreakView streakView = (HabitStreakView) view.findViewById(R.id.streakView);
         HabitScoreView scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
         HabitHistoryView historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
@@ -89,6 +92,16 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         streakView.setHabit(habit);
         scoreView.setHabit(habit);
         historyView.setHabit(habit);
+
+        btEditHistory.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                HistoryEditorDialog frag = new HistoryEditorDialog();
+                frag.show(getFragmentManager(), "dialog");
+            }
+        });
 
         setHasOptionsMenu(true);
         return view;

@@ -71,6 +71,7 @@ public class HabitScoreView extends ScrollableDataView
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        this.scores = new int[0];
         init();
     }
 
@@ -84,6 +85,7 @@ public class HabitScoreView extends ScrollableDataView
 
     private void init()
     {
+        fetchData();
         createPaints();
         createColors();
 
@@ -168,12 +170,7 @@ public class HabitScoreView extends ScrollableDataView
             generateRandomData();
         else
         {
-            if (habit == null)
-            {
-                scores = new int[0];
-                return;
-            }
-
+            if (habit == null) return;
             scores = habit.scores.getAllValues(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
         }
 

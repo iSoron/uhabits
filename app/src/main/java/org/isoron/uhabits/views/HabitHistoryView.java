@@ -29,6 +29,7 @@ import android.util.AttributeSet;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -50,7 +51,6 @@ public class HabitHistoryView extends ScrollableDataView
     private int columnWidth;
     private int columnHeight;
     private int nColumns;
-    private int baseSize;
 
     private String wdays[];
     private SimpleDateFormat dfMonth;
@@ -70,6 +70,7 @@ public class HabitHistoryView extends ScrollableDataView
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        this.checkmarks = new int[0];
         init();
     }
 
@@ -83,6 +84,7 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void init()
     {
+        fetchData();
         createPaints();
         createColors();
 
@@ -117,21 +119,40 @@ public class HabitHistoryView extends ScrollableDataView
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
         if(height < 8) height = 200;
-
-        baseSize = height / 8;
+        int baseSize = height / 8;
         setScrollerBucketSize(baseSize);
 
-        columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        nColumns = width / baseSize;
-
         squareSpacing = (int) Math.floor(baseSize / 15.0);
-        pSquareFg.setTextSize(baseSize * 0.5f);
-        pTextHeader.setTextSize(baseSize * 0.5f);
+        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.history_max_font_size);
+        float textSize = Math.min(baseSize * 0.5f, maxTextSize);
+
+        pSquareFg.setTextSize(textSize);
+        pTextHeader.setTextSize(textSize);
         squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
         headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
 
+        int rightLabelWidth = getWeekdayLabelWidth();
+        int horizontalPadding = getPaddingRight() + getPaddingLeft();
+
+        columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        nColumns = (width - rightLabelWidth - horizontalPadding) / baseSize + 1;
+
         updateDate();
+    }
+
+    private int getWeekdayLabelWidth()
+    {
+        int width = 0;
+        Rect bounds = new Rect();
+
+        for(String w : wdays)
+        {
+            pSquareFg.getTextBounds(w, 0, w.length(), bounds);
+            width = Math.max(width, bounds.right);
+        }
+
+        return width;
     }
 
     private void createColors()
@@ -185,12 +206,7 @@ public class HabitHistoryView extends ScrollableDataView
             generateRandomData();
         else
         {
-            if(habit == null)
-            {
-                checkmarks = new int[0];
-                return;
-            }
-
+            if(habit == null) return;
             checkmarks = habit.checkmarks.getAllValues();
         }
 
@@ -226,6 +242,7 @@ public class HabitHistoryView extends ScrollableDataView
         super.onDraw(canvas);
 
         baseLocation.set(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
+        baseLocation.offset(getPaddingLeft(), getPaddingTop());
 
         previousMonth = "";
         previousYear = "";

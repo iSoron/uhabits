@@ -65,6 +65,7 @@ public class HabitStreakView extends ScrollableDataView
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        startTimes = endTimes = lengths = new long[0];
         init();
     }
 
@@ -79,6 +80,7 @@ public class HabitStreakView extends ScrollableDataView
 
     private void init()
     {
+        fetchData();
         createPaints();
         createColors();
 
@@ -163,11 +165,7 @@ public class HabitStreakView extends ScrollableDataView
             generateRandomData();
         else
         {
-            if(habit == null)
-            {
-                startTimes = endTimes = lengths = new long[0];
-                return;
-            }
+            if(habit == null) return;
 
             List<Streak> streaks = habit.streaks.getAll();
             int size = streaks.size();

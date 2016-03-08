@@ -20,6 +20,9 @@
 <resources>
     <dimen name="small_square_size">20dp</dimen>
     <dimen name="check_square_size">42dp</dimen>
+    <dimen name="history_editor_max_height">450dp</dimen>
+    <dimen name="history_editor_padding">8dp</dimen>
+    <dimen name="history_max_font_size">14sp</dimen>
 
     <string-array name="snooze_interval_names">
         <item>@string/interval_15_minutes</item>
