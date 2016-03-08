@@ -99,6 +99,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
             public void onClick(View v)
             {
                 HistoryEditorDialog frag = new HistoryEditorDialog();
+                frag.setHabit(habit);
                 frag.show(getFragmentManager(), "dialog");
             }
         });

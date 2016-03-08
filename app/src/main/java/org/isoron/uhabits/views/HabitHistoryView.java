@@ -25,7 +25,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -345,5 +347,53 @@ public class HabitHistoryView extends ScrollableDataView
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
         createColors();
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e)
+    {
+        int pointerId = e.getPointerId(0);
+        float x = e.getX(pointerId);
+        float y = e.getY(pointerId);
+
+        final Long timestamp = positionToTimestamp(x, y);
+        if(timestamp == null) return false;
+
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                habit.repetitions.toggle(timestamp);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                fetchData();
+                invalidate();
+            }
+        }.execute();
+
+        return true;
+    }
+
+    private Long positionToTimestamp(float x, float y)
+    {
+        int col = (int) (x / columnWidth);
+        int row = (int) (y / columnWidth);
+
+        if(row == 0) return null;
+        if(col == nColumns - 1) return null;
+
+        int offset = col * 7 + (row - 1);
+        Calendar date = (Calendar) baseDate.clone();
+        date.add(Calendar.DAY_OF_YEAR, offset);
+
+        if(DateHelper.getStartOfDay(date.getTimeInMillis()) > DateHelper.getStartOfToday())
+            return null;
+
+        return date.getTimeInMillis();
     }
 }

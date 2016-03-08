@@ -35,6 +35,9 @@ import org.isoron.uhabits.views.HabitHistoryView;
 public class HistoryEditorDialog extends DialogFragment
     implements DialogInterface.OnClickListener
 {
+    private Habit habit;
+    HabitHistoryView historyView;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -42,9 +45,9 @@ public class HistoryEditorDialog extends DialogFragment
 
         int p = (int) getResources().getDimension(R.dimen.history_editor_padding);
 
-        HabitHistoryView historyView = new HabitHistoryView(context, null);
-        historyView.setHabit(Habit.get(4L));
+        historyView = new HabitHistoryView(context, null);
         historyView.setPadding(p, 0, p, 0);
+        historyView.setHabit(habit);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("History Editor")
@@ -73,5 +76,11 @@ public class HistoryEditorDialog extends DialogFragment
     public void onClick(DialogInterface dialog, int which)
     {
 
+    }
+
+    public void setHabit(Habit habit)
+    {
+        this.habit = habit;
+        if(historyView != null) historyView.setHabit(habit);
     }
 }
