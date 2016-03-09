@@ -43,10 +43,15 @@ public class HistoryEditorDialog extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         Context context = getActivity();
-
+        historyView = new HabitHistoryView(context, null);
         int p = (int) getResources().getDimension(R.dimen.history_editor_padding);
 
-        historyView = new HabitHistoryView(context, null);
+        if(savedInstanceState != null)
+        {
+            long id = savedInstanceState.getLong("habit", -1);
+            if(id > 0) this.habit = Habit.get(id);
+        }
+
         historyView.setPadding(p, 0, p, 0);
         historyView.setHabit(habit);
         historyView.setIsEditable(true);
@@ -77,13 +82,26 @@ public class HistoryEditorDialog extends DialogFragment
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        if(listener != null) listener.onHistoryEditorClosed();
+        dismiss();
     }
 
     public void setHabit(Habit habit)
     {
         this.habit = habit;
         if(historyView != null) historyView.setHabit(habit);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        if(listener != null) listener.onHistoryEditorClosed();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        outState.putLong("habit", habit.getId());
     }
 
     public void setListener(Listener listener)

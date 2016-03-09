@@ -90,9 +90,20 @@ public class ShowHabitFragment extends Fragment
                 HistoryEditorDialog frag = new HistoryEditorDialog();
                 frag.setHabit(habit);
                 frag.setListener(ShowHabitFragment.this);
-                frag.show(getFragmentManager(), "dialog");
+                frag.show(getFragmentManager(), "historyEditor");
             }
         });
+
+        if(savedInstanceState != null)
+        {
+            EditHabitFragment fragEdit = (EditHabitFragment) getFragmentManager()
+                    .findFragmentByTag("editHabit");
+            HistoryEditorDialog fragEditor = (HistoryEditorDialog) getFragmentManager()
+                    .findFragmentByTag("historyEditor");
+
+            if(fragEdit != null) fragEdit.setOnSavedListener(this);
+            if(fragEditor != null) fragEditor.setListener(this);
+        }
 
         setHasOptionsMenu(true);
         return view;
@@ -138,7 +149,7 @@ public class ShowHabitFragment extends Fragment
             {
                 EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(habit.getId());
                 frag.setOnSavedListener(this);
-                frag.show(getFragmentManager(), "dialog");
+                frag.show(getFragmentManager(), "editHabit");
                 return true;
             }
         }
