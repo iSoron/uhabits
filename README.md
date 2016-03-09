@@ -47,6 +47,13 @@ source.
 [![Habit history and streaks][screen4th]][screen4]
 [![Widgets][screen5th]][screen5]
 
+## Installing
+
+The easiest way to install Loop is through the [Google Play Store][playstore] or [F-Droid][fdroid].
+You may also download and install the APK from the [releases page][releases];
+note, however, that the app will not be updated automatically.  To build this
+app from the source code, see [building instructions][build].
+
 ## Contributing
 
 Loop is an open source project developed entirely by volunteers. If you would
@@ -63,32 +70,7 @@ contribute, even if you are not a software developer.
   please join our [open translation project at POEditor][poedit].
 
 * **Write some code.** If you are an Android developer, you are very welcome to
-  contribute with code.  If you already have an idea in mind, you can either
-  implement it and then send a pull request, or open an issue first, to discuss
-  your idea before you start your work. If you are out of ideas, have a look at
-  the open issues.  Tasks that are easier to implement have the green label
-  *small-task*.  This repository uses the [git-flow branching model][gitflow].
-  Please, submit pull requests against the dev branch. This is the branch that
-  will eventually become the next version of the app.
-
-## Installing
-
-The easiest way to install Loop is through the [Google Play Store][playstore] or [F-Droid][fdroid].
-You may also download and install the APK from the [releases page][releases];
-note, however, that the app will not be updated automatically.  To build this
-app from the source code, you will need to install the [Android SDK
-Manager][sdk], then run the following commands.
-
-    git clone https://github.com/iSoron/uhabits.git
-    cd uhabits
-    git submodule update --init
-    ./gradlew assembleDebug
-
-The generated APK will be located in `app/build/outputs/apk/`. It can be
-installed on the device through [adb][adb]:
-
-    adb install app/build/outputs/apk/app-debug.apk
-
+  contribute with code. Please, see the [developer guidelines][dev-guide] for more details.
 
 ## License
 
@@ -116,9 +98,8 @@ installed on the device through [adb][adb]:
 [screen4th]: screenshots/thumbs/uhabits4.png
 [screen5th]: screenshots/thumbs/uhabits5.png
 [poedit]: https://poeditor.com/join/project/8DWX5pfjS0
-[gitflow]: http://nvie.com/posts/a-successful-git-branching-model/
-[sdk]: https://developer.android.com/sdk/installing/index.html?pkg=studio
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
-[adb]: https://developer.android.com/tools/help/adb.html
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
+[dev-guide]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines
+[build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
