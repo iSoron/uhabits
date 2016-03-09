@@ -34,6 +34,7 @@ import android.widget.TextView;
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.Command;
 import org.isoron.helpers.DialogHelper;
+import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.dialogs.HistoryEditorDialog;
@@ -173,6 +174,7 @@ public class ShowHabitFragment extends Fragment
     public void onHistoryEditorClosed()
     {
         refreshData();
+        MainActivity.updateWidgets(getActivity());
     }
 
     private void refreshData()
