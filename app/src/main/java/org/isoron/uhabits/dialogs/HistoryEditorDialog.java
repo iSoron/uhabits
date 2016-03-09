@@ -57,7 +57,7 @@ public class HistoryEditorDialog extends DialogFragment
         historyView.setIsEditable(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("History Editor")
+        builder.setTitle(R.string.history)
                 .setView(historyView)
                 .setPositiveButton(android.R.string.ok, this);
 
