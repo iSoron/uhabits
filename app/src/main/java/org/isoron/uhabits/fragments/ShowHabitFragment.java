@@ -177,7 +177,7 @@ public class ShowHabitFragment extends Fragment
         HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
     }
 
-    private void refreshData()
+    public void refreshData()
     {
         streakView.refreshData();
         historyView.refreshData();

@@ -19,18 +19,29 @@
 
 package org.isoron.uhabits;
 
+import android.app.ActionBar;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.fragments.ShowHabitFragment;
 import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends ReplayableActivity
 {
 
     public Habit habit;
+    private Receiver receiver;
+    private LocalBroadcastManager localBroadcastManager;
+
+    private ShowHabitFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,13 +50,39 @@ public class ShowHabitActivity extends ReplayableActivity
 
         Uri data = getIntent().getData();
         habit = Habit.get(ContentUris.parseId(data));
-        getActionBar().setTitle(habit.name);
+        ActionBar actionBar = getActionBar();
 
-        if (android.os.Build.VERSION.SDK_INT >= 21)
+        if(actionBar != null)
         {
-            getActionBar().setBackgroundDrawable(new ColorDrawable(habit.color));
+            actionBar.setTitle(habit.name);
+
+            if (android.os.Build.VERSION.SDK_INT >= 21)
+                actionBar.setBackgroundDrawable(new ColorDrawable(habit.color));
         }
 
         setContentView(R.layout.show_habit_activity);
+
+        fragment = (ShowHabitFragment) getFragmentManager().findFragmentById(R.id.fragment2);
+
+        receiver = new Receiver();
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.registerReceiver(receiver,
+                new IntentFilter(MainActivity.ACTION_REFRESH));
+    }
+
+    class Receiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            fragment.refreshData();
+        }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        localBroadcastManager.unregisterReceiver(receiver);
+        super.onDestroy();
     }
 }
