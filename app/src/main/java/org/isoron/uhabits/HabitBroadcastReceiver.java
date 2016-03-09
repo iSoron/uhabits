@@ -107,6 +107,11 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         habit.save();
         dismissNotification(context, habit);
 
+        sendRefreshBroadcast(context);
+    }
+
+    public static void sendRefreshBroadcast(Context context)
+    {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
         Intent refreshIntent = new Intent(MainActivity.ACTION_REFRESH);
         manager.sendBroadcast(refreshIntent);
