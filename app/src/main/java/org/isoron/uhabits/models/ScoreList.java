@@ -126,6 +126,9 @@ public class ScoreList
 
     public int[] getAllValues(Long fromTimestamp, Long toTimestamp, Integer divisor)
     {
+        // Force rebuild of the score table
+        getNewestValue();
+
         Long offset = toTimestamp - (divisor - 1) * DateHelper.millisecondsInOneDay;
 
         String query = "select ((timestamp - ?) / ?) as time, avg(score) from Score " +

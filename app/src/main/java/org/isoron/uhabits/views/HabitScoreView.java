@@ -71,6 +71,7 @@ public class HabitScoreView extends ScrollableDataView
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        this.scores = new int[0];
         init();
     }
 
@@ -78,12 +79,13 @@ public class HabitScoreView extends ScrollableDataView
     {
         this.habit = habit;
         createColors();
-        fetchData();
+        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
+        refreshData();
         createPaints();
         createColors();
 
@@ -162,21 +164,17 @@ public class HabitScoreView extends ScrollableDataView
         em = pText.getFontSpacing();
     }
 
-    protected void fetchData()
+    public void refreshData()
     {
         if(isInEditMode())
             generateRandomData();
         else
         {
-            if (habit == null)
-            {
-                scores = new int[0];
-                return;
-            }
-
+            if (habit == null) return;
             scores = habit.scores.getAllValues(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
         }
 
+        invalidate();
     }
 
     private void generateRandomData()

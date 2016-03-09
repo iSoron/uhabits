@@ -58,8 +58,6 @@ public abstract class ScrollableDataView extends View implements GestureDetector
         scrollAnimator.addUpdateListener(this);
     }
 
-    protected abstract void fetchData();
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {

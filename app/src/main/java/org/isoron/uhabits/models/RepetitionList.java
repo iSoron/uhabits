@@ -68,6 +68,8 @@ public class RepetitionList
 
     public void toggle(long timestamp)
     {
+        timestamp = DateHelper.getStartOfDay(timestamp);
+
         if (contains(timestamp))
         {
             delete(timestamp);

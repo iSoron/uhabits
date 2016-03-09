@@ -65,6 +65,7 @@ public class HabitStreakView extends ScrollableDataView
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        startTimes = endTimes = lengths = new long[0];
         init();
     }
 
@@ -73,12 +74,13 @@ public class HabitStreakView extends ScrollableDataView
         this.habit = habit;
 
         createColors();
-        fetchData();
+        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
+        refreshData();
         createPaints();
         createColors();
 
@@ -157,17 +159,13 @@ public class HabitStreakView extends ScrollableDataView
         pBar.setAntiAlias(true);
     }
 
-    protected void fetchData()
+    public void refreshData()
     {
         if(isInEditMode())
             generateRandomData();
         else
         {
-            if(habit == null)
-            {
-                startTimes = endTimes = lengths = new long[0];
-                return;
-            }
+            if(habit == null) return;
 
             List<Streak> streaks = habit.streaks.getAll();
             int size = streaks.size();
@@ -187,6 +185,8 @@ public class HabitStreakView extends ScrollableDataView
                 maxStreakLength = Math.max(maxStreakLength, s.length);
             }
         }
+
+        invalidate();
     }
 
     private void generateRandomData()

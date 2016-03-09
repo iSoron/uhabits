@@ -28,6 +28,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.isoron.helpers.ColorHelper;
@@ -35,6 +36,7 @@ import org.isoron.helpers.Command;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
+import org.isoron.uhabits.dialogs.HistoryEditorDialog;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
@@ -43,10 +45,14 @@ import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
 import org.isoron.uhabits.views.RingView;
 
-public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedListener
+public class ShowHabitFragment extends Fragment
+        implements DialogHelper.OnSavedListener, HistoryEditorDialog.Listener
 {
     protected ShowHabitActivity activity;
     private Habit habit;
+    private HabitStreakView streakView;
+    private HabitScoreView scoreView;
+    private HabitHistoryView historyView;
 
     @Override
     public void onStart()
@@ -64,6 +70,54 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
 
         habit.checkmarks.rebuild();
 
+        Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
+        streakView = (HabitStreakView) view.findViewById(R.id.streakView);
+        scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
+        historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
+
+        updateHeaders(view);
+        updateScoreRing(view);
+
+        streakView.setHabit(habit);
+        scoreView.setHabit(habit);
+        historyView.setHabit(habit);
+
+        btEditHistory.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                HistoryEditorDialog frag = new HistoryEditorDialog();
+                frag.setHabit(habit);
+                frag.setListener(ShowHabitFragment.this);
+                frag.show(getFragmentManager(), "historyEditor");
+            }
+        });
+
+        if(savedInstanceState != null)
+        {
+            EditHabitFragment fragEdit = (EditHabitFragment) getFragmentManager()
+                    .findFragmentByTag("editHabit");
+            HistoryEditorDialog fragEditor = (HistoryEditorDialog) getFragmentManager()
+                    .findFragmentByTag("historyEditor");
+
+            if(fragEdit != null) fragEdit.setOnSavedListener(this);
+            if(fragEditor != null) fragEditor.setListener(this);
+        }
+
+        setHasOptionsMenu(true);
+        return view;
+    }
+
+    private void updateScoreRing(View view)
+    {
+        RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
+        scoreRing.setColor(habit.color);
+        scoreRing.setPercentage((float) habit.scores.getNewestValue() / Score.MAX_SCORE);
+    }
+
+    private void updateHeaders(View view)
+    {
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
             int darkerHabitColor = ColorHelper.mixColors(habit.color, Color.BLACK, 0.75f);
@@ -74,24 +128,10 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
         TextView tvOverview = (TextView) view.findViewById(R.id.tvOverview);
         TextView tvStrength = (TextView) view.findViewById(R.id.tvStrength);
         TextView tvStreaks = (TextView) view.findViewById(R.id.tvStreaks);
-        RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
-        HabitStreakView streakView = (HabitStreakView) view.findViewById(R.id.streakView);
-        HabitScoreView scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
-        HabitHistoryView historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
-
         tvHistory.setTextColor(habit.color);
         tvOverview.setTextColor(habit.color);
         tvStrength.setTextColor(habit.color);
         tvStreaks.setTextColor(habit.color);
-
-        scoreRing.setColor(habit.color);
-        scoreRing.setPercentage((float) habit.scores.getNewestValue() / Score.MAX_SCORE);
-        streakView.setHabit(habit);
-        scoreView.setHabit(habit);
-        historyView.setHabit(habit);
-
-        setHasOptionsMenu(true);
-        return view;
     }
 
     @Override
@@ -109,7 +149,7 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
             {
                 EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(habit.getId());
                 frag.setOnSavedListener(this);
-                frag.show(getFragmentManager(), "dialog");
+                frag.show(getFragmentManager(), "editHabit");
                 return true;
             }
         }
@@ -127,5 +167,19 @@ public class ShowHabitFragment extends Fragment implements DialogHelper.OnSavedL
 
         ReminderHelper.createReminderAlarms(activity);
         activity.recreate();
+    }
+
+    @Override
+    public void onHistoryEditorClosed()
+    {
+        refreshData();
+    }
+
+    private void refreshData()
+    {
+        streakView.refreshData();
+        historyView.refreshData();
+        scoreView.refreshData();
+        updateScoreRing(getView());
     }
 }
