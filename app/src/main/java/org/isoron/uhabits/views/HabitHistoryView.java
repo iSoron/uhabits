@@ -102,6 +102,7 @@ public class HabitHistoryView extends ScrollableDataView
     private void updateDate()
     {
         baseDate = new GregorianCalendar();
+        baseDate.setTimeInMillis(DateHelper.getLocalTime());
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
