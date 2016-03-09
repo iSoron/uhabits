@@ -19,11 +19,21 @@
 
 package org.isoron.uhabits.models;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
 import org.isoron.helpers.DateHelper;
+
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class RepetitionList
 {
@@ -97,5 +107,59 @@ public class RepetitionList
         long today = DateHelper.getStartOfToday();
         int reps[] = habit.checkmarks.getValues(today - DateHelper.millisecondsInOneDay, today);
         return (reps[0] > 0);
+    }
+
+    public HashMap<Long, Integer[]> getWeekdayFrequency()
+    {
+        Repetition oldestRep = getOldest();
+        if(oldestRep == null) return new HashMap<>();
+
+        String query = "select strftime('%Y', timestamp / 1000, 'unixepoch') as year," +
+                "strftime('%m', timestamp / 1000, 'unixepoch') as month," +
+                "strftime('%w', timestamp / 1000, 'unixepoch') as weekday, " +
+                "count(*) from repetitions " +
+                "where habit = ? " +
+                "group by year, month, weekday";
+
+        String[] params = { habit.getId().toString() };
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, params);
+
+        if(!cursor.moveToFirst()) return new HashMap<>();
+
+        HashMap <Long, Integer[]> map = new HashMap<>();
+
+        do
+        {
+            int year = Integer.parseInt(cursor.getString(0));
+            int month = Integer.parseInt(cursor.getString(1));
+            int weekday = (Integer.parseInt(cursor.getString(2)) + 1) % 7;
+            int count = cursor.getInt(3);
+
+            Log.d("RepetitionList",
+                    String.format("year=%d month=%d weekday=%d", year, month, weekday));
+
+            GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
+            date.set(Calendar.YEAR, year);
+            date.set(Calendar.MONTH, month);
+            date.set(Calendar.DAY_OF_MONTH, 1);
+
+            long timestamp = date.getTimeInMillis();
+            Integer[] list = map.get(timestamp);
+
+            if(list == null)
+            {
+                list = new Integer[7];
+                Arrays.fill(list, 0);
+                map.put(timestamp, list);
+            }
+
+            list[weekday] = count;
+        }
+        while (cursor.moveToNext());
+        cursor.close();
+
+        return map;
     }
 }

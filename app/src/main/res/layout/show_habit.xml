@@ -62,9 +62,9 @@
 
         <LinearLayout
             style="@style/cardStyle"
-            android:paddingBottom="0dp"
             android:clipToPadding="false"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="0dp">
 
             <TextView
                 android:id="@+id/tvHistory"
@@ -74,37 +74,49 @@
             <org.isoron.uhabits.views.HabitHistoryView
                 android:id="@+id/historyView"
                 android:layout_width="match_parent"
-                android:layout_height="160dp" />
+                android:layout_height="160dp"/>
 
             <Button
-                style="?android:borderlessButtonStyle"
                 android:id="@+id/btEditHistory"
+                style="?android:borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_action_edit_light"
-                android:textColor="@color/grey_400"
-                android:text="@string/edit"/>
+                android:text="@string/edit"
+                android:textColor="@color/grey_400"/>
 
         </LinearLayout>
 
-        <LinearLayout style="@style/cardStyle">
+        <LinearLayout
+            style="@style/cardStyle"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvStreaks"
                 style="@style/cardHeaderStyle"
                 android:text="@string/streaks"/>
 
-            <LinearLayout
-                android:id="@+id/llStreaks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
             <org.isoron.uhabits.views.HabitStreakView
                 android:id="@+id/streakView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWeekdayFreq"
+                style="@style/cardHeaderStyle"
+                android:text="Weekday Frequency"/>
+
+            <org.isoron.uhabits.views.WeekdayFrequencyView
+                android:id="@+id/punchcardView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
