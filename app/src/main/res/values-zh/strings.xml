@@ -116,4 +116,5 @@
   <string name="translators">翻译者</string>
   <string name="export_to_csv">导出数据</string>
   <string name="version_n">%s版</string>
+  <string name="frequency">频率</string>
 </resources>

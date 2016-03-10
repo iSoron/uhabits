@@ -95,4 +95,5 @@
 
     <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
     <string name="version_n">"Version %s"</string>
+    <string name="frequency">Fréquence</string>
 </resources>

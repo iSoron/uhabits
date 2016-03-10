@@ -42,6 +42,7 @@ import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.views.HabitFrequencyView;
 import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
 import org.isoron.uhabits.views.RingView;
@@ -54,6 +55,7 @@ public class ShowHabitFragment extends Fragment
     private HabitStreakView streakView;
     private HabitScoreView scoreView;
     private HabitHistoryView historyView;
+    private HabitFrequencyView punchcardView;
 
     @Override
     public void onStart()
@@ -75,6 +77,7 @@ public class ShowHabitFragment extends Fragment
         streakView = (HabitStreakView) view.findViewById(R.id.streakView);
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
         historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
+        punchcardView = (HabitFrequencyView) view.findViewById(R.id.punchcardView);
 
         updateHeaders(view);
         updateScoreRing(view);
@@ -82,6 +85,7 @@ public class ShowHabitFragment extends Fragment
         streakView.setHabit(habit);
         scoreView.setHabit(habit);
         historyView.setHabit(habit);
+        punchcardView.setHabit(habit);
 
         btEditHistory.setOnClickListener(new View.OnClickListener()
         {
@@ -125,14 +129,17 @@ public class ShowHabitFragment extends Fragment
             activity.getWindow().setStatusBarColor(darkerHabitColor);
         }
 
-        TextView tvHistory = (TextView) view.findViewById(R.id.tvHistory);
-        TextView tvOverview = (TextView) view.findViewById(R.id.tvOverview);
-        TextView tvStrength = (TextView) view.findViewById(R.id.tvStrength);
-        TextView tvStreaks = (TextView) view.findViewById(R.id.tvStreaks);
-        tvHistory.setTextColor(habit.color);
-        tvOverview.setTextColor(habit.color);
-        tvStrength.setTextColor(habit.color);
-        tvStreaks.setTextColor(habit.color);
+        updateColor(view, R.id.tvHistory);
+        updateColor(view, R.id.tvOverview);
+        updateColor(view, R.id.tvStrength);
+        updateColor(view, R.id.tvStreaks);
+        updateColor(view, R.id.tvWeekdayFreq);
+    }
+
+    private void updateColor(View view, int viewId)
+    {
+        TextView textView = (TextView) view.findViewById(viewId);
+        textView.setTextColor(habit.color);
     }
 
     @Override
@@ -182,6 +189,7 @@ public class ShowHabitFragment extends Fragment
         streakView.refreshData();
         historyView.refreshData();
         scoreView.refreshData();
+        punchcardView.refreshData();
         updateScoreRing(getView());
     }
 }

@@ -41,6 +41,7 @@ import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
+import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
@@ -159,6 +160,7 @@ public class MainActivity extends ReplayableActivity
         updateWidgets(context, HistoryWidgetProvider.class);
         updateWidgets(context, ScoreWidgetProvider.class);
         updateWidgets(context, StreakWidgetProvider.class);
+        updateWidgets(context, FrequencyWidgetProvider.class);
     }
 
     private static void updateWidgets(Context context, Class providerClass)
