@@ -115,6 +115,10 @@
 
             <TextView
                 style="@style/aboutItemStyle"
+                android:text="naofumi (日本語)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
                 android:text="Álinson Xavier (Português)"/>
         </LinearLayout>
     </LinearLayout>
