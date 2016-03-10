@@ -110,9 +110,9 @@
             <TextView
                 android:id="@+id/tvWeekdayFreq"
                 style="@style/cardHeaderStyle"
-                android:text="Weekday Frequency"/>
+                android:text="@string/frequency"/>
 
-            <org.isoron.uhabits.views.WeekdayFrequencyView
+            <org.isoron.uhabits.views.HabitFrequencyView
                 android:id="@+id/punchcardView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>

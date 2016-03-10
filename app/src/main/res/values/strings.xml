@@ -122,5 +122,6 @@
     <string name="translators">Translators</string>
     <string name="developers">Developers</string>
     <string name="version_n">Version %s</string>
+    <string name="frequency">Frequency</string>
 
 </resources>
