@@ -18,15 +18,18 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<manifest package="org.isoron.uhabits"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="9"
-          android:versionName="1.2.0">
+<manifest
+    package="org.isoron.uhabits"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="9"
+    android:versionName="1.2.0">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18"/>
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18"/>
@@ -38,6 +41,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
         android:theme="@style/AppBaseTheme">
+
         <meta-data
             android:name="AA_DB_NAME"
             android:value="uhabits.db"/>
@@ -58,8 +62,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".HabitBroadcastReceiver"/>
-
         <activity
             android:name=".ShowHabitActivity"
             android:label="@string/title_activity_show_habit"
@@ -68,6 +70,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.isoron.uhabits.MainActivity"/>
         </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
@@ -82,9 +85,23 @@
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity
+            android:name=".widgets.HabitPickerDialog"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/about"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <receiver
             android:name=".widgets.CheckmarkWidgetProvider"
-            android:label="Checkmark">
+            android:label="@string/checkmark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -93,9 +110,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_checkmark_info"/>
         </receiver>
+
         <receiver
             android:name=".widgets.HistoryWidgetProvider"
-            android:label="History">
+            android:label="@string/history">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -104,9 +122,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_history_info"/>
         </receiver>
+
         <receiver
             android:name=".widgets.ScoreWidgetProvider"
-            android:label="Score">
+            android:label="@string/habit_strength">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -115,9 +134,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_score_info"/>
         </receiver>
+
         <receiver
             android:name=".widgets.StreakWidgetProvider"
-            android:label="Streaks">
+            android:label="@string/streaks">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -127,18 +147,20 @@
                 android:resource="@xml/widget_streak_info"/>
         </receiver>
 
-        <activity
-            android:name=".widgets.HabitPickerDialog"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+        <receiver
+            android:name=".widgets.FrequencyWidgetProvider"
+            android:label="@string/frequency">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/about"
-            android:parentActivityName=".MainActivity">
-        </activity>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_frequency_info"/>
+        </receiver>
+
+        <receiver android:name=".HabitBroadcastReceiver"/>
+
     </application>
 
 </manifest>
