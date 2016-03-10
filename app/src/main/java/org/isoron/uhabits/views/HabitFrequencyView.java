@@ -25,7 +25,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -213,20 +212,13 @@ public class HabitFrequencyView extends ScrollableDataView
 
         GregorianCalendar currentDate = DateHelper.getStartOfTodayCalendar();
 
-        SimpleDateFormat df = new SimpleDateFormat();
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-
         currentDate.set(Calendar.DAY_OF_MONTH, 1);
         currentDate.add(Calendar.MONTH, -nColumns + 2 - getDataOffset());
-
-        // - n + 3 - off + n - 2
 
         for(int i = 0; i < nColumns - 1; i++)
         {
             rect.set(0, 0, columnWidth, columnHeight);
             rect.offset(i * columnWidth, 0);
-
-            Log.d("HabitFrequencyView", df.format(currentDate.getTime()));
 
             drawColumn(canvas, rect, currentDate);
             currentDate.add(Calendar.MONTH, 1);
@@ -235,7 +227,6 @@ public class HabitFrequencyView extends ScrollableDataView
 
     private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date)
     {
-        Log.d("HabitFrequencyView", String.format("timestamp=%d", date.getTimeInMillis()));
         Integer values[] = frequency.get(date.getTimeInMillis());
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
@@ -246,10 +237,7 @@ public class HabitFrequencyView extends ScrollableDataView
             rect.offset(prevRect.left, prevRect.top + columnWidth * i);
 
             if(values != null)
-            {
                 drawMarker(canvas, rect, values[i]);
-                Log.d("HabitFrequencyView", String.format("value[%d]=%d", i, values[i]));
-            }
 
             rect.offset(0, rowHeight);
         }
