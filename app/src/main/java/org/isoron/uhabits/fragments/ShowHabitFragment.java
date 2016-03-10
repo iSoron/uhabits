@@ -42,7 +42,7 @@ import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.views.HabitHistoryView;
-import org.isoron.uhabits.views.WeekdayFrequencyView;
+import org.isoron.uhabits.views.HabitFrequencyView;
 import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
 import org.isoron.uhabits.views.RingView;
@@ -55,7 +55,7 @@ public class ShowHabitFragment extends Fragment
     private HabitStreakView streakView;
     private HabitScoreView scoreView;
     private HabitHistoryView historyView;
-    private WeekdayFrequencyView punchcardView;
+    private HabitFrequencyView punchcardView;
 
     @Override
     public void onStart()
@@ -77,7 +77,7 @@ public class ShowHabitFragment extends Fragment
         streakView = (HabitStreakView) view.findViewById(R.id.streakView);
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
         historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
-        punchcardView = (WeekdayFrequencyView) view.findViewById(R.id.punchcardView);
+        punchcardView = (HabitFrequencyView) view.findViewById(R.id.punchcardView);
 
         updateHeaders(view);
         updateScoreRing(view);

@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
@@ -37,8 +38,9 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
-public class WeekdayFrequencyView extends ScrollableDataView
+public class HabitFrequencyView extends ScrollableDataView
 {
 
     private Paint pGrid;
@@ -65,7 +67,7 @@ public class WeekdayFrequencyView extends ScrollableDataView
     private HashMap<Long, Integer[]> frequency;
     private String wdays[];
 
-    public WeekdayFrequencyView(Context context, AttributeSet attrs)
+    public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
@@ -90,6 +92,9 @@ public class WeekdayFrequencyView extends ScrollableDataView
 
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+
+        dfMonth.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dfYear.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         rect = new RectF();
         prevRect = new RectF();
@@ -207,13 +212,21 @@ public class WeekdayFrequencyView extends ScrollableDataView
         prevRect.setEmpty();
 
         GregorianCalendar currentDate = DateHelper.getStartOfTodayCalendar();
+
+        SimpleDateFormat df = new SimpleDateFormat();
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+
         currentDate.set(Calendar.DAY_OF_MONTH, 1);
-        currentDate.add(Calendar.MONTH, - nColumns + 2 - getDataOffset());
+        currentDate.add(Calendar.MONTH, -nColumns + 2 - getDataOffset());
+
+        // - n + 3 - off + n - 2
 
         for(int i = 0; i < nColumns - 1; i++)
         {
             rect.set(0, 0, columnWidth, columnHeight);
             rect.offset(i * columnWidth, 0);
+
+            Log.d("HabitFrequencyView", df.format(currentDate.getTime()));
 
             drawColumn(canvas, rect, currentDate);
             currentDate.add(Calendar.MONTH, 1);
@@ -222,16 +235,22 @@ public class WeekdayFrequencyView extends ScrollableDataView
 
     private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date)
     {
+        Log.d("HabitFrequencyView", String.format("timestamp=%d", date.getTimeInMillis()));
         Integer values[] = frequency.get(date.getTimeInMillis());
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
         for (int i = 0; i < 7; i++)
         {
-            rect.set(0, 0, columnWidth, columnWidth);
+            rect.set(0, 0, baseSize, baseSize);
             rect.offset(prevRect.left, prevRect.top + columnWidth * i);
 
-            if(values != null) drawMarker(canvas, rect, values[i]);
+            if(values != null)
+            {
+                drawMarker(canvas, rect, values[i]);
+                Log.d("HabitFrequencyView", String.format("value[%d]=%d", i, values[i]));
+            }
+
             rect.offset(0, rowHeight);
         }
 
@@ -243,6 +262,7 @@ public class WeekdayFrequencyView extends ScrollableDataView
         Date time = date.getTime();
 
         canvas.drawText(dfMonth.format(time), rect.centerX(), rect.centerY() - 0.1f * em, pText);
+
         if(date.get(Calendar.MONTH) == 1)
             canvas.drawText(dfYear.format(time), rect.centerX(), rect.centerY() + 0.9f * em, pText);
     }
@@ -267,9 +287,12 @@ public class WeekdayFrequencyView extends ScrollableDataView
 
         for (int i = 0; i < nRows; i++)
         {
-            canvas.drawText(wdays[i], rGrid.right - columnWidth, rGrid.top + rowHeight / 2 + 0.25f * em, pText);
+            canvas.drawText(wdays[i], rGrid.right - columnWidth,
+                    rGrid.top + rowHeight / 2 + 0.25f * em, pText);
+
             pGrid.setStrokeWidth(1f);
             canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid);
+
             rGrid.offset(0, rowHeight);
         }
 

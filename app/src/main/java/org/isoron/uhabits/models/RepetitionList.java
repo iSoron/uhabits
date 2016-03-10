@@ -21,7 +21,6 @@ package org.isoron.uhabits.models;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
@@ -129,6 +128,7 @@ public class RepetitionList
         if(!cursor.moveToFirst()) return new HashMap<>();
 
         HashMap <Long, Integer[]> map = new HashMap<>();
+        GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
 
         do
         {
@@ -137,15 +137,9 @@ public class RepetitionList
             int weekday = (Integer.parseInt(cursor.getString(2)) + 1) % 7;
             int count = cursor.getInt(3);
 
-            Log.d("RepetitionList",
-                    String.format("year=%d month=%d weekday=%d", year, month, weekday));
-
-            GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
-            date.set(Calendar.YEAR, year);
-            date.set(Calendar.MONTH, month);
-            date.set(Calendar.DAY_OF_MONTH, 1);
-
+            date.set(year, month - 1, 1);
             long timestamp = date.getTimeInMillis();
+
             Integer[] list = map.get(timestamp);
 
             if(list == null)
