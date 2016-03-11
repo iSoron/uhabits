@@ -111,17 +111,13 @@ public class HabitSelectionCallback implements ActionMode.Callback
     private void updateActions(Menu menu)
     {
         boolean showEdit = (selectedPositions.size() == 1);
-        boolean showColor = true;
         boolean showArchive = true;
         boolean showUnarchive = true;
-
-        if (showEdit) showColor = false;
         for (int i : selectedPositions)
         {
             Habit h = loader.habitsList.get(i);
             if (h.isArchived())
             {
-                showColor = false;
                 showArchive = false;
             }
             else showUnarchive = false;
@@ -132,8 +128,8 @@ public class HabitSelectionCallback implements ActionMode.Callback
         MenuItem itemArchive = menu.findItem(R.id.action_archive_habit);
         MenuItem itemUnarchive = menu.findItem(R.id.action_unarchive_habit);
 
+        itemColor.setVisible(true);
         itemEdit.setVisible(showEdit);
-        itemColor.setVisible(showColor);
         itemArchive.setVisible(showArchive);
         itemUnarchive.setVisible(showUnarchive);
     }
