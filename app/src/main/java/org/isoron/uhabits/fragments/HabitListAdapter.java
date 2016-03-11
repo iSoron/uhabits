@@ -59,7 +59,7 @@ class HabitListAdapter extends BaseAdapter
     }
 
     @Override
-    public Object getItem(int position)
+    public Habit getItem(int position)
     {
         return loader.habitsList.get(position);
     }
@@ -67,7 +67,7 @@ class HabitListAdapter extends BaseAdapter
     @Override
     public long getItemId(int position)
     {
-        return ((Habit) getItem(position)).getId();
+        return (getItem(position)).getId();
     }
 
     @Override
