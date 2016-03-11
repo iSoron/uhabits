@@ -39,6 +39,8 @@ public class DeleteHabitsCommand extends Command
     {
         for(Habit h : habits)
             h.cascadeDelete();
+
+        Habit.rebuildOrder();
     }
 
     @Override
