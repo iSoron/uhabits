@@ -24,7 +24,6 @@ import android.support.test.InstrumentationRegistry;
 
 import org.isoron.uhabits.models.Habit;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,13 +31,14 @@ import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -149,17 +149,30 @@ public class MainActivityActions
 
     public static void deleteHabits(List<String> names)
     {
-        Context context = InstrumentationRegistry.getTargetContext();
-
         selectHabits(names);
-
-        openActionBarOverflowOrOptionsMenu(context);
-
-        onView(withText(R.string.delete))
-                .perform(click());
+        clickActionModeMenuItem(R.string.delete);
         onView(withText("OK"))
                 .perform(click());
-
         assertHabitsDontExist(names);
+    }
+
+    public static void clickActionModeMenuItem(int stringId)
+    {
+        try
+        {
+            onView(withText(stringId)).perform(click());
+        }
+        catch (Exception e1)
+        {
+            try
+            {
+                onView(withContentDescription(stringId)).perform(click());
+            }
+            catch(Exception e2)
+            {
+                openContextualActionModeOverflowMenu();
+                onView(withText(stringId)).perform(click());
+            }
+        }
     }
 }
