@@ -151,7 +151,16 @@ public class MainActivity extends ReplayableActivity
     public void onPostExecuteCommand(Long refreshKey)
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
-        updateWidgets(this);
+
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                updateWidgets(MainActivity.this);
+                return null;
+            }
+        };
     }
 
     public static void updateWidgets(Context context)
