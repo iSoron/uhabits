@@ -8,6 +8,8 @@ android {
         applicationId "org.isoron.uhabits"
         minSdkVersion 15
         targetSdkVersion 23
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -27,5 +29,11 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile project(':libs:drag-sort-listview:library')
     compile files('libs/ActiveAndroid.jar')
+
+    androidTestCompile 'com.android.support:support-annotations:23.1.1'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
 }
 
