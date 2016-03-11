@@ -22,6 +22,7 @@ package org.isoron.uhabits.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
@@ -69,7 +70,6 @@ public class ListHabitsFragment extends Fragment
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
         HabitSelectionCallback.Listener
 {
-    long lastLongClick = 0;
     private boolean isShortToggleEnabled;
     private boolean showArchived;
 
@@ -230,8 +230,6 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id)
     {
-        if (new Date().getTime() - lastLongClick < 1000) return;
-
         if(actionMode == null)
         {
             Habit habit = loader.habitsList.get(position);
@@ -297,8 +295,6 @@ public class ListHabitsFragment extends Fragment
     @Override
     public boolean onLongClick(View v)
     {
-        lastLongClick = new Date().getTime();
-
         switch (v.getId())
         {
             case R.id.tvCheck:
@@ -317,18 +313,36 @@ public class ListHabitsFragment extends Fragment
         DialogHelper.vibrate(activity, 100);
     }
 
-    private void toggleCheck(View v)
+    private void toggleCheck(final View v)
     {
-        Long tag = (Long) v.getTag(R.string.habit_key);
-        Integer offset = (Integer) v.getTag(R.string.offset_key);
-        long timestamp = DateHelper.getStartOfDay(
-                DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
+        final Long tag = (Long) v.getTag(R.string.habit_key);
+        final Integer offset = (Integer) v.getTag(R.string.offset_key);
 
-        Habit habit = loader.habits.get(tag);
-        if(habit == null) return;
+        new AsyncTask<Void, Void, Void>()
+        {
+            private Habit habit;
 
-        helper.toggleCheckmarkView(v, habit);
-        executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                long timestamp = DateHelper.getStartOfDay(
+                        DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
+
+                habit = loader.habits.get(tag);
+                if(habit == null) return null;
+
+                executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                if(habit != null)
+                    helper.toggleCheckmarkView(v, habit);
+            }
+        }.execute();
     }
 
     private void executeCommand(Command c, Long refreshKey)
