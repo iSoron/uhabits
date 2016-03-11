@@ -3,6 +3,7 @@ package org.isoron.uhabits;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -20,11 +21,16 @@ import java.util.Random;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -34,6 +40,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.isoron.uhabits.HabitMatchers.withName;
+import static org.isoron.uhabits.HabitViewActions.clickAtRandomLocations;
 import static org.isoron.uhabits.HabitViewActions.toggleAllCheckmarks;
 import static org.isoron.uhabits.MainActivityActions.addHabit;
 import static org.isoron.uhabits.MainActivityActions.assertHabitExists;
@@ -41,12 +48,14 @@ import static org.isoron.uhabits.MainActivityActions.assertHabitsDontExist;
 import static org.isoron.uhabits.MainActivityActions.assertHabitsExist;
 import static org.isoron.uhabits.MainActivityActions.deleteHabit;
 import static org.isoron.uhabits.MainActivityActions.deleteHabits;
+import static org.isoron.uhabits.MainActivityActions.selectHabit;
 import static org.isoron.uhabits.MainActivityActions.selectHabits;
 import static org.isoron.uhabits.MainActivityActions.typeHabitData;
+import static org.isoron.uhabits.ShowHabitActivityActions.openHistoryEditor;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MainActivityTest
+public class MainTest
 {
     @Rule
     public IntentsTestRule<MainActivity> activityRule = new IntentsTestRule<>(
@@ -111,7 +120,7 @@ public class MainActivityTest
     }
 
     @Test
-    public void testAddHabitAndToggleCheckmarks()
+    public void testAddHabitAndViewStats()
     {
         String name = addHabit(true);
 
@@ -122,6 +131,9 @@ public class MainActivityTest
         onData(allOf(is(instanceOf(Habit.class)), withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(click());
+
+        onView(withId(R.id.scoreView))
+                .perform(swipeRight());
 
         onView(withId(R.id.punchcardView))
                 .perform(scrollTo());
@@ -146,6 +158,48 @@ public class MainActivityTest
                 .perform(click());
 
         assertHabitExists(modifiedName);
+
+        selectHabit(modifiedName);
+        onView(withContentDescription(R.string.color_picker_default_title))
+                .perform(click());
+        pressBack();
+
         deleteHabit(modifiedName);
+    }
+
+    @Test
+    public void testEditHistory()
+    {
+        String name = addHabit();
+
+        onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+                .onChildView(withId(R.id.label))
+                .perform(click());
+
+        openHistoryEditor();
+        onView(withClassName(endsWith("HabitHistoryView")))
+                .perform(clickAtRandomLocations(20));
+
+        pressBack();
+        onView(withId(R.id.historyView))
+                .perform(scrollTo(), swipeRight(), swipeLeft());
+    }
+
+    @Test
+    public void testSettingsAndAbout()
+    {
+        Context context = InstrumentationRegistry.getContext();
+
+        openActionBarOverflowOrOptionsMenu(context);
+        onView(withText(R.string.settings))
+                .perform(click());
+        pressBack();
+
+        openActionBarOverflowOrOptionsMenu(context);
+        onView(withText(R.string.about))
+                .perform(click());
+        onView(isRoot())
+                .perform(swipeUp());
+        pressBack();
     }
 }

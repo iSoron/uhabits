@@ -24,6 +24,8 @@ import android.support.test.InstrumentationRegistry;
 
 import org.isoron.uhabits.models.Habit;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -101,6 +103,11 @@ public class MainActivityActions
                 .perform(replaceText(den));
     }
 
+    public static void selectHabit(String name)
+    {
+        selectHabits(Collections.singletonList(name));
+    }
+
     public static void selectHabits(List<String> names)
     {
         boolean first = true;
@@ -137,9 +144,7 @@ public class MainActivityActions
 
     public static void deleteHabit(String name)
     {
-        LinkedList<String> names = new LinkedList<>();
-        names.add(name);
-        deleteHabits(names);
+        deleteHabits(Collections.singletonList(name));
     }
 
     public static void deleteHabits(List<String> names)

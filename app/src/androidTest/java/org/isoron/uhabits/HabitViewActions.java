@@ -21,6 +21,7 @@ package org.isoron.uhabits;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.action.CoordinatesProvider;
 import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.Press;
@@ -33,6 +34,7 @@ import android.widget.TextView;
 import org.hamcrest.Matcher;
 
 import java.security.InvalidParameterException;
+import java.util.Random;
 
 public class HabitViewActions
 {
@@ -68,6 +70,59 @@ public class HabitViewActions
                 {
                     TextView tvButton = (TextView) llButtons.getChildAt(i);
                     clickAction.perform(uiController, tvButton);
+                }
+            }
+        };
+    }
+
+    public static ViewAction clickAt(final int x, final int y)
+    {
+        return new GeneralClickAction(Tap.SINGLE, new CoordinatesProvider()
+        {
+            @Override
+            public float[] calculateCoordinates(View view)
+            {
+                int[] locations = new int[2];
+                view.getLocationOnScreen(locations);
+
+                final float locationX = locations[0] + x;
+                final float locationY = locations[1] + y;
+
+                return new float[]{locationX, locationY};
+            }
+        }, Press.FINGER);
+    }
+
+    public static ViewAction clickAtRandomLocations(final int count)
+    {
+        return new ViewAction()
+        {
+            @Override
+            public Matcher<View> getConstraints()
+            {
+                return ViewMatchers.isDisplayed();
+            }
+
+            @Override
+            public String getDescription()
+            {
+                return "clickAtRandomLocations";
+            }
+
+            @Override
+            public void perform(UiController uiController, View view)
+            {
+                int width = view.getWidth();
+                int height = view.getHeight();
+                Random random = new Random();
+
+                for(int i = 0; i < count; i++)
+                {
+                    int x = random.nextInt(width);
+                    int y = random.nextInt(height);
+
+                    ViewAction action = clickAt(x, y);
+                    action.perform(uiController, view);
                 }
             }
         };
