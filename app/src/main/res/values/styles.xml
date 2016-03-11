@@ -91,7 +91,6 @@
     <style name="aboutClickableItemStyle" parent="aboutItemStyle">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
-        <item name="android:background">@drawable/ripple_transparent</item>
     </style>
 
 </resources>
