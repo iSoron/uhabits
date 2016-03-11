@@ -130,4 +130,5 @@ Android Wear 端末から直接、リマインダーをチェック、スヌー�
 
     <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
     <string name="version_n">"バージョン %s"</string>
+    <string name="frequency">周波数</string>
 </resources>
