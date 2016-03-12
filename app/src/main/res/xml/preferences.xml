@@ -40,11 +40,17 @@
 
     </PreferenceCategory>
 
-    <Preference android:title="@string/about">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="org.isoron.uhabits.AboutActivity"
-            android:targetPackage="org.isoron.uhabits"/>
-    </Preference>
+    <PreferenceCategory
+        android:key="pref_key_links"
+        android:title="@string/links">
+
+        <Preference android:title="@string/about">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="org.isoron.uhabits.AboutActivity"
+                android:targetPackage="org.isoron.uhabits"/>
+        </Preference>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
