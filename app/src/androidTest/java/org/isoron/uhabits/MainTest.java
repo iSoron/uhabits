@@ -182,20 +182,19 @@ public class MainTest
     }
 
     @Test
-    public void testSettingsAndAbout()
+    public void testSettings()
     {
         Context context = InstrumentationRegistry.getContext();
-
         openActionBarOverflowOrOptionsMenu(context);
-        onView(withText(R.string.settings))
-                .perform(click());
-        pressBack();
+        onView(withText(R.string.settings)).perform(click());
+    }
 
+    @Test
+    public void testAbout()
+    {
+        Context context = InstrumentationRegistry.getContext();
         openActionBarOverflowOrOptionsMenu(context);
-        onView(withText(R.string.about))
-                .perform(click());
-        onView(isRoot())
-                .perform(swipeUp());
-        pressBack();
+        onView(withText(R.string.about)).perform(click());
+        onView(isRoot()).perform(swipeUp());
     }
 }
