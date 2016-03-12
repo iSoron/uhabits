@@ -1,36 +1,47 @@
-/* Copyright (C) 2016 Alinson Santos Xavier
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This file is part of Loop Habit Tracker.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied  warranty of MERCHANTABILITY or
- * FITNESS  FOR  A PARTICULAR PURPOSE. See the GNU General Public License for
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
- * You  should  have  received  a  copy  of the GNU General Public License
- * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.isoron.uhabits;
 
+import android.app.ActionBar;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.fragments.ShowHabitFragment;
 import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends ReplayableActivity
 {
 
     public Habit habit;
+    private Receiver receiver;
+    private LocalBroadcastManager localBroadcastManager;
+
+    private ShowHabitFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,34 +50,39 @@ public class ShowHabitActivity extends ReplayableActivity
 
         Uri data = getIntent().getData();
         habit = Habit.get(ContentUris.parseId(data));
-        getActionBar().setTitle(habit.name);
+        ActionBar actionBar = getActionBar();
 
-        if (android.os.Build.VERSION.SDK_INT >= 21)
+        if(actionBar != null)
         {
-            getActionBar().setBackgroundDrawable(new ColorDrawable(habit.color));
+            actionBar.setTitle(habit.name);
+
+            if (android.os.Build.VERSION.SDK_INT >= 21)
+                actionBar.setBackgroundDrawable(new ColorDrawable(habit.color));
         }
 
         setContentView(R.layout.show_habit_activity);
+
+        fragment = (ShowHabitFragment) getFragmentManager().findFragmentById(R.id.fragment2);
+
+        receiver = new Receiver();
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.registerReceiver(receiver,
+                new IntentFilter(MainActivity.ACTION_REFRESH));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
+    class Receiver extends BroadcastReceiver
     {
-        getMenuInflater().inflate(R.menu.show_habit_activity_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
+        @Override
+        public void onReceive(Context context, Intent intent)
         {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
+            fragment.refreshData();
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    protected void onDestroy()
+    {
+        localBroadcastManager.unregisterReceiver(receiver);
+        super.onDestroy();
     }
 }

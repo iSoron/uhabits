@@ -1,17 +1,20 @@
-/* Copyright (C) 2016 Alinson Santos Xavier
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This file is part of Loop Habit Tracker.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied  warranty of MERCHANTABILITY or
- * FITNESS  FOR  A PARTICULAR PURPOSE. See the GNU General Public License for
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
- * You  should  have  received  a  copy  of the GNU General Public License
- * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.isoron.uhabits.models;
@@ -123,6 +126,9 @@ public class ScoreList
 
     public int[] getAllValues(Long fromTimestamp, Long toTimestamp, Integer divisor)
     {
+        // Force rebuild of the score table
+        getNewestValue();
+
         Long offset = toTimestamp - (divisor - 1) * DateHelper.millisecondsInOneDay;
 
         String query = "select ((timestamp - ?) / ?) as time, avg(score) from Score " +

@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ Copyright (C) 2016 Limin Lu
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <resources>
   <string name="app_name">循环习惯记录</string>
   <string name="main_activity_title">习惯</string>
@@ -92,4 +111,10 @@
   <string name="select_weekdays">选择天数</string>
   <string name="toast_habit_restored">习惯恢复成功</string>
   <string name="weekends">周末</string>
+  <string name="about">关于应用</string>
+  <string name="developers">开发者</string>
+  <string name="translators">翻译者</string>
+  <string name="export_to_csv">导出数据</string>
+  <string name="version_n">%s版</string>
+  <string name="frequency">频率</string>
 </resources>

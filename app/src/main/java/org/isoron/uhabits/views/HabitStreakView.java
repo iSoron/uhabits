@@ -1,17 +1,20 @@
-/* Copyright (C) 2016 Alinson Santos Xavier
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This file is part of Loop Habit Tracker.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied  warranty of MERCHANTABILITY or
- * FITNESS  FOR  A PARTICULAR PURPOSE. See the GNU General Public License for
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
- * You  should  have  received  a  copy  of the GNU General Public License
- * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.isoron.uhabits.views;
@@ -62,6 +65,7 @@ public class HabitStreakView extends ScrollableDataView
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        startTimes = endTimes = lengths = new long[0];
         init();
     }
 
@@ -70,12 +74,13 @@ public class HabitStreakView extends ScrollableDataView
         this.habit = habit;
 
         createColors();
-        fetchData();
+        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
+        refreshData();
         createPaints();
         createColors();
 
@@ -154,17 +159,13 @@ public class HabitStreakView extends ScrollableDataView
         pBar.setAntiAlias(true);
     }
 
-    protected void fetchData()
+    public void refreshData()
     {
         if(isInEditMode())
             generateRandomData();
         else
         {
-            if(habit == null)
-            {
-                startTimes = endTimes = lengths = new long[0];
-                return;
-            }
+            if(habit == null) return;
 
             List<Streak> streaks = habit.streaks.getAll();
             int size = streaks.size();
@@ -184,6 +185,8 @@ public class HabitStreakView extends ScrollableDataView
                 maxStreakLength = Math.max(maxStreakLength, s.length);
             }
         }
+
+        invalidate();
     }
 
     private void generateRandomData()

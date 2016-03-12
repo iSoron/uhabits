@@ -1,17 +1,20 @@
-/* Copyright (C) 2016 Alinson Santos Xavier
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This file is part of Loop Habit Tracker.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied  warranty of MERCHANTABILITY or
- * FITNESS  FOR  A PARTICULAR PURPOSE. See the GNU General Public License for
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
- * You  should  have  received  a  copy  of the GNU General Public License
- * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.isoron.uhabits.fragments;
@@ -57,13 +60,20 @@ public class EditHabitFragment extends DialogFragment
 
     private OnSavedListener onSavedListener;
 
-    private Habit originalHabit, modifiedHabit;
-    private TextView tvName, tvDescription, tvFreqNum, tvFreqDen, tvReminderTime, tvReminderDays;
+    private Habit originalHabit;
+    private Habit modifiedHabit;
+
+    private TextView tvName;
+    private TextView tvDescription;
+    private TextView tvFreqNum;
+    private TextView tvFreqDen;
+    private TextView tvReminderTime;
+    private TextView tvReminderDays;
 
     private SharedPreferences prefs;
     private boolean is24HourMode;
 
-    static EditHabitFragment editSingleHabitFragment(long id)
+    public static EditHabitFragment editSingleHabitFragment(long id)
     {
         EditHabitFragment frag = new EditHabitFragment();
         Bundle args = new Bundle();
@@ -73,7 +83,7 @@ public class EditHabitFragment extends DialogFragment
         return frag;
     }
 
-    static EditHabitFragment createHabitFragment()
+    public static EditHabitFragment createHabitFragment()
     {
         EditHabitFragment frag = new EditHabitFragment();
         Bundle args = new Bundle();
@@ -96,13 +106,13 @@ public class EditHabitFragment extends DialogFragment
 
         Button buttonSave = (Button) view.findViewById(R.id.buttonSave);
         Button buttonDiscard = (Button) view.findViewById(R.id.buttonDiscard);
+        ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.buttonPickColor);
 
         buttonSave.setOnClickListener(this);
         buttonDiscard.setOnClickListener(this);
         tvReminderTime.setOnClickListener(this);
         tvReminderDays.setOnClickListener(this);
-
-        ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.buttonPickColor);
+        buttonPickColor.setOnClickListener(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -134,13 +144,26 @@ public class EditHabitFragment extends DialogFragment
             tvDescription.append(modifiedHabit.description);
         }
 
+        if(savedInstanceState != null)
+        {
+            modifiedHabit.color = savedInstanceState.getInt("color", modifiedHabit.color);
+            modifiedHabit.reminderMin = savedInstanceState.getInt("reminderMin", -1);
+            modifiedHabit.reminderHour = savedInstanceState.getInt("reminderHour", -1);
+            modifiedHabit.reminderDays = savedInstanceState.getInt("reminderDays", -1);
+
+            if(modifiedHabit.reminderMin < 0)
+            {
+                modifiedHabit.reminderMin = null;
+                modifiedHabit.reminderHour = null;
+                modifiedHabit.reminderDays = 127;
+            }
+        }
+
         tvFreqNum.append(modifiedHabit.freqNum.toString());
         tvFreqDen.append(modifiedHabit.freqDen.toString());
 
         changeColor(modifiedHabit.color);
         updateReminder();
-
-        buttonPickColor.setOnClickListener(this);
 
         return view;
     }
@@ -225,8 +248,6 @@ public class EditHabitFragment extends DialogFragment
 
     private void onSaveButtonClick()
     {
-        Command command = null;
-
         modifiedHabit.name = tvName.getText().toString().trim();
         modifiedHabit.description = tvDescription.getText().toString().trim();
         modifiedHabit.freqNum = Integer.parseInt(tvFreqNum.getText().toString());
@@ -239,6 +260,7 @@ public class EditHabitFragment extends DialogFragment
         editor.putInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
         editor.apply();
 
+        Command command = null;
         Habit savedHabit = null;
 
         if (mode == EDIT_MODE)
@@ -246,8 +268,10 @@ public class EditHabitFragment extends DialogFragment
             command = new EditHabitCommand(originalHabit, modifiedHabit);
             savedHabit = originalHabit;
         }
-
-        if (mode == CREATE_MODE) command = new CreateHabitCommand(modifiedHabit);
+        else if (mode == CREATE_MODE)
+        {
+            command = new CreateHabitCommand(modifiedHabit);
+        }
 
         if (onSavedListener != null) onSavedListener.onSaved(command, savedHabit);
 
@@ -325,9 +349,24 @@ public class EditHabitFragment extends DialogFragment
         int count = 0;
         for(int i = 0; i < 7; i++)
             if(selectedDays[i]) count++;
+
         if(count == 0) Arrays.fill(selectedDays, true);
 
         modifiedHabit.reminderDays = DateHelper.packWeekdayList(selectedDays);
         updateReminder();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("color", modifiedHabit.color);
+        if(modifiedHabit.reminderHour != null)
+        {
+            outState.putInt("reminderMin", modifiedHabit.reminderMin);
+            outState.putInt("reminderHour", modifiedHabit.reminderHour);
+            outState.putInt("reminderDays", modifiedHabit.reminderDays);
+        }
     }
 }

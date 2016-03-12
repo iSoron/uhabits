@@ -1,17 +1,20 @@
-/* Copyright (C) 2016 Alinson Santos Xavier
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This file is part of Loop Habit Tracker.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied  warranty of MERCHANTABILITY or
- * FITNESS  FOR  A PARTICULAR PURPOSE. See the GNU General Public License for
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
- * You  should  have  received  a  copy  of the GNU General Public License
- * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.isoron.uhabits;
@@ -38,6 +41,7 @@ import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
+import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
@@ -117,9 +121,18 @@ public class MainActivity extends ReplayableActivity
         switch (item.getItemId())
         {
             case R.id.action_settings:
+            {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
+            }
+
+            case R.id.action_about:
+            {
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            }
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -138,7 +151,16 @@ public class MainActivity extends ReplayableActivity
     public void onPostExecuteCommand(Long refreshKey)
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
-        updateWidgets(this);
+
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                updateWidgets(MainActivity.this);
+                return null;
+            }
+        };
     }
 
     public static void updateWidgets(Context context)
@@ -147,6 +169,7 @@ public class MainActivity extends ReplayableActivity
         updateWidgets(context, HistoryWidgetProvider.class);
         updateWidgets(context, ScoreWidgetProvider.class);
         updateWidgets(context, StreakWidgetProvider.class);
+        updateWidgets(context, FrequencyWidgetProvider.class);
     }
 
     private static void updateWidgets(Context context, Class providerClass)

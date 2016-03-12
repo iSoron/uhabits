@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Matthias
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">"Loop Habit Tracker"</string>
+    <string name="main_activity_title">"Habits"</string>
+    <string name="action_settings">"Einstellung"</string>
+    <string name="edit">"Bearbeiten"</string>
+    <string name="delete">"Löschen"</string>
+    <string name="archive">"Archivieren"</string>
+    <string name="unarchive">"Dearchivieren"</string>
+    <string name="add_habit">"Habit hinzufügen"</string>
+    <string name="color_picker_default_title">"Farbe ändern"</string>
+    <string name="toast_habit_created">"Habit erstellt."</string>
+    <string name="toast_habit_deleted">"Habits gelöscht."</string>
+    <string name="toast_habit_restored">"Habits wiederhergestellt."</string>
+    <string name="toast_nothing_to_undo">"Nichts zum rückgängig machen."</string>
+    <string name="toast_nothing_to_redo">"Nichts zum wiederherstellen"</string>
+    <string name="toast_habit_changed">"Habit geändert"</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Habit zurückgeändert"</string>
+    <string name="toast_habit_archived">"Habits archiviert."</string>
+    <string name="toast_habit_unarchived">"Habits dearchiviert."</string>
+    <string name="overview">"Übersicht"</string>
+    <string name="habit_strength">"Habit Stärke"</string>
+    <string name="history">"Verlauf"</string>
+    <string name="clear">"Löschen"</string>
+    <string name="description_hint">"Frage (Hast du heute ...?)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Wiederhole"</string>
+    <string name="times_every">"mal in"</string>
+    <string name="days">"Tagen"</string>
+    <string name="reminder">"Erinnerung"</string>
+    <string name="discard">"Verwerfen"</string>
+    <string name="save">"Speichern"</string>
+    <string name="no_habits_found">"Du hast keine aktiven habits"</string>
+    <string name="long_press_to_toggle">"Berühre und halte um zu (de)markieren"</string>
+    <string name="reminder_off">"Aus"</string>
+    <string name="validation_name_should_not_be_blank">"Name darf nicht leer sein."</string>
+    <string name="validation_number_should_be_positive">"Zahl muss positiv sein."</string>
+    <string name="validation_at_most_one_rep_per_day">"Du musst wenigstens eine Wiederholung pro Tag haben"</string>
+    <string name="create_habit">"Habit erstellen"</string>
+    <string name="edit_habit">"Habit bearbeiten"</string>
+    <string name="snooze">"Später"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Willkommen"</string>
+    <string name="intro_description_1">"Loop Habit Tracker hilft dir gute Gewohnheiten anzunehmen."</string>
+    <string name="intro_title_2">"Erstelle einige neue habits"</string>
+    <string name="intro_description_2">"Jeden tag nachdem du das habit absolviert hast, hake es ab."</string>
+    <string name="intro_title_3">"Bleib dabei"</string>
+    <string name="intro_description_3">"Habits die du über längere Zeit durchgehalten hast, bekommen einen ganzen Stern."</string>
+    <string name="intro_title_4">"Verfolge deinen Fortschritt"</string>
+    <string name="intro_description_4">"Detailierte Diagramme zeigen dir, wie sich deine Angewohnheiten entwickelt haben."</string>
+    <string name="interval_15_minutes">"15 Minuten"</string>
+    <string name="interval_30_minutes">"30 Minuten"</string>
+    <string name="interval_1_hour">"1 Stunde"</string>
+    <string name="interval_2_hour">"2 Stunden"</string>
+    <string name="interval_4_hour">"4 Stunden"</string>
+    <string name="interval_8_hour">"8 Stunden"</string>
+    <string name="pref_toggle_title">"Wähle Wiederholungen durch kurzes Drücken"</string>
+    <string name="pref_toggle_description">"Bequemer,  verursacht evtl. falsche Auswahl"</string>
+    <string name="pref_snooze_interval_title">"Pause interval bei Erinerungen"</string>
+    <string name="pref_rate_this_app">"Bewerte diese App bei Google Play"</string>
+    <string name="pref_send_feedback">"Send dem Entwickler Feedback"</string>
+    <string name="pref_view_source_code">"Zeige Quellcode auf GitHub"</string>
+    <string name="pref_view_app_introduction">"Zeige Einleitung"</string>
+    <string name="links">"Links"</string>
+    <string name="behavior">"Verhalten"</string>
+    <string name="name">"Name"</string>
+    <string name="show_archived">"Zeige Archivierte"</string>
+    <string name="settings">"Einstellungen"</string>
+    <string name="snooze_interval">"Pause interval"</string>
+    <string name="hint_title">"Wusstest du?"</string>
+    <string name="hint_drag">"Um Einträge umzusortieren, ziehe sie an die richtige Stelle."</string>
+    <string name="hint_landscape">"Du kannst mehr Tage sehen, wenn du dein Phone quer hälst."</string>
+    <string name="delete_habits">"habit löschen"</string>
+    <string name="delete_habits_message">"Dies habit wird permanent gelöscht. Dies kann nicht rückgängig gemacht werden."</string>
+    <string name="weekends">"Wochenende"</string>
+    <string name="any_weekday">"Arbeitstage"</string>
+    <string name="any_day">"Jeden Tag"</string>
+    <string name="select_weekdays">"Wähle die Tage"</string>
+    <string name="export_to_csv">"Daten exportieren"</string>
+    <string name="done_label">"Ok"</string>
+    <string name="clear_label">"Löschen"</string>
+    <string name="select_hours">"Wähle Stunden"</string>
+    <string name="select_minutes">"Wähle Minuten"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Nimm gute Gewohnheiten an und verfolge deinen Fortschritt (ohne Werbung)"</string>
+    <string name="store_description_1">"Loop hilft dir gute Gewohnheiten anzunehmen und deine langfristigen Ziele zu erreichen. Detailierte Statistiken zeigen dir, wie du dich entwickelt hast. Es ist ohne Werbung und Open Source."</string>
+<string name="store_feature_interface">"&lt;b&gt;Einfaches, schönes und modernes Oberfläche&lt;/b&gt;
+Loop hat eine minimale Oberfläche und ist deshalb einfach zu nutzen. Es folgt dem material Design."</string>
+<string name="store_feature_score">"&lt;b&gt;Habit Punkte&lt;/b&gt;
+Um dir deine Schwächen zu zeigen, hat Loop einen Algorithmus, um deine starken Angewohnheiten zu erkennen. Jede Wiederholung verstärkt diese und jedes Aussetzen schwächt sie. Aber ein paar Verfehlungen nach langem Durchhalten machen natürlich nicht gleich alles zu nichte."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Statistiken&lt;/b&gt;
+Schau dir an, wie sich deine Angewohnheiten im Laufe der Zeit gemacht haben. Schau auf die schönen Diagramme und gehe zurück im gesamten Verlauf."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Flexible Zeiten&lt;/b&gt;
+Unterstützt sowohl tägliche Vorgaben, als auch komplexere Pläne, woe etwa 3 mal pro Woche; ein mal in jeder anderen Woche; oder jeden anderen Tag."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Erinnerungen&lt;/b&gt;
+Erstelle individuelle Erinnerungen und wann diese dich benachrichtigen sollen. Kontrolliere deine Vorhaben ganz einfach und lehne sie bei Bedarf direkt ab, ohne in die App zu wechseln."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Komplett werbefrei und Open Source&lt;/b&gt;
+Es gibt absolut keine Werbung, nervende Einblendungen oder merkwürdige Berechtigungen in dieser App und das wird auch so bleiben. Der komplette Quellcode steht unter der GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Optimiert für Smartwatches&lt;/b&gt;
+Erinnerungen können direkt von der Android Wear watch kontrolliert, pausiert, oder verschoben werden."</string>
+    <string name="about">"Über"</string>
+    <string name="translators">"Übersetzer"</string>
+    <string name="developers">"Entwickler"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Version %s"</string>
+    <string name="frequency">Frequenz</string>
+</resources>

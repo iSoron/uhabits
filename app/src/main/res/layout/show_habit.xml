@@ -1,6 +1,25 @@
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             xmlns:app="http://isoron.org/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/windowBackground"
@@ -41,43 +60,63 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/cardStyle">
+        <LinearLayout
+            style="@style/cardStyle"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingBottom="0dp">
 
             <TextView
                 android:id="@+id/tvHistory"
                 style="@style/cardHeaderStyle"
                 android:text="@string/history"/>
 
-            <LinearLayout
-                android:id="@+id/llHistory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
             <org.isoron.uhabits.views.HabitHistoryView
                 android:id="@+id/historyView"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"/>
 
+            <Button
+                android:id="@+id/btEditHistory"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_action_edit_light"
+                android:text="@string/edit"
+                android:textColor="@color/grey_400"/>
+
         </LinearLayout>
 
-        <LinearLayout style="@style/cardStyle">
+        <LinearLayout
+            style="@style/cardStyle"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvStreaks"
                 style="@style/cardHeaderStyle"
                 android:text="@string/streaks"/>
 
-            <LinearLayout
-                android:id="@+id/llStreaks"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
-
             <org.isoron.uhabits.views.HabitStreakView
                 android:id="@+id/streakView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWeekdayFreq"
+                style="@style/cardHeaderStyle"
+                android:text="@string/frequency"/>
+
+            <org.isoron.uhabits.views.HabitFrequencyView
+                android:id="@+id/punchcardView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

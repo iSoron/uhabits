@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <manifest
     package="org.isoron.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="9"
-    android:versionName="1.2.0">
+    android:versionCode="10"
+    android:versionName="1.3.0">
 
-    <uses-permission
-        android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="18"/>
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="18"/>
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -27,11 +45,9 @@
         <meta-data
             android:name="AA_DB_NAME"
             android:value="uhabits.db"/>
-
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="12"/>
-
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw"/>
@@ -39,15 +55,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/main_activity_title">
-            <intent-filter
-                android:label="@string/app_name">
+            <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".HabitBroadcastReceiver"/>
 
         <activity
             android:name=".ShowHabitActivity"
@@ -72,12 +85,27 @@
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
+        <activity
+            android:name=".widgets.HabitPickerDialog"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/about"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <receiver
             android:name=".widgets.CheckmarkWidgetProvider"
-            android:label="Checkmark">
+            android:label="@string/checkmark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_checkmark_info"/>
@@ -85,10 +113,11 @@
 
         <receiver
             android:name=".widgets.HistoryWidgetProvider"
-            android:label="History">
+            android:label="@string/history">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_history_info"/>
@@ -96,10 +125,11 @@
 
         <receiver
             android:name=".widgets.ScoreWidgetProvider"
-            android:label="Score">
+            android:label="@string/habit_strength">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_score_info"/>
@@ -107,24 +137,29 @@
 
         <receiver
             android:name=".widgets.StreakWidgetProvider"
-            android:label="Streaks">
+            android:label="@string/streaks">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_streak_info"/>
         </receiver>
 
-        <activity
-            android:name=".widgets.HabitPickerDialog"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
-
+        <receiver
+            android:name=".widgets.FrequencyWidgetProvider"
+            android:label="@string/frequency">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
-        </activity>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_frequency_info"/>
+        </receiver>
+
+        <receiver android:name=".HabitBroadcastReceiver"/>
 
     </application>
 

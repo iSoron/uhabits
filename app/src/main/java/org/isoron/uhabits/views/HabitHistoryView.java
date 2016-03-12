@@ -1,17 +1,20 @@
-/* Copyright (C) 2016 Alinson Santos Xavier
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This file is part of Loop Habit Tracker.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied  warranty of MERCHANTABILITY or
- * FITNESS  FOR  A PARTICULAR PURPOSE. See the GNU General Public License for
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
- * You  should  have  received  a  copy  of the GNU General Public License
- * along  with  this  program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.isoron.uhabits.views;
@@ -22,10 +25,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -47,7 +53,6 @@ public class HabitHistoryView extends ScrollableDataView
     private int columnWidth;
     private int columnHeight;
     private int nColumns;
-    private int baseSize;
 
     private String wdays[];
     private SimpleDateFormat dfMonth;
@@ -62,11 +67,14 @@ public class HabitHistoryView extends ScrollableDataView
 
     private boolean isBackgroundTransparent;
     private int textColor;
+    private boolean isEditable;
 
     public HabitHistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
+        this.checkmarks = new int[0];
+        this.isEditable = false;
         init();
     }
 
@@ -74,12 +82,13 @@ public class HabitHistoryView extends ScrollableDataView
     {
         this.habit = habit;
         createColors();
-        fetchData();
+        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
+        refreshData();
         createPaints();
         createColors();
 
@@ -93,6 +102,7 @@ public class HabitHistoryView extends ScrollableDataView
     private void updateDate()
     {
         baseDate = new GregorianCalendar();
+        baseDate.setTimeInMillis(DateHelper.getLocalTime());
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
@@ -114,21 +124,40 @@ public class HabitHistoryView extends ScrollableDataView
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
         if(height < 8) height = 200;
-
-        baseSize = height / 8;
+        int baseSize = height / 8;
         setScrollerBucketSize(baseSize);
 
-        columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        nColumns = width / baseSize;
-
         squareSpacing = (int) Math.floor(baseSize / 15.0);
-        pSquareFg.setTextSize(baseSize * 0.5f);
-        pTextHeader.setTextSize(baseSize * 0.5f);
+        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.history_max_font_size);
+        float textSize = Math.min(baseSize * 0.5f, maxTextSize);
+
+        pSquareFg.setTextSize(textSize);
+        pTextHeader.setTextSize(textSize);
         squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
         headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
 
+        int rightLabelWidth = getWeekdayLabelWidth();
+        int horizontalPadding = getPaddingRight() + getPaddingLeft();
+
+        columnWidth = baseSize;
+        columnHeight = 8 * baseSize;
+        nColumns = (width - rightLabelWidth - horizontalPadding) / baseSize + 1;
+
         updateDate();
+    }
+
+    private int getWeekdayLabelWidth()
+    {
+        int width = 0;
+        Rect bounds = new Rect();
+
+        for(String w : wdays)
+        {
+            pSquareFg.getTextBounds(w, 0, w.length(), bounds);
+            width = Math.max(width, bounds.right);
+        }
+
+        return width;
     }
 
     private void createColors()
@@ -176,22 +205,18 @@ public class HabitHistoryView extends ScrollableDataView
         pSquareFg.setTextAlign(Align.CENTER);
     }
 
-    protected void fetchData()
+    public void refreshData()
     {
         if(isInEditMode())
             generateRandomData();
         else
         {
-            if(habit == null)
-            {
-                checkmarks = new int[0];
-                return;
-            }
-
+            if(habit == null) return;
             checkmarks = habit.checkmarks.getAllValues();
         }
 
         updateDate();
+        invalidate();
     }
 
     private void generateRandomData()
@@ -223,6 +248,7 @@ public class HabitHistoryView extends ScrollableDataView
         super.onDraw(canvas);
 
         baseLocation.set(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
+        baseLocation.offset(getPaddingLeft(), getPaddingTop());
 
         previousMonth = "";
         previousYear = "";
@@ -325,5 +351,60 @@ public class HabitHistoryView extends ScrollableDataView
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
         createColors();
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e)
+    {
+        if(!isEditable) return false;
+
+        int pointerId = e.getPointerId(0);
+        float x = e.getX(pointerId);
+        float y = e.getY(pointerId);
+
+        final Long timestamp = positionToTimestamp(x, y);
+        if(timestamp == null) return false;
+
+        new AsyncTask<Void, Void, Void>()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                habit.repetitions.toggle(timestamp);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                refreshData();
+                invalidate();
+            }
+        }.execute();
+
+        return true;
+    }
+
+    private Long positionToTimestamp(float x, float y)
+    {
+        int col = (int) (x / columnWidth);
+        int row = (int) (y / columnWidth);
+
+        if(row == 0) return null;
+        if(col == nColumns - 1) return null;
+
+        int offset = col * 7 + (row - 1);
+        Calendar date = (Calendar) baseDate.clone();
+        date.add(Calendar.DAY_OF_YEAR, offset);
+
+        if(DateHelper.getStartOfDay(date.getTimeInMillis()) > DateHelper.getStartOfToday())
+            return null;
+
+        return date.getTimeInMillis();
+    }
+
+    public void setIsEditable(boolean isEditable)
+    {
+        this.isEditable = isEditable;
     }
 }

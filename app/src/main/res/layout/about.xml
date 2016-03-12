@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/windowBackground"
+            android:fillViewport="true">
+
+    <LinearLayout
+        style="@style/cardsListStyle">
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="6dp"
+                android:src="@drawable/intro_icon_1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_margin="6dp"
+                android:textColor="@color/blue_700"
+                android:text="@string/app_name"/>
+
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <TextView
+                style="@style/cardHeaderStyle"
+                android:text="@string/links"
+                android:textColor="@color/blue_700"/>
+
+            <TextView
+                android:id="@+id/tvRate"
+                style="@style/aboutClickableItemStyle"
+                android:text="@string/pref_rate_this_app"/>
+
+            <TextView
+                android:id="@+id/tvFeedback"
+                style="@style/aboutClickableItemStyle"
+                android:text="@string/pref_send_feedback"/>
+
+            <TextView
+                android:id="@+id/tvSource"
+                style="@style/aboutClickableItemStyle"
+                android:text="@string/pref_view_source_code"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <TextView
+                style="@style/cardHeaderStyle"
+                android:text="@string/developers"
+                android:textColor="@color/blue_700"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Álinson Xavier"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <TextView
+                style="@style/cardHeaderStyle"
+                android:text="@string/translators"
+                android:textColor="@color/blue_700"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Limin Lu (中文)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="François Mahé (Français)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="naofumi (日本語)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Matthias (Deutsch)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Álinson Xavier (Português)"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

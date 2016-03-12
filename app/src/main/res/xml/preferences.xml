@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
@@ -21,33 +40,14 @@
 
     </PreferenceCategory>
 
-
     <PreferenceCategory
         android:key="pref_key_links"
         android:title="@string/links">
 
-        <Preference android:title="@string/pref_rate_this_app">
+        <Preference android:title="@string/about">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="market://details?id=org.isoron.uhabits"/>
-        </Preference>
-
-        <Preference android:title="@string/pref_send_feedback">
-            <intent
-                android:action="android.intent.action.SENDTO"
-                android:data="mailto:isoron+habits@gmail.com?subject=Feedback%20about%20Loop%20Habit%20Tracker"/>
-        </Preference>
-
-        <Preference android:title="@string/pref_view_source_code">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://github.com/iSoron/uhabits"/>
-        </Preference>
-
-
-        <Preference android:title="@string/pref_view_app_introduction">
-            <intent
-                android:targetClass="org.isoron.uhabits.IntroActivity"
+                android:targetClass="org.isoron.uhabits.AboutActivity"
                 android:targetPackage="org.isoron.uhabits"/>
         </Preference>
 

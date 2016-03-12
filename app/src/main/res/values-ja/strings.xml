@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 naofumi
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <string name="app_name">"ループ習慣トラッカー"</string>
+    <string name="main_activity_title">"習慣"</string>
+    <string name="action_settings">"設定"</string>
+    <string name="edit">"編集"</string>
+    <string name="delete">"削除"</string>
+    <string name="archive">"アーカイブ"</string>
+    <string name="unarchive">"アーカイブを戻す"</string>
+    <string name="add_habit">"習慣を追加"</string>
+    <string name="color_picker_default_title">"色の変更"</string>
+    <string name="toast_habit_created">"習慣を作成しました。"</string>
+    <string name="toast_habit_deleted">"習慣を削除しました。"</string>
+    <string name="toast_habit_restored">"習慣を復元しました。"</string>
+    <string name="toast_nothing_to_undo">"元に戻すことはできません。"</string>
+    <string name="toast_nothing_to_redo">"繰り返しはできません。"</string>
+    <string name="toast_habit_changed">"習慣を変更しました。"</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"習慣を元に戻しました。"</string>
+    <string name="toast_habit_archived">"習慣をアーカイブしました。"</string>
+    <string name="toast_habit_unarchived">"習慣のアーカイブを戻しました。"</string>
+    <string name="overview">"概要"</string>
+    <string name="habit_strength">"習慣の強さ"</string>
+    <string name="history">"履歴"</string>
+    <string name="clear">"クリア"</string>
+    <string name="description_hint">"質問 (今日 … しましたか?)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"繰り返し"</string>
+    <string name="times_every">"回"</string>
+    <string name="days">"日"</string>
+    <string name="reminder">"リマインダー"</string>
+    <string name="discard">"破棄"</string>
+    <string name="save">"保存"</string>
+    <string name="streaks">"連続記録"</string>
+    <string name="no_habits_found">"アクティブな習慣はありません"</string>
+    <string name="long_press_to_toggle">"長押しするとチェックを付けたり外したりします"</string>
+    <string name="reminder_off">"オフ"</string>
+    <string name="validation_name_should_not_be_blank">"名前は空にできません。"</string>
+    <string name="validation_number_should_be_positive">"正の数値にする必要があります。"</string>
+    <string name="validation_at_most_one_rep_per_day">"多くとも 1 日 1 回にすることができます。"</string>
+    <string name="create_habit">"習慣を作成"</string>
+    <string name="edit_habit">"習慣を編集"</string>
+    <string name="check">"チェック"</string>
+    <string name="snooze">"後で"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"ようこそ"</string>
+    <string name="intro_description_1">"ループ習慣トラッカーは、良い習慣を作って、維持するのに役立ちます。"</string>
+    <string name="intro_title_2">"新しい習慣を作成します"</string>
+    <string name="intro_description_2">"毎日、習慣を実行した後、アプリでチェックマークを付けます。"</string>
+    <string name="intro_title_3">"これを続けます"</string>
+    <string name="intro_description_3">"長い期間習慣を継続すると、スターを全て獲得できます。"</string>
+    <string name="intro_title_4">"進捗状況を追跡します"</string>
+    <string name="intro_description_4">"詳細グラフは、あなたの習慣が時間をかけて改善された様子を示します。"</string>
+    <string name="interval_15_minutes">"15 分"</string>
+    <string name="interval_30_minutes">"30 分"</string>
+    <string name="interval_1_hour">"1 時間"</string>
+    <string name="interval_2_hour">"2 時間"</string>
+    <string name="interval_4_hour">"4 時間"</string>
+    <string name="interval_8_hour">"8 時間"</string>
+    <string name="pref_toggle_title">"クリックで繰り返しを切り替え"</string>
+    <string name="pref_toggle_description">"便利になりますが、間違って切り替えが起こる可能性があります。"</string>
+    <string name="pref_snooze_interval_title">"リマインダーのスヌーズ間隔"</string>
+    <string name="pref_rate_this_app">"Google Play でこのアプリを評価"</string>
+    <string name="pref_send_feedback">"開発者にフィードバックを送信"</string>
+    <string name="pref_view_source_code">"GitHub でソースコードを参照"</string>
+    <string name="pref_view_app_introduction">"アプリの紹介を表示"</string>
+    <string name="links">"リンク"</string>
+    <string name="behavior">"動作"</string>
+    <string name="name">"名前"</string>
+    <string name="show_archived">"アーカイブを表示"</string>
+    <string name="settings">"設定"</string>
+    <string name="snooze_interval">"スヌーズ間隔"</string>
+    <string name="hint_title">"ご存知ですか?"</string>
+    <string name="hint_drag">"エントリーを並べ替えるには、習慣の名前を長押しして、正しい場所にドラッグしてください。"</string>
+    <string name="hint_landscape">"お使いの携帯電話を横置きモードにすることで、参照する日数を多くすることができます。"</string>
+    <string name="delete_habits">"習慣を削除"</string>
+    <string name="delete_habits_message">"習慣は完全に削除されます。この操作を元に戻すことはできません。"</string>
+    <string name="weekends">"週末"</string>
+    <string name="any_weekday">"平日"</string>
+    <string name="any_day">"任意の日"</string>
+    <string name="select_weekdays">"日の選択"</string>
+    <string name="export_to_csv">"データのエクスポート"</string>
+    <string name="done_label">"完了"</string>
+    <string name="clear_label">"クリア"</string>
+    <string name="select_hours">"時間の選択"</string>
+    <string name="select_minutes">"分の選択"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"良い習慣を作って、時間をかけてその進捗状況を追跡します (広告なし)"</string>
+    <string name="store_description_1">"ループは、良い習慣を作って、維持するのに役立ちます。あなたの長期的な目標を達成することができます。詳細なグラフや統計情報が、時間をかけてあなたの習慣が改善された様子を示します。完全に広告フリーでオープンソースです。"</string>
+<string name="store_feature_interface">"&lt;b&gt;シンプルで、美しく、モダンなインターフェース&lt;/b&gt;
+ループは、使いやすく、マテリアルデザインのガイドラインに従った、最小限のインターフェースです。"</string>
+<string name="store_feature_score">"&lt;b&gt;習慣のスコア&lt;/b&gt;
+ループは、現在の連続記録を示すことに加えて、習慣の強さを計算するための高度なアルゴリズムを持っています。繰り返しがあなたの習慣を強くし、忘れた日は弱くなります。長い連続記録の後に、少し忘れた日があっても、全体の進捗状況を完全に失うわけではありません。"</string>
+<string name="store_feature_statistics">"&lt;b&gt;詳細なグラフと統計情報&lt;/b&gt;
+美しくて詳細なグラフで、あなたの習慣が時間をかけて改善された様子がはっきりわかります。スクロールで戻ると、あなたの習慣の完全な履歴を参照することができます。"</string>
+<string name="store_feature_schedules">"&lt;b&gt;柔軟なスケジュール&lt;/b&gt;
+毎日の習慣と、毎週 3 回、隔週に 1 回、または一日おきなどの、より複雑なスケジュールの習慣の両方をサポートします。 "</string>
+<string name="store_feature_reminders">"&lt;b&gt;リマインダー&lt;/b&gt;
+1 日の選択した時間で、それぞれの習慣に個々のリマインダーを作成します。アプリを開かずに、通知から直接、簡単に習慣をチェック、解除、またはスヌーズすることができます。"</string>
+<string name="store_feature_opensource">"&lt;b&gt;完全に広告フリーでオープンソース&lt;/b&gt;
+このアプリは、広告、迷惑な通知、押し付けがましいアクセス許可は全くありませんし、そうなることもありません。GPLv3 の下で全てのソースコードが利用可能です。"</string>
+<string name="store_feature_wear">"&lt;b&gt;スマートウォッチの最適化&lt;/b&gt;
+Android Wear 端末から直接、リマインダーをチェック、スヌーズ、解除することができます。"</string>
+    <string name="about">"アプリについて"</string>
+    <string name="translators">"翻訳者"</string>
+    <string name="developers">"開発者"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"バージョン %s"</string>
+    <string name="frequency">周波数</string>
+</resources>
