@@ -119,6 +119,10 @@
 
             <TextView
                 style="@style/aboutItemStyle"
+                android:text="Matthias (Deutsch)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
                 android:text="Álinson Xavier (Português)"/>
         </LinearLayout>
     </LinearLayout>
