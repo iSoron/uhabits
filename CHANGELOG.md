@@ -1,5 +1,14 @@
 # Changelog
 
+### 1.3.0 (March 12, 2016)
+
+* New frequency plot: view total repetitions per day of week
+* New history editor: put checkmarks in the past
+* German, French and Japanese translations
+* Add about screen, with credits to all contributors
+* Fix small bug that prevented habit from being reordered
+* Fix small bug caused by rotating the device
+
 ### 1.2.0 (March 4, 2016)
 
 * Ability to export habit data as CSV
