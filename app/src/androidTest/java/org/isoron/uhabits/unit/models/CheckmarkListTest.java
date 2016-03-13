@@ -42,33 +42,13 @@ public class CheckmarkListTest
     Habit nonDailyHabit;
     private Habit emptyHabit;
 
-    public static final long FIXED_LOCAL_TIME = 1422172800000L; // 8:00am, January 25th, 2015 (UTC)
-
     @Before
     public void prepare()
     {
-        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
-        createNonDailyHabit();
-
-        emptyHabit = new Habit();
-        emptyHabit.save();
-    }
-
-    private void createNonDailyHabit()
-    {
-        nonDailyHabit = new Habit();
-        nonDailyHabit.freqNum = 2;
-        nonDailyHabit.freqDen = 3;
-        nonDailyHabit.save();
-
-        boolean check[] = { true, false, false, true, true, true, false, false, true, true };
-
-        long timestamp = DateHelper.getStartOfToday();
-        for(boolean c : check)
-        {
-            if(c) nonDailyHabit.repetitions.toggle(timestamp);
-            timestamp -= DateHelper.millisecondsInOneDay;
-        }
+        HabitFixtures.purgeHabits();
+        DateHelper.setFixedLocalTime(HabitFixtures.FIXED_LOCAL_TIME);
+        nonDailyHabit = HabitFixtures.createNonDailyHabit();
+        emptyHabit = HabitFixtures.createEmptyHabit();
     }
 
     @After
@@ -162,6 +142,7 @@ public class CheckmarkListTest
 
     private void travelInTime(int days)
     {
-        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME + days * DateHelper.millisecondsInOneDay);
+        DateHelper.setFixedLocalTime(HabitFixtures.FIXED_LOCAL_TIME +
+                days * DateHelper.millisecondsInOneDay);
     }
 }

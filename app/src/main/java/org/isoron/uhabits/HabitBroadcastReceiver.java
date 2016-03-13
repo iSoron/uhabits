@@ -38,6 +38,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Date;
@@ -145,7 +146,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
         Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
 
-        if (habit.repetitions.hasImplicitRepToday()) return;
+        if (habit.checkmarks.getTodayValue() != Checkmark.UNCHECKED) return;
 
         habit.highlight = 1;
         habit.save();

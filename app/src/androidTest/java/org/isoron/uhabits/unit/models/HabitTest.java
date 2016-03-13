@@ -40,8 +40,7 @@ public class HabitTest
     @Before
     public void prepare()
     {
-        for(Habit h : Habit.getAll(true))
-            h.cascadeDelete();
+        HabitFixtures.purgeHabits();
     }
 
     @Test
