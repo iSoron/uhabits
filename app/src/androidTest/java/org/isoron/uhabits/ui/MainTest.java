@@ -63,6 +63,18 @@ public class MainTest
             MainActivity.class);
 
     @Before
+    public void setup()
+    {
+        disableAnimations();
+        skipTutorial();
+    }
+
+    public void disableAnimations()
+    {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        new SystemAnimations(context).disableAll();
+    }
+
     public void skipTutorial()
     {
         try
