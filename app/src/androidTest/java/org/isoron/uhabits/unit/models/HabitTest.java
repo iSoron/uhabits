@@ -75,21 +75,19 @@ public class HabitTest
     public  void rebuildOrderTest()
     {
         List<Long> ids = new LinkedList<>();
-
         int originalPositions[] = { 0, 1, 1, 4, 6, 8, 10, 10, 13};
-        int length = originalPositions.length;
 
-        for (int i = 0; i < length; i++)
+        for (int p : originalPositions)
         {
             Habit h = new Habit();
-            h.position = originalPositions[i];
+            h.position = p;
             h.save();
             ids.add(h.getId());
         }
 
         Habit.rebuildOrder();
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < originalPositions.length; i++)
         {
             Habit h = Habit.get(ids.get(i));
             assertThat(h.position, is(i));

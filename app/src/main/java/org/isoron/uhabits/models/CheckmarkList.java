@@ -40,6 +40,12 @@ public class CheckmarkList
         this.habit = habit;
     }
 
+    /**
+     * Deletes every checkmark that has timestamp either equal or newer than a given timestamp.
+     * These checkmarks will be recomputed at the next time they are queried.
+     *
+     * @param timestamp the timestamp
+     */
     public void deleteNewerThan(long timestamp)
     {
         new Delete().from(Checkmark.class)
@@ -48,10 +54,21 @@ public class CheckmarkList
                 .execute();
     }
 
+    /**
+     * Returns the values of the checkmarks that fall inside a certain interval of time.
+     *
+     * The values are returned in an array containing one integer value for each day of the
+     * interval. The first entry corresponds to the most recent day in the interval. Each subsequent
+     * entry corresponds to one day older than the previous entry. The boundaries of the time
+     * interval are included.
+     *
+     * @param fromTimestamp timestamp for the oldest checkmark
+     * @param toTimestamp timestamp for the newest checkmark
+     * @return values for the checkmarks inside the given interval
+     */
     public int[] getValues(Long fromTimestamp, Long toTimestamp)
     {
-        rebuild();
-
+        buildCache(fromTimestamp, toTimestamp);
         if(fromTimestamp > toTimestamp) return new int[0];
 
         String query = "select value, timestamp from Checkmarks where " +
@@ -81,53 +98,59 @@ public class CheckmarkList
         return checks;
     }
 
+    /**
+     * Computes and returns the values for all the checkmarks, since the oldest repetition of the
+     * habit until today. If there are no repetitions at all, returns an empty array.
+     *
+     * The values are returned in an array containing one integer value for each day since the
+     * first repetition of the habit until today. The first entry corresponds to today, the second
+     * entry corresponds to yesterday, and so on.
+     *
+     * @return values for the checkmarks in the interval
+     */
     public int[] getAllValues()
     {
         Repetition oldestRep = habit.repetitions.getOldest();
         if(oldestRep == null) return new int[0];
 
-        Long toTimestamp = DateHelper.getStartOfToday();
         Long fromTimestamp = oldestRep.timestamp;
+        Long toTimestamp = DateHelper.getStartOfToday();
+
         return getValues(fromTimestamp, toTimestamp);
     }
 
-    public void rebuild()
+    /**
+     * Computes and stores one checkmark for each day that falls inside the specified interval of
+     * time. Days that already have a corresponding checkmark are skipped.
+     *
+     * @param from timestamp for the beginning of the interval
+     * @param to timestamp for the end of the interval
+     */
+    public void buildCache(long from, long to)
     {
-        long beginning;
-        long today = DateHelper.getStartOfToday();
         long day = DateHelper.millisecondsInOneDay;
 
-        Checkmark newestCheckmark = getNewest();
-        if (newestCheckmark == null)
-        {
-            Repetition oldestRep = habit.repetitions.getOldest();
-            if (oldestRep == null) return;
+        Checkmark newestCheckmark = findNewest();
+        if(newestCheckmark != null)
+            from = Math.max(from, newestCheckmark.timestamp + day);
 
-            beginning = oldestRep.timestamp;
-        }
-        else
-        {
-            beginning = newestCheckmark.timestamp + day;
-        }
+        if(from > to) return;
 
-        if (beginning > today) return;
+        long fromExtended = from - (long) (habit.freqDen) * day;
+        List<Repetition> reps = habit.repetitions
+                .selectFromTo(fromExtended, to)
+                .execute();
 
-        long beginningExtended = beginning - (long) (habit.freqDen) * day;
-        List<Repetition> reps = habit.repetitions.selectFromTo(beginningExtended, today).execute();
-
-        int nDays = (int) ((today - beginning) / day) + 1;
-        int nDaysExtended = (int) ((today - beginningExtended) / day) + 1;
-
+        int nDays = (int) ((to - from) / day) + 1;
+        int nDaysExtended = (int) ((to - fromExtended) / day) + 1;
         int checks[] = new int[nDaysExtended];
 
-        // explicit checks
         for (Repetition rep : reps)
         {
-            int offset = (int) ((rep.timestamp - beginningExtended) / day);
-            checks[nDaysExtended - offset - 1] = 2;
+            int offset = (int) ((rep.timestamp - fromExtended) / day);
+            checks[nDaysExtended - offset - 1] = Checkmark.CHECKED_EXPLICITLY;
         }
 
-        // implicit checks
         for (int i = 0; i < nDays; i++)
         {
             int counter = 0;
@@ -135,7 +158,9 @@ public class CheckmarkList
             for (int j = 0; j < habit.freqDen; j++)
                 if (checks[i + j] == 2) counter++;
 
-            if (counter >= habit.freqNum) checks[i] = Math.max(checks[i], 1);
+            if (counter >= habit.freqNum)
+                if(checks[i] != Checkmark.CHECKED_EXPLICITLY)
+                    checks[i] = Checkmark.CHECKED_IMPLICITLY;
         }
 
         ActiveAndroid.beginTransaction();
@@ -146,33 +171,48 @@ public class CheckmarkList
             {
                 Checkmark c = new Checkmark();
                 c.habit = habit;
-                c.timestamp = today - i * day;
+                c.timestamp = to - i * day;
                 c.value = checks[i];
                 c.save();
             }
 
             ActiveAndroid.setTransactionSuccessful();
-        } finally
+        }
+        finally
         {
             ActiveAndroid.endTransaction();
         }
     }
 
-    public Checkmark getNewest()
+    /**
+     * Returns newest checkmark that has already been computed. Ignores any checkmark that has
+     * timestamp in the future. This does not update the cache.
+     */
+    private Checkmark findNewest()
     {
         return new Select().from(Checkmark.class)
                 .where("habit = ?", habit.getId())
+                .and("timestamp <= ?", DateHelper.getStartOfToday())
                 .orderBy("timestamp desc")
                 .limit(1)
                 .executeSingle();
     }
 
-    public int getCurrentValue()
+    /**
+     * Returns the checkmark for today.
+     */
+    public Checkmark getToday()
     {
-        rebuild();
-        Checkmark c = getNewest();
+        long today = DateHelper.getStartOfToday();
+        buildCache(today, today);
+        return findNewest();
+    }
 
-        if(c != null) return c.value;
-        else return 0;
+    /**
+     * Returns the value of today's checkmark.
+     */
+    public int getTodayValue()
+    {
+        return getToday().value;
     }
 }

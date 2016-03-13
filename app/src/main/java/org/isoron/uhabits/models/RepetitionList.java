@@ -30,7 +30,6 @@ import com.activeandroid.query.Select;
 import org.isoron.helpers.DateHelper;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
