@@ -1,4 +1,4 @@
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -7,6 +7,8 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import org.isoron.uhabits.MainActivity;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,20 +39,20 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.isoron.uhabits.HabitMatchers.withName;
-import static org.isoron.uhabits.HabitViewActions.clickAtRandomLocations;
-import static org.isoron.uhabits.HabitViewActions.toggleAllCheckmarks;
-import static org.isoron.uhabits.MainActivityActions.addHabit;
-import static org.isoron.uhabits.MainActivityActions.assertHabitExists;
-import static org.isoron.uhabits.MainActivityActions.assertHabitsDontExist;
-import static org.isoron.uhabits.MainActivityActions.assertHabitsExist;
-import static org.isoron.uhabits.MainActivityActions.clickActionModeMenuItem;
-import static org.isoron.uhabits.MainActivityActions.deleteHabit;
-import static org.isoron.uhabits.MainActivityActions.deleteHabits;
-import static org.isoron.uhabits.MainActivityActions.selectHabit;
-import static org.isoron.uhabits.MainActivityActions.selectHabits;
-import static org.isoron.uhabits.MainActivityActions.typeHabitData;
-import static org.isoron.uhabits.ShowHabitActivityActions.openHistoryEditor;
+import static org.isoron.uhabits.ui.HabitMatchers.withName;
+import static org.isoron.uhabits.ui.HabitViewActions.clickAtRandomLocations;
+import static org.isoron.uhabits.ui.HabitViewActions.toggleAllCheckmarks;
+import static org.isoron.uhabits.ui.MainActivityActions.addHabit;
+import static org.isoron.uhabits.ui.MainActivityActions.assertHabitExists;
+import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsDontExist;
+import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsExist;
+import static org.isoron.uhabits.ui.MainActivityActions.clickActionModeMenuItem;
+import static org.isoron.uhabits.ui.MainActivityActions.deleteHabit;
+import static org.isoron.uhabits.ui.MainActivityActions.deleteHabits;
+import static org.isoron.uhabits.ui.MainActivityActions.selectHabit;
+import static org.isoron.uhabits.ui.MainActivityActions.selectHabits;
+import static org.isoron.uhabits.ui.MainActivityActions.typeHabitData;
+import static org.isoron.uhabits.ui.ShowHabitActivityActions.openHistoryEditor;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
