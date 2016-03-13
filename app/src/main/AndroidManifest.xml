@@ -35,19 +35,13 @@
         android:maxSdkVersion="18"/>
 
     <application
-        android:name="com.activeandroid.app.Application"
+        android:name="HabitsApplication"
         android:allowBackup="true"
         android:backupAgent=".HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
         android:theme="@style/AppBaseTheme">
 
-        <meta-data
-            android:name="AA_DB_NAME"
-            android:value="uhabits.db"/>
-        <meta-data
-            android:name="AA_DB_VERSION"
-            android:value="12"/>
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw"/>
