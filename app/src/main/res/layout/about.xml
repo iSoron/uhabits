@@ -115,11 +115,11 @@
 
             <TextView
                 style="@style/aboutItemStyle"
-                android:text="naofumi (日本語)"/>
+                android:text="Naofumi F (日本語)"/>
 
             <TextView
                 style="@style/aboutItemStyle"
-                android:text="Matthias (Deutsch)"/>
+                android:text="Matthias Meisser (Deutsch)"/>
 
             <TextView
                 style="@style/aboutItemStyle"
