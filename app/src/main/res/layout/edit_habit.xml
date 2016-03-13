@@ -35,6 +35,7 @@
             <EditText
                 android:id="@+id/input_name"
                 android:hint="@string/name"
+                android:inputType="textCapSentences"
                 style="@style/dialogFormInput">
 
                 <requestFocus />
