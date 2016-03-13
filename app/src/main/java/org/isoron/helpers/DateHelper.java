@@ -32,12 +32,20 @@ import java.util.TimeZone;
 public class DateHelper
 {
     public static int millisecondsInOneDay = 24 * 60 * 60 * 1000;
+    private static Long fixedLocalTime = null;
 
     public static long getLocalTime()
     {
+        if(fixedLocalTime != null) return fixedLocalTime;
+
         TimeZone tz = TimeZone.getDefault();
         long now = new Date().getTime();
         return now + tz.getOffset(now);
+    }
+
+    public static void setFixedLocalTime(Long timestamp)
+    {
+        fixedLocalTime = timestamp;
     }
 
     public static long toLocalTime(long timestamp)
@@ -54,9 +62,7 @@ public class DateHelper
 
     public static GregorianCalendar getStartOfTodayCalendar()
     {
-        GregorianCalendar day = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        day.setTimeInMillis(DateHelper.getStartOfDay(DateHelper.getLocalTime()));
-        return day;
+        return getCalendar(getStartOfToday());
     }
 
     public static GregorianCalendar getCalendar(long timestamp)
@@ -187,5 +193,4 @@ public class DateHelper
 
         return weekday;
     }
-
 }
