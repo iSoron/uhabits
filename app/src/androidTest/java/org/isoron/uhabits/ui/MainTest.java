@@ -120,13 +120,15 @@ public class MainTest
     }
 
     @Test
-    public void testAddHabitAndViewStats()
+    public void testAddHabitAndViewStats() throws InterruptedException
     {
         String name = addHabit(true);
 
         onData(allOf(is(instanceOf(Habit.class)), withName(name)))
                 .onChildView(withId(R.id.llButtons))
                 .perform(toggleAllCheckmarks());
+
+        Thread.sleep(1200);
 
         onData(allOf(is(instanceOf(Habit.class)), withName(name)))
                 .onChildView(withId(R.id.label))
