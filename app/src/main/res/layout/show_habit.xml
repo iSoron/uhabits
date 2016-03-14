@@ -55,7 +55,7 @@
             <TextView
                 android:id="@+id/tvCount"
                 style="@style/cardHeaderStyle"
-                android:text="Repetitions"/>
+                android:text="@string/repetitions"/>
 
             <LinearLayout
                 android:id="@+id/llRepetition"
@@ -70,7 +70,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:label="Month"
+                    app:label="@string/month"
                     app:interval="31"
                     app:textSize="34"/>
 
@@ -80,7 +80,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:label="Quarter"
+                    app:label="@string/quarter"
                     app:interval="92"
                     app:textSize="34"/>
 
@@ -90,7 +90,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:label="Year"
+                    app:label="@string/year"
                     app:interval="365"
                     app:textSize="34"/>
 
@@ -100,7 +100,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    app:label="All time"
+                    app:label="@string/all_time"
                     app:interval="0"
                     app:textSize="34"/>
 
