@@ -65,44 +65,28 @@
                 android:orientation="horizontal">
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     app:label="@string/month"
                     app:interval="31"
-                    app:textSize="34"/>
+                    app:textSize="34"
+                    style="@style/repetitionCountStyle"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     app:label="@string/quarter"
                     app:interval="92"
-                    app:textSize="34"/>
+                    app:textSize="34"
+                    style="@style/repetitionCountStyle"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     app:label="@string/year"
                     app:interval="365"
-                    app:textSize="34"/>
+                    app:textSize="34"
+                    style="@style/repetitionCountStyle"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     app:label="@string/all_time"
                     app:interval="0"
-                    app:textSize="34"/>
+                    app:textSize="34"
+                    style="@style/repetitionCountStyle"/>
 
             </LinearLayout>
 

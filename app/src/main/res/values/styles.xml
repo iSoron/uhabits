@@ -93,4 +93,12 @@
         <item name="android:paddingTop">12dp</item>
     </style>
 
+    <style name="repetitionCountStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
 </resources>
