@@ -11,5 +11,5 @@ test:
     - circle-android wait-for-boot
     - adb shell input keyevent 82
     - ./gradlew connectedAndroidTest
-    - cp -r my-project/build/outputs $CIRCLE_ARTIFACTS
-    - cp -r my-project/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS || echo ok
+    - cp -r app/build/reports/androidTests/connected/* $CIRCLE_TEST_REPORTS || echo ok
