@@ -24,27 +24,30 @@ public final class SystemHelper extends AndroidJUnitRunner
 
     void unlockScreen()
     {
+        Log.i("SystemHelper", "Trying to unlock screen");
         try
         {
             KeyguardManager mKeyGuardManager = (KeyguardManager) context
                     .getSystemService(Context.KEYGUARD_SERVICE);
             KeyguardManager.KeyguardLock mLock = mKeyGuardManager.newKeyguardLock("lock");
             mLock.disableKeyguard();
+            Log.e("SystemHelper", "Successfully unlocked screen");
         }
         catch (Exception e)
         {
+            Log.e("SystemHelper", "Could not unlock screen");
             e.printStackTrace();
         }
     }
 
     void disableAllAnimations()
     {
-        Log.i("SystemAnimations", "Trying to disable animations");
+        Log.i("SystemHelper", "Trying to disable animations");
         int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
         if (permStatus == PackageManager.PERMISSION_GRANTED)
             setSystemAnimationsScale(DISABLED);
         else
-            Log.e("SystemAnimations", "Permission denied");
+            Log.e("SystemHelper", "Permission denied");
 
     }
 
@@ -78,11 +81,11 @@ public final class SystemHelper extends AndroidJUnitRunner
                 currentScales[i] = animationScale;
 
             setAnimationScales.invoke(windowManagerObj, new Object[]{currentScales});
-            Log.i("SystemAnimations", "All animations successfully disabled");
+            Log.i("SystemHelper", "All animations successfully disabled");
         }
         catch (Exception e)
         {
-            Log.e("SystemAnimations",
+            Log.e("SystemHelper",
                     "Could not change animation scale to " + animationScale + " :'(");
         }
     }
