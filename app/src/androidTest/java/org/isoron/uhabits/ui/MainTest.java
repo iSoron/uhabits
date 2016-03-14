@@ -65,14 +65,12 @@ public class MainTest
     @Before
     public void setup()
     {
-        disableAnimations();
-        skipTutorial();
-    }
-
-    public void disableAnimations()
-    {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
-        new SystemAnimations(context).disableAll();
+        SystemHelper sys = new SystemHelper(context);
+        sys.disableAllAnimations();
+        sys.unlockScreen();
+
+        skipTutorial();
     }
 
     public void skipTutorial()
