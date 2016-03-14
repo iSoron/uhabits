@@ -1,3 +1,7 @@
+<a href="https://circleci.com/gh/iSoron/uhabits/tree/dev">
+  <img src="https://circleci.com/gh/iSoron/uhabits/tree/dev.svg?style=shield" align="right">
+</a>
+
 # Loop Habit Tracker
 
 Loop is a simple Android app that helps you create and maintain good habits,
