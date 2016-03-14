@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Random;
 
-public class HabitScoreView extends ScrollableDataView
+public class HabitScoreView extends ScrollableDataView implements HabitDataView
 {
     public static final int BUCKET_SIZE = 7;
     public static final PorterDuffXfermode XFERMODE_CLEAR =

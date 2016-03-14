@@ -40,9 +40,71 @@
 
             <org.isoron.uhabits.views.RingView
                 android:id="@+id/scoreRing"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:label="@string/habit_strength"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/cardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start">
+
+            <TextView
+                android:id="@+id/tvCount"
+                style="@style/cardHeaderStyle"
+                android:text="@string/repetitions"/>
+
+            <LinearLayout
+                android:id="@+id/llRepetition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <org.isoron.uhabits.views.RepetitionCountView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    app:label="@string/month"
+                    app:interval="31"
+                    app:textSize="34"/>
+
+                <org.isoron.uhabits.views.RepetitionCountView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    app:label="@string/quarter"
+                    app:interval="92"
+                    app:textSize="34"/>
+
+                <org.isoron.uhabits.views.RepetitionCountView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    app:label="@string/year"
+                    app:interval="365"
+                    app:textSize="34"/>
+
+                <org.isoron.uhabits.views.RepetitionCountView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    app:label="@string/all_time"
+                    app:interval="0"
+                    app:textSize="34"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

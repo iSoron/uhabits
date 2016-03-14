@@ -125,4 +125,9 @@
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
 
+    <string name="repetitions">Repetitions</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="quarter">Quarter</string>
+    <string name="all_time">All time</string>
 </resources>

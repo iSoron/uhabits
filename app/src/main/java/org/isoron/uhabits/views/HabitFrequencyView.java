@@ -39,7 +39,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class HabitFrequencyView extends ScrollableDataView
+public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
 {
 
     private Paint pGrid;

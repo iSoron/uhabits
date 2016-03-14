@@ -178,4 +178,16 @@ public class RepetitionList
 
         return map;
     }
+
+    /**
+     * Returns the total number of repetitions that happened within the specified interval of time.
+     *
+     * @param from beginning of the interval
+     * @param to end of the interval
+     * @return number of repetition in the given interval
+     */
+    public int count(long from, long to)
+    {
+        return selectFromTo(from, to).count();
+    }
 }
