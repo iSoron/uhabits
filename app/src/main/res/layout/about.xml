@@ -123,6 +123,10 @@
 
             <TextView
                 style="@style/aboutItemStyle"
+                android:text="Al Alloush (العَرَبِية‎)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
                 android:text="Álinson Xavier (Português)"/>
         </LinearLayout>
     </LinearLayout>
