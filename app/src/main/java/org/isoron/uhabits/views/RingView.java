@@ -24,6 +24,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -37,10 +40,11 @@ public class RingView extends View
     private int size;
     private int color;
     private float percentage;
-    private Paint pRing;
-    private float lineHeight;
+    private float labelMarginTop;
+    private TextPaint pRing;
     private String label;
     private RectF rect;
+    private StaticLayout labelLayout;
 
     public RingView(Context context, AttributeSet attrs)
     {
@@ -68,12 +72,16 @@ public class RingView extends View
 
     private void init()
     {
-        pRing = new Paint();
+        pRing = new TextPaint();
         pRing.setAntiAlias(true);
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
-        pRing.setTextSize(size * 0.2f);
-        lineHeight = pRing.getFontSpacing();
+
+        pRing.setTextSize(size * 0.15f);
+        labelMarginTop = size * 0.10f;
+        labelLayout = new StaticLayout(label, pRing, size, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
+                false);
+
         rect = new RectF();
     }
 
@@ -81,7 +89,11 @@ public class RingView extends View
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(size, size + (int) (2 * lineHeight));
+
+        int width = Math.max(size, labelLayout.getWidth());
+        int height = (int) (size + labelLayout.getHeight() + labelMarginTop);
+
+        setMeasuredDimension(width, height);
     }
 
     @Override
@@ -101,12 +113,14 @@ public class RingView extends View
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
+        float lineHeight = pRing.getFontSpacing();
         pRing.setColor(Color.GRAY);
         pRing.setTextSize(size * 0.2f);
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
                 rect.centerY() + lineHeight / 3, pRing);
 
         pRing.setTextSize(size * 0.15f);
-        canvas.drawText(label, size / 2, size + lineHeight * 1.2f, pRing);
+        canvas.translate(size / 2, size + labelMarginTop);
+        labelLayout.draw(canvas);
     }
 }
