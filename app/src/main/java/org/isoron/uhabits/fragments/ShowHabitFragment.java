@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.isoron.helpers.ColorHelper;
@@ -41,11 +42,16 @@ import org.isoron.uhabits.dialogs.HistoryEditorDialog;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitHistoryView;
 import org.isoron.uhabits.views.HabitFrequencyView;
 import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
+import org.isoron.uhabits.views.RepetitionCountView;
 import org.isoron.uhabits.views.RingView;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class ShowHabitFragment extends Fragment
         implements DialogHelper.OnSavedListener, HistoryEditorDialog.Listener
@@ -56,6 +62,8 @@ public class ShowHabitFragment extends Fragment
     private HabitScoreView scoreView;
     private HabitHistoryView historyView;
     private HabitFrequencyView punchcardView;
+
+    private List<HabitDataView> dataViews;
 
     @Override
     public void onStart()
@@ -71,19 +79,28 @@ public class ShowHabitFragment extends Fragment
         activity = (ShowHabitActivity) getActivity();
         habit = activity.habit;
 
+        dataViews = new LinkedList<>();
+
         Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
         streakView = (HabitStreakView) view.findViewById(R.id.streakView);
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
         historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
         punchcardView = (HabitFrequencyView) view.findViewById(R.id.punchcardView);
 
+        dataViews.add((HabitStreakView) view.findViewById(R.id.streakView));
+        dataViews.add((HabitScoreView) view.findViewById(R.id.scoreView));
+        dataViews.add((HabitHistoryView) view.findViewById(R.id.historyView));
+        dataViews.add((HabitFrequencyView) view.findViewById(R.id.punchcardView));
+
+        LinearLayout llRepetition = (LinearLayout) view.findViewById(R.id.llRepetition);
+        for(int i = 0; i < llRepetition.getChildCount(); i++)
+            dataViews.add((RepetitionCountView) llRepetition.getChildAt(i));
+
         updateHeaders(view);
         updateScoreRing(view);
 
-        streakView.setHabit(habit);
-        scoreView.setHabit(habit);
-        historyView.setHabit(habit);
-        punchcardView.setHabit(habit);
+        for(HabitDataView dataView : dataViews)
+            dataView.setHabit(habit);
 
         btEditHistory.setOnClickListener(new View.OnClickListener()
         {
@@ -132,6 +149,7 @@ public class ShowHabitFragment extends Fragment
         updateColor(view, R.id.tvStrength);
         updateColor(view, R.id.tvStreaks);
         updateColor(view, R.id.tvWeekdayFreq);
+        updateColor(view, R.id.tvCount);
     }
 
     private void updateColor(View view, int viewId)
@@ -184,10 +202,7 @@ public class ShowHabitFragment extends Fragment
 
     public void refreshData()
     {
-        streakView.refreshData();
-        historyView.refreshData();
-        scoreView.refreshData();
-        punchcardView.refreshData();
-        updateScoreRing(getView());
+        for(HabitDataView view : dataViews)
+            view.refreshData();
     }
 }

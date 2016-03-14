@@ -40,7 +40,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 
-public class HabitHistoryView extends ScrollableDataView
+public class HabitHistoryView extends ScrollableDataView implements HabitDataView
 {
     private Habit habit;
     private int[] checkmarks;

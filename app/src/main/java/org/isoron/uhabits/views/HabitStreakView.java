@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class HabitStreakView extends ScrollableDataView
+public class HabitStreakView extends ScrollableDataView implements HabitDataView
 {
     private Habit habit;
     private Paint pText, pBar;

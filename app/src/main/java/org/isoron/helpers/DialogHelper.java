@@ -27,6 +27,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -80,16 +81,35 @@ public abstract class DialogHelper
     {
         int resId = attrs.getAttributeResourceValue(ISORON_NAMESPACE, name, 0);
 
-        if(resId != 0)
-            return context.getResources().getString(resId);
-        else
-            return attrs.getAttributeValue(ISORON_NAMESPACE, name);
+        if (resId != 0) return context.getResources().getString(resId);
+        else return attrs.getAttributeValue(ISORON_NAMESPACE, name);
+    }
+
+    public static int getIntAttribute(Context context, AttributeSet attrs, String name)
+    {
+        String number = getAttribute(context, attrs, name);
+        if(number != null) return Integer.parseInt(number);
+        else return 0;
+    }
+
+    public static float getFloatAttribute(Context context, AttributeSet attrs, String name)
+    {
+        String number = getAttribute(context, attrs, name);
+        if(number != null) return Float.parseFloat(number);
+        else return 0;
     }
 
     public static float dpToPixels(Context context, float dp)
     {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        return dp * (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
+    }
+
+    public static float spToPixels(Context context, float sp)
+    {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
 }
