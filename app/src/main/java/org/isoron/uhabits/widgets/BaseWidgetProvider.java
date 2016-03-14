@@ -106,6 +106,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if(habitId < 0) return;
 
         Habit habit = Habit.get(habitId);
+        if(habit == null) return;
+
         View widgetView = buildCustomView(context, habit);
         measureCustomView(context, width, height, widgetView);
 
