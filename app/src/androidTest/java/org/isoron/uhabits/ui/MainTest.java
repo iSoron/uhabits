@@ -10,6 +10,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -58,6 +59,8 @@ import static org.isoron.uhabits.ui.ShowHabitActivityActions.openHistoryEditor;
 @LargeTest
 public class MainTest
 {
+    private SystemHelper sys;
+
     @Rule
     public IntentsTestRule<MainActivity> activityRule = new IntentsTestRule<>(
             MainActivity.class);
@@ -66,11 +69,18 @@ public class MainTest
     public void setup()
     {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
-        SystemHelper sys = new SystemHelper(context);
+        sys = new SystemHelper(context);
         sys.disableAllAnimations();
+        sys.acquireWakeLock();
         sys.unlockScreen();
 
         skipTutorial();
+    }
+
+    @After
+    public void tearDown()
+    {
+        sys.releaseWakeLock();
     }
 
     public void skipTutorial()

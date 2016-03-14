@@ -4,6 +4,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 
@@ -16,10 +17,26 @@ public final class SystemHelper extends AndroidJUnitRunner
     private static final float DEFAULT = 1.0f;
 
     private final Context context;
+    private PowerManager.WakeLock wakeLock;
 
     SystemHelper(Context context)
     {
         this.context = context;
+    }
+
+    void acquireWakeLock()
+    {
+        PowerManager power = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        wakeLock = power.newWakeLock(PowerManager.FULL_WAKE_LOCK |
+                PowerManager.ACQUIRE_CAUSES_WAKEUP |
+                PowerManager.ON_AFTER_RELEASE, getClass().getSimpleName());
+        wakeLock.acquire();
+    }
+
+    void releaseWakeLock()
+    {
+        if(wakeLock != null)
+            wakeLock.release();
     }
 
     void unlockScreen()
@@ -27,13 +44,12 @@ public final class SystemHelper extends AndroidJUnitRunner
         Log.i("SystemHelper", "Trying to unlock screen");
         try
         {
-            KeyguardManager mKeyGuardManager = (KeyguardManager) context
-                    .getSystemService(Context.KEYGUARD_SERVICE);
+            KeyguardManager mKeyGuardManager =
+                    (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
             KeyguardManager.KeyguardLock mLock = mKeyGuardManager.newKeyguardLock("lock");
             mLock.disableKeyguard();
             Log.e("SystemHelper", "Successfully unlocked screen");
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             Log.e("SystemHelper", "Could not unlock screen");
             e.printStackTrace();
@@ -44,10 +60,8 @@ public final class SystemHelper extends AndroidJUnitRunner
     {
         Log.i("SystemHelper", "Trying to disable animations");
         int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
-        if (permStatus == PackageManager.PERMISSION_GRANTED)
-            setSystemAnimationsScale(DISABLED);
-        else
-            Log.e("SystemHelper", "Permission denied");
+        if (permStatus == PackageManager.PERMISSION_GRANTED) setSystemAnimationsScale(DISABLED);
+        else Log.e("SystemHelper", "Permission denied");
 
     }
 
@@ -85,8 +99,7 @@ public final class SystemHelper extends AndroidJUnitRunner
         }
         catch (Exception e)
         {
-            Log.e("SystemHelper",
-                    "Could not change animation scale to " + animationScale + " :'(");
+            Log.e("SystemHelper", "Could not change animation scale to " + animationScale + " :'(");
         }
     }
 }
