@@ -127,6 +127,34 @@
 
             <TextView
                 style="@style/aboutItemStyle"
+                android:text="Thibaut Girka (Français)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Can Altas (Deutsch)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Marco Cavazza (Italiano)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Adam Jurkiewicz (Polski)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Dmitriy Bogdanov (Русский)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="dalecarlian (Svenska)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Robin (Svenska)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
                 android:text="Álinson Xavier (Português)"/>
         </LinearLayout>
     </LinearLayout>
