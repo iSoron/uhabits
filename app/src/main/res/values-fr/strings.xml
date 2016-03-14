@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016 François Mahé
+  ~ Copyright (C) 2016 Thibaut Girka
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -34,15 +35,15 @@
     <string name="toast_nothing_to_redo">"Rien à refaire."</string>
     <string name="toast_habit_changed">"Habitude changée."</string>
 
-    <!-- Fuzzy -->
-    <string name="toast_habit_changed_back">"Habitude encore changée. "</string>
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Habitude non changée."</string>
     <string name="toast_habit_archived">"Habitudes archivées."</string>
     <string name="toast_habit_unarchived">"Habitudes désarchivées."</string>
     <string name="overview">"Vue d'ensemble"</string>
     <string name="habit_strength">"Force de l'habitude"</string>
-    <string name="history">"Histoire"</string>
+    <string name="history">"Historique"</string>
     <string name="clear">"Supprimer"</string>
-    <string name="description_hint">"Question (As-tu … aujourd'hui?)"</string>
+    <string name="description_hint">"Question (As-tu ... aujourd'hui?)"</string>
 
     <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
     <string name="repeat">"Répéter"</string>
@@ -52,7 +53,7 @@
     <string name="discard">"Annuler"</string>
     <string name="save">"Sauvegarder"</string>
     <string name="streaks">"Séries"</string>
-    <string name="no_habits_found">"Vous n'avez pas d'habitude active"</string>
+    <string name="no_habits_found">"Vous n'avez pas d'habitudes actives"</string>
     <string name="long_press_to_toggle">"Appuyez longtemps pour cocher ou décocher"</string>
     <string name="reminder_off">"Off"</string>
     <string name="validation_name_should_not_be_blank">"Le nom ne peut être vide."</string>
@@ -66,12 +67,12 @@
     <!-- App introduction -->
     <string name="intro_title_1">"Bienvenue"</string>
     <string name="intro_description_1">"Loop - Suivi d'habitudes vous aide à créer et maintenir de bonnes habitudes"</string>
-    <string name="intro_title_2">"Créer des nouvelles habitudes"</string>
+    <string name="intro_title_2">"Créer de nouvelles habitudes"</string>
     <string name="intro_description_2">"Chaque jour, après avoir fait votre habitude, mettez une croix sur l'application"</string>
     <string name="intro_title_3">"Continuez à le faire"</string>
-    <string name="intro_description_3">"Les habitudes faites de manière consistente pendant une longue période gagneront une étoile complète"</string>
+    <string name="intro_description_3">"Les habitudes faites de manière régulière pendant une période de temps étendue gagneront une étoile complète"</string>
     <string name="intro_title_4">"Suivre votre progrès"</string>
-    <string name="intro_description_4">"Graphiques détaillés montrant comment vos habitudes évoluent au fil du temps"</string>
+    <string name="intro_description_4">"Des graphiques détaillés montrant comment vos habitudes évoluent au fil du temps"</string>
     <string name="interval_15_minutes">"15 minutes"</string>
     <string name="interval_30_minutes">"30 minutes"</string>
     <string name="interval_1_hour">"1 heure"</string>
@@ -80,7 +81,9 @@
     <string name="interval_8_hour">"8 heures"</string>
     <string name="pref_toggle_title">"Activer les répétitions avec un appui court"</string>
     <string name="pref_toggle_description">"Plus pratique, mais peut causer des activations accidentelles"</string>
-    <string name="pref_snooze_interval_title">"Éteindre l'intervalle sur les rappels"</string>
+
+    <!-- Je pense qu'en français, on parle plutôt d'intervalle de report/temporisation des répétitions/rappels. -->
+    <string name="pref_snooze_interval_title">"Intervalle de report des rappels"</string>
     <string name="pref_rate_this_app">"Noter cette app sur le Google Play Store"</string>
     <string name="pref_send_feedback">"Envoyez un avis au développeur"</string>
     <string name="pref_view_source_code">"Voir le code source sur GitHub"</string>
@@ -90,12 +93,12 @@
     <string name="name">"Nom"</string>
     <string name="show_archived">"Montrer les archivées"</string>
     <string name="settings">"Paramètres"</string>
-    <string name="snooze_interval">"Éteindre l'intervalle"</string>
+    <string name="snooze_interval">"Intervalle de report"</string>
     <string name="hint_title">"Le saviez-vous ? "</string>
-    <string name="hint_drag">"Pour réarranger les habitudes, faites un appui long sur le nom de l'habitude et placez là à la bonne place."</string>
-    <string name="hint_landscape">"Vous pouvez voir plus en jours en mettant votre téléphone en mode paysage."</string>
+    <string name="hint_drag">"Pour réarranger les habitudes, faites un appui long sur le nom de l'habitude et placez la à la bonne place."</string>
+    <string name="hint_landscape">"Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage."</string>
     <string name="delete_habits">"Supprimer des habitudes"</string>
-    <string name="delete_habits_message">"Les habitudes seront supprimées pour toujours. Cette action ne peut être refaite."</string>
+    <string name="delete_habits_message">"Les habitudes seront supprimées pour toujours. Cette action ne peut être défaite."</string>
     <string name="weekends">"Weekends"</string>
     <string name="any_weekday">"Jours de la semaine"</string>
     <string name="any_day">"N'importe quel jour"</string>
@@ -106,12 +109,28 @@
     <string name="select_hours">"Sélectionner les heures"</string>
     <string name="select_minutes">"Sélectionner les minutes"</string>
 
-
-    <string name="about">"A propos"</string>
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Créez des bonnes habitudes et suivez leurs avancées au fil du temps (sans pub)"</string>
+    <string name="store_description_1">"Loop vous aide à créer et maintenir de bonnes habitudes, permettant de réussir vos objectifs à long terme. Des graphiques détaillés et des statistiques vous montrent comment vos habitudes s’améliorent au fil du temps. C'est totalement sans pub et open source."</string>
+<string name="store_feature_interface">"&lt;b&gt;Simple, beau avec une interface moderne&lt;/b&gt;
+Loop a une interface minimaliste, facile à utiliser et qui suit les règles de material design."</string>
+<string name="store_feature_score">"&lt;b&gt;Score d'habitude&lt;/b&gt;
+En plus de montrer votre série en cours, Loop a un algorithme pour calculer la force de vos habitudes. Chaque jours réussis augmente la force de l'habitude chaque jours ratés le rend plus faible. Cependant, quelques jours ratés après une longue série ne détruiront pas entièrement votre progrès."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Graphiques détaillés et statistiques&lt;/b&gt;
+Observez clairement comment vos habitudes s’améliorent au fil du temps avec de beaux graphiques détaillés. Défilez vers les jours passés pour voir l'historique complet de vos habitudes."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Calendrier flexible&lt;/b&gt;
+Supporte les habitudes quotidiennes et celles avec un calendrier plus complexes, comme 3 fois par semaine, une fois par semaine ou un jour sur deux."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Rappel&lt;/b&gt;
+Créez un rappel propre pour chaque habitude, à une heure choisie de la journée. Cochez, supprimez ou reportez votre habitude directement à partir de la notification, sans ouvrir l'application."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Entièrement sans pub et open-source&lt;/b&gt;
+Il n'y a pas de publicités, de notifications embêtantes ou de permissions intrusives avec cette application, et il n'y en aura jamais. L'ensemble du code source est disponible sous GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Optimisée pour les montres android&lt;/b&gt;
+Les rappels peuvent être cochés, reportés ou supprimés directement à partir de votre montre Android"</string>
+    <string name="about">"À propos"</string>
     <string name="translators">"Traducteurs"</string>
     <string name="developers">"Développeurs"</string>
 
     <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
     <string name="version_n">"Version %s"</string>
-    <string name="frequency">Fréquence</string>
+    <string name="frequency">"Fréquence"</string>
 </resources>
