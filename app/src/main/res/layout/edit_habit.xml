@@ -50,6 +50,7 @@
         <EditText
             android:id="@+id/input_description"
             android:hint="@string/description_hint"
+            android:inputType="textCapSentences"
             style="@style/dialogFormInputMultiline" />
 
         <LinearLayout
