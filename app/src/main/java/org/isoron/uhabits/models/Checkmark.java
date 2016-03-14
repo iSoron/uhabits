@@ -26,9 +26,21 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Checkmarks")
 public class Checkmark extends Model
 {
-
+    /**
+     * Indicates that there was no repetition at the timestamp, even though a repetition was
+     * expected.
+     */
     public static final int UNCHECKED = 0;
+
+    /**
+     * Indicates that there was no repetition at the timestamp, but one was not expected in any
+     * case, due to the frequency of the habit.
+     */
     public static final int CHECKED_IMPLICITLY = 1;
+
+    /**
+     * Indicates that there was a repetition at the timestamp.
+     */
     public static final int CHECKED_EXPLICITLY = 2;
 
     @Column(name = "habit")
@@ -38,10 +50,9 @@ public class Checkmark extends Model
     public Long timestamp;
 
     /**
-     * Indicates whether there is a checkmark at the given timestamp or not, and whether the
-     * checkmark is explicit or implicit. An explicit checkmark indicates that there is a
-     * repetition at that day. An implicit checkmark indicates that there is no repetition at that
-     * day, but a repetition was not needed, due to the frequency of the habit.
+     * Indicates whether there is a repetition at the given timestamp or not, and whether the
+     * repetition was expected. Assumes one of the values UNCHECKED, CHECKED_EXPLICITLY or
+     * CHECKED_IMPLICITLY.
      */
     @Column(name = "value")
     public Integer value;

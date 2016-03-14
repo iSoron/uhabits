@@ -2,12 +2,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "org.isoron.uhabits"
         minSdkVersion 15
         targetSdkVersion 23
+
+        buildConfigField "Integer", "databaseVersion", "12"
+        buildConfigField "String", "databaseFilename", "\"uhabits.db\""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -40,3 +43,13 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
 }
 
+
+task grantAnimationPermission(type: Exec, dependsOn: 'installDebug') {
+    commandLine "adb shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE".split(' ')
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith('connected')) {
+        task.dependsOn grantAnimationPermission
+    }
+}

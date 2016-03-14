@@ -17,11 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.matcher.ViewMatchers;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Collections;
@@ -45,8 +45,8 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.isoron.uhabits.HabitMatchers.containsHabit;
-import static org.isoron.uhabits.HabitMatchers.withName;
+import static org.isoron.uhabits.ui.HabitMatchers.containsHabit;
+import static org.isoron.uhabits.ui.HabitMatchers.withName;
 
 public class MainActivityActions
 {

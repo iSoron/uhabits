@@ -71,8 +71,6 @@ public class ShowHabitFragment extends Fragment
         activity = (ShowHabitActivity) getActivity();
         habit = activity.habit;
 
-        habit.checkmarks.rebuild();
-
         Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
         streakView = (HabitStreakView) view.findViewById(R.id.streakView);
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);

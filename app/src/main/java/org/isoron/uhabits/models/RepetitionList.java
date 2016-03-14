@@ -30,7 +30,6 @@ import com.activeandroid.query.Select;
 import org.isoron.helpers.DateHelper;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
@@ -48,6 +47,7 @@ public class RepetitionList
     {
         return new Select().from(Repetition.class)
                 .where("habit = ?", habit.getId())
+                .and("timestamp <= ?", DateHelper.getStartOfToday())
                 .orderBy("timestamp");
     }
 
@@ -56,12 +56,23 @@ public class RepetitionList
         return select().and("timestamp >= ?", timeFrom).and("timestamp <= ?", timeTo);
     }
 
+    /**
+     * Checks whether there is a repetition at a given timestamp.
+     *
+     * @param timestamp the timestamp to check
+     * @return true if there is a repetition
+     */
     public boolean contains(long timestamp)
     {
         int count = select().where("timestamp = ?", timestamp).count();
         return (count > 0);
     }
 
+    /**
+     * Deletes the repetition at a given timestamp, if it exists.
+     *
+     * @param timestamp the timestamp of the repetition to delete
+     */
     public void delete(long timestamp)
     {
         new Delete().from(Repetition.class)
@@ -70,11 +81,12 @@ public class RepetitionList
                 .execute();
     }
 
-    public Repetition getOldestNewerThan(long timestamp)
-    {
-        return select().where("timestamp > ?", timestamp).limit(1).executeSingle();
-    }
-
+    /**
+     * Toggles the repetition at a certain timestamp. That is, deletes the repetition if it exists
+     * or creates one if it does not.
+     *
+     * @param timestamp the timestamp of the repetition to toggle
+     */
     public void toggle(long timestamp)
     {
         timestamp = DateHelper.getStartOfDay(timestamp);
@@ -96,18 +108,27 @@ public class RepetitionList
         habit.streaks.deleteNewerThan(timestamp);
     }
 
+    /**
+     * Returns the oldest repetition for the habit. If there is no repetition, returns null.
+     * Repetitions in the future are discarded.
+     *
+     * @return oldest repetition for the habit
+     */
     public Repetition getOldest()
     {
         return (Repetition) select().limit(1).executeSingle();
     }
 
-    public boolean hasImplicitRepToday()
-    {
-        long today = DateHelper.getStartOfToday();
-        int reps[] = habit.checkmarks.getValues(today - DateHelper.millisecondsInOneDay, today);
-        return (reps[0] > 0);
-    }
-
+    /**
+     * Returns the total number of repetitions for each month, from the first repetition until
+     * today, grouped by day of week. The repetitions are returned in a HashMap. The key is the
+     * timestamp for the first day of the month, at midnight (00:00). The value is an integer
+     * array with 7 entries. The first entry contains the total number of repetitions during
+     * the specified month that occurred on a Saturday. The second entry corresponds to Sunday,
+     * and so on. If there are no repetitions during a certain month, the value is null.
+     *
+     * @return total number of repetitions by month versus day of week
+     */
     public HashMap<Long, Integer[]> getWeekdayFrequency()
     {
         Repetition oldestRep = getOldest();
@@ -117,10 +138,11 @@ public class RepetitionList
                 "strftime('%m', timestamp / 1000, 'unixepoch') as month," +
                 "strftime('%w', timestamp / 1000, 'unixepoch') as weekday, " +
                 "count(*) from repetitions " +
-                "where habit = ? " +
+                "where habit = ? and timestamp <= ? " +
                 "group by year, month, weekday";
 
-        String[] params = { habit.getId().toString() };
+        String[] params = { habit.getId().toString(),
+                Long.toString(DateHelper.getStartOfToday()) };
 
         SQLiteDatabase db = Cache.openDatabase();
         Cursor cursor = db.rawQuery(query, params);

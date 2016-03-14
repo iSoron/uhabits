@@ -17,18 +17,21 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
+
+import android.support.test.espresso.matcher.ViewMatchers;
+
+import org.isoron.uhabits.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class ShowHabitActivityActions
 {
     public static void openHistoryEditor()
     {
-        onView(withId(R.id.btEditHistory))
+        onView(ViewMatchers.withId(R.id.btEditHistory))
                 .perform(scrollTo(), click());
     }
 }

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.hamcrest.Matcher;
+import org.isoron.uhabits.R;
 
 import java.security.InvalidParameterException;
 import java.util.Random;

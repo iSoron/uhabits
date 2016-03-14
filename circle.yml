@@ -1,0 +1,15 @@
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
+test:
+  override:
+    - emulator -avd circleci-android22 -no-audio -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    - adb shell input keyevent 82
+    - ./gradlew connectedAndroidTest
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS || echo ok
+    - cp -r app/build/reports/androidTests/connected/* $CIRCLE_TEST_REPORTS || echo ok
