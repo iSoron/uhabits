@@ -240,7 +240,6 @@ public class HabitHistoryView extends ScrollableDataView
 
     private String previousMonth;
     private String previousYear;
-    private boolean justPrintedYear;
 
     @Override
     protected void onDraw(Canvas canvas)
@@ -250,10 +249,9 @@ public class HabitHistoryView extends ScrollableDataView
         baseLocation.set(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
         baseLocation.offset(getPaddingLeft(), getPaddingTop());
 
+        headerOverflow = 0;
         previousMonth = "";
         previousYear = "";
-        justPrintedYear = false;
-
         pTextHeader.setColor(textColor);
 
         updateDate();
@@ -307,44 +305,26 @@ public class HabitHistoryView extends ScrollableDataView
         }
     }
 
-    private boolean justSkippedColumn = false;
+    private float headerOverflow = 0;
 
     private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
     {
         String month = dfMonth.format(date.getTime());
         String year = dfYear.format(date.getTime());
 
+        String text = null;
         if (!month.equals(previousMonth))
-        {
-            int offset = 0;
-            if (justPrintedYear)
-            {
-                offset += columnWidth;
-                justSkippedColumn = true;
-            }
+            text = previousMonth = month;
+        else if(!year.equals(previousYear))
+            text = previousYear = year;
 
-            canvas.drawText(month, location.left + offset, location.bottom - headerTextOffset,
-                    pTextHeader);
-
-            previousMonth = month;
-            justPrintedYear = false;
-        }
-        else if (!year.equals(previousYear))
+        if(text != null)
         {
-            if(!justSkippedColumn)
-            {
-                canvas.drawText(year, location.left, location.bottom - headerTextOffset, pTextHeader);
-                previousYear = year;
-                justPrintedYear = true;
-            }
+            canvas.drawText(text, location.left + headerOverflow, location.bottom - headerTextOffset, pTextHeader);
+            headerOverflow += pTextHeader.measureText(text) + columnWidth * 0.2f;
+        }
 
-            justSkippedColumn = false;
-        }
-        else
-        {
-            justSkippedColumn = false;
-            justPrintedYear = false;
-        }
+        headerOverflow = Math.max(0, headerOverflow - columnWidth);
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
