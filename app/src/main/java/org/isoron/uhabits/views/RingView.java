@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -32,12 +33,9 @@ import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DialogHelper;
-import org.isoron.uhabits.R;
 
 public class RingView extends View
 {
-
-    private int size;
     private int color;
     private float percentage;
     private float labelMarginTop;
@@ -46,12 +44,22 @@ public class RingView extends View
     private RectF rect;
     private StaticLayout labelLayout;
 
+    private int width;
+    private int height;
+    private float diameter;
+    private float maxDiameter;
+    private float textSize;
+
     public RingView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
-        this.size = (int) context.getResources().getDimension(R.dimen.small_square_size) * 4;
         this.label = DialogHelper.getAttribute(context, attrs, "label");
+        this.maxDiameter = DialogHelper.getFloatAttribute(context, attrs, "maxDiameter");
+        this.textSize = DialogHelper.getFloatAttribute(context, attrs, "textSize");
+
+        this.maxDiameter = DialogHelper.dpToPixels(context, maxDiameter);
+        this.textSize = DialogHelper.spToPixels(context, textSize);
         this.color = ColorHelper.palette[7];
         this.percentage = 0.75f;
         init();
@@ -77,21 +85,27 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        pRing.setTextSize(size * 0.15f);
-        labelMarginTop = size * 0.10f;
-        labelLayout = new StaticLayout(label, pRing, size, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
-                false);
-
         rect = new RectF();
     }
 
     @Override
+    @SuppressLint("DrawAllocation")
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int width = Math.max(size, labelLayout.getWidth());
-        int height = (int) (size + labelLayout.getHeight() + labelMarginTop);
+        width = MeasureSpec.getSize(widthMeasureSpec);
+        height = MeasureSpec.getSize(heightMeasureSpec);
+
+        diameter = Math.min(maxDiameter, width);
+
+        pRing.setTextSize(textSize);
+        labelMarginTop = textSize * 0.80f;
+        labelLayout = new StaticLayout(label, pRing, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
+                false);
+
+        width = Math.max(width, labelLayout.getWidth());
+        height = (int) (diameter + labelLayout.getHeight() + labelMarginTop);
 
         setMeasuredDimension(width, height);
     }
@@ -100,10 +114,11 @@ public class RingView extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        float thickness = size * 0.15f;
+        float thickness = diameter * 0.15f;
 
         pRing.setColor(color);
-        rect.set(0, 0, size, size);
+        rect.set(0, 0, diameter, diameter);
+        rect.offset((width - diameter) / 2, 0);
         canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
         pRing.setColor(Color.rgb(230, 230, 230));
@@ -113,14 +128,14 @@ public class RingView extends View
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
-        float lineHeight = pRing.getFontSpacing();
         pRing.setColor(Color.GRAY);
-        pRing.setTextSize(size * 0.2f);
+        pRing.setTextSize(diameter * 0.2f);
+        float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
                 rect.centerY() + lineHeight / 3, pRing);
 
-        pRing.setTextSize(size * 0.15f);
-        canvas.translate(size / 2, size + labelMarginTop);
+        pRing.setTextSize(textSize);
+        canvas.translate(width / 2, diameter + labelMarginTop);
         labelLayout.draw(canvas);
     }
 }

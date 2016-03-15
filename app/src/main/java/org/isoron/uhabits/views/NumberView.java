@@ -102,9 +102,9 @@ public class NumberView extends View
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
 
-        labelTextSize = textSize * 0.35f;
-        labelMarginTop = textSize * 0.125f;
-        numberTextSize = textSize;
+        labelTextSize = textSize;
+        labelMarginTop = textSize * 0.35f;
+        numberTextSize = textSize * 2.85f;
 
         createNumberLayout();
         int numberWidth = numberLayout.getWidth();

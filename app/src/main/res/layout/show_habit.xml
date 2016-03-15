@@ -31,18 +31,28 @@
 
         <LinearLayout
             style="@style/cardStyle"
-            android:gravity="center">
+            android:gravity="start">
 
             <TextView
                 android:id="@+id/tvOverview"
                 style="@style/cardHeaderStyle"
                 android:text="@string/overview"/>
 
-            <org.isoron.uhabits.views.RingView
-                android:id="@+id/scoreRing"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llOverview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:label="@string/habit_strength"/>
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <org.isoron.uhabits.views.RingView
+                    android:id="@+id/scoreRing"
+                    style="@style/smallDataViewStyle"
+                    app:label="@string/habit_strength"
+                    app:maxDiameter="60"
+                    app:textSize="12"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -65,28 +75,28 @@
                 android:orientation="horizontal">
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    app:label="@string/month"
+                    style="@style/smallDataViewStyle"
                     app:interval="31"
-                    app:textSize="34"
-                    style="@style/repetitionCountStyle"/>
+                    app:label="@string/month"
+                    app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    app:label="@string/quarter"
+                    style="@style/smallDataViewStyle"
                     app:interval="92"
-                    app:textSize="34"
-                    style="@style/repetitionCountStyle"/>
+                    app:label="@string/quarter"
+                    app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    app:label="@string/year"
+                    style="@style/smallDataViewStyle"
                     app:interval="365"
-                    app:textSize="34"
-                    style="@style/repetitionCountStyle"/>
+                    app:label="@string/year"
+                    app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
-                    app:label="@string/all_time"
+                    style="@style/smallDataViewStyle"
                     app:interval="0"
-                    app:textSize="34"
-                    style="@style/repetitionCountStyle"/>
+                    app:label="@string/all_time"
+                    app:textSize="12"/>
 
             </LinearLayout>
 
