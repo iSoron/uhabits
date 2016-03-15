@@ -38,6 +38,13 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     {
         super(context, attrs);
         this.interval = DialogHelper.getIntAttribute(context, attrs, "interval");
+
+        int labelValue = DialogHelper.getIntAttribute(context, attrs, "labelValue");
+        String labelFormat = DialogHelper.getAttribute(context, attrs, "labelFormat");
+
+        if(labelValue > 0)
+            setLabel(String.format(labelFormat, labelValue));
+
         refreshData();
     }
 

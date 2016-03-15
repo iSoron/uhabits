@@ -125,9 +125,10 @@
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
 
-    <string name="repetitions">Repetitions</string>
-    <string name="month">Month</string>
-    <string name="year">Year</string>
-    <string name="quarter">Quarter</string>
+    <string name="number_of_repetitions">Number of repetitions</string>
+    <string name="last_x_days">Last %d days</string>
+    <string name="last_x_weeks">Last %d weeks</string>
+    <string name="last_x_months">Last %d months</string>
+    <string name="last_x_years">Last %d years</string>
     <string name="all_time">All time</string>
 </resources>

@@ -65,7 +65,7 @@
             <TextView
                 android:id="@+id/tvCount"
                 style="@style/cardHeaderStyle"
-                android:text="@string/repetitions"/>
+                android:text="@string/number_of_repetitions"/>
 
             <LinearLayout
                 android:id="@+id/llRepetition"
@@ -76,20 +76,23 @@
 
                 <org.isoron.uhabits.views.RepetitionCountView
                     style="@style/smallDataViewStyle"
-                    app:interval="31"
-                    app:label="@string/month"
+                    app:interval="30"
+                    app:labelValue="30"
+                    app:labelFormat="@string/last_x_days"
                     app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
                     style="@style/smallDataViewStyle"
                     app:interval="92"
-                    app:label="@string/quarter"
+                    app:labelValue="4"
+                    app:labelFormat="@string/last_x_months"
                     app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
                     style="@style/smallDataViewStyle"
                     app:interval="365"
-                    app:label="@string/year"
+                    app:labelValue="12"
+                    app:labelFormat="@string/last_x_months"
                     app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
