@@ -155,10 +155,10 @@ public class MainTest
                 .perform(click());
 
         onView(withId(R.id.scoreView))
-                .perform(swipeRight());
+                .perform(scrollTo(), swipeRight());
 
         onView(withId(R.id.punchcardView))
-                .perform(scrollTo());
+                .perform(scrollTo(), swipeRight());
     }
 
     @Test
