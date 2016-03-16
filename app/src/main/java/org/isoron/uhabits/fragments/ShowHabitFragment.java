@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.Command;
+import org.isoron.uhabits.commands.Command;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;

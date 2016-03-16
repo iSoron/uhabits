@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -51,7 +50,10 @@ public class CreateHabitCommand extends Command
     @Override
     public void undo()
     {
-        Habit.get(savedId).delete();
+        Habit habit = Habit.get(savedId);
+        if(habit == null) throw new CommandFailedException("Habit not found");
+
+        habit.delete();
     }
 
     @Override

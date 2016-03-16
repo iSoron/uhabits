@@ -32,6 +32,8 @@ import java.util.TimeZone;
 public class DateHelper
 {
     public static long millisecondsInOneDay = 24 * 60 * 60 * 1000;
+    public static int ALL_WEEK_DAYS = 127;
+
     private static Long fixedLocalTime = null;
 
     public static long getLocalTime()

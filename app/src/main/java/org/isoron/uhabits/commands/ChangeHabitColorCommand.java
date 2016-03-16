@@ -21,7 +21,6 @@ package org.isoron.uhabits.commands;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -47,22 +46,7 @@ public class ChangeHabitColorCommand extends Command
     @Override
     public void execute()
     {
-        ActiveAndroid.beginTransaction();
-
-        try
-        {
-            for(Habit h : habits)
-            {
-                h.color = newColor;
-                h.save();
-            }
-
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
+        Habit.setColor(habits, newColor);
     }
 
     @Override

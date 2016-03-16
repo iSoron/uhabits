@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -45,15 +44,13 @@ public class ArchiveHabitsCommand extends Command
     @Override
     public void execute()
     {
-        for(Habit h : habits)
-            h.archive();
+        Habit.archive(habits);
     }
 
     @Override
     public void undo()
     {
-        for(Habit h : habits)
-            h.unarchive();
+        Habit.unarchive(habits);
     }
 
     public Integer getExecuteStringId()

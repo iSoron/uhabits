@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.commands.Command;
 
 public abstract class DialogHelper
 {

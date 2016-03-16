@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -43,6 +42,8 @@ public class EditHabitCommand extends Command
     public void execute()
     {
         Habit habit = Habit.get(savedId);
+        if(habit == null) throw new CommandFailedException("Habit not found");
+
         habit.copyAttributes(modified);
         habit.save();
         if (hasIntervalChanged)
@@ -56,6 +57,8 @@ public class EditHabitCommand extends Command
     public void undo()
     {
         Habit habit = Habit.get(savedId);
+        if(habit == null) throw new CommandFailedException("Habit not found");
+
         habit.copyAttributes(original);
         habit.save();
         if (hasIntervalChanged)

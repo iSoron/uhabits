@@ -39,16 +39,17 @@ import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Arrays;
+import java.util.Date;
 
 public class EditHabitFragment extends DialogFragment
         implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
@@ -136,7 +137,10 @@ public class EditHabitFragment extends DialogFragment
         }
         else if (mode == EDIT_MODE)
         {
-            originalHabit = Habit.get((Long) args.get("habitId"));
+            Long habitId = (Long) args.get("habitId");
+            if(habitId == null) throw new IllegalArgumentException("habitId must be specified");
+
+            originalHabit = Habit.get(habitId);
             modifiedHabit = new Habit(originalHabit);
 
             getDialog().setTitle(R.string.edit_habit);
@@ -178,14 +182,18 @@ public class EditHabitFragment extends DialogFragment
         editor.apply();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void updateReminder()
     {
-        if (modifiedHabit.reminderHour != null)
+        if (modifiedHabit.hasReminder())
         {
             tvReminderTime.setTextColor(Color.BLACK);
             tvReminderTime.setText(DateHelper.formatTime(getActivity(), modifiedHabit.reminderHour,
                     modifiedHabit.reminderMin));
             tvReminderDays.setVisibility(View.VISIBLE);
+
+            boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
+            tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
         }
         else
         {
@@ -193,9 +201,6 @@ public class EditHabitFragment extends DialogFragment
             tvReminderTime.setText(R.string.reminder_off);
             tvReminderDays.setVisibility(View.GONE);
         }
-
-        boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
-        tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
     }
 
     public void setOnSavedListener(OnSavedListener onSavedListener)
@@ -303,12 +308,13 @@ public class EditHabitFragment extends DialogFragment
         return valid;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void onDateSpinnerClick()
     {
         int defaultHour = 8;
         int defaultMin = 0;
 
-        if (modifiedHabit.reminderHour != null)
+        if (modifiedHabit.hasReminder())
         {
             defaultHour = modifiedHabit.reminderHour;
             defaultMin = modifiedHabit.reminderMin;
@@ -319,8 +325,11 @@ public class EditHabitFragment extends DialogFragment
         timePicker.show(getFragmentManager(), "timePicker");
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void onWeekdayClick()
     {
+        if(!modifiedHabit.hasReminder()) return;
+
         WeekdayPickerDialog dialog = new WeekdayPickerDialog();
         dialog.setListener(this);
         dialog.setSelectedDays(DateHelper.unpackWeekdayList(modifiedHabit.reminderDays));
@@ -332,14 +341,14 @@ public class EditHabitFragment extends DialogFragment
     {
         modifiedHabit.reminderHour = hour;
         modifiedHabit.reminderMin = minute;
+        modifiedHabit.reminderDays = DateHelper.ALL_WEEK_DAYS;
         updateReminder();
     }
 
     @Override
     public void onTimeCleared(RadialPickerLayout view)
     {
-        modifiedHabit.reminderHour = null;
-        modifiedHabit.reminderMin = null;
+        modifiedHabit.clearReminder();
         updateReminder();
     }
 
@@ -357,12 +366,14 @@ public class EditHabitFragment extends DialogFragment
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
 
         outState.putInt("color", modifiedHabit.color);
-        if(modifiedHabit.reminderHour != null)
+
+        if(modifiedHabit.hasReminder())
         {
             outState.putInt("reminderMin", modifiedHabit.reminderMin);
             outState.putInt("reminderHour", modifiedHabit.reminderHour);

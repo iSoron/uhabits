@@ -17,21 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.helpers;
+package org.isoron.uhabits.commands;
 
-public abstract class Command
+public class CommandFailedException extends RuntimeException
 {
-    public abstract void execute();
-
-    public abstract void undo();
-
-    public Integer getExecuteStringId()
+    public CommandFailedException()
     {
-        return null;
+        super();
     }
 
-    public Integer getUndoStringId()
+    public CommandFailedException(String message)
     {
-        return null;
+        super(message);
     }
 }

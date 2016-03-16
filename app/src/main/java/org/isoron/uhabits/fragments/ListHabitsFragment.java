@@ -46,7 +46,7 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-import org.isoron.helpers.Command;
+import org.isoron.uhabits.commands.Command;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.DialogHelper.OnSavedListener;

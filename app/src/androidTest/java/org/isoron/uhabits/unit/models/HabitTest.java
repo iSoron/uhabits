@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.unit.models;
 
+import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -31,6 +32,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
@@ -41,6 +44,49 @@ public class HabitTest
     public void prepare()
     {
         HabitFixtures.purgeHabits();
+    }
+
+    @Test
+    public void constructor_default()
+    {
+        Habit habit = new Habit();
+        assertThat(habit.archived, is(0));
+        assertThat(habit.highlight, is(0));
+
+        assertThat(habit.reminderDays, is(nullValue()));
+        assertThat(habit.reminderHour, is(nullValue()));
+        assertThat(habit.reminderMin, is(nullValue()));
+
+        assertThat(habit.streaks, is(not(nullValue())));
+        assertThat(habit.scores, is(not(nullValue())));
+        assertThat(habit.repetitions, is(not(nullValue())));
+        assertThat(habit.checkmarks, is(not(nullValue())));
+    }
+
+    @Test
+    public void constructor_habit()
+    {
+        Habit model = new Habit();
+        model.archived = 1;
+        model.highlight = 1;
+        model.color = Color.BLACK;
+        model.freqNum = 10;
+        model.freqDen = 20;
+        model.reminderDays = 1;
+        model.reminderHour = 8;
+        model.reminderMin = 30;
+        model.position = 0;
+
+        Habit habit = new Habit(model);
+        assertThat(habit.archived, is(model.archived));
+        assertThat(habit.highlight, is(model.highlight));
+        assertThat(habit.color, is(model.color));
+        assertThat(habit.freqNum, is(model.freqNum));
+        assertThat(habit.freqDen, is(model.freqDen));
+        assertThat(habit.reminderDays, is(model.reminderDays));
+        assertThat(habit.reminderHour, is(model.reminderHour));
+        assertThat(habit.reminderMin, is(model.reminderMin));
+        assertThat(habit.position, is(model.position));
     }
 
     @Test

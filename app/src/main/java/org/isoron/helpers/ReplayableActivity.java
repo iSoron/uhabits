@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.commands.Command;
 
 import java.util.LinkedList;
 
