@@ -25,7 +25,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,7 +32,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 
 import org.isoron.helpers.DialogHelper;
@@ -106,7 +104,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if(habitId < 0) return;
 
         Habit habit = Habit.get(habitId);
-        if(habit == null) return;
+        if(habit == null)
+        {
+            RemoteViews errorView = new RemoteViews(context.getPackageName(),
+                    R.layout.widget_error);
+            manager.updateAppWidget(widgetId, errorView);
+            return;
+        }
 
         View widgetView = buildCustomView(context, habit);
         measureCustomView(context, width, height, widgetView);

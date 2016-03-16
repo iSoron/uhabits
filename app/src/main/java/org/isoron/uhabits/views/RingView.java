@@ -50,6 +50,7 @@ public class RingView extends View
     private float maxDiameter;
     private float textSize;
 
+
     public RingView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -133,7 +134,6 @@ public class RingView extends View
         float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
                 rect.centerY() + lineHeight / 3, pRing);
-
         pRing.setTextSize(textSize);
         canvas.translate(width / 2, diameter + labelMarginTop);
         labelLayout.draw(canvas);

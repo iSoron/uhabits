@@ -124,7 +124,7 @@ public class ScoreList
         return lastScore;
     }
 
-    public int[] getAllValues(Long fromTimestamp, Long toTimestamp, Integer divisor)
+    public int[] getAllValues(Long fromTimestamp, Long toTimestamp, Long divisor)
     {
         // Force rebuild of the score table
         getNewestValue();
@@ -157,7 +157,7 @@ public class ScoreList
 
     }
 
-    public int[] getAllValues(int divisor)
+    public int[] getAllValues(long divisor)
     {
         Repetition oldestRep = habit.repetitions.getOldest();
         if(oldestRep == null) return new int[0];

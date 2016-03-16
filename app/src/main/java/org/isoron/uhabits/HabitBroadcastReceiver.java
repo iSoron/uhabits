@@ -92,10 +92,12 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         long delayMinutes = Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
 
-        Habit habit = Habit.get(ContentUris.parseId(data));
-        ReminderHelper.createReminderAlarm(context, habit,
-                new Date().getTime() + delayMinutes * 60 * 1000);
-        dismissNotification(context, habit);
+        long habitId = ContentUris.parseId(data);
+        Habit habit = Habit.get(habitId);
+        if(habit != null)
+            ReminderHelper.createReminderAlarm(context, habit,
+                    new Date().getTime() + delayMinutes * 60 * 1000);
+        dismissNotification(context, habitId);
     }
 
     private void checkHabit(Context context, Intent intent)
@@ -103,10 +105,11 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Uri data = intent.getData();
         Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
 
-        Habit habit = Habit.get(ContentUris.parseId(data));
-        habit.repetitions.toggle(timestamp);
-        habit.save();
-        dismissNotification(context, habit);
+        long habitId = ContentUris.parseId(data);
+        Habit habit = Habit.get(habitId);
+        if(habit != null)
+            habit.repetitions.toggle(timestamp);
+        dismissNotification(context, habitId);
 
         sendRefreshBroadcast(context);
     }
@@ -129,12 +132,12 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         }
     }
 
-    private void dismissNotification(Context context, Habit habit)
+    private void dismissNotification(Context context, Long habitId)
     {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
 
-        int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
+        int notificationId = (int) (habitId % Integer.MAX_VALUE);
         notificationManager.cancel(notificationId);
     }
 
@@ -146,6 +149,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
         Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
 
+        if (habit == null) return;
         if (habit.checkmarks.getTodayValue() != Checkmark.UNCHECKED) return;
 
         habit.highlight = 1;
