@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.3.1 (March 15, 2016)
+
+* Fixes crash on devices with large screen, such as the Nexus 10
+* Fixes crash when clicking widgets and reminders of deleted habits
+* Other minor bug fixes
+
 ### 1.3.0 (March 12, 2016)
 
 * New frequency plot: view total repetitions per day of week
