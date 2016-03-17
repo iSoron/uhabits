@@ -125,11 +125,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
     private void dismissAllHabits()
     {
-        for (Habit h : Habit.getHighlightedHabits())
-        {
-            h.highlight = 0;
-            h.save();
-        }
+
     }
 
     private void dismissNotification(Context context, Long habitId)

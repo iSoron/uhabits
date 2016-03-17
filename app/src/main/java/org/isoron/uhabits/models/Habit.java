@@ -37,6 +37,7 @@ import com.activeandroid.util.SQLiteUtils;
 import org.isoron.helpers.ColorHelper;
 
 import java.util.List;
+import java.util.Locale;
 
 @Table(name = "Habits")
 public class Habit extends Model
@@ -174,7 +175,7 @@ public class Habit extends Model
      * @return the habit, or null if none exist
      */
     @Nullable
-    public static Habit get(@NonNull Long id)
+    public static Habit get(long id)
     {
         return Habit.load(Habit.class, id);
     }
@@ -185,10 +186,23 @@ public class Habit extends Model
      * @param includeArchive whether archived habits should be included the list
      * @return list of all habits
      */
+    @NonNull
     public static List<Habit> getAll(boolean includeArchive)
     {
         if(includeArchive) return selectWithArchived().execute();
         else return select().execute();
+    }
+
+    /**
+     * Returns the habit that occupies a certain position.
+     *
+     * @param position the position of the desired habit
+     * @return the habit at that position, or null if there is none
+     */
+    @Nullable
+    public static Habit getByPosition(int position)
+    {
+        return selectWithArchived().where("position = ?", position).executeSingle();
     }
 
     /**
@@ -203,11 +217,13 @@ public class Habit extends Model
         SQLiteUtils.execSql(String.format("update Habits set Id = %d where Id = %d", newId, oldId));
     }
 
+    @NonNull
     protected static From select()
     {
         return new Select().from(Habit.class).where("archived = 0").orderBy("position");
     }
 
+    @NonNull
     protected static From selectWithArchived()
     {
         return new Select().from(Habit.class).orderBy("position");
@@ -233,19 +249,12 @@ public class Habit extends Model
         return selectWithArchived().count();
     }
 
-
-    public static java.util.List<Habit> getHighlightedHabits()
-    {
-        return select().where("highlight = 1")
-                .orderBy("reminder_hour desc, reminder_min desc")
-                .execute();
-    }
-
     /**
      * Returns a list the habits that have a reminder. Does not include archived habits.
      *
      * @return list of habits with reminder
      */
+    @NonNull
     public static List<Habit> getHabitsWithReminder()
     {
         return select().where("reminder_hour is not null").execute();
@@ -310,7 +319,7 @@ public class Habit extends Model
      *
      * @param model the model whose attributes should be copied from
      */
-    public void copyAttributes(Habit model)
+    public void copyAttributes(@NonNull Habit model)
     {
         this.name = model.name;
         this.description = model.description;
@@ -330,7 +339,7 @@ public class Habit extends Model
      *
      * @param id the id that the habit should receive
      */
-    public void save(Long id)
+    public void save(long id)
     {
         save();
         Habit.updateId(getId(), id);
@@ -367,7 +376,8 @@ public class Habit extends Model
      */
     public Uri getUri()
     {
-        return Uri.parse(String.format("content://org.isoron.uhabits/habit/%d", getId()));
+        String s = String.format(Locale.US, "content://org.isoron.uhabits/habit/%d", getId());
+        return Uri.parse(s);
     }
 
     /**
@@ -379,7 +389,8 @@ public class Habit extends Model
         return archived != 0;
     }
 
-    private static void updateAttributes(List<Habit> habits, Integer color, Integer archived)
+    private static void updateAttributes(@NonNull List<Habit> habits, @Nullable Integer color,
+                                         @Nullable Integer archived)
     {
         ActiveAndroid.beginTransaction();
 
@@ -405,7 +416,7 @@ public class Habit extends Model
      *
      * @param habits the habits to be archived
      */
-    public static void archive(List<Habit> habits)
+    public static void archive(@NonNull List<Habit> habits)
     {
         updateAttributes(habits, null, 1);
     }
@@ -415,7 +426,7 @@ public class Habit extends Model
      *
      * @param habits the habits to be unarchived
      */
-    public static void unarchive(List<Habit> habits)
+    public static void unarchive(@NonNull List<Habit> habits)
     {
         updateAttributes(habits, null, 0);
     }
@@ -426,7 +437,7 @@ public class Habit extends Model
      * @param habits the habits to be modified
      * @param color the new color to be set
      */
-    public static void setColor(List<Habit> habits, int color)
+    public static void setColor(@NonNull List<Habit> habits, int color)
     {
         updateAttributes(habits, color, null);
     }
