@@ -21,6 +21,8 @@ package org.isoron.uhabits.models;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
@@ -35,14 +37,15 @@ import java.util.HashMap;
 
 public class RepetitionList
 {
-
+    @NonNull
     private Habit habit;
 
-    public RepetitionList(Habit habit)
+    public RepetitionList(@NonNull Habit habit)
     {
         this.habit = habit;
     }
 
+    @NonNull
     protected From select()
     {
         return new Select().from(Repetition.class)
@@ -51,6 +54,7 @@ public class RepetitionList
                 .orderBy("timestamp");
     }
 
+    @NonNull
     protected From selectFromTo(long timeFrom, long timeTo)
     {
         return select().and("timestamp >= ?", timeFrom).and("timestamp <= ?", timeTo);
@@ -114,6 +118,7 @@ public class RepetitionList
      *
      * @return oldest repetition for the habit
      */
+    @Nullable
     public Repetition getOldest()
     {
         return (Repetition) select().limit(1).executeSingle();
@@ -129,6 +134,7 @@ public class RepetitionList
      *
      * @return total number of repetitions by month versus day of week
      */
+    @NonNull
     public HashMap<Long, Integer[]> getWeekdayFrequency()
     {
         Repetition oldestRep = getOldest();

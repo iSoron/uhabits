@@ -61,7 +61,7 @@ public class RepetitionListTest
     }
 
     @Test
-    public void contains_testNonDailyHabit()
+    public void contains()
     {
         long current = DateHelper.getStartOfToday();
 
@@ -79,7 +79,7 @@ public class RepetitionListTest
     }
 
     @Test
-    public void delete_test()
+    public void delete()
     {
         long timestamp = DateHelper.getStartOfToday();
         assertThat(habit.repetitions.contains(timestamp), equalTo(true));
@@ -89,7 +89,7 @@ public class RepetitionListTest
     }
 
     @Test
-    public void toggle_test()
+    public void toggle()
     {
         long timestamp = DateHelper.getStartOfToday();
         assertThat(habit.repetitions.contains(timestamp), equalTo(true));
@@ -102,7 +102,7 @@ public class RepetitionListTest
     }
 
     @Test
-    public void getWeekDayFrequency_test()
+    public void getWeekDayFrequency()
     {
         Random random = new Random();
         Integer weekdayCount[][] = new Integer[12][7];
@@ -158,5 +158,17 @@ public class RepetitionListTest
         // Repetitions in December should be discarded
         day.set(2015, 11, 1);
         assertThat(freq.get(day.getTimeInMillis()), equalTo(null));
+    }
+
+    @Test
+    public void count()
+    {
+        long to = DateHelper.getStartOfToday();
+        long from = to - 9 * DateHelper.millisecondsInOneDay;
+        assertThat(habit.repetitions.count(from, to), equalTo(6));
+
+        to = DateHelper.getStartOfToday() - DateHelper.millisecondsInOneDay;
+        from = to - 5 * DateHelper.millisecondsInOneDay;
+        assertThat(habit.repetitions.count(from, to), equalTo(3));
     }
 }
