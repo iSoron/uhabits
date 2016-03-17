@@ -43,9 +43,16 @@ public class Checkmark extends Model
      */
     public static final int CHECKED_EXPLICITLY = 2;
 
+    /**
+     * The habit to which this checkmark belongs.
+     */
     @Column(name = "habit")
     public Habit habit;
 
+    /**
+     * Timestamp of the day to which this checkmark corresponds. Time of the day must be midnight
+     * (UTC).
+     */
     @Column(name = "timestamp")
     public Long timestamp;
 

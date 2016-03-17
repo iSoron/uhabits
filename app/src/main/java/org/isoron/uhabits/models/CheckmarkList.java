@@ -21,6 +21,8 @@ package org.isoron.uhabits.models;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
@@ -66,7 +68,8 @@ public class CheckmarkList
      * @param toTimestamp timestamp for the newest checkmark
      * @return values for the checkmarks inside the given interval
      */
-    public int[] getValues(Long fromTimestamp, Long toTimestamp)
+    @NonNull
+    public int[] getValues(long fromTimestamp, long toTimestamp)
     {
         buildCache(fromTimestamp, toTimestamp);
         if(fromTimestamp > toTimestamp) return new int[0];
@@ -75,8 +78,8 @@ public class CheckmarkList
                 "habit = ? and timestamp >= ? and timestamp <= ?";
 
         SQLiteDatabase db = Cache.openDatabase();
-        String args[] = { habit.getId().toString(), fromTimestamp.toString(),
-                toTimestamp.toString() };
+        String args[] = { habit.getId().toString(), Long.toString(fromTimestamp),
+                Long.toString(toTimestamp) };
         Cursor cursor = db.rawQuery(query, args);
 
         long day = DateHelper.millisecondsInOneDay;
@@ -108,6 +111,7 @@ public class CheckmarkList
      *
      * @return values for the checkmarks in the interval
      */
+    @NonNull
     public int[] getAllValues()
     {
         Repetition oldestRep = habit.repetitions.getOldest();
@@ -188,6 +192,7 @@ public class CheckmarkList
      * Returns newest checkmark that has already been computed. Ignores any checkmark that has
      * timestamp in the future. This does not update the cache.
      */
+    @Nullable
     private Checkmark findNewest()
     {
         return new Select().from(Checkmark.class)
@@ -201,6 +206,7 @@ public class CheckmarkList
     /**
      * Returns the checkmark for today.
      */
+    @Nullable
     public Checkmark getToday()
     {
         long today = DateHelper.getStartOfToday();
@@ -209,10 +215,12 @@ public class CheckmarkList
     }
 
     /**
-     * Returns the value of today's checkmark.
+     * Returns the value of today's checkmark. If there is no checkmark today, returns UNCHECKED.
      */
     public int getTodayValue()
     {
-        return getToday().value;
+        Checkmark today = getToday();
+        if(today != null) return today.value;
+        else return Checkmark.UNCHECKED;
     }
 }
