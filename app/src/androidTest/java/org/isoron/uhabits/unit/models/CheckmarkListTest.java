@@ -58,7 +58,7 @@ public class CheckmarkListTest
     }
 
     @Test
-    public void getAllValues_testNonDailyHabit()
+    public void getAllValues_withNonDailyHabit()
     {
         int[] expectedValues = { CHECKED_EXPLICITLY, UNCHECKED, CHECKED_IMPLICITLY,
                 CHECKED_EXPLICITLY, CHECKED_EXPLICITLY, CHECKED_EXPLICITLY, UNCHECKED,
@@ -70,7 +70,16 @@ public class CheckmarkListTest
     }
 
     @Test
-    public void getAllValues_testMoveForwardInTime()
+    public void getAllValues_withEmptyHabit()
+    {
+        int[] expectedValues = new int[0];
+        int[] actualValues = emptyHabit.checkmarks.getAllValues();
+
+        assertThat(actualValues, equalTo(expectedValues));
+    }
+
+    @Test
+    public void getAllValues_moveForwardInTime()
     {
         travelInTime(3);
 
@@ -84,7 +93,7 @@ public class CheckmarkListTest
     }
 
     @Test
-    public void getAllValues_testMoveBackwardsInTime()
+    public void getAllValues_moveBackwardsInTime()
     {
         travelInTime(-3);
 
@@ -97,23 +106,14 @@ public class CheckmarkListTest
     }
 
     @Test
-    public void getAllValues_testEmptyHabit()
-    {
-        int[] expectedValues = new int[0];
-        int[] actualValues = emptyHabit.checkmarks.getAllValues();
-
-        assertThat(actualValues, equalTo(expectedValues));
-    }
-
-    @Test
-    public void getValues_testInvalidInterval()
+    public void getValues_withInvalidInterval()
     {
         int values[] = nonDailyHabit.checkmarks.getValues(100L, -100L);
         assertThat(values, equalTo(new int[0]));
     }
 
     @Test
-    public void getValues_testValidInterval()
+    public void getValues_withValidInterval()
     {
         long from = DateHelper.getStartOfToday() - 15 * DateHelper.millisecondsInOneDay;
         long to = DateHelper.getStartOfToday() - 5 * DateHelper.millisecondsInOneDay;
@@ -128,7 +128,7 @@ public class CheckmarkListTest
     }
 
     @Test
-    public void getTodayValue_testNonDailyHabit()
+    public void getTodayValue()
     {
         travelInTime(-1);
         assertThat(nonDailyHabit.checkmarks.getTodayValue(), equalTo(UNCHECKED));
