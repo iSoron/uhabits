@@ -113,9 +113,9 @@ public class RingView extends View
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
-        float lineHeight = pRing.getFontSpacing();
         pRing.setColor(Color.GRAY);
         pRing.setTextSize(size * 0.2f);
+        float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
                 rect.centerY() + lineHeight / 3, pRing);
 
