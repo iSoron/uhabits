@@ -56,10 +56,10 @@ public class HabitTest
         assertThat(habit.archived, is(0));
         assertThat(habit.highlight, is(0));
 
-        assertThat(habit.reminderDays, is(nullValue()));
         assertThat(habit.reminderHour, is(nullValue()));
         assertThat(habit.reminderMin, is(nullValue()));
 
+        assertThat(habit.reminderDays, is(not(nullValue())));
         assertThat(habit.streaks, is(not(nullValue())));
         assertThat(habit.scores, is(not(nullValue())));
         assertThat(habit.repetitions, is(not(nullValue())));
