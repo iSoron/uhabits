@@ -48,6 +48,8 @@ public class HabitFixtures
     static Habit createEmptyHabit()
     {
         Habit habit = new Habit();
+        habit.freqNum = 1;
+        habit.freqDen = 1;
         habit.save();
         return habit;
     }

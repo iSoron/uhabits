@@ -75,7 +75,7 @@ public class CSVExporter
 
     public String formatScore(int score)
     {
-        return String.format("%.2f", ((float) score) / Score.MAX_SCORE);
+        return String.format("%.2f", ((float) score) / Score.MAX_VALUE);
     }
 
     private void writeScores(String dirPath, Habit habit) throws IOException

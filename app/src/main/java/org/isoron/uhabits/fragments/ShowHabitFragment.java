@@ -133,7 +133,7 @@ public class ShowHabitFragment extends Fragment
     {
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
         scoreRing.setColor(habit.color);
-        scoreRing.setPercentage((float) habit.scores.getNewestValue() / Score.MAX_SCORE);
+        scoreRing.setPercentage((float) habit.scores.getTodayValue() / Score.MAX_VALUE);
     }
 
     private void updateHeaders(View view)

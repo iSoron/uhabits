@@ -115,7 +115,7 @@ public class CheckmarkView extends View
     public void setHabit(Habit habit)
     {
         this.check_status = habit.checkmarks.getTodayValue();
-        this.star_status = habit.scores.getCurrentStarStatus();
+        this.star_status = habit.scores.getTodayStarStatus();
         this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color), Color.blue(habit.color));
         this.label = habit.name;
         updateLabel();

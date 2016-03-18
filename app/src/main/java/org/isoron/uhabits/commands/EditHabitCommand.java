@@ -50,7 +50,7 @@ public class EditHabitCommand extends Command
         {
             habit.checkmarks.deleteNewerThan(0);
             habit.streaks.deleteNewerThan(0);
-            habit.scores.deleteNewerThan(0);
+            habit.scores.invalidateNewerThan(0);
         }
     }
 
@@ -65,7 +65,7 @@ public class EditHabitCommand extends Command
         {
             habit.checkmarks.deleteNewerThan(0);
             habit.streaks.deleteNewerThan(0);
-            habit.scores.deleteNewerThan(0);
+            habit.scores.invalidateNewerThan(0);
         }
     }
 

@@ -107,7 +107,7 @@ public class RepetitionList
             rep.save();
         }
 
-        habit.scores.deleteNewerThan(timestamp);
+        habit.scores.invalidateNewerThan(timestamp);
         habit.checkmarks.deleteNewerThan(timestamp);
         habit.streaks.deleteNewerThan(timestamp);
     }

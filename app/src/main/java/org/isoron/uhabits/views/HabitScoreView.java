@@ -171,7 +171,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         else
         {
             if (habit == null) return;
-            scores = habit.scores.getAllValues(BUCKET_SIZE * DateHelper.millisecondsInOneDay);
+            scores = habit.scores.getAllValues(BUCKET_SIZE);
         }
 
         invalidate();
@@ -181,13 +181,13 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     {
         Random random = new Random();
         scores = new int[100];
-        scores[0] = Score.MAX_SCORE / 2;
+        scores[0] = Score.MAX_VALUE / 2;
 
         for(int i = 1; i < 100; i++)
         {
-            int step = Score.MAX_SCORE / 10;
+            int step = Score.MAX_VALUE / 10;
             scores[i] = scores[i - 1] + random.nextInt(step * 2) - step;
-            scores[i] = Math.max(0, Math.min(Score.MAX_SCORE, scores[i]));
+            scores[i] = Math.max(0, Math.min(Score.MAX_VALUE, scores[i]));
         }
     }
 
@@ -224,7 +224,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             int offset = nColumns - k - 1 + getDataOffset();
             if(offset < scores.length) score = scores[offset];
 
-            double sRelative = ((double) score) / Score.MAX_SCORE;
+            double sRelative = ((double) score) / Score.MAX_VALUE;
             int height = (int) (columnHeight * sRelative);
 
             rect.set(0, 0, baseSize, baseSize);

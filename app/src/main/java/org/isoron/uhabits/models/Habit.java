@@ -117,21 +117,25 @@ public class Habit extends Model
     /**
      * List of streaks belonging to this habit.
      */
+    @NonNull
     public StreakList streaks;
 
     /**
      * List of scores belonging to this habit.
      */
+    @NonNull
     public ScoreList scores;
 
     /**
      * List of repetitions belonging to this habit.
      */
+    @NonNull
     public RepetitionList repetitions;
 
     /**
      * List of checkmarks belonging to this habit.
      */
+    @NonNull
     public CheckmarkList checkmarks;
 
     /**
@@ -142,7 +146,11 @@ public class Habit extends Model
     public Habit(Habit model)
     {
         copyAttributes(model);
-        initializeLists();
+
+        checkmarks = new CheckmarkList(this);
+        streaks = new StreakList(this);
+        scores = new ScoreList(this);
+        repetitions = new RepetitionList(this);
     }
 
     /**
@@ -157,15 +165,11 @@ public class Habit extends Model
         this.archived = 0;
         this.freqDen = 7;
         this.freqNum = 3;
-        initializeLists();
-    }
 
-    private void initializeLists()
-    {
+        checkmarks = new CheckmarkList(this);
         streaks = new StreakList(this);
         scores = new ScoreList(this);
         repetitions = new RepetitionList(this);
-        checkmarks = new CheckmarkList(this);
     }
 
     /**

@@ -144,7 +144,7 @@ public class HabitListLoader
                     if (isCancelled()) return null;
 
                     Long id = h.getId();
-                    newScores.put(id, h.scores.getNewestValue());
+                    newScores.put(id, h.scores.getTodayValue());
                     newCheckmarks.put(id, h.checkmarks.getValues(dateFrom, dateTo));
 
                     publishProgress(current++, newHabits.size());
@@ -213,7 +213,7 @@ public class HabitListLoader
 
                 Habit h = Habit.get(id);
                 habits.put(id, h);
-                scores.put(id, h.scores.getNewestValue());
+                scores.put(id, h.scores.getTodayValue());
                 checkmarks.put(id, h.checkmarks.getValues(dateFrom, dateTo));
 
                 return null;
