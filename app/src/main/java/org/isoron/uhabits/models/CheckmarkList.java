@@ -71,7 +71,7 @@ public class CheckmarkList
     @NonNull
     public int[] getValues(long fromTimestamp, long toTimestamp)
     {
-        buildCache(fromTimestamp, toTimestamp);
+        compute(fromTimestamp, toTimestamp);
         if(fromTimestamp > toTimestamp) return new int[0];
 
         String query = "select value, timestamp from Checkmarks where " +
@@ -102,8 +102,8 @@ public class CheckmarkList
     }
 
     /**
-     * Computes and returns the values for all the checkmarks, since the oldest repetition of the
-     * habit until today. If there are no repetitions at all, returns an empty array.
+     * Returns the values for all the checkmarks, since the oldest repetition of the habit until
+     * today. If there are no repetitions at all, returns an empty array.
      *
      * The values are returned in an array containing one integer value for each day since the
      * first repetition of the habit until today. The first entry corresponds to today, the second
@@ -130,7 +130,7 @@ public class CheckmarkList
      * @param from timestamp for the beginning of the interval
      * @param to timestamp for the end of the interval
      */
-    public void buildCache(long from, long to)
+    protected void compute(long from, long to)
     {
         long day = DateHelper.millisecondsInOneDay;
 
@@ -191,9 +191,11 @@ public class CheckmarkList
     /**
      * Returns newest checkmark that has already been computed. Ignores any checkmark that has
      * timestamp in the future. This does not update the cache.
+     *
+     * @return newest checkmark already computed
      */
     @Nullable
-    private Checkmark findNewest()
+    protected Checkmark findNewest()
     {
         return new Select().from(Checkmark.class)
                 .where("habit = ?", habit.getId())
@@ -205,17 +207,21 @@ public class CheckmarkList
 
     /**
      * Returns the checkmark for today.
+     *
+     * @return checkmark for today
      */
     @Nullable
     public Checkmark getToday()
     {
         long today = DateHelper.getStartOfToday();
-        buildCache(today, today);
+        compute(today, today);
         return findNewest();
     }
 
     /**
-     * Returns the value of today's checkmark. If there is no checkmark today, returns UNCHECKED.
+     * Returns the value of today's checkmark.
+     *
+     * @return value of today's checkmark
      */
     public int getTodayValue()
     {
