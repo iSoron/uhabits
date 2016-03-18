@@ -156,11 +156,7 @@ public class EditHabitFragment extends DialogFragment
             modifiedHabit.reminderDays = savedInstanceState.getInt("reminderDays", -1);
 
             if(modifiedHabit.reminderMin < 0)
-            {
-                modifiedHabit.reminderMin = null;
-                modifiedHabit.reminderHour = null;
-                modifiedHabit.reminderDays = 127;
-            }
+                modifiedHabit.clearReminder();
         }
 
         tvFreqNum.append(modifiedHabit.freqNum.toString());

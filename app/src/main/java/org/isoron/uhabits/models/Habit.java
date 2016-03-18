@@ -35,6 +35,7 @@ import com.activeandroid.query.Update;
 import com.activeandroid.util.SQLiteUtils;
 
 import org.isoron.helpers.ColorHelper;
+import org.isoron.helpers.DateHelper;
 
 import java.util.List;
 import java.util.Locale;
@@ -95,9 +96,10 @@ public class Habit extends Model
     /**
      * Days of the week the reminder should be shown. This field can be converted to a list of
      * booleans using the method DateHelper.unpackWeekdayList and converted back to an integer by
-     * using the method DateHelper.packWeekdayList. If there is no reminder, it equals null.
+     * using the method DateHelper.packWeekdayList. If the habit has no reminders, this value
+     * should be ignored.
      */
-    @Nullable
+    @NonNull
     @Column(name = "reminder_days")
     public Integer reminderDays;
 
@@ -145,6 +147,8 @@ public class Habit extends Model
      */
     public Habit(Habit model)
     {
+        reminderDays = DateHelper.ALL_WEEK_DAYS;
+
         copyAttributes(model);
 
         checkmarks = new CheckmarkList(this);
@@ -165,6 +169,7 @@ public class Habit extends Model
         this.archived = 0;
         this.freqDen = 7;
         this.freqNum = 3;
+        this.reminderDays = DateHelper.ALL_WEEK_DAYS;
 
         checkmarks = new CheckmarkList(this);
         streaks = new StreakList(this);
@@ -453,7 +458,7 @@ public class Habit extends Model
      */
     public boolean hasReminder()
     {
-        return (reminderHour != null && reminderMin != null && reminderDays != null);
+        return (reminderHour != null && reminderMin != null);
     }
 
     /**
@@ -463,6 +468,6 @@ public class Habit extends Model
     {
         reminderHour = null;
         reminderMin = null;
-        reminderDays = null;
+        reminderDays = DateHelper.ALL_WEEK_DAYS;
     }
 }
