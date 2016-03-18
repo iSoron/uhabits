@@ -147,7 +147,7 @@
 
             <TextView
                 style="@style/aboutItemStyle"
-                android:text="dalecarlian (Svenska)"/>
+                android:text="Dalecarlian (Svenska)"/>
 
             <TextView
                 style="@style/aboutItemStyle"
