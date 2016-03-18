@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.3.2 (March 18, 2016)
+
+* Arabic, Italian, Polish, Russian and Swedish translations
+* Minor fixes to German and French translations
+* Minor bug fixes
+
 ### 1.3.1 (March 15, 2016)
 
 * Fixes crash on devices with large screen, such as the Nexus 10

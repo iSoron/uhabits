@@ -115,11 +115,43 @@
 
             <TextView
                 style="@style/aboutItemStyle"
-                android:text="naofumi (日本語)"/>
+                android:text="Naofumi F (日本語)"/>
 
             <TextView
                 style="@style/aboutItemStyle"
-                android:text="Matthias (Deutsch)"/>
+                android:text="Matthias Meisser (Deutsch)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Al Alloush (العَرَبِية‎)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Thibaut Girka (Français)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Can Altas (Deutsch)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Marco Cavazza (Italiano)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Adam Jurkiewicz (Polski)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Dmitriy Bogdanov (Русский)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Dalecarlian (Svenska)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
+                android:text="Robin (Svenska)"/>
 
             <TextView
                 style="@style/aboutItemStyle"

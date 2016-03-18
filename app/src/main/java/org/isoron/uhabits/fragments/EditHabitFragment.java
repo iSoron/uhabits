@@ -250,8 +250,10 @@ public class EditHabitFragment extends DialogFragment
     {
         modifiedHabit.name = tvName.getText().toString().trim();
         modifiedHabit.description = tvDescription.getText().toString().trim();
-        modifiedHabit.freqNum = Integer.parseInt(tvFreqNum.getText().toString());
-        modifiedHabit.freqDen = Integer.parseInt(tvFreqDen.getText().toString());
+        String freqNum = tvFreqNum.getText().toString();
+        String freqDen = tvFreqDen.getText().toString();
+        if(!freqNum.isEmpty()) modifiedHabit.freqNum =  Integer.parseInt(freqNum);
+        if(!freqDen.isEmpty()) modifiedHabit.freqDen = Integer.parseInt(freqDen);
 
         if (!validate()) return;
 
