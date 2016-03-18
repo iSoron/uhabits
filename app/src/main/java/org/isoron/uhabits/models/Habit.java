@@ -265,7 +265,7 @@ public class Habit extends Model
     }
 
     /**
-     * Changes the position of a habit in the list.
+     * Changes the position of a habit on the list.
      *
      * @param from the habit that should be moved
      * @param to the habit that currently occupies the desired position
@@ -292,7 +292,7 @@ public class Habit extends Model
     }
 
     /**
-     * Recompute the field position for every habit in the database. It should never be necessary
+     * Recomputes the position for every habit in the database. It should never be necessary
      * to call this method.
      */
     public static void rebuildOrder()
