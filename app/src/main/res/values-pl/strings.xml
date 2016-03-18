@@ -35,7 +35,7 @@
     <string name="toast_habit_changed">"Zmieniono nawyk."</string>
 
     <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-    <string name="toast_habit_changed_back">"Zmieniono nawyk spowrotem."</string>
+    <string name="toast_habit_changed_back">"Zmieniono nawyk z powrotem."</string>
     <string name="toast_habit_archived">"Nawyki zarchiwizowane."</string>
     <string name="toast_habit_unarchived">"Nawyki odarchiwizowane."</string>
     <string name="overview">"Przegląd"</string>
