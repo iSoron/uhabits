@@ -103,8 +103,8 @@
     <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
     <string name="weekends">Weekends</string>
-    <string name="any_weekday">Weekdays</string>
-    <string name="any_day">Any day</string>
+    <string name="any_weekday">Monday to Friday</string>
+    <string name="any_day">Any day of the week</string>
     <string name="select_weekdays">Select days</string>
     <string name="export_to_csv">Export data</string>
 
@@ -135,6 +135,6 @@
     <string name="every_day">Every day</string>
     <string name="every_week">Every week</string>
     <string name="two_times_per_week">2 times per week</string>
-    <string name="five_times_per_week">2 times per week</string>
+    <string name="five_times_per_week">5 times per week</string>
     <string name="custom_frequency">Custom …</string>
 </resources>
