@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.ui;
 
-import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.NoMatchingViewException;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
@@ -37,14 +37,18 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 import static org.isoron.uhabits.ui.HabitMatchers.containsHabit;
 import static org.isoron.uhabits.ui.HabitMatchers.withName;
 
@@ -97,6 +101,20 @@ public class MainActivityActions
                 .perform(replaceText(name));
         onView(withId(R.id.input_description))
                 .perform(replaceText(description));
+
+        try
+        {
+            onView(allOf(withId(R.id.sFrequency), withEffectiveVisibility(VISIBLE)))
+                    .perform(click());
+            onData(allOf(instanceOf(String.class), startsWith("Custom")))
+                    .inRoot(isPlatformPopup())
+                    .perform(click());
+        }
+        catch(NoMatchingViewException e)
+        {
+            // ignored
+        }
+
         onView(withId(R.id.input_freq_num))
                 .perform(replaceText(num));
         onView(withId(R.id.input_freq_den))

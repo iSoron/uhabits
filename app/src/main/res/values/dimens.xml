@@ -42,5 +42,13 @@
         <item>480</item>
     </string-array>
 
+    <string-array name="frequencyQuickSelect" translatable="false">
+        <item>@string/every_day</item>
+        <item>@string/every_week</item>
+        <item>@string/two_times_per_week</item>
+        <item>@string/five_times_per_week</item>
+        <item>@string/custom_frequency</item>
+    </string-array>
+
     <string name="snooze_interval_default" translatable="false">15</string>
 </resources>

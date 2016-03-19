@@ -19,9 +19,9 @@
 
 package org.isoron.uhabits.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -29,8 +29,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.colorpicker.ColorPickerDialog;
@@ -49,11 +52,10 @@ import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Arrays;
-import java.util.Date;
 
 public class EditHabitFragment extends DialogFragment
         implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
-        TimePickerDialog.OnTimeSetListener
+        TimePickerDialog.OnTimeSetListener, Spinner.OnItemSelectedListener
 {
     private Integer mode;
     static final int EDIT_MODE = 0;
@@ -70,6 +72,10 @@ public class EditHabitFragment extends DialogFragment
     private TextView tvFreqDen;
     private TextView tvReminderTime;
     private TextView tvReminderDays;
+
+    private Spinner sFrequency;
+    private ViewGroup llCustomFrequency;
+    private ViewGroup llReminderDays;
 
     private SharedPreferences prefs;
     private boolean is24HourMode;
@@ -105,6 +111,10 @@ public class EditHabitFragment extends DialogFragment
         tvReminderTime = (TextView) view.findViewById(R.id.inputReminderTime);
         tvReminderDays = (TextView) view.findViewById(R.id.inputReminderDays);
 
+        sFrequency = (Spinner) view.findViewById(R.id.sFrequency);
+        llCustomFrequency = (ViewGroup) view.findViewById(R.id.llCustomFrequency);
+        llReminderDays = (ViewGroup) view.findViewById(R.id.llReminderDays);
+
         Button buttonSave = (Button) view.findViewById(R.id.buttonSave);
         Button buttonDiscard = (Button) view.findViewById(R.id.buttonDiscard);
         ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.buttonPickColor);
@@ -114,6 +124,7 @@ public class EditHabitFragment extends DialogFragment
         tvReminderTime.setOnClickListener(this);
         tvReminderDays.setOnClickListener(this);
         buttonPickColor.setOnClickListener(this);
+        sFrequency.setOnItemSelectedListener(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -163,6 +174,7 @@ public class EditHabitFragment extends DialogFragment
         tvFreqDen.append(modifiedHabit.freqDen.toString());
 
         changeColor(modifiedHabit.color);
+        updateFrequency();
         updateReminder();
 
         return view;
@@ -183,19 +195,17 @@ public class EditHabitFragment extends DialogFragment
     {
         if (modifiedHabit.hasReminder())
         {
-            tvReminderTime.setTextColor(Color.BLACK);
             tvReminderTime.setText(DateHelper.formatTime(getActivity(), modifiedHabit.reminderHour,
                     modifiedHabit.reminderMin));
-            tvReminderDays.setVisibility(View.VISIBLE);
+            llReminderDays.setVisibility(View.VISIBLE);
 
             boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
             tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
         }
         else
         {
-            tvReminderTime.setTextColor(Color.GRAY);
             tvReminderTime.setText(R.string.reminder_off);
-            tvReminderDays.setVisibility(View.GONE);
+            llReminderDays.setVisibility(View.GONE);
         }
     }
 
@@ -377,5 +387,80 @@ public class EditHabitFragment extends DialogFragment
             outState.putInt("reminderHour", modifiedHabit.reminderHour);
             outState.putInt("reminderDays", modifiedHabit.reminderDays);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
+        if(parent.getId() == R.id.sFrequency)
+        {
+            switch (position)
+            {
+                case 0:
+                    modifiedHabit.freqNum = 1;
+                    modifiedHabit.freqDen = 1;
+                    break;
+
+                case 1:
+                    modifiedHabit.freqNum = 1;
+                    modifiedHabit.freqDen = 7;
+                    break;
+
+                case 2:
+                    modifiedHabit.freqNum = 2;
+                    modifiedHabit.freqDen = 7;
+                    break;
+
+                case 3:
+                    modifiedHabit.freqNum = 5;
+                    modifiedHabit.freqDen = 7;
+                    break;
+
+                case 4:
+                    modifiedHabit.freqNum = 3;
+                    modifiedHabit.freqDen = 7;
+                    break;
+            }
+        }
+
+        updateFrequency();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updateFrequency()
+    {
+        int quickSelectPosition = -1;
+
+        if(modifiedHabit.freqNum.equals(modifiedHabit.freqDen))
+            quickSelectPosition = 0;
+
+        else if(modifiedHabit.freqNum == 1 && modifiedHabit.freqDen == 7)
+            quickSelectPosition = 1;
+
+        else if(modifiedHabit.freqNum == 2 && modifiedHabit.freqDen == 7)
+            quickSelectPosition = 2;
+
+        else if(modifiedHabit.freqNum == 5 && modifiedHabit.freqDen == 7)
+            quickSelectPosition = 3;
+
+        if(quickSelectPosition >= 0)
+        {
+            sFrequency.setVisibility(View.VISIBLE);
+            sFrequency.setSelection(quickSelectPosition);
+            llCustomFrequency.setVisibility(View.GONE);
+            tvFreqNum.setText(modifiedHabit.freqNum.toString());
+            tvFreqDen.setText(modifiedHabit.freqDen.toString());
+        }
+        else
+        {
+            sFrequency.setVisibility(View.GONE);
+            llCustomFrequency.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent)
+    {
+
     }
 }

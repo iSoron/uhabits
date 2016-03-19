@@ -19,6 +19,8 @@
     <color name="primary">#37474f</color>
     <color name="primary_darker">#263238</color>
     <color name="windowBackground">#e6e6e6</color>
+    <color name="dialogTextColor">@color/grey_800</color>
+    <color name="dialogFadedTextColor">@color/grey_600</color>
 
     <color name="white">#ffffff</color>
 
@@ -312,14 +314,14 @@
     <!--<color name="orange_A400">#FF9100</color>-->
     <!--<color name="orange_A700">#FF6D00</color>-->
 
-    <!--<color name="grey_50">#FAFAFA</color>-->
+    <color name="grey_50">#FAFAFA</color>
     <color name="grey_100">#F5F5F5</color>
-    <!--<color name="grey_200">#EEEEEE</color>-->
-    <!--<color name="grey_300">#E0E0E0</color>-->
+    <color name="grey_200">#EEEEEE</color>
+    <color name="grey_300">#E0E0E0</color>
     <color name="grey_400">#BDBDBD</color>
     <color name="grey_500">#9E9E9E</color>
-    <!--<color name="grey_600">#757575</color>-->
-    <!--<color name="grey_700">#616161</color>-->
-    <!--<color name="grey_800">#424242</color>-->
-    <!--<color name="grey_900">#212121</color>-->
+    <color name="grey_600">#757575</color>
+    <color name="grey_700">#616161</color>
+    <color name="grey_800">#424242</color>
+    <color name="grey_900">#212121</color>
 </resources>

@@ -31,6 +31,8 @@
     </style>
 
     <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
+        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
     </style>
 
     <style name="cardStyle" parent="cardBasicStyle">

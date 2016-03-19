@@ -20,7 +20,7 @@
 
 <resources>
 
-    <style name="dialogFormInputMultiline">
+    <style name="dialogFormInputMultiline" parent="dialogFormInput">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ems">10</item>
@@ -34,7 +34,7 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
-    <style name="dialogFormInputSmallNumber">
+    <style name="dialogFormInputSmallNumber" parent="dialogFormInput">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ems">2</item>
@@ -43,40 +43,57 @@
         <item name="android:maxLength">2</item>
     </style>
 
-    <style name="dialogFormInput">
+    <style name="dialogFormText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/dialogTextColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="dialogFormSpinnerDropDown" parent="dialogFormText">
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/dialogTextColor</item>
+    </style>
+
+    <style name="dialogFormInput" parent="dialogFormText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">10</item>
         <item name="android:ems">10</item>
+        <item name="android:inputType">textCapSentences</item>
     </style>
 
-    <style name="dialogFormLabel">
+    <style name="dialogFormLabel" parent="dialogFormText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:width">80dp</item>
-        <item name="android:gravity">right</item>
-        <item name="android:paddingRight">9dp</item>
+        <item name="android:width">100dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:textColor">@color/dialogFadedTextColor</item>
     </style>
 
-    <style name="dialogFormTimePicker" parent="android:Widget.DeviceDefault.Light.Spinner">
-        <item name="android:layout_width">wrap_content</item>
+    <style name="dialogFormSpinner" parent="android:Widget.DeviceDefault.Light.Spinner">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:minWidth">400dp</item>
+        <item name="android:textColor">@color/dialogTextColor</item>
     </style>
 
     <style name="dialogFormRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginTop">12dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:minWidth">300dp</item>
+        <item name="android:gravity">start|center_vertical</item>
     </style>
 
     <style name="dialogForm">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingBottom">8dp</item>
     </style>
 
     <style name="dialogFormPanel">
