@@ -21,7 +21,9 @@ package org.isoron.uhabits.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
@@ -219,6 +221,15 @@ public class ListHabitsFragment extends Fragment
                 loader.setIncludeArchived(showArchived);
                 loader.updateAllHabits(true);
                 activity.invalidateOptionsMenu();
+                return true;
+            }
+
+            case R.id.action_faq:
+            {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getString(R.string.helpURL)));
+                startActivity(intent);
                 return true;
             }
 

@@ -44,6 +44,12 @@
         android:key="pref_key_links"
         android:title="@string/links">
 
+        <Preference android:title="@string/help">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/helpURL"/>
+        </Preference>
+
         <Preference android:title="@string/about">
             <intent
                 android:action="android.intent.action.VIEW"

@@ -35,6 +35,12 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_faq"
+        android:orderInCategory="100"
+        android:title="@string/help"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_about"
         android:orderInCategory="100"
         android:title="@string/about"

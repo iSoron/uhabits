@@ -68,7 +68,7 @@ public class AboutActivity extends Activity implements View.OnClickListener
             {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=org.isoron.uhabits"));
+                intent.setData(Uri.parse(getString(R.string.playStoreURL)));
                 startActivity(intent);
                 break;
             }
@@ -77,8 +77,7 @@ public class AboutActivity extends Activity implements View.OnClickListener
             {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:isoron+habits@gmail.com?" +
-                                "subject=Feedback%20about%20Loop%20Habit%20Tracker"));
+                intent.setData(Uri.parse(getString(R.string.feedbackURL)));
                 startActivity(intent);
                 break;
             }
@@ -87,7 +86,7 @@ public class AboutActivity extends Activity implements View.OnClickListener
             {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://github.com/iSoron/uhabits"));
+                intent.setData(Uri.parse(getString(R.string.sourceCodeURL)));
                 startActivity(intent);
                 break;
             }
