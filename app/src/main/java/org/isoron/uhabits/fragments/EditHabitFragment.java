@@ -137,14 +137,9 @@ public class EditHabitFragment extends DialogFragment
         {
             getDialog().setTitle(R.string.create_habit);
             modifiedHabit = new Habit();
-
-            int defaultNum = prefs.getInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
-            int defaultDen = prefs.getInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
-            int defaultColor = prefs.getInt("pref_default_habit_color", modifiedHabit.color);
-
-            modifiedHabit.color = defaultColor;
-            modifiedHabit.freqNum = defaultNum;
-            modifiedHabit.freqDen = defaultDen;
+            modifiedHabit.freqNum = 1;
+            modifiedHabit.freqDen = 1;
+            modifiedHabit.color = prefs.getInt("pref_default_habit_color", modifiedHabit.color);
         }
         else if (mode == EDIT_MODE)
         {
@@ -267,11 +262,6 @@ public class EditHabitFragment extends DialogFragment
         if(!freqDen.isEmpty()) modifiedHabit.freqDen = Integer.parseInt(freqDen);
 
         if (!validate()) return;
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
-        editor.putInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
-        editor.apply();
 
         Command command = null;
         Habit savedHabit = null;
