@@ -1,7 +1,7 @@
 body {
   font-size: 100%;
   font-family: verdana, sans-serif;
-  line-height: 23.75px;
+  line-height: 24.7px;
   background-color: #fff;
   margin: 0px;
   padding: 0px;
@@ -25,14 +25,15 @@ body {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2); }
 
 a {
-  color: #00695C;
+  color: #069;
   text-decoration: none;
   border-bottom: 1px dotted #fff; }
   a:hover {
-    border-bottom: 1px dotted #00695C; }
+    border-bottom: 1px dotted #069; }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #00695C; }
+  color: #069;
+  font-weight: normal; }
 
 .footer {
   text-align: center;
@@ -48,5 +49,8 @@ h2 {
   margin-top: 23.75px;
   line-height: 38px;
   font-size: 23.75px; }
+
+h3, h4 {
+  font-size: 20.9px; }
 
 /*# sourceMappingURL=main.css.map */
