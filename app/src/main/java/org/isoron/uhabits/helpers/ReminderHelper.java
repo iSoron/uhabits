@@ -79,7 +79,10 @@ public class ReminderHelper
                         alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (Build.VERSION.SDK_INT >= 19)
+
+        if (Build.VERSION.SDK_INT >= 23)
+            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+        else if (Build.VERSION.SDK_INT >= 19)
             manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
         else
             manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
