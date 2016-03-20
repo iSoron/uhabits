@@ -101,12 +101,11 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void updateDate()
     {
-        baseDate = new GregorianCalendar();
-        baseDate.setTimeInMillis(DateHelper.getLocalTime());
+        baseDate = DateHelper.getStartOfTodayCalendar();
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
-        todayWeekday = new GregorianCalendar().get(Calendar.DAY_OF_WEEK) % 7;
+        todayWeekday = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayWeekday);
