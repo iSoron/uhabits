@@ -1,116 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2016 Adam Jurkiewicz
-  ~
-  ~ This file is part of Loop Habit Tracker.
-  ~
-  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation, either version 3 of the License, or (at your
-  ~ option) any later version.
-  ~
-  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
-  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  ~ more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
 <resources>
-    <string name="app_name">"Śledzenie Nawyków Loop"</string>
-    <string name="main_activity_title">"Nawyki"</string>
-    <string name="action_settings">"Ustawienia"</string>
-    <string name="edit">"Edytuj"</string>
-    <string name="delete">"Usuń"</string>
-    <string name="archive">"Archiwizuj"</string>
-    <string name="unarchive">"Odarchiwizuj"</string>
-    <string name="add_habit">"Dodaj nawyk"</string>
-    <string name="color_picker_default_title">"Zmień kolor"</string>
-    <string name="toast_habit_created">"Utworzono nawyk."</string>
-    <string name="toast_habit_deleted">"Usunięto nawyki."</string>
-    <string name="toast_habit_restored">"Przywrócono nawyki."</string>
-    <string name="toast_nothing_to_undo">"Nic do cofnięcia."</string>
-    <string name="toast_nothing_to_redo">"Nic do powtórzenia"</string>
-    <string name="toast_habit_changed">"Zmieniono nawyk."</string>
+<string name="app_name">"Śledzenie Nawyków Loop"</string>
+<string name="main_activity_title">"Nawyki"</string>
+<string name="action_settings">"Ustawienia"</string>
+<string name="edit">"Edytuj"</string>
+<string name="delete">"Usuń"</string>
+<string name="archive">"Archiwizuj"</string>
+<string name="unarchive">"Odarchiwizuj"</string>
+<string name="add_habit">"Dodaj nawyk"</string>
+<string name="color_picker_default_title">"Zmień kolor"</string>
+<string name="toast_habit_created">"Utworzono nawyk."</string>
+<string name="toast_habit_deleted">"Usunięto nawyki."</string>
+<string name="toast_habit_restored">"Przywrócono nawyki."</string>
+<string name="toast_nothing_to_undo">"Nic do cofnięcia."</string>
+<string name="toast_nothing_to_redo">"Nic do powtórzenia"</string>
+<string name="toast_habit_changed">"Zmieniono nawyk."</string>
 
-    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-    <string name="toast_habit_changed_back">"Zmieniono nawyk z powrotem."</string>
-    <string name="toast_habit_archived">"Nawyki zarchiwizowane."</string>
-    <string name="toast_habit_unarchived">"Nawyki odarchiwizowane."</string>
-    <string name="overview">"Przegląd"</string>
-    <string name="habit_strength">"Siła nawyku"</string>
-    <string name="history">"Historia"</string>
-    <string name="clear">"Wyczyść"</string>
-    <string name="description_hint">"Pytanie (Czy zrobiłeś ... dzisiaj?)"</string>
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"Zmieniono nawyk z powrotem."</string>
+<string name="toast_habit_archived">"Nawyki zarchiwizowane."</string>
+<string name="toast_habit_unarchived">"Nawyki odarchiwizowane."</string>
+<string name="overview">"Przegląd"</string>
+<string name="habit_strength">"Siła nawyku"</string>
+<string name="history">"Historia"</string>
+<string name="clear">"Wyczyść"</string>
+<string name="description_hint">"Pytanie (Czy zrobiłeś ... dzisiaj?)"</string>
 
-    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
-    <string name="repeat">"Powtórz"</string>
-    <string name="times_every">"razy w"</string>
-    <string name="days">"dni"</string>
-    <string name="reminder">"Przypomnienie"</string>
-    <string name="discard">"Odrzuć"</string>
-    <string name="save">"Zapisz"</string>
-    <string name="streaks">"Serie"</string>
-    <string name="no_habits_found">"Nie masz aktywnych nawyków"</string>
-    <string name="long_press_to_toggle">"Naciśnij i przytrzymaj aby zaznaczyć lub odznaczyć"</string>
-    <string name="reminder_off">"Wyłączony"</string>
-    <string name="validation_name_should_not_be_blank">"Nazwa nie może być pusta."</string>
-    <string name="validation_number_should_be_positive">"Liczba musi być dodatnia."</string>
-    <string name="validation_at_most_one_rep_per_day">"Możesz mieć maksymalnie jedno powtórzenie dziennie."</string>
-    <string name="create_habit">"Utwórz nawyk"</string>
-    <string name="edit_habit">"Edytuj nawyk"</string>
-    <string name="check">"Zaznacz"</string>
-    <string name="snooze">"Później"</string>
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"Powtórz"</string>
+<string name="times_every">"razy w"</string>
+<string name="days">"dni"</string>
+<string name="reminder">"Przypomnienie"</string>
+<string name="discard">"Odrzuć"</string>
+<string name="save">"Zapisz"</string>
+<string name="streaks">"Serie"</string>
+<string name="no_habits_found">"Nie masz aktywnych nawyków"</string>
+<string name="long_press_to_toggle">"Naciśnij i przytrzymaj aby zaznaczyć lub odznaczyć"</string>
+<string name="reminder_off">"Wyłączony"</string>
+<string name="validation_name_should_not_be_blank">"Nazwa nie może być pusta."</string>
+<string name="validation_number_should_be_positive">"Liczba musi być dodatnia."</string>
+<string name="validation_at_most_one_rep_per_day">"Możesz mieć maksymalnie jedno powtórzenie dziennie."</string>
+<string name="create_habit">"Utwórz nawyk"</string>
+<string name="edit_habit">"Edytuj nawyk"</string>
+<string name="check">"Zaznacz"</string>
+<string name="snooze">"Później"</string>
 
-    <!-- App introduction -->
-    <string name="intro_title_1">"Witaj"</string>
-    <string name="intro_description_1">"Śledzenie nawyków Loop pozwala Ci na utworzenie i prowadzenie dobrych nawyków."</string>
-    <string name="intro_title_2">"Utwórz nowe nawyki"</string>
-    <string name="intro_description_2">"Codziennie, po wykonaniu swojego nawyku, postaw znaczek w aplikacji."</string>
-    <string name="intro_title_3">"Kontynuuj swoje nawyki"</string>
-    <string name="intro_description_3">"Nawyki wykonywane przez dłuższy czas otrzymają pełną gwiazdkę."</string>
-    <string name="intro_title_4">"Śledź swój postęp"</string>
-    <string name="intro_description_4">"Szczegółowe grafiki pokazują jak Twoje nawyki polepszyły się z biegiem czasu."</string>
-    <string name="interval_15_minutes">"15 minut"</string>
-    <string name="interval_30_minutes">"30 minut"</string>
-    <string name="interval_1_hour">"1 godzina"</string>
-    <string name="interval_2_hour">"2 godziny"</string>
-    <string name="interval_4_hour">"4 godziny"</string>
-    <string name="interval_8_hour">"8 godzin"</string>
-    <string name="pref_toggle_title">"Przełącz powtarzanie przy krótkim naciśnięciu"</string>
-    <string name="pref_toggle_description">"Wygodniejsze ale może spowodować przypadkowe przełączenia."</string>
-    <string name="pref_snooze_interval_title">"Czas drzemki między przypomnieniami"</string>
-    <string name="pref_rate_this_app">"Oceń tą aplikację w Google Play"</string>
-    <string name="pref_send_feedback">"Prześlij uwagi do programisty"</string>
-    <string name="pref_view_source_code">"Zobacz kod źródłowy na GitHub'ie"</string>
-    <string name="pref_view_app_introduction">"Zobacz wprowadzenie do aplikacji"</string>
-    <string name="links">"Linki"</string>
-    <string name="behavior">"Zachowanie"</string>
-    <string name="name">"Nazwa"</string>
-    <string name="show_archived">"Pokaż zarchiwizowane"</string>
-    <string name="settings">"Ustawienia"</string>
-    <string name="snooze_interval">"Czas drzemki"</string>
-    <string name="hint_title">"Czy wiesz że?"</string>
-    <string name="hint_drag">"Aby zmienić kolejność naciśnij i przytrzymaj na nazwie nawyku i przesuń go na odpowiednie miejsce."</string>
-    <string name="hint_landscape">"Możesz zobaczyć więcej dni trzymając telefon poziomo."</string>
-    <string name="delete_habits">"Usuń Nawyki"</string>
-    <string name="delete_habits_message">"Nawyki zostaną trwale usunięte. Tej operacji nie można cofnąć."</string>
-    <string name="weekends">"Weekendy"</string>
-    <string name="any_weekday">"Dni robocze"</string>
-    <string name="any_day">"Każdy dzień"</string>
-    <string name="select_weekdays">"Wybierz dni"</string>
-    <string name="export_to_csv">"Eksportuj dane"</string>
-    <string name="done_label">"Gotowe"</string>
-    <string name="clear_label">"Wyczyść"</string>
-    <string name="select_hours">"Wybierz godziny"</string>
-    <string name="select_minutes">"Wybierz minuty"</string>
+<!-- App introduction -->
+<string name="intro_title_1">"Witaj"</string>
+<string name="intro_description_1">"Śledzenie nawyków Loop pozwala Ci na utworzenie i prowadzenie dobrych nawyków."</string>
+<string name="intro_title_2">"Utwórz nowe nawyki"</string>
+<string name="intro_description_2">"Codziennie, po wykonaniu swojego nawyku, postaw znaczek w aplikacji."</string>
+<string name="intro_title_3">"Kontynuuj swoje nawyki"</string>
+<string name="intro_description_3">"Nawyki wykonywane przez dłuższy czas otrzymają pełną gwiazdkę."</string>
+<string name="intro_title_4">"Śledź swój postęp"</string>
+<string name="intro_description_4">"Szczegółowe grafiki pokazują jak Twoje nawyki polepszyły się z biegiem czasu."</string>
+<string name="interval_15_minutes">"15 minut"</string>
+<string name="interval_30_minutes">"30 minut"</string>
+<string name="interval_1_hour">"1 godzina"</string>
+<string name="interval_2_hour">"2 godziny"</string>
+<string name="interval_4_hour">"4 godziny"</string>
+<string name="interval_8_hour">"8 godzin"</string>
+<string name="pref_toggle_title">"Przełącz powtarzanie przy krótkim naciśnięciu"</string>
+<string name="pref_toggle_description">"Wygodniejsze ale może spowodować przypadkowe przełączenia."</string>
+<string name="pref_snooze_interval_title">"Czas drzemki między przypomnieniami"</string>
+<string name="pref_rate_this_app">"Oceń tą aplikację w Google Play"</string>
+<string name="pref_send_feedback">"Prześlij uwagi do programisty"</string>
+<string name="pref_view_source_code">"Zobacz kod źródłowy na GitHub'ie"</string>
+<string name="pref_view_app_introduction">"Zobacz wprowadzenie do aplikacji"</string>
+<string name="links">"Linki"</string>
+<string name="behavior">"Zachowanie"</string>
+<string name="name">"Nazwa"</string>
+<string name="show_archived">"Pokaż zarchiwizowane"</string>
+<string name="settings">"Ustawienia"</string>
+<string name="snooze_interval">"Czas drzemki"</string>
+<string name="hint_title">"Czy wiesz że?"</string>
+<string name="hint_drag">"Aby zmienić kolejność naciśnij i przytrzymaj na nazwie nawyku i przesuń go na odpowiednie miejsce."</string>
+<string name="hint_landscape">"Możesz zobaczyć więcej dni trzymając telefon poziomo."</string>
+<string name="delete_habits">"Usuń Nawyki"</string>
+<string name="delete_habits_message">"Nawyki zostaną trwale usunięte. Tej operacji nie można cofnąć."</string>
+<string name="weekends">"Weekendy"</string>
+<string name="any_weekday">"Dni robocze"</string>
+<string name="any_day">"Każdy dzień"</string>
+<string name="select_weekdays">"Wybierz dni"</string>
+<string name="export_to_csv">"Eksportuj dane"</string>
+<string name="done_label">"Gotowe"</string>
+<string name="clear_label">"Wyczyść"</string>
+<string name="select_hours">"Wybierz godziny"</string>
+<string name="select_minutes">"Wybierz minuty"</string>
 
-    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
-    <string name="store_short_description">"Twórz dobre nawyki i śledź ich postęp (bez reklam)"</string>
-    <string name="store_description_1">"Loop pozwala Ci na tworzenie i utrzymywanie dobrych nawyków, pozwala na Ci na osiągnięcie Twoich długoterminowych celów. Szczegółowe grafiki i statystyki pozwalają na zobaczenie jak Twoje nawyki polepszyły się. Jest całkowicie wolna od reklam i open source."</string>
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"Twórz dobre nawyki i śledź ich postęp (bez reklam)"</string>
+<string name="store_description_1">"Loop pozwala Ci na tworzenie i utrzymywanie dobrych nawyków, dzięki czemu pomoże osiągnąć Twoje długoterminowe cele. Szczegółowe grafiki i statystyki pozwalają na zobaczenie jak Twoje nawyki polepszyły się. Jest całkowicie wolna od reklam i open source."</string>
 <string name="store_feature_interface">"&lt;b&gt;Prosty, piękny i nowoczesny interfejs&lt;/b&gt;
-Loop posiada minimalistyczny interfejs, który jest prosty do użycia i przestrzega zasad material design."</string>
+Loop posiada minimalistyczny interfejs, który jest prosty do użycia i przestrzega zasad Material Design."</string>
 <string name="store_feature_score">"&lt;b&gt;Punkty nawyku&lt;/b&gt;
 Oprócz pokazywania Twojej aktualnej serii, Loop posiada zaawansowany algorytm obliczania siły Twoich nawyków. Każde powtórzenie nawyku czyni go silniejszymi a każdy opuszczony dzień słabszym. Jednakże kilka opuszczonych dni po dłuższej serii nie zrujnuje Twojego całego postępu."</string>
 <string name="store_feature_statistics">"&lt;b&gt;Szczegółowe grafiki i statystyki&lt;/b&gt;
@@ -123,11 +105,11 @@ Utwórz indywidualne przypomnienia dla każdego nawyku, w określonej godzinie d
 Absolutnie nie ma żadnych reklam, denerwujących powiadomień czy szpiegujących uprawnień w tej aplikacji i nigdy nie będzie. Cały kod źródłowy jest dostępny pod licencją GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Zoptymalizowana pod smartwatche&lt;/b&gt;
 Przypomnienia można sprawdzić, uśpić czy usunąć bezpośrednio z twojego zegarka Android Wear."</string>
-    <string name="about">"O aplikacji"</string>
-    <string name="translators">"Tłumacze"</string>
-    <string name="developers">"Programiści"</string>
+<string name="about">"O aplikacji"</string>
+<string name="translators">"Tłumacze"</string>
+<string name="developers">"Programiści"</string>
 
-    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
-    <string name="version_n">"Wersja %s"</string>
-    <string name="frequency">"Częstotliwość"</string>
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"Wersja %s"</string>
+<string name="frequency">"Częstotliwość"</string>
 </resources>
