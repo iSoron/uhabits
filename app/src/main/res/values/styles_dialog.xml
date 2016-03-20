@@ -44,15 +44,20 @@
     </style>
 
     <style name="dialogFormText">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/dialogTextColor</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="dialogFormSmallText">
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:textColor">@color/fadedTextColor</item>
+    </style>
+
     <style name="dialogFormSpinnerDropDown" parent="dialogFormText">
         <item name="android:padding">12dp</item>
-        <item name="android:textColor">@color/dialogTextColor</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="dialogFormInput" parent="dialogFormText">
@@ -69,16 +74,16 @@
         <item name="android:width">100dp</item>
         <item name="android:gravity">left</item>
         <item name="android:paddingLeft">6dp</item>
-        <item name="android:textColor">@color/dialogFadedTextColor</item>
+        <item name="android:textColor">@color/fadedTextColor</item>
     </style>
 
     <style name="dialogFormSpinner" parent="android:Widget.DeviceDefault.Light.Spinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">12dp</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
         <item name="android:minWidth">400dp</item>
-        <item name="android:textColor">@color/dialogTextColor</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
     </style>
 
     <style name="dialogFormRow">

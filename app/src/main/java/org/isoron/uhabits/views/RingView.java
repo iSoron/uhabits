@@ -25,6 +25,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -33,6 +34,7 @@ import android.view.View;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DialogHelper;
+import org.isoron.uhabits.R;
 
 public class RingView extends View
 {
@@ -49,6 +51,7 @@ public class RingView extends View
     private float diameter;
     private float maxDiameter;
     private float textSize;
+    private int fadedTextColor;
 
 
     public RingView(Context context, AttributeSet attrs)
@@ -57,10 +60,9 @@ public class RingView extends View
 
         this.label = DialogHelper.getAttribute(context, attrs, "label");
         this.maxDiameter = DialogHelper.getFloatAttribute(context, attrs, "maxDiameter");
-        this.textSize = DialogHelper.getFloatAttribute(context, attrs, "textSize");
 
         this.maxDiameter = DialogHelper.dpToPixels(context, maxDiameter);
-        this.textSize = DialogHelper.spToPixels(context, textSize);
+        this.textSize = getResources().getDimension(R.dimen.smallTextSize);
         this.color = ColorHelper.palette[7];
         this.percentage = 0.75f;
         init();
@@ -85,6 +87,8 @@ public class RingView extends View
         pRing.setAntiAlias(true);
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
+
+        fadedTextColor = getResources().getColor(R.color.fadedTextColor);
 
         rect = new RectF();
     }
@@ -122,15 +126,15 @@ public class RingView extends View
         rect.offset((width - diameter) / 2, 0);
         canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        pRing.setColor(Color.rgb(230, 230, 230));
+        pRing.setColor(Color.argb(255, 230, 230, 230));
         canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
         pRing.setColor(Color.WHITE);
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
-        pRing.setColor(Color.GRAY);
-        pRing.setTextSize(diameter * 0.2f);
+        pRing.setColor(fadedTextColor);
+        pRing.setTextSize(textSize);
         float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
                 rect.centerY() + lineHeight / 3, pRing);

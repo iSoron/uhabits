@@ -49,8 +49,8 @@
                     android:id="@+id/scoreRing"
                     style="@style/smallDataViewStyle"
                     app:label="@string/habit_strength"
-                    app:maxDiameter="60"
-                    app:textSize="12"/>
+                    app:maxDiameter="70"
+                    app:textSize="@dimen/smallTextSize"/>
 
             </LinearLayout>
 
@@ -60,7 +60,8 @@
             style="@style/cardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top|start">
+            android:gravity="top|start"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvCount"
@@ -77,22 +78,22 @@
                 <org.isoron.uhabits.views.RepetitionCountView
                     style="@style/smallDataViewStyle"
                     app:interval="30"
-                    app:labelValue="30"
                     app:labelFormat="@string/last_x_days"
+                    app:labelValue="30"
                     app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
                     style="@style/smallDataViewStyle"
                     app:interval="92"
-                    app:labelValue="4"
                     app:labelFormat="@string/last_x_months"
+                    app:labelValue="4"
                     app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
                     style="@style/smallDataViewStyle"
                     app:interval="365"
-                    app:labelValue="12"
                     app:labelFormat="@string/last_x_months"
+                    app:labelValue="12"
                     app:textSize="12"/>
 
                 <org.isoron.uhabits.views.RepetitionCountView
@@ -105,19 +106,36 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/cardStyle">
+        <RelativeLayout
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <Spinner
+                android:id="@+id/sStrengthInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/strengthIntervalNames"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:minWidth="100dp"
+                />
 
             <TextView
                 android:id="@+id/tvStrength"
                 style="@style/cardHeaderStyle"
-                android:text="@string/habit_strength"/>
+                android:text="@string/habit_strength"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
 
             <org.isoron.uhabits.views.HabitScoreView
                 android:id="@+id/scoreView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="220dp"
+                android:layout_below="@id/tvStrength"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             style="@style/cardStyle"
@@ -143,7 +161,8 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_action_edit_light"
                 android:text="@string/edit"
-                android:textColor="@color/grey_400"/>
+                android:textColor="@color/grey_400"
+                android:textSize="@dimen/smallTextSize"/>
 
         </LinearLayout>
 
