@@ -101,12 +101,11 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void updateDate()
     {
-        baseDate = new GregorianCalendar();
-        baseDate.setTimeInMillis(DateHelper.getLocalTime());
+        baseDate = DateHelper.getStartOfTodayCalendar();
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
-        todayWeekday = new GregorianCalendar().get(Calendar.DAY_OF_WEEK) % 7;
+        todayWeekday = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayWeekday);
@@ -311,8 +310,11 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
     {
-        String month = dfMonth.format(date.getTime());
-        String year = dfYear.format(date.getTime());
+        GregorianCalendar forwardDate = (GregorianCalendar) date.clone();
+        forwardDate.add(Calendar.DAY_OF_YEAR, 6);
+
+        String month = dfMonth.format(forwardDate.getTime());
+        String year = dfYear.format(forwardDate.getTime());
 
         if (!month.equals(previousMonth))
         {

@@ -1,115 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2016 Dmitriy Bogdanov
-  ~
-  ~ This file is part of Loop Habit Tracker.
-  ~
-  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation, either version 3 of the License, or (at your
-  ~ option) any later version.
-  ~
-  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
-  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  ~ more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <resources>
-    <string name="app_name">"Трекер привычек Loop"</string>
-    <string name="main_activity_title">"Привычки"</string>
-    <string name="action_settings">"Настройки"</string>
-    <string name="edit">"Редактировать"</string>
-    <string name="delete">"Удалить"</string>
-    <string name="archive">"Архивировать"</string>
-    <string name="unarchive">"Вернуть из архива"</string>
-    <string name="add_habit">"Добавить привычку"</string>
-    <string name="color_picker_default_title">"Изменить цвет"</string>
-    <string name="toast_habit_created">"Привычка создана."</string>
-    <string name="toast_habit_deleted">"Привычки удалены."</string>
-    <string name="toast_habit_restored">"Привычки восстановлены."</string>
-    <string name="toast_nothing_to_undo">"Отменять нечего."</string>
-    <string name="toast_nothing_to_redo">"Повторять нечего."</string>
-    <string name="toast_habit_changed">"Привычка изменена."</string>
+<string name="app_name">"Трекер привычек Loop"</string>
+<string name="main_activity_title">"Привычки"</string>
+<string name="action_settings">"Настройки"</string>
+<string name="edit">"Редактировать"</string>
+<string name="delete">"Удалить"</string>
+<string name="archive">"Архивировать"</string>
+<string name="unarchive">"Вернуть из архива"</string>
+<string name="add_habit">"Добавить привычку"</string>
+<string name="color_picker_default_title">"Изменить цвет"</string>
+<string name="toast_habit_created">"Привычка создана."</string>
+<string name="toast_habit_deleted">"Привычки удалены."</string>
+<string name="toast_habit_restored">"Привычки восстановлены."</string>
+<string name="toast_nothing_to_undo">"Отменять нечего."</string>
+<string name="toast_nothing_to_redo">"Повторять нечего."</string>
+<string name="toast_habit_changed">"Привычка изменена."</string>
 
-    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-    <string name="toast_habit_changed_back">"Изменения привычки отменены."</string>
-    <string name="toast_habit_archived">"Привычки архивированы."</string>
-    <string name="toast_habit_unarchived">"Привычки возвращены из архива."</string>
-    <string name="overview">"Обзор"</string>
-    <string name="habit_strength">"Сила привычки"</string>
-    <string name="history">"История"</string>
-    <string name="clear">"Очистить"</string>
-    <string name="description_hint">"Вопрос (пример: \"Делали ли вы сегодня зарядку?\")"</string>
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"Изменения привычки отменены."</string>
+<string name="toast_habit_archived">"Привычки архивированы."</string>
+<string name="toast_habit_unarchived">"Привычки возвращены из архива."</string>
+<string name="overview">"Обзор"</string>
+<string name="habit_strength">"Сила привычки"</string>
+<string name="history">"История"</string>
+<string name="clear">"Очистить"</string>
+<string name="description_hint">"Вопрос (пример: \"Делали ли вы сегодня зарядку?\")"</string>
 
-    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
-    <string name="repeat">"Повторять"</string>
-    <string name="times_every">"раза за"</string>
-    <string name="days">"дней"</string>
-    <string name="reminder">"Напоминание"</string>
-    <string name="discard">"Отменить"</string>
-    <string name="save">"Сохранить"</string>
-    <string name="streaks">"Рекорды"</string>
-    <string name="no_habits_found">"У вас нет активных привычек"</string>
-    <string name="long_press_to_toggle">"Нажмите и удерживайте, чтобы установить или снять галочку"</string>
-    <string name="reminder_off">"Выкл"</string>
-    <string name="validation_name_should_not_be_blank">"Название не может быть пустым."</string>
-    <string name="validation_number_should_be_positive">"Число должно быть положительным."</string>
-    <string name="validation_at_most_one_rep_per_day">"Может быть не более одного повторения в день"</string>
-    <string name="create_habit">"Добавить привычку"</string>
-    <string name="edit_habit">"Изменить привычку"</string>
-    <string name="check">"Отметить"</string>
-    <string name="snooze">"Отложить"</string>
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"Повторять"</string>
+<string name="times_every">"раза за"</string>
+<string name="days">"дней"</string>
+<string name="reminder">"Напоминание"</string>
+<string name="discard">"Отменить"</string>
+<string name="save">"Сохранить"</string>
+<string name="streaks">"Рекорды"</string>
+<string name="no_habits_found">"У вас нет активных привычек"</string>
+<string name="long_press_to_toggle">"Нажмите и удерживайте, чтобы установить или снять галочку"</string>
+<string name="reminder_off">"Выкл"</string>
+<string name="validation_name_should_not_be_blank">"Название не может быть пустым."</string>
+<string name="validation_number_should_be_positive">"Число должно быть положительным."</string>
+<string name="validation_at_most_one_rep_per_day">"Может быть не более одного повторения в день"</string>
+<string name="create_habit">"Добавить привычку"</string>
+<string name="edit_habit">"Изменить привычку"</string>
+<string name="check">"Отметить"</string>
+<string name="snooze">"Отложить"</string>
 
-    <!-- App introduction -->
-    <string name="intro_title_1">"Добро пожаловать"</string>
-    <string name="intro_description_1">"Loop Habit Tracker помогает вам заводить и поддерживать полезные привычки."</string>
-    <string name="intro_title_2">"Добавьте несколько привычек"</string>
-    <string name="intro_description_2">"Каждый день, после выполнения вашей привычки, поставьте галочку в приложении."</string>
-    <string name="intro_title_3">"Продолжайте в том же духе"</string>
-    <string name="intro_description_3">"Стойко соблюдаемые привычки будут отмечены полной звёздочкой."</string>
-    <string name="intro_title_4">"Отслеживайте свои успехи"</string>
-    <string name="intro_description_4">"Детализированные диаграммы демонстрируют, как ваши привычки улучшились со временем."</string>
-    <string name="interval_15_minutes">"15 минут"</string>
-    <string name="interval_30_minutes">"30 минут"</string>
-    <string name="interval_1_hour">"1 час"</string>
-    <string name="interval_2_hour">"2 часа"</string>
-    <string name="interval_4_hour">"4 часа"</string>
-    <string name="interval_8_hour">"8 часов"</string>
-    <string name="pref_toggle_title">"Отмечать повторение коротким нажатием"</string>
-    <string name="pref_toggle_description">"Удобнее, но может стать причиной случайных нажатий."</string>
-    <string name="pref_snooze_interval_title">"Интервал откладывания напоминаний"</string>
-    <string name="pref_rate_this_app">"Оценить приложение на Google Play"</string>
-    <string name="pref_send_feedback">"Отправить сообщение разработчику"</string>
-    <string name="pref_view_source_code">"Посмотреть исходный код на GitHub"</string>
-    <string name="pref_view_app_introduction">"Посмотреть вступительные инструкции"</string>
-    <string name="links">"Ссылки"</string>
-    <string name="behavior">"Поведение"</string>
-    <string name="name">"Название"</string>
-    <string name="show_archived">"Показать архивированные"</string>
-    <string name="settings">"Настройки"</string>
-    <string name="snooze_interval">"Интервал откладывания"</string>
-    <string name="hint_title">"А вы знали?"</string>
-    <string name="hint_drag">"Чтобы поменять порядок записей, нажмите и удерживайте название записи, затем перетащите её на нужное место."</string>
-    <string name="hint_landscape">"В горизонтальном режиме отображается больше дней."</string>
-    <string name="delete_habits">"Удалить привычки"</string>
-    <string name="delete_habits_message">"Привычки будут удалены. Это действие невозможно отменить."</string>
-    <string name="weekends">"Выходные"</string>
-    <string name="any_weekday">"Будни"</string>
-    <string name="any_day">"Каждый день"</string>
-    <string name="select_weekdays">"Выберите дни"</string>
-    <string name="export_to_csv">"Экспортировать данные"</string>
-    <string name="done_label">"Готово"</string>
-    <string name="clear_label">"Очистить"</string>
-    <string name="select_hours">"Выберите часы"</string>
-    <string name="select_minutes">"Выберите минуты"</string>
+<!-- App introduction -->
+<string name="intro_title_1">"Добро пожаловать"</string>
+<string name="intro_description_1">"Loop Habit Tracker помогает вам заводить и поддерживать полезные привычки."</string>
+<string name="intro_title_2">"Добавьте несколько привычек"</string>
+<string name="intro_description_2">"Каждый день, после выполнения вашей привычки, поставьте галочку в приложении."</string>
+<string name="intro_title_3">"Продолжайте в том же духе"</string>
+<string name="intro_description_3">"Стойко соблюдаемые привычки будут отмечены полной звёздочкой."</string>
+<string name="intro_title_4">"Отслеживайте свои успехи"</string>
+<string name="intro_description_4">"Детализированные диаграммы демонстрируют, как ваши привычки улучшились со временем."</string>
+<string name="interval_15_minutes">"15 минут"</string>
+<string name="interval_30_minutes">"30 минут"</string>
+<string name="interval_1_hour">"1 час"</string>
+<string name="interval_2_hour">"2 часа"</string>
+<string name="interval_4_hour">"4 часа"</string>
+<string name="interval_8_hour">"8 часов"</string>
+<string name="pref_toggle_title">"Отмечать повторение коротким нажатием"</string>
+<string name="pref_toggle_description">"Удобнее, но может стать причиной случайных нажатий."</string>
+<string name="pref_snooze_interval_title">"Интервал откладывания напоминаний"</string>
+<string name="pref_rate_this_app">"Оценить приложение на Google Play"</string>
+<string name="pref_send_feedback">"Отправить сообщение разработчику"</string>
+<string name="pref_view_source_code">"Посмотреть исходный код на GitHub"</string>
+<string name="pref_view_app_introduction">"Посмотреть вступительные инструкции"</string>
+<string name="links">"Ссылки"</string>
+<string name="behavior">"Поведение"</string>
+<string name="name">"Название"</string>
+<string name="show_archived">"Показать архивированные"</string>
+<string name="settings">"Настройки"</string>
+<string name="snooze_interval">"Интервал откладывания"</string>
+<string name="hint_title">"А вы знали?"</string>
+<string name="hint_drag">"Чтобы поменять порядок записей, нажмите и удерживайте название записи, затем перетащите её на нужное место."</string>
+<string name="hint_landscape">"В горизонтальном режиме отображается больше дней."</string>
+<string name="delete_habits">"Удалить привычки"</string>
+<string name="delete_habits_message">"Привычки будут удалены. Это действие невозможно отменить."</string>
+<string name="weekends">"Выходные"</string>
+<string name="any_weekday">"Будни"</string>
+<string name="any_day">"Каждый день"</string>
+<string name="select_weekdays">"Выберите дни"</string>
+<string name="export_to_csv">"Экспортировать данные"</string>
+<string name="done_label">"Готово"</string>
+<string name="clear_label">"Очистить"</string>
+<string name="select_hours">"Выберите часы"</string>
+<string name="select_minutes">"Выберите минуты"</string>
 
-    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
-    <string name="store_short_description">"Заводите полезные привычки и отслеживайте свои успехи (без рекламы)"</string>
-    <string name="store_description_1">"\"Трекер привычек Loop\" поможет вам завести и поддерживать полезные привычки, позволяя достичь долгосрочных целей. Детализированные диаграммы и статистика покажут, как ваши привычки закрепились со временем. Приложение не содержит рекламы и является ПО с открытым исходным кодом."</string>
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"Заводите полезные привычки и отслеживайте свои успехи (без рекламы)"</string>
+<string name="store_description_1">"\"Трекер привычек Loop\" поможет вам завести и поддерживать полезные привычки, позволяя достичь долгосрочных целей. Детализированные диаграммы и статистика покажут, как ваши привычки закрепились со временем. Приложение не содержит рекламы и является ПО с открытым исходным кодом."</string>
 <string name="store_feature_interface">"&lt;b&gt;Простой, красивый и современный интерфейс&lt;/b&gt;
 У приложения минималистичный интерфейс, который лёгок в использовании и придерживается руководства по Material Design."</string>
 <string name="store_feature_score">"&lt;b&gt;Оценка привычек&lt;/b&gt;
@@ -124,11 +105,11 @@
 В приложении совершенно нет рекламы, назойливых уведомлений или лишних разрешений. И их никогда не будет. Весь исходный код доступен под лицензией GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Оптимизировано для \"умных\" часов&lt;/b&gt;
 Напоминания могут быть отмечены, отложены или пропущены прямо с ваших часов Android Wear."</string>
-    <string name="about">"О приложении"</string>
-    <string name="translators">"Переводчики"</string>
-    <string name="developers">"Разработчики"</string>
+<string name="about">"О приложении"</string>
+<string name="translators">"Переводчики"</string>
+<string name="developers">"Разработчики"</string>
 
-    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
-    <string name="version_n">"Версия %s"</string>
-    <string name="frequency">"Частота"</string>
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"Версия %s"</string>
+<string name="frequency">"Частота"</string>
 </resources>

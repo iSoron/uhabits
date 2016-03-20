@@ -1,8 +1,14 @@
 # Changelog
 
+### 1.3.3 (March 20, 2016)
+
+* Add Spanish and Korean translations
+* Make small corrections to other translations
+* Fix incorrect date in history calendar
+
 ### 1.3.2 (March 18, 2016)
 
-* Arabic, Italian, Polish, Russian and Swedish translations
+* Add Arabic, Italian, Polish, Russian and Swedish translations
 * Minor fixes to German and French translations
 * Minor bug fixes
 
@@ -16,7 +22,7 @@
 
 * New frequency plot: view total repetitions per day of week
 * New history editor: put checkmarks in the past
-* German, French and Japanese translations
+* Add German, French and Japanese translations
 * Add about screen, with credits to all contributors
 * Fix small bug that prevented habit from being reordered
 * Fix small bug caused by rotating the device
