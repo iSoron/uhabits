@@ -23,6 +23,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.view.View;
 
+import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.HabitFrequencyView;
@@ -41,7 +42,7 @@ public class FrequencyWidgetProvider extends BaseWidgetProvider
     @Override
     protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
     {
-        return null;
+        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
     }
 
     @Override

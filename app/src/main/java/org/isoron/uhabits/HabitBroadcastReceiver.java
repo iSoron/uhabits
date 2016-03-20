@@ -222,6 +222,13 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         return PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
     }
 
+    public static PendingIntent buildViewHabitIntent(Context context, Habit habit)
+    {
+        Intent intent = new Intent(context, ShowHabitActivity.class);
+        intent.setData(Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId()));
+        return PendingIntent.getActivity(context, 0, intent, 0);
+    }
+
     private boolean checkWeekday(Intent intent, Habit habit)
     {
         Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
