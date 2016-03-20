@@ -1,120 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
-  ~ Copyright (C) 2016 Limin Lu
-  ~
-  ~ This file is part of Loop Habit Tracker.
-  ~
-  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation, either version 3 of the License, or (at your
-  ~ option) any later version.
-  ~
-  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
-  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  ~ more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <resources>
-  <string name="app_name">循环习惯记录</string>
-  <string name="main_activity_title">习惯</string>
-  <string name="action_settings">设置</string>
-  <string name="edit">编辑</string>
-  <string name="delete">删除</string>
-  <string name="archive">存档</string>
-  <string name="unarchive">取消存档</string>
-  <string name="add_habit">添加新习惯</string>
-  <string name="color_picker_default_title">选择颜色</string>
+<string name="app_name">"循环习惯记录"</string>
+<string name="main_activity_title">"习惯"</string>
+<string name="action_settings">"设置"</string>
+<string name="edit">"编辑"</string>
+<string name="delete">"删除"</string>
+<string name="archive">"存档"</string>
+<string name="unarchive">"取消存档"</string>
+<string name="add_habit">"添加新习惯"</string>
+<string name="color_picker_default_title">"选择颜色"</string>
+<string name="toast_habit_created">"习惯建成."</string>
+<string name="toast_habit_deleted">"习惯删除."</string>
+<string name="toast_habit_restored">"习惯恢复成功"</string>
+<string name="toast_nothing_to_undo">"Nothing to undo."</string>
+<string name="toast_nothing_to_redo">"Nothing to redo."</string>
+<string name="toast_habit_changed">"习惯修改了."</string>
 
-  <string name="toast_habit_created">习惯建成.</string>
-  <string name="toast_habit_deleted">习惯删除.</string>
-  <string name="toast_nothing_to_undo">Nothing to undo.</string>
-  <string name="toast_nothing_to_redo">Nothing to redo.</string>
-  <string name="toast_habit_changed">习惯修改了.</string>
-  <string name="toast_habit_changed_back">取消了修改.</string>
-  <string name="toast_habit_archived">习惯存档成功.</string>
-  <string name="toast_habit_unarchived">习惯取消存档成功.</string>
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"取消了修改."</string>
+<string name="toast_habit_archived">"习惯存档成功."</string>
+<string name="toast_habit_unarchived">"习惯取消存档成功."</string>
+<string name="overview">"总览"</string>
+<string name="habit_strength">"习惯强度"</string>
+<string name="history">"历史"</string>
+<string name="clear">"取消"</string>
+<string name="description_hint">"提醒问题（你xxx了吗）"</string>
 
-  <!-- Date and time picker -->
-  <string name="done_label">完陈</string>
-  <string name="clear_label">取消</string>
-  <string name="select_hours">选择小时</string>
-  <string name="select_minutes">选择分钟</string>
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"重复"</string>
+<string name="times_every">"次每"</string>
+<string name="days">"天"</string>
+<string name="reminder">"提醒"</string>
+<string name="discard">"丢弃"</string>
+<string name="save">"保存"</string>
+<string name="streaks">"链条"</string>
+<string name="no_habits_found">"你没有习惯"</string>
+<string name="long_press_to_toggle">"长按 标记/取消标记"</string>
+<string name="reminder_off">"关"</string>
+<string name="validation_name_should_not_be_blank">"名字不能是空白."</string>
+<string name="validation_number_should_be_positive">"数字必须大于零."</string>
+<string name="validation_at_most_one_rep_per_day">"每天最多重复一次"</string>
+<string name="create_habit">"新建习惯"</string>
+<string name="edit_habit">"编辑习惯"</string>
+<string name="check">"标记"</string>
+<string name="snooze">"以后再说"</string>
 
-  <string name="overview">总览</string>
-  <string name="habit_strength">习惯强度</string>
-  <string name="history">历史</string>
-  <string name="clear">取消</string>
-  <string name="description_hint">提醒问题（你xxx了吗）</string>
-  <string name="repeat">重复</string>
-  <string name="times_every">次每</string>
-  <string name="days">天</string>
-  <string name="reminder">提醒</string>
-  <string name="discard">丢弃</string>
-  <string name="save">保存</string>
-  <string name="streaks">链条</string>
-  <string name="no_habits_found">你没有习惯</string>
-  <string name="long_press_to_toggle">长按 标记/取消标记</string>
-  <string name="reminder_off">关</string>
-  <string name="validation_name_should_not_be_blank">名字不能是空白.</string>
-  <string name="validation_number_should_be_positive">数字必须大于零.</string>
-  <string name="validation_at_most_one_rep_per_day">每天最多重复一次</string>
-  <string name="create_habit">新建习惯</string>
-  <string name="edit_habit">编辑习惯</string>
-  <string name="check">标记</string>
-  <string name="snooze">以后再说</string>
+<!-- App introduction -->
+<string name="intro_title_1">"欢迎"</string>
+<string name="intro_description_1">"循环习惯记录器帮助你建立和维持好习惯."</string>
+<string name="intro_title_2">"建立一些新习惯"</string>
+<string name="intro_description_2">"每天，你完成一项习惯后，在应用上做一个标记"</string>
+<string name="intro_title_3">"保持习惯"</string>
+<string name="intro_description_3">"你可以得到一个完整的星星在连续性的完成习惯达到一定时间"</string>
+<string name="intro_title_4">"记录你的进步"</string>
+<string name="intro_description_4">"详细的图形显示你的进步"</string>
+<string name="interval_15_minutes">"15分钟"</string>
+<string name="interval_30_minutes">"30分钟"</string>
+<string name="interval_1_hour">"1小时"</string>
+<string name="interval_2_hour">"2小时"</string>
+<string name="interval_4_hour">"4小时"</string>
+<string name="interval_8_hour">"8小时"</string>
+<string name="pref_toggle_title">"短时间按来记录习惯"</string>
+<string name="pref_toggle_description">"更加方便，但有可能造成意外记录"</string>
+<string name="pref_snooze_interval_title">"提醒延迟间隔"</string>
+<string name="pref_rate_this_app">"评价这个应用在Play商店"</string>
+<string name="pref_send_feedback">"发送反馈给开发者"</string>
+<string name="pref_view_source_code">"看源代码在GitHub"</string>
+<string name="pref_view_app_introduction">"阅读应用介绍"</string>
+<string name="links">"链接"</string>
+<string name="behavior">"功能"</string>
+<string name="name">"名字"</string>
+<string name="show_archived">"显示存档的习惯"</string>
+<string name="settings">"设置"</string>
+<string name="snooze_interval">"延迟时间间隔"</string>
+<string name="hint_title">"你知道吗？"</string>
+<string name="hint_drag">"如果要重新排列习惯，按住习惯的名字拖到想要的位置"</string>
+<string name="hint_landscape">"横过来手机可以看到更多天数的习惯"</string>
+<string name="delete_habits">"删除"</string>
+<string name="delete_habits_message">"习惯会永久的删除，操作不可恢复"</string>
+<string name="weekends">"周末"</string>
+<string name="any_weekday">"工作日"</string>
+<string name="any_day">"任意"</string>
+<string name="select_weekdays">"选择天数"</string>
+<string name="export_to_csv">"导出数据"</string>
+<string name="done_label">"完成"</string>
+<string name="clear_label">"取消"</string>
+<string name="select_hours">"选择小时"</string>
+<string name="select_minutes">"选择分钟"</string>
 
-  <!-- App introduction -->
-  <string name="intro_title_1">欢迎</string>
-  <string name="intro_description_1">循环习惯记录器帮助你建立和维持好习惯.</string>
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"建立好习惯且随着时间记录你的进步（无广告）"</string>
+<string name="store_description_1">"循环帮助你建立和维持好习惯，达到长期目标。详细的图片和数据显示你的进步。完全无广告和开源软件。"</string>
+<string name="store_feature_interface">"&lt;b&gt;简单，美观，现代的界面&lt;/b&gt;
+微型界面易于应用。"</string>
+<string name="store_feature_score">"&lt;b&gt; 习惯分数&lt;/b&gt;
+除了显示你目前的习惯连胜，循环习惯记录有高级的算法计算你的习惯强度。每重复一次习惯能使你的习惯强度加强，每次错过会使习惯强度减弱。然而，几次错过并不会完全破坏你整个的进步。"</string>
+<string name="store_feature_statistics">"&lt;b&gt; 详细的图片和数据分析&lt;/b&gt;
+详细的图片能清晰的显示随着时间你习惯的进步。往后滚动屏幕可以看完整的历史纪录。"</string>
+<string name="store_feature_schedules">"&lt;b&gt; 灵活的时间表&lt;/b&gt;
+支持日常习惯或者更加复杂时间间隔的习惯（例如每周3次，每周1次）"</string>
+<string name="store_feature_reminders">"&lt;b&gt;提醒&lt;/b&gt;
+在可以选择为每个习惯设置特定的个人提醒。不需要打开应用就可以记录，忽略，或者推迟的习惯。"</string>
+<string name="store_feature_opensource">"&lt;b&gt;完全无广告和开源软件&lt;/b&gt;
+完全无广告和烦人的提醒，并且永远也不会有。完整的代码在GPLv3。"</string>
+<string name="store_feature_wear">"&lt;b&gt;可以用在智能手表上&lt;/b&gt;
+提醒可以直接在安卓手表上 记录，忽略，或者推迟。"</string>
+<string name="about">"关于应用"</string>
+<string name="translators">"翻译者"</string>
+<string name="developers">"开发者"</string>
 
-  <string name="intro_title_2">建立一些新习惯</string>
-  <string name="intro_description_2">每天，你完成一项习惯后，在应用上做一个标记</string>
-
-  <string name="intro_title_3">保持习惯</string>
-  <string name="intro_description_3">你可以得到一个完整的星星在连续性的完成习惯达到一定时间</string>
-
-  <string name="intro_title_4">记录你的进步</string>
-  <string name="intro_description_4">详细的图形显示你的进步</string>
-
-  <string name="interval_15_minutes">15分钟</string>
-  <string name="interval_30_minutes">30分钟</string>
-  <string name="interval_1_hour">1小时</string>
-  <string name="interval_2_hour">2小时</string>
-  <string name="interval_4_hour">4小时</string>
-  <string name="interval_8_hour">8小时</string>
-  <string name="pref_toggle_title">短时间按来记录习惯</string>
-  <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
-  <string name="pref_snooze_interval_title">提醒延迟间隔</string>
-  <string name="pref_rate_this_app">评价这个应用在Play商店</string>
-  <string name="pref_send_feedback">发送反馈给开发者</string>
-  <string name="pref_view_source_code">看源代码在GitHub</string>
-  <string name="pref_view_app_introduction">阅读应用介绍</string>
-
-  <string name="links">链接</string>
-  <string name="behavior">功能</string>
-  <string name="name">名字</string>
-  <string name="show_archived">显示存档的习惯</string>
-  <string name="settings">设置</string>
-  <string name="snooze_interval">延迟时间间隔</string>
-  <string name="any_day">任意</string>
-  <string name="any_weekday">工做日</string>
-  <string name="delete_habits">删除</string>
-  <string name="delete_habits_message">习惯会永久的删除，操作不可恢复</string>
-  <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
-  <string name="hint_landscape">横过来手机可以看到更多天数的习惯</string>
-  <string name="hint_title">你知道吗？</string>
-  <string name="select_weekdays">选择天数</string>
-  <string name="toast_habit_restored">习惯恢复成功</string>
-  <string name="weekends">周末</string>
-  <string name="about">关于应用</string>
-  <string name="developers">开发者</string>
-  <string name="translators">翻译者</string>
-  <string name="export_to_csv">导出数据</string>
-  <string name="version_n">%s版</string>
-  <string name="frequency">频率</string>
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"%s版"</string>
+<string name="frequency">"频率"</string>
 </resources>
