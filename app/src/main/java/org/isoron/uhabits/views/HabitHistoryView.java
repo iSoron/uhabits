@@ -310,8 +310,11 @@ public class HabitHistoryView extends ScrollableDataView
 
     private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
     {
-        String month = dfMonth.format(date.getTime());
-        String year = dfYear.format(date.getTime());
+        GregorianCalendar forwardDate = (GregorianCalendar) date.clone();
+        forwardDate.add(Calendar.DAY_OF_YEAR, 6);
+
+        String month = dfMonth.format(forwardDate.getTime());
+        String year = dfYear.format(forwardDate.getTime());
 
         if (!month.equals(previousMonth))
         {
