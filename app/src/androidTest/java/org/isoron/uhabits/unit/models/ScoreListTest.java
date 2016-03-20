@@ -124,7 +124,7 @@ public class ScoreListTest
     {
         toggleRepetitions(0, 20);
 
-        int expectedValues[] = { 12629351, 11006461, 7272612, 2800230 };
+        int expectedValues[] = { 11434978, 7894999, 3212362 };
 
         int actualValues[] = habit.scores.getAllValues(7);
         assertThat(actualValues, equalTo(expectedValues));

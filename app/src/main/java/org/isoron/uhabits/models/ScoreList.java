@@ -218,7 +218,7 @@ public class ScoreList
         compute(from, to);
 
         divisor *= DateHelper.millisecondsInOneDay;
-        Long offset = to + divisor - 1;
+        Long offset = to + divisor;
 
         String query = "select ((timestamp - ?) / ?) as time, avg(score) from Score " +
                 "where habit = ? and timestamp >= ? and timestamp <= ? " +
