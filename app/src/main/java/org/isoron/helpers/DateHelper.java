@@ -24,6 +24,7 @@ import android.text.format.DateFormat;
 
 import org.isoron.uhabits.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -94,6 +95,14 @@ public class DateHelper
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         return df.format(date);
+    }
+
+    public static SimpleDateFormat getCSVDateFormat()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        return dateFormat;
     }
 
     public static String formatHeaderDate(GregorianCalendar day)

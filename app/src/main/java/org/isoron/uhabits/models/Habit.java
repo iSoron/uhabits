@@ -20,6 +20,7 @@
 package org.isoron.uhabits.models;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,10 +34,17 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 import com.activeandroid.util.SQLiteUtils;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 import org.isoron.helpers.ColorHelper;
 import org.isoron.helpers.DateHelper;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -469,5 +477,39 @@ public class Habit extends Model
         reminderHour = null;
         reminderMin = null;
         reminderDays = DateHelper.ALL_WEEK_DAYS;
+    }
+
+    public static void writeCSV(List<Habit> habits, Writer out) throws IOException
+    {
+        CSVWriter csv = new CSVWriter(out);
+
+        for(Habit habit : habits)
+        {
+            String[] cols = { habit.name, habit.description, Integer.toString(habit.freqNum),
+                    Integer.toString(habit.freqDen), ColorHelper.toHTML(habit.color) };
+            csv.writeAll(Collections.singletonList(cols));
+        }
+
+        csv.close();
+    }
+
+    public List<Habit> parseCSV(Reader in)
+    {
+        CSVReader csv = new CSVReader(in);
+        List<Habit> habits = new LinkedList<>();
+
+        for(String cols[] : csv)
+        {
+            Habit habit = new Habit();
+
+            habit.name = cols[0];
+            habit.description = cols[1];
+            habit.freqNum = Integer.parseInt(cols[2]);
+            habit.freqDen = Integer.parseInt(cols[3]);
+            habit.color = Color.parseColor(cols[4]);
+            habits.add(habit);
+        }
+
+        return habits;
     }
 }

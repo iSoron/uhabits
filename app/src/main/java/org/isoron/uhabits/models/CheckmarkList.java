@@ -31,6 +31,10 @@ import com.activeandroid.query.Select;
 
 import org.isoron.helpers.DateHelper;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class CheckmarkList
@@ -228,5 +232,28 @@ public class CheckmarkList
         Checkmark today = getToday();
         if(today != null) return today.value;
         else return Checkmark.UNCHECKED;
+    }
+
+    public void writeCSV(Writer out) throws IOException
+    {
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+
+        String query = "select timestamp, value from checkmarks where habit = ? order by timestamp";
+        String params[] = { habit.getId().toString() };
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, params);
+
+        if(!cursor.moveToFirst()) return;
+
+        do
+        {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            Integer value = cursor.getInt(1);
+            out.write(String.format("%s,%d\n", timestamp, value));
+
+        } while(cursor.moveToNext());
+
+        cursor.close();
     }
 }

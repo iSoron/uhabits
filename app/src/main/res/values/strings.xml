@@ -138,4 +138,5 @@
     <string name="five_times_per_week">5 times per week</string>
     <string name="custom_frequency">Custom …</string>
     <string name="help">Help &amp; FAQ</string>
+    <string name="could_not_export">Failed to export data.</string>
 </resources>

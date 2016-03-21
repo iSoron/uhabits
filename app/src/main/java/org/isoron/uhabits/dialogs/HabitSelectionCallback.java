@@ -42,7 +42,7 @@ import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.fragments.EditHabitFragment;
-import org.isoron.uhabits.io.CSVExporter;
+import org.isoron.uhabits.io.HabitsExporter;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
@@ -226,7 +226,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
     {
         new AsyncTask<Void, Void, Void>()
         {
-            String filename;
+            String archiveFilename;
 
             @Override
             protected void onPreExecute()
@@ -241,14 +241,18 @@ public class HabitSelectionCallback implements ActionMode.Callback
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                if(filename != null)
+                if(archiveFilename != null)
                 {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("application/zip");
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filename)));
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
 
                     activity.startActivity(intent);
+                }
+                else
+                {
+                    activity.showToast(R.string.could_not_export);
                 }
 
                 if(progressBar != null)
@@ -258,8 +262,10 @@ public class HabitSelectionCallback implements ActionMode.Callback
             @Override
             protected Void doInBackground(Void... params)
             {
-                CSVExporter exporter = new CSVExporter(activity, selectedHabits);
-                filename = exporter.writeArchive();
+                String dirName = String.format("%s/export/", activity.getExternalCacheDir());
+                HabitsExporter exporter = new HabitsExporter(selectedHabits, dirName);
+                archiveFilename = exporter.writeArchive();
+
                 return null;
             }
         }.execute();

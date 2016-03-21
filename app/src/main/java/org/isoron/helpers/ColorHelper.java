@@ -91,4 +91,9 @@ public class ColorHelper
         hsv[index] = newValue;
         return Color.HSVToColor(hsv);
     }
+
+    public static String toHTML(int color)
+    {
+        return String.format("#%06X", 0xFFFFFF & color);
+    }
 }
