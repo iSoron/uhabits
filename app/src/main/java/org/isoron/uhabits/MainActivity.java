@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits;
 
+import android.Manifest;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -26,10 +27,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +43,7 @@ import android.view.MenuItem;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
@@ -45,6 +52,8 @@ import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
+
+import java.io.File;
 
 public class MainActivity extends ReplayableActivity
         implements ListHabitsFragment.OnHabitClickListener
@@ -120,6 +129,12 @@ public class MainActivity extends ReplayableActivity
     {
         switch (item.getItemId())
         {
+            case R.id.action_import:
+            {
+                onActionImportClicked();
+                return true;
+            }
+
             case R.id.action_settings:
             {
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -137,6 +152,22 @@ public class MainActivity extends ReplayableActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onActionImportClicked()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED)
+        {
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN)
+                return;
+
+            String[] permissions = new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE };
+            ActivityCompat.requestPermissions(this, permissions, 0);
+            return;
+        }
+
+        listHabitsFragment.showImportDialog();
     }
 
     @Override
@@ -196,5 +227,15 @@ public class MainActivity extends ReplayableActivity
         {
             listHabitsFragment.onPostExecuteCommand(null);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        if (grantResults.length <= 0) return;
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) return;
+
+        listHabitsFragment.showImportDialog();
     }
 }

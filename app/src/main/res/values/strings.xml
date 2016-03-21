@@ -139,4 +139,7 @@
     <string name="custom_frequency">Custom …</string>
     <string name="help">Help &amp; FAQ</string>
     <string name="could_not_export">Failed to export data.</string>
+    <string name="could_not_import">Failed to import habits from file.</string>
+    <string name="file_not_recognized">File type not recognized.</string>
+    <string name="habits_imported">Habits imported successfully.</string>
 </resources>

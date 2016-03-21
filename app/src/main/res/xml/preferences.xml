@@ -42,6 +42,25 @@
 
     <PreferenceCategory
         android:key="pref_key_links"
+        android:title="Database">
+
+        <Preference android:title="Export data">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/helpURL"/>
+        </Preference>
+
+        <Preference android:title="Import data"
+            android:summary="Supports files exported by Loop, Tickmate, HabitBull or Rewire. This feature is currently experimental.">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/helpURL"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_links"
         android:title="@string/links">
 
         <Preference android:title="@string/help">

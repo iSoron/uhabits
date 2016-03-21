@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -55,6 +56,7 @@ import org.isoron.helpers.DialogHelper.OnSavedListener;
 import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
+import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.dialogs.HabitSelectionCallback;
 import org.isoron.uhabits.dialogs.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
@@ -62,6 +64,7 @@ import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
+import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,7 +72,7 @@ import java.util.List;
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
-        HabitSelectionCallback.Listener
+        HabitSelectionCallback.Listener, ImportHabitsAsyncTask.Listener
 {
     long lastLongClick = 0;
     private boolean isShortToggleEnabled;
@@ -424,6 +427,43 @@ public class ListHabitsFragment extends Fragment
         public void startDrag(int position)
         {
             selectItem(position);
+        }
+    }
+
+    public void showImportDialog()
+    {
+        File dir = Environment.getExternalStorageDirectory();
+        FilePickerDialog picker = new FilePickerDialog(activity, dir);
+        picker.setFileListener(new FilePickerDialog.OnFileSelectedListener()
+        {
+            @Override
+            public void onFileSelected(File file)
+            {
+                ImportHabitsAsyncTask task = new ImportHabitsAsyncTask(file, progressBar);
+                task.setListener(ListHabitsFragment.this);
+                task.execute();
+            }
+        });
+        picker.show();
+    }
+
+    @Override
+    public void onImportFinished(int result)
+    {
+        switch (result)
+        {
+            case ImportHabitsAsyncTask.SUCCESS:
+                loader.updateAllHabits(true);
+                activity.showToast(R.string.habits_imported);
+                break;
+
+            case ImportHabitsAsyncTask.NOT_RECOGNIZED:
+                activity.showToast(R.string.file_not_recognized);
+                break;
+
+            default:
+                activity.showToast(R.string.could_not_import);
+                break;
         }
     }
 }
