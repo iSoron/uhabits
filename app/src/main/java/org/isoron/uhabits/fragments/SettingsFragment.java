@@ -22,8 +22,10 @@ package org.isoron.uhabits.fragments;
 import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
+import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
 
 public class SettingsFragment extends PreferenceFragment
@@ -34,6 +36,24 @@ public class SettingsFragment extends PreferenceFragment
     {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        setResultOnPreferenceClick("importData", MainActivity.RESULT_IMPORT_DATA);
+        setResultOnPreferenceClick("exportCSV", MainActivity.RESULT_EXPORT_ALL_AS_CSV);
+    }
+
+    private void setResultOnPreferenceClick(String key, final int result)
+    {
+        Preference exportCSV = findPreference(key);
+        exportCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                getActivity().setResult(result);
+                getActivity().finish();
+                return true;
+            }
+        });
     }
 
     @Override

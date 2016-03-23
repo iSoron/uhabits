@@ -29,12 +29,6 @@
         android:title="@string/show_archived"/>
 
     <item
-        android:id="@+id/action_import"
-        android:orderInCategory="50"
-        android:title="Import data"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

@@ -481,13 +481,16 @@ public class Habit extends Model
 
     public static void writeCSV(List<Habit> habits, Writer out) throws IOException
     {
+        String header[] = { "Name", "Description", "FrequencyNumerator", "FrequencyDenominator", "Color" };
+
         CSVWriter csv = new CSVWriter(out);
+        csv.writeNext(header, false);
 
         for(Habit habit : habits)
         {
             String[] cols = { habit.name, habit.description, Integer.toString(habit.freqNum),
                     Integer.toString(habit.freqDen), ColorHelper.toHTML(habit.color) };
-            csv.writeAll(Collections.singletonList(cols));
+            csv.writeNext(cols, false);
         }
 
         csv.close();

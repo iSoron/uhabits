@@ -31,7 +31,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -43,7 +42,6 @@ import android.view.MenuItem;
 import org.isoron.helpers.DateHelper;
 import org.isoron.helpers.DialogHelper;
 import org.isoron.helpers.ReplayableActivity;
-import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
@@ -52,8 +50,6 @@ import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
-
-import java.io.File;
 
 public class MainActivity extends ReplayableActivity
         implements ListHabitsFragment.OnHabitClickListener
@@ -64,6 +60,9 @@ public class MainActivity extends ReplayableActivity
     private LocalBroadcastManager localBroadcastManager;
 
     public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
+
+    public static final int RESULT_IMPORT_DATA = 1;
+    public static final int RESULT_EXPORT_ALL_AS_CSV = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -129,16 +128,10 @@ public class MainActivity extends ReplayableActivity
     {
         switch (item.getItemId())
         {
-            case R.id.action_import:
-            {
-                onActionImportClicked();
-                return true;
-            }
-
             case R.id.action_settings:
             {
                 Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 return true;
             }
 
@@ -151,6 +144,21 @@ public class MainActivity extends ReplayableActivity
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (resultCode)
+        {
+            case RESULT_IMPORT_DATA:
+                onActionImportClicked();
+                break;
+
+            case RESULT_EXPORT_ALL_AS_CSV:
+                listHabitsFragment.exportAllHabits();
+                break;
         }
     }
 

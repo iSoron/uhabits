@@ -466,4 +466,9 @@ public class ListHabitsFragment extends Fragment
                 break;
         }
     }
+
+    public void exportAllHabits()
+    {
+        new ExportHabitsTask(activity, Habit.getAll(true), progressBar).execute();
+    }
 }

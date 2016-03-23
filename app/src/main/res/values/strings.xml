@@ -106,7 +106,7 @@
     <string name="any_weekday">Monday to Friday</string>
     <string name="any_day">Any day of the week</string>
     <string name="select_weekdays">Select days</string>
-    <string name="export_to_csv">Export data</string>
+    <string name="export_to_csv">Export as CSV</string>
 
     <string name="done_label">Done</string>
     <string name="clear_label">Clear</string>
@@ -142,4 +142,9 @@
     <string name="could_not_import">Failed to import habits from file.</string>
     <string name="file_not_recognized">File type not recognized.</string>
     <string name="habits_imported">Habits imported successfully.</string>
+    <string name="import_data_summary">Supports files exported by Loop, Tickmate, HabitBull or Rewire. See FAQ for more information.</string>
+    <string name="import_data">Import data</string>
+    <string name="export_as_csv_summary">This archive contains files that can be opened by spreadsheet software such as Microsoft Excel or OpenOffice Calc, but cannot be imported back.</string>
+    <string name="export_full_backup">Export full backup</string>
+    <string name="export_full_backup_summary">This file contains all your data and can be imported back.</string>
 </resources>

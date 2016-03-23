@@ -58,7 +58,7 @@ public class HabitsExporter
 
     private void writeHabits() throws IOException
     {
-        String filename = "habits.csv";
+        String filename = "Habits.csv";
         new File(exportDirName).mkdirs();
         FileWriter out = new FileWriter(exportDirName + filename);
         generateFilenames.add(filename);
@@ -67,7 +67,7 @@ public class HabitsExporter
 
         for(Habit h : habits)
         {
-            String habitDirName = String.format("%s/", h.name);
+            String habitDirName = String.format("%03d %s/", h.position, h.name);
             new File(exportDirName + habitDirName).mkdirs();
             generateDirs.add(habitDirName);
 
@@ -78,7 +78,7 @@ public class HabitsExporter
 
     private void writeScores(String habitDirName, ScoreList scores) throws IOException
     {
-        String path = habitDirName + "scores.csv";
+        String path = habitDirName + "Scores.csv";
         FileWriter out = new FileWriter(exportDirName + path);
         generateFilenames.add(path);
         scores.writeCSV(out);
@@ -87,7 +87,7 @@ public class HabitsExporter
 
     private void writeCheckmarks(String habitDirName, CheckmarkList checkmarks) throws IOException
     {
-        String filename = habitDirName + "checkmarks.csv";
+        String filename = habitDirName + "Checkmarks.csv";
         FileWriter out = new FileWriter(exportDirName + filename);
         generateFilenames.add(filename);
         checkmarks.writeCSV(out);
@@ -98,7 +98,7 @@ public class HabitsExporter
     {
         SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
         String date = dateFormat.format(DateHelper.getStartOfToday());
-        String zipFilename = String.format("%s/habits-%s.zip", exportDirName, date);
+        String zipFilename = String.format("%s/Loop-Habits-%s.zip", exportDirName, date);
 
         FileOutputStream fos = new FileOutputStream(zipFilename);
         ZipOutputStream zos = new ZipOutputStream(fos);

@@ -21,13 +21,9 @@ package org.isoron.uhabits.dialogs;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.android.colorpicker.ColorPickerDialog;
@@ -42,11 +38,10 @@ import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.fragments.EditHabitFragment;
-import org.isoron.uhabits.io.HabitsExporter;
+import org.isoron.uhabits.fragments.ExportHabitsTask;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -224,50 +219,6 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
     private void onExportHabitsClick(final LinkedList<Habit> selectedHabits)
     {
-        new AsyncTask<Void, Void, Void>()
-        {
-            String archiveFilename;
-
-            @Override
-            protected void onPreExecute()
-            {
-                if(progressBar != null)
-                {
-                    progressBar.setIndeterminate(true);
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                if(archiveFilename != null)
-                {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("application/zip");
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
-
-                    activity.startActivity(intent);
-                }
-                else
-                {
-                    activity.showToast(R.string.could_not_export);
-                }
-
-                if(progressBar != null)
-                    progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                String dirName = String.format("%s/export/", activity.getExternalCacheDir());
-                HabitsExporter exporter = new HabitsExporter(selectedHabits, dirName);
-                archiveFilename = exporter.writeArchive();
-
-                return null;
-            }
-        }.execute();
+        new ExportHabitsTask(activity, selectedHabits, progressBar).execute();
     }
 }
