@@ -82,7 +82,10 @@ public class ExportDBTask extends AsyncTask<Void, Void, Void>
 
         try
         {
-            filename = DatabaseHelper.saveDatabaseCopy(activity, activity.getExternalCacheDir());
+            File dir = DatabaseHelper.getFilesDir(activity, "Backups");
+            if(dir == null) return null;
+
+            filename = DatabaseHelper.saveDatabaseCopy(activity, dir);
         }
         catch(IOException e)
         {

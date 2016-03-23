@@ -25,12 +25,14 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ReplayableActivity;
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.io.HabitsCSVExporter;
 import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ExportCSVTask extends AsyncTask<Void, Void, Void>
@@ -82,9 +84,18 @@ public class ExportCSVTask extends AsyncTask<Void, Void, Void>
     @Override
     protected Void doInBackground(Void... params)
     {
-        String dirName = String.format("%s/export/", activity.getExternalCacheDir());
-        HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dirName);
-        archiveFilename = exporter.writeArchive();
+        try
+        {
+            File dir = DatabaseHelper.getFilesDir(activity, "CSV");
+            if(dir == null) return null;
+
+            HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dir);
+            archiveFilename = exporter.writeArchive();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         return null;
     }

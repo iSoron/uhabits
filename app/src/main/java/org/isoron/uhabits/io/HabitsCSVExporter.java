@@ -44,13 +44,10 @@ public class HabitsCSVExporter
 
     private String exportDirName;
 
-    public HabitsCSVExporter(List<Habit> habits, String exportDirName)
+    public HabitsCSVExporter(List<Habit> habits, File dir)
     {
         this.habits = habits;
-        this.exportDirName = exportDirName;
-
-        if(!this.exportDirName.endsWith("/"))
-            this.exportDirName += "/";
+        this.exportDirName = dir.getAbsolutePath() + "/";
 
         generateDirs = new LinkedList<>();
         generateFilenames = new LinkedList<>();
@@ -98,7 +95,7 @@ public class HabitsCSVExporter
     {
         SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
         String date = dateFormat.format(DateHelper.getStartOfToday());
-        String zipFilename = String.format("%s/Loop-Habits-CSV-%s.zip", exportDirName, date);
+        String zipFilename = String.format("%s/Loop Habits CSV %s.zip", exportDirName, date);
 
         FileOutputStream fos = new FileOutputStream(zipFilename);
         ZipOutputStream zos = new ZipOutputStream(fos);
@@ -127,21 +124,13 @@ public class HabitsCSVExporter
         fis.close();
     }
 
-    public String writeArchive()
+    public String writeArchive() throws IOException
     {
         String zipFilename;
 
-        try
-        {
-            writeHabits();
-            zipFilename = writeZipFile();
-            cleanup();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
+        writeHabits();
+        zipFilename = writeZipFile();
+        cleanup();
 
         return zipFilename;
     }

@@ -2,6 +2,7 @@ package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
 
@@ -51,9 +52,9 @@ public class DatabaseHelper
     {
         File db = getDatabaseFile(context, BuildConfig.databaseFilename);
 
-        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
-        String date = dateFormat.format(DateHelper.getStartOfToday());
-        File dbCopy = new File(String.format("%s/Loop-Habits-Backup-%s.db", dir.getAbsolutePath(), date));
+        SimpleDateFormat dateFormat = DateHelper.getBackupDateFormat();
+        String date = dateFormat.format(DateHelper.getLocalTime());
+        File dbCopy = new File(String.format("%s/Loop Habits Backup %s.db", dir.getAbsolutePath(), date));
 
         copy(db, dbCopy);
 
@@ -71,5 +72,17 @@ public class DatabaseHelper
     {
         return new File(String.format("%s/../databases/%s",
                     context.getApplicationContext().getFilesDir().getPath(), databaseFilename));
+    }
+
+    @Nullable
+    public static File getFilesDir(Context context, String prefix)
+    {
+        File baseDir = context.getExternalFilesDir(null);
+        if(baseDir == null) return null;
+        if(!baseDir.canWrite()) return null;
+
+        File dir = new File(String.format("%s/%s/", baseDir.getAbsolutePath(), prefix));
+        dir.mkdirs();
+        return dir;
     }
 }

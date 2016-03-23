@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.ContextMenu;
@@ -49,14 +48,14 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.commands.ToggleRepetitionCommand;
+import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.helpers.DialogHelper.OnSavedListener;
-import org.isoron.uhabits.ReplayableActivity;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.helpers.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
@@ -434,7 +433,9 @@ public class ListHabitsFragment extends Fragment
 
     public void showImportDialog()
     {
-        File dir = Environment.getExternalStorageDirectory();
+        File dir = activity.getExternalFilesDir(null);
+        if(dir == null) return;
+
         FilePickerDialog picker = new FilePickerDialog(activity, dir);
         picker.setFileListener(new FilePickerDialog.OnFileSelectedListener()
         {

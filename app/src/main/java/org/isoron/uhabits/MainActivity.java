@@ -153,7 +153,7 @@ public class MainActivity extends ReplayableActivity
         switch (resultCode)
         {
             case RESULT_IMPORT_DATA:
-                onActionImportClicked();
+                listHabitsFragment.showImportDialog();
                 break;
 
             case RESULT_EXPORT_CSV:
@@ -164,22 +164,6 @@ public class MainActivity extends ReplayableActivity
                 listHabitsFragment.exportDB();
                 break;
         }
-    }
-
-    private void onActionImportClicked()
-    {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED)
-        {
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN)
-                return;
-
-            String[] permissions = new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE };
-            ActivityCompat.requestPermissions(this, permissions, 0);
-            return;
-        }
-
-        listHabitsFragment.showImportDialog();
     }
 
     @Override

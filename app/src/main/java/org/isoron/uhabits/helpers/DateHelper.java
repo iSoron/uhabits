@@ -105,6 +105,14 @@ public class DateHelper
         return dateFormat;
     }
 
+    public static SimpleDateFormat getBackupDateFormat()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        return dateFormat;
+    }
+
     public static String formatHeaderDate(GregorianCalendar day)
     {
         String dayOfMonth = Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH));

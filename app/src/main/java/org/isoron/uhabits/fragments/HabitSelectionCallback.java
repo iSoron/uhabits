@@ -29,15 +29,14 @@ import android.widget.ProgressBar;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
-import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
-import org.isoron.uhabits.tasks.ExportCSVTask;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
@@ -199,12 +198,6 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
                 return true;
             }
-
-            case R.id.action_export_csv:
-            {
-                onExportHabitsClick(selectedHabits);
-                return true;
-            }
         }
 
         return false;
@@ -214,10 +207,5 @@ public class HabitSelectionCallback implements ActionMode.Callback
     public void onDestroyActionMode(ActionMode mode)
     {
         if(listener != null) listener.onActionModeDestroyed(mode);
-    }
-
-    private void onExportHabitsClick(final LinkedList<Habit> selectedHabits)
-    {
-        new ExportCSVTask(activity, selectedHabits, progressBar).execute();
     }
 }
