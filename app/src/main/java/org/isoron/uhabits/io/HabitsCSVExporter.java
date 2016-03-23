@@ -98,7 +98,7 @@ public class HabitsCSVExporter
     {
         SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
         String date = dateFormat.format(DateHelper.getStartOfToday());
-        String zipFilename = String.format("%s/Loop-Habits-%s.zip", exportDirName, date);
+        String zipFilename = String.format("%s/Loop-Habits-CSV-%s.zip", exportDirName, date);
 
         FileOutputStream fos = new FileOutputStream(zipFilename);
         ZipOutputStream zos = new ZipOutputStream(fos);

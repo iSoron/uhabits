@@ -38,7 +38,8 @@ public class SettingsFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.preferences);
 
         setResultOnPreferenceClick("importData", MainActivity.RESULT_IMPORT_DATA);
-        setResultOnPreferenceClick("exportCSV", MainActivity.RESULT_EXPORT_ALL_AS_CSV);
+        setResultOnPreferenceClick("exportCSV", MainActivity.RESULT_EXPORT_CSV);
+        setResultOnPreferenceClick("exportDB", MainActivity.RESULT_EXPORT_DB);
     }
 
     private void setResultOnPreferenceClick(String key, final int result)

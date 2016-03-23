@@ -24,7 +24,7 @@ import android.app.Application;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 
-import java.io.File;
+import org.isoron.uhabits.helpers.DatabaseHelper;
 
 public class HabitsApplication extends Application
 {
@@ -41,14 +41,6 @@ public class HabitsApplication extends Application
         }
     }
 
-    private void deleteDB(String databaseFilename)
-    {
-        File databaseFile = new File(String.format("%s/../databases/%s",
-                getApplicationContext().getFilesDir().getPath(), databaseFilename));
-
-        if(databaseFile.exists()) databaseFile.delete();
-    }
-
     @Override
     public void onCreate()
     {
@@ -58,7 +50,7 @@ public class HabitsApplication extends Application
         if (isTestMode())
         {
             databaseFilename = "test.db";
-            deleteDB(databaseFilename);
+            DatabaseHelper.deleteDatabase(this, databaseFilename);
         }
 
         Configuration dbConfig = new Configuration.Builder(this)

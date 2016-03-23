@@ -46,6 +46,7 @@
         android:title="Database">
 
         <Preference
+            android:key="exportDB"
             android:summary="@string/export_full_backup_summary"
             android:title="@string/export_full_backup">
         </Preference>

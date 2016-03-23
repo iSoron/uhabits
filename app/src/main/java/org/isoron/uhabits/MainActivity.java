@@ -61,7 +61,8 @@ public class MainActivity extends ReplayableActivity
     public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
 
     public static final int RESULT_IMPORT_DATA = 1;
-    public static final int RESULT_EXPORT_ALL_AS_CSV = 2;
+    public static final int RESULT_EXPORT_CSV = 2;
+    public static final int RESULT_EXPORT_DB = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -155,8 +156,12 @@ public class MainActivity extends ReplayableActivity
                 onActionImportClicked();
                 break;
 
-            case RESULT_EXPORT_ALL_AS_CSV:
+            case RESULT_EXPORT_CSV:
                 listHabitsFragment.exportAllHabits();
+                break;
+
+            case RESULT_EXPORT_DB:
+                listHabitsFragment.exportDB();
                 break;
         }
     }

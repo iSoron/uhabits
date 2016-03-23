@@ -63,6 +63,7 @@ import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ExportCSVTask;
+import org.isoron.uhabits.tasks.ExportDBTask;
 import org.isoron.uhabits.tasks.ImportDataTask;
 
 import java.io.File;
@@ -471,5 +472,10 @@ public class ListHabitsFragment extends Fragment
     public void exportAllHabits()
     {
         new ExportCSVTask(activity, Habit.getAll(true), progressBar).execute();
+    }
+
+    public void exportDB()
+    {
+        new ExportDBTask(activity, progressBar).execute();
     }
 }
