@@ -20,14 +20,16 @@
 package org.isoron.uhabits;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
 
 import org.isoron.uhabits.helpers.DatabaseHelper;
 
 public class HabitsApplication extends Application
 {
+    private static Context context;
+
     private boolean isTestMode()
     {
         try
@@ -41,10 +43,17 @@ public class HabitsApplication extends Application
         }
     }
 
+    public static Context getContext()
+    {
+        return context;
+    }
+
     @Override
     public void onCreate()
     {
         super.onCreate();
+        HabitsApplication.context = this;
+
         String databaseFilename = BuildConfig.databaseFilename;
 
         if (isTestMode())
@@ -53,17 +62,13 @@ public class HabitsApplication extends Application
             DatabaseHelper.deleteDatabase(this, databaseFilename);
         }
 
-        Configuration dbConfig = new Configuration.Builder(this)
-                .setDatabaseName(databaseFilename)
-                .setDatabaseVersion(BuildConfig.databaseVersion)
-                .create();
-
-        ActiveAndroid.initialize(dbConfig);
+        DatabaseHelper.initializeActiveAndroid(this, databaseFilename);
     }
 
     @Override
     public void onTerminate()
     {
+        HabitsApplication.context = null;
         ActiveAndroid.dispose();
         super.onTerminate();
     }

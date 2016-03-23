@@ -5,8 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Configuration;
 
 import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.models.Checkmark;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Repetition;
+import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.models.Streak;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,7 +74,7 @@ public class DatabaseHelper
     }
 
     @NonNull
-    private static File getDatabaseFile(Context context, String databaseFilename)
+    public static File getDatabaseFile(Context context, String databaseFilename)
     {
         return new File(String.format("%s/../databases/%s",
                     context.getApplicationContext().getFilesDir().getPath(), databaseFilename));
@@ -84,5 +90,18 @@ public class DatabaseHelper
         File dir = new File(String.format("%s/%s/", baseDir.getAbsolutePath(), prefix));
         dir.mkdirs();
         return dir;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void initializeActiveAndroid(Context context, String databaseFilename)
+    {
+        Configuration dbConfig = new Configuration.Builder(context)
+                .setDatabaseName(databaseFilename)
+                .setDatabaseVersion(BuildConfig.databaseVersion)
+                .addModelClasses(Checkmark.class, Habit.class, Repetition.class, Score.class,
+                        Streak.class)
+                .create();
+
+        ActiveAndroid.initialize(dbConfig);
     }
 }

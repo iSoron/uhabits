@@ -33,6 +33,7 @@ public class GenericImporter extends AbstractImporter
     public GenericImporter()
     {
         importers = new LinkedList<>();
+        importers.add(new LoopDBImporter());
         importers.add(new RewireDBImporter());
         importers.add(new TickmateDBImporter());
         importers.add(new HabitBullCSVImporter());
