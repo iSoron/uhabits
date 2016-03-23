@@ -20,8 +20,8 @@
 package org.isoron.uhabits.io;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
+import com.activeandroid.ActiveAndroid;
 import com.opencsv.CSVReader;
 
 import org.isoron.helpers.DateHelper;
@@ -46,7 +46,21 @@ public class HabitBullCSVImporter extends AbstractImporter
     }
 
     @Override
-    public void importHabitsFromFile(@NonNull File file) throws IOException
+    public void importHabitsFromFile(@NonNull final File file) throws IOException
+    {
+        ActiveAndroid.beginTransaction();
+        try
+        {
+            parseFile(file);
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally
+        {
+            ActiveAndroid.endTransaction();
+        }
+    }
+
+    private void parseFile(@NonNull File file) throws IOException
     {
         CSVReader reader = new CSVReader(new FileReader(file));
         HashMap<String, Habit> habits = new HashMap<>();
