@@ -35,6 +35,7 @@ public class GenericImporter extends AbstractImporter
         importers = new LinkedList<>();
         importers.add(new RewireDBImporter());
         importers.add(new TickmateDBImporter());
+        importers.add(new HabitBullCSVImporter());
     }
 
     @Override
