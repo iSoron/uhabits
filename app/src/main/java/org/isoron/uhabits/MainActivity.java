@@ -39,9 +39,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;

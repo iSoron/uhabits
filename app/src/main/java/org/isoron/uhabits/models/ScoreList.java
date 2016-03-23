@@ -29,8 +29,8 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
-import org.isoron.helpers.ActiveAndroidHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -126,7 +126,7 @@ public class ScoreList
         final int firstScore = newestScoreValue;
         final long beginning = from;
 
-        ActiveAndroidHelper.executeAsTransaction(new ActiveAndroidHelper.Command()
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
         {
             @Override
             public void execute()

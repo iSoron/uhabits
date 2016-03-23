@@ -29,7 +29,7 @@ import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
 import java.io.IOException;
 import java.io.Writer;

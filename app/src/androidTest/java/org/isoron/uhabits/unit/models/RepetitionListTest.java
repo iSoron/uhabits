@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.junit.After;
 import org.junit.Before;

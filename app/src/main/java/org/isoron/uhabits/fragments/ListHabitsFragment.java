@@ -50,19 +50,20 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
 import org.isoron.uhabits.commands.Command;
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.DialogHelper.OnSavedListener;
-import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.DialogHelper.OnSavedListener;
+import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.dialogs.FilePickerDialog;
-import org.isoron.uhabits.dialogs.HabitSelectionCallback;
-import org.isoron.uhabits.dialogs.HintManager;
+import org.isoron.uhabits.helpers.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.ExportCSVTask;
+import org.isoron.uhabits.tasks.ImportDataTask;
 
 import java.io.File;
 import java.util.Date;
@@ -72,7 +73,7 @@ import java.util.List;
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
-        HabitSelectionCallback.Listener, ImportHabitsAsyncTask.Listener
+        HabitSelectionCallback.Listener, ImportDataTask.Listener
 {
     long lastLongClick = 0;
     private boolean isShortToggleEnabled;
@@ -439,7 +440,7 @@ public class ListHabitsFragment extends Fragment
             @Override
             public void onFileSelected(File file)
             {
-                ImportHabitsAsyncTask task = new ImportHabitsAsyncTask(file, progressBar);
+                ImportDataTask task = new ImportDataTask(file, progressBar);
                 task.setListener(ListHabitsFragment.this);
                 task.execute();
             }
@@ -452,12 +453,12 @@ public class ListHabitsFragment extends Fragment
     {
         switch (result)
         {
-            case ImportHabitsAsyncTask.SUCCESS:
+            case ImportDataTask.SUCCESS:
                 loader.updateAllHabits(true);
                 activity.showToast(R.string.habits_imported);
                 break;
 
-            case ImportHabitsAsyncTask.NOT_RECOGNIZED:
+            case ImportDataTask.NOT_RECOGNIZED:
                 activity.showToast(R.string.file_not_recognized);
                 break;
 
@@ -469,6 +470,6 @@ public class ListHabitsFragment extends Fragment
 
     public void exportAllHabits()
     {
-        new ExportHabitsTask(activity, Habit.getAll(true), progressBar).execute();
+        new ExportCSVTask(activity, Habit.getAll(true), progressBar).execute();
     }
 }

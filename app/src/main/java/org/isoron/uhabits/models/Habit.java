@@ -37,13 +37,12 @@ import com.activeandroid.util.SQLiteUtils;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;

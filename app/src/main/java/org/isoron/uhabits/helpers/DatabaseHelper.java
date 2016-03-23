@@ -1,8 +1,8 @@
-package org.isoron.helpers;
+package org.isoron.uhabits.helpers;
 
 import com.activeandroid.ActiveAndroid;
 
-public class ActiveAndroidHelper
+public class DatabaseHelper
 {
     public interface Command
     {
@@ -16,10 +16,6 @@ public class ActiveAndroidHelper
         {
             command.execute();
             ActiveAndroid.setTransactionSuccessful();
-        }
-        catch (RuntimeException e)
-        {
-            throw e;
         }
         finally
         {

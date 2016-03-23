@@ -17,50 +17,35 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.tasks;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.isoron.uhabits.io.GenericImporter;
+import org.isoron.uhabits.ReplayableActivity;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.io.HabitsCSVExporter;
+import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
-public class ImportHabitsAsyncTask extends AsyncTask<Void, Void, Void>
+public class ExportCSVTask extends AsyncTask<Void, Void, Void>
 {
-    public static final int SUCCESS = 1;
-    public static final int NOT_RECOGNIZED = 2;
-    public static final int FAILED = 3;
+    private final ReplayableActivity activity;
+    private ProgressBar progressBar;
+    private final List<Habit> selectedHabits;
+    String archiveFilename;
 
-    public interface Listener
+    public ExportCSVTask(ReplayableActivity activity, List<Habit> selectedHabits,
+                         ProgressBar progressBar)
     {
-        void onImportFinished(int result);
-    }
-
-    @Nullable
-    private final ProgressBar progressBar;
-
-    @NonNull
-    private final File file;
-
-    @Nullable
-    private Listener listener;
-
-    int result;
-
-    public ImportHabitsAsyncTask(@NonNull File file, @Nullable ProgressBar progressBar)
-    {
-        this.file = file;
+        this.selectedHabits = selectedHabits;
         this.progressBar = progressBar;
-    }
-
-    public void setListener(@Nullable Listener listener)
-    {
-        this.listener = listener;
+        this.activity = activity;
     }
 
     @Override
@@ -76,33 +61,30 @@ public class ImportHabitsAsyncTask extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void aVoid)
     {
+        if(archiveFilename != null)
+        {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("application/zip");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
+
+            activity.startActivity(intent);
+        }
+        else
+        {
+            activity.showToast(R.string.could_not_export);
+        }
+
         if(progressBar != null)
             progressBar.setVisibility(View.GONE);
-
-        if(listener != null) listener.onImportFinished(result);
     }
 
     @Override
     protected Void doInBackground(Void... params)
     {
-        try
-        {
-            GenericImporter importer = new GenericImporter();
-            if(importer.canHandle(file))
-            {
-                importer.importHabitsFromFile(file);
-                result = SUCCESS;
-            }
-            else
-            {
-                result = NOT_RECOGNIZED;
-            }
-        }
-        catch (Exception e)
-        {
-            result = FAILED;
-            e.printStackTrace();
-        }
+        String dirName = String.format("%s/export/", activity.getExternalCacheDir());
+        HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dirName);
+        archiveFilename = exporter.writeArchive();
 
         return null;
     }

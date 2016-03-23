@@ -26,8 +26,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;

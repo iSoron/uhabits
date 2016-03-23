@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,16 +29,15 @@ import android.widget.ProgressBar;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
-import org.isoron.uhabits.fragments.EditHabitFragment;
-import org.isoron.uhabits.fragments.ExportHabitsTask;
+import org.isoron.uhabits.tasks.ExportCSVTask;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
@@ -219,6 +218,6 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
     private void onExportHabitsClick(final LinkedList<Habit> selectedHabits)
     {
-        new ExportHabitsTask(activity, selectedHabits, progressBar).execute();
+        new ExportCSVTask(activity, selectedHabits, progressBar).execute();
     }
 }

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.helpers;
+package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

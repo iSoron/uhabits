@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.unit.models;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 public class HabitFixtures

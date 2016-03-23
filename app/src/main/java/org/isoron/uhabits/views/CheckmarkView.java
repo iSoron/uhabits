@@ -32,7 +32,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.isoron.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 

@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.isoron.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
 
 public class AboutActivity extends Activity implements View.OnClickListener
 {

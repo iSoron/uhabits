@@ -22,8 +22,8 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.helpers.ActiveAndroidHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.junit.After;
@@ -132,7 +132,7 @@ public class ScoreListTest
 
     private void toggleRepetitions(final int from, final int to)
     {
-        ActiveAndroidHelper.executeAsTransaction(new ActiveAndroidHelper.Command()
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
         {
             @Override
             public void execute()

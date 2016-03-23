@@ -29,7 +29,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;

@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
-import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.fragments.ShowHabitFragment;
 import org.isoron.uhabits.models.Habit;
 

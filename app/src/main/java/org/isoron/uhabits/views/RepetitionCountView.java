@@ -22,8 +22,8 @@ package org.isoron.uhabits.views;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Calendar;

@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.HashMap;

@@ -23,8 +23,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import org.isoron.helpers.ActiveAndroidHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
@@ -56,7 +56,7 @@ public class TickmateDBImporter extends AbstractImporter
         final SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
                 SQLiteDatabase.OPEN_READONLY);
 
-        ActiveAndroidHelper.executeAsTransaction(new ActiveAndroidHelper.Command()
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
         {
             @Override
             public void execute()

@@ -34,7 +34,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
-import org.isoron.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 

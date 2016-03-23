@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.io;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.CheckmarkList;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.ScoreList;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class HabitsExporter
+public class HabitsCSVExporter
 {
     private List<Habit> habits;
 
@@ -44,7 +44,7 @@ public class HabitsExporter
 
     private String exportDirName;
 
-    public HabitsExporter(List<Habit> habits, String exportDirName)
+    public HabitsCSVExporter(List<Habit> habits, String exportDirName)
     {
         this.habits = habits;
         this.exportDirName = exportDirName;
