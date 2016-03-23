@@ -98,7 +98,7 @@ public class ImportHabitsAsyncTask extends AsyncTask<Void, Void, Void>
                 result = NOT_RECOGNIZED;
             }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             result = FAILED;
             e.printStackTrace();
