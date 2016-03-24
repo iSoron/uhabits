@@ -107,7 +107,7 @@ public class DateHelper
 
     public static SimpleDateFormat getBackupDateFormat()
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HHmmss", Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         return dateFormat;
