@@ -21,20 +21,25 @@ package org.isoron.uhabits;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
 
 import org.isoron.uhabits.helpers.DatabaseHelper;
 
+import java.io.File;
+
 public class HabitsApplication extends Application
 {
+    @Nullable
     private static Context context;
 
-    private boolean isTestMode()
+    public static boolean isTestMode()
     {
         try
         {
-            getClassLoader().loadClass("org.isoron.uhabits.unit.models.HabitTest");
+            if(context != null)
+                context.getClassLoader().loadClass("org.isoron.uhabits.unit.models.HabitTest");
             return true;
         }
         catch (final Exception e)
@@ -43,6 +48,7 @@ public class HabitsApplication extends Application
         }
     }
 
+    @Nullable
     public static Context getContext()
     {
         return context;
@@ -54,15 +60,13 @@ public class HabitsApplication extends Application
         super.onCreate();
         HabitsApplication.context = this;
 
-        String databaseFilename = BuildConfig.databaseFilename;
-
         if (isTestMode())
         {
-            databaseFilename = "test.db";
-            DatabaseHelper.deleteDatabase(this, databaseFilename);
+            File db = DatabaseHelper.getDatabaseFile();
+            if(db.exists()) db.delete();
         }
 
-        DatabaseHelper.initializeActiveAndroid(this, databaseFilename);
+        DatabaseHelper.initializeActiveAndroid(this);
     }
 
     @Override

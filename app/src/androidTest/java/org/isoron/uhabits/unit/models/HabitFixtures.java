@@ -28,7 +28,7 @@ public class HabitFixtures
     public static boolean NON_DAILY_HABIT_CHECKS[] = { true, false, false, true, true, true, false,
             false, true, true };
 
-    static Habit createNonDailyHabit()
+    public static Habit createNonDailyHabit()
     {
         Habit habit = new Habit();
         habit.freqNum = 2;
@@ -45,7 +45,7 @@ public class HabitFixtures
         return habit;
     }
 
-    static Habit createEmptyHabit()
+    public static Habit createEmptyHabit()
     {
         Habit habit = new Habit();
         habit.freqNum = 1;
@@ -54,7 +54,7 @@ public class HabitFixtures
         return habit;
     }
 
-    static void purgeHabits()
+    public static void purgeHabits()
     {
         for(Habit h : Habit.getAll(true))
             h.cascadeDelete();
