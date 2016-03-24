@@ -22,6 +22,7 @@ package org.isoron.uhabits.helpers;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
@@ -125,12 +126,22 @@ public class DatabaseHelper
     @Nullable
     public static File getFilesDir(Context context, String prefix)
     {
-        File baseDir = context.getExternalFilesDir(null);
-        if(baseDir == null) return null;
-        if(!baseDir.canWrite()) return null;
+        File chosenDir = null;
+        File externalFilesDirs[] = ContextCompat.getExternalFilesDirs(context, null);
+        if(externalFilesDirs == null) return null;
 
-        File dir = new File(String.format("%s/%s/", baseDir.getAbsolutePath(), prefix));
+        for(File dir : externalFilesDirs)
+        {
+            if(!dir.canWrite()) continue;
+            chosenDir = dir;
+            break;
+        }
+
+        if(chosenDir == null) return null;
+
+        File dir = new File(String.format("%s/%s/", chosenDir.getAbsolutePath(), prefix));
         dir.mkdirs();
+
         return dir;
     }
 
