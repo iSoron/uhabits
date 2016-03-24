@@ -49,6 +49,7 @@ public class LoopDBImporter extends AbstractImporter
         boolean result = (c.moveToFirst() && c.getInt(0) == 2);
 
         c.close();
+        db.close();
         return result;
     }
 

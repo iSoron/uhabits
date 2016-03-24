@@ -47,6 +47,7 @@ public class TickmateDBImporter extends AbstractImporter
         boolean result = (c.moveToFirst() && c.getInt(0) == 2);
 
         c.close();
+        db.close();
         return result;
     }
 
@@ -64,6 +65,8 @@ public class TickmateDBImporter extends AbstractImporter
                 createHabits(db);
             }
         });
+
+        db.close();
     }
 
     private void createHabits(SQLiteDatabase db)
