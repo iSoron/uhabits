@@ -19,15 +19,12 @@
 
 package org.isoron.uhabits.io;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 
 import java.io.File;
@@ -57,12 +54,11 @@ public class LoopDBImporter extends AbstractImporter
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
         ActiveAndroid.dispose();
-        Context context = HabitsApplication.getContext();
         File originalDB = DatabaseHelper.getDatabaseFile();
-        File backupDir = DatabaseHelper.getFilesDir(context, "Backups");
+        File backupDir = DatabaseHelper.getFilesDir("Backups");
 
         DatabaseHelper.saveDatabaseCopy(backupDir);
         DatabaseHelper.copy(file, originalDB);
-        DatabaseHelper.initializeActiveAndroid(context);
+        DatabaseHelper.initializeActiveAndroid();
     }
 }

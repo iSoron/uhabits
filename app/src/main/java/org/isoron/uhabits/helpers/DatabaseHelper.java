@@ -149,8 +149,11 @@ public class DatabaseHelper
     }
 
     @SuppressWarnings("unchecked")
-    public static void initializeActiveAndroid(Context context)
+    public static void initializeActiveAndroid()
     {
+        Context context = HabitsApplication.getContext();
+        if(context == null) throw new RuntimeException("application context should not be null");
+
         Configuration dbConfig = new Configuration.Builder(context)
                 .setDatabaseName(getDatabaseFilename())
                 .setDatabaseVersion(BuildConfig.databaseVersion)

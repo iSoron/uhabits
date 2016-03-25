@@ -66,7 +66,7 @@ public class HabitsApplication extends Application
             if(db.exists()) db.delete();
         }
 
-        DatabaseHelper.initializeActiveAndroid(this);
+        DatabaseHelper.initializeActiveAndroid();
     }
 
     @Override
