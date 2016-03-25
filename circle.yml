@@ -5,7 +5,8 @@ checkout:
 
 test:
   override:
-    - emulator -avd circleci-android22 -no-audio -no-window:
+    - mksdcard -l e 128M sdcard.img
+    - emulator -avd circleci-android22 -no-audio -no-window -sdcard sdcard.img:
         background: true
         parallel: true
     - circle-android wait-for-boot
