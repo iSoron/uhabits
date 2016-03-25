@@ -21,13 +21,21 @@ package org.isoron.uhabits;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.WindowManager;
 
 import com.activeandroid.ActiveAndroid;
 
 import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class HabitsApplication extends Application
 {
@@ -75,5 +83,69 @@ public class HabitsApplication extends Application
         HabitsApplication.context = null;
         ActiveAndroid.dispose();
         super.onTerminate();
+    }
+
+    public static String getLogcat() throws IOException
+    {
+        StringBuilder builder = new StringBuilder();
+
+        String[] command = new String[] { "logcat", "-d"};
+        Process process = Runtime.getRuntime().exec(command);
+
+        InputStreamReader in = new InputStreamReader(process.getInputStream());
+        BufferedReader bufferedReader = new BufferedReader(in);
+
+        String line;
+        while ((line = bufferedReader.readLine()) != null)
+        {
+            builder.append(line);
+            builder.append('\n');
+        }
+
+        return builder.toString();
+    }
+
+    public static String getDeviceInfo()
+    {
+        if(context == null) return "";
+
+        StringBuilder b = new StringBuilder();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+        b.append(String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME));
+        b.append(String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE));
+        b.append(String.format("OS Version: %s (%s)\n", System.getProperty("os.version"),
+                android.os.Build.VERSION.INCREMENTAL));
+        b.append(String.format("OS API Level: %s\n", android.os.Build.VERSION.SDK));
+        b.append(String.format("Device: %s\n", android.os.Build.DEVICE));
+        b.append(String.format("Model (Product): %s (%s)\n", android.os.Build.MODEL,
+                android.os.Build.PRODUCT));
+        b.append(String.format("Manufacturer: %s\n", android.os.Build.MANUFACTURER));
+        b.append(String.format("Other tags: %s\n", android.os.Build.TAGS));
+        b.append(String.format("Screen Width: %s\n", wm.getDefaultDisplay().getWidth()));
+        b.append(String.format("Screen Height: %s\n", wm.getDefaultDisplay().getHeight()));
+        b.append(String.format("SD Card state: %s\n\n", Environment.getExternalStorageState()));
+
+        return b.toString();
+    }
+
+    @NonNull
+    public static File generateLogFile() throws IOException
+    {
+        String logcat = getLogcat();
+        String deviceInfo = getDeviceInfo();
+        String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
+
+        if(context == null) throw new RuntimeException("application context should not be null");
+        File dir = DatabaseHelper.getFilesDir("Logs");
+        if (dir == null) throw new IOException("log dir should not be null");
+
+        File logFile = new File(String.format("%s/Log %s.txt", dir.getPath(), date));
+        FileWriter output = new FileWriter(logFile);
+        output.write(deviceInfo);
+        output.write(logcat);
+        output.close();
+
+        return logFile;
     }
 }

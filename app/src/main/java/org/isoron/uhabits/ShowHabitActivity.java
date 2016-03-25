@@ -33,7 +33,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import org.isoron.uhabits.fragments.ShowHabitFragment;
 import org.isoron.uhabits.models.Habit;
 
-public class ShowHabitActivity extends ReplayableActivity
+public class ShowHabitActivity extends BaseActivity
 {
 
     public Habit habit;

@@ -50,7 +50,7 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ReplayableActivity;
+import org.isoron.uhabits.BaseActivity;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.dialogs.FilePickerDialog;
@@ -88,7 +88,7 @@ public class ListHabitsFragment extends Fragment
     private ListHabitsHelper helper;
     private List<Integer> selectedPositions;
     private OnHabitClickListener habitClickListener;
-    private ReplayableActivity activity;
+    private BaseActivity activity;
     private SharedPreferences prefs;
 
     private DragSortListView listView;
@@ -155,7 +155,7 @@ public class ListHabitsFragment extends Fragment
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        this.activity = (ReplayableActivity) activity;
+        this.activity = (BaseActivity) activity;
 
         habitClickListener = (OnHabitClickListener) activity;
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);

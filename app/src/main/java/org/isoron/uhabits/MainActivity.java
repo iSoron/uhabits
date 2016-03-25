@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits;
 
-import android.Manifest;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -33,8 +32,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +47,10 @@ import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
-public class MainActivity extends ReplayableActivity
+import java.io.File;
+import java.io.IOException;
+
+public class MainActivity extends BaseActivity
         implements ListHabitsFragment.OnHabitClickListener
 {
     private ListHabitsFragment listHabitsFragment;
@@ -63,6 +63,7 @@ public class MainActivity extends ReplayableActivity
     public static final int RESULT_IMPORT_DATA = 1;
     public static final int RESULT_EXPORT_CSV = 2;
     public static final int RESULT_EXPORT_DB = 3;
+    public static final int RESULT_BUG_REPORT = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -172,6 +173,29 @@ public class MainActivity extends ReplayableActivity
             case RESULT_EXPORT_DB:
                 listHabitsFragment.exportDB();
                 break;
+
+            case RESULT_BUG_REPORT:
+                generateBugReport();
+                break;
+        }
+    }
+
+    private void generateBugReport()
+    {
+        try
+        {
+            File logFile = HabitsApplication.generateLogFile();
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse(getString(R.string.bugReportURL)));
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logFile));
+            startActivity(intent);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            showToast(R.string.bug_report_failed);
         }
     }
 

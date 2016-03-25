@@ -66,6 +66,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="pref_key_debug"
+        android:title="@string/troubleshooting">
+
+        <Preference
+            android:key="bugReport"
+            android:title="@string/generate_bug_report">
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="pref_key_links"
         android:title="@string/links">
 

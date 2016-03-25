@@ -40,6 +40,7 @@ public class SettingsFragment extends PreferenceFragment
         setResultOnPreferenceClick("importData", MainActivity.RESULT_IMPORT_DATA);
         setResultOnPreferenceClick("exportCSV", MainActivity.RESULT_EXPORT_CSV);
         setResultOnPreferenceClick("exportDB", MainActivity.RESULT_EXPORT_DB);
+        setResultOnPreferenceClick("bugReport", MainActivity.RESULT_BUG_REPORT);
     }
 
     private void setResultOnPreferenceClick(String key, final int result)

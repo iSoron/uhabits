@@ -30,7 +30,7 @@ import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ReplayableActivity;
+import org.isoron.uhabits.BaseActivity;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
@@ -47,7 +47,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
 {
     private HabitListLoader loader;
     private List<Integer> selectedPositions;
-    private ReplayableActivity activity;
+    private BaseActivity activity;
     private Listener listener;
     private DialogHelper.OnSavedListener onSavedListener;
     private ProgressBar progressBar;
@@ -57,7 +57,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
         void onActionModeDestroyed(ActionMode mode);
     }
 
-    public HabitSelectionCallback(ReplayableActivity activity, HabitListLoader loader)
+    public HabitSelectionCallback(BaseActivity activity, HabitListLoader loader)
     {
         this.activity = activity;
         this.loader = loader;

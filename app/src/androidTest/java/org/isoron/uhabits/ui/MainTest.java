@@ -112,6 +112,7 @@ public class MainTest
                 Activity.RESULT_OK, new Intent());
 
         intending(hasAction(equalTo(Intent.ACTION_SEND))).respondWith(okResult);
+        intending(hasAction(equalTo(Intent.ACTION_SENDTO))).respondWith(okResult);
         intending(hasAction(equalTo(Intent.ACTION_VIEW))).respondWith(okResult);
 
         skipTutorial();
@@ -342,5 +343,17 @@ public class MainTest
         onView(withText(R.string.settings)).perform(click());
         onData(isPreferenceWithText("Export as CSV")).perform(click());
         intended(hasAction(Intent.ACTION_SEND));
+    }
+
+    /**
+     * User opens the settings and generates a bug report.
+     */
+    @Test
+    public void testGenerateBugReport()
+    {
+        openActionBarOverflowOrOptionsMenu(targetContext);
+        onView(withText(R.string.settings)).perform(click());
+        onData(isPreferenceWithText("Generate bug report")).perform(click());
+        intended(hasAction(Intent.ACTION_SENDTO));
     }
 }

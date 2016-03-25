@@ -29,7 +29,7 @@ import org.isoron.uhabits.commands.Command;
 
 import java.util.LinkedList;
 
-abstract public class ReplayableActivity extends Activity
+abstract public class BaseActivity extends Activity implements Thread.UncaughtExceptionHandler
 {
     private static int MAX_UNDO_LEVEL = 15;
 
@@ -37,10 +37,15 @@ abstract public class ReplayableActivity extends Activity
     private LinkedList<Command> redoList;
     private Toast toast;
 
+    Thread.UncaughtExceptionHandler androidExceptionHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(this);
 
         undoList = new LinkedList<>();
         redoList = new LinkedList<>();
@@ -103,7 +108,7 @@ abstract public class ReplayableActivity extends Activity
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                ReplayableActivity.this.onPostExecuteCommand(refreshKey);
+                BaseActivity.this.onPostExecuteCommand(refreshKey);
                 BackupManager.dataChanged("org.isoron.uhabits");
             }
         }.execute();
@@ -114,5 +119,24 @@ abstract public class ReplayableActivity extends Activity
 
     public void onPostExecuteCommand(Long refreshKey)
     {
+    }
+
+    @Override
+    public void uncaughtException(Thread thread, Throwable ex)
+    {
+        try
+        {
+            ex.printStackTrace();
+            HabitsApplication.generateLogFile();
+        }
+        catch(Exception e)
+        {
+            // ignored
+        }
+
+        if(androidExceptionHandler != null)
+            androidExceptionHandler.uncaughtException(thread, ex);
+        else
+            System.exit(1);
     }
 }
