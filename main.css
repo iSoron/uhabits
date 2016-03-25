@@ -1,22 +1,14 @@
 body {
-  font-size: 100%;
+  font-size: 14px;
   font-family: verdana, sans-serif;
-  line-height: 24.7px;
+  line-height: 21px;
   background-color: #fff;
   margin: 0px;
   padding: 0px;
   color: #212121; }
 
-.portrait {
-  float: right;
-  border: 1px solid #ccc;
-  padding: 2px;
-  width: 180px;
-  margin-top: 57px;
-  margin-left: 38px; }
-
 .content {
-  max-width: 800px;
+  max-width: 700px;
   margin: 0px auto;
   padding: 1% 5% 5% 5%;
   background-color: #fff; }
@@ -32,7 +24,6 @@ a {
     border-bottom: 1px dotted #069; }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #069;
   font-weight: normal; }
 
 .footer {
@@ -51,6 +42,7 @@ h2 {
   font-size: 23.75px; }
 
 h3, h4 {
-  font-size: 20.9px; }
+  font-size: 20.9px;
+  line-height: 24.7px; }
 
 /*# sourceMappingURL=main.css.map */

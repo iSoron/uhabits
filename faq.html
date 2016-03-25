@@ -4,6 +4,7 @@
     <meta content='width=device-width, initial-scale=1.0' name='viewport'>
     <meta charset='UTF-8'>
     <link href='http://fonts.googleapis.com/css?family=Volkhov:400,400italic' rel='stylesheet' type='text/css'>
+    <script src='js/jquery-1.12.2.min.js' type='text/javascript'></script>
     <title>FAQ | Loop Habit Tracker</title>
     <link href='reset.css' rel='stylesheet' type='text/css'>
     <link href='main.css' rel='stylesheet' type='text/css'>
@@ -13,6 +14,9 @@
       <h1>Loop Habit Tracker</h1>
       
       <h2>Frequently Asked Questions</h2>
+      
+      <div id="toc">
+      </div>
       
       <h4>How can I track bad habits I want to break?</h4>
       
@@ -82,6 +86,18 @@
       <h4>My question was not answered in this FAQ. What should I do?</h4>
       
       <p>Please, feel free to contact the developer at <a href="mailto:isoron@gmail.com">isoron@gmail.com</a>. </p>
+      
+      <script type="text/javascript">
+          $("#toc").append('<ul>')
+          $("h3, h4").each(function(i) {
+              var current = $(this);
+              current.attr("id", "title" + i);
+              $("#toc").append("<li><a id='link" + i + "' href='#title" +
+                  i + "' title='" + current.attr("tagName") + "'>" + 
+                  current.html() + "</a></li>");
+          });
+          $("#toc").append("</ul>");
+      </script>
     </div>
     <div class='footer'>
       Powered by
@@ -90,7 +106,7 @@
       <a href='http://sass-lang.com/'>sass</a>
       <br>
       Last update:
-      2016-03-19
+      2016-03-25
     </div>
   </body>
 </html>
