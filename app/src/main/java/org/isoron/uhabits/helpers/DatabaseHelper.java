@@ -132,7 +132,7 @@ public class DatabaseHelper
 
         for(File dir : externalFilesDirs)
         {
-            if(!dir.canWrite()) continue;
+            if (dir == null || !dir.canWrite()) continue;
             chosenDir = dir;
             break;
         }
