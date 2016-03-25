@@ -190,6 +190,7 @@ public class ListHabitsHelper
             btCheck.setTypeface(fontawesome);
             btCheck.setOnLongClickListener(onLongClickListener);
             btCheck.setOnClickListener(onClickListener);
+            btCheck.setHapticFeedbackEnabled(false);
             ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
         }
 

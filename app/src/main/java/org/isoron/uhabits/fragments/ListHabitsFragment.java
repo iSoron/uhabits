@@ -30,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -322,7 +323,6 @@ public class ListHabitsFragment extends Fragment
         if (isShortToggleEnabled) return;
 
         toggleCheck(v);
-        DialogHelper.vibrate(activity, 100);
     }
 
     private void toggleCheck(View v)
@@ -334,6 +334,8 @@ public class ListHabitsFragment extends Fragment
 
         Habit habit = loader.habits.get(tag);
         if(habit == null) return;
+
+        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
         helper.toggleCheckmarkView(v, habit);
         executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());

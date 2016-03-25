@@ -52,13 +52,6 @@ public abstract class DialogHelper
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public static void vibrate(Context context, int duration)
-    {
-        Vibrator vb = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vb.vibrate(duration);
-    }
-
-
     public static void incrementLaunchCount(Context context)
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
