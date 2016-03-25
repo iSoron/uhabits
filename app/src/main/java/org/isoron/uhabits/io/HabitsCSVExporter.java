@@ -64,7 +64,7 @@ public class HabitsCSVExporter
 
         for(Habit h : habits)
         {
-            String habitDirName = String.format("%03d %s/", h.position, h.name);
+            String habitDirName = String.format("%03d %s/", h.position + 1, h.name);
             new File(exportDirName + habitDirName).mkdirs();
             generateDirs.add(habitDirName);
 
