@@ -19,7 +19,8 @@
 
 package org.isoron.uhabits.unit.models;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 public class HabitFixtures
@@ -28,9 +29,11 @@ public class HabitFixtures
     public static boolean NON_DAILY_HABIT_CHECKS[] = { true, false, false, true, true, true, false,
             false, true, true };
 
-    static Habit createNonDailyHabit()
+    public static Habit createNonDailyHabit()
     {
         Habit habit = new Habit();
+        habit.name = "Wake up early";
+        habit.description = "Did you wake up before 6am?";
         habit.freqNum = 2;
         habit.freqDen = 3;
         habit.save();
@@ -45,16 +48,19 @@ public class HabitFixtures
         return habit;
     }
 
-    static Habit createEmptyHabit()
+    public static Habit createEmptyHabit()
     {
         Habit habit = new Habit();
+        habit.name = "Meditate";
+        habit.description = "Did you meditate this morning?";
+        habit.color = ColorHelper.palette[3];
         habit.freqNum = 1;
         habit.freqDen = 1;
         habit.save();
         return habit;
     }
 
-    static void purgeHabits()
+    public static void purgeHabits()
     {
         for(Habit h : Habit.getAll(true))
             h.cascadeDelete();

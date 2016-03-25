@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.helpers;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -27,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 
-import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 
 public class HintManager

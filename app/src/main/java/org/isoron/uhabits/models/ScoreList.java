@@ -24,14 +24,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
-import org.isoron.helpers.ActiveAndroidHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ScoreList
 {
@@ -96,6 +100,19 @@ public class ScoreList
     }
 
     /**
+     * Computes and saves the scores that are missing since the first repetition of the habit.
+     */
+    private void computeAll()
+    {
+        Repetition oldestRep = habit.repetitions.getOldest();
+        if(oldestRep == null) return;
+
+        long fromTimestamp = oldestRep.timestamp;
+        long toTimestamp = DateHelper.getStartOfToday();
+        compute(fromTimestamp, toTimestamp);
+    }
+
+    /**
      * Computes and saves the scores that are missing inside a given time interval.  Scores that
      * have already been computed are skipped, therefore there is no harm in calling this function
      * more times, or with larger intervals, than strictly needed. The endpoints of the interval are
@@ -122,7 +139,7 @@ public class ScoreList
         final int firstScore = newestScoreValue;
         final long beginning = from;
 
-        ActiveAndroidHelper.executeAsTransaction(new ActiveAndroidHelper.Command()
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
         {
             @Override
             public void execute()
@@ -277,5 +294,31 @@ public class ScoreList
         Score score = getToday();
         if(score != null) return score.getStarStatus();
         else return Score.EMPTY_STAR;
+    }
+
+    public void writeCSV(Writer out) throws IOException
+    {
+        computeAll();
+
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+
+        String query = "select timestamp, score from score where habit = ? order by timestamp";
+        String params[] = { habit.getId().toString() };
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, params);
+
+        if(!cursor.moveToFirst()) return;
+
+        do
+        {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            String score = String.format("%.4f", ((float) cursor.getInt(1)) / Score.MAX_VALUE);
+            out.write(String.format("%s,%s\n", timestamp, score));
+
+        } while(cursor.moveToNext());
+
+        cursor.close();
+        out.close();
     }
 }

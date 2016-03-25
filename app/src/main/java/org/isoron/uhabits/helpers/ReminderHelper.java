@@ -28,7 +28,6 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.models.Habit;
 

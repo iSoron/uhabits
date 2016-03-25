@@ -22,14 +22,17 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.helpers.ActiveAndroidHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -130,9 +133,33 @@ public class ScoreListTest
         assertThat(actualValues, equalTo(expectedValues));
     }
 
+    @Test
+    public void writeCSV() throws IOException
+    {
+        HabitFixtures.purgeHabits();
+        Habit habit = HabitFixtures.createNonDailyHabit();
+
+        String expectedCSV =
+                "2015-01-16,0.0519\n" +
+                "2015-01-17,0.1021\n" +
+                "2015-01-18,0.0986\n" +
+                "2015-01-19,0.0952\n" +
+                "2015-01-20,0.1439\n" +
+                "2015-01-21,0.1909\n" +
+                "2015-01-22,0.2364\n" +
+                "2015-01-23,0.2283\n" +
+                "2015-01-24,0.2205\n" +
+                "2015-01-25,0.2649\n";
+
+        StringWriter writer = new StringWriter();
+        habit.scores.writeCSV(writer);
+
+        assertThat(writer.toString(), equalTo(expectedCSV));
+    }
+
     private void toggleRepetitions(final int from, final int to)
     {
-        ActiveAndroidHelper.executeAsTransaction(new ActiveAndroidHelper.Command()
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
         {
             @Override
             public void execute()

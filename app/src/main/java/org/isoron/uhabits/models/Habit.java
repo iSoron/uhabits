@@ -33,10 +33,13 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 import com.activeandroid.util.SQLiteUtils;
+import com.opencsv.CSVWriter;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 import java.util.Locale;
 
@@ -469,5 +472,31 @@ public class Habit extends Model
         reminderHour = null;
         reminderMin = null;
         reminderDays = DateHelper.ALL_WEEK_DAYS;
+    }
+
+    /**
+     * Writes the list of habits to the given writer, in CSV format. There is one line for each
+     * habit, containing the fields name, description, frequency numerator, frequency denominator
+     * and color. The color is written in HTML format (#000000).
+     *
+     * @param habits the list of habits to write
+     * @param out the writer that will receive the result
+     * @throws IOException if write operations fail
+     */
+    public static void writeCSV(List<Habit> habits, Writer out) throws IOException
+    {
+        String header[] = { "Name", "Description", "NumRepetitions", "Interval", "Color" };
+
+        CSVWriter csv = new CSVWriter(out);
+        csv.writeNext(header, false);
+
+        for(Habit habit : habits)
+        {
+            String[] cols = { habit.name, habit.description, Integer.toString(habit.freqNum),
+                    Integer.toString(habit.freqDen), ColorHelper.toHTML(habit.color) };
+            csv.writeNext(cols, false);
+        }
+
+        csv.close();
     }
 }

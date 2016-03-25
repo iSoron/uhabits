@@ -19,29 +19,16 @@
 
 package org.isoron.uhabits.unit.models;
 
-import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.helpers.DateHelper;
-import org.isoron.uhabits.models.Habit;
-import org.junit.Before;
+import org.isoron.uhabits.models.Checkmark;
+import org.isoron.uhabits.models.Score;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.models.Repetition;
-import org.isoron.uhabits.models.Checkmark;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest

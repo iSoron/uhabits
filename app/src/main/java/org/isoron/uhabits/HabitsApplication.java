@@ -20,19 +20,26 @@
 package org.isoron.uhabits;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
+
+import org.isoron.uhabits.helpers.DatabaseHelper;
 
 import java.io.File;
 
 public class HabitsApplication extends Application
 {
-    private boolean isTestMode()
+    @Nullable
+    private static Context context;
+
+    public static boolean isTestMode()
     {
         try
         {
-            getClassLoader().loadClass("org.isoron.uhabits.unit.models.HabitTest");
+            if(context != null)
+                context.getClassLoader().loadClass("org.isoron.uhabits.unit.models.HabitTest");
             return true;
         }
         catch (final Exception e)
@@ -41,37 +48,31 @@ public class HabitsApplication extends Application
         }
     }
 
-    private void deleteDB(String databaseFilename)
+    @Nullable
+    public static Context getContext()
     {
-        File databaseFile = new File(String.format("%s/../databases/%s",
-                getApplicationContext().getFilesDir().getPath(), databaseFilename));
-
-        if(databaseFile.exists()) databaseFile.delete();
+        return context;
     }
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        String databaseFilename = BuildConfig.databaseFilename;
+        HabitsApplication.context = this;
 
         if (isTestMode())
         {
-            databaseFilename = "test.db";
-            deleteDB(databaseFilename);
+            File db = DatabaseHelper.getDatabaseFile();
+            if(db.exists()) db.delete();
         }
 
-        Configuration dbConfig = new Configuration.Builder(this)
-                .setDatabaseName(databaseFilename)
-                .setDatabaseVersion(BuildConfig.databaseVersion)
-                .create();
-
-        ActiveAndroid.initialize(dbConfig);
+        DatabaseHelper.initializeActiveAndroid();
     }
 
     @Override
     public void onTerminate()
     {
+        HabitsApplication.context = null;
         ActiveAndroid.dispose();
         super.onTerminate();
     }

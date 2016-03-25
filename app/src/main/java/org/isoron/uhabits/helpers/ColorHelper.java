@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.helpers;
+package org.isoron.uhabits.helpers;
 
 import android.graphics.Color;
 
@@ -90,5 +90,10 @@ public class ColorHelper
         Color.colorToHSV(color, hsv);
         hsv[index] = newValue;
         return Color.HSVToColor(hsv);
+    }
+
+    public static String toHTML(int color)
+    {
+        return String.format("#%06X", 0xFFFFFF & color);
     }
 }

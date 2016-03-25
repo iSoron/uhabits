@@ -31,8 +31,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 
 public class NumberView extends View
 {

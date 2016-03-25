@@ -1,6 +1,28 @@
+/*
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ *
+ * This file is part of Loop Habit Tracker.
+ *
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.isoron.uhabits.ui;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -9,6 +31,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.junit.After;
 import org.junit.Before;
@@ -31,15 +54,22 @@ import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
+import static org.isoron.uhabits.ui.HabitMatchers.isPreferenceWithText;
 import static org.isoron.uhabits.ui.HabitMatchers.withName;
 import static org.isoron.uhabits.ui.HabitViewActions.clickAtRandomLocations;
 import static org.isoron.uhabits.ui.HabitViewActions.toggleAllCheckmarks;
@@ -65,6 +95,8 @@ public class MainTest
     public IntentsTestRule<MainActivity> activityRule = new IntentsTestRule<>(
             MainActivity.class);
 
+    private Context targetContext;
+
     @Before
     public void setup()
     {
@@ -73,6 +105,14 @@ public class MainTest
         sys.disableAllAnimations();
         sys.acquireWakeLock();
         sys.unlockScreen();
+
+        targetContext = InstrumentationRegistry.getTargetContext();
+
+        Instrumentation.ActivityResult okResult = new Instrumentation.ActivityResult(
+                Activity.RESULT_OK, new Intent());
+
+        intending(hasAction(equalTo(Intent.ACTION_SEND))).respondWith(okResult);
+        intending(hasAction(equalTo(Intent.ACTION_VIEW))).respondWith(okResult);
 
         skipTutorial();
     }
@@ -97,11 +137,14 @@ public class MainTest
         }
     }
 
+    /**
+     * User opens the app, creates some habits, selects them, archives them, select 'show archived'
+     * on the menu, selects the previously archived habits and then deletes them.
+     */
     @Test
     public void testArchiveHabits()
     {
         List<String> names = new LinkedList<>();
-        Context context = InstrumentationRegistry.getTargetContext();
 
         for(int i = 0; i < 3; i++)
             names.add(addHabit());
@@ -111,7 +154,7 @@ public class MainTest
         clickActionModeMenuItem(R.string.archive);
         assertHabitsDontExist(names);
 
-        openActionBarOverflowOrOptionsMenu(context);
+        openActionBarOverflowOrOptionsMenu(targetContext);
         onView(withText(R.string.show_archived))
                 .perform(click());
 
@@ -119,7 +162,7 @@ public class MainTest
         selectHabits(names);
         clickActionModeMenuItem(R.string.unarchive);
 
-        openActionBarOverflowOrOptionsMenu(context);
+        openActionBarOverflowOrOptionsMenu(targetContext);
         onView(withText(R.string.show_archived))
                 .perform(click());
 
@@ -127,6 +170,10 @@ public class MainTest
         deleteHabits(names);
     }
 
+    /**
+     * User opens the app, clicks the add button, types some bogus information, tries to save,
+     * dialog displays an error.
+     */
     @Test
     public void testAddInvalidHabit()
     {
@@ -139,6 +186,10 @@ public class MainTest
         onView(withId(R.id.input_name)).check(matches(isDisplayed()));
     }
 
+    /**
+     * User creates a habit, toggles a bunch of checkmarks, clicks the habit to open the statistics
+     * screen, scrolls down to some views, then scrolls the views backwards and forwards in time.
+     */
     @Test
     public void testAddHabitAndViewStats() throws InterruptedException
     {
@@ -161,6 +212,11 @@ public class MainTest
                 .perform(scrollTo(), swipeRight());
     }
 
+    /**
+     * User creates a habit, selects the habit, clicks edit button, changes some information about
+     * the habit, click save button, sees changes on the main window, selects habit again,
+     * changes color, then deletes the habit.
+     */
     @Test
     public void testEditHabit()
     {
@@ -187,6 +243,10 @@ public class MainTest
         deleteHabit(modifiedName);
     }
 
+    /**
+     * User creates a habit, opens statistics page, clicks button to edit history, adds some
+     * checkmarks, closes dialog, sees the modified history calendar.
+     */
     @Test
     public void testEditHistory()
     {
@@ -205,20 +265,82 @@ public class MainTest
                 .perform(scrollTo(), swipeRight(), swipeLeft());
     }
 
+    /**
+     * User opens menu, clicks settings, sees settings screen.
+     */
     @Test
     public void testSettings()
     {
-        Context context = InstrumentationRegistry.getContext();
-        openActionBarOverflowOrOptionsMenu(context);
+        openActionBarOverflowOrOptionsMenu(targetContext);
         onView(withText(R.string.settings)).perform(click());
     }
 
+    /**
+     * User opens menu, clicks about, sees about screen.
+     */
     @Test
     public void testAbout()
     {
-        Context context = InstrumentationRegistry.getContext();
-        openActionBarOverflowOrOptionsMenu(context);
+        openActionBarOverflowOrOptionsMenu(targetContext);
         onView(withText(R.string.about)).perform(click());
         onView(isRoot()).perform(swipeUp());
+    }
+
+    /**
+     * User opens menu, clicks Help, sees website.
+     */
+    @Test
+    public void testHelp()
+    {
+        openActionBarOverflowOrOptionsMenu(targetContext);
+        onView(withText(R.string.help)).perform(click());
+        intended(hasAction(Intent.ACTION_VIEW));
+    }
+
+    /**
+     * User creates a habit, exports full backup, deletes the habit, restores backup, sees that the
+     * previously created habit has appeared back.
+     */
+    @Test
+    public void testExportImportDB()
+    {
+        String name = addHabit();
+
+        openActionBarOverflowOrOptionsMenu(targetContext);
+        onView(withText(R.string.settings)).perform(click());
+
+        String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
+        date = date.substring(0, date.length() - 2);
+
+        onData(isPreferenceWithText("Export full backup")).perform(click());
+        intended(hasAction(Intent.ACTION_SEND));
+
+        deleteHabit(name);
+
+        openActionBarOverflowOrOptionsMenu(targetContext);
+        onView(withText(R.string.settings)).perform(click());
+        onData(isPreferenceWithText("Import data")).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), startsWith("Backups")))
+                .perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), containsString(date)))
+                .perform(click());
+
+        selectHabit(name);
+    }
+
+    /**
+     * User creates a habit, opens settings, clicks export as CSV, is asked what activity should
+     * handle the file.
+     */
+    @Test
+    public void testExportCSV()
+    {
+        addHabit();
+        openActionBarOverflowOrOptionsMenu(targetContext);
+        onView(withText(R.string.settings)).perform(click());
+        onData(isPreferenceWithText("Export as CSV")).perform(click());
+        intended(hasAction(Intent.ACTION_SEND));
     }
 }

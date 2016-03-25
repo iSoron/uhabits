@@ -17,36 +17,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
-import org.isoron.uhabits.fragments.EditHabitFragment;
-import org.isoron.uhabits.io.CSVExporter;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -205,12 +198,6 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
                 return true;
             }
-
-            case R.id.action_export_csv:
-            {
-                onExportHabitsClick(selectedHabits);
-                return true;
-            }
         }
 
         return false;
@@ -220,48 +207,5 @@ public class HabitSelectionCallback implements ActionMode.Callback
     public void onDestroyActionMode(ActionMode mode)
     {
         if(listener != null) listener.onActionModeDestroyed(mode);
-    }
-
-    private void onExportHabitsClick(final LinkedList<Habit> selectedHabits)
-    {
-        new AsyncTask<Void, Void, Void>()
-        {
-            String filename;
-
-            @Override
-            protected void onPreExecute()
-            {
-                if(progressBar != null)
-                {
-                    progressBar.setIndeterminate(true);
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                if(filename != null)
-                {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("application/zip");
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filename)));
-
-                    activity.startActivity(intent);
-                }
-
-                if(progressBar != null)
-                    progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                CSVExporter exporter = new CSVExporter(activity, selectedHabits);
-                filename = exporter.writeArchive();
-                return null;
-            }
-        }.execute();
     }
 }

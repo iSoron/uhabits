@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits;
 
+import android.Manifest;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -26,17 +27,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
@@ -55,6 +59,10 @@ public class MainActivity extends ReplayableActivity
     private LocalBroadcastManager localBroadcastManager;
 
     public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
+
+    public static final int RESULT_IMPORT_DATA = 1;
+    public static final int RESULT_EXPORT_CSV = 2;
+    public static final int RESULT_EXPORT_DB = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -123,7 +131,7 @@ public class MainActivity extends ReplayableActivity
             case R.id.action_settings:
             {
                 Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 return true;
             }
 
@@ -134,8 +142,36 @@ public class MainActivity extends ReplayableActivity
                 return true;
             }
 
+            case R.id.action_faq:
+            {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getString(R.string.helpURL)));
+                startActivity(intent);
+                return true;
+            }
+
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (resultCode)
+        {
+            case RESULT_IMPORT_DATA:
+                listHabitsFragment.showImportDialog();
+                break;
+
+            case RESULT_EXPORT_CSV:
+                listHabitsFragment.exportAllHabits();
+                break;
+
+            case RESULT_EXPORT_DB:
+                listHabitsFragment.exportDB();
+                break;
         }
     }
 
@@ -196,5 +232,15 @@ public class MainActivity extends ReplayableActivity
         {
             listHabitsFragment.onPostExecuteCommand(null);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        if (grantResults.length <= 0) return;
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) return;
+
+        listHabitsFragment.showImportDialog();
     }
 }

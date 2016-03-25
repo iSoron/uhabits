@@ -27,7 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;

@@ -29,8 +29,8 @@ import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 

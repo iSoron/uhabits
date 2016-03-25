@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.helpers;
+package org.isoron.uhabits;
 
 import android.app.Activity;
 import android.app.backup.BackupManager;
@@ -25,7 +25,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 
 import java.util.LinkedList;

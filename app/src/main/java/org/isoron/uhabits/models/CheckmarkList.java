@@ -29,8 +29,12 @@ import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class CheckmarkList
@@ -72,6 +76,7 @@ public class CheckmarkList
     public int[] getValues(long fromTimestamp, long toTimestamp)
     {
         compute(fromTimestamp, toTimestamp);
+
         if(fromTimestamp > toTimestamp) return new int[0];
 
         String query = "select value, timestamp from Checkmarks where " +
@@ -121,6 +126,21 @@ public class CheckmarkList
         Long toTimestamp = DateHelper.getStartOfToday();
 
         return getValues(fromTimestamp, toTimestamp);
+    }
+
+    /**
+     * Computes and stores one checkmark for each day, since the first repetition until today.
+     * Days that already have a corresponding checkmark are skipped.
+     */
+    protected void computeAll()
+    {
+        Repetition oldestRep = habit.repetitions.getOldest();
+        if(oldestRep == null) return;
+
+        Long fromTimestamp = oldestRep.timestamp;
+        Long toTimestamp = DateHelper.getStartOfToday();
+
+        compute(fromTimestamp, toTimestamp);
     }
 
     /**
@@ -228,5 +248,39 @@ public class CheckmarkList
         Checkmark today = getToday();
         if(today != null) return today.value;
         else return Checkmark.UNCHECKED;
+    }
+
+    /**
+     * Writes the entire list of checkmarks to the given writer, in CSV format. There is one
+     * line for each checkmark. Each line contains two fields: timestamp and value.
+     *
+     * @param out the writer where the CSV will be output
+     * @throws IOException in case write operations fail
+     */
+
+    public void writeCSV(Writer out) throws IOException
+    {
+        computeAll();
+
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+
+        String query = "select timestamp, value from checkmarks where habit = ? order by timestamp";
+        String params[] = { habit.getId().toString() };
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, params);
+
+        if(!cursor.moveToFirst()) return;
+
+        do
+        {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            Integer value = cursor.getInt(1);
+            out.write(String.format("%s,%d\n", timestamp, value));
+
+        } while(cursor.moveToNext());
+
+        cursor.close();
+        out.close();
     }
 }

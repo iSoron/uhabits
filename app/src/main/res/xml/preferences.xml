@@ -36,7 +36,32 @@
             android:entries="@array/snooze_interval_names"
             android:entryValues="@array/snooze_interval_values"
             android:key="pref_snooze_interval"
-            android:title="@string/pref_snooze_interval_title"/>
+            android:title="@string/pref_snooze_interval_title"
+            android:summary="%s"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_links"
+        android:title="Database">
+
+        <Preference
+            android:key="exportDB"
+            android:summary="@string/export_full_backup_summary"
+            android:title="@string/export_full_backup">
+        </Preference>
+
+        <Preference
+            android:key="exportCSV"
+            android:summary="@string/export_as_csv_summary"
+            android:title="@string/export_to_csv">
+        </Preference>
+
+        <Preference
+            android:key="importData"
+            android:summary="@string/import_data_summary"
+            android:title="@string/import_data">
+        </Preference>
 
     </PreferenceCategory>
 

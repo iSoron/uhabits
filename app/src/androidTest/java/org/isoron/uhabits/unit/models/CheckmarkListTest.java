@@ -22,12 +22,15 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -138,6 +141,27 @@ public class CheckmarkListTest
 
         travelInTime(1);
         assertThat(nonDailyHabit.checkmarks.getTodayValue(), equalTo(UNCHECKED));
+    }
+
+    @Test
+    public void writeCSV() throws IOException
+    {
+        String expectedCSV =
+                "2015-01-16,2\n" +
+                "2015-01-17,2\n" +
+                "2015-01-18,1\n" +
+                "2015-01-19,0\n" +
+                "2015-01-20,2\n" +
+                "2015-01-21,2\n" +
+                "2015-01-22,2\n" +
+                "2015-01-23,1\n" +
+                "2015-01-24,0\n" +
+                "2015-01-25,2\n";
+
+        StringWriter writer = new StringWriter();
+        nonDailyHabit.checkmarks.writeCSV(writer);
+
+        assertThat(writer.toString(), equalTo(expectedCSV));
     }
 
     private void travelInTime(int days)
