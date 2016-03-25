@@ -24,6 +24,8 @@
     android:versionCode="13"
     android:versionName="1.3.3">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
