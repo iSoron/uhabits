@@ -69,7 +69,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static org.hamcrest.core.AnyOf.anyOf;
+import static org.isoron.uhabits.ui.HabitMatchers.isPreferenceWithText;
 import static org.isoron.uhabits.ui.HabitMatchers.withName;
 import static org.isoron.uhabits.ui.HabitViewActions.clickAtRandomLocations;
 import static org.isoron.uhabits.ui.HabitViewActions.toggleAllCheckmarks;
@@ -312,14 +312,14 @@ public class MainTest
         String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
         date = date.substring(0, date.length() - 2);
 
-        onView(withText(R.string.export_full_backup)).perform(click());
+        onData(isPreferenceWithText("Export full backup")).perform(click());
         intended(hasAction(Intent.ACTION_SEND));
 
         deleteHabit(name);
 
         openActionBarOverflowOrOptionsMenu(targetContext);
         onView(withText(R.string.settings)).perform(click());
-        onView(withText(R.string.import_data)).perform(click());
+        onData(isPreferenceWithText("Import data")).perform(click());
 
         onData(allOf(is(instanceOf(String.class)), startsWith("Backups")))
                 .perform(click());
@@ -340,7 +340,7 @@ public class MainTest
         addHabit();
         openActionBarOverflowOrOptionsMenu(targetContext);
         onView(withText(R.string.settings)).perform(click());
-        onView(withText(R.string.export_to_csv)).perform(click());
+        onData(isPreferenceWithText("Export as CSV")).perform(click());
         intended(hasAction(Intent.ACTION_SEND));
     }
 }

@@ -19,10 +19,12 @@
 
 package org.isoron.uhabits.ui;
 
+import android.preference.Preference;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -73,6 +75,25 @@ public class HabitMatchers
             {
                 description.appendText("with class name: ");
                 matcher.describeTo(description);
+            }
+        };
+    }
+
+    public static Matcher<?> isPreferenceWithText(final String text)
+    {
+        return (Matcher<?>) new BaseMatcher()
+        {
+            @Override
+            public boolean matches(Object o)
+            {
+                if(!(o instanceof Preference)) return false;
+                return o.toString().contains(text);
+            }
+
+            @Override
+            public void describeTo(Description description)
+            {
+                description.appendText(String.format("is preference with text '%s'", text));
             }
         };
     }
