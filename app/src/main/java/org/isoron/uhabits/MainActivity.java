@@ -142,6 +142,15 @@ public class MainActivity extends ReplayableActivity
                 return true;
             }
 
+            case R.id.action_faq:
+            {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getString(R.string.helpURL)));
+                startActivity(intent);
+                return true;
+            }
+
             default:
                 return super.onOptionsItemSelected(item);
         }
