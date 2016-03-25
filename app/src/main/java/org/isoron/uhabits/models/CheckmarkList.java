@@ -76,6 +76,7 @@ public class CheckmarkList
     public int[] getValues(long fromTimestamp, long toTimestamp)
     {
         compute(fromTimestamp, toTimestamp);
+
         if(fromTimestamp > toTimestamp) return new int[0];
 
         String query = "select value, timestamp from Checkmarks where " +
@@ -125,6 +126,21 @@ public class CheckmarkList
         Long toTimestamp = DateHelper.getStartOfToday();
 
         return getValues(fromTimestamp, toTimestamp);
+    }
+
+    /**
+     * Computes and stores one checkmark for each day, since the first repetition until today.
+     * Days that already have a corresponding checkmark are skipped.
+     */
+    protected void computeAll()
+    {
+        Repetition oldestRep = habit.repetitions.getOldest();
+        if(oldestRep == null) return;
+
+        Long fromTimestamp = oldestRep.timestamp;
+        Long toTimestamp = DateHelper.getStartOfToday();
+
+        compute(fromTimestamp, toTimestamp);
     }
 
     /**
@@ -234,8 +250,18 @@ public class CheckmarkList
         else return Checkmark.UNCHECKED;
     }
 
+    /**
+     * Writes the entire list of checkmarks to the given writer, in CSV format. There is one
+     * line for each checkmark. Each line contains two fields: timestamp and value.
+     *
+     * @param out the writer where the CSV will be output
+     * @throws IOException in case write operations fail
+     */
+
     public void writeCSV(Writer out) throws IOException
     {
+        computeAll();
+
         SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
 
         String query = "select timestamp, value from checkmarks where habit = ? order by timestamp";
@@ -255,5 +281,6 @@ public class CheckmarkList
         } while(cursor.moveToNext());
 
         cursor.close();
+        out.close();
     }
 }

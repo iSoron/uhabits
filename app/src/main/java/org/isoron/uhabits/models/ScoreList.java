@@ -100,6 +100,19 @@ public class ScoreList
     }
 
     /**
+     * Computes and saves the scores that are missing since the first repetition of the habit.
+     */
+    private void computeAll()
+    {
+        Repetition oldestRep = habit.repetitions.getOldest();
+        if(oldestRep == null) return;
+
+        long fromTimestamp = oldestRep.timestamp;
+        long toTimestamp = DateHelper.getStartOfToday();
+        compute(fromTimestamp, toTimestamp);
+    }
+
+    /**
      * Computes and saves the scores that are missing inside a given time interval.  Scores that
      * have already been computed are skipped, therefore there is no harm in calling this function
      * more times, or with larger intervals, than strictly needed. The endpoints of the interval are
@@ -285,6 +298,8 @@ public class ScoreList
 
     public void writeCSV(Writer out) throws IOException
     {
+        computeAll();
+
         SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
 
         String query = "select timestamp, score from score where habit = ? order by timestamp";
@@ -298,11 +313,12 @@ public class ScoreList
         do
         {
             String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
-            String score = String.format("%.2f", ((float) cursor.getInt(1)) / Score.MAX_VALUE);
+            String score = String.format("%.4f", ((float) cursor.getInt(1)) / Score.MAX_VALUE);
             out.write(String.format("%s,%s\n", timestamp, score));
 
         } while(cursor.moveToNext());
 
         cursor.close();
+        out.close();
     }
 }

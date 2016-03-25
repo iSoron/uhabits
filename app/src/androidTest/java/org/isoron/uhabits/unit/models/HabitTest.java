@@ -23,12 +23,15 @@ import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.hamcrest.MatcherAssert;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -352,5 +355,22 @@ public class HabitTest
 
         h.clearReminder();
         assertThat(h.hasReminder(), is(false));
+    }
+
+    @Test
+    public void writeCSV() throws IOException
+    {
+        HabitFixtures.createEmptyHabit();
+        HabitFixtures.createNonDailyHabit();
+
+        String expectedCSV =
+                "Name,Description,NumRepetitions,Interval,Color\n" +
+                "Meditate,Did you meditate this morning?,1,1,#AFB42B\n" +
+                "Wake up early,Did you wake up before 6am?,2,3,#00897B\n";
+
+        StringWriter writer = new StringWriter();
+        Habit.writeCSV(Habit.getAll(true), writer);
+
+        MatcherAssert.assertThat(writer.toString(), equalTo(expectedCSV));
     }
 }

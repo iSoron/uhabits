@@ -20,7 +20,6 @@
 package org.isoron.uhabits.models;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,16 +33,13 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 import com.activeandroid.util.SQLiteUtils;
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Writer;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -478,9 +474,18 @@ public class Habit extends Model
         reminderDays = DateHelper.ALL_WEEK_DAYS;
     }
 
+    /**
+     * Writes the list of habits to the given writer, in CSV format. There is one line for each
+     * habit, containing the fields name, description, frequency numerator, frequency denominator
+     * and color. The color is written in HTML format (#000000).
+     *
+     * @param habits the list of habits to write
+     * @param out the writer that will receive the result
+     * @throws IOException if write operations fail
+     */
     public static void writeCSV(List<Habit> habits, Writer out) throws IOException
     {
-        String header[] = { "Name", "Description", "FrequencyNumerator", "FrequencyDenominator", "Color" };
+        String header[] = { "Name", "Description", "NumRepetitions", "Interval", "Color" };
 
         CSVWriter csv = new CSVWriter(out);
         csv.writeNext(header, false);
@@ -493,25 +498,5 @@ public class Habit extends Model
         }
 
         csv.close();
-    }
-
-    public List<Habit> parseCSV(Reader in)
-    {
-        CSVReader csv = new CSVReader(in);
-        List<Habit> habits = new LinkedList<>();
-
-        for(String cols[] : csv)
-        {
-            Habit habit = new Habit();
-
-            habit.name = cols[0];
-            habit.description = cols[1];
-            habit.freqNum = Integer.parseInt(cols[2]);
-            habit.freqDen = Integer.parseInt(cols[3]);
-            habit.color = Color.parseColor(cols[4]);
-            habits.add(habit);
-        }
-
-        return habits;
     }
 }
