@@ -52,17 +52,13 @@ public class ImportTest
 {
     private File baseDir;
     private Context context;
-    private Context targetContext;
 
     @Before
     public void setup()
     {
         HabitFixtures.purgeHabits();
-
         context = InstrumentationRegistry.getInstrumentation().getContext();
-        targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-        baseDir = DatabaseHelper.getFilesDir(targetContext, "Backups");
+        baseDir = DatabaseHelper.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");
     }
 

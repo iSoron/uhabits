@@ -19,14 +19,11 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.ReplayableActivity;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.io.HabitsCSVExporter;
 import org.isoron.uhabits.models.Habit;
@@ -37,17 +34,25 @@ import java.util.List;
 
 public class ExportCSVTask extends AsyncTask<Void, Void, Void>
 {
-    private final ReplayableActivity activity;
+    public interface Listener
+    {
+        void onExportCSVFinished(@Nullable String archiveFilename);
+    }
+
     private ProgressBar progressBar;
     private final List<Habit> selectedHabits;
-    String archiveFilename;
+    private String archiveFilename;
+    private ExportCSVTask.Listener listener;
 
-    public ExportCSVTask(ReplayableActivity activity, List<Habit> selectedHabits,
-                         ProgressBar progressBar)
+    public ExportCSVTask(List<Habit> selectedHabits, ProgressBar progressBar)
     {
         this.selectedHabits = selectedHabits;
         this.progressBar = progressBar;
-        this.activity = activity;
+    }
+
+    public void setListener(Listener listener)
+    {
+        this.listener = listener;
     }
 
     @Override
@@ -63,19 +68,8 @@ public class ExportCSVTask extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        if(archiveFilename != null)
-        {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND);
-            intent.setType("application/zip");
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
-
-            activity.startActivity(intent);
-        }
-        else
-        {
-            activity.showToast(R.string.could_not_export);
-        }
+        if(listener != null)
+            listener.onExportCSVFinished(archiveFilename);
 
         if(progressBar != null)
             progressBar.setVisibility(View.GONE);
@@ -86,7 +80,7 @@ public class ExportCSVTask extends AsyncTask<Void, Void, Void>
     {
         try
         {
-            File dir = DatabaseHelper.getFilesDir(activity, "CSV");
+            File dir = DatabaseHelper.getFilesDir("CSV");
             if(dir == null) return null;
 
             HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dir);

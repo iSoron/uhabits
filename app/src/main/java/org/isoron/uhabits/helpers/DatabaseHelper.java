@@ -124,8 +124,11 @@ public class DatabaseHelper
     }
 
     @Nullable
-    public static File getFilesDir(Context context, String prefix)
+    public static File getFilesDir(String prefix)
     {
+        Context context = HabitsApplication.getContext();
+        if(context == null) return null;
+
         File chosenDir = null;
         File externalFilesDirs[] = ContextCompat.getExternalFilesDirs(context, null);
         if(externalFilesDirs == null) return null;

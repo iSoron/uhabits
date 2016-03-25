@@ -48,7 +48,7 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
         void onFileSelected(File file);
     }
 
-    private OnFileSelectedListener fileListener;
+    private OnFileSelectedListener listener;
 
     public FilePickerDialog(Activity activity, File initialDirectory)
     {
@@ -81,7 +81,7 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
         }
         else
         {
-            if (fileListener != null) fileListener.onFileSelected(file);
+            if (listener != null) listener.onFileSelected(file);
             dialog.dismiss();
         }
     }
@@ -91,9 +91,9 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
         dialog.show();
     }
 
-    public void setFileListener(OnFileSelectedListener fileListener)
+    public void setListener(OnFileSelectedListener listener)
     {
-        this.fileListener = fileListener;
+        this.listener = listener;
     }
 
     private void navigateTo(File path)

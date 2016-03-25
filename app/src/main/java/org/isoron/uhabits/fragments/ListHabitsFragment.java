@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -73,7 +74,8 @@ import java.util.List;
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
-        HabitSelectionCallback.Listener, ImportDataTask.Listener
+        HabitSelectionCallback.Listener, ImportDataTask.Listener, ExportCSVTask.Listener,
+        ExportDBTask.Listener
 {
     long lastLongClick = 0;
     private boolean isShortToggleEnabled;
@@ -437,7 +439,7 @@ public class ListHabitsFragment extends Fragment
         if(dir == null) return;
 
         FilePickerDialog picker = new FilePickerDialog(activity, dir);
-        picker.setFileListener(new FilePickerDialog.OnFileSelectedListener()
+        picker.setListener(new FilePickerDialog.OnFileSelectedListener()
         {
             @Override
             public void onFileSelected(File file)
@@ -447,6 +449,7 @@ public class ListHabitsFragment extends Fragment
                 task.execute();
             }
         });
+
         picker.show();
     }
 
@@ -472,11 +475,49 @@ public class ListHabitsFragment extends Fragment
 
     public void exportAllHabits()
     {
-        new ExportCSVTask(activity, Habit.getAll(true), progressBar).execute();
+        ExportCSVTask task = new ExportCSVTask(Habit.getAll(true), progressBar);
+        task.setListener(this);
+        task.execute();
+    }
+
+    @Override
+    public void onExportCSVFinished(@Nullable String archiveFilename)
+    {
+        if(archiveFilename != null)
+        {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("application/zip");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
+            activity.startActivity(intent);
+        }
+        else
+        {
+            activity.showToast(R.string.could_not_export);
+        }
     }
 
     public void exportDB()
     {
-        new ExportDBTask(activity, progressBar).execute();
+        ExportDBTask task = new ExportDBTask(progressBar);
+        task.setListener(this);
+        task.execute();
+    }
+
+    @Override
+    public void onExportDBFinished(@Nullable String filename)
+    {
+        if(filename != null)
+        {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("application/octet-stream");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filename)));
+            activity.startActivity(intent);
+        }
+        else
+        {
+            activity.showToast(R.string.could_not_export);
+        }
     }
 }
