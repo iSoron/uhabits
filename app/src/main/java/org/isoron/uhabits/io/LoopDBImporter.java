@@ -55,9 +55,6 @@ public class LoopDBImporter extends AbstractImporter
     {
         ActiveAndroid.dispose();
         File originalDB = DatabaseHelper.getDatabaseFile();
-        File backupDir = DatabaseHelper.getFilesDir("Backups");
-
-        DatabaseHelper.saveDatabaseCopy(backupDir);
         DatabaseHelper.copy(file, originalDB);
         DatabaseHelper.initializeActiveAndroid();
     }
