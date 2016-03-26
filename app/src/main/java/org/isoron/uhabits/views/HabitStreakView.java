@@ -218,14 +218,7 @@ public class HabitStreakView extends View implements HabitDataView
         float gap = (width - barWidth) / 2;
         float paddingTopBottom = baseSize * 0.05f;
 
-        float croppedPercentage;
-        if (maxLength == minLength)
-            croppedPercentage = 1.0f;
-        else
-            croppedPercentage = (float) (streak.length - minLength) / (maxLength - minLength);
-
-        int c = (int) (croppedPercentage * 3);
-        paint.setColor(colors[(c)]);
+        paint.setColor(percentageToColor(percentage));
 
         canvas.drawRect(rect.left + gap, rect.top + paddingTopBottom, rect.right - gap,
                 rect.bottom - paddingTopBottom, paint);
@@ -248,6 +241,14 @@ public class HabitStreakView extends View implements HabitDataView
             paint.setTextAlign(Paint.Align.LEFT);
             canvas.drawText(endLabel, width - gap + textMargin, yOffset, paint);
         }
+    }
+
+    private int percentageToColor(float percentage)
+    {
+        if(percentage >= 1.0f) return colors[3];
+        if(percentage >= 0.8f) return colors[2];
+        if(percentage >= 0.5f) return colors[1];
+        return colors[0];
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
