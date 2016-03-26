@@ -42,15 +42,35 @@
                 android:id="@+id/llOverview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <org.isoron.uhabits.views.RingView
                     android:id="@+id/scoreRing"
                     style="@style/smallDataViewStyle"
-                    app:label="@string/habit_strength"
-                    app:maxDiameter="70"
+                    android:layout_width="100dp"
+                    app:label="@string/strength"
+                    app:maxDiameter="80"
                     app:textSize="@dimen/smallTextSize"/>
+
+                <LinearLayout
+                    style="@style/smallDataViewStyle"
+                    android:orientation="vertical">
+
+                    <org.isoron.uhabits.views.HabitStreakView
+                        android:id="@+id/smallStreakView"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/best_streaks"
+                        android:layout_marginTop="9dp"
+                        android:textColor="@color/fadedTextColor"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -173,7 +193,7 @@
             <TextView
                 android:id="@+id/tvStreaks"
                 style="@style/cardHeaderStyle"
-                android:text="@string/streaks"/>
+                android:text="@string/best_streaks"/>
 
             <org.isoron.uhabits.views.HabitStreakView
                 android:id="@+id/streakView"

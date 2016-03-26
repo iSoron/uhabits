@@ -18,7 +18,7 @@
   -->
 
 <resources>
-    <dimen name="small_square_size">20dp</dimen>
+    <dimen name="baseSize">20dp</dimen>
     <dimen name="check_square_size">42dp</dimen>
     <dimen name="history_editor_max_height">450dp</dimen>
     <dimen name="history_editor_padding">8dp</dimen>

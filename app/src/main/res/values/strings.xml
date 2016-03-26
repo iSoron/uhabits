@@ -151,4 +151,6 @@
     <string name="bug_report_failed">Failed to generate bug report.</string>
     <string name="generate_bug_report">Generate bug report</string>
     <string name="troubleshooting">Troubleshooting</string>
+    <string name="best_streaks">Best streaks</string>
+    <string name="strength">Strength</string>
 </resources>

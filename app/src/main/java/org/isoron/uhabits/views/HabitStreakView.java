@@ -23,49 +23,50 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.View;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Streak;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.TimeZone;
 
-public class HabitStreakView extends ScrollableDataView implements HabitDataView
+public class HabitStreakView extends View implements HabitDataView
 {
     private Habit habit;
-    private Paint pText, pBar;
+    private Paint paint;
 
-    private long[] startTimes;
-    private long[] endTimes;
-    private long[] lengths;
+    private long minLength;
+    private long maxLength;
 
-    private int columnWidth;
-    private int columnHeight;
-    private int headerHeight;
-    private int nColumns;
-
-    private long maxStreakLength;
     private int[] colors;
-    private SimpleDateFormat dfMonth;
-    private Rect rect;
+    private RectF rect;
     private int baseSize;
     private int primaryColor;
+    private List<Streak> streaks;
 
     private boolean isBackgroundTransparent;
     private int textColor;
-    private Paint pBarText;
+    private DateFormat dateFormat;
+    private int width;
+    private float em;
+    private float maxLabelWidth;
+    private float textMargin;
+    private boolean shouldShowLabels;
+    private int maxStreakCount;
 
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
-        startTimes = endTimes = lengths = new long[0];
+        streaks = Collections.emptyList();
         init();
     }
 
@@ -74,18 +75,19 @@ public class HabitStreakView extends ScrollableDataView implements HabitDataView
         this.habit = habit;
 
         createColors();
-        refreshData();
         postInvalidate();
     }
 
     private void init()
     {
-        refreshData();
         createPaints();
         createColors();
 
-        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
-        rect = new Rect();
+        dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        rect = new RectF();
+
+        baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
 
     @Override
@@ -99,16 +101,18 @@ public class HabitStreakView extends ScrollableDataView implements HabitDataView
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
-        baseSize = height / 10;
-        setScrollerBucketSize(baseSize);
+        maxStreakCount = height / baseSize;
+        this.width = width;
 
-        columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        headerHeight = baseSize;
-        nColumns = width / baseSize - 1;
+        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
+        float regularTextSize = Math.min(baseSize * 0.56f, maxTextSize);
 
-        pText.setTextSize(baseSize * 0.5f);
-        pBar.setTextSize(baseSize * 0.5f);
+        paint.setTextSize(regularTextSize);
+        em = paint.getFontSpacing();
+        textMargin = 0.5f * em;
+
+        refreshData();
+        updateMaxMin();
     }
 
     private void createColors()
@@ -134,7 +138,6 @@ public class HabitStreakView extends ScrollableDataView implements HabitDataView
             colors[1] = Color.argb(170, red, green, blue);
             colors[0] = Color.argb(128, red, green, blue);
             textColor = Color.rgb(255, 255, 255);
-            pBarText = pText;
         }
         else
         {
@@ -144,111 +147,106 @@ public class HabitStreakView extends ScrollableDataView implements HabitDataView
             colors[1] = Color.argb(96, red, green, blue);
             colors[0] = Color.argb(32, 0, 0, 0);
             textColor = Color.argb(64, 0, 0, 0);
-            pBarText = pBar;
         }
     }
 
     protected void createPaints()
     {
-        pText = new Paint();
-        pText.setTextAlign(Paint.Align.CENTER);
-        pText.setAntiAlias(true);
-
-        pBar = new Paint();
-        pBar.setTextAlign(Paint.Align.CENTER);
-        pBar.setAntiAlias(true);
+        paint = new Paint();
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setAntiAlias(true);
     }
 
     public void refreshData()
     {
-        if(isInEditMode())
-            generateRandomData();
-        else
-        {
-            if(habit == null) return;
-
-            List<Streak> streaks = habit.streaks.getAll();
-            int size = streaks.size();
-
-            startTimes = new long[size];
-            endTimes = new long[size];
-            lengths = new long[size];
-
-            int k = 0;
-            for (Streak s : streaks)
-            {
-                startTimes[k] = s.start;
-                endTimes[k] = s.end;
-                lengths[k] = s.length;
-                k++;
-
-                maxStreakLength = Math.max(maxStreakLength, s.length);
-            }
-        }
-
-        invalidate();
-    }
-
-    private void generateRandomData()
-    {
-        int size = 30;
-
-        startTimes = new long[size];
-        endTimes = new long[size];
-        lengths = new long[size];
-
-        Random random = new Random();
-        Long date = DateHelper.getStartOfToday();
-
-        for(int i = 0; i < size; i++)
-        {
-            int l = (int) Math.pow(2, random.nextFloat() * 5 + 1);
-
-            endTimes[i] = date;
-            date -= l * DateHelper.millisecondsInOneDay;
-            lengths[i] = (long) l;
-            startTimes[i] = date;
-
-            maxStreakLength = Math.max(maxStreakLength, l);
-        }
+        if(habit == null) return;
+        streaks = habit.streaks.getAll(maxStreakCount);
+        updateMaxMin();
+        postInvalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
+        if(streaks.size() == 0) return;
 
-        float lineHeight = pText.getFontSpacing();
-        float barHeaderOffset = lineHeight * 0.4f;
+        rect.set(0, 0, width, baseSize);
 
-        int nStreaks = startTimes.length;
-        int start = nStreaks - nColumns - getDataOffset();
-
-        pText.setColor(textColor);
-
-        String previousMonth = "";
-
-        for (int offset = 0; offset < nColumns && start + offset < nStreaks; offset++)
+        for(Streak s : streaks)
         {
-            if(start + offset < 0) continue;
-            String month = dfMonth.format(startTimes[start + offset]);
+            drawRow(canvas, s, rect);
+            rect.offset(0, baseSize);
+        }
+    }
 
-            long l = lengths[offset + start];
-            double lRelative = ((double) l) / maxStreakLength;
+    private void updateMaxMin()
+    {
+        maxLength = 0;
+        minLength = Long.MAX_VALUE;
+        shouldShowLabels = true;
 
-            pBar.setColor(colors[(int) Math.floor(lRelative * 3)]);
+        for (Streak s : streaks)
+        {
+            maxLength = Math.max(maxLength, s.length);
+            minLength = Math.min(minLength, s.length);
 
-            int height = (int) (columnHeight * lRelative);
-            rect.set(0, 0, columnWidth - 2, height);
-            rect.offset(offset * columnWidth, headerHeight + columnHeight - height);
+            float lw1 = paint.measureText(dateFormat.format(new Date(s.start)));
+            float lw2 = paint.measureText(dateFormat.format(new Date(s.end)));
+            maxLabelWidth = Math.max(maxLabelWidth, Math.max(lw1, lw2));
+        }
 
-            canvas.drawRect(rect, pBar);
-            canvas.drawText(Long.toString(l), rect.centerX(), rect.top - barHeaderOffset, pBarText);
+        if(width - 2 * maxLabelWidth < width * 0.25f)
+        {
+            maxLabelWidth = 0;
+            shouldShowLabels = false;
+        }
+    }
 
-            if (!month.equals(previousMonth))
-                canvas.drawText(month, rect.centerX(), rect.bottom + lineHeight * 1.2f, pText);
+    private void drawRow(Canvas canvas, Streak streak, RectF rect)
+    {
+        if(maxLength == 0) return;
 
-            previousMonth = month;
+        float percentage = (float) streak.length / maxLength;
+        float availableWidth = width - 2 * maxLabelWidth;
+        if(shouldShowLabels) availableWidth -= 2 * textMargin;
+
+        float barWidth = percentage * availableWidth;
+        float minBarWidth = paint.measureText(streak.length.toString());
+        barWidth = Math.max(barWidth, minBarWidth);
+
+        float gap = (width - barWidth) / 2;
+        float paddingTopBottom = baseSize * 0.05f;
+
+        float croppedPercentage;
+        if (maxLength == minLength)
+            croppedPercentage = 1.0f;
+        else
+            croppedPercentage = (float) (streak.length - minLength) / (maxLength - minLength);
+
+        int c = (int) (croppedPercentage * 3);
+        paint.setColor(colors[(c)]);
+
+        canvas.drawRect(rect.left + gap, rect.top + paddingTopBottom, rect.right - gap,
+                rect.bottom - paddingTopBottom, paint);
+
+        float yOffset = rect.centerY() + 0.3f * em;
+
+        paint.setColor(Color.WHITE);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(streak.length.toString(), rect.centerX(), yOffset, paint);
+
+        if(shouldShowLabels)
+        {
+            String startLabel = dateFormat.format(new Date(streak.start));
+            String endLabel = dateFormat.format(new Date(streak.end));
+
+            paint.setColor(textColor);
+            paint.setTextAlign(Paint.Align.RIGHT);
+            canvas.drawText(startLabel, gap - textMargin, yOffset, paint);
+
+            paint.setTextAlign(Paint.Align.LEFT);
+            canvas.drawText(endLabel, width - gap + textMargin, yOffset, paint);
         }
     }
 

@@ -106,6 +106,7 @@ public class ShowHabitFragment extends Fragment
         sStrengthInterval.setOnItemSelectedListener(this);
 
         dataViews.add((HabitStreakView) view.findViewById(R.id.streakView));
+        dataViews.add((HabitStreakView) view.findViewById(R.id.smallStreakView));
         dataViews.add((HabitScoreView) view.findViewById(R.id.scoreView));
         dataViews.add((HabitHistoryView) view.findViewById(R.id.historyView));
         dataViews.add((HabitFrequencyView) view.findViewById(R.id.punchcardView));
