@@ -11,8 +11,6 @@ test:
         parallel: true
     - circle-android wait-for-boot
     - adb shell input keyevent 82
-    - ./gradlew -PdisablePreDex connectedAndroidTest
+    - ./run_tests
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS || echo ok
-    - cp -r app/build/reports/androidTests/connected/* $CIRCLE_TEST_REPORTS || echo ok
-    - adb logcat -d > $CIRCLE_TEST_REPORTS/logcat.txt
     - bash <(curl -s https://codecov.io/bash)
