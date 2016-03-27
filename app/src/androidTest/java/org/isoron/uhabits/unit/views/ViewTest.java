@@ -37,7 +37,8 @@ import static junit.framework.Assert.fail;
 
 public class ViewTest
 {
-    protected static final int SIMILARITY_CUTOFF = 6000;
+    protected static final double SIMILARITY_CUTOFF = 0.02;
+    public static final int HISTOGRAM_BIN_SIZE = 8;
 
     protected Context testContext;
     protected Context targetContext;
@@ -61,37 +62,39 @@ public class ViewTest
     protected void assertRenders(View view, String expectedImagePath) throws IOException
     {
         StringBuilder errorMessage = new StringBuilder();
+        expectedImagePath = getVersionedViewAssetPath(expectedImagePath);
 
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
+        Bitmap actual = view.getDrawingCache();
+        Bitmap expected = getBitmapFromAssets(expectedImagePath);
 
-        Bitmap actualBitmap = view.getDrawingCache();
-        Bitmap expectedBitmap = getBitmapFromAssets(expectedImagePath);
-        Bitmap scaledExpectedBitmap = Bitmap.createScaledBitmap(expectedBitmap,
-                actualBitmap.getWidth(), actualBitmap.getHeight(), false);
+        int width = actual.getWidth();
+        int height = actual.getHeight();
+        Bitmap scaledExpected = Bitmap.createScaledBitmap(expected, width, height, true);
 
+        double distance;
         boolean similarEnough = true;
-        long distance;
 
-        if ((distance = compareHistograms(getHistogram(actualBitmap), getHistogram(
-                scaledExpectedBitmap))) > SIMILARITY_CUTOFF)
+        if ((distance = compareHistograms(getHistogram(actual), getHistogram(scaledExpected))) > SIMILARITY_CUTOFF)
         {
             similarEnough = false;
             errorMessage.append(String.format(
-                    "Rendered image has wrong histogram (distance=%d). ",
+                    "Rendered image has wrong histogram (distance=%f). ",
                     distance));
         }
 
         if(!similarEnough)
         {
-            String path = saveBitmap(expectedImagePath, actualBitmap);
+            saveBitmap(expectedImagePath, ".scaledExpected", scaledExpected);
+            String path = saveBitmap(expectedImagePath, ".actual", actual);
             errorMessage.append(String.format("Actual rendered image " + "saved to %s", path));
             fail(errorMessage.toString());
         }
 
-        actualBitmap.recycle();
-        expectedBitmap.recycle();
-        scaledExpectedBitmap.recycle();
+        actual.recycle();
+        expected.recycle();
+        scaledExpected.recycle();
     }
 
     private Bitmap getBitmapFromAssets(String path) throws IOException
@@ -100,11 +103,35 @@ public class ViewTest
         return BitmapFactory.decodeStream(stream);
     }
 
-    private String saveBitmap(String filename, Bitmap bitmap)
+    private String getVersionedViewAssetPath(String path)
+    {
+        String result = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            try
+            {
+                String vpath = "views-v21/" + path;
+                testContext.getAssets().open(vpath);
+                result = vpath;
+            }
+            catch (IOException e)
+            {
+                // ignored
+            }
+        }
+
+        if(result == null)
+            result = "views/" + path;
+
+        return result;
+    }
+
+    private String saveBitmap(String filename, String suffix, Bitmap bitmap)
             throws IOException
     {
         String absolutePath = String.format("%s/Failed/%s", targetContext.getExternalCacheDir(),
-                filename.replaceAll("\\.png$", ".actual.png"));
+                filename.replaceAll("\\.png$", suffix + ".png"));
         new File(absolutePath).getParentFile().mkdirs();
         FileOutputStream out = new FileOutputStream(absolutePath);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -114,7 +141,7 @@ public class ViewTest
 
     private int[][] getHistogram(Bitmap bitmap)
     {
-        int histogram[][] = new int[4][256];
+        int histogram[][] = new int[4][256 / HISTOGRAM_BIN_SIZE];
 
         for(int x = 0; x < bitmap.getWidth(); x++)
         {
@@ -128,29 +155,35 @@ public class ViewTest
                         (color      ) & 0xff  //blue
                 };
 
-                histogram[0][argb[0]]++;
-                histogram[1][argb[1]]++;
-                histogram[2][argb[2]]++;
-                histogram[3][argb[3]]++;
+                histogram[0][argb[0] / HISTOGRAM_BIN_SIZE]++;
+                histogram[1][argb[1] / HISTOGRAM_BIN_SIZE]++;
+                histogram[2][argb[2] / HISTOGRAM_BIN_SIZE]++;
+                histogram[3][argb[3] / HISTOGRAM_BIN_SIZE]++;
             }
         }
 
         return histogram;
     }
 
-    private long compareHistograms(int[][] actualHistogram, int[][] expectedHistogram)
+    private double compareHistograms(int[][] actualHistogram, int[][] expectedHistogram)
     {
-        long distance = 0;
+        long diff = 0;
+        long total = 0;
 
-        for(int i = 0; i < 255; i ++)
+        for(int i = 0; i < 256 / HISTOGRAM_BIN_SIZE; i ++)
         {
-            distance += Math.abs(actualHistogram[0][i] - expectedHistogram[0][i]);
-            distance += Math.abs(actualHistogram[1][i] - expectedHistogram[1][i]);
-            distance += Math.abs(actualHistogram[2][i] - expectedHistogram[2][i]);
-            distance += Math.abs(actualHistogram[3][i] - expectedHistogram[3][i]);
+            diff += Math.abs(actualHistogram[0][i] - expectedHistogram[0][i]);
+            diff += Math.abs(actualHistogram[1][i] - expectedHistogram[1][i]);
+            diff += Math.abs(actualHistogram[2][i] - expectedHistogram[2][i]);
+            diff += Math.abs(actualHistogram[3][i] - expectedHistogram[3][i]);
+
+            total += actualHistogram[0][i];
+            total += actualHistogram[1][i];
+            total += actualHistogram[2][i];
+            total += actualHistogram[3][i];
         }
 
-        return distance;
+        return (double) diff / total / 2;
     }
 
     protected int dpToPixels(int dp)

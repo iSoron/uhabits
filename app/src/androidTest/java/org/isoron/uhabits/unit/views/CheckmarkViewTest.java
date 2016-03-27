@@ -53,7 +53,7 @@ public class CheckmarkViewTest extends ViewTest
     @Test
     public void render_checked() throws IOException
     {
-        assertRenders(view, "Views/CheckmarkView/checked.png");
+        assertRenders(view, "CheckmarkView/checked.png");
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CheckmarkViewTest extends ViewTest
         habit.repetitions.toggle(DateHelper.getStartOfToday());
         view.refreshData();
 
-        assertRenders(view, "Views/CheckmarkView/unchecked.png");
+        assertRenders(view, "CheckmarkView/unchecked.png");
     }
 
     @Test
@@ -75,13 +75,13 @@ public class CheckmarkViewTest extends ViewTest
         habit.repetitions.toggle(today - 2 * day);
         view.refreshData();
 
-        assertRenders(view, "Views/CheckmarkView/implicitly_checked.png");
+        assertRenders(view, "CheckmarkView/implicitly_checked.png");
     }
 
     @Test
     public void render_largeSize() throws IOException
     {
         measureView(dpToPixels(300), dpToPixels(300), view);
-        assertRenders(view, "Views/CheckmarkView/large_size.png");
+        assertRenders(view, "CheckmarkView/large_size.png");
     }
 }

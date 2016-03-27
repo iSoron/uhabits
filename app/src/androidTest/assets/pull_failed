@@ -1,5 +1,5 @@
 #!/bin/bash
 P=/sdcard/Android/data/org.isoron.uhabits/cache/Failed/
 
-adb pull $P
-adb shell rm -rf $P
+adb pull $P Failed/
+adb shell rm -r $P

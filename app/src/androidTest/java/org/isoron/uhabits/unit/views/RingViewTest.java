@@ -52,7 +52,7 @@ public class RingViewTest extends ViewTest
     public void render_base() throws IOException
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
-        assertRenders(view, "Views/RingView/render.png");
+        assertRenders(view, "RingView/render.png");
     }
 
     @Test
@@ -61,7 +61,7 @@ public class RingViewTest extends ViewTest
         view.setLabel("The quick brown fox jumps over the lazy fox");
 
         measureView(dpToPixels(100), dpToPixels(100), view);
-        assertRenders(view, "Views/RingView/renderLongLabel.png");
+        assertRenders(view, "RingView/renderLongLabel.png");
     }
 
     @Test
@@ -73,6 +73,6 @@ public class RingViewTest extends ViewTest
         view.setColor(ColorHelper.palette[5]);
 
         measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "Views/RingView/renderDifferentParams.png");
+        assertRenders(view, "RingView/renderDifferentParams.png");
     }
 }
