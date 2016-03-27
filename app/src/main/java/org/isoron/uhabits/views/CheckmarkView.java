@@ -32,8 +32,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.models.Habit;
 
 public class CheckmarkView extends View
@@ -65,6 +65,7 @@ public class CheckmarkView extends View
     private Rect rect;
     private TextPaint textPaint;
     private StaticLayout labelLayout;
+    private Habit habit;
 
     public CheckmarkView(Context context)
     {
@@ -114,11 +115,8 @@ public class CheckmarkView extends View
 
     public void setHabit(Habit habit)
     {
-        this.check_status = habit.checkmarks.getTodayValue();
-        this.star_status = habit.scores.getTodayStarStatus();
-        this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color), Color.blue(habit.color));
-        this.label = habit.name;
-        updateLabel();
+        this.habit = habit;
+        refreshData();
     }
 
     @Override
@@ -193,11 +191,17 @@ public class CheckmarkView extends View
         padding = 8 * leftMargin;
         textPaint.setTextSize(0.15f * width);
 
-        updateLabel();
+        refreshData();
     }
 
-    private void updateLabel()
+    public void refreshData()
     {
+        this.check_status = habit.checkmarks.getTodayValue();
+        this.star_status = habit.scores.getTodayStarStatus();
+        this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color),
+                Color.blue(habit.color));
+        this.label = habit.name;
+
         textPaint.setColor(Color.WHITE);
         labelLayout = new StaticLayout(label, textPaint, width - 2 * leftMargin - 2 * padding,
                 Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
