@@ -29,11 +29,11 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.DialogHelper;
 
 public class RingView extends View
 {
@@ -48,10 +48,16 @@ public class RingView extends View
     private int width;
     private int height;
     private float diameter;
+
     private float maxDiameter;
     private float textSize;
     private int fadedTextColor;
 
+    public RingView(Context context)
+    {
+        super(context);
+        init();
+    }
 
     public RingView(Context context, AttributeSet attrs)
     {
@@ -59,25 +65,28 @@ public class RingView extends View
 
         this.label = DialogHelper.getAttribute(context, attrs, "label");
         this.maxDiameter = DialogHelper.getFloatAttribute(context, attrs, "maxDiameter");
-
         this.maxDiameter = DialogHelper.dpToPixels(context, maxDiameter);
-        this.textSize = getResources().getDimension(R.dimen.smallTextSize);
-        this.color = ColorHelper.palette[7];
-        this.percentage = 0.75f;
         init();
     }
 
     public void setColor(int color)
     {
         this.color = color;
-        pRing.setColor(color);
-        postInvalidate();
+    }
+
+    public void setMaxDiameter(float maxDiameter)
+    {
+        this.maxDiameter = maxDiameter;
+    }
+
+    public void setLabel(String label)
+    {
+        this.label = label;
     }
 
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
-        postInvalidate();
     }
 
     private void init()
@@ -88,6 +97,8 @@ public class RingView extends View
         pRing.setTextAlign(Paint.Align.CENTER);
 
         fadedTextColor = getResources().getColor(R.color.fadedTextColor);
+        textSize = getResources().getDimension(R.dimen.smallTextSize);
+        Log.d("RingView", String.format("textSize=%f", textSize));
 
         rect = new RectF();
     }
