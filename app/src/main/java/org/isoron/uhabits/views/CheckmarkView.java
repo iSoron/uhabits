@@ -30,6 +30,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import org.isoron.uhabits.R;
@@ -48,9 +49,9 @@ public class CheckmarkView extends View
 
     private int width;
     private int height;
-    private int leftMargin;
-    private int topMargin;
-    private int padding;
+    private float leftMargin;
+    private float topMargin;
+    private float padding;
     private String label;
 
     private String fa_check;
@@ -150,8 +151,6 @@ public class CheckmarkView extends View
         pIcon.setTextSize(width * 0.5f);
         pIcon.getTextBounds(text, 0, 1, rect);
 
-//        canvas.drawLine(0, 0.67f * height, width, 0.67f * height, pIcon);
-
         int y = (int) ((0.67f * height - rect.bottom - rect.top) / 2);
         canvas.drawText(text, width / 2, y, pIcon);
     }
@@ -186,8 +185,8 @@ public class CheckmarkView extends View
         this.width = getMeasuredWidth();
         this.height = getMeasuredHeight();
 
-        leftMargin = (int) (width * 0.015);
-        topMargin = (int) (height * 0.015);
+        leftMargin = (width * 0.015f);
+        topMargin =  (height * 0.015f);
         padding = 8 * leftMargin;
         textPaint.setTextSize(0.15f * width);
 
@@ -203,7 +202,8 @@ public class CheckmarkView extends View
         this.label = habit.name;
 
         textPaint.setColor(Color.WHITE);
-        labelLayout = new StaticLayout(label, textPaint, width - 2 * leftMargin - 2 * padding,
+        labelLayout = new StaticLayout(label, textPaint,
+                (int) (width - 2 * leftMargin - 2 * padding),
                 Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
     }
 
