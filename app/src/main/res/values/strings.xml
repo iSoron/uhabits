@@ -125,6 +125,10 @@
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
 
+    <string name="strength">Strength</string>
+    <string name="best_streaks">Best streaks</string>
+    <string name="current_streaks">Current streak</string>
+
     <string name="number_of_repetitions">Number of repetitions</string>
     <string name="last_x_days">Last %d days</string>
     <string name="last_x_weeks">Last %d weeks</string>
@@ -151,6 +155,4 @@
     <string name="bug_report_failed">Failed to generate bug report.</string>
     <string name="generate_bug_report">Generate bug report</string>
     <string name="troubleshooting">Troubleshooting</string>
-    <string name="best_streaks">Best streaks</string>
-    <string name="strength">Strength</string>
 </resources>
