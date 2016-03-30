@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.models;
+package org.isoron.uhabits.unit;
 
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
@@ -60,9 +60,39 @@ public class HabitFixtures
         return habit;
     }
 
+    public static Habit createLongHabit()
+    {
+        Habit habit = createEmptyHabit();
+        habit.freqNum = 3;
+        habit.freqDen = 7;
+        habit.color = ColorHelper.palette[4];
+        habit.save();
+
+        long day = DateHelper.millisecondsInOneDay;
+        long today = DateHelper.getStartOfToday();
+        int marks[] = { 0, 1, 3, 5, 7, 8, 9, 10, 12, 14, 15, 17, 19, 20, 26, 27, 28, 50, 51, 52,
+                53, 54, 58, 60, 63, 65, 70, 71, 72, 73, 74, 75, 80, 81, 83, 89, 90, 91, 95,
+                102, 103, 108, 109, 120};
+
+        for(int mark : marks)
+            habit.repetitions.toggle(today - mark * day);
+
+        return habit;
+    }
+
     public static void purgeHabits()
     {
         for(Habit h : Habit.getAll(true))
             h.cascadeDelete();
+    }
+
+    public static void fixTime()
+    {
+        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
+    }
+
+    public static void releaseTime()
+    {
+        DateHelper.setFixedLocalTime(null);
     }
 }

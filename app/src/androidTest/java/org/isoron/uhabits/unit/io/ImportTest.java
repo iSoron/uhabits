@@ -28,7 +28,7 @@ import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.io.GenericImporter;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.models.HabitFixtures;
+import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

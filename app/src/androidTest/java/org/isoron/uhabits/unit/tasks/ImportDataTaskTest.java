@@ -19,13 +19,12 @@
 
 package org.isoron.uhabits.unit.tasks;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.ProgressBar;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.tasks.ImportDataTask;
 import org.junit.Before;
@@ -44,15 +43,14 @@ import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ImportDataTaskTest
+public class ImportDataTaskTest extends BaseTest
 {
-    private Context context;
     private File baseDir;
 
     @Before
     public void setup()
     {
-        context = InstrumentationRegistry.getContext();
+        super.setup();
 
         baseDir = DatabaseHelper.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");
@@ -60,14 +58,12 @@ public class ImportDataTaskTest
 
     private void copyAssetToFile(String assetPath, File dst) throws IOException
     {
-        InputStream in = context.getAssets().open(assetPath);
+        InputStream in = testContext.getAssets().open(assetPath);
         DatabaseHelper.copy(in, dst);
     }
 
-    private void assertTaskResult(final int expectedResult, String assetFilename)
-            throws IOException, InterruptedException
+    private void assertTaskResult(final int expectedResult, String assetFilename) throws Throwable
     {
-        final CountDownLatch latch = new CountDownLatch(1);
         ImportDataTask task = createTask(assetFilename);
 
         task.setListener(new ImportDataTask.Listener()
@@ -76,18 +72,17 @@ public class ImportDataTaskTest
             public void onImportFinished(int result)
             {
                 assertThat(result, equalTo(expectedResult));
-                latch.countDown();
             }
         });
 
         task.execute();
-        latch.await(30, TimeUnit.SECONDS);
+        waitForAsyncTasks();
     }
 
     @NonNull
     private ImportDataTask createTask(String assetFilename) throws IOException
     {
-        ProgressBar bar = new ProgressBar(context);
+        ProgressBar bar = new ProgressBar(targetContext);
         File file = new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
         copyAssetToFile(assetFilename, file);
 

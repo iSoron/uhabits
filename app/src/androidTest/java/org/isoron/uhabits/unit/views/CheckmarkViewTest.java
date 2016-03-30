@@ -24,7 +24,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.models.HabitFixtures;
+import org.isoron.uhabits.unit.HabitFixtures;
 import org.isoron.uhabits.views.CheckmarkView;
 import org.junit.Before;
 import org.junit.Test;

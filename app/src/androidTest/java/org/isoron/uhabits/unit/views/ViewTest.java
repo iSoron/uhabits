@@ -19,14 +19,15 @@
 
 package org.isoron.uhabits.unit.views;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.test.InstrumentationRegistry;
+import android.os.SystemClock;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DialogHelper;
-import org.junit.Before;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,20 +36,10 @@ import java.io.InputStream;
 
 import static junit.framework.Assert.fail;
 
-public class ViewTest
+public class ViewTest extends BaseTest
 {
     protected static final double SIMILARITY_CUTOFF = 0.02;
     public static final int HISTOGRAM_BIN_SIZE = 8;
-
-    protected Context testContext;
-    protected Context targetContext;
-
-    @Before
-    public void setup()
-    {
-        targetContext = InstrumentationRegistry.getTargetContext();
-        testContext = InstrumentationRegistry.getContext();
-    }
 
     protected void measureView(int width, int height, View view)
     {
@@ -189,5 +180,14 @@ public class ViewTest
     protected int dpToPixels(int dp)
     {
         return (int) DialogHelper.dpToPixels(targetContext, dp);
+    }
+
+    protected void tap(GestureDetector.OnGestureListener view, int x, int y) throws InterruptedException
+    {
+        long now = SystemClock.uptimeMillis();
+        MotionEvent e = MotionEvent.obtain(now, now, MotionEvent.ACTION_UP, dpToPixels(x),
+                dpToPixels(y), 0);
+        view.onSingleTapUp(e);
+        e.recycle();
     }
 }

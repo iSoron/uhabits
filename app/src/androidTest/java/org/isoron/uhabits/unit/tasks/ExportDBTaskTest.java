@@ -25,13 +25,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.ProgressBar;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.tasks.ExportDBTask;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,13 +41,18 @@ import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ExportDBTaskTest
+public class ExportDBTaskTest extends BaseTest
 {
+    @Before
+    public void setup()
+    {
+        super.setup();
+    }
+
     @Test
-    public void exportCSV() throws InterruptedException
+    public void exportCSV() throws Throwable
     {
         Context context = InstrumentationRegistry.getContext();
-        final CountDownLatch latch = new CountDownLatch(1);
 
         ProgressBar bar = new ProgressBar(context);
         ExportDBTask task = new ExportDBTask(bar);
@@ -61,11 +66,10 @@ public class ExportDBTaskTest
                 File f = new File(filename);
                 assertTrue(f.exists());
                 assertTrue(f.canRead());
-                latch.countDown();
             }
         });
 
         task.execute();
-        latch.await(30, TimeUnit.SECONDS);
+        waitForAsyncTasks();
     }
 }

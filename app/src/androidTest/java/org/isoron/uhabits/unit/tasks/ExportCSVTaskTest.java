@@ -19,22 +19,20 @@
 
 package org.isoron.uhabits.unit.tasks;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.ProgressBar;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ExportCSVTask;
-import org.isoron.uhabits.unit.models.HabitFixtures;
+import org.isoron.uhabits.unit.HabitFixtures;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,17 +42,20 @@ import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ExportCSVTaskTest
+public class ExportCSVTaskTest extends BaseTest
 {
-    @Test
-    public void exportCSV() throws InterruptedException
+    @Before
+    public void setup()
     {
-        Context context = InstrumentationRegistry.getContext();
-        final CountDownLatch latch = new CountDownLatch(1);
+        super.setup();
+    }
 
+    @Test
+    public void exportCSV() throws Throwable
+    {
         HabitFixtures.createNonDailyHabit();
         List<Habit> habits = Habit.getAll(true);
-        ProgressBar bar = new ProgressBar(context);
+        ProgressBar bar = new ProgressBar(targetContext);
 
         ExportCSVTask task = new ExportCSVTask(habits, bar);
         task.setListener(new ExportCSVTask.Listener()
@@ -67,11 +68,10 @@ public class ExportCSVTaskTest
                 File f = new File(archiveFilename);
                 assertTrue(f.exists());
                 assertTrue(f.canRead());
-                latch.countDown();
             }
         });
 
         task.execute();
-        latch.await(30, TimeUnit.SECONDS);
+        waitForAsyncTasks();
     }
 }

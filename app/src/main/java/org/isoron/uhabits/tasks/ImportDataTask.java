@@ -29,7 +29,7 @@ import org.isoron.uhabits.io.GenericImporter;
 
 import java.io.File;
 
-public class ImportDataTask extends AsyncTask<Void, Void, Void>
+public class ImportDataTask extends BaseTask
 {
     public static final int SUCCESS = 1;
     public static final int NOT_RECOGNIZED = 2;
@@ -65,6 +65,8 @@ public class ImportDataTask extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPreExecute()
     {
+        super.onPreExecute();
+
         if(progressBar != null)
         {
             progressBar.setIndeterminate(true);
@@ -79,6 +81,8 @@ public class ImportDataTask extends AsyncTask<Void, Void, Void>
             progressBar.setVisibility(View.GONE);
 
         if(listener != null) listener.onImportFinished(result);
+
+        super.onPostExecute(null);
     }
 
     @Override

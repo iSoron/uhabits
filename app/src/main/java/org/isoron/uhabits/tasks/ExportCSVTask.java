@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class ExportCSVTask extends AsyncTask<Void, Void, Void>
+public class ExportCSVTask extends BaseTask
 {
     public interface Listener
     {
@@ -58,6 +58,8 @@ public class ExportCSVTask extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPreExecute()
     {
+        super.onPreExecute();
+
         if(progressBar != null)
         {
             progressBar.setIndeterminate(true);
@@ -73,6 +75,8 @@ public class ExportCSVTask extends AsyncTask<Void, Void, Void>
 
         if(progressBar != null)
             progressBar.setVisibility(View.GONE);
+
+        super.onPostExecute(null);
     }
 
     @Override

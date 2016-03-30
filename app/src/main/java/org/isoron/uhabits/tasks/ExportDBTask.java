@@ -29,7 +29,7 @@ import org.isoron.uhabits.helpers.DatabaseHelper;
 import java.io.File;
 import java.io.IOException;
 
-public class ExportDBTask extends AsyncTask<Void, Void, Void>
+public class ExportDBTask extends BaseTask
 {
     public interface Listener
     {
@@ -53,6 +53,8 @@ public class ExportDBTask extends AsyncTask<Void, Void, Void>
     @Override
     protected void onPreExecute()
     {
+        super.onPreExecute();
+
         if(progressBar != null)
         {
             progressBar.setIndeterminate(true);
@@ -68,6 +70,8 @@ public class ExportDBTask extends AsyncTask<Void, Void, Void>
         
         if(progressBar != null)
             progressBar.setVisibility(View.GONE);
+
+        super.onPostExecute(null);
     }
 
     @Override

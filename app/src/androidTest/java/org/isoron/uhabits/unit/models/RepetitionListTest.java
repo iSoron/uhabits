@@ -24,6 +24,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
