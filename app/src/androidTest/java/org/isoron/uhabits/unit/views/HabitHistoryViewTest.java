@@ -21,6 +21,7 @@ package org.isoron.uhabits.unit.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
@@ -56,6 +57,7 @@ public class HabitHistoryViewTest extends ViewTest
     @Test
     public void render() throws Throwable
     {
+        Log.d("HabitHistoryViewTest", String.format("height=%d", dpToPixels(100)));
         assertRenders(view, "HabitHistoryView/render.png");
     }
 
@@ -69,7 +71,7 @@ public class HabitHistoryViewTest extends ViewTest
     @Test
     public void render_withDataOffset() throws Throwable
     {
-        view.onScroll(null, null, -300, 0);
+        view.onScroll(null, null, -dpToPixels(150), 0);
         view.invalidate();
 
         assertRenders(view, "HabitHistoryView/renderDataOffset.png");
@@ -79,7 +81,7 @@ public class HabitHistoryViewTest extends ViewTest
     public void tapDate_withEditableView() throws Throwable
     {
         view.setIsEditable(true);
-        tap(view, 280, 30);
+        tap(view, 270, 30);
         waitForAsyncTasks();
 
         long today = DateHelper.getStartOfToday();
@@ -90,7 +92,7 @@ public class HabitHistoryViewTest extends ViewTest
     public void tapDate_withReadOnlyView() throws Throwable
     {
         view.setIsEditable(false);
-        tap(view, 280, 30);
+        tap(view, 270, 30);
         waitForAsyncTasks();
 
         long today = DateHelper.getStartOfToday();

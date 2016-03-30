@@ -24,13 +24,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 
@@ -46,13 +49,13 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private Habit habit;
     private int[] checkmarks;
     private Paint pSquareBg, pSquareFg, pTextHeader;
-    private int squareSpacing;
+    private float squareSpacing;
 
     private float squareTextOffset;
     private float headerTextOffset;
 
-    private int columnWidth;
-    private int columnHeight;
+    private float columnWidth;
+    private float columnHeight;
     private int nColumns;
 
     private String wdays[];
@@ -63,7 +66,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private int nDays;
     private int todayWeekday;
     private int colors[];
-    private Rect baseLocation;
+    private RectF baseLocation;
     private int primaryColor;
 
     private boolean isBackgroundTransparent;
@@ -103,7 +106,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
 
-        baseLocation = new Rect();
+        baseLocation = new RectF();
     }
 
     private void updateDate()
@@ -130,11 +133,11 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
         if(height < 8) height = 200;
-        int baseSize = height / 8;
-        setScrollerBucketSize(baseSize);
+        float baseSize = height / 8.0f;
+        setScrollerBucketSize((int) baseSize);
 
-        squareSpacing = (int) Math.floor(baseSize / 15.0);
-        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.history_max_font_size);
+        squareSpacing = DialogHelper.dpToPixels(getContext(), 1.0f);
+        float maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
         float textSize = Math.min(baseSize * 0.5f, maxTextSize);
 
         pSquareFg.setTextSize(textSize);
@@ -142,26 +145,22 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
         headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
 
-        int rightLabelWidth = getWeekdayLabelWidth();
-        int horizontalPadding = getPaddingRight() + getPaddingLeft();
+        float rightLabelWidth = getWeekdayLabelWidth() + headerTextOffset;
+        float horizontalPadding = getPaddingRight() + getPaddingLeft();
 
         columnWidth = baseSize;
         columnHeight = 8 * baseSize;
-        nColumns = (width - rightLabelWidth - horizontalPadding) / baseSize + 1;
+        nColumns = (int)((width - rightLabelWidth - horizontalPadding) / baseSize) + 1;
 
         updateDate();
     }
 
-    private int getWeekdayLabelWidth()
+    private float getWeekdayLabelWidth()
     {
-        int width = 0;
-        Rect bounds = new Rect();
+        float width = 0;
 
         for(String w : wdays)
-        {
-            pSquareFg.getTextBounds(w, 0, w.length(), bounds);
-            width = Math.max(width, bounds.right);
-        }
+            width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
     }
@@ -272,7 +271,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         drawAxis(canvas, baseLocation);
     }
 
-    private void drawColumn(Canvas canvas, Rect location, GregorianCalendar date, int column)
+    private void drawColumn(Canvas canvas, RectF location, GregorianCalendar date, int column)
     {
         drawColumnHeader(canvas, location, date);
         location.offset(0, columnWidth);
@@ -290,7 +289,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         }
     }
 
-    private void drawSquare(Canvas canvas, Rect location, GregorianCalendar date,
+    private void drawSquare(Canvas canvas, RectF location, GregorianCalendar date,
                             int checkmarkOffset)
     {
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
@@ -301,7 +300,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         canvas.drawText(text, location.centerX(), location.centerY() + squareTextOffset, pSquareFg);
     }
 
-    private void drawAxis(Canvas canvas, Rect location)
+    private void drawAxis(Canvas canvas, RectF location)
     {
         for (int i = 0; i < 7; i++)
         {
@@ -313,7 +312,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private float headerOverflow = 0;
 
-    private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
+    private void drawColumnHeader(Canvas canvas, RectF location, GregorianCalendar date)
     {
         String month = dfMonth.format(date.getTime());
         String year = dfYear.format(date.getTime());
@@ -340,9 +339,17 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     }
 
     @Override
+    public void onLongPress(MotionEvent e)
+    {
+        onSingleTapUp(e);
+    }
+
+    @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
         if(!isEditable) return false;
+
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
         int pointerId = e.getPointerId(0);
         float x = e.getX(pointerId);
