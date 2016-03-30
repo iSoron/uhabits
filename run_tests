@@ -9,19 +9,26 @@ info() {
     echo -e " $COLOR*$NC $1"
 }
 
+fail() {
+    cat $LOG
+    exit 1
+}
+
 info "Cleaning output directory..."
 rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
 
-info "Building and installing APK..."
-./gradlew assembleDebug assembleAndroidTest >> $LOG 2>> $LOG || exit 1
-adb install -r ${OUTPUT_DIR}/apk/app-debug.apk >> $LOG 2>> $LOG || exit 1
-adb install -r ${OUTPUT_DIR}/apk/app-debug-androidTest-unaligned.apk \
-    >> $LOG 2>> $LOG || exit 1
+info "Building project..."
+./gradlew assembleDebug assembleAndroidTest >> $LOG 2>> $LOG || fail
 
-info "Granting permission to disable animations..."
+info "Installing APK..."
+adb install -r ${OUTPUT_DIR}/apk/app-debug.apk >> $LOG 2>> $LOG || fail
+adb install -r ${OUTPUT_DIR}/apk/app-debug-androidTest-unaligned.apk \
+    >> $LOG 2>> $LOG || fail
+
+info "Granting permissions..."
 adb shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE \
-    >> $LOG 2>> $LOG || exit 1
+    >> $LOG 2>> $LOG || fail
 
 info "Running tests..."
 adb shell am instrument \
