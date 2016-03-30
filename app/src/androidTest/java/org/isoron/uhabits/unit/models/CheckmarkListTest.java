@@ -22,6 +22,7 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -41,16 +42,17 @@ import static org.isoron.uhabits.models.Checkmark.UNCHECKED;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class CheckmarkListTest
+public class CheckmarkListTest extends BaseTest
 {
     Habit nonDailyHabit;
     private Habit emptyHabit;
 
     @Before
-    public void prepare()
+    public void setup()
     {
+        super.setup();
+
         HabitFixtures.purgeHabits();
-        DateHelper.setFixedLocalTime(HabitFixtures.FIXED_LOCAL_TIME);
         nonDailyHabit = HabitFixtures.createNonDailyHabit();
         emptyHabit = HabitFixtures.createEmptyHabit();
     }
@@ -167,7 +169,7 @@ public class CheckmarkListTest
 
     private void travelInTime(int days)
     {
-        DateHelper.setFixedLocalTime(HabitFixtures.FIXED_LOCAL_TIME +
+        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME +
                 days * DateHelper.millisecondsInOneDay);
     }
 }

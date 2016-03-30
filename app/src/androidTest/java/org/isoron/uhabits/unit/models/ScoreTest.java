@@ -22,8 +22,10 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Score;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,8 +34,14 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ScoreTest
+public class ScoreTest extends BaseTest
 {
+    @Before
+    public void setup()
+    {
+        super.setup();
+    }
+
     @Test
     public void compute_withDailyHabit()
     {

@@ -24,6 +24,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.io.GenericImporter;
@@ -48,7 +49,7 @@ import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ImportTest
+public class ImportTest extends BaseTest
 {
     private File baseDir;
     private Context context;
@@ -56,6 +57,9 @@ public class ImportTest
     @Before
     public void setup()
     {
+        super.setup();
+        DateHelper.setFixedLocalTime(null);
+
         HabitFixtures.purgeHabits();
         context = InstrumentationRegistry.getInstrumentation().getContext();
         baseDir = DatabaseHelper.getFilesDir("Backups");

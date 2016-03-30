@@ -25,7 +25,6 @@ import org.isoron.uhabits.models.Habit;
 
 public class HabitFixtures
 {
-    public static final long FIXED_LOCAL_TIME = 1422172800000L; // 8:00am, January 25th, 2015 (UTC)
     public static boolean NON_DAILY_HABIT_CHECKS[] = { true, false, false, true, true, true, false,
             false, true, true };
 
@@ -84,15 +83,5 @@ public class HabitFixtures
     {
         for(Habit h : Habit.getAll(true))
             h.cascadeDelete();
-    }
-
-    public static void fixTime()
-    {
-        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
-    }
-
-    public static void releaseTime()
-    {
-        DateHelper.setFixedLocalTime(null);
     }
 }

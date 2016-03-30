@@ -23,7 +23,9 @@ import android.content.Context;
 import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.tasks.BaseTask;
+import org.junit.Before;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -34,6 +36,9 @@ public class BaseTest
     protected Context targetContext;
     private static boolean isLooperPrepared;
 
+    public static final long FIXED_LOCAL_TIME = 1422172800000L; // 8:00am, January 25th, 2015 (UTC)
+
+    @Before
     protected void setup()
     {
         if(!isLooperPrepared)
@@ -44,6 +49,8 @@ public class BaseTest
 
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();
+
+        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
     }
 
     protected void waitForAsyncTasks() throws InterruptedException, TimeoutException

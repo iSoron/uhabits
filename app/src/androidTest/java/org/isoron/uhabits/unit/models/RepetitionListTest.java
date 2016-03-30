@@ -22,6 +22,7 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -41,16 +42,17 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class RepetitionListTest
+public class RepetitionListTest extends BaseTest
 {
-    Habit habit;
+    private Habit habit;
     private Habit emptyHabit;
 
     @Before
-    public void prepare()
+    public void setup()
     {
+        super.setup();
+
         HabitFixtures.purgeHabits();
-        DateHelper.setFixedLocalTime(HabitFixtures.FIXED_LOCAL_TIME);
         habit = HabitFixtures.createNonDailyHabit();
         emptyHabit = HabitFixtures.createEmptyHabit();
     }

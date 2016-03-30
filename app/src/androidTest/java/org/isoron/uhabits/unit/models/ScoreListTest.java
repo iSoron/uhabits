@@ -22,6 +22,7 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
@@ -40,15 +41,16 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ScoreListTest
+public class ScoreListTest extends BaseTest
 {
     private Habit habit;
 
     @Before
-    public void prepare()
+    public void setup()
     {
+        super.setup();
+
         HabitFixtures.purgeHabits();
-        DateHelper.setFixedLocalTime(HabitFixtures.FIXED_LOCAL_TIME);
         habit = HabitFixtures.createEmptyHabit();
     }
 

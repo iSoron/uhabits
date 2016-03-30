@@ -24,6 +24,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.hamcrest.MatcherAssert;
+import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -45,11 +46,12 @@ import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitTest
+public class HabitTest extends BaseTest
 {
     @Before
-    public void prepare()
+    public void setup()
     {
+        super.setup();
         HabitFixtures.purgeHabits();
     }
 
