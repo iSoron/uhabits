@@ -25,14 +25,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
-import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,7 +40,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Random;
 
-public class HabitHistoryView extends ScrollableDataView implements HabitDataView
+public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
+        ToggleRepetitionTask.Listener
 {
     private Habit habit;
     private int[] checkmarks;
@@ -69,12 +70,15 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private int textColor;
     private boolean isEditable;
 
+    public HabitHistoryView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public HabitHistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
-        this.checkmarks = new int[0];
-        this.isEditable = false;
         init();
     }
 
@@ -92,6 +96,9 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         createPaints();
         createColors();
 
+        isEditable = false;
+        checkmarks = new int[0];
+        primaryColor = ColorHelper.palette[7];
         wdays = DateHelper.getShortDayNames();
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
@@ -344,22 +351,9 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         final Long timestamp = positionToTimestamp(x, y);
         if(timestamp == null) return false;
 
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                habit.repetitions.toggle(timestamp);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                refreshData();
-                invalidate();
-            }
-        }.execute();
+        ToggleRepetitionTask task = new ToggleRepetitionTask(habit, timestamp);
+        task.setListener(this);
+        task.execute();
 
         return true;
     }
@@ -385,5 +379,13 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     public void setIsEditable(boolean isEditable)
     {
         this.isEditable = isEditable;
+    }
+
+
+    @Override
+    public void onToggleRepetitionFinished()
+    {
+        refreshData();
+        invalidate();
     }
 }
