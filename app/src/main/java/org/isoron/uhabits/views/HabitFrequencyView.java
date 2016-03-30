@@ -66,12 +66,17 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private HashMap<Long, Integer[]> frequency;
     private String wdays[];
 
+    public HabitFrequencyView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
         this.frequency = new HashMap<>();
-        wdays = DateHelper.getShortDayNames();
         init();
     }
 
@@ -88,6 +93,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         refreshData();
         createPaints();
         createColors();
+
+        wdays = DateHelper.getShortDayNames();
 
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
         dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
