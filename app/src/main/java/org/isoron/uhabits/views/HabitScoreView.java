@@ -76,6 +76,12 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private int bucketSize = 7;
     private int footerHeight;
 
+    public HabitScoreView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public HabitScoreView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
