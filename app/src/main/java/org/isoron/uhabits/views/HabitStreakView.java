@@ -62,11 +62,16 @@ public class HabitStreakView extends View implements HabitDataView
     private boolean shouldShowLabels;
     private int maxStreakCount;
 
+    public HabitStreakView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
-        streaks = Collections.emptyList();
         init();
     }
 
@@ -82,6 +87,8 @@ public class HabitStreakView extends View implements HabitDataView
     {
         createPaints();
         createColors();
+
+        streaks = Collections.emptyList();
 
         dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
