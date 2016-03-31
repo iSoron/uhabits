@@ -55,6 +55,13 @@ public class HabitFrequencyViewTest extends ViewTest
     }
 
     @Test
+    public void render_withTransparentBackground() throws Throwable
+    {
+        view.setIsBackgroundTransparent(true);
+        assertRenders(view, "HabitFrequencyView/renderTransparent.png");
+    }
+
+    @Test
     public void render_withDifferentSize() throws Throwable
     {
         measureView(dpToPixels(200), dpToPixels(200), view);

@@ -56,6 +56,13 @@ public class HabitStreakViewTest extends ViewTest
     }
 
     @Test
+    public void render_withTransparentBackground() throws Throwable
+    {
+        view.setIsBackgroundTransparent(true);
+        assertRenders(view, "HabitStreakView/renderTransparent.png"); 
+    }
+
+    @Test
     public void render_withSmallSize() throws Throwable
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
