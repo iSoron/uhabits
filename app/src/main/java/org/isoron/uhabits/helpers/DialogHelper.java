@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -71,26 +70,31 @@ public abstract class DialogHelper
         return prefs.getInt("launch_count", 0);
     }
 
-    public static String getAttribute(Context context, AttributeSet attrs, String name)
+    public static String getAttribute(Context context, AttributeSet attrs, String name,
+                                      String defaultValue)
     {
         int resId = attrs.getAttributeResourceValue(ISORON_NAMESPACE, name, 0);
-
         if (resId != 0) return context.getResources().getString(resId);
-        else return attrs.getAttributeValue(ISORON_NAMESPACE, name);
+
+        String value = attrs.getAttributeValue(ISORON_NAMESPACE, name);
+        if(value != null) return value;
+        else return defaultValue;
     }
 
-    public static int getIntAttribute(Context context, AttributeSet attrs, String name)
+    public static int getIntAttribute(Context context, AttributeSet attrs, String name,
+                                      int defaultValue)
     {
-        String number = getAttribute(context, attrs, name);
+        String number = getAttribute(context, attrs, name, null);
         if(number != null) return Integer.parseInt(number);
-        else return 0;
+        else return defaultValue;
     }
 
-    public static float getFloatAttribute(Context context, AttributeSet attrs, String name)
+    public static float getFloatAttribute(Context context, AttributeSet attrs, String name,
+                                          float defaultValue)
     {
-        String number = getAttribute(context, attrs, name);
+        String number = getAttribute(context, attrs, name, null);
         if(number != null) return Float.parseFloat(number);
-        else return 0;
+        else return defaultValue;
     }
 
     public static float dpToPixels(Context context, float dp)

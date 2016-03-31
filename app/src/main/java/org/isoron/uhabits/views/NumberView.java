@@ -31,13 +31,12 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DialogHelper;
 
 public class NumberView extends View
 {
-
-    private int size;
     private int color;
     private int number;
     private float labelMarginTop;
@@ -48,19 +47,30 @@ public class NumberView extends View
 
     private int width;
     private int height;
+
     private float textSize;
     private float labelTextSize;
     private float numberTextSize;
     private StaticLayout numberLayout;
 
+    public NumberView(Context context)
+    {
+        super(context);
+        this.textSize = getResources().getDimension(R.dimen.regularTextSize);
+        init();
+    }
+
     public NumberView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
-        this.label = DialogHelper.getAttribute(context, attrs, "label");
-        this.number = DialogHelper.getIntAttribute(context, attrs, "number");
-        this.textSize = DialogHelper.getFloatAttribute(context, attrs, "textSize");
-        this.textSize = DialogHelper.spToPixels(getContext(), textSize);
+        this.textSize = getResources().getDimension(R.dimen.regularTextSize);
+
+        this.label = DialogHelper.getAttribute(context, attrs, "label", "Number");
+        this.number = DialogHelper.getIntAttribute(context, attrs, "number", 0);
+        this.textSize = DialogHelper.getFloatAttribute(context, attrs, "textSize",
+                getResources().getDimension(R.dimen.regularTextSize));
+
         this.color = ColorHelper.palette[7];
         init();
     }
@@ -75,12 +85,21 @@ public class NumberView extends View
     public void setLabel(String label)
     {
         this.label = label;
+        requestLayout();
+        postInvalidate();
     }
 
     public void setNumber(int number)
     {
         this.number = number;
-        createNumberLayout();
+        requestLayout();
+        postInvalidate();
+    }
+
+    public void setTextSize(float textSize)
+    {
+        this.textSize = textSize;
+        requestLayout();
         postInvalidate();
     }
 
@@ -106,7 +125,10 @@ public class NumberView extends View
         labelMarginTop = textSize * 0.35f;
         numberTextSize = textSize * 2.85f;
 
-        createNumberLayout();
+        pText.setTextSize(numberTextSize);
+        numberLayout = new StaticLayout(Integer.toString(number), pText, width,
+                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f, false);
+
         int numberWidth = numberLayout.getWidth();
         int numberHeight = numberLayout.getHeight();
 
@@ -122,20 +144,10 @@ public class NumberView extends View
         setMeasuredDimension(width, height);
     }
 
-    private void createNumberLayout()
-    {
-        pText.setTextSize(numberTextSize);
-        numberLayout = new StaticLayout(Integer.toString(number), pText, width,
-                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f, false);
-    }
-
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-
-        pText.setColor(color);
-        pText.setTextSize(size * 0.4f);
         rect.set(0, 0, width, height);
 
         canvas.save();

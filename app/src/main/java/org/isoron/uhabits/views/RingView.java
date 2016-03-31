@@ -63,8 +63,8 @@ public class RingView extends View
     {
         super(context, attrs);
 
-        this.label = DialogHelper.getAttribute(context, attrs, "label");
-        this.maxDiameter = DialogHelper.getFloatAttribute(context, attrs, "maxDiameter");
+        this.label = DialogHelper.getAttribute(context, attrs, "label", "Label");
+        this.maxDiameter = DialogHelper.getFloatAttribute(context, attrs, "maxDiameter", 100);
         this.maxDiameter = DialogHelper.dpToPixels(context, maxDiameter);
         init();
     }
