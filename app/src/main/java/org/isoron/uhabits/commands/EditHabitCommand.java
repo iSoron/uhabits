@@ -39,28 +39,31 @@ public class EditHabitCommand extends Command
                 !this.original.freqNum.equals(this.modified.freqNum));
     }
 
+    @Override
     public void execute()
     {
-        Habit habit = Habit.get(savedId);
-        if(habit == null) throw new RuntimeException("Habit not found");
-
-        habit.copyAttributes(modified);
-        habit.save();
-        if (hasIntervalChanged)
-        {
-            habit.checkmarks.deleteNewerThan(0);
-            habit.streaks.deleteNewerThan(0);
-            habit.scores.invalidateNewerThan(0);
-        }
+        copyAttributes(this.modified);
     }
 
+    @Override
     public void undo()
+    {
+        copyAttributes(this.original);
+    }
+
+    private void copyAttributes(Habit model)
     {
         Habit habit = Habit.get(savedId);
         if(habit == null) throw new RuntimeException("Habit not found");
 
-        habit.copyAttributes(original);
+        habit.copyAttributes(model);
         habit.save();
+
+        invalidateIfNeeded(habit);
+    }
+
+    private void invalidateIfNeeded(Habit habit)
+    {
         if (hasIntervalChanged)
         {
             habit.checkmarks.deleteNewerThan(0);
