@@ -53,7 +53,7 @@ public class CreateHabitCommand extends Command
         Habit habit = Habit.get(savedId);
         if(habit == null) throw new RuntimeException("Habit not found");
 
-        habit.delete();
+        habit.cascadeDelete();
     }
 
     @Override
