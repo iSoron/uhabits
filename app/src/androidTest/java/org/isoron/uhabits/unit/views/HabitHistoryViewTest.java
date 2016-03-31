@@ -33,6 +33,8 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -93,6 +95,21 @@ public class HabitHistoryViewTest extends ViewTest
 
         long today = DateHelper.getStartOfToday();
         assertFalse(habit.repetitions.contains(today));
+    }
+
+    @Test
+    public void tapDate_atInvalidLocations() throws Throwable
+    {
+        int expectedCheckmarkValues[] = habit.checkmarks.getAllValues();
+
+        view.setIsEditable(true);
+        tap(view, 45, 5); // header
+        tap(view, 270, 43); // tomorrow's square
+        tap(view, 280, 30); // right axis
+        waitForAsyncTasks();
+
+        int actualCheckmarkValues[] = habit.checkmarks.getAllValues();
+        assertThat(actualCheckmarkValues, equalTo(expectedCheckmarkValues));
     }
 
     @Test
