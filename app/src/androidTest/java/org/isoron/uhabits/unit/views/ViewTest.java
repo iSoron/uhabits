@@ -38,7 +38,7 @@ import static junit.framework.Assert.fail;
 
 public class ViewTest extends BaseTest
 {
-    protected static final double SIMILARITY_CUTOFF = 0.075;
+    protected static final double SIMILARITY_CUTOFF = 0.08;
     public static final int HISTOGRAM_BIN_SIZE = 8;
 
     protected void measureView(int width, int height, View view)
