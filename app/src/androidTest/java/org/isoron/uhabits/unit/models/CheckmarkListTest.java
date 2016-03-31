@@ -53,7 +53,7 @@ public class CheckmarkListTest extends BaseTest
         super.setup();
 
         HabitFixtures.purgeHabits();
-        nonDailyHabit = HabitFixtures.createNonDailyHabit();
+        nonDailyHabit = HabitFixtures.createShortHabit();
         emptyHabit = HabitFixtures.createEmptyHabit();
     }
 

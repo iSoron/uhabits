@@ -44,7 +44,7 @@ public class CheckmarkViewTest extends ViewTest
     {
         super.setup();
 
-        habit = HabitFixtures.createNonDailyHabit();
+        habit = HabitFixtures.createShortHabit();
         view = new CheckmarkView(targetContext);
         view.setHabit(habit);
         measureView(dpToPixels(100), dpToPixels(200), view);

@@ -364,7 +364,7 @@ public class HabitTest extends BaseTest
     public void writeCSV() throws IOException
     {
         HabitFixtures.createEmptyHabit();
-        HabitFixtures.createNonDailyHabit();
+        HabitFixtures.createShortHabit();
 
         String expectedCSV =
                 "Name,Description,NumRepetitions,Interval,Color\n" +

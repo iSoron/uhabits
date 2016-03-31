@@ -55,7 +55,7 @@ public class HabitsCSVExporterTest extends BaseTest
         super.setup();
 
         HabitFixtures.purgeHabits();
-        HabitFixtures.createNonDailyHabit();
+        HabitFixtures.createShortHabit();
         HabitFixtures.createEmptyHabit();
 
         Context targetContext = InstrumentationRegistry.getTargetContext();

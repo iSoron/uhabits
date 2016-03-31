@@ -17,61 +17,53 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.tasks;
+package org.isoron.uhabits.unit.commands;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.ProgressBar;
 
 import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.ExportCSVTask;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.util.List;
+import java.util.Collections;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ExportCSVTaskTest extends BaseTest
+public class ArchiveHabitsCommandTest extends BaseTest
 {
+
+    private ArchiveHabitsCommand command;
+    private Habit habit;
+
     @Before
     public void setup()
     {
         super.setup();
+
+        habit = HabitFixtures.createShortHabit();
+        command = new ArchiveHabitsCommand(Collections.singletonList(habit));
     }
 
     @Test
-    public void exportCSV() throws Throwable
+    public void executeUndoRedo()
     {
-        HabitFixtures.createShortHabit();
-        List<Habit> habits = Habit.getAll(true);
-        ProgressBar bar = new ProgressBar(targetContext);
+        assertFalse(habit.isArchived());
 
-        ExportCSVTask task = new ExportCSVTask(habits, bar);
-        task.setListener(new ExportCSVTask.Listener()
-        {
-            @Override
-            public void onExportCSVFinished(String archiveFilename)
-            {
-                assertThat(archiveFilename, is(not(nullValue())));
+        command.execute();
+        assertTrue(habit.isArchived());
 
-                File f = new File(archiveFilename);
-                assertTrue(f.exists());
-                assertTrue(f.canRead());
-            }
-        });
+        command.undo();
+        assertFalse(habit.isArchived());
 
-        task.execute();
-        waitForAsyncTasks();
+        command.execute();
+        assertTrue(habit.isArchived());
     }
 }

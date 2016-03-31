@@ -51,7 +51,7 @@ public class CreateHabitCommand extends Command
     public void undo()
     {
         Habit habit = Habit.get(savedId);
-        if(habit == null) throw new CommandFailedException("Habit not found");
+        if(habit == null) throw new RuntimeException("Habit not found");
 
         habit.delete();
     }

@@ -28,7 +28,7 @@ public class HabitFixtures
     public static boolean NON_DAILY_HABIT_CHECKS[] = { true, false, false, true, true, true, false,
             false, true, true };
 
-    public static Habit createNonDailyHabit()
+    public static Habit createShortHabit()
     {
         Habit habit = new Habit();
         habit.name = "Wake up early";

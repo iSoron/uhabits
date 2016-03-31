@@ -140,7 +140,7 @@ public class ScoreListTest extends BaseTest
     public void writeCSV() throws IOException
     {
         HabitFixtures.purgeHabits();
-        Habit habit = HabitFixtures.createNonDailyHabit();
+        Habit habit = HabitFixtures.createShortHabit();
 
         String expectedCSV =
                 "2015-01-16,0.0519\n" +

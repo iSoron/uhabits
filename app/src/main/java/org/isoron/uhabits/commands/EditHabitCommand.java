@@ -42,7 +42,7 @@ public class EditHabitCommand extends Command
     public void execute()
     {
         Habit habit = Habit.get(savedId);
-        if(habit == null) throw new CommandFailedException("Habit not found");
+        if(habit == null) throw new RuntimeException("Habit not found");
 
         habit.copyAttributes(modified);
         habit.save();
@@ -57,7 +57,7 @@ public class EditHabitCommand extends Command
     public void undo()
     {
         Habit habit = Habit.get(savedId);
-        if(habit == null) throw new CommandFailedException("Habit not found");
+        if(habit == null) throw new RuntimeException("Habit not found");
 
         habit.copyAttributes(original);
         habit.save();

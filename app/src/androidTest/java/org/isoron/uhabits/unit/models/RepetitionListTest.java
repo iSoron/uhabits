@@ -53,7 +53,7 @@ public class RepetitionListTest extends BaseTest
         super.setup();
 
         HabitFixtures.purgeHabits();
-        habit = HabitFixtures.createNonDailyHabit();
+        habit = HabitFixtures.createShortHabit();
         emptyHabit = HabitFixtures.createEmptyHabit();
     }
 
