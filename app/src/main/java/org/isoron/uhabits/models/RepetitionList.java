@@ -28,7 +28,9 @@ import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
 
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 
 import java.util.Arrays;
@@ -96,20 +98,19 @@ public class RepetitionList
         timestamp = DateHelper.getStartOfDay(timestamp);
 
         if (contains(timestamp))
-        {
             delete(timestamp);
-        }
         else
-        {
-            Repetition rep = new Repetition();
-            rep.habit = habit;
-            rep.timestamp = timestamp;
-            rep.save();
-        }
+            insert(timestamp);
 
         habit.scores.invalidateNewerThan(timestamp);
         habit.checkmarks.deleteNewerThan(timestamp);
         habit.streaks.deleteNewerThan(timestamp);
+    }
+
+    private void insert(long timestamp)
+    {
+        String[] args = { habit.getId().toString(), Long.toString(timestamp) };
+        SQLiteUtils.execSql("insert into Repetitions(habit, timestamp) values (?,?)", args);
     }
 
     /**
@@ -122,6 +123,21 @@ public class RepetitionList
     public Repetition getOldest()
     {
         return (Repetition) select().limit(1).executeSingle();
+    }
+
+    /**
+     * Returns the timestamp of the oldest repetition. If there are no repetitions, returns zero.
+     * Repetitions in the future are discarded.
+     *
+     * @return timestamp of the oldest repetition
+     */
+    public long getOldestTimestamp()
+    {
+        String[] args = { habit.getId().toString(), Long.toString(DateHelper.getStartOfToday()) };
+        String query = "select timestamp from Repetitions where habit = ? and timestamp <= ? " +
+                "order by timestamp limit 1";
+
+        return DatabaseHelper.longQuery(query, args);
     }
 
     /**

@@ -21,6 +21,7 @@ package org.isoron.uhabits.models;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -28,8 +29,8 @@ import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 
 import java.io.IOException;
@@ -104,10 +105,9 @@ public class ScoreList
      */
     private void computeAll()
     {
-        Repetition oldestRep = habit.repetitions.getOldest();
-        if(oldestRep == null) return;
+        long fromTimestamp = habit.repetitions.getOldestTimestamp();
+        if(fromTimestamp == 0) return;
 
-        long fromTimestamp = oldestRep.timestamp;
         long toTimestamp = DateHelper.getStartOfToday();
         compute(fromTimestamp, toTimestamp);
     }
@@ -136,28 +136,51 @@ public class ScoreList
             from = newestScore.timestamp + day;
 
         final int checkmarkValues[] = habit.checkmarks.getValues(from, to);
-        final int firstScore = newestScoreValue;
         final long beginning = from;
 
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+
+        int lastScore = newestScoreValue;
+        int size = checkmarkValues.length;
+
+        long timestamps[] = new long[size];
+        long values[] = new long[size];
+
+        for (int i = 0; i < checkmarkValues.length; i++)
         {
-            @Override
-            public void execute()
+            int checkmarkValue = checkmarkValues[checkmarkValues.length - i - 1];
+            lastScore = Score.compute(freq, lastScore, checkmarkValue);
+            timestamps[i] = beginning + day * i;
+            values[i] = lastScore;
+        }
+
+        insert(timestamps, values);
+    }
+
+    private void insert(long timestamps[], long values[])
+    {
+        String query = "insert into Score(habit, timestamp, score) values (?,?,?)";
+
+        SQLiteDatabase db = Cache.openDatabase();
+        db.beginTransaction();
+
+        try
+        {
+            SQLiteStatement statement = db.compileStatement(query);
+            statement.bindString(1, habit.getId().toString());
+
+            for (int i = 0; i < timestamps.length; i++)
             {
-                int lastScore = firstScore;
-
-                for (int i = 0; i < checkmarkValues.length; i++)
-                {
-                    int checkmarkValue = checkmarkValues[checkmarkValues.length - i - 1];
-
-                    Score s = new Score();
-                    s.habit = habit;
-                    s.timestamp = beginning + day * i;
-                    s.score = lastScore = Score.compute(freq, lastScore, checkmarkValue);
-                    s.save();
-                }
+                statement.bindLong(2, timestamps[i]);
+                statement.bindLong(3, values[i]);
+                statement.execute();
             }
-        });
+
+            db.setTransactionSuccessful();
+        }
+        finally
+        {
+            db.endTransaction();
+        }
     }
 
     /**
@@ -185,9 +208,9 @@ public class ScoreList
      */
     public int getValue(long timestamp)
     {
-        Score s = get(timestamp);
-        if(s == null) return 0;
-        else return s.score;
+        computeAll();
+        String[] args = { habit.getId().toString(), Long.toString(timestamp) };
+        return SQLiteUtils.intQuery("select score from Score where habit = ? and timestamp = ?", args);
     }
 
     /**
