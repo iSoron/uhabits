@@ -169,7 +169,6 @@ public class HabitStreakView extends View implements HabitDataView
         if(habit == null) return;
         streaks = habit.streaks.getAll(maxStreakCount);
         updateMaxMin();
-        postInvalidate();
     }
 
     @Override

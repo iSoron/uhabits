@@ -26,7 +26,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 
@@ -221,7 +220,6 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         }
 
         updateDate();
-        invalidate();
     }
 
     private void generateRandomData()

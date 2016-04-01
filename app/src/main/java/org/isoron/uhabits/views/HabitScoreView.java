@@ -185,8 +185,6 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             if (habit == null) return;
             scores = habit.scores.getAllValues(bucketSize);
         }
-
-        invalidate();
     }
 
     public void setBucketSize(int bucketSize)

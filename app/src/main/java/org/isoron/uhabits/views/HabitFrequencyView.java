@@ -180,8 +180,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
             generateRandomData();
         else if(habit != null)
             frequency = habit.repetitions.getWeekdayFrequency();
-
-        invalidate();
     }
 
     private void generateRandomData()

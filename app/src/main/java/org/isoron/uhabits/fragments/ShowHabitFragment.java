@@ -47,6 +47,7 @@ import org.isoron.uhabits.dialogs.HistoryEditorDialog;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitFrequencyView;
 import org.isoron.uhabits.views.HabitHistoryView;
@@ -151,6 +152,7 @@ public class ShowHabitFragment extends Fragment
     private void updateScoreRing(View view)
     {
         if(habit == null) return;
+        if(view == null) return;
 
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
         scoreRing.setColor(habit.color);
@@ -230,11 +232,29 @@ public class ShowHabitFragment extends Fragment
 
     public void refreshData()
     {
-        if(dataViews == null) return;
-        updateScoreRing(getView());
+        new BaseTask()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                if(dataViews == null) return null;
+                updateScoreRing(getView());
 
-        for(HabitDataView view : dataViews)
-            view.refreshData();
+                for(HabitDataView view : dataViews)
+                    view.refreshData();
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                if(dataViews == null) return;
+                for(HabitDataView view : dataViews)
+                    view.invalidate();
+            }
+        }.execute();
+
     }
 
     @Override
