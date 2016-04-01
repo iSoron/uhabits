@@ -39,7 +39,7 @@ public class BaseTest
     public static final long FIXED_LOCAL_TIME = 1422172800000L; // 8:00am, January 25th, 2015 (UTC)
 
     @Before
-    protected void setup()
+    public void setup()
     {
         if(!isLooperPrepared)
         {
