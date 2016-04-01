@@ -31,6 +31,7 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 
 import java.io.IOException;
@@ -59,31 +60,6 @@ public class ScoreList
                 .from(Score.class)
                 .where("habit = ?", habit.getId())
                 .orderBy("timestamp desc");
-    }
-
-    /**
-     * Returns the most recent score already computed. If no score has been computed yet, returns
-     * null.
-     *
-     * @return newest score, or null if none exist
-     */
-    @Nullable
-    protected Score findNewest()
-    {
-        return select().limit(1).executeSingle();
-    }
-
-    /**
-     * Returns the value of the most recent score that was already computed. If no score has been
-     * computed yet, returns zero.
-     *
-     * @return value of newest score, or zero if none exist
-     */
-    protected int findNewestValue()
-    {
-        Score newest = findNewest();
-        if(newest == null) return 0;
-        else return newest.score;
     }
 
     /**
@@ -119,7 +95,7 @@ public class ScoreList
      * included.
      *
      * This function assumes that there are no gaps on the scores. That is, if the newest score has
-     * timestamp t, then every score with timestamp lower than t has already been computed. 
+     * timestamp t, then every score with timestamp lower than t has already been computed.
      *
      * @param from timestamp of the beginning of the interval
      * @param to timestamp of the end of the time interval
@@ -130,14 +106,13 @@ public class ScoreList
         final double freq = ((double) habit.freqNum) / habit.freqDen;
 
         int newestScoreValue = findNewestValue();
-        Score newestScore = findNewest();
+        long newestTimestamp = findNewestTimestamp();
 
-        if(newestScore != null)
-            from = newestScore.timestamp + day;
+        if(newestTimestamp > 0)
+            from = newestTimestamp + day;
 
         final int checkmarkValues[] = habit.checkmarks.getValues(from, to);
         final long beginning = from;
-
 
         int lastScore = newestScoreValue;
         int size = checkmarkValues.length;
@@ -154,6 +129,26 @@ public class ScoreList
         }
 
         insert(timestamps, values);
+    }
+
+    /**
+     * Returns the value of the most recent score that was already computed. If no score has been
+     * computed yet, returns zero.
+     *
+     * @return value of newest score, or zero if none exist
+     */
+    protected int findNewestValue()
+    {
+        String args[] = { habit.getId().toString() };
+        String query = "select score from Score where habit = ? order by timestamp desc limit 1";
+        return SQLiteUtils.intQuery(query, args);
+    }
+
+    private long findNewestTimestamp()
+    {
+        String args[] = { habit.getId().toString() };
+        String query = "select timestamp from Score where habit = ? order by timestamp desc limit 1";
+        return DatabaseHelper.longQuery(query, args);
     }
 
     private void insert(long timestamps[], long values[])
