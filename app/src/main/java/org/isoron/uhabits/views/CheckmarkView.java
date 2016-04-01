@@ -30,7 +30,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import org.isoron.uhabits.R;
@@ -43,7 +42,6 @@ public class CheckmarkView extends View
     private Paint pIcon;
 
     private int primaryColor;
-    private int backgroundColor;
     private int timesColor;
     private int darkGrey;
 
@@ -56,12 +54,8 @@ public class CheckmarkView extends View
 
     private String fa_check;
     private String fa_times;
-    private String fa_full_star;
-    private String fa_half_star;
-    private String fa_empty_star;
 
     private int check_status;
-    private int star_status;
 
     private Rect rect;
     private TextPaint textPaint;
@@ -99,19 +93,14 @@ public class CheckmarkView extends View
 
         fa_check = context.getString(R.string.fa_check);
         fa_times = context.getString(R.string.fa_times);
-        fa_empty_star = context.getString(R.string.fa_star_o);
-        fa_half_star = context.getString(R.string.fa_star_half_o);
-        fa_full_star = context.getString(R.string.fa_star);
 
         primaryColor = ColorHelper.palette[10];
-        backgroundColor = Color.argb(255, 255, 255, 255);
         timesColor = Color.argb(128, 255, 255, 255);
         darkGrey = Color.argb(64, 0, 0, 0);
 
         rect = new Rect();
-        check_status = 2;
-        star_status = 0;
-        label = "Wake up early";
+        check_status = 0;
+        label = "Habit";
     }
 
     public void setHabit(Habit habit)
@@ -190,21 +179,19 @@ public class CheckmarkView extends View
         padding = 8 * leftMargin;
         textPaint.setTextSize(0.15f * width);
 
-        refreshData();
-    }
-
-    public void refreshData()
-    {
-        this.check_status = habit.checkmarks.getTodayValue();
-        this.star_status = habit.scores.getTodayStarStatus();
-        this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color),
-                Color.blue(habit.color));
-        this.label = habit.name;
-
-        textPaint.setColor(Color.WHITE);
         labelLayout = new StaticLayout(label, textPaint,
                 (int) (width - 2 * leftMargin - 2 * padding),
                 Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
     }
 
+    public void refreshData()
+    {
+        this.check_status = habit.checkmarks.getTodayValue();
+        this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color),
+                Color.blue(habit.color));
+        this.label = habit.name;
+
+        textPaint.setColor(Color.WHITE);
+        requestLayout();
+    }
 }
