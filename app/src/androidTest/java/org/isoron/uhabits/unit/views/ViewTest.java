@@ -28,6 +28,8 @@ import android.view.View;
 
 import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.views.HabitDataView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -189,5 +191,27 @@ public class ViewTest extends BaseTest
                 dpToPixels(y), 0);
         view.onSingleTapUp(e);
         e.recycle();
+    }
+
+    protected void refreshData(final HabitDataView view)
+    {
+        new BaseTask()
+        {
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                view.refreshData();
+                return null;
+            }
+        }.execute();
+
+        try
+        {
+            waitForAsyncTasks();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Time out");
+        }
     }
 }

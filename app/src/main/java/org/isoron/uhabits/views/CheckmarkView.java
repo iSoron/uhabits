@@ -36,7 +36,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.models.Habit;
 
-public class CheckmarkView extends View
+public class CheckmarkView extends View implements HabitDataView
 {
     private Paint pCard;
     private Paint pIcon;

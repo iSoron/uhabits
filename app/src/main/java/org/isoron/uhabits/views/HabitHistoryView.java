@@ -401,6 +401,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
             protected void onPostExecute(Void aVoid)
             {
                 invalidate();
+                super.onPostExecute(null);
             }
         }.execute();
     }

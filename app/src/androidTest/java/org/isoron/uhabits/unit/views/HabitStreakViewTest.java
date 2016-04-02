@@ -21,7 +21,6 @@ package org.isoron.uhabits.unit.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
 
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -45,8 +44,10 @@ public class HabitStreakViewTest extends ViewTest
         Habit habit = HabitFixtures.createLongHabit();
 
         view = new HabitStreakView(targetContext);
-        view.setHabit(habit);
         measureView(dpToPixels(300), dpToPixels(100), view);
+
+        view.setHabit(habit);
+        refreshData(view);
     }
 
     @Test
@@ -66,6 +67,8 @@ public class HabitStreakViewTest extends ViewTest
     public void render_withSmallSize() throws Throwable
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
+        refreshData(view);
+
         assertRenders(view, "HabitStreakView/renderSmallSize.png");
     }
 }

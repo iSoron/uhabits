@@ -27,7 +27,6 @@ import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.junit.Before;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class BaseTest
@@ -55,6 +54,6 @@ public class BaseTest
 
     protected void waitForAsyncTasks() throws InterruptedException, TimeoutException
     {
-        BaseTask.waitForTasks(30, TimeUnit.SECONDS);
+        BaseTask.waitForTasks(30000);
     }
 }

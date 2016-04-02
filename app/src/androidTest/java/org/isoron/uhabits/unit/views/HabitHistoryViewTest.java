@@ -53,6 +53,7 @@ public class HabitHistoryViewTest extends ViewTest
 
         view = new HabitHistoryView(targetContext);
         view.setHabit(habit);
+        refreshData(view);
         measureView(dpToPixels(300), dpToPixels(100), view);
     }
 

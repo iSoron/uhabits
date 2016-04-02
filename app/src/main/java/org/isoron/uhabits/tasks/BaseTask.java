@@ -21,13 +21,10 @@ package org.isoron.uhabits.tasks;
 
 import android.os.AsyncTask;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class BaseTask extends AsyncTask<Void, Void, Void>
 {
-    private static CountDownLatch latch;
     private static int activeTaskCount;
 
     @Override
@@ -40,22 +37,27 @@ public class BaseTask extends AsyncTask<Void, Void, Void>
     protected void onPreExecute()
     {
         activeTaskCount++;
-        latch = new CountDownLatch(activeTaskCount);
     }
 
     @Override
     protected void onPostExecute(Void aVoid)
     {
         activeTaskCount--;
-        latch.countDown();
     }
 
-    public static void waitForTasks(long timeout, TimeUnit unit)
+    public static void waitForTasks(long timeout)
             throws TimeoutException, InterruptedException
     {
-        if(activeTaskCount == 0) return;
+        int poolInterval = 100;
 
-        boolean successful = latch.await(timeout, unit);
-        if(!successful) throw new TimeoutException();
+        while(timeout > 0)
+        {
+            if(activeTaskCount == 0) return;
+
+            timeout -= poolInterval;
+            Thread.sleep(poolInterval);
+        }
+
+        throw new TimeoutException();
     }
 }
