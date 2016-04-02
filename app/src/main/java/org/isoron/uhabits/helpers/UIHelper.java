@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -109,5 +110,20 @@ public abstract class UIHelper
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
+    }
+
+    /**
+     * Throws a runtime exception if called from the main thread. Useful to make sure that
+     * slow methods never accidentally slow the application down.
+     *
+     * @throws RuntimeException when run from main thread
+     */
+    public static void throwIfMainThread() throws RuntimeException
+    {
+        Looper looper = Looper.myLooper();
+        if(looper == null) return;
+
+        if(looper == Looper.getMainLooper())
+            throw new RuntimeException("This method should never be called from the main thread");
     }
 }

@@ -33,6 +33,7 @@ import com.activeandroid.util.SQLiteUtils;
 
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -102,6 +103,8 @@ public class ScoreList
      */
     protected void compute(long from, long to)
     {
+        UIHelper.throwIfMainThread();
+
         final long day = DateHelper.millisecondsInOneDay;
         final double freq = ((double) habit.freqNum) / habit.freqDen;
 

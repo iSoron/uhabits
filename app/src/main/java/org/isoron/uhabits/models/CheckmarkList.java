@@ -30,6 +30,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -151,6 +152,8 @@ public class CheckmarkList
      */
     protected void compute(long from, final long to)
     {
+        UIHelper.throwIfMainThread();
+
         final long day = DateHelper.millisecondsInOneDay;
 
         Checkmark newestCheckmark = findNewest();
