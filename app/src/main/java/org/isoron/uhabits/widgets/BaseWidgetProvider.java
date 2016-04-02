@@ -34,7 +34,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -170,13 +170,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
         if (options != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
         {
-            maxWidth = (int) DialogHelper.dpToPixels(context,
+            maxWidth = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
-            maxHeight = (int) DialogHelper.dpToPixels(context,
+            maxHeight = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
-            minWidth = (int) DialogHelper.dpToPixels(context,
+            minWidth = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
-            minHeight = (int) DialogHelper.dpToPixels(context,
+            minHeight = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
         }
 

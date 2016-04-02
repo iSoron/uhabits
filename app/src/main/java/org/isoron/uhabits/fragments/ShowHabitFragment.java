@@ -38,7 +38,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
@@ -60,7 +60,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ShowHabitFragment extends Fragment
-        implements DialogHelper.OnSavedListener, HistoryEditorDialog.Listener,
+        implements UIHelper.OnSavedListener, HistoryEditorDialog.Listener,
         Spinner.OnItemSelectedListener
 {
     @Nullable

@@ -27,7 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -179,7 +179,7 @@ public class ViewTest extends BaseTest
 
     protected int dpToPixels(int dp)
     {
-        return (int) DialogHelper.dpToPixels(targetContext, dp);
+        return (int) UIHelper.dpToPixels(targetContext, dp);
     }
 
     protected void tap(GestureDetector.OnGestureListener view, int x, int y) throws InterruptedException

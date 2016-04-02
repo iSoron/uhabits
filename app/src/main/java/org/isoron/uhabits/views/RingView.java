@@ -33,7 +33,7 @@ import android.util.Log;
 import android.view.View;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 public class RingView extends View
 {
@@ -63,9 +63,9 @@ public class RingView extends View
     {
         super(context, attrs);
 
-        this.label = DialogHelper.getAttribute(context, attrs, "label", "Label");
-        this.maxDiameter = DialogHelper.getFloatAttribute(context, attrs, "maxDiameter", 100);
-        this.maxDiameter = DialogHelper.dpToPixels(context, maxDiameter);
+        this.label = UIHelper.getAttribute(context, attrs, "label", "Label");
+        this.maxDiameter = UIHelper.getFloatAttribute(context, attrs, "maxDiameter", 100);
+        this.maxDiameter = UIHelper.dpToPixels(context, maxDiameter);
         init();
     }
 

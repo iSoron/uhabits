@@ -33,7 +33,7 @@ import android.view.inputmethod.InputMethodManager;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.commands.Command;
 
-public abstract class DialogHelper
+public abstract class UIHelper
 {
 
     public static final String ISORON_NAMESPACE = "http://isoron.org/android";

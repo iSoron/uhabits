@@ -32,7 +32,7 @@ import android.view.MotionEvent;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 
@@ -135,7 +135,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         float baseSize = height / 8.0f;
         setScrollerBucketSize((int) baseSize);
 
-        squareSpacing = DialogHelper.dpToPixels(getContext(), 1.0f);
+        squareSpacing = UIHelper.dpToPixels(getContext(), 1.0f);
         float maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
         float textSize = Math.min(baseSize * 0.5f, maxTextSize);
 

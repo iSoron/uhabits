@@ -42,7 +42,7 @@ import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.DialogHelper.OnSavedListener;
+import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
