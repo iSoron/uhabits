@@ -117,7 +117,6 @@ public class ShowHabitFragment extends Fragment
             dataViews.add((RepetitionCountView) llRepetition.getChildAt(i));
 
         updateHeaders(view);
-        updateScoreRing(view);
 
         for(HabitDataView dataView : dataViews)
             dataView.setHabit(habit);
@@ -146,6 +145,8 @@ public class ShowHabitFragment extends Fragment
         }
 
         setHasOptionsMenu(true);
+        refreshData();
+
         return view;
     }
 
@@ -272,7 +273,7 @@ public class ShowHabitFragment extends Fragment
         if(scoreView != null)
         {
             scoreView.setBucketSize(size);
-            scoreView.refreshData();
+            refreshData();
         }
 
         if(prefs != null)

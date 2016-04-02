@@ -44,8 +44,6 @@ public class RepetitionCountView extends NumberView implements HabitDataView
                 getResources().getString(R.string.last_x_days));
 
         setLabel(String.format(labelFormat, labelValue));
-
-        refreshData();
     }
 
     @Override
@@ -73,6 +71,8 @@ public class RepetitionCountView extends NumberView implements HabitDataView
 
         if(habit != null)
             setNumber(habit.repetitions.count(from, to));
+
+        postInvalidate();
     }
 
     @Override
@@ -80,6 +80,5 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     {
         this.habit = habit;
         setColor(habit.color);
-        refreshData();
     }
 }

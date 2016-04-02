@@ -106,7 +106,6 @@ public class CheckmarkView extends View
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        refreshData();
     }
 
     @Override
@@ -192,6 +191,7 @@ public class CheckmarkView extends View
         this.label = habit.name;
 
         textPaint.setColor(Color.WHITE);
+        postInvalidate();
         requestLayout();
     }
 }

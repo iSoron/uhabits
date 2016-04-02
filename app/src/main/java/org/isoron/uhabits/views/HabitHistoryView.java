@@ -34,6 +34,7 @@ import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 
 import java.text.SimpleDateFormat;
@@ -88,13 +89,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     {
         this.habit = habit;
         createColors();
-        refreshData();
-        postInvalidate();
     }
 
     private void init()
     {
-        refreshData();
         createPaints();
         createColors();
 
@@ -220,6 +218,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         }
 
         updateDate();
+        postInvalidate();
     }
 
     private void generateRandomData()
@@ -386,11 +385,23 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         this.isEditable = isEditable;
     }
 
-
     @Override
     public void onToggleRepetitionFinished()
     {
-        refreshData();
-        invalidate();
+        new BaseTask() {
+            @Override
+            @SuppressWarnings("ResourceType")
+            protected Void doInBackground(Void... params)
+            {
+                refreshData();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                invalidate();
+            }
+        }.execute();
     }
 }

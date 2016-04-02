@@ -78,9 +78,7 @@ public class HabitStreakView extends View implements HabitDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-
         createColors();
-        postInvalidate();
     }
 
     private void init()
@@ -118,7 +116,6 @@ public class HabitStreakView extends View implements HabitDataView
         em = paint.getFontSpacing();
         textMargin = 0.5f * em;
 
-        refreshData();
         updateMaxMin();
     }
 
@@ -169,6 +166,7 @@ public class HabitStreakView extends View implements HabitDataView
         if(habit == null) return;
         streaks = habit.streaks.getAll(maxStreakCount);
         updateMaxMin();
+        postInvalidate();
     }
 
     @Override

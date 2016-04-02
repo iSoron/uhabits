@@ -93,15 +93,12 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     {
         this.habit = habit;
         createColors();
-        refreshData();
-        postInvalidate();
     }
 
     private void init()
     {
         createPaints();
         createColors();
-        if(isInEditMode()) refreshData();
 
         dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
         dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
@@ -185,6 +182,8 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             if (habit == null) return;
             scores = habit.scores.getAllValues(bucketSize);
         }
+
+        postInvalidate();
     }
 
     public void setBucketSize(int bucketSize)
