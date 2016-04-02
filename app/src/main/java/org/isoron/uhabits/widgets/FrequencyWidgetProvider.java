@@ -26,6 +26,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitFrequencyView;
 
 public class FrequencyWidgetProvider extends BaseWidgetProvider
@@ -37,6 +38,12 @@ public class FrequencyWidgetProvider extends BaseWidgetProvider
         view.setIsBackgroundTransparent(true);
         view.setHabit(habit);
         return view;
+    }
+
+    @Override
+    protected void refreshCustomViewData(View view)
+    {
+        ((HabitDataView) view).refreshData();
     }
 
     @Override

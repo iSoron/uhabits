@@ -178,9 +178,7 @@ public class CheckmarkView extends View implements HabitDataView
         padding = 8 * leftMargin;
         textPaint.setTextSize(0.15f * width);
 
-        labelLayout = new StaticLayout(label, textPaint,
-                (int) (width - 2 * leftMargin - 2 * padding),
-                Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        updateLabel();
     }
 
     public void refreshData()
@@ -190,8 +188,15 @@ public class CheckmarkView extends View implements HabitDataView
                 Color.blue(habit.color));
         this.label = habit.name;
 
-        textPaint.setColor(Color.WHITE);
+        updateLabel();
         postInvalidate();
-        requestLayout();
+    }
+
+    private void updateLabel()
+    {
+        textPaint.setColor(Color.WHITE);
+        labelLayout = new StaticLayout(label, textPaint,
+                (int) (width - 2 * leftMargin - 2 * padding),
+                Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
     }
 }
