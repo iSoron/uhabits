@@ -91,7 +91,7 @@ public class HabitStreakView extends View implements HabitDataView
         dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         rect = new RectF();
-
+        maxStreakCount = 10;
         baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
 

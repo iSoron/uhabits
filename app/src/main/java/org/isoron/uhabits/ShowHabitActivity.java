@@ -20,27 +20,16 @@
 package org.isoron.uhabits;
 
 import android.app.ActionBar;
-import android.content.BroadcastReceiver;
 import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 
-import org.isoron.uhabits.fragments.ShowHabitFragment;
 import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends BaseActivity
 {
-
-    public Habit habit;
-    private Receiver receiver;
-    private LocalBroadcastManager localBroadcastManager;
-
-    private ShowHabitFragment fragment;
+    private Habit habit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,37 +40,18 @@ public class ShowHabitActivity extends BaseActivity
         habit = Habit.get(ContentUris.parseId(data));
         ActionBar actionBar = getActionBar();
 
-        if(actionBar != null)
+        if(actionBar != null && getHabit() != null)
         {
-            actionBar.setTitle(habit.name);
-
+            actionBar.setTitle(getHabit().name);
             if (android.os.Build.VERSION.SDK_INT >= 21)
-                actionBar.setBackgroundDrawable(new ColorDrawable(habit.color));
+                actionBar.setBackgroundDrawable(new ColorDrawable(getHabit().color));
         }
 
         setContentView(R.layout.show_habit_activity);
-
-        fragment = (ShowHabitFragment) getFragmentManager().findFragmentById(R.id.fragment2);
-
-        receiver = new Receiver();
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.registerReceiver(receiver,
-                new IntentFilter(MainActivity.ACTION_REFRESH));
     }
 
-    class Receiver extends BroadcastReceiver
+    public Habit getHabit()
     {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            fragment.refreshData();
-        }
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        localBroadcastManager.unregisterReceiver(receiver);
-        super.onDestroy();
+        return habit;
     }
 }
