@@ -1,6 +1,6 @@
 # Loop Habit Tracker
 <a href="https://circleci.com/gh/iSoron/uhabits/tree/dev">
-  <img src="https://img.shields.io/circleci/project/iSoron/uhabits.svg">
+  <img src="https://img.shields.io/circleci/project/iSoron/uhabits/dev.svg">
 </a>
 <a href="https://codecov.io/github/iSoron/uhabits?branch=dev">
   <img src="https://img.shields.io/codecov/c/github/iSoron/uhabits.svg" alt="Coverage via Codecov" />
@@ -73,9 +73,14 @@ contribute, even if you are not a software developer.
   to improve it. You can either use the link inside the app, or open an issue
   at GitHub.
 
+* **Spread the word.** If you like the app, share it with your family, friends
+  and colleagues. You can also rate and review the app on Google Play Store, to help
+  other users find it more easily.
+
 * **Translate the app into your own language.** If you are not a native English
   speaker, and would like to see the app translated into your own language,
-  please join our [open translation project at POEditor][poedit].
+  please join our [open translation project at POEditor][poedit]. If the translation
+  is already completed, you are also very welcome to join and proofread it.
 
 * **Write some code.** If you are an Android developer, you are very welcome to
   contribute with code. Please, see the [developer guidelines][dev-guide] for more details.
