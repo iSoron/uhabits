@@ -115,7 +115,6 @@ public class ListHabitsFragment extends Fragment
 
         loader.setListener(this);
         loader.setCheckmarkCount(helper.getButtonCount());
-        loader.setProgressBar(progressBar);
 
         llHint.setOnClickListener(this);
         tvStarEmpty.setTypeface(helper.getFontawesome());
