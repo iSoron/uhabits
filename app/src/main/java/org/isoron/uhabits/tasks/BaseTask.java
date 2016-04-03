@@ -23,7 +23,7 @@ import android.os.AsyncTask;
 
 import java.util.concurrent.TimeoutException;
 
-public abstract class BaseTask extends AsyncTask<Void, Void, Void>
+public abstract class BaseTask extends AsyncTask<Void, Integer, Void>
 {
     private static int activeTaskCount;
 
