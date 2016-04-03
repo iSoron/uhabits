@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.os.Debug;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -125,5 +127,23 @@ public abstract class UIHelper
 
         if(looper == Looper.getMainLooper())
             throw new RuntimeException("This method should never be called from the main thread");
+    }
+
+    public static void startTracing()
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        {
+            throw new UnsupportedOperationException();
+        }
+        else
+        {
+            Debug.startMethodTracingSampling("Android/data/org.isoron.uhabits/perf",
+                    32 * 1024 * 1024, 100);
+        }
+    }
+
+    public static void stopTracing()
+    {
+        Debug.stopMethodTracing();
     }
 }
