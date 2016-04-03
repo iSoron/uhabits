@@ -92,7 +92,6 @@ public class NumberView extends View
     public void setNumber(int number)
     {
         this.number = number;
-        requestLayout();
         postInvalidate();
     }
 
