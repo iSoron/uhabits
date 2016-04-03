@@ -18,25 +18,35 @@
       <div id="toc">
       </div>
       
+      <h3>Creating and tracking habits</h3>
+      
       <h4>How can I track bad habits I want to break?</h4>
       
-      <p>It is probably a better idea to rephrase your habit in a positive way. For
-      example, instead of having the bad habit &quot;Did you smoke today?&quot; you could have
-      the good habit &quot;Did you have a smoke-free day today?&quot;. Another example, instead
-      of &quot;Did you eat junk food today?&quot; you could have &quot;Did you eat healthy today?&quot;.
-      In this way, every time you open the app to put a checkmark, you are rewarding
-      yourself for some good behaviour, instead of getting punished.</p>
+      <p>Instead of tracking bad habits, it is better to rephrase your habit in a
+      positive way.  In this way, every time you open the app to put a checkmark, you
+      are rewarding yourself for some good behaviour, instead of getting punished.
+      For example, instead of having the bad habit &quot;Did you smoke today?&quot; you could
+      have the good habit &quot;Did you have a smoke-free day today?&quot;.  Another example,
+      instead of &quot;Did you eat junk food today?&quot; you could have &quot;Did you eat healthy
+      today?&quot;.</p>
       
       <h4>How can I specify that a habit should be performed on certain days of the week?</h4>
       
-      <p>You do not need to specify this. The app will figure it out by itself. You just
+      <p>You don&#39;t need to specify this. The app will figure it out by itself. You just
       need to specify how many times would you like to repeat the habit in a certain
       interval of time. For example, if you want to repeat a certain habit every
-      Monday and Friday, simply specify that you want to repeat the habit 2 times in
-      7 days, and then keep practicing your habit. If, during your first week, you
+      Monday and Friday, simply specify that you want to repeat the habit 2 times per
+      week, and then start practicing your habit. If, during your first week, you
       indeed perform your habit on Monday and Friday, the app will automatically add
       a checkmark on the following Saturday and Sunday. As long as you keep your
       routine, the checkmarks should appear automatically on the correct days.</p>
+      
+      <h4>When I am creating a new habit, what am I supposed to write on the &quot;question&quot; field?</h4>
+      
+      <p>The question field is a place where you can specify more clearly the
+      requirements for the habit. For example, while the title of your habit might
+      say &quot;Meditate&quot;, the question might ask &quot;Did you meditate for at least 10
+      minutes this morning?&quot;. This question appears on the reminders.</p>
       
       <h4>How can I put checkmarks in past days?</h4>
       
@@ -54,49 +64,145 @@
       <p>First, press-and-hold the name of a habit for a second. Then, when it becomes
       selected, just drag it to the desired place, without lifting your finger.</p>
       
-      <h4>When I am creating a new habit, what am I supposed to write on the &quot;question&quot; field?</h4>
+      <h4>How can I disable the vibration every time I put a checkmark?</h4>
       
-      <p>The question field is a place where you can specify more clearly the
-      requirements for the habit. For example, while the title of your habit might
-      say &quot;Meditate&quot;, the question might ask &quot;Did you meditate for at least 10
-      minutes this morning?&quot;. This question appears on the reminders.</p>
+      <p>Loop follows your phone&#39;s settings to decide whether it should vibrate on touch
+      or not. To disable the vibration, open your phone&#39;s settings, tap &quot;Sounds&quot;
+      and disable &quot;Vibrate on touch&quot;.</p>
       
-      <h4>How can I export my data?</h4>
+      <h3>Importing and exporting data</h3>
       
-      <p>Open the main screen of the app, press-and-hold on the name of a habit, then
-      select the option &quot;Export data&quot; from the menu. You can also export data from
-      multiple habits simultaneously. The data will be exported as a ZIP archive,
-      containing individual comma-separated files for each habit, which can be opened
-      with any modern spreadsheet software, such as Microsoft Excel or OpenOffice
-      Calc.</p>
+      <h4>If I uninstall the app, will I lose all my data?</h4>
       
-      <h4>If I factory-reset my phone, will I lose all my data?</h4>
+      <p><strong>Yes, uninstalling the app will delete all your data!</strong> All files inside the
+      folder <code>Android » data » org.isoron.uhabits</code> on the SD card will also be deleted.
+      This is the way Android was designed, and there is nothing Loop can do to
+      prevent it.</p>
+      
+      <h4>If my phone gets damaged or factory reset, will I lose all my data?</h4>
       
       <p>Loop supports Android&#39;s native backup service: if you have backups activated in
-      your phone settings (Settings / Backup &amp; Restore / Back up my data), it should
+      your phone settings (Settings » Backup &amp; Restore » Back up my data), it should
       periodically save a copy of your data in the cloud automatically. The data will
-      be restored in case you factory-reset your phone or activate a new device. That
-      being said, this system can be unreliable at times, so if you want to make sure
-      that your data is safely backed up, it is still recommended that you use a
-      specialized backup utility, such as Titanium Backup. You can also export your
-      data manually, by long-pressing multiple habits, then selecting &quot;export data&quot;
-      on the menu. At the moment, there is no way to import the data, but this is a
-      planned feature. See the previous question for more details.</p>
+      be restored in case you factory-reset your phone or activate a new device.
+      <strong>Note however that uninstalling the app will delete all your data, in addition
+      to all the backups stored in the cloud</strong>. Furthermore, this backup system can be unreliable at
+      times. Therefore, if you want to make sure that your data is safely backed up,
+      it is still recommended that you use a specialized backup utility, such as
+      Titanium Backup. Alternatively, you can export a full backup of your data
+      manually. For more details, see the answer for the next question.</p>
+      
+      <h4>How can I export a full backup of my data?</h4>
+      
+      <p>Select the option &quot;Export full backup&quot; on the settings screen. A file will be
+      generated, and you will be asked to choose an app to share it to. If you select
+      an email application, you will be able to send the file as an attachment to
+      yourself. If you select Google Drive, Dropbox or similar apps, you will be able
+      to upload it. A copy of the generated file is also automatically saved on the
+      SD card, inside the folder <code>Android » data » org.isoron.uhabits</code>. Be aware that
+      this folder will be deleted when the app is uninstalled. If you would like to
+      keep the backups on the SD card after the app is uninstalled, you should move
+      them to another folder.</p>
+      
+      <h4>How can I restore a full backup?</h4>
+      
+      <p>First, you should copy the backup file to the folder
+      <code>Android » data » org.isoron.uhabits</code> on the SD card.  For security and privacy
+      reasons, Loop is only able to read files that are stored inside this folder. To
+      copy the file there, you can either connect your phone to your computer or use
+      a file manager app. After this is done, open Loop Habit Tracker, open the
+      settings menu, select the option &quot;Import data&quot;, locate and then tap on the file
+      that you just copied. Your data will be restored.</p>
+      
+      <h4>How can I export my data as CSV?</h4>
+      
+      <p>Open the settings screen, scroll down to the section &quot;Database&quot; and select the
+      option &quot;Export as CSV&quot;. The data will be exported as a ZIP archive containing
+      individual comma-separated files for each habit, which can be opened with any
+      modern spreadsheet software, such as Microsoft Excel or OpenOffice Calc.</p>
+      
+      <h4>How can I import data from Tickmate?</h4>
+      
+      <p>First, make sure that you have the latest version of Tickmate installed. Open
+      Tickmate, click on the menu, select the option &quot;Backup database&quot; and click OK.
+      Your data will be saved to a file inside the folder <code>Tickmate</code> on the SD card.
+      Next, you should move this file to the folder <code>Android » data » org.isoron.uhabits</code>
+      on the SD card. For security and privacy reasons, Loop is only able to read
+      files that are stored inside this folder. To move the file, you can either
+      connect your phone to your computer or use a file manager app. After this is
+      done, open Loop Habit Tracker, open the settings menu, select the option
+      &quot;Import data&quot;, locate and then tap on the file that you just copied. Your
+      data will be imported.</p>
+      
+      <h4>How can I import data from Rewire?</h4>
+      
+      <p>First, make sure that you have the latest version of Rewire installed. Open
+      Rewire, click on the menu, select the option &quot;Backup&quot; and click &quot;Yes&quot;.  Your
+      data will be saved to a file named <code>Habits.db</code> inside the folder <code>habit_backup</code>
+      on the SD card.  Next, you should move this file to the folder
+      <code>Android » data » org.isoron.uhabits</code> on the SD card. For security and privacy
+      reasons, Loop is only able to read files that are stored inside this folder. To
+      move the file, you can either connect your phone to your computer or use a file
+      manager app. After this is done, open Loop Habit Tracker, open the settings
+      menu, select the option &quot;Import data&quot;, locate and then tap on the file that
+      you just copied. Your data will be imported.</p>
+      
+      <h4>How can I import data from HabitBull?</h4>
+      
+      <p>First, make sure that you have the latest version of HabitBull installed. Also
+      note that, in order to export your data from HabitBull, you need to have the
+      premium version of the app. Open HabitBull, tap the menu icon on the upper
+      right corner of the screen, then tap export. The app will generate a file, that
+      you should copy to the folder <code>Android » data » org.isoron.uhabits</code> on the SD card.
+      For security and privacy reasons, Loop is only able to read files that are
+      stored inside this folder. To copy the file there, you can either connect your
+      phone to your computer or use a file manager app. After this is done, open Loop
+      Habit Tracker, open the settings menu, select the option &quot;Import data&quot;, locate
+      and then tap on the file that you just copied.  Your data will be imported.</p>
+      
+      <h3>Other questions</h3>
+      
+      <h4>How can I donate to the project?</h4>
+      
+      <p>Loop currently does not accept any monetary donations. There are many other
+      ways you can contribute to the project, however, even if you are not a software
+      developer, such as providing feedback, finding bugs, sharing the app with your
+      friends, rating and writing a review on Google Play Store, or translating the
+      app into your language. Please, <a href="https://github.com/iSoron/uhabits/">see our webpage at GitHub</a> for
+      more details.</p>
       
       <h4>My question was not answered in this FAQ. What should I do?</h4>
       
-      <p>Please, feel free to contact the developer at <a href="mailto:isoron@gmail.com">isoron@gmail.com</a>. </p>
+      <p>Please, feel free to contact the developer at <a href="mailto:dev@loophabits.org">dev@loophabits.org</a>. </p>
       
       <script type="text/javascript">
-          $("#toc").append('<ul>')
-          $("h3, h4").each(function(i) {
+          var isFirstTitle = true;
+          var output = "<ul>";
+      
+          $("h3, h4").each(function(i)
+          {
               var current = $(this);
-              current.attr("id", "title" + i);
-              $("#toc").append("<li><a id='link" + i + "' href='#title" +
-                  i + "' title='" + current.attr("tagName") + "'>" + 
-                  current.html() + "</a></li>");
+              var isTitle = (current.prop("tagName").toLowerCase() == "h3");
+      
+              if(isTitle)
+              {
+                  if(!isFirstTitle)
+                    output += "</ul>";
+      
+                  output += "<li class='header'>" + current.html() + "</li><ul>";
+                  isFirstTitle = false;
+              }
+              else
+              {
+                  current.attr("id", "q" + i);
+                  output += "<li><a id='link" + i + "' href='#q" +
+                      i + "' title='" + current.attr("tagName") + "'>" + 
+                      current.html() + "</a></li>";
+              }
           });
-          $("#toc").append("</ul>");
+          output += "</ul></ul>";
+          console.log(output);
+          $("#toc").append(output);
       </script>
     </div>
     <div class='footer'>
@@ -106,7 +212,7 @@
       <a href='http://sass-lang.com/'>sass</a>
       <br>
       Last update:
-      2016-03-25
+      2016-04-03
     </div>
   </body>
 </html>

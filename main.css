@@ -41,8 +41,28 @@ h2 {
   line-height: 38px;
   font-size: 23.75px; }
 
+h3 {
+  padding: 10px; }
+
+h3 {
+  background-color: #ddd; }
+
 h3, h4 {
   font-size: 20.9px;
   line-height: 24.7px; }
+
+ul {
+  list-style-type: none;
+  padding-left: 10px;
+  margin-left: 0px; }
+  ul ul {
+    list-style-type: circle;
+    padding-left: 30px; }
+  ul li {
+    padding: 3px 0px; }
+
+code {
+  background-color: #eee;
+  padding: 3px 6px; }
 
 /*# sourceMappingURL=main.css.map */
