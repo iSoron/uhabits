@@ -27,5 +27,5 @@ public interface HabitDataView
 
     void refreshData();
 
-    void invalidate();
+    void postInvalidate();
 }
