@@ -72,11 +72,9 @@ public class HistoryEditorDialog extends DialogFragment
         new BaseTask()
         {
             @Override
-            @SuppressWarnings("ResourceType")
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 historyView.refreshData();
-                return null;
             }
         }.execute();
     }

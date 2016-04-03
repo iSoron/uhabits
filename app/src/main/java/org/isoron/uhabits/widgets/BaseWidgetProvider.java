@@ -223,10 +223,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }
 
         @Override
-        protected Void doInBackground(Void... params)
+        protected void doInBackground()
         {
             refreshCustomViewData(widgetView);
-            return null;
         }
 
         @Override

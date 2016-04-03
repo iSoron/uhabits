@@ -38,10 +38,9 @@ public class ToggleRepetitionTask extends BaseTask
     }
 
     @Override
-    protected Void doInBackground(Void... params)
+    protected void doInBackground()
     {
         habit.repetitions.toggle(timestamp);
-        return null;
     }
 
     @Override

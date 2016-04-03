@@ -388,13 +388,12 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     @Override
     public void onToggleRepetitionFinished()
     {
-        new BaseTask() {
+        new BaseTask()
+        {
             @Override
-            @SuppressWarnings("ResourceType")
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 refreshData();
-                return null;
             }
 
             @Override

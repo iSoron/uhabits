@@ -23,24 +23,27 @@ import android.os.AsyncTask;
 
 import java.util.concurrent.TimeoutException;
 
-public class BaseTask extends AsyncTask<Void, Void, Void>
+public abstract class BaseTask extends AsyncTask<Void, Void, Void>
 {
     private static int activeTaskCount;
 
     @Override
-    protected Void doInBackground(Void... params)
+    protected final Void doInBackground(Void... params)
     {
+        register();
+        doInBackground();
+        unregister();
         return null;
     }
 
-    @Override
-    protected void onPreExecute()
+    protected abstract void doInBackground();
+
+    protected void register()
     {
         activeTaskCount++;
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid)
+    protected void unregister()
     {
         activeTaskCount--;
     }

@@ -198,10 +198,9 @@ public class ViewTest extends BaseTest
         new BaseTask()
         {
             @Override
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 view.refreshData();
-                return null;
             }
         }.execute();
 
