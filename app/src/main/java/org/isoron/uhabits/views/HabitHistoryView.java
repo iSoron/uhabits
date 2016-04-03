@@ -40,6 +40,7 @@ import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
@@ -57,13 +58,13 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private float columnHeight;
     private int nColumns;
 
-    private String wdays[];
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfYear;
 
     private Calendar baseDate;
     private int nDays;
-    private int todayWeekday;
+    /** 0-based-position of today in the column */
+    private int todayPositionInColumn;
     private int colors[];
     private RectF baseLocation;
     private int primaryColor;
@@ -98,7 +99,6 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         isEditable = false;
         checkmarks = new int[0];
         primaryColor = ColorHelper.palette[7];
-        wdays = DateHelper.getShortDayNames();
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
 
@@ -111,10 +111,11 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
-        todayWeekday = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK) % 7;
+        int realWeekday = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
+        todayPositionInColumn = (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
-        baseDate.add(Calendar.DAY_OF_YEAR, -todayWeekday);
+        baseDate.add(Calendar.DAY_OF_YEAR, -todayPositionInColumn);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     {
         float width = 0;
 
-        for(String w : wdays)
+        for(String w : DateHelper.getLocaleDayNames(Calendar.SHORT))
             width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
@@ -274,9 +275,9 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
         for (int j = 0; j < 7; j++)
         {
-            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayWeekday))
+            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayPositionInColumn))
             {
-                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
+                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayPositionInColumn - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 
@@ -298,10 +299,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void drawAxis(Canvas canvas, RectF location)
     {
-        for (int i = 0; i < 7; i++)
+        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT))
         {
             location.offset(0, columnWidth);
-            canvas.drawText(wdays[i], location.left + headerTextOffset,
+            canvas.drawText(day, location.left + headerTextOffset,
                     location.bottom - headerTextOffset, pTextHeader);
         }
     }

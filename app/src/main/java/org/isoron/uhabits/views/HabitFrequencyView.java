@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
@@ -62,7 +63,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private boolean isBackgroundTransparent;
 
     private HashMap<Long, Integer[]> frequency;
-    private String wdays[];
 
     public HabitFrequencyView(Context context)
     {
@@ -88,8 +88,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         createPaints();
         createColors();
-
-        wdays = DateHelper.getShortDayNames();
 
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
@@ -230,11 +228,13 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
-        for (int i = 0; i < 7; i++)
+        Integer[] localeWeekdayList = DateHelper.getLocaleWeekdayList();
+        for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
-            rect.offset(prevRect.left, prevRect.top + columnWidth * i);
+            rect.offset(prevRect.left, prevRect.top + columnWidth * j);
 
+            int i = DateHelper.weekDayNumber2wdays(localeWeekdayList[j]);
             if(values != null)
                 drawMarker(canvas, rect, values[i]);
 
@@ -272,9 +272,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         pText.setColor(textColor);
         pGrid.setColor(dimmedTextColor);
 
-        for (int i = 0; i < nRows; i++)
-        {
-            canvas.drawText(wdays[i], rGrid.right - columnWidth,
+        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT)) {
+            canvas.drawText(day, rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
             pGrid.setStrokeWidth(1f);
