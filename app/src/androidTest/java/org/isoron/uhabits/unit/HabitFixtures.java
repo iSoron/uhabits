@@ -19,9 +19,23 @@
 
 package org.isoron.uhabits.unit;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.tasks.ExportDBTask;
+import org.isoron.uhabits.tasks.ImportDataTask;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.Random;
+
+import static org.junit.Assert.fail;
 
 public class HabitFixtures
 {
@@ -77,6 +91,74 @@ public class HabitFixtures
             habit.repetitions.toggle(today - mark * day);
 
         return habit;
+    }
+
+    public static void generateHugeDataSet() throws Throwable
+    {
+        final int nHabits = 30;
+        final int nYears = 5;
+
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+        {
+            @Override
+            public void execute()
+            {
+                Random rand = new Random();
+
+                for(int i = 0; i < nHabits; i++)
+                {
+                    Log.i("HabitFixture", String.format("Creating habit %d / %d", i, nHabits));
+
+                    Habit habit = new Habit();
+                    habit.name = String.format("Habit %d", i);
+                    habit.save();
+
+                    long today = DateHelper.getStartOfToday();
+                    long day = DateHelper.millisecondsInOneDay;
+
+
+                    for(int j = 0; j < 365 * nYears; j++)
+                    {
+                        if(rand.nextBoolean())
+                            habit.repetitions.toggle(today - j * day);
+                    }
+
+                    habit.scores.getTodayValue();
+                    habit.streaks.getAll(1);
+                }
+            }
+        });
+
+        ExportDBTask task = new ExportDBTask(null);
+        task.setListener(new ExportDBTask.Listener()
+        {
+            @Override
+            public void onExportDBFinished(@Nullable String filename)
+            {
+                if(filename != null)
+                    Log.i("HabitFixture", String.format("Huge data set exported to %s", filename));
+                else
+                    Log.i("HabitFixture", "Failed to save database");
+            }
+        });
+        task.execute();
+
+        BaseTask.waitForTasks(30000);
+    }
+
+    public static void loadHugeDataSet(Context testContext) throws Throwable
+    {
+        File baseDir = DatabaseHelper.getFilesDir("Backups");
+        if(baseDir == null) fail("baseDir should not be null");
+
+        File dst = new File(String.format("%s/%s", baseDir.getPath(), "loopHuge.db"));
+        InputStream in = testContext.getAssets().open("fixtures/loopHuge.db");
+        DatabaseHelper.copy(in, dst);
+
+        ImportDataTask task = new ImportDataTask(dst, null);
+        task.execute();
+
+        BaseTask.waitForTasks(30000);
     }
 
     public static void purgeHabits()
