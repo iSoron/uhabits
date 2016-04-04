@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
@@ -126,14 +127,24 @@ public class DatabaseHelper
     }
 
     @Nullable
-    public static File getFilesDir(String prefix)
+    public static File getFilesDir(@Nullable String prefix)
     {
+        if(prefix == null) prefix = "";
+
         Context context = HabitsApplication.getContext();
-        if(context == null) return null;
+        if(context == null)
+        {
+            Log.e("DatabaseHelper", "getFilesDir: no application context available");
+            return null;
+        }
 
         File chosenDir = null;
         File externalFilesDirs[] = ContextCompat.getExternalFilesDirs(context, null);
-        if(externalFilesDirs == null) return null;
+        if(externalFilesDirs == null)
+        {
+            Log.e("DatabaseHelper", "getFilesDir: getExternalFilesDirs returned null");
+            return null;
+        }
 
         for(File dir : externalFilesDirs)
         {
@@ -142,10 +153,18 @@ public class DatabaseHelper
             break;
         }
 
-        if(chosenDir == null) return null;
+        if(chosenDir == null)
+        {
+            Log.e("DatabaseHelper", "getFilesDir: all external dirs are null or non-writable");
+            return null;
+        }
 
         File dir = new File(String.format("%s/%s/", chosenDir.getAbsolutePath(), prefix));
-        dir.mkdirs();
+        if (!dir.exists() && !dir.mkdirs())
+        {
+            Log.e("DatabaseHelper", "getFilesDir: chosen dir does not exist and cannot be created");
+            return null;
+        }
 
         return dir;
     }

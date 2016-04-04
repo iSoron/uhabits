@@ -55,6 +55,7 @@ import org.isoron.uhabits.BaseActivity;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.dialogs.FilePickerDialog;
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.helpers.HintManager;
@@ -428,8 +429,12 @@ public class ListHabitsFragment extends Fragment
 
     public void showImportDialog()
     {
-        File dir = activity.getExternalFilesDir(null);
-        if(dir == null) return;
+        File dir = DatabaseHelper.getFilesDir(null);
+        if(dir == null)
+        {
+            activity.showToast(R.string.could_not_import);
+            return;
+        }
 
         FilePickerDialog picker = new FilePickerDialog(activity, dir);
         picker.setListener(new FilePickerDialog.OnFileSelectedListener()
