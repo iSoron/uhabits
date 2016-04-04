@@ -50,7 +50,7 @@ public class ExportDBTaskTest extends BaseTest
     }
 
     @Test
-    public void exportCSV() throws Throwable
+    public void testExportCSV() throws Throwable
     {
         Context context = InstrumentationRegistry.getContext();
 

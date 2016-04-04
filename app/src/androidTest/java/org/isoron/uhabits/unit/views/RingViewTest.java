@@ -49,14 +49,14 @@ public class RingViewTest extends ViewTest
     }
 
     @Test
-    public void render_base() throws IOException
+    public void testRender_base() throws IOException
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
         assertRenders(view, "RingView/render.png");
     }
 
     @Test
-    public void render_withLongLabel() throws IOException
+    public void testRender_withLongLabel() throws IOException
     {
         view.setLabel("The quick brown fox jumps over the lazy fox");
 
@@ -65,7 +65,7 @@ public class RingViewTest extends ViewTest
     }
 
     @Test
-    public void render_withDifferentParams() throws IOException
+    public void testRender_withDifferentParams() throws IOException
     {
         view.setLabel("Habit Strength");
         view.setPercentage(0.25f);

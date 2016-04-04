@@ -53,28 +53,28 @@ public class HabitScoreViewTest extends ViewTest
     }
 
     @Test
-    public void render() throws Throwable
+    public void testRender() throws Throwable
     {
         Log.d("HabitScoreViewTest", String.format("height=%d", dpToPixels(100)));
         assertRenders(view, "HabitScoreView/render.png");
     }
 
     @Test
-    public void render_withTransparentBackground() throws Throwable
+    public void testRender_withTransparentBackground() throws Throwable
     {
         view.setIsBackgroundTransparent(true);
         assertRenders(view, "HabitScoreView/renderTransparent.png");
     }
 
     @Test
-    public void render_withDifferentSize() throws Throwable
+    public void testRender_withDifferentSize() throws Throwable
     {
         measureView(dpToPixels(200), dpToPixels(200), view);
         assertRenders(view, "HabitScoreView/renderDifferentSize.png");
     }
 
     @Test
-    public void render_withDataOffset() throws Throwable
+    public void testRender_withDataOffset() throws Throwable
     {
         view.onScroll(null, null, -dpToPixels(150), 0);
         view.invalidate();
@@ -83,7 +83,7 @@ public class HabitScoreViewTest extends ViewTest
     }
 
     @Test
-    public void render_withMonthlyBucket() throws Throwable
+    public void testRender_withMonthlyBucket() throws Throwable
     {
         view.setBucketSize(30);
         view.refreshData();
@@ -93,7 +93,7 @@ public class HabitScoreViewTest extends ViewTest
     }
 
     @Test
-    public void render_withYearlyBucket() throws Throwable
+    public void testRender_withYearlyBucket() throws Throwable
     {
         view.setBucketSize(365);
         view.refreshData();

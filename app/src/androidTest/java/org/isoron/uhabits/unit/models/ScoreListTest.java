@@ -61,7 +61,7 @@ public class ScoreListTest extends BaseTest
     }
 
     @Test
-    public void invalidateNewerThan()
+    public void test_invalidateNewerThan()
     {
         assertThat(habit.scores.getTodayValue(), equalTo(0));
 
@@ -76,7 +76,7 @@ public class ScoreListTest extends BaseTest
     }
 
     @Test
-    public void getTodayStarValue()
+    public void test_getTodayStarValue()
     {
         assertThat(habit.scores.getTodayStarStatus(), equalTo(Score.EMPTY_STAR));
 
@@ -89,14 +89,14 @@ public class ScoreListTest extends BaseTest
     }
 
     @Test
-    public void getTodayValue()
+    public void test_getTodayValue()
     {
         toggleRepetitions(0, 20);
         assertThat(habit.scores.getTodayValue(), equalTo(12629351));
     }
 
     @Test
-    public void getValue()
+    public void test_getValue()
     {
         toggleRepetitions(0, 20);
 
@@ -113,7 +113,7 @@ public class ScoreListTest extends BaseTest
     }
 
     @Test
-    public void getAllValues_withoutGroups()
+    public void test_getAllValues_withoutGroups()
     {
         toggleRepetitions(0, 20);
 
@@ -126,7 +126,7 @@ public class ScoreListTest extends BaseTest
     }
 
     @Test
-    public void getAllValues_withGroups()
+    public void test_getAllValues_withGroups()
     {
         toggleRepetitions(0, 20);
 
@@ -137,7 +137,7 @@ public class ScoreListTest extends BaseTest
     }
 
     @Test
-    public void writeCSV() throws IOException
+    public void test_writeCSV() throws IOException
     {
         HabitFixtures.purgeHabits();
         Habit habit = HabitFixtures.createShortHabit();

@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.containsString;
 public class HabitsApplicationTest
 {
     @Test
-    public void getLogcat() throws IOException
+    public void test_getLogcat() throws IOException
     {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
             return;

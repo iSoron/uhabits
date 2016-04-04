@@ -50,13 +50,13 @@ public class NumberViewTest extends ViewTest
     }
 
     @Test
-    public void render_base() throws IOException
+    public void testRender_base() throws IOException
     {
         assertRenders(view, "NumberView/render.png");
     }
 
     @Test
-    public void render_withLongLabel() throws IOException
+    public void testRender_withLongLabel() throws IOException
     {
         view.setLabel("The quick brown fox jumps over the lazy fox");
 
@@ -65,7 +65,7 @@ public class NumberViewTest extends ViewTest
     }
 
     @Test
-    public void render_withDifferentParams() throws IOException
+    public void testRender_withDifferentParams() throws IOException
     {
         view.setNumber(500);
         view.setColor(ColorHelper.palette[5]);

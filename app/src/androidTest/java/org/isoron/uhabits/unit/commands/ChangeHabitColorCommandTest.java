@@ -62,7 +62,7 @@ public class ChangeHabitColorCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo()
+    public void testExecuteUndoRedo()
     {
         checkOriginalColors();
 

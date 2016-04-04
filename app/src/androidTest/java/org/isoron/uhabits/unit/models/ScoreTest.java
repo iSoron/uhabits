@@ -43,7 +43,7 @@ public class ScoreTest extends BaseTest
     }
 
     @Test
-    public void compute_withDailyHabit()
+    public void test_compute_withDailyHabit()
     {
         int checkmark = Checkmark.UNCHECKED;
         assertThat(Score.compute(1, 0, checkmark), equalTo(0));
@@ -65,7 +65,7 @@ public class ScoreTest extends BaseTest
     }
 
     @Test
-    public void compute_withNonDailyHabit()
+    public void test_compute_withNonDailyHabit()
     {
         int checkmark = Checkmark.CHECKED_EXPLICITLY;
         assertThat(Score.compute(1/3.0, 0, checkmark), equalTo(1000000));
@@ -80,7 +80,7 @@ public class ScoreTest extends BaseTest
     }
 
     @Test
-    public void getStarStatus()
+    public void test_getStarStatus()
     {
         Score s = new Score();
 

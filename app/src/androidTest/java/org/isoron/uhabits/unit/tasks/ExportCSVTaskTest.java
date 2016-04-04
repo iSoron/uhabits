@@ -51,7 +51,7 @@ public class ExportCSVTaskTest extends BaseTest
     }
 
     @Test
-    public void exportCSV() throws Throwable
+    public void testExportCSV() throws Throwable
     {
         HabitFixtures.createShortHabit();
         List<Habit> habits = Habit.getAll(true);

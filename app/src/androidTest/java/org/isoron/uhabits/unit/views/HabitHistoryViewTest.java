@@ -57,27 +57,27 @@ public class HabitHistoryViewTest extends ViewTest
     }
 
     @Test
-    public void render() throws Throwable
+    public void testRender() throws Throwable
     {
         assertRenders(view, "HabitHistoryView/render.png");
     }
 
     @Test
-    public void render_withTransparentBackground() throws Throwable
+    public void testRender_withTransparentBackground() throws Throwable
     {
         view.setIsBackgroundTransparent(true);
         assertRenders(view, "HabitHistoryView/renderTransparent.png");
     }
 
     @Test
-    public void render_withDifferentSize() throws Throwable
+    public void testRender_withDifferentSize() throws Throwable
     {
         measureView(dpToPixels(200), dpToPixels(200), view);
         assertRenders(view, "HabitHistoryView/renderDifferentSize.png");
     }
 
     @Test
-    public void render_withDataOffset() throws Throwable
+    public void testRender_withDataOffset() throws Throwable
     {
         view.onScroll(null, null, -dpToPixels(150), 0);
         view.invalidate();

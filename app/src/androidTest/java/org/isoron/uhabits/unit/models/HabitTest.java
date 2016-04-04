@@ -56,7 +56,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void constructor_default()
+    public void testConstructor_default()
     {
         Habit habit = new Habit();
         assertThat(habit.archived, is(0));
@@ -73,7 +73,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void constructor_habit()
+    public void testConstructor_habit()
     {
         Habit model = new Habit();
         model.archived = 1;
@@ -99,7 +99,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void get_withValidId()
+    public void test_get_withValidId()
     {
         Habit habit = new Habit();
         habit.save();
@@ -109,14 +109,14 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void get_withInvalidId()
+    public void test_get_withInvalidId()
     {
         Habit habit = Habit.get(123456L);
         assertThat(habit, is(nullValue()));
     }
 
     @Test
-    public void getAll_withoutArchived()
+    public void test_getAll_withoutArchived()
     {
         List<Habit> habits = new LinkedList<>();
         List<Habit> habitsWithArchived = new LinkedList<>();
@@ -139,7 +139,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void getByPosition()
+    public void test_getByPosition()
     {
         List<Habit> habits = new LinkedList<>();
 
@@ -159,7 +159,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void count()
+    public void test_count()
     {
         for(int i = 0; i < 10; i++)
         {
@@ -173,7 +173,7 @@ public class HabitTest extends BaseTest
 
 
     @Test
-    public void countWithArchived()
+    public void test_countWithArchived()
     {
         for(int i = 0; i < 10; i++)
         {
@@ -186,7 +186,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void updateId()
+    public void test_updateId()
     {
         Habit habit = new Habit();
         habit.name = "Hello World";
@@ -203,7 +203,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void reorder()
+    public void test_reorder()
     {
         List<Long> ids = new LinkedList<>();
 
@@ -253,7 +253,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public  void rebuildOrder()
+    public  void test_rebuildOrder()
     {
         List<Long> ids = new LinkedList<>();
         int originalPositions[] = { 0, 1, 1, 4, 6, 8, 10, 10, 13};
@@ -277,7 +277,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void getHabitsWithReminder()
+    public void test_getHabitsWithReminder()
     {
         List<Habit> habitsWithReminder = new LinkedList<>();
 
@@ -298,7 +298,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void archive_unarchive()
+    public void test_archive_unarchive()
     {
         List<Habit> allHabits = new LinkedList<>();
         List<Habit> archivedHabits = new LinkedList<>();
@@ -326,7 +326,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void setColor()
+    public void test_setColor()
     {
         List<Habit> habits = new LinkedList<>();
 
@@ -346,7 +346,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void hasReminder_clearReminder()
+    public void test_hasReminder_clearReminder()
     {
         Habit h = new Habit();
         assertThat(h.hasReminder(), is(false));
@@ -361,7 +361,7 @@ public class HabitTest extends BaseTest
     }
 
     @Test
-    public void writeCSV() throws IOException
+    public void test_writeCSV() throws IOException
     {
         HabitFixtures.createEmptyHabit();
         HabitFixtures.createShortHabit();

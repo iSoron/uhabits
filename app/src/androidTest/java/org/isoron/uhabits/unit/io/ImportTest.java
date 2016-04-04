@@ -93,7 +93,7 @@ public class ImportTest extends BaseTest
     }
 
     @Test
-    public void tickmateDB() throws IOException
+    public void testTickmateDB() throws IOException
     {
         importFromFile("tickmate.db");
 
@@ -109,7 +109,7 @@ public class ImportTest extends BaseTest
     }
 
     @Test
-    public void rewireDB() throws IOException
+    public void testRewireDB() throws IOException
     {
         importFromFile("rewire.db");
 
@@ -137,7 +137,7 @@ public class ImportTest extends BaseTest
     }
 
     @Test
-    public void habitbullCSV() throws IOException
+    public void testHabitBullCSV() throws IOException
     {
         importFromFile("habitbull.csv");
 
@@ -155,7 +155,7 @@ public class ImportTest extends BaseTest
     }
 
     @Test
-    public void loopDB() throws IOException
+    public void testLoopDB() throws IOException
     {
         importFromFile("loop.db");
 

@@ -23,7 +23,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -56,7 +55,7 @@ public class UnarchiveHabitsCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo()
+    public void testExecuteUndoRedo()
     {
         assertTrue(habit.isArchived());
 

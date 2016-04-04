@@ -88,13 +88,13 @@ public class ImportDataTaskTest extends BaseTest
     }
 
     @Test
-    public void importInvalidData() throws Throwable
+    public void testImportInvalidData() throws Throwable
     {
         assertTaskResult(ImportDataTask.NOT_RECOGNIZED, "icon.png");
     }
 
     @Test
-    public void importValidData() throws Throwable
+    public void testImportValidData() throws Throwable
     {
         assertTaskResult(ImportDataTask.SUCCESS, "loop.db");
     }

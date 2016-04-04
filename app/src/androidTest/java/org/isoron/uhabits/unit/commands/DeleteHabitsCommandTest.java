@@ -23,9 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
@@ -36,7 +34,6 @@ import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -74,7 +71,7 @@ public class DeleteHabitsCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo()
+    public void testExecuteUndoRedo()
     {
         assertThat(Habit.getAll(true).size(), equalTo(4));
 

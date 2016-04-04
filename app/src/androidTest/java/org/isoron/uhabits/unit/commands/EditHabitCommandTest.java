@@ -63,7 +63,7 @@ public class EditHabitCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo()
+    public void testExecuteUndoRedo()
     {
         command = new EditHabitCommand(habit, modified);
 
@@ -87,7 +87,7 @@ public class EditHabitCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo_withModifiedInterval()
+    public void testExecuteUndoRedo_withModifiedInterval()
     {
         modified.freqNum = 1;
         modified.freqDen = 7;

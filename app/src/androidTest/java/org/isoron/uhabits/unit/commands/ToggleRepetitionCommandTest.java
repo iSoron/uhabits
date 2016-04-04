@@ -55,7 +55,7 @@ public class ToggleRepetitionCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo()
+    public void testExecuteUndoRedo()
     {
         assertTrue(habit.repetitions.contains(today));
 

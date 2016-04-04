@@ -64,7 +64,7 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void getAllValues_withNonDailyHabit()
+    public void test_getAllValues_withNonDailyHabit()
     {
         int[] expectedValues = { CHECKED_EXPLICITLY, UNCHECKED, CHECKED_IMPLICITLY,
                 CHECKED_EXPLICITLY, CHECKED_EXPLICITLY, CHECKED_EXPLICITLY, UNCHECKED,
@@ -76,7 +76,7 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void getAllValues_withEmptyHabit()
+    public void test_getAllValues_withEmptyHabit()
     {
         int[] expectedValues = new int[0];
         int[] actualValues = emptyHabit.checkmarks.getAllValues();
@@ -85,7 +85,7 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void getAllValues_moveForwardInTime()
+    public void test_getAllValues_moveForwardInTime()
     {
         travelInTime(3);
 
@@ -99,7 +99,7 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void getAllValues_moveBackwardsInTime()
+    public void test_getAllValues_moveBackwardsInTime()
     {
         travelInTime(-3);
 
@@ -112,14 +112,14 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void getValues_withInvalidInterval()
+    public void test_getValues_withInvalidInterval()
     {
         int values[] = nonDailyHabit.checkmarks.getValues(100L, -100L);
         assertThat(values, equalTo(new int[0]));
     }
 
     @Test
-    public void getValues_withValidInterval()
+    public void test_getValues_withValidInterval()
     {
         long from = DateHelper.getStartOfToday() - 15 * DateHelper.millisecondsInOneDay;
         long to = DateHelper.getStartOfToday() - 5 * DateHelper.millisecondsInOneDay;
@@ -134,7 +134,7 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void getTodayValue()
+    public void test_getTodayValue()
     {
         travelInTime(-1);
         assertThat(nonDailyHabit.checkmarks.getTodayValue(), equalTo(UNCHECKED));
@@ -147,7 +147,7 @@ public class CheckmarkListTest extends BaseTest
     }
 
     @Test
-    public void writeCSV() throws IOException
+    public void test_writeCSV() throws IOException
     {
         String expectedCSV =
                 "2015-01-16,2\n" +

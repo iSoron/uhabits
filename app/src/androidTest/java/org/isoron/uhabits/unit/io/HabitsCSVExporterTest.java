@@ -86,7 +86,7 @@ public class HabitsCSVExporterTest extends BaseTest
     }
 
     @Test
-    public void exportCSV() throws IOException
+    public void testExportCSV() throws IOException
     {
         List<Habit> habits = Habit.getAll(true);
 

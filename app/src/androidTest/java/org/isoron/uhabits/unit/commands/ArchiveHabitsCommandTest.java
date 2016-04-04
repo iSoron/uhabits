@@ -53,7 +53,7 @@ public class ArchiveHabitsCommandTest extends BaseTest
     }
 
     @Test
-    public void executeUndoRedo()
+    public void testExecuteUndoRedo()
     {
         assertFalse(habit.isArchived());
 

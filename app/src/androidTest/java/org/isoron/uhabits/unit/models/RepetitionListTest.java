@@ -66,7 +66,7 @@ public class RepetitionListTest extends BaseTest
     }
 
     @Test
-    public void contains()
+    public void test_contains()
     {
         long current = DateHelper.getStartOfToday();
 
@@ -84,7 +84,7 @@ public class RepetitionListTest extends BaseTest
     }
 
     @Test
-    public void delete()
+    public void test_delete()
     {
         long timestamp = DateHelper.getStartOfToday();
         assertThat(habit.repetitions.contains(timestamp), equalTo(true));
@@ -94,7 +94,7 @@ public class RepetitionListTest extends BaseTest
     }
 
     @Test
-    public void toggle()
+    public void test_toggle()
     {
         long timestamp = DateHelper.getStartOfToday();
         assertThat(habit.repetitions.contains(timestamp), equalTo(true));
@@ -107,7 +107,7 @@ public class RepetitionListTest extends BaseTest
     }
 
     @Test
-    public void getWeekDayFrequency()
+    public void test_getWeekDayFrequency()
     {
         Random random = new Random();
         Integer weekdayCount[][] = new Integer[12][7];
@@ -166,7 +166,7 @@ public class RepetitionListTest extends BaseTest
     }
 
     @Test
-    public void count()
+    public void test_count()
     {
         long to = DateHelper.getStartOfToday();
         long from = to - 9 * DateHelper.millisecondsInOneDay;
@@ -178,7 +178,7 @@ public class RepetitionListTest extends BaseTest
     }
 
     @Test
-    public void getOldest()
+    public void test_getOldest()
     {
         long expectedOldestTimestamp = DateHelper.getStartOfToday() - 9 * DateHelper.millisecondsInOneDay;
 
