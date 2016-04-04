@@ -106,7 +106,9 @@ public class ListHabitsFragment extends Fragment
         listView = (DragSortListView) view.findViewById(R.id.listView);
         llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llEmpty = view.findViewById(R.id.llEmpty);
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         selectedPositions = new LinkedList<>();
         loader = new HabitListLoader();
