@@ -18,9 +18,9 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="helpURL">https://isoron.github.io/uhabits/faq.html</string>
+    <string name="helpURL">http://loophabits.org/faq.html</string>
     <string name="playStoreURL">market://details?id=org.isoron.uhabits</string>
-    <string name="feedbackURL" formatted="false">mailto:isoron+habits@gmail.com?subject=Feedback%20about%20Loop%20Habit%20Tracker</string>
-    <string name="bugReportURL" formatted="false">mailto:isoron+habits@gmail.com?subject=Bug%20Report%20-%20Loop%20Habit%20Tracker</string>
+    <string name="feedbackURL" formatted="false">mailto:dev@loophabits.org?subject=Feedback%20about%20Loop%20Habit%20Tracker</string>
+    <string name="bugReportURL" formatted="false">mailto:dev@loophabits.org?subject=Bug%20Report%20-%20Loop%20Habit%20Tracker</string>
     <string name="sourceCodeURL">https://github.com/iSoron/uhabits</string>
 </resources>
