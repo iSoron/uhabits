@@ -1,5 +1,18 @@
 # Changelog
 
+### 1.4.0 (April 4, 2016)
+
+* Import data from third-party apps
+* Export and import full database backup
+* Additional information on streak chart
+* Simplified interface for creating habits
+* Add link to frequently asked questions
+* Reduce app loading time and lag when tapping widgets
+* Generate bug reports on crash and from settings screen
+* Disable vibrate on touch according to phone settings
+* Add Czech translation
+* Fix wrong month names for some languages
+
 ### 1.3.3 (March 20, 2016)
 
 * Add Spanish and Korean translations
