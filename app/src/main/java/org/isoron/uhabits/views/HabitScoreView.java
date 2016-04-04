@@ -29,16 +29,15 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Random;
 
 public class HabitScoreView extends ScrollableDataView implements HabitDataView
@@ -100,9 +99,9 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         createPaints();
         createColors();
 
-        dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
-        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
-        dfDay = new SimpleDateFormat("d", Locale.getDefault());
+        dfYear = DateHelper.getDateFormat("yyyy");
+        dfMonth = DateHelper.getDateFormat("MMM");
+        dfDay = DateHelper.getDateFormat("d");
 
         rect = new RectF();
         prevRect = new RectF();

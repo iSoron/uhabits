@@ -40,7 +40,6 @@ import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
@@ -100,8 +99,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         checkmarks = new int[0];
         primaryColor = ColorHelper.palette[7];
         wdays = DateHelper.getShortDayNames();
-        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
-        dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+        dfMonth = DateHelper.getDateFormat("MMM");
+        dfYear = DateHelper.getDateFormat("yyyy");
 
         baseLocation = new RectF();
     }

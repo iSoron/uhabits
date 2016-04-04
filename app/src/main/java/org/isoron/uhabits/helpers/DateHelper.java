@@ -97,6 +97,22 @@ public class DateHelper
         return df.format(date);
     }
 
+    public static SimpleDateFormat getDateFormat(String skeleton)
+    {
+        String pattern;
+        Locale locale = Locale.getDefault();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
+            pattern = DateFormat.getBestDateTimePattern(locale, skeleton);
+        else
+            pattern = skeleton;
+
+        SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        return format;
+    }
+
     public static SimpleDateFormat getCSVDateFormat()
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);

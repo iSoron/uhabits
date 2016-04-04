@@ -35,9 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Random;
-import java.util.TimeZone;
 
 public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
 {
@@ -93,11 +91,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
         wdays = DateHelper.getShortDayNames();
 
-        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
-        dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
-
-        dfMonth.setTimeZone(TimeZone.getTimeZone("GMT"));
-        dfYear.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dfMonth = DateHelper.getDateFormat("MMM");
+        dfYear = DateHelper.getDateFormat("yyyy");
 
         rect = new RectF();
         prevRect = new RectF();
