@@ -83,8 +83,8 @@
     <string name="interval_2_hour">2 hours</string>
     <string name="interval_4_hour">4 hours</string>
     <string name="interval_8_hour">8 hours</string>
-    <string name="pref_toggle_title">Toggle repetitions with short press</string>
-    <string name="pref_toggle_description">More convenient, but might cause accidental toggles.</string>
+    <string name="pref_toggle_title">Toggle with short press</string>
+    <string name="pref_toggle_description">Put checkmarks with a single tap instead of press-and-hold. More convenient, but might cause accidental toggles.</string>
     <string name="pref_snooze_interval_title">Snooze interval on reminders</string>
     <string name="pref_rate_this_app">Rate this app in Google Play</string>
     <string name="pref_send_feedback">Send feedback to developer</string>
