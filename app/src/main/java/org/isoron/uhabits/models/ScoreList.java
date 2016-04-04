@@ -164,10 +164,10 @@ public class ScoreList
         try
         {
             SQLiteStatement statement = db.compileStatement(query);
-            statement.bindString(1, habit.getId().toString());
 
             for (int i = 0; i < timestamps.length; i++)
             {
+                statement.bindLong(1, habit.getId());
                 statement.bindLong(2, timestamps[i]);
                 statement.bindLong(3, values[i]);
                 statement.execute();
