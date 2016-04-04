@@ -34,9 +34,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
-import org.isoron.uhabits.helpers.DialogHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -92,12 +93,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }
     }
 
-    private void updateWidget(Context context, AppWidgetManager manager, int widgetId, Bundle options)
+    private void updateWidget(Context context, AppWidgetManager manager,
+                              int widgetId, Bundle options)
     {
         updateWidgetSize(context, options);
 
         Context appContext = context.getApplicationContext();
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
 
         Long habitId = prefs.getLong(getHabitIdKey(widgetId), -1L);
@@ -112,23 +113,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             return;
         }
 
-        View widgetView = buildCustomView(context, habit);
-        measureCustomView(context, width, height, widgetView);
-
-        widgetView.setDrawingCacheEnabled(true);
-        widgetView.buildDrawingCache(true);
-        Bitmap drawingCache = widgetView.getDrawingCache();
-
-        remoteViews.setTextViewText(R.id.label, habit.name);
-        remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
-
-        //savePreview(context, widgetId, drawingCache);
-
-        PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
-        if(onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView, onClickIntent);
-
-        manager.updateAppWidget(widgetId, remoteViews);
+        new RenderWidgetTask(widgetId, context, habit, manager).execute();
     }
+
+    protected abstract void refreshCustomViewData(View widgetView);
 
     private void savePreview(Context context, int widgetId, Bitmap widgetCache)
     {
@@ -170,13 +158,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
         if (options != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
         {
-            maxWidth = (int) DialogHelper.dpToPixels(context,
+            maxWidth = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
-            maxHeight = (int) DialogHelper.dpToPixels(context,
+            maxHeight = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
-            minWidth = (int) DialogHelper.dpToPixels(context,
+            minWidth = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
-            minHeight = (int) DialogHelper.dpToPixels(context,
+            minHeight = (int) UIHelper.dpToPixels(context,
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
         }
 
@@ -203,5 +191,61 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         specHeight = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
         customView.measure(specWidth, specHeight);
         customView.layout(0, 0, customView.getMeasuredWidth(), customView.getMeasuredHeight());
+    }
+
+    private class RenderWidgetTask extends BaseTask
+    {
+        private final int widgetId;
+        private final Context context;
+        private final Habit habit;
+        private final AppWidgetManager manager;
+        public RemoteViews remoteViews;
+        public View widgetView;
+
+        public RenderWidgetTask(int widgetId, Context context, Habit habit,
+                                AppWidgetManager manager)
+        {
+            this.widgetId = widgetId;
+            this.context = context;
+            this.habit = habit;
+            this.manager = manager;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+
+            remoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
+            widgetView = buildCustomView(context, habit);
+            measureCustomView(context, width, height, widgetView);
+            manager.updateAppWidget(widgetId, remoteViews);
+        }
+
+        @Override
+        protected void doInBackground()
+        {
+            refreshCustomViewData(widgetView);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            widgetView.invalidate();
+            widgetView.setDrawingCacheEnabled(true);
+            widgetView.buildDrawingCache(true);
+            Bitmap drawingCache = widgetView.getDrawingCache();
+            remoteViews.setTextViewText(R.id.label, habit.name);
+            remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
+
+            //savePreview(context, widgetId, drawingCache);
+
+            PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
+            if(onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView, onClickIntent);
+
+            manager.updateAppWidget(widgetId, remoteViews);
+
+            super.onPostExecute(aVoid);
+        }
     }
 }

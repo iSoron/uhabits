@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -80,12 +79,12 @@ public class ExportCSVTask extends BaseTask
     }
 
     @Override
-    protected Void doInBackground(Void... params)
+    protected void doInBackground()
     {
         try
         {
             File dir = DatabaseHelper.getFilesDir("CSV");
-            if(dir == null) return null;
+            if(dir == null) return;
 
             HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dir);
             archiveFilename = exporter.writeArchive();
@@ -94,7 +93,5 @@ public class ExportCSVTask extends BaseTask
         {
             e.printStackTrace();
         }
-
-        return null;
     }
 }

@@ -20,6 +20,7 @@
 package org.isoron.uhabits;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 
@@ -27,7 +28,6 @@ import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.junit.Before;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class BaseTest
@@ -55,6 +55,12 @@ public class BaseTest
 
     protected void waitForAsyncTasks() throws InterruptedException, TimeoutException
     {
-        BaseTask.waitForTasks(30, TimeUnit.SECONDS);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+        {
+            Thread.sleep(1000);
+            return;
+        }
+
+        BaseTask.waitForTasks(10000);
     }
 }

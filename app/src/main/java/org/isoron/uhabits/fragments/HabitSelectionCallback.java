@@ -36,7 +36,7 @@ import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 
@@ -49,7 +49,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
     private List<Integer> selectedPositions;
     private BaseActivity activity;
     private Listener listener;
-    private DialogHelper.OnSavedListener onSavedListener;
+    private UIHelper.OnSavedListener onSavedListener;
     private ProgressBar progressBar;
 
     public interface Listener
@@ -74,7 +74,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
         this.progressBar = progressBar;
     }
 
-    public void setOnSavedListener(DialogHelper.OnSavedListener onSavedListener)
+    public void setOnSavedListener(UIHelper.OnSavedListener onSavedListener)
     {
         this.onSavedListener = onSavedListener;
     }

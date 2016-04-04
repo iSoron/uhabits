@@ -56,8 +56,7 @@ import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
-import org.isoron.uhabits.helpers.DialogHelper.OnSavedListener;
+import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.helpers.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
@@ -107,7 +106,9 @@ public class ListHabitsFragment extends Fragment
         listView = (DragSortListView) view.findViewById(R.id.listView);
         llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llEmpty = view.findViewById(R.id.llEmpty);
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         selectedPositions = new LinkedList<>();
         loader = new HabitListLoader();
@@ -116,7 +117,6 @@ public class ListHabitsFragment extends Fragment
 
         loader.setListener(this);
         loader.setCheckmarkCount(helper.getButtonCount());
-        loader.setProgressBar(progressBar);
 
         llHint.setOnClickListener(this);
         tvStarEmpty.setTypeface(helper.getFontawesome());

@@ -21,15 +21,16 @@ package org.isoron.uhabits.models;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -134,10 +135,9 @@ public class CheckmarkList
      */
     protected void computeAll()
     {
-        Repetition oldestRep = habit.repetitions.getOldest();
-        if(oldestRep == null) return;
+        long fromTimestamp = habit.repetitions.getOldestTimestamp();
+        if(fromTimestamp == 0) return;
 
-        Long fromTimestamp = oldestRep.timestamp;
         Long toTimestamp = DateHelper.getStartOfToday();
 
         compute(fromTimestamp, toTimestamp);
@@ -150,9 +150,11 @@ public class CheckmarkList
      * @param from timestamp for the beginning of the interval
      * @param to timestamp for the end of the interval
      */
-    protected void compute(long from, long to)
+    protected void compute(long from, final long to)
     {
-        long day = DateHelper.millisecondsInOneDay;
+        UIHelper.throwIfMainThread();
+
+        final long day = DateHelper.millisecondsInOneDay;
 
         Checkmark newestCheckmark = findNewest();
         if(newestCheckmark != null)
@@ -165,9 +167,9 @@ public class CheckmarkList
                 .selectFromTo(fromExtended, to)
                 .execute();
 
-        int nDays = (int) ((to - from) / day) + 1;
+        final int nDays = (int) ((to - from) / day) + 1;
         int nDaysExtended = (int) ((to - fromExtended) / day) + 1;
-        int checks[] = new int[nDaysExtended];
+        final int checks[] = new int[nDaysExtended];
 
         for (Repetition rep : reps)
         {
@@ -187,24 +189,38 @@ public class CheckmarkList
                     checks[i] = Checkmark.CHECKED_IMPLICITLY;
         }
 
-        ActiveAndroid.beginTransaction();
+
+        long timestamps[] = new long[nDays];
+        for (int i = 0; i < nDays; i++)
+            timestamps[i] = to - i * day;
+
+        insert(timestamps, checks);
+    }
+
+    private void insert(long timestamps[], int values[])
+    {
+        String query = "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
+
+        SQLiteDatabase db = Cache.openDatabase();
+        db.beginTransaction();
 
         try
         {
-            for (int i = 0; i < nDays; i++)
+            SQLiteStatement statement = db.compileStatement(query);
+
+            for (int i = 0; i < timestamps.length; i++)
             {
-                Checkmark c = new Checkmark();
-                c.habit = habit;
-                c.timestamp = to - i * day;
-                c.value = checks[i];
-                c.save();
+                statement.bindLong(1, habit.getId());
+                statement.bindLong(2, timestamps[i]);
+                statement.bindLong(3, values[i]);
+                statement.execute();
             }
 
-            ActiveAndroid.setTransactionSuccessful();
+            db.setTransactionSuccessful();
         }
         finally
         {
-            ActiveAndroid.endTransaction();
+            db.endTransaction();
         }
     }
 

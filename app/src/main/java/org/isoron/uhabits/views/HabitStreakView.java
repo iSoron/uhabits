@@ -78,9 +78,7 @@ public class HabitStreakView extends View implements HabitDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-
         createColors();
-        postInvalidate();
     }
 
     private void init()
@@ -93,7 +91,7 @@ public class HabitStreakView extends View implements HabitDataView
         dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         rect = new RectF();
-
+        maxStreakCount = 10;
         baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
 
@@ -118,7 +116,6 @@ public class HabitStreakView extends View implements HabitDataView
         em = paint.getFontSpacing();
         textMargin = 0.5f * em;
 
-        refreshData();
         updateMaxMin();
     }
 

@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Calendar;
@@ -38,14 +38,12 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     public RepetitionCountView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.interval = DialogHelper.getIntAttribute(context, attrs, "interval", 7);
-        int labelValue = DialogHelper.getIntAttribute(context, attrs, "labelValue", 7);
-        String labelFormat = DialogHelper.getAttribute(context, attrs, "labelFormat",
+        this.interval = UIHelper.getIntAttribute(context, attrs, "interval", 7);
+        int labelValue = UIHelper.getIntAttribute(context, attrs, "labelValue", 7);
+        String labelFormat = UIHelper.getAttribute(context, attrs, "labelFormat",
                 getResources().getString(R.string.last_x_days));
 
         setLabel(String.format(labelFormat, labelValue));
-
-        refreshData();
     }
 
     @Override
@@ -73,6 +71,8 @@ public class RepetitionCountView extends NumberView implements HabitDataView
 
         if(habit != null)
             setNumber(habit.repetitions.count(from, to));
+
+        postInvalidate();
     }
 
     @Override
@@ -80,6 +80,5 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     {
         this.habit = habit;
         setColor(habit.color);
-        refreshData();
     }
 }

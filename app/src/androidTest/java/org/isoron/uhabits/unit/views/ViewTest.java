@@ -27,7 +27,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.views.HabitDataView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +40,7 @@ import static junit.framework.Assert.fail;
 
 public class ViewTest extends BaseTest
 {
-    protected static final double SIMILARITY_CUTOFF = 0.08;
+    protected static final double SIMILARITY_CUTOFF = 0.09;
     public static final int HISTOGRAM_BIN_SIZE = 8;
 
     protected void measureView(int width, int height, View view)
@@ -179,7 +181,7 @@ public class ViewTest extends BaseTest
 
     protected int dpToPixels(int dp)
     {
-        return (int) DialogHelper.dpToPixels(targetContext, dp);
+        return (int) UIHelper.dpToPixels(targetContext, dp);
     }
 
     protected void tap(GestureDetector.OnGestureListener view, int x, int y) throws InterruptedException
@@ -189,5 +191,26 @@ public class ViewTest extends BaseTest
                 dpToPixels(y), 0);
         view.onSingleTapUp(e);
         e.recycle();
+    }
+
+    protected void refreshData(final HabitDataView view)
+    {
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                view.refreshData();
+            }
+        }.execute();
+
+        try
+        {
+            waitForAsyncTasks();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Time out");
+        }
     }
 }

@@ -48,6 +48,7 @@ public class HabitScoreViewTest extends ViewTest
         view = new HabitScoreView(targetContext);
         view.setHabit(habit);
         view.setBucketSize(7);
+        refreshData(view);
         measureView(dpToPixels(300), dpToPixels(100), view);
     }
 

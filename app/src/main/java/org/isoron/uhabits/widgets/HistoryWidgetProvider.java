@@ -25,6 +25,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitHistoryView;
 
 public class HistoryWidgetProvider extends  BaseWidgetProvider
@@ -36,6 +37,12 @@ public class HistoryWidgetProvider extends  BaseWidgetProvider
         view.setHabit(habit);
         view.setIsBackgroundTransparent(true);
         return view;
+    }
+
+    @Override
+    protected void refreshCustomViewData(View view)
+    {
+        ((HabitDataView) view).refreshData();
     }
 
     @Override

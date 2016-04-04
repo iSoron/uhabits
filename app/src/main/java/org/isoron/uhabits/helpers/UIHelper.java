@@ -23,6 +23,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.os.Debug;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -33,7 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.commands.Command;
 
-public abstract class DialogHelper
+public abstract class UIHelper
 {
 
     public static final String ISORON_NAMESPACE = "http://isoron.org/android";
@@ -109,5 +112,38 @@ public abstract class DialogHelper
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
+    }
+
+    /**
+     * Throws a runtime exception if called from the main thread. Useful to make sure that
+     * slow methods never accidentally slow the application down.
+     *
+     * @throws RuntimeException when run from main thread
+     */
+    public static void throwIfMainThread() throws RuntimeException
+    {
+        Looper looper = Looper.myLooper();
+        if(looper == null) return;
+
+        if(looper == Looper.getMainLooper())
+            throw new RuntimeException("This method should never be called from the main thread");
+    }
+
+    public static void startTracing()
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        {
+            throw new UnsupportedOperationException();
+        }
+        else
+        {
+            Debug.startMethodTracingSampling("Android/data/org.isoron.uhabits/perf",
+                    32 * 1024 * 1024, 100);
+        }
+    }
+
+    public static void stopTracing()
+    {
+        Debug.stopMethodTracing();
     }
 }

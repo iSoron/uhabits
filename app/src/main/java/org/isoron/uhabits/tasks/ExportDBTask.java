@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -75,14 +74,14 @@ public class ExportDBTask extends BaseTask
     }
 
     @Override
-    protected Void doInBackground(Void... params)
+    protected void doInBackground()
     {
         filename = null;
 
         try
         {
             File dir = DatabaseHelper.getFilesDir("Backups");
-            if(dir == null) return null;
+            if(dir == null) return;
 
             filename = DatabaseHelper.saveDatabaseCopy(dir);
         }
@@ -90,7 +89,5 @@ public class ExportDBTask extends BaseTask
         {
             e.printStackTrace();
         }
-
-        return null;
     }
 }

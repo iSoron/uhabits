@@ -25,6 +25,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitStreakView;
 
 public class StreakWidgetProvider extends  BaseWidgetProvider
@@ -36,6 +37,12 @@ public class StreakWidgetProvider extends  BaseWidgetProvider
         view.setIsBackgroundTransparent(true);
         view.setHabit(habit);
         return view;
+    }
+
+    @Override
+    protected void refreshCustomViewData(View view)
+    {
+        ((HabitDataView) view).refreshData();
     }
 
     @Override

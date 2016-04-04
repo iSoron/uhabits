@@ -84,13 +84,10 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         this.habit = habit;
         createColors();
-        refreshData();
-        postInvalidate();
     }
 
     private void init()
     {
-        refreshData();
         createPaints();
         createColors();
 
@@ -181,7 +178,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         else if(habit != null)
             frequency = habit.repetitions.getWeekdayFrequency();
 
-        invalidate();
+        postInvalidate();
     }
 
     private void generateRandomData()

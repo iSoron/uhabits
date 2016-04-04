@@ -20,42 +20,53 @@
 package org.isoron.uhabits.tasks;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class BaseTask extends AsyncTask<Void, Void, Void>
+public abstract class BaseTask extends AsyncTask<Void, Integer, Void>
 {
-    private static CountDownLatch latch;
     private static int activeTaskCount;
-
-    @Override
-    protected Void doInBackground(Void... params)
-    {
-        return null;
-    }
 
     @Override
     protected void onPreExecute()
     {
+        super.onPreExecute();
         activeTaskCount++;
-        latch = new CountDownLatch(activeTaskCount);
     }
 
     @Override
     protected void onPostExecute(Void aVoid)
     {
         activeTaskCount--;
-        latch.countDown();
+        super.onPostExecute(null);
     }
 
-    public static void waitForTasks(long timeout, TimeUnit unit)
+    @Override
+    protected final Void doInBackground(Void... params)
+    {
+        doInBackground();
+        return null;
+    }
+
+    protected abstract void doInBackground();
+
+    public static void waitForTasks(long timeout)
             throws TimeoutException, InterruptedException
     {
-        if(activeTaskCount == 0) return;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            throw new UnsupportedOperationException("waitForTasks requires API 16+");
 
-        boolean successful = latch.await(timeout, unit);
-        if(!successful) throw new TimeoutException();
+        int poolInterval = 100;
+
+        while(timeout > 0)
+        {
+            if(activeTaskCount == 0) return;
+
+            timeout -= poolInterval;
+            Thread.sleep(poolInterval);
+        }
+
+        throw new TimeoutException();
     }
 }

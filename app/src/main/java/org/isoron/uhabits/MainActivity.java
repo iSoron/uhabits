@@ -37,7 +37,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.DialogHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
@@ -85,8 +85,8 @@ public class MainActivity extends BaseActivity
     private void onStartup()
     {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        DialogHelper.incrementLaunchCount(this);
-        DialogHelper.updateLastAppVersion(this);
+        UIHelper.incrementLaunchCount(this);
+        UIHelper.updateLastAppVersion(this);
         showTutorial();
 
         new AsyncTask<Void, Void, Void>() {

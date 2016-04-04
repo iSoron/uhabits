@@ -45,6 +45,7 @@ public class HabitFrequencyViewTest extends ViewTest
 
         view = new HabitFrequencyView(targetContext);
         view.setHabit(habit);
+        refreshData(view);
         measureView(dpToPixels(300), dpToPixels(100), view);
     }
 

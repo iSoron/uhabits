@@ -28,6 +28,7 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -86,6 +87,8 @@ public class StreakList
 
     public void rebuild()
     {
+        UIHelper.throwIfMainThread();
+
         long beginning;
         long today = DateHelper.getStartOfToday();
         long day = DateHelper.millisecondsInOneDay;

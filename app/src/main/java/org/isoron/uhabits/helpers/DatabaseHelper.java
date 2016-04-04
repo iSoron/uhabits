@@ -20,11 +20,13 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Cache;
 import com.activeandroid.Configuration;
 
 import org.isoron.uhabits.BuildConfig;
@@ -162,5 +164,21 @@ public class DatabaseHelper
                 .create();
 
         ActiveAndroid.initialize(dbConfig);
+    }
+
+    public static long longQuery(String query, String args[])
+    {
+        Cursor c = null;
+
+        try
+        {
+            c = Cache.openDatabase().rawQuery(query, args);
+            if (!c.moveToFirst()) return 0;
+            return c.getLong(0);
+        }
+        finally
+        {
+            if(c != null) c.close();
+        }
     }
 }

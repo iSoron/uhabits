@@ -25,6 +25,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Repetition;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.After;
 import org.junit.Before;
@@ -37,6 +38,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Random;
 
+import static junit.framework.Assert.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -173,5 +175,17 @@ public class RepetitionListTest extends BaseTest
         to = DateHelper.getStartOfToday() - DateHelper.millisecondsInOneDay;
         from = to - 5 * DateHelper.millisecondsInOneDay;
         assertThat(habit.repetitions.count(from, to), equalTo(3));
+    }
+
+    @Test
+    public void getOldest()
+    {
+        long expectedOldestTimestamp = DateHelper.getStartOfToday() - 9 * DateHelper.millisecondsInOneDay;
+
+        assertThat(habit.repetitions.getOldestTimestamp(), equalTo(expectedOldestTimestamp));
+
+        Repetition oldest = habit.repetitions.getOldest();
+        assertFalse(oldest == null);
+        assertThat(oldest.timestamp, equalTo(expectedOldestTimestamp));
     }
 }
