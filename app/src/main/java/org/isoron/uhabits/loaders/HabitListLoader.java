@@ -164,6 +164,8 @@ public class HabitListLoader
                 currentFetchTask = null;
 
                 if(listener != null) listener.onLoadFinished();
+
+                super.onPostExecute(null);
             }
 
         };
@@ -194,6 +196,8 @@ public class HabitListLoader
             {
                 if(listener != null)
                     listener.onLoadFinished();
+
+                super.onPostExecute(null);
             }
         }.execute();
     }

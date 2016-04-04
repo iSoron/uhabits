@@ -28,25 +28,27 @@ public abstract class BaseTask extends AsyncTask<Void, Integer, Void>
     private static int activeTaskCount;
 
     @Override
+    protected void onPreExecute()
+    {
+        super.onPreExecute();
+        activeTaskCount++;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+        activeTaskCount--;
+        super.onPostExecute(null);
+    }
+
+    @Override
     protected final Void doInBackground(Void... params)
     {
-        register();
         doInBackground();
-        unregister();
         return null;
     }
 
     protected abstract void doInBackground();
-
-    protected void register()
-    {
-        activeTaskCount++;
-    }
-
-    protected void unregister()
-    {
-        activeTaskCount--;
-    }
 
     public static void waitForTasks(long timeout)
             throws TimeoutException, InterruptedException
