@@ -167,6 +167,10 @@
 
             <TextView
                 style="@style/aboutItemStyle"
+                android:text="Tomáš Borovec (Čeština)"/>
+
+            <TextView
+                style="@style/aboutItemStyle"
                 android:text="Álinson Xavier (Português)"/>
         </LinearLayout>
     </LinearLayout>
