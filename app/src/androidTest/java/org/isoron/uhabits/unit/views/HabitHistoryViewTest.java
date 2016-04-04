@@ -21,7 +21,6 @@ package org.isoron.uhabits.unit.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
 
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
@@ -53,14 +52,13 @@ public class HabitHistoryViewTest extends ViewTest
 
         view = new HabitHistoryView(targetContext);
         view.setHabit(habit);
-        refreshData(view);
         measureView(dpToPixels(300), dpToPixels(100), view);
+        refreshData(view);
     }
 
     @Test
     public void render() throws Throwable
     {
-        Log.d("HabitHistoryViewTest", String.format("height=%d", dpToPixels(100)));
         assertRenders(view, "HabitHistoryView/render.png");
     }
 
