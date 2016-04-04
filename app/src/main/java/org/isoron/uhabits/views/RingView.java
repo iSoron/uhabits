@@ -29,7 +29,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import org.isoron.uhabits.R;
@@ -98,7 +97,6 @@ public class RingView extends View
 
         fadedTextColor = getResources().getColor(R.color.fadedTextColor);
         textSize = getResources().getDimension(R.dimen.smallTextSize);
-        Log.d("RingView", String.format("textSize=%f", textSize));
 
         rect = new RectF();
     }

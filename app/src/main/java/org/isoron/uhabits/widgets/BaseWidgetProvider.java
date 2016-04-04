@@ -238,7 +238,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             remoteViews.setTextViewText(R.id.label, habit.name);
             remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
 
-            savePreview(context, widgetId, drawingCache);
+            //savePreview(context, widgetId, drawingCache);
 
             PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
             if(onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView, onClickIntent);
