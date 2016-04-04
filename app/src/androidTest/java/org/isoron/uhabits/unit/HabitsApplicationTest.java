@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.unit;
 
+import android.os.Build;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -38,6 +39,9 @@ public class HabitsApplicationTest
     @Test
     public void getLogcat() throws IOException
     {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            return;
+
         String msg = "LOGCAT TEST";
         new RuntimeException(msg).printStackTrace();
 

@@ -20,6 +20,7 @@
 package org.isoron.uhabits.tasks;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 import java.util.concurrent.TimeoutException;
 
@@ -53,6 +54,9 @@ public abstract class BaseTask extends AsyncTask<Void, Integer, Void>
     public static void waitForTasks(long timeout)
             throws TimeoutException, InterruptedException
     {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            throw new UnsupportedOperationException("waitForTasks requires API 16+");
+
         int poolInterval = 100;
 
         while(timeout > 0)
