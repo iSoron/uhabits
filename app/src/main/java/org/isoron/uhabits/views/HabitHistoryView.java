@@ -40,6 +40,7 @@ import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
@@ -58,6 +59,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private int nColumns;
 
     private String wdays[];
+    private Integer[] localeWeekdayList;
+    private HashMap<Integer, Integer> number2wdays;
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfYear;
 
@@ -101,6 +104,17 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         wdays = DateHelper.getShortDayNames();
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
+
+        /**
+         * here we create the mapping of week days numbers into the "wdays"-indices
+         * @see DateHelper#getDayNames(int)
+         */
+        localeWeekdayList = DateHelper.getLocaleWeekdayList();
+        number2wdays = new HashMap<>();
+        for (Integer number : localeWeekdayList) {
+            int wdaysIndex = number % 7;
+            number2wdays.put(number, wdaysIndex);
+        }
 
         baseLocation = new RectF();
     }
@@ -298,10 +312,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void drawAxis(Canvas canvas, RectF location)
     {
-        for (int i = 0; i < 7; i++)
+        for (Integer dayNumber : localeWeekdayList)
         {
             location.offset(0, columnWidth);
-            canvas.drawText(wdays[i], location.left + headerTextOffset,
+            canvas.drawText(wdays[number2wdays.get(dayNumber)], location.left + headerTextOffset,
                     location.bottom - headerTextOffset, pTextHeader);
         }
     }
