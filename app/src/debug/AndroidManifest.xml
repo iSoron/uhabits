@@ -19,10 +19,21 @@
   -->
 <manifest
     package="org.isoron.uhabits"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.SET_ANIMATION_SCALE"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:replace="maxSdkVersion"
+        android:maxSdkVersion="99" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:replace="maxSdkVersion"
+        android:maxSdkVersion="99" />
 
 </manifest>

@@ -21,6 +21,7 @@ package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -127,10 +128,15 @@ public class DatabaseHelper
     }
 
     @Nullable
-    public static File getFilesDir(@Nullable String prefix)
+    public static File getSDCardDir(@Nullable String relativePath)
     {
-        if(prefix == null) prefix = "";
+        File parents[] = new File[]{ Environment.getExternalStorageDirectory() };
+        return getDir(parents, relativePath);
+    }
 
+    @Nullable
+    public static File getFilesDir(@Nullable String relativePath)
+    {
         Context context = HabitsApplication.getContext();
         if(context == null)
         {
@@ -138,15 +144,24 @@ public class DatabaseHelper
             return null;
         }
 
-        File chosenDir = null;
         File externalFilesDirs[] = ContextCompat.getExternalFilesDirs(context, null);
+
         if(externalFilesDirs == null)
         {
             Log.e("DatabaseHelper", "getFilesDir: getExternalFilesDirs returned null");
             return null;
         }
 
-        for(File dir : externalFilesDirs)
+        return getDir(externalFilesDirs, relativePath);
+    }
+
+    @Nullable
+    private static File getDir(@NonNull File potentialParentDirs[], @Nullable String relativePath)
+    {
+        if(relativePath == null) relativePath = "";
+
+        File chosenDir = null;
+        for(File dir : potentialParentDirs)
         {
             if (dir == null || !dir.canWrite()) continue;
             chosenDir = dir;
@@ -155,14 +170,14 @@ public class DatabaseHelper
 
         if(chosenDir == null)
         {
-            Log.e("DatabaseHelper", "getFilesDir: all external dirs are null or non-writable");
+            Log.e("DatabaseHelper", "getDir: all potential parents are null or non-writable");
             return null;
         }
 
-        File dir = new File(String.format("%s/%s/", chosenDir.getAbsolutePath(), prefix));
+        File dir = new File(String.format("%s/%s/", chosenDir.getAbsolutePath(), relativePath));
         if (!dir.exists() && !dir.mkdirs())
         {
-            Log.e("DatabaseHelper", "getFilesDir: chosen dir does not exist and cannot be created");
+            Log.e("DatabaseHelper", "getDir: chosen dir does not exist and cannot be created");
             return null;
         }
 
