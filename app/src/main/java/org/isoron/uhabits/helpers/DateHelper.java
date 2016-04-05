@@ -25,9 +25,12 @@ import android.text.format.DateFormat;
 import org.isoron.uhabits.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class DateHelper
@@ -155,21 +158,92 @@ public class DateHelper
     }
 
 
+    /**
+     * Throughout the code, it is assumed that the weekdays are numbered
+     * from 0 (Saturday) to 6 (Friday).
+     *
+     * see https://github.com/iSoron/uhabits/issues/74
+     *
+     * In the Java Calendar they are numbered from 1 (Sunday) to 7 (Saturday)
+     *
+     * <table>
+     * <thead>
+     * <tr><th>day</th><th>dayNumber</th><th>wdaysIndex</th></tr>
+     * <thead>
+     * <tbody>
+     * <tr><td>Su</td><td>1</td><td>1</td></tr>
+     * <tr><td>Mo</td><td>2</td><td>2</td></tr>
+     * <tr><td>Tu</td><td>3</td><td>3</td></tr>
+     * <tr><td>We</td><td>4</td><td>4</td></tr>
+     * <tr><td>Th</td><td>5</td><td>5</td></tr>
+     * <tr><td>Fr</td><td>6</td><td>6</td></tr>
+     * <tr><td>Sa</td><td>7</td><td>0</td></tr>
+     * </tbody>
+     * </table>
+     *
+     * So we have {@code wdaysIndex = dayNumber % 7}
+     *
+     * @return array with names from Saturday to Friday according to the current locale
+     *
+     * @see #getWeekday(long)
+     * @see java.util.Calendar#SUNDAY
+     *
+     */
     public static String[] getDayNames(int format)
     {
         String[] wdays = new String[7];
 
-        GregorianCalendar day = new GregorianCalendar();
-        day.set(GregorianCalendar.DAY_OF_WEEK, 0);
+        Calendar day = new GregorianCalendar();
+        // we start with Saturday
+        day.set(GregorianCalendar.DAY_OF_WEEK, Calendar.SATURDAY);
 
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < wdays.length; i++)
         {
             wdays[i] = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, format,
                     Locale.getDefault());
+            // advance in time by one day
             day.add(GregorianCalendar.DAY_OF_MONTH, 1);
         }
 
         return wdays;
+    }
+
+
+    /**
+     *
+     * @return array with week days numbers starting according to locale settings,
+     * e.g. [2,3,4,5,6,7,1] in Europe
+     *
+     * @see java.util.Calendar#SUNDAY
+     *
+     */
+    public static Integer[] getLocaleWeekdayList()
+    {
+        Integer[] dayNumbers = new Integer[7];
+        // a dummy calendar
+        Calendar calendar = new GregorianCalendar();
+        // set staring day according to locale
+        calendar.set(GregorianCalendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        for (int i = 0; i < dayNumbers.length; i++) {
+            dayNumbers[i] = calendar.get(GregorianCalendar.DAY_OF_WEEK);
+            // advance in time by one day
+            calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        }
+        return dayNumbers;
+    }
+
+    /**
+     * here we create the mapping of week days numbers into the "wdays"-indices
+     *
+     * @see DateHelper#getDayNames(int)
+     */
+    public static Map<Integer, Integer> getWeekdayMap()
+    {
+        Map<Integer, Integer> number2wdays = new HashMap<>();
+        for (Integer number : getLocaleWeekdayList()) {
+            number2wdays.put(number, number % 7);
+        }
+        return number2wdays;
     }
 
     public static String formatWeekdayList(Context context, boolean weekday[])

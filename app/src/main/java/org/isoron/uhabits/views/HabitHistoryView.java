@@ -40,6 +40,8 @@ import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
@@ -58,6 +60,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private int nColumns;
 
     private String wdays[];
+    private Integer[] localeWeekdayList;
+    private Map<Integer, Integer> number2wdays;
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfYear;
 
@@ -102,6 +106,9 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
 
+        localeWeekdayList = DateHelper.getLocaleWeekdayList();
+        number2wdays = DateHelper.getWeekdayMap();
+
         baseLocation = new RectF();
     }
 
@@ -115,6 +122,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayWeekday);
+        // ????
+        baseDate.add(Calendar.DAY_OF_YEAR, localeWeekdayList[0]);
     }
 
     @Override
@@ -272,9 +281,13 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         drawColumnHeader(canvas, location, date);
         location.offset(0, columnWidth);
 
-        for (int j = 0; j < 7; j++)
+        int todayOfYear = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_YEAR);
+
+        for (Integer dayNumber : localeWeekdayList)
         {
-            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayWeekday))
+            int dayOfYear = date.get(Calendar.DAY_OF_YEAR);
+            int j = number2wdays.get(dayNumber);
+            if (!(column == nColumns - 2 && getDataOffset() == 0 && dayOfYear > todayOfYear))
             {
                 int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
@@ -298,10 +311,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void drawAxis(Canvas canvas, RectF location)
     {
-        for (int i = 0; i < 7; i++)
+        for (Integer dayNumber : localeWeekdayList)
         {
             location.offset(0, columnWidth);
-            canvas.drawText(wdays[i], location.left + headerTextOffset,
+            canvas.drawText(wdays[number2wdays.get(dayNumber)], location.left + headerTextOffset,
                     location.bottom - headerTextOffset, pTextHeader);
         }
     }

@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
@@ -63,6 +64,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
     private HashMap<Long, Integer[]> frequency;
     private String wdays[];
+    private Integer[] localeWeekdayList;
+    private Map<Integer, Integer> number2wdays;
 
     public HabitFrequencyView(Context context)
     {
@@ -90,6 +93,13 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         createColors();
 
         wdays = DateHelper.getShortDayNames();
+
+        /**
+         * here we create the mapping of week days numbers into the "wdays"-indices
+         * @see DateHelper#getDayNames(int)
+         */
+        localeWeekdayList = DateHelper.getLocaleWeekdayList();
+        number2wdays = DateHelper.getWeekdayMap();
 
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
@@ -230,11 +240,12 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
-        for (int i = 0; i < 7; i++)
+        for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
-            rect.offset(prevRect.left, prevRect.top + columnWidth * i);
+            rect.offset(prevRect.left, prevRect.top + columnWidth * j);
 
+            int i = number2wdays.get(localeWeekdayList[j]);
             if(values != null)
                 drawMarker(canvas, rect, values[i]);
 
@@ -265,16 +276,15 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
     private void drawGrid(Canvas canvas, RectF rGrid)
     {
-        int nRows = 7;
+        int nRows = localeWeekdayList.length;
         float rowHeight = rGrid.height() / (nRows + 1);
 
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setColor(textColor);
         pGrid.setColor(dimmedTextColor);
 
-        for (int i = 0; i < nRows; i++)
-        {
-            canvas.drawText(wdays[i], rGrid.right - columnWidth,
+        for (Integer dayNumber : localeWeekdayList) {
+            canvas.drawText(wdays[number2wdays.get(dayNumber)], rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
             pGrid.setStrokeWidth(1f);
