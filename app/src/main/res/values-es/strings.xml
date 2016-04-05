@@ -120,22 +120,14 @@ Los recordatorios se pueden marcar, posponer o descartar directamente desde tu r
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Versión %s"</string>
 <string name="frequency">"Frecuencia"</string>
-<string name="checkmark"></string>
 
 <!-- This is a shorter version of "Habit Strength" -->
 <string name="strength">"Fuerza"</string>
 
 <!-- Fuzzy -->
 <string name="best_streaks">"Mejores rachas"</string>
-<string name="current_streaks"></string>
-<string name="number_of_repetitions"></string>
-<string name="last_x_days"></string>
-<string name="last_x_weeks"></string>
-<string name="last_x_months"></string>
-<string name="last_x_years"></string>
 
 <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
-<string name="all_time"></string>
 
 <!-- Fuzzy -->
 <string name="every_day">"Diariamente"</string>
@@ -151,20 +143,6 @@ Los recordatorios se pueden marcar, posponer o descartar directamente desde tu r
 
 <!-- Fuzzy -->
 <string name="custom_frequency">"Personalizado..."</string>
-<string name="help"></string>
-<string name="could_not_export"></string>
-<string name="could_not_import"></string>
 
 <!-- Appears when the user tries to import a file which we do not support or recognize. -->
-<string name="file_not_recognized"></string>
-<string name="habits_imported"></string>
-<string name="full_backup_success"></string>
-<string name="import_data"></string>
-<string name="export_full_backup"></string>
-<string name="import_data_summary"></string>
-<string name="export_as_csv_summary"></string>
-<string name="export_full_backup_summary"></string>
-<string name="bug_report_failed"></string>
-<string name="generate_bug_report"></string>
-<string name="troubleshooting"></string>
 </resources>
