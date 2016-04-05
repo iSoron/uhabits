@@ -2,14 +2,14 @@
 
 ### 1.4.0 (April 4, 2016)
 
-* Import data from third-party apps
-* Export and import full database backup
-* Additional information on streak chart
-* Simplified interface for creating habits
-* Add link to frequently asked questions
-* Reduce app loading time and lag when tapping widgets
+* Ability to import data from third-party apps
+* Ability to save and restore full database backup
+* Show more information on streak chart
+* Simplify interface for creating habits
+* Add link to Frequently Asked Questions (FAQ)
+* Reduce app loading time and lag on widgets
 * Generate bug reports on crash and from settings screen
-* Disable vibrate on touch according to phone settings
+* Disable vibration according to phone settings
 * Add Czech translation
 * Fix wrong month names for some languages
 
