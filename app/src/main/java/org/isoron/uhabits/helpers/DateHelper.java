@@ -206,6 +206,30 @@ public class DateHelper
         return wdays;
     }
 
+
+    /**
+     *
+     * @return array with week days numbers starting according to locale settings,
+     * e.g. [2,3,4,5,6,7,1] in Europe
+     *
+     * @see java.util.Calendar#SUNDAY
+     *
+     */
+    public static Integer[] getLocaleWeekdayList()
+    {
+        Integer[] dayNumbers = new Integer[7];
+        // a dummy calendar
+        Calendar calendar = new GregorianCalendar();
+        // set staring day according to locale
+        calendar.set(GregorianCalendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        for (int i = 0; i < dayNumbers.length; i++) {
+            dayNumbers[i] = calendar.get(GregorianCalendar.DAY_OF_WEEK);
+            // advance in time by one day
+            calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        }
+        return dayNumbers;
+    }
+
     public static String formatWeekdayList(Context context, boolean weekday[])
     {
         String shortDayNames[] = getShortDayNames();
