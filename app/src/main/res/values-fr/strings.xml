@@ -33,6 +33,8 @@
 <string name="reminder">"Rappel"</string>
 <string name="discard">"Annuler"</string>
 <string name="save">"Sauvegarder"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"Séries"</string>
 <string name="no_habits_found">"Vous n'avez pas d'habitudes actives"</string>
 <string name="long_press_to_toggle">"Appuyez longtemps pour cocher ou décocher"</string>
@@ -81,10 +83,16 @@
 <string name="delete_habits">"Supprimer des habitudes"</string>
 <string name="delete_habits_message">"Les habitudes seront supprimées pour toujours. Cette action ne peut être défaite."</string>
 <string name="weekends">"Weekends"</string>
+
+<!-- Fuzzy -->
 <string name="any_weekday">"Jours de la semaine"</string>
+
+<!-- Fuzzy -->
 <string name="any_day">"N'importe quel jour"</string>
 <string name="select_weekdays">"Sélectionner des jours"</string>
-<string name="export_to_csv">"Exporter les données"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"Exporter les données (CSV)"</string>
 <string name="done_label">"Fait"</string>
 <string name="clear_label">"Supprimer"</string>
 <string name="select_hours">"Sélectionner les heures"</string>
@@ -114,4 +122,52 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Version %s"</string>
 <string name="frequency">"Fréquence"</string>
+<string name="checkmark"></string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<!-- Fuzzy -->
+<string name="strength">"Force"</string>
+
+<!-- Fuzzy -->
+<string name="best_streaks">"Meilleures séries"</string>
+<string name="current_streaks"></string>
+<string name="number_of_repetitions"></string>
+<string name="last_x_days"></string>
+<string name="last_x_weeks"></string>
+<string name="last_x_months"></string>
+<string name="last_x_years"></string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time"></string>
+
+<!-- Fuzzy -->
+<string name="every_day">"Tous les jours"</string>
+
+<!-- Fuzzy -->
+<string name="every_week">"Toutes les semaines"</string>
+
+<!-- Fuzzy -->
+<string name="two_times_per_week">"2 fois par semaine"</string>
+
+<!-- Fuzzy -->
+<string name="five_times_per_week">"5 fois par semaine"</string>
+
+<!-- Fuzzy -->
+<string name="custom_frequency">"Personnaliser..."</string>
+<string name="help"></string>
+<string name="could_not_export"></string>
+<string name="could_not_import"></string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized"></string>
+<string name="habits_imported"></string>
+<string name="full_backup_success"></string>
+<string name="import_data"></string>
+<string name="export_full_backup"></string>
+<string name="import_data_summary"></string>
+<string name="export_as_csv_summary"></string>
+<string name="export_full_backup_summary"></string>
+<string name="bug_report_failed"></string>
+<string name="generate_bug_report"></string>
+<string name="troubleshooting"></string>
 </resources>

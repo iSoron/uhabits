@@ -1,115 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2016 Josh
-  ~
-  ~ This file is part of Loop Habit Tracker.
-  ~
-  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation, either version 3 of the License, or (at your
-  ~ option) any later version.
-  ~
-  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
-  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  ~ more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <resources>
-    <string name="app_name">"Loop 습관제조기"</string>
-    <string name="main_activity_title">"습관"</string>
-    <string name="action_settings">"설정"</string>
-    <string name="edit">"수정"</string>
-    <string name="delete">"삭제"</string>
-    <string name="archive">"보관"</string>
-    <string name="unarchive">"제거"</string>
-    <string name="add_habit">"습관 만들기"</string>
-    <string name="color_picker_default_title">"색상 정하기"</string>
-    <string name="toast_habit_created">"습관을 시작합니다."</string>
-    <string name="toast_habit_deleted">"습관을 지웠습니다."</string>
-    <string name="toast_habit_restored">"습관을 복원합니다."</string>
-    <string name="toast_nothing_to_undo">"복원할 것이 없습니다."</string>
-    <string name="toast_nothing_to_redo">"복원할 것이 없습니다."</string>
-    <string name="toast_habit_changed">"습관을 수정했습니다."</string>
+<string name="app_name">"Loop 습관제조기"</string>
+<string name="main_activity_title">"습관"</string>
+<string name="action_settings">"설정"</string>
+<string name="edit">"수정"</string>
+<string name="delete">"삭제"</string>
+<string name="archive">"보관"</string>
+<string name="unarchive">"제거"</string>
+<string name="add_habit">"습관 만들기"</string>
+<string name="color_picker_default_title">"색상 정하기"</string>
+<string name="toast_habit_created">"습관을 시작합니다."</string>
+<string name="toast_habit_deleted">"습관을 지웠습니다."</string>
+<string name="toast_habit_restored">"습관을 복원합니다."</string>
+<string name="toast_nothing_to_undo">"복원할 것이 없습니다."</string>
+<string name="toast_nothing_to_redo">"복원할 것이 없습니다."</string>
+<string name="toast_habit_changed">"습관을 수정했습니다."</string>
 
-    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-    <string name="toast_habit_changed_back">"습관을 복원했습니다."</string>
-    <string name="toast_habit_archived">"습관을 보관합니다."</string>
-    <string name="toast_habit_unarchived">"습관을 제거합니다."</string>
-    <string name="overview">"홈"</string>
-    <string name="habit_strength">"습관 유지정도"</string>
-    <string name="history">"기록"</string>
-    <string name="clear">"지우기"</string>
-    <string name="description_hint">"질문 (오늘 ... 했나요?)"</string>
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"습관을 복원했습니다."</string>
+<string name="toast_habit_archived">"습관을 보관합니다."</string>
+<string name="toast_habit_unarchived">"습관을 제거합니다."</string>
+<string name="overview">"홈"</string>
+<string name="habit_strength">"습관 완성정도"</string>
+<string name="history">"기록"</string>
+<string name="clear">"지우기"</string>
+<string name="description_hint">"질문 (오늘 ... 했나요?)"</string>
 
-    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
-    <string name="repeat">"반복"</string>
-    <string name="times_every">"번"</string>
-    <string name="days">"일 동안"</string>
-    <string name="reminder">"알림"</string>
-    <string name="discard">"버리기"</string>
-    <string name="save">"저장"</string>
-    <string name="streaks">"이어지기"</string>
-    <string name="no_habits_found">"습관이 없습니다"</string>
-    <string name="long_press_to_toggle">"길게 눌러 선택/선택제거"</string>
-    <string name="reminder_off">"끔"</string>
-    <string name="validation_name_should_not_be_blank">"제목을 적어주세요."</string>
-    <string name="validation_number_should_be_positive">"숫자는 0보다 커야합니다."</string>
-    <string name="validation_at_most_one_rep_per_day">"하루에 한 번 반복만 가능합니다."</string>
-    <string name="create_habit">"습관 만들기"</string>
-    <string name="edit_habit">"습관 수정하기"</string>
-    <string name="check">"선택"</string>
-    <string name="snooze">"나중에"</string>
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"반복"</string>
+<string name="times_every">"번"</string>
+<string name="days">"일 동안"</string>
+<string name="reminder">"알림"</string>
+<string name="discard">"버리기"</string>
+<string name="save">"저장"</string>
 
-    <!-- App introduction -->
-    <string name="intro_title_1">"안녕하세요"</string>
-    <string name="intro_description_1">"Loop은 당신이 좋은 습관을 만들고 유지하도록 도와줍니다."</string>
-    <string name="intro_title_2">"새로운 습관을 만들어 보세요."</string>
-    <string name="intro_description_2">"매일매일, 습관을 수행한 뒤에, 앱에 기록하세요."</string>
-    <string name="intro_title_3">"계속 반복하세요"</string>
-    <string name="intro_description_3">"일정 시간동안 유지된 습관은 참잘했어요도장을 얻습니다."</string>
-    <string name="intro_title_4">"습관을 관리하세요"</string>
-    <string name="intro_description_4">"그래프를 보고 습관이 유지되는지를 체크할 수 있습니다."</string>
-    <string name="interval_15_minutes">"15분"</string>
-    <string name="interval_30_minutes">"30분"</string>
-    <string name="interval_1_hour">"1시간"</string>
-    <string name="interval_2_hour">"2시간"</string>
-    <string name="interval_4_hour">"4시간"</string>
-    <string name="interval_8_hour">"8시간"</string>
-    <string name="pref_toggle_title">"짧게 터치해 반복을 선택/선택제거 하세요."</string>
-    <string name="pref_toggle_description">"실수로 체크가 될 수 있지만, 더 편한 체크박스."</string>
-    <string name="pref_snooze_interval_title">"반복알림을 미루기"</string>
-    <string name="pref_rate_this_app">"Google Play에서 평가"</string>
-    <string name="pref_send_feedback">"계발자에게 피드백"</string>
-    <string name="pref_view_source_code">"Github에서 소스보기"</string>
-    <string name="pref_view_app_introduction">"앱 안내메시지 보기"</string>
-    <string name="links">"링크"</string>
-    <string name="behavior">"행동"</string>
-    <string name="name">"제목"</string>
-    <string name="show_archived">"보관함 보기"</string>
-    <string name="settings">"설정"</string>
-    <string name="snooze_interval">"미루기"</string>
-    <string name="hint_title">"알고 계시나요?"</string>
-    <string name="hint_drag">"습관 순서를 조정하려면, 습관을 길게 눌러 끌어당겨서 다른 위치로 옮길 수 있습니다."</string>
-    <string name="hint_landscape">"화면을 눕혀서 보면 더 많은 날들을 볼 수 있씁니다."</string>
-    <string name="delete_habits">"습관 삭제"</string>
-    <string name="delete_habits_message">"습관을 삭제합니다. 삭제하면 다시 복원할 수 없습니다."</string>
-    <string name="weekends">"주말"</string>
-    <string name="any_weekday">"주중"</string>
-    <string name="any_day">"매일"</string>
-    <string name="select_weekdays">"몇일 선택"</string>
-    <string name="export_to_csv">"정보 내보내기"</string>
-    <string name="done_label">"완료"</string>
-    <string name="clear_label">"지우기"</string>
-    <string name="select_hours">"시간 선택"</string>
-    <string name="select_minutes">"분 선택"</string>
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<string name="streaks">"이어지기"</string>
+<string name="no_habits_found">"습관이 없습니다"</string>
+<string name="long_press_to_toggle">"길게 눌러 선택/선택제거"</string>
+<string name="reminder_off">"끔"</string>
+<string name="validation_name_should_not_be_blank">"제목을 적어주세요."</string>
+<string name="validation_number_should_be_positive">"숫자는 0보다 커야합니다."</string>
+<string name="validation_at_most_one_rep_per_day">"하루에 한 번 반복만 가능합니다."</string>
+<string name="create_habit">"습관 만들기"</string>
+<string name="edit_habit">"습관 수정하기"</string>
+<string name="check">"선택"</string>
+<string name="snooze">"나중에"</string>
 
-    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
-    <string name="store_short_description">"좋은 습관을 만들고 관리하세요. (광고 없음)"</string>
-    <string name="store_description_1">"Loop은 습관을 만들고 유지하도록 도와주어, 장기간 목표를 달성하도록 합니다. 그래프와 통계를 보고 습관이 만들어지는 과정을 보세요. 오프소스이고, 무광고입니다."</string>
+<!-- App introduction -->
+<string name="intro_title_1">"안녕하세요"</string>
+<string name="intro_description_1">"Loop은 당신이 좋은 습관을 만들고 유지하도록 도와줍니다."</string>
+<string name="intro_title_2">"새로운 습관을 만들어 보세요."</string>
+<string name="intro_description_2">"매일매일, 습관을 수행한 뒤에, 앱에 기록하세요."</string>
+<string name="intro_title_3">"계속 반복하세요"</string>
+<string name="intro_description_3">"일정 시간동안 유지된 습관은 참잘했어요도장을 얻습니다."</string>
+<string name="intro_title_4">"습관을 관리하세요"</string>
+<string name="intro_description_4">"그래프를 보고 습관이 유지되는지를 체크할 수 있습니다."</string>
+<string name="interval_15_minutes">"15분"</string>
+<string name="interval_30_minutes">"30분"</string>
+<string name="interval_1_hour">"1시간"</string>
+<string name="interval_2_hour">"2시간"</string>
+<string name="interval_4_hour">"4시간"</string>
+<string name="interval_8_hour">"8시간"</string>
+<string name="pref_toggle_title">"짧게 터치해 반복을 선택/선택제거 하세요."</string>
+<string name="pref_toggle_description">"실수로 체크가 될 수 있지만, 더 편한 체크박스."</string>
+<string name="pref_snooze_interval_title">"반복알림을 미루기"</string>
+<string name="pref_rate_this_app">"Google Play에서 평가"</string>
+<string name="pref_send_feedback">"계발자에게 피드백"</string>
+<string name="pref_view_source_code">"Github에서 소스보기"</string>
+<string name="pref_view_app_introduction">"앱 안내메시지 보기"</string>
+<string name="links">"링크"</string>
+<string name="behavior">"행동"</string>
+<string name="name">"제목"</string>
+<string name="show_archived">"보관함 보기"</string>
+<string name="settings">"설정"</string>
+<string name="snooze_interval">"미루기"</string>
+<string name="hint_title">"알고 계시나요?"</string>
+<string name="hint_drag">"습관 순서를 조정하려면, 습관을 길게 눌러 끌어당겨서 다른 위치로 옮길 수 있습니다."</string>
+<string name="hint_landscape">"화면을 눕혀서 보면 더 많은 날들을 볼 수 있씁니다."</string>
+<string name="delete_habits">"습관 삭제"</string>
+<string name="delete_habits_message">"습관을 삭제합니다. 삭제하면 다시 복원할 수 없습니다."</string>
+<string name="weekends">"주말"</string>
+
+<!-- Fuzzy -->
+<string name="any_weekday">"주중"</string>
+
+<!-- Fuzzy -->
+<string name="any_day">"매일"</string>
+<string name="select_weekdays">"몇일 선택"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"정보 내보내기 (CSV)"</string>
+<string name="done_label">"완료"</string>
+<string name="clear_label">"지우기"</string>
+<string name="select_hours">"시간 선택"</string>
+<string name="select_minutes">"분 선택"</string>
+
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"좋은 습관을 만들고 관리하세요. (광고 없음)"</string>
+<string name="store_description_1">"Loop은 습관을 만들고 유지하도록 도와주어, 장기간 목표를 달성하도록 합니다. 그래프와 통계를 보고 습관이 만들어지는 과정을 보세요. 오픈소스이고, 무광고입니다."</string>
 <string name="store_feature_interface">"&lt;b&gt;아름답고 심플한 디자인&lt;/b&gt;
 Loop은 Material디자인을 따라 사용이 편합니다."</string>
 <string name="store_feature_score">"&lt;b&gt;습관 포인트&lt;/b&gt;
@@ -119,17 +108,54 @@ Loop은 Material디자인을 따라 사용이 편합니다."</string>
 스크롤해서 장기간의 과정을 볼 수 있습니다."</string>
 <string name="store_feature_schedules">"&lt;b&gt;여러 종류의 스케줄 조정가능&lt;/b&gt;
 매일 습관, 혹은 일주일에 3번; 2주에 한번; 같은 여러 종류의 스케줄을 만들 수 있습니다."</string>
+
+<!-- Fuzzy -->
 <string name="store_feature_reminders">"&lt;b&gt;알림&lt;/b&gt;
 "</string>
 <string name="store_feature_opensource">"&lt;b&gt;오픈소스, 무광고&lt;/b&gt;
-광고, 귀찮은 스팸, 비정상적인 정보요구는 없습니다, 앞으로 쭉. 모든 소스코드는 GPLv3로 라이센스되었습니다."</string>
+광고, 귀찮은 스팸, 비정상적인 정보요구는 없습니다. 모든 소스코드는 GPLv3로 라이센스되었습니다."</string>
 <string name="store_feature_wear">"&lt;b&gt;스마트시계에 최적화&lt;/B&gt;
 안드로이드 시계에서 바로 알림을 확인, 미루기 혹은 무시할 수 있습니다."</string>
-    <string name="about">"정보"</string>
-    <string name="translators">"번역가"</string>
-    <string name="developers">"계발자"</string>
+<string name="about">"정보"</string>
+<string name="translators">"번역가"</string>
+<string name="developers">"계발자"</string>
 
-    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
-    <string name="version_n">"버전 %s"</string>
-    <string name="frequency">"반복수"</string>
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"버전 %s"</string>
+<string name="frequency">"반복수"</string>
+<string name="checkmark">"습관기록"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"습관 완성정도"</string>
+<string name="best_streaks">"가장 길게 이은 기록"</string>
+<string name="current_streaks">"현재 기록"</string>
+<string name="number_of_repetitions">"반복한 횟수"</string>
+<string name="last_x_days">"이전 %d일 동안"</string>
+<string name="last_x_weeks">"이전 %d주 동안"</string>
+<string name="last_x_months">"이전 %d달 동안"</string>
+<string name="last_x_years">"이전 %d년 동안"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"모두"</string>
+<string name="every_day">"매일"</string>
+<string name="every_week">"매주"</string>
+<string name="two_times_per_week">"일주일에 2번"</string>
+<string name="five_times_per_week">"일주일에 5번"</string>
+<string name="custom_frequency">"직접 정하기"</string>
+<string name="help">"도움 &amp; FAQ"</string>
+<string name="could_not_export">"내보내기 오류."</string>
+<string name="could_not_import">"가져오기 오류."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"지원하지 않는 파일입니다."</string>
+<string name="habits_imported">"가져오기 완료."</string>
+<string name="full_backup_success">"백업 완료."</string>
+<string name="import_data">"데이터 가져오기"</string>
+<string name="export_full_backup">"백업 내보내기"</string>
+<string name="import_data_summary">"Tickmate, HabitBull, Rewire의 백업파일도 지원합니다. 더 자세한 설명은 FAQ에 있습니다."</string>
+<string name="export_as_csv_summary">"Microsoft Excel 혹은, OpenOffice Calc 같은 스프레드시트 프로그램으로 열 수 있는 CSV파일로 내보냅니다. 다만, CSV파일을 다시 가져올 수는 없습니다."</string>
+<string name="export_full_backup_summary">"모든 데이터를 백업합니다. 나중에 이 파일을 가져올 수 있습니다."</string>
+<string name="bug_report_failed">"오류보고서를 작성하지 못했습니다."</string>
+<string name="generate_bug_report">"오류보고서 작성하기"</string>
+<string name="troubleshooting">"문제가 있나요?"</string>
 </resources>

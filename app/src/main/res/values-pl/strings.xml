@@ -33,6 +33,8 @@
 <string name="reminder">"Przypomnienie"</string>
 <string name="discard">"Odrzuć"</string>
 <string name="save">"Zapisz"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"Serie"</string>
 <string name="no_habits_found">"Nie masz aktywnych nawyków"</string>
 <string name="long_press_to_toggle">"Naciśnij i przytrzymaj aby zaznaczyć lub odznaczyć"</string>
@@ -79,10 +81,16 @@
 <string name="delete_habits">"Usuń Nawyki"</string>
 <string name="delete_habits_message">"Nawyki zostaną trwale usunięte. Tej operacji nie można cofnąć."</string>
 <string name="weekends">"Weekendy"</string>
+
+<!-- Fuzzy -->
 <string name="any_weekday">"Dni robocze"</string>
+
+<!-- Fuzzy -->
 <string name="any_day">"Każdy dzień"</string>
 <string name="select_weekdays">"Wybierz dni"</string>
-<string name="export_to_csv">"Eksportuj dane"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"Eksportuj dane (CSV)"</string>
 <string name="done_label">"Gotowe"</string>
 <string name="clear_label">"Wyczyść"</string>
 <string name="select_hours">"Wybierz godziny"</string>
@@ -112,4 +120,39 @@ Przypomnienia można sprawdzić, uśpić czy usunąć bezpośrednio z twojego ze
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Wersja %s"</string>
 <string name="frequency">"Częstotliwość"</string>
+<string name="checkmark">"Znacznik"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Siła"</string>
+<string name="best_streaks">"Najlepsze serie"</string>
+<string name="current_streaks">"Aktualna seria"</string>
+<string name="number_of_repetitions">"Liczba powtórzeń"</string>
+<string name="last_x_days">"Ostatnie %d dni"</string>
+<string name="last_x_weeks">"Ostatnie %d tygodni"</string>
+<string name="last_x_months">"Ostatnie %d miesięcy"</string>
+<string name="last_x_years">"Ostatnie %d lat"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Od początku"</string>
+<string name="every_day">"Codziennie"</string>
+<string name="every_week">"Co tydzień"</string>
+<string name="two_times_per_week">"2 razy na tydzień"</string>
+<string name="five_times_per_week">"5 razy na tydzień"</string>
+<string name="custom_frequency">"Niestandardowo..."</string>
+<string name="help">"Pomoc &amp; FAQ"</string>
+<string name="could_not_export">"Eksportowanie danych nie powiodło się."</string>
+<string name="could_not_import">"Importowanie danych nie powiodło się."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Plik nierozpoznany."</string>
+<string name="habits_imported">"Nawyki zaimportowane pomyślnie."</string>
+<string name="full_backup_success">"Pełna kopia zapasowa pomyślnie wyeksportowana."</string>
+<string name="import_data">"Importuj dane"</string>
+<string name="export_full_backup">"Eksportuj pełną kopię zapasową"</string>
+<string name="import_data_summary">"Wspiera pełne kopie zapasowe zaimportowane przez tą aplikację zarówno jak i pliki wygenerowane przez Tickmate, Habitbull oraz Rewire. Zobacz FAQ po więcej informacji."</string>
+<string name="export_as_csv_summary">"Generuje pliki, które mogą być otwierane przez programy arkuszy kalkulacyjnych takie jak Microsoft Excel czy OpenOffice Calc. Taki plik nie może być importowany."</string>
+<string name="export_full_backup_summary">"Generuje plik, który zawiera wszystkie Twoje dane. Taki plik może być importowany."</string>
+<string name="bug_report_failed">"Nie udało się wygenerować raportu o błędach."</string>
+<string name="generate_bug_report">"Wygeneruj raport o błędach"</string>
+<string name="troubleshooting">"Rozwiązywanie problemów"</string>
 </resources>
