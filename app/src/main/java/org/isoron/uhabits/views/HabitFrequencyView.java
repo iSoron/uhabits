@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
@@ -64,7 +65,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private HashMap<Long, Integer[]> frequency;
     private String wdays[];
     private Integer[] localeWeekdayList;
-    private HashMap<Integer, Integer> number2wdays;
+    private Map<Integer, Integer> number2wdays;
 
     public HabitFrequencyView(Context context)
     {
@@ -98,11 +99,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
          * @see DateHelper#getDayNames(int)
          */
         localeWeekdayList = DateHelper.getLocaleWeekdayList();
-        number2wdays = new HashMap<>();
-        for (Integer number : localeWeekdayList) {
-            int wdaysIndex = number % 7;
-            number2wdays.put(number, wdaysIndex);
-        }
+        number2wdays = DateHelper.getWeekdayMap();
 
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");

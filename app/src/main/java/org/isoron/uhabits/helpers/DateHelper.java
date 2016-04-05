@@ -28,7 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class DateHelper
@@ -228,6 +230,20 @@ public class DateHelper
             calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
         }
         return dayNumbers;
+    }
+
+    /**
+     * here we create the mapping of week days numbers into the "wdays"-indices
+     *
+     * @see DateHelper#getDayNames(int)
+     */
+    public static Map<Integer, Integer> getWeekdayMap()
+    {
+        Map<Integer, Integer> number2wdays = new HashMap<>();
+        for (Integer number : getLocaleWeekdayList()) {
+            number2wdays.put(number, number % 7);
+        }
+        return number2wdays;
     }
 
     public static String formatWeekdayList(Context context, boolean weekday[])

@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
@@ -60,7 +61,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private String wdays[];
     private Integer[] localeWeekdayList;
-    private HashMap<Integer, Integer> number2wdays;
+    private Map<Integer, Integer> number2wdays;
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfYear;
 
@@ -105,16 +106,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
 
-        /**
-         * here we create the mapping of week days numbers into the "wdays"-indices
-         * @see DateHelper#getDayNames(int)
-         */
         localeWeekdayList = DateHelper.getLocaleWeekdayList();
-        number2wdays = new HashMap<>();
-        for (Integer number : localeWeekdayList) {
-            int wdaysIndex = number % 7;
-            number2wdays.put(number, wdaysIndex);
-        }
+        number2wdays = DateHelper.getWeekdayMap();
 
         baseLocation = new RectF();
     }
