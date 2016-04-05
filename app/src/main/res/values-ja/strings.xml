@@ -33,6 +33,8 @@
 <string name="reminder">"リマインダー"</string>
 <string name="discard">"破棄"</string>
 <string name="save">"保存"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"連続記録"</string>
 <string name="no_habits_found">"アクティブな習慣はありません"</string>
 <string name="long_press_to_toggle">"長押しするとチェックを付けたり外したりします"</string>
@@ -79,10 +81,10 @@
 <string name="delete_habits">"習慣を削除"</string>
 <string name="delete_habits_message">"習慣は完全に削除されます。この操作を元に戻すことはできません。"</string>
 <string name="weekends">"週末"</string>
-<string name="any_weekday">"平日"</string>
-<string name="any_day">"任意の日"</string>
+<string name="any_weekday">"月曜日から金曜日"</string>
+<string name="any_day">"週の任意の日"</string>
 <string name="select_weekdays">"日の選択"</string>
-<string name="export_to_csv">"データのエクスポート"</string>
+<string name="export_to_csv">"CSV としてエクスポート"</string>
 <string name="done_label">"完了"</string>
 <string name="clear_label">"クリア"</string>
 <string name="select_hours">"時間の選択"</string>
@@ -112,4 +114,39 @@ Android Wear 端末から直接、リマインダーをチェック、スヌー�
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"バージョン %s"</string>
 <string name="frequency">"周波数"</string>
+<string name="checkmark">"チェック"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"強さ"</string>
+<string name="best_streaks">"最高の連続記録"</string>
+<string name="current_streaks">"現在の連続記録"</string>
+<string name="number_of_repetitions">"繰り返し数"</string>
+<string name="last_x_days">"最近 %d 日"</string>
+<string name="last_x_weeks">"最近 %d 週間"</string>
+<string name="last_x_months">"最近 %d ヶ月"</string>
+<string name="last_x_years">"最近 %d 年"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"いつも"</string>
+<string name="every_day">"毎日"</string>
+<string name="every_week">"毎週"</string>
+<string name="two_times_per_week">"1 週間に 2 回"</string>
+<string name="five_times_per_week">"1 週間に 5 回"</string>
+<string name="custom_frequency">"カスタム …"</string>
+<string name="help">"ヘルプ &amp; FAQ"</string>
+<string name="could_not_export">"データのエクスポートに失敗しました。"</string>
+<string name="could_not_import">"データのインポートに失敗しました。"</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"ファイルを認識できません。"</string>
+<string name="habits_imported">"習慣を正常にインポートしました。"</string>
+<string name="full_backup_success">"フルバックアップを正常にエクスポートしました。"</string>
+<string name="import_data">"データのインポート"</string>
+<string name="export_full_backup">"フルバックアップのエクスポート"</string>
+<string name="import_data_summary">"このアプリでエクスポートしたフルバックアップだけではなく、Tickmate、HabitBull、Rewire で生成したファイルも同様にサポートしています。詳細については FAQ を参照してください。"</string>
+<string name="export_as_csv_summary">"Microsoft Excel や OpenOffice Calc などの表計算ソフトで開くことができるファイルを生成します。このファイルはインポートで戻すことはできません。"</string>
+<string name="export_full_backup_summary">"すべてのデータが含まれるファイルを生成します。このファイルはインポートして戻すことができます。"</string>
+<string name="bug_report_failed">"バグ報告の生成に失敗しました。"</string>
+<string name="generate_bug_report">"バグ報告の生成"</string>
+<string name="troubleshooting">"トラブルシューティング"</string>
 </resources>

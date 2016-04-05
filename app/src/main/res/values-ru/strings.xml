@@ -33,6 +33,8 @@
 <string name="reminder">"Напоминание"</string>
 <string name="discard">"Отменить"</string>
 <string name="save">"Сохранить"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"Рекорды"</string>
 <string name="no_habits_found">"У вас нет активных привычек"</string>
 <string name="long_press_to_toggle">"Нажмите и удерживайте, чтобы установить или снять галочку"</string>
@@ -78,11 +80,17 @@
 <string name="hint_landscape">"В горизонтальном режиме отображается больше дней."</string>
 <string name="delete_habits">"Удалить привычки"</string>
 <string name="delete_habits_message">"Привычки будут удалены. Это действие невозможно отменить."</string>
-<string name="weekends">"Выходные"</string>
-<string name="any_weekday">"Будни"</string>
+<string name="weekends">"По выходным"</string>
+
+<!-- Fuzzy -->
+<string name="any_weekday">"По будням"</string>
+
+<!-- Fuzzy -->
 <string name="any_day">"Каждый день"</string>
 <string name="select_weekdays">"Выберите дни"</string>
-<string name="export_to_csv">"Экспортировать данные"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"Экспортировать данные (CSV)"</string>
 <string name="done_label">"Готово"</string>
 <string name="clear_label">"Очистить"</string>
 <string name="select_hours">"Выберите часы"</string>
@@ -112,4 +120,39 @@
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Версия %s"</string>
 <string name="frequency">"Частота"</string>
+<string name="checkmark">"Галочка"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Сила"</string>
+<string name="best_streaks">"Рекорды"</string>
+<string name="current_streaks">"Текущая серия"</string>
+<string name="number_of_repetitions">"Количество повторений"</string>
+<string name="last_x_days">"Последние %d дней"</string>
+<string name="last_x_weeks">"Последние %d недель"</string>
+<string name="last_x_months">"Последние %d месяцев"</string>
+<string name="last_x_years">"Последние %d лет"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"За всё время"</string>
+<string name="every_day">"Каждый день"</string>
+<string name="every_week">"Каждую неделю"</string>
+<string name="two_times_per_week">"2 раза в неделю"</string>
+<string name="five_times_per_week">"5 раз в неделю"</string>
+<string name="custom_frequency">"Другое …"</string>
+<string name="help">"Помощь и FAQ"</string>
+<string name="could_not_export">"Ошибка экспорта данных."</string>
+<string name="could_not_import">"Ошибка импорта данных."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Невозможно определить тип файла."</string>
+<string name="habits_imported">"Привычки успешно импортированы."</string>
+<string name="full_backup_success">"Полная резервная копия успешно экспортирована."</string>
+<string name="import_data">"Импортировать данные"</string>
+<string name="export_full_backup">"Экспортировать полную резервную копию"</string>
+<string name="import_data_summary">"Поддерживает импорт полной резервной копии экспортированной этим приложением, а также файлов сгенерированных приложениями Tickmate, HabitBull и Rewire. Больше информации в FAQ."</string>
+<string name="export_as_csv_summary">"Генерирует файлы, которые можно открыть в ПО для работы с таблицами (таком как Microsoft Excel или OpenOffice Calc). Этот файл нельзя импортировать обратно."</string>
+<string name="export_full_backup_summary">"Генерирует файл, который содержит все ваши данные. Этот файл можно импортировать обратно."</string>
+<string name="bug_report_failed">"Ошибка генерации отчёта об ошибке."</string>
+<string name="generate_bug_report">"Сгенерировать отчёт об ошибке"</string>
+<string name="troubleshooting">"Устранение неполадок"</string>
 </resources>
