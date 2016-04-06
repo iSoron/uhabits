@@ -23,10 +23,12 @@ import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.UIHelper;
 
 public class SettingsFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -41,12 +43,22 @@ public class SettingsFragment extends PreferenceFragment
         setResultOnPreferenceClick("exportCSV", MainActivity.RESULT_EXPORT_CSV);
         setResultOnPreferenceClick("exportDB", MainActivity.RESULT_EXPORT_DB);
         setResultOnPreferenceClick("bugReport", MainActivity.RESULT_BUG_REPORT);
+
+        if(UIHelper.isLocaleFullyTranslated())
+            removePreference("translate", "linksCategory");
+    }
+
+    private void removePreference(String preferenceKey, String categoryKey)
+    {
+        PreferenceCategory cat = (PreferenceCategory) findPreference(categoryKey);
+        Preference pref = findPreference(preferenceKey);
+        cat.removePreference(pref);
     }
 
     private void setResultOnPreferenceClick(String key, final int result)
     {
-        Preference exportCSV = findPreference(key);
-        exportCSV.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+        Preference pref = findPreference(key);
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
         {
             @Override
             public boolean onPreferenceClick(Preference preference)

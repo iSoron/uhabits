@@ -23,4 +23,5 @@
     <string name="feedbackURL" formatted="false">mailto:dev@loophabits.org?subject=Feedback%20about%20Loop%20Habit%20Tracker</string>
     <string name="bugReportURL" formatted="false">mailto:dev@loophabits.org?subject=Bug%20Report%20-%20Loop%20Habit%20Tracker</string>
     <string name="sourceCodeURL">https://github.com/iSoron/uhabits</string>
+    <string name="translateURL">https://poeditor.com/join/project/8DWX5pfjS0</string>
 </resources>

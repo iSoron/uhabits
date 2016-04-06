@@ -86,7 +86,7 @@
     <string name="pref_toggle_title">Toggle with short press</string>
     <string name="pref_toggle_description">Put checkmarks with a single tap instead of press-and-hold. More convenient, but might cause accidental toggles.</string>
     <string name="pref_snooze_interval_title">Snooze interval on reminders</string>
-    <string name="pref_rate_this_app">Rate this app in Google Play</string>
+    <string name="pref_rate_this_app">Rate this app on Google Play</string>
     <string name="pref_send_feedback">Send feedback to developer</string>
     <string name="pref_view_source_code">View source code at GitHub</string>
     <string name="pref_view_app_introduction">View app introduction</string>
@@ -155,4 +155,5 @@
     <string name="bug_report_failed">Failed to generate bug report.</string>
     <string name="generate_bug_report">Generate bug report</string>
     <string name="troubleshooting">Troubleshooting</string>
+    <string name="help_translate">Help translate this app</string>
 </resources>
