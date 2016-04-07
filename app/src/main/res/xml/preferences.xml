@@ -21,7 +21,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="pref_key_behaviour_settings"
+        android:key="behaviorCategory"
         android:title="@string/behavior">
 
         <CheckBoxPreference
@@ -36,13 +36,13 @@
             android:entries="@array/snooze_interval_names"
             android:entryValues="@array/snooze_interval_values"
             android:key="pref_snooze_interval"
-            android:title="@string/pref_snooze_interval_title"
-            android:summary="%s"/>
+            android:summary="%s"
+            android:title="@string/pref_snooze_interval_title"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_links"
+        android:key="databaseCategory"
         android:title="Database">
 
         <Preference
@@ -77,13 +77,33 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_links"
+        android:key="linksCategory"
         android:title="@string/links">
 
         <Preference android:title="@string/help">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/helpURL"/>
+        </Preference>
+
+        <Preference android:title="@string/pref_rate_this_app">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/playStoreURL"/>
+        </Preference>
+
+        <Preference android:title="@string/pref_send_feedback">
+            <intent
+                android:action="android.intent.action.SENDTO"
+                android:data="@string/feedbackURL"/>
+        </Preference>
+
+        <Preference
+            android:key="translate"
+            android:title="@string/help_translate">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/feedbackURL"/>
         </Preference>
 
         <Preference android:title="@string/about">

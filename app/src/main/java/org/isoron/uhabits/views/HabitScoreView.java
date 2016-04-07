@@ -60,7 +60,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private int baseSize;
     private int paddingTop;
 
-    private int columnWidth;
+    private float columnWidth;
     private int columnHeight;
     private int nColumns;
 
@@ -164,8 +164,11 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         setScrollerBucketSize(baseSize);
 
         columnWidth = baseSize;
+        columnWidth = Math.max(columnWidth, getMaxDayWidth() * 1.5f);
+        columnWidth = Math.max(columnWidth, getMaxMonthWidth() * 1.2f);
+
         columnHeight = 8 * baseSize;
-        nColumns = width / baseSize;
+        nColumns = (int) (width / columnWidth);
 
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
@@ -341,15 +344,15 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
     private void drawMarker(Canvas canvas, RectF rect)
     {
-        rect.inset(columnWidth * 0.15f, columnWidth * 0.15f);
+        rect.inset(baseSize * 0.15f, baseSize * 0.15f);
         setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
         canvas.drawOval(rect, pGraph);
 
-        rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
+        rect.inset(baseSize * 0.1f, baseSize * 0.1f);
         setModeOrColor(pGraph, XFERMODE_SRC, primaryColor);
         canvas.drawOval(rect, pGraph);
 
-        rect.inset(columnWidth * 0.1f, columnWidth * 0.1f);
+        rect.inset(baseSize * 0.1f, baseSize * 0.1f);
         setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
         canvas.drawOval(rect, pGraph);
 
@@ -369,5 +372,35 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             p.setXfermode(mode);
         else
             p.setColor(color);
+    }
+
+    private float getMaxMonthWidth()
+    {
+        float maxMonthWidth = 0;
+        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+
+        for(int i = 0; i < 12; i++)
+        {
+            day.set(Calendar.MONTH, i);
+            float monthWidth = pText.measureText(dfMonth.format(day.getTime()));
+            maxMonthWidth = Math.max(maxMonthWidth, monthWidth);
+        }
+
+        return maxMonthWidth;
+    }
+
+    private float getMaxDayWidth()
+    {
+        float maxDayWidth = 0;
+        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+
+        for(int i = 0; i < 28; i++)
+        {
+            day.set(Calendar.DAY_OF_MONTH, i);
+            float monthWidth = pText.measureText(dfMonth.format(day.getTime()));
+            maxDayWidth = Math.max(maxDayWidth, monthWidth);
+        }
+
+        return maxDayWidth;
     }
 }

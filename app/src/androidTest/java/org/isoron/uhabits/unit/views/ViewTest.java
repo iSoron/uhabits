@@ -27,6 +27,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitDataView;
@@ -123,9 +124,18 @@ public class ViewTest extends BaseTest
     private String saveBitmap(String filename, String suffix, Bitmap bitmap)
             throws IOException
     {
-        String absolutePath = String.format("%s/Failed/%s", targetContext.getExternalCacheDir(),
-                filename.replaceAll("\\.png$", suffix + ".png"));
-        new File(absolutePath).getParentFile().mkdirs();
+        File dir = DatabaseHelper.getSDCardDir("test-screenshots");
+        if(dir == null) dir = DatabaseHelper.getFilesDir("test-screenshots");
+        if(dir == null) throw new RuntimeException("Could not find suitable dir for screenshots");
+
+        filename = filename.replaceAll("\\.png$", suffix + ".png");
+        String absolutePath = String.format("%s/%s", dir.getAbsolutePath(), filename);
+
+        File parent = new File(absolutePath).getParentFile();
+        if(!parent.exists() && !parent.mkdirs())
+            throw new RuntimeException(String.format("Could not create dir: %s",
+                    parent.getAbsolutePath()));
+
         FileOutputStream out = new FileOutputStream(absolutePath);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 

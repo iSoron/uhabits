@@ -29,12 +29,15 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.commands.Command;
+
+import java.util.Locale;
 
 public abstract class UIHelper
 {
@@ -145,5 +148,20 @@ public abstract class UIHelper
     public static void stopTracing()
     {
         Debug.stopMethodTracing();
+    }
+
+    public static boolean isLocaleFullyTranslated()
+    {
+        String fullyTranslatedLanguages[] = { "en", "ar", "cs", "de", "it", "ja", "ko", "po", "pl",
+                "pt", "ru", "sv", "zh", "es" };
+
+        final String currentLanguage = Locale.getDefault().getLanguage();
+
+        Log.d("UIHelper", String.format("lang=%s", currentLanguage));
+
+        for(String lang : fullyTranslatedLanguages)
+            if(currentLanguage.equals(lang)) return true;
+
+        return false;
     }
 }

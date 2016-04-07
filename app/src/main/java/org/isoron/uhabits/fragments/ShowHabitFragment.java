@@ -159,9 +159,12 @@ public class ShowHabitFragment extends Fragment
         if(habit == null) return;
         if(view == null) return;
 
+        float todayValue = (float) habit.scores.getTodayValue();
+        float percentage = todayValue / Score.MAX_VALUE;
+
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
         scoreRing.setColor(habit.color);
-        scoreRing.setPercentage((float) habit.scores.getTodayValue() / Score.MAX_VALUE);
+        scoreRing.setPercentage(percentage);
     }
 
     private void updateHeaders(View view)
@@ -238,11 +241,12 @@ public class ShowHabitFragment extends Fragment
     {
         new BaseTask()
         {
+            float percentage;
+
             @Override
             protected void doInBackground()
             {
                 if(dataViews == null) return;
-                updateScoreRing(getView());
 
                 int count = 0;
                 for(HabitDataView view : dataViews)
@@ -255,6 +259,7 @@ public class ShowHabitFragment extends Fragment
             @Override
             protected void onProgressUpdate(Integer... values)
             {
+                updateScoreRing(getView());
                 if(dataViews == null) return;
                 dataViews.get(values[0]).postInvalidate();
             }

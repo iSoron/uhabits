@@ -2,7 +2,7 @@
 <resources>
 <string name="app_name">"Loop Habit Tracker"</string>
 <string name="main_activity_title">"Gewohnheiten"</string>
-<string name="action_settings">"Einstellung"</string>
+<string name="action_settings">"Einstellungen"</string>
 <string name="edit">"Bearbeiten"</string>
 <string name="delete">"Löschen"</string>
 <string name="archive">"Archivieren"</string>
@@ -13,11 +13,11 @@
 <string name="toast_habit_deleted">"Gewohnheiten gelöscht."</string>
 <string name="toast_habit_restored">"Gewohnheiten wiederhergestellt."</string>
 <string name="toast_nothing_to_undo">"Nichts zum rückgängig machen."</string>
-<string name="toast_nothing_to_redo">"Nichts zum wiederherstellen"</string>
-<string name="toast_habit_changed">"Gewohnheit geändert"</string>
+<string name="toast_nothing_to_redo">"Nichts zum wiederherstellen."</string>
+<string name="toast_habit_changed">"Gewohnheit geändert."</string>
 
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-<string name="toast_habit_changed_back">"Gewohnheit zurückgeändert"</string>
+<string name="toast_habit_changed_back">"Gewohnheit zurückgeändert."</string>
 <string name="toast_habit_archived">"Gewohnheiten archiviert."</string>
 <string name="toast_habit_unarchived">"Gewohnheiten dearchiviert."</string>
 <string name="overview">"Übersicht"</string>
@@ -33,7 +33,10 @@
 <string name="reminder">"Erinnerung"</string>
 <string name="discard">"Verwerfen"</string>
 <string name="save">"Speichern"</string>
-<string name="streaks">"Serie"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<!-- Fuzzy -->
+<string name="streaks">"Strähne"</string>
 <string name="no_habits_found">"Du hast keine aktiven Gewohnheiten"</string>
 <string name="long_press_to_toggle">"Berühre und halte um zu (de)markieren"</string>
 <string name="reminder_off">"Aus"</string>
@@ -42,19 +45,18 @@
 <string name="validation_at_most_one_rep_per_day">"Du musst wenigstens eine Wiederholung pro Tag haben"</string>
 <string name="create_habit">"Gewohnheit erstellen"</string>
 <string name="edit_habit">"Gewohnheit bearbeiten"</string>
-<string name="check">"prüfen
-"</string>
+<string name="check">"Bestätigen"</string>
 <string name="snooze">"Später"</string>
 
 <!-- App introduction -->
 <string name="intro_title_1">"Willkommen"</string>
-<string name="intro_description_1">"Loop Habit Tracker hilft dir gute Gewohnheiten anzunehmen."</string>
+<string name="intro_description_1">"Loop Habit Tracker hilft dir gute Gewohnheiten anzueignen."</string>
 <string name="intro_title_2">"Erstelle einige neue Gewohnheiten"</string>
-<string name="intro_description_2">"Jeden tag nachdem du das habit absolviert hast, hake es ab."</string>
-<string name="intro_title_3">"Bleib dabei"</string>
-<string name="intro_description_3">"Habits die du über längere Zeit durchgehalten hast, bekommen einen ganzen Stern."</string>
+<string name="intro_description_2">"Jeden Tag, nachdem du die Gewohnheit gemacht hast, hake sie in der App ab."</string>
+<string name="intro_title_3">"Bleib dran"</string>
+<string name="intro_description_3">"Gewohnheiten, die über eine längere Zeit absolviert werden, bekommen einen ganzen Stern."</string>
 <string name="intro_title_4">"Verfolge deinen Fortschritt"</string>
-<string name="intro_description_4">"Detailierte Diagramme zeigen dir, wie sich deine Angewohnheiten entwickelt haben."</string>
+<string name="intro_description_4">"Detaillierte Diagramme zeigen dir wie sich deine Gewohnheiten entwickelt haben."</string>
 <string name="interval_15_minutes">"15 Minuten"</string>
 <string name="interval_30_minutes">"30 Minuten"</string>
 <string name="interval_1_hour">"1 Stunde"</string>
@@ -62,29 +64,28 @@
 <string name="interval_4_hour">"4 Stunden"</string>
 <string name="interval_8_hour">"8 Stunden"</string>
 <string name="pref_toggle_title">"Wähle Wiederholungen durch kurzes Drücken"</string>
-<string name="pref_toggle_description">"Bequemer,  verursacht evtl. falsche Auswahl"</string>
-<string name="pref_snooze_interval_title">"Pausen-Interval bei Erinnerungen"</string>
+<string name="pref_toggle_description">"Bequemer, kann aber eine falsche Auswahl verursachen."</string>
+<string name="pref_snooze_interval_title">"\"Später erinnern\"-Intervall bei Erinnerungen"</string>
 <string name="pref_rate_this_app">"Bewerte diese App bei Google Play"</string>
 <string name="pref_send_feedback">"Sende dem Entwickler Feedback"</string>
-<string name="pref_view_source_code">"Sehe den Quellcode auf GitHub"</string>
+<string name="pref_view_source_code">"Zeige den Quellcode auf GitHub"</string>
 <string name="pref_view_app_introduction">"Zeige Einleitung"</string>
 <string name="links">"Links"</string>
 <string name="behavior">"Verhalten"</string>
 <string name="name">"Name"</string>
-<string name="show_archived">"Zeige Archivierte"</string>
+<string name="show_archived">"Zeige Archiviertes"</string>
 <string name="settings">"Einstellungen"</string>
-<string name="snooze_interval">"Pausen-Interval"</string>
+<string name="snooze_interval">"\"Später erinnern\"-Intervall"</string>
 <string name="hint_title">"Wusstest du?"</string>
-<string name="hint_drag">"Um Einträge umzusortieren, ziehe sie an die richtige Stelle."</string>
-<string name="hint_landscape">"Du kannst mehr Tage sehen, wenn du dein Phone quer hälst."</string>
-<string name="delete_habits">"Gewohnheit löschen"</string>
-<string name="delete_habits_message">"Dies habit wird permanent gelöscht. Dies kann nicht rückgängig gemacht werden."</string>
+<string name="hint_drag">"Um Einträge umzusortieren, drücke und ziehe sie an die richtige Stelle."</string>
+<string name="hint_landscape">"Du kannst mehr Tage sehen, wenn du dein Smartphone quer hältst."</string>
+<string name="delete_habits">"Gewohnheiten löschen"</string>
+<string name="delete_habits_message">"Diese Gewohnheit wird permanent gelöscht. Dies kann nicht rückgängig gemacht werden."</string>
 <string name="weekends">"An Wochenenden"</string>
-<string name="any_weekday">"Wochentage
-"</string>
+<string name="any_weekday">"Werktags"</string>
 <string name="any_day">"Jeden Tag"</string>
 <string name="select_weekdays">"Wähle die Tage"</string>
-<string name="export_to_csv">"Daten exportieren"</string>
+<string name="export_to_csv">"Daten als CSV exportieren"</string>
 <string name="done_label">"Fertig
 "</string>
 <string name="clear_label">"Löschen"</string>
@@ -93,13 +94,13 @@
 
 <!-- Short description used on the Google Play store. There is an 80-character limit. -->
 <string name="store_short_description">"Nimm gute Gewohnheiten an und verfolge deinen Fortschritt (ohne Werbung)"</string>
-<string name="store_description_1">"Loop hilft dir gute Gewohnheiten anzunehmen und deine langfristigen Ziele zu erreichen. Detailierte Statistiken zeigen dir, wie du dich entwickelt hast. Es ist ohne Werbung und Open Source."</string>
+<string name="store_description_1">"Loop hilft dir gute Gewohnheiten anzunehmen und deine langfristigen Ziele zu erreichen. Detaillierte Statistiken zeigen dir, wie du dich entwickelt hast. Es ist ohne Werbung und Open Source."</string>
 <string name="store_feature_interface">"&lt;b&gt;Einfache, schöne und moderne Oberfläche&lt;/b&gt;
 Loop hat eine minimale Oberfläche und ist deshalb einfach zu benutzen. Es folgt den Material Design Richtlinien."</string>
 <string name="store_feature_score">"&lt;b&gt;Habit Punkte&lt;/b&gt;
-Um dir deine kleinen Schwächen zu zeigen, hat Loop einen Algorithmus, um deine Angewohnheiten zu erkennen. Jede Wiederholung verstärkt diese und jedes Aussetzen schwächt sie. Aber ein paar Verfehlungen nach langem Durchhalten machen natürlich nicht gleich alles zu nichte."</string>
+Um dir deine kleinen Schwächen zu zeigen hat Loop einen Algorithmus, um deine Gewohnheiten zu erkennen. Jede Wiederholung verstärkt diese und jedes Aussetzen schwächt sie. Aber ein paar Verfehlungen nach langem Durchhalten machen natürlich nicht gleich alles zu Nichte."</string>
 <string name="store_feature_statistics">"&lt;b&gt;Statistiken&lt;/b&gt;
-Schau dir an, wie sich deine Angewohnheiten im Laufe der Zeit gemacht haben. Schau auf die schönen Diagramme und gehe zurück im gesamten Verlauf."</string>
+Schau dir an, wie sich deine Gewohnheiten im Laufe der Zeit entwickelt haben. Schau auf die schönen Diagramme und gehe zurück im gesamten Verlauf."</string>
 <string name="store_feature_schedules">"&lt;b&gt;Flexible Zeiten&lt;/b&gt;
 Unterstützt sowohl tägliche Vorgaben, als auch komplexere Pläne, wie etwa 3 mal pro Woche; ein mal in jeder anderen Woche; oder jeden anderen Tag."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Erinnerungen&lt;/b&gt;
@@ -115,4 +116,46 @@ Erinnerungen können direkt von deiner Android Wear Watch kontrolliert, pausiert
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Version %s"</string>
 <string name="frequency">"Frequenz"</string>
+
+<!-- Fuzzy -->
+<string name="checkmark">"Häkchen"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Stärke"</string>
+
+<!-- Fuzzy -->
+<string name="best_streaks">"Beste Strähnen"</string>
+
+<!-- Fuzzy -->
+<string name="current_streaks">"Derzeitige Strähne"</string>
+<string name="number_of_repetitions">"Anzahl der Wiederholungen"</string>
+<string name="last_x_days">"Letzte %d Tage"</string>
+<string name="last_x_weeks">"Letzte %d Wochen"</string>
+<string name="last_x_months">"Letzte %d Monate"</string>
+<string name="last_x_years">"Letzte %d Jahre"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<!-- Fuzzy -->
+<string name="all_time">"Allzeit"</string>
+<string name="every_day">"Jeden Tag"</string>
+<string name="every_week">"Jede Woche"</string>
+<string name="two_times_per_week">"2 mal pro Woche"</string>
+<string name="five_times_per_week">"5 mal pro Woche"</string>
+<string name="custom_frequency">"Benutzerdefiniert"</string>
+<string name="help">"Hilfe &amp; FAQ"</string>
+<string name="could_not_export">"Der Export von Daten ist fehlgeschlagen."</string>
+<string name="could_not_import">"Der Import von Daten ist fehlgeschlagen."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Datei nicht erkannt."</string>
+<string name="habits_imported">"Gewohnheiten wurden erfolgreich importiert."</string>
+<string name="full_backup_success">"Vollständige Sicherung erfolgreich exportiert."</string>
+<string name="import_data">"Importiere Daten"</string>
+<string name="export_full_backup">"Exportiere vollständige Sicherung"</string>
+<string name="import_data_summary">"Unterstützt vollständige Sicherungen dieser App, als auch erstellte Sicherungen von Tickmate, HabitBull oder Rewire. Siehe FAQ für mehr Information."</string>
+<string name="export_as_csv_summary">"Erzeugt Dateien, die von Tabellenkalkulationsprogrammen, wie Microsoft Excel oder LibreOffice Calc, geöffnet werden können. Diese Dateien können nicht wieder importiert werden."</string>
+<string name="export_full_backup_summary">"Erzeugt eine Datei, die alle deine Daten enthält. Diese Datei kann wieder importiert werden."</string>
+<string name="bug_report_failed">"Bug-Report konnte nicht erstellt werden."</string>
+<string name="generate_bug_report">"Erstelle einen Bug-Report."</string>
+<string name="troubleshooting">"Fehlerbehebung"</string>
 </resources>

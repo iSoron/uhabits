@@ -71,7 +71,7 @@
     <style name="dialogFormLabel" parent="dialogFormText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:width">100dp</item>
+        <item name="android:minWidth">100dp</item>
         <item name="android:gravity">left</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:textColor">@color/fadedTextColor</item>
