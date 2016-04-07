@@ -71,6 +71,7 @@ public class RingView extends View
     public void setColor(int color)
     {
         this.color = color;
+        postInvalidate();
     }
 
     public void setMaxDiameter(float maxDiameter)
@@ -86,6 +87,7 @@ public class RingView extends View
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
+        postInvalidate();
     }
 
     private void init()
