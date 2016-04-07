@@ -153,7 +153,7 @@ public abstract class UIHelper
     public static boolean isLocaleFullyTranslated()
     {
         String fullyTranslatedLanguages[] = { "en", "ar", "cs", "de", "it", "ja", "ko", "po", "pl",
-                "pt", "ru", "sv", "zh" };
+                "pt", "ru", "sv", "zh", "es" };
 
         final String currentLanguage = Locale.getDefault().getLanguage();
 

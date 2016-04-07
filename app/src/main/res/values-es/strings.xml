@@ -45,7 +45,7 @@
 <string name="create_habit">"Crear hábito"</string>
 <string name="edit_habit">"Editar hábito"</string>
 <string name="check">"Marcar"</string>
-<string name="snooze">"Posponer"</string>
+<string name="snooze">"Aplazar"</string>
 
 <!-- App introduction -->
 <string name="intro_title_1">"Bienvenido"</string>
@@ -64,7 +64,7 @@
 <string name="interval_8_hour">"8 horas"</string>
 <string name="pref_toggle_title">"Marca las repeticiones con una corta pulsación."</string>
 <string name="pref_toggle_description">"Más cómodo, pero puede causar marcas accidentales."</string>
-<string name="pref_snooze_interval_title">"Tiempo de espera al posponer recordatorios."</string>
+<string name="pref_snooze_interval_title">"Tiempo de espera al aplazar recordatorios."</string>
 <string name="pref_rate_this_app">"Valora esta app en Google Play"</string>
 <string name="pref_send_feedback">"Enviar sugerencias al desarrollador"</string>
 <string name="pref_view_source_code">"Ver código fuente en GitHub"</string>
@@ -108,11 +108,11 @@ Observa claramente como tus hábitos han mejorado con el tiempo con bellos y det
 <string name="store_feature_schedules">"&lt;b&gt;Horarios flexibles&lt;/b&gt;
 Soporta hábitos diarios y hábitos con repeticiones más complejas, como 3 veces por semana; una vez cada varias semanas; o cada día."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Recordatorios&lt;/b&gt;
-Crea recordatorios individuales para cada hábito a una hora determinada del día. Fácilmente marcables, descartables o posponibles directamente desde la notificación, sin abrir la app."</string>
+Crea recordatorios individuales para cada hábito a una hora determinada del día. Fácilmente marcables, descartables o aplazables directamente desde la notificación, sin abrir la app."</string>
 <string name="store_feature_opensource">"&lt;b&gt;Completamente sin anuncios y de código abierto&lt;/b&gt;
 No existe ningún tipo de publicidad, notificaciones molestas o permisos intrusivos, y nunca los habrá. Todo el código está disponible bajo GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Optimizado para smartwatches&lt;/b&gt;
-Los recordatorios se pueden marcar, posponer o descartar directamente desde tu reloj Android Wear."</string>
+Los recordatorios se pueden marcar, aplazar o descartar directamente desde tu reloj Android Wear."</string>
 <string name="about">"Acerca de"</string>
 <string name="translators">"Traductores"</string>
 <string name="developers">"Desarrolladores"</string>
@@ -120,14 +120,22 @@ Los recordatorios se pueden marcar, posponer o descartar directamente desde tu r
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Versión %s"</string>
 <string name="frequency">"Frecuencia"</string>
+<string name="checkmark">"Checkmark"</string>
 
 <!-- This is a shorter version of "Habit Strength" -->
 <string name="strength">"Fuerza"</string>
 
 <!-- Fuzzy -->
 <string name="best_streaks">"Mejores rachas"</string>
+<string name="current_streaks">"Racha actual"</string>
+<string name="number_of_repetitions">"Número de repeticiones"</string>
+<string name="last_x_days">"Últimos %d días"</string>
+<string name="last_x_weeks">"Últimas %d semanas"</string>
+<string name="last_x_months">"Últimos %d meses"</string>
+<string name="last_x_years">"Últimos %d años"</string>
 
 <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Todo el tiempo"</string>
 
 <!-- Fuzzy -->
 <string name="every_day">"Diariamente"</string>
@@ -143,6 +151,20 @@ Los recordatorios se pueden marcar, posponer o descartar directamente desde tu r
 
 <!-- Fuzzy -->
 <string name="custom_frequency">"Personalizado..."</string>
+<string name="help">"Ayuda &amp; FAQ"</string>
+<string name="could_not_export">"Fallo al exportar datos."</string>
+<string name="could_not_import">"Fallo al importar datos."</string>
 
 <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Archivo no reconocido."</string>
+<string name="habits_imported">"Hábitos importados exitosamente."</string>
+<string name="full_backup_success">"Copia de seguridad exportada exitosamente."</string>
+<string name="import_data">"Importar datos"</string>
+<string name="export_full_backup">"Exportar copia de seguridad"</string>
+<string name="import_data_summary">"Soporta exportar copias de seguridad completas, así como archivos generados por Tickmate, HabitBull o Rewire. Mira el FAQ para más información."</string>
+<string name="export_as_csv_summary">"Genera archivos que pueden ser abiertos por programas de hojas de cálculo como Microsoft Excel o OpenOffice Calc. Este archivo no puede volver a importarse."</string>
+<string name="export_full_backup_summary">"Genera un archivo que contiene todos tus datos. Este archivo puede volver a importarse."</string>
+<string name="bug_report_failed">"Fallo al generar el informe del bug."</string>
+<string name="generate_bug_report">"Generar informe de bug"</string>
+<string name="troubleshooting">"Solución de problemas"</string>
 </resources>
