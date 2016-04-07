@@ -71,7 +71,8 @@ contribute, even if you are not a software developer.
 * **Report bugs, suggest features.** The easiest way to contribute is to simply
   use the app and let us know if you find any problems or have any suggestions
   to improve it. You can either use the link inside the app, or open an issue
-  at GitHub.
+  at GitHub. If you would like to receive the newest versions of the app
+  earlier than everyone else, [join our open beta on Google Play][beta].
 
 * **Spread the word.** If you like the app, share it with your family, friends
   and colleagues. You can also rate and review the app on Google Play Store, to help
@@ -116,3 +117,4 @@ contribute, even if you are not a software developer.
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
 [dev-guide]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines
 [build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
+[beta]: https://play.google.com/apps/testing/org.isoron.uhabits
