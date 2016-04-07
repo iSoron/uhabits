@@ -41,6 +41,7 @@ import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
 import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
@@ -212,15 +213,14 @@ public class MainActivity extends BaseActivity
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
 
-        new AsyncTask<Void, Void, Void>()
+        new BaseTask()
         {
             @Override
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 updateWidgets(MainActivity.this);
-                return null;
             }
-        };
+        }.execute();
     }
 
     public static void updateWidgets(Context context)
