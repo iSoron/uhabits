@@ -30,7 +30,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
@@ -191,6 +190,7 @@ public class ListHabitsHelper
             btCheck.setTypeface(fontawesome);
             btCheck.setOnLongClickListener(onLongClickListener);
             btCheck.setOnClickListener(onClickListener);
+            btCheck.setHapticFeedbackEnabled(false);
             ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
         }
 

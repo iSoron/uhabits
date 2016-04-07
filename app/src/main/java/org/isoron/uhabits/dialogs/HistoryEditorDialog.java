@@ -30,6 +30,7 @@ import android.util.Log;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitHistoryView;
 
 public class HistoryEditorDialog extends DialogFragment
@@ -44,7 +45,6 @@ public class HistoryEditorDialog extends DialogFragment
     {
         Context context = getActivity();
         historyView = new HabitHistoryView(context, null);
-        int p = (int) getResources().getDimension(R.dimen.history_editor_padding);
 
         if(savedInstanceState != null)
         {
@@ -52,7 +52,8 @@ public class HistoryEditorDialog extends DialogFragment
             if(id > 0) this.habit = Habit.get(id);
         }
 
-        historyView.setPadding(p, 0, p, 0);
+        int padding = (int) getResources().getDimension(R.dimen.history_editor_padding);
+        historyView.setPadding(padding, 0, padding, 0);
         historyView.setHabit(habit);
         historyView.setIsEditable(true);
 
@@ -61,7 +62,21 @@ public class HistoryEditorDialog extends DialogFragment
                 .setView(historyView)
                 .setPositiveButton(android.R.string.ok, this);
 
+        refreshData();
+
         return builder.create();
+    }
+
+    private void refreshData()
+    {
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                historyView.refreshData();
+            }
+        }.execute();
     }
 
     @Override

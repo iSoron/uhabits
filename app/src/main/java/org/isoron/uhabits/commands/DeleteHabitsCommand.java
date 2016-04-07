@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 

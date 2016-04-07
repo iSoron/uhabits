@@ -20,42 +20,63 @@
 package org.isoron.uhabits.fragments;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.Command;
-import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
+import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.dialogs.HistoryEditorDialog;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitFrequencyView;
+import org.isoron.uhabits.views.HabitHistoryView;
 import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
 import org.isoron.uhabits.views.RingView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class ShowHabitFragment extends Fragment
-        implements DialogHelper.OnSavedListener, HistoryEditorDialog.Listener
+        implements UIHelper.OnSavedListener, HistoryEditorDialog.Listener,
+        Spinner.OnItemSelectedListener
 {
+    @Nullable
     protected ShowHabitActivity activity;
+
+    @Nullable
     private Habit habit;
-    private HabitStreakView streakView;
+
+    @Nullable
+    private List<HabitDataView> dataViews;
+
+    @Nullable
     private HabitScoreView scoreView;
-    private HabitHistoryView historyView;
-    private HabitFrequencyView punchcardView;
+
+    @Nullable
+    private SharedPreferences prefs;
+
+    private int previousScoreInterval;
 
     @Override
     public void onStart()
@@ -69,23 +90,34 @@ public class ShowHabitFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.show_habit, container, false);
         activity = (ShowHabitActivity) getActivity();
-        habit = activity.habit;
+        habit = activity.getHabit();
 
-        habit.checkmarks.rebuild();
+        dataViews = new LinkedList<>();
 
         Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
-        streakView = (HabitStreakView) view.findViewById(R.id.streakView);
+        Spinner sStrengthInterval = (Spinner) view.findViewById(R.id.sStrengthInterval);
+
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
-        historyView = (HabitHistoryView) view.findViewById(R.id.historyView);
-        punchcardView = (HabitFrequencyView) view.findViewById(R.id.punchcardView);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);
+        if(defaultScoreInterval > 5 || defaultScoreInterval < 0) defaultScoreInterval = 1;
+        previousScoreInterval = defaultScoreInterval;
+        setScoreBucketSize(defaultScoreInterval);
+
+
+        sStrengthInterval.setSelection(defaultScoreInterval);
+        sStrengthInterval.setOnItemSelectedListener(this);
+
+        dataViews.add((HabitScoreView) view.findViewById(R.id.scoreView));
+        dataViews.add((HabitHistoryView) view.findViewById(R.id.historyView));
+        dataViews.add((HabitFrequencyView) view.findViewById(R.id.punchcardView));
+        dataViews.add((HabitStreakView) view.findViewById(R.id.streakView));
 
         updateHeaders(view);
-        updateScoreRing(view);
 
-        streakView.setHabit(habit);
-        scoreView.setHabit(habit);
-        historyView.setHabit(habit);
-        punchcardView.setHabit(habit);
+        for(HabitDataView dataView : dataViews)
+            dataView.setHabit(habit);
 
         btEditHistory.setOnClickListener(new View.OnClickListener()
         {
@@ -111,18 +143,34 @@ public class ShowHabitFragment extends Fragment
         }
 
         setHasOptionsMenu(true);
+
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        refreshData();
     }
 
     private void updateScoreRing(View view)
     {
+        if(habit == null) return;
+        if(view == null) return;
+
+        float todayValue = (float) habit.scores.getTodayValue();
+        float percentage = todayValue / Score.MAX_VALUE;
+
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
         scoreRing.setColor(habit.color);
-        scoreRing.setPercentage((float) habit.scores.getNewestValue() / Score.MAX_SCORE);
+        scoreRing.setPercentage(percentage);
     }
 
     private void updateHeaders(View view)
     {
+        if(habit == null | activity == null) return;
+
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
             int darkerHabitColor = ColorHelper.mixColors(habit.color, Color.BLACK, 0.75f);
@@ -138,6 +186,8 @@ public class ShowHabitFragment extends Fragment
 
     private void updateColor(View view, int viewId)
     {
+        if(habit == null) return;
+
         TextView textView = (TextView) view.findViewById(viewId);
         textView.setTextColor(habit.color);
     }
@@ -151,6 +201,8 @@ public class ShowHabitFragment extends Fragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        if(habit == null) return false;
+
         switch (item.getItemId())
         {
             case R.id.action_edit_habit:
@@ -168,6 +220,7 @@ public class ShowHabitFragment extends Fragment
     @Override
     public void onSaved(Command command, Object savedObject)
     {
+        if(activity == null) return;
         Habit h = (Habit) savedObject;
 
         if (h == null) activity.executeCommand(command, null);
@@ -186,10 +239,60 @@ public class ShowHabitFragment extends Fragment
 
     public void refreshData()
     {
-        streakView.refreshData();
-        historyView.refreshData();
-        scoreView.refreshData();
-        punchcardView.refreshData();
-        updateScoreRing(getView());
+        new BaseTask()
+        {
+            float percentage;
+
+            @Override
+            protected void doInBackground()
+            {
+                if(dataViews == null) return;
+
+                int count = 0;
+                for(HabitDataView view : dataViews)
+                {
+                    view.refreshData();
+                    onProgressUpdate(count++);
+                }
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values)
+            {
+                updateScoreRing(getView());
+                if(dataViews == null) return;
+                dataViews.get(values[0]).postInvalidate();
+            }
+        }.execute();
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
+        if(parent.getId() == R.id.sStrengthInterval)
+            setScoreBucketSize(position);
+    }
+
+    private void setScoreBucketSize(int position)
+    {
+        if(scoreView == null) return;
+
+        int sizes[] = { 1, 7, 31, 92, 365 };
+        int size = sizes[position];
+
+        scoreView.setBucketSize(size);
+        if(position != previousScoreInterval) refreshData();
+
+        if(prefs != null)
+            prefs.edit().putInt("pref_score_view_interval", position).apply();
+
+        previousScoreInterval = position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent)
+    {
+
     }
 }

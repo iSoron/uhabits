@@ -19,9 +19,9 @@
 
 package org.isoron.uhabits.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -29,8 +29,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.colorpicker.ColorPickerDialog;
@@ -38,11 +40,11 @@ import com.android.colorpicker.ColorPickerSwatch;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.Command;
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper.OnSavedListener;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
@@ -52,7 +54,7 @@ import java.util.Arrays;
 
 public class EditHabitFragment extends DialogFragment
         implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
-        TimePickerDialog.OnTimeSetListener
+        TimePickerDialog.OnTimeSetListener, Spinner.OnItemSelectedListener
 {
     private Integer mode;
     static final int EDIT_MODE = 0;
@@ -69,6 +71,10 @@ public class EditHabitFragment extends DialogFragment
     private TextView tvFreqDen;
     private TextView tvReminderTime;
     private TextView tvReminderDays;
+
+    private Spinner sFrequency;
+    private ViewGroup llCustomFrequency;
+    private ViewGroup llReminderDays;
 
     private SharedPreferences prefs;
     private boolean is24HourMode;
@@ -104,6 +110,10 @@ public class EditHabitFragment extends DialogFragment
         tvReminderTime = (TextView) view.findViewById(R.id.inputReminderTime);
         tvReminderDays = (TextView) view.findViewById(R.id.inputReminderDays);
 
+        sFrequency = (Spinner) view.findViewById(R.id.sFrequency);
+        llCustomFrequency = (ViewGroup) view.findViewById(R.id.llCustomFrequency);
+        llReminderDays = (ViewGroup) view.findViewById(R.id.llReminderDays);
+
         Button buttonSave = (Button) view.findViewById(R.id.buttonSave);
         Button buttonDiscard = (Button) view.findViewById(R.id.buttonDiscard);
         ImageButton buttonPickColor = (ImageButton) view.findViewById(R.id.buttonPickColor);
@@ -113,6 +123,7 @@ public class EditHabitFragment extends DialogFragment
         tvReminderTime.setOnClickListener(this);
         tvReminderDays.setOnClickListener(this);
         buttonPickColor.setOnClickListener(this);
+        sFrequency.setOnItemSelectedListener(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -125,18 +136,16 @@ public class EditHabitFragment extends DialogFragment
         {
             getDialog().setTitle(R.string.create_habit);
             modifiedHabit = new Habit();
-
-            int defaultNum = prefs.getInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
-            int defaultDen = prefs.getInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
-            int defaultColor = prefs.getInt("pref_default_habit_color", modifiedHabit.color);
-
-            modifiedHabit.color = defaultColor;
-            modifiedHabit.freqNum = defaultNum;
-            modifiedHabit.freqDen = defaultDen;
+            modifiedHabit.freqNum = 1;
+            modifiedHabit.freqDen = 1;
+            modifiedHabit.color = prefs.getInt("pref_default_habit_color", modifiedHabit.color);
         }
         else if (mode == EDIT_MODE)
         {
-            originalHabit = Habit.get((Long) args.get("habitId"));
+            Long habitId = (Long) args.get("habitId");
+            if(habitId == null) throw new IllegalArgumentException("habitId must be specified");
+
+            originalHabit = Habit.get(habitId);
             modifiedHabit = new Habit(originalHabit);
 
             getDialog().setTitle(R.string.edit_habit);
@@ -152,17 +161,14 @@ public class EditHabitFragment extends DialogFragment
             modifiedHabit.reminderDays = savedInstanceState.getInt("reminderDays", -1);
 
             if(modifiedHabit.reminderMin < 0)
-            {
-                modifiedHabit.reminderMin = null;
-                modifiedHabit.reminderHour = null;
-                modifiedHabit.reminderDays = 127;
-            }
+                modifiedHabit.clearReminder();
         }
 
         tvFreqNum.append(modifiedHabit.freqNum.toString());
         tvFreqDen.append(modifiedHabit.freqDen.toString());
 
         changeColor(modifiedHabit.color);
+        updateFrequency();
         updateReminder();
 
         return view;
@@ -178,24 +184,23 @@ public class EditHabitFragment extends DialogFragment
         editor.apply();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void updateReminder()
     {
-        if (modifiedHabit.reminderHour != null)
+        if (modifiedHabit.hasReminder())
         {
-            tvReminderTime.setTextColor(Color.BLACK);
             tvReminderTime.setText(DateHelper.formatTime(getActivity(), modifiedHabit.reminderHour,
                     modifiedHabit.reminderMin));
-            tvReminderDays.setVisibility(View.VISIBLE);
+            llReminderDays.setVisibility(View.VISIBLE);
+
+            boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
+            tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
         }
         else
         {
-            tvReminderTime.setTextColor(Color.GRAY);
             tvReminderTime.setText(R.string.reminder_off);
-            tvReminderDays.setVisibility(View.GONE);
+            llReminderDays.setVisibility(View.GONE);
         }
-
-        boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
-        tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
     }
 
     public void setOnSavedListener(OnSavedListener onSavedListener)
@@ -257,11 +262,6 @@ public class EditHabitFragment extends DialogFragment
 
         if (!validate()) return;
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("pref_default_habit_freq_num", modifiedHabit.freqNum);
-        editor.putInt("pref_default_habit_freq_den", modifiedHabit.freqDen);
-        editor.apply();
-
         Command command = null;
         Habit savedHabit = null;
 
@@ -305,12 +305,13 @@ public class EditHabitFragment extends DialogFragment
         return valid;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void onDateSpinnerClick()
     {
         int defaultHour = 8;
         int defaultMin = 0;
 
-        if (modifiedHabit.reminderHour != null)
+        if (modifiedHabit.hasReminder())
         {
             defaultHour = modifiedHabit.reminderHour;
             defaultMin = modifiedHabit.reminderMin;
@@ -321,8 +322,11 @@ public class EditHabitFragment extends DialogFragment
         timePicker.show(getFragmentManager(), "timePicker");
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void onWeekdayClick()
     {
+        if(!modifiedHabit.hasReminder()) return;
+
         WeekdayPickerDialog dialog = new WeekdayPickerDialog();
         dialog.setListener(this);
         dialog.setSelectedDays(DateHelper.unpackWeekdayList(modifiedHabit.reminderDays));
@@ -334,14 +338,14 @@ public class EditHabitFragment extends DialogFragment
     {
         modifiedHabit.reminderHour = hour;
         modifiedHabit.reminderMin = minute;
+        modifiedHabit.reminderDays = DateHelper.ALL_WEEK_DAYS;
         updateReminder();
     }
 
     @Override
     public void onTimeCleared(RadialPickerLayout view)
     {
-        modifiedHabit.reminderHour = null;
-        modifiedHabit.reminderMin = null;
+        modifiedHabit.clearReminder();
         updateReminder();
     }
 
@@ -359,16 +363,93 @@ public class EditHabitFragment extends DialogFragment
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
 
         outState.putInt("color", modifiedHabit.color);
-        if(modifiedHabit.reminderHour != null)
+
+        if(modifiedHabit.hasReminder())
         {
             outState.putInt("reminderMin", modifiedHabit.reminderMin);
             outState.putInt("reminderHour", modifiedHabit.reminderHour);
             outState.putInt("reminderDays", modifiedHabit.reminderDays);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
+        if(parent.getId() == R.id.sFrequency)
+        {
+            switch (position)
+            {
+                case 0:
+                    modifiedHabit.freqNum = 1;
+                    modifiedHabit.freqDen = 1;
+                    break;
+
+                case 1:
+                    modifiedHabit.freqNum = 1;
+                    modifiedHabit.freqDen = 7;
+                    break;
+
+                case 2:
+                    modifiedHabit.freqNum = 2;
+                    modifiedHabit.freqDen = 7;
+                    break;
+
+                case 3:
+                    modifiedHabit.freqNum = 5;
+                    modifiedHabit.freqDen = 7;
+                    break;
+
+                case 4:
+                    modifiedHabit.freqNum = 3;
+                    modifiedHabit.freqDen = 7;
+                    break;
+            }
+        }
+
+        updateFrequency();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updateFrequency()
+    {
+        int quickSelectPosition = -1;
+
+        if(modifiedHabit.freqNum.equals(modifiedHabit.freqDen))
+            quickSelectPosition = 0;
+
+        else if(modifiedHabit.freqNum == 1 && modifiedHabit.freqDen == 7)
+            quickSelectPosition = 1;
+
+        else if(modifiedHabit.freqNum == 2 && modifiedHabit.freqDen == 7)
+            quickSelectPosition = 2;
+
+        else if(modifiedHabit.freqNum == 5 && modifiedHabit.freqDen == 7)
+            quickSelectPosition = 3;
+
+        if(quickSelectPosition >= 0)
+        {
+            sFrequency.setVisibility(View.VISIBLE);
+            sFrequency.setSelection(quickSelectPosition);
+            llCustomFrequency.setVisibility(View.GONE);
+            tvFreqNum.setText(modifiedHabit.freqNum.toString());
+            tvFreqDen.setText(modifiedHabit.freqDen.toString());
+        }
+        else
+        {
+            sFrequency.setVisibility(View.GONE);
+            llCustomFrequency.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent)
+    {
+
     }
 }

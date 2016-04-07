@@ -26,27 +26,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.ReplayableActivity;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
 import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
-public class MainActivity extends ReplayableActivity
+import java.io.File;
+import java.io.IOException;
+
+public class MainActivity extends BaseActivity
         implements ListHabitsFragment.OnHabitClickListener
 {
     private ListHabitsFragment listHabitsFragment;
@@ -55,6 +60,11 @@ public class MainActivity extends ReplayableActivity
     private LocalBroadcastManager localBroadcastManager;
 
     public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
+
+    public static final int RESULT_IMPORT_DATA = 1;
+    public static final int RESULT_EXPORT_CSV = 2;
+    public static final int RESULT_EXPORT_DB = 3;
+    public static final int RESULT_BUG_REPORT = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,8 +86,8 @@ public class MainActivity extends ReplayableActivity
     private void onStartup()
     {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        DialogHelper.incrementLaunchCount(this);
-        DialogHelper.updateLastAppVersion(this);
+        UIHelper.incrementLaunchCount(this);
+        UIHelper.updateLastAppVersion(this);
         showTutorial();
 
         new AsyncTask<Void, Void, Void>() {
@@ -123,7 +133,7 @@ public class MainActivity extends ReplayableActivity
             case R.id.action_settings:
             {
                 Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 return true;
             }
 
@@ -134,8 +144,59 @@ public class MainActivity extends ReplayableActivity
                 return true;
             }
 
+            case R.id.action_faq:
+            {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(getString(R.string.helpURL)));
+                startActivity(intent);
+                return true;
+            }
+
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (resultCode)
+        {
+            case RESULT_IMPORT_DATA:
+                listHabitsFragment.showImportDialog();
+                break;
+
+            case RESULT_EXPORT_CSV:
+                listHabitsFragment.exportAllHabits();
+                break;
+
+            case RESULT_EXPORT_DB:
+                listHabitsFragment.exportDB();
+                break;
+
+            case RESULT_BUG_REPORT:
+                generateBugReport();
+                break;
+        }
+    }
+
+    private void generateBugReport()
+    {
+        try
+        {
+            File logFile = HabitsApplication.generateLogFile();
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse(getString(R.string.bugReportURL)));
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logFile));
+            startActivity(intent);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            showToast(R.string.bug_report_failed);
         }
     }
 
@@ -152,15 +213,14 @@ public class MainActivity extends ReplayableActivity
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
 
-        new AsyncTask<Void, Void, Void>()
+        new BaseTask()
         {
             @Override
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 updateWidgets(MainActivity.this);
-                return null;
             }
-        };
+        }.execute();
     }
 
     public static void updateWidgets(Context context)
@@ -196,5 +256,15 @@ public class MainActivity extends ReplayableActivity
         {
             listHabitsFragment.onPostExecuteCommand(null);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        if (grantResults.length <= 0) return;
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) return;
+
+        listHabitsFragment.showImportDialog();
     }
 }

@@ -22,8 +22,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.view.View;
 
+import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitHistoryView;
 
 public class HistoryWidgetProvider extends  BaseWidgetProvider
@@ -38,9 +40,15 @@ public class HistoryWidgetProvider extends  BaseWidgetProvider
     }
 
     @Override
+    protected void refreshCustomViewData(View view)
+    {
+        ((HabitDataView) view).refreshData();
+    }
+
+    @Override
     protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
     {
-        return null;
+        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
     }
 
     @Override

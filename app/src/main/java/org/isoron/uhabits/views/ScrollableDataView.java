@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Scroller;
 
 public abstract class ScrollableDataView extends View implements GestureDetector.OnGestureListener,
@@ -89,7 +90,10 @@ public abstract class ScrollableDataView extends View implements GestureDetector
             return false;
 
         if(Math.abs(dx) > Math.abs(dy))
-            getParent().requestDisallowInterceptTouchEvent(true);
+        {
+            ViewParent parent = getParent();
+            if(parent != null) parent.requestDisallowInterceptTouchEvent(true);
+        }
 
         scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) -dx, (int) dy, 0);
         scroller.computeScrollOffset();

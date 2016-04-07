@@ -35,19 +35,17 @@
 <string name="reminder">"Promemoria"</string>
 <string name="discard">"Annulla"</string>
 <string name="save">"Salva"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"Serie"</string>
 <string name="no_habits_found">"Non hai abitudini attive"</string>
-
-<!-- Fuzzy -->
-<string name="long_press_to_toggle">"Premi e tieni premuto per completare o annullare"</string>
+<string name="long_press_to_toggle">"Premi e mantieni premuto per completare o annullare"</string>
 <string name="reminder_off">"Off"</string>
 <string name="validation_name_should_not_be_blank">"Il nome non può essere vuoto."</string>
 <string name="validation_number_should_be_positive">"I numeri devono essere positivi."</string>
 <string name="validation_at_most_one_rep_per_day">"Puoi avere al massimo una ripetizione al giorno"</string>
 <string name="create_habit">"Crea abitudine"</string>
 <string name="edit_habit">"Modifica abitudine"</string>
-
-<!-- Fuzzy -->
 <string name="check">"Completa"</string>
 <string name="snooze">"Più tardi"</string>
 
@@ -85,10 +83,12 @@
 <string name="delete_habits">"Elimina abitudine"</string>
 <string name="delete_habits_message">"L'abitudine verrà cancellata definitivamente. Non sarà possibile annullare."</string>
 <string name="weekends">"Weekend"</string>
+
+<!-- Fuzzy -->
 <string name="any_weekday">"Giorni feriali"</string>
-<string name="any_day">"Qualsiasi giorno"</string>
+<string name="any_day">"Qualsiasi giorno della settimana"</string>
 <string name="select_weekdays">"Giorni selezionati"</string>
-<string name="export_to_csv">"Esporta i dati"</string>
+<string name="export_to_csv">"Esporta i dati come CSV"</string>
 <string name="done_label">"Fatto"</string>
 <string name="clear_label">"Pulisci"</string>
 <string name="select_hours">"Ore selezionate"</string>
@@ -114,4 +114,43 @@ Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne sar
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Versione %s"</string>
 <string name="frequency">"Frequenza"</string>
+<string name="checkmark">"Spunta"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Forza"</string>
+<string name="best_streaks">"Migliore serie"</string>
+<string name="current_streaks">"Serie corrente"</string>
+
+<!-- Fuzzy -->
+<string name="number_of_repetitions">"Numero di ripetizioni"</string>
+<string name="last_x_days">"Ultimi %d giorni"</string>
+<string name="last_x_weeks">"Ultime %d settimane"</string>
+<string name="last_x_months">"Ultimi %d mesi"</string>
+<string name="last_x_years">"Ultimi %d anni"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Sempre"</string>
+<string name="every_day">"Ogni giorno"</string>
+<string name="every_week">"Ogni settimana"</string>
+<string name="two_times_per_week">"2 volte a settimana"</string>
+<string name="five_times_per_week">"5 volte a settimana"</string>
+<string name="custom_frequency">"Personalizzato ..."</string>
+<string name="help">"Aiuto &amp; FAQ"</string>
+<string name="could_not_export">"Esportazione non riuscita."</string>
+<string name="could_not_import">"Importazione non riuscita."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"File non riconosciuto."</string>
+<string name="habits_imported">"Abitudini importate con successo."</string>
+<string name="full_backup_success">"Backup completo esportato con successo."</string>
+<string name="import_data">"Importa dati"</string>
+<string name="export_full_backup">"Esporta il backup completo"</string>
+
+<!-- Fuzzy -->
+<string name="import_data_summary">"Pieno supporto ai backup esportati da questa app, oltre a quelli generati da Tickmate, HabitBull o Rewire. Vedi le FAQ per maggiorni informazioni."</string>
+<string name="export_as_csv_summary">"Genera un file che potrà essere aperto da programmi con Microsoft Excel o OpenOffice Calc. Non potrà essere importato."</string>
+<string name="export_full_backup_summary">"Genera un file contenente tutti i tuoi dati. Potrà essere importato successivamente."</string>
+<string name="bug_report_failed">"Generazione del bug report fallita"</string>
+<string name="generate_bug_report">"Genera bug report"</string>
+<string name="troubleshooting">"Risoluzione dei problemi"</string>
 </resources>

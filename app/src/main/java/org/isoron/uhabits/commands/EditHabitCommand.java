@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -40,29 +39,36 @@ public class EditHabitCommand extends Command
                 !this.original.freqNum.equals(this.modified.freqNum));
     }
 
+    @Override
     public void execute()
     {
-        Habit habit = Habit.get(savedId);
-        habit.copyAttributes(modified);
-        habit.save();
-        if (hasIntervalChanged)
-        {
-            habit.checkmarks.deleteNewerThan(0);
-            habit.streaks.deleteNewerThan(0);
-            habit.scores.deleteNewerThan(0);
-        }
+        copyAttributes(this.modified);
     }
 
+    @Override
     public void undo()
     {
+        copyAttributes(this.original);
+    }
+
+    private void copyAttributes(Habit model)
+    {
         Habit habit = Habit.get(savedId);
-        habit.copyAttributes(original);
+        if(habit == null) throw new RuntimeException("Habit not found");
+
+        habit.copyAttributes(model);
         habit.save();
+
+        invalidateIfNeeded(habit);
+    }
+
+    private void invalidateIfNeeded(Habit habit)
+    {
         if (hasIntervalChanged)
         {
             habit.checkmarks.deleteNewerThan(0);
             habit.streaks.deleteNewerThan(0);
-            habit.scores.deleteNewerThan(0);
+            habit.scores.invalidateNewerThan(0);
         }
     }
 

@@ -21,21 +21,21 @@
 <manifest
     package="org.isoron.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="13"
-    android:versionName="1.3.3">
+    android:versionCode="14"
+    android:versionName="1.4.0">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18"/>
+        android:maxSdkVersion="18" />
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18"/>
+        android:maxSdkVersion="18" />
 
     <application
-        android:name="com.activeandroid.app.Application"
+        android:name="HabitsApplication"
         android:allowBackup="true"
         android:backupAgent=".HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
@@ -43,12 +43,6 @@
         android:theme="@style/AppBaseTheme"
         android:supportsRtl="true">
 
-        <meta-data
-            android:name="AA_DB_NAME"
-            android:value="uhabits.db"/>
-        <meta-data
-            android:name="AA_DB_VERSION"
-            android:value="12"/>
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw"/>

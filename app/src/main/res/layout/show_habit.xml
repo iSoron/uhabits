@@ -31,34 +31,62 @@
 
         <LinearLayout
             style="@style/cardStyle"
-            android:gravity="center">
+            android:gravity="start">
 
             <TextView
                 android:id="@+id/tvOverview"
                 style="@style/cardHeaderStyle"
                 android:text="@string/overview"/>
 
-            <org.isoron.uhabits.views.RingView
-                android:id="@+id/scoreRing"
+            <LinearLayout
+                android:id="@+id/llOverview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:label="@string/habit_strength"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <org.isoron.uhabits.views.RingView
+                    android:id="@+id/scoreRing"
+                    style="@style/smallDataViewStyle"
+                    android:layout_width="100dp"
+                    app:label="@string/strength"
+                    app:maxDiameter="80"
+                    app:textSize="@dimen/smallTextSize"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout style="@style/cardStyle">
+        <RelativeLayout
+            style="@style/cardStyle"
+            android:gravity="center">
+
+            <Spinner
+                android:id="@+id/sStrengthInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/strengthIntervalNames"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:minWidth="100dp"
+                />
 
             <TextView
                 android:id="@+id/tvStrength"
                 style="@style/cardHeaderStyle"
-                android:text="@string/habit_strength"/>
+                android:text="@string/habit_strength"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
 
             <org.isoron.uhabits.views.HabitScoreView
                 android:id="@+id/scoreView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="220dp"
+                android:layout_below="@id/tvStrength"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             style="@style/cardStyle"
@@ -84,7 +112,8 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_action_edit_light"
                 android:text="@string/edit"
-                android:textColor="@color/grey_400"/>
+                android:textColor="@color/grey_400"
+                android:textSize="@dimen/smallTextSize"/>
 
         </LinearLayout>
 
@@ -95,7 +124,7 @@
             <TextView
                 android:id="@+id/tvStreaks"
                 style="@style/cardHeaderStyle"
-                android:text="@string/streaks"/>
+                android:text="@string/best_streaks"/>
 
             <org.isoron.uhabits.views.HabitStreakView
                 android:id="@+id/streakView"

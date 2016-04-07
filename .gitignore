@@ -33,3 +33,4 @@ build/
 *.iml
 
 art/
+*.actual.png

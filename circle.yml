@@ -1,0 +1,16 @@
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
+test:
+  override:
+    - mksdcard -l e 128M sdcard.img
+    - emulator -avd circleci-android22 -no-audio -no-window -sdcard sdcard.img:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    - adb shell input keyevent 82
+    - ./run_tests
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS || echo ok
+    - bash <(curl -s https://codecov.io/bash)

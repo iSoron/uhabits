@@ -18,11 +18,14 @@
   -->
 
 <resources>
-    <dimen name="small_square_size">20dp</dimen>
+    <dimen name="baseSize">20dp</dimen>
     <dimen name="check_square_size">42dp</dimen>
     <dimen name="history_editor_max_height">450dp</dimen>
     <dimen name="history_editor_padding">8dp</dimen>
-    <dimen name="history_max_font_size">14sp</dimen>
+    <dimen name="history_max_font_size">@dimen/regularTextSize</dimen>
+    <dimen name="regularTextSize">16sp</dimen>
+    <dimen name="smallTextSize">14sp</dimen>
+    <dimen name="tinyTextSize">10sp</dimen>
 
     <string-array name="snooze_interval_names">
         <item>@string/interval_15_minutes</item>
@@ -40,6 +43,30 @@
         <item>120</item>
         <item>240</item>
         <item>480</item>
+    </string-array>
+
+    <string-array name="frequencyQuickSelect" translatable="false">
+        <item>@string/every_day</item>
+        <item>@string/every_week</item>
+        <item>@string/two_times_per_week</item>
+        <item>@string/five_times_per_week</item>
+        <item>@string/custom_frequency</item>
+    </string-array>
+
+    <string-array name="strengthIntervalNames" translatable="false">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Quarter</item>
+        <item>Year</item>
+    </string-array>
+
+    <string-array name="strenghtIntervalValues" translatable="false">
+        <item>1</item>
+        <item>7</item>
+        <item>31</item>
+        <item>92</item>
+        <item>365</item>
     </string-array>
 
     <string name="snooze_interval_default" translatable="false">15</string>

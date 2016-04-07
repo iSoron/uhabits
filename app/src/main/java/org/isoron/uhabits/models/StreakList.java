@@ -19,13 +19,19 @@
 
 package org.isoron.uhabits.models;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class StreakList
@@ -37,14 +43,37 @@ public class StreakList
         this.habit = habit;
     }
 
-    public List<Streak> getAll()
+    public List<Streak> getAll(int limit)
     {
         rebuild();
 
-        return new Select().from(Streak.class)
-                .where("habit = ?", habit.getId())
-                .orderBy("end asc")
-                .execute();
+        String query = "select * from (select * from streak where habit=? " +
+                "order by end <> ?, length desc, end desc limit ?) order by end desc";
+
+        String params[] = {habit.getId().toString(), Long.toString(DateHelper.getStartOfToday()),
+                Integer.toString(limit)};
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, params);
+
+        if(!cursor.moveToFirst())
+        {
+            cursor.close();
+            return new LinkedList<>();
+        }
+
+        List<Streak> streaks = new LinkedList<>();
+
+        do
+        {
+            Streak s =  Streak.load(Streak.class, cursor.getInt(0));
+            streaks.add(s);
+        }
+        while (cursor.moveToNext());
+
+        cursor.close();
+        return streaks;
+
     }
 
     public Streak getNewest()
@@ -58,6 +87,8 @@ public class StreakList
 
     public void rebuild()
     {
+        UIHelper.throwIfMainThread();
+
         long beginning;
         long today = DateHelper.getStartOfToday();
         long day = DateHelper.millisecondsInOneDay;

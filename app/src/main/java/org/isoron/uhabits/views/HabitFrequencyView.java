@@ -26,8 +26,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -35,11 +35,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Random;
-import java.util.TimeZone;
 
-public class HabitFrequencyView extends ScrollableDataView
+public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
 {
 
     private Paint pGrid;
@@ -53,7 +51,7 @@ public class HabitFrequencyView extends ScrollableDataView
     private int baseSize;
     private int paddingTop;
 
-    private int columnWidth;
+    private float columnWidth;
     private int columnHeight;
     private int nColumns;
 
@@ -66,12 +64,17 @@ public class HabitFrequencyView extends ScrollableDataView
     private HashMap<Long, Integer[]> frequency;
     private String wdays[];
 
+    public HabitFrequencyView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorHelper.palette[7];
         this.frequency = new HashMap<>();
-        wdays = DateHelper.getShortDayNames();
         init();
     }
 
@@ -79,21 +82,17 @@ public class HabitFrequencyView extends ScrollableDataView
     {
         this.habit = habit;
         createColors();
-        refreshData();
-        postInvalidate();
     }
 
     private void init()
     {
-        refreshData();
         createPaints();
         createColors();
 
-        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
-        dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+        wdays = DateHelper.getShortDayNames();
 
-        dfMonth.setTimeZone(TimeZone.getTimeZone("GMT"));
-        dfYear.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dfMonth = DateHelper.getDateFormat("MMM");
+        dfYear = DateHelper.getDateFormat("yyyy");
 
         rect = new RectF();
         prevRect = new RectF();
@@ -155,16 +154,33 @@ public class HabitFrequencyView extends ScrollableDataView
         baseSize = height / 8;
         setScrollerBucketSize(baseSize);
 
-        columnWidth = baseSize;
-        columnHeight = 8 * baseSize;
-        nColumns = width / baseSize;
-        paddingTop = 0;
-
         pText.setTextSize(baseSize * 0.4f);
         pGraph.setTextSize(baseSize * 0.4f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
         pGrid.setStrokeWidth(baseSize * 0.05f);
         em = pText.getFontSpacing();
+
+        columnWidth = baseSize;
+        columnWidth = Math.max(columnWidth, getMaxMonthWidth() * 1.2f);
+
+        columnHeight = 8 * baseSize;
+        nColumns = (int) (width / columnWidth);
+        paddingTop = 0;
+    }
+
+    private float getMaxMonthWidth()
+    {
+        float maxMonthWidth = 0;
+        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+
+        for(int i = 0; i < 12; i++)
+        {
+            day.set(Calendar.MONTH, i);
+            float monthWidth = pText.measureText(dfMonth.format(day.getTime()));
+            maxMonthWidth = Math.max(maxMonthWidth, monthWidth);
+        }
+
+        return maxMonthWidth;
     }
 
     public void refreshData()
@@ -174,7 +190,7 @@ public class HabitFrequencyView extends ScrollableDataView
         else if(habit != null)
             frequency = habit.repetitions.getWeekdayFrequency();
 
-        invalidate();
+        postInvalidate();
     }
 
     private void generateRandomData()
@@ -234,7 +250,7 @@ public class HabitFrequencyView extends ScrollableDataView
         for (int i = 0; i < 7; i++)
         {
             rect.set(0, 0, baseSize, baseSize);
-            rect.offset(prevRect.left, prevRect.top + columnWidth * i);
+            rect.offset(prevRect.left, prevRect.top + baseSize * i);
 
             if(values != null)
                 drawMarker(canvas, rect, values[i]);

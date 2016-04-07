@@ -17,12 +17,13 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:id="@+id/container"
+    style="@style/dialogForm"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.isoron.uhabits.fragments.EditHabitFragment"
-    tools:ignore="MergeRootFrame"
-    style="@style/dialogForm">
+    tools:ignore="MergeRootFrame">
 
     <LinearLayout
         android:id="@+id/formPanel"
@@ -34,70 +35,97 @@
 
             <EditText
                 android:id="@+id/input_name"
-                android:hint="@string/name"
-                style="@style/dialogFormInput">
+                style="@style/dialogFormInput"
+                android:hint="@string/name">
 
-                <requestFocus />
+                <requestFocus/>
             </EditText>
 
             <ImageButton
                 android:id="@+id/buttonPickColor"
-                android:src="@drawable/ic_action_color_light"
+                style="@style/dialogFormInputColor"
                 android:contentDescription="@string/color_picker_default_title"
-                style="@style/dialogFormInputColor" />
+                android:src="@drawable/ic_action_color_light"/>
         </LinearLayout>
 
         <EditText
             android:id="@+id/input_description"
-            android:hint="@string/description_hint"
-            style="@style/dialogFormInputMultiline" />
+            style="@style/dialogFormInputMultiline"
+            android:hint="@string/description_hint"/>
 
         <LinearLayout
-            style="@style/dialogFormRow"
-            android:gravity="start">
+            style="@style/dialogFormRow">
 
             <TextView
                 android:id="@+id/textView1"
                 style="@style/dialogFormLabel"
-                android:text="@string/repeat" />
+                android:text="@string/repeat"/>
 
-            <EditText
-                android:id="@+id/input_freq_num"
-                style="@style/dialogFormInputSmallNumber" />
-
-            <TextView
-                android:id="@+id/textView3"
+            <Spinner
+                android:id="@+id/sFrequency"
+                style="@style/dialogFormSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/times_every" />
+                android:entries="@array/frequencyQuickSelect"
+                android:visibility="gone"/>
 
-            <EditText
-                android:id="@+id/input_freq_den"
-                style="@style/dialogFormInputSmallNumber" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+            <org.apmem.tools.layouts.FlowLayout
+                android:id="@+id/llCustomFrequency"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/days" />
+                android:visibility="visible"
+                android:gravity="fill">
+
+                <EditText
+                    android:id="@+id/input_freq_num"
+                    style="@style/dialogFormInputSmallNumber"/>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/dialogFormText"
+                    android:text="@string/times_every"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/input_freq_den"
+                    style="@style/dialogFormInputSmallNumber"/>
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/dialogFormText"
+                    android:text="@string/days"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="12dp"/>
+
+            </org.apmem.tools.layouts.FlowLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/reminedPanel"
+            android:id="@+id/reminderPanel"
             style="@style/dialogFormRow">
 
             <TextView
                 android:id="@+id/TextView2"
                 style="@style/dialogFormLabel"
-                android:text="@string/reminder" />
+                android:text="@string/reminder"/>
 
             <TextView
                 android:id="@+id/inputReminderTime"
-                style="@style/dialogFormTimePicker" />
+                style="@style/dialogFormSpinner"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llReminderDays"
+            style="@style/dialogFormRow">
+
+            <TextView
+                android:id="@+id/TextView3"
+                style="@style/dialogFormLabel"
+                android:text=""/>
 
             <TextView
                 android:id="@+id/inputReminderDays"
-                style="@style/dialogFormTimePicker" />
+                style="@style/dialogFormSpinner"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -108,20 +136,22 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:paddingEnd="16dp"
-        android:paddingRight="16dp">
+        android:paddingLeft="0dp"
+        android:paddingRight="16dp"
+        android:paddingStart="0dp">
 
         <Button
             android:id="@+id/buttonDiscard"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/discard" />
+            android:text="@string/discard"/>
 
         <Button
             android:id="@+id/buttonSave"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save" />
+            android:text="@string/save"/>
     </LinearLayout>
 </LinearLayout>

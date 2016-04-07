@@ -24,34 +24,37 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Rect;
-import android.os.AsyncTask;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 import java.util.Random;
 
-public class HabitHistoryView extends ScrollableDataView
+public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
+        ToggleRepetitionTask.Listener
 {
     private Habit habit;
     private int[] checkmarks;
     private Paint pSquareBg, pSquareFg, pTextHeader;
-    private int squareSpacing;
+    private float squareSpacing;
 
     private float squareTextOffset;
     private float headerTextOffset;
 
-    private int columnWidth;
-    private int columnHeight;
+    private float columnWidth;
+    private float columnHeight;
     private int nColumns;
 
     private String wdays[];
@@ -62,19 +65,22 @@ public class HabitHistoryView extends ScrollableDataView
     private int nDays;
     private int todayWeekday;
     private int colors[];
-    private Rect baseLocation;
+    private RectF baseLocation;
     private int primaryColor;
 
     private boolean isBackgroundTransparent;
     private int textColor;
     private boolean isEditable;
 
+    public HabitHistoryView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public HabitHistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
-        this.checkmarks = new int[0];
-        this.isEditable = false;
         init();
     }
 
@@ -82,21 +88,21 @@ public class HabitHistoryView extends ScrollableDataView
     {
         this.habit = habit;
         createColors();
-        refreshData();
-        postInvalidate();
     }
 
     private void init()
     {
-        refreshData();
         createPaints();
         createColors();
 
+        isEditable = false;
+        checkmarks = new int[0];
+        primaryColor = ColorHelper.palette[7];
         wdays = DateHelper.getShortDayNames();
-        dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
-        dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+        dfMonth = DateHelper.getDateFormat("MMM");
+        dfYear = DateHelper.getDateFormat("yyyy");
 
-        baseLocation = new Rect();
+        baseLocation = new RectF();
     }
 
     private void updateDate()
@@ -123,11 +129,11 @@ public class HabitHistoryView extends ScrollableDataView
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
     {
         if(height < 8) height = 200;
-        int baseSize = height / 8;
-        setScrollerBucketSize(baseSize);
+        float baseSize = height / 8.0f;
+        setScrollerBucketSize((int) baseSize);
 
-        squareSpacing = (int) Math.floor(baseSize / 15.0);
-        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.history_max_font_size);
+        squareSpacing = UIHelper.dpToPixels(getContext(), 1.0f);
+        float maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
         float textSize = Math.min(baseSize * 0.5f, maxTextSize);
 
         pSquareFg.setTextSize(textSize);
@@ -135,26 +141,22 @@ public class HabitHistoryView extends ScrollableDataView
         squareTextOffset = pSquareFg.getFontSpacing() * 0.4f;
         headerTextOffset = pTextHeader.getFontSpacing() * 0.3f;
 
-        int rightLabelWidth = getWeekdayLabelWidth();
-        int horizontalPadding = getPaddingRight() + getPaddingLeft();
+        float rightLabelWidth = getWeekdayLabelWidth() + headerTextOffset;
+        float horizontalPadding = getPaddingRight() + getPaddingLeft();
 
         columnWidth = baseSize;
         columnHeight = 8 * baseSize;
-        nColumns = (width - rightLabelWidth - horizontalPadding) / baseSize + 1;
+        nColumns = (int)((width - rightLabelWidth - horizontalPadding) / baseSize) + 1;
 
         updateDate();
     }
 
-    private int getWeekdayLabelWidth()
+    private float getWeekdayLabelWidth()
     {
-        int width = 0;
-        Rect bounds = new Rect();
+        float width = 0;
 
         for(String w : wdays)
-        {
-            pSquareFg.getTextBounds(w, 0, w.length(), bounds);
-            width = Math.max(width, bounds.right);
-        }
+            width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
     }
@@ -215,7 +217,7 @@ public class HabitHistoryView extends ScrollableDataView
         }
 
         updateDate();
-        invalidate();
+        postInvalidate();
     }
 
     private void generateRandomData()
@@ -239,7 +241,6 @@ public class HabitHistoryView extends ScrollableDataView
 
     private String previousMonth;
     private String previousYear;
-    private boolean justPrintedYear;
 
     @Override
     protected void onDraw(Canvas canvas)
@@ -249,10 +250,9 @@ public class HabitHistoryView extends ScrollableDataView
         baseLocation.set(0, 0, columnWidth - squareSpacing, columnWidth - squareSpacing);
         baseLocation.offset(getPaddingLeft(), getPaddingTop());
 
+        headerOverflow = 0;
         previousMonth = "";
         previousYear = "";
-        justPrintedYear = false;
-
         pTextHeader.setColor(textColor);
 
         updateDate();
@@ -267,7 +267,7 @@ public class HabitHistoryView extends ScrollableDataView
         drawAxis(canvas, baseLocation);
     }
 
-    private void drawColumn(Canvas canvas, Rect location, GregorianCalendar date, int column)
+    private void drawColumn(Canvas canvas, RectF location, GregorianCalendar date, int column)
     {
         drawColumnHeader(canvas, location, date);
         location.offset(0, columnWidth);
@@ -285,7 +285,7 @@ public class HabitHistoryView extends ScrollableDataView
         }
     }
 
-    private void drawSquare(Canvas canvas, Rect location, GregorianCalendar date,
+    private void drawSquare(Canvas canvas, RectF location, GregorianCalendar date,
                             int checkmarkOffset)
     {
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
@@ -296,7 +296,7 @@ public class HabitHistoryView extends ScrollableDataView
         canvas.drawText(text, location.centerX(), location.centerY() + squareTextOffset, pSquareFg);
     }
 
-    private void drawAxis(Canvas canvas, Rect location)
+    private void drawAxis(Canvas canvas, RectF location)
     {
         for (int i = 0; i < 7; i++)
         {
@@ -306,47 +306,26 @@ public class HabitHistoryView extends ScrollableDataView
         }
     }
 
-    private boolean justSkippedColumn = false;
+    private float headerOverflow = 0;
 
-    private void drawColumnHeader(Canvas canvas, Rect location, GregorianCalendar date)
+    private void drawColumnHeader(Canvas canvas, RectF location, GregorianCalendar date)
     {
-        GregorianCalendar forwardDate = (GregorianCalendar) date.clone();
-        forwardDate.add(Calendar.DAY_OF_YEAR, 6);
+        String month = dfMonth.format(date.getTime());
+        String year = dfYear.format(date.getTime());
 
-        String month = dfMonth.format(forwardDate.getTime());
-        String year = dfYear.format(forwardDate.getTime());
-
+        String text = null;
         if (!month.equals(previousMonth))
-        {
-            int offset = 0;
-            if (justPrintedYear)
-            {
-                offset += columnWidth;
-                justSkippedColumn = true;
-            }
+            text = previousMonth = month;
+        else if(!year.equals(previousYear))
+            text = previousYear = year;
 
-            canvas.drawText(month, location.left + offset, location.bottom - headerTextOffset,
-                    pTextHeader);
-
-            previousMonth = month;
-            justPrintedYear = false;
-        }
-        else if (!year.equals(previousYear))
+        if(text != null)
         {
-            if(!justSkippedColumn)
-            {
-                canvas.drawText(year, location.left, location.bottom - headerTextOffset, pTextHeader);
-                previousYear = year;
-                justPrintedYear = true;
-            }
+            canvas.drawText(text, location.left + headerOverflow, location.bottom - headerTextOffset, pTextHeader);
+            headerOverflow += pTextHeader.measureText(text) + columnWidth * 0.2f;
+        }
 
-            justSkippedColumn = false;
-        }
-        else
-        {
-            justSkippedColumn = false;
-            justPrintedYear = false;
-        }
+        headerOverflow = Math.max(0, headerOverflow - columnWidth);
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
@@ -356,9 +335,17 @@ public class HabitHistoryView extends ScrollableDataView
     }
 
     @Override
+    public void onLongPress(MotionEvent e)
+    {
+        onSingleTapUp(e);
+    }
+
+    @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
         if(!isEditable) return false;
+
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
         int pointerId = e.getPointerId(0);
         float x = e.getX(pointerId);
@@ -367,22 +354,9 @@ public class HabitHistoryView extends ScrollableDataView
         final Long timestamp = positionToTimestamp(x, y);
         if(timestamp == null) return false;
 
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                habit.repetitions.toggle(timestamp);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                refreshData();
-                invalidate();
-            }
-        }.execute();
+        ToggleRepetitionTask task = new ToggleRepetitionTask(habit, timestamp);
+        task.setListener(this);
+        task.execute();
 
         return true;
     }
@@ -408,5 +382,25 @@ public class HabitHistoryView extends ScrollableDataView
     public void setIsEditable(boolean isEditable)
     {
         this.isEditable = isEditable;
+    }
+
+    @Override
+    public void onToggleRepetitionFinished()
+    {
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                refreshData();
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)
+            {
+                invalidate();
+                super.onPostExecute(null);
+            }
+        }.execute();
     }
 }

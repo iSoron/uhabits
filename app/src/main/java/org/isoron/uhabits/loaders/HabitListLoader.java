@@ -19,13 +19,9 @@
 
 package org.isoron.uhabits.loaders;
 
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.view.View;
-import android.widget.ProgressBar;
-
-import org.isoron.helpers.DateHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,9 +33,8 @@ public class HabitListLoader
         void onLoadFinished();
     }
 
-    private AsyncTask<Void, Integer, Void> currentFetchTask;
+    private BaseTask currentFetchTask;
     private int checkmarkCount;
-    private ProgressBar progressBar;
 
     private Listener listener;
     private Long lastLoadTimestamp;
@@ -54,11 +49,6 @@ public class HabitListLoader
     public void setIncludeArchived(boolean includeArchived)
     {
         this.includeArchived = includeArchived;
-    }
-
-    public void setProgressBar(ProgressBar progressBar)
-    {
-        this.progressBar = progressBar;
     }
 
     public void setCheckmarkCount(int checkmarkCount)
@@ -98,7 +88,7 @@ public class HabitListLoader
     {
         if (currentFetchTask != null) currentFetchTask.cancel(true);
 
-        currentFetchTask = new AsyncTask<Void, Integer, Void>()
+        currentFetchTask = new BaseTask()
         {
             public HashMap<Long, Habit> newHabits;
             public HashMap<Long, int[]> newCheckmarks;
@@ -106,7 +96,7 @@ public class HabitListLoader
             public List<Habit> newHabitList;
 
             @Override
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 newHabits = new HashMap<>();
                 newCheckmarks = new HashMap<>();
@@ -136,21 +126,19 @@ public class HabitListLoader
 
                 commit();
 
-                if(!updateScoresAndCheckmarks) return null;
+                if(!updateScoresAndCheckmarks) return;
 
                 int current = 0;
                 for (Habit h : newHabitList)
                 {
-                    if (isCancelled()) return null;
+                    if (isCancelled()) return;
 
                     Long id = h.getId();
-                    newScores.put(id, h.scores.getNewestValue());
+                    newScores.put(id, h.scores.getTodayValue());
                     newCheckmarks.put(id, h.checkmarks.getValues(dateFrom, dateTo));
 
                     publishProgress(current++, newHabits.size());
                 }
-
-                return null;
             }
 
             private void commit()
@@ -162,25 +150,8 @@ public class HabitListLoader
             }
 
             @Override
-            protected void onPreExecute()
-            {
-                if(progressBar != null)
-                {
-                    progressBar.setIndeterminate(false);
-                    progressBar.setProgress(0);
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
             protected void onProgressUpdate(Integer... values)
             {
-                if(progressBar != null)
-                {
-                    progressBar.setMax(values[1]);
-                    progressBar.setProgress(values[0]);
-                }
-
                 if(listener != null) listener.onLoadFinished();
             }
 
@@ -189,11 +160,12 @@ public class HabitListLoader
             {
                 if (isCancelled()) return;
 
-                if(progressBar != null) progressBar.setVisibility(View.INVISIBLE);
                 lastLoadTimestamp = DateHelper.getStartOfToday();
                 currentFetchTask = null;
 
                 if(listener != null) listener.onLoadFinished();
+
+                super.onPostExecute(null);
             }
 
         };
@@ -203,50 +175,29 @@ public class HabitListLoader
 
     public void updateHabit(final Long id)
     {
-        new AsyncTask<Void, Void, Void>()
+        new BaseTask()
         {
             @Override
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
                 long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
                 long dateFrom = dateTo - (checkmarkCount - 1) * DateHelper.millisecondsInOneDay;
 
                 Habit h = Habit.get(id);
+                if(h == null) return;
+
                 habits.put(id, h);
-                scores.put(id, h.scores.getNewestValue());
+                scores.put(id, h.scores.getTodayValue());
                 checkmarks.put(id, h.checkmarks.getValues(dateFrom, dateTo));
-
-                return null;
-            }
-
-            @Override
-            protected void onPreExecute()
-            {
-                new Handler().postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        if (getStatus() == Status.RUNNING)
-                        {
-                            if(progressBar != null)
-                            {
-                                progressBar.setIndeterminate(true);
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
-                }, 500);
             }
 
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                if(progressBar != null) progressBar.setVisibility(View.GONE);
-
                 if(listener != null)
                     listener.onLoadFinished();
 
+                super.onPostExecute(null);
             }
         }.execute();
     }

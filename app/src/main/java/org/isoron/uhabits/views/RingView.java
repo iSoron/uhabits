@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -30,14 +31,11 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.isoron.helpers.ColorHelper;
-import org.isoron.helpers.DialogHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.UIHelper;
 
 public class RingView extends View
 {
-
-    private int size;
     private int color;
     private float percentage;
     private float labelMarginTop;
@@ -46,22 +44,44 @@ public class RingView extends View
     private RectF rect;
     private StaticLayout labelLayout;
 
+    private int width;
+    private int height;
+    private float diameter;
+
+    private float maxDiameter;
+    private float textSize;
+    private int fadedTextColor;
+
+    public RingView(Context context)
+    {
+        super(context);
+        init();
+    }
+
     public RingView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
-        this.size = (int) context.getResources().getDimension(R.dimen.small_square_size) * 4;
-        this.label = DialogHelper.getAttribute(context, attrs, "label");
-        this.color = ColorHelper.palette[7];
-        this.percentage = 0.75f;
+        this.label = UIHelper.getAttribute(context, attrs, "label", "Label");
+        this.maxDiameter = UIHelper.getFloatAttribute(context, attrs, "maxDiameter", 100);
+        this.maxDiameter = UIHelper.dpToPixels(context, maxDiameter);
         init();
     }
 
     public void setColor(int color)
     {
         this.color = color;
-        pRing.setColor(color);
         postInvalidate();
+    }
+
+    public void setMaxDiameter(float maxDiameter)
+    {
+        this.maxDiameter = maxDiameter;
+    }
+
+    public void setLabel(String label)
+    {
+        this.label = label;
     }
 
     public void setPercentage(float percentage)
@@ -77,21 +97,30 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        pRing.setTextSize(size * 0.15f);
-        labelMarginTop = size * 0.10f;
-        labelLayout = new StaticLayout(label, pRing, size, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
-                false);
+        fadedTextColor = getResources().getColor(R.color.fadedTextColor);
+        textSize = getResources().getDimension(R.dimen.smallTextSize);
 
         rect = new RectF();
     }
 
     @Override
+    @SuppressLint("DrawAllocation")
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int width = Math.max(size, labelLayout.getWidth());
-        int height = (int) (size + labelLayout.getHeight() + labelMarginTop);
+        width = MeasureSpec.getSize(widthMeasureSpec);
+        height = MeasureSpec.getSize(heightMeasureSpec);
+
+        diameter = Math.min(maxDiameter, width);
+
+        pRing.setTextSize(textSize);
+        labelMarginTop = textSize * 0.80f;
+        labelLayout = new StaticLayout(label, pRing, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
+                false);
+
+        width = Math.max(width, labelLayout.getWidth());
+        height = (int) (diameter + labelLayout.getHeight() + labelMarginTop);
 
         setMeasuredDimension(width, height);
     }
@@ -100,27 +129,27 @@ public class RingView extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        float thickness = size * 0.15f;
+        float thickness = diameter * 0.15f;
 
         pRing.setColor(color);
-        rect.set(0, 0, size, size);
+        rect.set(0, 0, diameter, diameter);
+        rect.offset((width - diameter) / 2, 0);
         canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        pRing.setColor(Color.rgb(230, 230, 230));
+        pRing.setColor(Color.argb(255, 230, 230, 230));
         canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
         pRing.setColor(Color.WHITE);
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
-        pRing.setColor(Color.GRAY);
-        pRing.setTextSize(size * 0.2f);
+        pRing.setColor(fadedTextColor);
+        pRing.setTextSize(textSize);
         float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
                 rect.centerY() + lineHeight / 3, pRing);
-
-        pRing.setTextSize(size * 0.15f);
-        canvas.translate(size / 2, size + labelMarginTop);
+        pRing.setTextSize(textSize);
+        canvas.translate(width / 2, diameter + labelMarginTop);
         labelLayout.draw(canvas);
     }
 }

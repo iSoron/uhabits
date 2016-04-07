@@ -21,8 +21,8 @@ package org.isoron.uhabits.commands;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.ArrayList;
@@ -47,44 +47,25 @@ public class ChangeHabitColorCommand extends Command
     @Override
     public void execute()
     {
-        ActiveAndroid.beginTransaction();
-
-        try
-        {
-            for(Habit h : habits)
-            {
-                h.color = newColor;
-                h.save();
-            }
-
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
+        Habit.setColor(habits, newColor);
     }
 
     @Override
     public void undo()
     {
-        ActiveAndroid.beginTransaction();
-
-        try
+        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
         {
-            int k = 0;
-            for(Habit h : habits)
+            @Override
+            public void execute()
             {
-                h.color = originalColors.get(k++);
-                h.save();
+                int k = 0;
+                for(Habit h : habits)
+                {
+                    h.color = originalColors.get(k++);
+                    h.save();
+                }
             }
-
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
+        });
     }
 
     public Integer getExecuteStringId()

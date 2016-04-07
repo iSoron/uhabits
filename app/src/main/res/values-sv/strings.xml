@@ -31,13 +31,15 @@
 
 <!-- A bit unclear on where this is going in. Is it a part of a sentence? -->
 <!-- Fuzzy -->
-<string name="times_every">"gånger var"</string>
+<string name="times_every">"gånger under"</string>
 
 <!-- Fuzzy -->
 <string name="days">"dag"</string>
 <string name="reminder">"Påminnelse"</string>
 <string name="discard">"Avbryt"</string>
 <string name="save">"Spara"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"Framgångar"</string>
 <string name="no_habits_found">"Du har inga aktiva vanor"</string>
 <string name="long_press_to_toggle">"Tryck och håll in för att markera och avmarkera"</string>
@@ -84,10 +86,16 @@
 <string name="delete_habits">"Ta bort vanor"</string>
 <string name="delete_habits_message">"Vanorna kommer att tas bort permanent. Denna åtgärd kan inte ångras."</string>
 <string name="weekends">"Helger"</string>
+
+<!-- Fuzzy -->
 <string name="any_weekday">"Veckodagar"</string>
+
+<!-- Fuzzy -->
 <string name="any_day">"Vilken dag som helst"</string>
 <string name="select_weekdays">"Välj dagar"</string>
-<string name="export_to_csv">"Exportera data"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"Exportera data (CSV)"</string>
 <string name="done_label">"Klart"</string>
 <string name="clear_label">"Rensa"</string>
 <string name="select_hours">"Välj timmar"</string>
@@ -119,4 +127,39 @@ Påminnelser kan kollas upp, snoozade eller tas bort direkt från din Android We
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"Version %s"</string>
 <string name="frequency">"Frekvens"</string>
+<string name="checkmark">"Check"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Styrka"</string>
+<string name="best_streaks">"Bästa framgångar"</string>
+<string name="current_streaks">"Nuvarande framgång"</string>
+<string name="number_of_repetitions">"Antal repetitioner"</string>
+<string name="last_x_days">"Sista %d dagarna"</string>
+<string name="last_x_weeks">"Sista %d veckorna"</string>
+<string name="last_x_months">"Sista %d månaderna"</string>
+<string name="last_x_years">"Sista %d åren"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Från början"</string>
+<string name="every_day">"Varje dag"</string>
+<string name="every_week">"Varje vecka"</string>
+<string name="two_times_per_week">"2 gånger per vecka"</string>
+<string name="five_times_per_week">"5 gånger per vecka"</string>
+<string name="custom_frequency">"Anpassa ..."</string>
+<string name="help">"Hjälp och FAQ"</string>
+<string name="could_not_export">"Misslyckades med att exportera data."</string>
+<string name="could_not_import">"Misslyckades med att importera data."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Fil inte igenkänd."</string>
+<string name="habits_imported">"Vanor importerade."</string>
+<string name="full_backup_success">"Backup har exporterats."</string>
+<string name="import_data">"Importera data"</string>
+<string name="export_full_backup">"Exportera backup"</string>
+<string name="import_data_summary">"Stöder backuper exporterade av den här appen, så väl filer genererade av Tickmate, Habitbull eller Rewire. Läs FAQ för mer information."</string>
+<string name="export_as_csv_summary">"Genererade filer kan öppnas av mjukvara som Microsoft Excel eller Openoffice Calc. Denna filen kan inte importeras tillbaka."</string>
+<string name="export_full_backup_summary">"Genererar en fil som innehåller all din data. Den här filen kan importeras tillbaka."</string>
+<string name="bug_report_failed">"Misslyckades med att generera bugrapport. "</string>
+<string name="generate_bug_report">"Generera bugrapport"</string>
+<string name="troubleshooting">"Felsökning"</string>
 </resources>

@@ -19,23 +19,15 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.helpers.Command;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class UnarchiveHabitsCommand extends Command
 {
 
     private List<Habit> habits;
-
-    public UnarchiveHabitsCommand(Habit habit)
-    {
-        habits = new LinkedList<>();
-        habits.add(habit);
-    }
 
     public UnarchiveHabitsCommand(List<Habit> habits)
     {
@@ -45,15 +37,13 @@ public class UnarchiveHabitsCommand extends Command
     @Override
     public void execute()
     {
-        for(Habit h : habits)
-            h.unarchive();
+        Habit.unarchive(habits);
     }
 
     @Override
     public void undo()
     {
-        for(Habit h : habits)
-            h.archive();
+        Habit.archive(habits);
     }
 
     public Integer getExecuteStringId()

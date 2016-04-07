@@ -19,7 +19,10 @@
 
 <resources>
 
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light" />
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
+        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
+    </style>
 
     <style name="time_label">
         <item name="android:textSize">@dimen/time_label_size</item>
@@ -33,7 +36,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="day_of_week_label_condensed" />
+    <style name="day_of_week_label_condensed"/>
 
     <style name="cardsListStyle">
         <item name="android:layout_width">match_parent</item>
@@ -63,9 +66,8 @@
     <style name="cardHeaderStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
     </style>
 
     <style name="cardRowStyle">
@@ -91,6 +93,14 @@
     <style name="aboutClickableItemStyle" parent="aboutItemStyle">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
+    </style>
+
+    <style name="smallDataViewStyle">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:textColor">@color/fadedTextColor</item>
     </style>
 
 </resources>

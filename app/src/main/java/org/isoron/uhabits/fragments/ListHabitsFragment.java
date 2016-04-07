@@ -21,12 +21,16 @@ package org.isoron.uhabits.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,20 +50,24 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-import org.isoron.helpers.Command;
-import org.isoron.helpers.DateHelper;
-import org.isoron.helpers.DialogHelper;
-import org.isoron.helpers.DialogHelper.OnSavedListener;
-import org.isoron.helpers.ReplayableActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.BaseActivity;
+import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.dialogs.HabitSelectionCallback;
-import org.isoron.uhabits.dialogs.HintManager;
+import org.isoron.uhabits.dialogs.FilePickerDialog;
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
+import org.isoron.uhabits.helpers.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.ExportCSVTask;
+import org.isoron.uhabits.tasks.ExportDBTask;
+import org.isoron.uhabits.tasks.ImportDataTask;
 
+import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,7 +75,8 @@ import java.util.List;
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
         OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
-        HabitSelectionCallback.Listener
+        HabitSelectionCallback.Listener, ImportDataTask.Listener, ExportCSVTask.Listener,
+        ExportDBTask.Listener
 {
     long lastLongClick = 0;
     private boolean isShortToggleEnabled;
@@ -80,7 +89,7 @@ public class ListHabitsFragment extends Fragment
     private ListHabitsHelper helper;
     private List<Integer> selectedPositions;
     private OnHabitClickListener habitClickListener;
-    private ReplayableActivity activity;
+    private BaseActivity activity;
     private SharedPreferences prefs;
 
     private DragSortListView listView;
@@ -98,7 +107,9 @@ public class ListHabitsFragment extends Fragment
         listView = (DragSortListView) view.findViewById(R.id.listView);
         llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llEmpty = view.findViewById(R.id.llEmpty);
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
         selectedPositions = new LinkedList<>();
         loader = new HabitListLoader();
@@ -107,7 +118,6 @@ public class ListHabitsFragment extends Fragment
 
         loader.setListener(this);
         loader.setCheckmarkCount(helper.getButtonCount());
-        loader.setProgressBar(progressBar);
 
         llHint.setOnClickListener(this);
         tvStarEmpty.setTypeface(helper.getFontawesome());
@@ -147,7 +157,7 @@ public class ListHabitsFragment extends Fragment
     public void onAttach(Activity activity)
     {
         super.onAttach(activity);
-        this.activity = (ReplayableActivity) activity;
+        this.activity = (BaseActivity) activity;
 
         habitClickListener = (OnHabitClickListener) activity;
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -314,7 +324,6 @@ public class ListHabitsFragment extends Fragment
         if (isShortToggleEnabled) return;
 
         toggleCheck(v);
-        DialogHelper.vibrate(activity, 100);
     }
 
     private void toggleCheck(View v)
@@ -326,6 +335,8 @@ public class ListHabitsFragment extends Fragment
 
         Habit habit = loader.habits.get(tag);
         if(habit == null) return;
+
+        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
         helper.toggleCheckmarkView(v, habit);
         executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
@@ -413,6 +424,98 @@ public class ListHabitsFragment extends Fragment
         public void startDrag(int position)
         {
             selectItem(position);
+        }
+    }
+
+    public void showImportDialog()
+    {
+        File dir = DatabaseHelper.getFilesDir(null);
+        if(dir == null)
+        {
+            activity.showToast(R.string.could_not_import);
+            return;
+        }
+
+        FilePickerDialog picker = new FilePickerDialog(activity, dir);
+        picker.setListener(new FilePickerDialog.OnFileSelectedListener()
+        {
+            @Override
+            public void onFileSelected(File file)
+            {
+                ImportDataTask task = new ImportDataTask(file, progressBar);
+                task.setListener(ListHabitsFragment.this);
+                task.execute();
+            }
+        });
+
+        picker.show();
+    }
+
+    @Override
+    public void onImportFinished(int result)
+    {
+        switch (result)
+        {
+            case ImportDataTask.SUCCESS:
+                loader.updateAllHabits(true);
+                activity.showToast(R.string.habits_imported);
+                break;
+
+            case ImportDataTask.NOT_RECOGNIZED:
+                activity.showToast(R.string.file_not_recognized);
+                break;
+
+            default:
+                activity.showToast(R.string.could_not_import);
+                break;
+        }
+    }
+
+    public void exportAllHabits()
+    {
+        ExportCSVTask task = new ExportCSVTask(Habit.getAll(true), progressBar);
+        task.setListener(this);
+        task.execute();
+    }
+
+    @Override
+    public void onExportCSVFinished(@Nullable String archiveFilename)
+    {
+        if(archiveFilename != null)
+        {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("application/zip");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
+            activity.startActivity(intent);
+        }
+        else
+        {
+            activity.showToast(R.string.could_not_export);
+        }
+    }
+
+    public void exportDB()
+    {
+        ExportDBTask task = new ExportDBTask(progressBar);
+        task.setListener(this);
+        task.execute();
+    }
+
+    @Override
+    public void onExportDBFinished(@Nullable String filename)
+    {
+        if(filename != null)
+        {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("application/octet-stream");
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filename)));
+            activity.startActivity(intent);
+        }
+        else
+        {
+            activity.showToast(R.string.could_not_export);
         }
     }
 }

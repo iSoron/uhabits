@@ -35,6 +35,8 @@
 <string name="reminder">"تذكير"</string>
 <string name="discard">"حذف"</string>
 <string name="save">"حفظ"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"تقدم متتالية"</string>
 <string name="no_habits_found">" لا يوجد لديك عادات مفعله"</string>
 <string name="long_press_to_toggle">"أضغط و إستمر لتحقق أو ازل"</string>
@@ -81,12 +83,18 @@
 <string name="delete_habits">"حذف عادات"</string>
 <string name="delete_habits_message">"سيتم حذف عادات بشكل دائم. هذا العمل لا يمكن التراجع عنه."</string>
 <string name="weekends">"عطلة نهاية الأسبوع"</string>
+
+<!-- Fuzzy -->
 <string name="any_weekday">"أيام الأسبوع"</string>
+
+<!-- Fuzzy -->
 <string name="any_day">"أي يوم"</string>
 
 <!-- This is a bit unclear to me. It is like a prompt asking the user to select specific days, or is it more like an alarm mode where it will only activate on select days? -->
 <string name="select_weekdays">"إختار أيام "</string>
-<string name="export_to_csv">"تصدير البيانات"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"تصدير البيانات (CSV)"</string>
 <string name="done_label">"منجز"</string>
 <string name="clear_label">"نظف"</string>
 <string name="select_hours">"تحديد ساعات"</string>
@@ -116,4 +124,39 @@
 <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
 <string name="version_n">"الإصدار %s"</string>
 <string name="frequency">"تردد"</string>
+<string name="checkmark">"علامة الاختيار"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"القوة"</string>
+<string name="best_streaks">"أكثر تقدم"</string>
+<string name="current_streaks">"تقدم الحالي"</string>
+<string name="number_of_repetitions">"عدد من حالات التكرار"</string>
+<string name="last_x_days">"آخر %d أيام"</string>
+<string name="last_x_weeks">"آخر %d أسابيع"</string>
+<string name="last_x_months">"آخر %d أشهر"</string>
+<string name="last_x_years">"آخر %d سنين"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"كل الوقت"</string>
+<string name="every_day">"كل يوم"</string>
+<string name="every_week">"كل اسبوع"</string>
+<string name="two_times_per_week">"مرتين في الأسبوع"</string>
+<string name="five_times_per_week">"خمس مرات في الأسبوع"</string>
+<string name="custom_frequency">"مخصص..."</string>
+<string name="help">"مساعدة والأسئلة المتداولة"</string>
+<string name="could_not_export">"فشل في تصدير البيانات."</string>
+<string name="could_not_import">"فشل في استيراد البيانات."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"الملف غير المعترف."</string>
+<string name="habits_imported">"نجح إستيراد العادات."</string>
+<string name="full_backup_success">"نجح تصدير النسخ الاحتياطي الكامل."</string>
+<string name="import_data">"استيراد بيانات."</string>
+<string name="export_full_backup">"صدر نسخة احتياطية كاملة."</string>
+<string name="import_data_summary">"تدعم النسخ الاحتياطي الكامل المصدرة من هذا التطبيق، فضلا عن الملفات التي تم إنشاؤها من Tickmate, HabitBull و Rewire. انظر التعليمات لمزيد من المعلومات."</string>
+<string name="export_as_csv_summary">"صدر ملف التي يمكن فتحها ببرنامج جداول البيانات مثل إكسل أو وبينوفيس. لا يمكن إستيراد هذا الملف."</string>
+<string name="export_full_backup_summary">"إنشاء ملف يحتوي على كافة البيانات. يمكن استيراد هذا الملف نفسه."</string>
+<string name="bug_report_failed">"فشل في توليد تقرير الاعطال"</string>
+<string name="generate_bug_report">"توليد تقرير الاعطال"</string>
+<string name="troubleshooting">"استكشاف الأخطاء وإصلاحها"</string>
 </resources>

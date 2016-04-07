@@ -25,9 +25,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.isoron.helpers.DateHelper;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.models.Habit;
 
@@ -43,13 +43,17 @@ public class ReminderHelper
             createReminderAlarm(context, habit, null);
     }
 
-    public static void createReminderAlarm(Context context, Habit habit, Long reminderTime)
+    public static void createReminderAlarm(Context context, Habit habit, @Nullable Long reminderTime)
     {
+        if(!habit.hasReminder()) return;
+
         if (reminderTime == null)
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
+            //noinspection ConstantConditions
             calendar.set(Calendar.HOUR_OF_DAY, habit.reminderHour);
+            //noinspection ConstantConditions
             calendar.set(Calendar.MINUTE, habit.reminderMin);
             calendar.set(Calendar.SECOND, 0);
 
@@ -74,7 +78,10 @@ public class ReminderHelper
                         alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (Build.VERSION.SDK_INT >= 19)
+
+        if (Build.VERSION.SDK_INT >= 23)
+            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+        else if (Build.VERSION.SDK_INT >= 19)
             manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
         else
             manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);

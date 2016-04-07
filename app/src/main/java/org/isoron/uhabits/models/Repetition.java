@@ -26,10 +26,15 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Repetitions")
 public class Repetition extends Model
 {
-
+    /**
+     * Habit to which this repetition belong.
+     */
     @Column(name = "habit")
     public Habit habit;
 
+    /**
+     * Timestamp of the day this repetition occurred. Time of day should be midnight (UTC).
+     */
     @Column(name = "timestamp")
     public Long timestamp;
 }
