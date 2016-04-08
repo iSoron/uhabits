@@ -164,4 +164,10 @@ public abstract class UIHelper
 
         return false;
     }
+
+    public static float getScreenWidth(Context context)
+    {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
 }

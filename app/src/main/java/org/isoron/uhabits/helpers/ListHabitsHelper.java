@@ -22,11 +22,9 @@ package org.isoron.uhabits.helpers;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,16 +59,18 @@ public class ListHabitsHelper
 
     public int getButtonCount()
     {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        return Math.max(0, (int) ((width - 160) / 42.0));
+        float screenWidth = UIHelper.getScreenWidth(context);
+        float labelWidth = context.getResources().getDimension(R.dimen.habitNameWidth);
+        float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
+        return Math.max(0, (int) ((screenWidth - labelWidth) / buttonWidth));
     }
 
     public int getHabitNameWidth()
     {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        return (int) ((width - 30 - getButtonCount() * 42) * dm.density);
+        float screenWidth = UIHelper.getScreenWidth(context);
+        float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
+        float padding = UIHelper.dpToPixels(context, 15);
+        return (int) (screenWidth - padding - getButtonCount() * buttonWidth);
     }
 
     public void updateCheckmarkButtons(Habit habit, LinearLayout llButtons)
@@ -206,7 +206,7 @@ public class ListHabitsHelper
         for (int i = 0; i < getButtonCount(); i++)
         {
             View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
-            Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
+            TextView btCheck = (TextView) tvDay.findViewById(R.id.tvCheck);
             btCheck.setText(DateHelper.formatHeaderDate(day));
             header.addView(tvDay);
 

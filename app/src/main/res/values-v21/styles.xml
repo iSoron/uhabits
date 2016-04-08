@@ -36,12 +36,11 @@
         <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
     </style>
 
-    <style name="cardStyle" parent="cardBasicStyle">
-        <item name="android:background">@color/white</item>
+    <style name="Card" parent="CardCommon">
         <item name="android:elevation">1dp</item>
     </style>
 
-    <style name="aboutClickableItemStyle" parent="aboutItemStyle">
+    <style name="About.Item.Clickable" parent="About.Item">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:background">@drawable/ripple_transparent</item>

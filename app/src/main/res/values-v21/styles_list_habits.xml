@@ -20,19 +20,16 @@
 
 <resources>
 
-    <style name="habitsListHeaderStyle" parent="habitsListHeaderBasicStyle">
+    <style name="ListHabits.Header">
         <item name="android:background">#f0f0f0</item>
         <item name="android:elevation">2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:paddingRight">4dp</item>
     </style>
 
-    <style name="habitsListCheckStyle" parent="habitsListCheckBasicStyle">
+    <style name="ListHabits.Checkmark" parent="ListHabits.CheckmarkCommon">
         <item name="android:background">@drawable/ripple_transparent</item>
-    </style>
-
-    <style name="habitsListItemInnerPanelStyle" parent="cardStyle">
-        <item name="android:orientation">horizontal</item>
-        <item name="android:padding">3dp</item>
-        <item name="android:background">@drawable/ripple_white</item>
-        <item name="android:elevation">1dp</item>
     </style>
 </resources>

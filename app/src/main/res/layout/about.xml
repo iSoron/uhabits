@@ -25,10 +25,10 @@
             android:fillViewport="true">
 
     <LinearLayout
-        style="@style/cardsListStyle">
+        style="@style/CardList">
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="center">
 
             <ImageView
@@ -57,120 +57,120 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="center">
 
             <TextView
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/links"
                 android:textColor="@color/blue_700"/>
 
             <TextView
                 android:id="@+id/tvRate"
-                style="@style/aboutClickableItemStyle"
+                style="@style/About.Item.Clickable"
                 android:text="@string/pref_rate_this_app"/>
 
             <TextView
                 android:id="@+id/tvFeedback"
-                style="@style/aboutClickableItemStyle"
+                style="@style/About.Item.Clickable"
                 android:text="@string/pref_send_feedback"/>
 
             <TextView
                 android:id="@+id/tvSource"
-                style="@style/aboutClickableItemStyle"
+                style="@style/About.Item.Clickable"
                 android:text="@string/pref_view_source_code"/>
 
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="center">
 
             <TextView
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/developers"
                 android:textColor="@color/blue_700"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Álinson Xavier"/>
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="center">
 
             <TextView
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/translators"
                 android:textColor="@color/blue_700"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Limin Lu (中文)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="François Mahé (Français)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Naofumi F (日本語)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Matthias Meisser (Deutsch)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Al Alloush (العَرَبِية‎)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Thibaut Girka (Français)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Can Altas (Deutsch)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Marco Cavazza (Italiano)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Adam Jurkiewicz (Polski)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Dmitriy Bogdanov (Русский)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Dalecarlian (Svenska)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Robin (Svenska)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Josh (한국어 )"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Ander Raso Vazquez (Español)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="XuToTo (中文)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Tomáš Borovec (Čeština)"/>
 
             <TextView
-                style="@style/aboutItemStyle"
+                style="@style/About.Item"
                 android:text="Álinson Xavier (Português)"/>
         </LinearLayout>
     </LinearLayout>

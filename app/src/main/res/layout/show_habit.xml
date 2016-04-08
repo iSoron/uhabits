@@ -26,16 +26,16 @@
             android:fillViewport="true">
 
     <LinearLayout
-        style="@style/cardsListStyle"
+        style="@style/CardList"
         tools:context="org.isoron.uhabits.ShowHabitActivity">
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="start">
 
             <TextView
                 android:id="@+id/tvOverview"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/overview"/>
 
             <LinearLayout
@@ -47,7 +47,7 @@
 
                 <org.isoron.uhabits.views.RingView
                     android:id="@+id/scoreRing"
-                    style="@style/smallDataViewStyle"
+                    style="@style/SmallDataView"
                     android:layout_width="100dp"
                     app:label="@string/strength"
                     app:maxDiameter="80"
@@ -58,7 +58,7 @@
         </LinearLayout>
 
         <RelativeLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="center">
 
             <Spinner
@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/tvStrength"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/habit_strength"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -89,14 +89,14 @@
         </RelativeLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingBottom="0dp">
 
             <TextView
                 android:id="@+id/tvHistory"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/history"/>
 
             <org.isoron.uhabits.views.HabitHistoryView
@@ -118,12 +118,12 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvStreaks"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/best_streaks"/>
 
             <org.isoron.uhabits.views.HabitStreakView
@@ -133,12 +133,12 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvWeekdayFreq"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/frequency"/>
 
             <org.isoron.uhabits.views.HabitFrequencyView

@@ -38,14 +38,14 @@
 
     <style name="day_of_week_label_condensed"/>
 
-    <style name="cardsListStyle">
+    <style name="CardList">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/windowBackground</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="cardBasicStyle">
+    <style name="CardCommon">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
@@ -56,33 +56,35 @@
         <item name="android:layout_marginBottom">3dp</item>
         <item name="android:layout_marginLeft">3dp</item>
         <item name="android:layout_marginRight">3dp</item>
+        <item name="android:background">@color/white</item>
     </style>
 
-    <style name="cardStyle" parent="cardBasicStyle">
-        <item name="android:background">@drawable/card_background</item>
+    <style name="Card" parent="CardCommon">
         <item name="android:layout_marginBottom">1dp</item>
     </style>
 
-    <style name="cardHeaderStyle">
+    <style name="CardHeader">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textSize">@dimen/regularTextSize</item>
     </style>
 
-    <style name="cardRowStyle">
+    <style name="CardRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:layout_marginTop">4dp</item>
     </style>
 
-    <style name="cardLabelStyle">
+    <style name="CardLabel">
         <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="aboutItemStyle">
+    <style name="About" />
+
+    <style name="About.Item">
         <item name="android:textSize">16sp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -90,12 +92,12 @@
         <item name="android:paddingBottom">6dp</item>
     </style>
 
-    <style name="aboutClickableItemStyle" parent="aboutItemStyle">
+    <style name="About.Item.Clickable">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
     </style>
 
-    <style name="smallDataViewStyle">
+    <style name="SmallDataView">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">8dp</item>

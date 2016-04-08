@@ -20,4 +20,4 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvCheck"
-    style="@style/habitsListCheckStyle" />
+    style="@style/ListHabits.Checkmark" />
