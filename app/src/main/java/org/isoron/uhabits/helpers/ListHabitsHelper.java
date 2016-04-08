@@ -20,7 +20,6 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +36,7 @@ import java.util.GregorianCalendar;
 
 public class ListHabitsHelper
 {
-    public static final int INACTIVE_COLOR = Color.rgb(200, 200, 200);
-    public static final int INACTIVE_CHECKMARK_COLOR = Color.rgb(230, 230, 230);
+    private int inactiveColor;
 
     private final Context context;
     private final HabitListLoader loader;
@@ -49,6 +47,7 @@ public class ListHabitsHelper
         this.context = context;
         this.loader = loader;
 
+        inactiveColor = UIHelper.getStyledColor(context, R.attr.inactiveCheckmarkColor);
         fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
     }
 
@@ -95,7 +94,7 @@ public class ListHabitsHelper
     public int getActiveColor(Habit habit)
     {
         int activeColor = habit.color;
-        if(habit.isArchived()) activeColor = INACTIVE_COLOR;
+        if(habit.isArchived()) activeColor = inactiveColor;
 
         return activeColor;
     }
@@ -129,12 +128,12 @@ public class ListHabitsHelper
             if (score < Score.HALF_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
+                tvStar.setTextColor(inactiveColor);
             }
             else if (score < Score.FULL_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
+                tvStar.setTextColor(inactiveColor);
             }
             else
             {
@@ -156,13 +155,13 @@ public class ListHabitsHelper
 
             case 1:
                 tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
+                tvCheck.setTextColor(inactiveColor);
                 tvCheck.setTag(R.string.toggle_key, 1);
                 break;
 
             case 0:
                 tvCheck.setText(R.string.fa_times);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
+                tvCheck.setTextColor(inactiveColor);
                 tvCheck.setTag(R.string.toggle_key, 0);
                 break;
         }
@@ -175,7 +174,7 @@ public class ListHabitsHelper
         else
         {
             if (android.os.Build.VERSION.SDK_INT >= 21)
-                view.setBackgroundResource(R.drawable.ripple_white);
+                view.setBackgroundResource(R.drawable.ripple);
             else view.setBackgroundResource(R.drawable.card_background);
         }
     }

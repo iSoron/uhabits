@@ -22,6 +22,7 @@ package org.isoron.uhabits.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Debug;
@@ -168,6 +169,16 @@ public abstract class UIHelper
     public static float getScreenWidth(Context context)
     {
         return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getStyledColor(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        int color = ta.getColor(0, 0);
+        ta.recycle();
+
+        return color;
     }
 
 }

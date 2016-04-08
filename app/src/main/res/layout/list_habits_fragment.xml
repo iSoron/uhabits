@@ -31,10 +31,10 @@
         dslv:sort_enabled="true"
         dslv:track_drag_sort="false"
         android:layout_width="match_parent"
-        android:background="@color/windowBackground"
+        android:background="?windowBackgroundColor"
         android:paddingTop="@dimen/checkmarkHeight"
         android:layout_height="match_parent"
-        android:divider="@color/windowBackground"
+        android:divider="?windowBackgroundColor"
         android:dividerHeight="1dp"/>
 
     <LinearLayout

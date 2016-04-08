@@ -15,15 +15,6 @@
      limitations under the License.
 -->
 <resources>
-    
-    <color name="primary">#37474f</color>
-    <color name="primary_darker">#263238</color>
-    <color name="windowBackground">#e6e6e6</color>
-    <color name="primaryTextColor">@color/grey_900</color>
-    <color name="secondaryTextColor">@color/grey_800</color>
-    <color name="fadedTextColor">@color/grey_600</color>
-
-    <color name="white">#ffffff</color>
 
     <!-- Time and Date picker -->
     <color name="circle_background">#f2f2f2</color>
@@ -151,8 +142,8 @@
     <!--<color name="blue_grey_500">#607D8B</color>-->
     <!--<color name="blue_grey_600">#546E7A</color>-->
     <!--<color name="blue_grey_700">#455A64</color>-->
-    <!--<color name="blue_grey_800">#37474F</color>-->
-    <!--<color name="blue_grey_900">#263238</color>-->
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
 
     <!--<color name="pink_50">#FCE4EC</color>-->
     <!--<color name="pink_100">#F8BBD0</color>-->
@@ -324,5 +315,10 @@
     <color name="grey_600">#757575</color>
     <color name="grey_700">#616161</color>
     <color name="grey_800">#424242</color>
+    <color name="grey_850">#303030</color>
+    <color name="grey_875">#282828</color>
     <color name="grey_900">#212121</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

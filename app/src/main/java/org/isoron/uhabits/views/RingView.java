@@ -51,6 +51,7 @@ public class RingView extends View
     private float maxDiameter;
     private float textSize;
     private int fadedTextColor;
+    private int backgroundColor;
 
     public RingView(Context context)
     {
@@ -97,7 +98,8 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        fadedTextColor = getResources().getColor(R.color.fadedTextColor);
+        backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+        fadedTextColor = UIHelper.getStyledColor(getContext(), R.attr.fadedTextColor);
         textSize = getResources().getDimension(R.dimen.smallTextSize);
 
         rect = new RectF();
@@ -139,7 +141,7 @@ public class RingView extends View
         pRing.setColor(Color.argb(255, 230, 230, 230));
         canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
-        pRing.setColor(Color.WHITE);
+        pRing.setColor(backgroundColor);
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 

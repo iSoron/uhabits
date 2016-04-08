@@ -41,7 +41,7 @@
     <style name="CardList">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/windowBackground</item>
+        <item name="android:background">?windowBackgroundColor</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -102,7 +102,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">8dp</item>
         <item name="android:layout_marginRight">8dp</item>
-        <item name="android:textColor">@color/fadedTextColor</item>
+        <item name="android:textColor">?fadedTextColor</item>
     </style>
 
 </resources>

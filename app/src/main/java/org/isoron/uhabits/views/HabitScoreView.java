@@ -32,6 +32,7 @@ import android.util.AttributeSet;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 
@@ -74,6 +75,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private boolean isBackgroundTransparent;
     private int bucketSize = 7;
     private int footerHeight;
+    private int backgroundColor;
 
     public HabitScoreView(Context context)
     {
@@ -123,7 +125,8 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         else
         {
             textColor = Color.argb(64, 0, 0, 0);
-            dimmedTextColor = Color.argb(16, 0, 0, 0);
+            dimmedTextColor = UIHelper.getStyledColor(getContext(), R.attr.fadedTextColor);
+            backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
         }
     }
 
@@ -345,7 +348,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private void drawMarker(Canvas canvas, RectF rect)
     {
         rect.inset(baseSize * 0.15f, baseSize * 0.15f);
-        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(baseSize * 0.1f, baseSize * 0.1f);
@@ -353,7 +356,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         canvas.drawOval(rect, pGraph);
 
         rect.inset(baseSize * 0.1f, baseSize * 0.1f);
-        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
         if(isBackgroundTransparent)

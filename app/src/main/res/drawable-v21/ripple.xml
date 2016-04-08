@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
@@ -18,14 +17,8 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tvCheck"
-    style="@style/ListHabits.Checkmark"
-    android:layout_width="20dp"
-    android:layout_height="20dp"
-    android:background="@color/transparent"
-    android:textColor="?fadedTextColor"
-    android:textAllCaps="true"
-    android:textStyle="bold"
-    android:textSize="10sp"/>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="?android:colorControlHighlight">
+
+    <item android:drawable="?attr/cardBackgroundColor" />
+</ripple>

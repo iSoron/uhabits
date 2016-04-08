@@ -20,15 +20,42 @@
 <resources>
 
     <style name="AppBaseTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:textColor">#606060</item>
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_darker</item>
         <item name="android:dialogTheme">@style/MyDialogStyle</item>
         <item name="android:alertDialogTheme">@style/MyDialogStyle</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:spinnerItemStyle">@style/dialogFormSmallText</item>
+
+        <item name="android:colorPrimary">@color/blue_grey_800</item>
+        <item name="android:colorPrimaryDark">@color/blue_grey_900</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="windowBackgroundColor">@color/grey_200</item>
+        <item name="headerBackgroundColor">@color/grey_200</item>
+
+        <item name="android:textColor">#606060</item>
+        <item name="fadedTextColor">@color/grey_600</item>
+        <item name="inactiveCheckmarkColor">@color/grey_600</item>
+        <item name="secondaryTextColor">@color/grey_800</item>
+    </style>
+
+    <style name="AppBaseThemeDark" parent="android:Theme.Material">
+        <item name="android:dialogTheme">@style/MyDialogStyleDark</item>
+        <item name="android:alertDialogTheme">@style/MyDialogStyleDark</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+
+        <item name="android:colorPrimary">@color/grey_900</item>
+        <item name="android:colorPrimaryDark">@color/black</item>
+        <item name="cardBackgroundColor">@color/grey_800</item>
+        <item name="windowBackgroundColor">@color/grey_850</item>
+        <item name="headerBackgroundColor">@color/grey_875</item>
+
+        <item name="android:textColor">@color/grey_50</item>
+        <item name="fadedTextColor">@color/grey_500</item>
+        <item name="inactiveCheckmarkColor">@color/grey_700</item>
+        <item name="secondaryTextColor">@color/grey_100</item>
     </style>
 
     <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">
@@ -36,8 +63,14 @@
         <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
     </style>
 
+    <style name="MyDialogStyleDark" parent="android:Theme.Material.Dialog">
+        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
+        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
+    </style>
+
     <style name="Card" parent="CardCommon">
         <item name="android:elevation">1dp</item>
+        <item name="android:background">?attr/cardBackgroundColor</item>
     </style>
 
     <style name="About.Item.Clickable" parent="About.Item">
