@@ -1,10 +1,5 @@
 # Loop Habit Tracker
-<a href="https://circleci.com/gh/iSoron/uhabits/tree/dev">
-  <img src="https://img.shields.io/circleci/project/iSoron/uhabits/dev.svg">
-</a>
-<a href="https://codecov.io/github/iSoron/uhabits?branch=dev">
-  <img src="https://img.shields.io/codecov/c/github/iSoron/uhabits.svg" alt="Coverage via Codecov" />
-</a>
+## +++ This is a fork +++
 
 Loop is a simple Android app that helps you create and maintain good habits,
 allowing you to achieve your long-term goals. Detailed graphs and statistics
