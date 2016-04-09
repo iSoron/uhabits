@@ -22,7 +22,6 @@ package org.isoron.uhabits.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.Layout;
@@ -138,7 +137,8 @@ public class RingView extends View
         rect.offset((width - diameter) / 2, 0);
         canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        pRing.setColor(Color.argb(255, 230, 230, 230));
+        int grey = UIHelper.getStyledColor(getContext(), R.attr.inactiveCheckmarkColor);
+        pRing.setColor(grey);
         canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
         pRing.setColor(backgroundColor);

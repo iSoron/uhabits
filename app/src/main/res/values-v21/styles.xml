@@ -35,7 +35,7 @@
 
         <item name="android:textColor">#606060</item>
         <item name="fadedTextColor">@color/grey_600</item>
-        <item name="inactiveCheckmarkColor">@color/grey_600</item>
+        <item name="inactiveCheckmarkColor">@color/grey_300</item>
         <item name="secondaryTextColor">@color/grey_800</item>
     </style>
 
