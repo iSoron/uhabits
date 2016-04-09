@@ -107,13 +107,17 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         Habit habit = Habit.get(habitId);
         if(habit == null)
         {
-            RemoteViews errorView = new RemoteViews(context.getPackageName(),
-                    R.layout.widget_error);
-            manager.updateAppWidget(widgetId, errorView);
+            drawErrorWidget(context, manager, widgetId);
             return;
         }
 
         new RenderWidgetTask(widgetId, context, habit, manager).execute();
+    }
+
+    private void drawErrorWidget(Context context, AppWidgetManager manager, int widgetId)
+    {
+        RemoteViews errorView = new RemoteViews(context.getPackageName(), R.layout.widget_error);
+        manager.updateAppWidget(widgetId, errorView);
     }
 
     protected abstract void refreshCustomViewData(View widgetView);
@@ -231,19 +235,28 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         @Override
         protected void onPostExecute(Void aVoid)
         {
-            widgetView.invalidate();
-            widgetView.setDrawingCacheEnabled(true);
-            widgetView.buildDrawingCache(true);
-            Bitmap drawingCache = widgetView.getDrawingCache();
-            remoteViews.setTextViewText(R.id.label, habit.name);
-            remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
+            try
+            {
+                widgetView.invalidate();
+                widgetView.setDrawingCacheEnabled(true);
+                widgetView.buildDrawingCache(true);
+                Bitmap drawingCache = widgetView.getDrawingCache();
+                remoteViews.setTextViewText(R.id.label, habit.name);
+                remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
 
-            //savePreview(context, widgetId, drawingCache);
+                //savePreview(context, widgetId, drawingCache);
 
-            PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
-            if(onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView, onClickIntent);
+                PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
+                if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView,
+                        onClickIntent);
 
-            manager.updateAppWidget(widgetId, remoteViews);
+                manager.updateAppWidget(widgetId, remoteViews);
+            }
+            catch (Exception e)
+            {
+                drawErrorWidget(context, manager, widgetId);
+                e.printStackTrace();
+            }
 
             super.onPostExecute(aVoid);
         }

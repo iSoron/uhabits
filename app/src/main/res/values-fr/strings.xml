@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_name">"Loop - Suivi d'habitudes"</string>
-<string name="main_activity_title">"Habitude"</string>
+<string name="main_activity_title">"Habitudes"</string>
 <string name="action_settings">"Paramètres"</string>
 <string name="edit">"Modifier"</string>
 <string name="delete">"Supprimer"</string>
@@ -9,7 +9,7 @@
 <string name="unarchive">"Désarchiver"</string>
 <string name="add_habit">"Ajouter une habitude"</string>
 <string name="color_picker_default_title">"Changer la couleur"</string>
-<string name="toast_habit_created">"Habitude crée."</string>
+<string name="toast_habit_created">"Habitude créée."</string>
 <string name="toast_habit_deleted">"Habitude supprimée."</string>
 <string name="toast_habit_restored">"Habitude rétablie."</string>
 <string name="toast_nothing_to_undo">"Rien à annuler."</string>
@@ -17,7 +17,7 @@
 <string name="toast_habit_changed">"Habitude changée."</string>
 
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-<string name="toast_habit_changed_back">"Habitude non changée."</string>
+<string name="toast_habit_changed_back">"Habitude restaurée."</string>
 <string name="toast_habit_archived">"Habitudes archivées."</string>
 <string name="toast_habit_unarchived">"Habitudes désarchivées."</string>
 <string name="overview">"Vue d'ensemble"</string>
@@ -49,13 +49,13 @@
 
 <!-- App introduction -->
 <string name="intro_title_1">"Bienvenue"</string>
-<string name="intro_description_1">"Loop - Suivi d'habitudes vous aide à créer et maintenir de bonnes habitudes"</string>
-<string name="intro_title_2">"Créer de nouvelles habitudes"</string>
-<string name="intro_description_2">"Chaque jour, après avoir fait votre habitude, mettez une croix sur l'application"</string>
+<string name="intro_description_1">"Loop - Suivi d'habitudes vous aide à créer et maintenir de bonnes habitudes."</string>
+<string name="intro_title_2">"Créez de nouvelles habitudes"</string>
+<string name="intro_description_2">"Chaque jour, après avoir réalisé votre habitude, cochez la sur l'application."</string>
 <string name="intro_title_3">"Continuez à le faire"</string>
-<string name="intro_description_3">"Les habitudes faites de manière régulière pendant une période de temps étendue gagneront une étoile complète"</string>
-<string name="intro_title_4">"Suivre votre progrès"</string>
-<string name="intro_description_4">"Des graphiques détaillés montrant comment vos habitudes évoluent au fil du temps"</string>
+<string name="intro_description_3">"Les habitudes régulières pendant une période de temps étendue gagneront une étoile complète."</string>
+<string name="intro_title_4">"Suivez votre progrès"</string>
+<string name="intro_description_4">"Des graphiques détaillés vous montrent comment vos habitudes évoluent au fil du temps."</string>
 <string name="interval_15_minutes">"15 minutes"</string>
 <string name="interval_30_minutes">"30 minutes"</string>
 <string name="interval_1_hour">"1 heure"</string>
@@ -63,25 +63,25 @@
 <string name="interval_4_hour">"4 heures"</string>
 <string name="interval_8_hour">"8 heures"</string>
 <string name="pref_toggle_title">"Activer les répétitions avec un appui court"</string>
-<string name="pref_toggle_description">"Plus pratique, mais peut causer des activations accidentelles"</string>
+<string name="pref_toggle_description">"Plus pratique, mais peut causer des activations accidentelles."</string>
 
 <!-- Je pense qu'en français, on parle plutôt d'intervalle de report/temporisation des répétitions/rappels. -->
 <string name="pref_snooze_interval_title">"Intervalle de report des rappels"</string>
-<string name="pref_rate_this_app">"Noter cette app sur le Google Play Store"</string>
+<string name="pref_rate_this_app">"Notez cette app sur le Google Play Store"</string>
 <string name="pref_send_feedback">"Envoyez un avis au développeur"</string>
 <string name="pref_view_source_code">"Voir le code source sur GitHub"</string>
 <string name="pref_view_app_introduction">"Voir l'intro de l'app"</string>
 <string name="links">"Liens"</string>
 <string name="behavior">"Comportement"</string>
 <string name="name">"Nom"</string>
-<string name="show_archived">"Montrer les archivées"</string>
+<string name="show_archived">"Montrer les archives"</string>
 <string name="settings">"Paramètres"</string>
 <string name="snooze_interval">"Intervalle de report"</string>
-<string name="hint_title">"Le saviez-vous ? "</string>
+<string name="hint_title">"Le saviez-vous ?"</string>
 <string name="hint_drag">"Pour réarranger les habitudes, faites un appui long sur le nom de l'habitude et placez la à la bonne place."</string>
 <string name="hint_landscape">"Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage."</string>
 <string name="delete_habits">"Supprimer des habitudes"</string>
-<string name="delete_habits_message">"Les habitudes seront supprimées pour toujours. Cette action ne peut être défaite."</string>
+<string name="delete_habits_message">"Les habitudes seront supprimées définitivement. Cette action ne peut être annulée."</string>
 <string name="weekends">"Weekends"</string>
 
 <!-- Fuzzy -->
@@ -99,20 +99,20 @@
 <string name="select_minutes">"Sélectionner les minutes"</string>
 
 <!-- Short description used on the Google Play store. There is an 80-character limit. -->
-<string name="store_short_description">"Créez des bonnes habitudes et suivez leurs avancées au fil du temps (sans pub)"</string>
+<string name="store_short_description">"Créez de bonnes habitudes et suivez leur progrès au fil du temps (sans pub)"</string>
 <string name="store_description_1">"Loop vous aide à créer et maintenir de bonnes habitudes, permettant de réussir vos objectifs à long terme. Des graphiques détaillés et des statistiques vous montrent comment vos habitudes s’améliorent au fil du temps. C'est totalement sans pub et open source."</string>
 <string name="store_feature_interface">"&lt;b&gt;Simple, beau avec une interface moderne&lt;/b&gt;
 Loop a une interface minimaliste, facile à utiliser et qui suit les règles de material design."</string>
 <string name="store_feature_score">"&lt;b&gt;Score d'habitude&lt;/b&gt;
-En plus de montrer votre série en cours, Loop a un algorithme pour calculer la force de vos habitudes. Chaque jours réussis augmente la force de l'habitude chaque jours ratés le rend plus faible. Cependant, quelques jours ratés après une longue série ne détruiront pas entièrement votre progrès."</string>
+En plus de montrer votre série en cours, Loop a un algorithme avancé pour calculer la force de vos habitudes. Chaque jour réussi augmente la force de l'habitude chaque jour raté la rend plus faible. Cependant, quelques jours ratés après une longue série ne détruiront pas entièrement votre progrès."</string>
 <string name="store_feature_statistics">"&lt;b&gt;Graphiques détaillés et statistiques&lt;/b&gt;
 Observez clairement comment vos habitudes s’améliorent au fil du temps avec de beaux graphiques détaillés. Défilez vers les jours passés pour voir l'historique complet de vos habitudes."</string>
 <string name="store_feature_schedules">"&lt;b&gt;Calendrier flexible&lt;/b&gt;
-Supporte les habitudes quotidiennes et celles avec un calendrier plus complexes, comme 3 fois par semaine, une fois par semaine ou un jour sur deux."</string>
-<string name="store_feature_reminders">"&lt;b&gt;Rappel&lt;/b&gt;
-Créez un rappel propre pour chaque habitude, à une heure choisie de la journée. Cochez, supprimez ou reportez votre habitude directement à partir de la notification, sans ouvrir l'application."</string>
+Supporte les habitudes quotidiennes et celles avec un calendrier plus complexes, comme 3 fois par semaine, une fois toutes les deux semaines ou un jour sur deux."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Rappels&lt;/b&gt;
+Créez un rappel propre pour chaque habitude, à une heure choisie de la journée. Cochez, supprimez ou reportez facilement votre habitude directement à partir de la notification, sans ouvrir l'application."</string>
 <string name="store_feature_opensource">"&lt;b&gt;Entièrement sans pub et open-source&lt;/b&gt;
-Il n'y a pas de publicités, de notifications embêtantes ou de permissions intrusives avec cette application, et il n'y en aura jamais. L'ensemble du code source est disponible sous GPLv3."</string>
+Il n'y a absolument aucune publicité ni notification embêtante ou permissions intrusives avec cette application, et il n'y en aura jamais. L'ensemble du code source est disponible sous GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Optimisée pour les montres android&lt;/b&gt;
 Les rappels peuvent être cochés, reportés ou supprimés directement à partir de votre montre Android"</string>
 <string name="about">"À propos"</string>
@@ -123,14 +123,24 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 <string name="version_n">"Version %s"</string>
 <string name="frequency">"Fréquence"</string>
 
+<!-- Fuzzy -->
+<string name="checkmark">"Croix"</string>
+
 <!-- This is a shorter version of "Habit Strength" -->
 <!-- Fuzzy -->
 <string name="strength">"Force"</string>
 
 <!-- Fuzzy -->
 <string name="best_streaks">"Meilleures séries"</string>
+<string name="current_streaks">"Série actuelle"</string>
+<string name="number_of_repetitions">"Nombre de répétitions"</string>
+<string name="last_x_days">"%d derniers jours"</string>
+<string name="last_x_weeks">"%d dernières semaines"</string>
+<string name="last_x_months">"%d derniers mois"</string>
+<string name="last_x_years">"%d dernières années"</string>
 
 <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Depuis le début"</string>
 
 <!-- Fuzzy -->
 <string name="every_day">"Tous les jours"</string>
@@ -145,7 +155,21 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 <string name="five_times_per_week">"5 fois par semaine"</string>
 
 <!-- Fuzzy -->
-<string name="custom_frequency">"Personnaliser..."</string>
+<string name="custom_frequency">"Personnalisée ..."</string>
+<string name="help">"Aide &amp; FAQ"</string>
+<string name="could_not_export">"Export des données échoué."</string>
+<string name="could_not_import">"Import des données échoué."</string>
 
 <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Fichier non reconnu"</string>
+<string name="habits_imported">"Habitudes importées avec succès"</string>
+<string name="full_backup_success">"Sauvegarde complète exportée avec succès"</string>
+<string name="import_data">"Importer des données"</string>
+<string name="export_full_backup">"Exporter une sauvegarde complète"</string>
+<string name="import_data_summary">"Supporte les sauvegardes complètes générées par cette app, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d'informations."</string>
+<string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou OpenOffice Calc. Ces fichiers ne peuvent être réimportés. "</string>
+<string name="export_full_backup_summary">"Génère un fichier contenant toutes vos données. Ce fichier peut être réimporté."</string>
+<string name="bug_report_failed">"La génération du rapport de bug à échouée."</string>
+<string name="generate_bug_report">"Générer un rapport de bug."</string>
+<string name="troubleshooting">"Résolution de problèmes"</string>
 </resources>
