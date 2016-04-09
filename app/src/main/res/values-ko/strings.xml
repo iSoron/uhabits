@@ -31,13 +31,13 @@
 <string name="times_every">"번"</string>
 <string name="days">"일 동안"</string>
 <string name="reminder">"알림"</string>
-<string name="discard">"버리기"</string>
+<string name="discard">"취소"</string>
 <string name="save">"저장"</string>
 
 <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
-<string name="streaks">"이어지기"</string>
+<string name="streaks">"길게 이은 기록"</string>
 <string name="no_habits_found">"습관이 없습니다"</string>
-<string name="long_press_to_toggle">"길게 눌러 선택/선택제거"</string>
+<string name="long_press_to_toggle">"길게 눌러 기록"</string>
 <string name="reminder_off">"끔"</string>
 <string name="validation_name_should_not_be_blank">"제목을 적어주세요."</string>
 <string name="validation_number_should_be_positive">"숫자는 0보다 커야합니다."</string>
@@ -62,7 +62,7 @@
 <string name="interval_2_hour">"2시간"</string>
 <string name="interval_4_hour">"4시간"</string>
 <string name="interval_8_hour">"8시간"</string>
-<string name="pref_toggle_title">"짧게 터치해 반복을 선택/선택제거 하세요."</string>
+<string name="pref_toggle_title">"짧게 터치해 기록 하세요."</string>
 <string name="pref_toggle_description">"실수로 체크가 될 수 있지만, 더 편한 체크박스."</string>
 <string name="pref_snooze_interval_title">"반복알림을 미루기"</string>
 <string name="pref_rate_this_app">"Google Play에서 평가"</string>

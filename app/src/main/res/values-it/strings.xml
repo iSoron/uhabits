@@ -25,7 +25,7 @@
 <string name="overview">"Panoramica"</string>
 <string name="habit_strength">"Forza dell'abitudine"</string>
 <string name="history">"Cronologia"</string>
-<string name="clear">"Pulisci"</string>
+<string name="clear">"Annulla"</string>
 <string name="description_hint">"Domanda (Hai ... oggi?)"</string>
 
 <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
@@ -78,7 +78,7 @@
 <string name="settings">"Impostazioni"</string>
 <string name="snooze_interval">"Snooze"</string>
 <string name="hint_title">"Lo sapevi?"</string>
-<string name="hint_drag">"Per riordinare la lista, premi e mantieni premuto l'abitudine e spostala nella posizione desiderata."</string>
+<string name="hint_drag">"Per riordinare la lista, premi e mantieni premuta l'abitudine e spostala nella posizione desiderata."</string>
 <string name="hint_landscape">"Puoi vedere più giorni mettendo il tuo telefono orizzontale."</string>
 <string name="delete_habits">"Elimina abitudine"</string>
 <string name="delete_habits_message">"L'abitudine verrà cancellata definitivamente. Non sarà possibile annullare."</string>
@@ -86,24 +86,27 @@
 
 <!-- Fuzzy -->
 <string name="any_weekday">"Giorni feriali"</string>
-<string name="any_day">"Qualsiasi giorno della settimana"</string>
+<string name="any_day">"Ogni giorno della settimana"</string>
 <string name="select_weekdays">"Giorni selezionati"</string>
 <string name="export_to_csv">"Esporta i dati come CSV"</string>
 <string name="done_label">"Fatto"</string>
-<string name="clear_label">"Pulisci"</string>
+<string name="clear_label">"Annulla"</string>
 <string name="select_hours">"Ore selezionate"</string>
 <string name="select_minutes">"Minuti selezionati"</string>
 
 <!-- Short description used on the Google Play store. There is an 80-character limit. -->
-<string name="store_short_description">"Acquisisci nuove abitudini e traccia il tuo progresso nel tempo (senza pubblicità)"</string>
-<string name="store_description_1">"Loop ti aiuta a creare e mantenere buone abitudini, permettendoti di raggiungere i tuoi obbiettivi a lungo termine. Grafici dettagliati e le statistiche ti mostrano come le tue abitudini sono migliorate durante il tempo. E' completamente senza pubblicità ed opensource."</string>
-<string name="store_feature_interface">"&lt;b&gt;Interfaccia semplice e moderna&lt;/b&gt; Loop ha un'interfaccia minimale che è semplice da usare e segue le linee guida del Material Design"</string>
+<string name="store_short_description">"Acquisisci nuove abitudini e traccia i tuoi progressi nel tempo (senza pubblicità)"</string>
+<string name="store_description_1">"Loop ti aiuta a creare e mantenere buone abitudini, permettendoti di raggiungere i tuoi obbiettivi a lungo termine. Grafici dettagliati e le statistiche ti mostrano come le tue abitudini sono migliorate nel tempo. E' completamente senza pubblicità ed opensource."</string>
+<string name="store_feature_interface">"&lt;b&gt;Interfaccia semplice e moderna&lt;/b&gt;
+Loop ha un'interfaccia minimale che è semplice da usare e segue le linee guida del Material Design"</string>
 <string name="store_feature_score">"&lt;b&gt;Forza dell'abitudine&lt;/b&gt;
 In aggiunta al traguardo attuale, Loop ha un algoritmo avanzato per calcolare la forza delle tue abitudini. Ogni ripetizione la rafforza, mentre ogni giorno mancato la indebolisce. Pochi giorni mancati dopo una lunga serie però non vanificherà completamente il tuo progresso totale."</string>
-<string name="store_feature_statistics">"&lt;b&gt;Grafici dettagliati e statistiche&lt;/b&gt; Visualizza in modo semplice come le tue abitudini sono migliorate nel tempo con grafici dettagliati. Scorri indietro per vedere la cronologia completa delle tue abitudini."</string>
-<string name="store_feature_schedules">"&lt;b&gt;Programmi flessibili&lt;/b&gt; Supporto per abitudini sia giornaliere che con organizzazioni più complesse, come 3 volte alla settimana; una volta ogni 2 settimane; ogni due giorni..."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Grafici dettagliati e statistiche&lt;/b&gt;
+Visualizza in modo semplice come le tue abitudini sono migliorate nel tempo con grafici dettagliati. Scorri indietro per vedere la cronologia completa delle tue abitudini."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Programmi flessibili&lt;/b&gt;
+Supporto per abitudini sia giornaliere che con organizzazioni più complesse, come 3 volte alla settimana, una volta ogni 2 settimane, un giorno sì e uno no..."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Promemoria&lt;/b&gt;
-Crea un promemoria per ogni abitudine, ad una specificata ora del giorno. Completa, ritarda o ignora il promemoria direttamente dalla notifica, senza aprire l'app."</string>
+Crea un promemoria per ogni abitudine, ad una specifica ora del giorno. Completa, ritarda o ignora il promemoria direttamente dalla notifica, senza aprire l'app."</string>
 <string name="store_feature_opensource">"&lt;b&gt;Completamente gratuito ed opensource&lt;/b&gt;
 Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne saranno. Il codice sorgente completo è disponibile sotto licenza GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Ottimizzata per gli smartwatch&lt;/b&gt; I promemoria possono essere completati, ritardati o ignorati direttamente dal tuo orologio Android Wear."</string>
@@ -145,10 +148,8 @@ Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne sar
 <string name="full_backup_success">"Backup completo esportato con successo."</string>
 <string name="import_data">"Importa dati"</string>
 <string name="export_full_backup">"Esporta il backup completo"</string>
-
-<!-- Fuzzy -->
-<string name="import_data_summary">"Pieno supporto ai backup esportati da questa app, oltre a quelli generati da Tickmate, HabitBull o Rewire. Vedi le FAQ per maggiorni informazioni."</string>
-<string name="export_as_csv_summary">"Genera un file che potrà essere aperto da programmi con Microsoft Excel o OpenOffice Calc. Non potrà essere importato."</string>
+<string name="import_data_summary">"Pieno supporto ai backup esportati da questa app, oltre a quelli generati da Tickmate, HabitBull o Rewire. Vedi le FAQ per maggiori informazioni."</string>
+<string name="export_as_csv_summary">"Genera un file che potrà essere aperto da programmi come Microsoft Excel o OpenOffice Calc. Non potrà essere importato."</string>
 <string name="export_full_backup_summary">"Genera un file contenente tutti i tuoi dati. Potrà essere importato successivamente."</string>
 <string name="bug_report_failed">"Generazione del bug report fallita"</string>
 <string name="generate_bug_report">"Genera bug report"</string>
