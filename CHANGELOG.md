@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.4.0 (April 4, 2016)
+### 1.4.1 (April 9, 2016)
+
+* Show error message on widgets, instead of crashing
+* Complete French translation
+* Minor fixes to other translations
+
+### 1.4.0 (April 7, 2016)
 
 * Ability to import data from third-party apps
 * Ability to save and restore full database backup
