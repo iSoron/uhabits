@@ -23,7 +23,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.views.NumberView;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +44,7 @@ public class NumberViewTest extends ViewTest
         view = new NumberView(targetContext);
         view.setLabel("Hello world");
         view.setNumber(31);
-        view.setColor(ColorHelper.palette[0]);
+        view.setColor(0);
         measureView(dpToPixels(100), dpToPixels(100), view);
     }
 
@@ -68,7 +67,7 @@ public class NumberViewTest extends ViewTest
     public void testRender_withDifferentParams() throws IOException
     {
         view.setNumber(500);
-        view.setColor(ColorHelper.palette[5]);
+        view.setColor(5);
         view.setTextSize(targetContext.getResources().getDimension(R.dimen.tinyTextSize));
 
         measureView(dpToPixels(200), dpToPixels(200), view);

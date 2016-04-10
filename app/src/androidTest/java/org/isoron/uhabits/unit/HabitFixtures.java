@@ -23,7 +23,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
@@ -66,7 +65,7 @@ public class HabitFixtures
         Habit habit = new Habit();
         habit.name = "Meditate";
         habit.description = "Did you meditate this morning?";
-        habit.color = ColorHelper.palette[3];
+        habit.color = 3;
         habit.freqNum = 1;
         habit.freqDen = 1;
         habit.save();
@@ -78,7 +77,7 @@ public class HabitFixtures
         Habit habit = createEmptyHabit();
         habit.freqNum = 3;
         habit.freqDen = 7;
-        habit.color = ColorHelper.palette[4];
+        habit.color = 4;
         habit.save();
 
         long day = DateHelper.millisecondsInOneDay;

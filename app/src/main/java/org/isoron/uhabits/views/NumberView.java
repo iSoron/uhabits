@@ -71,7 +71,7 @@ public class NumberView extends View
         this.textSize = UIHelper.getFloatAttribute(context, attrs, "textSize",
                 getResources().getDimension(R.dimen.regularTextSize));
 
-        this.color = ColorHelper.palette[7];
+        this.color = ColorHelper.getColor(getContext(), 7);
         init();
     }
 

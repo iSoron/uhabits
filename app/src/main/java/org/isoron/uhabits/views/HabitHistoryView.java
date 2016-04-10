@@ -97,7 +97,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
         isEditable = false;
         checkmarks = new int[0];
-        primaryColor = ColorHelper.palette[7];
+        primaryColor = ColorHelper.getColor(getContext(), 7);
         wdays = DateHelper.getShortDayNames();
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
@@ -164,7 +164,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
         if(isBackgroundTransparent)
             primaryColor = ColorHelper.setMinValue(primaryColor, 0.75f);

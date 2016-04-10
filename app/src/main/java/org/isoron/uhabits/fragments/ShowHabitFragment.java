@@ -163,7 +163,8 @@ public class ShowHabitFragment extends Fragment
         float percentage = todayValue / Score.MAX_VALUE;
 
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
-        scoreRing.setColor(habit.color);
+        int androidColor = ColorHelper.getColor(getActivity(), habit.color);
+        scoreRing.setColor(androidColor);
         scoreRing.setPercentage(percentage);
     }
 
@@ -173,7 +174,8 @@ public class ShowHabitFragment extends Fragment
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
-            int darkerHabitColor = ColorHelper.mixColors(habit.color, Color.BLACK, 0.75f);
+            int color = ColorHelper.getColor(getActivity(), habit.color);
+            int darkerHabitColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
             activity.getWindow().setStatusBarColor(darkerHabitColor);
         }
 
@@ -189,7 +191,8 @@ public class ShowHabitFragment extends Fragment
         if(habit == null) return;
 
         TextView textView = (TextView) view.findViewById(viewId);
-        textView.setTextColor(habit.color);
+        int androidColor = ColorHelper.getColor(activity, habit.color);
+        textView.setTextColor(androidColor);
     }
 
     @Override

@@ -93,7 +93,7 @@ public class ListHabitsHelper
 
     public int getActiveColor(Habit habit)
     {
-        int activeColor = habit.color;
+        int activeColor = ColorHelper.getColor(context, habit.color);
         if(habit.isArchived()) activeColor = inactiveColor;
 
         return activeColor;
@@ -221,9 +221,11 @@ public class ListHabitsHelper
 
     public void toggleCheckmarkView(View v, Habit habit)
     {
+        int androidColor = ColorHelper.getColor(context, habit.color);
+
         if (v.getTag(R.string.toggle_key).equals(2))
-            updateCheckmark(habit.color, (TextView) v, 0);
+            updateCheckmark(androidColor, (TextView) v, 0);
         else
-            updateCheckmark(habit.color, (TextView) v, 2);
+            updateCheckmark(androidColor, (TextView) v, 2);
     }
 }

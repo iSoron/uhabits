@@ -73,7 +73,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
+        this.primaryColor = ColorHelper.getColor(getContext(), 7);
         this.frequency = new HashMap<>();
         init();
     }
@@ -101,7 +101,9 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
+        {
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+        }
 
         if (isBackgroundTransparent)
         {

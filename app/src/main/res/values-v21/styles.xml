@@ -37,6 +37,8 @@
         <item name="fadedTextColor">@color/grey_600</item>
         <item name="inactiveCheckmarkColor">@color/grey_300</item>
         <item name="secondaryTextColor">@color/grey_800</item>
+
+        <item name="palette">@array/lightPalette</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="android:Theme.Material">
@@ -46,16 +48,18 @@
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
 
-        <item name="android:colorPrimary">@color/grey_900</item>
+        <item name="android:colorPrimary">@color/grey_950</item>
         <item name="android:colorPrimaryDark">@color/black</item>
         <item name="cardBackgroundColor">@color/grey_800</item>
         <item name="windowBackgroundColor">@color/grey_850</item>
-        <item name="headerBackgroundColor">@color/grey_875</item>
+        <item name="headerBackgroundColor">@color/grey_900</item>
 
         <item name="android:textColor">@color/grey_50</item>
         <item name="fadedTextColor">@color/grey_500</item>
         <item name="inactiveCheckmarkColor">@color/grey_700</item>
         <item name="secondaryTextColor">@color/grey_100</item>
+
+        <item name="palette">@array/darkPalette</item>
     </style>
 
     <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">

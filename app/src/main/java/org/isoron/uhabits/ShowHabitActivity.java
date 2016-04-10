@@ -25,6 +25,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends BaseActivity
@@ -44,7 +45,11 @@ public class ShowHabitActivity extends BaseActivity
         {
             actionBar.setTitle(getHabit().name);
             if (android.os.Build.VERSION.SDK_INT >= 21)
-                actionBar.setBackgroundDrawable(new ColorDrawable(getHabit().color));
+            {
+                int androidColor = ColorHelper.getColor(this, getHabit().color);
+                ColorDrawable drawable = new ColorDrawable(androidColor);
+                actionBar.setBackgroundDrawable(drawable);
+            }
         }
 
         setContentView(R.layout.show_habit_activity);

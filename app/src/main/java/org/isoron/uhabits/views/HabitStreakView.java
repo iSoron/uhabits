@@ -72,7 +72,7 @@ public class HabitStreakView extends View implements HabitDataView
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
+        this.primaryColor = ColorHelper.getColor(getContext(), 7);
         init();
     }
 
@@ -123,7 +123,7 @@ public class HabitStreakView extends View implements HabitDataView
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
         if(isBackgroundTransparent)
         {

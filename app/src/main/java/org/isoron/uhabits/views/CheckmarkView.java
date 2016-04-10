@@ -94,7 +94,7 @@ public class CheckmarkView extends View implements HabitDataView
         fa_check = context.getString(R.string.fa_check);
         fa_times = context.getString(R.string.fa_times);
 
-        primaryColor = ColorHelper.palette[10];
+        primaryColor = ColorHelper.getColor(getContext(), 10);
         timesColor = Color.argb(128, 255, 255, 255);
         darkGrey = Color.argb(64, 0, 0, 0);
 
@@ -184,8 +184,9 @@ public class CheckmarkView extends View implements HabitDataView
     public void refreshData()
     {
         this.check_status = habit.checkmarks.getTodayValue();
-        this.primaryColor = Color.argb(230, Color.red(habit.color), Color.green(habit.color),
-                Color.blue(habit.color));
+        int color = ColorHelper.getColor(getContext(), habit.color);
+        this.primaryColor = Color.argb(230, Color.red(color), Color.green(color),
+                Color.blue(color));
         this.label = habit.name;
 
         updateLabel();

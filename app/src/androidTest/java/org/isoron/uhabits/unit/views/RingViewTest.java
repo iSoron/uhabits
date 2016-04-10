@@ -22,7 +22,6 @@ package org.isoron.uhabits.unit.views;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.views.RingView;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class RingViewTest extends ViewTest
         view = new RingView(targetContext);
         view.setLabel("Hello world");
         view.setPercentage(0.6f);
-        view.setColor(ColorHelper.palette[0]);
+        view.setColor(0);
         view.setMaxDiameter(dpToPixels(100));
     }
 
@@ -70,7 +69,7 @@ public class RingViewTest extends ViewTest
         view.setLabel("Habit Strength");
         view.setPercentage(0.25f);
         view.setMaxDiameter(dpToPixels(50));
-        view.setColor(ColorHelper.palette[5]);
+        view.setColor(5);
 
         measureView(dpToPixels(200), dpToPixels(200), view);
         assertRenders(view, "RingView/renderDifferentParams.png");
