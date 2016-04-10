@@ -32,6 +32,7 @@
         <item name="cardBackgroundColor">@color/white</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
         <item name="headerBackgroundColor">@color/grey_200</item>
+        <item name="highlightedBackgroundColor">@color/grey_100</item>
 
         <item name="android:textColor">#606060</item>
         <item name="fadedTextColor">@color/grey_600</item>
@@ -53,6 +54,7 @@
         <item name="cardBackgroundColor">@color/grey_800</item>
         <item name="windowBackgroundColor">@color/grey_850</item>
         <item name="headerBackgroundColor">@color/grey_900</item>
+        <item name="highlightedBackgroundColor">@color/grey_800</item>
 
         <item name="android:textColor">@color/grey_50</item>
         <item name="fadedTextColor">@color/grey_500</item>
