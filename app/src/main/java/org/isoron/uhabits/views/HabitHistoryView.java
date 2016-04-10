@@ -58,7 +58,6 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private float columnHeight;
     private int nColumns;
 
-    private String wdays[];
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfYear;
 
@@ -100,7 +99,6 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         isEditable = false;
         checkmarks = new int[0];
         primaryColor = ColorHelper.palette[7];
-        wdays = DateHelper.getShortDayNames();
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
 
@@ -158,7 +156,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     {
         float width = 0;
 
-        for(String w : wdays)
+        for(String w : DateHelper.getLocaleDayNames(Calendar.SHORT))
             width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
@@ -301,10 +299,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void drawAxis(Canvas canvas, RectF location)
     {
-        for (Integer dayNumber : DateHelper.getLocaleWeekdayList())
+        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT))
         {
             location.offset(0, columnWidth);
-            canvas.drawText(wdays[DateHelper.weekDayNumber2wdays(dayNumber)], location.left + headerTextOffset,
+            canvas.drawText(day, location.left + headerTextOffset,
                     location.bottom - headerTextOffset, pTextHeader);
         }
     }

@@ -63,7 +63,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private boolean isBackgroundTransparent;
 
     private HashMap<Long, Integer[]> frequency;
-    private String wdays[];
     private Integer[] localeWeekdayList;
 
     public HabitFrequencyView(Context context)
@@ -90,8 +89,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         createPaints();
         createColors();
-
-        wdays = DateHelper.getShortDayNames();
 
         localeWeekdayList = DateHelper.getLocaleWeekdayList();
 
@@ -277,8 +274,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         pText.setColor(textColor);
         pGrid.setColor(dimmedTextColor);
 
-        for (Integer dayNumber : localeWeekdayList) {
-            canvas.drawText(wdays[DateHelper.weekDayNumber2wdays(dayNumber)], rGrid.right - columnWidth,
+        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT)) {
+            canvas.drawText(day, rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
             pGrid.setStrokeWidth(1f);

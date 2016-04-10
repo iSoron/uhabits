@@ -216,6 +216,29 @@ public class DateHelper
 
     /**
      *
+     * @return array with weekday names starting according to locale settings,
+     * e.g. [Mo,Di,Mi,Do,Fr,Sa,So] in Europe
+     *
+     */
+    public static String[] getLocaleDayNames(int format)
+    {
+        String[] days = new String[7];
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(GregorianCalendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        for (int i = 0; i < days.length; i++)
+        {
+            days[i] = calendar.getDisplayName(GregorianCalendar.DAY_OF_WEEK, format,
+                    Locale.getDefault());
+            // advance in time by one day
+            calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        }
+
+        return days;
+    }
+
+    /**
+     *
      * @return array with week days numbers starting according to locale settings,
      * e.g. [2,3,4,5,6,7,1] in Europe
      *
