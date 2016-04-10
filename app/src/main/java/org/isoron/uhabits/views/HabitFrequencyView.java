@@ -65,7 +65,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private HashMap<Long, Integer[]> frequency;
     private String wdays[];
     private Integer[] localeWeekdayList;
-    private Map<Integer, Integer> number2wdays;
 
     public HabitFrequencyView(Context context)
     {
@@ -94,12 +93,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
         wdays = DateHelper.getShortDayNames();
 
-        /**
-         * here we create the mapping of week days numbers into the "wdays"-indices
-         * @see DateHelper#getDayNames(int)
-         */
         localeWeekdayList = DateHelper.getLocaleWeekdayList();
-        number2wdays = DateHelper.getWeekdayMap();
 
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
@@ -245,7 +239,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(prevRect.left, prevRect.top + columnWidth * j);
 
-            int i = number2wdays.get(localeWeekdayList[j]);
+            int i = DateHelper.weekDayNumber2wdays(localeWeekdayList[j]);
             if(values != null)
                 drawMarker(canvas, rect, values[i]);
 
@@ -284,7 +278,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         pGrid.setColor(dimmedTextColor);
 
         for (Integer dayNumber : localeWeekdayList) {
-            canvas.drawText(wdays[number2wdays.get(dayNumber)], rGrid.right - columnWidth,
+            canvas.drawText(wdays[DateHelper.weekDayNumber2wdays(dayNumber)], rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
             pGrid.setStrokeWidth(1f);

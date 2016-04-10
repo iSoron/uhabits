@@ -183,12 +183,17 @@ public class DateHelper
      *
      * So we have {@code wdaysIndex = dayNumber % 7}
      *
-     * @return array with names from Saturday to Friday according to the current locale
+     * @return weekday number in the internal interpretation
      *
      * @see #getWeekday(long)
      * @see java.util.Calendar#SUNDAY
      *
      */
+    public static int weekDayNumber2wdays(int number)
+    {
+        return number % 7;
+    }
+
     public static String[] getDayNames(int format)
     {
         String[] wdays = new String[7];

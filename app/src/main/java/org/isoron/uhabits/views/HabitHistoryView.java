@@ -59,8 +59,6 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private int nColumns;
 
     private String wdays[];
-    private Integer[] localeWeekdayList;
-    private Map<Integer, Integer> number2wdays;
     private SimpleDateFormat dfMonth;
     private SimpleDateFormat dfYear;
 
@@ -105,9 +103,6 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         wdays = DateHelper.getShortDayNames();
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
-
-        localeWeekdayList = DateHelper.getLocaleWeekdayList();
-        number2wdays = DateHelper.getWeekdayMap();
 
         baseLocation = new RectF();
     }
@@ -306,10 +301,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void drawAxis(Canvas canvas, RectF location)
     {
-        for (Integer dayNumber : localeWeekdayList)
+        for (Integer dayNumber : DateHelper.getLocaleWeekdayList())
         {
             location.offset(0, columnWidth);
-            canvas.drawText(wdays[number2wdays.get(dayNumber)], location.left + headerTextOffset,
+            canvas.drawText(wdays[DateHelper.weekDayNumber2wdays(dayNumber)], location.left + headerTextOffset,
                     location.bottom - headerTextOffset, pTextHeader);
         }
     }
