@@ -40,7 +40,6 @@ import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -68,7 +67,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private Calendar baseDate;
     private int nDays;
     /** 0-based-position of today in the column */
-    private int todayWeekday;
+    private int todayPositionInColumn;
     private int colors[];
     private RectF baseLocation;
     private int primaryColor;
@@ -120,10 +119,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
         nDays = (nColumns - 1) * 7;
         int realWeekday = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
-        todayWeekday = (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
+        todayPositionInColumn = (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
-        baseDate.add(Calendar.DAY_OF_YEAR, -todayWeekday);
+        baseDate.add(Calendar.DAY_OF_YEAR, -todayPositionInColumn);
     }
 
     @Override
@@ -283,9 +282,9 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
         for (int j = 0; j < 7; j++)
         {
-            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayWeekday))
+            if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayPositionInColumn))
             {
-                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayWeekday - j;
+                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayPositionInColumn - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 
