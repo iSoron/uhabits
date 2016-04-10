@@ -35,6 +35,7 @@
         android:paddingTop="@dimen/checkmarkHeight"
         android:layout_height="match_parent"
         android:divider="?windowBackgroundColor"
+        android:listSelector="@android:color/transparent"
         android:dividerHeight="1dp"/>
 
     <LinearLayout

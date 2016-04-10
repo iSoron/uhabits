@@ -24,11 +24,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
@@ -74,28 +72,15 @@ class HabitListAdapter extends BaseAdapter
     public View getView(int position, View view, ViewGroup parent)
     {
         final Habit habit = loader.habitsList.get(position);
+        boolean selected = selectedPositions.contains(position);
 
         if (view == null || (Long) view.getTag(R.id.timestamp_key) != DateHelper.getStartOfToday())
         {
-            view = inflater.inflate(R.layout.list_habits_item, null);
-            helper.initializeLabelAndIcon(view);
-            helper.inflateCheckmarkButtons(view, onCheckmarkLongClickListener,
-                    onCheckmarkClickListener, inflater);
+            view = helper.inflateHabitCard(inflater, onCheckmarkLongClickListener,
+                    onCheckmarkClickListener);
         }
 
-        TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
-        TextView tvName = (TextView) view.findViewById(R.id.label);
-        LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
-        LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
-
-        llInner.setTag(R.string.habit_key, habit.getId());
-
-        helper.updateNameAndIcon(habit, tvStar, tvName);
-        helper.updateCheckmarkButtons(habit, llButtons);
-
-        boolean selected = selectedPositions.contains(position);
-        helper.updateHabitBackground(llInner, selected);
-
+        helper.updateHabitCard(view, habit, selected);
         return view;
     }
 

@@ -22,6 +22,7 @@ package org.isoron.uhabits.helpers;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -167,7 +168,34 @@ public class ListHabitsHelper
         }
     }
 
-    public void updateHabitBackground(View view, boolean isSelected)
+    public View inflateHabitCard(LayoutInflater inflater,
+                                  View.OnLongClickListener onCheckmarkLongClickListener,
+                                  View.OnClickListener onCheckmarkClickListener)
+    {
+        View view = inflater.inflate(R.layout.list_habits_item, null);
+        initializeLabelAndIcon(view);
+        inflateCheckmarkButtons(view, onCheckmarkLongClickListener, onCheckmarkClickListener,
+                inflater);
+        return view;
+    }
+
+    public void updateHabitCard(View view, Habit habit, boolean selected)
+    {
+        TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
+        TextView tvName = (TextView) view.findViewById(R.id.label);
+        LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
+        LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
+
+        llInner.setTag(R.string.habit_key, habit.getId());
+        llInner.setOnTouchListener(new HotspotTouchListener());
+
+        updateNameAndIcon(habit, tvStar, tvName);
+        updateCheckmarkButtons(habit, llButtons);
+        updateHabitCardBackground(llInner, selected);
+    }
+
+
+    public void updateHabitCardBackground(View view, boolean isSelected)
     {
         if (isSelected)
             view.setBackgroundResource(R.drawable.selected_box);
@@ -227,5 +255,16 @@ public class ListHabitsHelper
             updateCheckmark(androidColor, (TextView) v, 0);
         else
             updateCheckmark(androidColor, (TextView) v, 2);
+    }
+
+    private static class HotspotTouchListener implements View.OnTouchListener
+    {
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 21)
+                v.getBackground().setHotspot(event.getX(), event.getY());
+            return false;
+        }
     }
 }
