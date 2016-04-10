@@ -38,7 +38,7 @@
         <item name="fadedTextColor">@color/grey_600</item>
         <item name="inactiveCheckmarkColor">@color/grey_300</item>
         <item name="secondaryTextColor">@color/grey_800</item>
-
+        <item name="useHabitColorAsPrimary">true</item>
         <item name="palette">@array/lightPalette</item>
     </style>
 
@@ -60,6 +60,7 @@
         <item name="fadedTextColor">@color/grey_500</item>
         <item name="inactiveCheckmarkColor">@color/grey_700</item>
         <item name="secondaryTextColor">@color/grey_100</item>
+        <item name="useHabitColorAsPrimary">false</item>
 
         <item name="palette">@array/darkPalette</item>
     </style>

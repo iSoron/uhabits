@@ -26,6 +26,6 @@
     <attr name="secondaryTextColor" format="reference"/>
     <attr name="inactiveCheckmarkColor" format="reference"/>
     <attr name="highlightedBackgroundColor" format="reference"/>
+    <attr name="useHabitColorAsPrimary" format="boolean"/>
     <attr name="palette" format="reference"/>
-
 </resources>

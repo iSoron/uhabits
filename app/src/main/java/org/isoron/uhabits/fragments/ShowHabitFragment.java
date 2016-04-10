@@ -21,7 +21,6 @@ package org.isoron.uhabits.fragments;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -170,15 +169,6 @@ public class ShowHabitFragment extends Fragment
 
     private void updateHeaders(View view)
     {
-        if(habit == null | activity == null) return;
-
-        if (android.os.Build.VERSION.SDK_INT >= 21)
-        {
-            int color = ColorHelper.getColor(getActivity(), habit.color);
-            int darkerHabitColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
-            activity.getWindow().setStatusBarColor(darkerHabitColor);
-        }
-
         updateColor(view, R.id.tvHistory);
         updateColor(view, R.id.tvOverview);
         updateColor(view, R.id.tvStrength);
@@ -188,7 +178,7 @@ public class ShowHabitFragment extends Fragment
 
     private void updateColor(View view, int viewId)
     {
-        if(habit == null) return;
+        if(habit == null || activity == null) return;
 
         TextView textView = (TextView) view.findViewById(viewId);
         int androidColor = ColorHelper.getColor(activity, habit.color);

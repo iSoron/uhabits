@@ -181,4 +181,13 @@ public abstract class UIHelper
         return color;
     }
 
+    public static boolean getStyledBoolean(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        boolean bool = ta.getBoolean(0, false);
+        ta.recycle();
+
+        return bool;
+    }
 }
