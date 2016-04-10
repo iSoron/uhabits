@@ -29,17 +29,19 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
@@ -70,6 +72,10 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+
         setContentView(R.layout.list_habits_activity);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -122,6 +128,10 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.list_habits_menu, menu);
+
+        MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);
+        nightModeItem.setChecked(UIHelper.isNightMode());
+
         return true;
     }
 
@@ -130,6 +140,17 @@ public class MainActivity extends BaseActivity
     {
         switch (item.getItemId())
         {
+            case R.id.action_night_mode:
+            {
+                if(UIHelper.isNightMode())
+                    UIHelper.setCurrentTheme(UIHelper.THEME_LIGHT);
+                else
+                    UIHelper.setCurrentTheme(UIHelper.THEME_DARK);
+
+                refreshTheme();
+                return true;
+            }
+
             case R.id.action_settings:
             {
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -156,6 +177,20 @@ public class MainActivity extends BaseActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void refreshTheme()
+    {
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                MainActivity.this.finish();
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

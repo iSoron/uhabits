@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -36,14 +37,19 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 
 import java.util.Locale;
 
 public abstract class UIHelper
 {
-
     public static final String ISORON_NAMESPACE = "http://isoron.org/android";
+
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
+
     private static Typeface fontawesome;
 
     public interface OnSavedListener
@@ -189,5 +195,39 @@ public abstract class UIHelper
         ta.recycle();
 
         return bool;
+    }
+
+    public static void applyCurrentTheme(Activity activity)
+    {
+        switch(getCurrentTheme())
+        {
+            case THEME_DARK:
+                activity.setTheme(R.style.AppBaseThemeDark);
+                break;
+
+            case THEME_LIGHT:
+            default:
+                activity.setTheme(R.style.AppBaseTheme);
+                break;
+        }
+    }
+
+    private static int getCurrentTheme()
+    {
+        Context appContext = HabitsApplication.getContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+        return prefs.getInt("pref_theme", THEME_LIGHT);
+    }
+
+    public static void setCurrentTheme(int theme)
+    {
+        Context appContext = HabitsApplication.getContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+        prefs.edit().putInt("pref_theme", theme).apply();
+    }
+
+    public static boolean isNightMode()
+    {
+        return getCurrentTheme() == THEME_DARK;
     }
 }

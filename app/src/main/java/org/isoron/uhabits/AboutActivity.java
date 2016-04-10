@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 public class AboutActivity extends Activity implements View.OnClickListener
 {
@@ -37,6 +38,8 @@ public class AboutActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        UIHelper.applyCurrentTheme(this);
+
         setContentView(R.layout.about);
 
         if (android.os.Build.VERSION.SDK_INT >= 21)

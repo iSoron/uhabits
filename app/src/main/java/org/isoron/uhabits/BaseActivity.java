@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.util.LinkedList;
 
@@ -43,6 +44,8 @@ abstract public class BaseActivity extends Activity implements Thread.UncaughtEx
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        UIHelper.applyCurrentTheme(this);
 
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
