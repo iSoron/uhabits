@@ -63,7 +63,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private boolean isBackgroundTransparent;
 
     private HashMap<Long, Integer[]> frequency;
-    private Integer[] localeWeekdayList;
 
     public HabitFrequencyView(Context context)
     {
@@ -89,8 +88,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         createPaints();
         createColors();
-
-        localeWeekdayList = DateHelper.getLocaleWeekdayList();
 
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
@@ -231,6 +228,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
+        Integer[] localeWeekdayList = DateHelper.getLocaleWeekdayList();
         for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
@@ -267,7 +265,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
     private void drawGrid(Canvas canvas, RectF rGrid)
     {
-        int nRows = localeWeekdayList.length;
+        int nRows = 7;
         float rowHeight = rGrid.height() / (nRows + 1);
 
         pText.setTextAlign(Paint.Align.LEFT);
