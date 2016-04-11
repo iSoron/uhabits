@@ -66,7 +66,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private int nColumns;
 
     private int textColor;
-    private int dimmedTextColor;
+    private int gridColor;
 
     @Nullable
     private int[] scores;
@@ -120,12 +120,12 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
 
             textColor = Color.argb(192, 255, 255, 255);
-            dimmedTextColor = Color.argb(128, 255, 255, 255);
+            gridColor = Color.argb(128, 255, 255, 255);
         }
         else
         {
-            textColor = Color.argb(64, 0, 0, 0);
-            dimmedTextColor = UIHelper.getStyledColor(getContext(), R.attr.fadedTextColor);
+            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+            gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
             backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
         }
     }
@@ -175,7 +175,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
-        pGrid.setStrokeWidth(baseSize * 0.05f);
+        pGrid.setStrokeWidth(baseSize * 0.025f);
     }
 
     public void refreshData()
@@ -325,7 +325,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setColor(textColor);
-        pGrid.setColor(dimmedTextColor);
+        pGrid.setColor(gridColor);
 
         for (int i = 0; i < nRows; i++)
         {

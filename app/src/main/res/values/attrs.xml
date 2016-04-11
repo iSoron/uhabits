@@ -21,11 +21,16 @@
 <resources>
     <attr name="windowBackgroundColor" format="reference"/>
     <attr name="cardBackgroundColor" format="reference"/>
-    <attr name="fadedTextColor" format="reference"/>
     <attr name="headerBackgroundColor" format="reference"/>
-    <attr name="secondaryTextColor" format="reference"/>
-    <attr name="inactiveCheckmarkColor" format="reference"/>
     <attr name="highlightedBackgroundColor" format="reference"/>
     <attr name="useHabitColorAsPrimary" format="boolean"/>
     <attr name="palette" format="reference"/>
+
+    <attr name="highContrastTextColor" format="reference"/>
+    <attr name="mediumContrastTextColor" format="reference"/>
+    <attr name="lowContrastTextColor" format="reference"/>
+
+    <attr name="highContrastReverseTextColor" format="reference"/>
+    <attr name="mediumContrastReverseTextColor" format="reference"/>
+    <attr name="lowContrastReverseTextColor" format="reference"/>
 </resources>

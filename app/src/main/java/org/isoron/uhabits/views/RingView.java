@@ -49,7 +49,7 @@ public class RingView extends View
 
     private float maxDiameter;
     private float textSize;
-    private int fadedTextColor;
+    private int textColor;
     private int backgroundColor;
 
     public RingView(Context context)
@@ -98,7 +98,7 @@ public class RingView extends View
         pRing.setTextAlign(Paint.Align.CENTER);
 
         backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
-        fadedTextColor = UIHelper.getStyledColor(getContext(), R.attr.fadedTextColor);
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
         textSize = getResources().getDimension(R.dimen.smallTextSize);
 
         rect = new RectF();
@@ -137,7 +137,7 @@ public class RingView extends View
         rect.offset((width - diameter) / 2, 0);
         canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        int grey = UIHelper.getStyledColor(getContext(), R.attr.inactiveCheckmarkColor);
+        int grey = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
         pRing.setColor(grey);
         canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
@@ -145,7 +145,7 @@ public class RingView extends View
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
-        pRing.setColor(fadedTextColor);
+        pRing.setColor(textColor);
         pRing.setTextSize(textSize);
         float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),

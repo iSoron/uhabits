@@ -48,7 +48,7 @@ public class ListHabitsHelper
         this.context = context;
         this.loader = loader;
 
-        inactiveColor = UIHelper.getStyledColor(context, R.attr.inactiveCheckmarkColor);
+        inactiveColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
         fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
     }
 

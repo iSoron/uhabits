@@ -70,6 +70,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private boolean isBackgroundTransparent;
     private int textColor;
+    private int reverseTextColor;
     private boolean isEditable;
 
     public HabitHistoryView(Context context)
@@ -92,8 +93,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void init()
     {
-        createPaints();
         createColors();
+        createPaints();
 
         isEditable = false;
         checkmarks = new int[0];
@@ -184,10 +185,11 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         else
         {
             colors = new int[3];
-            colors[0] = Color.argb(25, 0, 0, 0);
+            colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.argb(64, 0, 0, 0);
+            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+            reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
         }
     }
 
@@ -201,7 +203,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         pSquareBg.setColor(primaryColor);
 
         pSquareFg = new Paint();
-        pSquareFg.setColor(Color.WHITE);
+        pSquareFg.setColor(reverseTextColor);
         pSquareFg.setAntiAlias(true);
         pSquareFg.setTextAlign(Align.CENTER);
     }

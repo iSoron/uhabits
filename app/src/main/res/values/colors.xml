@@ -28,7 +28,7 @@
         <item>@color/deep_purple_600</item>
         <item>@color/purple_600</item>
         <item>@color/pink_600</item>
-        <item>@color/grey_850</item>
+        <item>@color/grey_800</item>
         <item>@color/grey_500</item>
     </array>
 
@@ -44,8 +44,8 @@
         <item>@color/deep_purple_200</item>
         <item>@color/purple_200</item>
         <item>@color/pink_200</item>
-        <item>@color/grey_200</item>
-        <item>@color/grey_700</item>
+        <item>@color/grey_100</item>
+        <item>@color/grey_500</item>
     </array>
 
     <!-- Time and Date picker -->
@@ -346,6 +346,7 @@
     <color name="grey_500">#9E9E9E</color>
     <color name="grey_600">#757575</color>
     <color name="grey_700">#616161</color>
+    <color name="grey_750">#525252</color>
     <color name="grey_800">#424242</color>
     <color name="grey_850">#303030</color>
     <color name="grey_875">#282828</color>

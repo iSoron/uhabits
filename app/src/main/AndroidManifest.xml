@@ -40,7 +40,7 @@
         android:backupAgent=".HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
-        android:theme="@style/AppBaseThemeDark"
+        android:theme="@style/AppBaseTheme"
         android:supportsRtl="true">
 
         <meta-data
