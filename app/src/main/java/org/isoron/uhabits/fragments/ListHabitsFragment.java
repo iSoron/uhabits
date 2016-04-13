@@ -54,6 +54,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.BaseActivity;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
+import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
 import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
@@ -141,7 +142,7 @@ public class ListHabitsFragment extends Fragment
 
         if(savedInstanceState != null)
         {
-            EditHabitFragment frag = (EditHabitFragment) getFragmentManager()
+            EditHabitDialogFragment frag = (EditHabitDialogFragment) getFragmentManager()
                     .findFragmentByTag("editHabit");
             if(frag != null) frag.setOnSavedListener(this);
         }
@@ -217,7 +218,7 @@ public class ListHabitsFragment extends Fragment
         {
             case R.id.action_add:
             {
-                EditHabitFragment frag = EditHabitFragment.createHabitFragment();
+                EditHabitDialogFragment frag = EditHabitDialogFragment.createHabitFragment();
                 frag.setOnSavedListener(this);
                 frag.show(getFragmentManager(), "editHabit");
                 return true;

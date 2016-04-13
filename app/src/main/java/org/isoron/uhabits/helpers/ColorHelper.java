@@ -21,6 +21,7 @@ package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import org.isoron.uhabits.R;
 
@@ -67,7 +68,10 @@ public class ColorHelper
 
         int palette[] = getPalette(context);
         if(paletteColor < 0 || paletteColor >= palette.length)
-            throw new IllegalArgumentException(String.format("Invalid color: %d", paletteColor));
+        {
+            Log.w("ColorHelper", String.format("Invalid color: %d. Returning default.", paletteColor));
+            paletteColor = 0;
+        }
 
         return palette[paletteColor];
     }

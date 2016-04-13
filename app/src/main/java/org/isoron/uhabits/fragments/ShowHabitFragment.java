@@ -39,6 +39,7 @@ import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
 import org.isoron.uhabits.dialogs.HistoryEditorDialog;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
@@ -132,7 +133,7 @@ public class ShowHabitFragment extends Fragment
 
         if(savedInstanceState != null)
         {
-            EditHabitFragment fragEdit = (EditHabitFragment) getFragmentManager()
+            EditHabitDialogFragment fragEdit = (EditHabitDialogFragment) getFragmentManager()
                     .findFragmentByTag("editHabit");
             HistoryEditorDialog fragEditor = (HistoryEditorDialog) getFragmentManager()
                     .findFragmentByTag("historyEditor");
@@ -200,7 +201,8 @@ public class ShowHabitFragment extends Fragment
         {
             case R.id.action_edit_habit:
             {
-                EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(habit.getId());
+                EditHabitDialogFragment
+                        frag = EditHabitDialogFragment.editSingleHabitFragment(habit.getId());
                 frag.setOnSavedListener(this);
                 frag.show(getFragmentManager(), "editHabit");
                 return true;

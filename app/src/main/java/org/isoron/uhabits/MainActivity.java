@@ -74,6 +74,8 @@ public class MainActivity extends BaseActivity
 
         setContentView(R.layout.list_habits_activity);
 
+        setupSupportActionBar(false);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listHabitsFragment =
                 (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
@@ -123,6 +125,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        menu.clear();
         getMenuInflater().inflate(R.menu.list_habits_menu, menu);
 
         MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);

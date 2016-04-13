@@ -19,10 +19,13 @@
 
 package org.isoron.uhabits;
 
-import android.app.Activity;
 import android.app.backup.BackupManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import org.isoron.uhabits.commands.Command;
@@ -30,7 +33,7 @@ import org.isoron.uhabits.helpers.UIHelper;
 
 import java.util.LinkedList;
 
-abstract public class BaseActivity extends Activity implements Thread.UncaughtExceptionHandler
+abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler
 {
     private static int MAX_UNDO_LEVEL = 15;
 
@@ -118,6 +121,23 @@ abstract public class BaseActivity extends Activity implements Thread.UncaughtEx
 
 
         showToast(command.getExecuteStringId());
+    }
+
+    protected void setupSupportActionBar(boolean homeButtonEnabled)
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar == null) return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            toolbar.setElevation(UIHelper.dpToPixels(this, 6));
+
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+
+        if(homeButtonEnabled)
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void onPostExecuteCommand(Long refreshKey)

@@ -35,6 +35,7 @@ import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
+import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
@@ -155,7 +156,8 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
             case R.id.action_edit_habit:
             {
-                EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(firstHabit.getId());
+                EditHabitDialogFragment
+                        frag = EditHabitDialogFragment.editSingleHabitFragment(firstHabit.getId());
                 frag.setOnSavedListener(onSavedListener);
                 frag.show(activity.getFragmentManager(), "editHabit");
                 return true;
