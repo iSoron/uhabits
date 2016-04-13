@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,11 +43,12 @@ public class AboutActivity extends Activity implements View.OnClickListener
 
         setContentView(R.layout.about);
 
-        if (android.os.Build.VERSION.SDK_INT >= 21)
+        if (android.os.Build.VERSION.SDK_INT >= 21 && !UIHelper.isNightMode())
         {
-            int color = getResources().getColor(R.color.blue_700);
+            int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
             int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
-            getActionBar().setBackgroundDrawable(new ColorDrawable(color));
+            ActionBar actionBar = getActionBar();
+            if(actionBar != null) actionBar.setBackgroundDrawable(new ColorDrawable(color));
             getWindow().setStatusBarColor(darkerColor);
         }
 

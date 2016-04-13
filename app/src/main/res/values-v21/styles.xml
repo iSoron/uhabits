@@ -45,6 +45,8 @@
         <item name="highContrastTextColor">@color/grey_800</item>
         <item name="mediumContrastTextColor">@color/grey_500</item>
         <item name="lowContrastTextColor">@color/grey_300</item>
+
+        <item name="aboutScreenColor">@color/blue_700</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="android:Theme.Material">
@@ -73,6 +75,8 @@
         <item name="lowContrastReverseTextColor">@color/grey_300</item>
 
         <item name="palette">@array/darkPalette</item>
+
+        <item name="aboutScreenColor">@color/blue_300</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">

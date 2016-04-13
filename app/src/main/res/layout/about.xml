@@ -44,7 +44,7 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_margin="6dp"
-                android:textColor="@color/blue_700"
+                android:textColor="?aboutScreenColor"
                 android:text="@string/app_name"/>
 
             <TextView
@@ -63,7 +63,7 @@
             <TextView
                 style="@style/CardHeader"
                 android:text="@string/links"
-                android:textColor="@color/blue_700"/>
+                android:textColor="?aboutScreenColor"/>
 
             <TextView
                 android:id="@+id/tvRate"
@@ -89,7 +89,7 @@
             <TextView
                 style="@style/CardHeader"
                 android:text="@string/developers"
-                android:textColor="@color/blue_700"/>
+                android:textColor="?aboutScreenColor"/>
 
             <TextView
                 style="@style/About.Item"
@@ -103,7 +103,7 @@
             <TextView
                 style="@style/CardHeader"
                 android:text="@string/translators"
-                android:textColor="@color/blue_700"/>
+                android:textColor="?aboutScreenColor"/>
 
             <TextView
                 style="@style/About.Item"
