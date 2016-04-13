@@ -24,13 +24,13 @@
         android:key="interfaceCategory"
         android:title="@string/interface_preferences">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_short_toggle"
             android:summary="@string/pref_toggle_description"
             android:title="@string/pref_toggle_title"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_pure_black"
             android:summary="@string/pure_black_description"
