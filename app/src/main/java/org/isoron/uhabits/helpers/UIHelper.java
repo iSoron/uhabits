@@ -202,8 +202,17 @@ public abstract class UIHelper
         switch(getCurrentTheme())
         {
             case THEME_DARK:
-                activity.setTheme(R.style.AppBaseThemeDark);
+            {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+                boolean pureBlackEnabled = prefs.getBoolean("pref_pure_black", false);
+
+                if(pureBlackEnabled)
+                    activity.setTheme(R.style.AppBaseThemeDark_PureBlack);
+                else
+                    activity.setTheme(R.style.AppBaseThemeDark);
+
                 break;
+            }
 
             case THEME_LIGHT:
             default:
