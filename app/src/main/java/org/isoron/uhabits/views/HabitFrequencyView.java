@@ -35,7 +35,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
@@ -234,7 +233,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(prevRect.left, prevRect.top + columnWidth * j);
 
-            int i = DateHelper.weekDayNumber2wdays(localeWeekdayList[j]);
+            int i = DateHelper.javaWeekdayToLoopWeekday(localeWeekdayList[j]);
             if(values != null)
                 drawMarker(canvas, rect, values[i]);
 

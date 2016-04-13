@@ -40,7 +40,6 @@ import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Map;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
@@ -277,7 +276,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         {
             if (!(column == nColumns - 2 && getDataOffset() == 0 && j > todayPositionInColumn))
             {
-                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) + todayPositionInColumn - j;
+                int checkmarkOffset = getDataOffset() * 7 + nDays - 7 * (column + 1) +
+                        todayPositionInColumn - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 
