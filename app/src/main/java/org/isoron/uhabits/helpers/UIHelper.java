@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Debug;
 import android.os.Looper;
@@ -185,6 +186,16 @@ public abstract class UIHelper
         ta.recycle();
 
         return color;
+    }
+
+    public static Drawable getStyledDrawable(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        Drawable drawable = ta.getDrawable(0);
+        ta.recycle();
+
+        return drawable;
     }
 
     public static boolean getStyledBoolean(Context context, int attrId)

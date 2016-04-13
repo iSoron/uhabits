@@ -21,6 +21,7 @@ package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,7 +38,8 @@ import java.util.GregorianCalendar;
 
 public class ListHabitsHelper
 {
-    private int inactiveColor;
+    private final int lowContrastColor;
+    private final int mediumContrastColor;
 
     private final Context context;
     private final HabitListLoader loader;
@@ -48,7 +50,8 @@ public class ListHabitsHelper
         this.context = context;
         this.loader = loader;
 
-        inactiveColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
+        lowContrastColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
+        mediumContrastColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
         fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
     }
 
@@ -95,7 +98,7 @@ public class ListHabitsHelper
     public int getActiveColor(Habit habit)
     {
         int activeColor = ColorHelper.getColor(context, habit.color);
-        if(habit.isArchived()) activeColor = inactiveColor;
+        if(habit.isArchived()) activeColor = mediumContrastColor;
 
         return activeColor;
     }
@@ -129,12 +132,12 @@ public class ListHabitsHelper
             if (score < Score.HALF_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_o));
-                tvStar.setTextColor(inactiveColor);
+                tvStar.setTextColor(lowContrastColor);
             }
             else if (score < Score.FULL_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(inactiveColor);
+                tvStar.setTextColor(lowContrastColor);
             }
             else
             {
@@ -156,13 +159,13 @@ public class ListHabitsHelper
 
             case 1:
                 tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(inactiveColor);
+                tvCheck.setTextColor(lowContrastColor);
                 tvCheck.setTag(R.string.toggle_key, 1);
                 break;
 
             case 0:
                 tvCheck.setText(R.string.fa_times);
-                tvCheck.setTextColor(inactiveColor);
+                tvCheck.setTextColor(lowContrastColor);
                 tvCheck.setTag(R.string.toggle_key, 0);
                 break;
         }
@@ -197,13 +200,23 @@ public class ListHabitsHelper
 
     public void updateHabitCardBackground(View view, boolean isSelected)
     {
-        if (isSelected)
-            view.setBackgroundResource(R.drawable.selected_box);
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            if (isSelected)
+                view.setBackgroundResource(R.drawable.selected_box);
+            else
+                view.setBackgroundResource(R.drawable.ripple);
+        }
         else
         {
-            if (android.os.Build.VERSION.SDK_INT >= 21)
-                view.setBackgroundResource(R.drawable.ripple);
-            else view.setBackgroundResource(R.drawable.card_background);
+            Drawable background;
+
+            if (isSelected)
+                background = UIHelper.getStyledDrawable(context, R.attr.selectedBackground);
+            else
+                background = UIHelper.getStyledDrawable(context, R.attr.cardBackground);
+
+            view.setBackgroundDrawable(background);
         }
     }
 

@@ -20,7 +20,7 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:top="40dp">
+    <item android:top="44dp">
         <shape android:shape="rectangle" >
             <gradient
                 android:startColor="#30000000"

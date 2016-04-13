@@ -22,6 +22,62 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <item name="android:spinnerItemStyle">@style/dialogFormText</item>
         <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
+
+        <item name="selectedBackground">@drawable/selected_box_light</item>
+        <item name="headerBackground">@drawable/habits_list_header_light_background</item>
+        <item name="cardBackground">@drawable/card_light_background</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="windowBackgroundColor">@color/grey_200</item>
+        <item name="headerBackgroundColor">@color/grey_200</item>
+
+        <item name="android:textColor">@color/grey_800</item>
+        <item name="useHabitColorAsPrimary">true</item>
+        <item name="palette">@array/lightPalette</item>
+
+        <item name="highContrastReverseTextColor">@color/white</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="lowContrastReverseTextColor">@color/grey_700</item>
+
+        <item name="highContrastTextColor">@color/grey_800</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="lowContrastTextColor">@color/grey_300</item>
+
+        <item name="aboutScreenColor">@color/blue_700</item>
+    </style>
+
+    <style name="AppBaseThemeDark" parent="android:Theme.Holo">
+        <item name="selectedBackground">@drawable/selected_box_dark</item>
+        <item name="headerBackground">@drawable/habits_list_header_dark_background</item>
+        <item name="cardBackground">@drawable/card_dark_background</item>
+        <item name="cardBackgroundColor">@color/grey_850</item>
+        <item name="windowBackgroundColor">@color/grey_900</item>
+        <item name="headerBackgroundColor">@color/grey_900</item>
+
+        <item name="android:textColor">@color/grey_100</item>
+        <item name="useHabitColorAsPrimary">false</item>
+
+        <item name="highContrastTextColor">@color/grey_100</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="lowContrastTextColor">@color/grey_800</item>
+
+        <item name="highContrastReverseTextColor">@color/grey_900</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_700</item>
+        <item name="lowContrastReverseTextColor">@color/grey_300</item>
+
+        <item name="palette">@array/darkPalette</item>
+
+        <item name="aboutScreenColor">@color/blue_300</item>
+    </style>
+
+    <style name="AppBaseThemeDark.PureBlack">
+        <item name="selectedBackground">@drawable/selected_box_amoled</item>
+        <item name="headerBackground">@drawable/habits_list_header_amoled_background</item>
+        <item name="cardBackground">@drawable/card_amoled_background</item>
+        <item name="cardBackgroundColor">@color/black</item>
+        <item name="windowBackgroundColor">@color/black</item>
+        <item name="headerBackgroundColor">@color/black</item>
+        <item name="lowContrastTextColor">@color/grey_900</item>
+        <item name="highContrastReverseTextColor">@color/black</item>
     </style>
 
     <style name="time_label">
@@ -56,7 +112,7 @@
         <item name="android:layout_marginBottom">3dp</item>
         <item name="android:layout_marginLeft">3dp</item>
         <item name="android:layout_marginRight">3dp</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">?cardBackground</item>
     </style>
 
     <style name="Card" parent="CardCommon">

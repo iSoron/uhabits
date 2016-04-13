@@ -34,4 +34,9 @@
     <attr name="highContrastReverseTextColor" format="reference"/>
     <attr name="mediumContrastReverseTextColor" format="reference"/>
     <attr name="lowContrastReverseTextColor" format="reference"/>
+
+    <!-- Pre-Lollipop -->
+    <attr name="cardBackground" format="reference"/>
+    <attr name="headerBackground" format="reference"/>
+    <attr name="selectedBackground" format="reference"/>
 </resources>
