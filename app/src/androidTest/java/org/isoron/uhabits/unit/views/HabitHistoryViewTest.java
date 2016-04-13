@@ -89,7 +89,7 @@ public class HabitHistoryViewTest extends ViewTest
     public void tapDate_withEditableView() throws Throwable
     {
         view.setIsEditable(true);
-        tap(view, 270, 30);
+        tap(view, 270, 18); // today's square
         waitForAsyncTasks();
 
         long today = DateHelper.getStartOfToday();
@@ -103,7 +103,7 @@ public class HabitHistoryViewTest extends ViewTest
 
         view.setIsEditable(true);
         tap(view, 45, 5); // header
-        tap(view, 270, 43); // tomorrow's square
+        tap(view, 270, 30); // tomorrow's square
         tap(view, 280, 30); // right axis
         waitForAsyncTasks();
 
