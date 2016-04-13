@@ -29,14 +29,13 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.DateHelper;
@@ -72,9 +71,6 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
 
         setContentView(R.layout.list_habits_activity);
 
@@ -181,16 +177,19 @@ public class MainActivity extends BaseActivity
 
     private void refreshTheme()
     {
-        runOnUiThread(new Runnable()
+        new Handler().postDelayed(new Runnable()
         {
             @Override
             public void run()
             {
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
+
                 MainActivity.this.finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 startActivity(intent);
+
             }
-        });
+        }, 500); // Let the menu disappear first
     }
 
     @Override
