@@ -54,6 +54,7 @@ source.
 [![Habit strength][screen3th]][screen3]
 [![Habit history and streaks][screen4th]][screen4]
 [![Widgets][screen5th]][screen5]
+[![Night mode][screen6th]][screen6]
 
 ## Installing
 
@@ -106,11 +107,13 @@ contribute, even if you are not a software developer.
 [screen3]: screenshots/original/uhabits3.png
 [screen4]: screenshots/original/uhabits4.png
 [screen5]: screenshots/original/uhabits5.png
+[screen6]: screenshots/original/uhabits6.png
 [screen1th]: screenshots/thumbs/uhabits1.png
 [screen2th]: screenshots/thumbs/uhabits2.png
 [screen3th]: screenshots/thumbs/uhabits3.png
 [screen4th]: screenshots/thumbs/uhabits4.png
 [screen5th]: screenshots/thumbs/uhabits5.png
+[screen6th]: screenshots/thumbs/uhabits6.png
 [poedit]: https://poeditor.com/join/project/8DWX5pfjS0
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
