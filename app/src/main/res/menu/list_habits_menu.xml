@@ -29,6 +29,12 @@
         android:title="@string/show_archived"/>
 
     <item
+        android:id="@+id/action_night_mode"
+        android:checkable="true"
+        android:enabled="true"
+        android:title="@string/night_mode"/>
+
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

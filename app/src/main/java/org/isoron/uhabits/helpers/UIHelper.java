@@ -19,10 +19,13 @@
 
 package org.isoron.uhabits.helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Debug;
 import android.os.Looper;
@@ -35,14 +38,19 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 
 import java.util.Locale;
 
 public abstract class UIHelper
 {
-
     public static final String ISORON_NAMESPACE = "http://isoron.org/android";
+
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_DARK = 1;
+
     private static Typeface fontawesome;
 
     public interface OnSavedListener
@@ -164,5 +172,93 @@ public abstract class UIHelper
             if(currentLanguage.equals(lang)) return true;
 
         return false;
+    }
+
+    public static float getScreenWidth(Context context)
+    {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getStyledColor(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        int color = ta.getColor(0, 0);
+        ta.recycle();
+
+        return color;
+    }
+
+    public static Drawable getStyledDrawable(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        Drawable drawable = ta.getDrawable(0);
+        ta.recycle();
+
+        return drawable;
+    }
+
+    public static boolean getStyledBoolean(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        boolean bool = ta.getBoolean(0, false);
+        ta.recycle();
+
+        return bool;
+    }
+
+    static int getStyleResource(Context context, int attrId)
+    {
+        int[] attr = new int[] { attrId };
+        TypedArray array = context.obtainStyledAttributes(attr);
+        int resourceId = array.getResourceId(0, -1);
+        array.recycle();
+
+        return resourceId;
+    }
+
+    public static void applyCurrentTheme(Activity activity)
+    {
+        switch(getCurrentTheme())
+        {
+            case THEME_DARK:
+            {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+                boolean pureBlackEnabled = prefs.getBoolean("pref_pure_black", false);
+
+                if(pureBlackEnabled)
+                    activity.setTheme(R.style.AppBaseThemeDark_PureBlack);
+                else
+                    activity.setTheme(R.style.AppBaseThemeDark);
+
+                break;
+            }
+
+            case THEME_LIGHT:
+            default:
+                activity.setTheme(R.style.AppBaseTheme);
+                break;
+        }
+    }
+
+    private static int getCurrentTheme()
+    {
+        Context appContext = HabitsApplication.getContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+        return prefs.getInt("pref_theme", THEME_LIGHT);
+    }
+
+    public static void setCurrentTheme(int theme)
+    {
+        Context appContext = HabitsApplication.getContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+        prefs.edit().putInt("pref_theme", theme).apply();
+    }
+
+    public static boolean isNightMode()
+    {
+        return getCurrentTheme() == THEME_DARK;
     }
 }

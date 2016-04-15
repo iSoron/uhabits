@@ -18,18 +18,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
-
-    <style name="ListHabits.Header">
-        <item name="android:background">?headerBackgroundColor</item>
-        <item name="android:elevation">2dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentTop">true</item>
-        <item name="android:paddingRight">4dp</item>
-    </style>
-
-    <style name="ListHabits.Checkmark" parent="ListHabits.CheckmarkCommon">
-        <item name="android:background">@drawable/ripple_transparent</item>
-    </style>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+    <solid android:color="@color/grey_800" />
+    <stroke android:width="2dip" android:color="@color/grey_500"/>
+</shape>

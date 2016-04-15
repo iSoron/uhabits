@@ -26,12 +26,17 @@
 
     <com.mobeta.android.dslv.DragSortListView
         android:id="@+id/listView"
-        style="@style/habitsListStyle"
         dslv:drag_enabled="true"
         dslv:drag_start_mode="onLongPress"
         dslv:sort_enabled="true"
         dslv:track_drag_sort="false"
-        />
+        android:layout_width="match_parent"
+        android:background="?windowBackgroundColor"
+        android:paddingTop="@dimen/checkmarkHeight"
+        android:layout_height="match_parent"
+        android:divider="?windowBackgroundColor"
+        android:listSelector="@android:color/transparent"
+        android:dividerHeight="1dp"/>
 
     <LinearLayout
         android:id="@+id/llEmpty"
@@ -42,30 +47,32 @@
 
         <TextView
             android:id="@+id/tvStarEmpty"
-            style="@style/habitsListEmptyStyle"
+            style="@style/ListHabits.EmptyState"
             android:text="@string/fa_star_half_o"
             android:textSize="80sp"/>
 
         <TextView
-            style="@style/habitsListEmptyStyle"
+            style="@style/ListHabits.EmptyState"
             android:text="@string/no_habits_found"/>
 
     </LinearLayout>
 
-    <LinearLayout style="@style/habitsListHeaderStyle">
+    <LinearLayout
+        android:id="@+id/header"
+        style="@style/ListHabits.Header">
 
         <TextView
             android:id="@+id/tvStarHeader"
-            style="@style/habitsListStarStyle"/>
+            style="@style/ListHabits.Star"/>
 
         <TextView
             android:id="@+id/tvNameHeader"
-            style="@style/habitsListNameStyle"
+            style="@style/ListHabits.Label"
             android:text=""/>
 
         <LinearLayout
             android:id="@+id/llButtonsHeader"
-            style="@style/habitsListButtonsPanelStyle"/>
+            style="@style/ListHabits.CheckmarkPanel"/>
     </LinearLayout>
 
     <ProgressBar
@@ -73,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_marginTop="37dp"
+        android:layout_below="@id/header"
         />
 
     <LinearLayout
@@ -85,7 +92,7 @@
         android:orientation="vertical"
         android:animateLayoutChanges="true"
         android:visibility="invisible"
-        style="@style/cardStyle">
+        style="@style/Card">
 
         <TextView
             android:layout_width="wrap_content"

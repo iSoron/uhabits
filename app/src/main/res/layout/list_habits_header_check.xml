@@ -18,6 +18,14 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvCheck"
-    style="@style/habitsListHeaderCheckStyle" />
+    style="@style/ListHabits.Checkmark"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:background="@color/transparent"
+    android:textColor="?mediumContrastTextColor"
+    android:textAllCaps="true"
+    android:textStyle="bold"
+    android:textSize="10sp"/>

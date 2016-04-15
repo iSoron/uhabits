@@ -20,13 +20,12 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.DisplayMetrics;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,8 +38,8 @@ import java.util.GregorianCalendar;
 
 public class ListHabitsHelper
 {
-    public static final int INACTIVE_COLOR = Color.rgb(200, 200, 200);
-    public static final int INACTIVE_CHECKMARK_COLOR = Color.rgb(230, 230, 230);
+    private final int lowContrastColor;
+    private final int mediumContrastColor;
 
     private final Context context;
     private final HabitListLoader loader;
@@ -51,6 +50,8 @@ public class ListHabitsHelper
         this.context = context;
         this.loader = loader;
 
+        lowContrastColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
+        mediumContrastColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
         fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
     }
 
@@ -61,16 +62,18 @@ public class ListHabitsHelper
 
     public int getButtonCount()
     {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        return Math.max(0, (int) ((width - 160) / 42.0));
+        float screenWidth = UIHelper.getScreenWidth(context);
+        float labelWidth = context.getResources().getDimension(R.dimen.habitNameWidth);
+        float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
+        return Math.max(0, (int) ((screenWidth - labelWidth) / buttonWidth));
     }
 
     public int getHabitNameWidth()
     {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        return (int) ((width - 30 - getButtonCount() * 42) * dm.density);
+        float screenWidth = UIHelper.getScreenWidth(context);
+        float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
+        float padding = UIHelper.dpToPixels(context, 15);
+        return (int) (screenWidth - padding - getButtonCount() * buttonWidth);
     }
 
     public void updateCheckmarkButtons(Habit habit, LinearLayout llButtons)
@@ -94,8 +97,8 @@ public class ListHabitsHelper
 
     public int getActiveColor(Habit habit)
     {
-        int activeColor = habit.color;
-        if(habit.isArchived()) activeColor = INACTIVE_COLOR;
+        int activeColor = ColorHelper.getColor(context, habit.color);
+        if(habit.isArchived()) activeColor = mediumContrastColor;
 
         return activeColor;
     }
@@ -129,12 +132,12 @@ public class ListHabitsHelper
             if (score < Score.HALF_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
+                tvStar.setTextColor(lowContrastColor);
             }
             else if (score < Score.FULL_STAR_CUTOFF)
             {
                 tvStar.setText(context.getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
+                tvStar.setTextColor(lowContrastColor);
             }
             else
             {
@@ -156,27 +159,64 @@ public class ListHabitsHelper
 
             case 1:
                 tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
+                tvCheck.setTextColor(lowContrastColor);
                 tvCheck.setTag(R.string.toggle_key, 1);
                 break;
 
             case 0:
                 tvCheck.setText(R.string.fa_times);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
+                tvCheck.setTextColor(lowContrastColor);
                 tvCheck.setTag(R.string.toggle_key, 0);
                 break;
         }
     }
 
-    public void updateHabitBackground(View view, boolean isSelected)
+    public View inflateHabitCard(LayoutInflater inflater,
+                                  View.OnLongClickListener onCheckmarkLongClickListener,
+                                  View.OnClickListener onCheckmarkClickListener)
     {
-        if (isSelected)
-            view.setBackgroundResource(R.drawable.selected_box);
+        View view = inflater.inflate(R.layout.list_habits_item, null);
+        initializeLabelAndIcon(view);
+        inflateCheckmarkButtons(view, onCheckmarkLongClickListener, onCheckmarkClickListener,
+                inflater);
+        return view;
+    }
+
+    public void updateHabitCard(View view, Habit habit, boolean selected)
+    {
+        TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
+        TextView tvName = (TextView) view.findViewById(R.id.label);
+        LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
+        LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
+
+        llInner.setTag(R.string.habit_key, habit.getId());
+        llInner.setOnTouchListener(new HotspotTouchListener());
+
+        updateNameAndIcon(habit, tvStar, tvName);
+        updateCheckmarkButtons(habit, llButtons);
+        updateHabitCardBackground(llInner, selected);
+    }
+
+
+    public void updateHabitCardBackground(View view, boolean isSelected)
+    {
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            if (isSelected)
+                view.setBackgroundResource(R.drawable.selected_box);
+            else
+                view.setBackgroundResource(R.drawable.ripple);
+        }
         else
         {
-            if (android.os.Build.VERSION.SDK_INT >= 21)
-                view.setBackgroundResource(R.drawable.ripple_white);
-            else view.setBackgroundResource(R.drawable.card_background);
+            Drawable background;
+
+            if (isSelected)
+                background = UIHelper.getStyledDrawable(context, R.attr.selectedBackground);
+            else
+                background = UIHelper.getStyledDrawable(context, R.attr.cardBackground);
+
+            view.setBackgroundDrawable(background);
         }
     }
 
@@ -206,7 +246,7 @@ public class ListHabitsHelper
         for (int i = 0; i < getButtonCount(); i++)
         {
             View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
-            Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
+            TextView btCheck = (TextView) tvDay.findViewById(R.id.tvCheck);
             btCheck.setText(DateHelper.formatHeaderDate(day));
             header.addView(tvDay);
 
@@ -222,9 +262,22 @@ public class ListHabitsHelper
 
     public void toggleCheckmarkView(View v, Habit habit)
     {
+        int androidColor = ColorHelper.getColor(context, habit.color);
+
         if (v.getTag(R.string.toggle_key).equals(2))
-            updateCheckmark(habit.color, (TextView) v, 0);
+            updateCheckmark(androidColor, (TextView) v, 0);
         else
-            updateCheckmark(habit.color, (TextView) v, 2);
+            updateCheckmark(androidColor, (TextView) v, 2);
+    }
+
+    private static class HotspotTouchListener implements View.OnTouchListener
+    {
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 21)
+                v.getBackground().setHotspot(event.getX(), event.getY());
+            return false;
+        }
     }
 }

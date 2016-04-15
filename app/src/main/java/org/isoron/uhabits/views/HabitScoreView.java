@@ -32,6 +32,7 @@ import android.util.AttributeSet;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 
@@ -65,7 +66,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private int nColumns;
 
     private int textColor;
-    private int dimmedTextColor;
+    private int gridColor;
 
     @Nullable
     private int[] scores;
@@ -74,6 +75,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private boolean isBackgroundTransparent;
     private int bucketSize = 7;
     private int footerHeight;
+    private int backgroundColor;
 
     public HabitScoreView(Context context)
     {
@@ -84,7 +86,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     public HabitScoreView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
+        this.primaryColor = ColorHelper.getColor(getContext(), 7);
         init();
     }
 
@@ -110,7 +112,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
         if (isBackgroundTransparent)
         {
@@ -118,12 +120,13 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
 
             textColor = Color.argb(192, 255, 255, 255);
-            dimmedTextColor = Color.argb(128, 255, 255, 255);
+            gridColor = Color.argb(128, 255, 255, 255);
         }
         else
         {
-            textColor = Color.argb(64, 0, 0, 0);
-            dimmedTextColor = Color.argb(16, 0, 0, 0);
+            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+            gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+            backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
         }
     }
 
@@ -172,7 +175,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
-        pGrid.setStrokeWidth(baseSize * 0.05f);
+        pGrid.setStrokeWidth(baseSize * 0.025f);
     }
 
     public void refreshData()
@@ -322,7 +325,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setColor(textColor);
-        pGrid.setColor(dimmedTextColor);
+        pGrid.setColor(gridColor);
 
         for (int i = 0; i < nRows; i++)
         {
@@ -345,7 +348,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private void drawMarker(Canvas canvas, RectF rect)
     {
         rect.inset(baseSize * 0.15f, baseSize * 0.15f);
-        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(baseSize * 0.1f, baseSize * 0.1f);
@@ -353,7 +356,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         canvas.drawOval(rect, pGraph);
 
         rect.inset(baseSize * 0.1f, baseSize * 0.1f);
-        setModeOrColor(pGraph, XFERMODE_CLEAR, Color.WHITE);
+        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
         if(isBackgroundTransparent)

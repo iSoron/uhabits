@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.unit.models;
 
-import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -78,7 +77,7 @@ public class HabitTest extends BaseTest
         Habit model = new Habit();
         model.archived = 1;
         model.highlight = 1;
-        model.color = Color.BLACK;
+        model.color = 0;
         model.freqNum = 10;
         model.freqDen = 20;
         model.reminderDays = 1;

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
@@ -17,12 +18,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.isoron.uhabits.MainActivity" >
-    
-    <item
-        android:id="@+id/action_add"
-        android:title="@string/add_habit" android:showAsAction="always" android:icon="@drawable/ic_action_add_dark"/>
-
-</menu>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+    <solid android:color="@color/black" />
+    <stroke android:width="2dip" android:color="@color/grey_500"/>
+</shape>

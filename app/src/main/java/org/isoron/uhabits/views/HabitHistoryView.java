@@ -70,6 +70,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private boolean isBackgroundTransparent;
     private int textColor;
+    private int reverseTextColor;
     private boolean isEditable;
 
     public HabitHistoryView(Context context)
@@ -92,12 +93,12 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void init()
     {
-        createPaints();
         createColors();
+        createPaints();
 
         isEditable = false;
         checkmarks = new int[0];
-        primaryColor = ColorHelper.palette[7];
+        primaryColor = ColorHelper.getColor(getContext(), 7);
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
 
@@ -164,7 +165,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
         if(isBackgroundTransparent)
             primaryColor = ColorHelper.setMinValue(primaryColor, 0.75f);
@@ -179,15 +180,17 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
             colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.rgb(255, 255, 255);
+            textColor = Color.WHITE;
+            reverseTextColor = Color.WHITE;
         }
         else
         {
             colors = new int[3];
-            colors[0] = Color.argb(25, 0, 0, 0);
+            colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.argb(64, 0, 0, 0);
+            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+            reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
         }
     }
 
@@ -198,10 +201,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
-        pSquareBg.setColor(primaryColor);
 
         pSquareFg = new Paint();
-        pSquareFg.setColor(Color.WHITE);
         pSquareFg.setAntiAlias(true);
         pSquareFg.setTextAlign(Align.CENTER);
     }
@@ -292,6 +293,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else pSquareBg.setColor(colors[checkmarks[checkmarkOffset]]);
 
+        pSquareFg.setColor(reverseTextColor);
         canvas.drawRect(location, pSquareBg);
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(), location.centerY() + squareTextOffset, pSquareFg);

@@ -40,14 +40,14 @@ import com.android.colorpicker.ColorPickerSwatch;
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
 
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Arrays;
@@ -138,7 +138,7 @@ public class EditHabitFragment extends DialogFragment
             modifiedHabit = new Habit();
             modifiedHabit.freqNum = 1;
             modifiedHabit.freqDen = 1;
-            modifiedHabit.color = prefs.getInt("pref_default_habit_color", modifiedHabit.color);
+            modifiedHabit.color = prefs.getInt("pref_default_habit_palette_color", modifiedHabit.color);
         }
         else if (mode == EDIT_MODE)
         {
@@ -174,13 +174,13 @@ public class EditHabitFragment extends DialogFragment
         return view;
     }
 
-    private void changeColor(Integer color)
+    private void changeColor(int paletteColor)
     {
-        modifiedHabit.color = color;
-        tvName.setTextColor(color);
+        modifiedHabit.color = paletteColor;
+        tvName.setTextColor(ColorHelper.getColor(getActivity(), paletteColor));
 
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("pref_default_habit_color", color);
+        editor.putInt("pref_default_habit_palette_color", paletteColor);
         editor.apply();
     }
 
@@ -237,15 +237,18 @@ public class EditHabitFragment extends DialogFragment
 
     private void onColorButtonClick()
     {
+        int originalAndroidColor = ColorHelper.getColor(getActivity(), modifiedHabit.color);
+
         ColorPickerDialog picker = ColorPickerDialog.newInstance(
-                R.string.color_picker_default_title, ColorHelper.palette, modifiedHabit.color, 4,
-                ColorPickerDialog.SIZE_SMALL);
+                R.string.color_picker_default_title, ColorHelper.getPalette(getActivity()),
+                originalAndroidColor, 4, ColorPickerDialog.SIZE_SMALL);
 
         picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
         {
-            public void onColorSelected(int color)
+            public void onColorSelected(int androidColor)
             {
-                changeColor(color);
+                int paletteColor = ColorHelper.colorToPaletteIndex(getActivity(), androidColor);
+                changeColor(paletteColor);
             }
         });
         picker.show(getFragmentManager(), "picker");

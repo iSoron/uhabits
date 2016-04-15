@@ -26,8 +26,10 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -56,7 +58,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private int nColumns;
 
     private int textColor;
-    private int dimmedTextColor;
+    private int gridColor;
     private int[] colors;
     private int primaryColor;
     private boolean isBackgroundTransparent;
@@ -72,7 +74,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
+        this.primaryColor = ColorHelper.getColor(getContext(), 7);
         this.frequency = new HashMap<>();
         init();
     }
@@ -98,7 +100,9 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
+        {
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+        }
 
         if (isBackgroundTransparent)
         {
@@ -106,17 +110,17 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
             primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
 
             textColor = Color.argb(192, 255, 255, 255);
-            dimmedTextColor = Color.argb(128, 255, 255, 255);
+            gridColor = Color.argb(128, 255, 255, 255);
         }
         else
         {
-            textColor = Color.argb(64, 0, 0, 0);
-            dimmedTextColor = Color.argb(16, 0, 0, 0);
+            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+            gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
         }
 
         colors = new int[4];
 
-        colors[0] = Color.rgb(230, 230, 230);
+        colors[0] = gridColor;
         colors[3] = primaryColor;
         colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
         colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
@@ -286,7 +290,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setColor(textColor);
-        pGrid.setColor(dimmedTextColor);
+        pGrid.setColor(gridColor);
 
         for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT)) {
             canvas.drawText(day, rGrid.right - columnWidth,

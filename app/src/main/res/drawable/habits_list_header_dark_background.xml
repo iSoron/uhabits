@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
@@ -18,11 +18,20 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/action_edit_habit"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_edit_dark"
-        android:title="@string/edit"/>
-</menu>
+    <item android:top="40dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:startColor="#30000000"
+                android:endColor="#00000000"
+                android:angle="270"/>
+        </shape>
+    </item>
+    <item android:bottom="2dp">
+        <shape android:shape="rectangle" >
+            <solid android:color="#202020" />
+        </shape>
+    </item>
+
+</layer-list>

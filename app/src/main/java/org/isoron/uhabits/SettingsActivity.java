@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import org.isoron.uhabits.fragments.SettingsFragment;
+import org.isoron.uhabits.helpers.UIHelper;
 
 public class SettingsActivity extends Activity
 {
@@ -30,6 +31,9 @@ public class SettingsActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        UIHelper.applyCurrentTheme(this);
+
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();

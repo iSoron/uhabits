@@ -29,8 +29,8 @@ import android.widget.ProgressBar;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.BaseActivity;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
@@ -163,15 +163,20 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
             case R.id.action_color:
             {
-                ColorPickerDialog picker = ColorPickerDialog.newInstance(R.string.color_picker_default_title,
-                        ColorHelper.palette, firstHabit.color, 4, ColorPickerDialog.SIZE_SMALL);
+                int originalAndroidColor = ColorHelper.getColor(activity, firstHabit.color);
+
+                ColorPickerDialog picker = ColorPickerDialog.newInstance(
+                        R.string.color_picker_default_title, ColorHelper.getPalette(activity),
+                        originalAndroidColor, 4, ColorPickerDialog.SIZE_SMALL);
 
                 picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
                         {
-                            public void onColorSelected(int color)
+                            public void onColorSelected(int androidColor)
                             {
-                                activity.executeCommand(
-                                        new ChangeHabitColorCommand(selectedHabits, color), null);
+                                int paletteColor = ColorHelper.colorToPaletteIndex(activity,
+                                        androidColor);
+                                activity.executeCommand(new ChangeHabitColorCommand(selectedHabits,
+                                        paletteColor), null);
                                 mode.finish();
                             }
                         });

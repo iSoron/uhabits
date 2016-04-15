@@ -23,6 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
@@ -79,6 +80,6 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        setColor(habit.color);
+        setColor(ColorHelper.getColor(getContext(), habit.color));
     }
 }

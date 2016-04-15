@@ -22,7 +22,6 @@ package org.isoron.uhabits.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.Layout;
@@ -50,7 +49,8 @@ public class RingView extends View
 
     private float maxDiameter;
     private float textSize;
-    private int fadedTextColor;
+    private int textColor;
+    private int backgroundColor;
 
     public RingView(Context context)
     {
@@ -97,7 +97,8 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        fadedTextColor = getResources().getColor(R.color.fadedTextColor);
+        backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
         textSize = getResources().getDimension(R.dimen.smallTextSize);
 
         rect = new RectF();
@@ -136,14 +137,15 @@ public class RingView extends View
         rect.offset((width - diameter) / 2, 0);
         canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        pRing.setColor(Color.argb(255, 230, 230, 230));
+        int grey = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        pRing.setColor(grey);
         canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
 
-        pRing.setColor(Color.WHITE);
+        pRing.setColor(backgroundColor);
         rect.inset(thickness, thickness);
         canvas.drawArc(rect, -90, 360, true, pRing);
 
-        pRing.setColor(fadedTextColor);
+        pRing.setColor(textColor);
         pRing.setTextSize(textSize);
         float lineHeight = pRing.getFontSpacing();
         canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),

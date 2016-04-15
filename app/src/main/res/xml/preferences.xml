@@ -21,14 +21,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="behaviorCategory"
-        android:title="@string/behavior">
+        android:key="interfaceCategory"
+        android:title="@string/interface_preferences">
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_short_toggle"
             android:summary="@string/pref_toggle_description"
             android:title="@string/pref_toggle_title"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_pure_black"
+            android:summary="@string/pure_black_description"
+            android:title="@string/use_pure_black"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="reminderCategory"
+        android:title="@string/reminder">
 
         <ListPreference
             android:defaultValue="@string/snooze_interval_default"
