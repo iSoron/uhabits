@@ -180,7 +180,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
             colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.rgb(255, 255, 255);
+            textColor = Color.WHITE;
+            reverseTextColor = Color.WHITE;
         }
         else
         {
@@ -200,10 +201,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
-        pSquareBg.setColor(primaryColor);
 
         pSquareFg = new Paint();
-        pSquareFg.setColor(reverseTextColor);
         pSquareFg.setAntiAlias(true);
         pSquareFg.setTextAlign(Align.CENTER);
     }
@@ -293,6 +292,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else pSquareBg.setColor(colors[checkmarks[checkmarkOffset]]);
 
+        pSquareFg.setColor(reverseTextColor);
         canvas.drawRect(location, pSquareBg);
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(), location.centerY() + squareTextOffset, pSquareFg);

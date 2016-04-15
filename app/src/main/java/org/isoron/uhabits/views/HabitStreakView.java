@@ -143,7 +143,8 @@ public class HabitStreakView extends View implements HabitDataView
             colors[2] = Color.argb(213, red, green, blue);
             colors[1] = Color.argb(170, red, green, blue);
             colors[0] = Color.argb(128, red, green, blue);
-            textColor = Color.rgb(255, 255, 255);
+            textColor = Color.WHITE;
+            reverseTextColor = Color.WHITE;
         }
         else
         {
