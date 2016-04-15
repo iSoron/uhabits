@@ -45,7 +45,7 @@
                 android:id="@+id/buttonPickColor"
                 style="@style/dialogFormInputColor"
                 android:contentDescription="@string/color_picker_default_title"
-                android:src="@drawable/ic_action_color_light"/>
+                android:src="?dialogIconChangeColor"/>
         </LinearLayout>
 
         <EditText

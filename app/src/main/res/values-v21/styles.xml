@@ -46,6 +46,13 @@
         <item name="mediumContrastTextColor">@color/grey_500</item>
         <item name="lowContrastTextColor">@color/grey_300</item>
 
+        <item name="iconAdd">@drawable/ic_action_add_dark</item>
+        <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
+        <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
+
         <item name="aboutScreenColor">@color/blue_700</item>
     </style>
 
@@ -73,6 +80,13 @@
         <item name="highContrastReverseTextColor">@color/grey_900</item>
         <item name="mediumContrastReverseTextColor">@color/grey_700</item>
         <item name="lowContrastReverseTextColor">@color/grey_300</item>
+
+        <item name="iconAdd">@drawable/ic_action_add_dark</item>
+        <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
+        <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
 
         <item name="palette">@array/darkPalette</item>
 

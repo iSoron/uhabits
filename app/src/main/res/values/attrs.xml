@@ -35,6 +35,14 @@
     <attr name="mediumContrastReverseTextColor" format="reference"/>
     <attr name="lowContrastReverseTextColor" format="reference"/>
 
+    <attr name="iconAdd" format="reference"/>
+    <attr name="iconArchive" format="reference"/>
+    <attr name="iconChangeColor" format="reference"/>
+    <attr name="iconEdit" format="reference"/>
+    <attr name="iconUnarchive" format="reference"/>
+    <attr name="dialogIconChangeColor" format="reference"/>
+
+
     <!-- Pre-Lollipop -->
     <attr name="cardBackground" format="reference"/>
     <attr name="headerBackground" format="reference"/>

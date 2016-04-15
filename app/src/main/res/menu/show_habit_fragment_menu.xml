@@ -22,7 +22,7 @@
 
     <item
         android:id="@+id/action_edit_habit"
-        android:icon="@drawable/ic_action_edit_light"
+        android:icon="?iconEdit"
         android:title="@string/edit"
         android:showAsAction="ifRoom"/>
 

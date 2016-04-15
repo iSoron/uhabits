@@ -23,7 +23,7 @@
 
     <item
         android:id="@+id/action_add"
-        android:icon="@drawable/ic_action_add"
+        android:icon="?iconAdd"
         android:title="@string/add_habit"
         android:showAsAction="always"/>
 
