@@ -28,7 +28,6 @@ import org.isoron.uhabits.R;
 
 public class ColorHelper
 {
-
     public static int CSV_PALETTE[] =
     {
         Color.parseColor("#D32F2F"), // red
@@ -74,32 +73,11 @@ public class ColorHelper
 
     public static int getColor(Context context, int paletteColor)
     {
-
         if(context == null) throw new IllegalArgumentException("Context is null");
+
         int palette[] = getPalette(context);
         if(paletteColor < 0 || paletteColor >= palette.length)
-        {
-            // TODO: Write DB migration and change warnings to runtime exceptions
-            int androidColor = paletteColor;
-            paletteColor = -1;
-
-            Log.w("ColorHelper", "Invalid palette color detected. Trying to convert.");
-
-            for(int k = 0; k < CSV_PALETTE.length; k++)
-            {
-                if (CSV_PALETTE[k] == androidColor)
-                {
-                    paletteColor = k;
-                    break;
-                }
-            }
-
-            if(paletteColor < 0)
-            {
-                Log.w("ColorHelper", "Conversion failed. Returning default.");
-                paletteColor = 0;
-            }
-        }
+            throw new IllegalArgumentException(String.format("Invalid color: %d", paletteColor));
 
         return palette[paletteColor];
     }
