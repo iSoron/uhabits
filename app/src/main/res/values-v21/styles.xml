@@ -52,6 +52,7 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
+        <item name="dialogFormSpinnerTheme">@style/dialogFormSpinnerLight</item>
 
         <item name="aboutScreenColor">@color/blue_700</item>
     </style>
@@ -87,6 +88,7 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="dialogFormSpinnerTheme">@style/dialogFormSpinnerDark</item>
 
         <item name="palette">@array/darkPalette</item>
 

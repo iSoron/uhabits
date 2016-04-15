@@ -20,9 +20,6 @@
 <resources>
 
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
-        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
-        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
-
         <item name="selectedBackground">@drawable/selected_box_light</item>
         <item name="headerBackground">@drawable/habits_list_header_light_background</item>
         <item name="cardBackground">@drawable/card_light_background</item>
@@ -48,6 +45,7 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_light</item>
         <item name="iconChangeColor">@drawable/ic_action_color_light</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
+        <item name="dialogFormSpinnerTheme">@style/dialogFormSpinnerLight</item>
 
         <item name="aboutScreenColor">@color/blue_700</item>
     </style>
@@ -77,6 +75,7 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="dialogFormSpinnerTheme">@style/dialogFormSpinnerDark</item>
 
         <item name="palette">@array/darkPalette</item>
 

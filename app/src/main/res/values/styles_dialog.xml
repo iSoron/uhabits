@@ -77,7 +77,16 @@
         <item name="android:textColor">?mediumContrastTextColor</item>
     </style>
 
-    <style name="dialogFormSpinner" parent="android:Widget.DeviceDefault.Light.Spinner">
+    <style name="dialogFormSpinnerDark" parent="android:Widget.DeviceDefault.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
+        <item name="android:minWidth">400dp</item>
+        <item name="android:textColor">?highContrastTextColor</item>
+    </style>
+
+    <style name="dialogFormSpinnerLight" parent="android:Widget.DeviceDefault.Light.Spinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">12dp</item>
