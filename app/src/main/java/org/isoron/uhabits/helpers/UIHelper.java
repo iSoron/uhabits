@@ -208,6 +208,16 @@ public abstract class UIHelper
         return bool;
     }
 
+    static int getStyleResource(Context context, int attrId)
+    {
+        int[] attr = new int[] { attrId };
+        TypedArray array = context.obtainStyledAttributes(attr);
+        int resourceId = array.getResourceId(0, -1);
+        array.recycle();
+
+        return resourceId;
+    }
+
     public static void applyCurrentTheme(Activity activity)
     {
         switch(getCurrentTheme())

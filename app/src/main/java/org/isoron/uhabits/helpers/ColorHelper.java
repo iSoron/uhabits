@@ -20,9 +20,7 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.util.Log;
 
 import org.isoron.uhabits.R;
 
@@ -57,16 +55,8 @@ public class ColorHelper
 
     public static int[] getPalette(Context context)
     {
-        int[] attr = new int[] { R.attr.palette };
-        TypedArray array = context.obtainStyledAttributes(attr);
-        int resourceId = array.getResourceId(0, -1);
-        array.recycle();
-
-        if(resourceId < 0)
-        {
-            Log.w("ColorHelper", "could not find palette resource. Returning CSV palette");
-            return CSV_PALETTE;
-        }
+        int resourceId = UIHelper.getStyleResource(context, R.attr.palette);
+        if(resourceId < 0) return CSV_PALETTE;
 
         return context.getResources().getIntArray(resourceId);
     }
