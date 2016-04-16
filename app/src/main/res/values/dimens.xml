@@ -26,7 +26,7 @@
     <dimen name="history_max_font_size">@dimen/regularTextSize</dimen>
     <dimen name="regularTextSize">16sp</dimen>
     <dimen name="smallTextSize">14sp</dimen>
-    <dimen name="tinyTextSize">12sp</dimen>
+    <dimen name="tinyTextSize">10sp</dimen>
     <dimen name="habitNameWidth">160dp</dimen>
 
     <string-array name="snooze_interval_names">
