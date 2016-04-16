@@ -172,8 +172,10 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         columnWidth = Math.max(columnWidth, getMaxDayWidth() * 1.5f);
         columnWidth = Math.max(columnWidth, getMaxMonthWidth() * 1.2f);
 
-        columnHeight = 8 * baseSize;
         nColumns = (int) (width / columnWidth);
+        columnWidth = (float) width / nColumns;
+
+        columnHeight = 8 * baseSize;
 
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
@@ -246,7 +248,8 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
             int height = (int) (columnHeight * relativeScore);
 
             rect.set(0, 0, baseSize, baseSize);
-            rect.offset(k * columnWidth, paddingTop + columnHeight - height - columnWidth / 2);
+            rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,
+                    paddingTop + columnHeight - height - columnWidth / 2);
 
             if (!prevRect.isEmpty())
             {
