@@ -134,8 +134,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         setScrollerBucketSize((int) baseSize);
 
         squareSpacing = UIHelper.dpToPixels(getContext(), 1.0f);
-        float maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
-        float textSize = Math.min(baseSize * 0.5f, maxTextSize);
+        float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
+        float maxTextSize = getResources().getDimension(R.dimen.regularTextSize);
+        float textSize = height * 0.045f;
+        textSize = Math.max(Math.min(textSize, maxTextSize), minTextSize);
 
         pSquareFg.setTextSize(textSize);
         pTextHeader.setTextSize(textSize);
@@ -301,11 +303,13 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
     private void drawAxis(Canvas canvas, RectF location)
     {
+        float verticalOffset = pTextHeader.getFontSpacing() * 0.4f;
+
         for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT))
         {
             location.offset(0, columnWidth);
             canvas.drawText(day, location.left + headerTextOffset,
-                    location.bottom - headerTextOffset, pTextHeader);
+                    location.centerY() + verticalOffset, pTextHeader);
         }
     }
 

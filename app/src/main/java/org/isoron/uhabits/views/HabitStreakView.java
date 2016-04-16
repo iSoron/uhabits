@@ -111,10 +111,11 @@ public class HabitStreakView extends View implements HabitDataView
         maxStreakCount = height / baseSize;
         this.width = width;
 
-        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
-        float regularTextSize = Math.min(baseSize * 0.56f, maxTextSize);
+        float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
+        float maxTextSize = getResources().getDimension(R.dimen.regularTextSize);
+        float textSize = baseSize * 0.5f;
 
-        paint.setTextSize(regularTextSize);
+        paint.setTextSize(Math.max(Math.min(textSize, maxTextSize), minTextSize));
         em = paint.getFontSpacing();
         textMargin = 0.5f * em;
 
