@@ -45,7 +45,8 @@ import java.io.IOException;
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
 
-    private int width, height;
+    private int portraitWidth, portraitHeight;
+    private int landscapeWidth, landscapeHeight;
 
     protected abstract int getDefaultHeight();
 
@@ -132,7 +133,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             ImageView iv = (ImageView) view.findViewById(R.id.imageView);
             iv.setImageBitmap(widgetCache);
 
-            view.measure(width, height);
+            view.measure(portraitWidth, portraitHeight);
             view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
             view.setDrawingCacheEnabled(true);
             view.buildDrawingCache();
@@ -172,8 +173,11 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
         }
 
-        width = maxWidth;
-        height = maxHeight;
+        portraitWidth = minWidth;
+        portraitHeight = maxHeight;
+
+        landscapeWidth = maxWidth;
+        landscapeHeight = minHeight;
     }
 
     private void measureCustomView(Context context, int w, int h, View customView)
@@ -203,8 +207,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         private final Context context;
         private final Habit habit;
         private final AppWidgetManager manager;
-        public RemoteViews remoteViews;
-        public View widgetView;
+        public RemoteViews portraitRemoteViews, landscapeRemoteViews;
+        public View portraitWidgetView, landscapeWidgetView;
 
         public RenderWidgetTask(int widgetId, Context context, Habit habit,
                                 AppWidgetManager manager)
@@ -220,16 +224,31 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         {
             super.onPreExecute();
 
-            remoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
-            widgetView = buildCustomView(context, habit);
-            measureCustomView(context, width, height, widgetView);
-            manager.updateAppWidget(widgetId, remoteViews);
+            portraitRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
+            portraitWidgetView = buildCustomView(context, habit);
+            measureCustomView(context, portraitWidth, portraitHeight, portraitWidgetView);
+
+            landscapeRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
+            landscapeWidgetView = buildCustomView(context, habit);
+            measureCustomView(context, landscapeWidth, landscapeHeight, landscapeWidgetView);
+
+            updateAppWidget();
+        }
+
+        private void updateAppWidget()
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                manager.updateAppWidget(widgetId, new RemoteViews(landscapeRemoteViews,
+                        portraitRemoteViews));
+            else
+                manager.updateAppWidget(widgetId, portraitRemoteViews);
         }
 
         @Override
         protected void doInBackground()
         {
-            refreshCustomViewData(widgetView);
+            refreshCustomViewData(portraitWidgetView);
+            refreshCustomViewData(landscapeWidgetView);
         }
 
         @Override
@@ -237,20 +256,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         {
             try
             {
-                widgetView.invalidate();
-                widgetView.setDrawingCacheEnabled(true);
-                widgetView.buildDrawingCache(true);
-                Bitmap drawingCache = widgetView.getDrawingCache();
-                remoteViews.setTextViewText(R.id.label, habit.name);
-                remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
-
-                //savePreview(context, widgetId, drawingCache);
-
-                PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
-                if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView,
-                        onClickIntent);
-
-                manager.updateAppWidget(widgetId, remoteViews);
+                buildRemoteViews(portraitWidgetView, portraitRemoteViews);
+                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews);
+                updateAppWidget();
             }
             catch (Exception e)
             {
@@ -259,6 +267,22 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             }
 
             super.onPostExecute(aVoid);
+        }
+
+        private void buildRemoteViews(View widgetView, RemoteViews remoteViews)
+        {
+            widgetView.invalidate();
+            widgetView.setDrawingCacheEnabled(true);
+            widgetView.buildDrawingCache(true);
+            Bitmap drawingCache = widgetView.getDrawingCache();
+            remoteViews.setTextViewText(R.id.label, habit.name);
+            remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
+
+            //savePreview(context, widgetId, drawingCache);
+
+            PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
+            if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView,
+                    onClickIntent);
         }
     }
 }
