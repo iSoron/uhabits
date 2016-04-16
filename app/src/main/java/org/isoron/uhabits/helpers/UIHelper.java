@@ -32,7 +32,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -165,8 +164,6 @@ public abstract class UIHelper
                 "pt", "ru", "sv", "zh", "es", "fr" };
 
         final String currentLanguage = Locale.getDefault().getLanguage();
-
-        Log.d("UIHelper", String.format("lang=%s", currentLanguage));
 
         for(String lang : fullyTranslatedLanguages)
             if(currentLanguage.equals(lang)) return true;

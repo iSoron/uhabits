@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
@@ -88,8 +87,6 @@ public class HistoryEditorDialog extends DialogFragment
         int maxHeight = getResources().getDimensionPixelSize(R.dimen.history_editor_max_height);
         int width = metrics.widthPixels;
         int height = Math.min(metrics.heightPixels, maxHeight);
-
-        Log.d("HistoryEditorDialog", String.format("h=%d max_h=%d", height, maxHeight));
 
         getDialog().getWindow().setLayout(width, height);
     }
