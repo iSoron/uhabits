@@ -231,8 +231,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             landscapeRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
             landscapeWidgetView = buildCustomView(context, habit);
             measureCustomView(context, landscapeWidth, landscapeHeight, landscapeWidgetView);
-
-            updateAppWidget();
         }
 
         private void updateAppWidget()
