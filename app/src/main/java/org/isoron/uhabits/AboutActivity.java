@@ -20,15 +20,11 @@
 package org.isoron.uhabits;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.TextView;
 
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 
 public class AboutActivity extends BaseActivity implements View.OnClickListener
@@ -42,14 +38,8 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.about);
         setupSupportActionBar(true);
 
-        if (android.os.Build.VERSION.SDK_INT >= 21 && !UIHelper.isNightMode())
-        {
-            int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
-            int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
-            ActionBar actionBar = getSupportActionBar();
-            if(actionBar != null) actionBar.setBackgroundDrawable(new ColorDrawable(color));
-            getWindow().setStatusBarColor(darkerColor);
-        }
+        int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
+        setupActionBarColor(color);
 
         TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
         TextView tvRate = (TextView) findViewById(R.id.tvRate);

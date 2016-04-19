@@ -35,7 +35,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:preference-v7:23.2.1'
+    compile 'com.android.support:preference-v14:23.2.1'
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'

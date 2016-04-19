@@ -20,6 +20,8 @@
 package org.isoron.uhabits;
 
 import android.app.backup.BackupManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 
 import java.util.LinkedList;
@@ -161,5 +164,22 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
             androidExceptionHandler.uncaughtException(thread, ex);
         else
             System.exit(1);
+    }
+
+    protected void setupActionBarColor(int color)
+    {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+
+        if (!UIHelper.getStyledBoolean(this, R.attr.useHabitColorAsPrimary)) return;
+
+        ColorDrawable drawable = new ColorDrawable(color);
+        actionBar.setBackgroundDrawable(drawable);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
+            getWindow().setStatusBarColor(darkerColor);
+        }
     }
 }

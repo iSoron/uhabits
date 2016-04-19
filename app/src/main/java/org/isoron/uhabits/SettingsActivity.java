@@ -21,6 +21,8 @@ package org.isoron.uhabits;
 
 import android.os.Bundle;
 
+import org.isoron.uhabits.helpers.UIHelper;
+
 public class SettingsActivity extends BaseActivity
 {
     @Override
@@ -29,5 +31,8 @@ public class SettingsActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         setupSupportActionBar(true);
+
+        int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
+        setupActionBarColor(color);
     }
 }

@@ -20,15 +20,11 @@
 package org.isoron.uhabits;
 
 import android.content.ContentUris;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends BaseActivity
@@ -58,17 +54,7 @@ public class ShowHabitActivity extends BaseActivity
 
         actionBar.setTitle(habit.name);
 
-        if (!UIHelper.getStyledBoolean(this, R.attr.useHabitColorAsPrimary)) return;
-
-        int color = ColorHelper.getColor(this, habit.color);
-        ColorDrawable drawable = new ColorDrawable(color);
-        actionBar.setBackgroundDrawable(drawable);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
-            getWindow().setStatusBarColor(darkerColor);
-        }
+        setupActionBarColor(ColorHelper.getColor(this, habit.color));
     }
 
     public Habit getHabit()
