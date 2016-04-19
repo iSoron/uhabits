@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import org.isoron.uhabits.commands.Command;
@@ -132,7 +133,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         if(toolbar == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            toolbar.setElevation(UIHelper.dpToPixels(this, 6));
+            toolbar.setElevation(UIHelper.dpToPixels(this, 3));
 
         setSupportActionBar(toolbar);
 
@@ -181,5 +182,20 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
             int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
             getWindow().setStatusBarColor(darkerColor);
         }
+    }
+
+    @Override
+    protected void onPostResume()
+    {
+        super.onPostResume();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            hideFakeToolbarShadow();
+    }
+
+    protected void hideFakeToolbarShadow()
+    {
+        View view = findViewById(R.id.toolbarShadow);
+        if(view != null) view.setVisibility(View.GONE);
     }
 }
