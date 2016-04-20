@@ -42,7 +42,6 @@
     <attr name="iconUnarchive" format="reference"/>
     <attr name="dialogIconChangeColor" format="reference"/>
 
-    <attr name="dialogFormSpinnerTheme" format="reference"/>
     <attr name="toolbarPopupTheme" format="reference"/>
 
     <!-- Pre-Lollipop -->

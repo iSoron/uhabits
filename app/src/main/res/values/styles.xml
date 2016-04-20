@@ -21,9 +21,8 @@
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:dialogTheme">@style/MyDialogStyle</item>
-        <item name="android:alertDialogTheme">@style/MyDialogStyle</item>
-        <item name="android:spinnerItemStyle">@style/dialogFormSmallText</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
 
         <item name="selectedBackground">@drawable/selected_box_light</item>
         <item name="headerBackground">@drawable/habits_list_header_light_background</item>
@@ -54,8 +53,7 @@
         <item name="iconEdit">@drawable/ic_action_edit_dark</item>
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
-        <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
-        <item name="dialogFormSpinnerTheme">@style/dialogFormSpinnerLight</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="aboutScreenColor">@color/blue_800</item>
@@ -64,8 +62,8 @@
     <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:dialogTheme">@style/MyDialogStyleDark</item>
-        <item name="android:alertDialogTheme">@style/MyDialogStyleDark</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
 
         <item name="selectedBackground">@drawable/selected_box_dark</item>
         <item name="headerBackground">@drawable/habits_list_header_dark_background</item>
@@ -96,7 +94,6 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
-        <item name="dialogFormSpinnerTheme">@style/dialogFormSpinnerDark</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
 
         <item name="palette">@array/darkPalette</item>
@@ -207,16 +204,6 @@
         <item name="android:background">?colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="android:layout_alignParentTop">true</item>
-    </style>
-
-    <style name="MyDialogStyle" parent="@style/Theme.AppCompat.Light.Dialog">
-        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
-        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
-    </style>
-
-    <style name="MyDialogStyleDark" parent="@style/Theme.AppCompat.Dialog">
-        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
-        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
     </style>
 
     <style name="Preference.Category.Material">
