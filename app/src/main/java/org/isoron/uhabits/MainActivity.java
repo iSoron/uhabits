@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listHabitsFragment =
-                (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
+                (ListHabitsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment1);
 
         receiver = new Receiver();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);

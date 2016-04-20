@@ -159,7 +159,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
                 EditHabitDialogFragment
                         frag = EditHabitDialogFragment.editSingleHabitFragment(firstHabit.getId());
                 frag.setOnSavedListener(onSavedListener);
-                frag.show(activity.getFragmentManager(), "editHabit");
+                frag.show(activity.getSupportFragmentManager(), "editHabit");
                 return true;
             }
 
@@ -182,7 +182,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
                                 mode.finish();
                             }
                         });
-                picker.show(activity.getFragmentManager(), "picker");
+                picker.show(activity.getSupportFragmentManager(), "picker");
                 return true;
             }
 

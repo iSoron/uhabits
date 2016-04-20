@@ -20,11 +20,11 @@
 package org.isoron.uhabits.dialogs;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.DisplayMetrics;
 
 import org.isoron.uhabits.R;
@@ -32,7 +32,7 @@ import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitHistoryView;
 
-public class HistoryEditorDialog extends DialogFragment
+public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener
 {
     private Habit habit;

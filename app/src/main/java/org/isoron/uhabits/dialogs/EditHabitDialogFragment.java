@@ -20,10 +20,10 @@
 package org.isoron.uhabits.dialogs;
 
 import android.annotation.SuppressLint;
-import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +51,7 @@ import org.isoron.uhabits.models.Habit;
 
 import java.util.Arrays;
 
-public class EditHabitDialogFragment extends DialogFragment
+public class EditHabitDialogFragment extends AppCompatDialogFragment
         implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
         TimePickerDialog.OnTimeSetListener, Spinner.OnItemSelectedListener
 {
