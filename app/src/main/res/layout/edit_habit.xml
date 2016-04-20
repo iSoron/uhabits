@@ -22,7 +22,7 @@
     style="@style/dialogForm"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.isoron.uhabits.fragments.EditHabitFragment"
+    tools:context=".dialogs.EditHabitDialogFragment"
     tools:ignore="MergeRootFrame">
 
     <LinearLayout
@@ -61,11 +61,12 @@
                 style="@style/dialogFormLabel"
                 android:text="@string/repeat"/>
 
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/sFrequency"
-                style="?dialogFormSpinnerTheme"
+                android:theme="@style/dialogFormText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
+                android:minWidth="400dp"
                 android:entries="@array/frequencyQuickSelect"
                 android:visibility="gone"/>
 
@@ -111,7 +112,7 @@
 
             <TextView
                 android:id="@+id/inputReminderTime"
-                style="?dialogFormSpinnerTheme"/>
+                style="@style/dialogFormSpinner"/>
         </LinearLayout>
 
         <LinearLayout
@@ -125,7 +126,7 @@
 
             <TextView
                 android:id="@+id/inputReminderDays"
-                style="?dialogFormSpinnerTheme"/>
+                style="@style/dialogFormSpinner"/>
 
         </LinearLayout>
     </LinearLayout>

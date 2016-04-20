@@ -17,14 +17,21 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="org.isoron.uhabits.ShowHabitActivity"
-    tools:ignore="MergeRootFrame"
-    tools:menu="show_habit_activity_menu,show_habit_fragment_menu">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/container"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="org.isoron.uhabits.ShowHabitActivity"
+             tools:ignore="MergeRootFrame"
+             tools:menu="show_habit_activity_menu,show_habit_fragment_menu">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:popupTheme="?toolbarPopupTheme"
+
+        style="@style/Toolbar"/>
 
     <fragment
         android:id="@+id/fragment2"
@@ -32,6 +39,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/show_habit"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_below="@id/toolbar"/>
 
-</FrameLayout>
+    <View
+        android:id="@+id/toolbarShadow"
+        style="@style/ToolbarShadow"/>
+
+</RelativeLayout>

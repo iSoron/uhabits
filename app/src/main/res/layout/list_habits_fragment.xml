@@ -80,7 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_below="@id/header"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="@dimen/progressbarOffset"
         />
 
     <LinearLayout

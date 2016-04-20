@@ -17,13 +17,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.dialogs;
 
 import android.annotation.SuppressLint;
-import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +44,6 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.commands.EditHabitCommand;
-import org.isoron.uhabits.dialogs.WeekdayPickerDialog;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
@@ -52,7 +51,7 @@ import org.isoron.uhabits.models.Habit;
 
 import java.util.Arrays;
 
-public class EditHabitFragment extends DialogFragment
+public class EditHabitDialogFragment extends AppCompatDialogFragment
         implements OnClickListener, WeekdayPickerDialog.OnWeekdaysPickedListener,
         TimePickerDialog.OnTimeSetListener, Spinner.OnItemSelectedListener
 {
@@ -79,9 +78,9 @@ public class EditHabitFragment extends DialogFragment
     private SharedPreferences prefs;
     private boolean is24HourMode;
 
-    public static EditHabitFragment editSingleHabitFragment(long id)
+    public static EditHabitDialogFragment editSingleHabitFragment(long id)
     {
-        EditHabitFragment frag = new EditHabitFragment();
+        EditHabitDialogFragment frag = new EditHabitDialogFragment();
         Bundle args = new Bundle();
         args.putLong("habitId", id);
         args.putInt("editMode", EDIT_MODE);
@@ -89,9 +88,9 @@ public class EditHabitFragment extends DialogFragment
         return frag;
     }
 
-    public static EditHabitFragment createHabitFragment()
+    public static EditHabitDialogFragment createHabitFragment()
     {
-        EditHabitFragment frag = new EditHabitFragment();
+        EditHabitDialogFragment frag = new EditHabitDialogFragment();
         Bundle args = new Bundle();
         args.putInt("editMode", CREATE_MODE);
         frag.setArguments(args);

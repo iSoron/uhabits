@@ -27,13 +27,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -74,15 +77,30 @@ public class MainActivity extends BaseActivity
 
         setContentView(R.layout.list_habits_activity);
 
+        setupSupportActionBar(false);
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listHabitsFragment =
-                (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
+                (ListHabitsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment1);
 
         receiver = new Receiver();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(receiver, new IntentFilter(ACTION_REFRESH));
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            onPreLollipopStartup();
+
         onStartup();
+    }
+
+    private void onPreLollipopStartup()
+    {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+        if(UIHelper.isNightMode()) return;
+
+        int color = getResources().getColor(R.color.grey_900);
+        actionBar.setBackgroundDrawable(new ColorDrawable(color));
     }
 
     private void onStartup()
@@ -123,6 +141,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        menu.clear();
         getMenuInflater().inflate(R.menu.list_habits_menu, menu);
 
         MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);

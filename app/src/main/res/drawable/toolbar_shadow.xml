@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
@@ -17,9 +18,11 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      tools:context="org.isoron.uhabits.MainActivity">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
 
-</menu>
+    <gradient android:startColor="@android:color/transparent"
+              android:endColor="@color/black"
+              android:angle="90"/>
+
+</shape>

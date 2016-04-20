@@ -17,27 +17,27 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout android:id="@+id/container"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="org.isoron.uhabits.MainActivity"
-                tools:ignore="MergeRootFrame">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/container"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="org.isoron.uhabits.SettingsActivity"
+             tools:ignore="MergeRootFrame">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/Toolbar"
-        app:popupTheme="?toolbarPopupTheme"/>
+        app:popupTheme="?toolbarPopupTheme"
+        style="@style/Toolbar"/>
 
     <fragment
-        android:id="@+id/fragment1"
-        android:name="org.isoron.uhabits.fragments.ListHabitsFragment"
+        android:id="@+id/fragment"
+        android:name="org.isoron.uhabits.fragments.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        tools:layout="@layout/list_habits_fragment"/>
+        android:layout_gravity="center"
+        android:layout_below="@id/toolbar"/>
 
     <View
         android:id="@+id/toolbarShadow"

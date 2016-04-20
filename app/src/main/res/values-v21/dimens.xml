@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
@@ -17,9 +18,6 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      tools:context="org.isoron.uhabits.MainActivity">
-
-</menu>
+<resources>
+    <dimen name="progressbarOffset">-6dp</dimen>
+</resources>

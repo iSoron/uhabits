@@ -19,15 +19,12 @@
 
 package org.isoron.uhabits;
 
-import android.app.ActionBar;
 import android.content.ContentUris;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 
 import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 
 public class ShowHabitActivity extends BaseActivity
@@ -41,26 +38,23 @@ public class ShowHabitActivity extends BaseActivity
 
         Uri data = getIntent().getData();
         habit = Habit.get(ContentUris.parseId(data));
-        ActionBar actionBar = getActionBar();
-
-        if(actionBar != null && getHabit() != null)
-        {
-            actionBar.setTitle(getHabit().name);
-
-            if (android.os.Build.VERSION.SDK_INT >= 21 &&
-                    UIHelper.getStyledBoolean(this, R.attr.useHabitColorAsPrimary))
-            {
-                int androidColor = ColorHelper.getColor(this, getHabit().color);
-                ColorDrawable drawable = new ColorDrawable(androidColor);
-                actionBar.setBackgroundDrawable(drawable);
-
-                int color = ColorHelper.getColor(this, habit.color);
-                int darkerHabitColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
-                getWindow().setStatusBarColor(darkerHabitColor);
-            }
-        }
 
         setContentView(R.layout.show_habit_activity);
+
+        setupSupportActionBar(true);
+        setupHabitActionBar();
+    }
+
+    private void setupHabitActionBar()
+    {
+        if(habit == null) return;
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+
+        actionBar.setTitle(habit.name);
+
+        setupActionBarColor(ColorHelper.getColor(this, habit.color));
     }
 
     public Habit getHabit()

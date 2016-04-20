@@ -22,15 +22,15 @@ package org.isoron.uhabits.fragments;
 import android.app.backup.BackupManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.UIHelper;
 
-public class SettingsFragment extends PreferenceFragment
+public class SettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     @Override
@@ -46,6 +46,12 @@ public class SettingsFragment extends PreferenceFragment
 
         if(UIHelper.isLocaleFullyTranslated())
             removePreference("translate", "linksCategory");
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle bundle, String s)
+    {
+
     }
 
     private void removePreference(String preferenceKey, String categoryKey)
