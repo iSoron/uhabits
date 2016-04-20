@@ -59,6 +59,11 @@
         <item name="aboutScreenColor">@color/blue_800</item>
     </style>
 
+    <style name="SmallSpinner">
+        <item name="android:textColor">?mediumContrastTextColor</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+    </style>
+
     <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="windowActionModeOverlay">true</item>

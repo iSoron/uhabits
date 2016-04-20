@@ -61,15 +61,15 @@
             style="@style/Card"
             android:gravity="center">
 
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/sStrengthInterval"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
                 android:entries="@array/strengthIntervalNames"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:minWidth="100dp"
+                android:theme="@style/SmallSpinner"
                 />
 
             <TextView
