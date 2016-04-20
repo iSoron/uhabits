@@ -20,9 +20,12 @@
 <resources>
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="windowActionModeOverlay">true</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/blue_grey_700</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="selectedBackground">@drawable/selected_box_light</item>
         <item name="headerBackground">@drawable/habits_list_header_light_background</item>
@@ -66,9 +69,11 @@
 
     <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="windowActionModeOverlay">true</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/grey_800</item>
 
         <item name="selectedBackground">@drawable/selected_box_dark</item>
         <item name="headerBackground">@drawable/habits_list_header_dark_background</item>
