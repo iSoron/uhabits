@@ -80,8 +80,8 @@ public class ViewTest extends BaseTest
 
         if(!similarEnough)
         {
-            saveBitmap(expectedImagePath, ".scaledExpected", scaledExpected);
-            String path = saveBitmap(expectedImagePath, ".actual", actual);
+            saveBitmap(expectedImagePath, ".expected", scaledExpected);
+            String path = saveBitmap(expectedImagePath, "", actual);
             errorMessage.append(String.format("Actual rendered image " + "saved to %s", path));
             fail(errorMessage.toString());
         }

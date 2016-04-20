@@ -48,6 +48,8 @@ public class BaseTest
         }
 
         targetContext = InstrumentationRegistry.getTargetContext();
+        targetContext.setTheme(R.style.AppBaseTheme);
+
         testContext = InstrumentationRegistry.getContext();
 
         DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
