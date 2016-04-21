@@ -140,6 +140,7 @@
     <string name="every_week">Every week</string>
     <string name="two_times_per_week">2 times per week</string>
     <string name="five_times_per_week">5 times per week</string>
+
     <string name="custom_frequency">Custom …</string>
     <string name="help">Help &amp; FAQ</string>
     <string name="could_not_export">Failed to export data.</string>
@@ -160,4 +161,10 @@
     <string name="use_pure_black">Pure black for night mode</string>
     <string name="pure_black_description">Use pure black instead of grey backgrounds in night mode. Reduces battery usage in phones with AMOLED display.</string>
     <string name="interface_preferences">Interface</string>
+
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="quarter">Quarter</string>
+    <string name="year">Year</string>
 </resources>
