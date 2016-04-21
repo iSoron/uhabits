@@ -155,4 +155,9 @@
 <string name="bug_report_failed">"Ошибка генерации отчёта об ошибке."</string>
 <string name="generate_bug_report">"Сгенерировать отчёт об ошибке"</string>
 <string name="troubleshooting">"Устранение неполадок"</string>
+    <string name="week">Неделя</string>
+    <string name="year">Год</string>
+    <string name="quarter">Квартал</string>
+    <string name="month">Месяц</string>
+    <string name="day">День</string>
 </resources>
