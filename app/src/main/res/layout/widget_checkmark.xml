@@ -18,32 +18,47 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/frame"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:habit="http://isoron.org/android"
     android:gravity="center"
-    android:padding="0dp">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <org.isoron.uhabits.views.RingView
+        android:id="@+id/scoreRing"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        habit:percentage="0.25"
+        habit:thickness="2"
+        habit:textSize="16"
+        habit:color="@color/white"
+        habit:inactiveColor="@color/white"
+        habit:enableFontAwesome="true"
+        habit:text="@string/fa_check"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"/>
 
-    <FrameLayout
-        android:id="@+id/buttonOverlay"
+    <TextView
+        android:id="@+id/label"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:gravity="center"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif-condensed"
+        android:breakStrategy="balanced" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/widget_button_background"
-            />
-    </FrameLayout>
-
-
-</RelativeLayout>
+</LinearLayout>

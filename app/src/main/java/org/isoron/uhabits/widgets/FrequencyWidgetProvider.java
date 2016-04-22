@@ -26,6 +26,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.GraphWidgetView;
 import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitFrequencyView;
 
@@ -34,8 +35,8 @@ public class FrequencyWidgetProvider extends BaseWidgetProvider
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitFrequencyView view = new HabitFrequencyView(context, null);
-        view.setIsBackgroundTransparent(true);
+        HabitFrequencyView dataView = new HabitFrequencyView(context);
+        GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;
     }
@@ -67,6 +68,6 @@ public class FrequencyWidgetProvider extends BaseWidgetProvider
     @Override
     protected int getLayoutId()
     {
-        return R.layout.widget_graph;
+        return R.layout.widget_wrapper;
     }
 }

@@ -18,29 +18,33 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
+<FrameLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_background"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="4dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/label"
+    <LinearLayout
+        android:id="@+id/innerFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#ffffff"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        tools:ignore="UselessParent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="?highContrastTextColor"/>
 
+    </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
