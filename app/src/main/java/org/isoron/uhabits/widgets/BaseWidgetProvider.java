@@ -254,8 +254,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         {
             try
             {
-                buildRemoteViews(portraitWidgetView, portraitRemoteViews);
-                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews);
+                buildRemoteViews(portraitWidgetView, portraitRemoteViews, portraitWidth, portraitHeight);
+                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews, landscapeWidth, landscapeHeight);
                 updateAppWidget();
             }
             catch (Exception e)
@@ -267,7 +267,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             super.onPostExecute(aVoid);
         }
 
-        private void buildRemoteViews(View widgetView, RemoteViews remoteViews)
+        private void buildRemoteViews(View widgetView, RemoteViews remoteViews, int width, int height)
         {
             widgetView.invalidate();
             widgetView.setDrawingCacheEnabled(true);
@@ -276,11 +276,29 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             remoteViews.setTextViewText(R.id.label, habit.name);
             remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            {
+                int imageWidth = widgetView.getMeasuredWidth();
+                int imageHeight = widgetView.getMeasuredHeight();
+                int p[] = getPadding(width, height, imageWidth, imageHeight);
+
+                remoteViews.setViewPadding(R.id.buttonOverlay, p[0], p[1], p[2], p[3]);
+            }
+
             //savePreview(context, widgetId, drawingCache);
 
             PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
-            if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView,
+            if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.button,
                     onClickIntent);
         }
+    }
+
+    private int[] getPadding(int entireWidth, int entireHeight, int imageWidth,
+                             int imageHeight)
+    {
+        int w = (int) (((float) entireWidth - imageWidth) / 2);
+        int h = (int) (((float) entireHeight - imageHeight) / 2);
+
+        return new int[]{ w, h, w, h };
     }
 }
