@@ -198,7 +198,7 @@ public class ListHabitsHelper
         {
             View check = inflater.inflate(R.layout.list_habits_item_check, null);
             TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-            btCheck.setTypeface(UIHelper.getFontAwesome());
+            btCheck.setTypeface(UIHelper.getFontAwesome(context));
             btCheck.setOnLongClickListener(onLongClickListener);
             btCheck.setOnClickListener(onClickListener);
             btCheck.setHapticFeedbackEnabled(false);

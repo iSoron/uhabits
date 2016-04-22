@@ -48,8 +48,8 @@ public class RingView extends View
 
     private float thickness;
 
-    private int backgroundColor;
-    private int inactiveColor;
+    private Integer backgroundColor;
+    private Integer inactiveColor;
     private float em;
     private String text;
 
@@ -65,6 +65,10 @@ public class RingView extends View
 
         percentage = UIHelper.getFloatAttribute(context, attrs, "percentage", 0);
         precision = UIHelper.getFloatAttribute(context, attrs, "precision", 0.01f);
+
+        color = UIHelper.getColorAttribute(context, attrs, "color", 0);
+        backgroundColor = UIHelper.getColorAttribute(context, attrs, "backgroundColor", null);
+        inactiveColor = UIHelper.getColorAttribute(context, attrs, "inactiveColor", null);
 
         thickness = UIHelper.getFloatAttribute(context, attrs, "thickness", 0);
         thickness = UIHelper.dpToPixels(context, thickness);
@@ -83,6 +87,13 @@ public class RingView extends View
     public void setColor(int color)
     {
         this.color = color;
+        postInvalidate();
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor)
+    {
+        this.backgroundColor = backgroundColor;
         postInvalidate();
     }
 
@@ -117,10 +128,12 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+        if(backgroundColor == null)
+            backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
 
-        color = ColorHelper.CSV_PALETTE[6];
-        inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastTextColor);
+        if(inactiveColor == null)
+            inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastTextColor);
+
         inactiveColor = ColorHelper.setAlpha(inactiveColor, 0.1f);
 
         rect = new RectF();
@@ -161,12 +174,12 @@ public class RingView extends View
         {
             pRing.setColor(backgroundColor);
             rect.inset(thickness, thickness);
-            canvas.drawArc(rect, -90, 360, true, pRing);
+            canvas.drawArc(rect, 0, 360, true, pRing);
 
             pRing.setColor(color);
             pRing.setTextSize(textSize);
-            if(enableFontAwesome) pRing.setTypeface(UIHelper.getFontAwesome());
-            canvas.drawText(text, rect.centerX(), rect.centerY() + 0.5f * em, pRing);
+            if(enableFontAwesome) pRing.setTypeface(UIHelper.getFontAwesome(getContext()));
+            canvas.drawText(text, rect.centerX(), rect.centerY() + 0.4f * em, pRing);
         }
     }
 }

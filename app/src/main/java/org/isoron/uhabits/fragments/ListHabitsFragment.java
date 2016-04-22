@@ -122,7 +122,7 @@ public class ListHabitsFragment extends Fragment
         loader.setCheckmarkCount(helper.getButtonCount());
 
         llHint.setOnClickListener(this);
-        tvStarEmpty.setTypeface(UIHelper.getFontAwesome());
+        tvStarEmpty.setTypeface(UIHelper.getFontAwesome(activity));
 
         adapter = new HabitListAdapter(getActivity(), loader);
         adapter.setSelectedPositions(selectedPositions);

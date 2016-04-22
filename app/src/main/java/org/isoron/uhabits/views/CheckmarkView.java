@@ -20,184 +20,180 @@
 package org.isoron.uhabits.views;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.os.Build;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.Score;
 
-public class CheckmarkView extends View implements HabitDataView
+import java.util.Arrays;
+
+public class CheckmarkView extends FrameLayout implements HabitDataView
 {
-    private Paint pCard;
-    private Paint pIcon;
+    @Nullable
+    private InsetDrawable background;
 
-    private int primaryColor;
-    private int timesColor;
-    private int darkGrey;
+    @Nullable
+    private Paint backgroundPaint;
 
-    private int width;
-    private int height;
-    private float leftMargin;
-    private float topMargin;
-    private float padding;
-    private String label;
-
-    private String fa_check;
-    private String fa_times;
-
-    private int check_status;
-
-    private Rect rect;
-    private TextPaint textPaint;
-    private StaticLayout labelLayout;
+    @Nullable
     private Habit habit;
+
+    private int activeColor;
+    private float percentage;
+
+    @Nullable
+    private String name;
+
+    @Nullable
+    private RingView ring;
+    private ViewGroup frame;
+    private TextView label;
+    private int checkmarkValue;
+    private int inactiveColor;
 
     public CheckmarkView(Context context)
     {
         super(context);
-        init(context);
+        init();
     }
 
     public CheckmarkView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init(context);
+        init();
     }
 
-    private void init(Context context)
+    private void init()
     {
-        Typeface fontawesome =
-                Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
+        inflate(getContext(), R.layout.widget_checkmark_inner, this);
 
-        pCard = new Paint();
-        pCard.setAntiAlias(true);
+        int shadowRadius = (int) UIHelper.dpToPixels(getContext(), 2);
+        int shadowOffset = (int) UIHelper.dpToPixels(getContext(), 1);
+        int shadowColor = Color.argb(96, 0, 0, 0);
 
-        pIcon = new Paint();
-        pIcon.setAntiAlias(true);
-        pIcon.setTypeface(fontawesome);
-        pIcon.setTextAlign(Paint.Align.CENTER);
+        float cornerRadius = UIHelper.dpToPixels(getContext(), 5);
+        float[] radii = new float[8];
+        Arrays.fill(radii, cornerRadius);
 
-        textPaint = new TextPaint();
-        textPaint.setColor(Color.WHITE);
-        textPaint.setAntiAlias(true);
+        RoundRectShape shape = new RoundRectShape(radii, null, null);
+        ShapeDrawable innerDrawable = new ShapeDrawable(shape);
 
-        fa_check = context.getString(R.string.fa_check);
-        fa_times = context.getString(R.string.fa_times);
+        int insetLeftTop = Math.max(shadowRadius - shadowOffset, 0);
+        int insetRightBottom = shadowRadius + shadowOffset;
 
-        primaryColor = ColorHelper.getColor(getContext(), 10);
-        timesColor = Color.argb(128, 255, 255, 255);
-        darkGrey = Color.argb(64, 0, 0, 0);
+        background = new InsetDrawable(innerDrawable, insetLeftTop, insetLeftTop, insetRightBottom,
+                insetRightBottom);
+        backgroundPaint = innerDrawable.getPaint();
+        backgroundPaint.setAlpha(100);
 
-        rect = new Rect();
-        check_status = 0;
-        label = "Habit";
-    }
+        if (backgroundPaint != null)
+            backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset, shadowColor);
 
-    public void setHabit(Habit habit)
-    {
-        this.habit = habit;
+        ring = (RingView) findViewById(R.id.scoreRing);
+        frame = (ViewGroup) findViewById(R.id.frame);
+        label = (TextView) findViewById(R.id.label);
+
+        inactiveColor = ColorHelper.CSV_PALETTE[11];
+
+        if(isInEditMode())
+        {
+            percentage = 0.75f;
+            name = "Wake up early";
+            activeColor = ColorHelper.CSV_PALETTE[6];
+            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
+            refresh();
+        }
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
+    public void setHabit(@NonNull Habit habit)
     {
-        super.onDraw(canvas);
-
-        drawBackground(canvas);
-        drawCheckmark(canvas);
-        drawLabel(canvas);
+        this.habit = habit;
+        this.activeColor = ColorHelper.getColor(getContext(), habit.color);
+        refresh();
+        postInvalidate();
     }
 
-    private void drawBackground(Canvas canvas)
+    public void refresh()
     {
-        int color = (check_status == 2 ? primaryColor : darkGrey);
+        if (backgroundPaint == null || frame == null || ring == null) return;
 
-        pCard.setColor(color);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            canvas.drawRoundRect(leftMargin, topMargin, width - leftMargin, height - topMargin, padding,
-                    padding, pCard);
-        else
-            canvas.drawRect(leftMargin, topMargin, width - leftMargin, height - topMargin, pCard);
-    }
+        String text;
+        int color;
+        switch (checkmarkValue)
+        {
+            case Checkmark.CHECKED_EXPLICITLY:
+                text = getResources().getString(R.string.fa_check);
+                color = activeColor;
+                break;
 
-    private void drawCheckmark(Canvas canvas)
-    {
-        String text = (check_status == 0 ? fa_times : fa_check);
-        int color = (check_status == 2 ? Color.WHITE : timesColor);
+            case Checkmark.CHECKED_IMPLICITLY:
+                text = getResources().getString(R.string.fa_check);
+                color = inactiveColor;
+                break;
 
-        pIcon.setColor(color);
-        pIcon.setTextSize(width * 0.5f);
-        pIcon.getTextBounds(text, 0, 1, rect);
+            case Checkmark.UNCHECKED:
+            default:
+                text = getResources().getString(R.string.fa_times);
+                color = inactiveColor;
+                break;
+        }
 
-        int y = (int) ((0.67f * height - rect.bottom - rect.top) / 2);
-        canvas.drawText(text, width / 2, y, pIcon);
-    }
+        backgroundPaint.setColor(color);
+        frame.setBackgroundDrawable(background);
 
-    private void drawLabel(Canvas canvas)
-    {
-        canvas.save();
-        float y;
-        int nLines = labelLayout.getLineCount();
+        ring.setPercentage(percentage);
+        ring.setPrecision(0.125f);
+        ring.setColor(Color.WHITE);
+        ring.setBackgroundColor(color);
+        ring.setText(text);
 
-        if(nLines == 1)
-            y = height * 0.8f - padding;
-        else
-            y = height * 0.7f - padding;
+        label.setText(name);
 
-        canvas.translate(leftMargin + padding, y);
-
-        labelLayout.draw(canvas);
-        canvas.restore();
+        postInvalidate();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        setMeasuredDimension(width, (int) (width * 1.25));
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        float w = width;
+        float h = width * 1.25f;
+        float scale = Math.min(width / w, height / h);
+
+        w *= scale;
+        h *= scale;
+
+        widthMeasureSpec = MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
-    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight)
-    {
-        this.width = getMeasuredWidth();
-        this.height = getMeasuredHeight();
-
-        leftMargin = (width * 0.015f);
-        topMargin =  (height * 0.015f);
-        padding = 8 * leftMargin;
-        textPaint.setTextSize(0.15f * width);
-
-        updateLabel();
-    }
-
     public void refreshData()
     {
-        this.check_status = habit.checkmarks.getTodayValue();
-        int color = ColorHelper.getColor(getContext(), habit.color);
-        this.primaryColor = Color.argb(230, Color.red(color), Color.green(color),
-                Color.blue(color));
-        this.label = habit.name;
+        if(habit == null) return;
+        this.name = habit.name;
+        this.percentage = (float) habit.scores.getTodayValue() / Score.MAX_VALUE;
+        this.checkmarkValue = habit.checkmarks.getTodayValue();
 
-        updateLabel();
+        refresh();
         postInvalidate();
-    }
-
-    private void updateLabel()
-    {
-        textPaint.setColor(Color.WHITE);
-        labelLayout = new StaticLayout(label, textPaint,
-                (int) (width - 2 * leftMargin - 2 * padding),
-                Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
     }
 }

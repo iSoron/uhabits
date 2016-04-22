@@ -57,15 +57,10 @@ public abstract class UIHelper
         void onSaved(Command command, Object savedObject);
     }
 
-    public static Typeface getFontAwesome()
+    public static Typeface getFontAwesome(Context context)
     {
         if(fontAwesome == null)
-        {
-            Context context = HabitsApplication.getContext();
-            if(context == null) throw new RuntimeException("Could not find application context");
-
             fontAwesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
-        }
 
         return fontAwesome;
     }
@@ -104,6 +99,14 @@ public abstract class UIHelper
 
         String value = attrs.getAttributeValue(ISORON_NAMESPACE, name);
         if(value != null) return value;
+        else return defaultValue;
+    }
+
+    public static Integer getColorAttribute(Context context, AttributeSet attrs, String name,
+                                          Integer defaultValue)
+    {
+        int resId = attrs.getAttributeResourceValue(ISORON_NAMESPACE, name, 0);
+        if (resId != 0) return context.getResources().getColor(resId);
         else return defaultValue;
     }
 
