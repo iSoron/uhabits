@@ -123,9 +123,9 @@ public class CheckmarkView extends FrameLayout implements HabitDataView
     public void setHabit(@NonNull Habit habit)
     {
         this.habit = habit;
+        this.name = habit.name;
         this.activeColor = ColorHelper.getColor(getContext(), habit.color);
         refresh();
-        postInvalidate();
     }
 
     public void refresh()
@@ -164,6 +164,7 @@ public class CheckmarkView extends FrameLayout implements HabitDataView
 
         label.setText(name);
 
+        requestLayout();
         postInvalidate();
     }
 
@@ -189,11 +190,9 @@ public class CheckmarkView extends FrameLayout implements HabitDataView
     public void refreshData()
     {
         if(habit == null) return;
-        this.name = habit.name;
         this.percentage = (float) habit.scores.getTodayValue() / Score.MAX_VALUE;
         this.checkmarkValue = habit.checkmarks.getTodayValue();
 
         refresh();
-        postInvalidate();
     }
 }
