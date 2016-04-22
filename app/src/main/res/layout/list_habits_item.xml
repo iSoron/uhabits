@@ -19,16 +19,22 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llOuter"
-    style="@style/ListHabits.Item">
+              xmlns:habit="http://isoron.org/android"
+              android:id="@+id/llOuter"
+              style="@style/ListHabits.Item">
 
     <LinearLayout
         android:id="@+id/llInner"
         style="@style/ListHabits.HabitCard">
 
-        <TextView
-            android:id="@+id/tvStar"
-            style="@style/ListHabits.Star" />
+        <org.isoron.uhabits.views.RingView
+            android:layout_height="15dp"
+            android:layout_width="15dp"
+            android:id="@+id/scoreRing"
+            habit:thickness="3"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="8dp"/>
 
         <TextView
             android:id="@+id/label"

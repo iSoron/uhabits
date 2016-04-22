@@ -24,33 +24,34 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.text.Layout;
-import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 
 public class RingView extends View
 {
+    private float precision;
+    private boolean enableFontAwesome;
+
     private int color;
     private float percentage;
-    private float labelMarginTop;
     private TextPaint pRing;
-    private String label;
     private RectF rect;
-    private StaticLayout labelLayout;
 
-    private int width;
-    private int height;
-    private float diameter;
+    private int diameter;
 
-    private float maxDiameter;
     private float textSize;
-    private int textColor;
+
+    private float thickness;
+
     private int backgroundColor;
+    private int inactiveColor;
+    private float em;
+    private String text;
 
     public RingView(Context context)
     {
@@ -62,9 +63,20 @@ public class RingView extends View
     {
         super(context, attrs);
 
-        this.label = UIHelper.getAttribute(context, attrs, "label", "Label");
-        this.maxDiameter = UIHelper.getFloatAttribute(context, attrs, "maxDiameter", 100);
-        this.maxDiameter = UIHelper.dpToPixels(context, maxDiameter);
+        percentage = UIHelper.getFloatAttribute(context, attrs, "percentage", 0);
+        precision = UIHelper.getFloatAttribute(context, attrs, "precision", 0.01f);
+
+        thickness = UIHelper.getFloatAttribute(context, attrs, "thickness", 0);
+        thickness = UIHelper.dpToPixels(context, thickness);
+
+        float defaultTextSize = context.getResources().getDimension(R.dimen.smallTextSize);
+        textSize = UIHelper.getFloatAttribute(context, attrs, "textSize", defaultTextSize);
+        textSize = UIHelper.spToPixels(context, textSize);
+
+        text = UIHelper.getAttribute(context, attrs, "text", "");
+
+        enableFontAwesome = UIHelper.getBooleanAttribute(context, attrs, "enableFontAwesome", false);
+
         init();
     }
 
@@ -74,19 +86,27 @@ public class RingView extends View
         postInvalidate();
     }
 
-    public void setMaxDiameter(float maxDiameter)
-    {
-        this.maxDiameter = maxDiameter;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
-    }
-
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
+        postInvalidate();
+    }
+
+    public void setPrecision(float precision)
+    {
+        this.precision = precision;
+        postInvalidate();
+    }
+
+    public void setThickness(float thickness)
+    {
+        this.thickness = thickness;
+        postInvalidate();
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
         postInvalidate();
     }
 
@@ -98,8 +118,10 @@ public class RingView extends View
         pRing.setTextAlign(Paint.Align.CENTER);
 
         backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
-        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-        textSize = getResources().getDimension(R.dimen.smallTextSize);
+
+        color = ColorHelper.CSV_PALETTE[6];
+        inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastTextColor);
+        inactiveColor = ColorHelper.setAlpha(inactiveColor, 0.1f);
 
         rect = new RectF();
     }
@@ -110,48 +132,41 @@ public class RingView extends View
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        width = MeasureSpec.getSize(widthMeasureSpec);
-        height = MeasureSpec.getSize(heightMeasureSpec);
-
-        diameter = Math.min(maxDiameter, width);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        diameter = Math.min(height, width);
 
         pRing.setTextSize(textSize);
-        labelMarginTop = textSize * 0.80f;
-        labelLayout = new StaticLayout(label, pRing, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
-                false);
+        em = pRing.measureText("M");
 
-        width = Math.max(width, labelLayout.getWidth());
-        height = (int) (diameter + labelLayout.getHeight() + labelMarginTop);
-
-        setMeasuredDimension(width, height);
+        setMeasuredDimension(diameter, diameter);
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        float thickness = diameter * 0.15f;
 
         pRing.setColor(color);
         rect.set(0, 0, diameter, diameter);
-        rect.offset((width - diameter) / 2, 0);
-        canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        int grey = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-        pRing.setColor(grey);
-        canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
+        float angle = 360 * Math.round(percentage / precision) * precision;
 
-        pRing.setColor(backgroundColor);
-        rect.inset(thickness, thickness);
-        canvas.drawArc(rect, -90, 360, true, pRing);
+        canvas.drawArc(rect, -90, angle, true, pRing);
 
-        pRing.setColor(textColor);
-        pRing.setTextSize(textSize);
-        float lineHeight = pRing.getFontSpacing();
-        canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
-                rect.centerY() + lineHeight / 3, pRing);
-        pRing.setTextSize(textSize);
-        canvas.translate(width / 2, diameter + labelMarginTop);
-        labelLayout.draw(canvas);
+        pRing.setColor(inactiveColor);
+        canvas.drawArc(rect, angle - 90, 360 - angle, true, pRing);
+
+        if(thickness > 0)
+        {
+            pRing.setColor(backgroundColor);
+            rect.inset(thickness, thickness);
+            canvas.drawArc(rect, -90, 360, true, pRing);
+
+            pRing.setColor(color);
+            pRing.setTextSize(textSize);
+            if(enableFontAwesome) pRing.setTypeface(UIHelper.getFontAwesome());
+            canvas.drawText(text, rect.centerX(), rect.centerY() + 0.5f * em, pRing);
+        }
     }
 }

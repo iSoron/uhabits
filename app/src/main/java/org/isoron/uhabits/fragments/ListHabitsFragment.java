@@ -61,6 +61,7 @@ import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
@@ -121,7 +122,7 @@ public class ListHabitsFragment extends Fragment
         loader.setCheckmarkCount(helper.getButtonCount());
 
         llHint.setOnClickListener(this);
-        tvStarEmpty.setTypeface(helper.getFontawesome());
+        tvStarEmpty.setTypeface(UIHelper.getFontAwesome());
 
         adapter = new HabitListAdapter(getActivity(), loader);
         adapter.setSelectedPositions(selectedPositions);

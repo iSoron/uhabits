@@ -112,6 +112,12 @@ public class ColorHelper
         return setHSVParameter(color, newValue, 2);
     }
 
+    public static int setAlpha(int color, float newAlpha)
+    {
+        int intAlpha = (int) (newAlpha * 255);
+        return Color.argb(intAlpha, Color.red(color), Color.green(color), Color.blue(color));
+    }
+
     public static int setMinValue(int color, float newValue)
     {
         float hsv[] = new float[3];

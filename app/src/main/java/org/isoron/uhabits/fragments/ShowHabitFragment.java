@@ -166,6 +166,7 @@ public class ShowHabitFragment extends Fragment
         int androidColor = ColorHelper.getColor(getActivity(), habit.color);
         scoreRing.setColor(androidColor);
         scoreRing.setPercentage(percentage);
+        scoreRing.setText(String.format("%.0f%%", 100 * percentage));
     }
 
     private void updateHeaders(View view)

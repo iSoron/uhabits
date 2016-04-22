@@ -42,10 +42,10 @@ public class RingViewTest extends ViewTest
         super.setup();
 
         view = new RingView(targetContext);
-        view.setLabel("Hello world");
+//        view.setLabel("Hello world");
         view.setPercentage(0.6f);
         view.setColor(ColorHelper.CSV_PALETTE[0]);
-        view.setMaxDiameter(dpToPixels(100));
+//        view.setMaxDiameter(dpToPixels(100));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RingViewTest extends ViewTest
     @Test
     public void testRender_withLongLabel() throws IOException
     {
-        view.setLabel("The quick brown fox jumps over the lazy fox");
+//        view.setLabel("The quick brown fox jumps over the lazy fox");
 
         measureView(dpToPixels(100), dpToPixels(100), view);
         assertRenders(view, "RingView/renderLongLabel.png");
@@ -67,9 +67,9 @@ public class RingViewTest extends ViewTest
     @Test
     public void testRender_withDifferentParams() throws IOException
     {
-        view.setLabel("Habit Strength");
+//        view.setLabel("Habit Strength");
         view.setPercentage(0.25f);
-        view.setMaxDiameter(dpToPixels(50));
+//        view.setMaxDiameter(dpToPixels(50));
         view.setColor(ColorHelper.CSV_PALETTE[5]);
 
         measureView(dpToPixels(200), dpToPixels(200), view);

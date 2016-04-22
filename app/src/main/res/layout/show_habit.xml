@@ -18,7 +18,7 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://isoron.org/android"
+            xmlns:habit="http://isoron.org/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -43,15 +43,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <org.isoron.uhabits.views.RingView
                     android:id="@+id/scoreRing"
-                    style="@style/SmallDataView"
-                    android:layout_width="100dp"
-                    app:label="@string/strength"
-                    app:maxDiameter="80"
-                    app:textSize="@dimen/smallTextSize"/>
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    habit:percentage="0"
+                    habit:thickness="10"
+                    habit:textSize="12"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/habit_strength"
+                    android:textSize="@dimen/smallTextSize"
+                    android:textColor="?mediumContrastTextColor"/>
 
             </LinearLayout>
 
