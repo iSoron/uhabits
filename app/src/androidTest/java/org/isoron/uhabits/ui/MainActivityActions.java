@@ -20,9 +20,8 @@
 package org.isoron.uhabits.ui;
 
 import android.support.test.espresso.NoMatchingViewException;
-import android.view.View;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 
-import org.hamcrest.Matcher;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -40,7 +39,7 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
-import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -59,9 +58,6 @@ import static org.isoron.uhabits.ui.HabitMatchers.withName;
 
 public class MainActivityActions
 {
-    private static final Matcher<View> OVERFLOW_BUTTON_MATCHER =
-            allOf(isCompletelyDisplayed(), withContentDescription("More options"));
-
     public static String addHabit()
     {
         return addHabit(false);
@@ -217,5 +213,13 @@ public class MainActivityActions
         }
 
         onView(withText(stringId)).perform(click());
+    }
+
+    public static void clickSettingsItem(String text)
+    {
+        onView(withClassName(containsString("RecyclerView")))
+                .perform(RecyclerViewActions.actionOnItem(
+                        hasDescendant(withText(containsString(text))),
+                        click()));
     }
 }

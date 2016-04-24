@@ -67,7 +67,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static org.isoron.uhabits.ui.HabitMatchers.isPreferenceWithText;
 import static org.isoron.uhabits.ui.HabitMatchers.withName;
 import static org.isoron.uhabits.ui.HabitViewActions.clickAtRandomLocations;
 import static org.isoron.uhabits.ui.HabitViewActions.toggleAllCheckmarks;
@@ -76,6 +75,7 @@ import static org.isoron.uhabits.ui.MainActivityActions.assertHabitExists;
 import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsDontExist;
 import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsExist;
 import static org.isoron.uhabits.ui.MainActivityActions.clickMenuItem;
+import static org.isoron.uhabits.ui.MainActivityActions.clickSettingsItem;
 import static org.isoron.uhabits.ui.MainActivityActions.deleteHabit;
 import static org.isoron.uhabits.ui.MainActivityActions.deleteHabits;
 import static org.isoron.uhabits.ui.MainActivityActions.selectHabit;
@@ -303,13 +303,13 @@ public class MainTest
         String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
         date = date.substring(0, date.length() - 2);
 
-        onData(isPreferenceWithText("Export full backup")).perform(click());
+        clickSettingsItem("Export full backup");
         intended(hasAction(Intent.ACTION_SEND));
 
         deleteHabit(name);
 
         clickMenuItem(R.string.settings);
-        onData(isPreferenceWithText("Import data")).perform(click());
+        clickSettingsItem("Import data");
 
         onData(allOf(is(instanceOf(String.class)), startsWith("Backups")))
                 .perform(click());
@@ -329,7 +329,7 @@ public class MainTest
     {
         addHabit();
         clickMenuItem(R.string.settings);
-        onData(isPreferenceWithText("Export as CSV")).perform(click());
+        clickSettingsItem("Export as CSV");
         intended(hasAction(Intent.ACTION_SEND));
     }
 
@@ -340,7 +340,7 @@ public class MainTest
     public void testGenerateBugReport()
     {
         clickMenuItem(R.string.settings);
-        onData(isPreferenceWithText("Generate bug report")).perform(click());
+        clickSettingsItem("Generate bug report");
         intended(hasAction(Intent.ACTION_SENDTO));
     }
 }
