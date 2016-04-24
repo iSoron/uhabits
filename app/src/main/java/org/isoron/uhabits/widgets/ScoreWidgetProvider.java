@@ -35,6 +35,7 @@ public class ScoreWidgetProvider extends BaseWidgetProvider
     protected View buildCustomView(Context context, Habit habit)
     {
         HabitScoreView dataView = new HabitScoreView(context);
+        dataView.setIsBackgroundTransparent(true);
         GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;

@@ -48,6 +48,22 @@
         <item>@color/grey_500</item>
     </array>
 
+    <array name="darkWidgetPalette">
+        <item>@color/red_900</item>
+        <item>@color/deep_orange_900</item>
+        <item>@color/yellow_900</item>
+        <item>@color/lime_800</item>
+        <item>@color/green_800</item>
+        <item>@color/teal_800</item>
+        <item>@color/cyan_800</item>
+        <item>@color/light_blue_800</item>
+        <item>@color/deep_purple_700</item>
+        <item>@color/purple_700</item>
+        <item>@color/pink_700</item>
+        <item>@color/black_aa</item>
+        <item>@color/black_aa</item>
+    </array>
+
     <!-- Time and Date picker -->
     <color name="circle_background">#f2f2f2</color>
     <color name="line_background">#cccccc</color>
@@ -355,4 +371,22 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+
+    <color name="black_ae">#ef000000</color>
+    <color name="black_ac">#cf000000</color>
+    <color name="black_aa">#af000000</color>
+    <color name="black_a8">#8f000000</color>
+    <color name="black_a6">#6f000000</color>
+    <color name="black_a4">#4f000000</color>
+    <color name="black_a2">#2f000000</color>
+    <color name="black_a0">#0f000000</color>
+
+    <color name="white_ae">#efffffff</color>
+    <color name="white_ac">#cfffffff</color>
+    <color name="white_aa">#afffffff</color>
+    <color name="white_a8">#8fffffff</color>
+    <color name="white_a6">#6fffffff</color>
+    <color name="white_a4">#4fffffff</color>
+    <color name="white_a2">#2fffffff</color>
+    <color name="white_a0">#0fffffff</color>
 </resources>

@@ -127,36 +127,17 @@ public class HabitStreakView extends View implements HabitDataView
         if(habit != null)
             this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
-        if(isBackgroundTransparent)
-        {
-            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
-            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
-        }
-
         int red = Color.red(primaryColor);
         int green = Color.green(primaryColor);
         int blue = Color.blue(primaryColor);
 
-        if(isBackgroundTransparent)
-        {
-            colors = new int[4];
-            colors[3] = primaryColor;
-            colors[2] = Color.argb(213, red, green, blue);
-            colors[1] = Color.argb(170, red, green, blue);
-            colors[0] = Color.argb(128, red, green, blue);
-            textColor = Color.WHITE;
-            reverseTextColor = Color.WHITE;
-        }
-        else
-        {
-            colors = new int[4];
-            colors[3] = primaryColor;
-            colors[2] = Color.argb(192, red, green, blue);
-            colors[1] = Color.argb(96, red, green, blue);
-            colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-            reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
-        }
+        colors = new int[4];
+        colors[3] = primaryColor;
+        colors[2] = Color.argb(192, red, green, blue);
+        colors[1] = Color.argb(96, red, green, blue);
+        colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
     }
 
     protected void createPaints()

@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
@@ -64,7 +63,7 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         ring = (RingView) findViewById(R.id.scoreRing);
         label = (TextView) findViewById(R.id.label);
 
-        inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+        inactiveColor = ColorHelper.CSV_PALETTE[11];
 
         if(isInEditMode())
         {
@@ -92,6 +91,7 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         String text;
         int backgroundColor;
         int foregroundColor;
+        float alpha;
 
         switch (checkmarkValue)
         {
@@ -99,24 +99,28 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
                 text = getResources().getString(R.string.fa_check);
                 backgroundColor = activeColor;
                 foregroundColor = Color.WHITE;
+                alpha = 1.0f;
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
                 backgroundColor = inactiveColor;
-                foregroundColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+                foregroundColor = ColorHelper.CSV_PALETTE[12];
+                alpha = 0.5f;
                 break;
 
             case Checkmark.UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
                 backgroundColor = inactiveColor;
-                foregroundColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+                foregroundColor = ColorHelper.CSV_PALETTE[12];
+                alpha = 0.5f;
                 break;
         }
 
         backgroundPaint.setColor(backgroundColor);
         frame.setBackgroundDrawable(background);
+        setAlpha(alpha);
 
         ring.setPercentage(percentage);
         ring.setPrecision(0.125f);
@@ -162,5 +166,11 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     protected Integer getInnerLayoutId()
     {
         return R.layout.widget_checkmark;
+    }
+
+    @Override
+    protected int getShadowAlpha()
+    {
+        return 0x4f;
     }
 }

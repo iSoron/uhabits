@@ -72,11 +72,11 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
     private void initBackground()
     {
         Context context = getContext();
-        context.setTheme(R.style.AppBaseThemeDark);
+        context.setTheme(R.style.DarkWidgetTheme);
 
         int shadowRadius = (int) UIHelper.dpToPixels(context, 2);
         int shadowOffset = (int) UIHelper.dpToPixels(context, 1);
-        int shadowColor = Color.argb(96, 0, 0, 0);
+        int shadowColor = Color.argb(getShadowAlpha(), 0, 0, 0);
 
         float cornerRadius = UIHelper.dpToPixels(context, 5);
         float[] radii = new float[8];
@@ -93,9 +93,15 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
         backgroundPaint = innerDrawable.getPaint();
         backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset, shadowColor);
         backgroundPaint.setColor(UIHelper.getStyledColor(context, R.attr.cardBackgroundColor));
+        backgroundPaint.setAlpha(0x1f);
 
         frame = (ViewGroup) findViewById(R.id.frame);
         frame.setBackgroundDrawable(background);
+    }
+
+    protected int getShadowAlpha()
+    {
+        return 0x2f;
     }
 
     @Override

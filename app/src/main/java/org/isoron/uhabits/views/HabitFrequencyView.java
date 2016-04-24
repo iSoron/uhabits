@@ -21,7 +21,6 @@ package org.isoron.uhabits.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -104,22 +103,10 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
             this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
         }
 
-        if (isBackgroundTransparent)
-        {
-            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
-            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
-
-            textColor = Color.argb(192, 255, 255, 255);
-            gridColor = Color.argb(128, 255, 255, 255);
-        }
-        else
-        {
-            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-            gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-        }
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
 
         colors = new int[4];
-
         colors[0] = gridColor;
         colors[3] = primaryColor;
         colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
