@@ -27,7 +27,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.ActionMode;
+import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.HapticFeedbackConstants;
@@ -285,7 +285,7 @@ public class ListHabitsFragment extends Fragment
             callback.setOnSavedListener(this);
             callback.setListener(this);
 
-            actionMode = getActivity().startActionMode(callback);
+            actionMode = activity.startSupportActionMode(callback);
         }
 
         if(actionMode != null) actionMode.invalidate();
@@ -381,6 +381,7 @@ public class ListHabitsFragment extends Fragment
         else loader.updateHabit(refreshKey);
     }
 
+    @Override
     public void onActionModeDestroyed(ActionMode mode)
     {
         actionMode = null;

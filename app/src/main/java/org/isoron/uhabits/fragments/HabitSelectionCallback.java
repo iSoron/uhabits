@@ -21,7 +21,7 @@ package org.isoron.uhabits.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.ActionMode;
+import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;

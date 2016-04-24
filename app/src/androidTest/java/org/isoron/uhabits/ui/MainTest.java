@@ -45,7 +45,6 @@ import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
@@ -61,7 +60,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
@@ -77,7 +75,7 @@ import static org.isoron.uhabits.ui.MainActivityActions.addHabit;
 import static org.isoron.uhabits.ui.MainActivityActions.assertHabitExists;
 import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsDontExist;
 import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsExist;
-import static org.isoron.uhabits.ui.MainActivityActions.clickActionModeMenuItem;
+import static org.isoron.uhabits.ui.MainActivityActions.clickMenuItem;
 import static org.isoron.uhabits.ui.MainActivityActions.deleteHabit;
 import static org.isoron.uhabits.ui.MainActivityActions.deleteHabits;
 import static org.isoron.uhabits.ui.MainActivityActions.selectHabit;
@@ -152,20 +150,16 @@ public class MainTest
 
         selectHabits(names);
 
-        clickActionModeMenuItem(R.string.archive);
+        clickMenuItem(R.string.archive);
         assertHabitsDontExist(names);
 
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.show_archived))
-                .perform(click());
+        clickMenuItem(R.string.show_archived);
 
         assertHabitsExist(names);
         selectHabits(names);
-        clickActionModeMenuItem(R.string.unarchive);
+        clickMenuItem(R.string.unarchive);
 
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.show_archived))
-                .perform(click());
+        clickMenuItem(R.string.show_archived);
 
         assertHabitsExist(names);
         deleteHabits(names);
@@ -227,7 +221,7 @@ public class MainTest
                 .onChildView(withId(R.id.label))
                 .perform(longClick());
 
-        clickActionModeMenuItem(R.string.edit);
+        clickMenuItem(R.string.edit);
 
         String modifiedName = "Modified " + new Random().nextInt(10000);
         typeHabitData(modifiedName, "", "1", "1");
@@ -238,7 +232,7 @@ public class MainTest
         assertHabitExists(modifiedName);
 
         selectHabit(modifiedName);
-        clickActionModeMenuItem(R.string.color_picker_default_title);
+        clickMenuItem(R.string.color_picker_default_title);
         pressBack();
 
         deleteHabit(modifiedName);
@@ -272,8 +266,7 @@ public class MainTest
     @Test
     public void testSettings()
     {
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.settings)).perform(click());
+        clickMenuItem(R.string.settings);
     }
 
     /**
@@ -282,8 +275,7 @@ public class MainTest
     @Test
     public void testAbout()
     {
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.about)).perform(click());
+        clickMenuItem(R.string.about);
         onView(isRoot()).perform(swipeUp());
     }
 
@@ -293,8 +285,7 @@ public class MainTest
     @Test
     public void testHelp()
     {
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.help)).perform(click());
+        clickMenuItem(R.string.help);
         intended(hasAction(Intent.ACTION_VIEW));
     }
 
@@ -307,8 +298,7 @@ public class MainTest
     {
         String name = addHabit();
 
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.settings)).perform(click());
+        clickMenuItem(R.string.settings);
 
         String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
         date = date.substring(0, date.length() - 2);
@@ -318,8 +308,7 @@ public class MainTest
 
         deleteHabit(name);
 
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.settings)).perform(click());
+        clickMenuItem(R.string.settings);
         onData(isPreferenceWithText("Import data")).perform(click());
 
         onData(allOf(is(instanceOf(String.class)), startsWith("Backups")))
@@ -339,8 +328,7 @@ public class MainTest
     public void testExportCSV()
     {
         addHabit();
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.settings)).perform(click());
+        clickMenuItem(R.string.settings);
         onData(isPreferenceWithText("Export as CSV")).perform(click());
         intended(hasAction(Intent.ACTION_SEND));
     }
@@ -351,8 +339,7 @@ public class MainTest
     @Test
     public void testGenerateBugReport()
     {
-        openActionBarOverflowOrOptionsMenu(targetContext);
-        onView(withText(R.string.settings)).perform(click());
+        clickMenuItem(R.string.settings);
         onData(isPreferenceWithText("Generate bug report")).perform(click());
         intended(hasAction(Intent.ACTION_SENDTO));
     }
