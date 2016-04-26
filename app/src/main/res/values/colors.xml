@@ -48,15 +48,15 @@
         <item>@color/grey_500</item>
     </array>
 
-    <array name="darkWidgetPalette">
-        <item>@color/red_900</item>
-        <item>@color/deep_orange_900</item>
-        <item>@color/yellow_900</item>
+    <array name="transparentWidgetPalette">
+        <item>@color/red_800</item>
+        <item>@color/deep_orange_800</item>
+        <item>@color/yellow_800</item>
         <item>@color/lime_800</item>
-        <item>@color/green_800</item>
-        <item>@color/teal_800</item>
-        <item>@color/cyan_800</item>
-        <item>@color/light_blue_800</item>
+        <item>@color/green_700</item>
+        <item>@color/teal_700</item>
+        <item>@color/cyan_700</item>
+        <item>@color/light_blue_700</item>
         <item>@color/deep_purple_700</item>
         <item>@color/purple_700</item>
         <item>@color/pink_700</item>

@@ -44,6 +44,9 @@
 
     <attr name="toolbarPopupTheme" format="reference"/>
 
+    <attr name="widgetShadowAlpha" format="float"/>
+    <attr name="widgetBackgroundAlpha" format="float"/>
+
     <!-- Pre-Lollipop -->
     <attr name="cardBackground" format="reference"/>
     <attr name="headerBackground" format="reference"/>

@@ -32,13 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        habit:percentage="0.25"
         habit:thickness="2"
         habit:textSize="16"
-        habit:color="@color/white"
-        habit:inactiveColor="@color/white"
         habit:enableFontAwesome="true"
-        habit:text="@string/fa_check"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"/>

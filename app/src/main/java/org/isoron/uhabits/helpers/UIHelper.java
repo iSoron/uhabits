@@ -230,6 +230,16 @@ public abstract class UIHelper
         return bool;
     }
 
+    public static float getStyledFloat(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        float f = ta.getFloat(0, 0);
+        ta.recycle();
+
+        return f;
+    }
+
     static int getStyleResource(Context context, int attrId)
     {
         int[] attr = new int[] { attrId };

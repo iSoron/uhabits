@@ -44,12 +44,12 @@
         <item name="palette">@array/lightPalette</item>
 
         <item name="highContrastReverseTextColor">@color/white</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
-        <item name="lowContrastReverseTextColor">@color/grey_700</item>
+        <item name="mediumContrastReverseTextColor">@color/white_a6</item>
+        <item name="lowContrastReverseTextColor">@color/white_a2</item>
 
-        <item name="highContrastTextColor">@color/grey_800</item>
-        <item name="mediumContrastTextColor">@color/grey_500</item>
-        <item name="lowContrastTextColor">@color/grey_300</item>
+        <item name="highContrastTextColor">@color/black_aa</item>
+        <item name="mediumContrastTextColor">@color/black_a6</item>
+        <item name="lowContrastTextColor">@color/black_a2</item>
 
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
         <item name="iconArchive">@drawable/ic_action_archive_dark</item>
@@ -60,6 +60,8 @@
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="aboutScreenColor">@color/blue_800</item>
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">1</item>
     </style>
 
     <style name="SmallSpinner">
@@ -109,6 +111,9 @@
         <item name="palette">@array/darkPalette</item>
 
         <item name="aboutScreenColor">@color/blue_300</item>
+
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">1</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
@@ -127,18 +132,21 @@
         <item name="highContrastReverseTextColor">@color/black</item>
     </style>
 
-    <style name="DarkWidgetTheme" parent="AppBaseThemeDark">
+    <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
         <item name="cardBackgroundColor">@color/black</item>
 
         <item name="highContrastTextColor">@color/white</item>
-        <item name="mediumContrastTextColor">@color/white</item>
+        <item name="mediumContrastTextColor">@color/white_ac</item>
         <item name="lowContrastTextColor">@color/white_a0</item>
 
         <item name="highContrastReverseTextColor">@color/white</item>
         <item name="mediumContrastReverseTextColor">@color/grey_500</item>
         <item name="lowContrastReverseTextColor">@color/grey_800</item>
 
-        <item name="palette">@array/darkWidgetPalette</item>
+        <item name="palette">@array/transparentWidgetPalette</item>
+
+        <item name="widgetShadowAlpha">0</item>
+        <item name="widgetBackgroundAlpha">0.25</item>
     </style>
 
     <style name="time_label">

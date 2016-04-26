@@ -20,7 +20,6 @@
 package org.isoron.uhabits.views;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
@@ -44,7 +44,6 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     private RingView ring;
     private TextView label;
     private int checkmarkValue;
-    private int inactiveColor;
 
     public CheckmarkWidgetView(Context context)
     {
@@ -63,8 +62,6 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         ring = (RingView) findViewById(R.id.scoreRing);
         label = (TextView) findViewById(R.id.label);
 
-        inactiveColor = ColorHelper.CSV_PALETTE[11];
-
         if(isInEditMode())
         {
             percentage = 0.75f;
@@ -80,7 +77,7 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     {
         super.setHabit(habit);
         this.name = habit.name;
-        this.activeColor = ColorHelper.CSV_PALETTE[habit.color];
+        this.activeColor = ColorHelper.getColor(getContext(), habit.color);
         refresh();
     }
 
@@ -88,39 +85,40 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     {
         if (backgroundPaint == null || frame == null || ring == null) return;
 
+        Context context = getContext();
+
         String text;
         int backgroundColor;
         int foregroundColor;
-        float alpha;
 
         switch (checkmarkValue)
         {
             case Checkmark.CHECKED_EXPLICITLY:
                 text = getResources().getString(R.string.fa_check);
                 backgroundColor = activeColor;
-                foregroundColor = Color.WHITE;
-                alpha = 1.0f;
+                foregroundColor =
+                        UIHelper.getStyledColor(context, R.attr.highContrastReverseTextColor);
+
+                setShadowAlpha(0x4f);
+                rebuildBackground();
+
+                backgroundPaint.setColor(backgroundColor);
+                frame.setBackgroundDrawable(background);
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
-                backgroundColor = inactiveColor;
-                foregroundColor = ColorHelper.CSV_PALETTE[12];
-                alpha = 0.5f;
+                backgroundColor = UIHelper.getStyledColor(context, R.attr.cardBackgroundColor);
+                foregroundColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
                 break;
 
             case Checkmark.UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
-                backgroundColor = inactiveColor;
-                foregroundColor = ColorHelper.CSV_PALETTE[12];
-                alpha = 0.5f;
+                backgroundColor = UIHelper.getStyledColor(context, R.attr.cardBackgroundColor);
+                foregroundColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
                 break;
         }
-
-        backgroundPaint.setColor(backgroundColor);
-        frame.setBackgroundDrawable(background);
-        setAlpha(alpha);
 
         ring.setPercentage(percentage);
         ring.setPrecision(0.125f);
@@ -166,11 +164,5 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     protected Integer getInnerLayoutId()
     {
         return R.layout.widget_checkmark;
-    }
-
-    @Override
-    protected int getShadowAlpha()
-    {
-        return 0x4f;
     }
 }
