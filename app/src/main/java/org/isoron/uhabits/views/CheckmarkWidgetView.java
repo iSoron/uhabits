@@ -62,6 +62,8 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         ring = (RingView) findViewById(R.id.scoreRing);
         label = (TextView) findViewById(R.id.label);
 
+        if(ring != null) ring.setIsTransparencyEnabled(true);
+
         if(isInEditMode())
         {
             percentage = 0.75f;

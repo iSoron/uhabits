@@ -21,8 +21,12 @@ package org.isoron.uhabits.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -34,6 +38,9 @@ import org.isoron.uhabits.helpers.UIHelper;
 
 public class RingView extends View
 {
+    public static final PorterDuffXfermode XFERMODE_CLEAR =
+            new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+
     private float precision;
     private boolean enableFontAwesome;
 
@@ -43,15 +50,17 @@ public class RingView extends View
     private RectF rect;
 
     private int diameter;
-
     private float textSize;
-
     private float thickness;
 
     private Integer backgroundColor;
     private Integer inactiveColor;
     private float em;
     private String text;
+
+    private Bitmap drawingCache;
+    private Canvas cacheCanvas;
+    private boolean isTransparencyEnabled;
 
     public RingView(Context context)
     {
@@ -156,30 +165,67 @@ public class RingView extends View
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        if(isTransparencyEnabled)
+        {
+            if (drawingCache != null) drawingCache.recycle();
+            drawingCache = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
+            cacheCanvas = new Canvas(drawingCache);
+        }
+    }
+
+    @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
+        Canvas activeCanvas;
+
+        if(isTransparencyEnabled)
+        {
+            activeCanvas = cacheCanvas;
+            drawingCache.eraseColor(Color.TRANSPARENT);
+        }
+        else
+        {
+            activeCanvas = canvas;
+        }
 
         pRing.setColor(color);
         rect.set(0, 0, diameter, diameter);
 
         float angle = 360 * Math.round(percentage / precision) * precision;
 
-        canvas.drawArc(rect, -90, angle, true, pRing);
+        activeCanvas.drawArc(rect, -90, angle, true, pRing);
 
         pRing.setColor(inactiveColor);
-        canvas.drawArc(rect, angle - 90, 360 - angle, true, pRing);
+        activeCanvas.drawArc(rect, angle - 90, 360 - angle, true, pRing);
 
         if(thickness > 0)
         {
-            pRing.setColor(backgroundColor);
+            if(isTransparencyEnabled)
+                pRing.setXfermode(XFERMODE_CLEAR);
+            else
+                pRing.setColor(backgroundColor);
+
             rect.inset(thickness, thickness);
-            canvas.drawArc(rect, 0, 360, true, pRing);
+            activeCanvas.drawArc(rect, 0, 360, true, pRing);
+            pRing.setXfermode(null);
 
             pRing.setColor(color);
             pRing.setTextSize(textSize);
             if(enableFontAwesome) pRing.setTypeface(UIHelper.getFontAwesome(getContext()));
-            canvas.drawText(text, rect.centerX(), rect.centerY() + 0.4f * em, pRing);
+            activeCanvas.drawText(text, rect.centerX(), rect.centerY() + 0.4f * em, pRing);
         }
+
+        if(activeCanvas != canvas)
+            canvas.drawBitmap(drawingCache, 0, 0, null);
+    }
+
+    public void setIsTransparencyEnabled(boolean isTransparencyEnabled)
+    {
+        this.isTransparencyEnabled = isTransparencyEnabled;
     }
 }

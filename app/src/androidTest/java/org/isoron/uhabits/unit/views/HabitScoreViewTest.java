@@ -62,7 +62,7 @@ public class HabitScoreViewTest extends ViewTest
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
-        view.setIsBackgroundTransparent(true);
+        view.setIsTransparencyEnabled(true);
         assertRenders(view, "HabitScoreView/renderTransparent.png");
     }
 
