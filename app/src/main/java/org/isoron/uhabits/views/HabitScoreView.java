@@ -387,6 +387,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     {
         this.isTransparencyEnabled = enabled;
         createColors();
+        requestLayout();
     }
 
     private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)
