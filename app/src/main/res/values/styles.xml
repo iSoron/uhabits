@@ -44,12 +44,12 @@
         <item name="palette">@array/lightPalette</item>
 
         <item name="highContrastReverseTextColor">@color/white</item>
-        <item name="mediumContrastReverseTextColor">@color/white_a6</item>
-        <item name="lowContrastReverseTextColor">@color/white_a2</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="lowContrastReverseTextColor">@color/grey_700</item>
 
-        <item name="highContrastTextColor">@color/black_aa</item>
-        <item name="mediumContrastTextColor">@color/black_a6</item>
-        <item name="lowContrastTextColor">@color/black_a2</item>
+        <item name="highContrastTextColor">@color/grey_800</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="lowContrastTextColor">@color/grey_300</item>
 
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
         <item name="iconArchive">@drawable/ic_action_archive_dark</item>
