@@ -42,6 +42,9 @@
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="60dp"
+            android:paddingStart="60dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
             android:paddingTop="15dp">
 
             <TextView
@@ -65,15 +68,16 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:alpha="0.3"
-                    android:src="@drawable/ic_repeat_black"
+                    android:src="?iconFrequency"
                     />
 
                 <TextView
                     android:id="@+id/frequencyLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Every day"
+                    android:text="@string/every_day"
                     android:textColor="?mediumContrastTextColor"
                     android:textSize="@dimen/smallTextSize"
                     />
@@ -83,9 +87,11 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     android:alpha="0.3"
-                    android:src="@drawable/ic_alarm_black"
+                    android:src="?iconReminder"
                     />
 
                 <TextView
@@ -93,7 +99,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="1dp"
-                    android:text="7:30"
                     android:textColor="?mediumContrastTextColor"
                     android:textSize="@dimen/smallTextSize"
                     />
