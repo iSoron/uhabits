@@ -79,6 +79,13 @@ public class ShowHabitFragment extends Fragment
 
     private int previousScoreInterval;
 
+    private float todayScore;
+    private float lastMonthScore;
+    private float lastYearScore;
+
+    private int activeColor;
+    private int inactiveColor;
+
     @Override
     public void onStart()
     {
@@ -91,7 +98,10 @@ public class ShowHabitFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.show_habit, container, false);
         activity = (ShowHabitActivity) getActivity();
+
         habit = activity.getHabit();
+        activeColor = ColorHelper.getColor(getContext(), habit.color);
+        inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
 
         updateHeader(view);
 
@@ -153,8 +163,6 @@ public class ShowHabitFragment extends Fragment
     {
         if(habit == null) return;
 
-        int activeColor = ColorHelper.getColor(getContext(), habit.color);
-
         TextView questionLabel = (TextView) view.findViewById(R.id.questionLabel);
         questionLabel.setTextColor(activeColor);
         questionLabel.setText(habit.description);
@@ -198,19 +206,34 @@ public class ShowHabitFragment extends Fragment
         refreshData();
     }
 
-    private void updateScoreRing(View view)
+    private void updateScore(View view)
     {
         if(habit == null) return;
         if(view == null) return;
 
-        float todayValue = (float) habit.scores.getTodayValue();
-        float percentage = todayValue / Score.MAX_VALUE;
+        float todayPercentage = todayScore / Score.MAX_VALUE;
+        float monthDiff = todayPercentage - (lastMonthScore / Score.MAX_VALUE);
+        float yearDiff = todayPercentage - (lastYearScore / Score.MAX_VALUE);
 
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
         int androidColor = ColorHelper.getColor(getActivity(), habit.color);
         scoreRing.setColor(androidColor);
-        scoreRing.setPercentage(percentage);
-        scoreRing.setText(String.format("%.0f%%", 100 * percentage));
+        scoreRing.setPercentage(todayPercentage);
+
+        TextView scoreLabel = (TextView) view.findViewById(R.id.scoreLabel);
+        TextView monthDiffLabel = (TextView) view.findViewById(R.id.monthDiffLabel);
+        TextView yearDiffLabel = (TextView) view.findViewById(R.id.yearDiffLabel);
+
+        scoreLabel.setText(String.format("%.0f%%", todayPercentage * 100));
+
+        String minus = "\u2212";
+        monthDiffLabel.setText(String.format("%s%.0f%%", (monthDiff >= 0 ? "+" : minus),
+                Math.abs(monthDiff) * 100));
+        yearDiffLabel.setText(
+                String.format("%s%.0f%%", (yearDiff >= 0 ? "+" : minus), Math.abs(yearDiff) * 100));
+
+        monthDiffLabel.setTextColor(monthDiff >= 0 ? activeColor : inactiveColor);
+        yearDiffLabel.setTextColor(yearDiff >= 0 ? activeColor : inactiveColor);
     }
 
     private void updateHeaders(View view)
@@ -220,6 +243,7 @@ public class ShowHabitFragment extends Fragment
         updateColor(view, R.id.tvStrength);
         updateColor(view, R.id.tvStreaks);
         updateColor(view, R.id.tvWeekdayFreq);
+        updateColor(view, R.id.scoreLabel);
     }
 
     private void updateColor(View view, int viewId)
@@ -281,25 +305,32 @@ public class ShowHabitFragment extends Fragment
     {
         new BaseTask()
         {
-            float percentage;
-
             @Override
             protected void doInBackground()
             {
+                if(habit == null) return;
                 if(dataViews == null) return;
+
+                long today = DateHelper.getStartOfToday();
+                long lastMonth = today - 30 * DateHelper.millisecondsInOneDay;
+                long lastYear = today - 365 * DateHelper.millisecondsInOneDay;
+
+                todayScore = (float) habit.scores.getTodayValue();
+                lastMonthScore = (float) habit.scores.getValue(lastMonth);
+                lastYearScore = (float) habit.scores.getValue(lastYear);
 
                 int count = 0;
                 for(HabitDataView view : dataViews)
                 {
                     view.refreshData();
-                    onProgressUpdate(count++);
+                    publishProgress(count++);
                 }
             }
 
             @Override
             protected void onProgressUpdate(Integer... values)
             {
-                updateScoreRing(getView());
+                updateScore(getView());
                 if(dataViews == null) return;
                 dataViews.get(values[0]).postInvalidate();
             }
