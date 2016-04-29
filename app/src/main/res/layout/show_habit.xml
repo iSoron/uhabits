@@ -132,7 +132,6 @@
                         android:id="@+id/scoreRing"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center"
                         habit:percentage="0"
                         habit:textSize="12"

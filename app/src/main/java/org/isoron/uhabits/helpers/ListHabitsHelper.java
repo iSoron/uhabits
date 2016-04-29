@@ -115,7 +115,7 @@ public class ListHabitsHelper
 
         ring.setColor(activeColor);
         ring.setPercentage(percentage);
-        ring.setPrecision(0.2f);
+        ring.setPrecision(1.0f / 16);
     }
 
     public void updateCheckmark(int activeColor, TextView tvCheck, int check)

@@ -99,7 +99,7 @@
         <item name="lowContrastTextColor">@color/grey_800</item>
 
         <item name="highContrastReverseTextColor">@color/grey_900</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_700</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_750</item>
         <item name="lowContrastReverseTextColor">@color/grey_300</item>
 
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
