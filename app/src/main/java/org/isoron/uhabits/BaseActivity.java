@@ -197,5 +197,8 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
     {
         View view = findViewById(R.id.toolbarShadow);
         if(view != null) view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.headerShadow);
+        if(view != null) view.setVisibility(View.GONE);
     }
 }

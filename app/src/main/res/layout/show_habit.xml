@@ -106,6 +106,10 @@
             </LinearLayout>
         </LinearLayout>
 
+        <View
+            android:id="@+id/headerShadow"
+            style="@style/ToolbarShadow"/>
+
         <LinearLayout
             style="@style/Card"
             android:paddingTop="12dp"
@@ -124,9 +128,9 @@
                 android:orientation="horizontal">
 
                 <FrameLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minWidth="100dp">
+                    android:layout_weight="5">
 
                     <org.isoron.uhabits.views.RingView
                         android:id="@+id/scoreRing"
@@ -140,9 +144,9 @@
                 </FrameLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minWidth="80dp"
+                    android:layout_weight="4"
                     android:orientation="vertical">
 
                     <TextView
@@ -159,9 +163,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minWidth="80dp"
+                    android:layout_weight="4"
                     android:orientation="vertical">
 
                     <TextView
@@ -178,9 +182,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minWidth="80dp"
+                    android:layout_weight="4"
                     android:orientation="vertical">
 
                     <TextView
