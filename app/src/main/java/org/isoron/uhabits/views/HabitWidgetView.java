@@ -107,7 +107,7 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);
-        frame.setBackgroundDrawable(background);
+        if(frame != null) frame.setBackgroundDrawable(background);
     }
 
     @Override

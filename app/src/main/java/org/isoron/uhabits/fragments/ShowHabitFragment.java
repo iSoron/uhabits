@@ -42,6 +42,7 @@ import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
 import org.isoron.uhabits.dialogs.HistoryEditorDialog;
 import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
@@ -92,6 +93,8 @@ public class ShowHabitFragment extends Fragment
         activity = (ShowHabitActivity) getActivity();
         habit = activity.getHabit();
 
+        updateHeader(view);
+
         dataViews = new LinkedList<>();
 
         Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
@@ -104,7 +107,6 @@ public class ShowHabitFragment extends Fragment
         if(defaultScoreInterval > 5 || defaultScoreInterval < 0) defaultScoreInterval = 1;
         previousScoreInterval = defaultScoreInterval;
         setScoreBucketSize(defaultScoreInterval);
-
 
         sStrengthInterval.setSelection(defaultScoreInterval);
         sStrengthInterval.setOnItemSelectedListener(this);
@@ -145,6 +147,48 @@ public class ShowHabitFragment extends Fragment
         setHasOptionsMenu(true);
 
         return view;
+    }
+
+    private void updateHeader(View view)
+    {
+        if(habit == null) return;
+
+        int activeColor = ColorHelper.getColor(getContext(), habit.color);
+
+        TextView questionLabel = (TextView) view.findViewById(R.id.questionLabel);
+        questionLabel.setTextColor(activeColor);
+        questionLabel.setText(habit.description);
+
+        TextView reminderLabel = (TextView) view.findViewById(R.id.reminderLabel);
+        if(habit.hasReminder())
+            reminderLabel.setText(DateHelper.formatTime(getActivity(), habit.reminderHour,
+                    habit.reminderMin));
+        else
+            reminderLabel.setText(getResources().getString(R.string.reminder_off));
+
+        TextView frequencyLabel = (TextView) view.findViewById(R.id.frequencyLabel);
+        String freqText;
+
+        if(habit.freqNum.equals(habit.freqDen))
+            freqText = getResources().getString(R.string.every_day);
+        else if(habit.freqNum == 1 && habit.freqDen == 7)
+            freqText = getResources().getString(R.string.every_week);
+        else
+        {
+            String times_every;
+            if(habit.freqNum == 1)
+                times_every = getResources().getString(R.string.time_every);
+            else
+                times_every = getResources().getString(R.string.times_every);
+
+            freqText = String.format("%d %s %d %s", habit.freqNum, times_every, habit.freqDen,
+                    getResources().getString(R.string.days));
+        }
+
+        frequencyLabel.setText(freqText);
+
+        if(habit.description.isEmpty())
+            questionLabel.setVisibility(View.GONE);
     }
 
     @Override
