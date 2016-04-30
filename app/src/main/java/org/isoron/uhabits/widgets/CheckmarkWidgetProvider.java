@@ -53,13 +53,13 @@ public class CheckmarkWidgetProvider extends BaseWidgetProvider
     @Override
     protected int getDefaultHeight()
     {
-        return 200;
+        return 125;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 200;
+        return 125;
     }
 
     @Override

@@ -228,6 +228,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         protected void onPreExecute()
         {
             super.onPreExecute();
+            context.setTheme(R.style.TransparentWidgetTheme);
 
             portraitRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
             portraitWidgetView = buildCustomView(context, habit);

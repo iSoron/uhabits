@@ -56,13 +56,13 @@ public class ScoreWidgetProvider extends BaseWidgetProvider
     @Override
     protected int getDefaultHeight()
     {
-        return 200;
+        return 300;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 200;
+        return 300;
     }
 
     @Override

@@ -80,7 +80,6 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
     protected void rebuildBackground()
     {
         Context context = getContext();
-        context.setTheme(R.style.TransparentWidgetTheme);
 
         int backgroundAlpha =
                 (int) (255 * UIHelper.getStyledFloat(context, R.attr.widgetBackgroundAlpha));

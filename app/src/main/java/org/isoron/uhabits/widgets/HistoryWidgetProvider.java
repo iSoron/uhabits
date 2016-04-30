@@ -55,13 +55,13 @@ public class HistoryWidgetProvider extends  BaseWidgetProvider
     @Override
     protected int getDefaultHeight()
     {
-        return 200;
+        return 250;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 200;
+        return 250;
     }
 
     @Override
