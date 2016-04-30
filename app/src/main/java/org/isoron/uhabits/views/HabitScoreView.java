@@ -175,11 +175,14 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         pGrid.setStrokeWidth(baseSize * 0.025f);
 
         if(isTransparencyEnabled)
-        {
-            if (drawingCache != null) drawingCache.recycle();
-            drawingCache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            cacheCanvas = new Canvas(drawingCache);
-        }
+            initCache(width, height);
+    }
+
+    private void initCache(int width, int height)
+    {
+        if (drawingCache != null) drawingCache.recycle();
+        drawingCache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        cacheCanvas = new Canvas(drawingCache);
     }
 
     public void refreshData()
@@ -222,6 +225,8 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         if(isTransparencyEnabled)
         {
+            if(drawingCache == null) initCache(getWidth(), getHeight());
+
             activeCanvas = cacheCanvas;
             drawingCache.eraseColor(Color.TRANSPARENT);
         }

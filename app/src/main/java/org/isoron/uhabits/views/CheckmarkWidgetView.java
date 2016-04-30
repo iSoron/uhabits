@@ -123,7 +123,6 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         }
 
         ring.setPercentage(percentage);
-        ring.setPrecision(0.125f);
         ring.setColor(foregroundColor);
         ring.setBackgroundColor(backgroundColor);
         ring.setText(text);

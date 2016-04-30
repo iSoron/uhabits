@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -41,22 +40,22 @@ public class RingView extends View
     public static final PorterDuffXfermode XFERMODE_CLEAR =
             new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
 
-    private float precision;
-    private boolean enableFontAwesome;
-
     private int color;
+    private float precision;
     private float percentage;
-    private TextPaint pRing;
-    private RectF rect;
-
     private int diameter;
-    private float textSize;
     private float thickness;
+
+    private RectF rect;
+    private TextPaint pRing;
 
     private Integer backgroundColor;
     private Integer inactiveColor;
+
     private float em;
     private String text;
+    private float textSize;
+    private boolean enableFontAwesome;
 
     private Bitmap drawingCache;
     private Canvas cacheCanvas;
@@ -65,6 +64,14 @@ public class RingView extends View
     public RingView(Context context)
     {
         super(context);
+
+        percentage = 0.0f;
+        precision = 0.01f;
+        color = ColorHelper.CSV_PALETTE[0];
+        thickness = UIHelper.dpToPixels(getContext(), 2);
+        text = "";
+        textSize = context.getResources().getDimension(R.dimen.smallTextSize);
+
         init();
     }
 
@@ -149,7 +156,6 @@ public class RingView extends View
     }
 
     @Override
-    @SuppressLint("DrawAllocation")
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
