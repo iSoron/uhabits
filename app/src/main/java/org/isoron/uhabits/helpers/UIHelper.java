@@ -51,6 +51,12 @@ public abstract class UIHelper
     public static final int THEME_DARK = 1;
 
     private static Typeface fontAwesome;
+    private static Integer fixedTheme;
+
+    public static void setFixedTheme(Integer fixedTheme)
+    {
+        UIHelper.fixedTheme = fixedTheme;
+    }
 
     public interface OnSavedListener
     {
@@ -202,18 +208,25 @@ public abstract class UIHelper
 
     public static int getStyledColor(Context context, int attrId)
     {
-        int[] attrs = new int[]{ attrId };
-        TypedArray ta = context.obtainStyledAttributes(attrs);
+        TypedArray ta = getTypedArray(context, attrId);
         int color = ta.getColor(0, 0);
         ta.recycle();
 
         return color;
     }
 
-    public static Drawable getStyledDrawable(Context context, int attrId)
+    private static TypedArray getTypedArray(Context context, int attrId)
     {
         int[] attrs = new int[]{ attrId };
-        TypedArray ta = context.obtainStyledAttributes(attrs);
+        if(fixedTheme != null)
+            return context.getTheme().obtainStyledAttributes(fixedTheme, attrs);
+        else
+            return context.obtainStyledAttributes(attrs);
+    }
+
+    public static Drawable getStyledDrawable(Context context, int attrId)
+    {
+        TypedArray ta = getTypedArray(context, attrId);
         Drawable drawable = ta.getDrawable(0);
         ta.recycle();
 
@@ -222,8 +235,7 @@ public abstract class UIHelper
 
     public static boolean getStyledBoolean(Context context, int attrId)
     {
-        int[] attrs = new int[]{ attrId };
-        TypedArray ta = context.obtainStyledAttributes(attrs);
+        TypedArray ta = getTypedArray(context, attrId);
         boolean bool = ta.getBoolean(0, false);
         ta.recycle();
 
@@ -232,8 +244,7 @@ public abstract class UIHelper
 
     public static float getStyledFloat(Context context, int attrId)
     {
-        int[] attrs = new int[]{ attrId };
-        TypedArray ta = context.obtainStyledAttributes(attrs);
+        TypedArray ta = getTypedArray(context, attrId);
         float f = ta.getFloat(0, 0);
         ta.recycle();
 
@@ -242,10 +253,9 @@ public abstract class UIHelper
 
     static int getStyleResource(Context context, int attrId)
     {
-        int[] attr = new int[] { attrId };
-        TypedArray array = context.obtainStyledAttributes(attr);
-        int resourceId = array.getResourceId(0, -1);
-        array.recycle();
+        TypedArray ta = getTypedArray(context, attrId);
+        int resourceId = ta.getResourceId(0, -1);
+        ta.recycle();
 
         return resourceId;
     }

@@ -41,8 +41,8 @@ grep -q "FAILURES\!\!\!" ${OUTPUT_DIR}/runner.txt && failed=1
 info "Fetching failed generated files..."
 mkdir -p ${OUTPUT_DIR}/failed
 adb pull /mnt/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
-adb pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ \
-    ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
+adb pull /storage/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
+adb pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
 adb shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ >> $LOG 2>> $LOG
 
 info "Fetching logcat..."
