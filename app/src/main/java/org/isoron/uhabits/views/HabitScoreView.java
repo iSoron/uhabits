@@ -170,9 +170,10 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         columnHeight = 8 * baseSize;
 
+        float minStrokeWidth = UIHelper.dpToPixels(getContext(), 1);
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
-        pGrid.setStrokeWidth(baseSize * 0.025f);
+        pGrid.setStrokeWidth(Math.min(minStrokeWidth,  baseSize * 0.05f));
 
         if(isTransparencyEnabled)
             initCache(width, height);
@@ -266,7 +267,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,
-                    paddingTop + columnHeight - height - columnWidth / 2);
+                    paddingTop + columnHeight - height - baseSize / 2);
 
             if (!prevRect.isEmpty())
             {
