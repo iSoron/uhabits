@@ -56,10 +56,14 @@
         <item name="iconEdit">@drawable/ic_action_edit_dark</item>
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="iconFrequency">@drawable/ic_repeat_black</item>
+        <item name="iconReminder">@drawable/ic_alarm_black</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="aboutScreenColor">@color/blue_800</item>
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">1</item>
     </style>
 
     <style name="SmallSpinner">
@@ -95,7 +99,7 @@
         <item name="lowContrastTextColor">@color/grey_800</item>
 
         <item name="highContrastReverseTextColor">@color/grey_900</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_700</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_750</item>
         <item name="lowContrastReverseTextColor">@color/grey_300</item>
 
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
@@ -104,11 +108,17 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="iconFrequency">@drawable/ic_repeat_white</item>
+        <item name="iconReminder">@drawable/ic_alarm_white</item>
+
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
 
         <item name="palette">@array/darkPalette</item>
 
         <item name="aboutScreenColor">@color/blue_300</item>
+
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">1</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
@@ -125,6 +135,23 @@
 
         <item name="lowContrastTextColor">@color/grey_900</item>
         <item name="highContrastReverseTextColor">@color/black</item>
+    </style>
+
+    <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
+        <item name="cardBackgroundColor">@color/black</item>
+
+        <item name="highContrastTextColor">@color/white</item>
+        <item name="mediumContrastTextColor">@color/white_ac</item>
+        <item name="lowContrastTextColor">@color/white_a0</item>
+
+        <item name="highContrastReverseTextColor">@color/white</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="lowContrastReverseTextColor">@color/grey_800</item>
+
+        <item name="palette">@array/transparentWidgetPalette</item>
+
+        <item name="widgetShadowAlpha">0</item>
+        <item name="widgetBackgroundAlpha">0.25</item>
     </style>
 
     <style name="time_label">
@@ -222,9 +249,9 @@
 
     <style name="ToolbarShadow">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">3dp</item>
+        <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/toolbar_shadow</item>
-        <item name="android:alpha">0.25</item>
+        <item name="android:alpha">0.2</item>
         <item name="android:layout_below">@id/toolbar</item>
     </style>
 </resources>

@@ -19,42 +19,59 @@
 
 package org.isoron.uhabits.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
-import android.text.Layout;
-import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 
 public class RingView extends View
 {
+    public static final PorterDuffXfermode XFERMODE_CLEAR =
+            new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+
     private int color;
+    private float precision;
     private float percentage;
-    private float labelMarginTop;
-    private TextPaint pRing;
-    private String label;
+    private int diameter;
+    private float thickness;
+
     private RectF rect;
-    private StaticLayout labelLayout;
+    private TextPaint pRing;
 
-    private int width;
-    private int height;
-    private float diameter;
+    private Integer backgroundColor;
+    private Integer inactiveColor;
 
-    private float maxDiameter;
+    private float em;
+    private String text;
     private float textSize;
-    private int textColor;
-    private int backgroundColor;
+    private boolean enableFontAwesome;
+
+    private Bitmap drawingCache;
+    private Canvas cacheCanvas;
+    private boolean isTransparencyEnabled;
 
     public RingView(Context context)
     {
         super(context);
+
+        percentage = 0.0f;
+        precision = 0.01f;
+        color = ColorHelper.CSV_PALETTE[0];
+        thickness = UIHelper.dpToPixels(getContext(), 2);
+        text = "";
+        textSize = context.getResources().getDimension(R.dimen.smallTextSize);
+
         init();
     }
 
@@ -62,9 +79,24 @@ public class RingView extends View
     {
         super(context, attrs);
 
-        this.label = UIHelper.getAttribute(context, attrs, "label", "Label");
-        this.maxDiameter = UIHelper.getFloatAttribute(context, attrs, "maxDiameter", 100);
-        this.maxDiameter = UIHelper.dpToPixels(context, maxDiameter);
+        percentage = UIHelper.getFloatAttribute(context, attrs, "percentage", 0);
+        precision = UIHelper.getFloatAttribute(context, attrs, "precision", 0.01f);
+
+        color = UIHelper.getColorAttribute(context, attrs, "color", 0);
+        backgroundColor = UIHelper.getColorAttribute(context, attrs, "backgroundColor", null);
+        inactiveColor = UIHelper.getColorAttribute(context, attrs, "inactiveColor", null);
+
+        thickness = UIHelper.getFloatAttribute(context, attrs, "thickness", 0);
+        thickness = UIHelper.dpToPixels(context, thickness);
+
+        float defaultTextSize = context.getResources().getDimension(R.dimen.smallTextSize);
+        textSize = UIHelper.getFloatAttribute(context, attrs, "textSize", defaultTextSize);
+        textSize = UIHelper.spToPixels(context, textSize);
+
+        text = UIHelper.getAttribute(context, attrs, "text", "");
+
+        enableFontAwesome = UIHelper.getBooleanAttribute(context, attrs, "enableFontAwesome", false);
+
         init();
     }
 
@@ -74,19 +106,34 @@ public class RingView extends View
         postInvalidate();
     }
 
-    public void setMaxDiameter(float maxDiameter)
+    @Override
+    public void setBackgroundColor(int backgroundColor)
     {
-        this.maxDiameter = maxDiameter;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
+        this.backgroundColor = backgroundColor;
+        postInvalidate();
     }
 
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
+        postInvalidate();
+    }
+
+    public void setPrecision(float precision)
+    {
+        this.precision = precision;
+        postInvalidate();
+    }
+
+    public void setThickness(float thickness)
+    {
+        this.thickness = thickness;
+        postInvalidate();
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
         postInvalidate();
     }
 
@@ -97,61 +144,94 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
-        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-        textSize = getResources().getDimension(R.dimen.smallTextSize);
+        if(backgroundColor == null)
+            backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+
+        if(inactiveColor == null)
+            inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastTextColor);
+
+        inactiveColor = ColorHelper.setAlpha(inactiveColor, 0.1f);
 
         rect = new RectF();
     }
 
     @Override
-    @SuppressLint("DrawAllocation")
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        width = MeasureSpec.getSize(widthMeasureSpec);
-        height = MeasureSpec.getSize(heightMeasureSpec);
-
-        diameter = Math.min(maxDiameter, width);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        diameter = Math.min(height, width);
 
         pRing.setTextSize(textSize);
-        labelMarginTop = textSize * 0.80f;
-        labelLayout = new StaticLayout(label, pRing, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0f,
-                false);
+        em = pRing.measureText("M");
 
-        width = Math.max(width, labelLayout.getWidth());
-        height = (int) (diameter + labelLayout.getHeight() + labelMarginTop);
+        setMeasuredDimension(diameter, diameter);
+    }
 
-        setMeasuredDimension(width, height);
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        if(isTransparencyEnabled)
+        {
+            if (drawingCache != null) drawingCache.recycle();
+            drawingCache = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
+            cacheCanvas = new Canvas(drawingCache);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        float thickness = diameter * 0.15f;
+        Canvas activeCanvas;
+
+        if(isTransparencyEnabled)
+        {
+            activeCanvas = cacheCanvas;
+            drawingCache.eraseColor(Color.TRANSPARENT);
+        }
+        else
+        {
+            activeCanvas = canvas;
+        }
 
         pRing.setColor(color);
         rect.set(0, 0, diameter, diameter);
-        rect.offset((width - diameter) / 2, 0);
-        canvas.drawArc(rect, -90, 360 * percentage, true, pRing);
 
-        int grey = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-        pRing.setColor(grey);
-        canvas.drawArc(rect, 360 * percentage - 90 + 2, 360 * (1 - percentage) - 4, true, pRing);
+        float angle = 360 * Math.round(percentage / precision) * precision;
 
-        pRing.setColor(backgroundColor);
-        rect.inset(thickness, thickness);
-        canvas.drawArc(rect, -90, 360, true, pRing);
+        activeCanvas.drawArc(rect, -90, angle, true, pRing);
 
-        pRing.setColor(textColor);
-        pRing.setTextSize(textSize);
-        float lineHeight = pRing.getFontSpacing();
-        canvas.drawText(String.format("%.0f%%", percentage * 100), rect.centerX(),
-                rect.centerY() + lineHeight / 3, pRing);
-        pRing.setTextSize(textSize);
-        canvas.translate(width / 2, diameter + labelMarginTop);
-        labelLayout.draw(canvas);
+        pRing.setColor(inactiveColor);
+        activeCanvas.drawArc(rect, angle - 90, 360 - angle, true, pRing);
+
+        if(thickness > 0)
+        {
+            if(isTransparencyEnabled)
+                pRing.setXfermode(XFERMODE_CLEAR);
+            else
+                pRing.setColor(backgroundColor);
+
+            rect.inset(thickness, thickness);
+            activeCanvas.drawArc(rect, 0, 360, true, pRing);
+            pRing.setXfermode(null);
+
+            pRing.setColor(color);
+            pRing.setTextSize(textSize);
+            if(enableFontAwesome) pRing.setTypeface(UIHelper.getFontAwesome(getContext()));
+            activeCanvas.drawText(text, rect.centerX(), rect.centerY() + 0.4f * em, pRing);
+        }
+
+        if(activeCanvas != canvas)
+            canvas.drawBitmap(drawingCache, 0, 0, null);
+    }
+
+    public void setIsTransparencyEnabled(boolean isTransparencyEnabled)
+    {
+        this.isTransparencyEnabled = isTransparencyEnabled;
     }
 }

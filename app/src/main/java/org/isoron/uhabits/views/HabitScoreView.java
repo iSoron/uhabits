@@ -20,6 +20,7 @@
 package org.isoron.uhabits.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -72,10 +73,13 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private int[] scores;
 
     private int primaryColor;
-    private boolean isBackgroundTransparent;
     private int bucketSize = 7;
     private int footerHeight;
     private int backgroundColor;
+
+    private Bitmap drawingCache;
+    private Canvas cacheCanvas;
+    private boolean isTransparencyEnabled;
 
     public HabitScoreView(Context context)
     {
@@ -114,20 +118,9 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         if(habit != null)
             this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
-        if (isBackgroundTransparent)
-        {
-            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
-            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
-
-            textColor = Color.argb(192, 255, 255, 255);
-            gridColor = Color.argb(128, 255, 255, 255);
-        }
-        else
-        {
-            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-            gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-            backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
-        }
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
     }
 
     protected void createPaints()
@@ -180,6 +173,16 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
         pGrid.setStrokeWidth(baseSize * 0.025f);
+
+        if(isTransparencyEnabled)
+            initCache(width, height);
+    }
+
+    private void initCache(int width, int height)
+    {
+        if (drawingCache != null) drawingCache.recycle();
+        drawingCache = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        cacheCanvas = new Canvas(drawingCache);
     }
 
     public void refreshData()
@@ -218,12 +221,26 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
+        Canvas activeCanvas;
+
+        if(isTransparencyEnabled)
+        {
+            if(drawingCache == null) initCache(getWidth(), getHeight());
+
+            activeCanvas = cacheCanvas;
+            drawingCache.eraseColor(Color.TRANSPARENT);
+        }
+        else
+        {
+            activeCanvas = canvas;
+        }
+
         if (habit == null || scores == null) return;
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
         rect.offset(0, paddingTop);
 
-        drawGrid(canvas, rect);
+        drawGrid(activeCanvas, rect);
 
         pText.setColor(textColor);
         pGraph.setColor(primaryColor);
@@ -253,20 +270,23 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
             if (!prevRect.isEmpty())
             {
-                drawLine(canvas, prevRect, rect);
-                drawMarker(canvas, prevRect);
+                drawLine(activeCanvas, prevRect, rect);
+                drawMarker(activeCanvas, prevRect);
             }
 
-            if (k == nColumns - 1) drawMarker(canvas, rect);
+            if (k == nColumns - 1) drawMarker(activeCanvas, rect);
 
             prevRect.set(rect);
             rect.set(0, 0, columnWidth, columnHeight);
             rect.offset(k * columnWidth, paddingTop);
 
-            drawFooter(canvas, rect, currentDate);
+            drawFooter(activeCanvas, rect, currentDate);
 
             currentDate += bucketSize * DateHelper.millisecondsInOneDay;
         }
+
+        if(activeCanvas != canvas)
+            canvas.drawBitmap(drawingCache, 0, 0, null);
     }
 
     private int skipYear = 0;
@@ -364,19 +384,20 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
-        if(isBackgroundTransparent)
+        if(isTransparencyEnabled)
             pGraph.setXfermode(XFERMODE_SRC);
     }
 
-    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    public void setIsTransparencyEnabled(boolean enabled)
     {
-        this.isBackgroundTransparent = isBackgroundTransparent;
+        this.isTransparencyEnabled = enabled;
         createColors();
+        requestLayout();
     }
 
     private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)
     {
-        if(isBackgroundTransparent)
+        if(isTransparencyEnabled)
             p.setXfermode(mode);
         else
             p.setColor(color);

@@ -25,7 +25,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.CheckmarkView;
+import org.isoron.uhabits.views.CheckmarkWidgetView;
 import org.isoron.uhabits.views.HabitDataView;
 
 public class CheckmarkWidgetProvider extends BaseWidgetProvider
@@ -33,7 +33,7 @@ public class CheckmarkWidgetProvider extends BaseWidgetProvider
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        CheckmarkView view = new CheckmarkView(context);
+        CheckmarkWidgetView view = new CheckmarkWidgetView(context);
         view.setHabit(habit);
         return view;
     }
@@ -65,7 +65,7 @@ public class CheckmarkWidgetProvider extends BaseWidgetProvider
     @Override
     protected int getLayoutId()
     {
-        return R.layout.widget_checkmark;
+        return R.layout.widget_wrapper;
     }
 
 

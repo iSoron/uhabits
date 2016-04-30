@@ -20,7 +20,6 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,6 +32,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.views.RingView;
 
 import java.util.GregorianCalendar;
 
@@ -43,7 +43,6 @@ public class ListHabitsHelper
 
     private final Context context;
     private final HabitListLoader loader;
-    private Typeface fontawesome;
 
     public ListHabitsHelper(Context context, HabitListLoader loader)
     {
@@ -52,12 +51,6 @@ public class ListHabitsHelper
 
         lowContrastColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
         mediumContrastColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
-        fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
-    }
-
-    public Typeface getFontawesome()
-    {
-        return fontawesome;
     }
 
     public int getButtonCount()
@@ -105,46 +98,24 @@ public class ListHabitsHelper
 
     public void initializeLabelAndIcon(View itemView)
     {
-        TextView tvStar = (TextView) itemView.findViewById(R.id.tvStar);
-        tvStar.setTypeface(getFontawesome());
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getHabitNameWidth(),
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         itemView.findViewById(R.id.label).setLayoutParams(params);
     }
 
-    public void updateNameAndIcon(Habit habit, TextView tvStar, TextView tvName)
+    public void updateNameAndIcon(Habit habit, RingView ring, TextView tvName)
     {
         int activeColor = getActiveColor(habit);
 
         tvName.setText(habit.name);
         tvName.setTextColor(activeColor);
 
-        if (habit.isArchived())
-        {
-            tvStar.setText(context.getString(R.string.fa_archive));
-            tvStar.setTextColor(activeColor);
-        }
-        else
-        {
-            int score = loader.scores.get(habit.getId());
+        int score = loader.scores.get(habit.getId());
+        float percentage = (float) score / Score.MAX_VALUE;
 
-            if (score < Score.HALF_STAR_CUTOFF)
-            {
-                tvStar.setText(context.getString(R.string.fa_star_o));
-                tvStar.setTextColor(lowContrastColor);
-            }
-            else if (score < Score.FULL_STAR_CUTOFF)
-            {
-                tvStar.setText(context.getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(lowContrastColor);
-            }
-            else
-            {
-                tvStar.setText(context.getString(R.string.fa_star));
-                tvStar.setTextColor(activeColor);
-            }
-        }
+        ring.setColor(activeColor);
+        ring.setPercentage(percentage);
+        ring.setPrecision(1.0f / 16);
     }
 
     public void updateCheckmark(int activeColor, TextView tvCheck, int check)
@@ -184,7 +155,7 @@ public class ListHabitsHelper
 
     public void updateHabitCard(View view, Habit habit, boolean selected)
     {
-        TextView tvStar = ((TextView) view.findViewById(R.id.tvStar));
+        RingView scoreRing = ((RingView) view.findViewById(R.id.scoreRing));
         TextView tvName = (TextView) view.findViewById(R.id.label);
         LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
         LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
@@ -192,7 +163,7 @@ public class ListHabitsHelper
         llInner.setTag(R.string.habit_key, habit.getId());
         llInner.setOnTouchListener(new HotspotTouchListener());
 
-        updateNameAndIcon(habit, tvStar, tvName);
+        updateNameAndIcon(habit, scoreRing, tvName);
         updateCheckmarkButtons(habit, llButtons);
         updateHabitCardBackground(llInner, selected);
     }
@@ -227,7 +198,7 @@ public class ListHabitsHelper
         {
             View check = inflater.inflate(R.layout.list_habits_item_check, null);
             TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-            btCheck.setTypeface(fontawesome);
+            btCheck.setTypeface(UIHelper.getFontAwesome(context));
             btCheck.setOnLongClickListener(onLongClickListener);
             btCheck.setOnClickListener(onClickListener);
             btCheck.setHapticFeedbackEnabled(false);

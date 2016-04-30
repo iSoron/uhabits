@@ -25,7 +25,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
-import org.isoron.uhabits.views.CheckmarkView;
+import org.isoron.uhabits.views.CheckmarkWidgetView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,9 +34,9 @@ import java.io.IOException;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class CheckmarkViewTest extends ViewTest
+public class CheckmarkWidgetViewTest extends ViewTest
 {
-    private CheckmarkView view;
+    private CheckmarkWidgetView view;
     private Habit habit;
 
     @Before
@@ -45,7 +45,7 @@ public class CheckmarkViewTest extends ViewTest
         super.setup();
 
         habit = HabitFixtures.createShortHabit();
-        view = new CheckmarkView(targetContext);
+        view = new CheckmarkWidgetView(targetContext);
         view.setHabit(habit);
         refreshData(view);
         measureView(dpToPixels(100), dpToPixels(200), view);

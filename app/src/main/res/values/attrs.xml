@@ -41,8 +41,13 @@
     <attr name="iconEdit" format="reference"/>
     <attr name="iconUnarchive" format="reference"/>
     <attr name="dialogIconChangeColor" format="reference"/>
+    <attr name="iconReminder" format="reference"/>
+    <attr name="iconFrequency" format="reference"/>
 
     <attr name="toolbarPopupTheme" format="reference"/>
+
+    <attr name="widgetShadowAlpha" format="float"/>
+    <attr name="widgetBackgroundAlpha" format="float"/>
 
     <!-- Pre-Lollipop -->
     <attr name="cardBackground" format="reference"/>

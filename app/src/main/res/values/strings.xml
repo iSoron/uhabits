@@ -156,6 +156,7 @@
     <string name="bug_report_failed">Failed to generate bug report.</string>
     <string name="generate_bug_report">Generate bug report</string>
     <string name="troubleshooting">Troubleshooting</string>
+
     <string name="help_translate">Help translate this app</string>
     <string name="night_mode">Night mode</string>
     <string name="use_pure_black">Pure black for night mode</string>
@@ -167,4 +168,12 @@
     <string name="month">Month</string>
     <string name="quarter">Quarter</string>
     <string name="year">Year</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">time in</string>
+
+    <string name="every_x_days">Every %d days</string>
+    <string name="every_x_weeks">Every %d weeks</string>
+    <string name="every_x_months">Every %d months</string>
+    <string name="score">Score</string>
 </resources>

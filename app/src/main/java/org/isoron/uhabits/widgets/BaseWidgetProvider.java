@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.UIHelper;
@@ -123,23 +124,27 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     protected abstract void refreshCustomViewData(View widgetView);
 
-    private void savePreview(Context context, int widgetId, Bitmap widgetCache)
+    private void savePreview(Context context, int widgetId, Bitmap widgetCache, int width,
+                             int height, String label)
     {
         try
         {
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(getLayoutId(), null);
 
-            ImageView iv = (ImageView) view.findViewById(R.id.imageView);
-            iv.setImageBitmap(widgetCache);
+            TextView tvLabel = (TextView) view.findViewById(R.id.label);
+            if(tvLabel != null) tvLabel.setText(label);
 
-            view.measure(portraitWidth, portraitHeight);
+            ImageView iv = (ImageView) view.findViewById(R.id.imageView);
+            if(iv != null) iv.setImageBitmap(widgetCache);
+
+            view.measure(width, height);
             view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
             view.setDrawingCacheEnabled(true);
             view.buildDrawingCache();
             Bitmap previewCache = view.getDrawingCache();
 
-            String filename = String.format("%s/%d.png", context.getExternalCacheDir(), widgetId);
+            String filename = String.format("%s/%d_%d.png", context.getExternalCacheDir(), widgetId, width);
             Log.d("BaseWidgetProvider", String.format("Writing %s", filename));
             FileOutputStream out = new FileOutputStream(filename);
 
@@ -254,8 +259,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         {
             try
             {
-                buildRemoteViews(portraitWidgetView, portraitRemoteViews);
-                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews);
+                buildRemoteViews(portraitWidgetView, portraitRemoteViews, portraitWidth, portraitHeight);
+                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews, landscapeWidth, landscapeHeight);
                 updateAppWidget();
             }
             catch (Exception e)
@@ -267,7 +272,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             super.onPostExecute(aVoid);
         }
 
-        private void buildRemoteViews(View widgetView, RemoteViews remoteViews)
+        private void buildRemoteViews(View widgetView, RemoteViews remoteViews, int width, int height)
         {
             widgetView.invalidate();
             widgetView.setDrawingCacheEnabled(true);
@@ -276,11 +281,29 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             remoteViews.setTextViewText(R.id.label, habit.name);
             remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
 
-            //savePreview(context, widgetId, drawingCache);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            {
+                int imageWidth = widgetView.getMeasuredWidth();
+                int imageHeight = widgetView.getMeasuredHeight();
+                int p[] = getPadding(width, height, imageWidth, imageHeight);
+
+                remoteViews.setViewPadding(R.id.buttonOverlay, p[0], p[1], p[2], p[3]);
+            }
+
+            //savePreview(context, widgetId, drawingCache, width, height, habit.name);
 
             PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
-            if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.imageView,
+            if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.button,
                     onClickIntent);
         }
+    }
+
+    private int[] getPadding(int entireWidth, int entireHeight, int imageWidth,
+                             int imageHeight)
+    {
+        int w = (int) (((float) entireWidth - imageWidth) / 2);
+        int h = (int) (((float) entireHeight - imageHeight) / 2);
+
+        return new int[]{ w, h, w, h };
     }
 }

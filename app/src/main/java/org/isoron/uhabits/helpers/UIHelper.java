@@ -50,11 +50,19 @@ public abstract class UIHelper
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
 
-    private static Typeface fontawesome;
+    private static Typeface fontAwesome;
 
     public interface OnSavedListener
     {
         void onSaved(Command command, Object savedObject);
+    }
+
+    public static Typeface getFontAwesome(Context context)
+    {
+        if(fontAwesome == null)
+            fontAwesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
+
+        return fontAwesome;
     }
 
     public static void showSoftKeyboard(View view)
@@ -94,11 +102,27 @@ public abstract class UIHelper
         else return defaultValue;
     }
 
+    public static Integer getColorAttribute(Context context, AttributeSet attrs, String name,
+                                          Integer defaultValue)
+    {
+        int resId = attrs.getAttributeResourceValue(ISORON_NAMESPACE, name, 0);
+        if (resId != 0) return context.getResources().getColor(resId);
+        else return defaultValue;
+    }
+
     public static int getIntAttribute(Context context, AttributeSet attrs, String name,
                                       int defaultValue)
     {
         String number = getAttribute(context, attrs, name, null);
         if(number != null) return Integer.parseInt(number);
+        else return defaultValue;
+    }
+
+    public static boolean getBooleanAttribute(Context context, AttributeSet attrs, String name,
+                                      boolean defaultValue)
+    {
+        String boolText = getAttribute(context, attrs, name, null);
+        if(boolText != null) return Boolean.parseBoolean(boolText);
         else return defaultValue;
     }
 
@@ -204,6 +228,16 @@ public abstract class UIHelper
         ta.recycle();
 
         return bool;
+    }
+
+    public static float getStyledFloat(Context context, int attrId)
+    {
+        int[] attrs = new int[]{ attrId };
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        float f = ta.getFloat(0, 0);
+        ta.recycle();
+
+        return f;
     }
 
     static int getStyleResource(Context context, int attrId)

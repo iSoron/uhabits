@@ -133,7 +133,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         if(toolbar == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            toolbar.setElevation(UIHelper.dpToPixels(this, 3));
+            toolbar.setElevation(UIHelper.dpToPixels(this, 2));
 
         setSupportActionBar(toolbar);
 
@@ -196,6 +196,9 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
     protected void hideFakeToolbarShadow()
     {
         View view = findViewById(R.id.toolbarShadow);
+        if(view != null) view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.headerShadow);
         if(view != null) view.setVisibility(View.GONE);
     }
 }

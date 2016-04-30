@@ -25,16 +25,18 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.GraphWidgetView;
 import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitScoreView;
 
-public class ScoreWidgetProvider extends  BaseWidgetProvider
+public class ScoreWidgetProvider extends BaseWidgetProvider
 {
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitScoreView view = new HabitScoreView(context, null);
-        view.setIsBackgroundTransparent(true);
+        HabitScoreView dataView = new HabitScoreView(context);
+        dataView.setIsTransparencyEnabled(true);
+        GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;
     }
@@ -66,6 +68,6 @@ public class ScoreWidgetProvider extends  BaseWidgetProvider
     @Override
     protected int getLayoutId()
     {
-        return R.layout.widget_graph;
+        return R.layout.widget_wrapper;
     }
 }
