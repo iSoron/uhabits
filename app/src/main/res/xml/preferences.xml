@@ -51,6 +51,10 @@
             android:summary="%s"
             android:title="@string/pref_snooze_interval_title"/>
 
+        <Preference
+            android:key="reminderSound"
+            android:title="@string/reminder_sound"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -176,4 +176,6 @@
     <string name="every_x_weeks">Every %d weeks</string>
     <string name="every_x_months">Every %d months</string>
     <string name="score">Score</string>
+    <string name="reminder_sound">Reminder sound</string>
+    <string name="none">None</string>
 </resources>

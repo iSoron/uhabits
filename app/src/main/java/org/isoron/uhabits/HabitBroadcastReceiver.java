@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -176,7 +175,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 PendingIntent checkIntentPending = buildCheckIntent(context, habit, timestamp);
                 PendingIntent snoozeIntentPending = buildSnoozeIntent(context, habit);
 
-                Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Uri ringtoneUri = ReminderHelper.getRingtoneUri(context);
 
                 NotificationCompat.WearableExtender wearableExtender =
                         new NotificationCompat.WearableExtender().setBackground(
@@ -192,7 +191,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                                         context.getString(R.string.check), checkIntentPending)
                                 .addAction(R.drawable.ic_action_snooze,
                                         context.getString(R.string.snooze), snoozeIntentPending)
-                                .setSound(soundUri)
+                                .setSound(ringtoneUri)
                                 .extend(wearableExtender)
                                 .setWhen(reminderTime)
                                 .setShowWhen(true)
