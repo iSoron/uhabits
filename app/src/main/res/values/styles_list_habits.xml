@@ -72,16 +72,12 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="ListHabits.CheckmarkCommon">
+    <style name="ListHabits.Checkmark">
         <item name="android:focusable">false</item>
         <item name="android:minHeight">@dimen/checkmarkHeight</item>
         <item name="android:width">@dimen/checkmarkWidth</item>
         <item name="android:gravity">center</item>
     </style>
-
-    <style name="ListHabits.Checkmark" parent="ListHabits.CheckmarkCommon">
-    </style>
-
 
     <style name="ListHabits.EmptyState">
         <item name="android:layout_width">match_parent</item>

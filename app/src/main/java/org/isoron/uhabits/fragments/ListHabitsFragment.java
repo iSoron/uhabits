@@ -330,17 +330,18 @@ public class ListHabitsFragment extends Fragment
 
     private void toggleCheck(View v)
     {
-        Long tag = (Long) v.getTag(R.string.habit_key);
-        Integer offset = (Integer) v.getTag(R.string.offset_key);
-        long timestamp = DateHelper.getStartOfDay(
-                DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
-
-        Habit habit = loader.habits.get(tag);
+        Long id = helper.getHabitIdFromCheckmarkView(v);
+        Habit habit = loader.habits.get(id);
         if(habit == null) return;
 
-        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        float x = v.getX() + v.getWidth() / 2.0f + ((View) v.getParent()).getX();
+        float y = v.getY() + v.getHeight() / 2.0f + ((View) v.getParent()).getY();
+        helper.triggerRipple((View) v.getParent().getParent(), x, y);
 
+        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         helper.toggleCheckmarkView(v, habit);
+
+        long timestamp = helper.getTimestampFromCheckmarkView(v);
         executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
     }
 

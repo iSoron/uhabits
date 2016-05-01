@@ -21,6 +21,7 @@ package org.isoron.uhabits.helpers;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -239,6 +240,36 @@ public class ListHabitsHelper
             updateCheckmark(androidColor, (TextView) v, 0);
         else
             updateCheckmark(androidColor, (TextView) v, 2);
+    }
+
+    public Long getHabitIdFromCheckmarkView(View v)
+    {
+        return (Long) v.getTag(R.string.habit_key);
+    }
+
+    public long getTimestampFromCheckmarkView(View v)
+    {
+        Integer offset = (Integer) v.getTag(R.string.offset_key);
+        return DateHelper.getStartOfDay(DateHelper.getLocalTime() -
+                offset * DateHelper.millisecondsInOneDay);
+    }
+
+    public void triggerRipple(View v, final float x, final float y)
+    {
+        final Drawable background = v.getBackground();
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            background.setHotspot(x, y);
+
+        background.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                background.setState(new int[]{});
+            }
+        }, 25);
     }
 
     private static class HotspotTouchListener implements View.OnTouchListener

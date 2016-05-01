@@ -28,8 +28,4 @@
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:paddingRight">4dp</item>
     </style>
-
-    <style name="ListHabits.Checkmark" parent="ListHabits.CheckmarkCommon">
-        <item name="android:background">@drawable/ripple_transparent</item>
-    </style>
 </resources>
