@@ -302,4 +302,20 @@ public abstract class UIHelper
     {
         return getCurrentTheme() == THEME_DARK;
     }
+
+
+    public static void setDefaultScoreInterval(Context context, int position)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putInt("pref_score_view_interval", position).apply();
+    }
+
+    public static int getDefaultScoreInterval(Context context)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);
+        if(defaultScoreInterval > 5 || defaultScoreInterval < 0) defaultScoreInterval = 1;
+
+        return defaultScoreInterval;
+    }
 }

@@ -24,6 +24,7 @@ import android.view.View;
 
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.views.GraphWidgetView;
 import org.isoron.uhabits.views.HabitDataView;
@@ -34,8 +35,13 @@ public class ScoreWidgetProvider extends BaseWidgetProvider
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
+        int defaultScoreInterval = UIHelper.getDefaultScoreInterval(context);
+        int size = HabitScoreView.DEFAULT_BUCKET_SIZES[defaultScoreInterval];
+
         HabitScoreView dataView = new HabitScoreView(context);
         dataView.setIsTransparencyEnabled(true);
+        dataView.setBucketSize(size);
+
         GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;

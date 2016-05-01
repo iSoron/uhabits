@@ -49,6 +49,8 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     public static final PorterDuffXfermode XFERMODE_SRC =
             new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
+    public static int DEFAULT_BUCKET_SIZES[] = { 1, 7, 31, 92, 365 };
+
     private Paint pGrid;
     private float em;
     private Habit habit;

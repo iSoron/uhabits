@@ -19,9 +19,7 @@
 
 package org.isoron.uhabits.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -74,9 +72,6 @@ public class ShowHabitFragment extends Fragment
     @Nullable
     private HabitScoreView scoreView;
 
-    @Nullable
-    private SharedPreferences prefs;
-
     private int previousScoreInterval;
 
     private float todayScore;
@@ -112,9 +107,7 @@ public class ShowHabitFragment extends Fragment
 
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);
-        if(defaultScoreInterval > 5 || defaultScoreInterval < 0) defaultScoreInterval = 1;
+        int defaultScoreInterval = UIHelper.getDefaultScoreInterval(getContext());
         previousScoreInterval = defaultScoreInterval;
         setScoreBucketSize(defaultScoreInterval);
 
@@ -291,6 +284,8 @@ public class ShowHabitFragment extends Fragment
         else activity.executeCommand(command, h.getId());
 
         ReminderHelper.createReminderAlarms(activity);
+        HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
+
         activity.recreate();
     }
 
@@ -349,15 +344,15 @@ public class ShowHabitFragment extends Fragment
     {
         if(scoreView == null) return;
 
-        int sizes[] = { 1, 7, 31, 92, 365 };
-        int size = sizes[position];
+        scoreView.setBucketSize(HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
 
-        scoreView.setBucketSize(size);
-        if(position != previousScoreInterval) refreshData();
+        if(position != previousScoreInterval)
+        {
+            refreshData();
+            HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
+        }
 
-        if(prefs != null)
-            prefs.edit().putInt("pref_score_view_interval", position).apply();
-
+        UIHelper.setDefaultScoreInterval(getContext(), position);
         previousScoreInterval = position;
     }
 
