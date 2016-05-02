@@ -110,8 +110,10 @@ public class ReminderHelper
         return ringtoneUri;
     }
 
-    public static void parseRingtoneData(Context context, Intent data)
+    public static void parseRingtoneData(Context context, @Nullable Intent data)
     {
+        if(data == null) return;
+
         Uri ringtoneUri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
 
         if (ringtoneUri != null)

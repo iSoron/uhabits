@@ -159,9 +159,11 @@
 
     <string name="help_translate">Help translate this app</string>
     <string name="night_mode">Night mode</string>
-    <string name="use_pure_black">Pure black for night mode</string>
-    <string name="pure_black_description">Use pure black instead of grey backgrounds in night mode. Reduces battery usage in phones with AMOLED display.</string>
+    <string name="use_pure_black">Use pure black in night mode</string>
+    <string name="pure_black_description">Replaces gray backgrounds with pure black in night mode. Reduces battery usage in phones with AMOLED display.</string>
     <string name="interface_preferences">Interface</string>
+    <string name="reverse_days">Reverse order of days</string>
+    <string name="reverse_days_description">Show days in reverse order on the main screen</string>
 
     <string name="day">Day</string>
     <string name="week">Week</string>

@@ -20,8 +20,10 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +41,9 @@ import java.util.GregorianCalendar;
 
 public class ListHabitsHelper
 {
+    private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
+    private static final int CHECKMARK_RIGHT_TO_LEFT = 1;
+
     private final int lowContrastColor;
     private final int mediumContrastColor;
 
@@ -80,8 +85,12 @@ public class ListHabitsHelper
 
         for (int i = 0; i < m; i++)
         {
+            int position = i;
 
-            TextView tvCheck = (TextView) llButtons.getChildAt(i);
+            if(getCheckmarkOrder() == CHECKMARK_RIGHT_TO_LEFT)
+                position = m - i - 1;
+
+            TextView tvCheck = (TextView) llButtons.getChildAt(position);
             tvCheck.setTag(R.string.habit_key, habitId);
             tvCheck.setTag(R.string.offset_key, i);
             if(isChecked.length > i)
@@ -217,11 +226,15 @@ public class ListHabitsHelper
 
         for (int i = 0; i < getButtonCount(); i++)
         {
+            int position = 0;
+
+            if(getCheckmarkOrder() == CHECKMARK_LEFT_TO_RIGHT)
+                position = i;
+
             View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
             TextView btCheck = (TextView) tvDay.findViewById(R.id.tvCheck);
             btCheck.setText(DateHelper.formatHeaderDate(day));
-            header.addView(tvDay);
-
+            header.addView(tvDay, position);
             day.add(GregorianCalendar.DAY_OF_MONTH, -1);
         }
     }
@@ -281,5 +294,12 @@ public class ListHabitsHelper
                 v.getBackground().setHotspot(event.getX(), event.getY());
             return false;
         }
+    }
+
+    public int getCheckmarkOrder()
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean reverse = prefs.getBoolean("pref_checkmark_reverse_order", false);
+        return reverse ? CHECKMARK_RIGHT_TO_LEFT : CHECKMARK_LEFT_TO_RIGHT;
     }
 }

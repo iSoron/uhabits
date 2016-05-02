@@ -32,6 +32,13 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="pref_checkmark_reverse_order"
+            android:summary="@string/reverse_days_description"
+            android:title="@string/reverse_days"/>
+
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="pref_pure_black"
             android:summary="@string/pure_black_description"
             android:title="@string/use_pure_black"/>
