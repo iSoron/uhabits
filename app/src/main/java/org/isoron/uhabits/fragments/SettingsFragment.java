@@ -107,6 +107,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public boolean onPreferenceTreeClick(Preference preference)
     {
+        if(preference.getKey() == null) return false;
+
         if (preference.getKey().equals("reminderSound"))
         {
             ReminderHelper.startRingtonePickerActivity(this, RINGTONE_REQUEST_CODE);
