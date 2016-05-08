@@ -1,8 +1,11 @@
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3"
 checkout:
   post:
     - git submodule sync
     - git submodule update --init
-
 test:
   override:
     - mksdcard -l e 128M sdcard.img
