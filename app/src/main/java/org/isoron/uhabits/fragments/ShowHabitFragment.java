@@ -168,28 +168,38 @@ public class ShowHabitFragment extends Fragment
             reminderLabel.setText(getResources().getString(R.string.reminder_off));
 
         TextView frequencyLabel = (TextView) view.findViewById(R.id.frequencyLabel);
-        String freqText;
-
-        if(habit.freqNum.equals(habit.freqDen))
-            freqText = getResources().getString(R.string.every_day);
-        else if(habit.freqNum == 1 && habit.freqDen == 7)
-            freqText = getResources().getString(R.string.every_week);
-        else
-        {
-            String times_every;
-            if(habit.freqNum == 1)
-                times_every = getResources().getString(R.string.time_every);
-            else
-                times_every = getResources().getString(R.string.times_every);
-
-            freqText = String.format("%d %s %d %s", habit.freqNum, times_every, habit.freqDen,
-                    getResources().getString(R.string.days));
-        }
-
-        frequencyLabel.setText(freqText);
+        frequencyLabel.setText(getFreqText());
 
         if(habit.description.isEmpty())
             questionLabel.setVisibility(View.GONE);
+    }
+
+    private String getFreqText()
+    {
+        if(habit == null)
+            return "";
+
+        if(habit.freqNum.equals(habit.freqDen))
+            return getResources().getString(R.string.every_day);
+
+        if(habit.freqNum == 1)
+        {
+            if (habit.freqDen == 7)
+                return getResources().getString(R.string.every_week);
+
+            if (habit.freqDen % 7 == 0)
+                return getResources().getString(R.string.every_x_weeks, habit.freqDen / 7);
+
+            return getResources().getString(R.string.every_x_days, habit.freqDen);
+        }
+
+        String times_every = getResources().getString(R.string.times_every);
+
+        if(habit.freqNum == 1)
+            times_every = getResources().getString(R.string.time_every);
+
+        return String.format("%d %s %d %s", habit.freqNum, times_every, habit.freqDen,
+                getResources().getString(R.string.days));
     }
 
     @Override
