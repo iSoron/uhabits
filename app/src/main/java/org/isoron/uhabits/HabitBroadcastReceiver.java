@@ -57,7 +57,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         {
             case ACTION_SHOW_REMINDER:
                 createNotification(context, intent);
-                createReminderAlarms(context);
+                createReminderAlarmsDelayed(context);
                 break;
 
             case ACTION_DISMISS:
@@ -71,10 +71,14 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             case ACTION_SNOOZE:
                 snoozeHabit(context, intent);
                 break;
+
+            case Intent.ACTION_BOOT_COMPLETED:
+                ReminderHelper.createReminderAlarms(context);
+                break;
         }
     }
 
-    private void createReminderAlarms(final Context context)
+    private void createReminderAlarmsDelayed(final Context context)
     {
         new Handler().postDelayed(new Runnable()
         {

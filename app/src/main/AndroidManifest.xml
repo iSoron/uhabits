@@ -34,6 +34,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name="HabitsApplication"
         android:allowBackup="true"
@@ -154,7 +156,11 @@
                 android:resource="@xml/widget_frequency_info"/>
         </receiver>
 
-        <receiver android:name=".HabitBroadcastReceiver"/>
+        <receiver android:name=".HabitBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
