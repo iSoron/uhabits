@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "org.isoron.uhabits"
@@ -32,17 +32,17 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:preference-v14:23.2.1'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:preference-v14:23.3.0'
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'
     compile project(':libs:drag-sort-listview:library')
     compile files('libs/ActiveAndroid.jar')
 
-    androidTestCompile 'com.android.support:support-annotations:23.2.1'
+    androidTestCompile 'com.android.support:support-annotations:23.3.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
 
