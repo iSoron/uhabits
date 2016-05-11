@@ -44,6 +44,7 @@ import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
@@ -271,9 +272,19 @@ public class MainActivity extends BaseActivity
             @Override
             protected void doInBackground()
             {
+                dismissNotifications(MainActivity.this);
                 updateWidgets(MainActivity.this);
             }
         }.execute();
+    }
+
+    private void dismissNotifications(Context context)
+    {
+        for(Habit h : Habit.getHabitsWithReminder())
+        {
+            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
+                HabitBroadcastReceiver.dismissNotification(context, h);
+        }
     }
 
     public static void updateWidgets(Context context)

@@ -167,9 +167,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             {
                 if (todayValue != Checkmark.UNCHECKED) return;
                 if (!checkWeekday(intent, habit)) return;
-
-                // Check if reminder has been turned off after alarm was scheduled
-                if (habit.reminderHour == null) return;
+                if (!habit.hasReminder()) return;
 
                 Intent contentIntent = new Intent(context, MainActivity.class);
                 contentIntent.setData(data);
@@ -184,10 +182,12 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
                 NotificationCompat.WearableExtender wearableExtender =
                         new NotificationCompat.WearableExtender().setBackground(
-                                BitmapFactory.decodeResource(context.getResources(), R.drawable.stripe));
+                                BitmapFactory.decodeResource(context.getResources(),
+                                        R.drawable.stripe));
 
                 Notification notification =
-                        new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_notification)
+                        new NotificationCompat.Builder(context)
+                                .setSmallIcon(R.drawable.ic_notification)
                                 .setContentTitle(habit.name)
                                 .setContentText(habit.description)
                                 .setContentIntent(contentPendingIntent)
@@ -205,7 +205,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
                 NotificationManager notificationManager =
-                        (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
+                        (NotificationManager) context.getSystemService(
+                                Activity.NOTIFICATION_SERVICE);
 
                 int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
                 notificationManager.notify(notificationId, notification);
@@ -261,4 +262,13 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         return reminderDays[weekday];
     }
 
+    public static void dismissNotification(Context context, Habit habit)
+    {
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(
+                        Activity.NOTIFICATION_SERVICE);
+
+        int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
+        notificationManager.cancel(notificationId);
+    }
 }
