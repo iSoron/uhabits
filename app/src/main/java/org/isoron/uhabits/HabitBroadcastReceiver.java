@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.uhabits.helpers.DateHelper;
@@ -244,7 +245,10 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     {
         Intent intent = new Intent(context, ShowHabitActivity.class);
         intent.setData(Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId()));
-        return PendingIntent.getActivity(context, 0, intent, 0);
+
+        return TaskStackBuilder.create(context.getApplicationContext())
+                .addNextIntentWithParentStack(intent)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private boolean checkWeekday(Intent intent, Habit habit)

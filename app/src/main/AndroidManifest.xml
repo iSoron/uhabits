@@ -61,8 +61,7 @@
 
         <activity
             android:name=".ShowHabitActivity"
-            android:label="@string/title_activity_show_habit"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/title_activity_show_habit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.isoron.uhabits.MainActivity"/>
@@ -70,8 +69,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/settings"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.isoron.uhabits.MainActivity"/>
@@ -92,8 +90,10 @@
 
         <activity
             android:name=".AboutActivity"
-            android:label="@string/about"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/about">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <receiver
