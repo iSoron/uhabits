@@ -118,15 +118,15 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Limin Lu (中文)"/>
+                    android:text="Angga Rifandi (Bahasa Indonesia)"/>
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="François Mahé (Français)"/>
+                    android:text="Tomáš Borovec (Čeština)"/>
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Naofumi F (日本語)"/>
+                    android:text="David Nos (Català)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -134,7 +134,19 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Al Alloush (العَرَبِية‎)"/>
+                    android:text="Sojusnik (Deutsch)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Can Altas (Deutsch)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Ander Raso Vazquez (Español)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="François Mahé (Français)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -142,7 +154,7 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Can Altas (Deutsch)"/>
+                    android:text="Mathis Chenuet (Français)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -151,6 +163,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Adam Jurkiewicz (Polski)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Álinson Xavier (Português)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -166,11 +182,15 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Josh (한국어 )"/>
+                    android:text="Caner Başaran (Türkçe)"/>
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Ander Raso Vazquez (Español)"/>
+                    android:text="Yurii Stavytskyi (Української)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Limin Lu (中文)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -178,15 +198,27 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Tomáš Borovec (Čeština)"/>
+                    android:text="Ting-Hua (中文)"/>
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Mathis Chenuet (Français)"/>
+                    android:text="Lee (中文)"/>
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Álinson Xavier (Português)"/>
+                    android:text="Liveeasy (中文)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Naofumi F (日本語)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Al Alloush (العَرَبِية‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Josh Graham (한국어 )"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
