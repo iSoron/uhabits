@@ -17,3 +17,8 @@ test:
     - ./run_tests
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS || echo ok
     - bash <(curl -s https://codecov.io/bash)
+general:
+  branches:
+    ignore:
+      - gh-pages
+      - poeditor
