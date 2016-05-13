@@ -1,5 +1,19 @@
 # Changelog
 
+### 1.5.0 (May 13, 2016)
+
+* Add night mode, with AMOLED support
+* Backport material design to older devices
+* Display more information on statistics screen
+* Display score on main screen and checkmark widget
+* Make widgets react immediately to touch
+* Reschedule reminders after reboot
+* Pick first day of the week according to country
+* Add option to reverse order of days on main screen
+* Add option to change notification sounds
+* Add Catalan, Indonesian, Turkish, Ukrainian translations
+* Switch between Simplified/Traditional Chinese according to country
+
 ### 1.4.1 (April 9, 2016)
 
 * Show error message on widgets, instead of crashing
