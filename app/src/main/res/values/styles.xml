@@ -142,7 +142,7 @@
 
         <item name="highContrastTextColor">@color/white</item>
         <item name="mediumContrastTextColor">@color/white_aa</item>
-        <item name="lowContrastTextColor">@color/white_a2</item>
+        <item name="lowContrastTextColor">@color/white_a0</item>
 
         <item name="highContrastReverseTextColor">@color/white</item>
         <item name="mediumContrastReverseTextColor">@color/grey_500</item>
