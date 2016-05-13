@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"Alışkanlık Takip Edici"</string>
+<string name="app_name">"Loop Alışkanlık Takip"</string>
 <string name="main_activity_title">"Alışkanlıklar"</string>
 <string name="action_settings">"Ayarlar"</string>
 <string name="edit">"Düzenle"</string>

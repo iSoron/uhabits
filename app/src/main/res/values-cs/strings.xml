@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"Sledování pravidelných návyků"</string>
+<string name="app_name">"Loop Habit Tracker</string>
 <string name="main_activity_title">"Zvyky"</string>
 <string name="action_settings">"Nastavení"</string>
 <string name="edit">"Upravit"</string>
