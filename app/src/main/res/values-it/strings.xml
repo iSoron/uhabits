@@ -110,7 +110,7 @@ Crea un promemoria per ogni abitudine, ad una specifica ora del giorno. Completa
 <string name="store_feature_opensource">"&lt;b&gt;Completamente gratuito ed opensource&lt;/b&gt;
 Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne saranno. Il codice sorgente completo è disponibile sotto licenza GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Ottimizzata per gli smartwatch&lt;/b&gt; I promemoria possono essere completati, ritardati o ignorati direttamente dal tuo orologio Android Wear."</string>
-<string name="about">"A proposito di"</string>
+<string name="about">"Su Loop"</string>
 <string name="translators">"Traduttori"</string>
 <string name="developers">"Sviluppatori"</string>
 
@@ -154,4 +154,35 @@ Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne sar
 <string name="bug_report_failed">"Generazione del bug report fallita"</string>
 <string name="generate_bug_report">"Genera bug report"</string>
 <string name="troubleshooting">"Risoluzione dei problemi"</string>
+<string name="help_translate">"Aiuta a tradurre questa app"</string>
+<string name="night_mode">"Modalità notte"</string>
+<string name="use_pure_black">"Usa nero puro nella modalità notte"</string>
+<string name="pure_black_description">"Sostituisce gli sfondi grigi con sfondi neri nella modalità notte. Riduce il consumo di batteria nei dispositivi con schermo AMOLED."</string>
+<string name="interface_preferences">"Interfaccia"</string>
+<string name="reverse_days">"Inverti ordine giorni"</string>
+<string name="reverse_days_description">"Mostra i giorni in ordine inverso nella schermata principale"</string>
+<string name="day">"Giorno"</string>
+<string name="week">"Settimana"</string>
+<string name="month">"Mese"</string>
+
+<!-- By quarter you mean four months, right? -->
+<!-- Three-month period -->
+<string name="quarter">"Quadrimestre"</string>
+<string name="year">"Anno"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Fuzzy -->
+<string name="time_every">"volta in"</string>
+<string name="every_x_days">"Ogni %d giorni"</string>
+<string name="every_x_weeks">"Ogni %d settimane"</string>
+<string name="every_x_months">"Ogni %d mesi"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Punteggio"</string>
+<string name="reminder_sound">"Suono notifica"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<!-- Fuzzy -->
+<string name="none">"Nessuno"</string>
 </resources>

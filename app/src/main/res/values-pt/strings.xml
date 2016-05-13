@@ -149,4 +149,32 @@ Lembretes podem ser marcados ou ignorados diretamente a partir do seu relógio A
 <string name="bug_report_failed">"Erro ao gerar relatório de erros."</string>
 <string name="generate_bug_report">"Gerar relatório de erros."</string>
 <string name="troubleshooting">"Solução de problemas"</string>
+<string name="help_translate">"Ajude a traduzir este app"</string>
+<string name="night_mode">"Modo noturno"</string>
+<string name="use_pure_black">"Usar preto em modo noturno"</string>
+<string name="pure_black_description">"Substitui os tons de cinza por preto puro em modo noturno. Economiza bateria em telefones com tela AMOLED."</string>
+<string name="interface_preferences">"Interface"</string>
+<string name="reverse_days">"Inverter a ordem dos dias"</string>
+<string name="reverse_days_description">"Mostra os dias em ordem inversa na tela principal"</string>
+<string name="day">"Dia"</string>
+<string name="week">"Semana"</string>
+<string name="month">"Mês"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Trimestre"</string>
+<string name="year">"Ano"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"vez em"</string>
+<string name="every_x_days">"A cada %d dias"</string>
+<string name="every_x_weeks">"A cada %d semanas"</string>
+<string name="every_x_months">"A cada %d meses"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Estabilidade"</string>
+<string name="reminder_sound">"Toque dos lembretes"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Nenhum"</string>
 </resources>

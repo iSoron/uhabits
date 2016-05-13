@@ -36,9 +36,9 @@
 
 <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"Rachas"</string>
-<string name="no_habits_found">"No hay ningún hábito activo"</string>
-<string name="long_press_to_toggle">"Mantener apretado para"</string>
-<string name="reminder_off">"No"</string>
+<string name="no_habits_found">"No tienes hábitos activos"</string>
+<string name="long_press_to_toggle">"Mantener apretado para marcar o desmarcar"</string>
+<string name="reminder_off">"Apagado"</string>
 <string name="validation_name_should_not_be_blank">"Nombre no puede estar en blanco."</string>
 <string name="validation_number_should_be_positive">"Número debe ser positivo."</string>
 <string name="validation_at_most_one_rep_per_day">"Puedes tener como máximo una repetición por día"</string>
@@ -167,4 +167,32 @@ Los recordatorios se pueden marcar, aplazar o descartar directamente desde tu re
 <string name="bug_report_failed">"Fallo al generar el informe del bug."</string>
 <string name="generate_bug_report">"Generar informe de bug"</string>
 <string name="troubleshooting">"Solución de problemas"</string>
+<string name="help_translate">"Ayuda a traducir esta app"</string>
+<string name="night_mode">"Modo nocturno"</string>
+<string name="use_pure_black">"Utilizar color negro en modo nocturno"</string>
+<string name="pure_black_description">"Reemplaza fondos grises por color negro en modo nocturno. Reduce el consumo de batería en teléfonos con pantalla AMOLED."</string>
+<string name="interface_preferences">"Interfície"</string>
+<string name="reverse_days">"Orden inverso de días"</string>
+<string name="reverse_days_description">"Mostrar días en orden inverso en la pantalla principal"</string>
+<string name="day">"Día"</string>
+<string name="week">"Semana"</string>
+<string name="month">"Mes"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Cuatrimestre"</string>
+<string name="year">"Año"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"veces en"</string>
+<string name="every_x_days">"Cada %d días"</string>
+<string name="every_x_weeks">"Cada %d semanas"</string>
+<string name="every_x_months">"Cada %d meses"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Puntuación"</string>
+<string name="reminder_sound">"Sonido de recordatorio"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Ninguno"</string>
 </resources>
