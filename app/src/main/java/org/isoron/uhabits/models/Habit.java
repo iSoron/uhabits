@@ -37,6 +37,8 @@ import com.opencsv.CSVWriter;
 
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -509,5 +511,47 @@ public class Habit extends Model
         }
 
         csv.close();
+    }
+
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject json = new JSONObject();
+            json.put("name", name);
+            json.put("description", description);
+            json.put("freqNum", freqNum);
+            json.put("freqDen", freqDen);
+            json.put("color", color);
+            json.put("position", position);
+            json.put("reminderHour", reminderHour);
+            json.put("reminderMin", reminderMin);
+            json.put("reminderDays", reminderDays);
+            json.put("archived", archived);
+            return json;
+        }
+        catch(JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static Habit fromJSON(JSONObject json) throws JSONException
+    {
+        Habit habit = new Habit();
+        habit.name = json.getString("name");
+        habit.description = json.getString("description");
+        habit.freqNum = json.getInt("freqNum");
+        habit.freqDen = json.getInt("freqDen");
+        habit.color = json.getInt("color");
+        habit.position = json.getInt("position");
+        habit.archived = json.getInt("archived");
+        if(json.has("reminderHour"))
+        {
+            habit.reminderHour = json.getInt("reminderHour");
+            habit.reminderMin = json.getInt("reminderMin");
+            habit.reminderDays = json.getInt("reminderDays");
+        }
+        return habit;
     }
 }

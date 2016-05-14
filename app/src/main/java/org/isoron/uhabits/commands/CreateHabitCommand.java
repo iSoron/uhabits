@@ -19,13 +19,24 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.Nullable;
+
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CreateHabitCommand extends Command
 {
     private Habit model;
     private Long savedId;
+
+    public CreateHabitCommand(String id, Habit model, Long savedId)
+    {
+        super(id);
+        this.model = model;
+        this.savedId = savedId;
+    }
 
     public CreateHabitCommand(Habit model)
     {
@@ -68,4 +79,32 @@ public class CreateHabitCommand extends Command
         return R.string.toast_habit_deleted;
     }
 
+    @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("command", "CreateHabit");
+            data.put("habit", model.toJSON());
+            data.put("id", savedId);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Nullable
+    public static Command fromJSON(JSONObject root) throws JSONException
+    {
+        String commandId = root.getString("id");
+        JSONObject data = (JSONObject) root.get("data");
+        Habit model = Habit.fromJSON(data.getJSONObject("habit"));
+        Long savedId = data.getLong("id");
+
+        return new CreateHabitCommand(commandId, model, savedId);
+    }
 }

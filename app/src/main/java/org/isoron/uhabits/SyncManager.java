@@ -42,7 +42,7 @@ public class SyncManager
     public static final String SYNC_SERVER_URL = "http://10.0.2.2:4000";
 
     private static String GROUP_KEY = "sEBY3poXHFH7EyB43V2JoQUNEtBjMgdD";
-    private static String CLIENT_KEY;
+    private static String CLIENT_ID;
 
     @NonNull
     private Socket socket;
@@ -53,7 +53,7 @@ public class SyncManager
     {
         this.activity = activity;
         outbox = new LinkedList<>();
-        CLIENT_KEY = DatabaseHelper.getRandomId();
+        CLIENT_ID = DatabaseHelper.getRandomId();
 
         try
         {
@@ -80,6 +80,7 @@ public class SyncManager
 
     public void close()
     {
+        socket.off();
         socket.close();
     }
 
@@ -98,7 +99,7 @@ public class SyncManager
             {
                 JSONObject json = new JSONObject();
                 json.put("group_key", GROUP_KEY);
-                json.put("client_key", CLIENT_KEY);
+                json.put("client_id", CLIENT_ID);
                 json.put("version", BuildConfig.VERSION_NAME);
                 return json;
             }

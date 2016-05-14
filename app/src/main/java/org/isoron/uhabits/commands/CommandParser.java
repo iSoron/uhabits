@@ -43,13 +43,30 @@ public class CommandParser
 
             case "UnarchiveHabits":
                 return UnarchiveHabitsCommand.fromJSON(json);
+
+            case "ChangeHabitColor":
+                return ChangeHabitColorCommand.fromJSON(json);
+
+            case "CreateHabit":
+                return CreateHabitCommand.fromJSON(json);
+
+            case "DeleteHabits":
+                return DeleteHabitsCommand.fromJSON(json);
+
+            case "EditHabit":
+                return EditHabitCommand.fromJSON(json);
+
+//            TODO: Implement this
+//            case "ReorderHabit":
+//                return ReorderHabitCommand.fromJSON(json);
+
         }
 
         return null;
     }
 
     @NonNull
-    public static LinkedList<Habit> habitsFromJSON(JSONArray habitIds) throws JSONException
+    public static LinkedList<Habit> habitListFromJSON(JSONArray habitIds) throws JSONException
     {
         LinkedList<Habit> habits = new LinkedList<>();
 
@@ -66,7 +83,7 @@ public class CommandParser
     }
 
     @NonNull
-    protected static JSONArray habitsToJSON(List<Habit> habits)
+    protected static JSONArray habitListToJSON(List<Habit> habits)
     {
         JSONArray habitIds = new JSONArray();
         for(Habit h : habits) habitIds.put(h.getId());

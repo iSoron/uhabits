@@ -74,7 +74,7 @@ public class UnarchiveHabitsCommand extends Command
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
             root.put("command", "UnarchiveHabits");
-            data.put("habits", CommandParser.habitsToJSON(habits));
+            data.put("ids", CommandParser.habitListToJSON(habits));
             return root;
         }
         catch (JSONException e)
@@ -87,9 +87,9 @@ public class UnarchiveHabitsCommand extends Command
     {
         String id = json.getString("id");
         JSONObject data = (JSONObject) json.get("data");
-        JSONArray habitIds = data.getJSONArray("habits");
+        JSONArray habitIds = data.getJSONArray("ids");
 
-        LinkedList<Habit> habits = CommandParser.habitsFromJSON(habitIds);
+        LinkedList<Habit> habits = CommandParser.habitListFromJSON(habitIds);
         return new UnarchiveHabitsCommand(id, habits);
     }
 

@@ -63,7 +63,12 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
 
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+    }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
         sync = new SyncManager(this);
     }
 
@@ -99,7 +104,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
                 BackupManager.dataChanged("org.isoron.uhabits");
                 if(shouldBroadcast)
                 {
-                    sync.postCommand(command);
+                    if(sync != null) sync.postCommand(command);
                     showToast(command.getExecuteStringId());
                 }
             }
@@ -191,10 +196,12 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
     }
 
     @Override
-    protected void onDestroy()
+    protected void onPause()
     {
         sync.close();
-        super.onDestroy();
+        sync = null;
+
+        super.onPause();
     }
 
     private void dismissNotifications(Context context)

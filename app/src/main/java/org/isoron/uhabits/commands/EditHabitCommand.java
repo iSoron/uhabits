@@ -19,8 +19,12 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.Nullable;
+
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class EditHabitCommand extends Command
 {
@@ -29,7 +33,18 @@ public class EditHabitCommand extends Command
     private long savedId;
     private boolean hasIntervalChanged;
 
+    public EditHabitCommand(String id, Habit original, Habit modified)
+    {
+        super(id);
+        init(original, modified);
+    }
+
     public EditHabitCommand(Habit original, Habit modified)
+    {
+        init(original, modified);
+    }
+
+    private void init(Habit original, Habit modified)
     {
         this.savedId = original.getId();
         this.modified = new Habit(modified);
@@ -80,5 +95,36 @@ public class EditHabitCommand extends Command
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_changed_back;
+    }
+
+    @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("command", "EditHabit");
+            data.put("id", savedId);
+            data.put("params", modified.toJSON());
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Nullable
+    public static Command fromJSON(JSONObject root) throws JSONException
+    {
+        String commandId = root.getString("id");
+        JSONObject data = (JSONObject) root.get("data");
+        Habit original = Habit.get(data.getLong("id"));
+        if(original == null) return null;
+
+        Habit modified = Habit.fromJSON(data.getJSONObject("params"));
+
+        return new EditHabitCommand(commandId, original, modified);
     }
 }

@@ -78,7 +78,7 @@ public class ArchiveHabitsCommand extends Command
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
             root.put("command", "ArchiveHabits");
-            data.put("habits", CommandParser.habitsToJSON(habits));
+            data.put("ids", CommandParser.habitListToJSON(habits));
             return root;
         }
         catch (JSONException e)
@@ -91,9 +91,9 @@ public class ArchiveHabitsCommand extends Command
     {
         String id = json.getString("id");
         JSONObject data = (JSONObject) json.get("data");
-        JSONArray habitIds = data.getJSONArray("habits");
+        JSONArray habitIds = data.getJSONArray("ids");
 
-        LinkedList<Habit> habits = CommandParser.habitsFromJSON(habitIds);
+        LinkedList<Habit> habits = CommandParser.habitListFromJSON(habitIds);
         return new ArchiveHabitsCommand(id, habits);
     }
 }

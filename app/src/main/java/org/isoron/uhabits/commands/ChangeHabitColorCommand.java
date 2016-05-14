@@ -19,13 +19,15 @@
 
 package org.isoron.uhabits.commands;
 
-import com.activeandroid.ActiveAndroid;
-
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.models.Habit;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ChangeHabitColorCommand extends Command
@@ -34,7 +36,18 @@ public class ChangeHabitColorCommand extends Command
     List<Integer> originalColors;
     Integer newColor;
 
+    public ChangeHabitColorCommand(String id, List<Habit> habits, Integer newColor)
+    {
+        super(id);
+        init(habits, newColor);
+    }
+
     public ChangeHabitColorCommand(List<Habit> habits, Integer newColor)
+    {
+        init(habits, newColor);
+    }
+
+    private void init(List<Habit> habits, Integer newColor)
     {
         this.habits = habits;
         this.newColor = newColor;
@@ -76,5 +89,34 @@ public class ChangeHabitColorCommand extends Command
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_changed;
+    }
+
+    @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("command", "ChangeHabitColor");
+            data.put("ids", CommandParser.habitListToJSON(habits));
+            data.put("color", newColor);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static Command fromJSON(JSONObject json) throws JSONException
+    {
+        String id = json.getString("id");
+        JSONObject data = (JSONObject) json.get("data");
+        JSONArray habitIds = data.getJSONArray("ids");
+        int newColor = data.getInt("color");
+
+        LinkedList<Habit> habits = CommandParser.habitListFromJSON(habitIds);
+        return new ChangeHabitColorCommand(id, habits, newColor);
     }
 }
