@@ -19,8 +19,25 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.Nullable;
+
+import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.json.JSONObject;
+
 public abstract class Command
 {
+    private final String id;
+
+    public Command()
+    {
+        id = DatabaseHelper.getRandomId();
+    }
+
+    public Command(String id)
+    {
+        this.id = id;
+    }
+
     public abstract void execute();
 
     public abstract void undo();
@@ -33,5 +50,13 @@ public abstract class Command
     public Integer getUndoStringId()
     {
         return null;
+    }
+
+    @Nullable
+    public JSONObject toJSON() { return null; }
+
+    public String getId()
+    {
+        return id;
     }
 }

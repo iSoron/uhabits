@@ -20,30 +20,37 @@
 package org.isoron.uhabits;
 
 import android.app.backup.BackupManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
-
-import java.util.LinkedList;
+import org.isoron.uhabits.models.Checkmark;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
+import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
+import org.isoron.uhabits.widgets.HistoryWidgetProvider;
+import org.isoron.uhabits.widgets.ScoreWidgetProvider;
+import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
 abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler
 {
-    private static int MAX_UNDO_LEVEL = 15;
-
-    private LinkedList<Command> undoList;
-    private LinkedList<Command> redoList;
     private Toast toast;
+    private SyncManager sync;
 
     Thread.UncaughtExceptionHandler androidExceptionHandler;
 
@@ -57,38 +64,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
 
-        undoList = new LinkedList<>();
-        redoList = new LinkedList<>();
-    }
-
-    public void executeCommand(Command command, Long refreshKey)
-    {
-        executeCommand(command, false, refreshKey);
-    }
-
-    protected void undo()
-    {
-        if (undoList.isEmpty())
-        {
-            showToast(R.string.toast_nothing_to_undo);
-            return;
-        }
-
-        Command last = undoList.pop();
-        redoList.push(last);
-        last.undo();
-        showToast(last.getUndoStringId());
-    }
-
-    protected void redo()
-    {
-        if (redoList.isEmpty())
-        {
-            showToast(R.string.toast_nothing_to_redo);
-            return;
-        }
-        Command last = redoList.pop();
-        executeCommand(last, false, null);
+        sync = new SyncManager(this);
     }
 
     public void showToast(Integer stringId)
@@ -99,32 +75,47 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         toast.show();
     }
 
-    public void executeCommand(final Command command, Boolean clearRedoStack, final Long refreshKey)
+    public void executeCommand(final Command command, final Long refreshKey)
     {
-        undoList.push(command);
+        executeCommand(command, refreshKey, true);
+    }
 
-        if (undoList.size() > MAX_UNDO_LEVEL) undoList.removeLast();
-        if (clearRedoStack) redoList.clear();
-
-        new AsyncTask<Void, Void, Void>()
+    public void executeCommand(final Command command, final Long refreshKey,
+                               final boolean shouldBroadcast)
+    {
+        new BaseTask()
         {
             @Override
-            protected Void doInBackground(Void... params)
+            protected void doInBackground()
             {
+                Log.d("BaseActivity", "Executing command");
                 command.execute();
-                return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                BaseActivity.this.onPostExecuteCommand(refreshKey);
+                BaseActivity.this.onPostExecuteCommand(command, refreshKey);
                 BackupManager.dataChanged("org.isoron.uhabits");
+                if(shouldBroadcast) sync.postCommand(command);
             }
         }.execute();
 
 
         showToast(command.getExecuteStringId());
+    }
+
+    public void onPostExecuteCommand(Command command, Long refreshKey)
+    {
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                dismissNotifications(BaseActivity.this);
+                updateWidgets(BaseActivity.this);
+            }
+        }.execute();
     }
 
     protected void setupSupportActionBar(boolean homeButtonEnabled)
@@ -142,10 +133,6 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
 
         if(homeButtonEnabled)
             actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void onPostExecuteCommand(Long refreshKey)
-    {
     }
 
     @Override
@@ -200,5 +187,40 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
 
         view = findViewById(R.id.headerShadow);
         if(view != null) view.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        sync.close();
+        super.onDestroy();
+    }
+
+    private void dismissNotifications(Context context)
+    {
+        for(Habit h : Habit.getHabitsWithReminder())
+        {
+            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
+                HabitBroadcastReceiver.dismissNotification(context, h);
+        }
+    }
+
+    public static void updateWidgets(Context context)
+    {
+        updateWidgets(context, CheckmarkWidgetProvider.class);
+        updateWidgets(context, HistoryWidgetProvider.class);
+        updateWidgets(context, ScoreWidgetProvider.class);
+        updateWidgets(context, StreakWidgetProvider.class);
+        updateWidgets(context, FrequencyWidgetProvider.class);
+    }
+
+    private static void updateWidgets(Context context, Class providerClass)
+    {
+        ComponentName provider = new ComponentName(context, providerClass);
+        Intent intent = new Intent(context, providerClass);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(provider);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
 }

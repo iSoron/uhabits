@@ -39,6 +39,7 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'
+    compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile project(':libs:drag-sort-listview:library')
     compile files('libs/ActiveAndroid.jar')
 

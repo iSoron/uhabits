@@ -19,9 +19,7 @@
 
 package org.isoron.uhabits;
 
-import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -40,18 +38,12 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.helpers.UIHelper;
-import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
-import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
-import org.isoron.uhabits.widgets.HistoryWidgetProvider;
-import org.isoron.uhabits.widgets.ScoreWidgetProvider;
-import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,7 +114,6 @@ public class MainActivity extends BaseActivity
         }.execute();
 
     }
-
     private void showTutorial()
     {
         Boolean firstRun = prefs.getBoolean("pref_first_run", true);
@@ -263,47 +254,10 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onPostExecuteCommand(Long refreshKey)
+    public void onPostExecuteCommand(Command command, Long refreshKey)
     {
         listHabitsFragment.onPostExecuteCommand(refreshKey);
-
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                dismissNotifications(MainActivity.this);
-                updateWidgets(MainActivity.this);
-            }
-        }.execute();
-    }
-
-    private void dismissNotifications(Context context)
-    {
-        for(Habit h : Habit.getHabitsWithReminder())
-        {
-            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
-                HabitBroadcastReceiver.dismissNotification(context, h);
-        }
-    }
-
-    public static void updateWidgets(Context context)
-    {
-        updateWidgets(context, CheckmarkWidgetProvider.class);
-        updateWidgets(context, HistoryWidgetProvider.class);
-        updateWidgets(context, ScoreWidgetProvider.class);
-        updateWidgets(context, StreakWidgetProvider.class);
-        updateWidgets(context, FrequencyWidgetProvider.class);
-    }
-
-    private static void updateWidgets(Context context, Class providerClass)
-    {
-        ComponentName provider = new ComponentName(context, providerClass);
-        Intent intent = new Intent(context, providerClass);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int ids[] = AppWidgetManager.getInstance(context).getAppWidgetIds(provider);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        context.sendBroadcast(intent);
+        super.onPostExecuteCommand(command, refreshKey);
     }
 
     @Override
@@ -331,4 +285,6 @@ public class MainActivity extends BaseActivity
 
         listHabitsFragment.showImportDialog();
     }
+
+
 }

@@ -19,28 +19,75 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.Nullable;
+
 import org.isoron.uhabits.models.Habit;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ToggleRepetitionCommand extends Command
 {
-    private Long offset;
-    private Habit habit;
+    private final Long timestamp;
+    private final Habit habit;
 
-    public ToggleRepetitionCommand(Habit habit, long offset)
+    public ToggleRepetitionCommand(String id, Habit habit, long timestamp)
     {
-        this.offset = offset;
+        super(id);
+        this.timestamp = timestamp;
+        this.habit = habit;
+    }
+
+    public ToggleRepetitionCommand(Habit habit, long timestamp)
+    {
+        super();
+        this.timestamp = timestamp;
         this.habit = habit;
     }
 
     @Override
     public void execute()
     {
-        habit.repetitions.toggle(offset);
+        habit.repetitions.toggle(timestamp);
     }
 
     @Override
     public void undo()
     {
         execute();
+    }
+
+    @Nullable
+    @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = new JSONObject();
+            JSONObject data = new JSONObject();
+            root.put("id", getId());
+            root.put("command", "ToggleRepetition");
+            data.put("habit", habit.getId());
+            data.put("timestamp", timestamp);
+            root.put("data", data);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Nullable
+    public static Command fromJSON(JSONObject json) throws JSONException
+    {
+        String id = json.getString("id");
+        JSONObject data = (JSONObject) json.get("data");
+        Long habitId = data.getLong("habit");
+        Long timestamp = data.getLong("timestamp");
+
+        Habit habit = Habit.get(habitId);
+        if(habit == null) return null;
+
+        return new ToggleRepetitionCommand(id, habit, timestamp);
     }
 }

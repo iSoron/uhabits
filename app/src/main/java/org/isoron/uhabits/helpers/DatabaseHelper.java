@@ -45,7 +45,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 public class DatabaseHelper
 {
@@ -69,6 +71,11 @@ public class DatabaseHelper
 
         while ((numBytes = in.read(buffer)) != -1)
             out.write(buffer, 0, numBytes);
+    }
+
+    public static String getRandomId()
+    {
+        return new BigInteger(130, new Random()).toString(32);
     }
 
     public interface Command
