@@ -27,7 +27,7 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
 import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
+import org.isoron.uhabits.commands.CommandParser;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,23 +129,21 @@ public class SyncManager
     {
         Log.d("SyncManager", String.format("Received command: %s", arg.toString()));
         JSONObject root = new JSONObject(arg.toString());
-        if(root.getString("command").equals("ToggleRepetition"))
+
+        Command received = CommandParser.fromJSON(root);
+        if(received == null) throw new RuntimeException("received is null");
+
+        for(Command pending : outbox)
         {
-            Command received = ToggleRepetitionCommand.fromJSON(root);
-            if(received == null) throw new RuntimeException("received is null");
-
-            for(Command pending : outbox)
+            if(pending.getId().equals(received.getId()))
             {
-                if(pending.getId().equals(received.getId()))
-                {
-                    outbox.remove(pending);
-                    Log.d("SyncManager", "Received command discarded");
-                    return;
-                }
+                outbox.remove(pending);
+                Log.d("SyncManager", "Received command discarded");
+                return;
             }
-
-            activity.executeCommand(received, null, false);
-            Log.d("SyncManager", "Received command executed");
         }
+
+        activity.executeCommand(received, null, false);
+        Log.d("SyncManager", "Received command executed");
     }
 }

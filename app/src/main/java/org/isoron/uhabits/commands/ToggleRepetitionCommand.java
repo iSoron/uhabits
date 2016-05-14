@@ -56,19 +56,16 @@ public class ToggleRepetitionCommand extends Command
         execute();
     }
 
-    @Nullable
     @Override
     public JSONObject toJSON()
     {
         try
         {
-            JSONObject root = new JSONObject();
-            JSONObject data = new JSONObject();
-            root.put("id", getId());
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
             root.put("command", "ToggleRepetition");
             data.put("habit", habit.getId());
             data.put("timestamp", timestamp);
-            root.put("data", data);
             return root;
         }
         catch (JSONException e)

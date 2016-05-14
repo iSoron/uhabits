@@ -19,15 +19,27 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.Nullable;
+
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ArchiveHabitsCommand extends Command
 {
 
     private List<Habit> habits;
+
+    public ArchiveHabitsCommand(String id, List<Habit> habits)
+    {
+        super(id);
+        this.habits = habits;
+    }
 
     public ArchiveHabitsCommand(List<Habit> habits)
     {
@@ -54,5 +66,34 @@ public class ArchiveHabitsCommand extends Command
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_unarchived;
+    }
+
+    @Nullable
+
+    @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("command", "ArchiveHabits");
+            data.put("habits", CommandParser.habitsToJSON(habits));
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static Command fromJSON(JSONObject json) throws JSONException
+    {
+        String id = json.getString("id");
+        JSONObject data = (JSONObject) json.get("data");
+        JSONArray habitIds = data.getJSONArray("habits");
+
+        LinkedList<Habit> habits = CommandParser.habitsFromJSON(habitIds);
+        return new ArchiveHabitsCommand(id, habits);
     }
 }

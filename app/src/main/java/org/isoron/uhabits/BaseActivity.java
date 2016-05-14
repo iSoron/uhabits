@@ -97,12 +97,13 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
             {
                 BaseActivity.this.onPostExecuteCommand(command, refreshKey);
                 BackupManager.dataChanged("org.isoron.uhabits");
-                if(shouldBroadcast) sync.postCommand(command);
+                if(shouldBroadcast)
+                {
+                    sync.postCommand(command);
+                    showToast(command.getExecuteStringId());
+                }
             }
         }.execute();
-
-
-        showToast(command.getExecuteStringId());
     }
 
     public void onPostExecuteCommand(Command command, Long refreshKey)

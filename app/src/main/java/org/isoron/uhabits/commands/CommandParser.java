@@ -21,60 +21,55 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.NonNull;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.models.Habit;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Command
+public class CommandParser
 {
-    private final String id;
-
-    public Command()
+    public static Command fromJSON(JSONObject json) throws JSONException
     {
-        id = DatabaseHelper.getRandomId();
-    }
+        switch(json.getString("command"))
+        {
+            case "ToggleRepetition":
+                return ToggleRepetitionCommand.fromJSON(json);
 
-    public Command(String id)
-    {
-        this.id = id;
-    }
+            case "ArchiveHabits":
+                return ArchiveHabitsCommand.fromJSON(json);
 
-    public abstract void execute();
+            case "UnarchiveHabits":
+                return UnarchiveHabitsCommand.fromJSON(json);
+        }
 
-    public abstract void undo();
-
-    public Integer getExecuteStringId()
-    {
         return null;
     }
 
-    public Integer getUndoStringId()
+    @NonNull
+    public static LinkedList<Habit> habitsFromJSON(JSONArray habitIds) throws JSONException
     {
-        return null;
+        LinkedList<Habit> habits = new LinkedList<>();
+
+        for (int i = 0; i < habitIds.length(); i++)
+        {
+            Long hId = habitIds.getLong(i);
+            Habit h = Habit.get(hId);
+            if(h == null) continue;
+
+            habits.add(h);
+        }
+
+        return habits;
     }
 
-    public JSONObject toJSON()
+    @NonNull
+    protected static JSONArray habitsToJSON(List<Habit> habits)
     {
-        try
-        {
-            JSONObject root = new JSONObject();
-            JSONObject data = new JSONObject();
-            root.put("id", getId());
-            root.put("data", data);
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public String getId()
-    {
-        return id;
+        JSONArray habitIds = new JSONArray();
+        for(Habit h : habits) habitIds.put(h.getId());
+        return habitIds;
     }
 }
