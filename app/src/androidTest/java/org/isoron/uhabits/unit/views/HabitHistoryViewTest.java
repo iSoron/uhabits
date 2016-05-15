@@ -89,7 +89,7 @@ public class HabitHistoryViewTest extends ViewTest
     public void tapDate_withEditableView() throws Throwable
     {
         view.setIsEditable(true);
-        tap(view, 360, 36); // today's square
+        tap(view, 340, 40); // today's square
         waitForAsyncTasks();
 
         long today = DateHelper.getStartOfToday();
@@ -103,8 +103,8 @@ public class HabitHistoryViewTest extends ViewTest
 
         view.setIsEditable(true);
         tap(view, 118, 13); // header
-        tap(view, 360, 60); // tomorrow's square
-        tap(view, 390, 60); // right axis
+        tap(view, 336, 60); // tomorrow's square
+        tap(view, 370, 60); // right axis
         waitForAsyncTasks();
 
         int actualCheckmarkValues[] = habit.checkmarks.getAllValues();
@@ -115,7 +115,7 @@ public class HabitHistoryViewTest extends ViewTest
     public void tapDate_withReadOnlyView() throws Throwable
     {
         view.setIsEditable(false);
-        tap(view, 360, 36);
+        tap(view, 340, 40); // today's square
         waitForAsyncTasks();
 
         long today = DateHelper.getStartOfToday();
