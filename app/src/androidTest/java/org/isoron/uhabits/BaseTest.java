@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.junit.Before;
 
@@ -50,6 +51,7 @@ public class BaseTest
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();
 
+        UIHelper.setFixedTheme(R.style.AppBaseTheme);
         DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
     }
 

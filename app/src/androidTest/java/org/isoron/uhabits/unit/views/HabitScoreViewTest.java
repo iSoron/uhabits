@@ -49,7 +49,7 @@ public class HabitScoreViewTest extends ViewTest
         view.setHabit(habit);
         view.setBucketSize(7);
         refreshData(view);
-        measureView(dpToPixels(300), dpToPixels(100), view);
+        measureView(dpToPixels(300), dpToPixels(200), view);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class HabitScoreViewTest extends ViewTest
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
-        view.setIsBackgroundTransparent(true);
+        view.setIsTransparencyEnabled(true);
         assertRenders(view, "HabitScoreView/renderTransparent.png");
     }
 

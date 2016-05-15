@@ -24,7 +24,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
-import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
@@ -53,12 +52,12 @@ public class ChangeHabitColorCommandTest extends BaseTest
         for(int i = 0; i < 3; i ++)
         {
             Habit habit = HabitFixtures.createShortHabit();
-            habit.color = ColorHelper.palette[i+1];
+            habit.color = i+1;
             habit.save();
             habits.add(habit);
         }
 
-        command = new ChangeHabitColorCommand(habits, ColorHelper.palette[0]);
+        command = new ChangeHabitColorCommand(habits, 0);
     }
 
     @Test
@@ -80,12 +79,12 @@ public class ChangeHabitColorCommandTest extends BaseTest
     {
         int k = 0;
         for(Habit h : habits)
-            assertThat(h.color, equalTo(ColorHelper.palette[++k]));
+            assertThat(h.color, equalTo(++k));
     }
 
     private void checkNewColors()
     {
         for(Habit h : habits)
-            assertThat(h.color, equalTo(ColorHelper.palette[0]));
+            assertThat(h.color, equalTo(0));
     }
 }

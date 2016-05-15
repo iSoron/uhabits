@@ -45,19 +45,19 @@
 
     <style name="dialogFormText">
         <item name="android:textSize">@dimen/regularTextSize</item>
-        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textColor">?highContrastTextColor</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="dialogFormSmallText">
         <item name="android:textSize">@dimen/smallTextSize</item>
-        <item name="android:textColor">@color/fadedTextColor</item>
+        <item name="android:textColor">?mediumContrastTextColor</item>
     </style>
 
     <style name="dialogFormSpinnerDropDown" parent="dialogFormText">
         <item name="android:padding">12dp</item>
-        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textColor">?highContrastTextColor</item>
     </style>
 
     <style name="dialogFormInput" parent="dialogFormText">
@@ -71,19 +71,19 @@
     <style name="dialogFormLabel" parent="dialogFormText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:minWidth">100dp</item>
+        <item name="android:minWidth">90dp</item>
         <item name="android:gravity">left</item>
         <item name="android:paddingLeft">6dp</item>
-        <item name="android:textColor">@color/fadedTextColor</item>
+        <item name="android:textColor">?mediumContrastTextColor</item>
     </style>
 
-    <style name="dialogFormSpinner" parent="android:Widget.DeviceDefault.Light.Spinner">
+    <style name="dialogFormSpinner" parent="@style/Widget.AppCompat.Spinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">12dp</item>
         <item name="android:textSize">@dimen/regularTextSize</item>
         <item name="android:minWidth">400dp</item>
-        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:textColor">?highContrastTextColor</item>
+        <item name="android:paddingLeft">8dp</item>
     </style>
 
     <style name="dialogFormRow">

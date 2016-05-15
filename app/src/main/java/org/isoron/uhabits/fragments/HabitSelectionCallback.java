@@ -19,9 +19,9 @@
 
 package org.isoron.uhabits.fragments;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.ActionMode;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
@@ -29,12 +29,13 @@ import android.widget.ProgressBar;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.BaseActivity;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
+import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.loaders.HabitListLoader;
@@ -155,27 +156,33 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
             case R.id.action_edit_habit:
             {
-                EditHabitFragment frag = EditHabitFragment.editSingleHabitFragment(firstHabit.getId());
+                EditHabitDialogFragment
+                        frag = EditHabitDialogFragment.editSingleHabitFragment(firstHabit.getId());
                 frag.setOnSavedListener(onSavedListener);
-                frag.show(activity.getFragmentManager(), "editHabit");
+                frag.show(activity.getSupportFragmentManager(), "editHabit");
                 return true;
             }
 
             case R.id.action_color:
             {
-                ColorPickerDialog picker = ColorPickerDialog.newInstance(R.string.color_picker_default_title,
-                        ColorHelper.palette, firstHabit.color, 4, ColorPickerDialog.SIZE_SMALL);
+                int originalAndroidColor = ColorHelper.getColor(activity, firstHabit.color);
+
+                ColorPickerDialog picker = ColorPickerDialog.newInstance(
+                        R.string.color_picker_default_title, ColorHelper.getPalette(activity),
+                        originalAndroidColor, 4, ColorPickerDialog.SIZE_SMALL);
 
                 picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
                         {
-                            public void onColorSelected(int color)
+                            public void onColorSelected(int androidColor)
                             {
-                                activity.executeCommand(
-                                        new ChangeHabitColorCommand(selectedHabits, color), null);
+                                int paletteColor = ColorHelper.colorToPaletteIndex(activity,
+                                        androidColor);
+                                activity.executeCommand(new ChangeHabitColorCommand(selectedHabits,
+                                        paletteColor), null);
                                 mode.finish();
                             }
                         });
-                picker.show(activity.getFragmentManager(), "picker");
+                picker.show(activity.getSupportFragmentManager(), "picker");
                 return true;
             }
 

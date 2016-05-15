@@ -19,16 +19,16 @@
 
 package org.isoron.uhabits.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
 
-import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.DateHelper;
 
-public class WeekdayPickerDialog extends DialogFragment
+public class WeekdayPickerDialog extends AppCompatDialogFragment
         implements DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnClickListener
 {
 

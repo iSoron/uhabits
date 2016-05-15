@@ -106,7 +106,7 @@
 <string name="store_feature_statistics">"&lt;b&gt;Детализированные диаграммы и статистика&lt;/b&gt;
 При помощи красивых и детализированных диаграмм вы с лёгкостью можете просмотреть, как ваши привычки закрепились со временем. Просмотрите полную историю ваших привычек, пролистав её."</string>
 <string name="store_feature_schedules">"&lt;b&gt;Гибкий график&lt;/b&gt;
-Поддерживаются как ежедневные привычки, так и привычки с более сложным графиком. Например: 3 раза в неделю; один раз каждую неделю; через день."</string>
+Поддерживаются как ежедневные привычки, так и привычки с более сложным графиком. Например: 3 раза в неделю; один раз в две недели; через день."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Напоминания&lt;/b&gt;
 Создавайте отдельные для каждой привычки напоминания в выбранное время дня. С лёгкостью отмечайте, пропускайте или откладывайте выполнение привычки прямо из уведомления - без открытия приложения."</string>
 <string name="store_feature_opensource">"&lt;b&gt;Полное отсутствие рекламы и открытый исходный код&lt;/b&gt;
@@ -155,4 +155,32 @@
 <string name="bug_report_failed">"Ошибка генерации отчёта об ошибке."</string>
 <string name="generate_bug_report">"Сгенерировать отчёт об ошибке"</string>
 <string name="troubleshooting">"Устранение неполадок"</string>
+<string name="help_translate">"Помогите перевести это приложение"</string>
+<string name="night_mode">"Ночной режим"</string>
+<string name="use_pure_black">"Использовать подлинный черный в ночном режиме"</string>
+<string name="pure_black_description">"Заменяет серый фон на подлинный черный в ночном режиме. Уменьшает использование батареи в телефонах с дисплеем AMOLED."</string>
+<string name="interface_preferences">"Интерфейс"</string>
+<string name="reverse_days">"Обратный порядок дней"</string>
+<string name="reverse_days_description">"Показывать дни в обратном порядке на главном экране"</string>
+<string name="day">"День"</string>
+<string name="week">"Неделя"</string>
+<string name="month">"Месяц"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Квартал"</string>
+<string name="year">"Год"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"раз за"</string>
+<string name="every_x_days">"Каждые %d дней"</string>
+<string name="every_x_weeks">"Каждые %d недель"</string>
+<string name="every_x_months">"Каждые %d месяцев"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Стабильность"</string>
+<string name="reminder_sound">"Звук напоминания"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Без звука"</string>
 </resources>

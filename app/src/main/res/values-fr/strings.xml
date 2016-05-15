@@ -141,17 +141,9 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 
 <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
 <string name="all_time">"Depuis le début"</string>
-
-<!-- Fuzzy -->
 <string name="every_day">"Tous les jours"</string>
-
-<!-- Fuzzy -->
 <string name="every_week">"Toutes les semaines"</string>
-
-<!-- Fuzzy -->
 <string name="two_times_per_week">"2 fois par semaine"</string>
-
-<!-- Fuzzy -->
 <string name="five_times_per_week">"5 fois par semaine"</string>
 
 <!-- Fuzzy -->
@@ -167,9 +159,32 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 <string name="import_data">"Importer des données"</string>
 <string name="export_full_backup">"Exporter une sauvegarde complète"</string>
 <string name="import_data_summary">"Supporte les sauvegardes complètes générées par cette app, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d'informations."</string>
-<string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou OpenOffice Calc. Ces fichiers ne peuvent être réimportés. "</string>
+<string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou OpenOffice Calc. Ces fichiers ne peuvent être réimportés."</string>
 <string name="export_full_backup_summary">"Génère un fichier contenant toutes vos données. Ce fichier peut être réimporté."</string>
-<string name="bug_report_failed">"La génération du rapport de bug à échouée."</string>
+<string name="bug_report_failed">"La génération du rapport de bug a échouée."</string>
 <string name="generate_bug_report">"Générer un rapport de bug."</string>
 <string name="troubleshooting">"Résolution de problèmes"</string>
+<string name="help_translate">"Aider à traduire cette application"</string>
+<string name="night_mode">"Mode Nuit"</string>
+<string name="day">"Jour"</string>
+<string name="week">"Semaine"</string>
+<string name="month">"Mois"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Quarter"</string>
+<string name="year">"Année"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"fois tous les"</string>
+<string name="every_x_days">"Tous les %d jours"</string>
+<string name="every_x_weeks">"Toutes les %d semaines"</string>
+<string name="every_x_months">"Tous les %d mois"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Score"</string>
+<string name="reminder_sound">"Son du rappel"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Aucun"</string>
 </resources>

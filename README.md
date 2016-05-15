@@ -54,6 +54,7 @@ source.
 [![Habit strength][screen3th]][screen3]
 [![Habit history and streaks][screen4th]][screen4]
 [![Widgets][screen5th]][screen5]
+[![Night mode][screen6th]][screen6]
 
 ## Installing
 
@@ -71,7 +72,8 @@ contribute, even if you are not a software developer.
 * **Report bugs, suggest features.** The easiest way to contribute is to simply
   use the app and let us know if you find any problems or have any suggestions
   to improve it. You can either use the link inside the app, or open an issue
-  at GitHub.
+  at GitHub. If you would like to receive the newest versions of the app
+  earlier than everyone else, [join our open beta on Google Play][beta].
 
 * **Spread the word.** If you like the app, share it with your family, friends
   and colleagues. You can also rate and review the app on Google Play Store, to help
@@ -105,14 +107,17 @@ contribute, even if you are not a software developer.
 [screen3]: screenshots/original/uhabits3.png
 [screen4]: screenshots/original/uhabits4.png
 [screen5]: screenshots/original/uhabits5.png
+[screen6]: screenshots/original/uhabits6.png
 [screen1th]: screenshots/thumbs/uhabits1.png
 [screen2th]: screenshots/thumbs/uhabits2.png
 [screen3th]: screenshots/thumbs/uhabits3.png
 [screen4th]: screenshots/thumbs/uhabits4.png
 [screen5th]: screenshots/thumbs/uhabits5.png
+[screen6th]: screenshots/thumbs/uhabits6.png
 [poedit]: https://poeditor.com/join/project/8DWX5pfjS0
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
 [dev-guide]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines
 [build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
+[beta]: https://play.google.com/apps/testing/org.isoron.uhabits

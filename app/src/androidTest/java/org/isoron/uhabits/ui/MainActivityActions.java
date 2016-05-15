@@ -20,6 +20,7 @@
 package org.isoron.uhabits.ui;
 
 import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
@@ -31,7 +32,6 @@ import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
@@ -39,12 +39,16 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static android.support.test.espresso.matcher.ViewMatchers.Visibility.VISIBLE;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -168,13 +172,13 @@ public class MainActivityActions
     public static void deleteHabits(List<String> names)
     {
         selectHabits(names);
-        clickActionModeMenuItem(R.string.delete);
+        clickMenuItem(R.string.delete);
         onView(withText("OK"))
                 .perform(click());
         assertHabitsDontExist(names);
     }
 
-    public static void clickActionModeMenuItem(int stringId)
+    public static void clickMenuItem(int stringId)
     {
         try
         {
@@ -188,9 +192,34 @@ public class MainActivityActions
             }
             catch(Exception e2)
             {
-                openContextualActionModeOverflowMenu();
-                onView(withText(stringId)).perform(click());
+                clickHiddenMenuItem(stringId);
             }
         }
+    }
+
+    private static void clickHiddenMenuItem(int stringId)
+    {
+        try
+        {
+            // Try the ActionMode overflow menu first
+            onView(allOf(withContentDescription("More options"), withParent(withParent(
+                    withClassName(containsString("Action")))))).perform(click());
+        }
+        catch (Exception e1)
+        {
+            // Try the toolbar overflow menu
+            onView(allOf(withContentDescription("More options"), withParent(withParent(
+                    withClassName(containsString("Toolbar")))))).perform(click());
+        }
+
+        onView(withText(stringId)).perform(click());
+    }
+
+    public static void clickSettingsItem(String text)
+    {
+        onView(withClassName(containsString("RecyclerView")))
+                .perform(RecyclerViewActions.actionOnItem(
+                        hasDescendant(withText(containsString(text))),
+                        click()));
     }
 }

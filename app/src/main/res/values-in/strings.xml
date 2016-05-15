@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">"Loop Habit Tracker"</string>
+<string name="main_activity_title">"Kebiasaan"</string>
+<string name="action_settings">"Pengaturan"</string>
+<string name="edit">"Ubah"</string>
+<string name="delete">"Hapus"</string>
+<string name="archive">"Arsip"</string>
+<string name="unarchive">"Keluarkan dari arsip"</string>
+<string name="add_habit">"Tambah Kebiasaan"</string>
+<string name="color_picker_default_title">"Ganti warna"</string>
+<string name="toast_habit_created">"Kebiasaan ditambahkan."</string>
+<string name="toast_habit_deleted">"Kebiasaan dihapus."</string>
+<string name="toast_habit_restored">"Kebiasaan dikembalikan."</string>
+<string name="toast_nothing_to_undo">"Tidak ada aksi sebelumnya."</string>
+<string name="toast_nothing_to_redo">"Tidak ada aksi sesudahnya."</string>
+<string name="toast_habit_changed">"Kebiasaan diubah."</string>
+
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"Kebiasaan telah dikembalikan."</string>
+<string name="toast_habit_archived">"Kebiasaan diarsipkan."</string>
+<string name="toast_habit_unarchived">"Kebiasaan dikeluarkan dari arsip."</string>
+<string name="overview">"Keseluruhan"</string>
+<string name="habit_strength">"Kekuatan Kebiasaan"</string>
+<string name="history">"Riwayat"</string>
+<string name="clear">"Bersihkan"</string>
+<string name="description_hint">"Pertanyaan (Apakah kamu ... hari ini?)"</string>
+
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"Ulangi"</string>
+<string name="times_every">"kali dalam"</string>
+<string name="days">"hari"</string>
+<string name="reminder">"Pengingat"</string>
+<string name="discard">"Batalkan"</string>
+<string name="save">"Simpan"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<string name="streaks">"Rentetan"</string>
+<string name="no_habits_found">"Anda tidak memiliki Kebiasaan yang aktif"</string>
+<string name="long_press_to_toggle">"Tekan dan tahan untuk menambah atau menghapus tanda cek"</string>
+<string name="reminder_off">"Mati"</string>
+<string name="validation_name_should_not_be_blank">"Nama tidak boleh kosong."</string>
+<string name="validation_number_should_be_positive">"Angka harus positif."</string>
+<string name="validation_at_most_one_rep_per_day">"Maksimal satu kali pengulangan dalam satu hari"</string>
+<string name="create_habit">"Buat Kebiasaan"</string>
+<string name="edit_habit">"Ubah Kebiasaan"</string>
+<string name="check">"Tanda cek"</string>
+<string name="snooze">"Tunda"</string>
+
+<!-- App introduction -->
+<string name="intro_title_1">"Selamat datang"</string>
+<string name="intro_description_1">"Loop Habit Tracker membantu mencatat dan mengelola Kebiasaan baik Anda."</string>
+<string name="intro_title_2">"Buat beberapa Kebiasaan baru"</string>
+<string name="intro_description_2">"Berikan tanda cek setiap kali Anda selesai melakukannya."</string>
+<string name="intro_title_3">"Terus lakukan"</string>
+<string name="intro_description_3">"Kebiasaan yang dilakukan secara konsisten dalam jangka waktu panjang akan mendapatkan tanda bintang penuh."</string>
+<string name="intro_title_4">"Catat perkembangan Anda"</string>
+<string name="intro_description_4">"Detail grafik menampilkan perkembangan Kebiasaanmu dari waktu ke waktu."</string>
+<string name="interval_15_minutes">"15 menit"</string>
+<string name="interval_30_minutes">"30 menit"</string>
+<string name="interval_1_hour">"1 jam"</string>
+<string name="interval_2_hour">"2 jam"</string>
+<string name="interval_4_hour">"4 jam"</string>
+<string name="interval_8_hour">"8 jam"</string>
+<string name="pref_toggle_title">"Tandai dengan cepat."</string>
+<string name="pref_toggle_description">"Lebih nyaman namun memungkinkan kesalahan."</string>
+<string name="pref_snooze_interval_title">"Durasi tunda sejenak pada pengingat"</string>
+<string name="pref_rate_this_app">"Berikan rating aplikasi ini di Google Play"</string>
+<string name="pref_send_feedback">"Kirimkan umpan balik kepada Developer"</string>
+<string name="pref_view_source_code">"Lihat kode aplikasi di GitHub"</string>
+<string name="pref_view_app_introduction">"Perkenalan aplikasi"</string>
+<string name="links">"Tautan"</string>
+<string name="behavior">"Kebiasaan"</string>
+<string name="name">"Nama"</string>
+<string name="show_archived">"Tampilkan arsip"</string>
+<string name="settings">"Pengaturan"</string>
+<string name="snooze_interval">"Durasi tunda sejenak"</string>
+<string name="hint_title">"Tahukah kamu?"</string>
+<string name="hint_drag">"Untuk mengatur urutan, tekan dan tahan judul Kebiasaan lalu tempatkan pada posisi yang Anda inginkan."</string>
+<string name="hint_landscape">"Anda dapat melihat tampilan hari dengan merubah posisi menjadi mode landscape."</string>
+<string name="delete_habits">"Hapus Kebiasaan"</string>
+<string name="delete_habits_message">"Kebiasaan ini akan dihapus permanen. Tidak dapat dikembalikan."</string>
+<string name="weekends">"Akhir pekan"</string>
+<string name="any_weekday">"Senin - Jumat"</string>
+<string name="any_day">"Seluruh hari dalam satu minggu"</string>
+<string name="select_weekdays">"Pilih hari"</string>
+<string name="export_to_csv">"Ekspor (CSV)"</string>
+<string name="done_label">"Selesai"</string>
+<string name="clear_label">"Hapus"</string>
+<string name="select_hours">"Pilih jam"</string>
+<string name="select_minutes">"Pilih menit"</string>
+
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"Buat Kebiasaan baik dan catat perkembangannya setiap waktu (bebas iklan)"</string>
+<string name="store_description_1">"Loop membantu Anda untuk membuat dan mengelola Kebiasaan baik, memungkinkan Anda mencapai gol jangka panjang. Grafik detail dan statistik menampilkan perkembangan Kebiasaan Anda dari waktu ke waktu. Aplikasi ini bebas iklan dan open-source."</string>
+<string name="store_feature_interface">"&lt;b&gt;Sederhana, minimalis dengan balutan antarmuka yang modern&lt;/b&gt;
+Loop memiliki tampilan minimalis yang mudah digunakan dan mengikuti panduan material design."</string>
+<string name="store_feature_score">"&lt;b&gt;Skor Kebiasaan&lt;/b&gt;
+Algoritma Loop akan menghitung kekuatan Kebiasaan Anda. Setiap kali Anda melakukan pengulangan maka skor Anda akan bertambah, sebaliknya jika Anda tidak mengerjakan Kebiasaan maka nilai akan dikurangi. Beberapa hari yang terlewat tidak akan menghapus seluruh perkembangan Kebiasaan Anda."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Detail Grafik dan Statistik&lt;/b&gt;
+Lihat perkembangan Kebiasaan dari waktu ke waktu dengan tampilan yang menarik dan detail. Geser ke bawah untuk melihat seluruh catatan Kebiasaan Anda."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Pengaturan jadwal fleksibel&lt;/b&gt;
+Mendukung kebiasaan harian dan kebiasaan dengan penjadwalan yang kompleks, seperti 3 kali dalam setiap minggu; 2 minggu sekali; hingga 2 hari sekali."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Pengingat&lt;/b&gt;
+Anda dapat membuat pengingat untuk setiap Kebiasaan, dengan waktu yang telah Anda tentukan setiap harinya. Mudah untuk di-cek, batalkan ataupun tunda melalui panel notifikasi tanpa perlu membuka aplikasi."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Bebas dari iklan dan open-source&lt;/b&gt;
+Tidak ada iklan, notifikasi menyebalkan dan juga hak akses yang tidak dibutuhkan.
+Kode aplikasi tersedia dengan lisensi GPLv3"</string>
+<string name="store_feature_wear">"&lt;b&gt;Mendukung Smartwatch&lt;/b&gt;
+Anda dapat dengan mudah mengecek, menunda ataupun membatalkan pengingat melalui smartwatch Anda."</string>
+<string name="about">"Tentang"</string>
+<string name="translators">"Penerjemah"</string>
+<string name="developers">"Developer"</string>
+
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"Versi %s"</string>
+<string name="frequency">"Frekuensi"</string>
+<string name="checkmark">"Cek"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Kekuatan"</string>
+<string name="best_streaks">"Rentetan terbaik"</string>
+<string name="current_streaks">"Rentetan saat ini"</string>
+<string name="number_of_repetitions">"Jumlah pengulangan"</string>
+<string name="last_x_days">"%d hari terakhir"</string>
+<string name="last_x_weeks">"%d minggu terakhir"</string>
+<string name="last_x_months">"%d bulan terakhir"</string>
+<string name="last_x_years">"%d tahun terakhir"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Seluruh waktu"</string>
+<string name="every_day">"Setiap hari"</string>
+<string name="every_week">"Setiap minggu"</string>
+<string name="two_times_per_week">"2 kali setiap minggu"</string>
+<string name="five_times_per_week">"5 kali setiap minggu"</string>
+<string name="custom_frequency">"Tersuai ..."</string>
+<string name="help">"Bantuan &amp; FAQ"</string>
+<string name="could_not_export">"Ekspor data gagal."</string>
+<string name="could_not_import">"Impor data gagal."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"File tidak dikenali."</string>
+<string name="habits_imported">"Impor data berhasil."</string>
+<string name="full_backup_success">"Ekspor data berhasil."</string>
+<string name="import_data">"Impor data"</string>
+<string name="export_full_backup">"Ekspor data"</string>
+<string name="import_data_summary">"Mendukung ekspor data dan file dari aplikasi Tickmate, HabitBull atau Rewire. Lihat FAQ untuk informasi lebih lanjut."</string>
+<string name="export_as_csv_summary">"Menghasilkan lembar kerja yang dapat dibuka menggunakan aplikasi seperti Microsoft Excel atau OpenOffice Calc. File ini tidak dapat di-impor kembali."</string>
+<string name="export_full_backup_summary">"Menghasilkan file yang berisikan seluruh data. File ini dapat di-impor kembali."</string>
+<string name="bug_report_failed">"Gagal membuat laporan masalah."</string>
+<string name="generate_bug_report">"Membuat laporan masalah"</string>
+<string name="troubleshooting">"Troubleshoot"</string>
+<string name="help_translate">"Bantu terjemahkan"</string>
+<string name="night_mode">"Mode malam"</string>
+<string name="use_pure_black">"Gunakan warna hitam pada mode malam"</string>
+<string name="pure_black_description">"Ganti warna latar abu-abu dengan warna hitam pada mode malam. Mengurangi penggunaan baterai pada layar AMOLED."</string>
+<string name="interface_preferences">"Antar muka"</string>
+<string name="reverse_days">"Ubah urutan hari"</string>
+<string name="reverse_days_description">"Tampilkan hari dalam urutan terbalik pada layar utama"</string>
+<string name="day">"Hari"</string>
+<string name="week">"Minggu"</string>
+<string name="month">"Bulan"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Perempat"</string>
+<string name="year">"Tahun"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"kali dalam"</string>
+<string name="every_x_days">"Setiap %d hari"</string>
+<string name="every_x_weeks">"Setiap %d minggu"</string>
+<string name="every_x_months">"Setiap %d bulan"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Nilai"</string>
+<string name="reminder_sound">"Suara pengingat"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Hening"</string>
+</resources>

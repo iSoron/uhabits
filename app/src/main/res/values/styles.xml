@@ -18,10 +18,140 @@
   -->
 
 <resources>
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
 
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
-        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
-        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/blue_grey_700</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <item name="selectedBackground">@drawable/selected_box_light</item>
+        <item name="headerBackground">@drawable/habits_list_header_light_background</item>
+        <item name="cardBackground">@drawable/card_light_background</item>
+
+        <item name="colorPrimary">@color/blue_grey_800</item>
+        <item name="colorPrimaryDark">@color/blue_grey_900</item>
+        <item name="colorAccent">?aboutScreenColor</item>
+        <item name="cardBackgroundColor">@color/grey_50</item>
+        <item name="windowBackgroundColor">@color/grey_200</item>
+        <item name="headerBackgroundColor">@color/grey_200</item>
+        <item name="highlightedBackgroundColor">@color/grey_100</item>
+
+        <item name="android:textColor">@color/grey_800</item>
+        <item name="useHabitColorAsPrimary">true</item>
+        <item name="palette">@array/lightPalette</item>
+
+        <item name="highContrastReverseTextColor">@color/white</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="lowContrastReverseTextColor">@color/grey_700</item>
+
+        <item name="highContrastTextColor">@color/grey_800</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="lowContrastTextColor">@color/grey_300</item>
+
+        <item name="iconAdd">@drawable/ic_action_add_dark</item>
+        <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
+        <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="iconFrequency">@drawable/ic_repeat_black</item>
+        <item name="iconReminder">@drawable/ic_alarm_black</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
+        <item name="aboutScreenColor">@color/blue_800</item>
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">1</item>
+    </style>
+
+    <style name="SmallSpinner">
+        <item name="android:textColor">?mediumContrastTextColor</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+    </style>
+
+    <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/grey_800</item>
+
+        <item name="selectedBackground">@drawable/selected_box_dark</item>
+        <item name="headerBackground">@drawable/habits_list_header_dark_background</item>
+        <item name="cardBackground">@drawable/card_dark_background</item>
+
+        <item name="colorPrimary">@color/grey_950</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">?aboutScreenColor</item>
+        <item name="cardBackgroundColor">@color/grey_850</item>
+        <item name="windowBackgroundColor">@color/grey_900</item>
+        <item name="headerBackgroundColor">@color/grey_900</item>
+        <item name="highlightedBackgroundColor">@color/grey_800</item>
+
+        <item name="android:textColor">@color/grey_100</item>
+        <item name="useHabitColorAsPrimary">false</item>
+
+        <item name="highContrastTextColor">@color/grey_100</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="lowContrastTextColor">@color/grey_800</item>
+
+        <item name="highContrastReverseTextColor">@color/grey_900</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_750</item>
+        <item name="lowContrastReverseTextColor">@color/grey_300</item>
+
+        <item name="iconAdd">@drawable/ic_action_add_dark</item>
+        <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
+        <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="iconFrequency">@drawable/ic_repeat_white</item>
+        <item name="iconReminder">@drawable/ic_alarm_white</item>
+
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+
+        <item name="palette">@array/darkPalette</item>
+
+        <item name="aboutScreenColor">@color/blue_300</item>
+
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">1</item>
+    </style>
+
+    <style name="AppBaseThemeDark.PureBlack">
+        <item name="selectedBackground">@drawable/selected_box_amoled</item>
+        <item name="headerBackground">@drawable/habits_list_header_amoled_background</item>
+        <item name="cardBackground">@drawable/card_amoled_background</item>
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="cardBackgroundColor">@color/black</item>
+        <item name="windowBackgroundColor">@color/black</item>
+        <item name="headerBackgroundColor">@color/black</item>
+        <item name="highlightedBackgroundColor">@color/black</item>
+
+        <item name="lowContrastTextColor">@color/grey_900</item>
+        <item name="highContrastReverseTextColor">@color/black</item>
+    </style>
+
+    <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
+        <item name="cardBackgroundColor">@color/black</item>
+
+        <item name="highContrastTextColor">@color/white</item>
+        <item name="mediumContrastTextColor">@color/white_aa</item>
+        <item name="lowContrastTextColor">@color/white_a0</item>
+
+        <item name="highContrastReverseTextColor">@color/white</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="lowContrastReverseTextColor">@color/grey_800</item>
+
+        <item name="palette">@array/transparentWidgetPalette</item>
+
+        <item name="widgetShadowAlpha">0</item>
+        <item name="widgetBackgroundAlpha">0.25</item>
     </style>
 
     <style name="time_label">
@@ -38,14 +168,14 @@
 
     <style name="day_of_week_label_condensed"/>
 
-    <style name="cardsListStyle">
+    <style name="CardList">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/windowBackground</item>
+        <item name="android:background">?windowBackgroundColor</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="cardBasicStyle">
+    <style name="CardCommon">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
@@ -56,33 +186,35 @@
         <item name="android:layout_marginBottom">3dp</item>
         <item name="android:layout_marginLeft">3dp</item>
         <item name="android:layout_marginRight">3dp</item>
+        <item name="android:background">?cardBackground</item>
     </style>
 
-    <style name="cardStyle" parent="cardBasicStyle">
-        <item name="android:background">@drawable/card_background</item>
+    <style name="Card" parent="CardCommon">
         <item name="android:layout_marginBottom">1dp</item>
     </style>
 
-    <style name="cardHeaderStyle">
+    <style name="CardHeader">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textSize">@dimen/regularTextSize</item>
     </style>
 
-    <style name="cardRowStyle">
+    <style name="CardRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:layout_marginTop">4dp</item>
     </style>
 
-    <style name="cardLabelStyle">
+    <style name="CardLabel">
         <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="aboutItemStyle">
+    <style name="About" />
+
+    <style name="About.Item">
         <item name="android:textSize">16sp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -90,17 +222,36 @@
         <item name="android:paddingBottom">6dp</item>
     </style>
 
-    <style name="aboutClickableItemStyle" parent="aboutItemStyle">
+    <style name="About.Item.Clickable">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
     </style>
 
-    <style name="smallDataViewStyle">
+    <style name="SmallDataView">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">8dp</item>
         <item name="android:layout_marginRight">8dp</item>
-        <item name="android:textColor">@color/fadedTextColor</item>
+        <item name="android:textColor">?mediumContrastTextColor</item>
     </style>
 
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+
+    <style name="Preference.Category.Material">
+        <item name="android:layout">@layout/preference_category_custom</item>
+    </style>
+
+    <style name="ToolbarShadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@drawable/toolbar_shadow</item>
+        <item name="android:alpha">0.2</item>
+        <item name="android:layout_below">@id/toolbar</item>
+    </style>
 </resources>

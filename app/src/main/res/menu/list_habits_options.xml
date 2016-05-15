@@ -19,12 +19,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
       tools:context="org.isoron.uhabits.MainActivity">
-
-    <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_action_add"
-        android:title="@string/add_habit"
-        android:showAsAction="always"/>
 
 </menu>

@@ -21,8 +21,8 @@
 <manifest
     package="org.isoron.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="15"
-    android:versionName="1.4.1">
+    android:versionCode="16"
+    android:versionName="1.5.0">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -33,6 +33,8 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name="HabitsApplication"
@@ -59,8 +61,7 @@
 
         <activity
             android:name=".ShowHabitActivity"
-            android:label="@string/title_activity_show_habit"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/title_activity_show_habit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.isoron.uhabits.MainActivity"/>
@@ -68,8 +69,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/settings"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.isoron.uhabits.MainActivity"/>
@@ -90,8 +90,10 @@
 
         <activity
             android:name=".AboutActivity"
-            android:label="@string/about"
-            android:parentActivityName=".MainActivity">
+            android:label="@string/about">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <receiver
@@ -154,7 +156,11 @@
                 android:resource="@xml/widget_frequency_info"/>
         </receiver>
 
-        <receiver android:name=".HabitBroadcastReceiver"/>
+        <receiver android:name=".HabitBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

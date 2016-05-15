@@ -19,33 +19,27 @@
 
 package org.isoron.uhabits;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
-public class AboutActivity extends Activity implements View.OnClickListener
+public class AboutActivity extends BaseActivity implements View.OnClickListener
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about);
 
-        if (android.os.Build.VERSION.SDK_INT >= 21)
-        {
-            int color = getResources().getColor(R.color.blue_700);
-            int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
-            getActionBar().setBackgroundDrawable(new ColorDrawable(color));
-            getWindow().setStatusBarColor(darkerColor);
-        }
+        setContentView(R.layout.about);
+        setupSupportActionBar(true);
+
+        int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
+        setupActionBarColor(color);
 
         TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
         TextView tvRate = (TextView) findViewById(R.id.tvRate);

@@ -71,7 +71,11 @@ public class Habit extends Model
     public Integer freqDen;
 
     /**
-     * Color of the habit. The format is the same as android.graphics.Color.
+     * Color of the habit.
+     *
+     * This number is not an android.graphics.Color, but an index to the activity color palette,
+     * which changes according to the theme. To convert this color into an android.graphics.Color,
+     * use ColorHelper.getColor(context, habit.color).
      */
     @Column(name = "color")
     public Integer color;
@@ -166,7 +170,7 @@ public class Habit extends Model
      */
     public Habit()
     {
-        this.color = ColorHelper.palette[5];
+        this.color = 5;
         this.position = Habit.countWithArchived();
         this.highlight = 0;
         this.archived = 0;
@@ -492,8 +496,15 @@ public class Habit extends Model
 
         for(Habit habit : habits)
         {
-            String[] cols = { habit.name, habit.description, Integer.toString(habit.freqNum),
-                    Integer.toString(habit.freqDen), ColorHelper.toHTML(habit.color) };
+            String[] cols =
+            {
+                    habit.name,
+                    habit.description,
+                    Integer.toString(habit.freqNum),
+                    Integer.toString(habit.freqDen),
+                    ColorHelper.toHTML(ColorHelper.CSV_PALETTE[habit.color])
+            };
+
             csv.writeNext(cols, false);
         }
 

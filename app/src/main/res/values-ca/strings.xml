@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">"Loop Habit Tracker"</string>
+<string name="main_activity_title">"Hàbits"</string>
+<string name="action_settings">"Ajustaments"</string>
+<string name="edit">"Editar"</string>
+<string name="delete">"Esborrar"</string>
+<string name="archive">"Arxivar"</string>
+<string name="unarchive">"Treure de l'arxiu"</string>
+<string name="add_habit">"Afegir hàbit"</string>
+<string name="color_picker_default_title">"Canviar color"</string>
+<string name="toast_habit_created">"Hàbit creat."</string>
+<string name="toast_habit_deleted">"Hàbits esborrats."</string>
+<string name="toast_habit_restored">"Hàbits restaurats."</string>
+<string name="toast_nothing_to_undo">"Res a desfer."</string>
+<string name="toast_nothing_to_redo">"Res a refer."</string>
+<string name="toast_habit_changed">"Hàbit modificat."</string>
+
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"Hàbit restaurat."</string>
+<string name="toast_habit_archived">"Hàbits arxivats."</string>
+<string name="toast_habit_unarchived">"Hàbits trets de l'arxiu."</string>
+<string name="overview">"Visió general"</string>
+<string name="habit_strength">"Fortalesa de l'hàbit"</string>
+<string name="history">"Història"</string>
+<string name="clear">"Netejar"</string>
+<string name="description_hint">"Pregunta (Avui vas...?)"</string>
+
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"Repetir"</string>
+<string name="times_every">"vegades en"</string>
+<string name="days">"dies"</string>
+<string name="reminder">"Recordatori"</string>
+<string name="discard">"Descartar"</string>
+<string name="save">"Desar"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<string name="streaks">"Ratxa"</string>
+<string name="no_habits_found">"No tens hàbits actius"</string>
+<string name="long_press_to_toggle">"Prem i manté per a marcar o desmarcar"</string>
+<string name="reminder_off">"Desactivat"</string>
+<string name="validation_name_should_not_be_blank">"El nom no pot estar buit"</string>
+<string name="validation_number_should_be_positive">"El número ha de ser positiu"</string>
+<string name="validation_at_most_one_rep_per_day">"Pots tenir com a màxim una repetició per dia"</string>
+<string name="create_habit">"Crear hàbit"</string>
+<string name="edit_habit">"Editar hàbit"</string>
+<string name="check">"Revisar"</string>
+<string name="snooze">"Més tard"</string>
+
+<!-- App introduction -->
+<string name="intro_title_1">"Benvingut"</string>
+<string name="intro_description_1">"Loop Habit Tracker t'ajuda a crear i mantenir bons hàbits"</string>
+<string name="intro_title_2">"Crear alguns hàbits nous"</string>
+<string name="intro_description_2">"Cada dia, després de complir el teu hàbit, posa una marca amb la app"</string>
+<string name="intro_title_3">"Continua fent-ho"</string>
+<string name="intro_description_3">"Els hàbits que facis consistentment durant una llarga temporada obtindran una estrella"</string>
+<string name="intro_title_4">"Segueix el teu progrès"</string>
+<string name="intro_description_4">"Els gràfics detallats et mostren com han mirollat els teus hàbits al llarg del temps"</string>
+<string name="interval_15_minutes">"15 minuts"</string>
+<string name="interval_30_minutes">"30 minuts"</string>
+<string name="interval_1_hour">"1 hora"</string>
+<string name="interval_2_hour">"2 hores"</string>
+<string name="interval_4_hour">"4 hores"</string>
+<string name="interval_8_hour">"8 hores"</string>
+<string name="pref_toggle_title">"Activar/desactivar repeticions prement curt"</string>
+<string name="pref_toggle_description">"Més adequat, però pot causar activacions accidentals"</string>
+<string name="pref_snooze_interval_title">"Interval d'endarreriment en recordatoris"</string>
+<string name="pref_rate_this_app">"Valora aquesta app a Google Play"</string>
+<string name="pref_send_feedback">"Enviar resposta al desenvolupador"</string>
+<string name="pref_view_source_code">"Veure codi font a Github"</string>
+<string name="pref_view_app_introduction">"Veure introducció de l'app"</string>
+<string name="links">"Enllaços"</string>
+<string name="behavior">"Comportament"</string>
+<string name="name">"Nom"</string>
+<string name="show_archived">"Mostrar arxivats"</string>
+<string name="settings">"Ajustaments"</string>
+<string name="snooze_interval">"Interval d'endarreriment"</string>
+<string name="hint_title">"Ho sabies?"</string>
+<string name="hint_drag">"Per a ordenar les entrades, prem i mantè sobre el nom de l'hàbit, després arrossega'l al lloc correcte."</string>
+<string name="hint_landscape">"Pots veure més dies posant el teu telèfon en orientació apaisada."</string>
+<string name="delete_habits">"Esborrar hàbits"</string>
+<string name="delete_habits_message">"Els hàbits seran esborrats permanentment. Aquesta acció no es pot desfer."</string>
+<string name="weekends">"Caps de setmana"</string>
+<string name="any_weekday">"Dilluns a divendres"</string>
+<string name="any_day">"Qualsevol dia de la setmana"</string>
+<string name="select_weekdays">"Selecciona els dies"</string>
+<string name="export_to_csv">"Exportar a CSV"</string>
+<string name="done_label">"Fet"</string>
+<string name="clear_label">"Treure"</string>
+<string name="select_hours">"Selecciona les hores"</string>
+<string name="select_minutes">"Selecciona els minuts"</string>
+
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"Crea bons hàbits i segueix el seu progrés al llarg del temps (sense publicitat)"</string>
+<string name="store_description_1">"Loop t'ajuda a crear i mantenir bons hàbits, permetent-te aconseguir els teus objectius a llarg termini. Els gràfics i estadístiques detallades et mostren com han millorat els teus hàbits al llarg del temps. És completament de codi obert i lliure de publicitat."</string>
+<string name="store_feature_interface">"&lt;b&gt;Senzilla, bonica i moderna interfície&lt;/b&gt;
+Loop té una interfície minimalista que és fàcil d'utilitzar i segueix les guies de  \"material design\"."</string>
+<string name="store_feature_score">"&lt;b&gt;Puntuació d'hàbit&lt;/b&gt;
+A més de mostrar la teva ratxa actual, Loop té un algoritme avançat per a calcular la fortalesa dels teus hàbits. Cada repetició fa el teu hàbit més fort, i cada dia que fallis el farà més dèbil. Tot i això uns quants dies que fallis després d'una llarga ratxa no malmetrà completament el teu progrès."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Gràfics i estadístiques detallades&lt;/b&gt;
+Permet veure de forma clara com han millorat els teus hàbits al llarg del temps amb gràfics bonics i detallats. Pots anar enrera i veure també l'històric complet dels teus hàbits."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Planificació flexible&lt;/b&gt;
+Suporta tant hàbits diaris com hàbits amb planificacions més complexes, com per exemple 3 vegades per setmana; un cop setmana si setmana no; o un dia si i altre no."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Recordatoris&lt;/b&gt;
+Crea un recordatori individual per a cada hàbit, a l'hora escollida del dia. Revisa fàcilment, endarrereix o anul·la el teu hàbit directament des de la notificació, sense obrir l'app."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Completament de codi obert i lliure de publicitat&lt;/b&gt;
+No hi ha cap tipus de publicitat, notificacions molestes o permisos intrusius en aquesta app, i mai n'hi haurà. El codi font complet està disponible sota la llicència GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Optimitzat per a rellotges intel·ligents&lt;/b&gt;
+Els recordatoris poden ser revisats, endarrerits o anul·lats directament des del teu rellotge Android Wear."</string>
+<string name="about">"En quant a"</string>
+<string name="translators">"Traductors"</string>
+<string name="developers">"Desenvolupadors"</string>
+
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"Versió %s"</string>
+<string name="frequency">"Freqüència"</string>
+<string name="checkmark">"Marca"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Fortalesa"</string>
+<string name="best_streaks">"Millors ratxes"</string>
+<string name="current_streaks">"Ratxa actual"</string>
+<string name="number_of_repetitions">"Nombre de repeticions"</string>
+<string name="last_x_days">"Últims %d dies"</string>
+<string name="last_x_weeks">"Últimes %d setmanes"</string>
+<string name="last_x_months">"Últims %d mesos"</string>
+<string name="last_x_years">"Últims %d anys"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Tot el temps"</string>
+<string name="every_day">"Cada dia"</string>
+<string name="every_week">"Cada setmana"</string>
+<string name="two_times_per_week">"2 cops per setmana"</string>
+<string name="five_times_per_week">"5 cops per setmana"</string>
+<string name="custom_frequency">"Personalitzar ..."</string>
+<string name="help">"Ajuda i Preguntes Freqüents"</string>
+<string name="could_not_export">"Error exportant dades."</string>
+<string name="could_not_import">"Error important dades."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Fitxer no reconegut."</string>
+<string name="habits_imported">"Hàbits importats correctament."</string>
+<string name="full_backup_success">"Còpia de seguretat sencera exportada satisfactòriament."</string>
+<string name="import_data">"Importar dades"</string>
+<string name="export_full_backup">"Exportar còpia de seguretat sencera"</string>
+<string name="import_data_summary">"Suporta còpies de seguretat exportades per aquesta app, també fitxers generats per Tickmate, HabitBull o Rewire. Mira les Preguntes Freqüents per a més informació."</string>
+<string name="export_as_csv_summary">"Genera fitxers que poden ser oberts per programari de fulles de càlcul, com ara Microsoft Excel o OpenOffice Calc. Aquest fitxer no pot tornar-se a importar."</string>
+<string name="export_full_backup_summary">"Genera un fitxer que contè totes les teves dades. Aquest fitxer pot tornar-se a importar."</string>
+<string name="bug_report_failed">"Ha fallat la generació de l'informe d'error."</string>
+<string name="generate_bug_report">"Generar informe d'error"</string>
+<string name="troubleshooting">"Resolució de problemes"</string>
+<string name="help_translate">"Ajuda a traduïr aquesta app"</string>
+<string name="night_mode">"Mode nocturn"</string>
+<string name="use_pure_black">"Utilitzar negre pur en el mode nocturn"</string>
+<string name="pure_black_description">"Reemplaça fons grisos per negre pur en el mode nocturn. Redueix consum de bateria en telèfons amb pantalla AMOLED."</string>
+<string name="interface_preferences">"Interfície"</string>
+<string name="reverse_days">"Ordre invers de dies"</string>
+<string name="reverse_days_description">"Mostra els dies en ordre invers en la pantalla principal"</string>
+<string name="day">"Dia"</string>
+<string name="week">"Setmana"</string>
+<string name="month">"Mes"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Quatrimestre"</string>
+<string name="year">"Any"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"vegades en"</string>
+<string name="every_x_days">"Cada %d dies"</string>
+<string name="every_x_weeks">"Cada %d setmanes"</string>
+<string name="every_x_months">"Cada %d mesos"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Puntuació"</string>
+<string name="reminder_sound">"So de recordatori"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Cap"</string>
+</resources>

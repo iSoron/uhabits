@@ -21,13 +21,14 @@ package org.isoron.uhabits.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -56,13 +57,12 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private int nColumns;
 
     private int textColor;
-    private int dimmedTextColor;
+    private int gridColor;
     private int[] colors;
     private int primaryColor;
     private boolean isBackgroundTransparent;
 
     private HashMap<Long, Integer[]> frequency;
-    private String wdays[];
 
     public HabitFrequencyView(Context context)
     {
@@ -73,7 +73,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
+        this.primaryColor = ColorHelper.getColor(getContext(), 7);
         this.frequency = new HashMap<>();
         init();
     }
@@ -89,8 +89,6 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         createPaints();
         createColors();
 
-        wdays = DateHelper.getShortDayNames();
-
         dfMonth = DateHelper.getDateFormat("MMM");
         dfYear = DateHelper.getDateFormat("yyyy");
 
@@ -101,25 +99,15 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
-
-        if (isBackgroundTransparent)
         {
-            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
-            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+        }
 
-            textColor = Color.argb(192, 255, 255, 255);
-            dimmedTextColor = Color.argb(128, 255, 255, 255);
-        }
-        else
-        {
-            textColor = Color.argb(64, 0, 0, 0);
-            dimmedTextColor = Color.argb(16, 0, 0, 0);
-        }
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
 
         colors = new int[4];
-
-        colors[0] = Color.rgb(230, 230, 230);
+        colors[0] = gridColor;
         colors[3] = primaryColor;
         colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
         colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
@@ -247,11 +235,13 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
-        for (int i = 0; i < 7; i++)
+        Integer[] localeWeekdayList = DateHelper.getLocaleWeekdayList();
+        for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
-            rect.offset(prevRect.left, prevRect.top + baseSize * i);
+            rect.offset(prevRect.left, prevRect.top + baseSize * j);
 
+            int i = DateHelper.javaWeekdayToLoopWeekday(localeWeekdayList[j]);
             if(values != null)
                 drawMarker(canvas, rect, values[i]);
 
@@ -287,11 +277,10 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
         pText.setTextAlign(Paint.Align.LEFT);
         pText.setColor(textColor);
-        pGrid.setColor(dimmedTextColor);
+        pGrid.setColor(gridColor);
 
-        for (int i = 0; i < nRows; i++)
-        {
-            canvas.drawText(wdays[i], rGrid.right - columnWidth,
+        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT)) {
+            canvas.drawText(day, rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
             pGrid.setStrokeWidth(1f);

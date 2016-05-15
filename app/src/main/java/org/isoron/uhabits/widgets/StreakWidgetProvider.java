@@ -25,6 +25,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.GraphWidgetView;
 import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitStreakView;
 
@@ -33,8 +34,8 @@ public class StreakWidgetProvider extends  BaseWidgetProvider
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitStreakView view = new HabitStreakView(context, null);
-        view.setIsBackgroundTransparent(true);
+        HabitStreakView dataView = new HabitStreakView(context);
+        GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;
     }
@@ -66,6 +67,6 @@ public class StreakWidgetProvider extends  BaseWidgetProvider
     @Override
     protected int getLayoutId()
     {
-        return R.layout.widget_graph;
+        return R.layout.widget_wrapper;
     }
 }

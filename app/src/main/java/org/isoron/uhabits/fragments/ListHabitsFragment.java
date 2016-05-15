@@ -20,14 +20,14 @@
 package org.isoron.uhabits.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.view.ActionMode;
+import android.support.v4.app.Fragment;
+import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.HapticFeedbackConstants;
@@ -50,17 +50,19 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.BaseActivity;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
+import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
 import org.isoron.uhabits.dialogs.FilePickerDialog;
 import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.helpers.HintManager;
 import org.isoron.uhabits.helpers.ListHabitsHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ExportCSVTask;
@@ -120,7 +122,7 @@ public class ListHabitsFragment extends Fragment
         loader.setCheckmarkCount(helper.getButtonCount());
 
         llHint.setOnClickListener(this);
-        tvStarEmpty.setTypeface(helper.getFontawesome());
+        tvStarEmpty.setTypeface(UIHelper.getFontAwesome(activity));
 
         adapter = new HabitListAdapter(getActivity(), loader);
         adapter.setSelectedPositions(selectedPositions);
@@ -141,7 +143,7 @@ public class ListHabitsFragment extends Fragment
 
         if(savedInstanceState != null)
         {
-            EditHabitFragment frag = (EditHabitFragment) getFragmentManager()
+            EditHabitDialogFragment frag = (EditHabitDialogFragment) getFragmentManager()
                     .findFragmentByTag("editHabit");
             if(frag != null) frag.setOnSavedListener(this);
         }
@@ -217,7 +219,7 @@ public class ListHabitsFragment extends Fragment
         {
             case R.id.action_add:
             {
-                EditHabitFragment frag = EditHabitFragment.createHabitFragment();
+                EditHabitDialogFragment frag = EditHabitDialogFragment.createHabitFragment();
                 frag.setOnSavedListener(this);
                 frag.show(getFragmentManager(), "editHabit");
                 return true;
@@ -284,7 +286,7 @@ public class ListHabitsFragment extends Fragment
             callback.setOnSavedListener(this);
             callback.setListener(this);
 
-            actionMode = getActivity().startActionMode(callback);
+            actionMode = activity.startSupportActionMode(callback);
         }
 
         if(actionMode != null) actionMode.invalidate();
@@ -328,17 +330,18 @@ public class ListHabitsFragment extends Fragment
 
     private void toggleCheck(View v)
     {
-        Long tag = (Long) v.getTag(R.string.habit_key);
-        Integer offset = (Integer) v.getTag(R.string.offset_key);
-        long timestamp = DateHelper.getStartOfDay(
-                DateHelper.getLocalTime() - offset * DateHelper.millisecondsInOneDay);
-
-        Habit habit = loader.habits.get(tag);
+        Long id = helper.getHabitIdFromCheckmarkView(v);
+        Habit habit = loader.habits.get(id);
         if(habit == null) return;
 
-        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        float x = v.getX() + v.getWidth() / 2.0f + ((View) v.getParent()).getX();
+        float y = v.getY() + v.getHeight() / 2.0f + ((View) v.getParent()).getY();
+        helper.triggerRipple((View) v.getParent().getParent(), x, y);
 
+        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         helper.toggleCheckmarkView(v, habit);
+
+        long timestamp = helper.getTimestampFromCheckmarkView(v);
         executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
     }
 
@@ -380,6 +383,7 @@ public class ListHabitsFragment extends Fragment
         else loader.updateHabit(refreshKey);
     }
 
+    @Override
     public void onActionModeDestroyed(ActionMode mode)
     {
         actionMode = null;

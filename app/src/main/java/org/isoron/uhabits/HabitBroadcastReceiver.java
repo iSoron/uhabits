@@ -29,11 +29,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.uhabits.helpers.DateHelper;
@@ -58,7 +58,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         {
             case ACTION_SHOW_REMINDER:
                 createNotification(context, intent);
-                createReminderAlarms(context);
+                createReminderAlarmsDelayed(context);
                 break;
 
             case ACTION_DISMISS:
@@ -72,10 +72,14 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             case ACTION_SNOOZE:
                 snoozeHabit(context, intent);
                 break;
+
+            case Intent.ACTION_BOOT_COMPLETED:
+                ReminderHelper.createReminderAlarms(context);
+                break;
         }
     }
 
-    private void createReminderAlarms(final Context context)
+    private void createReminderAlarmsDelayed(final Context context)
     {
         new Handler().postDelayed(new Runnable()
         {
@@ -163,9 +167,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             {
                 if (todayValue != Checkmark.UNCHECKED) return;
                 if (!checkWeekday(intent, habit)) return;
-
-                // Check if reminder has been turned off after alarm was scheduled
-                if (habit.reminderHour == null) return;
+                if (!habit.hasReminder()) return;
 
                 Intent contentIntent = new Intent(context, MainActivity.class);
                 contentIntent.setData(data);
@@ -176,14 +178,16 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 PendingIntent checkIntentPending = buildCheckIntent(context, habit, timestamp);
                 PendingIntent snoozeIntentPending = buildSnoozeIntent(context, habit);
 
-                Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Uri ringtoneUri = ReminderHelper.getRingtoneUri(context);
 
                 NotificationCompat.WearableExtender wearableExtender =
                         new NotificationCompat.WearableExtender().setBackground(
-                                BitmapFactory.decodeResource(context.getResources(), R.drawable.stripe));
+                                BitmapFactory.decodeResource(context.getResources(),
+                                        R.drawable.stripe));
 
                 Notification notification =
-                        new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_notification)
+                        new NotificationCompat.Builder(context)
+                                .setSmallIcon(R.drawable.ic_notification)
                                 .setContentTitle(habit.name)
                                 .setContentText(habit.description)
                                 .setContentIntent(contentPendingIntent)
@@ -192,7 +196,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                                         context.getString(R.string.check), checkIntentPending)
                                 .addAction(R.drawable.ic_action_snooze,
                                         context.getString(R.string.snooze), snoozeIntentPending)
-                                .setSound(soundUri)
+                                .setSound(ringtoneUri)
                                 .extend(wearableExtender)
                                 .setWhen(reminderTime)
                                 .setShowWhen(true)
@@ -201,7 +205,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
                 NotificationManager notificationManager =
-                        (NotificationManager) context.getSystemService(Activity.NOTIFICATION_SERVICE);
+                        (NotificationManager) context.getSystemService(
+                                Activity.NOTIFICATION_SERVICE);
 
                 int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
                 notificationManager.notify(notificationId, notification);
@@ -241,7 +246,10 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     {
         Intent intent = new Intent(context, ShowHabitActivity.class);
         intent.setData(Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId()));
-        return PendingIntent.getActivity(context, 0, intent, 0);
+
+        return TaskStackBuilder.create(context.getApplicationContext())
+                .addNextIntentWithParentStack(intent)
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private boolean checkWeekday(Intent intent, Habit habit)
@@ -254,4 +262,13 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         return reminderDays[weekday];
     }
 
+    public static void dismissNotification(Context context, Habit habit)
+    {
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(
+                        Activity.NOTIFICATION_SERVICE);
+
+        int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
+        notificationManager.cancel(notificationId);
+    }
 }

@@ -29,6 +29,7 @@ import android.view.View;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Streak;
 
@@ -53,7 +54,6 @@ public class HabitStreakView extends View implements HabitDataView
     private List<Streak> streaks;
 
     private boolean isBackgroundTransparent;
-    private int textColor;
     private DateFormat dateFormat;
     private int width;
     private float em;
@@ -61,6 +61,8 @@ public class HabitStreakView extends View implements HabitDataView
     private float textMargin;
     private boolean shouldShowLabels;
     private int maxStreakCount;
+    private int textColor;
+    private int reverseTextColor;
 
     public HabitStreakView(Context context)
     {
@@ -71,7 +73,7 @@ public class HabitStreakView extends View implements HabitDataView
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.palette[7];
+        this.primaryColor = ColorHelper.getColor(getContext(), 7);
         init();
     }
 
@@ -109,10 +111,11 @@ public class HabitStreakView extends View implements HabitDataView
         maxStreakCount = height / baseSize;
         this.width = width;
 
-        int maxTextSize = getResources().getDimensionPixelSize(R.dimen.regularTextSize);
-        float regularTextSize = Math.min(baseSize * 0.56f, maxTextSize);
+        float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
+        float maxTextSize = getResources().getDimension(R.dimen.regularTextSize);
+        float textSize = baseSize * 0.5f;
 
-        paint.setTextSize(regularTextSize);
+        paint.setTextSize(Math.max(Math.min(textSize, maxTextSize), minTextSize));
         em = paint.getFontSpacing();
         textMargin = 0.5f * em;
 
@@ -122,36 +125,19 @@ public class HabitStreakView extends View implements HabitDataView
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = habit.color;
-
-        if(isBackgroundTransparent)
-        {
-            primaryColor = ColorHelper.setSaturation(primaryColor, 0.75f);
-            primaryColor = ColorHelper.setValue(primaryColor, 1.0f);
-        }
+            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
 
         int red = Color.red(primaryColor);
         int green = Color.green(primaryColor);
         int blue = Color.blue(primaryColor);
 
-        if(isBackgroundTransparent)
-        {
-            colors = new int[4];
-            colors[3] = primaryColor;
-            colors[2] = Color.argb(213, red, green, blue);
-            colors[1] = Color.argb(170, red, green, blue);
-            colors[0] = Color.argb(128, red, green, blue);
-            textColor = Color.rgb(255, 255, 255);
-        }
-        else
-        {
-            colors = new int[4];
-            colors[3] = primaryColor;
-            colors[2] = Color.argb(192, red, green, blue);
-            colors[1] = Color.argb(96, red, green, blue);
-            colors[0] = Color.argb(32, 0, 0, 0);
-            textColor = Color.argb(64, 0, 0, 0);
-        }
+        colors = new int[4];
+        colors[3] = primaryColor;
+        colors[2] = Color.argb(192, red, green, blue);
+        colors[1] = Color.argb(96, red, green, blue);
+        colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
     }
 
     protected void createPaints()
@@ -216,7 +202,7 @@ public class HabitStreakView extends View implements HabitDataView
         if(shouldShowLabels) availableWidth -= 2 * textMargin;
 
         float barWidth = percentage * availableWidth;
-        float minBarWidth = paint.measureText(streak.length.toString());
+        float minBarWidth = paint.measureText(streak.length.toString()) + em;
         barWidth = Math.max(barWidth, minBarWidth);
 
         float gap = (width - barWidth) / 2;
@@ -229,7 +215,7 @@ public class HabitStreakView extends View implements HabitDataView
 
         float yOffset = rect.centerY() + 0.3f * em;
 
-        paint.setColor(Color.WHITE);
+        paint.setColor(reverseTextColor);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(streak.length.toString(), rect.centerX(), yOffset, paint);
 

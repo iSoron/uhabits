@@ -18,30 +18,12 @@
   -->
 
 <resources>
-
-    <style name="AppBaseTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:textColor">#606060</item>
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_darker</item>
-        <item name="android:dialogTheme">@style/MyDialogStyle</item>
-        <item name="android:alertDialogTheme">@style/MyDialogStyle</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:spinnerItemStyle">@style/dialogFormSmallText</item>
-    </style>
-
-    <style name="MyDialogStyle" parent="android:Theme.Material.Light.Dialog">
-        <item name="android:spinnerItemStyle">@style/dialogFormText</item>
-        <item name="android:spinnerDropDownItemStyle">@style/dialogFormSpinnerDropDown</item>
-    </style>
-
-    <style name="cardStyle" parent="cardBasicStyle">
-        <item name="android:background">@color/white</item>
+    <style name="Card" parent="CardCommon">
         <item name="android:elevation">1dp</item>
+        <item name="android:background">?attr/cardBackgroundColor</item>
     </style>
 
-    <style name="aboutClickableItemStyle" parent="aboutItemStyle">
+    <style name="About.Item.Clickable" parent="About.Item">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:background">@drawable/ripple_transparent</item>

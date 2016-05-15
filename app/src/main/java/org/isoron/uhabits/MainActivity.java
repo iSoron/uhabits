@@ -27,19 +27,24 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.fragments.ListHabitsFragment;
+import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
@@ -70,17 +75,33 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.list_habits_activity);
+
+        setupSupportActionBar(false);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listHabitsFragment =
-                (ListHabitsFragment) getFragmentManager().findFragmentById(R.id.fragment1);
+                (ListHabitsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment1);
 
         receiver = new Receiver();
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(receiver, new IntentFilter(ACTION_REFRESH));
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            onPreLollipopStartup();
+
         onStartup();
+    }
+
+    private void onPreLollipopStartup()
+    {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+        if(UIHelper.isNightMode()) return;
+
+        int color = getResources().getColor(R.color.grey_900);
+        actionBar.setBackgroundDrawable(new ColorDrawable(color));
     }
 
     private void onStartup()
@@ -121,7 +142,12 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        menu.clear();
         getMenuInflater().inflate(R.menu.list_habits_menu, menu);
+
+        MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);
+        nightModeItem.setChecked(UIHelper.isNightMode());
+
         return true;
     }
 
@@ -130,6 +156,17 @@ public class MainActivity extends BaseActivity
     {
         switch (item.getItemId())
         {
+            case R.id.action_night_mode:
+            {
+                if(UIHelper.isNightMode())
+                    UIHelper.setCurrentTheme(UIHelper.THEME_LIGHT);
+                else
+                    UIHelper.setCurrentTheme(UIHelper.THEME_DARK);
+
+                refreshTheme();
+                return true;
+            }
+
             case R.id.action_settings:
             {
                 Intent intent = new Intent(this, SettingsActivity.class);
@@ -156,6 +193,23 @@ public class MainActivity extends BaseActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void refreshTheme()
+    {
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+
+                MainActivity.this.finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                startActivity(intent);
+
+            }
+        }, 500); // Let the menu disappear first
     }
 
     @Override
@@ -218,9 +272,19 @@ public class MainActivity extends BaseActivity
             @Override
             protected void doInBackground()
             {
+                dismissNotifications(MainActivity.this);
                 updateWidgets(MainActivity.this);
             }
         }.execute();
+    }
+
+    private void dismissNotifications(Context context)
+    {
+        for(Habit h : Habit.getHabitsWithReminder())
+        {
+            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
+                HabitBroadcastReceiver.dismissNotification(context, h);
+        }
     }
 
     public static void updateWidgets(Context context)

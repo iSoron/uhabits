@@ -20,19 +20,23 @@
 package org.isoron.uhabits.fragments;
 
 import android.app.backup.BackupManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.helpers.ReminderHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 
-public class SettingsFragment extends PreferenceFragment
+public class SettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener
 {
+    private static int RINGTONE_REQUEST_CODE = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -44,8 +48,16 @@ public class SettingsFragment extends PreferenceFragment
         setResultOnPreferenceClick("exportDB", MainActivity.RESULT_EXPORT_DB);
         setResultOnPreferenceClick("bugReport", MainActivity.RESULT_BUG_REPORT);
 
+        updateRingtoneDescription();
+
         if(UIHelper.isLocaleFullyTranslated())
             removePreference("translate", "linksCategory");
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle bundle, String s)
+    {
+
     }
 
     private void removePreference(String preferenceKey, String categoryKey)
@@ -90,5 +102,39 @@ public class SettingsFragment extends PreferenceFragment
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
         BackupManager.dataChanged("org.isoron.uhabits");
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference)
+    {
+        if(preference.getKey() == null) return false;
+
+        if (preference.getKey().equals("reminderSound"))
+        {
+            ReminderHelper.startRingtonePickerActivity(this, RINGTONE_REQUEST_CODE);
+            return true;
+        }
+
+        return super.onPreferenceTreeClick(preference);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode == RINGTONE_REQUEST_CODE)
+        {
+            ReminderHelper.parseRingtoneData(getContext(), data);
+            updateRingtoneDescription();
+            return;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void updateRingtoneDescription()
+    {
+        String ringtoneName = ReminderHelper.getRingtoneName(getContext());
+        Preference ringtonePreference = findPreference("reminderSound");
+        ringtonePreference.setSummary(ringtoneName);
     }
 }

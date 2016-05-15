@@ -23,10 +23,24 @@
       tools:context="org.isoron.uhabits.MainActivity">
 
     <item
+        android:id="@+id/action_add"
+        android:icon="?iconAdd"
+        android:title="@string/add_habit"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/action_show_archived"
         android:checkable="true"
         android:enabled="true"
-        android:title="@string/show_archived"/>
+        android:title="@string/show_archived"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_night_mode"
+        android:checkable="true"
+        android:enabled="true"
+        android:title="@string/night_mode"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_settings"

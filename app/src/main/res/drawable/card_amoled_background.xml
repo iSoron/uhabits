@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:top="0dp"
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp">
+        <shape>
+            <solid android:color="@color/black" />
+        </shape>
+    </item>
+    <item
+        android:top="0dp"
+        android:bottom="1dp"
+        android:left="0dp"
+        android:right="0dp">
+        <shape>
+            <solid android:color="@color/black" />
+        </shape>
+    </item>
+    <item
+        android:top="0dp"
+        android:bottom="1.5dp"
+        android:left="0dp"
+        android:right="0dp">
+        <shape>
+            <solid android:color="@color/black"/>
+        </shape>
+    </item>
+    <item
+        android:top="0.5dp"
+        android:bottom="1.5dp"
+        android:left="0.5dp"
+        android:right="0.5dp">
+        <shape>
+            <solid android:color="@color/black"/>
+        </shape>
+    </item>
+</layer-list>

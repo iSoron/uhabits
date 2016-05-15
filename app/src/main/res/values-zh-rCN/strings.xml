@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">"循环习惯记录"</string>
+<string name="main_activity_title">"习惯"</string>
+<string name="action_settings">"设置"</string>
+<string name="edit">"编辑"</string>
+<string name="delete">"删除"</string>
+<string name="archive">"存档"</string>
+<string name="unarchive">"取消存档"</string>
+<string name="add_habit">"添加新习惯"</string>
+<string name="color_picker_default_title">"选择颜色"</string>
+<string name="toast_habit_created">"习惯已创建"</string>
+<string name="toast_habit_deleted">"习惯已删除"</string>
+<string name="toast_habit_restored">"习惯已恢复"</string>
+<string name="toast_nothing_to_undo">"没有可以撤销的习惯."</string>
+<string name="toast_nothing_to_redo">"没有可以恢复的习惯."</string>
+<string name="toast_habit_changed">"习惯已被修改."</string>
+
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"修改已取消."</string>
+<string name="toast_habit_archived">"习惯存档成功."</string>
+<string name="toast_habit_unarchived">"存档已取消."</string>
+<string name="overview">"总览"</string>
+<string name="habit_strength">"习惯强度"</string>
+<string name="history">"历史"</string>
+<string name="clear">"取消"</string>
+<string name="description_hint">"提醒问题（你今天 xxx 了吗）"</string>
+
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"重复"</string>
+<string name="times_every">"次每"</string>
+<string name="days">"天"</string>
+<string name="reminder">"提醒"</string>
+<string name="discard">"放弃"</string>
+<string name="save">"保存"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<string name="streaks">"连续完成次数"</string>
+<string name="no_habits_found">"你还没有任何习惯"</string>
+<string name="long_press_to_toggle">"长按 标记/取消标记"</string>
+<string name="reminder_off">"关闭"</string>
+<string name="validation_name_should_not_be_blank">"习惯标题不能为空"</string>
+<string name="validation_number_should_be_positive">"数字必须大于零."</string>
+<string name="validation_at_most_one_rep_per_day">"每天最多重复一次"</string>
+<string name="create_habit">"新建习惯"</string>
+<string name="edit_habit">"编辑习惯"</string>
+<string name="check">"标记"</string>
+<string name="snooze">"以后再说"</string>
+
+<!-- App introduction -->
+<string name="intro_title_1">"欢迎"</string>
+<string name="intro_description_1">"循环习惯记录器帮助你建立和维持好习惯."</string>
+<string name="intro_title_2">"建立一些新习惯"</string>
+<string name="intro_description_2">"每当你完成一项习惯后，就在应用上做一个标记"</string>
+<string name="intro_title_3">"保持习惯"</string>
+<string name="intro_description_3">"当连续完成习惯达到一定时间时，你将可以点亮该习惯的成就之星"</string>
+<string name="intro_title_4">"记录你的进步"</string>
+<string name="intro_description_4">"详细图表展示长期以来习惯养成情况"</string>
+<string name="interval_15_minutes">"15分钟"</string>
+<string name="interval_30_minutes">"30分钟"</string>
+<string name="interval_1_hour">"1小时"</string>
+<string name="interval_2_hour">"2小时"</string>
+<string name="interval_4_hour">"4小时"</string>
+<string name="interval_8_hour">"8小时"</string>
+<string name="pref_toggle_title">"轻触以启动重复"</string>
+<string name="pref_toggle_description">"更加方便，但有可能造成意外记录"</string>
+<string name="pref_snooze_interval_title">"提醒延迟间隔"</string>
+<string name="pref_rate_this_app">"去Play商店评价这个应用"</string>
+<string name="pref_send_feedback">"发送反馈给开发者"</string>
+<string name="pref_view_source_code">"在Github上查看源代码"</string>
+<string name="pref_view_app_introduction">"阅读应用介绍"</string>
+<string name="links">"链接"</string>
+<string name="behavior">"功能"</string>
+<string name="name">"习惯标题"</string>
+<string name="show_archived">"显示已存档的习惯"</string>
+<string name="settings">"设置"</string>
+<string name="snooze_interval">"推迟提醒间隔"</string>
+<string name="hint_title">"你知道吗？"</string>
+<string name="hint_drag">"如果要重新排列习惯，按住习惯的名字拖到想要的位置"</string>
+<string name="hint_landscape">"转至横屏查看更多日期"</string>
+<string name="delete_habits">"删除该习惯"</string>
+<string name="delete_habits_message">"习惯会被永久删除，且该操作不可恢复"</string>
+<string name="weekends">"周末"</string>
+<string name="any_weekday">"工作日"</string>
+
+<!-- Fuzzy -->
+<string name="any_day">"每天"</string>
+<string name="select_weekdays">"选择天数"</string>
+
+<!-- Fuzzy -->
+<string name="export_to_csv">"导出数据 (CSV)"</string>
+<string name="done_label">"完成"</string>
+<string name="clear_label">"取消"</string>
+<string name="select_hours">"选择小时"</string>
+<string name="select_minutes">"选择分钟"</string>
+
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"建立好习惯且随着时间记录你的进步（无广告）"</string>
+<string name="store_description_1">"本应用帮助你养成并保持习惯，并能记录长期目标。详尽图表以及统计数据能展示长期以来习惯养成情况。本应用已开源且永无广告。"</string>
+<string name="store_feature_interface">"&lt;b&gt;简单，美观，现代的界面&lt;/b&gt;
+微型界面易于应用。"</string>
+<string name="store_feature_score">"&lt;b&gt;习惯养成得分&lt;/b&gt;
+本应用不仅仅展示您当前连续完成次数，更有独特算法计算当前习惯的强度。每次重复达成都将让您的当前习惯更加有力，相应地，如果你忘记了完成了当日习惯，该习惯强度将被削弱。但是，如果经历了相当长一段连续达成时间，有那么几天没有完成习惯也不会完全毁掉您的整个习惯养成进度。"</string>
+<string name="store_feature_statistics">"&lt;b&gt; 详细的图片和数据分析&lt;/b&gt;
+详细的图片能清晰的显示随着时间你习惯的进步。往后滚动屏幕可以看完整的历史纪录。"</string>
+<string name="store_feature_schedules">"&lt;b&gt; 灵活的时间表&lt;/b&gt;
+支持日常习惯或者更加复杂时间间隔的习惯（例如每周3次，每周1次）"</string>
+<string name="store_feature_reminders">"&lt;b&gt;提醒&lt;/b&gt;
+为每个习惯添加一个提醒，应用将在每天指定时间提醒您。您可以在通知栏轻松完成诸如将习惯标记为已完成、忽略提醒以及推迟提醒等操作，而完全不必打开应用。"</string>
+<string name="store_feature_opensource">"&lt;b&gt;完全无广告，开源&lt;/b&gt;
+完全没有广告，没有过分的权限申请，并且永远也不会有。完整的代码以 GPLv3 协议发布。"</string>
+<string name="store_feature_wear">"&lt;b&gt;已为智能手表优化&lt;/b&gt;
+在 Android Wear 手表上，显示提醒，记录习惯，忽略提醒，或者推迟习惯。"</string>
+<string name="about">"关于应用"</string>
+<string name="translators">"翻译者"</string>
+<string name="developers">"开发者"</string>
+
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"当前版本：%s"</string>
+<string name="frequency">"频率"</string>
+<string name="checkmark">"标记"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"强度"</string>
+<string name="best_streaks">"最佳连续完成次数"</string>
+<string name="current_streaks">"当前连续完成次数"</string>
+<string name="number_of_repetitions">"重复次数"</string>
+<string name="last_x_days">"过去  %d 天"</string>
+<string name="last_x_weeks">"过去 %d 周"</string>
+<string name="last_x_months">"过去 %d 月"</string>
+<string name="last_x_years">"过去 %d  年"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"全部"</string>
+<string name="every_day">"每天"</string>
+<string name="every_week">"每周"</string>
+<string name="two_times_per_week">"每周两次"</string>
+<string name="five_times_per_week">"每周5次"</string>
+<string name="custom_frequency">"自定义"</string>
+<string name="help">"帮助 &amp; 常见问题"</string>
+<string name="could_not_export">"导出数据失败"</string>
+<string name="could_not_import">"导入数据失败"</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"无法识别文件"</string>
+<string name="habits_imported">"习惯导入成功"</string>
+<string name="full_backup_success">"习惯备份成功"</string>
+<string name="import_data">"导入数据"</string>
+<string name="export_full_backup">"导出完整备份"</string>
+<string name="import_data_summary">"支持此应用导出的备份文件， 也支持 Tickmate ， HabitBull 或 Rewire 导出文件，请参阅常见问题以获取更多信息。"</string>
+<string name="export_as_csv_summary">"生成可以通过电子表格软件打开的文件，如 Microsoft Excel 或 OpenOffice Calc。该文件无法重新导入。"</string>
+<string name="export_full_backup_summary">"生成一个包含所有数据的文件。该文件可以重新导入。"</string>
+<string name="bug_report_failed">"错误报告生成失败"</string>
+<string name="generate_bug_report">"生成错误报告"</string>
+<string name="troubleshooting">"故障排除"</string>
+<string name="help_translate">"帮助翻译这个应用"</string>
+<string name="night_mode">"夜间模式"</string>
+<string name="use_pure_black">"在夜间模式中使用纯黑色"</string>
+<string name="pure_black_description">"以纯黑色背景代替夜间模式中的灰色背景。
+这将帮助减少 AMOLED 屏幕手机的电量使用。"</string>
+<string name="interface_preferences">"界面"</string>
+<string name="reverse_days">"反向顺序的日子"</string>
+<string name="reverse_days_description">"在主界面显示反向顺序的日子"</string>
+<string name="day">"天"</string>
+<string name="week">"周"</string>
+<string name="month">"月"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"季度"</string>
+<string name="year">"年"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"次每"</string>
+<string name="every_x_days">"每 %d 天"</string>
+<string name="every_x_weeks">"每 %d 周"</string>
+<string name="every_x_months">"每 %d 月"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"成绩"</string>
+<string name="reminder_sound">"提醒声音"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"无"</string>
+</resources>

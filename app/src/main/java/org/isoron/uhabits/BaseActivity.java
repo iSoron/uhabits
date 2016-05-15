@@ -19,17 +19,25 @@
 
 package org.isoron.uhabits;
 
-import android.app.Activity;
 import android.app.backup.BackupManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.helpers.UIHelper;
 
 import java.util.LinkedList;
 
-abstract public class BaseActivity extends Activity implements Thread.UncaughtExceptionHandler
+abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler
 {
     private static int MAX_UNDO_LEVEL = 15;
 
@@ -43,6 +51,8 @@ abstract public class BaseActivity extends Activity implements Thread.UncaughtEx
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        UIHelper.applyCurrentTheme(this);
 
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -117,6 +127,23 @@ abstract public class BaseActivity extends Activity implements Thread.UncaughtEx
         showToast(command.getExecuteStringId());
     }
 
+    protected void setupSupportActionBar(boolean homeButtonEnabled)
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar == null) return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            toolbar.setElevation(UIHelper.dpToPixels(this, 2));
+
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+
+        if(homeButtonEnabled)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
     public void onPostExecuteCommand(Long refreshKey)
     {
     }
@@ -138,5 +165,40 @@ abstract public class BaseActivity extends Activity implements Thread.UncaughtEx
             androidExceptionHandler.uncaughtException(thread, ex);
         else
             System.exit(1);
+    }
+
+    protected void setupActionBarColor(int color)
+    {
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) return;
+
+        if (!UIHelper.getStyledBoolean(this, R.attr.useHabitColorAsPrimary)) return;
+
+        ColorDrawable drawable = new ColorDrawable(color);
+        actionBar.setBackgroundDrawable(drawable);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
+            getWindow().setStatusBarColor(darkerColor);
+        }
+    }
+
+    @Override
+    protected void onPostResume()
+    {
+        super.onPostResume();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            hideFakeToolbarShadow();
+    }
+
+    protected void hideFakeToolbarShadow()
+    {
+        View view = findViewById(R.id.toolbarShadow);
+        if(view != null) view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.headerShadow);
+        if(view != null) view.setVisibility(View.GONE);
     }
 }

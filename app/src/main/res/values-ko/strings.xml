@@ -158,4 +158,32 @@ Loop은 Material디자인을 따라 사용이 편합니다."</string>
 <string name="bug_report_failed">"오류보고서를 작성하지 못했습니다."</string>
 <string name="generate_bug_report">"오류보고서 작성하기"</string>
 <string name="troubleshooting">"문제가 있나요?"</string>
+<string name="help_translate">"변역을 도와주세요"</string>
+<string name="night_mode">"어두운 배경"</string>
+<string name="use_pure_black">"검정색 배경"</string>
+<string name="pure_black_description">"야간모드의 회색 바탕을 검정 바탕색으로 바꿉니다. AMOLED를 사용하는 기기는 검정바탕으로 배터리를 절약할 수 있습니다."</string>
+<string name="interface_preferences">"바탕화면 설정"</string>
+<string name="reverse_days">"날짜 순서 뒤집기"</string>
+<string name="reverse_days_description">"날짜 순서를 뒤바꾸어 보여줍니다."</string>
+<string name="day">"일"</string>
+<string name="week">"주"</string>
+<string name="month">"월"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"4분기-1년"</string>
+<string name="year">"년"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"번"</string>
+<string name="every_x_days">"%d 일 마다"</string>
+<string name="every_x_weeks">"%d 주 마다"</string>
+<string name="every_x_months">"%d 개월 마다"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"습관점수"</string>
+<string name="reminder_sound">"알림 소리"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"무음"</string>
 </resources>

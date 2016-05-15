@@ -24,4 +24,48 @@
     <string name="bugReportURL" formatted="false">mailto:dev@loophabits.org?subject=Bug%20Report%20-%20Loop%20Habit%20Tracker</string>
     <string name="sourceCodeURL">https://github.com/iSoron/uhabits</string>
     <string name="translateURL">https://poeditor.com/join/project/8DWX5pfjS0</string>
+
+    <string-array name="snooze_interval_names">
+        <item>@string/interval_15_minutes</item>
+        <item>@string/interval_30_minutes</item>
+        <item>@string/interval_1_hour</item>
+        <item>@string/interval_2_hour</item>
+        <item>@string/interval_4_hour</item>
+        <item>@string/interval_8_hour</item>
+    </string-array>
+
+    <string-array name="snooze_interval_values" translatable="false">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>480</item>
+    </string-array>
+
+    <string-array name="frequencyQuickSelect" translatable="false">
+        <item>@string/every_day</item>
+        <item>@string/every_week</item>
+        <item>@string/two_times_per_week</item>
+        <item>@string/five_times_per_week</item>
+        <item>@string/custom_frequency</item>
+    </string-array>
+
+    <string-array name="strengthIntervalNames" translatable="false">
+        <item>@string/day</item>
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/quarter</item>
+        <item>@string/year</item>
+    </string-array>
+
+    <string-array name="strenghtIntervalValues" translatable="false">
+        <item>1</item>
+        <item>7</item>
+        <item>31</item>
+        <item>92</item>
+        <item>365</item>
+    </string-array>
+
+    <string name="snooze_interval_default" translatable="false">15</string>
 </resources>

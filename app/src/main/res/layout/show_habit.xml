@@ -17,25 +17,107 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://isoron.org/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/windowBackground"
-            android:fillViewport="true">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:habit="http://isoron.org/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?windowBackgroundColor"
+    android:clipToPadding="false"
+    android:fillViewport="true">
 
     <LinearLayout
-        style="@style/cardsListStyle"
+        style="@style/CardList"
+        android:clipToPadding="false"
         tools:context="org.isoron.uhabits.ShowHabitActivity">
 
         <LinearLayout
-            style="@style/cardStyle"
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?headerBackgroundColor"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="60dp"
+            android:paddingStart="60dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:id="@+id/questionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textColor="?mediumContrastTextColor"
+                android:textSize="@dimen/regularTextSize"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/frequencyIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:alpha="0.3"
+                    android:src="?iconFrequency"
+                    />
+
+                <TextView
+                    android:id="@+id/frequencyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/every_day"
+                    android:textColor="?mediumContrastTextColor"
+                    android:textSize="@dimen/smallTextSize"
+                    />
+
+                <ImageView
+                    android:id="@+id/reminderIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:alpha="0.3"
+                    android:src="?iconReminder"
+                    />
+
+                <TextView
+                    android:id="@+id/reminderLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="1dp"
+                    android:textColor="?mediumContrastTextColor"
+                    android:textSize="@dimen/smallTextSize"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/headerShadow"
+            style="@style/ToolbarShadow"/>
+
+        <LinearLayout
+            style="@style/Card"
+            android:paddingTop="12dp"
             android:gravity="start">
 
             <TextView
                 android:id="@+id/tvOverview"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/overview"/>
 
             <LinearLayout
@@ -45,40 +127,104 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <org.isoron.uhabits.views.RingView
-                    android:id="@+id/scoreRing"
-                    style="@style/smallDataViewStyle"
-                    android:layout_width="100dp"
-                    app:label="@string/strength"
-                    app:maxDiameter="80"
-                    app:textSize="@dimen/smallTextSize"/>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5">
 
+                    <org.isoron.uhabits.views.RingView
+                        android:id="@+id/scoreRing"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        habit:percentage="0"
+                        habit:textSize="12"
+                        habit:thickness="5"/>
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/scoreLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/score"
+                        android:textColor="?mediumContrastTextColor"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/monthDiffLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/month"
+                        android:textColor="?mediumContrastTextColor"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/yearDiffLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/year"
+                        android:textColor="?mediumContrastTextColor"/>
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
 
         <RelativeLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:gravity="center">
 
-            <Spinner
+            <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/sStrengthInterval"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/strengthIntervalNames"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
+                android:layout_height="22dp"
                 android:layout_alignParentEnd="true"
-                android:minWidth="100dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:entries="@array/strengthIntervalNames"
+                android:theme="@style/SmallSpinner"
                 />
 
             <TextView
                 android:id="@+id/tvStrength"
-                style="@style/cardHeaderStyle"
-                android:text="@string/habit_strength"
-                android:layout_alignParentTop="true"
+                style="@style/CardHeader"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/habit_strength"/>
 
             <org.isoron.uhabits.views.HabitScoreView
                 android:id="@+id/scoreView"
@@ -89,14 +235,14 @@
         </RelativeLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingBottom="0dp">
 
             <TextView
                 android:id="@+id/tvHistory"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/history"/>
 
             <org.isoron.uhabits.views.HabitHistoryView
@@ -118,12 +264,12 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvStreaks"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/best_streaks"/>
 
             <org.isoron.uhabits.views.HabitStreakView
@@ -133,12 +279,12 @@
         </LinearLayout>
 
         <LinearLayout
-            style="@style/cardStyle"
+            style="@style/Card"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvWeekdayFreq"
-                style="@style/cardHeaderStyle"
+                style="@style/CardHeader"
                 android:text="@string/frequency"/>
 
             <org.isoron.uhabits.views.HabitFrequencyView

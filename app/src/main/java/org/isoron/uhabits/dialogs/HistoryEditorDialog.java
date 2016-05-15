@@ -19,21 +19,20 @@
 
 package org.isoron.uhabits.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitHistoryView;
 
-public class HistoryEditorDialog extends DialogFragment
+public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener
 {
     private Habit habit;
@@ -88,8 +87,6 @@ public class HistoryEditorDialog extends DialogFragment
         int maxHeight = getResources().getDimensionPixelSize(R.dimen.history_editor_max_height);
         int width = metrics.widthPixels;
         int height = Math.min(metrics.heightPixels, maxHeight);
-
-        Log.d("HistoryEditorDialog", String.format("h=%d max_h=%d", height, maxHeight));
 
         getDialog().getWindow().setLayout(width, height);
     }

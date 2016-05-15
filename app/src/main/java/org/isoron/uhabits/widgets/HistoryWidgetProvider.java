@@ -25,6 +25,7 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.views.GraphWidgetView;
 import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitHistoryView;
 
@@ -33,9 +34,9 @@ public class HistoryWidgetProvider extends  BaseWidgetProvider
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitHistoryView view = new HabitHistoryView(context, null);
+        HabitHistoryView dataView = new HabitHistoryView(context);
+        GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
-        view.setIsBackgroundTransparent(true);
         return view;
     }
 
@@ -54,18 +55,18 @@ public class HistoryWidgetProvider extends  BaseWidgetProvider
     @Override
     protected int getDefaultHeight()
     {
-        return 200;
+        return 250;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 200;
+        return 250;
     }
 
     @Override
     protected int getLayoutId()
     {
-        return R.layout.widget_graph;
+        return R.layout.widget_wrapper;
     }
 }

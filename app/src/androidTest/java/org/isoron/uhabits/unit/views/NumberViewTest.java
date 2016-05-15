@@ -45,7 +45,7 @@ public class NumberViewTest extends ViewTest
         view = new NumberView(targetContext);
         view.setLabel("Hello world");
         view.setNumber(31);
-        view.setColor(ColorHelper.palette[0]);
+        view.setColor(ColorHelper.CSV_PALETTE[0]);
         measureView(dpToPixels(100), dpToPixels(100), view);
     }
 
@@ -68,7 +68,7 @@ public class NumberViewTest extends ViewTest
     public void testRender_withDifferentParams() throws IOException
     {
         view.setNumber(500);
-        view.setColor(ColorHelper.palette[5]);
+        view.setColor(ColorHelper.CSV_PALETTE[5]);
         view.setTextSize(targetContext.getResources().getDimension(R.dimen.tinyTextSize));
 
         measureView(dpToPixels(200), dpToPixels(200), view);

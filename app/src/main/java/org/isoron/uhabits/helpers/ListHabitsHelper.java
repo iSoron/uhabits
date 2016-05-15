@@ -20,13 +20,14 @@
 package org.isoron.uhabits.helpers;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.util.DisplayMetrics;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,43 +35,44 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.views.RingView;
 
 import java.util.GregorianCalendar;
 
 public class ListHabitsHelper
 {
-    public static final int INACTIVE_COLOR = Color.rgb(200, 200, 200);
-    public static final int INACTIVE_CHECKMARK_COLOR = Color.rgb(230, 230, 230);
+    private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
+    private static final int CHECKMARK_RIGHT_TO_LEFT = 1;
+
+    private final int lowContrastColor;
+    private final int mediumContrastColor;
 
     private final Context context;
     private final HabitListLoader loader;
-    private Typeface fontawesome;
 
     public ListHabitsHelper(Context context, HabitListLoader loader)
     {
         this.context = context;
         this.loader = loader;
 
-        fontawesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
-    }
-
-    public Typeface getFontawesome()
-    {
-        return fontawesome;
+        lowContrastColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
+        mediumContrastColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
     }
 
     public int getButtonCount()
     {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        return Math.max(0, (int) ((width - 160) / 42.0));
+        float screenWidth = UIHelper.getScreenWidth(context);
+        float labelWidth = context.getResources().getDimension(R.dimen.habitNameWidth);
+        float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
+        return Math.max(0, (int) ((screenWidth - labelWidth) / buttonWidth));
     }
 
     public int getHabitNameWidth()
     {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = (int) (dm.widthPixels / dm.density);
-        return (int) ((width - 30 - getButtonCount() * 42) * dm.density);
+        float screenWidth = UIHelper.getScreenWidth(context);
+        float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
+        float padding = UIHelper.dpToPixels(context, 15);
+        return (int) (screenWidth - padding - getButtonCount() * buttonWidth);
     }
 
     public void updateCheckmarkButtons(Habit habit, LinearLayout llButtons)
@@ -83,8 +85,12 @@ public class ListHabitsHelper
 
         for (int i = 0; i < m; i++)
         {
+            int position = i;
 
-            TextView tvCheck = (TextView) llButtons.getChildAt(i);
+            if(getCheckmarkOrder() == CHECKMARK_RIGHT_TO_LEFT)
+                position = m - i - 1;
+
+            TextView tvCheck = (TextView) llButtons.getChildAt(position);
             tvCheck.setTag(R.string.habit_key, habitId);
             tvCheck.setTag(R.string.offset_key, i);
             if(isChecked.length > i)
@@ -94,54 +100,32 @@ public class ListHabitsHelper
 
     public int getActiveColor(Habit habit)
     {
-        int activeColor = habit.color;
-        if(habit.isArchived()) activeColor = INACTIVE_COLOR;
+        int activeColor = ColorHelper.getColor(context, habit.color);
+        if(habit.isArchived()) activeColor = mediumContrastColor;
 
         return activeColor;
     }
 
     public void initializeLabelAndIcon(View itemView)
     {
-        TextView tvStar = (TextView) itemView.findViewById(R.id.tvStar);
-        tvStar.setTypeface(getFontawesome());
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getHabitNameWidth(),
                 LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         itemView.findViewById(R.id.label).setLayoutParams(params);
     }
 
-    public void updateNameAndIcon(Habit habit, TextView tvStar, TextView tvName)
+    public void updateNameAndIcon(Habit habit, RingView ring, TextView tvName)
     {
         int activeColor = getActiveColor(habit);
 
         tvName.setText(habit.name);
         tvName.setTextColor(activeColor);
 
-        if (habit.isArchived())
-        {
-            tvStar.setText(context.getString(R.string.fa_archive));
-            tvStar.setTextColor(activeColor);
-        }
-        else
-        {
-            int score = loader.scores.get(habit.getId());
+        int score = loader.scores.get(habit.getId());
+        float percentage = (float) score / Score.MAX_VALUE;
 
-            if (score < Score.HALF_STAR_CUTOFF)
-            {
-                tvStar.setText(context.getString(R.string.fa_star_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
-            }
-            else if (score < Score.FULL_STAR_CUTOFF)
-            {
-                tvStar.setText(context.getString(R.string.fa_star_half_o));
-                tvStar.setTextColor(INACTIVE_COLOR);
-            }
-            else
-            {
-                tvStar.setText(context.getString(R.string.fa_star));
-                tvStar.setTextColor(activeColor);
-            }
-        }
+        ring.setColor(activeColor);
+        ring.setPercentage(percentage);
+        ring.setPrecision(1.0f / 16);
     }
 
     public void updateCheckmark(int activeColor, TextView tvCheck, int check)
@@ -156,27 +140,64 @@ public class ListHabitsHelper
 
             case 1:
                 tvCheck.setText(R.string.fa_check);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
+                tvCheck.setTextColor(lowContrastColor);
                 tvCheck.setTag(R.string.toggle_key, 1);
                 break;
 
             case 0:
                 tvCheck.setText(R.string.fa_times);
-                tvCheck.setTextColor(INACTIVE_CHECKMARK_COLOR);
+                tvCheck.setTextColor(lowContrastColor);
                 tvCheck.setTag(R.string.toggle_key, 0);
                 break;
         }
     }
 
-    public void updateHabitBackground(View view, boolean isSelected)
+    public View inflateHabitCard(LayoutInflater inflater,
+                                  View.OnLongClickListener onCheckmarkLongClickListener,
+                                  View.OnClickListener onCheckmarkClickListener)
     {
-        if (isSelected)
-            view.setBackgroundResource(R.drawable.selected_box);
+        View view = inflater.inflate(R.layout.list_habits_item, null);
+        initializeLabelAndIcon(view);
+        inflateCheckmarkButtons(view, onCheckmarkLongClickListener, onCheckmarkClickListener,
+                inflater);
+        return view;
+    }
+
+    public void updateHabitCard(View view, Habit habit, boolean selected)
+    {
+        RingView scoreRing = ((RingView) view.findViewById(R.id.scoreRing));
+        TextView tvName = (TextView) view.findViewById(R.id.label);
+        LinearLayout llInner = (LinearLayout) view.findViewById(R.id.llInner);
+        LinearLayout llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
+
+        llInner.setTag(R.string.habit_key, habit.getId());
+        llInner.setOnTouchListener(new HotspotTouchListener());
+
+        updateNameAndIcon(habit, scoreRing, tvName);
+        updateCheckmarkButtons(habit, llButtons);
+        updateHabitCardBackground(llInner, selected);
+    }
+
+
+    public void updateHabitCardBackground(View view, boolean isSelected)
+    {
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            if (isSelected)
+                view.setBackgroundResource(R.drawable.selected_box);
+            else
+                view.setBackgroundResource(R.drawable.ripple);
+        }
         else
         {
-            if (android.os.Build.VERSION.SDK_INT >= 21)
-                view.setBackgroundResource(R.drawable.ripple_white);
-            else view.setBackgroundResource(R.drawable.card_background);
+            Drawable background;
+
+            if (isSelected)
+                background = UIHelper.getStyledDrawable(context, R.attr.selectedBackground);
+            else
+                background = UIHelper.getStyledDrawable(context, R.attr.cardBackground);
+
+            view.setBackgroundDrawable(background);
         }
     }
 
@@ -187,7 +208,7 @@ public class ListHabitsHelper
         {
             View check = inflater.inflate(R.layout.list_habits_item_check, null);
             TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-            btCheck.setTypeface(fontawesome);
+            btCheck.setTypeface(UIHelper.getFontAwesome(context));
             btCheck.setOnLongClickListener(onLongClickListener);
             btCheck.setOnClickListener(onClickListener);
             btCheck.setHapticFeedbackEnabled(false);
@@ -205,11 +226,15 @@ public class ListHabitsHelper
 
         for (int i = 0; i < getButtonCount(); i++)
         {
-            View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
-            Button btCheck = (Button) tvDay.findViewById(R.id.tvCheck);
-            btCheck.setText(DateHelper.formatHeaderDate(day));
-            header.addView(tvDay);
+            int position = 0;
 
+            if(getCheckmarkOrder() == CHECKMARK_LEFT_TO_RIGHT)
+                position = i;
+
+            View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
+            TextView btCheck = (TextView) tvDay.findViewById(R.id.tvCheck);
+            btCheck.setText(DateHelper.formatHeaderDate(day));
+            header.addView(tvDay, position);
             day.add(GregorianCalendar.DAY_OF_MONTH, -1);
         }
     }
@@ -222,9 +247,59 @@ public class ListHabitsHelper
 
     public void toggleCheckmarkView(View v, Habit habit)
     {
+        int androidColor = ColorHelper.getColor(context, habit.color);
+
         if (v.getTag(R.string.toggle_key).equals(2))
-            updateCheckmark(habit.color, (TextView) v, 0);
+            updateCheckmark(androidColor, (TextView) v, 0);
         else
-            updateCheckmark(habit.color, (TextView) v, 2);
+            updateCheckmark(androidColor, (TextView) v, 2);
+    }
+
+    public Long getHabitIdFromCheckmarkView(View v)
+    {
+        return (Long) v.getTag(R.string.habit_key);
+    }
+
+    public long getTimestampFromCheckmarkView(View v)
+    {
+        Integer offset = (Integer) v.getTag(R.string.offset_key);
+        return DateHelper.getStartOfDay(DateHelper.getLocalTime() -
+                offset * DateHelper.millisecondsInOneDay);
+    }
+
+    public void triggerRipple(View v, final float x, final float y)
+    {
+        final Drawable background = v.getBackground();
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+            background.setHotspot(x, y);
+
+        background.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                background.setState(new int[]{});
+            }
+        }, 25);
+    }
+
+    private static class HotspotTouchListener implements View.OnTouchListener
+    {
+        @Override
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            if (android.os.Build.VERSION.SDK_INT >= 21)
+                v.getBackground().setHotspot(event.getX(), event.getY());
+            return false;
+        }
+    }
+
+    public int getCheckmarkOrder()
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean reverse = prefs.getBoolean("pref_checkmark_reverse_order", false);
+        return reverse ? CHECKMARK_RIGHT_TO_LEFT : CHECKMARK_LEFT_TO_RIGHT;
     }
 }

@@ -19,19 +19,20 @@
 
 package org.isoron.uhabits;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-import org.isoron.uhabits.fragments.SettingsFragment;
+import org.isoron.uhabits.helpers.UIHelper;
 
-public class SettingsActivity extends Activity
+public class SettingsActivity extends BaseActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+        setContentView(R.layout.settings_activity);
+        setupSupportActionBar(true);
+
+        int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
+        setupActionBarColor(color);
     }
 }

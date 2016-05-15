@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">"Loop Alışkanlık Takip"</string>
+<string name="main_activity_title">"Alışkanlıklar"</string>
+<string name="action_settings">"Ayarlar"</string>
+<string name="edit">"Düzenle"</string>
+<string name="delete">"Sil"</string>
+<string name="archive">"Arşivle"</string>
+<string name="unarchive">"Arşivden Çıkar"</string>
+<string name="add_habit">"Alışkanlık ekle"</string>
+<string name="color_picker_default_title">"Renk Değiştir"</string>
+<string name="toast_habit_created">"Alışkanlık oluşturuldu."</string>
+<string name="toast_habit_deleted">"Alışkanlık silindi."</string>
+<string name="toast_habit_restored">"Alışkanlık"</string>
+<string name="toast_nothing_to_undo">"Geri alınacak birşey yok."</string>
+<string name="toast_nothing_to_redo">"Tekrar yapılacak birşey yok."</string>
+<string name="toast_habit_changed">"Alışkanlık değişti."</string>
+
+<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"Alışkanlık eski haline getirildi."</string>
+<string name="toast_habit_archived">"Alışkanlık arşivlendi."</string>
+<string name="toast_habit_unarchived">"Alışkanlık arşivden çıkarıldı."</string>
+<string name="overview">"Genel bakış"</string>
+<string name="habit_strength">"Alışkanlık dayanımı"</string>
+<string name="history">"Geçmiş"</string>
+<string name="clear">"Temizle"</string>
+<string name="description_hint">"Soru (Bugün ... yaptın mı?)"</string>
+
+<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+<string name="repeat">"Tekrar"</string>
+<string name="times_every">"kez"</string>
+<string name="days">"günde"</string>
+<string name="reminder">"Hatırlatma"</string>
+<string name="discard">"İptal"</string>
+<string name="save">"Kaydet"</string>
+
+<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<string name="streaks">"Etkinlikler"</string>
+<string name="no_habits_found">"Etkin alışkanlığın yok"</string>
+<string name="long_press_to_toggle">"Yapıldı veya yapılmadı işareti koymak için uzun basılı tut"</string>
+<string name="reminder_off">"Kapalı"</string>
+<string name="validation_name_should_not_be_blank">"Adı boş bırakamazsın."</string>
+<string name="validation_number_should_be_positive">"Sayılar sıfırdan büyük olmalı."</string>
+<string name="validation_at_most_one_rep_per_day">"Günde en fazla bir tekrar yapabilirsin."</string>
+<string name="create_habit">"Alışkanlık oluştur"</string>
+<string name="edit_habit">"Alışkanlık düzenle"</string>
+<string name="check">"Yaptım"</string>
+<string name="snooze">"Sonra"</string>
+
+<!-- App introduction -->
+<string name="intro_title_1">"Hoşgeldin"</string>
+<string name="intro_description_1">"İyi alışkanlıklar edinmek ve devam etmene yardımcı olur."</string>
+<string name="intro_title_2">"Yeni alışkanlıklar oluştur"</string>
+<string name="intro_description_2">"Her gün, alışkanlığını gerçekleştirdikten sonra, uygulamada onay işareti koy."</string>
+<string name="intro_title_3">"Yapmaya devam et"</string>
+<string name="intro_description_3">"Uzun bir süre ile sürekli yaptığın alışkanlıkların için tam yıldız kazanacaksın."</string>
+<string name="intro_title_4">"Gelişimini izle"</string>
+<string name="intro_description_4">"Detaylı grafiklerle, zaman içinde alışkanlıklarını nasıl geliştiğini gör."</string>
+<string name="interval_15_minutes">"15 dakika"</string>
+<string name="interval_30_minutes">"30 dakika"</string>
+<string name="interval_1_hour">"1 saat"</string>
+<string name="interval_2_hour">"2 saat"</string>
+<string name="interval_4_hour">"4 saat"</string>
+<string name="interval_8_hour">"8 saat"</string>
+<string name="pref_toggle_title">"Daha kısa süre basma ile yapıldı/yapılmadı işaretleme"</string>
+<string name="pref_toggle_description">"Daha kullanışlı ama kazara istenmeyen işaretlemeler olabilir"</string>
+<string name="pref_snooze_interval_title">"Hatırlatmalardaki erteleme süresi"</string>
+<string name="pref_rate_this_app">"Google Play'de uygulamayı oyla"</string>
+<string name="pref_send_feedback">"Geliştiriciye geri bildirim gönder"</string>
+<string name="pref_view_source_code">"Github'da kaynak kodunu bak"</string>
+<string name="pref_view_app_introduction">"Uygulama tanıtımını göster"</string>
+<string name="links">"Bağlantılar"</string>
+<string name="behavior">"Davranış"</string>
+<string name="name">"Ad"</string>
+<string name="show_archived">"Arşivlileri göster"</string>
+<string name="settings">"Ayarlar"</string>
+<string name="snooze_interval">"Erteleme süresi"</string>
+<string name="hint_title">"Biliyor musun?"</string>
+<string name="hint_drag">"Girdileri yeniden düzenlemek için, alışkanlık adının üstüne bas ve doğru yere sürükle."</string>
+<string name="hint_landscape">"Cihazını yatay tutarak daha fazla gün görebilirsin."</string>
+<string name="delete_habits">"Alışkanlıkları Sil"</string>
+<string name="delete_habits_message">"Alışkanlıklar kalıcı olarak silinecek. Bu eylem geri alınamaz."</string>
+<string name="weekends">"Hafta sonları"</string>
+<string name="any_weekday">"Pazartesinden Cumaya"</string>
+<string name="any_day">"Haftanın herhangi bir günü"</string>
+<string name="select_weekdays">"Günleri seç"</string>
+<string name="export_to_csv">"CSV olarak dışa aktar"</string>
+<string name="done_label">"Tamam"</string>
+<string name="clear_label">"Temizle"</string>
+<string name="select_hours">"Saat seç"</string>
+<string name="select_minutes">"Dakika seç"</string>
+
+<!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"İyi alışkanlıklar kazan ve gelişmesini takip et (reklamsız)"</string>
+<string name="store_description_1">"İyi alışkanlar kazanmanı ve sürdürmene yardımcı olur, uzun dönemli hedeflerini başarmanı sağlar. Ayrıntılı çizelge ve istatistikler, zaman içinde alışkanlıklarını nasıl geliştiğini gösterir. Tamamen reklamsız ve açık kaynak."</string>
+<string name="store_feature_interface">"&lt;b&gt;Basit, güzel ve çağdaş arayüz&lt;/b&gt; Kullanımı kolay sade arayüze sahiptir ve material design kurallarını takip eder."</string>
+<string name="store_feature_score">"&lt;b&gt;Alışkanlık Puanı&lt;/b&gt; Alışkanlıklarının dayanımını hesaplamak için gelişmiş algoritmaya sahiptir. Her tekrar alışkanlığını güçlendirir ve her iptal zayıflatır. Uzun süre etkinlikten sonra birkaç gün devamsızlık, tüm gelişmenizi tamamen etkilemeyecek."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Ayrıntılı çizelgeler ve istatistikler&lt;/b&gt; Güzel ve ayrıntılı çizelgeler ile alışkanlıklarının zaman içinde nasıl geliştiğini açıkça görebilirsin. Alışkanlıklarının geçmişini tamamen görmek için geriye sürükle."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Esnek zamanlamalar&lt;/b&gt; Günlük alışkanlanlıklar ve haftada 3 kez, diğer haftalarda bir kez veya diğer hergün gibi daha gelişmiş zamanlamalı alışkanlıkları destekler."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Hatırlatmalar&lt;/b&gt; Herbir alışkanlık için seçtiğin gün ve saatte ayrı hatırlatma oluştur. Kolayca uygulamayı açmadan, bildirimlerden alışkanlıklarını yapıldı, iptal et veya ertele olarak işaretle."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Tamamen reklamsız ve açık kaynak&lt;/b&gt; Bu uygulama içinde kesinlikle hiç reklam yok, can sıkıcı bildirimler veya zorunlu izinler yok ve asla da olmayacak. Kaynak kodun tamamı GPLv3 özgür yazılım lisansı kapsamındadır."</string>
+<string name="store_feature_wear">"&lt;b&gt;Akıllı saatler için uyarlandı&lt;/b&gt; Android Wear saatinden, hatırlatmaları yapıldı, ertele veya iptal edebilirsin."</string>
+<string name="about">"Hakkında"</string>
+<string name="translators">"Çevirmenler"</string>
+<string name="developers">"Geliştiriciler"</string>
+
+<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+<string name="version_n">"Sürüm %s"</string>
+<string name="frequency">"Sıklık"</string>
+<string name="checkmark">"Yapıldı işareti"</string>
+
+<!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"Dayanım"</string>
+<string name="best_streaks">"En iyi etkinlik günü"</string>
+<string name="current_streaks">"Bugünkü etkinlik"</string>
+<string name="number_of_repetitions">"Tekrar sayısı"</string>
+<string name="last_x_days">"Son %d gün"</string>
+<string name="last_x_weeks">"Son %d hafta"</string>
+<string name="last_x_months">"Son %d ay"</string>
+<string name="last_x_years">"Son %d yıl"</string>
+
+<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+<string name="all_time">"Tüm zamanlar"</string>
+<string name="every_day">"Her gün"</string>
+<string name="every_week">"Her hafta"</string>
+<string name="two_times_per_week">"Haftada 2 kez"</string>
+<string name="five_times_per_week">"Haftada 5 kez"</string>
+<string name="custom_frequency">"Özel ..."</string>
+<string name="help">"Yardım &amp; SSS"</string>
+<string name="could_not_export">"Dışarı veri aktarımı başarısız."</string>
+<string name="could_not_import">"İçeri veri aktarımı başarısız."</string>
+
+<!-- Appears when the user tries to import a file which we do not support or recognize. -->
+<string name="file_not_recognized">"Dosya tanınamadı."</string>
+<string name="habits_imported">"Alışkanlıklar başarılı içeri aktarıldı."</string>
+<string name="full_backup_success">"Tam yedek başarıyla dışarı aktarıldı."</string>
+<string name="import_data">"Veri içeri aktar"</string>
+<string name="export_full_backup">"Tüm yedeği dışarı aktar"</string>
+<string name="import_data_summary">"Hem bu uygulama tarafından dışarı aktarılmış tam yedekleri, hem de Tickmate, HabitBull veya Rewire tarafından üretilmiş dosyaları destekler. Daha fazla bilgi için SSS bakın."</string>
+<string name="export_as_csv_summary">"Üretilen dosyalar, Microsoft Excel veya OpenOffice Calc. gibi hesap taplosu uygulamaları ile açılabilir. Bu dosya yeniden içeri aktarılamaz."</string>
+<string name="export_full_backup_summary">"Üretilen dosya, tüm verilerini içerir. Bu dosya yeniden içeri aktarılabilir."</string>
+<string name="bug_report_failed">"Hata raporu oluşturulamadı."</string>
+<string name="generate_bug_report">"Hata raporu üret"</string>
+<string name="troubleshooting">"Sorun Giderme"</string>
+<string name="help_translate">"Bu uygulamanın çevirisine yardım et"</string>
+<string name="night_mode">"Gece kipi"</string>
+<string name="use_pure_black">"Gece kipinde saf siyah kullan"</string>
+<string name="pure_black_description">"Gece kipinde gri arkaplanını, saf siyah ile değiştir. AMOLED ekranlı cihazlarda pil kullanımını düşür."</string>
+<string name="interface_preferences">"Arayüz"</string>
+<string name="reverse_days">"Günleri ters sırala"</string>
+<string name="reverse_days_description">"Ana ekranda günleri tersen göster"</string>
+<string name="day">"Gün"</string>
+<string name="week">"Hafta"</string>
+<string name="month">"Ay"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"3 Ay"</string>
+<string name="year">"Yıl"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"kez"</string>
+<string name="every_x_days">"Her %d gün"</string>
+<string name="every_x_weeks">"Her %d hafta"</string>
+<string name="every_x_months">"Her %d ay"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Puan"</string>
+<string name="reminder_sound">"Hatırlatma sesi"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Sessiz"</string>
+</resources>
