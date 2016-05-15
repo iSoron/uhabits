@@ -134,10 +134,9 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         setScrollerBucketSize((int) baseSize);
 
         squareSpacing = UIHelper.dpToPixels(getContext(), 1.0f);
-        float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
         float maxTextSize = getResources().getDimension(R.dimen.regularTextSize);
-        float textSize = height * 0.045f;
-        textSize = Math.max(Math.min(textSize, maxTextSize), minTextSize);
+        float textSize = height * 0.06f;
+        textSize = Math.min(textSize, maxTextSize);
 
         pSquareFg.setTextSize(textSize);
         pTextHeader.setTextSize(textSize);

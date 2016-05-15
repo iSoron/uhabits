@@ -151,10 +151,9 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     {
         if(height < 9) height = 200;
 
-        float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
-        float maxTextSize = getResources().getDimension(R.dimen.regularTextSize);
-        float textSize = height * 0.045f;
-        pText.setTextSize(Math.max(Math.min(textSize, maxTextSize), minTextSize));
+        float maxTextSize = getResources().getDimension(R.dimen.tinyTextSize);
+        float textSize = height * 0.06f;
+        pText.setTextSize(Math.min(textSize, maxTextSize));
         em = pText.getFontSpacing();
 
         footerHeight = (int)(3 * em);
