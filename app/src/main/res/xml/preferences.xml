@@ -89,6 +89,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="syncCategory"
+        android:title="Cloud sync">
+
+        <EditTextPreference
+            android:key="syncKey"
+            android:title="Key"
+            android:summary="%s"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="pref_key_debug"
         android:title="@string/troubleshooting">
 

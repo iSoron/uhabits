@@ -19,12 +19,10 @@
 
 package org.isoron.uhabits;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
-
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CommandParser;
@@ -35,14 +33,19 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+
 public class SyncManager
 {
     public static final String EXECUTE_COMMAND = "executeCommand";
     public static final String POST_COMMAND = "postCommand";
-    public static final String SYNC_SERVER_URL = "http://10.0.2.2:4000";
+    public static final String SYNC_SERVER_URL = "http://sync.loophabits.org:4000";
 
-    private static String GROUP_KEY = "sEBY3poXHFH7EyB43V2JoQUNEtBjMgdD";
+    private static String GROUP_KEY;
     private static String CLIENT_ID;
+    private final SharedPreferences prefs;
 
     @NonNull
     private Socket socket;
@@ -53,6 +56,9 @@ public class SyncManager
     {
         this.activity = activity;
         outbox = new LinkedList<>();
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        GROUP_KEY = prefs.getString("syncKey", DatabaseHelper.getRandomId());
         CLIENT_ID = DatabaseHelper.getRandomId();
 
         try
@@ -91,6 +97,24 @@ public class SyncManager
         {
             JSONObject authMsg = buildAuthMessage();
             socket.emit("auth", authMsg.toString());
+
+            Long lastSync = prefs.getLong("lastSync", 0);
+            JSONObject fetchMsg = buildFetchMessage(lastSync);
+            socket.emit("fetchCommands", fetchMsg.toString());
+        }
+
+        private JSONObject buildFetchMessage(Long lastSync)
+        {
+            try
+            {
+                JSONObject json = new JSONObject();
+                json.put("since", lastSync);
+                return json;
+            }
+            catch (JSONException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
         }
 
         private JSONObject buildAuthMessage()
@@ -98,8 +122,8 @@ public class SyncManager
             try
             {
                 JSONObject json = new JSONObject();
-                json.put("group_key", GROUP_KEY);
-                json.put("client_id", CLIENT_ID);
+                json.put("groupKey", GROUP_KEY);
+                json.put("clientId", CLIENT_ID);
                 json.put("version", BuildConfig.VERSION_NAME);
                 return json;
             }
@@ -117,6 +141,8 @@ public class SyncManager
         {
             try
             {
+                JSONObject root = new JSONObject(args[0].toString());
+                updateLastSync(root.getLong("timestamp"));
                 executeCommand(args[0]);
             }
             catch (JSONException e)
@@ -146,5 +172,10 @@ public class SyncManager
 
         activity.executeCommand(received, null, false);
         Log.d("SyncManager", "Received command executed");
+    }
+
+    private void updateLastSync(Long timestamp)
+    {
+        prefs.edit().putLong("lastSync", timestamp).apply();
     }
 }

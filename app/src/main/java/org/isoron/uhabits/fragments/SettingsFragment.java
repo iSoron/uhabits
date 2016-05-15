@@ -49,6 +49,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("bugReport", MainActivity.RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
+        updateSyncDescription();
 
         if(UIHelper.isLocaleFullyTranslated())
             removePreference("translate", "linksCategory");
@@ -101,7 +102,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
+        if(key.equals("syncKey"))
+            updateSyncDescription();
+
         BackupManager.dataChanged("org.isoron.uhabits");
+    }
+
+    private void updateSyncDescription()
+    {
+        SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+        findPreference("syncKey").setSummary(preferences.getString("syncKey", ""));
     }
 
     @Override
