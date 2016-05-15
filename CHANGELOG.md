@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.5.0 (May 13, 2016)
+### 1.5.0 (May 15, 2016)
 
 * Add night mode, with AMOLED support
 * Backport material design to older devices
