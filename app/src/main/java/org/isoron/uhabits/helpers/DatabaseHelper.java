@@ -38,6 +38,7 @@ import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Repetition;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.models.Streak;
+import org.isoron.uhabits.sync.Event;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -201,7 +202,7 @@ public class DatabaseHelper
                 .setDatabaseName(getDatabaseFilename())
                 .setDatabaseVersion(BuildConfig.databaseVersion)
                 .addModelClasses(Checkmark.class, Habit.class, Repetition.class, Score.class,
-                        Streak.class)
+                        Streak.class, Event.class)
                 .create();
 
         ActiveAndroid.initialize(dbConfig);

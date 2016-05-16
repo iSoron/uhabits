@@ -40,6 +40,7 @@ import org.isoron.uhabits.helpers.ColorHelper;
 import org.isoron.uhabits.helpers.UIHelper;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.sync.SyncManager;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
 import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
