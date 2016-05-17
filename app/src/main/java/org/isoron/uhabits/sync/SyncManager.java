@@ -32,10 +32,17 @@ import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -50,7 +57,7 @@ public class SyncManager
     public static final String EVENT_FETCH = "fetch";
     public static final String EVENT_FETCH_OK = "fetchOK";
 
-    public static final String SYNC_SERVER_URL = "http://sync.loophabits.org:4000";
+    public static final String SYNC_SERVER_URL = "https://sync.loophabits.org:4000";
 
     private static String GROUP_KEY;
     private static String CLIENT_ID;
@@ -75,6 +82,8 @@ public class SyncManager
 
         try
         {
+            IO.setDefaultSSLContext(getCACertSSLContext());
+
             socket = IO.socket(SYNC_SERVER_URL);
 
             logSocketEvent(socket, Socket.EVENT_CONNECT, "Connected");
@@ -100,7 +109,34 @@ public class SyncManager
         }
         catch (URISyntaxException e)
         {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    private SSLContext getCACertSSLContext()
+    {
+        try
+        {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            InputStream caInput = activity.getAssets().open("cacert.pem");
+            Certificate ca = cf.generateCertificate(caInput);
+
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            ks.load(null, null);
+            ks.setCertificateEntry("ca", ca);
+
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(
+                    TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(ks);
+
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(null, tmf.getTrustManagers(), null);
+
+            return ctx;
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
@@ -170,7 +206,7 @@ public class SyncManager
             }
             catch (JSONException e)
             {
-                throw new RuntimeException(e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
@@ -190,13 +226,8 @@ public class SyncManager
             }
             catch (JSONException e)
             {
-                throw new RuntimeException(e.getMessage());
+                throw new RuntimeException(e);
             }
-        }
-
-        private void updateLastSync(Long timestamp)
-        {
-            prefs.edit().putLong("lastSync", timestamp).apply();
         }
 
         private void executeCommand(JSONObject root) throws JSONException
@@ -243,7 +274,7 @@ public class SyncManager
             }
             catch (JSONException e)
             {
-                throw new RuntimeException(e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
@@ -253,9 +284,20 @@ public class SyncManager
         @Override
         public void call(Object... args)
         {
-            Log.i("SyncManager", "Fetch OK");
-            emitPending();
-            readyToEmit = true;
+            try
+            {
+                Log.i("SyncManager", "Fetch OK");
+
+                JSONObject json = new JSONObject((String) args[0]);
+                updateLastSync(json.getLong("timestamp"));
+
+                emitPending();
+                readyToEmit = true;
+            }
+            catch (JSONException e)
+            {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -266,5 +308,10 @@ public class SyncManager
         {
             readyToEmit = false;
         }
+    }
+
+    private void updateLastSync(Long timestamp)
+    {
+        prefs.edit().putLong("lastSync", timestamp).apply();
     }
 }
