@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.5.1 (May 17, 2016)
+
+* Fix build on F-Droid
+
 ### 1.5.0 (May 15, 2016)
 
 * Add night mode, with AMOLED support

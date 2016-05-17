@@ -39,13 +39,13 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 
     compile ('io.socket:socket.io-client:0.7.0') {
         exclude group: 'org.json', module: 'json'
     }
 
     compile project(':libs:drag-sort-listview:library')
-    compile files('libs/ActiveAndroid.jar')
 
     androidTestCompile 'com.android.support:support-annotations:23.3.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
