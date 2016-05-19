@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 
 public class HabitsApplication extends Application
 {
@@ -87,6 +88,7 @@ public class HabitsApplication extends Application
 
     public static String getLogcat() throws IOException
     {
+        int maxNLines = 250;
         StringBuilder builder = new StringBuilder();
 
         String[] command = new String[] { "logcat", "-d"};
@@ -95,10 +97,18 @@ public class HabitsApplication extends Application
         InputStreamReader in = new InputStreamReader(process.getInputStream());
         BufferedReader bufferedReader = new BufferedReader(in);
 
+        LinkedList<String> log = new LinkedList<>();
+
         String line;
         while ((line = bufferedReader.readLine()) != null)
         {
-            builder.append(line);
+            log.addLast(line);
+            if(log.size() > maxNLines) log.removeFirst();
+        }
+
+        for(String l : log)
+        {
+            builder.append(l);
             builder.append('\n');
         }
 
@@ -130,10 +140,8 @@ public class HabitsApplication extends Application
     }
 
     @NonNull
-    public static File generateLogFile() throws IOException
+    public static File dumpBugReportToFile() throws IOException
     {
-        String logcat = getLogcat();
-        String deviceInfo = getDeviceInfo();
         String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
 
         if(context == null) throw new RuntimeException("application context should not be null");
@@ -142,10 +150,17 @@ public class HabitsApplication extends Application
 
         File logFile = new File(String.format("%s/Log %s.txt", dir.getPath(), date));
         FileWriter output = new FileWriter(logFile);
-        output.write(deviceInfo);
-        output.write(logcat);
+        output.write(generateBugReport());
         output.close();
 
         return logFile;
+    }
+
+    @NonNull
+    public static String generateBugReport() throws IOException
+    {
+        String logcat = getLogcat();
+        String deviceInfo = getDeviceInfo();
+        return deviceInfo + "\n" + logcat;
     }
 }

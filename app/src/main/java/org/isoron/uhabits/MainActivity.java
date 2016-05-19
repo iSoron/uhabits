@@ -53,7 +53,6 @@ import org.isoron.uhabits.widgets.HistoryWidgetProvider;
 import org.isoron.uhabits.widgets.ScoreWidgetProvider;
 import org.isoron.uhabits.widgets.StreakWidgetProvider;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MainActivity extends BaseActivity
@@ -239,12 +238,25 @@ public class MainActivity extends BaseActivity
     {
         try
         {
-            File logFile = HabitsApplication.generateLogFile();
+            HabitsApplication.dumpBugReportToFile();
+        }
+        catch (IOException e)
+        {
+            // ignored
+        }
+
+        try
+        {
+            String log = "---------- BUG REPORT BEGINS ----------\n";
+            log += HabitsApplication.generateBugReport();
+            log += "---------- BUG REPORT ENDS ------------\n";
 
             Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse(getString(R.string.bugReportURL)));
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logFile));
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "dev@loophabits.org" });
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Bug Report - Loop Habit Tracker");
+            intent.putExtra(Intent.EXTRA_TEXT, log);
             startActivity(intent);
         }
         catch (IOException e)
