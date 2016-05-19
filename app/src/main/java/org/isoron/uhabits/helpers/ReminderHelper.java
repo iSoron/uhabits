@@ -93,8 +93,9 @@ public class ReminderHelper
         else
             manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
 
-        Log.d("ReminderHelper", String.format("Setting alarm (%s): %s",
-                DateFormat.getDateTimeInstance().format(new Date(reminderTime)), habit.name));
+        Log.d("ReminderHelper", String.format("Setting alarm (%s): %s...",
+                DateFormat.getDateTimeInstance().format(new Date(reminderTime)),
+                habit.name.substring(0, 3)));
     }
 
     @Nullable
