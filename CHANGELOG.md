@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.5.2 (May 19, 2016)
+
+* Fix missing attachment on bug reports
+* Fix bug that prevents some widgets from rendering
+* Complete Japanese translation
+
 ### 1.5.1 (May 17, 2016)
 
 * Fix build on F-Droid
