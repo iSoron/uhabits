@@ -149,4 +149,32 @@ Android Wear 端末から直接、リマインダーをチェック、スヌー�
 <string name="bug_report_failed">"バグ報告の生成に失敗しました。"</string>
 <string name="generate_bug_report">"バグ報告の生成"</string>
 <string name="troubleshooting">"トラブルシューティング"</string>
+<string name="help_translate">"このアプリの翻訳を支援する"</string>
+<string name="night_mode">"夜間モード"</string>
+<string name="use_pure_black">"夜間モードで真黒を使用する"</string>
+<string name="pure_black_description">"夜間モードで灰色の背景を黒で置き換えます。AMOLED ディスプレイの電話でバッテリー使用量を抑えます。"</string>
+<string name="interface_preferences">"インターフェース"</string>
+<string name="reverse_days">"日の順序を逆転する"</string>
+<string name="reverse_days_description">"メイン画面で日を逆順に表示します"</string>
+<string name="day">"日"</string>
+<string name="week">"週"</string>
+<string name="month">"月"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"四半期"</string>
+<string name="year">"年"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"回 /"</string>
+<string name="every_x_days">"%d 日ごと"</string>
+<string name="every_x_weeks">"%d 週ごと"</string>
+<string name="every_x_months">"%d ヶ月ごと"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"スコア"</string>
+<string name="reminder_sound">"リマインダー サウンド"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"なし"</string>
 </resources>
