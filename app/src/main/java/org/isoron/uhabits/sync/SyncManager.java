@@ -162,20 +162,28 @@ public class SyncManager
         e.save();
 
         Log.i("SyncManager", "Adding to outbox: " + msg.toString());
+
         pendingEmit.add(e);
         if(readyToEmit) emitPending();
     }
 
     private void emitPending()
     {
-        for (Event e : pendingEmit)
+        try
         {
-            Log.i("SyncManager", "Emitting: " + e.message);
-            socket.emit(EVENT_POST_COMMAND, e.message);
-            pendingConfirmation.add(e);
-        }
+            for (Event e : pendingEmit)
+            {
+                Log.i("SyncManager", "Emitting: " + e.message);
+                socket.emit(EVENT_POST_COMMAND, new JSONObject(e.message));
+                pendingConfirmation.add(e);
+            }
 
-        pendingEmit.clear();
+            pendingEmit.clear();
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public void close()
@@ -190,8 +198,7 @@ public class SyncManager
         public void call(Object... args)
         {
             Log.i("SyncManager", "Sending auth message");
-            JSONObject authMsg = buildAuthMessage();
-            socket.emit(EVENT_AUTH, authMsg.toString());
+            socket.emit(EVENT_AUTH, buildAuthMessage());
         }
 
         private JSONObject buildAuthMessage()
@@ -219,7 +226,6 @@ public class SyncManager
             try
             {
                 Log.d("SyncManager", String.format("Received command: %s", args[0].toString()));
-
                 JSONObject root = new JSONObject(args[0].toString());
                 updateLastSync(root.getLong("timestamp"));
                 executeCommand(root);
@@ -260,8 +266,7 @@ public class SyncManager
             Log.i("SyncManager", "Requesting commands since last sync");
 
             Long lastSync = prefs.getLong("lastSync", 0);
-            JSONObject fetchMsg = buildFetchMessage(lastSync);
-            socket.emit(EVENT_FETCH, fetchMsg.toString());
+            socket.emit(EVENT_FETCH, buildFetchMessage(lastSync));
         }
 
         private JSONObject buildFetchMessage(Long lastSync)
