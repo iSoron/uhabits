@@ -62,6 +62,18 @@ public class HabitsCSVExporter
         Habit.writeCSV(habits, out);
         out.close();
 
+        //my contribution
+		String filename2 = "AllCheckmarks.csv";
+		new File(exportDirName).mkdirs();
+		FileWriter out2 = new FileWriter(exportDirName + filename2);
+		generateFilenames.add(filename2);
+        CheckmarkList check = new CheckmarkList();
+        check.writeCSVMultipleHabits (habits, out2);
+		out2.close();
+		//until here
+
+
+
         for(Habit h : habits)
         {
             String habitDirName = String.format("%03d %s/", h.position + 1, h.name);

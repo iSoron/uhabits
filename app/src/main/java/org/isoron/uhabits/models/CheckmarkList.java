@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.models;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -28,6 +29,7 @@ import android.support.annotation.Nullable;
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.opencsv.CSVWriter;
 
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.UIHelper;
@@ -41,6 +43,10 @@ import java.util.List;
 public class CheckmarkList
 {
     private Habit habit;
+
+    public CheckmarkList()
+    {
+    }
 
     public CheckmarkList(Habit habit)
     {
@@ -299,4 +305,59 @@ public class CheckmarkList
         cursor.close();
         out.close();
     }
+
+    //my contribution
+
+    /**
+     * Writes the checkmark of all habits for each date to the given writer, in CSV format. There is one
+     * line for each date. Each line contains two fields: timestamp and value.
+     *
+     * @param habits the list of habits to write
+     * @param out the writer where the CSV will be output
+     * @throws IOException in case write operations fail
+     */
+
+    public void writeCSVMultipleHabits(List<Habit> habits, Writer out) throws IOException
+    {
+
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+
+        String query = "select DISTINCT timestamp from checkmarks order by timestamp";
+
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(!cursor.moveToFirst()) return;
+
+        out.write(String.format("%s", "Date"));
+        for(Habit habit : habits)
+        {
+            out.write(String.format(",%s", habit.name));
+        }
+        do
+        {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            out.write(String.format("\n%s", timestamp));
+
+            for(Habit habit : habits)
+            {
+                out.write(String.format(",%s", getHabitValue(habit.name, timestamp)));
+            }
+        } while(cursor.moveToNext());
+        cursor.close();
+        out.close();
+    }
+
+    public String getHabitValue(String name, String date)
+    {
+        String query = "select value from checkmarks where timestamp ="+date+" and habit ='"+name+"'";
+        SQLiteDatabase db2 = Cache.openDatabase();
+        Cursor cursor2 = db2.rawQuery(query, null);
+        String habitValue = " ";
+        if(cursor2 != null && cursor2.moveToFirst()) {
+            habitValue = Integer.toString(cursor2.getInt(0));
+            cursor2.close();
+        }
+        return habitValue;
+    }//until here
 }
