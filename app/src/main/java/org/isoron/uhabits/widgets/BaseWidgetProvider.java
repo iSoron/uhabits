@@ -74,7 +74,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
 
         for(Integer id : appWidgetIds)
-            prefs.edit().remove(getHabitIdKey(id));
+            prefs.edit().remove(getHabitIdKey(id)).apply();
     }
 
     @Override
