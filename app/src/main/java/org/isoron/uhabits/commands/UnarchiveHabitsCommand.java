@@ -73,7 +73,7 @@ public class UnarchiveHabitsCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "UnarchiveHabits");
+            root.put("event", "UnarchiveHabits");
             data.put("ids", CommandParser.habitListToJSON(habits));
             return root;
         }

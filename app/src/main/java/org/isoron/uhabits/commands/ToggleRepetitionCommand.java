@@ -63,7 +63,7 @@ public class ToggleRepetitionCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "ToggleRepetition");
+            root.put("event", "ToggleRepetition");
             data.put("habit", habit.getId());
             data.put("timestamp", timestamp);
             return root;

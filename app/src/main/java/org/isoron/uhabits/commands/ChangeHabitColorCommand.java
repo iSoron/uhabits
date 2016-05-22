@@ -98,7 +98,7 @@ public class ChangeHabitColorCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "ChangeHabitColor");
+            root.put("event", "ChangeHabitColor");
             data.put("ids", CommandParser.habitListToJSON(habits));
             data.put("color", newColor);
             return root;

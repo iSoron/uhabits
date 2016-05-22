@@ -33,7 +33,7 @@ public class CommandParser
 {
     public static Command fromJSON(JSONObject json) throws JSONException
     {
-        switch(json.getString("command"))
+        switch(json.getString("event"))
         {
             case "ToggleRepetition":
                 return ToggleRepetitionCommand.fromJSON(json);

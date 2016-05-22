@@ -75,7 +75,7 @@ public class DeleteHabitsCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "DeleteHabits");
+            root.put("event", "DeleteHabits");
             data.put("ids", CommandParser.habitListToJSON(habits));
             return root;
         }

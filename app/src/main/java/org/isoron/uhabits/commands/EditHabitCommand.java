@@ -104,7 +104,7 @@ public class EditHabitCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "EditHabit");
+            root.put("event", "EditHabit");
             data.put("id", savedId);
             data.put("params", modified.toJSON());
             return root;

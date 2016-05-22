@@ -52,8 +52,8 @@ public class SyncManager
 {
     public static final String EVENT_AUTH = "auth";
     public static final String EVENT_AUTH_OK = "authOK";
-    public static final String EVENT_EXECUTE_COMMAND = "execute";
-    public static final String EVENT_POST_COMMAND = "post";
+    public static final String EVENT_EXECUTE_EVENT = "execute";
+    public static final String EVENT_POST_EVENT = "postEvent";
     public static final String EVENT_FETCH = "fetch";
     public static final String EVENT_FETCH_OK = "fetchOK";
 
@@ -80,6 +80,8 @@ public class SyncManager
         GROUP_KEY = prefs.getString("syncKey", DatabaseHelper.getRandomId());
         CLIENT_ID = DatabaseHelper.getRandomId();
 
+        Log.d("SyncManager", DatabaseHelper.getRandomId());
+
         try
         {
             IO.setDefaultSSLContext(getCACertSSLContext());
@@ -101,7 +103,7 @@ public class SyncManager
 
             socket.on(Socket.EVENT_CONNECT, new OnConnectListener());
             socket.on(Socket.EVENT_DISCONNECT, new OnDisconnectListener());
-            socket.on(EVENT_EXECUTE_COMMAND, new OnExecuteCommandListener());
+            socket.on(EVENT_EXECUTE_EVENT, new OnExecuteCommandListener());
             socket.on(EVENT_AUTH_OK, new OnAuthOKListener());
             socket.on(EVENT_FETCH_OK, new OnFetchOKListener());
 
@@ -174,7 +176,7 @@ public class SyncManager
             for (Event e : pendingEmit)
             {
                 Log.i("SyncManager", "Emitting: " + e.message);
-                socket.emit(EVENT_POST_COMMAND, new JSONObject(e.message));
+                socket.emit(EVENT_POST_EVENT, new JSONObject(e.message));
                 pendingConfirmation.add(e);
             }
 
@@ -293,7 +295,7 @@ public class SyncManager
             {
                 Log.i("SyncManager", "Fetch OK");
 
-                JSONObject json = new JSONObject((String) args[0]);
+                JSONObject json = (JSONObject) args[0];
                 updateLastSync(json.getLong("timestamp"));
 
                 emitPending();
@@ -317,6 +319,6 @@ public class SyncManager
 
     private void updateLastSync(Long timestamp)
     {
-        prefs.edit().putLong("lastSync", timestamp).apply();
+        prefs.edit().putLong("lastSync", timestamp + 1).apply();
     }
 }

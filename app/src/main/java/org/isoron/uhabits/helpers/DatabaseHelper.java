@@ -76,7 +76,7 @@ public class DatabaseHelper
 
     public static String getRandomId()
     {
-        return new BigInteger(130, new Random()).toString(32);
+        return new BigInteger(260, new Random()).toString(32).substring(0, 32);
     }
 
     public interface Command

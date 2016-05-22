@@ -86,7 +86,7 @@ public class CreateHabitCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "CreateHabit");
+            root.put("event", "CreateHabit");
             data.put("habit", model.toJSON());
             data.put("id", savedId);
             return root;

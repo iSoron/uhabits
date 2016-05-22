@@ -77,7 +77,7 @@ public class ArchiveHabitsCommand extends Command
         {
             JSONObject root = super.toJSON();
             JSONObject data = root.getJSONObject("data");
-            root.put("command", "ArchiveHabits");
+            root.put("event", "ArchiveHabits");
             data.put("ids", CommandParser.habitListToJSON(habits));
             return root;
         }
