@@ -42,7 +42,6 @@ import org.isoron.uhabits.tasks.BaseTask;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
@@ -285,9 +284,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         private void buildRemoteViews(View widgetView, RemoteViews remoteViews, int width,
                                       int height)
         {
-            if(habit.getId() == 4)
-                Log.d("BaseWidgetProvider", String.format("width=%d height=%d\n", width, height));
-
             widgetView.invalidate();
             widgetView.setDrawingCacheEnabled(true);
             widgetView.buildDrawingCache(true);
@@ -300,7 +296,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
                 int imageWidth = widgetView.getMeasuredWidth();
                 int imageHeight = widgetView.getMeasuredHeight();
                 int p[] = getPadding(width, height, imageWidth, imageHeight);
-                if(habit.getId() == 4) Log.d("BaseWidgetProvider", Arrays.toString(p));
                 remoteViews.setViewPadding(R.id.buttonOverlay, p[0], p[1], p[2], p[3]);
             }
 
