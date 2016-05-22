@@ -341,6 +341,6 @@ public class MainTest
     {
         clickMenuItem(R.string.settings);
         clickSettingsItem("Generate bug report");
-        intended(hasAction(Intent.ACTION_SENDTO));
+        intended(hasAction(Intent.ACTION_SEND));
     }
 }

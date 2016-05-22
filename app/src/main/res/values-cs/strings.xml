@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"Loop Habit Tracker</string>
+
+<!-- Fuzzy -->
+<string name="app_name">"Loop Habit Tracker"</string>
 <string name="main_activity_title">"Zvyky"</string>
 <string name="action_settings">"Nastavení"</string>
 <string name="edit">"Upravit"</string>
@@ -150,4 +152,32 @@ Upomínky mohou být potvrzen, odloženy nebo smazány přímo z tvého zaříze
 <string name="bug_report_failed">"Generace výpisu chyb selhala."</string>
 <string name="generate_bug_report">"Generovat výpis chyb"</string>
 <string name="troubleshooting">"Řešení problémů"</string>
+<string name="help_translate">"Pomozte s překladem aplikace"</string>
+<string name="night_mode">"Noční téma"</string>
+<string name="use_pure_black">"Zobrazit čistě černou v nočním tématu"</string>
+<string name="pure_black_description">"Nahradí šedé pozadí čistou černou v nočním tématu. Snižuje spotřebu baterie v telefonech s AMOLED displejem."</string>
+<string name="interface_preferences">"Rozhraní"</string>
+<string name="reverse_days">"Otočit pořadí dnů"</string>
+<string name="reverse_days_description">"Zobrazí dny na úvodní stránce v obráceném pořadí"</string>
+<string name="day">"Den"</string>
+<string name="week">"Týden"</string>
+<string name="month">"Měsíc"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"Čtvrtletí"</string>
+<string name="year">"Rok"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"krát za"</string>
+<string name="every_x_days">"Každých %d dní"</string>
+<string name="every_x_weeks">"Každých %d týdnů"</string>
+<string name="every_x_months">"Každých %d měsíců"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"Skóre"</string>
+<string name="reminder_sound">"Zvuk upomínky"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"Žádný"</string>
 </resources>

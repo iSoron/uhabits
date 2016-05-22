@@ -159,4 +159,32 @@
 <string name="bug_report_failed">"فشل في توليد تقرير الاعطال"</string>
 <string name="generate_bug_report">"توليد تقرير الاعطال"</string>
 <string name="troubleshooting">"استكشاف الأخطاء وإصلاحها"</string>
+<string name="help_translate">"المساعدة في ترجمة هذا البرنامج"</string>
+<string name="night_mode">"الوضع الليلي"</string>
+<string name="use_pure_black">"استخدام أسود نقي في الوضع الليلي"</string>
+<string name="pure_black_description">"يستبدل خلفيات رمادية مع أسود نقي في الوضع الليلي. يقلل من استهلاك البطارية في الهواتف مع شاشة AMOLED."</string>
+<string name="interface_preferences">"السطح البيني"</string>
+<string name="reverse_days">"ترتيب عكسي أيام"</string>
+<string name="reverse_days_description">"عرض أيام في ترتيب عكسي على الشاشة الرئيسية"</string>
+<string name="day">"يوم"</string>
+<string name="week">"أسبوع"</string>
+<string name="month">"شهر"</string>
+
+<!-- Three-month period -->
+<string name="quarter">"ربع سنه"</string>
+<string name="year">"عام"</string>
+
+<!-- Middle part of the sentence '1 time in xx days' -->
+<!-- Middle part of the sentence '1 time in xx days' -->
+<string name="time_every">"مرات في"</string>
+<string name="every_x_days">"كل %d أيام"</string>
+<string name="every_x_weeks">"كل %d أسابيع"</string>
+<string name="every_x_months">"كل %d أشهر"</string>
+
+<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+<string name="score">"النقاط"</string>
+<string name="reminder_sound">"صوت تذكير"</string>
+
+<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"صامت"</string>
 </resources>

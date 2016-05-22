@@ -27,6 +27,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -57,8 +58,10 @@ public class RingView extends View
     private float textSize;
     private boolean enableFontAwesome;
 
+    @Nullable
     private Bitmap drawingCache;
     private Canvas cacheCanvas;
+
     private boolean isTransparencyEnabled;
 
     public RingView(Context context)
@@ -104,6 +107,11 @@ public class RingView extends View
     {
         this.color = color;
         postInvalidate();
+    }
+
+    public void setTextSize(float textSize)
+    {
+        this.textSize = textSize;
     }
 
     @Override
@@ -175,12 +183,14 @@ public class RingView extends View
     {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        if(isTransparencyEnabled)
-        {
-            if (drawingCache != null) drawingCache.recycle();
-            drawingCache = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
-            cacheCanvas = new Canvas(drawingCache);
-        }
+        if(isTransparencyEnabled) reallocateCache();
+    }
+
+    private void reallocateCache()
+    {
+        if (drawingCache != null) drawingCache.recycle();
+        drawingCache = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
+        cacheCanvas = new Canvas(drawingCache);
     }
 
     @Override
@@ -191,6 +201,7 @@ public class RingView extends View
 
         if(isTransparencyEnabled)
         {
+            if(drawingCache == null) reallocateCache();
             activeCanvas = cacheCanvas;
             drawingCache.eraseColor(Color.TRANSPARENT);
         }

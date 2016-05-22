@@ -148,7 +148,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         try
         {
             ex.printStackTrace();
-            HabitsApplication.generateLogFile();
+            HabitsApplication.dumpBugReportToFile();
         }
         catch(Exception e)
         {

@@ -45,9 +45,11 @@ import java.io.IOException;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
-
-    private int portraitWidth, portraitHeight;
-    private int landscapeWidth, landscapeHeight;
+    private class WidgetDimensions
+    {
+        public int portraitWidth, portraitHeight;
+        public int landscapeWidth, landscapeHeight;
+    }
 
     protected abstract int getDefaultHeight();
 
@@ -71,7 +73,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
 
         for(Integer id : appWidgetIds)
-            prefs.edit().remove(getHabitIdKey(id));
+            prefs.edit().remove(getHabitIdKey(id)).apply();
     }
 
     @Override
@@ -98,7 +100,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     private void updateWidget(Context context, AppWidgetManager manager,
                               int widgetId, Bundle options)
     {
-        updateWidgetSize(context, options);
+        WidgetDimensions dim = getWidgetDimensions(context, options);
 
         Context appContext = context.getApplicationContext();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
@@ -113,7 +115,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             return;
         }
 
-        new RenderWidgetTask(widgetId, context, habit, manager).execute();
+        new RenderWidgetTask(widgetId, context, habit, dim, manager).execute();
     }
 
     private void drawErrorWidget(Context context, AppWidgetManager manager, int widgetId)
@@ -159,7 +161,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }
     }
 
-    private void updateWidgetSize(Context context, Bundle options)
+    private WidgetDimensions getWidgetDimensions(Context context, Bundle options)
     {
         int maxWidth = getDefaultWidth();
         int minWidth = getDefaultWidth();
@@ -178,11 +180,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
                     options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
         }
 
-        portraitWidth = minWidth;
-        portraitHeight = maxHeight;
-
-        landscapeWidth = maxWidth;
-        landscapeHeight = minHeight;
+        WidgetDimensions ws = new WidgetDimensions();
+        ws.portraitWidth = minWidth;
+        ws.portraitHeight = maxHeight;
+        ws.landscapeWidth = maxWidth;
+        ws.landscapeHeight = minHeight;
+        return ws;
     }
 
     private void measureCustomView(Context context, int w, int h, View customView)
@@ -212,16 +215,18 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         private final Context context;
         private final Habit habit;
         private final AppWidgetManager manager;
-        public RemoteViews portraitRemoteViews, landscapeRemoteViews;
-        public View portraitWidgetView, landscapeWidgetView;
+        private RemoteViews portraitRemoteViews, landscapeRemoteViews;
+        private View portraitWidgetView, landscapeWidgetView;
+        private WidgetDimensions dim;
 
-        public RenderWidgetTask(int widgetId, Context context, Habit habit,
+        public RenderWidgetTask(int widgetId, Context context, Habit habit, WidgetDimensions ws,
                                 AppWidgetManager manager)
         {
             this.widgetId = widgetId;
             this.context = context;
             this.habit = habit;
             this.manager = manager;
+            this.dim = ws;
         }
 
         @Override
@@ -232,11 +237,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
             portraitRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
             portraitWidgetView = buildCustomView(context, habit);
-            measureCustomView(context, portraitWidth, portraitHeight, portraitWidgetView);
+            measureCustomView(context, dim.portraitWidth, dim.portraitHeight, portraitWidgetView);
 
             landscapeRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
             landscapeWidgetView = buildCustomView(context, habit);
-            measureCustomView(context, landscapeWidth, landscapeHeight, landscapeWidgetView);
+            measureCustomView(context, dim.landscapeWidth, dim.landscapeHeight,
+                    landscapeWidgetView);
         }
 
         private void updateAppWidget()
@@ -260,8 +266,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         {
             try
             {
-                buildRemoteViews(portraitWidgetView, portraitRemoteViews, portraitWidth, portraitHeight);
-                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews, landscapeWidth, landscapeHeight);
+                buildRemoteViews(portraitWidgetView, portraitRemoteViews,
+                        dim.portraitWidth, dim.portraitHeight);
+                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews,
+                        dim.landscapeWidth, dim.landscapeHeight);
                 updateAppWidget();
             }
             catch (Exception e)
@@ -273,7 +281,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             super.onPostExecute(aVoid);
         }
 
-        private void buildRemoteViews(View widgetView, RemoteViews remoteViews, int width, int height)
+        private void buildRemoteViews(View widgetView, RemoteViews remoteViews, int width,
+                                      int height)
         {
             widgetView.invalidate();
             widgetView.setDrawingCacheEnabled(true);
@@ -287,7 +296,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
                 int imageWidth = widgetView.getMeasuredWidth();
                 int imageHeight = widgetView.getMeasuredHeight();
                 int p[] = getPadding(width, height, imageWidth, imageHeight);
-
                 remoteViews.setViewPadding(R.id.buttonOverlay, p[0], p[1], p[2], p[3]);
             }
 
