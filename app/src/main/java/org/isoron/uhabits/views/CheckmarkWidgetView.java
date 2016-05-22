@@ -23,6 +23,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
@@ -40,7 +41,6 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     @Nullable
     private String name;
 
-    @Nullable
     private RingView ring;
     private TextView label;
     private int checkmarkValue;
@@ -147,8 +147,22 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         w *= scale;
         h *= scale;
 
+        if(h < getResources().getDimension(R.dimen.checkmarkWidget_heightBreakpoint))
+            ring.setVisibility(GONE);
+        else
+            ring.setVisibility(VISIBLE);
+
         widthMeasureSpec = MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
         heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
+
+        float textSize = 0.15f * h;
+        float maxTextSize = getResources().getDimension(R.dimen.smallerTextSize);
+        textSize = Math.min(textSize, maxTextSize);
+
+        label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        ring.setTextSize(textSize);
+        ring.setThickness(0.15f * textSize);
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

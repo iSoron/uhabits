@@ -109,6 +109,11 @@ public class RingView extends View
         postInvalidate();
     }
 
+    public void setTextSize(float textSize)
+    {
+        this.textSize = textSize;
+    }
+
     @Override
     public void setBackgroundColor(int backgroundColor)
     {
