@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 Γlinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class ScoreList
 {
@@ -53,6 +54,10 @@ public class ScoreList
     public ScoreList(@NonNull Habit habit)
     {
         this.habit = habit;
+    }
+
+    public ScoreList()
+    {
     }
 
     protected From select()
@@ -341,5 +346,61 @@ public class ScoreList
 
         cursor.close();
         out.close();
+    }
+
+    /**
+     * Writes the checkmark of all habits for each date to the given writer, in CSV format. There is one
+     * line for each date. Each line contains two fields: timestamp and value.
+     *
+     * @param habits the list of habits to write
+     * @param out the writer where the CSV will be output
+     * @throws IOException in case write operations fail
+     */
+
+    public void writeCSVMultipleHabits(List<Habit> habits, Writer out) throws IOException
+    {
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+        String query = "select DISTINCT timestamp from checkmarks order by timestamp";
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(!cursor.moveToFirst()) return;
+
+        out.write(String.format("%s", "Date"));
+        for(Habit habit : habits)
+        {
+            out.write(String.format(",%s", habit.name));
+        }
+        do
+        {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            out.write(String.format("\n%s", timestamp));
+            for(Habit habit : habits)
+            {
+                out.write(String.format(",%s", getHabitScore(habit.getId().toString(), Long.toString(cursor.getLong(0)))));
+            }
+        } while(cursor.moveToNext());
+        cursor.close();
+        out.close();
+    }
+
+    /**
+     * Returns the habit score for a given timestamp and habit.
+     *
+     * @param name habit for the query
+     * @param out the writer where the CSV will be output
+     *
+     * @return habit value for a specific timestamp and habit
+     */
+    public String getHabitScore(String name, String date){
+        String query = "select score from Score where timestamp = ? and habit = ?";
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, new String[] {date, name});
+        String habitScore = " ";
+        if(cursor != null && cursor.moveToFirst()) {
+            habitScore = String.format("%.4f", ((float) cursor.getInt(0)) / Score.MAX_VALUE);
+            cursor.close();
+        }
+        return habitScore;
     }
 }
