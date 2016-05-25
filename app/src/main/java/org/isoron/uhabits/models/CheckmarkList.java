@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 Γlinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.models;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -29,7 +28,6 @@ import android.support.annotation.Nullable;
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.opencsv.CSVWriter;
 
 import org.isoron.uhabits.helpers.DateHelper;
 import org.isoron.uhabits.helpers.UIHelper;
@@ -306,8 +304,6 @@ public class CheckmarkList
         out.close();
     }
 
-    //my contribution
-
     /**
      * Writes the checkmark of all habits for each date to the given writer, in CSV format. There is one
      * line for each date. Each line contains two fields: timestamp and value.
@@ -319,11 +315,8 @@ public class CheckmarkList
 
     public void writeCSVMultipleHabits(List<Habit> habits, Writer out) throws IOException
     {
-
         SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
-
         String query = "select DISTINCT timestamp from checkmarks order by timestamp";
-
         SQLiteDatabase db = Cache.openDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -338,26 +331,34 @@ public class CheckmarkList
         {
             String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
             out.write(String.format("\n%s", timestamp));
-
             for(Habit habit : habits)
             {
-                out.write(String.format(",%s", getHabitValue(habit.name, timestamp)));
+                out.write(String.format(",%s", getHabitValue(habit.getId().toString(), Long.toString(cursor.getLong(0)))));
             }
         } while(cursor.moveToNext());
         cursor.close();
         out.close();
     }
 
+    /**
+     * Returns the habit value for a given timestamp and habit.
+     *
+     * @param name habit for the query
+     * @param out the writer where the CSV will be output
+     *
+     * @return habit value for a specific timestamp and habit
+     */
     public String getHabitValue(String name, String date)
     {
-        String query = "select value from checkmarks where timestamp ="+date+" and habit ='"+name+"'";
-        SQLiteDatabase db2 = Cache.openDatabase();
-        Cursor cursor2 = db2.rawQuery(query, null);
+        String query = "select value from checkmarks where timestamp = ? and habit = ? ";
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, new String[] {date, name});
         String habitValue = " ";
-        if(cursor2 != null && cursor2.moveToFirst()) {
-            habitValue = Integer.toString(cursor2.getInt(0));
-            cursor2.close();
+        if(cursor != null && cursor.moveToFirst()) {
+            habitValue = Integer.toString(cursor.getInt(0));
+            cursor.close();
         }
         return habitValue;
-    }//until here
+    }
 }
+
