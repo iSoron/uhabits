@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 Γlinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -60,19 +60,21 @@ public class HabitsCSVExporter
         FileWriter out = new FileWriter(exportDirName + filename);
         generateFilenames.add(filename);
         Habit.writeCSV(habits, out);
-        out.close();
 
-        //my contribution
-		String filename2 = "AllCheckmarks.csv";
-		new File(exportDirName).mkdirs();
-		FileWriter out2 = new FileWriter(exportDirName + filename2);
-		generateFilenames.add(filename2);
+        filename = "AllCheckmarks.csv";
+        new File(exportDirName).mkdirs();
+        out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
         CheckmarkList check = new CheckmarkList();
-        check.writeCSVMultipleHabits (habits, out2);
-		out2.close();
-		//until here
+        check.writeCSVMultipleHabits (habits, out);
 
-
+        filename = "AllScores.csv";
+        new File(exportDirName).mkdirs();
+        out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
+        ScoreList score = new ScoreList();
+        score.writeCSVMultipleHabits (habits, out);
+        out.close();
 
         for(Habit h : habits)
         {
