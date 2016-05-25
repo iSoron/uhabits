@@ -489,7 +489,7 @@ public class Habit extends Model
      */
     public static void writeCSV(List<Habit> habits, Writer out) throws IOException
     {
-        String header[] = { "Name", "Description", "NumRepetitions", "Interval", "Color" };
+        String header[] = { "Position", "Name", "Description", "NumRepetitions", "Interval", "Color" };
 
         CSVWriter csv = new CSVWriter(out);
         csv.writeNext(header, false);
@@ -498,6 +498,7 @@ public class Habit extends Model
         {
             String[] cols =
             {
+                    String.format("%03d", habit.position + 1),
                     habit.name,
                     habit.description,
                     Integer.toString(habit.freqNum),
