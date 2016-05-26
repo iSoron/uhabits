@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.io;
 
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.CheckmarkList;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.ScoreList;
@@ -93,8 +93,8 @@ public class HabitsCSVExporter
 
     private String writeZipFile() throws IOException
     {
-        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
-        String date = dateFormat.format(DateHelper.getStartOfToday());
+        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
+        String date = dateFormat.format(DateUtils.getStartOfToday());
         String zipFilename = String.format("%s/Loop Habits CSV %s.zip", exportDirName, date);
 
         FileOutputStream fos = new FileOutputStream(zipFilename);

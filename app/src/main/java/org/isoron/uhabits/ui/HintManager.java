@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.helpers;
+package org.isoron.uhabits.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.DateUtils;
 
 public class HintManager
 {
@@ -59,7 +60,7 @@ public class HintManager
         Integer lastHintNumber = prefs.getInt("last_hint_number", -1);
         Long lastHintTimestamp = prefs.getLong("last_hint_timestamp", -1);
 
-        if (DateHelper.getStartOfToday() > lastHintTimestamp) showHint(lastHintNumber + 1);
+        if (DateUtils.getStartOfToday() > lastHintTimestamp) showHint(lastHintNumber + 1);
     }
 
     private void showHint(int hintNumber)
@@ -68,7 +69,7 @@ public class HintManager
         if (hintNumber >= hints.length) return;
 
         prefs.edit().putInt("last_hint_number", hintNumber).apply();
-        prefs.edit().putLong("last_hint_timestamp", DateHelper.getStartOfToday()).apply();
+        prefs.edit().putLong("last_hint_timestamp", DateUtils.getStartOfToday()).apply();
 
         TextView tvContent = (TextView) hintView.findViewById(R.id.hintContent);
         tvContent.setText(hints[hintNumber]);

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.ui.edit;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -44,10 +44,10 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.commands.EditHabitCommand;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.util.Arrays;
 
@@ -59,7 +59,7 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
     static final int EDIT_MODE = 0;
     static final int CREATE_MODE = 1;
 
-    private OnSavedListener onSavedListener;
+    private InterfaceUtils.OnSavedListener onSavedListener;
 
     private Habit originalHabit;
     private Habit modifiedHabit;
@@ -176,7 +176,7 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
     private void changeColor(int paletteColor)
     {
         modifiedHabit.color = paletteColor;
-        tvName.setTextColor(ColorHelper.getColor(getActivity(), paletteColor));
+        tvName.setTextColor(ColorUtils.getColor(getActivity(), paletteColor));
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("pref_default_habit_palette_color", paletteColor);
@@ -188,12 +188,12 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
     {
         if (modifiedHabit.hasReminder())
         {
-            tvReminderTime.setText(DateHelper.formatTime(getActivity(), modifiedHabit.reminderHour,
+            tvReminderTime.setText(DateUtils.formatTime(getActivity(), modifiedHabit.reminderHour,
                     modifiedHabit.reminderMin));
             llReminderDays.setVisibility(View.VISIBLE);
 
-            boolean weekdays[] = DateHelper.unpackWeekdayList(modifiedHabit.reminderDays);
-            tvReminderDays.setText(DateHelper.formatWeekdayList(getActivity(), weekdays));
+            boolean weekdays[] = DateUtils.unpackWeekdayList(modifiedHabit.reminderDays);
+            tvReminderDays.setText(DateUtils.formatWeekdayList(getActivity(), weekdays));
         }
         else
         {
@@ -202,7 +202,7 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
         }
     }
 
-    public void setOnSavedListener(OnSavedListener onSavedListener)
+    public void setOnSavedListener(InterfaceUtils.OnSavedListener onSavedListener)
     {
         this.onSavedListener = onSavedListener;
     }
@@ -236,17 +236,17 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
 
     private void onColorButtonClick()
     {
-        int originalAndroidColor = ColorHelper.getColor(getActivity(), modifiedHabit.color);
+        int originalAndroidColor = ColorUtils.getColor(getActivity(), modifiedHabit.color);
 
         ColorPickerDialog picker = ColorPickerDialog.newInstance(
-                R.string.color_picker_default_title, ColorHelper.getPalette(getActivity()),
+                R.string.color_picker_default_title, ColorUtils.getPalette(getActivity()),
                 originalAndroidColor, 4, ColorPickerDialog.SIZE_SMALL);
 
         picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
         {
             public void onColorSelected(int androidColor)
             {
-                int paletteColor = ColorHelper.colorToPaletteIndex(getActivity(), androidColor);
+                int paletteColor = ColorUtils.colorToPaletteIndex(getActivity(), androidColor);
                 changeColor(paletteColor);
             }
         });
@@ -331,7 +331,7 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
 
         WeekdayPickerDialog dialog = new WeekdayPickerDialog();
         dialog.setListener(this);
-        dialog.setSelectedDays(DateHelper.unpackWeekdayList(modifiedHabit.reminderDays));
+        dialog.setSelectedDays(DateUtils.unpackWeekdayList(modifiedHabit.reminderDays));
         dialog.show(getFragmentManager(), "weekdayPicker");
     }
 
@@ -340,7 +340,7 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
     {
         modifiedHabit.reminderHour = hour;
         modifiedHabit.reminderMin = minute;
-        modifiedHabit.reminderDays = DateHelper.ALL_WEEK_DAYS;
+        modifiedHabit.reminderDays = DateUtils.ALL_WEEK_DAYS;
         updateReminder();
     }
 
@@ -360,7 +360,7 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
 
         if(count == 0) Arrays.fill(selectedDays, true);
 
-        modifiedHabit.reminderDays = DateHelper.packWeekdayList(selectedDays);
+        modifiedHabit.reminderDays = DateUtils.packWeekdayList(selectedDays);
         updateReminder();
     }
 

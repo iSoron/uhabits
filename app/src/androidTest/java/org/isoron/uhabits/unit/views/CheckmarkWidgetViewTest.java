@@ -23,8 +23,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.isoron.uhabits.views.CheckmarkWidgetView;
@@ -45,7 +45,7 @@ public class CheckmarkWidgetViewTest extends ViewTest
     public void setup()
     {
         super.setup();
-        UIHelper.setFixedTheme(R.style.TransparentWidgetTheme);
+        InterfaceUtils.setFixedTheme(R.style.TransparentWidgetTheme);
 
         habit = HabitFixtures.createShortHabit();
         view = new CheckmarkWidgetView(targetContext);
@@ -63,7 +63,7 @@ public class CheckmarkWidgetViewTest extends ViewTest
     @Test
     public void testRender_unchecked() throws IOException
     {
-        habit.repetitions.toggle(DateHelper.getStartOfToday());
+        habit.repetitions.toggle(DateUtils.getStartOfToday());
         view.refreshData();
 
         assertRenders(view, "CheckmarkView/unchecked.png");
@@ -72,8 +72,8 @@ public class CheckmarkWidgetViewTest extends ViewTest
     @Test
     public void testRender_implicitlyChecked() throws IOException
     {
-        long today = DateHelper.getStartOfToday();
-        long day = DateHelper.millisecondsInOneDay;
+        long today = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
         habit.repetitions.toggle(today);
         habit.repetitions.toggle(today - day);
         habit.repetitions.toggle(today - 2 * day);

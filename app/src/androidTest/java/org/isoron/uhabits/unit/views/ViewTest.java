@@ -27,8 +27,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitDataView;
 
@@ -124,8 +124,8 @@ public class ViewTest extends BaseTest
     private String saveBitmap(String filename, String suffix, Bitmap bitmap)
             throws IOException
     {
-        File dir = DatabaseHelper.getSDCardDir("test-screenshots");
-        if(dir == null) dir = DatabaseHelper.getFilesDir("test-screenshots");
+        File dir = FileUtils.getSDCardDir("test-screenshots");
+        if(dir == null) dir = FileUtils.getFilesDir("test-screenshots");
         if(dir == null) throw new RuntimeException("Could not find suitable dir for screenshots");
 
         filename = filename.replaceAll("\\.png$", suffix + ".png");
@@ -191,7 +191,7 @@ public class ViewTest extends BaseTest
 
     protected int dpToPixels(int dp)
     {
-        return (int) UIHelper.dpToPixels(targetContext, dp);
+        return (int) InterfaceUtils.dpToPixels(targetContext, dp);
     }
 
     protected void tap(GestureDetector.OnGestureListener view, int x, int y) throws InterruptedException

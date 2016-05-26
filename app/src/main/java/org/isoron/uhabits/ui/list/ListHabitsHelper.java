@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.helpers;
+package org.isoron.uhabits.ui.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,7 +32,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.loaders.HabitListLoader;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.views.RingView;
@@ -48,20 +50,20 @@ public class ListHabitsHelper
     private final int mediumContrastColor;
 
     private final Context context;
-    private final HabitListLoader loader;
+    private final ListHabitsLoader loader;
 
-    public ListHabitsHelper(Context context, HabitListLoader loader)
+    public ListHabitsHelper(Context context, ListHabitsLoader loader)
     {
         this.context = context;
         this.loader = loader;
 
-        lowContrastColor = UIHelper.getStyledColor(context, R.attr.lowContrastTextColor);
-        mediumContrastColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
+        lowContrastColor = InterfaceUtils.getStyledColor(context, R.attr.lowContrastTextColor);
+        mediumContrastColor = InterfaceUtils.getStyledColor(context, R.attr.mediumContrastTextColor);
     }
 
     public int getButtonCount()
     {
-        float screenWidth = UIHelper.getScreenWidth(context);
+        float screenWidth = InterfaceUtils.getScreenWidth(context);
         float labelWidth = context.getResources().getDimension(R.dimen.habitNameWidth);
         float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
         return Math.max(0, (int) ((screenWidth - labelWidth) / buttonWidth));
@@ -69,9 +71,9 @@ public class ListHabitsHelper
 
     public int getHabitNameWidth()
     {
-        float screenWidth = UIHelper.getScreenWidth(context);
+        float screenWidth = InterfaceUtils.getScreenWidth(context);
         float buttonWidth = context.getResources().getDimension(R.dimen.checkmarkWidth);
-        float padding = UIHelper.dpToPixels(context, 15);
+        float padding = InterfaceUtils.dpToPixels(context, 15);
         return (int) (screenWidth - padding - getButtonCount() * buttonWidth);
     }
 
@@ -100,7 +102,7 @@ public class ListHabitsHelper
 
     public int getActiveColor(Habit habit)
     {
-        int activeColor = ColorHelper.getColor(context, habit.color);
+        int activeColor = ColorUtils.getColor(context, habit.color);
         if(habit.isArchived()) activeColor = mediumContrastColor;
 
         return activeColor;
@@ -193,9 +195,9 @@ public class ListHabitsHelper
             Drawable background;
 
             if (isSelected)
-                background = UIHelper.getStyledDrawable(context, R.attr.selectedBackground);
+                background = InterfaceUtils.getStyledDrawable(context, R.attr.selectedBackground);
             else
-                background = UIHelper.getStyledDrawable(context, R.attr.cardBackground);
+                background = InterfaceUtils.getStyledDrawable(context, R.attr.cardBackground);
 
             view.setBackgroundDrawable(background);
         }
@@ -208,20 +210,20 @@ public class ListHabitsHelper
         {
             View check = inflater.inflate(R.layout.list_habits_item_check, null);
             TextView btCheck = (TextView) check.findViewById(R.id.tvCheck);
-            btCheck.setTypeface(UIHelper.getFontAwesome(context));
+            btCheck.setTypeface(InterfaceUtils.getFontAwesome(context));
             btCheck.setOnLongClickListener(onLongClickListener);
             btCheck.setOnClickListener(onClickListener);
             btCheck.setHapticFeedbackEnabled(false);
             ((LinearLayout) view.findViewById(R.id.llButtons)).addView(check);
         }
 
-        view.setTag(R.id.timestamp_key, DateHelper.getStartOfToday());
+        view.setTag(R.id.timestamp_key, DateUtils.getStartOfToday());
     }
 
     public void updateHeader(ViewGroup header)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
-        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
         header.removeAllViews();
 
         for (int i = 0; i < getButtonCount(); i++)
@@ -233,7 +235,7 @@ public class ListHabitsHelper
 
             View tvDay = inflater.inflate(R.layout.list_habits_header_check, null);
             TextView btCheck = (TextView) tvDay.findViewById(R.id.tvCheck);
-            btCheck.setText(DateHelper.formatHeaderDate(day));
+            btCheck.setText(DateUtils.formatHeaderDate(day));
             header.addView(tvDay, position);
             day.add(GregorianCalendar.DAY_OF_MONTH, -1);
         }
@@ -247,7 +249,7 @@ public class ListHabitsHelper
 
     public void toggleCheckmarkView(View v, Habit habit)
     {
-        int androidColor = ColorHelper.getColor(context, habit.color);
+        int androidColor = ColorUtils.getColor(context, habit.color);
 
         if (v.getTag(R.string.toggle_key).equals(2))
             updateCheckmark(androidColor, (TextView) v, 0);
@@ -263,8 +265,8 @@ public class ListHabitsHelper
     public long getTimestampFromCheckmarkView(View v)
     {
         Integer offset = (Integer) v.getTag(R.string.offset_key);
-        return DateHelper.getStartOfDay(DateHelper.getLocalTime() -
-                offset * DateHelper.millisecondsInOneDay);
+        return DateUtils.getStartOfDay(DateUtils.getLocalTime() -
+                offset * DateUtils.millisecondsInOneDay);
     }
 
     public void triggerRipple(View v, final float x, final float y)

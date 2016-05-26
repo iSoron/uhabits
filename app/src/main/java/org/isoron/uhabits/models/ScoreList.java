@@ -31,9 +31,9 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -85,7 +85,7 @@ public class ScoreList
         long fromTimestamp = habit.repetitions.getOldestTimestamp();
         if(fromTimestamp == 0) return;
 
-        long toTimestamp = DateHelper.getStartOfToday();
+        long toTimestamp = DateUtils.getStartOfToday();
         compute(fromTimestamp, toTimestamp);
     }
 
@@ -103,9 +103,9 @@ public class ScoreList
      */
     protected void compute(long from, long to)
     {
-        UIHelper.throwIfMainThread();
+        InterfaceUtils.throwIfMainThread();
 
-        final long day = DateHelper.millisecondsInOneDay;
+        final long day = DateUtils.millisecondsInOneDay;
         final double freq = ((double) habit.freqNum) / habit.freqDen;
 
         int newestScoreValue = findNewestValue();
@@ -151,7 +151,7 @@ public class ScoreList
     {
         String args[] = { habit.getId().toString() };
         String query = "select timestamp from Score where habit = ? order by timestamp desc limit 1";
-        return DatabaseHelper.longQuery(query, args);
+        return DatabaseUtils.longQuery(query, args);
     }
 
     private void insert(long timestamps[], long values[])
@@ -238,7 +238,7 @@ public class ScoreList
         if(oldestRep == null) return new int[0];
 
         long fromTimestamp = oldestRep.timestamp;
-        long toTimestamp = DateHelper.getStartOfToday();
+        long toTimestamp = DateUtils.getStartOfToday();
         return getValues(fromTimestamp, toTimestamp, divisor);
     }
 
@@ -255,7 +255,7 @@ public class ScoreList
     {
         compute(from, to);
 
-        divisor *= DateHelper.millisecondsInOneDay;
+        divisor *= DateUtils.millisecondsInOneDay;
         Long offset = to + divisor;
 
         String query = "select ((timestamp - ?) / ?) as time, avg(score) from Score " +
@@ -291,7 +291,7 @@ public class ScoreList
     @Nullable
     protected Score getToday()
     {
-        return get(DateHelper.getStartOfToday());
+        return get(DateUtils.getStartOfToday());
     }
 
     /**
@@ -301,7 +301,7 @@ public class ScoreList
      */
     public int getTodayValue()
     {
-        return getValue(DateHelper.getStartOfToday());
+        return getValue(DateUtils.getStartOfToday());
     }
 
     /**
@@ -321,7 +321,7 @@ public class ScoreList
     {
         computeAll();
 
-        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
 
         String query = "select timestamp, score from score where habit = ? order by timestamp";
         String params[] = { habit.getId().toString() };

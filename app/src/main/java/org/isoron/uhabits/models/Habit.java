@@ -35,8 +35,8 @@ import com.activeandroid.query.Update;
 import com.activeandroid.util.SQLiteUtils;
 import com.opencsv.CSVWriter;
 
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -154,7 +154,7 @@ public class Habit extends Model
      */
     public Habit(Habit model)
     {
-        reminderDays = DateHelper.ALL_WEEK_DAYS;
+        reminderDays = DateUtils.ALL_WEEK_DAYS;
 
         copyAttributes(model);
 
@@ -176,7 +176,7 @@ public class Habit extends Model
         this.archived = 0;
         this.freqDen = 7;
         this.freqNum = 3;
-        this.reminderDays = DateHelper.ALL_WEEK_DAYS;
+        this.reminderDays = DateUtils.ALL_WEEK_DAYS;
 
         checkmarks = new CheckmarkList(this);
         streaks = new StreakList(this);
@@ -475,7 +475,7 @@ public class Habit extends Model
     {
         reminderHour = null;
         reminderMin = null;
-        reminderDays = DateHelper.ALL_WEEK_DAYS;
+        reminderDays = DateUtils.ALL_WEEK_DAYS;
     }
 
     /**
@@ -502,7 +502,7 @@ public class Habit extends Model
                     habit.description,
                     Integer.toString(habit.freqNum),
                     Integer.toString(habit.freqDen),
-                    ColorHelper.toHTML(ColorHelper.CSV_PALETTE[habit.color])
+                    ColorUtils.toHTML(ColorUtils.CSV_PALETTE[habit.color])
             };
 
             csv.writeNext(cols, false);

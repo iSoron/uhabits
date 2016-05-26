@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.ui.list;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -50,20 +50,18 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 
-import org.isoron.uhabits.BaseActivity;
+import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
-import org.isoron.uhabits.dialogs.FilePickerDialog;
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.HintManager;
-import org.isoron.uhabits.helpers.ListHabitsHelper;
-import org.isoron.uhabits.helpers.ReminderHelper;
-import org.isoron.uhabits.helpers.UIHelper;
-import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
-import org.isoron.uhabits.loaders.HabitListLoader;
+import org.isoron.uhabits.ui.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.ui.settings.FilePickerDialog;
+import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.ui.HintManager;
+import org.isoron.uhabits.utils.ReminderUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.utils.InterfaceUtils.OnSavedListener;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ExportCSVTask;
 import org.isoron.uhabits.tasks.ExportDBTask;
@@ -76,7 +74,7 @@ import java.util.List;
 
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
-        OnClickListener, HabitListLoader.Listener, AdapterView.OnItemLongClickListener,
+        OnClickListener, ListHabitsLoader.Listener, AdapterView.OnItemLongClickListener,
         HabitSelectionCallback.Listener, ImportDataTask.Listener, ExportCSVTask.Listener,
         ExportDBTask.Listener
 {
@@ -85,8 +83,8 @@ public class ListHabitsFragment extends Fragment
     private boolean showArchived;
 
     private ActionMode actionMode;
-    private HabitListAdapter adapter;
-    private HabitListLoader loader;
+    private ListHabitsAdapter adapter;
+    private ListHabitsLoader loader;
     private HintManager hintManager;
     private ListHabitsHelper helper;
     private List<Integer> selectedPositions;
@@ -114,7 +112,7 @@ public class ListHabitsFragment extends Fragment
         progressBar.setVisibility(View.GONE);
 
         selectedPositions = new LinkedList<>();
-        loader = new HabitListLoader();
+        loader = new ListHabitsLoader();
         helper = new ListHabitsHelper(activity, loader);
         hintManager = new HintManager(activity, llHint);
 
@@ -122,9 +120,9 @@ public class ListHabitsFragment extends Fragment
         loader.setCheckmarkCount(helper.getButtonCount());
 
         llHint.setOnClickListener(this);
-        tvStarEmpty.setTypeface(UIHelper.getFontAwesome(activity));
+        tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(activity));
 
-        adapter = new HabitListAdapter(getActivity(), loader);
+        adapter = new ListHabitsAdapter(getActivity(), loader);
         adapter.setSelectedPositions(selectedPositions);
         adapter.setOnCheckmarkClickListener(this);
         adapter.setOnCheckmarkLongClickListener(this);
@@ -171,7 +169,7 @@ public class ListHabitsFragment extends Fragment
         super.onResume();
         Long timestamp = loader.getLastLoadTimestamp();
 
-        if (timestamp != null && timestamp != DateHelper.getStartOfToday())
+        if (timestamp != null && timestamp != DateUtils.getStartOfToday())
             loader.updateAllHabits(true);
 
         helper.updateEmptyMessage(llEmpty);
@@ -282,7 +280,6 @@ public class ListHabitsFragment extends Fragment
         {
             HabitSelectionCallback callback = new HabitSelectionCallback(activity, loader);
             callback.setSelectedPositions(selectedPositions);
-            callback.setProgressBar(progressBar);
             callback.setOnSavedListener(this);
             callback.setListener(this);
 
@@ -301,7 +298,7 @@ public class ListHabitsFragment extends Fragment
         else activity.executeCommand(command, h.getId());
         adapter.notifyDataSetChanged();
 
-        ReminderHelper.createReminderAlarms(activity);
+        ReminderUtils.createReminderAlarms(activity);
 
         if(actionMode != null) actionMode.finish();
     }
@@ -433,7 +430,7 @@ public class ListHabitsFragment extends Fragment
 
     public void showImportDialog()
     {
-        File dir = DatabaseHelper.getFilesDir(null);
+        File dir = FileUtils.getFilesDir(null);
         if(dir == null)
         {
             activity.showToast(R.string.could_not_import);

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.ui.edit;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -26,7 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 
 public class WeekdayPickerDialog extends AppCompatDialogFragment
         implements DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnClickListener
@@ -55,7 +55,7 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.select_weekdays)
-                .setMultiChoiceItems(DateHelper.getLongDayNames(), selectedDays, this)
+                .setMultiChoiceItems(DateUtils.getLongDayNames(), selectedDays, this)
                 .setPositiveButton(android.R.string.yes, this)
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
                 {

@@ -24,7 +24,7 @@ import android.support.annotation.NonNull;
 import com.activeandroid.ActiveAndroid;
 import com.opencsv.CSVReader;
 
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.io.BufferedReader;
@@ -76,7 +76,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             int month = Integer.parseInt(dateString[1]);
             int day = Integer.parseInt(dateString[2]);
 
-            Calendar date = DateHelper.getStartOfTodayCalendar();
+            Calendar date = DateUtils.getStartOfTodayCalendar();
             date.set(year, month - 1, day);
 
             long timestamp = date.getTimeInMillis();

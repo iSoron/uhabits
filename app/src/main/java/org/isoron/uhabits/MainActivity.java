@@ -40,13 +40,18 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.isoron.uhabits.fragments.ListHabitsFragment;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.ReminderHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.ui.list.ListHabitsFragment;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.ReminderUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.ui.AboutActivity;
+import org.isoron.uhabits.ui.BaseActivity;
+import org.isoron.uhabits.ui.IntroActivity;
+import org.isoron.uhabits.ui.settings.SettingsActivity;
+import org.isoron.uhabits.ui.show.ShowHabitActivity;
 import org.isoron.uhabits.widgets.CheckmarkWidgetProvider;
 import org.isoron.uhabits.widgets.FrequencyWidgetProvider;
 import org.isoron.uhabits.widgets.HistoryWidgetProvider;
@@ -97,7 +102,7 @@ public class MainActivity extends BaseActivity
     {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar == null) return;
-        if(UIHelper.isNightMode()) return;
+        if(InterfaceUtils.isNightMode()) return;
 
         int color = getResources().getColor(R.color.grey_900);
         actionBar.setBackgroundDrawable(new ColorDrawable(color));
@@ -106,15 +111,15 @@ public class MainActivity extends BaseActivity
     private void onStartup()
     {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        UIHelper.incrementLaunchCount(this);
-        UIHelper.updateLastAppVersion(this);
+        InterfaceUtils.incrementLaunchCount(this);
+        InterfaceUtils.updateLastAppVersion(this);
         showTutorial();
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params)
             {
-                ReminderHelper.createReminderAlarms(MainActivity.this);
+                ReminderUtils.createReminderAlarms(MainActivity.this);
                 updateWidgets(MainActivity.this);
                 return null;
             }
@@ -130,7 +135,7 @@ public class MainActivity extends BaseActivity
         {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("pref_first_run", false);
-            editor.putLong("last_hint_timestamp", DateHelper.getStartOfToday()).apply();
+            editor.putLong("last_hint_timestamp", DateUtils.getStartOfToday()).apply();
             editor.apply();
 
             Intent intent = new Intent(this, IntroActivity.class);
@@ -145,7 +150,7 @@ public class MainActivity extends BaseActivity
         getMenuInflater().inflate(R.menu.list_habits_menu, menu);
 
         MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);
-        nightModeItem.setChecked(UIHelper.isNightMode());
+        nightModeItem.setChecked(InterfaceUtils.isNightMode());
 
         return true;
     }
@@ -157,10 +162,10 @@ public class MainActivity extends BaseActivity
         {
             case R.id.action_night_mode:
             {
-                if(UIHelper.isNightMode())
-                    UIHelper.setCurrentTheme(UIHelper.THEME_LIGHT);
+                if(InterfaceUtils.isNightMode())
+                    InterfaceUtils.setCurrentTheme(InterfaceUtils.THEME_LIGHT);
                 else
-                    UIHelper.setCurrentTheme(UIHelper.THEME_DARK);
+                    InterfaceUtils.setCurrentTheme(InterfaceUtils.THEME_DARK);
 
                 refreshTheme();
                 return true;

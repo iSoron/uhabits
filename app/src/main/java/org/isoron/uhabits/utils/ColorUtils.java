@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.helpers;
+package org.isoron.uhabits.utils;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -25,7 +25,7 @@ import android.util.Log;
 
 import org.isoron.uhabits.R;
 
-public class ColorHelper
+public abstract class ColorUtils
 {
     public static int CSV_PALETTE[] =
     {
@@ -56,7 +56,7 @@ public class ColorHelper
 
     public static int[] getPalette(Context context)
     {
-        int resourceId = UIHelper.getStyleResource(context, R.attr.palette);
+        int resourceId = InterfaceUtils.getStyleResource(context, R.attr.palette);
         if(resourceId < 0) return CSV_PALETTE;
 
         return context.getResources().getIntArray(resourceId);

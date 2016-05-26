@@ -19,10 +19,8 @@
 
 package org.isoron.uhabits.commands;
 
-import com.activeandroid.ActiveAndroid;
-
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.ArrayList;
@@ -53,7 +51,7 @@ public class ChangeHabitColorCommand extends Command
     @Override
     public void undo()
     {
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
         {
             @Override
             public void execute()

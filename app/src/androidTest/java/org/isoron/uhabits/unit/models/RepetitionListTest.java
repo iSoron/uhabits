@@ -23,7 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Repetition;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -62,31 +62,31 @@ public class RepetitionListTest extends BaseTest
     @After
     public void tearDown()
     {
-        DateHelper.setFixedLocalTime(null);
+        DateUtils.setFixedLocalTime(null);
     }
 
     @Test
     public void test_contains()
     {
-        long current = DateHelper.getStartOfToday();
+        long current = DateUtils.getStartOfToday();
 
         for(boolean b : HabitFixtures.NON_DAILY_HABIT_CHECKS)
         {
             assertThat(habit.repetitions.contains(current), equalTo(b));
-            current -= DateHelper.millisecondsInOneDay;
+            current -= DateUtils.millisecondsInOneDay;
         }
 
         for(int i = 0; i < 3; i++)
         {
             assertThat(habit.repetitions.contains(current), equalTo(false));
-            current -= DateHelper.millisecondsInOneDay;
+            current -= DateUtils.millisecondsInOneDay;
         }
     }
 
     @Test
     public void test_delete()
     {
-        long timestamp = DateHelper.getStartOfToday();
+        long timestamp = DateUtils.getStartOfToday();
         assertThat(habit.repetitions.contains(timestamp), equalTo(true));
 
         habit.repetitions.delete(timestamp);
@@ -96,7 +96,7 @@ public class RepetitionListTest extends BaseTest
     @Test
     public void test_toggle()
     {
-        long timestamp = DateHelper.getStartOfToday();
+        long timestamp = DateUtils.getStartOfToday();
         assertThat(habit.repetitions.contains(timestamp), equalTo(true));
 
         habit.repetitions.toggle(timestamp);
@@ -117,11 +117,11 @@ public class RepetitionListTest extends BaseTest
         for(Integer row[] : weekdayCount)
             Arrays.fill(row, 0);
 
-        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
         // Sets the current date to the end of November
         day.set(2015, 10, 30);
-        DateHelper.setFixedLocalTime(day.getTimeInMillis());
+        DateUtils.setFixedLocalTime(day.getTimeInMillis());
 
         // Add repetitions randomly from January to December
         // Leaves the month of March empty, to check that it returns null
@@ -168,19 +168,19 @@ public class RepetitionListTest extends BaseTest
     @Test
     public void test_count()
     {
-        long to = DateHelper.getStartOfToday();
-        long from = to - 9 * DateHelper.millisecondsInOneDay;
+        long to = DateUtils.getStartOfToday();
+        long from = to - 9 * DateUtils.millisecondsInOneDay;
         assertThat(habit.repetitions.count(from, to), equalTo(6));
 
-        to = DateHelper.getStartOfToday() - DateHelper.millisecondsInOneDay;
-        from = to - 5 * DateHelper.millisecondsInOneDay;
+        to = DateUtils.getStartOfToday() - DateUtils.millisecondsInOneDay;
+        from = to - 5 * DateUtils.millisecondsInOneDay;
         assertThat(habit.repetitions.count(from, to), equalTo(3));
     }
 
     @Test
     public void test_getOldest()
     {
-        long expectedOldestTimestamp = DateHelper.getStartOfToday() - 9 * DateHelper.millisecondsInOneDay;
+        long expectedOldestTimestamp = DateUtils.getStartOfToday() - 9 * DateUtils.millisecondsInOneDay;
 
         assertThat(habit.repetitions.getOldestTimestamp(), equalTo(expectedOldestTimestamp));
 

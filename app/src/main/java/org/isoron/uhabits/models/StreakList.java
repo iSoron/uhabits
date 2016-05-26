@@ -27,8 +27,8 @@ import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -50,7 +50,7 @@ public class StreakList
         String query = "select * from (select * from streak where habit=? " +
                 "order by end <> ?, length desc, end desc limit ?) order by end desc";
 
-        String params[] = {habit.getId().toString(), Long.toString(DateHelper.getStartOfToday()),
+        String params[] = {habit.getId().toString(), Long.toString(DateUtils.getStartOfToday()),
                 Integer.toString(limit)};
 
         SQLiteDatabase db = Cache.openDatabase();
@@ -87,11 +87,11 @@ public class StreakList
 
     public void rebuild()
     {
-        UIHelper.throwIfMainThread();
+        InterfaceUtils.throwIfMainThread();
 
         long beginning;
-        long today = DateHelper.getStartOfToday();
-        long day = DateHelper.millisecondsInOneDay;
+        long today = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
 
         Streak newestStreak = getNewest();
         if (newestStreak != null)
@@ -154,7 +154,7 @@ public class StreakList
     {
         new Delete().from(Streak.class)
                 .where("habit = ?", habit.getId())
-                .and("end >= ?", timestamp - DateHelper.millisecondsInOneDay)
+                .and("end >= ?", timestamp - DateUtils.millisecondsInOneDay)
                 .execute();
     }
 }

@@ -23,8 +23,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -57,7 +57,7 @@ public class ScoreListTest extends BaseTest
     @After
     public void tearDown()
     {
-        DateHelper.setFixedLocalTime(null);
+        DateUtils.setFixedLocalTime(null);
     }
 
     @Test
@@ -104,11 +104,11 @@ public class ScoreListTest extends BaseTest
                 10129735, 9629735, 9102352, 8546087, 7959357, 7340494, 6687738, 5999234, 5273023,
                 4507040, 3699107, 2846927, 1948077, 1000000 };
 
-        long current = DateHelper.getStartOfToday();
+        long current = DateUtils.getStartOfToday();
         for(int expectedValue : expectedValues)
         {
             assertThat(habit.scores.getValue(current), equalTo(expectedValue));
-            current -= DateHelper.millisecondsInOneDay;
+            current -= DateUtils.millisecondsInOneDay;
         }
     }
 
@@ -162,14 +162,14 @@ public class ScoreListTest extends BaseTest
 
     private void toggleRepetitions(final int from, final int to)
     {
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
         {
             @Override
             public void execute()
             {
-                long today = DateHelper.getStartOfToday();
+                long today = DateUtils.getStartOfToday();
                 for (int i = from; i < to; i++)
-                    habit.repetitions.toggle(today - i * DateHelper.millisecondsInOneDay);
+                    habit.repetitions.toggle(today - i * DateUtils.millisecondsInOneDay);
             }
         });
     }

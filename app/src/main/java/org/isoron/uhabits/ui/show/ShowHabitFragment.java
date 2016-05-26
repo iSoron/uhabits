@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.ui.show;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,14 +35,13 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ShowHabitActivity;
 import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
-import org.isoron.uhabits.dialogs.HistoryEditorDialog;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.ReminderHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.ui.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.ui.edit.HistoryEditorDialog;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.ReminderUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.tasks.BaseTask;
@@ -57,7 +56,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ShowHabitFragment extends Fragment
-        implements UIHelper.OnSavedListener, HistoryEditorDialog.Listener,
+        implements InterfaceUtils.OnSavedListener, HistoryEditorDialog.Listener,
         Spinner.OnItemSelectedListener
 {
     @Nullable
@@ -95,8 +94,8 @@ public class ShowHabitFragment extends Fragment
         activity = (ShowHabitActivity) getActivity();
 
         habit = activity.getHabit();
-        activeColor = ColorHelper.getColor(getContext(), habit.color);
-        inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        activeColor = ColorUtils.getColor(getContext(), habit.color);
+        inactiveColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
 
         updateHeader(view);
 
@@ -107,7 +106,7 @@ public class ShowHabitFragment extends Fragment
 
         scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
 
-        int defaultScoreInterval = UIHelper.getDefaultScoreInterval(getContext());
+        int defaultScoreInterval = InterfaceUtils.getDefaultScoreInterval(getContext());
         previousScoreInterval = defaultScoreInterval;
         setScoreBucketSize(defaultScoreInterval);
 
@@ -162,7 +161,7 @@ public class ShowHabitFragment extends Fragment
 
         TextView reminderLabel = (TextView) view.findViewById(R.id.reminderLabel);
         if(habit.hasReminder())
-            reminderLabel.setText(DateHelper.formatTime(getActivity(), habit.reminderHour,
+            reminderLabel.setText(DateUtils.formatTime(getActivity(), habit.reminderHour,
                     habit.reminderMin));
         else
             reminderLabel.setText(getResources().getString(R.string.reminder_off));
@@ -219,7 +218,7 @@ public class ShowHabitFragment extends Fragment
         float yearDiff = todayPercentage - (lastYearScore / Score.MAX_VALUE);
 
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
-        int androidColor = ColorHelper.getColor(getActivity(), habit.color);
+        int androidColor = ColorUtils.getColor(getActivity(), habit.color);
         scoreRing.setColor(androidColor);
         scoreRing.setPercentage(todayPercentage);
 
@@ -254,7 +253,7 @@ public class ShowHabitFragment extends Fragment
         if(habit == null || activity == null) return;
 
         TextView textView = (TextView) view.findViewById(viewId);
-        int androidColor = ColorHelper.getColor(activity, habit.color);
+        int androidColor = ColorUtils.getColor(activity, habit.color);
         textView.setTextColor(androidColor);
     }
 
@@ -293,7 +292,7 @@ public class ShowHabitFragment extends Fragment
         if (h == null) activity.executeCommand(command, null);
         else activity.executeCommand(command, h.getId());
 
-        ReminderHelper.createReminderAlarms(activity);
+        ReminderUtils.createReminderAlarms(activity);
         HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
 
         activity.recreate();
@@ -316,9 +315,9 @@ public class ShowHabitFragment extends Fragment
                 if(habit == null) return;
                 if(dataViews == null) return;
 
-                long today = DateHelper.getStartOfToday();
-                long lastMonth = today - 30 * DateHelper.millisecondsInOneDay;
-                long lastYear = today - 365 * DateHelper.millisecondsInOneDay;
+                long today = DateUtils.getStartOfToday();
+                long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
+                long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
 
                 todayScore = (float) habit.scores.getTodayValue();
                 lastMonthScore = (float) habit.scores.getValue(lastMonth);
@@ -362,7 +361,7 @@ public class ShowHabitFragment extends Fragment
             HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
         }
 
-        UIHelper.setDefaultScoreInterval(getContext(), position);
+        InterfaceUtils.setDefaultScoreInterval(getContext(), position);
         previousScoreInterval = position;
     }
 

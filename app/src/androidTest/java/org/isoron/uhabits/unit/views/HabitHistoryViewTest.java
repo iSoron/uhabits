@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.views;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.isoron.uhabits.views.HabitHistoryView;
@@ -92,7 +92,7 @@ public class HabitHistoryViewTest extends ViewTest
         tap(view, 340, 40); // today's square
         waitForAsyncTasks();
 
-        long today = DateHelper.getStartOfToday();
+        long today = DateUtils.getStartOfToday();
         assertFalse(habit.repetitions.contains(today));
     }
 
@@ -118,7 +118,7 @@ public class HabitHistoryViewTest extends ViewTest
         tap(view, 340, 40); // today's square
         waitForAsyncTasks();
 
-        long today = DateHelper.getStartOfToday();
+        long today = DateUtils.getStartOfToday();
         assertTrue(habit.repetitions.contains(today));
     }
 

@@ -29,8 +29,8 @@ import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -88,7 +88,7 @@ public class CheckmarkList
                 Long.toString(toTimestamp) };
         Cursor cursor = db.rawQuery(query, args);
 
-        long day = DateHelper.millisecondsInOneDay;
+        long day = DateUtils.millisecondsInOneDay;
         int nDays = (int) ((toTimestamp - fromTimestamp) / day) + 1;
         int[] checks = new int[nDays];
 
@@ -124,7 +124,7 @@ public class CheckmarkList
         if(oldestRep == null) return new int[0];
 
         Long fromTimestamp = oldestRep.timestamp;
-        Long toTimestamp = DateHelper.getStartOfToday();
+        Long toTimestamp = DateUtils.getStartOfToday();
 
         return getValues(fromTimestamp, toTimestamp);
     }
@@ -138,7 +138,7 @@ public class CheckmarkList
         long fromTimestamp = habit.repetitions.getOldestTimestamp();
         if(fromTimestamp == 0) return;
 
-        Long toTimestamp = DateHelper.getStartOfToday();
+        Long toTimestamp = DateUtils.getStartOfToday();
 
         compute(fromTimestamp, toTimestamp);
     }
@@ -152,9 +152,9 @@ public class CheckmarkList
      */
     protected void compute(long from, final long to)
     {
-        UIHelper.throwIfMainThread();
+        InterfaceUtils.throwIfMainThread();
 
-        final long day = DateHelper.millisecondsInOneDay;
+        final long day = DateUtils.millisecondsInOneDay;
 
         Checkmark newestCheckmark = findNewest();
         if(newestCheckmark != null)
@@ -235,7 +235,7 @@ public class CheckmarkList
     {
         return new Select().from(Checkmark.class)
                 .where("habit = ?", habit.getId())
-                .and("timestamp <= ?", DateHelper.getStartOfToday())
+                .and("timestamp <= ?", DateUtils.getStartOfToday())
                 .orderBy("timestamp desc")
                 .limit(1)
                 .executeSingle();
@@ -249,7 +249,7 @@ public class CheckmarkList
     @Nullable
     public Checkmark getToday()
     {
-        long today = DateHelper.getStartOfToday();
+        long today = DateUtils.getStartOfToday();
         compute(today, today);
         return findNewest();
     }
@@ -278,7 +278,7 @@ public class CheckmarkList
     {
         computeAll();
 
-        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
 
         String query = "select timestamp, value from checkmarks where habit = ? order by timestamp";
         String params[] = { habit.getId().toString() };

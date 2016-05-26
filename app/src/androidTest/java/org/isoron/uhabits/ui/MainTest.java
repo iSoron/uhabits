@@ -29,10 +29,10 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.MainActivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -300,7 +300,7 @@ public class MainTest
 
         clickMenuItem(R.string.settings);
 
-        String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
+        String date = DateUtils.getBackupDateFormat().format(DateUtils.getLocalTime());
         date = date.substring(0, date.length() - 2);
 
         clickSettingsItem("Export full backup");

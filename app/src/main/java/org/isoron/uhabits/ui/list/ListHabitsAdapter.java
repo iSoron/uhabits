@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.ui.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,23 +26,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.ListHabitsHelper;
-import org.isoron.uhabits.loaders.HabitListLoader;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.List;
 
-class HabitListAdapter extends BaseAdapter
+class ListHabitsAdapter extends BaseAdapter
 {
     private LayoutInflater inflater;
-    private HabitListLoader loader;
+    private ListHabitsLoader loader;
     private ListHabitsHelper helper;
     private List selectedPositions;
     private View.OnLongClickListener onCheckmarkLongClickListener;
     private View.OnClickListener onCheckmarkClickListener;
 
-    public HabitListAdapter(Context context, HabitListLoader loader)
+    public ListHabitsAdapter(Context context, ListHabitsLoader loader)
     {
         this.loader = loader;
 
@@ -74,7 +72,7 @@ class HabitListAdapter extends BaseAdapter
         final Habit habit = loader.habitsList.get(position);
         boolean selected = selectedPositions.contains(position);
 
-        if (view == null || (Long) view.getTag(R.id.timestamp_key) != DateHelper.getStartOfToday())
+        if (view == null || (Long) view.getTag(R.id.timestamp_key) != DateUtils.getStartOfToday())
         {
             view = helper.inflateHabitCard(inflater, onCheckmarkLongClickListener,
                     onCheckmarkClickListener);

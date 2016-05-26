@@ -23,8 +23,9 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.tasks.ExportDBTask;
@@ -50,11 +51,11 @@ public class HabitFixtures
         habit.freqDen = 3;
         habit.save();
 
-        long timestamp = DateHelper.getStartOfToday();
+        long timestamp = DateUtils.getStartOfToday();
         for(boolean c : NON_DAILY_HABIT_CHECKS)
         {
             if(c) habit.repetitions.toggle(timestamp);
-            timestamp -= DateHelper.millisecondsInOneDay;
+            timestamp -= DateUtils.millisecondsInOneDay;
         }
 
         return habit;
@@ -80,8 +81,8 @@ public class HabitFixtures
         habit.color = 4;
         habit.save();
 
-        long day = DateHelper.millisecondsInOneDay;
-        long today = DateHelper.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
+        long today = DateUtils.getStartOfToday();
         int marks[] = { 0, 1, 3, 5, 7, 8, 9, 10, 12, 14, 15, 17, 19, 20, 26, 27, 28, 50, 51, 52,
                 53, 54, 58, 60, 63, 65, 70, 71, 72, 73, 74, 75, 80, 81, 83, 89, 90, 91, 95,
                 102, 103, 108, 109, 120};
@@ -97,7 +98,7 @@ public class HabitFixtures
         final int nHabits = 30;
         final int nYears = 5;
 
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
         {
             @Override
             public void execute()
@@ -112,8 +113,8 @@ public class HabitFixtures
                     habit.name = String.format("Habit %d", i);
                     habit.save();
 
-                    long today = DateHelper.getStartOfToday();
-                    long day = DateHelper.millisecondsInOneDay;
+                    long today = DateUtils.getStartOfToday();
+                    long day = DateUtils.millisecondsInOneDay;
 
 
                     for(int j = 0; j < 365 * nYears; j++)
@@ -147,12 +148,12 @@ public class HabitFixtures
 
     public static void loadHugeDataSet(Context testContext) throws Throwable
     {
-        File baseDir = DatabaseHelper.getFilesDir("Backups");
+        File baseDir = FileUtils.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");
 
         File dst = new File(String.format("%s/%s", baseDir.getPath(), "loopHuge.db"));
         InputStream in = testContext.getAssets().open("fixtures/loopHuge.db");
-        DatabaseHelper.copy(in, dst);
+        FileUtils.copy(in, dst);
 
         ImportDataTask task = new ImportDataTask(dst, null);
         task.execute();

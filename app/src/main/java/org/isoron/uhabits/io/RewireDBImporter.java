@@ -23,8 +23,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class RewireDBImporter extends AbstractImporter
         final SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
                 SQLiteDatabase.OPEN_READONLY);
 
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
         {
             @Override
             public void execute()
@@ -150,7 +150,7 @@ public class RewireDBImporter extends AbstractImporter
                 reminderDays[idx] = true;
             }
 
-            habit.reminderDays = DateHelper.packWeekdayList(reminderDays);
+            habit.reminderDays = DateUtils.packWeekdayList(reminderDays);
             habit.reminderHour = rewireReminder / 60;
             habit.reminderMin = rewireReminder % 60;
             habit.save();
@@ -178,7 +178,7 @@ public class RewireDBImporter extends AbstractImporter
                 int month = Integer.parseInt(date.substring(4, 6));
                 int day = Integer.parseInt(date.substring(6, 8));
 
-                GregorianCalendar cal = DateHelper.getStartOfTodayCalendar();
+                GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month - 1, day);
 
                 habit.repetitions.toggle(cal.getTimeInMillis());

@@ -17,48 +17,45 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.ui.list;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
-import org.isoron.uhabits.BaseActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
-import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
-import org.isoron.uhabits.loaders.HabitListLoader;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.ui.BaseActivity;
+import org.isoron.uhabits.ui.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class HabitSelectionCallback implements ActionMode.Callback
 {
-    private HabitListLoader loader;
+    private ListHabitsLoader loader;
     private List<Integer> selectedPositions;
     private BaseActivity activity;
     private Listener listener;
-    private UIHelper.OnSavedListener onSavedListener;
-    private ProgressBar progressBar;
+    private InterfaceUtils.OnSavedListener onSavedListener;
 
     public interface Listener
     {
         void onActionModeDestroyed(ActionMode mode);
     }
 
-    public HabitSelectionCallback(BaseActivity activity, HabitListLoader loader)
+    public HabitSelectionCallback(BaseActivity activity, ListHabitsLoader loader)
     {
         this.activity = activity;
         this.loader = loader;
@@ -70,12 +67,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
         this.listener = listener;
     }
 
-    public void setProgressBar(ProgressBar progressBar)
-    {
-        this.progressBar = progressBar;
-    }
-
-    public void setOnSavedListener(UIHelper.OnSavedListener onSavedListener)
+    public void setOnSavedListener(InterfaceUtils.OnSavedListener onSavedListener)
     {
         this.onSavedListener = onSavedListener;
     }
@@ -110,10 +102,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
         for (int i : selectedPositions)
         {
             Habit h = loader.habitsList.get(i);
-            if (h.isArchived())
-            {
-                showArchive = false;
-            }
+            if (h.isArchived()) showArchive = false;
             else showUnarchive = false;
         }
 
@@ -165,17 +154,17 @@ public class HabitSelectionCallback implements ActionMode.Callback
 
             case R.id.action_color:
             {
-                int originalAndroidColor = ColorHelper.getColor(activity, firstHabit.color);
+                int originalAndroidColor = ColorUtils.getColor(activity, firstHabit.color);
 
                 ColorPickerDialog picker = ColorPickerDialog.newInstance(
-                        R.string.color_picker_default_title, ColorHelper.getPalette(activity),
+                        R.string.color_picker_default_title, ColorUtils.getPalette(activity),
                         originalAndroidColor, 4, ColorPickerDialog.SIZE_SMALL);
 
                 picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
                         {
                             public void onColorSelected(int androidColor)
                             {
-                                int paletteColor = ColorHelper.colorToPaletteIndex(activity,
+                                int paletteColor = ColorUtils.colorToPaletteIndex(activity,
                                         androidColor);
                                 activity.executeCommand(new ChangeHabitColorCommand(selectedHabits,
                                         paletteColor), null);

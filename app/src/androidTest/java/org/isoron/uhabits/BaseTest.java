@@ -24,8 +24,8 @@ import android.os.Build;
 import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.junit.Before;
 
@@ -51,8 +51,8 @@ public class BaseTest
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();
 
-        UIHelper.setFixedTheme(R.style.AppBaseTheme);
-        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME);
+        InterfaceUtils.setFixedTheme(R.style.AppBaseTheme);
+        DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
     }
 
     protected void waitForAsyncTasks() throws InterruptedException, TimeoutException

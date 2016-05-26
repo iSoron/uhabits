@@ -23,7 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.After;
@@ -60,7 +60,7 @@ public class CheckmarkListTest extends BaseTest
     @After
     public void tearDown()
     {
-        DateHelper.setFixedLocalTime(null);
+        DateUtils.setFixedLocalTime(null);
     }
 
     @Test
@@ -121,8 +121,8 @@ public class CheckmarkListTest extends BaseTest
     @Test
     public void test_getValues_withValidInterval()
     {
-        long from = DateHelper.getStartOfToday() - 15 * DateHelper.millisecondsInOneDay;
-        long to = DateHelper.getStartOfToday() - 5 * DateHelper.millisecondsInOneDay;
+        long from = DateUtils.getStartOfToday() - 15 * DateUtils.millisecondsInOneDay;
+        long to = DateUtils.getStartOfToday() - 5 * DateUtils.millisecondsInOneDay;
 
         int[] expectedValues = { CHECKED_EXPLICITLY, UNCHECKED, CHECKED_IMPLICITLY,
                 CHECKED_EXPLICITLY, CHECKED_EXPLICITLY, UNCHECKED, UNCHECKED, UNCHECKED, UNCHECKED,
@@ -169,7 +169,7 @@ public class CheckmarkListTest extends BaseTest
 
     private void travelInTime(int days)
     {
-        DateHelper.setFixedLocalTime(FIXED_LOCAL_TIME +
-                days * DateHelper.millisecondsInOneDay);
+        DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME +
+                days * DateUtils.millisecondsInOneDay);
     }
 }

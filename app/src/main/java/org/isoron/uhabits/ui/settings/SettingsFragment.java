@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.fragments;
+package org.isoron.uhabits.ui.settings;
 
 import android.app.backup.BackupManager;
 import android.content.Intent;
@@ -29,8 +29,8 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ReminderHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ReminderUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -50,7 +50,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         updateRingtoneDescription();
 
-        if(UIHelper.isLocaleFullyTranslated())
+        if(InterfaceUtils.isLocaleFullyTranslated())
             removePreference("translate", "linksCategory");
     }
 
@@ -111,7 +111,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         if (preference.getKey().equals("reminderSound"))
         {
-            ReminderHelper.startRingtonePickerActivity(this, RINGTONE_REQUEST_CODE);
+            ReminderUtils.startRingtonePickerActivity(this, RINGTONE_REQUEST_CODE);
             return true;
         }
 
@@ -123,7 +123,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         if(requestCode == RINGTONE_REQUEST_CODE)
         {
-            ReminderHelper.parseRingtoneData(getContext(), data);
+            ReminderUtils.parseRingtoneData(getContext(), data);
             updateRingtoneDescription();
             return;
         }
@@ -133,7 +133,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void updateRingtoneDescription()
     {
-        String ringtoneName = ReminderHelper.getRingtoneName(getContext());
+        String ringtoneName = ReminderUtils.getRingtoneName(getContext());
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);
     }

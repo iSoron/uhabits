@@ -27,8 +27,8 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
@@ -68,7 +68,7 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         {
             percentage = 0.75f;
             name = "Wake up early";
-            activeColor = ColorHelper.CSV_PALETTE[6];
+            activeColor = ColorUtils.CSV_PALETTE[6];
             checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
             refresh();
         }
@@ -79,7 +79,7 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     {
         super.setHabit(habit);
         this.name = habit.name;
-        this.activeColor = ColorHelper.getColor(getContext(), habit.color);
+        this.activeColor = ColorUtils.getColor(getContext(), habit.color);
         refresh();
     }
 
@@ -99,7 +99,7 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
                 text = getResources().getString(R.string.fa_check);
                 backgroundColor = activeColor;
                 foregroundColor =
-                        UIHelper.getStyledColor(context, R.attr.highContrastReverseTextColor);
+                        InterfaceUtils.getStyledColor(context, R.attr.highContrastReverseTextColor);
 
                 setShadowAlpha(0x4f);
                 rebuildBackground();
@@ -110,15 +110,15 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
 
             case Checkmark.CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
-                backgroundColor = UIHelper.getStyledColor(context, R.attr.cardBackgroundColor);
-                foregroundColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
+                backgroundColor = InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor);
+                foregroundColor = InterfaceUtils.getStyledColor(context, R.attr.mediumContrastTextColor);
                 break;
 
             case Checkmark.UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
-                backgroundColor = UIHelper.getStyledColor(context, R.attr.cardBackgroundColor);
-                foregroundColor = UIHelper.getStyledColor(context, R.attr.mediumContrastTextColor);
+                backgroundColor = InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor);
+                foregroundColor = InterfaceUtils.getStyledColor(context, R.attr.mediumContrastTextColor);
                 break;
         }
 

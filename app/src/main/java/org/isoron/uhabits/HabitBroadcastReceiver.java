@@ -36,11 +36,12 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.ReminderHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.ReminderUtils;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.ui.show.ShowHabitActivity;
 
 import java.util.Date;
 
@@ -74,7 +75,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 break;
 
             case Intent.ACTION_BOOT_COMPLETED:
-                ReminderHelper.createReminderAlarms(context);
+                ReminderUtils.createReminderAlarms(context);
                 break;
         }
     }
@@ -86,7 +87,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             @Override
             public void run()
             {
-                ReminderHelper.createReminderAlarms(context);
+                ReminderUtils.createReminderAlarms(context);
             }
         }, 5000);
     }
@@ -100,7 +101,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         long habitId = ContentUris.parseId(data);
         Habit habit = Habit.get(habitId);
         if(habit != null)
-            ReminderHelper.createReminderAlarm(context, habit,
+            ReminderUtils.createReminderAlarm(context, habit,
                     new Date().getTime() + delayMinutes * 60 * 1000);
         dismissNotification(context, habitId);
     }
@@ -108,7 +109,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     private void checkHabit(Context context, Intent intent)
     {
         Uri data = intent.getData();
-        Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
+        Long timestamp = intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
 
         long habitId = ContentUris.parseId(data);
         Habit habit = Habit.get(habitId);
@@ -147,8 +148,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     {
         final Uri data = intent.getData();
         final Habit habit = Habit.get(ContentUris.parseId(data));
-        final Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
-        final Long reminderTime = intent.getLongExtra("reminderTime", DateHelper.getStartOfToday());
+        final Long timestamp = intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
+        final Long reminderTime = intent.getLongExtra("reminderTime", DateUtils.getStartOfToday());
 
         if (habit == null) return;
 
@@ -178,7 +179,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 PendingIntent checkIntentPending = buildCheckIntent(context, habit, timestamp);
                 PendingIntent snoozeIntentPending = buildSnoozeIntent(context, habit);
 
-                Uri ringtoneUri = ReminderHelper.getRingtoneUri(context);
+                Uri ringtoneUri = ReminderUtils.getRingtoneUri(context);
 
                 NotificationCompat.WearableExtender wearableExtender =
                         new NotificationCompat.WearableExtender().setBackground(
@@ -254,10 +255,10 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
     private boolean checkWeekday(Intent intent, Habit habit)
     {
-        Long timestamp = intent.getLongExtra("timestamp", DateHelper.getStartOfToday());
+        Long timestamp = intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
 
-        boolean reminderDays[] = DateHelper.unpackWeekdayList(habit.reminderDays);
-        int weekday = DateHelper.getWeekday(timestamp);
+        boolean reminderDays[] = DateUtils.unpackWeekdayList(habit.reminderDays);
+        int weekday = DateUtils.getWeekday(timestamp);
 
         return reminderDays[weekday];
     }

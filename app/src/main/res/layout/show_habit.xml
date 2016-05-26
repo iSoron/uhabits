@@ -31,7 +31,7 @@
     <LinearLayout
         style="@style/CardList"
         android:clipToPadding="false"
-        tools:context="org.isoron.uhabits.ShowHabitActivity">
+        tools:context=".ui.show.ShowHabitActivity">
 
         <LinearLayout
             android:id="@+id/subtitle"

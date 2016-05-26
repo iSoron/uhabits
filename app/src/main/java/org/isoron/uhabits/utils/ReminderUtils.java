@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.helpers;
+package org.isoron.uhabits.utils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -42,7 +42,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ReminderHelper
+public abstract class ReminderUtils
 {
     public static void createReminderAlarms(Context context)
     {
@@ -70,7 +70,7 @@ public class ReminderHelper
                 reminderTime += AlarmManager.INTERVAL_DAY;
         }
 
-        long timestamp = DateHelper.getStartOfDay(DateHelper.toLocalTime(reminderTime));
+        long timestamp = DateUtils.getStartOfDay(DateUtils.toLocalTime(reminderTime));
 
         Uri uri = habit.getUri();
 
@@ -132,7 +132,7 @@ public class ReminderHelper
 
     public static void startRingtonePickerActivity(Fragment fragment, int requestCode)
     {
-        Uri existingRingtoneUri = ReminderHelper.getRingtoneUri(fragment.getContext());
+        Uri existingRingtoneUri = ReminderUtils.getRingtoneUri(fragment.getContext());
         Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);

@@ -30,8 +30,8 @@ import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.DateUtils;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -52,7 +52,7 @@ public class RepetitionList
     {
         return new Select().from(Repetition.class)
                 .where("habit = ?", habit.getId())
-                .and("timestamp <= ?", DateHelper.getStartOfToday())
+                .and("timestamp <= ?", DateUtils.getStartOfToday())
                 .orderBy("timestamp");
     }
 
@@ -95,7 +95,7 @@ public class RepetitionList
      */
     public void toggle(long timestamp)
     {
-        timestamp = DateHelper.getStartOfDay(timestamp);
+        timestamp = DateUtils.getStartOfDay(timestamp);
 
         if (contains(timestamp))
             delete(timestamp);
@@ -133,11 +133,11 @@ public class RepetitionList
      */
     public long getOldestTimestamp()
     {
-        String[] args = { habit.getId().toString(), Long.toString(DateHelper.getStartOfToday()) };
+        String[] args = { habit.getId().toString(), Long.toString(DateUtils.getStartOfToday()) };
         String query = "select timestamp from Repetitions where habit = ? and timestamp <= ? " +
                 "order by timestamp limit 1";
 
-        return DatabaseHelper.longQuery(query, args);
+        return DatabaseUtils.longQuery(query, args);
     }
 
     /**
@@ -164,7 +164,7 @@ public class RepetitionList
                 "group by year, month, weekday";
 
         String[] params = { habit.getId().toString(),
-                Long.toString(DateHelper.getStartOfToday()) };
+                Long.toString(DateUtils.getStartOfToday()) };
 
         SQLiteDatabase db = Cache.openDatabase();
         Cursor cursor = db.rawQuery(query, params);
@@ -172,7 +172,7 @@ public class RepetitionList
         if(!cursor.moveToFirst()) return new HashMap<>();
 
         HashMap <Long, Integer[]> map = new HashMap<>();
-        GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
 
         do
         {

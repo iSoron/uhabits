@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
 import android.app.backup.BackupManager;
 import android.graphics.Color;
@@ -31,9 +31,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.util.LinkedList;
 
@@ -52,7 +54,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
     {
         super.onCreate(savedInstanceState);
 
-        UIHelper.applyCurrentTheme(this);
+        InterfaceUtils.applyCurrentTheme(this);
 
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -133,7 +135,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         if(toolbar == null) return;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            toolbar.setElevation(UIHelper.dpToPixels(this, 2));
+            toolbar.setElevation(InterfaceUtils.dpToPixels(this, 2));
 
         setSupportActionBar(toolbar);
 
@@ -172,14 +174,14 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         ActionBar actionBar = getSupportActionBar();
         if(actionBar == null) return;
 
-        if (!UIHelper.getStyledBoolean(this, R.attr.useHabitColorAsPrimary)) return;
+        if (!InterfaceUtils.getStyledBoolean(this, R.attr.useHabitColorAsPrimary)) return;
 
         ColorDrawable drawable = new ColorDrawable(color);
         actionBar.setBackgroundDrawable(drawable);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            int darkerColor = ColorHelper.mixColors(color, Color.BLACK, 0.75f);
+            int darkerColor = ColorUtils.mixColors(color, Color.BLACK, 0.75f);
             getWindow().setStatusBarColor(darkerColor);
         }
     }

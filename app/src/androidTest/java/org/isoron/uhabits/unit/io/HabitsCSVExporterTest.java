@@ -25,7 +25,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.io.HabitsCSVExporter;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -79,7 +79,7 @@ public class HabitsCSVExporterTest extends BaseTest
             File parent = outputFile.getParentFile();
             if(parent != null) parent.mkdirs();
 
-            DatabaseHelper.copy(stream, outputFile);
+            FileUtils.copy(stream, outputFile);
         }
 
         zip.close();

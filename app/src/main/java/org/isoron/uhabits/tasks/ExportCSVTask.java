@@ -23,7 +23,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.io.HabitsCSVExporter;
 import org.isoron.uhabits.models.Habit;
 
@@ -83,7 +83,7 @@ public class ExportCSVTask extends BaseTask
     {
         try
         {
-            File dir = DatabaseHelper.getFilesDir("CSV");
+            File dir = FileUtils.getFilesDir("CSV");
             if(dir == null) return;
 
             HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dir);

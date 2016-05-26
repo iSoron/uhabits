@@ -25,8 +25,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.io.GenericImporter;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -58,18 +58,18 @@ public class ImportTest extends BaseTest
     public void setup()
     {
         super.setup();
-        DateHelper.setFixedLocalTime(null);
+        DateUtils.setFixedLocalTime(null);
 
         HabitFixtures.purgeHabits();
         context = InstrumentationRegistry.getInstrumentation().getContext();
-        baseDir = DatabaseHelper.getFilesDir("Backups");
+        baseDir = FileUtils.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");
     }
 
     private void copyAssetToFile(String assetPath, File dst) throws IOException
     {
         InputStream in = context.getAssets().open(assetPath);
-        DatabaseHelper.copy(in, dst);
+        FileUtils.copy(in, dst);
     }
 
     private void importFromFile(String assetFilename) throws IOException
@@ -87,7 +87,7 @@ public class ImportTest extends BaseTest
 
     private boolean containsRepetition(Habit h, int year, int month, int day)
     {
-        GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(year, month - 1, day);
         return h.repetitions.contains(date.getTimeInMillis());
     }
@@ -133,7 +133,7 @@ public class ImportTest extends BaseTest
         assertThat(habit.reminderHour, equalTo(8));
         assertThat(habit.reminderMin, equalTo(0));
         boolean[] reminderDays = {false, true, true, true, true, true, false};
-        assertThat(habit.reminderDays, equalTo(DateHelper.packWeekdayList(reminderDays)));
+        assertThat(habit.reminderDays, equalTo(DateUtils.packWeekdayList(reminderDays)));
     }
 
     @Test

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.helpers;
+package org.isoron.uhabits.utils;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -31,7 +31,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class DateHelper
+public abstract class DateUtils
 {
     public static long millisecondsInOneDay = 24 * 60 * 60 * 1000;
     public static int ALL_WEEK_DAYS = 127;
@@ -84,7 +84,7 @@ public class DateHelper
 
     public static long getStartOfToday()
     {
-        return getStartOfDay(DateHelper.getLocalTime());
+        return getStartOfDay(DateUtils.getLocalTime());
     }
 
     public static String formatTime(Context context, int hours, int minutes)

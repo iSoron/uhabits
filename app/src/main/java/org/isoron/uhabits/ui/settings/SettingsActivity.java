@@ -17,48 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui.settings;
 
-import android.content.ContentUris;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.ui.BaseActivity;
 
-public class ShowHabitActivity extends BaseActivity
+public class SettingsActivity extends BaseActivity
 {
-    private Habit habit;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        Uri data = getIntent().getData();
-        habit = Habit.get(ContentUris.parseId(data));
-
-        setContentView(R.layout.show_habit_activity);
-
+        setContentView(R.layout.settings_activity);
         setupSupportActionBar(true);
-        setupHabitActionBar();
-    }
 
-    private void setupHabitActionBar()
-    {
-        if(habit == null) return;
-
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar == null) return;
-
-        actionBar.setTitle(habit.name);
-
-        setupActionBarColor(ColorHelper.getColor(this, habit.color));
-    }
-
-    public Habit getHabit()
-    {
-        return habit;
+        int color = InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
+        setupActionBarColor(color);
     }
 }

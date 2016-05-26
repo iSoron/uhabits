@@ -23,7 +23,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,10 +81,10 @@ public class ExportDBTask extends BaseTask
 
         try
         {
-            File dir = DatabaseHelper.getFilesDir("Backups");
+            File dir = FileUtils.getFilesDir("Backups");
             if(dir == null) return;
 
-            filename = DatabaseHelper.saveDatabaseCopy(dir);
+            filename = DatabaseUtils.saveDatabaseCopy(dir);
         }
         catch(IOException e)
         {

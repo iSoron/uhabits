@@ -26,9 +26,9 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
@@ -73,7 +73,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     public HabitFrequencyView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.getColor(getContext(), 7);
+        this.primaryColor = ColorUtils.getColor(getContext(), 7);
         this.frequency = new HashMap<>();
         init();
     }
@@ -89,8 +89,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         createPaints();
         createColors();
 
-        dfMonth = DateHelper.getDateFormat("MMM");
-        dfYear = DateHelper.getDateFormat("yyyy");
+        dfMonth = DateUtils.getDateFormat("MMM");
+        dfYear = DateUtils.getDateFormat("yyyy");
 
         rect = new RectF();
         prevRect = new RectF();
@@ -100,17 +100,17 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         if(habit != null)
         {
-            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+            this.primaryColor = ColorUtils.getColor(getContext(), habit.color);
         }
 
-        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-        gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        textColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        gridColor = InterfaceUtils.getStyledColor(getContext(), R.attr.lowContrastTextColor);
 
         colors = new int[4];
         colors[0] = gridColor;
         colors[3] = primaryColor;
-        colors[1] = ColorHelper.mixColors(colors[0], colors[3], 0.66f);
-        colors[2] = ColorHelper.mixColors(colors[0], colors[3], 0.33f);
+        colors[1] = ColorUtils.mixColors(colors[0], colors[3], 0.66f);
+        colors[2] = ColorUtils.mixColors(colors[0], colors[3], 0.33f);
     }
 
     protected void createPaints()
@@ -159,7 +159,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     private float getMaxMonthWidth()
     {
         float maxMonthWidth = 0;
-        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
         for(int i = 0; i < 12; i++)
         {
@@ -183,7 +183,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
     private void generateRandomData()
     {
-        GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(Calendar.DAY_OF_MONTH, 1);
         Random rand = new Random();
         frequency.clear();
@@ -214,7 +214,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         pGraph.setColor(primaryColor);
         prevRect.setEmpty();
 
-        GregorianCalendar currentDate = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar currentDate = DateUtils.getStartOfTodayCalendar();
 
         currentDate.set(Calendar.DAY_OF_MONTH, 1);
         currentDate.add(Calendar.MONTH, -nColumns + 2 - getDataOffset());
@@ -235,13 +235,13 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
-        Integer[] localeWeekdayList = DateHelper.getLocaleWeekdayList();
+        Integer[] localeWeekdayList = DateUtils.getLocaleWeekdayList();
         for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(prevRect.left, prevRect.top + baseSize * j);
 
-            int i = DateHelper.javaWeekdayToLoopWeekday(localeWeekdayList[j]);
+            int i = DateUtils.javaWeekdayToLoopWeekday(localeWeekdayList[j]);
             if(values != null)
                 drawMarker(canvas, rect, values[i]);
 
@@ -279,7 +279,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         pText.setColor(textColor);
         pGrid.setColor(gridColor);
 
-        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT)) {
+        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT)) {
             canvas.drawText(day, rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 

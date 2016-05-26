@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,7 +25,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 public class AboutActivity extends BaseActivity implements View.OnClickListener
 {
@@ -38,7 +40,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.about);
         setupSupportActionBar(true);
 
-        int color = UIHelper.getStyledColor(this, R.attr.aboutScreenColor);
+        int color = InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
         setupActionBarColor(color);
 
         TextView tvVersion = (TextView) findViewById(R.id.tvVersion);

@@ -25,7 +25,8 @@ import android.support.annotation.NonNull;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,8 +55,8 @@ public class LoopDBImporter extends AbstractImporter
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
         ActiveAndroid.dispose();
-        File originalDB = DatabaseHelper.getDatabaseFile();
-        DatabaseHelper.copy(file, originalDB);
-        DatabaseHelper.initializeActiveAndroid();
+        File originalDB = DatabaseUtils.getDatabaseFile();
+        FileUtils.copy(file, originalDB);
+        DatabaseUtils.initializeActiveAndroid();
     }
 }

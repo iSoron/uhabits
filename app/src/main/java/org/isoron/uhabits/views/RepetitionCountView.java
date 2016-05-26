@@ -23,9 +23,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Calendar;
@@ -39,9 +39,9 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     public RepetitionCountView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.interval = UIHelper.getIntAttribute(context, attrs, "interval", 7);
-        int labelValue = UIHelper.getIntAttribute(context, attrs, "labelValue", 7);
-        String labelFormat = UIHelper.getAttribute(context, attrs, "labelFormat",
+        this.interval = InterfaceUtils.getIntAttribute(context, attrs, "interval", 7);
+        int labelValue = InterfaceUtils.getIntAttribute(context, attrs, "labelValue", 7);
+        String labelFormat = InterfaceUtils.getAttribute(context, attrs, "labelFormat",
                 getResources().getString(R.string.last_x_days));
 
         setLabel(String.format(labelFormat, labelValue));
@@ -56,7 +56,7 @@ public class RepetitionCountView extends NumberView implements HabitDataView
             return;
         }
 
-        long to = DateHelper.getStartOfToday();
+        long to = DateUtils.getStartOfToday();
         long from;
 
         if(interval == 0)
@@ -65,7 +65,7 @@ public class RepetitionCountView extends NumberView implements HabitDataView
         }
         else
         {
-            GregorianCalendar fromCalendar = DateHelper.getStartOfTodayCalendar();
+            GregorianCalendar fromCalendar = DateUtils.getStartOfTodayCalendar();
             fromCalendar.add(Calendar.DAY_OF_YEAR, -interval + 1);
             from = fromCalendar.getTimeInMillis();
         }
@@ -80,6 +80,6 @@ public class RepetitionCountView extends NumberView implements HabitDataView
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        setColor(ColorHelper.getColor(getContext(), habit.color));
+        setColor(ColorUtils.getColor(getContext(), habit.color));
     }
 }

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.helpers;
+package org.isoron.uhabits.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,7 +43,7 @@ import org.isoron.uhabits.commands.Command;
 
 import java.util.Locale;
 
-public abstract class UIHelper
+public abstract class InterfaceUtils
 {
     public static final String ISORON_NAMESPACE = "http://isoron.org/android";
 
@@ -55,7 +55,7 @@ public abstract class UIHelper
 
     public static void setFixedTheme(Integer fixedTheme)
     {
-        UIHelper.fixedTheme = fixedTheme;
+        InterfaceUtils.fixedTheme = fixedTheme;
     }
 
     public interface OnSavedListener

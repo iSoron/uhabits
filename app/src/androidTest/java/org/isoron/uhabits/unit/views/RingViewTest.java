@@ -23,7 +23,7 @@ import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.helpers.ColorHelper;
+import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.views.RingView;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class RingViewTest extends ViewTest
         view = new RingView(targetContext);
         view.setPercentage(0.6f);
         view.setText("60%");
-        view.setColor(ColorHelper.CSV_PALETTE[0]);
+        view.setColor(ColorUtils.CSV_PALETTE[0]);
         view.setBackgroundColor(Color.WHITE);
         view.setThickness(dpToPixels(3));
     }
@@ -61,7 +61,7 @@ public class RingViewTest extends ViewTest
     public void testRender_withDifferentParams() throws IOException
     {
         view.setPercentage(0.25f);
-        view.setColor(ColorHelper.CSV_PALETTE[5]);
+        view.setColor(ColorUtils.CSV_PALETTE[5]);
 
         measureView(dpToPixels(200), dpToPixels(200), view);
         assertRenders(view, "RingView/renderDifferentParams.png");

@@ -30,9 +30,9 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.tasks.ToggleRepetitionTask;
@@ -98,20 +98,20 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
 
         isEditable = false;
         checkmarks = new int[0];
-        primaryColor = ColorHelper.getColor(getContext(), 7);
-        dfMonth = DateHelper.getDateFormat("MMM");
-        dfYear = DateHelper.getDateFormat("yyyy");
+        primaryColor = ColorUtils.getColor(getContext(), 7);
+        dfMonth = DateUtils.getDateFormat("MMM");
+        dfYear = DateUtils.getDateFormat("yyyy");
 
         baseLocation = new RectF();
     }
 
     private void updateDate()
     {
-        baseDate = DateHelper.getStartOfTodayCalendar();
+        baseDate = DateUtils.getStartOfTodayCalendar();
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
-        int realWeekday = DateHelper.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
+        int realWeekday = DateUtils.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
         todayPositionInColumn = (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
@@ -133,7 +133,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         float baseSize = height / 8.0f;
         setScrollerBucketSize((int) baseSize);
 
-        squareSpacing = UIHelper.dpToPixels(getContext(), 1.0f);
+        squareSpacing = InterfaceUtils.dpToPixels(getContext(), 1.0f);
         float maxTextSize = getResources().getDimension(R.dimen.regularTextSize);
         float textSize = height * 0.06f;
         textSize = Math.min(textSize, maxTextSize);
@@ -157,7 +157,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     {
         float width = 0;
 
-        for(String w : DateHelper.getLocaleDayNames(Calendar.SHORT))
+        for(String w : DateUtils.getLocaleDayNames(Calendar.SHORT))
             width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
@@ -166,10 +166,10 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+            this.primaryColor = ColorUtils.getColor(getContext(), habit.color);
 
         if(isBackgroundTransparent)
-            primaryColor = ColorHelper.setMinValue(primaryColor, 0.75f);
+            primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
 
         int red = Color.red(primaryColor);
         int green = Color.green(primaryColor);
@@ -187,11 +187,11 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         else
         {
             colors = new int[3];
-            colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+            colors[0] = InterfaceUtils.getStyledColor(getContext(), R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-            reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
+            textColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+            reverseTextColor = InterfaceUtils.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
         }
     }
 
@@ -304,7 +304,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     {
         float verticalOffset = pTextHeader.getFontSpacing() * 0.4f;
 
-        for (String day : DateHelper.getLocaleDayNames(Calendar.SHORT))
+        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT))
         {
             location.offset(0, columnWidth);
             canvas.drawText(day, location.left + headerTextOffset,
@@ -379,7 +379,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         Calendar date = (Calendar) baseDate.clone();
         date.add(Calendar.DAY_OF_YEAR, offset);
 
-        if(DateHelper.getStartOfDay(date.getTimeInMillis()) > DateHelper.getStartOfToday())
+        if(DateUtils.getStartOfDay(date.getTimeInMillis()) > DateUtils.getStartOfToday())
             return null;
 
         return date.getTimeInMillis();

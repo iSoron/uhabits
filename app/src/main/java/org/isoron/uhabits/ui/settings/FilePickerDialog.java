@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.dialogs;
+package org.isoron.uhabits.ui.settings;
 
 import android.app.Activity;
 import android.app.Dialog;

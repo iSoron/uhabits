@@ -25,7 +25,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.ProgressBar;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.tasks.ImportDataTask;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,14 +50,14 @@ public class ImportDataTaskTest extends BaseTest
     {
         super.setup();
 
-        baseDir = DatabaseHelper.getFilesDir("Backups");
+        baseDir = FileUtils.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");
     }
 
     private void copyAssetToFile(String assetPath, File dst) throws IOException
     {
         InputStream in = testContext.getAssets().open(assetPath);
-        DatabaseHelper.copy(in, dst);
+        FileUtils.copy(in, dst);
     }
 
     private void assertTaskResult(final int expectedResult, String assetFilename) throws Throwable

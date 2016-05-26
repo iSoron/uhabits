@@ -17,16 +17,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.loaders;
+package org.isoron.uhabits.ui.list;
 
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class HabitListLoader
+public class ListHabitsLoader
 {
     public interface Listener
     {
@@ -66,7 +66,7 @@ public class HabitListLoader
         return lastLoadTimestamp;
     }
 
-    public HabitListLoader()
+    public ListHabitsLoader()
     {
         habits = new HashMap<>();
         checkmarks = new HashMap<>();
@@ -103,8 +103,8 @@ public class HabitListLoader
                 newScores = new HashMap<>();
                 newHabitList = Habit.getAll(includeArchived);
 
-                long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
-                long dateFrom = dateTo - (checkmarkCount - 1) * DateHelper.millisecondsInOneDay;
+                long dateTo = DateUtils.getStartOfDay(DateUtils.getLocalTime());
+                long dateFrom = dateTo - (checkmarkCount - 1) * DateUtils.millisecondsInOneDay;
                 int[] empty = new int[checkmarkCount];
 
                 for(Habit h : newHabitList)
@@ -160,7 +160,7 @@ public class HabitListLoader
             {
                 if (isCancelled()) return;
 
-                lastLoadTimestamp = DateHelper.getStartOfToday();
+                lastLoadTimestamp = DateUtils.getStartOfToday();
                 currentFetchTask = null;
 
                 if(listener != null) listener.onLoadFinished();
@@ -180,8 +180,8 @@ public class HabitListLoader
             @Override
             protected void doInBackground()
             {
-                long dateTo = DateHelper.getStartOfDay(DateHelper.getLocalTime());
-                long dateFrom = dateTo - (checkmarkCount - 1) * DateHelper.millisecondsInOneDay;
+                long dateTo = DateUtils.getStartOfDay(DateUtils.getLocalTime());
+                long dateFrom = dateTo - (checkmarkCount - 1) * DateUtils.millisecondsInOneDay;
 
                 Habit h = Habit.get(id);
                 if(h == null) return;

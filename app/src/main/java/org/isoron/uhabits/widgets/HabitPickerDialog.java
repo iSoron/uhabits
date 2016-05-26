@@ -33,7 +33,6 @@ import android.widget.ListView;
 import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.widgets.BaseWidgetProvider;
 
 import java.util.ArrayList;
 import java.util.List;

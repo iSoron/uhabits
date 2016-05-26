@@ -24,7 +24,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
@@ -50,7 +50,7 @@ public class ToggleRepetitionCommandTest extends BaseTest
 
         habit = HabitFixtures.createShortHabit();
 
-        today = DateHelper.getStartOfToday();
+        today = DateUtils.getStartOfToday();
         command = new ToggleRepetitionCommand(habit, today);
     }
 

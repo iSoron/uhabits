@@ -33,8 +33,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 public class RingView extends View
 {
@@ -70,8 +70,8 @@ public class RingView extends View
 
         percentage = 0.0f;
         precision = 0.01f;
-        color = ColorHelper.CSV_PALETTE[0];
-        thickness = UIHelper.dpToPixels(getContext(), 2);
+        color = ColorUtils.CSV_PALETTE[0];
+        thickness = InterfaceUtils.dpToPixels(getContext(), 2);
         text = "";
         textSize = context.getResources().getDimension(R.dimen.smallTextSize);
 
@@ -82,23 +82,23 @@ public class RingView extends View
     {
         super(context, attrs);
 
-        percentage = UIHelper.getFloatAttribute(context, attrs, "percentage", 0);
-        precision = UIHelper.getFloatAttribute(context, attrs, "precision", 0.01f);
+        percentage = InterfaceUtils.getFloatAttribute(context, attrs, "percentage", 0);
+        precision = InterfaceUtils.getFloatAttribute(context, attrs, "precision", 0.01f);
 
-        color = UIHelper.getColorAttribute(context, attrs, "color", 0);
-        backgroundColor = UIHelper.getColorAttribute(context, attrs, "backgroundColor", null);
-        inactiveColor = UIHelper.getColorAttribute(context, attrs, "inactiveColor", null);
+        color = InterfaceUtils.getColorAttribute(context, attrs, "color", 0);
+        backgroundColor = InterfaceUtils.getColorAttribute(context, attrs, "backgroundColor", null);
+        inactiveColor = InterfaceUtils.getColorAttribute(context, attrs, "inactiveColor", null);
 
-        thickness = UIHelper.getFloatAttribute(context, attrs, "thickness", 0);
-        thickness = UIHelper.dpToPixels(context, thickness);
+        thickness = InterfaceUtils.getFloatAttribute(context, attrs, "thickness", 0);
+        thickness = InterfaceUtils.dpToPixels(context, thickness);
 
         float defaultTextSize = context.getResources().getDimension(R.dimen.smallTextSize);
-        textSize = UIHelper.getFloatAttribute(context, attrs, "textSize", defaultTextSize);
-        textSize = UIHelper.spToPixels(context, textSize);
+        textSize = InterfaceUtils.getFloatAttribute(context, attrs, "textSize", defaultTextSize);
+        textSize = InterfaceUtils.spToPixels(context, textSize);
 
-        text = UIHelper.getAttribute(context, attrs, "text", "");
+        text = InterfaceUtils.getAttribute(context, attrs, "text", "");
 
-        enableFontAwesome = UIHelper.getBooleanAttribute(context, attrs, "enableFontAwesome", false);
+        enableFontAwesome = InterfaceUtils.getBooleanAttribute(context, attrs, "enableFontAwesome", false);
 
         init();
     }
@@ -153,12 +153,12 @@ public class RingView extends View
         pRing.setTextAlign(Paint.Align.CENTER);
 
         if(backgroundColor == null)
-            backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+            backgroundColor = InterfaceUtils.getStyledColor(getContext(), R.attr.cardBackgroundColor);
 
         if(inactiveColor == null)
-            inactiveColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastTextColor);
+            inactiveColor = InterfaceUtils.getStyledColor(getContext(), R.attr.highContrastTextColor);
 
-        inactiveColor = ColorHelper.setAlpha(inactiveColor, 0.1f);
+        inactiveColor = ColorUtils.setAlpha(inactiveColor, 0.1f);
 
         rect = new RectF();
     }
@@ -233,7 +233,7 @@ public class RingView extends View
 
             pRing.setColor(color);
             pRing.setTextSize(textSize);
-            if(enableFontAwesome) pRing.setTypeface(UIHelper.getFontAwesome(getContext()));
+            if(enableFontAwesome) pRing.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
             activeCanvas.drawText(text, rect.centerX(), rect.centerY() + 0.4f * em, pRing);
         }
 

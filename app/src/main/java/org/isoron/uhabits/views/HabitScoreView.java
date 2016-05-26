@@ -31,9 +31,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 
@@ -92,7 +92,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     public HabitScoreView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.getColor(getContext(), 7);
+        this.primaryColor = ColorUtils.getColor(getContext(), 7);
         init();
     }
 
@@ -107,9 +107,9 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         createPaints();
         createColors();
 
-        dfYear = DateHelper.getDateFormat("yyyy");
-        dfMonth = DateHelper.getDateFormat("MMM");
-        dfDay = DateHelper.getDateFormat("d");
+        dfYear = DateUtils.getDateFormat("yyyy");
+        dfMonth = DateUtils.getDateFormat("MMM");
+        dfDay = DateUtils.getDateFormat("d");
 
         rect = new RectF();
         prevRect = new RectF();
@@ -118,11 +118,11 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+            this.primaryColor = ColorUtils.getColor(getContext(), habit.color);
 
-        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-        gridColor = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-        backgroundColor = UIHelper.getStyledColor(getContext(), R.attr.cardBackgroundColor);
+        textColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        gridColor = InterfaceUtils.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        backgroundColor = InterfaceUtils.getStyledColor(getContext(), R.attr.cardBackgroundColor);
     }
 
     protected void createPaints()
@@ -171,7 +171,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
         columnHeight = 8 * baseSize;
 
-        float minStrokeWidth = UIHelper.dpToPixels(getContext(), 1);
+        float minStrokeWidth = InterfaceUtils.dpToPixels(getContext(), 1);
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
         pGrid.setStrokeWidth(Math.min(minStrokeWidth,  baseSize * 0.05f));
@@ -252,10 +252,10 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         previousYearText = "";
         skipYear = 0;
 
-        long currentDate = DateHelper.getStartOfToday();
+        long currentDate = DateUtils.getStartOfToday();
 
         for(int k = 0; k < nColumns + getDataOffset() - 1; k++)
-            currentDate -= bucketSize * DateHelper.millisecondsInOneDay;
+            currentDate -= bucketSize * DateUtils.millisecondsInOneDay;
 
         for (int k = 0; k < nColumns; k++)
         {
@@ -284,7 +284,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
 
             drawFooter(activeCanvas, rect, currentDate);
 
-            currentDate += bucketSize * DateHelper.millisecondsInOneDay;
+            currentDate += bucketSize * DateUtils.millisecondsInOneDay;
         }
 
         if(activeCanvas != canvas)
@@ -301,7 +301,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         String monthText = dfMonth.format(currentDate);
         String dayText = dfDay.format(currentDate);
 
-        GregorianCalendar calendar = DateHelper.getCalendar(currentDate);
+        GregorianCalendar calendar = DateUtils.getCalendar(currentDate);
 
         String text;
         int year = calendar.get(Calendar.YEAR);
@@ -408,7 +408,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private float getMaxMonthWidth()
     {
         float maxMonthWidth = 0;
-        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
         for(int i = 0; i < 12; i++)
         {
@@ -423,7 +423,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
     private float getMaxDayWidth()
     {
         float maxDayWidth = 0;
-        GregorianCalendar day = DateHelper.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
         for(int i = 0; i < 28; i++)
         {

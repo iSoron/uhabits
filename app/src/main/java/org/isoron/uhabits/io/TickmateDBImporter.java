@@ -23,8 +23,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
@@ -57,7 +57,7 @@ public class TickmateDBImporter extends AbstractImporter
         final SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
                 SQLiteDatabase.OPEN_READONLY);
 
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
+        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
         {
             @Override
             public void execute()
@@ -118,7 +118,7 @@ public class TickmateDBImporter extends AbstractImporter
                 int month = c.getInt(1);
                 int day = c.getInt(2);
 
-                GregorianCalendar cal = DateHelper.getStartOfTodayCalendar();
+                GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month, day);
 
                 habit.repetitions.toggle(cal.getTimeInMillis());

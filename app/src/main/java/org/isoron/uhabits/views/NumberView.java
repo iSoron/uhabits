@@ -32,8 +32,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 public class NumberView extends View
 {
@@ -66,12 +66,12 @@ public class NumberView extends View
 
         this.textSize = getResources().getDimension(R.dimen.regularTextSize);
 
-        this.label = UIHelper.getAttribute(context, attrs, "label", "Number");
-        this.number = UIHelper.getIntAttribute(context, attrs, "number", 0);
-        this.textSize = UIHelper.getFloatAttribute(context, attrs, "textSize",
+        this.label = InterfaceUtils.getAttribute(context, attrs, "label", "Number");
+        this.number = InterfaceUtils.getIntAttribute(context, attrs, "number", 0);
+        this.textSize = InterfaceUtils.getFloatAttribute(context, attrs, "textSize",
                 getResources().getDimension(R.dimen.regularTextSize));
 
-        this.color = ColorHelper.getColor(getContext(), 7);
+        this.color = ColorUtils.getColor(getContext(), 7);
         init();
     }
 

@@ -32,7 +32,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 
 import java.util.Arrays;
@@ -71,7 +71,7 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
     private void init()
     {
         inflate(getContext(), getInnerLayoutId(), this);
-        shadowAlpha = (int) (255 * UIHelper.getStyledFloat(getContext(), R.attr.widgetShadowAlpha));
+        shadowAlpha = (int) (255 * InterfaceUtils.getStyledFloat(getContext(), R.attr.widgetShadowAlpha));
         rebuildBackground();
     }
 
@@ -82,13 +82,13 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
         Context context = getContext();
 
         int backgroundAlpha =
-                (int) (255 * UIHelper.getStyledFloat(context, R.attr.widgetBackgroundAlpha));
+                (int) (255 * InterfaceUtils.getStyledFloat(context, R.attr.widgetBackgroundAlpha));
 
-        int shadowRadius = (int) UIHelper.dpToPixels(context, 2);
-        int shadowOffset = (int) UIHelper.dpToPixels(context, 1);
+        int shadowRadius = (int) InterfaceUtils.dpToPixels(context, 2);
+        int shadowOffset = (int) InterfaceUtils.dpToPixels(context, 1);
         int shadowColor = Color.argb(shadowAlpha, 0, 0, 0);
 
-        float cornerRadius = UIHelper.dpToPixels(context, 5);
+        float cornerRadius = InterfaceUtils.dpToPixels(context, 5);
         float[] radii = new float[8];
         Arrays.fill(radii, cornerRadius);
 
@@ -102,7 +102,7 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
                 insetRightBottom);
         backgroundPaint = innerDrawable.getPaint();
         backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset, shadowColor);
-        backgroundPaint.setColor(UIHelper.getStyledColor(context, R.attr.cardBackgroundColor));
+        backgroundPaint.setColor(InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor));
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);

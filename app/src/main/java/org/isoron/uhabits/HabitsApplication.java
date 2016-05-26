@@ -28,8 +28,9 @@ import android.view.WindowManager;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -71,11 +72,11 @@ public class HabitsApplication extends Application
 
         if (isTestMode())
         {
-            File db = DatabaseHelper.getDatabaseFile();
+            File db = DatabaseUtils.getDatabaseFile();
             if(db.exists()) db.delete();
         }
 
-        DatabaseHelper.initializeActiveAndroid();
+        DatabaseUtils.initializeActiveAndroid();
     }
 
     @Override
@@ -142,10 +143,10 @@ public class HabitsApplication extends Application
     @NonNull
     public static File dumpBugReportToFile() throws IOException
     {
-        String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
+        String date = DateUtils.getBackupDateFormat().format(DateUtils.getLocalTime());
 
         if(context == null) throw new RuntimeException("application context should not be null");
-        File dir = DatabaseHelper.getFilesDir("Logs");
+        File dir = FileUtils.getFilesDir("Logs");
         if (dir == null) throw new IOException("log dir should not be null");
 
         File logFile = new File(String.format("%s/Log %s.txt", dir.getPath(), date));

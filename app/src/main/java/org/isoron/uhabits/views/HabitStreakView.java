@@ -28,8 +28,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Streak;
 
@@ -73,7 +73,7 @@ public class HabitStreakView extends View implements HabitDataView
     public HabitStreakView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorHelper.getColor(getContext(), 7);
+        this.primaryColor = ColorUtils.getColor(getContext(), 7);
         init();
     }
 
@@ -125,7 +125,7 @@ public class HabitStreakView extends View implements HabitDataView
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = ColorHelper.getColor(getContext(), habit.color);
+            this.primaryColor = ColorUtils.getColor(getContext(), habit.color);
 
         int red = Color.red(primaryColor);
         int green = Color.green(primaryColor);
@@ -135,9 +135,9 @@ public class HabitStreakView extends View implements HabitDataView
         colors[3] = primaryColor;
         colors[2] = Color.argb(192, red, green, blue);
         colors[1] = Color.argb(96, red, green, blue);
-        colors[0] = UIHelper.getStyledColor(getContext(), R.attr.lowContrastTextColor);
-        textColor = UIHelper.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-        reverseTextColor = UIHelper.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
+        colors[0] = InterfaceUtils.getStyledColor(getContext(), R.attr.lowContrastTextColor);
+        textColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
+        reverseTextColor = InterfaceUtils.getStyledColor(getContext(), R.attr.highContrastReverseTextColor);
     }
 
     protected void createPaints()

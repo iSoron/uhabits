@@ -24,7 +24,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.hamcrest.MatcherAssert;
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
@@ -285,7 +285,7 @@ public class HabitTest extends BaseTest
             Habit habit = new Habit();
             if(i % 2 == 0)
             {
-                habit.reminderDays = DateHelper.ALL_WEEK_DAYS;
+                habit.reminderDays = DateUtils.ALL_WEEK_DAYS;
                 habit.reminderHour = 8;
                 habit.reminderMin = 30;
                 habitsWithReminder.add(habit);
@@ -350,7 +350,7 @@ public class HabitTest extends BaseTest
         Habit h = new Habit();
         assertThat(h.hasReminder(), is(false));
 
-        h.reminderDays = DateHelper.ALL_WEEK_DAYS;
+        h.reminderDays = DateUtils.ALL_WEEK_DAYS;
         h.reminderHour = 8;
         h.reminderMin = 30;
         assertThat(h.hasReminder(), is(true));
