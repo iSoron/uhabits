@@ -22,11 +22,10 @@ package org.isoron.uhabits.unit.tasks;
 import android.support.annotation.NonNull;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.ProgressBar;
 
 import org.isoron.uhabits.BaseTest;
-import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.tasks.ImportDataTask;
+import org.isoron.uhabits.utils.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,7 +66,7 @@ public class ImportDataTaskTest extends BaseTest
         task.setListener(new ImportDataTask.Listener()
         {
             @Override
-            public void onImportFinished(int result)
+            public void onImportDataFinished(int result)
             {
                 assertThat(result, equalTo(expectedResult));
             }
@@ -80,11 +79,9 @@ public class ImportDataTaskTest extends BaseTest
     @NonNull
     private ImportDataTask createTask(String assetFilename) throws IOException
     {
-        ProgressBar bar = new ProgressBar(targetContext);
         File file = new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
         copyAssetToFile(assetFilename, file);
-
-        return new ImportDataTask(file, bar);
+        return new ImportDataTask(file, null);
     }
 
     @Test

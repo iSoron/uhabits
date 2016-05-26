@@ -72,28 +72,28 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
     {
         if (undoList.isEmpty())
         {
-            showToast(R.string.toast_nothing_to_undo);
+            showMessage(R.string.toast_nothing_to_undo);
             return;
         }
 
         Command last = undoList.pop();
         redoList.push(last);
         last.undo();
-        showToast(last.getUndoStringId());
+        showMessage(last.getUndoStringId());
     }
 
     protected void redo()
     {
         if (redoList.isEmpty())
         {
-            showToast(R.string.toast_nothing_to_redo);
+            showMessage(R.string.toast_nothing_to_redo);
             return;
         }
         Command last = redoList.pop();
         executeCommand(last, false, null);
     }
 
-    public void showToast(Integer stringId)
+    public void showMessage(Integer stringId)
     {
         if (stringId == null) return;
         if (toast == null) toast = Toast.makeText(this, stringId, Toast.LENGTH_SHORT);
@@ -126,7 +126,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         }.execute();
 
 
-        showToast(command.getExecuteStringId());
+        showMessage(command.getExecuteStringId());
     }
 
     protected void setupSupportActionBar(boolean homeButtonEnabled)
@@ -156,7 +156,7 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         try
         {
             ex.printStackTrace();
-            HabitsApplication.dumpBugReportToFile();
+            ((HabitsApplication) getApplication()).dumpBugReportToFile();
         }
         catch(Exception e)
         {

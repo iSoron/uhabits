@@ -21,6 +21,8 @@ package org.isoron.uhabits;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,9 +30,12 @@ import android.view.WindowManager;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.utils.ReminderUtils;
+import org.isoron.uhabits.widgets.WidgetManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,8 +44,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
-public class HabitsApplication extends Application
+public class HabitsApplication extends Application implements MainController.System
 {
+    public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
+    public static final int RESULT_IMPORT_DATA = 1;
+    public static final int RESULT_EXPORT_CSV = 2;
+    public static final int RESULT_EXPORT_DB = 3;
+    public static final int RESULT_BUG_REPORT = 4;
+
+    @Nullable
+    private static HabitsApplication application;
+
     @Nullable
     private static Context context;
 
@@ -64,11 +78,18 @@ public class HabitsApplication extends Application
         return context;
     }
 
+    @Nullable
+    public static HabitsApplication getInstance()
+    {
+        return application;
+    }
+
     @Override
     public void onCreate()
     {
         super.onCreate();
         HabitsApplication.context = this;
+        HabitsApplication.application = this;
 
         if (isTestMode())
         {
@@ -87,7 +108,7 @@ public class HabitsApplication extends Application
         super.onTerminate();
     }
 
-    public static String getLogcat() throws IOException
+    public String getLogcat() throws IOException
     {
         int maxNLines = 250;
         StringBuilder builder = new StringBuilder();
@@ -116,7 +137,7 @@ public class HabitsApplication extends Application
         return builder.toString();
     }
 
-    public static String getDeviceInfo()
+    public String getDeviceInfo()
     {
         if(context == null) return "";
 
@@ -125,7 +146,7 @@ public class HabitsApplication extends Application
 
         b.append(String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME));
         b.append(String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE));
-        b.append(String.format("OS Version: %s (%s)\n", System.getProperty("os.version"),
+        b.append(String.format("OS Version: %s (%s)\n", java.lang.System.getProperty("os.version"),
                 android.os.Build.VERSION.INCREMENTAL));
         b.append(String.format("OS API Level: %s\n", android.os.Build.VERSION.SDK));
         b.append(String.format("Device: %s\n", android.os.Build.DEVICE));
@@ -141,7 +162,7 @@ public class HabitsApplication extends Application
     }
 
     @NonNull
-    public static File dumpBugReportToFile() throws IOException
+    public File dumpBugReportToFile() throws IOException
     {
         String date = DateUtils.getBackupDateFormat().format(DateUtils.getLocalTime());
 
@@ -151,17 +172,63 @@ public class HabitsApplication extends Application
 
         File logFile = new File(String.format("%s/Log %s.txt", dir.getPath(), date));
         FileWriter output = new FileWriter(logFile);
-        output.write(generateBugReport());
+        output.write(getBugReport());
         output.close();
 
         return logFile;
     }
 
     @NonNull
-    public static String generateBugReport() throws IOException
+    public String getBugReport() throws IOException
     {
         String logcat = getLogcat();
         String deviceInfo = getDeviceInfo();
         return deviceInfo + "\n" + logcat;
+    }
+
+    public void sendFile(@NonNull String archiveFilename)
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("application/zip");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
+        startActivity(intent);
+    }
+
+    public void sendEmail(String to, String subject, String content)
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {to});
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        startActivity(intent);
+    }
+
+    public void scheduleReminders()
+    {
+        new BaseTask()
+        {
+
+            @Override
+            protected void doInBackground()
+            {
+                ReminderUtils.createReminderAlarms(getContext());
+            }
+        }.execute();
+    }
+
+    public void updateWidgets()
+    {
+        new BaseTask()
+        {
+
+            @Override
+            protected void doInBackground()
+            {
+                WidgetManager.updateWidgets(getContext());
+            }
+        }.execute();
     }
 }

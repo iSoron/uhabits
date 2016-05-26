@@ -30,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.isoron.uhabits.MainActivity;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 
@@ -81,7 +80,7 @@ public class HabitPickerDialog extends Activity implements AdapterView.OnItemCli
                 getApplicationContext());
         prefs.edit().putLong(BaseWidgetProvider.getHabitIdKey(widgetId), habitId).commit();
 
-        MainActivity.updateWidgets(this);
+        WidgetManager.updateWidgets(this);
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);

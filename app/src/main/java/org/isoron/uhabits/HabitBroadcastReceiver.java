@@ -42,6 +42,7 @@ import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.ui.show.ShowHabitActivity;
+import org.isoron.uhabits.widgets.WidgetManager;
 
 import java.util.Date;
 
@@ -123,10 +124,10 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     public static void sendRefreshBroadcast(Context context)
     {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
-        Intent refreshIntent = new Intent(MainActivity.ACTION_REFRESH);
+        Intent refreshIntent = new Intent(HabitsApplication.ACTION_REFRESH);
         manager.sendBroadcast(refreshIntent);
 
-        MainActivity.updateWidgets(context);
+        WidgetManager.updateWidgets(context);
     }
 
     private void dismissAllHabits()

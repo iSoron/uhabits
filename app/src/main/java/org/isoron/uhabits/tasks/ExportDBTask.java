@@ -20,8 +20,6 @@
 package org.isoron.uhabits.tasks;
 
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.FileUtils;
@@ -54,23 +52,14 @@ public class ExportDBTask extends BaseTask
     protected void onPreExecute()
     {
         super.onPreExecute();
-
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        if(progressBar != null) progressBar.show();
     }
 
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        if(listener != null)
-            listener.onExportDBFinished(filename);
-        
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
+        if(listener != null) listener.onExportDBFinished(filename);
+        if(progressBar != null) progressBar.hide();
         super.onPostExecute(null);
     }
 

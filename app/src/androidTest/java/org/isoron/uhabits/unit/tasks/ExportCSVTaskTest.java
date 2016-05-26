@@ -21,7 +21,6 @@ package org.isoron.uhabits.unit.tasks;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.ProgressBar;
 
 import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.models.Habit;
@@ -55,9 +54,8 @@ public class ExportCSVTaskTest extends BaseTest
     {
         HabitFixtures.createShortHabit();
         List<Habit> habits = Habit.getAll(true);
-        ProgressBar bar = new ProgressBar(targetContext);
 
-        ExportCSVTask task = new ExportCSVTask(habits, bar);
+        ExportCSVTask task = new ExportCSVTask(habits, null);
         task.setListener(new ExportCSVTask.Listener()
         {
             @Override

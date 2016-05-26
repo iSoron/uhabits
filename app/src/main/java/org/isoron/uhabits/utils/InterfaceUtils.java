@@ -33,10 +33,7 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
-import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
@@ -69,32 +66,6 @@ public abstract class InterfaceUtils
             fontAwesome = Typeface.createFromAsset(context.getAssets(), "fontawesome-webfont.ttf");
 
         return fontAwesome;
-    }
-
-    public static void showSoftKeyboard(View view)
-    {
-        InputMethodManager imm = (InputMethodManager) view.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-    }
-
-    public static void incrementLaunchCount(Context context)
-    {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int count = prefs.getInt("launch_count", 0);
-        prefs.edit().putInt("launch_count", count + 1).apply();
-    }
-
-    public static void updateLastAppVersion(Context context)
-    {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putInt("last_version", BuildConfig.VERSION_CODE).apply();
-    }
-
-    public static int getLaunchCount(Context context)
-    {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getInt("launch_count", 0);
     }
 
     public static String getAttribute(Context context, AttributeSet attrs, String name,

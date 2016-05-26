@@ -19,11 +19,8 @@
 
 package org.isoron.uhabits.unit.tasks;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.ProgressBar;
 
 import org.isoron.uhabits.BaseTest;
 import org.isoron.uhabits.tasks.ExportDBTask;
@@ -52,10 +49,7 @@ public class ExportDBTaskTest extends BaseTest
     @Test
     public void testExportCSV() throws Throwable
     {
-        Context context = InstrumentationRegistry.getContext();
-
-        ProgressBar bar = new ProgressBar(context);
-        ExportDBTask task = new ExportDBTask(bar);
+        ExportDBTask task = new ExportDBTask(null);
         task.setListener(new ExportDBTask.Listener()
         {
             @Override

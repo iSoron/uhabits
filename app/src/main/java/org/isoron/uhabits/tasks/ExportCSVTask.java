@@ -20,12 +20,10 @@
 package org.isoron.uhabits.tasks;
 
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.io.HabitsCSVExporter;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,12 +56,7 @@ public class ExportCSVTask extends BaseTask
     protected void onPreExecute()
     {
         super.onPreExecute();
-
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        if(progressBar != null) progressBar.show();
     }
 
     @Override
@@ -72,9 +65,7 @@ public class ExportCSVTask extends BaseTask
         if(listener != null)
             listener.onExportCSVFinished(archiveFilename);
 
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
+        if(progressBar != null) progressBar.hide();
         super.onPostExecute(null);
     }
 
