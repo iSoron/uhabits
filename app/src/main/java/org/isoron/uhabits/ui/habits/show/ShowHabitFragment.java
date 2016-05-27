@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.show;
+package org.isoron.uhabits.ui.habits.show;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,8 +36,8 @@ import android.widget.TextView;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.ui.edit.EditHabitDialogFragment;
-import org.isoron.uhabits.ui.edit.HistoryEditorDialog;
+import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.ui.habits.edit.HistoryEditorDialog;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.ReminderUtils;

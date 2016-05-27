@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.edit;
+package org.isoron.uhabits.ui.habits.edit;
 
 import android.app.Dialog;
 import android.content.Context;

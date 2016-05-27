@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/fragment1"
-        android:name="org.isoron.uhabits.ui.list.ListHabitsFragment"
+        android:name="org.isoron.uhabits.ui.habits.list.ListHabitsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"

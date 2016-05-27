@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.list;
+package org.isoron.uhabits.ui.habits.list;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -35,7 +35,7 @@ import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.ui.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 

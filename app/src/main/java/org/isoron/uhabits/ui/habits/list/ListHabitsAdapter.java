@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.list;
+package org.isoron.uhabits.ui.habits.list;
 
 import android.content.Context;
 import android.view.LayoutInflater;

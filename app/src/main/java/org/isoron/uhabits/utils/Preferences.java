@@ -17,11 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.R;
 
 public class Preferences
 {

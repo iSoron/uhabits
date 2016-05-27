@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui;
+package org.isoron.uhabits.ui.about;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.utils.InterfaceUtils;
 
 public class AboutActivity extends BaseActivity implements View.OnClickListener

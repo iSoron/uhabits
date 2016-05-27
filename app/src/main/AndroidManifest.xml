@@ -60,7 +60,7 @@
         </activity>
 
         <activity
-            android:name=".ui.show.ShowHabitActivity"
+            android:name=".ui.habits.show.ShowHabitActivity"
             android:label="@string/title_activity_show_habit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -76,7 +76,7 @@
         </activity>
 
         <activity
-            android:name=".ui.IntroActivity"
+            android:name=".ui.intro.IntroActivity"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
@@ -89,7 +89,7 @@
         </activity>
 
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.about.AboutActivity"
             android:label="@string/about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

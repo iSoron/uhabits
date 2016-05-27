@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.list;
+package org.isoron.uhabits.ui.habits.list;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -41,14 +41,14 @@ import android.widget.TextView;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
-import org.isoron.uhabits.Preferences;
+import org.isoron.uhabits.utils.Preferences;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.HintManager;
-import org.isoron.uhabits.ui.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.utils.InterfaceUtils.OnSavedListener;
@@ -130,6 +130,7 @@ public class ListHabitsFragment extends Fragment
 
     private void createListView(View view)
     {
+        listView = (DragSortListView) view.findViewById(R.id.listView);
         adapter = new ListHabitsAdapter(getActivity(), loader);
         adapter.setSelectedPositions(selectedPositions);
         adapter.setOnCheckmarkClickListener(this);
@@ -138,7 +139,6 @@ public class ListHabitsFragment extends Fragment
         DragSortListView.DragListener dragListener = new HabitsDragListener();
         DragSortController dragSortController = new HabitsDragSortController();
 
-        listView = (DragSortListView) view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.show;
+package org.isoron.uhabits.ui.habits.show;
 
 import android.content.ContentUris;
 import android.net.Uri;

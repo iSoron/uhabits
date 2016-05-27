@@ -24,7 +24,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.show.ShowHabitActivity"
+    tools:context=".ui.habits.show.ShowHabitActivity"
     tools:ignore="MergeRootFrame"
     tools:menu="show_habit_activity_menu,show_habit_fragment_menu">
 
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/fragment2"
-        android:name="org.isoron.uhabits.ui.show.ShowHabitFragment"
+        android:name="org.isoron.uhabits.ui.habits.show.ShowHabitFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"

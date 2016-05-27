@@ -25,6 +25,7 @@ import org.isoron.uhabits.tasks.ExportDBTask;
 import org.isoron.uhabits.tasks.ImportDataTask;
 import org.isoron.uhabits.tasks.ProgressBar;
 import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.Preferences;
 
 import java.io.File;
 import java.io.IOException;
