@@ -50,9 +50,9 @@ public class ListHabitsHelper
     private final int mediumContrastColor;
 
     private final Context context;
-    private final ListHabitsLoader loader;
+    private final HabitListLoader loader;
 
-    public ListHabitsHelper(Context context, ListHabitsLoader loader)
+    public ListHabitsHelper(Context context, HabitListLoader loader)
     {
         this.context = context;
         this.loader = loader;

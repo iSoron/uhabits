@@ -50,7 +50,7 @@ import org.isoron.uhabits.widgets.WidgetManager;
 import java.io.File;
 
 public class MainActivity extends BaseActivity
-        implements ListHabitsFragment.OnHabitClickListener, MainController.Screen
+        implements ListHabitsFragment.Listener, MainController.Screen
 {
     private MainController controller;
     private ListHabitsFragment listHabitsFragment;
@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         menu.clear();
-        getMenuInflater().inflate(R.menu.list_habits_menu, menu);
+        getMenuInflater().inflate(R.menu.main_activity, menu);
         MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);
         nightModeItem.setChecked(InterfaceUtils.isNightMode());
         return true;
@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onHabitClicked(Habit habit)
+    public void onHabitClick(Habit habit)
     {
         showHabitScreen(habit);
     }
@@ -258,12 +258,12 @@ public class MainActivity extends BaseActivity
     @Override
     public void refresh(Long refreshKey)
     {
-        listHabitsFragment.loader.updateAllHabits(true);
+        listHabitsFragment.refresh(refreshKey);
     }
 
     @Override
     public ProgressBar getProgressBar()
     {
-        return new AndroidProgressBar(listHabitsFragment.progressBar);
+        return new AndroidProgressBar(listHabitsFragment.getProgressBar());
     }
 }

@@ -31,16 +31,16 @@ import org.isoron.uhabits.models.Habit;
 
 import java.util.List;
 
-class ListHabitsAdapter extends BaseAdapter
+class HabitListAdapter extends BaseAdapter
 {
     private LayoutInflater inflater;
-    private ListHabitsLoader loader;
+    private HabitListLoader loader;
     private ListHabitsHelper helper;
     private List selectedPositions;
     private View.OnLongClickListener onCheckmarkLongClickListener;
     private View.OnClickListener onCheckmarkClickListener;
 
-    public ListHabitsAdapter(Context context, ListHabitsLoader loader)
+    public HabitListAdapter(Context context, HabitListLoader loader)
     {
         this.loader = loader;
 

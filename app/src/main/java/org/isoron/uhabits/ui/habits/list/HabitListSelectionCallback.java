@@ -42,9 +42,9 @@ import org.isoron.uhabits.utils.InterfaceUtils;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HabitSelectionCallback implements ActionMode.Callback
+public class HabitListSelectionCallback implements ActionMode.Callback
 {
-    private ListHabitsLoader loader;
+    private HabitListLoader loader;
     private List<Integer> selectedPositions;
     private BaseActivity activity;
     private Listener listener;
@@ -55,7 +55,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
         void onActionModeDestroyed(ActionMode mode);
     }
 
-    public HabitSelectionCallback(BaseActivity activity, ListHabitsLoader loader)
+    public HabitListSelectionCallback(BaseActivity activity, HabitListLoader loader)
     {
         this.activity = activity;
         this.loader = loader;
@@ -80,7 +80,7 @@ public class HabitSelectionCallback implements ActionMode.Callback
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu)
     {
-        activity.getMenuInflater().inflate(R.menu.list_habits_context, menu);
+        activity.getMenuInflater().inflate(R.menu.list_habits_selection, menu);
         updateTitle(mode);
         updateActions(menu);
         return true;

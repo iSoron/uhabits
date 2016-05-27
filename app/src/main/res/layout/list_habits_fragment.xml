@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:background="#ffffff">
 
-    <com.mobeta.android.dslv.DragSortListView
+    <org.isoron.uhabits.ui.habits.list.HabitListView
         android:id="@+id/listView"
         dslv:drag_enabled="true"
         dslv:drag_start_mode="onLongPress"
@@ -82,6 +82,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_below="@+id/header"
         android:layout_marginTop="@dimen/progressbarOffset"
+        android:visibility="gone"
         />
 
     <LinearLayout

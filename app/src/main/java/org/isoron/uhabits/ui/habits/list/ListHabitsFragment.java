@@ -23,25 +23,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ActionMode;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mobeta.android.dslv.DragSortController;
-import com.mobeta.android.dslv.DragSortListView;
-
-import org.isoron.uhabits.utils.Preferences;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
@@ -49,39 +41,23 @@ import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.HintManager;
 import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
-import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.utils.InterfaceUtils.OnSavedListener;
 import org.isoron.uhabits.utils.ReminderUtils;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-public class ListHabitsFragment extends Fragment
-        implements OnSavedListener, OnItemClickListener, OnLongClickListener,
-        OnClickListener, ListHabitsLoader.Listener, AdapterView.OnItemLongClickListener,
-        HabitSelectionCallback.Listener, ListHabitsController.Screen
+public class ListHabitsFragment extends Fragment implements OnSavedListener, OnClickListener,
+        HabitListSelectionCallback.Listener, ListHabitsController.Screen
 {
-    long lastLongClick = 0;
-    private boolean showArchived;
-
     private ActionMode actionMode;
-    private ListHabitsAdapter adapter;
-    public ListHabitsLoader loader;
     private HintManager hintManager;
     private ListHabitsHelper helper;
-    private List<Integer> selectedPositions;
-    private OnHabitClickListener habitClickListener;
+    private Listener habitClickListener;
     private BaseActivity activity;
 
-    private DragSortListView listView;
+    private HabitListView listView;
     private LinearLayout llButtonsHeader;
-    public ProgressBar progressBar;
+    private ProgressBar progressBar;
     private View llEmpty;
-
-    private ListHabitsController controller;
-    private Preferences prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,23 +69,16 @@ public class ListHabitsFragment extends Fragment
         llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
         llEmpty = view.findViewById(R.id.llEmpty);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.GONE);
+        listView = (HabitListView) view.findViewById(R.id.listView);
+        TextView tvStarEmpty = (TextView) view.findViewById(R.id.tvStarEmpty);
 
-        selectedPositions = new LinkedList<>();
-        loader = new ListHabitsLoader();
-        helper = new ListHabitsHelper(activity, loader);
-
+        helper = new ListHabitsHelper(activity, listView.getLoader());
         hintManager = new HintManager(activity, llHint);
 
-        loader.setListener(this);
-        loader.setCheckmarkCount(helper.getButtonCount());
-
         llHint.setOnClickListener(this);
-
-        TextView tvStarEmpty = (TextView) view.findViewById(R.id.tvStarEmpty);
         tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(activity));
-
-        createListView(view);
+        listView.setListener(new HabitListViewListener());
+        setHasOptionsMenu(true);
 
         if(savedInstanceState != null)
         {
@@ -118,35 +87,7 @@ public class ListHabitsFragment extends Fragment
             if(frag != null) frag.setOnSavedListener(this);
         }
 
-        loader.updateAllHabits(true);
-
-        controller = new ListHabitsController();
-        controller.setScreen(this);
-        prefs = Preferences.getInstance();
-
-        setHasOptionsMenu(true);
         return view;
-    }
-
-    private void createListView(View view)
-    {
-        listView = (DragSortListView) view.findViewById(R.id.listView);
-        adapter = new ListHabitsAdapter(getActivity(), loader);
-        adapter.setSelectedPositions(selectedPositions);
-        adapter.setOnCheckmarkClickListener(this);
-        adapter.setOnCheckmarkLongClickListener(this);
-
-        DragSortListView.DragListener dragListener = new HabitsDragListener();
-        DragSortController dragSortController = new HabitsDragSortController();
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-        listView.setOnItemLongClickListener(this);
-        listView.setDropListener(new HabitsDropListener());
-        listView.setDragListener(dragListener);
-        listView.setFloatViewManager(dragSortController);
-        listView.setDragEnabled(true);
-        listView.setLongClickable(true);
     }
 
     @Override
@@ -155,38 +96,27 @@ public class ListHabitsFragment extends Fragment
     {
         super.onAttach(activity);
         this.activity = (BaseActivity) activity;
-        habitClickListener = (OnHabitClickListener) activity;
+        habitClickListener = (Listener) activity;
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Long timestamp = loader.getLastLoadTimestamp();
 
-        if (timestamp != null && timestamp != DateUtils.getStartOfToday())
-            loader.updateAllHabits(true);
-
+        listView.refreshData(null);
         helper.updateEmptyMessage(llEmpty);
         helper.updateHeader(llButtonsHeader);
         hintManager.showHintIfAppropriate();
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onLoadFinished()
-    {
-        adapter.notifyDataSetChanged();
-        helper.updateEmptyMessage(llEmpty);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.list_habits_options, menu);
+        inflater.inflate(R.menu.list_habits_fragment, menu);
         MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
-        showArchivedItem.setChecked(showArchived);
+        showArchivedItem.setChecked(listView.getShowArchived());
     }
 
     @Override
@@ -209,9 +139,7 @@ public class ListHabitsFragment extends Fragment
 
     private void toggleShowArchived()
     {
-        showArchived = !showArchived;
-        loader.setIncludeArchived(showArchived);
-        loader.updateAllHabits(true);
+        listView.toggleShowArchived();
         activity.invalidateOptionsMenu();
     }
 
@@ -222,55 +150,26 @@ public class ListHabitsFragment extends Fragment
         frag.show(getFragmentManager(), "editHabit");
     }
 
-    @Override
-    public void onItemClick(AdapterView parent, View view, int position, long id)
+    private void startActionMode()
     {
-        if (new Date().getTime() - lastLongClick < 1000) return;
-
-        if(actionMode == null)
-        {
-            Habit habit = loader.habitsList.get(position);
-            habitClickListener.onHabitClicked(habit);
-        }
-        else
-        {
-            toggleItemSelected(position);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    private void toggleItemSelected(int position)
-    {
-        int k = selectedPositions.indexOf(position);
-        if(k < 0) selectedPositions.add(position);
-        else selectedPositions.remove(k);
-
-        if(selectedPositions.isEmpty()) actionMode.finish();
-        else actionMode.invalidate();
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        selectHabit(position);
-        return true;
-    }
-
-    private void selectHabit(int position)
-    {
-        if(!selectedPositions.contains(position)) selectedPositions.add(position);
-        adapter.notifyDataSetChanged();
-        if(actionMode == null) startSupportActionMode();
-        actionMode.invalidate();
-    }
-
-    private void startSupportActionMode()
-    {
-        HabitSelectionCallback callback = new HabitSelectionCallback(activity, loader);
-        callback.setSelectedPositions(selectedPositions);
+        HabitListSelectionCallback callback =
+                new HabitListSelectionCallback(activity, listView.getLoader());
+        callback.setSelectedPositions(listView.getSelectedPositions());
         callback.setOnSavedListener(this);
         callback.setListener(this);
         actionMode = activity.startSupportActionMode(callback);
+    }
+
+    private void finishActionMode()
+    {
+        if(actionMode != null) actionMode.finish();
+    }
+
+    @Override
+    public void onActionModeDestroyed(ActionMode mode)
+    {
+        actionMode = null;
+        listView.cancelSelection();
     }
 
     @Override
@@ -280,49 +179,12 @@ public class ListHabitsFragment extends Fragment
 
         if (h == null) activity.executeCommand(command, null);
         else activity.executeCommand(command, h.getId());
-        adapter.notifyDataSetChanged();
+
+        listView.refreshData(null);
 
         ReminderUtils.createReminderAlarms(activity);
 
-        if(actionMode != null) actionMode.finish();
-    }
-
-    @Override
-    public boolean onLongClick(View v)
-    {
-        lastLongClick = new Date().getTime();
-
-        switch (v.getId())
-        {
-            case R.id.tvCheck:
-                onCheckmarkLongClick(v);
-                return true;
-        }
-
-        return false;
-    }
-
-    private void onCheckmarkLongClick(View v)
-    {
-        if (prefs.isShortToggleEnabled()) return;
-        toggleCheckmark(v);
-    }
-
-    private void toggleCheckmark(View v)
-    {
-        Long id = helper.getHabitIdFromCheckmarkView(v);
-        Habit habit = loader.habits.get(id);
-        if(habit == null) return;
-
-        float x = v.getX() + v.getWidth() / 2.0f + ((View) v.getParent()).getX();
-        float y = v.getY() + v.getHeight() / 2.0f + ((View) v.getParent()).getY();
-        helper.triggerRipple((View) v.getParent().getParent(), x, y);
-
-        listView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-        helper.toggleCheckmarkView(v, habit);
-
-        long timestamp = helper.getTimestampFromCheckmarkView(v);
-        executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
+        finishActionMode();
     }
 
     private void executeCommand(Command c, Long refreshKey)
@@ -333,84 +195,72 @@ public class ListHabitsFragment extends Fragment
     @Override
     public void onClick(View v)
     {
-        switch (v.getId())
-        {
-            case R.id.tvCheck:
-                if (prefs.isShortToggleEnabled()) toggleCheckmark(v);
-                else activity.showMessage(R.string.long_press_to_toggle);
-                break;
-
-            case R.id.llHint:
-                hintManager.dismissHint();
-                break;
-        }
+        if (v.getId() == R.id.llHint)
+            hintManager.dismissHint();
     }
 
     public void onPostExecuteCommand(Long refreshKey)
     {
-        if (refreshKey == null) loader.updateAllHabits(true);
-        else loader.updateHabit(refreshKey);
+        listView.refreshData(refreshKey);
     }
 
-    @Override
-    public void onActionModeDestroyed(ActionMode mode)
+    public ProgressBar getProgressBar()
     {
-        actionMode = null;
-        selectedPositions.clear();
-        adapter.notifyDataSetChanged();
-        listView.setDragEnabled(true);
+        return progressBar;
     }
 
-    public interface OnHabitClickListener
+    public void refresh(Long refreshKey)
     {
-        void onHabitClicked(Habit habit);
+        listView.refreshData(refreshKey);
     }
 
-    private class HabitsDragSortController extends DragSortController
+    public interface Listener
     {
-        public HabitsDragSortController()
+        void onHabitClick(Habit habit);
+    }
+
+    private class HabitListViewListener implements HabitListView.Listener
+    {
+        @Override
+        public void onToggleCheckmark(Habit habit, long timestamp)
         {
-            super(ListHabitsFragment.this.listView);
-            setRemoveEnabled(false);
+            executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
         }
 
         @Override
-        public View onCreateFloatView(int position)
+        public void onHabitClick(Habit habit)
         {
-            return adapter.getView(position, null, null);
+            habitClickListener.onHabitClick(habit);
         }
 
         @Override
-        public void onDestroyFloatView(View floatView)
+        public void onHabitSelectionStart()
         {
-        }
-    }
-
-    private class HabitsDropListener implements DragSortListView.DropListener
-    {
-        @Override
-        public void drop(int from, int to)
-        {
-            if(from == to) return;
-            if(actionMode != null) actionMode.finish();
-
-            loader.reorder(from, to);
-            adapter.notifyDataSetChanged();
-            loader.updateAllHabits(false);
-        }
-    }
-
-    private class HabitsDragListener implements DragSortListView.DragListener
-    {
-        @Override
-        public void drag(int from, int to)
-        {
+            if(actionMode == null) startActionMode();
         }
 
         @Override
-        public void startDrag(int position)
+        public void onHabitSelectionFinish()
         {
-            selectHabit(position);
+            finishActionMode();
+        }
+
+        @Override
+        public void onHabitSelectionChange()
+        {
+            if(actionMode != null) actionMode.invalidate();
+        }
+
+        @Override
+        public void onInvalidToggle()
+        {
+            activity.showMessage(R.string.long_press_to_toggle);
+        }
+
+        @Override
+        public void onDatasetChanged()
+        {
+            helper.updateEmptyMessage(llEmpty);
         }
     }
 }

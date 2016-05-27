@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
+import android.support.annotation.Nullable;
+
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
@@ -26,7 +28,7 @@ import org.isoron.uhabits.tasks.BaseTask;
 import java.util.HashMap;
 import java.util.List;
 
-public class ListHabitsLoader
+public class HabitListLoader
 {
     public interface Listener
     {
@@ -36,6 +38,7 @@ public class ListHabitsLoader
     private BaseTask currentFetchTask;
     private int checkmarkCount;
 
+    @Nullable
     private Listener listener;
     private Long lastLoadTimestamp;
 
@@ -56,7 +59,7 @@ public class ListHabitsLoader
         this.checkmarkCount = checkmarkCount;
     }
 
-    public void setListener(Listener listener)
+    public void setListener(@Nullable Listener listener)
     {
         this.listener = listener;
     }
@@ -66,7 +69,7 @@ public class ListHabitsLoader
         return lastLoadTimestamp;
     }
 
-    public ListHabitsLoader()
+    public HabitListLoader()
     {
         habits = new HashMap<>();
         checkmarks = new HashMap<>();
@@ -164,7 +167,6 @@ public class ListHabitsLoader
                 currentFetchTask = null;
 
                 if(listener != null) listener.onLoadFinished();
-
                 super.onPostExecute(null);
             }
 
@@ -194,9 +196,7 @@ public class ListHabitsLoader
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                if(listener != null)
-                    listener.onLoadFinished();
-
+                if(listener != null) listener.onLoadFinished();
                 super.onPostExecute(null);
             }
         }.execute();

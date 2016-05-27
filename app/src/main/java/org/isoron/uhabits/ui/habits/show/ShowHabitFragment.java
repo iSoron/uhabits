@@ -260,7 +260,7 @@ public class ShowHabitFragment extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.show_habit_fragment_menu, menu);
+        inflater.inflate(R.menu.show_habit_fragment, menu);
     }
 
     @Override

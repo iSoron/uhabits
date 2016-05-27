@@ -28,7 +28,6 @@ public class ListHabitsController
 
     private Screen screen;
 
-
     public void setScreen(Screen screen)
     {
         this.screen = screen;
