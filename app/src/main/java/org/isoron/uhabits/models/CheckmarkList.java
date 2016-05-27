@@ -157,8 +157,7 @@ public class CheckmarkList
         final long day = DateUtils.millisecondsInOneDay;
 
         Checkmark newestCheckmark = findNewest();
-        if(newestCheckmark != null)
-            from = Math.max(from, newestCheckmark.timestamp + day);
+        if(newestCheckmark != null) from = newestCheckmark.timestamp + day;
 
         if(from > to) return;
 
