@@ -21,10 +21,13 @@ package org.isoron.uhabits.ui;
 
 import android.app.backup.BackupManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +45,8 @@ import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.widgets.WidgetManager;
+
+import java.io.File;
 
 abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler,
         CommandRunner.Listener
@@ -177,5 +182,25 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
                 WidgetManager.updateWidgets(BaseActivity.this);
             }
         }.execute();
+    }
+
+    public void sendFile(@NonNull String archiveFilename)
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("application/zip");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
+        startActivity(intent);
+    }
+
+    public void sendEmail(String to, String subject, String content)
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {to});
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        startActivity(intent);
     }
 }

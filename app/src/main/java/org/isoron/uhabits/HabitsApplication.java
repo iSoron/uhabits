@@ -21,8 +21,6 @@ package org.isoron.uhabits;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -184,26 +182,6 @@ public class HabitsApplication extends Application implements MainController.Sys
         String logcat = getLogcat();
         String deviceInfo = getDeviceInfo();
         return deviceInfo + "\n" + logcat;
-    }
-
-    public void sendFile(@NonNull String archiveFilename)
-    {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("application/zip");
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
-        startActivity(intent);
-    }
-
-    public void sendEmail(String to, String subject, String content)
-    {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {to});
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, content);
-        startActivity(intent);
     }
 
     public void scheduleReminders()

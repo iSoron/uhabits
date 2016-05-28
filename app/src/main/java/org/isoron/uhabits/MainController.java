@@ -41,15 +41,15 @@ public class MainController implements ImportDataTask.Listener, ExportCSVTask.Li
 
         void refresh(Long refreshKey);
 
+        void sendFile(String filename);
+
+        void sendEmail(String to, String subject, String content);
+
         ProgressBar getProgressBar();
     }
 
     public interface System
     {
-        void sendFile(String filename);
-
-        void sendEmail(String to, String subject, String content);
-
         void scheduleReminders();
 
         void updateWidgets();
@@ -133,7 +133,7 @@ public class MainController implements ImportDataTask.Listener, ExportCSVTask.Li
     @Override
     public void onExportCSVFinished(String filename)
     {
-        if(filename != null) sys.sendFile(filename);
+        if(filename != null) screen.sendFile(filename);
         else screen.showMessage(R.string.could_not_export);
     }
 
@@ -147,7 +147,7 @@ public class MainController implements ImportDataTask.Listener, ExportCSVTask.Li
     @Override
     public void onExportDBFinished(String filename)
     {
-        if(filename != null) sys.sendFile(filename);
+        if(filename != null) screen.sendFile(filename);
         else screen.showMessage(R.string.could_not_export);
     }
 
@@ -169,7 +169,7 @@ public class MainController implements ImportDataTask.Listener, ExportCSVTask.Li
             log += "---------- BUG REPORT ENDS ------------\n";
             String to = "dev@loophabits.org";
             String subject = "Bug Report - Loop Habit Tracker";
-            sys.sendEmail(log, to, subject);
+            screen.sendEmail(log, to, subject);
         }
         catch (IOException e)
         {
