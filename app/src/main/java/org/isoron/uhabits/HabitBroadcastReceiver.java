@@ -36,6 +36,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 
+import org.isoron.uhabits.commands.CommandRunner;
+import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.ReminderUtils;
 import org.isoron.uhabits.models.Checkmark;
@@ -115,9 +117,12 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         long habitId = ContentUris.parseId(data);
         Habit habit = Habit.get(habitId);
         if(habit != null)
-            habit.repetitions.toggle(timestamp);
-        dismissNotification(context, habitId);
+        {
+            ToggleRepetitionCommand command = new ToggleRepetitionCommand(habit, timestamp);
+            CommandRunner.getInstance().execute(command, habitId);
+        }
 
+        dismissNotification(context, habitId);
         sendRefreshBroadcast(context);
     }
 

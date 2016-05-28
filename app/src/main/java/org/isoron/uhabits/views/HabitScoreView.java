@@ -31,18 +31,21 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.ModelObservable;
+import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
-public class HabitScoreView extends ScrollableDataView implements HabitDataView
+public class HabitScoreView extends ScrollableDataView
+        implements HabitDataView, ModelObservable.Listener
 {
     public static final PorterDuffXfermode XFERMODE_CLEAR =
             new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
@@ -195,6 +198,7 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         {
             if (habit == null) return;
             scores = habit.scores.getAllValues(bucketSize);
+            createColors();
         }
 
         postInvalidate();
@@ -433,5 +437,35 @@ public class HabitScoreView extends ScrollableDataView implements HabitDataView
         }
 
         return maxDayWidth;
+    }
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                refreshData();
+            }
+        }.execute();
+        habit.observable.addListener(this);
+        habit.scores.observable.addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        habit.scores.observable.removeListener(this);
+        habit.observable.removeListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onModelChange()
+    {
+        refreshData();
     }
 }

@@ -44,6 +44,7 @@ public class ScoreList
 {
     @NonNull
     private Habit habit;
+    public ModelObservable observable = new ModelObservable();
 
     /**
      * Constructs a new ScoreList associated with the given habit.
@@ -75,6 +76,8 @@ public class ScoreList
                 .where("habit = ?", habit.getId())
                 .and("timestamp >= ?", timestamp)
                 .execute();
+
+        observable.notifyListeners();
     }
 
     /**

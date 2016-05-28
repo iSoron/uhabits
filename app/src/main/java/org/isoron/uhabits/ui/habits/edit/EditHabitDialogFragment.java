@@ -42,12 +42,12 @@ import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.commands.EditHabitCommand;
-import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.utils.DateUtils;
 
 import java.util.Arrays;
 
@@ -58,8 +58,6 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
     private Integer mode;
     static final int EDIT_MODE = 0;
     static final int CREATE_MODE = 1;
-
-    private InterfaceUtils.OnSavedListener onSavedListener;
 
     private Habit originalHabit;
     private Habit modifiedHabit;
@@ -202,11 +200,6 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
         }
     }
 
-    public void setOnSavedListener(InterfaceUtils.OnSavedListener onSavedListener)
-    {
-        this.onSavedListener = onSavedListener;
-    }
-
 	@Override
     public void onClick(View v)
     {
@@ -264,20 +257,16 @@ public class EditHabitDialogFragment extends AppCompatDialogFragment
 
         if (!validate()) return;
 
-        Command command = null;
-        Habit savedHabit = null;
-
         if (mode == EDIT_MODE)
         {
-            command = new EditHabitCommand(originalHabit, modifiedHabit);
-            savedHabit = originalHabit;
+            Command command = new EditHabitCommand(originalHabit, modifiedHabit);
+            CommandRunner.getInstance().execute(command, originalHabit.getId());
         }
         else if (mode == CREATE_MODE)
         {
-            command = new CreateHabitCommand(modifiedHabit);
+            Command command = new CreateHabitCommand(modifiedHabit);
+            CommandRunner.getInstance().execute(command, null);
         }
-
-        if (onSavedListener != null) onSavedListener.onSaved(command, savedHabit);
 
         dismiss();
     }

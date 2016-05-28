@@ -30,12 +30,13 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.ModelObservable;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.tasks.ToggleRepetitionTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,7 +44,7 @@ import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class HabitHistoryView extends ScrollableDataView implements HabitDataView,
-        ToggleRepetitionTask.Listener
+        ToggleRepetitionTask.Listener, ModelObservable.Listener
 {
     private Habit habit;
     private int[] checkmarks;
@@ -216,6 +217,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         {
             if(habit == null) return;
             checkmarks = habit.checkmarks.getAllValues();
+            createColors();
         }
 
         updateDate();
@@ -408,5 +410,35 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
                 super.onPostExecute(null);
             }
         }.execute();
+    }
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                refreshData();
+            }
+        }.execute();
+        habit.observable.addListener(this);
+        habit.checkmarks.observable.addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        habit.checkmarks.observable.removeListener(this);
+        habit.observable.removeListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onModelChange()
+    {
+        refreshData();
     }
 }

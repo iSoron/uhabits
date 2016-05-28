@@ -20,9 +20,9 @@
 package org.isoron.uhabits.ui;
 
 import android.app.backup.BackupManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -31,20 +31,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.commands.CommandRunner;
+import org.isoron.uhabits.models.Checkmark;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.widgets.WidgetManager;
 
-import java.util.LinkedList;
-
-abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler
+abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler,
+        CommandRunner.Listener
 {
-    private static int MAX_UNDO_LEVEL = 15;
-
-    private LinkedList<Command> undoList;
-    private LinkedList<Command> redoList;
     private Toast toast;
 
     Thread.UncaughtExceptionHandler androidExceptionHandler;
@@ -58,39 +59,20 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
 
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
-
-        undoList = new LinkedList<>();
-        redoList = new LinkedList<>();
     }
 
-    public void executeCommand(Command command, Long refreshKey)
+    @Override
+    protected void onResume()
     {
-        executeCommand(command, false, refreshKey);
+        super.onResume();
+        CommandRunner.getInstance().addListener(this);
     }
 
-    protected void undo()
+    @Override
+    protected void onPause()
     {
-        if (undoList.isEmpty())
-        {
-            showMessage(R.string.toast_nothing_to_undo);
-            return;
-        }
-
-        Command last = undoList.pop();
-        redoList.push(last);
-        last.undo();
-        showMessage(last.getUndoStringId());
-    }
-
-    protected void redo()
-    {
-        if (redoList.isEmpty())
-        {
-            showMessage(R.string.toast_nothing_to_redo);
-            return;
-        }
-        Command last = redoList.pop();
-        executeCommand(last, false, null);
+        CommandRunner.getInstance().removeListener(this);
+        super.onPause();
     }
 
     public void showMessage(Integer stringId)
@@ -99,34 +81,6 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
         if (toast == null) toast = Toast.makeText(this, stringId, Toast.LENGTH_SHORT);
         else toast.setText(stringId);
         toast.show();
-    }
-
-    public void executeCommand(final Command command, Boolean clearRedoStack, final Long refreshKey)
-    {
-        undoList.push(command);
-
-        if (undoList.size() > MAX_UNDO_LEVEL) undoList.removeLast();
-        if (clearRedoStack) redoList.clear();
-
-        new AsyncTask<Void, Void, Void>()
-        {
-            @Override
-            protected Void doInBackground(Void... params)
-            {
-                command.execute();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                BaseActivity.this.onPostExecuteCommand(refreshKey);
-                BackupManager.dataChanged("org.isoron.uhabits");
-            }
-        }.execute();
-
-
-        showMessage(command.getExecuteStringId());
     }
 
     protected void setupSupportActionBar(boolean homeButtonEnabled)
@@ -144,10 +98,6 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
 
         if(homeButtonEnabled)
             actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    public void onPostExecuteCommand(Long refreshKey)
-    {
     }
 
     @Override
@@ -202,5 +152,30 @@ abstract public class BaseActivity extends AppCompatActivity implements Thread.U
 
         view = findViewById(R.id.headerShadow);
         if(view != null) view.setVisibility(View.GONE);
+    }
+
+    private void dismissNotifications(Context context)
+    {
+        for(Habit h : Habit.getHabitsWithReminder())
+        {
+            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
+                HabitBroadcastReceiver.dismissNotification(context, h);
+        }
+    }
+
+    @Override
+    public void onCommandExecuted(Command command, Long refreshKey)
+    {
+        showMessage(command.getExecuteStringId());
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                dismissNotifications(BaseActivity.this);
+                BackupManager.dataChanged("org.isoron.uhabits");
+                WidgetManager.updateWidgets(BaseActivity.this);
+            }
+        }.execute();
     }
 }

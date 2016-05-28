@@ -42,12 +42,11 @@ public class ShowHabitActivity extends BaseActivity
         habit = Habit.get(ContentUris.parseId(data));
 
         setContentView(R.layout.show_habit_activity);
-
         setupSupportActionBar(true);
         setupHabitActionBar();
     }
 
-    private void setupHabitActionBar()
+    public void setupHabitActionBar()
     {
         if(habit == null) return;
 
@@ -55,7 +54,6 @@ public class ShowHabitActivity extends BaseActivity
         if(actionBar == null) return;
 
         actionBar.setTitle(habit.name);
-
         setupActionBarColor(ColorUtils.getColor(this, habit.color));
     }
 

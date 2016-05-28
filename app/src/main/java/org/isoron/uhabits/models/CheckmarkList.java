@@ -41,6 +41,7 @@ import java.util.List;
 public class CheckmarkList
 {
     private Habit habit;
+    public ModelObservable observable = new ModelObservable();
 
     public CheckmarkList(Habit habit)
     {
@@ -59,6 +60,8 @@ public class CheckmarkList
                 .where("habit = ?", habit.getId())
                 .and("timestamp >= ?", timestamp)
                 .execute();
+
+        observable.notifyListeners();
     }
 
     /**

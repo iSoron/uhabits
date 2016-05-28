@@ -31,60 +31,42 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.ModelObservable;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.ui.habits.edit.HistoryEditorDialog;
-import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.ReminderUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.views.HabitDataView;
 import org.isoron.uhabits.views.HabitFrequencyView;
 import org.isoron.uhabits.views.HabitHistoryView;
 import org.isoron.uhabits.views.HabitScoreView;
 import org.isoron.uhabits.views.HabitStreakView;
-import org.isoron.uhabits.views.RingView;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ShowHabitFragment extends Fragment
-        implements InterfaceUtils.OnSavedListener, HistoryEditorDialog.Listener,
-        Spinner.OnItemSelectedListener
+        implements Spinner.OnItemSelectedListener, ModelObservable.Listener
 {
-    @Nullable
     protected ShowHabitActivity activity;
-
-    @Nullable
-    private Habit habit;
-
     @Nullable
     private List<HabitDataView> dataViews;
 
-    @Nullable
-    private HabitScoreView scoreView;
-
     private int previousScoreInterval;
 
-    private float todayScore;
-    private float lastMonthScore;
-    private float lastYearScore;
+    Habit habit;
 
-    private int activeColor;
-    private int inactiveColor;
+    float todayScore;
+    float lastMonthScore;
+    float lastYearScore;
+    int activeColor;
+    int inactiveColor;
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-    }
+    private ShowHabitHelper helper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,37 +74,32 @@ public class ShowHabitFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.show_habit, container, false);
         activity = (ShowHabitActivity) getActivity();
+        helper = new ShowHabitHelper(this);
 
         habit = activity.getHabit();
-        activeColor = ColorUtils.getColor(getContext(), habit.color);
-        inactiveColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
-
-        updateHeader(view);
-
-        dataViews = new LinkedList<>();
-
-        Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
-        Spinner sStrengthInterval = (Spinner) view.findViewById(R.id.sStrengthInterval);
-
-        scoreView = (HabitScoreView) view.findViewById(R.id.scoreView);
+        helper.updateColors();
+        helper.updateMainHeader(view);
 
         int defaultScoreInterval = InterfaceUtils.getDefaultScoreInterval(getContext());
         previousScoreInterval = defaultScoreInterval;
         setScoreBucketSize(defaultScoreInterval);
 
+        Spinner sStrengthInterval = (Spinner) view.findViewById(R.id.sStrengthInterval);
         sStrengthInterval.setSelection(defaultScoreInterval);
         sStrengthInterval.setOnItemSelectedListener(this);
 
-        dataViews.add((HabitScoreView) view.findViewById(R.id.scoreView));
-        dataViews.add((HabitHistoryView) view.findViewById(R.id.historyView));
-        dataViews.add((HabitFrequencyView) view.findViewById(R.id.punchcardView));
-        dataViews.add((HabitStreakView) view.findViewById(R.id.streakView));
+        createDataViews(view);
+        helper.updateCardHeaders(view);
 
-        updateHeaders(view);
+        bindButtontEditHistory(view);
+        setHasOptionsMenu(true);
 
-        for(HabitDataView dataView : dataViews)
-            dataView.setHabit(habit);
+        return view;
+    }
 
+    private void bindButtontEditHistory(View view)
+    {
+        Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
         btEditHistory.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -130,75 +107,21 @@ public class ShowHabitFragment extends Fragment
             {
                 HistoryEditorDialog frag = new HistoryEditorDialog();
                 frag.setHabit(habit);
-                frag.setListener(ShowHabitFragment.this);
                 frag.show(getFragmentManager(), "historyEditor");
             }
         });
-
-        if(savedInstanceState != null)
-        {
-            EditHabitDialogFragment fragEdit = (EditHabitDialogFragment) getFragmentManager()
-                    .findFragmentByTag("editHabit");
-            HistoryEditorDialog fragEditor = (HistoryEditorDialog) getFragmentManager()
-                    .findFragmentByTag("historyEditor");
-
-            if(fragEdit != null) fragEdit.setOnSavedListener(this);
-            if(fragEditor != null) fragEditor.setListener(this);
-        }
-
-        setHasOptionsMenu(true);
-
-        return view;
     }
 
-    private void updateHeader(View view)
+    private void createDataViews(View view)
     {
-        if(habit == null) return;
+        dataViews = new LinkedList<>();
+        dataViews.add((HabitScoreView) view.findViewById(R.id.scoreView));
+        dataViews.add((HabitHistoryView) view.findViewById(R.id.historyView));
+        dataViews.add((HabitFrequencyView) view.findViewById(R.id.punchcardView));
+        dataViews.add((HabitStreakView) view.findViewById(R.id.streakView));
 
-        TextView questionLabel = (TextView) view.findViewById(R.id.questionLabel);
-        questionLabel.setTextColor(activeColor);
-        questionLabel.setText(habit.description);
-
-        TextView reminderLabel = (TextView) view.findViewById(R.id.reminderLabel);
-        if(habit.hasReminder())
-            reminderLabel.setText(DateUtils.formatTime(getActivity(), habit.reminderHour,
-                    habit.reminderMin));
-        else
-            reminderLabel.setText(getResources().getString(R.string.reminder_off));
-
-        TextView frequencyLabel = (TextView) view.findViewById(R.id.frequencyLabel);
-        frequencyLabel.setText(getFreqText());
-
-        if(habit.description.isEmpty())
-            questionLabel.setVisibility(View.GONE);
-    }
-
-    private String getFreqText()
-    {
-        if(habit == null)
-            return "";
-
-        if(habit.freqNum.equals(habit.freqDen))
-            return getResources().getString(R.string.every_day);
-
-        if(habit.freqNum == 1)
-        {
-            if (habit.freqDen == 7)
-                return getResources().getString(R.string.every_week);
-
-            if (habit.freqDen % 7 == 0)
-                return getResources().getString(R.string.every_x_weeks, habit.freqDen / 7);
-
-            return getResources().getString(R.string.every_x_days, habit.freqDen);
-        }
-
-        String times_every = getResources().getString(R.string.times_every);
-
-        if(habit.freqNum == 1)
-            times_every = getResources().getString(R.string.time_every);
-
-        return String.format("%d %s %d %s", habit.freqNum, times_every, habit.freqDen,
-                getResources().getString(R.string.days));
+        for(HabitDataView dataView : dataViews)
+            dataView.setHabit(habit);
     }
 
     @Override
@@ -206,55 +129,6 @@ public class ShowHabitFragment extends Fragment
     {
         super.onResume();
         refreshData();
-    }
-
-    private void updateScore(View view)
-    {
-        if(habit == null) return;
-        if(view == null) return;
-
-        float todayPercentage = todayScore / Score.MAX_VALUE;
-        float monthDiff = todayPercentage - (lastMonthScore / Score.MAX_VALUE);
-        float yearDiff = todayPercentage - (lastYearScore / Score.MAX_VALUE);
-
-        RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
-        int androidColor = ColorUtils.getColor(getActivity(), habit.color);
-        scoreRing.setColor(androidColor);
-        scoreRing.setPercentage(todayPercentage);
-
-        TextView scoreLabel = (TextView) view.findViewById(R.id.scoreLabel);
-        TextView monthDiffLabel = (TextView) view.findViewById(R.id.monthDiffLabel);
-        TextView yearDiffLabel = (TextView) view.findViewById(R.id.yearDiffLabel);
-
-        scoreLabel.setText(String.format("%.0f%%", todayPercentage * 100));
-
-        String minus = "\u2212";
-        monthDiffLabel.setText(String.format("%s%.0f%%", (monthDiff >= 0 ? "+" : minus),
-                Math.abs(monthDiff) * 100));
-        yearDiffLabel.setText(
-                String.format("%s%.0f%%", (yearDiff >= 0 ? "+" : minus), Math.abs(yearDiff) * 100));
-
-        monthDiffLabel.setTextColor(monthDiff >= 0 ? activeColor : inactiveColor);
-        yearDiffLabel.setTextColor(yearDiff >= 0 ? activeColor : inactiveColor);
-    }
-
-    private void updateHeaders(View view)
-    {
-        updateColor(view, R.id.tvHistory);
-        updateColor(view, R.id.tvOverview);
-        updateColor(view, R.id.tvStrength);
-        updateColor(view, R.id.tvStreaks);
-        updateColor(view, R.id.tvWeekdayFreq);
-        updateColor(view, R.id.scoreLabel);
-    }
-
-    private void updateColor(View view, int viewId)
-    {
-        if(habit == null || activity == null) return;
-
-        TextView textView = (TextView) view.findViewById(viewId);
-        int androidColor = ColorUtils.getColor(activity, habit.color);
-        textView.setTextColor(androidColor);
     }
 
     @Override
@@ -266,80 +140,24 @@ public class ShowHabitFragment extends Fragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(habit == null) return false;
-
-        switch (item.getItemId())
-        {
-            case R.id.action_edit_habit:
-            {
-                EditHabitDialogFragment
-                        frag = EditHabitDialogFragment.editSingleHabitFragment(habit.getId());
-                frag.setOnSavedListener(this);
-                frag.show(getFragmentManager(), "editHabit");
-                return true;
-            }
-        }
+        if (item.getItemId() == R.id.action_edit_habit)
+            return showEditHabitDialog();
 
         return false;
     }
 
-    @Override
-    public void onSaved(Command command, Object savedObject)
+    private boolean showEditHabitDialog()
     {
-        if(activity == null) return;
-        Habit h = (Habit) savedObject;
+        if(habit == null) return false;
 
-        if (h == null) activity.executeCommand(command, null);
-        else activity.executeCommand(command, h.getId());
-
-        ReminderUtils.createReminderAlarms(activity);
-        HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
-
-        activity.recreate();
-    }
-
-    @Override
-    public void onHistoryEditorClosed()
-    {
-        refreshData();
-        HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
+        EditHabitDialogFragment frag = EditHabitDialogFragment.editSingleHabitFragment(habit.getId());
+        frag.show(getFragmentManager(), "editHabit");
+        return true;
     }
 
     public void refreshData()
     {
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                if(habit == null) return;
-                if(dataViews == null) return;
-
-                long today = DateUtils.getStartOfToday();
-                long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
-                long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
-
-                todayScore = (float) habit.scores.getTodayValue();
-                lastMonthScore = (float) habit.scores.getValue(lastMonth);
-                lastYearScore = (float) habit.scores.getValue(lastYear);
-
-                int count = 0;
-                for(HabitDataView view : dataViews)
-                {
-                    view.refreshData();
-                    publishProgress(count++);
-                }
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values)
-            {
-                updateScore(getView());
-                if(dataViews == null) return;
-                dataViews.get(values[0]).postInvalidate();
-            }
-        }.execute();
-
+        new RefreshTask().execute();
     }
 
     @Override
@@ -351,15 +169,13 @@ public class ShowHabitFragment extends Fragment
 
     private void setScoreBucketSize(int position)
     {
-        if(scoreView == null) return;
+        if(getView() == null) return;
 
+        HabitScoreView scoreView = (HabitScoreView) getView().findViewById(R.id.scoreView);
         scoreView.setBucketSize(HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
 
         if(position != previousScoreInterval)
-        {
             refreshData();
-            HabitBroadcastReceiver.sendRefreshBroadcast(getActivity());
-        }
 
         InterfaceUtils.setDefaultScoreInterval(getContext(), position);
         previousScoreInterval = position;
@@ -368,6 +184,61 @@ public class ShowHabitFragment extends Fragment
     @Override
     public void onNothingSelected(AdapterView<?> parent)
     {
+    }
 
+    @Override
+    public void onModelChange()
+    {
+        refreshData();
+        activity.runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                helper.updateColors();
+                helper.updateMainHeader(getView());
+                helper.updateCardHeaders(getView());
+                if(activity != null) activity.setupHabitActionBar();
+            }
+        });
+    }
+
+    private class RefreshTask extends BaseTask
+    {
+        @Override
+        protected void doInBackground()
+        {
+            if(habit == null) return;
+            if(dataViews == null) return;
+
+            long today = DateUtils.getStartOfToday();
+            long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
+            long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
+
+            todayScore = (float) habit.scores.getTodayValue();
+            lastMonthScore = (float) habit.scores.getValue(lastMonth);
+            lastYearScore = (float) habit.scores.getValue(lastYear);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            helper.updateScore(getView());
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        habit.observable.addListener(this);
+    }
+
+    @Override
+    public void onPause()
+    {
+        habit.observable.removeListener(this);
+        super.onPause();
     }
 }

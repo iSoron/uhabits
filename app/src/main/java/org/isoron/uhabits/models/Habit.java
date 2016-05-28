@@ -147,6 +147,8 @@ public class Habit extends Model
     @NonNull
     public CheckmarkList checkmarks;
 
+    public ModelObservable observable = new ModelObservable();
+
     /**
      * Constructs a habit with the same attributes as the specified habit.
      *
@@ -348,6 +350,8 @@ public class Habit extends Model
         this.reminderDays = model.reminderDays;
         this.highlight = model.highlight;
         this.archived = model.archived;
+
+        observable.notifyListeners();
     }
 
     /**
@@ -424,6 +428,8 @@ public class Habit extends Model
         finally
         {
             ActiveAndroid.endTransaction();
+            for(Habit h : habits)
+                h.observable.notifyListeners();
         }
     }
 
@@ -456,6 +462,8 @@ public class Habit extends Model
     public static void setColor(@NonNull List<Habit> habits, int color)
     {
         updateAttributes(habits, color, null);
+        for(Habit h : habits)
+            h.observable.notifyListeners();
     }
 
     /**
@@ -476,6 +484,7 @@ public class Habit extends Model
         reminderHour = null;
         reminderMin = null;
         reminderDays = DateUtils.ALL_WEEK_DAYS;
+        observable.notifyListeners();
     }
 
     /**

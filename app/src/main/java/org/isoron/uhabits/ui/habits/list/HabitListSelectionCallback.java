@@ -31,13 +31,13 @@ import com.android.colorpicker.ColorPickerSwatch;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
+import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +48,6 @@ public class HabitListSelectionCallback implements ActionMode.Callback
     private List<Integer> selectedPositions;
     private BaseActivity activity;
     private Listener listener;
-    private InterfaceUtils.OnSavedListener onSavedListener;
 
     public interface Listener
     {
@@ -65,11 +64,6 @@ public class HabitListSelectionCallback implements ActionMode.Callback
     public void setListener(Listener listener)
     {
         this.listener = listener;
-    }
-
-    public void setOnSavedListener(InterfaceUtils.OnSavedListener onSavedListener)
-    {
-        this.onSavedListener = onSavedListener;
     }
 
     public void setSelectedPositions(List<Integer> selectedPositions)
@@ -134,69 +128,96 @@ public class HabitListSelectionCallback implements ActionMode.Callback
         switch (item.getItemId())
         {
             case R.id.action_archive_habit:
-                activity.executeCommand(new ArchiveHabitsCommand(selectedHabits), null);
+                archiveHabits(selectedHabits);
                 mode.finish();
                 return true;
 
             case R.id.action_unarchive_habit:
-                activity.executeCommand(new UnarchiveHabitsCommand(selectedHabits), null);
+                unarchiveHabits(selectedHabits);
                 mode.finish();
                 return true;
 
             case R.id.action_edit_habit:
             {
-                EditHabitDialogFragment
-                        frag = EditHabitDialogFragment.editSingleHabitFragment(firstHabit.getId());
-                frag.setOnSavedListener(onSavedListener);
-                frag.show(activity.getSupportFragmentManager(), "editHabit");
+                editHabit(firstHabit);
+                mode.finish();
                 return true;
             }
 
             case R.id.action_color:
             {
-                int originalAndroidColor = ColorUtils.getColor(activity, firstHabit.color);
-
-                ColorPickerDialog picker = ColorPickerDialog.newInstance(
-                        R.string.color_picker_default_title, ColorUtils.getPalette(activity),
-                        originalAndroidColor, 4, ColorPickerDialog.SIZE_SMALL);
-
-                picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
-                        {
-                            public void onColorSelected(int androidColor)
-                            {
-                                int paletteColor = ColorUtils.colorToPaletteIndex(activity,
-                                        androidColor);
-                                activity.executeCommand(new ChangeHabitColorCommand(selectedHabits,
-                                        paletteColor), null);
-                                mode.finish();
-                            }
-                        });
-                picker.show(activity.getSupportFragmentManager(), "picker");
+                showColorPicker(mode, selectedHabits, firstHabit);
+                mode.finish();
                 return true;
             }
 
             case R.id.action_delete:
             {
-                new AlertDialog.Builder(activity).setTitle(R.string.delete_habits)
-                        .setMessage(R.string.delete_habits_message)
-                        .setPositiveButton(android.R.string.yes,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
-                                        activity.executeCommand(
-                                                new DeleteHabitsCommand(selectedHabits), null);
-                                        mode.finish();
-                                    }
-                                }).setNegativeButton(android.R.string.no, null)
-                        .show();
-
+                deleteHabits(mode, selectedHabits);
+                mode.finish();
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void deleteHabits(final ActionMode mode, final LinkedList<Habit> selectedHabits)
+    {
+        new AlertDialog.Builder(activity).setTitle(R.string.delete_habits)
+                .setMessage(R.string.delete_habits_message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        CommandRunner.getInstance()
+                                .execute(new DeleteHabitsCommand(selectedHabits), null);
+                        mode.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void showColorPicker(final ActionMode mode, final LinkedList<Habit> selectedHabits,
+                                 Habit firstHabit)
+    {
+        int originalAndroidColor = ColorUtils.getColor(activity, firstHabit.color);
+
+        ColorPickerDialog picker =
+                ColorPickerDialog.newInstance(R.string.color_picker_default_title,
+                        ColorUtils.getPalette(activity), originalAndroidColor, 4,
+                        ColorPickerDialog.SIZE_SMALL);
+
+        picker.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
+        {
+            public void onColorSelected(int androidColor)
+            {
+                int paletteColor = ColorUtils.colorToPaletteIndex(activity, androidColor);
+                CommandRunner.getInstance()
+                        .execute(new ChangeHabitColorCommand(selectedHabits, paletteColor), null);
+                mode.finish();
+            }
+        });
+        picker.show(activity.getSupportFragmentManager(), "picker");
+    }
+
+    private void editHabit(Habit habit)
+    {
+        EditHabitDialogFragment
+                frag = EditHabitDialogFragment.editSingleHabitFragment(habit.getId());
+        frag.show(activity.getSupportFragmentManager(), "editHabit");
+    }
+
+    private void unarchiveHabits(LinkedList<Habit> selectedHabits)
+    {
+        CommandRunner.getInstance().execute(new UnarchiveHabitsCommand(selectedHabits), null);
+    }
+
+    private void archiveHabits(LinkedList<Habit> selectedHabits)
+    {
+        CommandRunner.getInstance().execute(new ArchiveHabitsCommand(selectedHabits), null);
     }
 
     @Override

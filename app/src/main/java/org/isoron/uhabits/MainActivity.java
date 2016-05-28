@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -31,21 +30,18 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.tasks.ProgressBar;
-import org.isoron.uhabits.ui.about.AboutActivity;
 import org.isoron.uhabits.ui.AndroidProgressBar;
 import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.ui.intro.IntroActivity;
+import org.isoron.uhabits.ui.about.AboutActivity;
 import org.isoron.uhabits.ui.habits.list.ListHabitsFragment;
+import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
+import org.isoron.uhabits.ui.intro.IntroActivity;
 import org.isoron.uhabits.ui.settings.FilePickerDialog;
 import org.isoron.uhabits.ui.settings.SettingsActivity;
-import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
 import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.widgets.WidgetManager;
 
 import java.io.File;
 
@@ -194,31 +190,6 @@ public class MainActivity extends BaseActivity
     public void onHabitClick(Habit habit)
     {
         showHabitScreen(habit);
-    }
-
-    @Override
-    public void onPostExecuteCommand(Long refreshKey)
-    {
-        listHabitsFragment.onPostExecuteCommand(refreshKey);
-
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                dismissNotifications(MainActivity.this);
-                WidgetManager.updateWidgets(MainActivity.this);
-            }
-        }.execute();
-    }
-
-    private void dismissNotifications(Context context)
-    {
-        for(Habit h : Habit.getHabitsWithReminder())
-        {
-            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
-                HabitBroadcastReceiver.dismissNotification(context, h);
-        }
     }
 
     private void showHabitScreen(Habit habit)

@@ -35,17 +35,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.HintManager;
 import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.utils.InterfaceUtils.OnSavedListener;
-import org.isoron.uhabits.utils.ReminderUtils;
 
-public class ListHabitsFragment extends Fragment implements OnSavedListener, OnClickListener,
+public class ListHabitsFragment extends Fragment implements OnClickListener,
         HabitListSelectionCallback.Listener, ListHabitsController.Screen
 {
     private ActionMode actionMode;
@@ -84,7 +82,6 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnC
         {
             EditHabitDialogFragment frag = (EditHabitDialogFragment) getFragmentManager()
                     .findFragmentByTag("editHabit");
-            if(frag != null) frag.setOnSavedListener(this);
         }
 
         return view;
@@ -104,10 +101,18 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnC
     {
         super.onResume();
 
+        listView.getLoader().onResume();
         listView.refreshData(null);
         helper.updateEmptyMessage(llEmpty);
         helper.updateHeader(llButtonsHeader);
         hintManager.showHintIfAppropriate();
+    }
+
+    @Override
+    public void onPause()
+    {
+        listView.getLoader().onPause();
+        super.onPause();
     }
 
     @Override
@@ -146,7 +151,6 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnC
     private void showCreateHabitScreen()
     {
         EditHabitDialogFragment frag = EditHabitDialogFragment.createHabitFragment();
-        frag.setOnSavedListener(this);
         frag.show(getFragmentManager(), "editHabit");
     }
 
@@ -155,7 +159,6 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnC
         HabitListSelectionCallback callback =
                 new HabitListSelectionCallback(activity, listView.getLoader());
         callback.setSelectedPositions(listView.getSelectedPositions());
-        callback.setOnSavedListener(this);
         callback.setListener(this);
         actionMode = activity.startSupportActionMode(callback);
     }
@@ -173,35 +176,10 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnC
     }
 
     @Override
-    public void onSaved(Command command, Object savedObject)
-    {
-        Habit h = (Habit) savedObject;
-
-        if (h == null) activity.executeCommand(command, null);
-        else activity.executeCommand(command, h.getId());
-
-        listView.refreshData(null);
-
-        ReminderUtils.createReminderAlarms(activity);
-
-        finishActionMode();
-    }
-
-    private void executeCommand(Command c, Long refreshKey)
-    {
-        activity.executeCommand(c, refreshKey);
-    }
-
-    @Override
     public void onClick(View v)
     {
         if (v.getId() == R.id.llHint)
             hintManager.dismissHint();
-    }
-
-    public void onPostExecuteCommand(Long refreshKey)
-    {
-        listView.refreshData(refreshKey);
     }
 
     public ProgressBar getProgressBar()
@@ -224,7 +202,8 @@ public class ListHabitsFragment extends Fragment implements OnSavedListener, OnC
         @Override
         public void onToggleCheckmark(Habit habit, long timestamp)
         {
-            executeCommand(new ToggleRepetitionCommand(habit, timestamp), habit.getId());
+            CommandRunner.getInstance().execute(new ToggleRepetitionCommand(habit, timestamp),
+                    habit.getId());
         }
 
         @Override

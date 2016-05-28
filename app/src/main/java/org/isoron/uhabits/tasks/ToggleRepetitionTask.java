@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.tasks;
 
+import org.isoron.uhabits.commands.CommandRunner;
+import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.models.Habit;
 
 public class ToggleRepetitionTask extends BaseTask
@@ -40,7 +42,8 @@ public class ToggleRepetitionTask extends BaseTask
     @Override
     protected void doInBackground()
     {
-        habit.repetitions.toggle(timestamp);
+        ToggleRepetitionCommand command = new ToggleRepetitionCommand(habit, timestamp);
+        CommandRunner.getInstance().execute(command, habit.getId());
     }
 
     @Override

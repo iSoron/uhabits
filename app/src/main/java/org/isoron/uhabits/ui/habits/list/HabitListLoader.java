@@ -21,6 +21,8 @@ package org.isoron.uhabits.ui.habits.list;
 
 import android.support.annotation.Nullable;
 
+import org.isoron.uhabits.commands.Command;
+import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
@@ -28,7 +30,7 @@ import org.isoron.uhabits.tasks.BaseTask;
 import java.util.HashMap;
 import java.util.List;
 
-public class HabitListLoader
+public class HabitListLoader implements CommandRunner.Listener
 {
     public interface Listener
     {
@@ -200,5 +202,22 @@ public class HabitListLoader
                 super.onPostExecute(null);
             }
         }.execute();
+    }
+
+    public void onResume()
+    {
+        CommandRunner.getInstance().addListener(this);
+    }
+
+    public void onPause()
+    {
+        CommandRunner.getInstance().removeListener(this);
+    }
+
+    @Override
+    public void onCommandExecuted(Command command, Long refreshKey)
+    {
+        if(refreshKey == null) updateAllHabits(true);
+        else updateHabit(refreshKey);
     }
 }

@@ -36,7 +36,6 @@ import android.util.TypedValue;
 
 import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.Command;
 
 import java.util.Locale;
 
@@ -53,11 +52,6 @@ public abstract class InterfaceUtils
     public static void setFixedTheme(Integer fixedTheme)
     {
         InterfaceUtils.fixedTheme = fixedTheme;
-    }
-
-    public interface OnSavedListener
-    {
-        void onSaved(Command command, Object savedObject);
     }
 
     public static Typeface getFontAwesome(Context context)

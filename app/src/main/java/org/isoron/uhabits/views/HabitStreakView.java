@@ -28,6 +28,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.ModelObservable;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
@@ -39,7 +41,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class HabitStreakView extends View implements HabitDataView
+public class HabitStreakView extends View implements HabitDataView, ModelObservable.Listener
 {
     private Habit habit;
     private Paint paint;
@@ -151,6 +153,7 @@ public class HabitStreakView extends View implements HabitDataView
     {
         if(habit == null) return;
         streaks = habit.streaks.getAll(maxStreakCount);
+        createColors();
         updateMaxMin();
         postInvalidate();
     }
@@ -245,5 +248,36 @@ public class HabitStreakView extends View implements HabitDataView
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
         createColors();
+    }
+
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                refreshData();
+            }
+        }.execute();
+        habit.observable.addListener(this);
+        habit.streaks.observable.addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        habit.streaks.observable.removeListener(this);
+        habit.observable.removeListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onModelChange()
+    {
+        refreshData();
     }
 }

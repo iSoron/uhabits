@@ -37,6 +37,7 @@ import java.util.List;
 public class StreakList
 {
     private Habit habit;
+    public ModelObservable observable = new ModelObservable();
 
     public StreakList(Habit habit)
     {
@@ -156,5 +157,7 @@ public class StreakList
                 .where("habit = ?", habit.getId())
                 .and("end >= ?", timestamp - DateUtils.millisecondsInOneDay)
                 .execute();
+
+        observable.notifyListeners();
     }
 }

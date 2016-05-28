@@ -41,6 +41,7 @@ public class RepetitionList
 {
     @NonNull
     private Habit habit;
+    public ModelObservable observable = new ModelObservable();
 
     public RepetitionList(@NonNull Habit habit)
     {
@@ -105,6 +106,7 @@ public class RepetitionList
         habit.scores.invalidateNewerThan(timestamp);
         habit.checkmarks.deleteNewerThan(timestamp);
         habit.streaks.deleteNewerThan(timestamp);
+        observable.notifyListeners();
     }
 
     private void insert(long timestamp)

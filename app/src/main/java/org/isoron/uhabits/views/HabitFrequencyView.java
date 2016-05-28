@@ -26,6 +26,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.ModelObservable;
+import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
@@ -38,9 +40,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Random;
 
-public class HabitFrequencyView extends ScrollableDataView implements HabitDataView
+public class HabitFrequencyView extends ScrollableDataView implements HabitDataView, ModelObservable.Listener
 {
-
     private Paint pGrid;
     private float em;
     private Habit habit;
@@ -173,10 +174,12 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
 
     public void refreshData()
     {
-        if(isInEditMode())
-            generateRandomData();
+        if(isInEditMode()) generateRandomData();
         else if(habit != null)
+        {
             frequency = habit.repetitions.getWeekdayFrequency();
+            createColors();
+        }
 
         postInvalidate();
     }
@@ -296,5 +299,36 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
         createColors();
+    }
+
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                refreshData();
+            }
+        }.execute();
+        habit.observable.addListener(this);
+        habit.checkmarks.observable.addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        habit.checkmarks.observable.removeListener(this);
+        habit.observable.removeListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onModelChange()
+    {
+        refreshData();
     }
 }
