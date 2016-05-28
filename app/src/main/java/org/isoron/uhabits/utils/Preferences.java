@@ -82,4 +82,15 @@ public class Preferences
     {
         return prefs.getBoolean("pref_short_toggle", false);
     }
+
+    public Integer getDefaultHabitColor(int defaultColor)
+    {
+        return prefs.getInt("pref_default_habit_palette_color", defaultColor);
+    }
+
+    public void setDefaultHabitColor(int color)
+    {
+        prefs.edit().putInt("pref_default_habit_palette_color", color).apply();
+    }
+
 }

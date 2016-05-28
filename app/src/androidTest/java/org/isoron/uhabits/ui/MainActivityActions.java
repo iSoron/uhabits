@@ -80,11 +80,11 @@ public class MainActivityActions
             onView(withId(R.id.buttonPickColor))
                     .perform(click());
             pressBack();
-            onView(withId(R.id.inputReminderTime))
+            onView(withId(R.id.tvReminderTime))
                     .perform(click());
             onView(withText("Done"))
                     .perform(click());
-            onView(withId(R.id.inputReminderDays))
+            onView(withId(R.id.tvReminderDays))
                     .perform(click());
             onView(withText("OK"))
                     .perform(click());
@@ -101,9 +101,9 @@ public class MainActivityActions
 
     public static void typeHabitData(String name, String description, String num, String den)
     {
-        onView(withId(R.id.input_name))
+        onView(withId(R.id.tvName))
                 .perform(replaceText(name));
-        onView(withId(R.id.input_description))
+        onView(withId(R.id.tvDescription))
                 .perform(replaceText(description));
 
         try
@@ -119,9 +119,9 @@ public class MainActivityActions
             // ignored
         }
 
-        onView(withId(R.id.input_freq_num))
+        onView(withId(R.id.tvFreqNum))
                 .perform(replaceText(num));
-        onView(withId(R.id.input_freq_den))
+        onView(withId(R.id.tvFreqDen))
                 .perform(replaceText(den));
     }
 

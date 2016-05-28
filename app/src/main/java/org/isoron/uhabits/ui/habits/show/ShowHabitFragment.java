@@ -34,6 +34,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.ModelObservable;
 import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.ui.habits.edit.BaseDialogFragment;
 import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.ui.habits.edit.HistoryEditorDialog;
 import org.isoron.uhabits.utils.DateUtils;
@@ -146,7 +147,7 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
     {
         if(habit == null) return false;
 
-        EditHabitDialogFragment frag = EditHabitDialogFragment.editSingleHabitFragment(habit.getId());
+        BaseDialogFragment frag = EditHabitDialogFragment.newInstance(habit.getId());
         frag.show(getFragmentManager(), "editHabit");
         return true;
     }

@@ -178,7 +178,7 @@ public class MainTest
         typeHabitData("", "", "15", "7");
 
         onView(withId(R.id.buttonSave)).perform(click());
-        onView(withId(R.id.input_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.tvName)).check(matches(isDisplayed()));
     }
 
     /**

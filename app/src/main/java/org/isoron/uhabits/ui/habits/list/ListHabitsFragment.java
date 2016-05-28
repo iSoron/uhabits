@@ -39,7 +39,8 @@ import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.HintManager;
-import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
+import org.isoron.uhabits.ui.habits.edit.BaseDialogFragment;
+import org.isoron.uhabits.ui.habits.edit.CreateHabitDialogFragment;
 import org.isoron.uhabits.utils.InterfaceUtils;
 
 import butterknife.BindView;
@@ -141,7 +142,7 @@ public class ListHabitsFragment extends Fragment
 
     private void showCreateHabitScreen()
     {
-        EditHabitDialogFragment frag = EditHabitDialogFragment.createHabitFragment();
+        BaseDialogFragment frag = new CreateHabitDialogFragment();
         frag.show(getFragmentManager(), "editHabit");
     }
 
