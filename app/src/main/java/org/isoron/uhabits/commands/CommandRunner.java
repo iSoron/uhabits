@@ -59,6 +59,8 @@ public class CommandRunner
             {
                 for(Listener l : listeners)
                     l.onCommandExecuted(command, refreshKey);
+
+                super.onPostExecute(null);
             }
         }.execute();
     }
