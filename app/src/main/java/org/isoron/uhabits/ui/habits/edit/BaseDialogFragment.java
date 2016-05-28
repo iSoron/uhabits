@@ -56,10 +56,21 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.edit_habit, container, false);
-        helper = new BaseDialogHelper(this, view);
         ButterKnife.bind(this, view);
+
+        helper = new BaseDialogHelper(this, view);
+        getDialog().setTitle(getTitle());
+        initializeHabits();
+        restoreSavedInstance(savedInstanceState);
+        helper.populateForm(modifiedHabit);
         return view;
     }
+
+    protected abstract void initializeHabits();
+
+    protected abstract void saveHabit();
+
+    protected abstract int getTitle();
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -137,8 +148,6 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
         modifiedHabit.freqDen = freqDens[position];
         helper.populateFrequencyFields(modifiedHabit);
     }
-
-    protected abstract void saveHabit();
 
     @OnClick(R.id.buttonPickColor)
     void showColorPicker()

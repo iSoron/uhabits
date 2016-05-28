@@ -20,9 +20,6 @@
 package org.isoron.uhabits.ui.habits.edit;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
@@ -42,18 +39,13 @@ public class EditHabitDialogFragment extends BaseDialogFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    protected int getTitle()
     {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        getDialog().setTitle(R.string.edit_habit);
-        initializeHabits();
-        restoreSavedInstance(savedInstanceState);
-        helper.populateForm(modifiedHabit);
-        return view;
+        return R.string.edit_habit;
     }
 
-    private void initializeHabits()
+    @Override
+    protected void initializeHabits()
     {
         Long habitId = (Long) getArguments().get("habitId");
         if(habitId == null) throw new IllegalArgumentException("habitId must be specified");

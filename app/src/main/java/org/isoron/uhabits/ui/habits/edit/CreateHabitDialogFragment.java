@@ -19,11 +19,6 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CommandRunner;
@@ -33,18 +28,13 @@ import org.isoron.uhabits.models.Habit;
 public class CreateHabitDialogFragment extends BaseDialogFragment
 {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    protected int getTitle()
     {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        getDialog().setTitle(R.string.create_habit);
-        initializeHabits();
-        restoreSavedInstance(savedInstanceState);
-        helper.populateForm(modifiedHabit);
-        return view;
+        return R.string.create_habit;
     }
 
-    private void initializeHabits()
+    @Override
+    protected void initializeHabits()
     {
         modifiedHabit = new Habit();
         modifiedHabit.freqNum = 1;
