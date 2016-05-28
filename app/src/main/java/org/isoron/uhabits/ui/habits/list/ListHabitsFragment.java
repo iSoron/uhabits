@@ -28,7 +28,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,8 +42,12 @@ import org.isoron.uhabits.ui.HintManager;
 import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.utils.InterfaceUtils;
 
-public class ListHabitsFragment extends Fragment implements OnClickListener,
-        HabitListSelectionCallback.Listener, ListHabitsController.Screen
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ListHabitsFragment extends Fragment
+        implements HabitListSelectionCallback.Listener, ListHabitsController.Screen
 {
     private ActionMode actionMode;
     private HintManager hintManager;
@@ -52,37 +55,25 @@ public class ListHabitsFragment extends Fragment implements OnClickListener,
     private Listener habitClickListener;
     private BaseActivity activity;
 
-    private HabitListView listView;
-    private LinearLayout llButtonsHeader;
-    private ProgressBar progressBar;
-    private View llEmpty;
+    @BindView(R.id.listView) HabitListView listView;
+    @BindView(R.id.llButtonsHeader) LinearLayout llButtonsHeader;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.llEmpty) View llEmpty;
+    @BindView(R.id.llHint) View llHint;
+    @BindView(R.id.tvStarEmpty) TextView tvStarEmpty;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.list_habits_fragment, container, false);
-
-        View llHint = view.findViewById(R.id.llHint);
-        llButtonsHeader = (LinearLayout) view.findViewById(R.id.llButtonsHeader);
-        llEmpty = view.findViewById(R.id.llEmpty);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        listView = (HabitListView) view.findViewById(R.id.listView);
-        TextView tvStarEmpty = (TextView) view.findViewById(R.id.tvStarEmpty);
+        ButterKnife.bind(this, view);
 
         helper = new ListHabitsHelper(activity, listView.getLoader());
         hintManager = new HintManager(activity, llHint);
-
-        llHint.setOnClickListener(this);
         tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(activity));
         listView.setListener(new HabitListViewListener());
         setHasOptionsMenu(true);
-
-        if(savedInstanceState != null)
-        {
-            EditHabitDialogFragment frag = (EditHabitDialogFragment) getFragmentManager()
-                    .findFragmentByTag("editHabit");
-        }
 
         return view;
     }
@@ -100,7 +91,6 @@ public class ListHabitsFragment extends Fragment implements OnClickListener,
     public void onResume()
     {
         super.onResume();
-
         listView.getLoader().onResume();
         listView.refreshData(null);
         helper.updateEmptyMessage(llEmpty);
@@ -123,6 +113,7 @@ public class ListHabitsFragment extends Fragment implements OnClickListener,
         MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
         showArchivedItem.setChecked(listView.getShowArchived());
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -175,11 +166,10 @@ public class ListHabitsFragment extends Fragment implements OnClickListener,
         listView.cancelSelection();
     }
 
-    @Override
-    public void onClick(View v)
+    @OnClick(R.id.llHint)
+    public void onClickHint()
     {
-        if (v.getId() == R.id.llHint)
-            hintManager.dismissHint();
+        hintManager.dismissHint();
     }
 
     public ProgressBar getProgressBar()

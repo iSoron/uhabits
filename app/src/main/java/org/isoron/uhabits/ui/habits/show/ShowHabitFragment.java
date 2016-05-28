@@ -20,7 +20,6 @@
 package org.isoron.uhabits.ui.habits.show;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import org.isoron.uhabits.R;
@@ -49,15 +47,12 @@ import org.isoron.uhabits.views.HabitStreakView;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ShowHabitFragment extends Fragment
-        implements Spinner.OnItemSelectedListener, ModelObservable.Listener
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ShowHabitFragment extends Fragment implements ModelObservable.Listener
 {
-    protected ShowHabitActivity activity;
-    @Nullable
-    private List<HabitDataView> dataViews;
-
-    private int previousScoreInterval;
-
     Habit habit;
 
     float todayScore;
@@ -65,14 +60,25 @@ public class ShowHabitFragment extends Fragment
     float lastYearScore;
     int activeColor;
     int inactiveColor;
+    int previousScoreInterval;
 
     private ShowHabitHelper helper;
+    protected ShowHabitActivity activity;
+    private List<HabitDataView> dataViews;
+
+    @BindView(R.id.sStrengthInterval) Spinner sStrengthInterval;
+    @BindView(R.id.scoreView) HabitScoreView habitScoreView;
+    @BindView(R.id.historyView) HabitHistoryView habitHistoryView;
+    @BindView(R.id.punchcardView) HabitFrequencyView habitFrequencyView;
+    @BindView(R.id.streakView) HabitStreakView habitStreakView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.show_habit, container, false);
+        ButterKnife.bind(this, view);
+
         activity = (ShowHabitActivity) getActivity();
         helper = new ShowHabitHelper(this);
 
@@ -84,41 +90,31 @@ public class ShowHabitFragment extends Fragment
         previousScoreInterval = defaultScoreInterval;
         setScoreBucketSize(defaultScoreInterval);
 
-        Spinner sStrengthInterval = (Spinner) view.findViewById(R.id.sStrengthInterval);
         sStrengthInterval.setSelection(defaultScoreInterval);
-        sStrengthInterval.setOnItemSelectedListener(this);
+        sStrengthInterval.setOnItemSelectedListener(new OnItemSelectedListener());
 
-        createDataViews(view);
+        createDataViews();
         helper.updateCardHeaders(view);
-
-        bindButtontEditHistory(view);
         setHasOptionsMenu(true);
 
         return view;
     }
 
-    private void bindButtontEditHistory(View view)
+    @OnClick(R.id.btEditHistory)
+    public void onClickEditHistory()
     {
-        Button btEditHistory = (Button) view.findViewById(R.id.btEditHistory);
-        btEditHistory.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                HistoryEditorDialog frag = new HistoryEditorDialog();
-                frag.setHabit(habit);
-                frag.show(getFragmentManager(), "historyEditor");
-            }
-        });
+        HistoryEditorDialog frag = new HistoryEditorDialog();
+        frag.setHabit(habit);
+        frag.show(getFragmentManager(), "historyEditor");
     }
 
-    private void createDataViews(View view)
+    private void createDataViews()
     {
         dataViews = new LinkedList<>();
-        dataViews.add((HabitScoreView) view.findViewById(R.id.scoreView));
-        dataViews.add((HabitHistoryView) view.findViewById(R.id.historyView));
-        dataViews.add((HabitFrequencyView) view.findViewById(R.id.punchcardView));
-        dataViews.add((HabitStreakView) view.findViewById(R.id.streakView));
+        dataViews.add(habitScoreView);
+        dataViews.add(habitHistoryView);
+        dataViews.add(habitFrequencyView);
+        dataViews.add(habitStreakView);
 
         for(HabitDataView dataView : dataViews)
             dataView.setHabit(habit);
@@ -160,30 +156,17 @@ public class ShowHabitFragment extends Fragment
         new RefreshTask().execute();
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-    {
-        if(parent.getId() == R.id.sStrengthInterval)
-            setScoreBucketSize(position);
-    }
-
     private void setScoreBucketSize(int position)
     {
         if(getView() == null) return;
 
-        HabitScoreView scoreView = (HabitScoreView) getView().findViewById(R.id.scoreView);
-        scoreView.setBucketSize(HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
+        habitScoreView.setBucketSize(HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
 
         if(position != previousScoreInterval)
             refreshData();
 
         InterfaceUtils.setDefaultScoreInterval(getContext(), position);
         previousScoreInterval = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
     }
 
     @Override
@@ -201,6 +184,20 @@ public class ShowHabitFragment extends Fragment
                 if(activity != null) activity.setupHabitActionBar();
             }
         });
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        habit.observable.addListener(this);
+    }
+
+    @Override
+    public void onPause()
+    {
+        habit.observable.removeListener(this);
+        super.onPause();
     }
 
     private class RefreshTask extends BaseTask
@@ -228,17 +225,18 @@ public class ShowHabitFragment extends Fragment
         }
     }
 
-    @Override
-    public void onStart()
+    private class OnItemSelectedListener implements AdapterView.OnItemSelectedListener
     {
-        super.onStart();
-        habit.observable.addListener(this);
-    }
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        {
+            setScoreBucketSize(position);
+        }
 
-    @Override
-    public void onPause()
-    {
-        habit.observable.removeListener(this);
-        super.onPause();
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+
+        }
     }
 }
