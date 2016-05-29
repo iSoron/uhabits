@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.5.4 (May 29, 2016)
+
+* Fix crash upon opening settings screen in some phones
+* Fix missing folders in CSV archive
+* Add Serbian translation
+
 ### 1.5.3 (May 22, 2016)
 
 * Complete Arabic and Czech translations
