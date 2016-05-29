@@ -28,8 +28,9 @@ import android.support.v7.app.AppCompatDialogFragment;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.utils.DateUtils;
 
-public class WeekdayPickerDialog extends AppCompatDialogFragment
-        implements DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnClickListener
+public class WeekdayPickerDialog extends AppCompatDialogFragment implements
+                                                                 DialogInterface.OnMultiChoiceClickListener,
+                                                                 DialogInterface.OnClickListener
 {
 
     public interface OnWeekdaysPickedListener
@@ -38,6 +39,7 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment
     }
 
     private boolean[] selectedDays;
+
     private OnWeekdaysPickedListener listener;
 
     public void setListener(OnWeekdaysPickedListener listener)
@@ -54,10 +56,13 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.select_weekdays)
-                .setMultiChoiceItems(DateUtils.getLongDayNames(), selectedDays, this)
-                .setPositiveButton(android.R.string.yes, this)
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
+        builder
+            .setTitle(R.string.select_weekdays)
+            .setMultiChoiceItems(DateUtils.getLongDayNames(), selectedDays,
+                this)
+            .setPositiveButton(android.R.string.yes, this)
+            .setNegativeButton(android.R.string.cancel,
+                new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
@@ -78,6 +83,6 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        if(listener != null) listener.onWeekdaysPicked(selectedDays);
+        if (listener != null) listener.onWeekdaysPicked(selectedDays);
     }
 }

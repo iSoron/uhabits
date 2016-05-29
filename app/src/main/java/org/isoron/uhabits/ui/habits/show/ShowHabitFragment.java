@@ -52,29 +52,47 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShowHabitFragment extends Fragment implements ModelObservable.Listener
+public class ShowHabitFragment extends Fragment
+    implements ModelObservable.Listener
 {
     Habit habit;
 
     float todayScore;
+
     float lastMonthScore;
+
     float lastYearScore;
+
     int activeColor;
+
     int inactiveColor;
+
     int previousScoreInterval;
 
     private ShowHabitHelper helper;
+
     protected ShowHabitActivity activity;
+
     private List<HabitDataView> dataViews;
 
-    @BindView(R.id.sStrengthInterval) Spinner sStrengthInterval;
-    @BindView(R.id.scoreView) HabitScoreView habitScoreView;
-    @BindView(R.id.historyView) HabitHistoryView habitHistoryView;
-    @BindView(R.id.punchcardView) HabitFrequencyView habitFrequencyView;
-    @BindView(R.id.streakView) HabitStreakView habitStreakView;
+    @BindView(R.id.sStrengthInterval)
+    Spinner sStrengthInterval;
+
+    @BindView(R.id.scoreView)
+    HabitScoreView habitScoreView;
+
+    @BindView(R.id.historyView)
+    HabitHistoryView habitHistoryView;
+
+    @BindView(R.id.punchcardView)
+    HabitFrequencyView habitFrequencyView;
+
+    @BindView(R.id.streakView)
+    HabitStreakView habitStreakView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.show_habit, container, false);
@@ -87,12 +105,14 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
         helper.updateColors();
         helper.updateMainHeader(view);
 
-        int defaultScoreInterval = InterfaceUtils.getDefaultScoreInterval(getContext());
+        int defaultScoreInterval =
+            InterfaceUtils.getDefaultScoreInterval(getContext());
         previousScoreInterval = defaultScoreInterval;
         setScoreBucketSize(defaultScoreInterval);
 
         sStrengthInterval.setSelection(defaultScoreInterval);
-        sStrengthInterval.setOnItemSelectedListener(new OnItemSelectedListener());
+        sStrengthInterval.setOnItemSelectedListener(
+            new OnItemSelectedListener());
 
         createDataViews();
         helper.updateCardHeaders(view);
@@ -117,7 +137,7 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
         dataViews.add(habitFrequencyView);
         dataViews.add(habitStreakView);
 
-        for(HabitDataView dataView : dataViews)
+        for (HabitDataView dataView : dataViews)
             dataView.setHabit(habit);
     }
 
@@ -131,7 +151,7 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
-        inflater.inflate(R.menu.show_habit_fragment, menu);
+//        inflater.inflate(R.menu.show_habit_fragment, menu);
     }
 
     @Override
@@ -145,9 +165,10 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
 
     private boolean showEditHabitDialog()
     {
-        if(habit == null) return false;
+        if (habit == null) return false;
 
-        BaseDialogFragment frag = EditHabitDialogFragment.newInstance(habit.getId());
+        BaseDialogFragment frag =
+            EditHabitDialogFragment.newInstance(habit.getId());
         frag.show(getFragmentManager(), "editHabit");
         return true;
     }
@@ -159,12 +180,12 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
 
     private void setScoreBucketSize(int position)
     {
-        if(getView() == null) return;
+        if (getView() == null) return;
 
-        habitScoreView.setBucketSize(HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
+        habitScoreView.setBucketSize(
+            HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
 
-        if(position != previousScoreInterval)
-            refreshData();
+        if (position != previousScoreInterval) refreshData();
 
         InterfaceUtils.setDefaultScoreInterval(getContext(), position);
         previousScoreInterval = position;
@@ -182,7 +203,7 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
                 helper.updateColors();
                 helper.updateMainHeader(getView());
                 helper.updateCardHeaders(getView());
-                if(activity != null) activity.setupHabitActionBar();
+                if (activity != null) activity.setupHabitActionBar();
             }
         });
     }
@@ -206,8 +227,8 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
         @Override
         protected void doInBackground()
         {
-            if(habit == null) return;
-            if(dataViews == null) return;
+            if (habit == null) return;
+            if (dataViews == null) return;
 
             long today = DateUtils.getStartOfToday();
             long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
@@ -226,10 +247,14 @@ public class ShowHabitFragment extends Fragment implements ModelObservable.Liste
         }
     }
 
-    private class OnItemSelectedListener implements AdapterView.OnItemSelectedListener
+    private class OnItemSelectedListener
+        implements AdapterView.OnItemSelectedListener
     {
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        public void onItemSelected(AdapterView<?> parent,
+                                   View view,
+                                   int position,
+                                   long id)
         {
             setScoreBucketSize(position);
         }

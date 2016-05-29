@@ -30,32 +30,12 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.utils.InterfaceUtils;
 
+/**
+ * Activity that allows the user to see information about the app itself.
+ * Display current version, link to Google Play and list of contributors.
+ */
 public class AboutActivity extends BaseActivity implements View.OnClickListener
 {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.about);
-        setupSupportActionBar(true);
-
-        int color = InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
-        setupActionBarColor(color);
-
-        TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
-        TextView tvRate = (TextView) findViewById(R.id.tvRate);
-        TextView tvFeedback = (TextView) findViewById(R.id.tvFeedback);
-        TextView tvSource = (TextView) findViewById(R.id.tvSource);
-
-        tvVersion.setText(String.format(getResources().getString(R.string.version_n),
-                BuildConfig.VERSION_NAME));
-        tvRate.setOnClickListener(this);
-        tvFeedback.setOnClickListener(this);
-        tvSource.setOnClickListener(this);
-    }
-
     @Override
     public void onClick(View v)
     {
@@ -88,5 +68,30 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.about);
+//        setupSupportActionBar(true);
+
+        int color =
+            InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
+//        setupActionBarColor(color);
+
+        TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
+        TextView tvRate = (TextView) findViewById(R.id.tvRate);
+        TextView tvFeedback = (TextView) findViewById(R.id.tvFeedback);
+        TextView tvSource = (TextView) findViewById(R.id.tvSource);
+
+        tvVersion.setText(
+            String.format(getResources().getString(R.string.version_n),
+                BuildConfig.VERSION_NAME));
+        tvRate.setOnClickListener(this);
+        tvFeedback.setOnClickListener(this);
+        tvSource.setOnClickListener(this);
     }
 }

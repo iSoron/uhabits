@@ -29,28 +29,40 @@ import org.isoron.uhabits.R;
 
 public class Preferences
 {
-    private static Preferences singleton;
-
     private Context context;
+
     private SharedPreferences prefs;
 
-    private Preferences()
+    public Preferences()
     {
         this.context = HabitsApplication.getContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static Preferences getInstance()
+    public Integer getDefaultHabitColor(int fallbackColor)
     {
-        if(singleton == null) singleton = new Preferences();
-        return singleton;
+        return prefs.getInt("pref_default_habit_palette_color", fallbackColor);
     }
 
-    public void initialize()
+    /**
+     * Returns the number of the last hint shown to the user.
+     *
+     * @return number of last hint shown
+     */
+    public int getLastHintNumber()
     {
-        PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
+        return prefs.getInt("last_hint_number", -1);
     }
 
+    /**
+     * Returns the time when the last hint was shown to the user.
+     *
+     * @return timestamp of the day the last hint was shown
+     */
+    public long getLastHintTimestamp()
+    {
+        return prefs.getLong("last_hint_timestamp", -1);
+    }
 
     public void incrementLaunchCount()
     {
@@ -58,9 +70,9 @@ public class Preferences
         prefs.edit().putInt("launch_count", count + 1).apply();
     }
 
-    public void updateLastAppVersion()
+    public void initialize()
     {
-        prefs.edit().putInt("last_version", BuildConfig.VERSION_CODE).apply();
+        PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
     }
 
     public boolean isFirstRun()
@@ -73,24 +85,53 @@ public class Preferences
         prefs.edit().putBoolean("pref_first_run", isFirstRun).apply();
     }
 
-    public void setLastHintTimestamp(long timestamp)
-    {
-        prefs.edit().putLong("last_hint_timestamp", timestamp).apply();
-    }
-
     public boolean isShortToggleEnabled()
     {
         return prefs.getBoolean("pref_short_toggle", false);
     }
 
-    public Integer getDefaultHabitColor(int defaultColor)
+    public void setShortToggleEnabled(boolean enabled)
     {
-        return prefs.getInt("pref_default_habit_palette_color", defaultColor);
+        prefs.edit().putBoolean("pref_short_toggle", enabled).apply();
     }
 
     public void setDefaultHabitColor(int color)
     {
         prefs.edit().putInt("pref_default_habit_palette_color", color).apply();
     }
+
+    public void setShouldReverseCheckmarks(boolean shouldReverse)
+    {
+        prefs
+                .edit()
+                .putBoolean("pref_checkmark_reverse_order", shouldReverse)
+                .apply();
+    }
+
+    public boolean shouldReverseCheckmarks()
+    {
+        return prefs.getBoolean("pref_checkmark_reverse_order", false);
+    }
+
+    public void updateLastAppVersion()
+    {
+        prefs.edit().putInt("last_version", BuildConfig.VERSION_CODE).apply();
+    }
+
+    /**
+     * Sets the last hint shown to the user, and the time that it was shown.
+     *
+     * @param number    number of the last hint shown
+     * @param timestamp timestamp for the day the last hint was shown
+     */
+    public void updateLastHint(int number, long timestamp)
+    {
+        prefs
+                .edit()
+                .putInt("last_hint_number", number)
+                .putLong("last_hint_timestamp", timestamp)
+                .apply();
+    }
+
 
 }

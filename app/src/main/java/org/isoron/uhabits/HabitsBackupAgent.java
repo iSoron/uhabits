@@ -28,7 +28,9 @@ public class HabitsBackupAgent extends BackupAgentHelper
     @Override
     public void onCreate()
     {
-        addHelper("preferences", new SharedPreferencesBackupHelper(this, "preferences"));
-        addHelper("database", new FileBackupHelper(this, "../databases/uhabits.db"));
+        addHelper("preferences",
+                new SharedPreferencesBackupHelper(this, "preferences"));
+        addHelper("database",
+                new FileBackupHelper(this, "../databases/uhabits.db"));
     }
 }

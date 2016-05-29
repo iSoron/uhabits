@@ -19,29 +19,30 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import org.isoron.uhabits.tasks.BaseTask;
 
 import java.util.LinkedList;
 
 public class CommandRunner
 {
-    public interface Listener
-    {
-        void onCommandExecuted(Command command, Long refreshKey);
-    }
-
-    private static CommandRunner singleton;
     private LinkedList<Listener> listeners;
 
-    private CommandRunner()
+    public CommandRunner()
     {
         listeners = new LinkedList<>();
     }
 
-    public static CommandRunner getInstance()
+    private static CommandRunner getInstance()
     {
-        if(singleton == null) singleton = new CommandRunner();
-        return singleton;
+        return null;
+    }
+
+    public void addListener(Listener l)
+    {
+        listeners.add(l);
     }
 
     public void execute(final Command command, final Long refreshKey)
@@ -57,7 +58,7 @@ public class CommandRunner
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                for(Listener l : listeners)
+                for (Listener l : listeners)
                     l.onCommandExecuted(command, refreshKey);
 
                 super.onPostExecute(null);
@@ -65,13 +66,14 @@ public class CommandRunner
         }.execute();
     }
 
-    public void addListener(Listener l)
-    {
-        listeners.add(l);
-    }
-
     public void removeListener(Listener l)
     {
         listeners.remove(l);
+    }
+
+    public interface Listener
+    {
+        void onCommandExecuted(@NonNull Command command,
+                               @Nullable Long refreshKey);
     }
 }

@@ -22,9 +22,12 @@ package org.isoron.uhabits.ui.settings;
 import android.os.Bundle;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.ui.BaseActivity;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
+/**
+ * Activity that allows the user to view and modify the app settings.
+ */
 public class SettingsActivity extends BaseActivity
 {
     @Override
@@ -32,9 +35,10 @@ public class SettingsActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        setupSupportActionBar(true);
+//        setupSupportActionBar(true);
 
-        int color = InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
-        setupActionBarColor(color);
+        int color =
+            InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
+//        setupActionBarColor(color);
     }
 }

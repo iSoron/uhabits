@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Repetition;
@@ -44,15 +44,15 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class RepetitionListTest extends BaseTest
+public class RepetitionListTest extends BaseAndroidTest
 {
     private Habit habit;
     private Habit emptyHabit;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         HabitFixtures.purgeHabits();
         habit = HabitFixtures.createShortHabit();

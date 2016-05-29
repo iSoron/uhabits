@@ -38,9 +38,9 @@ public class HabitScoreViewTest extends ViewTest
     private HabitScoreView view;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         HabitFixtures.purgeHabits();
         habit = HabitFixtures.createLongHabit();

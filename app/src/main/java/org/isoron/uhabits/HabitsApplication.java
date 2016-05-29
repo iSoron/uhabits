@@ -21,28 +21,15 @@ package org.isoron.uhabits;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.WindowManager;
 
 import com.activeandroid.ActiveAndroid;
 
-import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.DatabaseUtils;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.FileUtils;
-import org.isoron.uhabits.utils.ReminderUtils;
-import org.isoron.uhabits.widgets.WidgetManager;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
 
-public class HabitsApplication extends Application implements MainController.System
+public class HabitsApplication extends Application
 {
     public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
     public static final int RESULT_IMPORT_DATA = 1;
@@ -55,6 +42,7 @@ public class HabitsApplication extends Application implements MainController.Sys
 
     @Nullable
     private static Context context;
+    private static BaseComponent component;
 
     public static boolean isTestMode()
     {
@@ -82,12 +70,23 @@ public class HabitsApplication extends Application implements MainController.Sys
         return application;
     }
 
+    public static BaseComponent getComponent()
+    {
+        return component;
+    }
+
+    public static void setComponent(BaseComponent component)
+    {
+        HabitsApplication.component = component;
+    }
+
     @Override
     public void onCreate()
     {
         super.onCreate();
         HabitsApplication.context = this;
         HabitsApplication.application = this;
+        component = DaggerAndroidComponent.builder().build();
 
         if (isTestMode())
         {
@@ -104,109 +103,5 @@ public class HabitsApplication extends Application implements MainController.Sys
         HabitsApplication.context = null;
         ActiveAndroid.dispose();
         super.onTerminate();
-    }
-
-    public String getLogcat() throws IOException
-    {
-        int maxNLines = 250;
-        StringBuilder builder = new StringBuilder();
-
-        String[] command = new String[] { "logcat", "-d"};
-        Process process = Runtime.getRuntime().exec(command);
-
-        InputStreamReader in = new InputStreamReader(process.getInputStream());
-        BufferedReader bufferedReader = new BufferedReader(in);
-
-        LinkedList<String> log = new LinkedList<>();
-
-        String line;
-        while ((line = bufferedReader.readLine()) != null)
-        {
-            log.addLast(line);
-            if(log.size() > maxNLines) log.removeFirst();
-        }
-
-        for(String l : log)
-        {
-            builder.append(l);
-            builder.append('\n');
-        }
-
-        return builder.toString();
-    }
-
-    public String getDeviceInfo()
-    {
-        if(context == null) return "";
-
-        StringBuilder b = new StringBuilder();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-        b.append(String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME));
-        b.append(String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE));
-        b.append(String.format("OS Version: %s (%s)\n", java.lang.System.getProperty("os.version"),
-                android.os.Build.VERSION.INCREMENTAL));
-        b.append(String.format("OS API Level: %s\n", android.os.Build.VERSION.SDK));
-        b.append(String.format("Device: %s\n", android.os.Build.DEVICE));
-        b.append(String.format("Model (Product): %s (%s)\n", android.os.Build.MODEL,
-                android.os.Build.PRODUCT));
-        b.append(String.format("Manufacturer: %s\n", android.os.Build.MANUFACTURER));
-        b.append(String.format("Other tags: %s\n", android.os.Build.TAGS));
-        b.append(String.format("Screen Width: %s\n", wm.getDefaultDisplay().getWidth()));
-        b.append(String.format("Screen Height: %s\n", wm.getDefaultDisplay().getHeight()));
-        b.append(String.format("SD Card state: %s\n\n", Environment.getExternalStorageState()));
-
-        return b.toString();
-    }
-
-    @NonNull
-    public File dumpBugReportToFile() throws IOException
-    {
-        String date = DateUtils.getBackupDateFormat().format(DateUtils.getLocalTime());
-
-        if(context == null) throw new RuntimeException("application context should not be null");
-        File dir = FileUtils.getFilesDir("Logs");
-        if (dir == null) throw new IOException("log dir should not be null");
-
-        File logFile = new File(String.format("%s/Log %s.txt", dir.getPath(), date));
-        FileWriter output = new FileWriter(logFile);
-        output.write(getBugReport());
-        output.close();
-
-        return logFile;
-    }
-
-    @NonNull
-    public String getBugReport() throws IOException
-    {
-        String logcat = getLogcat();
-        String deviceInfo = getDeviceInfo();
-        return deviceInfo + "\n" + logcat;
-    }
-
-    public void scheduleReminders()
-    {
-        new BaseTask()
-        {
-
-            @Override
-            protected void doInBackground()
-            {
-                ReminderUtils.createReminderAlarms(getContext());
-            }
-        }.execute();
-    }
-
-    public void updateWidgets()
-    {
-        new BaseTask()
-        {
-
-            @Override
-            protected void doInBackground()
-            {
-                WidgetManager.updateWidgets(getContext());
-            }
-        }.execute();
     }
 }

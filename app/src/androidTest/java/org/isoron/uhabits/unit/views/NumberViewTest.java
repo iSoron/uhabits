@@ -38,9 +38,9 @@ public class NumberViewTest extends ViewTest
     private NumberView view;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         view = new NumberView(targetContext);
         view.setLabel("Hello world");

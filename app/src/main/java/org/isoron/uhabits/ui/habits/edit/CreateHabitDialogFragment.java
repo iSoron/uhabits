@@ -21,7 +21,6 @@ package org.isoron.uhabits.ui.habits.edit;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.models.Habit;
 
@@ -45,6 +44,6 @@ public class CreateHabitDialogFragment extends BaseDialogFragment
     protected void saveHabit()
     {
         Command command = new CreateHabitCommand(modifiedHabit);
-        CommandRunner.getInstance().execute(command, null);
+        commandRunner.execute(command, null);
     }
 }

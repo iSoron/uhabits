@@ -23,7 +23,6 @@ import android.os.Bundle;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.models.Habit;
 
@@ -48,7 +47,8 @@ public class EditHabitDialogFragment extends BaseDialogFragment
     protected void initializeHabits()
     {
         Long habitId = (Long) getArguments().get("habitId");
-        if(habitId == null) throw new IllegalArgumentException("habitId must be specified");
+        if (habitId == null)
+            throw new IllegalArgumentException("habitId must be specified");
 
         originalHabit = Habit.get(habitId);
         modifiedHabit = new Habit(originalHabit);
@@ -57,6 +57,6 @@ public class EditHabitDialogFragment extends BaseDialogFragment
     protected void saveHabit()
     {
         Command command = new EditHabitCommand(originalHabit, modifiedHabit);
-        CommandRunner.getInstance().execute(command, originalHabit.getId());
+        commandRunner.execute(command, originalHabit.getId());
     }
 }

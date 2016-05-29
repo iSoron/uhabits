@@ -37,15 +37,33 @@ import butterknife.ButterKnife;
 public class BaseDialogHelper
 {
     private DialogFragment frag;
-    @BindView(R.id.tvName) TextView tvName;
-    @BindView(R.id.tvDescription) TextView tvDescription;
-    @BindView(R.id.tvFreqNum) TextView tvFreqNum;
-    @BindView(R.id.tvFreqDen) TextView tvFreqDen;
-    @BindView(R.id.tvReminderTime) TextView tvReminderTime;
-    @BindView(R.id.tvReminderDays) TextView tvReminderDays;
-    @BindView(R.id.sFrequency) Spinner sFrequency;
-    @BindView(R.id.llCustomFrequency) ViewGroup llCustomFrequency;
-    @BindView(R.id.llReminderDays) ViewGroup llReminderDays;
+
+    @BindView(R.id.tvName)
+    TextView tvName;
+
+    @BindView(R.id.tvDescription)
+    TextView tvDescription;
+
+    @BindView(R.id.tvFreqNum)
+    TextView tvFreqNum;
+
+    @BindView(R.id.tvFreqDen)
+    TextView tvFreqDen;
+
+    @BindView(R.id.tvReminderTime)
+    TextView tvReminderTime;
+
+    @BindView(R.id.tvReminderDays)
+    TextView tvReminderDays;
+
+    @BindView(R.id.sFrequency)
+    Spinner sFrequency;
+
+    @BindView(R.id.llCustomFrequency)
+    ViewGroup llCustomFrequency;
+
+    @BindView(R.id.llReminderDays)
+    ViewGroup llReminderDays;
 
     public BaseDialogHelper(DialogFragment frag, View view)
     {
@@ -53,19 +71,55 @@ public class BaseDialogHelper
         ButterKnife.bind(this, view);
     }
 
+    void parseFormIntoHabit(Habit habit)
+    {
+        habit.name = tvName.getText().toString().trim();
+        habit.description = tvDescription.getText().toString().trim();
+        String freqNum = tvFreqNum.getText().toString();
+        String freqDen = tvFreqDen.getText().toString();
+        if (!freqNum.isEmpty()) habit.freqNum = Integer.parseInt(freqNum);
+        if (!freqDen.isEmpty()) habit.freqDen = Integer.parseInt(freqDen);
+    }
+
+    void populateColor(int paletteColor)
+    {
+        tvName.setTextColor(
+            ColorUtils.getColor(frag.getContext(), paletteColor));
+    }
+
     protected void populateForm(final Habit habit)
     {
-        if(habit.name != null) tvName.setText(habit.name);
-        if(habit.description != null) tvDescription.setText(habit.description);
+        if (habit.name != null) tvName.setText(habit.name);
+        if (habit.description != null) tvDescription.setText(habit.description);
 
         populateColor(habit.color);
         populateFrequencyFields(habit);
         populateReminderFields(habit);
     }
 
-    void populateColor(int paletteColor)
+    @SuppressLint("SetTextI18n")
+    void populateFrequencyFields(Habit habit)
     {
-        tvName.setTextColor(ColorUtils.getColor(frag.getContext(), paletteColor));
+        int quickSelectPosition = -1;
+
+        if (habit.freqNum.equals(habit.freqDen)) quickSelectPosition = 0;
+
+        else if (habit.freqNum == 1 && habit.freqDen == 7)
+            quickSelectPosition = 1;
+
+        else if (habit.freqNum == 2 && habit.freqDen == 7)
+            quickSelectPosition = 2;
+
+        else if (habit.freqNum == 5 && habit.freqDen == 7)
+            quickSelectPosition = 3;
+
+        if (quickSelectPosition >= 0)
+            showSimplifiedFrequency(quickSelectPosition);
+
+        else showCustomFrequency();
+
+        tvFreqNum.setText(habit.freqNum.toString());
+        tvFreqDen.setText(habit.freqDen.toString());
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -78,36 +132,15 @@ public class BaseDialogHelper
             return;
         }
 
-        String time = DateUtils.formatTime(frag.getContext(), habit.reminderHour, habit.reminderMin);
+        String time =
+            DateUtils.formatTime(frag.getContext(), habit.reminderHour,
+                habit.reminderMin);
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
         boolean weekdays[] = DateUtils.unpackWeekdayList(habit.reminderDays);
-        tvReminderDays.setText(DateUtils.formatWeekdayList(frag.getContext(), weekdays));
-    }
-
-    @SuppressLint("SetTextI18n")
-    void populateFrequencyFields(Habit habit)
-    {
-        int quickSelectPosition = -1;
-
-        if(habit.freqNum.equals(habit.freqDen))
-            quickSelectPosition = 0;
-
-        else if(habit.freqNum == 1 && habit.freqDen == 7)
-            quickSelectPosition = 1;
-
-        else if(habit.freqNum == 2 && habit.freqDen == 7)
-            quickSelectPosition = 2;
-
-        else if(habit.freqNum == 5 && habit.freqDen == 7)
-            quickSelectPosition = 3;
-
-        if(quickSelectPosition >= 0) showSimplifiedFrequency(quickSelectPosition);
-        else showCustomFrequency();
-
-        tvFreqNum.setText(habit.freqNum.toString());
-        tvFreqDen.setText(habit.freqDen.toString());
+        tvReminderDays.setText(
+            DateUtils.formatWeekdayList(frag.getContext(), weekdays));
     }
 
     private void showCustomFrequency()
@@ -130,32 +163,25 @@ public class BaseDialogHelper
 
         if (habit.name.length() == 0)
         {
-            tvName.setError(frag.getString(R.string.validation_name_should_not_be_blank));
+            tvName.setError(
+                frag.getString(R.string.validation_name_should_not_be_blank));
             valid = false;
         }
 
         if (habit.freqNum <= 0)
         {
-            tvFreqNum.setError(frag.getString(R.string.validation_number_should_be_positive));
+            tvFreqNum.setError(
+                frag.getString(R.string.validation_number_should_be_positive));
             valid = false;
         }
 
         if (habit.freqNum > habit.freqDen)
         {
-            tvFreqNum.setError(frag.getString(R.string.validation_at_most_one_rep_per_day));
+            tvFreqNum.setError(
+                frag.getString(R.string.validation_at_most_one_rep_per_day));
             valid = false;
         }
 
         return valid;
-    }
-
-    void parseFormIntoHabit(Habit habit)
-    {
-        habit.name = tvName.getText().toString().trim();
-        habit.description = tvDescription.getText().toString().trim();
-        String freqNum = tvFreqNum.getText().toString();
-        String freqDen = tvFreqDen.getText().toString();
-        if(!freqNum.isEmpty()) habit.freqNum =  Integer.parseInt(freqNum);
-        if(!freqDen.isEmpty()) habit.freqDen = Integer.parseInt(freqDen);
     }
 }

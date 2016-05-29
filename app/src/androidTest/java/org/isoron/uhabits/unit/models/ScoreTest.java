@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.models;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Score;
 import org.junit.Before;
@@ -34,12 +34,12 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ScoreTest extends BaseTest
+public class ScoreTest extends BaseAndroidTest
 {
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
     }
 
     @Test

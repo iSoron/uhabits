@@ -25,10 +25,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.BaseActivity;
 
+/**
+ * Activity that allows the user to see more information about a single habit.
+ * Shows all the metadata for the habit, in addition to several charts.
+ */
 public class ShowHabitActivity extends BaseActivity
 {
     private Habit habit;
@@ -42,19 +45,19 @@ public class ShowHabitActivity extends BaseActivity
         habit = Habit.get(ContentUris.parseId(data));
 
         setContentView(R.layout.show_habit_activity);
-        setupSupportActionBar(true);
+//        setupSupportActionBar(true);
         setupHabitActionBar();
     }
 
     public void setupHabitActionBar()
     {
-        if(habit == null) return;
+        if (habit == null) return;
 
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar == null) return;
+        if (actionBar == null) return;
 
         actionBar.setTitle(habit.name);
-        setupActionBarColor(ColorUtils.getColor(this, habit.color));
+//        setupActionBarColor(ColorUtils.getColor(this, habit.color));
     }
 
     public Habit getHabit()

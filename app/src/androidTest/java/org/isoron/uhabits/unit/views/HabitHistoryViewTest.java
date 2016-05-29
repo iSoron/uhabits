@@ -43,9 +43,9 @@ public class HabitHistoryViewTest extends ViewTest
     private HabitHistoryView view;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         HabitFixtures.purgeHabits();
         habit = HabitFixtures.createLongHabit();

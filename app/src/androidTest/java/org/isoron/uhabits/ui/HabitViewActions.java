@@ -61,7 +61,7 @@ public class HabitViewActions
             @Override
             public void perform(UiController uiController, View view)
             {
-                if (view.getId() != R.id.llButtons)
+                if (view.getId() != R.id.checkmarkPanel)
                     throw new InvalidParameterException("View must have id llButtons");
 
                 LinearLayout llButtons = (LinearLayout) view;

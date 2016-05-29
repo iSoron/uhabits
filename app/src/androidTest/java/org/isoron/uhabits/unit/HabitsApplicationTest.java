@@ -23,8 +23,9 @@ import android.os.Build;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.ui.BaseSystem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -35,7 +36,7 @@ import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitsApplicationTest extends BaseTest
+public class HabitsApplicationTest extends BaseAndroidTest
 {
     @Test
     public void test_getLogcat() throws IOException
@@ -49,7 +50,8 @@ public class HabitsApplicationTest extends BaseTest
         HabitsApplication app = HabitsApplication.getInstance();
         assert(app != null);
 
-        String log = app.getLogcat();
+        BaseSystem system = new BaseSystem(targetContext);
+        String log = system.getLogcat();
         assertThat(log, containsString(msg));
     }
 }

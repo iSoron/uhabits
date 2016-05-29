@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.commands;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class DeleteHabitsCommandTest extends BaseTest
+public class DeleteHabitsCommandTest extends BaseAndroidTest
 {
     private DeleteHabitsCommand command;
     private LinkedList<Habit> habits;
@@ -48,9 +48,9 @@ public class DeleteHabitsCommandTest extends BaseTest
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         HabitFixtures.purgeHabits();
         habits = new LinkedList<>();

@@ -23,7 +23,7 @@ import android.support.annotation.NonNull;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.tasks.ImportDataTask;
 import org.isoron.uhabits.utils.FileUtils;
 import org.junit.Before;
@@ -40,14 +40,14 @@ import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ImportDataTaskTest extends BaseTest
+public class ImportDataTaskTest extends BaseAndroidTest
 {
     private File baseDir;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         baseDir = FileUtils.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");

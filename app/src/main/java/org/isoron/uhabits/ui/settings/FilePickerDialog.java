@@ -39,8 +39,11 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
     private static final String PARENT_DIR = "..";
 
     private final Activity activity;
+
     private ListView list;
+
     private Dialog dialog;
+
     private File currentPath;
 
     public interface OnFileSelectedListener
@@ -59,21 +62,24 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
 
         dialog = new Dialog(activity);
         dialog.setContentView(list);
-        dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        dialog
+            .getWindow()
+            .setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         navigateTo(initialDirectory);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int which, long id)
+    public void onItemClick(AdapterView<?> parent,
+                            View view,
+                            int which,
+                            long id)
     {
         String filename = (String) list.getItemAtPosition(which);
         File file;
 
-        if (filename.equals(PARENT_DIR))
-            file = currentPath.getParentFile();
-        else
-            file = new File(currentPath, filename);
+        if (filename.equals(PARENT_DIR)) file = currentPath.getParentFile();
+        else file = new File(currentPath, filename);
 
         if (file.isDirectory())
         {
@@ -102,7 +108,7 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
 
         File[] dirs = path.listFiles(new ReadableDirFilter());
         File[] files = path.listFiles(new RegularReadableFileFilter());
-        if(dirs == null || files == null) return;
+        if (dirs == null || files == null) return;
 
         this.currentPath = path;
         dialog.setTitle(currentPath.getPath());
@@ -142,7 +148,8 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
     {
         public FilePickerAdapter(@NonNull String[] fileList)
         {
-            super(FilePickerDialog.this.activity, android.R.layout.simple_list_item_1, fileList);
+            super(FilePickerDialog.this.activity,
+                android.R.layout.simple_list_item_1, fileList);
         }
 
         @Override

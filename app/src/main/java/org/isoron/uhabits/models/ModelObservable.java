@@ -47,7 +47,7 @@ public class ModelObservable
         listeners.remove(l);
     }
 
-    void notifyListeners()
+    public void notifyListeners()
     {
         for(Listener l : listeners) l.onModelChange();
     }

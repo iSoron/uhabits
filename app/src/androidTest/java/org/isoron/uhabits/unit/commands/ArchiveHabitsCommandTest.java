@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.commands;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -37,16 +37,16 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ArchiveHabitsCommandTest extends BaseTest
+public class ArchiveHabitsCommandTest extends BaseAndroidTest
 {
 
     private ArchiveHabitsCommand command;
     private Habit habit;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         habit = HabitFixtures.createShortHabit();
         command = new ArchiveHabitsCommand(Collections.singletonList(habit));

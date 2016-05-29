@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.tasks;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.tasks.ExportDBTask;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,12 +38,12 @@ import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ExportDBTaskTest extends BaseTest
+public class ExportDBTaskTest extends BaseAndroidTest
 {
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
     }
 
     @Test

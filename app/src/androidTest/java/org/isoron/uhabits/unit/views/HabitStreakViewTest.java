@@ -36,9 +36,9 @@ public class HabitStreakViewTest extends ViewTest
     private HabitStreakView view;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         HabitFixtures.purgeHabits();
         Habit habit = HabitFixtures.createLongHabit();

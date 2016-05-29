@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.commands;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -38,16 +38,16 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class CreateHabitCommandTest extends BaseTest
+public class CreateHabitCommandTest extends BaseAndroidTest
 {
 
     private CreateHabitCommand command;
     private Habit model;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         model = new Habit();
         model.name = "New habit";

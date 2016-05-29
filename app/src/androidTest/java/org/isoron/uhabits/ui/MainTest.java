@@ -191,7 +191,7 @@ public class MainTest
         String name = addHabit(true);
 
         onData(allOf(is(instanceOf(Habit.class)), withName(name)))
-                .onChildView(withId(R.id.llButtons))
+                .onChildView(withId(R.id.checkmarkPanel))
                 .perform(toggleAllCheckmarks());
 
         Thread.sleep(1200);

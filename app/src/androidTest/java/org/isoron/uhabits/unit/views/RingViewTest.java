@@ -38,9 +38,9 @@ public class RingViewTest extends ViewTest
     private RingView view;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         view = new RingView(targetContext);
         view.setPercentage(0.6f);

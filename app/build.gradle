@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -14,7 +16,6 @@ android {
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //testInstrumentationRunnerArgument "size", "small"
     }
 
     buildTypes {
@@ -30,6 +31,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -41,10 +46,20 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 
+    compile 'com.google.dagger:dagger:2.2'
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    testApt 'com.google.dagger:dagger-compiler:2.2'
+    androidTestApt 'com.google.dagger:dagger-compiler:2.2'
+    provided 'javax.annotation:jsr250-api:1.0'
+
     compile project(':libs:drag-sort-listview:library')
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 
     androidTestCompile 'com.android.support:support-annotations:23.3.0'
     androidTestCompile 'com.android.support.test:runner:0.5'

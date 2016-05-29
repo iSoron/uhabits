@@ -36,9 +36,9 @@ public class HabitFrequencyViewTest extends ViewTest
     private HabitFrequencyView view;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         HabitFixtures.purgeHabits();
         Habit habit = HabitFixtures.createLongHabit();

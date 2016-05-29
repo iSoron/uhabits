@@ -19,188 +19,114 @@
 
 package org.isoron.uhabits.ui;
 
-import android.app.backup.BackupManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.widgets.WidgetManager;
 
-import java.io.File;
-
-abstract public class BaseActivity extends AppCompatActivity implements Thread.UncaughtExceptionHandler,
-        CommandRunner.Listener
+/**
+ * Base class for all activities in the application.
+ */
+abstract public class BaseActivity extends AppCompatActivity
+    implements Thread.UncaughtExceptionHandler
 {
-    private Toast toast;
+    @Nullable
+    private BaseMenu baseMenu;
 
-    Thread.UncaughtExceptionHandler androidExceptionHandler;
+    @Nullable
+    private Thread.UncaughtExceptionHandler androidExceptionHandler;
+
+    @Nullable
+    private BaseScreen screen;
+
+    @Override
+    public boolean onCreateOptionsMenu(@Nullable Menu menu)
+    {
+        if (menu == null) return false;
+        if (baseMenu == null) return false;
+        return baseMenu.onCreate(getMenuInflater(), menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@Nullable MenuItem item)
+    {
+        if (item == null) return false;
+        if (baseMenu == null) return false;
+        return baseMenu.onItemSelected(item);
+    }
+
+    public void setBaseMenu(@Nullable BaseMenu baseMenu)
+    {
+        this.baseMenu = baseMenu;
+    }
+
+    public void setScreen(@Nullable BaseScreen screen)
+    {
+        this.screen = screen;
+    }
+
+    @Override
+    public void uncaughtException(@Nullable Thread thread,
+                                  @Nullable Throwable ex)
+    {
+        if (ex == null) return;
+
+        try
+        {
+            ex.printStackTrace();
+            new BaseSystem(this).dumpBugReportToFile();
+        } catch (Exception e)
+        {
+            // ignored
+        }
+
+        if (androidExceptionHandler != null)
+            androidExceptionHandler.uncaughtException(thread, ex);
+        else System.exit(1);
+    }
+
+    @Override
+    protected void onActivityResult(int request, int result, Intent data)
+    {
+        if (screen == null) return;
+        screen.onResult(request, result, data);
+    }
+
+//    @Override
+//    public void onCommandExecuted(Command command, Long refreshKey)
+//    {
+//        window.showMessage(command.getExecuteStringId());
+//        new BaseTask()
+//        {
+//            @Override
+//            protected void doInBackground()
+//            {
+//                dismissNotifications(BaseActivity.this);
+//                BackupManager.dataChanged("org.isoron.uhabits");
+//                WidgetManager.updateWidgets(BaseActivity.this);
+//            }
+//        }.execute();
+//    }
+
+//    private void dismissNotifications(Context context)
+//    {
+//        for (Habit h : Habit.getHabitsWithReminder())
+//        {
+//            if (h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
+//                HabitBroadcastReceiver.dismissNotification(context, h);
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         InterfaceUtils.applyCurrentTheme(this);
-
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        CommandRunner.getInstance().addListener(this);
-    }
-
-    @Override
-    protected void onPause()
-    {
-        CommandRunner.getInstance().removeListener(this);
-        super.onPause();
-    }
-
-    public void showMessage(Integer stringId)
-    {
-        if (stringId == null) return;
-        if (toast == null) toast = Toast.makeText(this, stringId, Toast.LENGTH_SHORT);
-        else toast.setText(stringId);
-        toast.show();
-    }
-
-    protected void setupSupportActionBar(boolean homeButtonEnabled)
-    {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar == null) return;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            toolbar.setElevation(InterfaceUtils.dpToPixels(this, 2));
-
-        setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar == null) return;
-
-        if(homeButtonEnabled)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public void uncaughtException(Thread thread, Throwable ex)
-    {
-        try
-        {
-            ex.printStackTrace();
-            ((HabitsApplication) getApplication()).dumpBugReportToFile();
-        }
-        catch(Exception e)
-        {
-            // ignored
-        }
-
-        if(androidExceptionHandler != null)
-            androidExceptionHandler.uncaughtException(thread, ex);
-        else
-            System.exit(1);
-    }
-
-    protected void setupActionBarColor(int color)
-    {
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar == null) return;
-
-        if (!InterfaceUtils.getStyledBoolean(this, R.attr.useHabitColorAsPrimary)) return;
-
-        ColorDrawable drawable = new ColorDrawable(color);
-        actionBar.setBackgroundDrawable(drawable);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            int darkerColor = ColorUtils.mixColors(color, Color.BLACK, 0.75f);
-            getWindow().setStatusBarColor(darkerColor);
-        }
-    }
-
-    @Override
-    protected void onPostResume()
-    {
-        super.onPostResume();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            hideFakeToolbarShadow();
-    }
-
-    protected void hideFakeToolbarShadow()
-    {
-        View view = findViewById(R.id.toolbarShadow);
-        if(view != null) view.setVisibility(View.GONE);
-
-        view = findViewById(R.id.headerShadow);
-        if(view != null) view.setVisibility(View.GONE);
-    }
-
-    private void dismissNotifications(Context context)
-    {
-        for(Habit h : Habit.getHabitsWithReminder())
-        {
-            if(h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
-                HabitBroadcastReceiver.dismissNotification(context, h);
-        }
-    }
-
-    @Override
-    public void onCommandExecuted(Command command, Long refreshKey)
-    {
-        showMessage(command.getExecuteStringId());
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                dismissNotifications(BaseActivity.this);
-                BackupManager.dataChanged("org.isoron.uhabits");
-                WidgetManager.updateWidgets(BaseActivity.this);
-            }
-        }.execute();
-    }
-
-    public void sendFile(@NonNull String archiveFilename)
-    {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("application/zip");
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(archiveFilename)));
-        startActivity(intent);
-    }
-
-    public void sendEmail(String to, String subject, String content)
-    {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {to});
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, content);
-        startActivity(intent);
     }
 }

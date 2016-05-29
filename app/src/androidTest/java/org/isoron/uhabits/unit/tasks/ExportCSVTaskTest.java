@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.tasks;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.ExportCSVTask;
 import org.isoron.uhabits.unit.HabitFixtures;
@@ -41,12 +41,12 @@ import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ExportCSVTaskTest extends BaseTest
+public class ExportCSVTaskTest extends BaseAndroidTest
 {
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
     }
 
     @Test

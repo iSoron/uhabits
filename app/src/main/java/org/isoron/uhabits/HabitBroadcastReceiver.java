@@ -38,15 +38,17 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.ReminderUtils;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.ReminderUtils;
 import org.isoron.uhabits.widgets.WidgetManager;
 
 import java.util.Date;
+
+import javax.inject.Inject;
 
 public class HabitBroadcastReceiver extends BroadcastReceiver
 {
@@ -54,6 +56,15 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     public static final String ACTION_DISMISS = "org.isoron.uhabits.ACTION_DISMISS";
     public static final String ACTION_SHOW_REMINDER = "org.isoron.uhabits.ACTION_SHOW_REMINDER";
     public static final String ACTION_SNOOZE = "org.isoron.uhabits.ACTION_SNOOZE";
+
+    @Inject
+    CommandRunner commandRunner;
+
+    public HabitBroadcastReceiver()
+    {
+        super();
+        HabitsApplication.getComponent().inject(this);
+    }
 
     @Override
     public void onReceive(final Context context, Intent intent)
@@ -85,14 +96,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
     private void createReminderAlarmsDelayed(final Context context)
     {
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                ReminderUtils.createReminderAlarms(context);
-            }
-        }, 5000);
+        new Handler().postDelayed(() -> ReminderUtils.createReminderAlarms(context), 5000);
     }
 
     private void snoozeHabit(Context context, Intent intent)
@@ -119,7 +123,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         if(habit != null)
         {
             ToggleRepetitionCommand command = new ToggleRepetitionCommand(habit, timestamp);
-            CommandRunner.getInstance().execute(command, habitId);
+            commandRunner.execute(command, habitId);
         }
 
         dismissNotification(context, habitId);

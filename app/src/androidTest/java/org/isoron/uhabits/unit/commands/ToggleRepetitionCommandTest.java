@@ -22,7 +22,7 @@ package org.isoron.uhabits.unit.commands;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.BaseTest;
+import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
@@ -36,7 +36,7 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class ToggleRepetitionCommandTest extends BaseTest
+public class ToggleRepetitionCommandTest extends BaseAndroidTest
 {
 
     private ToggleRepetitionCommand command;
@@ -44,9 +44,9 @@ public class ToggleRepetitionCommandTest extends BaseTest
     private long today;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
 
         habit = HabitFixtures.createShortHabit();
 

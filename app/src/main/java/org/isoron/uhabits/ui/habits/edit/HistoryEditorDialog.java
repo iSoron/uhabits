@@ -36,7 +36,9 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener
 {
     private Habit habit;
+
     private Listener listener;
+
     HabitHistoryView historyView;
 
     @Override
@@ -45,21 +47,23 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         Context context = getActivity();
         historyView = new HabitHistoryView(context, null);
 
-        if(savedInstanceState != null)
+        if (savedInstanceState != null)
         {
             long id = savedInstanceState.getLong("habit", -1);
-            if(id > 0) this.habit = Habit.get(id);
+            if (id > 0) this.habit = Habit.get(id);
         }
 
-        int padding = (int) getResources().getDimension(R.dimen.history_editor_padding);
+        int padding =
+            (int) getResources().getDimension(R.dimen.history_editor_padding);
         historyView.setPadding(padding, 0, padding, 0);
         historyView.setHabit(habit);
         historyView.setIsEditable(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.history)
-                .setView(historyView)
-                .setPositiveButton(android.R.string.ok, this);
+        builder
+            .setTitle(R.string.history)
+            .setView(historyView)
+            .setPositiveButton(android.R.string.ok, this);
 
         refreshData();
 
@@ -84,7 +88,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         super.onResume();
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int maxHeight = getResources().getDimensionPixelSize(R.dimen.history_editor_max_height);
+        int maxHeight = getResources().getDimensionPixelSize(
+            R.dimen.history_editor_max_height);
         int width = metrics.widthPixels;
         int height = Math.min(metrics.heightPixels, maxHeight);
 
@@ -100,14 +105,14 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public void setHabit(Habit habit)
     {
         this.habit = habit;
-        if(historyView != null) historyView.setHabit(habit);
+        if (historyView != null) historyView.setHabit(habit);
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        if(listener != null) listener.onHistoryEditorClosed();
+        if (listener != null) listener.onHistoryEditorClosed();
     }
 
     @Override
@@ -121,7 +126,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         this.listener = listener;
     }
 
-    public interface Listener {
+    public interface Listener
+    {
         void onHistoryEditorClosed();
     }
 }

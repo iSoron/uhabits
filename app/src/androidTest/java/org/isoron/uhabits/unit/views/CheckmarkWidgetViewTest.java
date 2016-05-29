@@ -42,9 +42,9 @@ public class CheckmarkWidgetViewTest extends ViewTest
     private Habit habit;
 
     @Before
-    public void setup()
+    public void setUp()
     {
-        super.setup();
+        super.setUp();
         InterfaceUtils.setFixedTheme(R.style.TransparentWidgetTheme);
 
         habit = HabitFixtures.createShortHabit();

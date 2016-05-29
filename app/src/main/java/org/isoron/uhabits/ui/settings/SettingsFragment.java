@@ -29,11 +29,11 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.ReminderUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.utils.ReminderUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat
-        implements SharedPreferences.OnSharedPreferenceChangeListener
+    implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static int RINGTONE_REQUEST_CODE = 1;
 
@@ -43,14 +43,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        setResultOnPreferenceClick("importData", HabitsApplication.RESULT_IMPORT_DATA);
-        setResultOnPreferenceClick("exportCSV", HabitsApplication.RESULT_EXPORT_CSV);
-        setResultOnPreferenceClick("exportDB", HabitsApplication.RESULT_EXPORT_DB);
-        setResultOnPreferenceClick("bugReport", HabitsApplication.RESULT_BUG_REPORT);
+        setResultOnPreferenceClick("importData",
+            HabitsApplication.RESULT_IMPORT_DATA);
+        setResultOnPreferenceClick("exportCSV",
+            HabitsApplication.RESULT_EXPORT_CSV);
+        setResultOnPreferenceClick("exportDB",
+            HabitsApplication.RESULT_EXPORT_DB);
+        setResultOnPreferenceClick("bugReport",
+            HabitsApplication.RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
 
-        if(InterfaceUtils.isLocaleFullyTranslated())
+        if (InterfaceUtils.isLocaleFullyTranslated())
             removePreference("translate", "linksCategory");
     }
 
@@ -62,7 +66,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void removePreference(String preferenceKey, String categoryKey)
     {
-        PreferenceCategory cat = (PreferenceCategory) findPreference(categoryKey);
+        PreferenceCategory cat =
+            (PreferenceCategory) findPreference(categoryKey);
         Preference pref = findPreference(preferenceKey);
         cat.removePreference(pref);
     }
@@ -70,16 +75,17 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void setResultOnPreferenceClick(String key, final int result)
     {
         Preference pref = findPreference(key);
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(Preference preference)
+        pref.setOnPreferenceClickListener(
+            new Preference.OnPreferenceClickListener()
             {
-                getActivity().setResult(result);
-                getActivity().finish();
-                return true;
-            }
-        });
+                @Override
+                public boolean onPreferenceClick(Preference preference)
+                {
+                    getActivity().setResult(result);
+                    getActivity().finish();
+                    return true;
+                }
+            });
     }
 
     @Override
@@ -87,19 +93,20 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         super.onResume();
         getPreferenceManager().getSharedPreferences().
-                registerOnSharedPreferenceChangeListener(this);
+            registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onPause()
     {
         getPreferenceManager().getSharedPreferences().
-                unregisterOnSharedPreferenceChangeListener(this);
+            unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key)
     {
         BackupManager.dataChanged("org.isoron.uhabits");
     }
@@ -107,11 +114,12 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public boolean onPreferenceTreeClick(Preference preference)
     {
-        if(preference.getKey() == null) return false;
+        if (preference.getKey() == null) return false;
 
         if (preference.getKey().equals("reminderSound"))
         {
-            ReminderUtils.startRingtonePickerActivity(this, RINGTONE_REQUEST_CODE);
+            ReminderUtils.startRingtonePickerActivity(this,
+                RINGTONE_REQUEST_CODE);
             return true;
         }
 
@@ -121,7 +129,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(requestCode == RINGTONE_REQUEST_CODE)
+        if (requestCode == RINGTONE_REQUEST_CODE)
         {
             ReminderUtils.parseRingtoneData(getContext(), data);
             updateRingtoneDescription();
