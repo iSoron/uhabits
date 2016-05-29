@@ -182,6 +182,10 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Đorđe Vasiljević (српски)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Caner Başaran (Türkçe)"/>
 
                 <TextView
