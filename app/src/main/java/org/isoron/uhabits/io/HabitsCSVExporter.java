@@ -19,10 +19,12 @@
 
 package org.isoron.uhabits.io;
 
-import org.isoron.uhabits.utils.DateUtils;
+import android.support.annotation.NonNull;
+
 import org.isoron.uhabits.models.CheckmarkList;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.ScoreList;
+import org.isoron.uhabits.utils.DateUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,13 +66,23 @@ public class HabitsCSVExporter
 
         for(Habit h : habits)
         {
-            String habitDirName = String.format("%03d %s/", h.position + 1, h.name);
+            String sane = sanitizeFilename(h.name);
+            String habitDirName = String.format("%03d %s", h.position + 1, sane);
+            habitDirName = habitDirName.trim() + "/";
+
             new File(exportDirName + habitDirName).mkdirs();
             generateDirs.add(habitDirName);
 
             writeScores(habitDirName, h.scores);
             writeCheckmarks(habitDirName, h.checkmarks);
         }
+    }
+
+    @NonNull
+    private String sanitizeFilename(String name)
+    {
+        String s = name.replaceAll("[^ a-zA-Z0-9\\._-]+", "");
+        return s.substring(0, Math.min(s.length(), 100));
     }
 
     private void writeScores(String habitDirName, ScoreList scores) throws IOException

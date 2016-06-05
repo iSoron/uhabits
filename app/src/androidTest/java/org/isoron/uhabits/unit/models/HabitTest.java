@@ -366,9 +366,9 @@ public class HabitTest extends BaseAndroidTest
         HabitFixtures.createShortHabit();
 
         String expectedCSV =
-                "Name,Description,NumRepetitions,Interval,Color\n" +
-                "Meditate,Did you meditate this morning?,1,1,#AFB42B\n" +
-                "Wake up early,Did you wake up before 6am?,2,3,#00897B\n";
+                "Position,Name,Description,NumRepetitions,Interval,Color\n" +
+                "001,Meditate,Did you meditate this morning?,1,1,#AFB42B\n" +
+                "002,Wake up early,Did you wake up before 6am?,2,3,#00897B\n";
 
         StringWriter writer = new StringWriter();
         Habit.writeCSV(Habit.getAll(true), writer);

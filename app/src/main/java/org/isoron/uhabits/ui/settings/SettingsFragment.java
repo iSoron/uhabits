@@ -142,6 +142,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void updateRingtoneDescription()
     {
         String ringtoneName = ReminderUtils.getRingtoneName(getContext());
+        if(ringtoneName == null) return;
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);
     }

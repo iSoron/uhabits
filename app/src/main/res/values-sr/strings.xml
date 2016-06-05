@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Loop – праћење навика"</string>
+    <string name="main_activity_title">"Навике"</string>
+    <string name="action_settings">"Поставке"</string>
+    <string name="edit">"Уреди"</string>
+    <string name="delete">"Обриши"</string>
+    <string name="archive">"Архивирај"</string>
+    <string name="unarchive">"Врати из архива"</string>
+    <string name="add_habit">"Додај навику"</string>
+    <string name="color_picker_default_title">"Промена боје"</string>
+    <string name="toast_habit_created">"Навика је створена."</string>
+    <string name="toast_habit_deleted">"Навике су обрисане."</string>
+    <string name="toast_habit_restored">"Навике су враћене."</string>
+    <string name="toast_nothing_to_undo">"Нема шта да се опозове."</string>
+    <string name="toast_nothing_to_redo">"Нема шта да се понови."</string>
+    <string name="toast_habit_changed">"Навика је промењена."</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Навика је враћена."</string>
+    <string name="toast_habit_archived">"Навике су архивиране."</string>
+    <string name="toast_habit_unarchived">"Навике су враћене из архива."</string>
+    <string name="overview">"Преглед"</string>
+    <string name="habit_strength">"Снага навике"</string>
+    <string name="history">"Историја"</string>
+    <string name="clear">"Очисти"</string>
+    <string name="description_hint">"Питање (нпр. „Да ли сте трчали данас?)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Понови"</string>
+    <string name="times_every">"пута у"</string>
+    <string name="days">"дана"</string>
+    <string name="reminder">"Подсетник"</string>
+    <string name="discard">"Одбаци"</string>
+    <string name="save">"Сачувај"</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Низови"</string>
+    <string name="no_habits_found">"Немате активних навика."</string>
+    <string name="long_press_to_toggle">"Притисните и држите да бисте маркирали или демаркирали."</string>
+    <string name="reminder_off">"искључен"</string>
+    <string name="validation_name_should_not_be_blank">"Име не може бити празно."</string>
+    <string name="validation_number_should_be_positive">"Број мора бити позитиван."</string>
+    <string name="validation_at_most_one_rep_per_day">"Можете имати највише једно понављање на дан."</string>
+    <string name="create_habit">"Стварање навике"</string>
+    <string name="edit_habit">"Уређивање навике"</string>
+    <string name="check">"Маркирај"</string>
+    <string name="snooze">"Касније"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Добро дошли"</string>
+    <string name="intro_description_1">"Loop вам помаже да створите и одржавате здраве навике."</string>
+    <string name="intro_title_2">"Створите нове навике"</string>
+    <string name="intro_description_2">"Сваког дана, након што обавите навику, означите поље у апликацији."</string>
+    <string name="intro_title_3">"Будите истрајни"</string>
+    <string name="intro_description_3">"Навике којих се доследно придржавате дужи период биће означене пуном звездом."</string>
+    <string name="intro_title_4">"Пратите свој напредак"</string>
+    <string name="intro_description_4">"Детаљни графикони показују вам колико су се ваше навике временом побољшале."</string>
+    <string name="interval_15_minutes">"15 минута"</string>
+    <string name="interval_30_minutes">"30 минута"</string>
+    <string name="interval_1_hour">"1 сат"</string>
+    <string name="interval_2_hour">"2 сата"</string>
+    <string name="interval_4_hour">"4 сата"</string>
+    <string name="interval_8_hour">"8 сати"</string>
+    <string name="pref_toggle_title">"Маркирај кратким додиром"</string>
+    <string name="pref_toggle_description">"Практичније, али може доћи до случајног маркирања."</string>
+    <string name="pref_snooze_interval_title">"Одлагање подсетника"</string>
+    <string name="pref_rate_this_app">"Оцени апликацију"</string>
+    <string name="pref_send_feedback">"Повратне информације"</string>
+    <string name="pref_view_source_code">"Изворни кôд на GitHub-у"</string>
+    <string name="pref_view_app_introduction">"Увод апликације"</string>
+    <string name="links">"Везе"</string>
+    <string name="behavior">"Понашање"</string>
+    <string name="name">"Име"</string>
+    <string name="show_archived">"Прикажи архивиране"</string>
+    <string name="settings">"Поставке"</string>
+    <string name="snooze_interval">"Време одлагања"</string>
+    <string name="hint_title">"Да ли сте знали?"</string>
+    <string name="hint_drag">"Притисните и држите име навике да бисте је прераспоредили."</string>
+    <string name="hint_landscape">"Положите уређај да бисте видели више дана."</string>
+    <string name="delete_habits">"Брисање навика"</string>
+    <string name="delete_habits_message">"Навике ће бити трајно обрисане. Ова радња је неповратна."</string>
+    <string name="weekends">"викендом"</string>
+    <string name="any_weekday">"понедељак–петак"</string>
+    <string name="any_day">"сваког дана"</string>
+    <string name="select_weekdays">"Избор дана"</string>
+    <string name="export_to_csv">"Извези као CSV"</string>
+    <string name="done_label">"Готово"</string>
+    <string name="clear_label">"Очисти"</string>
+    <string name="select_hours">"Избор часова"</string>
+    <string name="select_minutes">"Избор минута"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Створите здраве навике и пратите напредак (без огласа)."</string>
+    <string name="store_description_1">"Loop вам помаже да створите и одржавате здраве навике, самим тим и да достигнете дугорочне циљеве. Детаљна статистика и графикони показују вам колико су се ваше навике временом побољшале. Апликација је отвореног кода и не садржи огласе."</string>
+<string name="store_feature_interface">"&lt;b&gt;Једноставан, леп и модеран дизајн&lt;/b&gt;
+Loop има минималистички интерфејс који је једноставан за коришћење и прати смернице за материјални дизајн."</string>
+<string name="store_feature_score">"&lt;b&gt;Оцена навике&lt;/b&gt;
+Поред приказа тренутног низа, Loop поседује напредни алгоритам за израчунавање снаге ваших навика. Ваша навика са сваким понављањем постаје јача, а са сваким пропуштеним даном слабија. Неколико пропуштених дана након дугог низа, пак, неће у потпуности упропастити ваш резултат."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Детаљни графикони и статистика&lt;/b&gt;
+Пратите свој напредак уз лепе и детаљне графиконе. Вратите се уназад да бисте видели целу историју навика."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Флексибилни распоред&lt;/b&gt;
+Подржава како дневне навике, тако и оне са сложенијим понављањем (трипут недељно, једанпут сваке друге недеље, сваки други дан и сл.)."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Подсетници&lt;/b&gt;
+Направите појединачни подсетник за сваку навику у жељено доба дана. С лакоћом маркирајте, одложите или откажите навику директно из обавештења, без отварања апликације."</string>
+<string name="store_feature_opensource">"&lt;b&gt;У потпуности отвореног кода и без огласа&lt;/b&gt;
+Апликација не садржи никакве огласе, досадна обавештења или наметљиве дозволе; никада и неће. Изворни кôд је у целости доступан под лиценцом GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Оптимизовано за паметне сатове&lt;/b&gt;
+Навике можете маркирати, одложити или отказати директно помоћу Android Wear сата."</string>
+    <string name="about">"О апликацији"</string>
+    <string name="translators">"Преводиоци"</string>
+    <string name="developers">"Програмери"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Верзија %s"</string>
+    <string name="frequency">"Учесталост"</string>
+    <string name="checkmark">"Штрикла"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Снага"</string>
+    <string name="best_streaks">"Најбољи низови"</string>
+    <string name="current_streaks">"Тренутни низ"</string>
+    <string name="number_of_repetitions">"Број понављања"</string>
+    <string name="last_x_days">"посл. %d дана"</string>
+    <string name="last_x_weeks">"посл. %d нед."</string>
+    <string name="last_x_months">"посл. %d мес."</string>
+    <string name="last_x_years">"посл. %d год."</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"одувек"</string>
+    <string name="every_day">"сваког дана"</string>
+    <string name="every_week">"сваке недеље"</string>
+    <string name="two_times_per_week">"2 пута недељно"</string>
+    <string name="five_times_per_week">"5 пута недељно"</string>
+    <string name="custom_frequency">"прилагоди…"</string>
+    <string name="help">"Помоћ"</string>
+    <string name="could_not_export">"Не могу да извезем податке."</string>
+    <string name="could_not_import">"Не могу да увезем податке."</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Датотека није препозната."</string>
+    <string name="habits_imported">"Резервна копија је враћена."</string>
+    <string name="full_backup_success">"Направљена је резервна копија."</string>
+    <string name="import_data">"Врати резервну копију"</string>
+    <string name="export_full_backup">"Направи резервну копију"</string>
+    <string name="import_data_summary">"Поред матичног формата, апликација подржава и увоз датотека које је направио Tickmate, HabitBull и Rewire. Детаљније у ЧПП."</string>
+    <string name="export_as_csv_summary">"Направите датотеку коју можете отворити у програму за рад са табелама (нпр. Microsoft Excel или OpenOffice Calc). Њу не можете да увезете назад у апликацију."</string>
+    <string name="export_full_backup_summary">"Направите датотеку са свим подацима апликације. Њу касније можете да увезете."</string>
+    <string name="bug_report_failed">"Не могу да направим извештај о грешци."</string>
+    <string name="generate_bug_report">"Направи извештај о грешци"</string>
+    <string name="troubleshooting">"Решавање проблема"</string>
+    <string name="help_translate">"Помоћ у преводу"</string>
+    <string name="night_mode">"Ноћни режим"</string>
+    <string name="use_pure_black">"Чиста црна у ноћном режиму"</string>
+    <string name="pure_black_description">"Замењује сиву позадину са чистом црном у ноћном режиму. Смањује потрошњу батерије код телефона са AMOLED екраном."</string>
+    <string name="interface_preferences">"Интерфејс"</string>
+    <string name="reverse_days">"Обрнути редослед дана"</string>
+    <string name="reverse_days_description">"Прикажите дане у обрнутом редоследу на главном екрану."</string>
+    <string name="day">"дан"</string>
+    <string name="week">"недеља"</string>
+    <string name="month">"месец"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"тромесечје"</string>
+    <string name="year">"година"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"пут у"</string>
+    <string name="every_x_days">"Сваких %d дана"</string>
+    <string name="every_x_weeks">"Сваких %d недеља"</string>
+    <string name="every_x_months">"Сваких %d месеци"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"снага"</string>
+    <string name="reminder_sound">"Звук подсетника"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Без звука"</string>
+</resources>

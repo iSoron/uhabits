@@ -144,21 +144,30 @@ public abstract class ReminderUtils
         fragment.startActivityForResult(intent, requestCode);
     }
 
+    @Nullable
     public static String getRingtoneName(Context context)
     {
-        Uri ringtoneUri = getRingtoneUri(context);
-        String ringtoneName = context.getResources().getString(R.string.none);
-
-        if(ringtoneUri != null)
+        try
         {
-            Ringtone ringtone = RingtoneManager.getRingtone(context, ringtoneUri);
-            if(ringtone != null)
-            {
-                ringtoneName = ringtone.getTitle(context);
-                ringtone.stop();
-            }
-        }
+            Uri ringtoneUri = getRingtoneUri(context);
+            String ringtoneName = context.getResources().getString(R.string.none);
 
-        return ringtoneName;
+            if (ringtoneUri != null)
+            {
+                Ringtone ringtone = RingtoneManager.getRingtone(context, ringtoneUri);
+                if (ringtone != null)
+                {
+                    ringtoneName = ringtone.getTitle(context);
+                    ringtone.stop();
+                }
+            }
+
+            return ringtoneName;
+        }
+        catch (RuntimeException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
