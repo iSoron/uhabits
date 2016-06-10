@@ -35,12 +35,12 @@ public class Score
      * Timestamp of the day to which this score applies. Time of day should be
      * midnight (UTC).
      */
-    private Long timestamp;
+    private final Long timestamp;
 
     /**
      * Value of the score.
      */
-    private Integer value;
+    private final Integer value;
 
     /**
      * Maximum score value attainable by any habit.
@@ -84,6 +84,11 @@ public class Score
         }
 
         return score;
+    }
+
+    public int compareNewer(Score other)
+    {
+        return Long.signum(this.getTimestamp() - other.getTimestamp());
     }
 
     public Habit getHabit()

@@ -50,7 +50,7 @@ public class MemoryModelFactory implements ModelFactory
     @Override
     public ScoreList buildScoreList(Habit habit)
     {
-        return null;
+        return new MemoryScoreList(habit);
     }
 
     @Override

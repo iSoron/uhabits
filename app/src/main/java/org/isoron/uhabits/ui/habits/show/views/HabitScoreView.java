@@ -27,8 +27,10 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
@@ -42,6 +44,8 @@ import org.isoron.uhabits.utils.InterfaceUtils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class HabitScoreView extends ScrollableDataView
@@ -86,7 +90,7 @@ public class HabitScoreView extends ScrollableDataView
     private int gridColor;
 
     @Nullable
-    private int[] scores;
+    private List<Score> scores;
 
     private int primaryColor;
 
@@ -134,7 +138,11 @@ public class HabitScoreView extends ScrollableDataView
         else
         {
             if (habit == null) return;
-            scores = habit.getScores().getAllValues(bucketSize);
+            if (bucketSize == 1)
+                scores = habit.getScores().getAll();
+            else
+                scores = habit.getScores().groupBy(getTruncateField());
+
             createColors();
         }
 
@@ -285,14 +293,20 @@ public class HabitScoreView extends ScrollableDataView
     private void generateRandomData()
     {
         Random random = new Random();
-        scores = new int[100];
-        scores[0] = Score.MAX_VALUE / 2;
+        scores = new LinkedList<>();
+
+        int previous = Score.MAX_VALUE / 2;
+        long timestamp = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
 
         for (int i = 1; i < 100; i++)
         {
             int step = Score.MAX_VALUE / 10;
-            scores[i] = scores[i - 1] + random.nextInt(step * 2) - step;
-            scores[i] = Math.max(0, Math.min(Score.MAX_VALUE, scores[i]));
+            int current = previous + random.nextInt(step * 2) - step;
+            current = Math.max(0, Math.min(Score.MAX_VALUE, current));
+            scores.add(new Score(habit, timestamp, current));
+            previous = current;
+            timestamp -= day;
         }
     }
 
@@ -324,6 +338,38 @@ public class HabitScoreView extends ScrollableDataView
         }
 
         return maxMonthWidth;
+    }
+
+    @NonNull
+    private DateUtils.TruncateField getTruncateField()
+    {
+        DateUtils.TruncateField field;
+
+        switch (bucketSize)
+        {
+            case 7:
+                field = DateUtils.TruncateField.WEEK_NUMBER;
+                break;
+
+            case 365:
+                field = DateUtils.TruncateField.YEAR;
+                break;
+
+            case 92:
+                field = DateUtils.TruncateField.QUARTER;
+                break;
+
+            default:
+                Log.e("HabitScoreView",
+                    String.format("Unknown bucket size: %d", bucketSize));
+                // continue to case 31
+
+            case 31:
+                field = DateUtils.TruncateField.MONTH;
+                break;
+        }
+
+        return field;
     }
 
     private void init()
@@ -413,7 +459,7 @@ public class HabitScoreView extends ScrollableDataView
         {
             int score = 0;
             int offset = nColumns - k - 1 + getDataOffset();
-            if (offset < scores.length) score = scores[offset];
+            if (offset < scores.size()) score = scores.get(offset).getValue();
 
             double relativeScore = ((double) score) / Score.MAX_VALUE;
             int height = (int) (columnHeight * relativeScore);

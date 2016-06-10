@@ -19,6 +19,9 @@
 
 package org.isoron.uhabits.models.sqlite;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
@@ -57,8 +60,9 @@ public class SQLiteStreakList extends StreakList
     @Override
     public Streak getNewestComputed()
     {
-        rebuild();
-        return getNewestRecord().toStreak();
+        StreakRecord newestRecord = getNewestRecord();
+        if(newestRecord == null) return null;
+        return newestRecord.toStreak();
     }
 
     @Override
@@ -73,6 +77,7 @@ public class SQLiteStreakList extends StreakList
         observable.notifyListeners();
     }
 
+    @Nullable
     private StreakRecord getNewestRecord()
     {
         return new Select()
@@ -84,7 +89,7 @@ public class SQLiteStreakList extends StreakList
     }
 
     @Override
-    protected void insert(List<Streak> streaks)
+    protected void insert(@NonNull List<Streak> streaks)
     {
         DatabaseUtils.executeAsTransaction(() -> {
             for (Streak streak : streaks)
@@ -96,6 +101,7 @@ public class SQLiteStreakList extends StreakList
         });
     }
 
+    @NonNull
     private List<Streak> recordsToStreaks(List<StreakRecord> records)
     {
         LinkedList<Streak> streaks = new LinkedList<>();

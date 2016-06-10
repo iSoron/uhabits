@@ -19,19 +19,17 @@
 
 package org.isoron.uhabits.models;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import com.activeandroid.Cache;
 
 import org.isoron.uhabits.utils.DateUtils;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,39 +53,7 @@ public abstract class ScoreList
         observable = new ModelObservable();
     }
 
-    /**
-     * Returns the values of all the scores, from day of the first repetition
-     * until today, grouped in chunks of specified size.
-     * <p>
-     * If the group size is one, then the value of each score is returned
-     * individually. If the group is, for example, seven, then the days are
-     * grouped in groups of seven consecutive days.
-     * <p>
-     * The values are returned in an array of integers, with one entry for each
-     * group of days in the interval. This value corresponds to the average of
-     * the scores for the days inside the group. The first entry corresponds to
-     * the ending of the interval (that is, the most recent group of days). The
-     * last entry corresponds to the beginning of the interval. As usual, the
-     * time of the day for the timestamps should be midnight (UTC). The
-     * endpoints of the interval are included.
-     * <p>
-     * The values are returned in an integer array. There is one entry for each
-     * day inside the interval. The first entry corresponds to today, while the
-     * last entry corresponds to the day of the oldest repetition.
-     *
-     * @param divisor the size of the groups
-     * @return array of values, with one entry for each group of days
-     */
-    @NonNull
-    public int[] getAllValues(long divisor)
-    {
-        Repetition oldestRep = habit.getRepetitions().getOldest();
-        if (oldestRep == null) return new int[0];
-
-        long fromTimestamp = oldestRep.getTimestamp();
-        long toTimestamp = DateUtils.getStartOfToday();
-        return getValues(fromTimestamp, toTimestamp, divisor);
-    }
+    public abstract List<Score> getAll();
 
     public ModelObservable getObservable()
     {
@@ -112,6 +78,14 @@ public abstract class ScoreList
      */
     public abstract int getValue(long timestamp);
 
+    public List<Score> groupBy(DateUtils.TruncateField field)
+    {
+        HashMap<Long, ArrayList<Long>> groups = getGroupedValues(field);
+        List<Score> scores = groupsToAvgScores(groups);
+        Collections.sort(scores, (s1, s2) -> s2.compareNewer(s1));
+        return scores;
+    }
+
     /**
      * Marks all scores that have timestamp equal to or newer than the given
      * timestamp as invalid. Any following getValue calls will trigger the
@@ -124,29 +98,15 @@ public abstract class ScoreList
     public void writeCSV(Writer out) throws IOException
     {
         computeAll();
-
         SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
 
-        String query =
-            "select timestamp, score from score where habit = ? order by timestamp";
-        String params[] = {habit.getId().toString()};
-
-        SQLiteDatabase db = Cache.openDatabase();
-        Cursor cursor = db.rawQuery(query, params);
-
-        if (!cursor.moveToFirst()) return;
-
-        do
+        for (Score s : getAll())
         {
-            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
-            String score = String.format("%.4f",
-                ((float) cursor.getInt(1)) / Score.MAX_VALUE);
+            String timestamp = dateFormat.format(s.getTimestamp());
+            String score =
+                String.format("%.4f", ((float) s.getValue()) / Score.MAX_VALUE);
             out.write(String.format("%s,%s\n", timestamp, score));
-
-        } while (cursor.moveToNext());
-
-        cursor.close();
-        out.close();
+        }
     }
 
     protected abstract void add(List<Score> scores);
@@ -175,7 +135,7 @@ public abstract class ScoreList
         long newestTimestamp = 0;
 
         Score newest = getNewestComputed();
-        if(newest != null)
+        if (newest != null)
         {
             newestValue = newest.getValue();
             newestTimestamp = newest.getTimestamp();
@@ -218,10 +178,29 @@ public abstract class ScoreList
      * @param timestamp the timestamp for the day
      * @return the score for the day
      */
+    @Nullable
     protected abstract Score get(long timestamp);
 
+    @NonNull
+    private HashMap<Long, ArrayList<Long>> getGroupedValues(DateUtils.TruncateField field)
+    {
+        HashMap<Long, ArrayList<Long>> groups = new HashMap<>();
+
+        for (Score s : getAll())
+        {
+            long groupTimestamp = DateUtils.truncate(field, s.getTimestamp());
+
+            if (!groups.containsKey(groupTimestamp))
+                groups.put(groupTimestamp, new ArrayList<>());
+
+            groups.get(groupTimestamp).add((long) s.getValue());
+        }
+
+        return groups;
+    }
+
     /**
-     * Returns the most recent score that was already computed.
+     * Returns the most recent score that has already been computed.
      * <p>
      * If no score has been computed yet, returns null.
      *
@@ -230,13 +209,23 @@ public abstract class ScoreList
     @Nullable
     protected abstract Score getNewestComputed();
 
-    /**
-     * Same as getAllValues(long), but using a specified interval.
-     *
-     * @param from    beginning of the interval (included)
-     * @param to      end of the interval (included)
-     * @param divisor size of the groups
-     * @return array of values, with one entry for each group of days
-     */
-    protected abstract int[] getValues(long from, long to, long divisor);
+
+    @NonNull
+    private List<Score> groupsToAvgScores(HashMap<Long, ArrayList<Long>> groups)
+    {
+        List<Score> scores = new LinkedList<>();
+
+        for (Long timestamp : groups.keySet())
+        {
+            long meanValue = 0L;
+            ArrayList<Long> groupValues = groups.get(timestamp);
+
+            for (Long v : groupValues) meanValue += v;
+            meanValue /= groupValues.size();
+
+            scores.add(new Score(habit, timestamp, (int) meanValue));
+        }
+
+        return scores;
+    }
 }

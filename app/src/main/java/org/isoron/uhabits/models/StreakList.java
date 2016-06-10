@@ -48,6 +48,7 @@ public abstract class StreakList
 
     public abstract List<Streak> getAll();
 
+    @NonNull
     public List<Streak> getBest(int limit)
     {
         List<Streak> streaks = getAll();
@@ -57,8 +58,10 @@ public abstract class StreakList
         return streaks;
     }
 
+    @Nullable
     public abstract Streak getNewestComputed();
 
+    @NonNull
     public ModelObservable getObservable()
     {
         return observable;
@@ -89,7 +92,7 @@ public abstract class StreakList
      * @return the list of streaks.
      */
     @NonNull
-    protected List<Streak> checkmarksToStreaks(Long beginning, int[] checks)
+    protected List<Streak> checkmarksToStreaks(long beginning, int[] checks)
     {
         ArrayList<Long> transitions = getTransitions(beginning, checks);
 
@@ -130,7 +133,7 @@ public abstract class StreakList
      * @return the list of transitions
      */
     @NonNull
-    protected ArrayList<Long> getTransitions(Long beginning, int[] checks)
+    protected ArrayList<Long> getTransitions(long beginning, int[] checks)
     {
         long day = DateUtils.millisecondsInOneDay;
         long current = beginning;
@@ -152,7 +155,7 @@ public abstract class StreakList
         return list;
     }
 
-    protected abstract void insert(List<Streak> streaks);
+    protected abstract void insert(@NonNull List<Streak> streaks);
 
     protected abstract void removeNewestComputed();
 }

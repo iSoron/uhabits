@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
@@ -32,11 +31,10 @@ import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Repetition;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.models.ScoreList;
-import org.isoron.uhabits.utils.DateUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -73,11 +71,25 @@ public class SQLiteScoreList extends ScoreList
             .execute();
     }
 
+    @Override
+    @NonNull
+    public List<Score> getAll()
+    {
+        List<ScoreRecord> records = select().execute();
+        List<Score> scores = new LinkedList<>();
+
+        for(ScoreRecord rec : records)
+            scores.add(rec.toScore());
+
+        return scores;
+    }
+
     @Nullable
     @Override
     protected Score getNewestComputed()
     {
         ScoreRecord record = select().limit(1).executeSingle();
+        if(record == null) return null;
         return record.toScore();
     }
 
@@ -85,53 +97,13 @@ public class SQLiteScoreList extends ScoreList
     @Nullable
     protected Score get(long timestamp)
     {
-        Repetition oldestRep = habit.getRepetitions().getOldest();
-        if (oldestRep == null) return null;
-        compute(oldestRep.getTimestamp(), timestamp);
+        computeAll();
 
         ScoreRecord record =
             select().where("timestamp = ?", timestamp).executeSingle();
 
+        if(record == null) return null;
         return record.toScore();
-    }
-
-    @Override
-    @NonNull
-    protected int[] getValues(long from, long to, long divisor)
-    {
-        compute(from, to);
-
-        divisor *= DateUtils.millisecondsInOneDay;
-        Long offset = to + divisor;
-
-        String query =
-            "select ((timestamp - ?) / ?) as time, avg(score) from Score " +
-            "where habit = ? and timestamp >= ? and timestamp <= ? " +
-            "group by time order by time desc";
-
-        String params[] = {
-            offset.toString(),
-            Long.toString(divisor),
-            habit.getId().toString(),
-            Long.toString(from),
-            Long.toString(to)
-        };
-
-        SQLiteDatabase db = Cache.openDatabase();
-        Cursor cursor = db.rawQuery(query, params);
-
-        if (!cursor.moveToFirst()) return new int[0];
-
-        int k = 0;
-        int[] scores = new int[cursor.getCount()];
-
-        do
-        {
-            scores[k++] = (int) cursor.getFloat(1);
-        } while (cursor.moveToNext());
-
-        cursor.close();
-        return scores;
     }
 
     @Override

@@ -57,8 +57,6 @@ public interface BaseComponent
 
     void inject(ToggleRepetitionTask toggleRepetitionTask);
 
-    void inject(BaseDialogFragment baseDialogFragment);
-
     void inject(HabitCardListCache habitCardListCache);
 
     void inject(HabitBroadcastReceiver habitBroadcastReceiver);
@@ -100,4 +98,6 @@ public interface BaseComponent
     void inject(AbstractImporter abstractImporter);
 
     void inject(HabitsCSVExporter habitsCSVExporter);
+
+    void inject(BaseDialogFragment baseDialogFragment);
 }

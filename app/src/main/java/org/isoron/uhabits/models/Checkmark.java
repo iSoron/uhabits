@@ -49,17 +49,22 @@ public class Checkmark
      */
     public static final int UNCHECKED = 0;
 
-    final Habit habit;
+    private final Habit habit;
 
-    final long timestamp;
+    private final long timestamp;
 
-    final int value;
+    private final int value;
 
     public Checkmark(Habit habit, long timestamp, int value)
     {
         this.habit = habit;
         this.timestamp = timestamp;
         this.value = value;
+    }
+
+    public Habit getHabit()
+    {
+        return habit;
     }
 
     public long getTimestamp()

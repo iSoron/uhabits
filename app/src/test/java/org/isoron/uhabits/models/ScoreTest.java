@@ -17,24 +17,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.models;
+package org.isoron.uhabits.models;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
-
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.BaseUnitTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class ScoreTest extends BaseAndroidTest
+public class ScoreTest extends BaseUnitTest
 {
     @Override
     @Before
@@ -50,20 +42,22 @@ public class ScoreTest extends BaseAndroidTest
         assertThat(Score.compute(1, 0, checkmark), equalTo(0));
         assertThat(Score.compute(1, 5000000, checkmark), equalTo(4740387));
         assertThat(Score.compute(1, 10000000, checkmark), equalTo(9480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark), equalTo(18259478));
+        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark),
+            equalTo(18259478));
 
         checkmark = Checkmark.CHECKED_IMPLICITLY;
         assertThat(Score.compute(1, 0, checkmark), equalTo(0));
         assertThat(Score.compute(1, 5000000, checkmark), equalTo(4740387));
         assertThat(Score.compute(1, 10000000, checkmark), equalTo(9480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark), equalTo(18259478));
+        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark),
+            equalTo(18259478));
 
         checkmark = Checkmark.CHECKED_EXPLICITLY;
         assertThat(Score.compute(1, 0, checkmark), equalTo(1000000));
         assertThat(Score.compute(1, 5000000, checkmark), equalTo(5740387));
         assertThat(Score.compute(1, 10000000, checkmark), equalTo(10480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark), equalTo(
-            Score.MAX_VALUE));
+        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark),
+            equalTo(Score.MAX_VALUE));
     }
 
     @Test
@@ -71,15 +65,19 @@ public class ScoreTest extends BaseAndroidTest
     {
         int checkmark = Checkmark.CHECKED_EXPLICITLY;
         assertThat(Score.compute(1 / 3.0, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1 / 3.0, 5000000, checkmark), equalTo(5916180));
-        assertThat(Score.compute(1 / 3.0, 10000000, checkmark), equalTo(10832360));
-        assertThat(Score.compute(1 / 3.0, Score.MAX_VALUE, checkmark), equalTo(
-            Score.MAX_VALUE));
+        assertThat(Score.compute(1 / 3.0, 5000000, checkmark),
+            equalTo(5916180));
+        assertThat(Score.compute(1 / 3.0, 10000000, checkmark),
+            equalTo(10832360));
+        assertThat(Score.compute(1 / 3.0, Score.MAX_VALUE, checkmark),
+            equalTo(Score.MAX_VALUE));
 
         assertThat(Score.compute(1 / 7.0, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1 / 7.0, 5000000, checkmark), equalTo(5964398));
-        assertThat(Score.compute(1 / 7.0, 10000000, checkmark), equalTo(10928796));
-        assertThat(Score.compute(1 / 7.0, Score.MAX_VALUE, checkmark), equalTo(
-            Score.MAX_VALUE));
+        assertThat(Score.compute(1 / 7.0, 5000000, checkmark),
+            equalTo(5964398));
+        assertThat(Score.compute(1 / 7.0, 10000000, checkmark),
+            equalTo(10928796));
+        assertThat(Score.compute(1 / 7.0, Score.MAX_VALUE, checkmark),
+            equalTo(Score.MAX_VALUE));
     }
 }

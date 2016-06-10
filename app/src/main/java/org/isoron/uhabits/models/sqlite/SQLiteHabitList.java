@@ -54,7 +54,7 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public void add(Habit habit)
+    public void add(@NonNull Habit habit)
     {
         if(cache.containsValue(habit))
             throw new RuntimeException("habit already in cache");
@@ -132,7 +132,7 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public int indexOf(Habit h)
+    public int indexOf(@NonNull Habit h)
     {
         HabitRecord record = HabitRecord.get(h.getId());
         if (record == null) return -1;

@@ -189,9 +189,9 @@ public abstract class RepetitionList
             add(rep);
         }
 
-//        habit.getScores().invalidateNewerThan(timestamp);
-//        habit.getCheckmarks().invalidateNewerThan(timestamp);
-//        habit.getStreaks().invalidateNewerThan(timestamp);
+        habit.getScores().invalidateNewerThan(timestamp);
+        habit.getCheckmarks().invalidateNewerThan(timestamp);
+        habit.getStreaks().invalidateNewerThan(timestamp);
         return rep;
     }
 }

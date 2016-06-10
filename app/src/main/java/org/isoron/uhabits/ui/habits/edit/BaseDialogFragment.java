@@ -36,6 +36,7 @@ import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.Preferences;
@@ -50,17 +51,23 @@ import butterknife.OnItemSelected;
 
 public abstract class BaseDialogFragment extends AppCompatDialogFragment
 {
+    @Nullable
     protected Habit originalHabit;
 
+    @Nullable
     protected Habit modifiedHabit;
 
+    @Nullable
     protected BaseDialogHelper helper;
 
     @Inject
-    Preferences prefs;
+    protected Preferences prefs;
 
     @Inject
-    CommandRunner commandRunner;
+    protected CommandRunner commandRunner;
+
+    @Inject
+    protected HabitList habitList;
 
     @Override
     public View onCreateView(LayoutInflater inflater,

@@ -55,7 +55,7 @@ public abstract class HabitList
      *
      * @param habit the habit to be inserted
      */
-    public abstract void add(Habit habit);
+    public abstract void add(@NonNull Habit habit);
 
     /**
      * Returns the total number of unarchived habits.
@@ -87,6 +87,7 @@ public abstract class HabitList
      * @param id the id of the habit
      * @return the habit, or null if none exist
      */
+    @Nullable
     public abstract Habit getById(long id);
 
     /**
@@ -136,7 +137,7 @@ public abstract class HabitList
      * @param h the habit
      * @return the index of the habit, or -1 if not in the list
      */
-    public abstract int indexOf(Habit h);
+    public abstract int indexOf(@NonNull Habit h);
 
     /**
      * Removes the given habit from the list.
@@ -173,7 +174,7 @@ public abstract class HabitList
      *
      * @param habit the habit that has been modified.
      */
-    public void update(Habit habit)
+    public void update(@NonNull Habit habit)
     {
         update(Collections.singletonList(habit));
     }
@@ -187,7 +188,7 @@ public abstract class HabitList
      * @param out the writer that will receive the result
      * @throws IOException if write operations fail
      */
-    public void writeCSV(Writer out) throws IOException
+    public void writeCSV(@NonNull Writer out) throws IOException
     {
         String header[] = {
             "Position",

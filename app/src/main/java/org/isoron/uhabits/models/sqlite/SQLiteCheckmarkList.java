@@ -106,6 +106,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
             .limit(1)
             .executeSingle();
 
+        if(record == null) return null;
         return record.toCheckmark();
     }
 
