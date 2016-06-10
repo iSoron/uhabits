@@ -29,11 +29,11 @@ import com.activeandroid.Configuration;
 
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Repetition;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.models.Streak;
+import org.isoron.uhabits.models.sqlite.CheckmarkRecord;
+import org.isoron.uhabits.models.sqlite.HabitRecord;
+import org.isoron.uhabits.models.sqlite.RepetitionRecord;
+import org.isoron.uhabits.models.sqlite.ScoreRecord;
+import org.isoron.uhabits.models.sqlite.StreakRecord;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,17 +41,12 @@ import java.text.SimpleDateFormat;
 
 public abstract class DatabaseUtils
 {
-    public interface Command
-    {
-        void execute();
-    }
-
-    public static void executeAsTransaction(Command command)
+    public static void executeAsTransaction(Callback callback)
     {
         ActiveAndroid.beginTransaction();
         try
         {
-            command.execute();
+            callback.execute();
             ActiveAndroid.setTransactionSuccessful();
         }
         finally
@@ -60,30 +55,18 @@ public abstract class DatabaseUtils
         }
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static String saveDatabaseCopy(File dir) throws IOException
-    {
-        File db = getDatabaseFile();
-
-        SimpleDateFormat dateFormat = DateUtils.getBackupDateFormat();
-        String date = dateFormat.format(DateUtils.getLocalTime());
-        File dbCopy = new File(String.format("%s/Loop Habits Backup %s.db", dir.getAbsolutePath(), date));
-
-        FileUtils.copy(db, dbCopy);
-
-        return dbCopy.getAbsolutePath();
-    }
-
     @NonNull
     public static File getDatabaseFile()
     {
         Context context = HabitsApplication.getContext();
-        if(context == null) throw new RuntimeException("No application context found");
+        if (context == null)
+            throw new RuntimeException("No application context found");
 
         String databaseFilename = getDatabaseFilename();
 
         return new File(String.format("%s/../databases/%s",
-                    context.getApplicationContext().getFilesDir().getPath(), databaseFilename));
+            context.getApplicationContext().getFilesDir().getPath(),
+            databaseFilename));
     }
 
     @NonNull
@@ -91,8 +74,7 @@ public abstract class DatabaseUtils
     {
         String databaseFilename = BuildConfig.databaseFilename;
 
-        if (HabitsApplication.isTestMode())
-            databaseFilename = "test.db";
+        if (HabitsApplication.isTestMode()) databaseFilename = "test.db";
 
         return databaseFilename;
     }
@@ -101,14 +83,15 @@ public abstract class DatabaseUtils
     public static void initializeActiveAndroid()
     {
         Context context = HabitsApplication.getContext();
-        if(context == null) throw new RuntimeException("application context should not be null");
+        if (context == null) throw new RuntimeException(
+            "application context should not be null");
 
         Configuration dbConfig = new Configuration.Builder(context)
-                .setDatabaseName(getDatabaseFilename())
-                .setDatabaseVersion(BuildConfig.databaseVersion)
-                .addModelClasses(Checkmark.class, Habit.class, Repetition.class, Score.class,
-                        Streak.class)
-                .create();
+            .setDatabaseName(getDatabaseFilename())
+            .setDatabaseVersion(BuildConfig.databaseVersion)
+            .addModelClasses(CheckmarkRecord.class, HabitRecord.class,
+                RepetitionRecord.class, ScoreRecord.class, StreakRecord.class)
+            .create();
 
         ActiveAndroid.initialize(dbConfig);
     }
@@ -125,7 +108,28 @@ public abstract class DatabaseUtils
         }
         finally
         {
-            if(c != null) c.close();
+            if (c != null) c.close();
         }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static String saveDatabaseCopy(File dir) throws IOException
+    {
+        File db = getDatabaseFile();
+
+        SimpleDateFormat dateFormat = DateUtils.getBackupDateFormat();
+        String date = dateFormat.format(DateUtils.getLocalTime());
+        File dbCopy = new File(
+            String.format("%s/Loop Habits Backup %s.db", dir.getAbsolutePath(),
+                date));
+
+        FileUtils.copy(db, dbCopy);
+
+        return dbCopy.getAbsolutePath();
+    }
+
+    public interface Callback
+    {
+        void execute();
     }
 }

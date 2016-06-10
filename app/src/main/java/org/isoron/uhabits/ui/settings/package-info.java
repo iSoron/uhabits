@@ -18,6 +18,6 @@
  */
 
 /**
- * Contains classes for the SettingsActivity.
+ * Provides activity for changing the settings.
  */
 package org.isoron.uhabits.ui.settings;

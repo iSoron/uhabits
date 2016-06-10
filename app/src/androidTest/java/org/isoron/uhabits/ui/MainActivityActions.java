@@ -23,7 +23,7 @@ import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.sqlite.HabitRecord;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -93,7 +93,7 @@ public class MainActivityActions
         onView(withId(R.id.buttonSave))
                 .perform(click());
 
-        onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                 .onChildView(withId(R.id.label));
 
         return name;
@@ -135,7 +135,7 @@ public class MainActivityActions
         boolean first = true;
         for(String name : names)
         {
-            onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+            onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                     .onChildView(withId(R.id.label))
                     .perform(first ? longClick() : click());
 
@@ -160,7 +160,7 @@ public class MainActivityActions
     public static void assertHabitsExist(List<String> names)
     {
         for(String name : names)
-            onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+            onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                     .check(matches(isDisplayed()));
     }
 

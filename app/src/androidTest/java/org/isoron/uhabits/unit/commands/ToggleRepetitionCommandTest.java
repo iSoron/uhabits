@@ -24,9 +24,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
+import org.isoron.uhabits.utils.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +47,7 @@ public class ToggleRepetitionCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habit = HabitFixtures.createShortHabit();
+        habit = habitFixtures.createShortHabit();
 
         today = DateUtils.getStartOfToday();
         command = new ToggleRepetitionCommand(habit, today);
@@ -57,15 +56,15 @@ public class ToggleRepetitionCommandTest extends BaseAndroidTest
     @Test
     public void testExecuteUndoRedo()
     {
-        assertTrue(habit.repetitions.contains(today));
+        assertTrue(habit.getRepetitions().containsTimestamp(today));
 
         command.execute();
-        assertFalse(habit.repetitions.contains(today));
+        assertFalse(habit.getRepetitions().containsTimestamp(today));
 
         command.undo();
-        assertTrue(habit.repetitions.contains(today));
+        assertTrue(habit.getRepetitions().containsTimestamp(today));
 
         command.execute();
-        assertFalse(habit.repetitions.contains(today));
+        assertFalse(habit.getRepetitions().containsTimestamp(today));
     }
 }

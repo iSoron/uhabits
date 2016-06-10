@@ -25,7 +25,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,17 +38,18 @@ import static junit.framework.Assert.assertTrue;
 @SmallTest
 public class UnarchiveHabitsCommandTest extends BaseAndroidTest
 {
-
     private UnarchiveHabitsCommand command;
     private Habit habit;
 
+    @Override
     @Before
     public void setUp()
     {
         super.setUp();
 
-        habit = HabitFixtures.createShortHabit();
-        Habit.archive(Collections.singletonList(habit));
+        habit = habitFixtures.createShortHabit();
+        habit.setArchived(1);
+        habitList.update(habit);
 
         command = new UnarchiveHabitsCommand(Collections.singletonList(habit));
     }

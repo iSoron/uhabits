@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -28,15 +28,19 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Scroller;
 
-public abstract class ScrollableDataView extends View implements GestureDetector.OnGestureListener,
-        ValueAnimator.AnimatorUpdateListener
+public abstract class ScrollableDataView extends View
+    implements GestureDetector.OnGestureListener,
+               ValueAnimator.AnimatorUpdateListener
 {
 
     private int dataOffset;
+
     private int scrollerBucketSize;
 
     private GestureDetector detector;
+
     private Scroller scroller;
+
     private ValueAnimator scrollAnimator;
 
     public ScrollableDataView(Context context)
@@ -51,75 +55,9 @@ public abstract class ScrollableDataView extends View implements GestureDetector
         init(context);
     }
 
-    private void init(Context context)
+    public int getDataOffset()
     {
-        detector = new GestureDetector(context, this);
-        scroller = new Scroller(context, null, true);
-        scrollAnimator = ValueAnimator.ofFloat(0, 1);
-        scrollAnimator.addUpdateListener(this);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        return detector.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onDown(MotionEvent e)
-    {
-        return true;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e)
-    {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy)
-    {
-        if(scrollerBucketSize == 0)
-            return false;
-
-        if(Math.abs(dx) > Math.abs(dy))
-        {
-            ViewParent parent = getParent();
-            if(parent != null) parent.requestDisallowInterceptTouchEvent(true);
-        }
-
-        scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) -dx, (int) dy, 0);
-        scroller.computeScrollOffset();
-        dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
-        postInvalidate();
-
-        return true;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e)
-    {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
-    {
-        scroller.fling(scroller.getCurrX(), scroller.getCurrY(), (int) velocityX / 2, 0, 0, 100000,
-                0, 0);
-        invalidate();
-
-        scrollAnimator.setDuration(scroller.getDuration());
-        scrollAnimator.start();
-
-        return false;
+        return dataOffset;
     }
 
     @Override
@@ -137,13 +75,82 @@ public abstract class ScrollableDataView extends View implements GestureDetector
         }
     }
 
-    public int getDataOffset()
+    @Override
+    public boolean onDown(MotionEvent e)
     {
-        return dataOffset;
+        return true;
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1,
+                           MotionEvent e2,
+                           float velocityX,
+                           float velocityY)
+    {
+        scroller.fling(scroller.getCurrX(), scroller.getCurrY(),
+            (int) velocityX / 2, 0, 0, 100000, 0, 0);
+        invalidate();
+
+        scrollAnimator.setDuration(scroller.getDuration());
+        scrollAnimator.start();
+
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e)
+    {
+
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float dx, float dy)
+    {
+        if (scrollerBucketSize == 0) return false;
+
+        if (Math.abs(dx) > Math.abs(dy))
+        {
+            ViewParent parent = getParent();
+            if (parent != null) parent.requestDisallowInterceptTouchEvent(true);
+        }
+
+        scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(),
+            (int) -dx, (int) dy, 0);
+        scroller.computeScrollOffset();
+        dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
+        postInvalidate();
+
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e)
+    {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        return detector.onTouchEvent(event);
     }
 
     public void setScrollerBucketSize(int scrollerBucketSize)
     {
         this.scrollerBucketSize = scrollerBucketSize;
+    }
+
+    private void init(Context context)
+    {
+        detector = new GestureDetector(context, this);
+        scroller = new Scroller(context, null, true);
+        scrollAnimator = ValueAnimator.ofFloat(0, 1);
+        scrollAnimator.addUpdateListener(this);
     }
 }

@@ -17,15 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
-
-import org.isoron.uhabits.models.Habit;
-
-public interface HabitDataView
-{
-    void setHabit(Habit habit);
-
-    void refreshData();
-
-    void postInvalidate();
-}
+/**
+ * Provides views that are specific for the home-screen widgets.
+ */
+package org.isoron.uhabits.widgets.views;

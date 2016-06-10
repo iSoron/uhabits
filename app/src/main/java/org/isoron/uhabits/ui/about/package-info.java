@@ -18,6 +18,6 @@
  */
 
 /**
- * Contains classes for AboutActivity
+ * Provides activity that shows information about the app.
  */
 package org.isoron.uhabits.ui.about;

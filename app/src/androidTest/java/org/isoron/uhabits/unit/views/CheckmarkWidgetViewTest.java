@@ -23,11 +23,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
-import org.isoron.uhabits.views.CheckmarkWidgetView;
+import org.isoron.uhabits.widgets.views.CheckmarkWidgetView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +38,7 @@ import java.io.IOException;
 public class CheckmarkWidgetViewTest extends ViewTest
 {
     private CheckmarkWidgetView view;
+
     private Habit habit;
 
     @Before
@@ -47,7 +47,7 @@ public class CheckmarkWidgetViewTest extends ViewTest
         super.setUp();
         InterfaceUtils.setFixedTheme(R.style.TransparentWidgetTheme);
 
-        habit = HabitFixtures.createShortHabit();
+        habit = habitFixtures.createShortHabit();
         view = new CheckmarkWidgetView(targetContext);
         view.setHabit(habit);
         refreshData(view);
@@ -61,22 +61,13 @@ public class CheckmarkWidgetViewTest extends ViewTest
     }
 
     @Test
-    public void testRender_unchecked() throws IOException
-    {
-        habit.repetitions.toggle(DateUtils.getStartOfToday());
-        view.refreshData();
-
-        assertRenders(view, "CheckmarkView/unchecked.png");
-    }
-
-    @Test
     public void testRender_implicitlyChecked() throws IOException
     {
         long today = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
-        habit.repetitions.toggle(today);
-        habit.repetitions.toggle(today - day);
-        habit.repetitions.toggle(today - 2 * day);
+        habit.getRepetitions().toggleTimestamp(today);
+        habit.getRepetitions().toggleTimestamp(today - day);
+        habit.getRepetitions().toggleTimestamp(today - 2 * day);
         view.refreshData();
 
         assertRenders(view, "CheckmarkView/implicitly_checked.png");
@@ -87,5 +78,14 @@ public class CheckmarkWidgetViewTest extends ViewTest
     {
         measureView(dpToPixels(300), dpToPixels(300), view);
         assertRenders(view, "CheckmarkView/large_size.png");
+    }
+
+    @Test
+    public void testRender_unchecked() throws IOException
+    {
+        habit.getRepetitions().toggleTimestamp(DateUtils.getStartOfToday());
+        view.refreshData();
+
+        assertRenders(view, "CheckmarkView/unchecked.png");
     }
 }

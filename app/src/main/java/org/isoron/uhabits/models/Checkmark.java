@@ -19,48 +19,65 @@
 
 package org.isoron.uhabits.models;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-@Table(name = "Checkmarks")
-public class Checkmark extends Model
+/**
+ * A Checkmark represents the completion status of the habit for a given day.
+ * <p>
+ * While repetitions simply record that the habit was performed at a given date,
+ * a checkmark provides more information, such as whether a repetition was
+ * expected at that day or not.
+ * <p>
+ * Checkmarks are computed automatically from the list of repetitions.
+ */
+public class Checkmark
 {
-    /**
-     * Indicates that there was no repetition at the timestamp, even though a repetition was
-     * expected.
-     */
-    public static final int UNCHECKED = 0;
-
-    /**
-     * Indicates that there was no repetition at the timestamp, but one was not expected in any
-     * case, due to the frequency of the habit.
-     */
-    public static final int CHECKED_IMPLICITLY = 1;
-
     /**
      * Indicates that there was a repetition at the timestamp.
      */
     public static final int CHECKED_EXPLICITLY = 2;
 
     /**
-     * The habit to which this checkmark belongs.
+     * Indicates that there was no repetition at the timestamp, but one was not
+     * expected in any case, due to the frequency of the habit.
      */
-    @Column(name = "habit")
-    public Habit habit;
+    public static final int CHECKED_IMPLICITLY = 1;
 
     /**
-     * Timestamp of the day to which this checkmark corresponds. Time of the day must be midnight
-     * (UTC).
+     * Indicates that there was no repetition at the timestamp, even though a
+     * repetition was expected.
      */
-    @Column(name = "timestamp")
-    public Long timestamp;
+    public static final int UNCHECKED = 0;
 
-    /**
-     * Indicates whether there is a repetition at the given timestamp or not, and whether the
-     * repetition was expected. Assumes one of the values UNCHECKED, CHECKED_EXPLICITLY or
-     * CHECKED_IMPLICITLY.
-     */
-    @Column(name = "value")
-    public Integer value;
+    final Habit habit;
+
+    final long timestamp;
+
+    final int value;
+
+    public Checkmark(Habit habit, long timestamp, int value)
+    {
+        this.habit = habit;
+        this.timestamp = timestamp;
+        this.value = value;
+    }
+
+    public long getTimestamp()
+    {
+        return timestamp;
+    }
+
+    public int getValue()
+    {
+        return value;
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("timestamp", timestamp)
+            .append("value", value)
+            .toString();
+    }
 }

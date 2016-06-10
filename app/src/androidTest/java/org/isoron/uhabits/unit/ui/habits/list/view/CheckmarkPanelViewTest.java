@@ -54,13 +54,14 @@ public class CheckmarkPanelViewTest extends ViewTest
         Habit habit = new Habit();
 
         latch = new CountDownLatch(1);
-        checkmarks = new int[]{Checkmark.CHECKED_EXPLICITLY, Checkmark.UNCHECKED,
+        checkmarks = new int[]{
+            Checkmark.CHECKED_EXPLICITLY, Checkmark.UNCHECKED,
                 Checkmark.CHECKED_IMPLICITLY, Checkmark.CHECKED_EXPLICITLY};
 
         view = new CheckmarkPanelView(targetContext);
         view.setHabit(habit);
         view.setCheckmarkValues(checkmarks);
-        view.setColor(ColorUtils.CSV_PALETTE[7]);
+        view.setColor(ColorUtils.getAndroidTestColor(7));
 
         measureView(dpToPixels(200), dpToPixels(200), view);
     }

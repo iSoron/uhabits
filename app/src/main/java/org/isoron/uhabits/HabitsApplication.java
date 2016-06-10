@@ -25,37 +25,53 @@ import android.support.annotation.Nullable;
 
 import com.activeandroid.ActiveAndroid;
 
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.utils.DatabaseUtils;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
+/**
+ * The Android application for Loop Habit Tracker.
+ */
 public class HabitsApplication extends Application
 {
-    public static final String ACTION_REFRESH = "org.isoron.uhabits.ACTION_REFRESH";
-    public static final int RESULT_IMPORT_DATA = 1;
-    public static final int RESULT_EXPORT_CSV = 2;
-    public static final int RESULT_EXPORT_DB = 3;
+    public static final String ACTION_REFRESH =
+        "org.isoron.uhabits.ACTION_REFRESH";
+
     public static final int RESULT_BUG_REPORT = 4;
+
+    public static final int RESULT_EXPORT_CSV = 2;
+
+    public static final int RESULT_EXPORT_DB = 3;
+
+    public static final int RESULT_IMPORT_DATA = 1;
 
     @Nullable
     private static HabitsApplication application;
 
-    @Nullable
-    private static Context context;
     private static BaseComponent component;
 
-    public static boolean isTestMode()
+    @Nullable
+    private static Context context;
+
+    @Inject
+    HabitList habitList;
+
+    public static BaseComponent getComponent()
     {
-        try
-        {
-            if(context != null)
-                context.getClassLoader().loadClass("org.isoron.uhabits.unit.models.HabitTest");
-            return true;
-        }
-        catch (final Exception e)
-        {
-            return false;
-        }
+        return component;
+    }
+
+    public HabitList getHabitList()
+    {
+        return habitList;
+    }
+
+    public static void setComponent(BaseComponent component)
+    {
+        HabitsApplication.component = component;
     }
 
     @Nullable
@@ -70,14 +86,19 @@ public class HabitsApplication extends Application
         return application;
     }
 
-    public static BaseComponent getComponent()
+    public static boolean isTestMode()
     {
-        return component;
-    }
-
-    public static void setComponent(BaseComponent component)
-    {
-        HabitsApplication.component = component;
+        try
+        {
+            if (context != null) context
+                .getClassLoader()
+                .loadClass("org.isoron.uhabits.unit.models.HabitTest");
+            return true;
+        }
+        catch (final Exception e)
+        {
+            return false;
+        }
     }
 
     @Override
@@ -91,9 +112,10 @@ public class HabitsApplication extends Application
         if (isTestMode())
         {
             File db = DatabaseUtils.getDatabaseFile();
-            if(db.exists()) db.delete();
+            if (db.exists()) db.delete();
         }
 
+        component.inject(this);
         DatabaseUtils.initializeActiveAndroid();
     }
 

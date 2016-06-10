@@ -23,6 +23,9 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
+/**
+ * Dependency injection component for classes that are specific to Android.
+ */
 @Singleton
 @Component(modules = {AndroidModule.class})
 public interface AndroidComponent extends BaseComponent

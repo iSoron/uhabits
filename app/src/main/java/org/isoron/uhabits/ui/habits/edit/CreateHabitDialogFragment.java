@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CreateHabitCommand;
@@ -36,9 +37,10 @@ public class CreateHabitDialogFragment extends BaseDialogFragment
     protected void initializeHabits()
     {
         modifiedHabit = new Habit();
-        modifiedHabit.freqNum = 1;
-        modifiedHabit.freqDen = 1;
-        modifiedHabit.color = prefs.getDefaultHabitColor(modifiedHabit.color);
+        modifiedHabit.setFreqNum(1);
+        modifiedHabit.setFreqDen(1);
+        modifiedHabit.setColor(
+            prefs.getDefaultHabitColor(modifiedHabit.getColor()));
     }
 
     protected void saveHabit()

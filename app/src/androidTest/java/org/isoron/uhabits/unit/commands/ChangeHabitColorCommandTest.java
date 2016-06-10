@@ -51,9 +51,8 @@ public class ChangeHabitColorCommandTest extends BaseAndroidTest
 
         for(int i = 0; i < 3; i ++)
         {
-            Habit habit = HabitFixtures.createShortHabit();
-            habit.color = i+1;
-            habit.save();
+            Habit habit = habitFixtures.createShortHabit();
+            habit.setColor(i + 1);
             habits.add(habit);
         }
 
@@ -79,12 +78,12 @@ public class ChangeHabitColorCommandTest extends BaseAndroidTest
     {
         int k = 0;
         for(Habit h : habits)
-            assertThat(h.color, equalTo(++k));
+            assertThat(h.getColor(), equalTo(++k));
     }
 
     private void checkNewColors()
     {
         for(Habit h : habits)
-            assertThat(h.color, equalTo(0));
+            assertThat(h.getColor(), equalTo(0));
     }
 }

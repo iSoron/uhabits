@@ -18,6 +18,6 @@
  */
 
 /**
- * Contains model classes that are specific for ListHabitsActivity
+ * Provides models that are specific for {@link org.isoron.uhabits.ui.habits.list.ListHabitsActivity}.
  */
 package org.isoron.uhabits.ui.habits.list.model;

@@ -18,6 +18,6 @@
  */
 
 /**
- * Contains controllers that are specific for ListHabitsActivity
+ * Provides controllers that are specific for {@link org.isoron.uhabits.ui.habits.list.ListHabitsActivity}.
  */
 package org.isoron.uhabits.ui.habits.list.controllers;

@@ -18,6 +18,6 @@
  */
 
 /**
- * Contains classes for the IntroActivity.
+ * Provides activity that introduces app to the user and related classes.
  */
 package org.isoron.uhabits.ui.intro;

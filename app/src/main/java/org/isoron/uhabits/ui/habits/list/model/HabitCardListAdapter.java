@@ -37,9 +37,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * Provides data that backs a {@link HabitCardListView}. The data if fetched and
- * cached by a {@link HabitCardListCache}. This adapter also holds a list of
- * items that have been selected.
+ * Provides data that backs a {@link HabitCardListView}.
+ * <p>
+ * The data if fetched and cached by a {@link HabitCardListCache}. This adapter
+ * also holds a list of items that have been selected.
  */
 public class HabitCardListAdapter extends BaseAdapter
     implements HabitCardListCache.Listener
@@ -200,6 +201,12 @@ public class HabitCardListAdapter extends BaseAdapter
         this.listView = listView;
     }
 
+    public void setShowArchived(boolean showArchived)
+    {
+        cache.setIncludeArchived(showArchived);
+        cache.refreshAllHabits(true);
+    }
+
     /**
      * Selects or deselects the item at a given position.
      *
@@ -212,11 +219,5 @@ public class HabitCardListAdapter extends BaseAdapter
         if (k < 0) selected.add(h);
         else selected.remove(h);
         notifyDataSetChanged();
-    }
-
-    public void setShowArchived(boolean showArchived)
-    {
-        cache.setIncludeArchived(showArchived);
-        cache.refreshAllHabits(true);
     }
 }

@@ -25,8 +25,8 @@ import android.view.View;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.CheckmarkWidgetView;
-import org.isoron.uhabits.views.HabitDataView;
+import org.isoron.uhabits.widgets.views.CheckmarkWidgetView;
+import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
 
 public class CheckmarkWidgetProvider extends BaseWidgetProvider
 {

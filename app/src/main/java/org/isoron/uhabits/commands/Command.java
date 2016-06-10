@@ -19,11 +19,18 @@
 
 package org.isoron.uhabits.commands;
 
+/**
+ * A Command represents a desired set of changes that should be performed on the
+ * models.
+ * <p>
+ * A command can be executed and undone. Each of these operations also provide
+ * an string that should be displayed to the user upon their completion.
+ * <p>
+ * In general, commands should always be executed by a {@link CommandRunner}.
+ */
 public abstract class Command
 {
     public abstract void execute();
-
-    public abstract void undo();
 
     public Integer getExecuteStringId()
     {
@@ -34,4 +41,6 @@ public abstract class Command
     {
         return null;
     }
+
+    public abstract void undo();
 }

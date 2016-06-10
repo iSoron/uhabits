@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -26,12 +26,12 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.ModelObservable;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.models.Habit;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -101,7 +101,8 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
     {
         if(habit != null)
         {
-            this.primaryColor = ColorUtils.getColor(getContext(), habit.color);
+            this.primaryColor = ColorUtils.getColor(getContext(),
+                habit.getColor());
         }
 
         textColor = InterfaceUtils.getStyledColor(getContext(), R.attr.mediumContrastTextColor);
@@ -177,7 +178,7 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
         if(isInEditMode()) generateRandomData();
         else if(habit != null)
         {
-            frequency = habit.repetitions.getWeekdayFrequency();
+            frequency = habit.getRepetitions().getWeekdayFrequency();
             createColors();
         }
 
@@ -314,15 +315,15 @@ public class HabitFrequencyView extends ScrollableDataView implements HabitDataV
                 refreshData();
             }
         }.execute();
-        habit.observable.addListener(this);
-        habit.checkmarks.observable.addListener(this);
+        habit.getObservable().addListener(this);
+        habit.getCheckmarks().observable.addListener(this);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
-        habit.checkmarks.observable.removeListener(this);
-        habit.observable.removeListener(this);
+        habit.getCheckmarks().observable.removeListener(this);
+        habit.getObservable().removeListener(this);
         super.onDetachedFromWindow();
     }
 

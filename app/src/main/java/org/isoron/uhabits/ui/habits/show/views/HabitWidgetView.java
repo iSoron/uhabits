@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -32,8 +32,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.util.Arrays;
 

@@ -73,12 +73,12 @@ public class BaseDialogHelper
 
     void parseFormIntoHabit(Habit habit)
     {
-        habit.name = tvName.getText().toString().trim();
-        habit.description = tvDescription.getText().toString().trim();
+        habit.setName(tvName.getText().toString().trim());
+        habit.setDescription(tvDescription.getText().toString().trim());
         String freqNum = tvFreqNum.getText().toString();
         String freqDen = tvFreqDen.getText().toString();
-        if (!freqNum.isEmpty()) habit.freqNum = Integer.parseInt(freqNum);
-        if (!freqDen.isEmpty()) habit.freqDen = Integer.parseInt(freqDen);
+        if (!freqNum.isEmpty()) habit.setFreqNum(Integer.parseInt(freqNum));
+        if (!freqDen.isEmpty()) habit.setFreqDen(Integer.parseInt(freqDen));
     }
 
     void populateColor(int paletteColor)
@@ -89,10 +89,11 @@ public class BaseDialogHelper
 
     protected void populateForm(final Habit habit)
     {
-        if (habit.name != null) tvName.setText(habit.name);
-        if (habit.description != null) tvDescription.setText(habit.description);
+        if (habit.getName() != null) tvName.setText(habit.getName());
+        if (habit.getDescription() != null) tvDescription.setText(
+            habit.getDescription());
 
-        populateColor(habit.color);
+        populateColor(habit.getColor());
         populateFrequencyFields(habit);
         populateReminderFields(habit);
     }
@@ -102,15 +103,15 @@ public class BaseDialogHelper
     {
         int quickSelectPosition = -1;
 
-        if (habit.freqNum.equals(habit.freqDen)) quickSelectPosition = 0;
+        if (habit.getFreqNum().equals(habit.getFreqDen())) quickSelectPosition = 0;
 
-        else if (habit.freqNum == 1 && habit.freqDen == 7)
+        else if (habit.getFreqNum() == 1 && habit.getFreqDen() == 7)
             quickSelectPosition = 1;
 
-        else if (habit.freqNum == 2 && habit.freqDen == 7)
+        else if (habit.getFreqNum() == 2 && habit.getFreqDen() == 7)
             quickSelectPosition = 2;
 
-        else if (habit.freqNum == 5 && habit.freqDen == 7)
+        else if (habit.getFreqNum() == 5 && habit.getFreqDen() == 7)
             quickSelectPosition = 3;
 
         if (quickSelectPosition >= 0)
@@ -118,8 +119,8 @@ public class BaseDialogHelper
 
         else showCustomFrequency();
 
-        tvFreqNum.setText(habit.freqNum.toString());
-        tvFreqDen.setText(habit.freqDen.toString());
+        tvFreqNum.setText(habit.getFreqNum().toString());
+        tvFreqDen.setText(habit.getFreqDen().toString());
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -133,12 +134,13 @@ public class BaseDialogHelper
         }
 
         String time =
-            DateUtils.formatTime(frag.getContext(), habit.reminderHour,
-                habit.reminderMin);
+            DateUtils.formatTime(frag.getContext(), habit.getReminderHour(),
+                habit.getReminderMin());
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
-        boolean weekdays[] = DateUtils.unpackWeekdayList(habit.reminderDays);
+        boolean weekdays[] = DateUtils.unpackWeekdayList(
+            habit.getReminderDays());
         tvReminderDays.setText(
             DateUtils.formatWeekdayList(frag.getContext(), weekdays));
     }
@@ -161,21 +163,21 @@ public class BaseDialogHelper
     {
         Boolean valid = true;
 
-        if (habit.name.length() == 0)
+        if (habit.getName().length() == 0)
         {
             tvName.setError(
                 frag.getString(R.string.validation_name_should_not_be_blank));
             valid = false;
         }
 
-        if (habit.freqNum <= 0)
+        if (habit.getFreqNum() <= 0)
         {
             tvFreqNum.setError(
                 frag.getString(R.string.validation_number_should_be_positive));
             valid = false;
         }
 
-        if (habit.freqNum > habit.freqDen)
+        if (habit.getFreqNum() > habit.getFreqDen())
         {
             tvFreqNum.setError(
                 frag.getString(R.string.validation_at_most_one_rep_per_day));

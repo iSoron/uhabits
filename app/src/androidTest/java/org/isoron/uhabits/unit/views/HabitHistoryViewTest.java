@@ -22,10 +22,9 @@ package org.isoron.uhabits.unit.views;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
-import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +39,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class HabitHistoryViewTest extends ViewTest
 {
     private Habit habit;
+
     private HabitHistoryView view;
 
     @Before
@@ -47,8 +47,8 @@ public class HabitHistoryViewTest extends ViewTest
     {
         super.setUp();
 
-        HabitFixtures.purgeHabits();
-        habit = HabitFixtures.createLongHabit();
+        habitFixtures.purgeHabits(habitList);
+        habit = habitFixtures.createLongHabit();
 
         view = new HabitHistoryView(targetContext);
         view.setHabit(habit);
@@ -57,23 +57,46 @@ public class HabitHistoryViewTest extends ViewTest
     }
 
     @Test
+    public void tapDate_atInvalidLocations() throws Throwable
+    {
+        int expectedCheckmarkValues[] = habit.getCheckmarks().getAllValues();
+
+        view.setIsEditable(true);
+        tap(view, 118, 13); // header
+        tap(view, 336, 60); // tomorrow's square
+        tap(view, 370, 60); // right axis
+        waitForAsyncTasks();
+
+        int actualCheckmarkValues[] = habit.getCheckmarks().getAllValues();
+        assertThat(actualCheckmarkValues, equalTo(expectedCheckmarkValues));
+    }
+
+    @Test
+    public void tapDate_withEditableView() throws Throwable
+    {
+        view.setIsEditable(true);
+        tap(view, 340, 40); // today's square
+        waitForAsyncTasks();
+
+        long today = DateUtils.getStartOfToday();
+        assertFalse(habit.getRepetitions().containsTimestamp(today));
+    }
+
+    @Test
+    public void tapDate_withReadOnlyView() throws Throwable
+    {
+        view.setIsEditable(false);
+        tap(view, 340, 40); // today's square
+        waitForAsyncTasks();
+
+        long today = DateUtils.getStartOfToday();
+        assertTrue(habit.getRepetitions().containsTimestamp(today));
+    }
+
+    @Test
     public void testRender() throws Throwable
     {
         assertRenders(view, "HabitHistoryView/render.png");
-    }
-
-    @Test
-    public void testRender_withTransparentBackground() throws Throwable
-    {
-        view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitHistoryView/renderTransparent.png");
-    }
-
-    @Test
-    public void testRender_withDifferentSize() throws Throwable
-    {
-        measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "HabitHistoryView/renderDifferentSize.png");
     }
 
     @Test
@@ -86,40 +109,17 @@ public class HabitHistoryViewTest extends ViewTest
     }
 
     @Test
-    public void tapDate_withEditableView() throws Throwable
+    public void testRender_withDifferentSize() throws Throwable
     {
-        view.setIsEditable(true);
-        tap(view, 340, 40); // today's square
-        waitForAsyncTasks();
-
-        long today = DateUtils.getStartOfToday();
-        assertFalse(habit.repetitions.contains(today));
+        measureView(dpToPixels(200), dpToPixels(200), view);
+        assertRenders(view, "HabitHistoryView/renderDifferentSize.png");
     }
 
     @Test
-    public void tapDate_atInvalidLocations() throws Throwable
+    public void testRender_withTransparentBackground() throws Throwable
     {
-        int expectedCheckmarkValues[] = habit.checkmarks.getAllValues();
-
-        view.setIsEditable(true);
-        tap(view, 118, 13); // header
-        tap(view, 336, 60); // tomorrow's square
-        tap(view, 370, 60); // right axis
-        waitForAsyncTasks();
-
-        int actualCheckmarkValues[] = habit.checkmarks.getAllValues();
-        assertThat(actualCheckmarkValues, equalTo(expectedCheckmarkValues));
-    }
-
-    @Test
-    public void tapDate_withReadOnlyView() throws Throwable
-    {
-        view.setIsEditable(false);
-        tap(view, 340, 40); // today's square
-        waitForAsyncTasks();
-
-        long today = DateUtils.getStartOfToday();
-        assertTrue(habit.repetitions.contains(today));
+        view.setIsBackgroundTransparent(true);
+        assertRenders(view, "HabitHistoryView/renderTransparent.png");
     }
 
 }

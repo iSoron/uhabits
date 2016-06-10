@@ -52,21 +52,16 @@ public class ExportCSVTaskTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws Throwable
     {
-        HabitFixtures.createShortHabit();
-        List<Habit> habits = Habit.getAll(true);
+        habitFixtures.createShortHabit();
+        List<Habit> habits = habitList.getAll(true);
 
         ExportCSVTask task = new ExportCSVTask(habits, null);
-        task.setListener(new ExportCSVTask.Listener()
-        {
-            @Override
-            public void onExportCSVFinished(String archiveFilename)
-            {
-                assertThat(archiveFilename, is(not(nullValue())));
+        task.setListener(archiveFilename -> {
+            assertThat(archiveFilename, is(not(nullValue())));
 
-                File f = new File(archiveFilename);
-                assertTrue(f.exists());
-                assertTrue(f.canRead());
-            }
+            File f = new File(archiveFilename);
+            assertTrue(f.exists());
+            assertTrue(f.canRead());
         });
 
         task.execute();

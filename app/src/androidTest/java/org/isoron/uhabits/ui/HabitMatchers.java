@@ -39,7 +39,7 @@ public class HabitMatchers
             @Override
             public boolean matchesSafely(Habit habit)
             {
-                return habit.name.equals(name);
+                return habit.getName().equals(name);
             }
 
             @Override
@@ -51,7 +51,7 @@ public class HabitMatchers
             @Override
             public void describeMismatchSafely(Habit habit, Description description)
             {
-                description.appendText("was ").appendText(habit.name);
+                description.appendText("was ").appendText(habit.getName());
             }
         };
     }

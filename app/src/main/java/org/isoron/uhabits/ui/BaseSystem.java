@@ -25,6 +25,8 @@ import android.support.annotation.NonNull;
 import android.view.WindowManager;
 
 import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.FileUtils;
@@ -38,13 +40,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 
+import javax.inject.Inject;
+
 public class BaseSystem
 {
     private Context context;
 
+    @Inject
+    HabitList habitList;
+
     public BaseSystem(Context context)
     {
         this.context = context;
+        HabitsApplication.getComponent().inject(this);
     }
 
     public String getLogcat() throws IOException
@@ -146,7 +154,7 @@ public class BaseSystem
             @Override
             protected void doInBackground()
             {
-                ReminderUtils.createReminderAlarms(context);
+                ReminderUtils.createReminderAlarms(context, habitList);
             }
         }.execute();
     }

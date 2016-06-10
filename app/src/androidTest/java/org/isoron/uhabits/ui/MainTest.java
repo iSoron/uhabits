@@ -30,8 +30,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.models.sqlite.HabitRecord;
 import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.MainActivity;
 import org.junit.After;
 import org.junit.Before;
@@ -190,13 +190,13 @@ public class MainTest
     {
         String name = addHabit(true);
 
-        onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                 .onChildView(withId(R.id.checkmarkPanel))
                 .perform(toggleAllCheckmarks());
 
         Thread.sleep(1200);
 
-        onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(click());
 
@@ -217,7 +217,7 @@ public class MainTest
     {
         String name = addHabit();
 
-        onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(longClick());
 
@@ -247,7 +247,7 @@ public class MainTest
     {
         String name = addHabit();
 
-        onData(allOf(is(instanceOf(Habit.class)), withName(name)))
+        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(click());
 

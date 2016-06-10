@@ -23,9 +23,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseAndroidTest;
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +42,7 @@ public class CreateHabitCommandTest extends BaseAndroidTest
 {
 
     private CreateHabitCommand command;
+
     private Habit model;
 
     @Before
@@ -50,36 +51,36 @@ public class CreateHabitCommandTest extends BaseAndroidTest
         super.setUp();
 
         model = new Habit();
-        model.name = "New habit";
+        model.setName("New habit");
         command = new CreateHabitCommand(model);
 
-        HabitFixtures.purgeHabits();
+        habitFixtures.purgeHabits(habitList);
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertTrue(Habit.getAll(true).isEmpty());
+        assertTrue(habitList.getAll(true).isEmpty());
 
         command.execute();
 
-        List<Habit> allHabits = Habit.getAll(true);
+        List<Habit> allHabits = habitList.getAll(true);
         assertThat(allHabits.size(), equalTo(1));
 
         Habit habit = allHabits.get(0);
         Long id = habit.getId();
-        assertThat(habit.name, equalTo(model.name));
+        assertThat(habit.getName(), equalTo(model.getName()));
 
         command.undo();
-        assertTrue(Habit.getAll(true).isEmpty());
+        assertTrue(habitList.getAll(true).isEmpty());
 
         command.execute();
-        allHabits = Habit.getAll(true);
+        allHabits = habitList.getAll(true);
         assertThat(allHabits.size(), equalTo(1));
 
         habit = allHabits.get(0);
         Long newId = habit.getId();
         assertThat(id, equalTo(newId));
-        assertThat(habit.name, equalTo(model.name));
+        assertThat(habit.getName(), equalTo(model.getName()));
     }
 }

@@ -40,8 +40,10 @@ public class CheckmarkButtonViewTest extends ViewTest
     public static final String PATH = "ui/habits/list/CheckmarkButtonView/";
 
     private CountDownLatch latch;
+
     private CheckmarkButtonView view;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -51,31 +53,9 @@ public class CheckmarkButtonViewTest extends ViewTest
         latch = new CountDownLatch(1);
         view = new CheckmarkButtonView(targetContext);
         view.setValue(Checkmark.UNCHECKED);
-        view.setColor(ColorUtils.CSV_PALETTE[7]);
+        view.setColor(ColorUtils.getAndroidTestColor(7));
 
         measureView(dpToPixels(40), dpToPixels(40), view);
-    }
-
-    protected void assertRendersCheckedExplicitly() throws IOException
-    {
-        assertRenders(view, PATH + "render_explicit_check.png");
-    }
-
-    protected void assertRendersUnchecked() throws IOException
-    {
-        assertRenders(view, PATH + "render_unchecked.png");
-    }
-
-    protected void assertRendersCheckedImplicitly() throws IOException
-    {
-        assertRenders(view, PATH + "render_implicit_check.png");
-    }
-
-    @Test
-    public void testRender_unchecked() throws Exception
-    {
-        view.setValue(Checkmark.UNCHECKED);
-        assertRendersUnchecked();
     }
 
     @Test
@@ -90,6 +70,28 @@ public class CheckmarkButtonViewTest extends ViewTest
     {
         view.setValue(Checkmark.CHECKED_IMPLICITLY);
         assertRendersCheckedImplicitly();
+    }
+
+    @Test
+    public void testRender_unchecked() throws Exception
+    {
+        view.setValue(Checkmark.UNCHECKED);
+        assertRendersUnchecked();
+    }
+
+    protected void assertRendersCheckedExplicitly() throws IOException
+    {
+        assertRenders(view, PATH + "render_explicit_check.png");
+    }
+
+    protected void assertRendersCheckedImplicitly() throws IOException
+    {
+        assertRenders(view, PATH + "render_implicit_check.png");
+    }
+
+    protected void assertRendersUnchecked() throws IOException
+    {
+        assertRenders(view, PATH + "render_unchecked.png");
     }
 
 //    @Test

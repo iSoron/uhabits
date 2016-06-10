@@ -35,16 +35,23 @@ import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
+    @Inject
+    HabitList habitList;
+
     private class WidgetDimensions
     {
         public int portraitWidth, portraitHeight;
@@ -100,6 +107,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     private void updateWidget(Context context, AppWidgetManager manager,
                               int widgetId, Bundle options)
     {
+        HabitsApplication.getComponent().inject(this);
         WidgetDimensions dim = getWidgetDimensions(context, options);
 
         Context appContext = context.getApplicationContext();
@@ -108,7 +116,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         Long habitId = prefs.getLong(getHabitIdKey(widgetId), -1L);
         if(habitId < 0) return;
 
-        Habit habit = Habit.get(habitId);
+        Habit habit = habitList.getById(habitId);
         if(habit == null)
         {
             drawErrorWidget(context, manager, widgetId);
@@ -288,7 +296,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             widgetView.setDrawingCacheEnabled(true);
             widgetView.buildDrawingCache(true);
             Bitmap drawingCache = widgetView.getDrawingCache();
-            remoteViews.setTextViewText(R.id.label, habit.name);
+            remoteViews.setTextViewText(R.id.label, habit.getName());
             remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)

@@ -21,25 +21,33 @@ package org.isoron.uhabits.ui.habits.list;
 
 import android.os.Bundle;
 
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.BaseSystem;
+
+import javax.inject.Inject;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
  */
 public class ListHabitsActivity extends BaseActivity
 {
+    @Inject
+    HabitList habitList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        HabitsApplication.getComponent().inject(this);
+
         BaseSystem system = new BaseSystem(this);
         ListHabitsScreen screen = new ListHabitsScreen(this);
         ListHabitsController controller =
-            new ListHabitsController(screen, system);
+            new ListHabitsController(screen, system, habitList);
 
         screen.setController(controller);
-
         setScreen(screen);
         controller.onStartup();
     }

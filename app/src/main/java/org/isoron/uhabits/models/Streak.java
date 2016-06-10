@@ -19,20 +19,63 @@
 
 package org.isoron.uhabits.models;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.isoron.uhabits.utils.DateUtils;
 
-public class Streak extends Model
+public class Streak
 {
-    @Column(name = "habit")
-    public Habit habit;
+    private Habit habit;
 
-    @Column(name = "start")
-    public Long start;
+    private long start;
 
-    @Column(name = "end")
-    public Long end;
+    private long end;
 
-    @Column(name = "length")
-    public Long length;
+    public Streak(Habit habit, long start, long end)
+    {
+        this.habit = habit;
+        this.start = start;
+        this.end = end;
+    }
+
+    public int compareLonger(Streak other)
+    {
+        if (this.getLength() != other.getLength())
+            return Long.signum(this.getLength() - other.getLength());
+
+        return Long.signum(this.getEnd() - other.getEnd());
+    }
+
+    public int compareNewer(Streak other)
+    {
+        return Long.signum(this.getEnd() - other.getEnd());
+    }
+
+    public long getEnd()
+    {
+        return end;
+    }
+
+    public Habit getHabit()
+    {
+        return habit;
+    }
+
+    public long getLength()
+    {
+        return (end - start) / DateUtils.millisecondsInOneDay + 1;
+    }
+
+    public long getStart()
+    {
+        return start;
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("start", start)
+            .append("end", end)
+            .toString();
+    }
 }

@@ -26,6 +26,12 @@ import org.isoron.uhabits.tasks.BaseTask;
 
 import java.util.LinkedList;
 
+/**
+ * A CommandRunner executes and undoes commands.
+ * <p>
+ * CommandRunners also allows objects to subscribe to it, and receive events
+ * whenever a command is performed.
+ */
 public class CommandRunner
 {
     private LinkedList<Listener> listeners;
@@ -71,6 +77,10 @@ public class CommandRunner
         listeners.remove(l);
     }
 
+    /**
+     * Interface implemented by objects that want to receive an event whenever a
+     * command is executed.
+     */
     public interface Listener
     {
         void onCommandExecuted(@NonNull Command command,

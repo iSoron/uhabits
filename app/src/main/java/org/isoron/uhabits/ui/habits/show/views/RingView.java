@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -70,7 +70,7 @@ public class RingView extends View
 
         percentage = 0.0f;
         precision = 0.01f;
-        color = ColorUtils.CSV_PALETTE[0];
+        color = ColorUtils.getAndroidTestColor(0);
         thickness = InterfaceUtils.dpToPixels(getContext(), 2);
         text = "";
         textSize = context.getResources().getDimension(R.dimen.smallTextSize);

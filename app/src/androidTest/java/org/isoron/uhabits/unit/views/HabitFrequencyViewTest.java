@@ -23,8 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
-import org.isoron.uhabits.views.HabitFrequencyView;
+import org.isoron.uhabits.ui.habits.show.views.HabitFrequencyView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,8 +39,8 @@ public class HabitFrequencyViewTest extends ViewTest
     {
         super.setUp();
 
-        HabitFixtures.purgeHabits();
-        Habit habit = HabitFixtures.createLongHabit();
+        habitFixtures.purgeHabits(habitList);
+        Habit habit = habitFixtures.createLongHabit();
 
         view = new HabitFrequencyView(targetContext);
         view.setHabit(habit);
@@ -56,10 +55,12 @@ public class HabitFrequencyViewTest extends ViewTest
     }
 
     @Test
-    public void testRender_withTransparentBackground() throws Throwable
+    public void testRender_withDataOffset() throws Throwable
     {
-        view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitFrequencyView/renderTransparent.png");
+        view.onScroll(null, null, -dpToPixels(150), 0);
+        view.invalidate();
+
+        assertRenders(view, "HabitFrequencyView/renderDataOffset.png");
     }
 
     @Test
@@ -70,11 +71,9 @@ public class HabitFrequencyViewTest extends ViewTest
     }
 
     @Test
-    public void testRender_withDataOffset() throws Throwable
+    public void testRender_withTransparentBackground() throws Throwable
     {
-        view.onScroll(null, null, -dpToPixels(150), 0);
-        view.invalidate();
-
-        assertRenders(view, "HabitFrequencyView/renderDataOffset.png");
+        view.setIsBackgroundTransparent(true);
+        assertRenders(view, "HabitFrequencyView/renderTransparent.png");
     }
 }

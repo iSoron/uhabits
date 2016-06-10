@@ -21,13 +21,20 @@ package org.isoron.uhabits.ui.habits.edit;
 
 import android.os.Bundle;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
+
+import javax.inject.Inject;
 
 public class EditHabitDialogFragment extends BaseDialogFragment
 {
+    @Inject
+    HabitList habitList;
+
     public static EditHabitDialogFragment newInstance(long habitId)
     {
         EditHabitDialogFragment frag = new EditHabitDialogFragment();
@@ -46,14 +53,18 @@ public class EditHabitDialogFragment extends BaseDialogFragment
     @Override
     protected void initializeHabits()
     {
+        HabitsApplication.getComponent().inject(this);
+
         Long habitId = (Long) getArguments().get("habitId");
         if (habitId == null)
             throw new IllegalArgumentException("habitId must be specified");
 
-        originalHabit = Habit.get(habitId);
-        modifiedHabit = new Habit(originalHabit);
+        originalHabit = habitList.getById(habitId);
+        modifiedHabit = new Habit();
+        modifiedHabit.copyFrom(originalHabit);
     }
 
+    @Override
     protected void saveHabit()
     {
         Command command = new EditHabitCommand(originalHabit, modifiedHabit);

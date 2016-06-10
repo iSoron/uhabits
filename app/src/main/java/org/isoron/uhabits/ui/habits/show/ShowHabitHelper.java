@@ -25,10 +25,10 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.ui.habits.show.views.RingView;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.views.RingView;
 
 public class ShowHabitHelper
 {
@@ -44,8 +44,8 @@ public class ShowHabitHelper
         if (fragment.habit == null) return "";
 
         Resources resources = fragment.getResources();
-        Integer freqNum = fragment.habit.freqNum;
-        Integer freqDen = fragment.habit.freqDen;
+        Integer freqNum = fragment.habit.getFreqNum();
+        Integer freqDen = fragment.habit.getFreqDen();
 
         if (freqNum.equals(freqDen))
             return resources.getString(R.string.every_day);
@@ -76,7 +76,8 @@ public class ShowHabitHelper
 
         RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
         int androidColor =
-            ColorUtils.getColor(fragment.getActivity(), fragment.habit.color);
+            ColorUtils.getColor(fragment.getActivity(),
+                fragment.habit.getColor());
         scoreRing.setColor(androidColor);
         scoreRing.setPercentage(todayPercentage);
 
@@ -109,13 +110,14 @@ public class ShowHabitHelper
         TextView questionLabel =
             (TextView) view.findViewById(R.id.questionLabel);
         questionLabel.setTextColor(fragment.activeColor);
-        questionLabel.setText(fragment.habit.description);
+        questionLabel.setText(fragment.habit.getDescription());
 
         TextView reminderLabel =
             (TextView) view.findViewById(R.id.reminderLabel);
         if (fragment.habit.hasReminder()) reminderLabel.setText(
             DateUtils.formatTime(fragment.getActivity(),
-                fragment.habit.reminderHour, fragment.habit.reminderMin));
+                fragment.habit.getReminderHour(),
+                fragment.habit.getReminderMin()));
         else reminderLabel.setText(
             fragment.getResources().getString(R.string.reminder_off));
 
@@ -123,7 +125,7 @@ public class ShowHabitHelper
             (TextView) view.findViewById(R.id.frequencyLabel);
         frequencyLabel.setText(getFreqText());
 
-        if (fragment.habit.description.isEmpty())
+        if (fragment.habit.getDescription().isEmpty())
             questionLabel.setVisibility(View.GONE);
     }
 
@@ -143,14 +145,15 @@ public class ShowHabitHelper
 
         TextView textView = (TextView) view.findViewById(viewId);
         int androidColor =
-            ColorUtils.getColor(fragment.activity, fragment.habit.color);
+            ColorUtils.getColor(fragment.activity, fragment.habit.getColor());
         textView.setTextColor(androidColor);
     }
 
     void updateColors()
     {
         fragment.activeColor =
-            ColorUtils.getColor(fragment.getContext(), fragment.habit.color);
+            ColorUtils.getColor(fragment.getContext(),
+                fragment.habit.getColor());
         fragment.inactiveColor =
             InterfaceUtils.getStyledColor(fragment.getContext(),
                 R.attr.mediumContrastTextColor);

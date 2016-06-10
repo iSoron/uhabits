@@ -25,7 +25,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.DeleteHabitsCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,30 +41,31 @@ import static org.hamcrest.Matchers.equalTo;
 public class DeleteHabitsCommandTest extends BaseAndroidTest
 {
     private DeleteHabitsCommand command;
+
     private LinkedList<Habit> habits;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    @Override
     @Before
     public void setUp()
     {
         super.setUp();
 
-        HabitFixtures.purgeHabits();
+        habitFixtures.purgeHabits(habitList);
         habits = new LinkedList<>();
 
-        // Habits that shuold be deleted
-        for(int i = 0; i < 3; i ++)
+        // Habits that should be deleted
+        for (int i = 0; i < 3; i++)
         {
-            Habit habit = HabitFixtures.createShortHabit();
+            Habit habit = habitFixtures.createShortHabit();
             habits.add(habit);
         }
 
         // Extra habit that should not be deleted
-        Habit extraHabit = HabitFixtures.createShortHabit();
-        extraHabit.name = "extra";
-        extraHabit.save();
+        Habit extraHabit = habitFixtures.createShortHabit();
+        extraHabit.setName("extra");
 
         command = new DeleteHabitsCommand(habits);
     }
@@ -73,11 +73,11 @@ public class DeleteHabitsCommandTest extends BaseAndroidTest
     @Test
     public void testExecuteUndoRedo()
     {
-        assertThat(Habit.getAll(true).size(), equalTo(4));
+        assertThat(habitList.getAll(true).size(), equalTo(4));
 
         command.execute();
-        assertThat(Habit.getAll(true).size(), equalTo(1));
-        assertThat(Habit.getAll(true).get(0).name, equalTo("extra"));
+        assertThat(habitList.getAll(true).size(), equalTo(1));
+        assertThat(habitList.getAll(true).get(0).getName(), equalTo("extra"));
 
         thrown.expect(UnsupportedOperationException.class);
         command.undo();

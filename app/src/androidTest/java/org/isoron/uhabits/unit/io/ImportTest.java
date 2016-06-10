@@ -25,11 +25,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseAndroidTest;
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.io.GenericImporter;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +59,7 @@ public class ImportTest extends BaseAndroidTest
         super.setUp();
         DateUtils.setFixedLocalTime(null);
 
-        HabitFixtures.purgeHabits();
+        habitFixtures.purgeHabits(habitList);
         context = InstrumentationRegistry.getInstrumentation().getContext();
         baseDir = FileUtils.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");
@@ -89,7 +88,7 @@ public class ImportTest extends BaseAndroidTest
     {
         GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(year, month - 1, day);
-        return h.repetitions.contains(date.getTimeInMillis());
+        return h.getRepetitions().containsTimestamp(date.getTimeInMillis());
     }
 
     @Test
@@ -97,11 +96,11 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("tickmate.db");
 
-        List<Habit> habits = Habit.getAll(true);
+        List<Habit> habits = habitList.getAll(true);
         assertThat(habits.size(), equalTo(3));
 
         Habit h = habits.get(0);
-        assertThat(h.name, equalTo("Vegan"));
+        assertThat(h.getName(), equalTo("Vegan"));
         assertTrue(containsRepetition(h, 2016, 1, 24));
         assertTrue(containsRepetition(h, 2016, 2, 5));
         assertTrue(containsRepetition(h, 2016, 3, 18));
@@ -113,13 +112,13 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("rewire.db");
 
-        List<Habit> habits = Habit.getAll(true);
+        List<Habit> habits = habitList.getAll(true);
         assertThat(habits.size(), equalTo(3));
 
         Habit habit = habits.get(0);
-        assertThat(habit.name, equalTo("Wake up early"));
-        assertThat(habit.freqNum, equalTo(3));
-        assertThat(habit.freqDen, equalTo(7));
+        assertThat(habit.getName(), equalTo("Wake up early"));
+        assertThat(habit.getFreqNum(), equalTo(3));
+        assertThat(habit.getFreqDen(), equalTo(7));
         assertFalse(habit.hasReminder());
         assertFalse(containsRepetition(habit, 2015, 12, 31));
         assertTrue(containsRepetition(habit, 2016, 1, 18));
@@ -127,13 +126,13 @@ public class ImportTest extends BaseAndroidTest
         assertFalse(containsRepetition(habit, 2016, 3, 10));
 
         habit = habits.get(1);
-        assertThat(habit.name, equalTo("brush teeth"));
-        assertThat(habit.freqNum, equalTo(3));
-        assertThat(habit.freqDen, equalTo(7));
-        assertThat(habit.reminderHour, equalTo(8));
-        assertThat(habit.reminderMin, equalTo(0));
+        assertThat(habit.getName(), equalTo("brush teeth"));
+        assertThat(habit.getFreqNum(), equalTo(3));
+        assertThat(habit.getFreqDen(), equalTo(7));
+        assertThat(habit.getReminderHour(), equalTo(8));
+        assertThat(habit.getReminderMin(), equalTo(0));
         boolean[] reminderDays = {false, true, true, true, true, true, false};
-        assertThat(habit.reminderDays, equalTo(DateUtils.packWeekdayList(reminderDays)));
+        assertThat(habit.getReminderDays(), equalTo(DateUtils.packWeekdayList(reminderDays)));
     }
 
     @Test
@@ -141,14 +140,14 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("habitbull.csv");
 
-        List<Habit> habits = Habit.getAll(true);
+        List<Habit> habits = habitList.getAll(true);
         assertThat(habits.size(), equalTo(4));
 
         Habit habit = habits.get(0);
-        assertThat(habit.name, equalTo("Breed dragons"));
-        assertThat(habit.description, equalTo("with love and fire"));
-        assertThat(habit.freqNum, equalTo(1));
-        assertThat(habit.freqDen, equalTo(1));
+        assertThat(habit.getName(), equalTo("Breed dragons"));
+        assertThat(habit.getDescription(), equalTo("with love and fire"));
+        assertThat(habit.getFreqNum(), equalTo(1));
+        assertThat(habit.getFreqDen(), equalTo(1));
         assertTrue(containsRepetition(habit, 2016, 3, 18));
         assertTrue(containsRepetition(habit, 2016, 3, 19));
         assertFalse(containsRepetition(habit, 2016, 3, 20));
@@ -159,13 +158,13 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("loop.db");
 
-        List<Habit> habits = Habit.getAll(true);
+        List<Habit> habits = habitList.getAll(true);
         assertThat(habits.size(), equalTo(9));
 
         Habit habit = habits.get(0);
-        assertThat(habit.name, equalTo("Wake up early"));
-        assertThat(habit.freqNum, equalTo(3));
-        assertThat(habit.freqDen, equalTo(7));
+        assertThat(habit.getName(), equalTo("Wake up early"));
+        assertThat(habit.getFreqNum(), equalTo(3));
+        assertThat(habit.getFreqDen(), equalTo(7));
         assertTrue(containsRepetition(habit, 2016, 3, 14));
         assertTrue(containsRepetition(habit, 2016, 3, 16));
         assertFalse(containsRepetition(habit, 2016, 3, 17));

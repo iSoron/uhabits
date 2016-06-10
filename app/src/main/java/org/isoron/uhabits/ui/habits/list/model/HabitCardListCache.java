@@ -26,6 +26,7 @@ import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.commands.Command;
 import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.DateUtils;
 
@@ -62,6 +63,9 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     @Inject
     CommandRunner commandRunner;
+
+    @Inject
+    HabitList allHabits;
 
     public HabitCardListCache()
     {
@@ -148,7 +152,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         data.habitsList.remove(from);
         data.habitsList.add(to, fromHabit);
 
-        Habit.reorder(fromHabit, toHabit);
+        allHabits.reorder(fromHabit, toHabit);
     }
 
     public void setCheckmarkCount(int checkmarkCount)
@@ -227,7 +231,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 
         public void fetchHabits()
         {
-            habitsList = Habit.getAll(includeArchived);
+            habitsList = allHabits.getAll(includeArchived);
             for (Habit h : habitsList)
                 habits.put(h.getId(), h);
         }
@@ -272,9 +276,9 @@ public class HabitCardListCache implements CommandRunner.Listener
                 if (isCancelled()) return;
 
                 Long id = h.getId();
-                newData.scores.put(id, h.scores.getTodayValue());
+                newData.scores.put(id, h.getScores().getTodayValue());
                 newData.checkmarks.put(id,
-                    h.checkmarks.getValues(dateFrom, dateTo));
+                    h.getCheckmarks().getValues(dateFrom, dateTo));
 
                 publishProgress(current++, newData.habits.size());
             }
@@ -316,12 +320,12 @@ public class HabitCardListCache implements CommandRunner.Listener
             long dateFrom =
                 dateTo - (checkmarkCount - 1) * DateUtils.millisecondsInOneDay;
 
-            Habit h = Habit.get(id);
+            Habit h = allHabits.getById(id);
             if (h == null) return;
 
             data.habits.put(id, h);
-            data.scores.put(id, h.scores.getTodayValue());
-            data.checkmarks.put(id, h.checkmarks.getValues(dateFrom, dateTo));
+            data.scores.put(id, h.getScores().getTodayValue());
+            data.checkmarks.put(id, h.getCheckmarks().getValues(dateFrom, dateTo));
         }
 
         @Override

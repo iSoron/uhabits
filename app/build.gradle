@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -31,6 +30,7 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -75,16 +75,5 @@ dependencies {
 
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
         exclude group: 'com.android.support'
-    }
-}
-
-
-task grantAnimationPermission(type: Exec, dependsOn: 'installDebug') {
-    commandLine "adb shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE".split(' ')
-}
-
-tasks.whenTaskAdded { task ->
-    if (task.name.startsWith('connected')) {
-        task.dependsOn grantAnimationPermission
     }
 }

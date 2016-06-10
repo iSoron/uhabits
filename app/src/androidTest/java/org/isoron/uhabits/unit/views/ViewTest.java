@@ -30,7 +30,7 @@ import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.utils.FileUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.views.HabitDataView;
+import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
 
 import java.io.File;
 import java.io.FileOutputStream;

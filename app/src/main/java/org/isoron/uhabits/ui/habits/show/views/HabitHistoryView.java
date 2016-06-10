@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -167,7 +167,8 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
     private void createColors()
     {
         if(habit != null)
-            this.primaryColor = ColorUtils.getColor(getContext(), habit.color);
+            this.primaryColor = ColorUtils.getColor(getContext(),
+                habit.getColor());
 
         if(isBackgroundTransparent)
             primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
@@ -216,7 +217,7 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
         else
         {
             if(habit == null) return;
-            checkmarks = habit.checkmarks.getAllValues();
+            checkmarks = habit.getCheckmarks().getAllValues();
             createColors();
         }
 
@@ -424,15 +425,15 @@ public class HabitHistoryView extends ScrollableDataView implements HabitDataVie
                 refreshData();
             }
         }.execute();
-        habit.observable.addListener(this);
-        habit.checkmarks.observable.addListener(this);
+        habit.getObservable().addListener(this);
+        habit.getCheckmarks().observable.addListener(this);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
-        habit.checkmarks.observable.removeListener(this);
-        habit.observable.removeListener(this);
+        habit.getCheckmarks().observable.removeListener(this);
+        habit.getObservable().removeListener(this);
         super.onDetachedFromWindow();
     }
 

@@ -23,26 +23,30 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 
+/**
+ * Class that imports data from database files exported by Tickmate.
+ */
 public class TickmateDBImporter extends AbstractImporter
 {
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
-        if(!isSQLite3File(file)) return false;
+        if (!isSQLite3File(file)) return false;
 
         SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
-                SQLiteDatabase.OPEN_READONLY);
+            SQLiteDatabase.OPEN_READONLY);
 
-        Cursor c = db.rawQuery("select count(*) from SQLITE_MASTER where name=? or name=?",
-                new String[]{"tracks", "track2groups"});
+        Cursor c = db.rawQuery(
+            "select count(*) from SQLITE_MASTER where name=? or name=?",
+            new String[]{"tracks", "track2groups"});
 
         boolean result = (c.moveToFirst() && c.getInt(0) == 2);
 
@@ -54,62 +58,26 @@ public class TickmateDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        final SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
+        final SQLiteDatabase db =
+            SQLiteDatabase.openDatabase(file.getPath(), null,
                 SQLiteDatabase.OPEN_READONLY);
 
-        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
-        {
-            @Override
-            public void execute()
-            {
-                createHabits(db);
-            }
-        });
-
+        DatabaseUtils.executeAsTransaction(() -> createHabits(db));
         db.close();
     }
 
-    private void createHabits(SQLiteDatabase db)
+    private void createCheckmarks(@NonNull SQLiteDatabase db,
+                                  @NonNull Habit habit,
+                                  int tickmateTrackId)
     {
         Cursor c = null;
 
         try
         {
-            c = db.rawQuery("select _id, name, description from tracks", new String[0]);
-            if (!c.moveToFirst()) return;
-
-            do
-            {
-                int id = c.getInt(0);
-                String name = c.getString(1);
-                String description = c.getString(2);
-
-                Habit habit = new Habit();
-                habit.name = name;
-                habit.description = description;
-                habit.freqNum = 1;
-                habit.freqDen = 1;
-                habit.save();
-
-                createCheckmarks(db, habit, id);
-
-            }
-            while (c.moveToNext());
-        }
-        finally
-        {
-            if (c != null) c.close();
-        }
-    }
-
-    private void createCheckmarks(@NonNull SQLiteDatabase db, @NonNull Habit habit, int tickmateTrackId)
-    {
-        Cursor c = null;
-
-        try
-        {
-            String[] params = { Integer.toString(tickmateTrackId) };
-            c = db.rawQuery("select distinct year, month, day from ticks where _track_id=?", params);
+            String[] params = {Integer.toString(tickmateTrackId)};
+            c = db.rawQuery(
+                "select distinct year, month, day from ticks where _track_id=?",
+                params);
             if (!c.moveToFirst()) return;
 
             do
@@ -121,9 +89,41 @@ public class TickmateDBImporter extends AbstractImporter
                 GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month, day);
 
-                habit.repetitions.toggle(cal.getTimeInMillis());
-            }
-            while (c.moveToNext());
+                habit.getRepetitions().toggleTimestamp(cal.getTimeInMillis());
+            } while (c.moveToNext());
+        }
+        finally
+        {
+            if (c != null) c.close();
+        }
+    }
+
+    private void createHabits(SQLiteDatabase db)
+    {
+        Cursor c = null;
+
+        try
+        {
+            c = db.rawQuery("select _id, name, description from tracks",
+                new String[0]);
+            if (!c.moveToFirst()) return;
+
+            do
+            {
+                int id = c.getInt(0);
+                String name = c.getString(1);
+                String description = c.getString(2);
+
+                Habit habit = new Habit();
+                habit.setName(name);
+                habit.setDescription(description);
+                habit.setFreqNum(1);
+                habit.setFreqDen(1);
+                habitList.add(habit);
+
+                createCheckmarks(db, habit, id);
+
+            } while (c.moveToNext());
         }
         finally
         {

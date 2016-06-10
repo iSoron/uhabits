@@ -31,18 +31,22 @@ import org.isoron.uhabits.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class that imports data from database files exported by Loop Habit Tracker.
+ */
 public class LoopDBImporter extends AbstractImporter
 {
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
-        if(!isSQLite3File(file)) return false;
+        if (!isSQLite3File(file)) return false;
 
         SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
-                SQLiteDatabase.OPEN_READONLY);
+            SQLiteDatabase.OPEN_READONLY);
 
-        Cursor c = db.rawQuery("select count(*) from SQLITE_MASTER where name=? or name=?",
-                new String[]{"Checkmarks", "Repetitions"});
+        Cursor c = db.rawQuery(
+            "select count(*) from SQLITE_MASTER where name=? or name=?",
+            new String[]{"Checkmarks", "Repetitions"});
 
         boolean result = (c.moveToFirst() && c.getInt(0) == 2);
 

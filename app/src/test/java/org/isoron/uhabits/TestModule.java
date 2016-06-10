@@ -20,6 +20,11 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.commands.CommandRunner;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.models.ModelFactory;
+import org.isoron.uhabits.models.memory.MemoryHabitList;
+import org.isoron.uhabits.models.memory.MemoryModelFactory;
 import org.isoron.uhabits.ui.habits.list.model.HabitCardListCache;
 import org.isoron.uhabits.utils.Preferences;
 
@@ -52,5 +57,25 @@ public class TestModule
     HabitCardListCache provideHabitCardListCache()
     {
         return mock(HabitCardListCache.class);
+    }
+
+    @Singleton
+    @Provides
+    HabitList provideHabitList()
+    {
+        return new MemoryHabitList();
+    }
+
+    @Provides
+    Habit provideHabit()
+    {
+        return mock(Habit.class);
+    }
+
+    @Provides
+    @Singleton
+    ModelFactory provideModelFactory()
+    {
+        return new MemoryModelFactory();
     }
 }

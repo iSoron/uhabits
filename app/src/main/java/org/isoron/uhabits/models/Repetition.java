@@ -19,22 +19,51 @@
 
 package org.isoron.uhabits.models;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+import android.support.annotation.NonNull;
 
-@Table(name = "Repetitions")
-public class Repetition extends Model
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+/**
+ * Represents a record that the user has performed a certain habit at a certain
+ * date.
+ */
+public class Repetition
 {
-    /**
-     * Habit to which this repetition belong.
-     */
-    @Column(name = "habit")
-    public Habit habit;
+    @NonNull
+    private final Habit habit;
+
+    private final long timestamp;
 
     /**
-     * Timestamp of the day this repetition occurred. Time of day should be midnight (UTC).
+     * Creates a new repetition with given parameters.
+     * <p>
+     * The timestamp corresponds to the days this repetition occurred. Time of
+     * day must be midnight (UTC).
+     *
+     * @param habit     the habit to which this repetition belongs.
+     * @param timestamp the time this repetition occurred.
      */
-    @Column(name = "timestamp")
-    public Long timestamp;
+    public Repetition(Habit habit, long timestamp)
+    {
+        this.habit = habit;
+        this.timestamp = timestamp;
+    }
+
+    public Habit getHabit()
+    {
+        return habit;
+    }
+
+    public long getTimestamp()
+    {
+        return timestamp;
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("timestamp", timestamp)
+            .toString();
+    }
 }

@@ -39,11 +39,11 @@ import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
 import org.isoron.uhabits.ui.habits.edit.HistoryEditorDialog;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.views.HabitDataView;
-import org.isoron.uhabits.views.HabitFrequencyView;
-import org.isoron.uhabits.views.HabitHistoryView;
-import org.isoron.uhabits.views.HabitScoreView;
-import org.isoron.uhabits.views.HabitStreakView;
+import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
+import org.isoron.uhabits.ui.habits.show.views.HabitFrequencyView;
+import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
+import org.isoron.uhabits.ui.habits.show.views.HabitScoreView;
+import org.isoron.uhabits.ui.habits.show.views.HabitStreakView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -212,13 +212,13 @@ public class ShowHabitFragment extends Fragment
     public void onStart()
     {
         super.onStart();
-        habit.observable.addListener(this);
+        habit.getObservable().addListener(this);
     }
 
     @Override
     public void onPause()
     {
-        habit.observable.removeListener(this);
+        habit.getObservable().removeListener(this);
         super.onPause();
     }
 
@@ -234,9 +234,9 @@ public class ShowHabitFragment extends Fragment
             long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
             long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
 
-            todayScore = (float) habit.scores.getTodayValue();
-            lastMonthScore = (float) habit.scores.getValue(lastMonth);
-            lastYearScore = (float) habit.scores.getValue(lastYear);
+            todayScore = (float) habit.getScores().getTodayValue();
+            lastMonthScore = (float) habit.getScores().getValue(lastMonth);
+            lastYearScore = (float) habit.getScores().getValue(lastYear);
         }
 
         @Override

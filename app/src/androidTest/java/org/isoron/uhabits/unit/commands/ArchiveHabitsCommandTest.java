@@ -48,7 +48,7 @@ public class ArchiveHabitsCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habit = HabitFixtures.createShortHabit();
+        habit = habitFixtures.createShortHabit();
         command = new ArchiveHabitsCommand(Collections.singletonList(habit));
     }
 

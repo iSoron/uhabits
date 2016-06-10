@@ -30,16 +30,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class HabitPickerDialog extends Activity implements AdapterView.OnItemClickListener
 {
+    @Inject
+    HabitList habitList;
 
     private Integer widgetId;
+
     private ArrayList<Long> habitIds;
 
     @Override
@@ -47,6 +54,7 @@ public class HabitPickerDialog extends Activity implements AdapterView.OnItemCli
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.widget_configure_activity);
+        HabitsApplication.getComponent().inject(this);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -59,15 +67,15 @@ public class HabitPickerDialog extends Activity implements AdapterView.OnItemCli
         habitIds = new ArrayList<>();
         ArrayList<String> habitNames = new ArrayList<>();
 
-        List<Habit> habits = Habit.getAll(false);
-        for(Habit h : habits)
+        List<Habit> habits = habitList.getAll(false);
+        for (Habit h : habits)
         {
             habitIds.add(h.getId());
-            habitNames.add(h.name);
+            habitNames.add(h.getName());
         }
 
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+            habitNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
     }
@@ -77,8 +85,11 @@ public class HabitPickerDialog extends Activity implements AdapterView.OnItemCli
     {
         Long habitId = habitIds.get(position);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
-                getApplicationContext());
-        prefs.edit().putLong(BaseWidgetProvider.getHabitIdKey(widgetId), habitId).commit();
+            getApplicationContext());
+        prefs
+            .edit()
+            .putLong(BaseWidgetProvider.getHabitIdKey(widgetId), habitId)
+            .commit();
 
         WidgetManager.updateWidgets(this);
 

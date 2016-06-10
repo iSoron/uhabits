@@ -24,8 +24,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
-import org.isoron.uhabits.views.HabitScoreView;
+import org.isoron.uhabits.ui.habits.show.views.HabitScoreView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +34,7 @@ import org.junit.runner.RunWith;
 public class HabitScoreViewTest extends ViewTest
 {
     private Habit habit;
+
     private HabitScoreView view;
 
     @Before
@@ -42,8 +42,8 @@ public class HabitScoreViewTest extends ViewTest
     {
         super.setUp();
 
-        HabitFixtures.purgeHabits();
-        habit = HabitFixtures.createLongHabit();
+        habitFixtures.purgeHabits(habitList);
+        habit = habitFixtures.createLongHabit();
 
         view = new HabitScoreView(targetContext);
         view.setHabit(habit);
@@ -55,22 +55,9 @@ public class HabitScoreViewTest extends ViewTest
     @Test
     public void testRender() throws Throwable
     {
-        Log.d("HabitScoreViewTest", String.format("height=%d", dpToPixels(100)));
+        Log.d("HabitScoreViewTest",
+            String.format("height=%d", dpToPixels(100)));
         assertRenders(view, "HabitScoreView/render.png");
-    }
-
-    @Test
-    public void testRender_withTransparentBackground() throws Throwable
-    {
-        view.setIsTransparencyEnabled(true);
-        assertRenders(view, "HabitScoreView/renderTransparent.png");
-    }
-
-    @Test
-    public void testRender_withDifferentSize() throws Throwable
-    {
-        measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "HabitScoreView/renderDifferentSize.png");
     }
 
     @Test
@@ -83,6 +70,13 @@ public class HabitScoreViewTest extends ViewTest
     }
 
     @Test
+    public void testRender_withDifferentSize() throws Throwable
+    {
+        measureView(dpToPixels(200), dpToPixels(200), view);
+        assertRenders(view, "HabitScoreView/renderDifferentSize.png");
+    }
+
+    @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
         view.setBucketSize(30);
@@ -90,6 +84,13 @@ public class HabitScoreViewTest extends ViewTest
         view.invalidate();
 
         assertRenders(view, "HabitScoreView/renderMonthly.png");
+    }
+
+    @Test
+    public void testRender_withTransparentBackground() throws Throwable
+    {
+        view.setIsTransparencyEnabled(true);
+        assertRenders(view, "HabitScoreView/renderTransparent.png");
     }
 
     @Test

@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="5">
 
-                    <org.isoron.uhabits.views.RingView
+                    <org.isoron.uhabits.ui.habits.show.views.RingView
                         android:id="@+id/scoreRing"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -226,7 +226,7 @@
                 android:layout_alignParentTop="true"
                 android:text="@string/habit_strength"/>
 
-            <org.isoron.uhabits.views.HabitScoreView
+            <org.isoron.uhabits.ui.habits.show.views.HabitScoreView
                 android:id="@+id/scoreView"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
@@ -245,7 +245,7 @@
                 style="@style/CardHeader"
                 android:text="@string/history"/>
 
-            <org.isoron.uhabits.views.HabitHistoryView
+            <org.isoron.uhabits.ui.habits.show.views.HabitHistoryView
                 android:id="@+id/historyView"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"/>
@@ -272,7 +272,7 @@
                 style="@style/CardHeader"
                 android:text="@string/best_streaks"/>
 
-            <org.isoron.uhabits.views.HabitStreakView
+            <org.isoron.uhabits.ui.habits.show.views.HabitStreakView
                 android:id="@+id/streakView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
@@ -287,7 +287,7 @@
                 style="@style/CardHeader"
                 android:text="@string/frequency"/>
 
-            <org.isoron.uhabits.views.HabitFrequencyView
+            <org.isoron.uhabits.ui.habits.show.views.HabitFrequencyView
                 android:id="@+id/punchcardView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>

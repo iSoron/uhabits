@@ -24,9 +24,11 @@ import android.os.Build;
 import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 
+import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.unit.HabitFixtures;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.utils.Preferences;
 import org.junit.Before;
 
@@ -36,20 +38,29 @@ import javax.inject.Inject;
 
 public class BaseAndroidTest
 {
-    protected Context testContext;
-    protected Context targetContext;
+    // 8:00am, January 25th, 2015 (UTC)
+    public static final long FIXED_LOCAL_TIME = 1422172800000L;
+
     private static boolean isLooperPrepared;
 
-    public static final long FIXED_LOCAL_TIME = 1422172800000L; // 8:00am, January 25th, 2015 (UTC)
+    protected Context testContext;
+
+    protected Context targetContext;
 
     @Inject
     protected Preferences prefs;
+
+    @Inject
+    protected HabitList habitList;
+
     protected AndroidTestComponent androidTestComponent;
+
+    protected HabitFixtures habitFixtures;
 
     @Before
     public void setUp()
     {
-        if(!isLooperPrepared)
+        if (!isLooperPrepared)
         {
             Looper.prepare();
             isLooperPrepared = true;
@@ -64,9 +75,12 @@ public class BaseAndroidTest
         androidTestComponent = DaggerAndroidTestComponent.builder().build();
         HabitsApplication.setComponent(androidTestComponent);
         androidTestComponent.inject(this);
+
+        habitFixtures = new HabitFixtures(habitList);
     }
 
-    protected void waitForAsyncTasks() throws InterruptedException, TimeoutException
+    protected void waitForAsyncTasks()
+        throws InterruptedException, TimeoutException
     {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
         {

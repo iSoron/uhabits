@@ -23,14 +23,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.models.Habit;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 
+/**
+ * Class that imports database files exported by Rewire.
+ */
 public class RewireDBImporter extends AbstractImporter
 {
     @Override
@@ -57,7 +60,7 @@ public class RewireDBImporter extends AbstractImporter
         final SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
                 SQLiteDatabase.OPEN_READONLY);
 
-        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Command()
+        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Callback()
         {
             @Override
             public void execute()
@@ -91,30 +94,30 @@ public class RewireDBImporter extends AbstractImporter
                 int periodIndex = c.getInt(7);
 
                 Habit habit = new Habit();
-                habit.name = name;
-                habit.description = description;
+                habit.setName(name);
+                habit.setDescription(description);
 
                 int periods[] = { 7, 31, 365 };
 
                 switch (schedule)
                 {
                     case 0:
-                        habit.freqNum = activeDays.split(",").length;
-                        habit.freqDen = 7;
+                        habit.setFreqNum(activeDays.split(",").length);
+                        habit.setFreqDen(7);
                         break;
 
                     case 1:
-                        habit.freqNum = days;
-                        habit.freqDen = periods[periodIndex];
+                        habit.setFreqNum(days);
+                        habit.setFreqDen(periods[periodIndex]);
                         break;
 
                     case 2:
-                        habit.freqNum = 1;
-                        habit.freqDen = repeatingCount;
+                        habit.setFreqNum(1);
+                        habit.setFreqDen(repeatingCount);
                         break;
                 }
 
-                habit.save();
+                habitList.add(habit);
 
                 createReminder(db, habit, id);
                 createCheckmarks(db, habit, id);
@@ -150,10 +153,10 @@ public class RewireDBImporter extends AbstractImporter
                 reminderDays[idx] = true;
             }
 
-            habit.reminderDays = DateUtils.packWeekdayList(reminderDays);
-            habit.reminderHour = rewireReminder / 60;
-            habit.reminderMin = rewireReminder % 60;
-            habit.save();
+            habit.setReminderDays(DateUtils.packWeekdayList(reminderDays));
+            habit.setReminderHour(rewireReminder / 60);
+            habit.setReminderMin(rewireReminder % 60);
+            habitList.update(habit);
         }
         finally
         {
@@ -161,7 +164,8 @@ public class RewireDBImporter extends AbstractImporter
         }
     }
 
-    private void createCheckmarks(@NonNull SQLiteDatabase db, @NonNull Habit habit, int rewireHabitId)
+    private void createCheckmarks(@NonNull SQLiteDatabase db, @NonNull
+    Habit habit, int rewireHabitId)
     {
         Cursor c = null;
 
@@ -181,7 +185,7 @@ public class RewireDBImporter extends AbstractImporter
                 GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month - 1, day);
 
-                habit.repetitions.toggle(cal.getTimeInMillis());
+                habit.getRepetitions().toggleTimestamp(cal.getTimeInMillis());
             }
             while (c.moveToNext());
         }

@@ -27,10 +27,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.DisplayMetrics;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
+
+import javax.inject.Inject;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener
@@ -41,16 +45,20 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
     HabitHistoryView historyView;
 
+    @Inject
+    HabitList habitList;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         Context context = getActivity();
+        HabitsApplication.getComponent().inject(this);
         historyView = new HabitHistoryView(context, null);
 
         if (savedInstanceState != null)
         {
             long id = savedInstanceState.getLong("habit", -1);
-            if (id > 0) this.habit = Habit.get(id);
+            if (id > 0) this.habit = habitList.getById(id);
         }
 
         int padding =

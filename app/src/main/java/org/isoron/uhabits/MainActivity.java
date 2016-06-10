@@ -21,6 +21,9 @@ package org.isoron.uhabits;
 
 import org.isoron.uhabits.ui.habits.list.ListHabitsActivity;
 
+/**
+ * Application that starts upon clicking the launcher icon.
+ */
 public class MainActivity extends ListHabitsActivity
 {
     /*

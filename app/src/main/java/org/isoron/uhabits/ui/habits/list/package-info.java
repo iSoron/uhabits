@@ -18,6 +18,6 @@
  */
 
 /**
- * Contains classes for ListHabitsActivity.
+ * Provides acitivity for listing habits and related classes.
  */
 package org.isoron.uhabits.ui.habits.list;

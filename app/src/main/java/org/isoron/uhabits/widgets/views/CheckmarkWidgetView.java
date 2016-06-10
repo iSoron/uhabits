@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.widgets.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -27,22 +27,29 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
+import org.isoron.uhabits.ui.habits.show.views.HabitWidgetView;
+import org.isoron.uhabits.ui.habits.show.views.RingView;
+import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.InterfaceUtils;
 
-public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataView
+public class CheckmarkWidgetView extends HabitWidgetView
+    implements HabitDataView
 {
     private int activeColor;
+
     private float percentage;
 
     @Nullable
     private String name;
 
     private RingView ring;
+
     private TextView label;
+
     private int checkmarkValue;
 
     public CheckmarkWidgetView(Context context)
@@ -55,32 +62,6 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     {
         super(context, attrs);
         init();
-    }
-
-    private void init()
-    {
-        ring = (RingView) findViewById(R.id.scoreRing);
-        label = (TextView) findViewById(R.id.label);
-
-        if(ring != null) ring.setIsTransparencyEnabled(true);
-
-        if(isInEditMode())
-        {
-            percentage = 0.75f;
-            name = "Wake up early";
-            activeColor = ColorUtils.CSV_PALETTE[6];
-            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
-            refresh();
-        }
-    }
-
-    @Override
-    public void setHabit(@NonNull Habit habit)
-    {
-        super.setHabit(habit);
-        this.name = habit.name;
-        this.activeColor = ColorUtils.getColor(getContext(), habit.color);
-        refresh();
     }
 
     public void refresh()
@@ -98,8 +79,8 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
             case Checkmark.CHECKED_EXPLICITLY:
                 text = getResources().getString(R.string.fa_check);
                 backgroundColor = activeColor;
-                foregroundColor =
-                        InterfaceUtils.getStyledColor(context, R.attr.highContrastReverseTextColor);
+                foregroundColor = InterfaceUtils.getStyledColor(context,
+                    R.attr.highContrastReverseTextColor);
 
                 setShadowAlpha(0x4f);
                 rebuildBackground();
@@ -110,15 +91,19 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
 
             case Checkmark.CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
-                backgroundColor = InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor);
-                foregroundColor = InterfaceUtils.getStyledColor(context, R.attr.mediumContrastTextColor);
+                backgroundColor = InterfaceUtils.getStyledColor(context,
+                    R.attr.cardBackgroundColor);
+                foregroundColor = InterfaceUtils.getStyledColor(context,
+                    R.attr.mediumContrastTextColor);
                 break;
 
             case Checkmark.UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
-                backgroundColor = InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor);
-                foregroundColor = InterfaceUtils.getStyledColor(context, R.attr.mediumContrastTextColor);
+                backgroundColor = InterfaceUtils.getStyledColor(context,
+                    R.attr.cardBackgroundColor);
+                foregroundColor = InterfaceUtils.getStyledColor(context,
+                    R.attr.mediumContrastTextColor);
                 break;
         }
 
@@ -135,6 +120,49 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
     }
 
     @Override
+    public void refreshData()
+    {
+        if (habit == null) return;
+        this.percentage =
+            (float) habit.getScores().getTodayValue() / Score.MAX_VALUE;
+        this.checkmarkValue = habit.getCheckmarks().getTodayValue();
+        refresh();
+    }
+
+    @Override
+    public void setHabit(@NonNull Habit habit)
+    {
+        super.setHabit(habit);
+        this.name = habit.getName();
+        this.activeColor = ColorUtils.getColor(getContext(), habit.getColor());
+        refresh();
+    }
+
+    @Override
+    @NonNull
+    protected Integer getInnerLayoutId()
+    {
+        return R.layout.widget_checkmark;
+    }
+
+    private void init()
+    {
+        ring = (RingView) findViewById(R.id.scoreRing);
+        label = (TextView) findViewById(R.id.label);
+
+        if (ring != null) ring.setIsTransparencyEnabled(true);
+
+        if (isInEditMode())
+        {
+            percentage = 0.75f;
+            name = "Wake up early";
+            activeColor = ColorUtils.getAndroidTestColor(6);
+            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
+            refresh();
+        }
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         int width = MeasureSpec.getSize(widthMeasureSpec);
@@ -147,16 +175,18 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         w *= scale;
         h *= scale;
 
-        if(h < getResources().getDimension(R.dimen.checkmarkWidget_heightBreakpoint))
-            ring.setVisibility(GONE);
-        else
-            ring.setVisibility(VISIBLE);
+        if (h < getResources().getDimension(
+            R.dimen.checkmarkWidget_heightBreakpoint)) ring.setVisibility(GONE);
+        else ring.setVisibility(VISIBLE);
 
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
+        widthMeasureSpec =
+            MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
+        heightMeasureSpec =
+            MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
 
         float textSize = 0.15f * h;
-        float maxTextSize = getResources().getDimension(R.dimen.smallerTextSize);
+        float maxTextSize =
+            getResources().getDimension(R.dimen.smallerTextSize);
         textSize = Math.min(textSize, maxTextSize);
 
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
@@ -164,20 +194,5 @@ public class CheckmarkWidgetView extends HabitWidgetView implements HabitDataVie
         ring.setThickness(0.15f * textSize);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
-    public void refreshData()
-    {
-        if(habit == null) return;
-        this.percentage = (float) habit.scores.getTodayValue() / Score.MAX_VALUE;
-        this.checkmarkValue = habit.checkmarks.getTodayValue();
-        refresh();
-    }
-
-    @NonNull
-    protected Integer getInnerLayoutId()
-    {
-        return R.layout.widget_checkmark;
     }
 }

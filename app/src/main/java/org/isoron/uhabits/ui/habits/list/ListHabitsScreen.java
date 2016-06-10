@@ -115,7 +115,7 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showColorPicker(Habit habit, OnColorSelectedListener callback)
     {
-        int color = ColorUtils.getColor(activity, habit.color);
+        int color = ColorUtils.getColor(activity, habit.getColor());
 
         ColorPickerDialog picker =
             ColorPickerDialog.newInstance(R.string.color_picker_default_title,

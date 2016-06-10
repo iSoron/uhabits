@@ -37,6 +37,7 @@ import android.util.Log;
 import org.isoron.uhabits.HabitBroadcastReceiver;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -44,24 +45,20 @@ import java.util.Date;
 
 public abstract class ReminderUtils
 {
-    public static void createReminderAlarms(Context context)
+    public static void createReminderAlarm(Context context,
+                                           Habit habit,
+                                           @Nullable Long reminderTime)
     {
-        for (Habit habit : Habit.getHabitsWithReminder())
-            createReminderAlarm(context, habit, null);
-    }
-
-    public static void createReminderAlarm(Context context, Habit habit, @Nullable Long reminderTime)
-    {
-        if(!habit.hasReminder()) return;
+        if (!habit.hasReminder()) return;
 
         if (reminderTime == null)
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             //noinspection ConstantConditions
-            calendar.set(Calendar.HOUR_OF_DAY, habit.reminderHour);
+            calendar.set(Calendar.HOUR_OF_DAY, habit.getReminderHour());
             //noinspection ConstantConditions
-            calendar.set(Calendar.MINUTE, habit.reminderMin);
+            calendar.set(Calendar.MINUTE, habit.getReminderMin());
             calendar.set(Calendar.SECOND, 0);
 
             reminderTime = calendar.getTimeInMillis();
@@ -70,7 +67,8 @@ public abstract class ReminderUtils
                 reminderTime += AlarmManager.INTERVAL_DAY;
         }
 
-        long timestamp = DateUtils.getStartOfDay(DateUtils.toLocalTime(reminderTime));
+        long timestamp =
+            DateUtils.getStartOfDay(DateUtils.toLocalTime(reminderTime));
 
         Uri uri = habit.getUri();
 
@@ -80,68 +78,32 @@ public abstract class ReminderUtils
         alarmIntent.putExtra("timestamp", timestamp);
         alarmIntent.putExtra("reminderTime", reminderTime);
 
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(context, ((int) (habit.getId() % Integer.MAX_VALUE)) + 1,
-                        alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+            ((int) (habit.getId() % Integer.MAX_VALUE)) + 1, alarmIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager manager =
+            (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= 23)
-            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
+                reminderTime, pendingIntent);
         else if (Build.VERSION.SDK_INT >= 19)
-            manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
-        else
-            manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+            manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime,
+                pendingIntent);
+        else manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
 
-        String name = habit.name.substring(0, Math.min(3, habit.name.length()));
+        String name = habit.getName().substring(0, Math.min(3, habit.getName().length()));
         Log.d("ReminderHelper", String.format("Setting alarm (%s): %s",
-                DateFormat.getDateTimeInstance().format(new Date(reminderTime)), name));
+            DateFormat.getDateTimeInstance().format(new Date(reminderTime)),
+            name));
     }
 
-    @Nullable
-    public static Uri getRingtoneUri(Context context)
+    public static void createReminderAlarms(Context context,
+                                            HabitList habitList)
     {
-        Uri ringtoneUri = null;
-        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String prefRingtoneUri = prefs.getString("pref_ringtone_uri", defaultRingtoneUri.toString());
-        if (prefRingtoneUri.length() > 0) ringtoneUri = Uri.parse(prefRingtoneUri);
-
-        return ringtoneUri;
-    }
-
-    public static void parseRingtoneData(Context context, @Nullable Intent data)
-    {
-        if(data == null) return;
-
-        Uri ringtoneUri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-
-        if (ringtoneUri != null)
-        {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            prefs.edit().putString("pref_ringtone_uri", ringtoneUri.toString()).apply();
-        }
-        else
-        {
-            String off = context.getResources().getString(R.string.none);
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            prefs.edit().putString("pref_ringtone_uri", "").apply();
-        }
-    }
-
-    public static void startRingtonePickerActivity(Fragment fragment, int requestCode)
-    {
-        Uri existingRingtoneUri = ReminderUtils.getRingtoneUri(fragment.getContext());
-        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
-
-        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, defaultRingtoneUri);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, existingRingtoneUri);
-        fragment.startActivityForResult(intent, requestCode);
+        for (Habit habit : habitList.getWithReminder())
+            createReminderAlarm(context, habit, null);
     }
 
     @Nullable
@@ -150,11 +112,13 @@ public abstract class ReminderUtils
         try
         {
             Uri ringtoneUri = getRingtoneUri(context);
-            String ringtoneName = context.getResources().getString(R.string.none);
+            String ringtoneName =
+                context.getResources().getString(R.string.none);
 
             if (ringtoneUri != null)
             {
-                Ringtone ringtone = RingtoneManager.getRingtone(context, ringtoneUri);
+                Ringtone ringtone =
+                    RingtoneManager.getRingtone(context, ringtoneUri);
                 if (ringtone != null)
                 {
                     ringtoneName = ringtone.getTitle(context);
@@ -169,5 +133,65 @@ public abstract class ReminderUtils
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Nullable
+    public static Uri getRingtoneUri(Context context)
+    {
+        Uri ringtoneUri = null;
+        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
+
+        SharedPreferences prefs =
+            PreferenceManager.getDefaultSharedPreferences(context);
+        String prefRingtoneUri =
+            prefs.getString("pref_ringtone_uri", defaultRingtoneUri.toString());
+        if (prefRingtoneUri.length() > 0)
+            ringtoneUri = Uri.parse(prefRingtoneUri);
+
+        return ringtoneUri;
+    }
+
+    public static void parseRingtoneData(Context context, @Nullable Intent data)
+    {
+        if (data == null) return;
+
+        Uri ringtoneUri =
+            data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+
+        if (ringtoneUri != null)
+        {
+            SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(context);
+            prefs
+                .edit()
+                .putString("pref_ringtone_uri", ringtoneUri.toString())
+                .apply();
+        }
+        else
+        {
+            String off = context.getResources().getString(R.string.none);
+            SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(context);
+            prefs.edit().putString("pref_ringtone_uri", "").apply();
+        }
+    }
+
+    public static void startRingtonePickerActivity(Fragment fragment,
+                                                   int requestCode)
+    {
+        Uri existingRingtoneUri =
+            ReminderUtils.getRingtoneUri(fragment.getContext());
+        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
+
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,
+            RingtoneManager.TYPE_NOTIFICATION);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
+            defaultRingtoneUri);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
+            existingRingtoneUri);
+        fragment.startActivityForResult(intent, requestCode);
     }
 }

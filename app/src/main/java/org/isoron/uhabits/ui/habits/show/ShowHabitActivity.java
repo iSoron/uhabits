@@ -24,9 +24,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.ui.BaseActivity;
+
+import javax.inject.Inject;
 
 /**
  * Activity that allows the user to see more information about a single habit.
@@ -36,13 +40,17 @@ public class ShowHabitActivity extends BaseActivity
 {
     private Habit habit;
 
+    @Inject
+    HabitList habitList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        HabitsApplication.getComponent().inject(this);
 
         Uri data = getIntent().getData();
-        habit = Habit.get(ContentUris.parseId(data));
+        habit = habitList.getById(ContentUris.parseId(data));
 
         setContentView(R.layout.show_habit_activity);
 //        setupSupportActionBar(true);
@@ -56,7 +64,7 @@ public class ShowHabitActivity extends BaseActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) return;
 
-        actionBar.setTitle(habit.name);
+        actionBar.setTitle(habit.getName());
 //        setupActionBarColor(ColorUtils.getColor(this, habit.color));
     }
 

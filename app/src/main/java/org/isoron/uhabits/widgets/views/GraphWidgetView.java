@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.views;
+package org.isoron.uhabits.widgets.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
+import org.isoron.uhabits.ui.habits.show.views.HabitWidgetView;
 
 public class GraphWidgetView extends HabitWidgetView implements HabitDataView
 {
@@ -60,7 +62,7 @@ public class GraphWidgetView extends HabitWidgetView implements HabitDataView
     {
         super.setHabit(habit);
         dataView.setHabit(habit);
-        title.setText(habit.name);
+        title.setText(habit.getName());
     }
 
     @Override

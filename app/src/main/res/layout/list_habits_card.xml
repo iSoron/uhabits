@@ -29,7 +29,7 @@
         style="@style/ListHabits.HabitCard"
         android:layout_width="match_parent">
 
-        <org.isoron.uhabits.views.RingView
+        <org.isoron.uhabits.ui.habits.show.views.RingView
             android:id="@+id/scoreRing"
             android:layout_width="15dp"
             android:layout_height="15dp"

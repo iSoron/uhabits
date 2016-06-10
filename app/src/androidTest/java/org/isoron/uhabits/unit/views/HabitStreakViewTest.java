@@ -23,8 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
-import org.isoron.uhabits.views.HabitStreakView;
+import org.isoron.uhabits.ui.habits.show.views.HabitStreakView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +34,14 @@ public class HabitStreakViewTest extends ViewTest
 {
     private HabitStreakView view;
 
+    @Override
     @Before
     public void setUp()
     {
         super.setUp();
 
-        HabitFixtures.purgeHabits();
-        Habit habit = HabitFixtures.createLongHabit();
+        habitFixtures.purgeHabits(habitList);
+        Habit habit = habitFixtures.createLongHabit();
 
         view = new HabitStreakView(targetContext);
         measureView(dpToPixels(300), dpToPixels(100), view);
@@ -57,18 +57,18 @@ public class HabitStreakViewTest extends ViewTest
     }
 
     @Test
-    public void testRender_withTransparentBackground() throws Throwable
-    {
-        view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitStreakView/renderTransparent.png"); 
-    }
-
-    @Test
     public void testRender_withSmallSize() throws Throwable
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
         refreshData(view);
 
         assertRenders(view, "HabitStreakView/renderSmallSize.png");
+    }
+
+    @Test
+    public void testRender_withTransparentBackground() throws Throwable
+    {
+        view.setIsBackgroundTransparent(true);
+        assertRenders(view, "HabitStreakView/renderTransparent.png");
     }
 }

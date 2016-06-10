@@ -36,6 +36,7 @@ import static org.junit.Assert.assertThat;
 @SmallTest
 public class ScoreTest extends BaseAndroidTest
 {
+    @Override
     @Before
     public void setUp()
     {
@@ -61,48 +62,24 @@ public class ScoreTest extends BaseAndroidTest
         assertThat(Score.compute(1, 0, checkmark), equalTo(1000000));
         assertThat(Score.compute(1, 5000000, checkmark), equalTo(5740387));
         assertThat(Score.compute(1, 10000000, checkmark), equalTo(10480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark), equalTo(Score.MAX_VALUE));
+        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark), equalTo(
+            Score.MAX_VALUE));
     }
 
     @Test
     public void test_compute_withNonDailyHabit()
     {
         int checkmark = Checkmark.CHECKED_EXPLICITLY;
-        assertThat(Score.compute(1/3.0, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1/3.0, 5000000, checkmark), equalTo(5916180));
-        assertThat(Score.compute(1/3.0, 10000000, checkmark), equalTo(10832360));
-        assertThat(Score.compute(1/3.0, Score.MAX_VALUE, checkmark), equalTo(Score.MAX_VALUE));
+        assertThat(Score.compute(1 / 3.0, 0, checkmark), equalTo(1000000));
+        assertThat(Score.compute(1 / 3.0, 5000000, checkmark), equalTo(5916180));
+        assertThat(Score.compute(1 / 3.0, 10000000, checkmark), equalTo(10832360));
+        assertThat(Score.compute(1 / 3.0, Score.MAX_VALUE, checkmark), equalTo(
+            Score.MAX_VALUE));
 
-        assertThat(Score.compute(1/7.0, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1/7.0, 5000000, checkmark), equalTo(5964398));
-        assertThat(Score.compute(1/7.0, 10000000, checkmark), equalTo(10928796));
-        assertThat(Score.compute(1/7.0, Score.MAX_VALUE, checkmark), equalTo(Score.MAX_VALUE));
-    }
-
-    @Test
-    public void test_getStarStatus()
-    {
-        Score s = new Score();
-
-        s.score = Score.FULL_STAR_CUTOFF + 1;
-        assertThat(s.getStarStatus(), equalTo(Score.FULL_STAR));
-
-        s.score = Score.FULL_STAR_CUTOFF;
-        assertThat(s.getStarStatus(), equalTo(Score.FULL_STAR));
-
-        s.score = Score.FULL_STAR_CUTOFF - 1;
-        assertThat(s.getStarStatus(), equalTo(Score.HALF_STAR));
-        
-        s.score = Score.HALF_STAR_CUTOFF + 1;
-        assertThat(s.getStarStatus(), equalTo(Score.HALF_STAR));
-
-        s.score = Score.HALF_STAR_CUTOFF;
-        assertThat(s.getStarStatus(), equalTo(Score.HALF_STAR));
-        
-        s.score = Score.HALF_STAR_CUTOFF - 1;
-        assertThat(s.getStarStatus(), equalTo(Score.EMPTY_STAR));
-
-        s.score = 0;
-        assertThat(s.getStarStatus(), equalTo(Score.EMPTY_STAR));
+        assertThat(Score.compute(1 / 7.0, 0, checkmark), equalTo(1000000));
+        assertThat(Score.compute(1 / 7.0, 5000000, checkmark), equalTo(5964398));
+        assertThat(Score.compute(1 / 7.0, 10000000, checkmark), equalTo(10928796));
+        assertThat(Score.compute(1 / 7.0, Score.MAX_VALUE, checkmark), equalTo(
+            Score.MAX_VALUE));
     }
 }

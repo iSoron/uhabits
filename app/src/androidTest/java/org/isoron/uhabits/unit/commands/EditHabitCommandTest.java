@@ -25,12 +25,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.EditHabitCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -41,25 +39,25 @@ public class EditHabitCommandTest extends BaseAndroidTest
 {
 
     private EditHabitCommand command;
-    private Habit habit;
-    private Habit modified;
-    private Long id;
 
+    private Habit habit;
+
+    private Habit modified;
+
+    @Override
     @Before
     public void setUp()
     {
         super.setUp();
 
-        habit = HabitFixtures.createShortHabit();
-        habit.name = "original";
-        habit.freqDen = 1;
-        habit.freqNum = 1;
-        habit.save();
+        habit = habitFixtures.createShortHabit();
+        habit.setName("original");
+        habit.setFreqDen(1);
+        habit.setFreqNum(1);
 
-        id = habit.getId();
-
-        modified = new Habit(habit);
-        modified.name = "modified";
+        modified = new Habit();
+        modified.copyFrom(habit);
+        modified.setName("modified");
     }
 
     @Test
@@ -67,54 +65,44 @@ public class EditHabitCommandTest extends BaseAndroidTest
     {
         command = new EditHabitCommand(habit, modified);
 
-        int originalScore = habit.scores.getTodayValue();
-        assertThat(habit.name, equalTo("original"));
+        int originalScore = habit.getScores().getTodayValue();
+        assertThat(habit.getName(), equalTo("original"));
 
         command.execute();
-        refreshHabit();
-        assertThat(habit.name, equalTo("modified"));
-        assertThat(habit.scores.getTodayValue(), equalTo(originalScore));
+        assertThat(habit.getName(), equalTo("modified"));
+        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
 
         command.undo();
-        refreshHabit();
-        assertThat(habit.name, equalTo("original"));
-        assertThat(habit.scores.getTodayValue(), equalTo(originalScore));
+        assertThat(habit.getName(), equalTo("original"));
+        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
 
         command.execute();
-        refreshHabit();
-        assertThat(habit.name, equalTo("modified"));
-        assertThat(habit.scores.getTodayValue(), equalTo(originalScore));
+        assertThat(habit.getName(), equalTo("modified"));
+        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
     }
 
     @Test
     public void testExecuteUndoRedo_withModifiedInterval()
     {
-        modified.freqNum = 1;
-        modified.freqDen = 7;
+        modified.setFreqNum(1);
+        modified.setFreqDen(7);
         command = new EditHabitCommand(habit, modified);
 
-        int originalScore = habit.scores.getTodayValue();
-        assertThat(habit.name, equalTo("original"));
+        int originalScore = habit.getScores().getTodayValue();
+        assertThat(habit.getName(), equalTo("original"));
 
         command.execute();
-        refreshHabit();
-        assertThat(habit.name, equalTo("modified"));
-        assertThat(habit.scores.getTodayValue(), greaterThan(originalScore));
+        assertThat(habit.getName(), equalTo("modified"));
+        assertThat(habit.getScores().getTodayValue(),
+            greaterThan(originalScore));
 
         command.undo();
-        refreshHabit();
-        assertThat(habit.name, equalTo("original"));
-        assertThat(habit.scores.getTodayValue(), equalTo(originalScore));
+        assertThat(habit.getName(), equalTo("original"));
+        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
 
         command.execute();
-        refreshHabit();
-        assertThat(habit.name, equalTo("modified"));
-        assertThat(habit.scores.getTodayValue(), greaterThan(originalScore));
-    }
-
-    private void refreshHabit()
-    {
-        habit = Habit.get(id);
-        assertTrue(habit != null);
+        assertThat(habit.getName(), equalTo("modified"));
+        assertThat(habit.getScores().getTodayValue(),
+            greaterThan(originalScore));
     }
 }

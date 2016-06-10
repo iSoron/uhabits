@@ -20,6 +20,10 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.commands.CommandRunner;
+import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.models.ModelFactory;
+import org.isoron.uhabits.models.sqlite.SQLModelFactory;
+import org.isoron.uhabits.models.sqlite.SQLiteHabitList;
 import org.isoron.uhabits.ui.habits.list.model.HabitCardListCache;
 import org.isoron.uhabits.utils.Preferences;
 
@@ -28,16 +32,15 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+/**
+ * Module that provides dependencies when the application is running on
+ * Android.
+ * <p>
+ * This module is also used for instrumented tests.
+ */
 @Module
 public class AndroidModule
 {
-    @Provides
-    @Singleton
-    Preferences providePreferences()
-    {
-        return new Preferences();
-    }
-
     @Provides
     @Singleton
     CommandRunner provideCommandRunner()
@@ -50,5 +53,25 @@ public class AndroidModule
     HabitCardListCache provideHabitCardListCache()
     {
         return new HabitCardListCache();
+    }
+
+    @Provides
+    @Singleton
+    HabitList provideHabitList()
+    {
+        return SQLiteHabitList.getInstance();
+    }
+
+    @Provides
+    ModelFactory provideModelFactory()
+    {
+        return new SQLModelFactory();
+    }
+
+    @Provides
+    @Singleton
+    Preferences providePreferences()
+    {
+        return new Preferences();
     }
 }

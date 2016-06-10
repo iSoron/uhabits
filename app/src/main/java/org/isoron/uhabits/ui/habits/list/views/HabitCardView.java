@@ -32,8 +32,8 @@ import android.widget.TextView;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.ui.habits.show.views.RingView;
 import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.views.RingView;
 
 import java.util.Random;
 
@@ -98,7 +98,7 @@ public class HabitCardView extends FrameLayout
         this.habit = habit;
         int color = getActiveColor(habit);
 
-        label.setText(habit.name);
+        label.setText(habit.getName());
         label.setTextColor(color);
         scoreRing.setColor(color);
         checkmarkPanel.setColor(color);
@@ -136,7 +136,7 @@ public class HabitCardView extends FrameLayout
     {
         int mediumContrastColor =
             getStyledColor(context, R.attr.mediumContrastTextColor);
-        int activeColor = ColorUtils.getColor(context, habit.color);
+        int activeColor = ColorUtils.getColor(context, habit.getColor());
         if (habit.isArchived()) activeColor = mediumContrastColor;
 
         return activeColor;
@@ -173,7 +173,7 @@ public class HabitCardView extends FrameLayout
         };
 
         Random rand = new Random();
-        int color = ColorUtils.CSV_PALETTE[rand.nextInt(10)];
+        int color = ColorUtils.getAndroidTestColor(rand.nextInt(10));
         int[] values = {
             rand.nextInt(3),
             rand.nextInt(3),

@@ -26,6 +26,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.ExportCSVTask;
 import org.isoron.uhabits.tasks.ExportDBTask;
 import org.isoron.uhabits.tasks.ImportDataTask;
@@ -48,6 +49,9 @@ public class ListHabitsController
     @NonNull
     private final BaseSystem system;
 
+    @NonNull
+    private final HabitList habitList;
+
     @Inject
     Preferences prefs;
 
@@ -55,17 +59,19 @@ public class ListHabitsController
     CommandRunner commandRunner;
 
     public ListHabitsController(@NonNull ListHabitsScreen screen,
-                                @NonNull BaseSystem system)
+                                @NonNull BaseSystem system,
+                                @NonNull HabitList habitList)
     {
         this.screen = screen;
         this.system = system;
+        this.habitList = habitList;
         HabitsApplication.getComponent().inject(this);
     }
 
     public void onExportCSV()
     {
         ExportCSVTask task =
-            new ExportCSVTask(Habit.getAll(true), screen.getProgressBar());
+            new ExportCSVTask(habitList.getAll(true), screen.getProgressBar());
         task.setListener(filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
@@ -92,7 +98,7 @@ public class ListHabitsController
     @Override
     public void onHabitReorder(@NonNull Habit from, @NonNull Habit to)
     {
-        Habit.reorder(from, to);
+        habitList.reorder(from, to);
     }
 
     public void onImportData(File file)
@@ -133,7 +139,8 @@ public class ListHabitsController
         try
         {
             system.dumpBugReportToFile();
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             // ignored
         }
@@ -146,7 +153,8 @@ public class ListHabitsController
             String to = "dev@loophabits.org";
             String subject = "Bug Report - Loop Habit Tracker";
             screen.showSendEmailScreen(log, to, subject);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
             screen.showMessage(R.string.bug_report_failed);
