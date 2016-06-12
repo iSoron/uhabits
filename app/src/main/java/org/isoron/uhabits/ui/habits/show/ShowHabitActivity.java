@@ -19,21 +19,21 @@
 
 package org.isoron.uhabits.ui.habits.show;
 
-import android.content.ContentUris;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.support.v7.app.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.ui.BaseActivity;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.utils.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * Activity that allows the user to see more information about a single habit.
+ *
  * Shows all the metadata for the habit, in addition to several charts.
  */
 public class ShowHabitActivity extends BaseActivity
@@ -53,7 +53,8 @@ public class ShowHabitActivity extends BaseActivity
         habit = habitList.getById(ContentUris.parseId(data));
 
         setContentView(R.layout.show_habit_activity);
-//        setupSupportActionBar(true);
+        BaseScreen.setupActionBarColor(this, ColorUtils.getColor(this, habit.getColor()));
+
         setupHabitActionBar();
     }
 
@@ -65,7 +66,6 @@ public class ShowHabitActivity extends BaseActivity
         if (actionBar == null) return;
 
         actionBar.setTitle(habit.getName());
-//        setupActionBarColor(ColorUtils.getColor(this, habit.color));
     }
 
     public Habit getHabit()

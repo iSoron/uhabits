@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits.ui.settings;
 
-import android.os.Bundle;
+import android.os.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.utils.*;
 
 /**
  * Activity that allows the user to view and modify the app settings.
@@ -35,10 +35,9 @@ public class SettingsActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-//        setupSupportActionBar(true);
 
         int color =
             InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
-//        setupActionBarColor(color);
+        BaseScreen.setupActionBarColor(this, color);
     }
 }

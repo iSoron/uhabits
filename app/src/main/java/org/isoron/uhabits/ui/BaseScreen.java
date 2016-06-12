@@ -31,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.tasks.ProgressBar;
 import org.isoron.uhabits.utils.*;
 
@@ -58,6 +59,39 @@ public abstract class BaseScreen
     public BaseScreen(BaseActivity activity)
     {
         this.activity = activity;
+    }
+
+    @Deprecated
+    public static void setupActionBarColor(AppCompatActivity activity,
+                                           int color)
+    {
+
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        if (toolbar == null) return;
+
+        activity.setSupportActionBar(toolbar);
+
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar == null) return;
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        ColorDrawable drawable = new ColorDrawable(color);
+        actionBar.setBackgroundDrawable(drawable);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            int darkerColor = ColorUtils.mixColors(color, Color.BLACK, 0.75f);
+            activity.getWindow().setStatusBarColor(darkerColor);
+
+            toolbar.setElevation(InterfaceUtils.dpToPixels(activity, 2));
+
+            View view = activity.findViewById(R.id.toolbarShadow);
+            if (view != null) view.setVisibility(View.GONE);
+
+            view = activity.findViewById(R.id.headerShadow);
+            if (view != null) view.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -210,6 +244,7 @@ public abstract class BaseScreen
         int color = rootView.getToolbarColor();
         setActionBarColor(actionBar, color);
         setStatusBarColor(color);
+        setupToolbarElevation(toolbar);
     }
 
     private void setActionBarColor(@NonNull ActionBar actionBar, int color)
@@ -220,12 +255,23 @@ public abstract class BaseScreen
 
     private void setStatusBarColor(int baseColor)
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            int darkerColor =
-                ColorUtils.mixColors(baseColor, Color.BLACK, 0.75f);
-            activity.getWindow().setStatusBarColor(darkerColor);
-        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return;
+
+        int darkerColor = ColorUtils.mixColors(baseColor, Color.BLACK, 0.75f);
+        activity.getWindow().setStatusBarColor(darkerColor);
+    }
+
+    private void setupToolbarElevation(Toolbar toolbar)
+    {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return;
+
+        toolbar.setElevation(InterfaceUtils.dpToPixels(activity, 2));
+
+        View view = activity.findViewById(R.id.toolbarShadow);
+        if (view != null) view.setVisibility(View.GONE);
+
+        view = activity.findViewById(R.id.headerShadow);
+        if (view != null) view.setVisibility(View.GONE);
     }
 
     private class ActionModeWrapper implements ActionMode.Callback

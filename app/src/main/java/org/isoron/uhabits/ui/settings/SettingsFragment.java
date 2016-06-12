@@ -75,17 +75,11 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void setResultOnPreferenceClick(String key, final int result)
     {
         Preference pref = findPreference(key);
-        pref.setOnPreferenceClickListener(
-            new Preference.OnPreferenceClickListener()
-            {
-                @Override
-                public boolean onPreferenceClick(Preference preference)
-                {
-                    getActivity().setResult(result);
-                    getActivity().finish();
-                    return true;
-                }
-            });
+        pref.setOnPreferenceClickListener(preference -> {
+            getActivity().setResult(result);
+            getActivity().finish();
+            return true;
+        });
     }
 
     @Override

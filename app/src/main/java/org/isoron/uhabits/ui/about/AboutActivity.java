@@ -19,16 +19,15 @@
 
 package org.isoron.uhabits.ui.about;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.utils.*;
 
 /**
  * Activity that allows the user to see information about the app itself.
@@ -76,11 +75,11 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.about);
-//        setupSupportActionBar(true);
 
         int color =
             InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
-//        setupActionBarColor(color);
+
+        BaseScreen.setupActionBarColor(this, color);
 
         TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
         TextView tvRate = (TextView) findViewById(R.id.tvRate);
