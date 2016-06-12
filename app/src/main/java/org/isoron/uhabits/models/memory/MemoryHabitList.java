@@ -19,14 +19,11 @@
 
 package org.isoron.uhabits.models.memory;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.models.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * In-memory implementation of {@link HabitList}.
@@ -42,13 +39,21 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public void add(Habit habit)
+    public void add(@NonNull Habit habit) throws IllegalArgumentException
     {
+        if (list.contains(habit))
+            throw new IllegalArgumentException("habit already added");
+
+        Long id = habit.getId();
+        if (id != null && getById(id) != null)
+            throw new RuntimeException("duplicate id");
+
+        if (id == null) habit.setId((long) list.size());
         list.addLast(habit);
     }
 
     @Override
-    public int count()
+    public int countActive()
     {
         int count = 0;
         for (Habit h : list) if (!h.isArchived()) count++;
@@ -61,19 +66,19 @@ public class MemoryHabitList extends HabitList
         return list.size();
     }
 
-    @Override
-    public Habit getById(long id)
-    {
-        for (Habit h : list) if (h.getId() == id) return h;
-        return null;
-    }
-
     @NonNull
     @Override
     public List<Habit> getAll(boolean includeArchive)
     {
         if (includeArchive) return new LinkedList<>(list);
         return getFiltered(habit -> !habit.isArchived());
+    }
+
+    @Override
+    public Habit getById(long id)
+    {
+        for (Habit h : list) if (h.getId() == id) return h;
+        return null;
     }
 
     @Nullable
@@ -84,7 +89,7 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public int indexOf(Habit h)
+    public int indexOf(@NonNull Habit h)
     {
         return list.indexOf(h);
     }

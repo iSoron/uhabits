@@ -76,7 +76,7 @@ public class ScoreListTest extends BaseUnitTest
         int actualValues[] = new int[expectedValues.length];
 
         int i = 0;
-        for (Score s : habit.getScores().getAll())
+        for (Score s : habit.getScores())
             actualValues[i++] = s.getValue();
 
         assertThat(actualValues, equalTo(expectedValues));

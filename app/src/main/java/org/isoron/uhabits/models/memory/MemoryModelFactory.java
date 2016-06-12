@@ -19,18 +19,12 @@
 
 package org.isoron.uhabits.models.memory;
 
-import org.isoron.uhabits.models.CheckmarkList;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.models.ModelFactory;
-import org.isoron.uhabits.models.RepetitionList;
-import org.isoron.uhabits.models.ScoreList;
-import org.isoron.uhabits.models.StreakList;
+import org.isoron.uhabits.models.*;
 
 public class MemoryModelFactory implements ModelFactory
 {
     @Override
-    public RepetitionList buidRepetitionList(Habit habit)
+    public RepetitionList buildRepetitionList(Habit habit)
     {
         return new MemoryRepetitionList(habit);
     }

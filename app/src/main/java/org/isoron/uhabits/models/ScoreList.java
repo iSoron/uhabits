@@ -19,21 +19,15 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
-public abstract class ScoreList
+public abstract class ScoreList implements Iterable<Score>
 {
     protected final Habit habit;
 
@@ -53,7 +47,28 @@ public abstract class ScoreList
         observable = new ModelObservable();
     }
 
+    /**
+     * Adds the given scores to the list.
+     * <p>
+     * This method should not be called by the application, since the scores are
+     * computed automatically from the list of repetitions.
+     *
+     * @param scores the scores to add.
+     */
+    public abstract void add(List<Score> scores);
+
     public abstract List<Score> getAll();
+
+    /**
+     * Returns the score that has the given timestamp.
+     * <p>
+     * If no such score exists, returns null.
+     *
+     * @param timestamp the timestamp to find.
+     * @return the score with given timestamp, or null if none exists.
+     */
+    @Nullable
+    public abstract Score getByTimestamp(long timestamp);
 
     public ModelObservable getObservable()
     {
@@ -72,11 +87,20 @@ public abstract class ScoreList
 
     /**
      * Returns the value of the score for a given day.
+     * <p>
+     * If there is no score at the given timestamp (for example, if the
+     * timestamp given happens before the first repetition of the habit) then
+     * returns zero.
      *
      * @param timestamp the timestamp of a day
-     * @return score for that day
+     * @return score value for that day
      */
-    public abstract int getValue(long timestamp);
+    public final int getValue(long timestamp)
+    {
+        Score s = getByTimestamp(timestamp);
+        if (s != null) return s.getValue();
+        return 0;
+    }
 
     public List<Score> groupBy(DateUtils.TruncateField field)
     {
@@ -95,12 +119,18 @@ public abstract class ScoreList
      */
     public abstract void invalidateNewerThan(long timestamp);
 
+    @Override
+    public Iterator<Score> iterator()
+    {
+        return getAll().iterator();
+    }
+
     public void writeCSV(Writer out) throws IOException
     {
         computeAll();
         SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
 
-        for (Score s : getAll())
+        for (Score s : this)
         {
             String timestamp = dateFormat.format(s.getTimestamp());
             String score =
@@ -108,8 +138,6 @@ public abstract class ScoreList
             out.write(String.format("%s,%s\n", timestamp, score));
         }
     }
-
-    protected abstract void add(List<Score> scores);
 
     /**
      * Computes and saves the scores that are missing inside a given time
@@ -173,20 +201,21 @@ public abstract class ScoreList
     }
 
     /**
-     * Returns the score for a certain day.
+     * Returns the most recent score that has already been computed.
+     * <p>
+     * If no score has been computed yet, returns null.
      *
-     * @param timestamp the timestamp for the day
-     * @return the score for the day
+     * @return the newest score computed, or null if none exist
      */
     @Nullable
-    protected abstract Score get(long timestamp);
+    protected abstract Score getNewestComputed();
 
     @NonNull
     private HashMap<Long, ArrayList<Long>> getGroupedValues(DateUtils.TruncateField field)
     {
         HashMap<Long, ArrayList<Long>> groups = new HashMap<>();
 
-        for (Score s : getAll())
+        for (Score s : this)
         {
             long groupTimestamp = DateUtils.truncate(field, s.getTimestamp());
 
@@ -198,17 +227,6 @@ public abstract class ScoreList
 
         return groups;
     }
-
-    /**
-     * Returns the most recent score that has already been computed.
-     * <p>
-     * If no score has been computed yet, returns null.
-     *
-     * @return the newest score computed, or null if none exist
-     */
-    @Nullable
-    protected abstract Score getNewestComputed();
-
 
     @NonNull
     private List<Score> groupsToAvgScores(HashMap<Long, ArrayList<Long>> groups)

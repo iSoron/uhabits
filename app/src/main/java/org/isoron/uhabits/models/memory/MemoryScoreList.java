@@ -19,16 +19,11 @@
 
 package org.isoron.uhabits.models.memory;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.models.ScoreList;
+import org.isoron.uhabits.models.*;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class MemoryScoreList extends ScoreList
 {
@@ -38,14 +33,6 @@ public class MemoryScoreList extends ScoreList
     {
         super(habit);
         list = new LinkedList<>();
-    }
-
-    @Override
-    public int getValue(long timestamp)
-    {
-        Score s = get(timestamp);
-        if (s != null) return s.getValue();
-        return 0;
     }
 
     @Override
@@ -67,17 +54,9 @@ public class MemoryScoreList extends ScoreList
         return new LinkedList<>(list);
     }
 
-    @Override
-    protected void add(List<Score> scores)
-    {
-        list.addAll(scores);
-        Collections.sort(list,
-            (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
-    }
-
-    @Override
     @Nullable
-    protected Score get(long timestamp)
+    @Override
+    public Score getByTimestamp(long timestamp)
     {
         computeAll();
         for (Score s : list)
@@ -86,11 +65,19 @@ public class MemoryScoreList extends ScoreList
         return null;
     }
 
+    @Override
+    public void add(List<Score> scores)
+    {
+        list.addAll(scores);
+        Collections.sort(list,
+            (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
+    }
+
     @Nullable
     @Override
     protected Score getNewestComputed()
     {
-        if(list.isEmpty()) return null;
+        if (list.isEmpty()) return null;
         return list.get(0);
     }
 }

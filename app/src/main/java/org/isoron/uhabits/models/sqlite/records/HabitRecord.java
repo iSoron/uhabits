@@ -17,20 +17,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.models.sqlite.records;
 
-import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.annotation.*;
+import android.support.annotation.*;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.util.SQLiteUtils;
+import com.activeandroid.*;
+import com.activeandroid.annotation.*;
+import com.activeandroid.query.*;
+import com.activeandroid.util.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
 /**
  * The SQLite database record corresponding to a {@link Habit}.
@@ -83,7 +81,7 @@ public class HabitRecord extends Model
     }
 
     @Nullable
-    public static HabitRecord get(Long id)
+    public static HabitRecord get(long id)
     {
         return HabitRecord.load(HabitRecord.class, id);
     }

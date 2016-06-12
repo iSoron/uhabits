@@ -19,23 +19,16 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.database.sqlite.*;
+import android.support.annotation.*;
 
-import com.activeandroid.Cache;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
-import com.activeandroid.util.SQLiteUtils;
+import com.activeandroid.*;
+import com.activeandroid.query.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.models.ScoreList;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.records.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Implementation of a ScoreList that is backed by SQLite.
@@ -53,12 +46,18 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
-    public int getValue(long timestamp)
+    @NonNull
+    public List<Score> getAll()
     {
         computeAll();
-        String[] args = {habit.getId().toString(), Long.toString(timestamp)};
-        return SQLiteUtils.intQuery(
-            "select score from Score where habit = ? and timestamp = ?", args);
+
+        List<ScoreRecord> records = select().execute();
+        List<Score> scores = new LinkedList<>();
+
+        for (ScoreRecord rec : records)
+            scores.add(rec.toScore());
+
+        return scores;
     }
 
     @Override
@@ -72,42 +71,7 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
-    @NonNull
-    public List<Score> getAll()
-    {
-        List<ScoreRecord> records = select().execute();
-        List<Score> scores = new LinkedList<>();
-
-        for(ScoreRecord rec : records)
-            scores.add(rec.toScore());
-
-        return scores;
-    }
-
-    @Nullable
-    @Override
-    protected Score getNewestComputed()
-    {
-        ScoreRecord record = select().limit(1).executeSingle();
-        if(record == null) return null;
-        return record.toScore();
-    }
-
-    @Override
-    @Nullable
-    protected Score get(long timestamp)
-    {
-        computeAll();
-
-        ScoreRecord record =
-            select().where("timestamp = ?", timestamp).executeSingle();
-
-        if(record == null) return null;
-        return record.toScore();
-    }
-
-    @Override
-    protected void add(List<Score> scores)
+    public void add(List<Score> scores)
     {
         String query =
             "insert into Score(habit, timestamp, score) values (?,?,?)";
@@ -135,7 +99,29 @@ public class SQLiteScoreList extends ScoreList
         }
     }
 
-    protected From select()
+    @Override
+    @Nullable
+    public Score getByTimestamp(long timestamp)
+    {
+        computeAll();
+
+        ScoreRecord record =
+            select().where("timestamp = ?", timestamp).executeSingle();
+
+        if (record == null) return null;
+        return record.toScore();
+    }
+
+    @Nullable
+    @Override
+    protected Score getNewestComputed()
+    {
+        ScoreRecord record = select().limit(1).executeSingle();
+        if (record == null) return null;
+        return record.toScore();
+    }
+
+    private From select()
     {
         return new Select()
             .from(ScoreRecord.class)

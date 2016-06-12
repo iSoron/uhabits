@@ -59,7 +59,7 @@ public class ImportTest extends BaseAndroidTest
         super.setUp();
         DateUtils.setFixedLocalTime(null);
 
-        habitFixtures.purgeHabits(habitList);
+        fixtures.purgeHabits(habitList);
         context = InstrumentationRegistry.getInstrumentation().getContext();
         baseDir = FileUtils.getFilesDir("Backups");
         if(baseDir == null) fail("baseDir should not be null");

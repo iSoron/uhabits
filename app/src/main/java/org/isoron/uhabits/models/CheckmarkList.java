@@ -19,16 +19,13 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
@@ -45,19 +42,29 @@ public abstract class CheckmarkList
     }
 
     /**
-     * Returns the values for all the checkmarks, since the oldest repetition of
-     * the habit until today. If there are no repetitions at all, returns an
-     * empty array.
+     * Adds all the given checkmarks to the list.
      * <p>
-     * The values are returned in an array containing one integer value for each
-     * day since the first repetition of the habit until today. The first entry
+     * This should never be called by the application, since the checkmarks are
+     * computed automatically from the list of repetitions.
+     *
+     * @param checkmarks the checkmarks to be added.
+     */
+    public abstract void add(List<Checkmark> checkmarks);
+
+    /**
+     * Returns the values for all the checkmarks, since the oldest repetition of
+     * the habit until today.
+     * <p>
+     * If there are no repetitions at all, returns an empty array. The values
+     * are returned in an array containing one integer value for each day since
+     * the first repetition of the habit until today. The first entry
      * corresponds to today, the second entry corresponds to yesterday, and so
      * on.
      *
      * @return values for the checkmarks in the interval
      */
     @NonNull
-    public int[] getAllValues()
+    public final int[] getAllValues()
     {
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep == null) return new int[0];
@@ -69,16 +76,31 @@ public abstract class CheckmarkList
     }
 
     /**
+     * Returns the list of checkmarks that fall within the given interval.
+     * <p>
+     * There is exactly one checkmark per day in the interval. The endpoints of
+     * the interval are included. The list is ordered by timestamp (decreasing).
+     * That is, the first checkmark corresponds to the newest timestamp, and the
+     * last checkmark corresponds to the oldest timestamp.
+     *
+     * @param fromTimestamp timestamp of the beginning of the interval.
+     * @param toTimestamp   timestamp of the end of the interval.
+     * @return the list of checkmarks within the interval.
+     */
+    @NonNull
+    public abstract List<Checkmark> getByInterval(long fromTimestamp,
+                                                  long toTimestamp);
+
+    /**
      * Returns the checkmark for today.
      *
      * @return checkmark for today
      */
     @Nullable
-    public Checkmark getToday()
+    public final Checkmark getToday()
     {
-        long today = DateUtils.getStartOfToday();
-        compute(today, today);
-        return getNewest();
+        computeAll();
+        return getNewestComputed();
     }
 
     /**
@@ -86,7 +108,7 @@ public abstract class CheckmarkList
      *
      * @return value of today's checkmark
      */
-    public int getTodayValue()
+    public final int getTodayValue()
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();
@@ -106,7 +128,17 @@ public abstract class CheckmarkList
      * @param to   timestamp for the newest checkmark
      * @return values for the checkmarks inside the given interval
      */
-    public abstract int[] getValues(long from, long to);
+    public final int[] getValues(long from, long to)
+    {
+        List<Checkmark> checkmarks = getByInterval(from, to);
+        int values[] = new int[checkmarks.size()];
+
+        int i = 0;
+        for (Checkmark c : checkmarks)
+            values[i++] = c.getValue();
+
+        return values;
+    }
 
     /**
      * Marks as invalid every checkmark that has timestamp either equal or newer
@@ -119,13 +151,11 @@ public abstract class CheckmarkList
 
     /**
      * Writes the entire list of checkmarks to the given writer, in CSV format.
-     * There is one line for each checkmark. Each line contains two fields:
-     * timestamp and value.
      *
      * @param out the writer where the CSV will be output
      * @throws IOException in case write operations fail
      */
-    public void writeCSV(Writer out) throws IOException
+    public final void writeCSV(Writer out) throws IOException
     {
         computeAll();
 
@@ -149,11 +179,11 @@ public abstract class CheckmarkList
      * @param from timestamp for the beginning of the interval
      * @param to   timestamp for the end of the interval
      */
-    protected void compute(long from, final long to)
+    protected final void compute(long from, final long to)
     {
         final long day = DateUtils.millisecondsInOneDay;
 
-        Checkmark newestCheckmark = getNewest();
+        Checkmark newestCheckmark = getNewestComputed();
         if (newestCheckmark != null)
             from = newestCheckmark.getTimestamp() + day;
 
@@ -185,12 +215,16 @@ public abstract class CheckmarkList
                     checks[i] = Checkmark.CHECKED_IMPLICITLY;
         }
 
+        List<Checkmark> checkmarks = new LinkedList<>();
 
-        long timestamps[] = new long[nDays];
         for (int i = 0; i < nDays; i++)
-            timestamps[i] = to - i * day;
+        {
+            int value = checks[i];
+            long timestamp = to - i * day;
+            checkmarks.add(new Checkmark(habit, timestamp, value));
+        }
 
-        insert(timestamps, checks);
+        add(checkmarks);
     }
 
     /**
@@ -198,24 +232,21 @@ public abstract class CheckmarkList
      * repetition until today. Days that already have a corresponding checkmark
      * are skipped.
      */
-    protected void computeAll()
+    protected final void computeAll()
     {
         Repetition oldest = habit.getRepetitions().getOldest();
         if (oldest == null) return;
 
         Long today = DateUtils.getStartOfToday();
-
         compute(oldest.getTimestamp(), today);
     }
 
     /**
-     * Returns newest checkmark that has already been computed. Ignores any
-     * checkmark that has timestamp in the future. This does not update the
-     * cache.
+     * Returns newest checkmark that has already been computed.
+     * <p>
+     * Ignores any checkmark that has timestamp in the future.
      *
      * @return newest checkmark already computed
      */
-    protected abstract Checkmark getNewest();
-
-    protected abstract void insert(long timestamps[], int values[]);
+    protected abstract Checkmark getNewestComputed();
 }

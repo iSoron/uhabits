@@ -55,7 +55,7 @@ public class BaseAndroidTest
 
     protected AndroidTestComponent androidTestComponent;
 
-    protected HabitFixtures habitFixtures;
+    protected HabitFixtures fixtures;
 
     @Before
     public void setUp()
@@ -76,7 +76,7 @@ public class BaseAndroidTest
         HabitsApplication.setComponent(androidTestComponent);
         androidTestComponent.inject(this);
 
-        habitFixtures = new HabitFixtures(habitList);
+        fixtures = new HabitFixtures(habitList);
     }
 
     protected void waitForAsyncTasks()

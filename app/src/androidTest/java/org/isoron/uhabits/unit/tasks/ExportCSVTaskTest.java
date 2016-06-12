@@ -19,24 +19,21 @@
 
 package org.isoron.uhabits.unit.tasks;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.ExportCSVTask;
-import org.isoron.uhabits.unit.HabitFixtures;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.File;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static junit.framework.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -52,7 +49,7 @@ public class ExportCSVTaskTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws Throwable
     {
-        habitFixtures.createShortHabit();
+        fixtures.createShortHabit();
         List<Habit> habits = habitList.getAll(true);
 
         ExportCSVTask task = new ExportCSVTask(habits, null);

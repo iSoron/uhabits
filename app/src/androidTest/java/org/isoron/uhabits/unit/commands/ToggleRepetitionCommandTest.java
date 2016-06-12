@@ -47,7 +47,7 @@ public class ToggleRepetitionCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habit = habitFixtures.createShortHabit();
+        habit = fixtures.createShortHabit();
 
         today = DateUtils.getStartOfToday();
         command = new ToggleRepetitionCommand(habit, today);

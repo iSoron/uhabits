@@ -19,16 +19,15 @@
 
 package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class StreakListTest extends BaseUnitTest
 {

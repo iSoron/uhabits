@@ -19,13 +19,18 @@
 
 package org.isoron.uhabits.models;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.*;
 
 /**
  * Represents how strong a habit is at a certain date.
  */
 public class Score
 {
+    /**
+     * Maximum score value attainable by any habit.
+     */
+    public static final int MAX_VALUE = 19259478;
+
     /**
      * Habit to which this score belongs to.
      */
@@ -41,11 +46,6 @@ public class Score
      * Value of the score.
      */
     private final Integer value;
-
-    /**
-     * Maximum score value attainable by any habit.
-     */
-    public static final int MAX_VALUE = 19259478;
 
     public Score(Habit habit, Long timestamp, Integer value)
     {

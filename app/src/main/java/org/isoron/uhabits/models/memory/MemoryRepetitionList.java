@@ -19,16 +19,11 @@
 
 package org.isoron.uhabits.models.memory;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Repetition;
-import org.isoron.uhabits.models.RepetitionList;
+import org.isoron.uhabits.models.*;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * In-memory implementation of {@link RepetitionList}.
@@ -54,6 +49,7 @@ public class MemoryRepetitionList extends RepetitionList
     public List<Repetition> getByInterval(long fromTimestamp, long toTimestamp)
     {
         LinkedList<Repetition> filtered = new LinkedList<>();
+
         for (Repetition r : list)
         {
             long t = r.getTimestamp();

@@ -40,8 +40,8 @@ public class HabitStreakViewTest extends ViewTest
     {
         super.setUp();
 
-        habitFixtures.purgeHabits(habitList);
-        Habit habit = habitFixtures.createLongHabit();
+        fixtures.purgeHabits(habitList);
+        Habit habit = fixtures.createLongHabit();
 
         view = new HabitStreakView(targetContext);
         measureView(dpToPixels(300), dpToPixels(100), view);

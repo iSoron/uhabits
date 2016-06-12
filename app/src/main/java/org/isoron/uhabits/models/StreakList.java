@@ -19,15 +19,11 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * The collection of {@link Streak}s that belong to a habit.
@@ -80,7 +76,7 @@ public abstract class StreakList
         List<Streak> streaks = checkmarksToStreaks(beginning, checks);
 
         removeNewestComputed();
-        insert(streaks);
+        add(streaks);
     }
 
     /**
@@ -155,7 +151,7 @@ public abstract class StreakList
         return list;
     }
 
-    protected abstract void insert(@NonNull List<Streak> streaks);
+    protected abstract void add(@NonNull List<Streak> streaks);
 
     protected abstract void removeNewestComputed();
 }

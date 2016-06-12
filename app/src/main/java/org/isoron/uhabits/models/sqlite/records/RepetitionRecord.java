@@ -17,50 +17,41 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.models.sqlite.records;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+import com.activeandroid.*;
+import com.activeandroid.annotation.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Streak;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.*;
 
 /**
- * The SQLite database record corresponding to a Streak.
+ * The SQLite database record corresponding to a {@link Repetition}.
  */
-@Table(name = "Streak")
-public class StreakRecord extends Model
+@Table(name = "Repetitions")
+public class RepetitionRecord extends Model
 {
     @Column(name = "habit")
     public HabitRecord habit;
 
-    @Column(name = "start")
-    public Long start;
+    @Column(name = "timestamp")
+    public Long timestamp;
 
-    @Column(name = "end")
-    public Long end;
-
-    @Column(name = "length")
-    public Long length;
-
-    public static StreakRecord get(Long id)
+    public void copyFrom(Repetition repetition)
     {
-        return StreakRecord.load(StreakRecord.class, id);
+        habit = HabitRecord.get(repetition.getHabit().getId());
+        timestamp = repetition.getTimestamp();
     }
 
-    public void copyFrom(Streak streak)
+    public static RepetitionRecord get(Long id)
     {
-        habit = HabitRecord.get(streak.getHabit().getId());
-        start = streak.getStart();
-        end = streak.getEnd();
-        length = streak.getLength();
+        return RepetitionRecord.load(RepetitionRecord.class, id);
     }
 
-    public Streak toStreak()
+    public Repetition toRepetition()
     {
         SQLiteHabitList habitList = SQLiteHabitList.getInstance();
         Habit h = habitList.getById(habit.getId());
-        return new Streak(h, start, end);
+        return new Repetition(h, timestamp);
     }
 }

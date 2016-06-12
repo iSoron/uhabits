@@ -23,7 +23,7 @@ import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.sqlite.HabitRecord;
+import org.isoron.uhabits.models.sqlite.records.HabitRecord;
 
 import java.util.Collections;
 import java.util.LinkedList;

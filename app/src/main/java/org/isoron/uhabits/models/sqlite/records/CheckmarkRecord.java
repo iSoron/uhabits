@@ -17,14 +17,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.models.sqlite.records;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+import com.activeandroid.*;
+import com.activeandroid.annotation.*;
 
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.*;
 
 /**
  * The SQLite database record corresponding to a {@link Checkmark}.

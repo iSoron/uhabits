@@ -19,20 +19,17 @@
 
 package org.isoron.uhabits.models;
 
-import org.hamcrest.MatcherAssert;
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.Test;
+import org.hamcrest.*;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import static junit.framework.Assert.fail;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static junit.framework.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class HabitListTest extends BaseUnitTest
@@ -73,7 +70,7 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void test_count()
     {
-        assertThat(list.count(), equalTo(6));
+        assertThat(list.countActive(), equalTo(6));
     }
 
     @Test

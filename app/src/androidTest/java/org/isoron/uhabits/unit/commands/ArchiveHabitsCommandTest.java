@@ -25,7 +25,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.ArchiveHabitsCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +47,7 @@ public class ArchiveHabitsCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habit = habitFixtures.createShortHabit();
+        habit = fixtures.createShortHabit();
         command = new ArchiveHabitsCommand(Collections.singletonList(habit));
     }
 

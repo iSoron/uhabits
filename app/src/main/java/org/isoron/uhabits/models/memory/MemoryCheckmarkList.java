@@ -19,13 +19,11 @@
 
 package org.isoron.uhabits.models.memory;
 
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.CheckmarkList;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.DateUtils;
+import android.support.annotation.*;
 
-import java.util.Collections;
-import java.util.LinkedList;
+import org.isoron.uhabits.models.*;
+
+import java.util.*;
 
 /**
  * In-memory implementation of {@link CheckmarkList}.
@@ -41,20 +39,25 @@ public class MemoryCheckmarkList extends CheckmarkList
     }
 
     @Override
-    public int[] getValues(long from, long to)
+    public void add(List<Checkmark> checkmarks)
     {
-        compute(from, to);
-        if (from > to) return new int[0];
+        list.addAll(checkmarks);
+        Collections.sort(list, (c1, c2) -> c2.compareNewer(c1));
+    }
 
-        int length = (int) ((to - from) / DateUtils.millisecondsInOneDay + 1);
-        int values[] = new int[length];
+    @NonNull
+    @Override
+    public List<Checkmark> getByInterval(long fromTimestamp, long toTimestamp)
+    {
+        compute(fromTimestamp, toTimestamp);
 
-        int k = 0;
+        List<Checkmark> filtered = new LinkedList<>();
+
         for (Checkmark c : list)
-            if(c.getTimestamp() >= from && c.getTimestamp() <= to)
-                values[k++] = c.getValue();
+            if (c.getTimestamp() >= fromTimestamp &&
+                c.getTimestamp() <= toTimestamp) filtered.add(c);
 
-        return values;
+        return filtered;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class MemoryCheckmarkList extends CheckmarkList
     }
 
     @Override
-    protected Checkmark getNewest()
+    protected Checkmark getNewestComputed()
     {
         long newestTimestamp = 0;
         Checkmark newestCheck = null;
@@ -86,17 +89,4 @@ public class MemoryCheckmarkList extends CheckmarkList
         return newestCheck;
     }
 
-    @Override
-    protected void insert(long[] timestamps, int[] values)
-    {
-        for (int i = 0; i < timestamps.length; i++)
-        {
-            long t = timestamps[i];
-            int v = values[i];
-            list.add(new Checkmark(habit, t, v));
-        }
-
-        Collections.sort(list,
-            (c1, c2) -> (int) (c2.getTimestamp() - c1.getTimestamp()));
-    }
 }

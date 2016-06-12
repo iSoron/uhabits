@@ -51,10 +51,10 @@ import java.util.Random;
 public class HabitScoreView extends ScrollableDataView
     implements HabitDataView, ModelObservable.Listener
 {
-    public static final PorterDuffXfermode XFERMODE_CLEAR =
+    private static final PorterDuffXfermode XFERMODE_CLEAR =
         new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
 
-    public static final PorterDuffXfermode XFERMODE_SRC =
+    private static final PorterDuffXfermode XFERMODE_SRC =
         new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
     public static int DEFAULT_BUCKET_SIZES[] = {1, 7, 31, 92, 365};

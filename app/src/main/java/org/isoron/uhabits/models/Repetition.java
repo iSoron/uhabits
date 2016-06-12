@@ -19,9 +19,9 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.*;
 
 /**
  * Represents a record that the user has performed a certain habit at a certain

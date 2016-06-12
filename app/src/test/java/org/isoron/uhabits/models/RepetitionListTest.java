@@ -22,6 +22,7 @@ package org.isoron.uhabits.models;
 import android.support.annotation.NonNull;
 
 import org.isoron.uhabits.BaseUnitTest;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DateUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +34,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Random;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Mockito.mock;

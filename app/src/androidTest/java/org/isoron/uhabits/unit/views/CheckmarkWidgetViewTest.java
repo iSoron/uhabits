@@ -47,7 +47,7 @@ public class CheckmarkWidgetViewTest extends ViewTest
         super.setUp();
         InterfaceUtils.setFixedTheme(R.style.TransparentWidgetTheme);
 
-        habit = habitFixtures.createShortHabit();
+        habit = fixtures.createShortHabit();
         view = new CheckmarkWidgetView(targetContext);
         view.setHabit(habit);
         refreshData(view);

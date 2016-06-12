@@ -19,8 +19,7 @@
 
 package org.isoron.uhabits.models;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A ModelObservable allows objects to subscribe themselves to it and receive

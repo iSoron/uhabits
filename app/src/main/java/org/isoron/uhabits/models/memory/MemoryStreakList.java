@@ -19,14 +19,10 @@
 
 package org.isoron.uhabits.models.memory;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Streak;
-import org.isoron.uhabits.models.StreakList;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class MemoryStreakList extends StreakList
 {
@@ -43,9 +39,8 @@ public class MemoryStreakList extends StreakList
     {
         Streak newest = null;
 
-        for(Streak s : list)
-            if(newest == null || s.getEnd() > newest.getEnd())
-                newest = s;
+        for (Streak s : list)
+            if (newest == null || s.getEnd() > newest.getEnd()) newest = s;
 
         return newest;
     }
@@ -55,8 +50,8 @@ public class MemoryStreakList extends StreakList
     {
         LinkedList<Streak> discard = new LinkedList<>();
 
-        for(Streak s : list)
-            if(s.getEnd() >= timestamp - DateUtils.millisecondsInOneDay)
+        for (Streak s : list)
+            if (s.getEnd() >= timestamp - DateUtils.millisecondsInOneDay)
                 discard.add(s);
 
         list.removeAll(discard);
@@ -64,7 +59,7 @@ public class MemoryStreakList extends StreakList
     }
 
     @Override
-    protected void insert(List<Streak> streaks)
+    protected void add(List<Streak> streaks)
     {
         list.addAll(streaks);
         Collections.sort(list, (s1, s2) -> s2.compareNewer(s1));
@@ -74,7 +69,7 @@ public class MemoryStreakList extends StreakList
     protected void removeNewestComputed()
     {
         Streak newest = getNewestComputed();
-        if(newest != null) list.remove(newest);
+        if (newest != null) list.remove(newest);
     }
 
     @Override

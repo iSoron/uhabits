@@ -53,9 +53,9 @@ public class HabitsCSVExporterTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habitFixtures.purgeHabits(habitList);
-        habitFixtures.createShortHabit();
-        habitFixtures.createEmptyHabit();
+        fixtures.purgeHabits(habitList);
+        fixtures.createShortHabit();
+        fixtures.createEmptyHabit();
 
         Context targetContext = InstrumentationRegistry.getTargetContext();
         baseDir = targetContext.getCacheDir();

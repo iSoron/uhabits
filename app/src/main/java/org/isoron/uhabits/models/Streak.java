@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.models;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.isoron.uhabits.utils.DateUtils;
+import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.utils.*;
 
 public class Streak
 {

@@ -50,7 +50,7 @@ public class EditHabitCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habit = habitFixtures.createShortHabit();
+        habit = fixtures.createShortHabit();
         habit.setName("original");
         habit.setFreqDen(1);
         habit.setFreqNum(1);

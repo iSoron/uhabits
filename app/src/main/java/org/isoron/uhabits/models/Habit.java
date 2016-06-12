@@ -19,17 +19,16 @@
 
 package org.isoron.uhabits.models;
 
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.net.*;
+import android.support.annotation.*;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.utils.DateUtils;
+import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.Locale;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * The thing that the user wants to track.
@@ -105,7 +104,7 @@ public class Habit
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
-        repetitions = factory.buidRepetitionList(this);
+        repetitions = factory.buildRepetitionList(this);
     }
 
     /**
@@ -128,7 +127,7 @@ public class Habit
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
-        repetitions = factory.buidRepetitionList(this);
+        repetitions = factory.buildRepetitionList(this);
     }
 
     /**
@@ -235,7 +234,7 @@ public class Habit
         return freqNum;
     }
 
-    public void setFreqNum(Integer freqNum)
+    public void setFreqNum(@NonNull Integer freqNum)
     {
         this.freqNum = freqNum;
     }
@@ -243,16 +242,18 @@ public class Habit
     /**
      * Not currently used.
      */
+    @NonNull
     public Integer getHighlight()
     {
         return highlight;
     }
 
-    public void setHighlight(Integer highlight)
+    public void setHighlight(@NonNull Integer highlight)
     {
         this.highlight = highlight;
     }
 
+    @Nullable
     public Long getId()
     {
         return id;
@@ -387,7 +388,7 @@ public class Habit
         return archived != 0;
     }
 
-    public void setArchived(Integer archived)
+    public void setArchived(@NonNull Integer archived)
     {
         this.archived = archived;
     }

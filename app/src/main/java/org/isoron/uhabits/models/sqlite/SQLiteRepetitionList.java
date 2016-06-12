@@ -19,64 +19,66 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
+import com.activeandroid.query.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Repetition;
-import org.isoron.uhabits.models.RepetitionList;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Implementation of a {@link RepetitionList} that is backed by SQLite.
  */
 public class SQLiteRepetitionList extends RepetitionList
 {
-    HashMap<Long, Repetition> cache;
-
     public SQLiteRepetitionList(@NonNull Habit habit)
     {
         super(habit);
-        this.cache = new HashMap<>();
     }
 
+    /**
+     * Adds a repetition to the global SQLite database.
+     * <p>
+     * Given a repetition, this creates and saves the corresponding
+     * RepetitionRecord to the database.
+     *
+     * @param rep the repetition to be added
+     */
     @Override
     public void add(Repetition rep)
     {
         RepetitionRecord record = new RepetitionRecord();
         record.copyFrom(rep);
-        long id = record.save();
-        cache.put(id, rep);
+        record.save();
         observable.notifyListeners();
     }
 
     @Override
     public List<Repetition> getByInterval(long timeFrom, long timeTo)
     {
-        return getFromRecord(selectFromTo(timeFrom, timeTo).execute());
+        return toRepetitions(selectFromTo(timeFrom, timeTo).execute());
     }
 
     @Override
+    @Nullable
     public Repetition getByTimestamp(long timestamp)
     {
         RepetitionRecord record =
             select().where("timestamp = ?", timestamp).executeSingle();
-        return getFromRecord(record);
+
+        if (record == null) return null;
+        return record.toRepetition();
     }
 
     @Override
     public Repetition getOldest()
     {
         RepetitionRecord record = select().limit(1).executeSingle();
-        return getFromRecord(record);
+        if (record == null) return null;
+        return record.toRepetition();
     }
 
     @Override
@@ -89,38 +91,6 @@ public class SQLiteRepetitionList extends RepetitionList
             .execute();
 
         observable.notifyListeners();
-    }
-
-    @NonNull
-    private List<Repetition> getFromRecord(
-        @Nullable List<RepetitionRecord> records)
-    {
-        List<Repetition> reps = new LinkedList<>();
-        if (records == null) return reps;
-
-        for (RepetitionRecord record : records)
-        {
-            Repetition rep = getFromRecord(record);
-            reps.add(rep);
-        }
-
-        return reps;
-    }
-
-    @Nullable
-    private Repetition getFromRecord(@Nullable RepetitionRecord record)
-    {
-        if (record == null) return null;
-
-        Long id = record.getId();
-
-        if (!cache.containsKey(id))
-        {
-            Repetition repetition = record.toRepetition();
-            cache.put(id, repetition);
-        }
-
-        return cache.get(id);
     }
 
     @NonNull
@@ -139,5 +109,18 @@ public class SQLiteRepetitionList extends RepetitionList
         return select()
             .and("timestamp >= ?", timeFrom)
             .and("timestamp <= ?", timeTo);
+    }
+
+    @NonNull
+    private List<Repetition> toRepetitions(
+        @Nullable List<RepetitionRecord> records)
+    {
+        List<Repetition> reps = new LinkedList<>();
+        if (records == null) return reps;
+
+        for (RepetitionRecord record : records)
+            reps.add(record.toRepetition());
+
+        return reps;
     }
 }

@@ -25,7 +25,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.commands.ChangeHabitColorCommand;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +50,7 @@ public class ChangeHabitColorCommandTest extends BaseAndroidTest
 
         for(int i = 0; i < 3; i ++)
         {
-            Habit habit = habitFixtures.createShortHabit();
+            Habit habit = fixtures.createShortHabit();
             habit.setColor(i + 1);
             habits.add(habit);
         }

@@ -19,18 +19,14 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import com.opencsv.CSVWriter;
+import com.opencsv.*;
 
-import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * An ordered collection of {@link Habit}s.
@@ -43,7 +39,8 @@ public abstract class HabitList
      * Creates a new HabitList.
      * <p>
      * Depending on the implementation, this list can either be empty or be
-     * populated by some pre-existing habits.
+     * populated by some pre-existing habits, for example, from a certain
+     * database.
      */
     public HabitList()
     {
@@ -52,17 +49,24 @@ public abstract class HabitList
 
     /**
      * Inserts a new habit in the list.
+     * <p>
+     * If the id of the habit is null, the list will assign it a new id, which
+     * is guaranteed to be unique in the scope of the list. If id is not null,
+     * the caller should make sure that the list does not already contain
+     * another habit with same id, otherwise a RuntimeException will be thrown.
      *
      * @param habit the habit to be inserted
+     * @throws IllegalArgumentException if the habit is already on the list.
      */
-    public abstract void add(@NonNull Habit habit);
+    public abstract void add(@NonNull Habit habit)
+        throws IllegalArgumentException;
 
     /**
-     * Returns the total number of unarchived habits.
+     * Returns the total number of active habits.
      *
-     * @return number of unarchived habits
+     * @return number of active habits
      */
-    public abstract int count();
+    public abstract int countActive();
 
     /**
      * Returns the total number of habits, including archived habits.

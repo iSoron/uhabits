@@ -18,15 +18,14 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.view.View;
+import android.app.*;
+import android.content.*;
+import android.view.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.widgets.views.CheckmarkWidgetView;
-import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.widgets.views.*;
 
 public class CheckmarkWidgetProvider extends BaseWidgetProvider
 {
@@ -36,18 +35,6 @@ public class CheckmarkWidgetProvider extends BaseWidgetProvider
         CheckmarkWidgetView view = new CheckmarkWidgetView(context);
         view.setHabit(habit);
         return view;
-    }
-
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitDataView) view).refreshData();
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
-    {
-        return HabitBroadcastReceiver.buildCheckIntent(context, habit, null);
     }
 
     @Override
@@ -66,6 +53,19 @@ public class CheckmarkWidgetProvider extends BaseWidgetProvider
     protected int getLayoutId()
     {
         return R.layout.widget_wrapper;
+    }
+
+    @Override
+    protected PendingIntent getOnClickPendingIntent(Context context,
+                                                    Habit habit)
+    {
+        return HabitBroadcastReceiver.buildCheckIntent(context, habit, null);
+    }
+
+    @Override
+    protected void refreshCustomViewData(View view)
+    {
+        ((HabitDataView) view).refreshData();
     }
 
 

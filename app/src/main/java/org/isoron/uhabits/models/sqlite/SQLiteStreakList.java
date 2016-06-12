@@ -19,20 +19,15 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
+import com.activeandroid.query.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Streak;
-import org.isoron.uhabits.models.StreakList;
-import org.isoron.uhabits.utils.DatabaseUtils;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Implementation of a StreakList that is backed by SQLite.
@@ -61,7 +56,7 @@ public class SQLiteStreakList extends StreakList
     public Streak getNewestComputed()
     {
         StreakRecord newestRecord = getNewestRecord();
-        if(newestRecord == null) return null;
+        if (newestRecord == null) return null;
         return newestRecord.toStreak();
     }
 
@@ -77,19 +72,8 @@ public class SQLiteStreakList extends StreakList
         observable.notifyListeners();
     }
 
-    @Nullable
-    private StreakRecord getNewestRecord()
-    {
-        return new Select()
-            .from(StreakRecord.class)
-            .where("habit = ?", habit.getId())
-            .orderBy("end desc")
-            .limit(1)
-            .executeSingle();
-    }
-
     @Override
-    protected void insert(@NonNull List<Streak> streaks)
+    protected void add(@NonNull List<Streak> streaks)
     {
         DatabaseUtils.executeAsTransaction(() -> {
             for (Streak streak : streaks)
@@ -101,6 +85,24 @@ public class SQLiteStreakList extends StreakList
         });
     }
 
+    @Override
+    protected void removeNewestComputed()
+    {
+        StreakRecord newestStreak = getNewestRecord();
+        if (newestStreak != null) newestStreak.delete();
+    }
+
+    @Nullable
+    private StreakRecord getNewestRecord()
+    {
+        return new Select()
+            .from(StreakRecord.class)
+            .where("habit = ?", habit.getId())
+            .orderBy("end desc")
+            .limit(1)
+            .executeSingle();
+    }
+
     @NonNull
     private List<Streak> recordsToStreaks(List<StreakRecord> records)
     {
@@ -110,12 +112,5 @@ public class SQLiteStreakList extends StreakList
             streaks.add(record.toStreak());
 
         return streaks;
-    }
-
-    @Override
-    protected void removeNewestComputed()
-    {
-        StreakRecord newestStreak = getNewestRecord();
-        if (newestStreak != null) newestStreak.delete();
     }
 }

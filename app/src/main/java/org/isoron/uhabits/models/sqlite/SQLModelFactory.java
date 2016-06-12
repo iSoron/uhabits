@@ -19,13 +19,7 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import org.isoron.uhabits.models.CheckmarkList;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.models.ModelFactory;
-import org.isoron.uhabits.models.RepetitionList;
-import org.isoron.uhabits.models.ScoreList;
-import org.isoron.uhabits.models.StreakList;
+import org.isoron.uhabits.models.*;
 
 /**
  * Factory that provides models backed by an SQLite database.
@@ -33,7 +27,7 @@ import org.isoron.uhabits.models.StreakList;
 public class SQLModelFactory implements ModelFactory
 {
     @Override
-    public RepetitionList buidRepetitionList(Habit habit)
+    public RepetitionList buildRepetitionList(Habit habit)
     {
         return new SQLiteRepetitionList(habit);
     }
@@ -47,7 +41,7 @@ public class SQLModelFactory implements ModelFactory
     @Override
     public HabitList buildHabitList()
     {
-        return new SQLiteHabitList();
+        return SQLiteHabitList.getInstance();
     }
 
     @Override

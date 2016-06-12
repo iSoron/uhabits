@@ -20,16 +20,16 @@
 package org.isoron.uhabits.models;
 
 /**
- * Interface implemented by factories that provide concrete implementations
- * of the core model classes.
+ * Interface implemented by factories that provide concrete implementations of
+ * the core model classes.
  */
 public interface ModelFactory
 {
-    RepetitionList buidRepetitionList(Habit habit);
-
-    HabitList buildHabitList();
+    RepetitionList buildRepetitionList(Habit habit);
 
     CheckmarkList buildCheckmarkList(Habit habit);
+
+    HabitList buildHabitList();
 
     ScoreList buildScoreList(Habit habit);
 

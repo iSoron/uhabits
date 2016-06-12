@@ -19,22 +19,20 @@
 
 package org.isoron.uhabits.unit.commands;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.commands.DeleteHabitsCommand;
-import org.isoron.uhabits.models.Habit;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.junit.*;
+import org.junit.rules.*;
+import org.junit.runner.*;
 
-import java.util.LinkedList;
+import java.util.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -53,18 +51,18 @@ public class DeleteHabitsCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habitFixtures.purgeHabits(habitList);
+        fixtures.purgeHabits(habitList);
         habits = new LinkedList<>();
 
         // Habits that should be deleted
         for (int i = 0; i < 3; i++)
         {
-            Habit habit = habitFixtures.createShortHabit();
+            Habit habit = fixtures.createShortHabit();
             habits.add(habit);
         }
 
         // Extra habit that should not be deleted
-        Habit extraHabit = habitFixtures.createShortHabit();
+        Habit extraHabit = fixtures.createShortHabit();
         extraHabit.setName("extra");
 
         command = new DeleteHabitsCommand(habits);

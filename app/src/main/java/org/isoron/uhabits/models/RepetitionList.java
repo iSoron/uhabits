@@ -19,15 +19,12 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * The collection of {@link Repetition}s belonging to a habit.
@@ -72,15 +69,16 @@ public abstract class RepetitionList
     /**
      * Returns the list of repetitions that happened within the given time
      * interval.
-     *
-     * The list is sorted by timestamp in decreasing order. That is, the first
-     * element corresponds to the most recent timestamp. The endpoints of the
-     * interval are included.
+     * <p>
+     * The list is sorted by timestamp in increasing order. That is, the first
+     * element corresponds to oldest timestamp, while the last element
+     * corresponds to the newest. The endpoints of the interval are included.
      *
      * @param fromTimestamp timestamp of the beginning of the interval
      * @param toTimestamp   timestamp of the end of the interval
      * @return list of repetitions within given time interval
      */
+    // TODO: Change order timestamp desc
     public abstract List<Repetition> getByInterval(long fromTimestamp,
                                                    long toTimestamp);
 

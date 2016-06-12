@@ -19,25 +19,17 @@
 
 package org.isoron.uhabits.utils;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.support.annotation.NonNull;
+import android.content.*;
+import android.database.*;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Cache;
-import com.activeandroid.Configuration;
+import com.activeandroid.*;
 
-import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.sqlite.CheckmarkRecord;
-import org.isoron.uhabits.models.sqlite.HabitRecord;
-import org.isoron.uhabits.models.sqlite.RepetitionRecord;
-import org.isoron.uhabits.models.sqlite.ScoreRecord;
-import org.isoron.uhabits.models.sqlite.StreakRecord;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.sqlite.records.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.io.*;
+import java.text.*;
 
 public abstract class DatabaseUtils
 {

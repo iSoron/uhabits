@@ -23,7 +23,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.commands.CreateHabitCommand;
 import org.isoron.uhabits.models.Habit;
 import org.junit.Before;
@@ -54,7 +53,7 @@ public class CreateHabitCommandTest extends BaseAndroidTest
         model.setName("New habit");
         command = new CreateHabitCommand(model);
 
-        habitFixtures.purgeHabits(habitList);
+        fixtures.purgeHabits(habitList);
     }
 
     @Test

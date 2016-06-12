@@ -47,7 +47,7 @@ public class UnarchiveHabitsCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        habit = habitFixtures.createShortHabit();
+        habit = fixtures.createShortHabit();
         habit.setArchived(1);
         habitList.update(habit);
 

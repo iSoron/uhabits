@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.models;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.*;
 
 /**
  * A Checkmark represents the completion status of the habit for a given day.
@@ -60,6 +60,11 @@ public class Checkmark
         this.habit = habit;
         this.timestamp = timestamp;
         this.value = value;
+    }
+
+    public int compareNewer(Checkmark other)
+    {
+        return Long.signum(this.getTimestamp() - other.getTimestamp());
     }
 
     public Habit getHabit()

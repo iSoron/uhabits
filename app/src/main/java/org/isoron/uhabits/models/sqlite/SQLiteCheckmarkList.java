@@ -19,20 +19,17 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.database.sqlite.*;
+import android.support.annotation.*;
 
-import com.activeandroid.Cache;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
+import com.activeandroid.*;
+import com.activeandroid.query.*;
 
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.CheckmarkList;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
+
+import java.util.*;
 
 /**
  * Implementation of a {@link CheckmarkList} that is backed by SQLite.
@@ -42,6 +39,47 @@ public class SQLiteCheckmarkList extends CheckmarkList
     public SQLiteCheckmarkList(Habit habit)
     {
         super(habit);
+    }
+
+    @Override
+    public void add(List<Checkmark> checkmarks)
+    {
+        String query =
+            "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
+
+        SQLiteDatabase db = Cache.openDatabase();
+        db.beginTransaction();
+        try
+        {
+            SQLiteStatement statement = db.compileStatement(query);
+
+            for (Checkmark c : checkmarks)
+            {
+                statement.bindLong(1, habit.getId());
+                statement.bindLong(2, c.getTimestamp());
+                statement.bindLong(3, c.getValue());
+                statement.execute();
+            }
+
+            db.setTransactionSuccessful();
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+
+    @Override
+    public List<Checkmark> getByInterval(long fromTimestamp, long toTimestamp)
+    {
+        computeAll();
+
+        List<CheckmarkRecord> records = select()
+            .and("timestamp >= ?", fromTimestamp)
+            .and("timestamp <= ?", toTimestamp)
+            .execute();
+
+        return toCheckmarks(records);
     }
 
     @Override
@@ -57,84 +95,29 @@ public class SQLiteCheckmarkList extends CheckmarkList
     }
 
     @Override
-    @NonNull
-    public int[] getValues(long fromTimestamp, long toTimestamp)
-    {
-        compute(fromTimestamp, toTimestamp);
-
-        if (fromTimestamp > toTimestamp) return new int[0];
-
-        String query = "select value, timestamp from Checkmarks where " +
-                       "habit = ? and timestamp >= ? and timestamp <= ?";
-
-        SQLiteDatabase db = Cache.openDatabase();
-        String args[] = {
-            habit.getId().toString(),
-            Long.toString(fromTimestamp),
-            Long.toString(toTimestamp)
-        };
-        Cursor cursor = db.rawQuery(query, args);
-
-        long day = DateUtils.millisecondsInOneDay;
-        int nDays = (int) ((toTimestamp - fromTimestamp) / day) + 1;
-        int[] checks = new int[nDays];
-
-        if (cursor.moveToFirst())
-        {
-            do
-            {
-                long timestamp = cursor.getLong(1);
-                int offset = (int) ((timestamp - fromTimestamp) / day);
-                checks[nDays - offset - 1] = cursor.getInt(0);
-
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return checks;
-    }
-
-    @Override
     @Nullable
-    protected Checkmark getNewest()
+    protected Checkmark getNewestComputed()
     {
-        CheckmarkRecord record = new Select()
-            .from(CheckmarkRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp <= ?", DateUtils.getStartOfToday())
-            .orderBy("timestamp desc")
-            .limit(1)
-            .executeSingle();
-
-        if(record == null) return null;
+        CheckmarkRecord record = select().limit(1).executeSingle();
+        if (record == null) return null;
         return record.toCheckmark();
     }
 
-    @Override
-    protected void insert(long timestamps[], int values[])
+    @NonNull
+    private From select()
     {
-        String query =
-            "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
+        return new Select()
+            .from(CheckmarkRecord.class)
+            .where("habit = ?", habit.getId())
+            .and("timestamp <= ?", DateUtils.getStartOfToday())
+            .orderBy("timestamp desc");
+    }
 
-        SQLiteDatabase db = Cache.openDatabase();
-        db.beginTransaction();
-        try
-        {
-            SQLiteStatement statement = db.compileStatement(query);
-
-            for (int i = 0; i < timestamps.length; i++)
-            {
-                statement.bindLong(1, habit.getId());
-                statement.bindLong(2, timestamps[i]);
-                statement.bindLong(3, values[i]);
-                statement.execute();
-            }
-
-            db.setTransactionSuccessful();
-        }
-        finally
-        {
-            db.endTransaction();
-        }
+    @NonNull
+    private List<Checkmark> toCheckmarks(@NonNull List<CheckmarkRecord> records)
+    {
+        List<Checkmark> checkmarks = new LinkedList<>();
+        for (CheckmarkRecord r : records) checkmarks.add(r.toCheckmark());
+        return checkmarks;
     }
 }

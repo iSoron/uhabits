@@ -20,6 +20,7 @@
 package org.isoron.uhabits.models;
 
 import org.isoron.uhabits.BaseUnitTest;
+import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.DateUtils;
 import org.junit.Test;
 
