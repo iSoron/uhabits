@@ -59,10 +59,10 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     }
 
     @Override
-    public void onDestroy()
+    public void onFinish()
     {
         if (adapter != null) adapter.clearSelection();
-        super.onDestroy();
+        super.onFinish();
     }
 
     @Override

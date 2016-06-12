@@ -17,20 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.tasks;
-
 /**
- * Simple progress bar, used to indicate the progress of a task.
+ * Provides classes that represent rows in the SQLite database.
  */
-public interface ProgressBar
-{
-    /**
-     * Shows the progress bar.
-     */
-    void show();
-
-    /**
-     * Hides the progress bar.
-     */
-    void hide();
-}
+package org.isoron.uhabits.models.sqlite.records;

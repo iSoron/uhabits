@@ -19,26 +19,30 @@
 
 package org.isoron.uhabits.ui;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatDialogFragment;
+import android.content.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import android.net.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import org.isoron.uhabits.tasks.ProgressBar;
-import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
+import java.io.*;
 
+/**
+ * Base class for all screens in the application.
+ * <p>
+ * Screens are responsible for deciding what root views and what menus should be
+ * attached to the main window. They are also responsible for showing other
+ * screens and for receiving their results.
+ */
 public abstract class BaseScreen
 {
     protected BaseActivity activity;
@@ -56,34 +60,72 @@ public abstract class BaseScreen
         this.activity = activity;
     }
 
+    /**
+     * Ends the current selection operation.
+     */
     public void finishSelection()
     {
         if (selectionMenu == null) return;
         selectionMenu.finish();
     }
 
+    /**
+     * Returns the progress bar that is currently visible on the screen.
+     * <p>
+     * If the root view attached to the screen does not provide any progress
+     * bars, returns null.
+     *
+     * @return current progress bar, or null if there are none.
+     */
     @Nullable
     public ProgressBar getProgressBar()
     {
         if (rootView == null) return null;
-        return new ProgressBarWrapper(rootView.getProgressBar());
+        return new AndroidProgressBar(rootView.getProgressBar());
     }
 
+    /**
+     * Notifies the screen that its contents should be updated.
+     */
     public void invalidate()
     {
         if (rootView == null) return;
         rootView.invalidate();
     }
 
+    /**
+     * Called when another Activity has finished, and has returned some result.
+     *
+     * @param requestCode the request code originally supplied to {@link
+     *                    android.app.Activity#startActivityForResult(Intent,
+     *                    int, Bundle)}.
+     * @param resultCode  the result code sent by the other activity.
+     * @param data        an Intent containing extra data sent by the other
+     *                    activity.
+     * @see {@link android.app.Activity#onActivityResult(int, int, Intent)}
+     */
     public void onResult(int requestCode, int resultCode, Intent data)
     {
     }
 
+    /**
+     * Sets the menu to be shown by this screen.
+     * <p>
+     * This menu will be visible if when there is no active selection operation.
+     * If the provided menu is null, then no menu will be shown.
+     *
+     * @param menu the menu to be shown.
+     */
     public void setMenu(@Nullable BaseMenu menu)
     {
         activity.setBaseMenu(menu);
     }
 
+    /**
+     * Sets the root view for this screen.
+     *
+     * @param rootView the root view for this screen.
+     */
     public void setRootView(@Nullable BaseRootView rootView)
     {
         this.rootView = rootView;
@@ -94,7 +136,7 @@ public abstract class BaseScreen
     }
 
     /**
-     * Set the menu to be shown when a selection is active on the screen.
+     * Sets the menu to be shown when a selection is active on the screen.
      *
      * @param menu the menu to be shown during a selection
      */
@@ -103,6 +145,11 @@ public abstract class BaseScreen
         this.selectionMenu = menu;
     }
 
+    /**
+     * Shows a message on the screen.
+     *
+     * @param stringId the string resource id for this message.
+     */
     public void showMessage(@Nullable Integer stringId)
     {
         if (stringId == null) return;
@@ -134,12 +181,19 @@ public abstract class BaseScreen
     }
 
     /**
-     * Instructs the screen to start a selection. If a selection menu was
-     * provided, this menu will be shown instead of the regular one.
+     * Instructs the screen to start a selection.
+     * <p>
+     * If a selection menu was provided, this menu will be shown instead of the
+     * regular one.
      */
     public void startSelection()
     {
         activity.startSupportActionMode(new ActionModeWrapper());
+    }
+
+    protected void showDialog(AppCompatDialogFragment dialog, String tag)
+    {
+        dialog.show(activity.getSupportFragmentManager(), tag);
     }
 
     private void initToolbar()
@@ -174,11 +228,6 @@ public abstract class BaseScreen
         }
     }
 
-    protected void showDialog(AppCompatDialogFragment dialog, String tag)
-    {
-        dialog.show(activity.getSupportFragmentManager(), tag);
-    }
-
     private class ActionModeWrapper implements ActionMode.Callback
     {
         @Override
@@ -203,7 +252,7 @@ public abstract class BaseScreen
         public void onDestroyActionMode(@Nullable ActionMode mode)
         {
             if (selectionMenu == null) return;
-            selectionMenu.onDestroy();
+            selectionMenu.onFinish();
         }
 
         @Override

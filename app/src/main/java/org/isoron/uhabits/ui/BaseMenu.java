@@ -19,11 +19,18 @@
 
 package org.isoron.uhabits.ui;
 
-import android.support.annotation.NonNull;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.annotation.*;
+import android.view.*;
 
+import javax.annotation.*;
+
+/**
+ * Base class for all the menus in the application.
+ * <p>
+ * This class receives from BaseActivity all callbacks related to menus, such as
+ * menu creation and click events. It also handles some implementation details
+ * of creating menus in Android, such as inflating the resources.
+ */
 public abstract class BaseMenu
 {
     private final BaseActivity activity;
@@ -33,28 +40,59 @@ public abstract class BaseMenu
         this.activity = activity;
     }
 
-    public final boolean onCreate(@NonNull MenuInflater inflater,
-                                  @NonNull Menu menu)
+    /**
+     * Declare that the menu has changed, and should be recreated.
+     */
+    public void invalidate()
     {
-        menu.clear();
-        inflater.inflate(getMenuResourceId(), menu);
-        onCreate(menu);
-        return true;
+        activity.invalidateOptionsMenu();
     }
 
+    /**
+     * Called when the menu is first displayed.
+     * <p>
+     * The given menu is already inflated and ready to receive items. The
+     * application should override this method and add items to the menu here.
+     *
+     * @param menu the menu that is being created.
+     */
     public void onCreate(@NonNull Menu menu)
     {
     }
 
+    /**
+     * Called when the menu is first displayed.
+     * <p>
+     * This method cannot be overridden. The application should override the
+     * methods onCreate(Menu) and getMenuResourceId instead.
+     *
+     * @param inflater a menu inflater, for creating the menu
+     * @param menu     the menu that is being created.
+     */
+    public final void onCreate(@NonNull MenuInflater inflater,
+                               @NonNull Menu menu)
+    {
+        menu.clear();
+        inflater.inflate(getMenuResourceId(), menu);
+        onCreate(menu);
+    }
+
+    /**
+     * Called whenever an item on the menu is selected.
+     *
+     * @param item the item that was selected.
+     * @return true if the event was consumed, or false otherwise
+     */
     public boolean onItemSelected(@NonNull MenuItem item)
     {
         return true;
     }
 
+    /**
+     * Returns the id of the resource that should be used to inflate this menu.
+     *
+     * @return id of the menu resource.
+     */
+    @Resource
     protected abstract int getMenuResourceId();
-
-    public void invalidate()
-    {
-        activity.invalidateOptionsMenu();
-    }
 }

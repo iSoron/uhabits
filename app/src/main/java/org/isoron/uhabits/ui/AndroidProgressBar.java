@@ -19,17 +19,26 @@
 
 package org.isoron.uhabits.ui;
 
-import android.view.View;
+import android.view.*;
 
-import org.isoron.uhabits.tasks.ProgressBar;
+import org.isoron.uhabits.tasks.*;
 
-public class ProgressBarWrapper implements ProgressBar
+/**
+ * Android implementation of {@link ProgressBar}.
+ */
+public class AndroidProgressBar implements ProgressBar
 {
     private final android.widget.ProgressBar progressBar;
 
-    public ProgressBarWrapper(android.widget.ProgressBar progressBar)
+    public AndroidProgressBar(android.widget.ProgressBar progressBar)
     {
         this.progressBar = progressBar;
+    }
+
+    @Override
+    public void hide()
+    {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -37,11 +46,5 @@ public class ProgressBarWrapper implements ProgressBar
     {
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hide()
-    {
-        progressBar.setVisibility(View.GONE);
     }
 }

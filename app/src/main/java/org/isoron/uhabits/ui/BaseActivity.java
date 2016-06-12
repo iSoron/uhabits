@@ -19,17 +19,25 @@
 
 package org.isoron.uhabits.ui;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
+import android.view.*;
 
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.utils.*;
 
 /**
  * Base class for all activities in the application.
+ * <p>
+ * This class delegates the responsibilities of an Android activity to other
+ * classes. For example, callbacks related to menus are forwarded to a {@link
+ * BaseMenu}, while callbacks related to activity results are forwarded to a
+ * {@link BaseScreen}.
+ * <p>
+ * A BaseActivity also installs an {@link java.lang.Thread.UncaughtExceptionHandler}
+ * to the main thread that logs the exception to the disk before the application
+ * crashes.
  */
 abstract public class BaseActivity extends AppCompatActivity
     implements Thread.UncaughtExceptionHandler
@@ -48,7 +56,8 @@ abstract public class BaseActivity extends AppCompatActivity
     {
         if (menu == null) return false;
         if (baseMenu == null) return false;
-        return baseMenu.onCreate(getMenuInflater(), menu);
+        baseMenu.onCreate(getMenuInflater(), menu);
+        return true;
     }
 
     @Override
@@ -79,7 +88,8 @@ abstract public class BaseActivity extends AppCompatActivity
         {
             ex.printStackTrace();
             new BaseSystem(this).dumpBugReportToFile();
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             // ignored
         }

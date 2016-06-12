@@ -259,7 +259,7 @@ public class Habit
         return id;
     }
 
-    public void setId(Long id)
+    public void setId(@Nullable Long id)
     {
         this.id = id;
     }
@@ -267,12 +267,13 @@ public class Habit
     /**
      * Name of the habit
      */
+    @NonNull
     public String getName()
     {
         return name;
     }
 
-    public void setName(String name)
+    public void setName(@NonNull String name)
     {
         this.name = name;
     }
