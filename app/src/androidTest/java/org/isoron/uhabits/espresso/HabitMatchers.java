@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui;
+package org.isoron.uhabits.espresso;
 
 import android.preference.Preference;
 import android.view.View;

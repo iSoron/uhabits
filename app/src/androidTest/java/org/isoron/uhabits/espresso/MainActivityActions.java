@@ -17,11 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui;
+package org.isoron.uhabits.espresso;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import org.hamcrest.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.sqlite.records.HabitRecord;
 
@@ -53,8 +54,6 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
-import static org.isoron.uhabits.ui.HabitMatchers.containsHabit;
-import static org.isoron.uhabits.ui.HabitMatchers.withName;
 
 public class MainActivityActions
 {
@@ -93,7 +92,8 @@ public class MainActivityActions
         onView(withId(R.id.buttonSave))
                 .perform(click());
 
-        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+        onData(
+            Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                 .onChildView(withId(R.id.label));
 
         return name;
@@ -135,7 +135,8 @@ public class MainActivityActions
         boolean first = true;
         for(String name : names)
         {
-            onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+            onData(
+                Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                     .onChildView(withId(R.id.label))
                     .perform(first ? longClick() : click());
 
@@ -147,7 +148,8 @@ public class MainActivityActions
     {
         for(String name : names)
             onView(withId(R.id.listView))
-                    .check(matches(not(containsHabit(withName(name)))));
+                    .check(matches(Matchers.not(
+                        HabitMatchers.containsHabit(HabitMatchers.withName(name)))));
     }
 
     public static void assertHabitExists(String name)
@@ -160,7 +162,8 @@ public class MainActivityActions
     public static void assertHabitsExist(List<String> names)
     {
         for(String name : names)
-            onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+            onData(
+                Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                     .check(matches(isDisplayed()));
     }
 

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui;
+package org.isoron.uhabits.espresso;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -29,6 +29,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import org.hamcrest.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.sqlite.records.HabitRecord;
 import org.isoron.uhabits.utils.DateUtils;
@@ -67,21 +68,20 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
-import static org.isoron.uhabits.ui.HabitMatchers.withName;
-import static org.isoron.uhabits.ui.HabitViewActions.clickAtRandomLocations;
-import static org.isoron.uhabits.ui.HabitViewActions.toggleAllCheckmarks;
-import static org.isoron.uhabits.ui.MainActivityActions.addHabit;
-import static org.isoron.uhabits.ui.MainActivityActions.assertHabitExists;
-import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsDontExist;
-import static org.isoron.uhabits.ui.MainActivityActions.assertHabitsExist;
-import static org.isoron.uhabits.ui.MainActivityActions.clickMenuItem;
-import static org.isoron.uhabits.ui.MainActivityActions.clickSettingsItem;
-import static org.isoron.uhabits.ui.MainActivityActions.deleteHabit;
-import static org.isoron.uhabits.ui.MainActivityActions.deleteHabits;
-import static org.isoron.uhabits.ui.MainActivityActions.selectHabit;
-import static org.isoron.uhabits.ui.MainActivityActions.selectHabits;
-import static org.isoron.uhabits.ui.MainActivityActions.typeHabitData;
-import static org.isoron.uhabits.ui.ShowHabitActivityActions.openHistoryEditor;
+import static org.isoron.uhabits.espresso.HabitViewActions.clickAtRandomLocations;
+import static org.isoron.uhabits.espresso.HabitViewActions.toggleAllCheckmarks;
+import static org.isoron.uhabits.espresso.MainActivityActions.addHabit;
+import static org.isoron.uhabits.espresso.MainActivityActions.assertHabitExists;
+import static org.isoron.uhabits.espresso.MainActivityActions.assertHabitsDontExist;
+import static org.isoron.uhabits.espresso.MainActivityActions.assertHabitsExist;
+import static org.isoron.uhabits.espresso.MainActivityActions.clickMenuItem;
+import static org.isoron.uhabits.espresso.MainActivityActions.clickSettingsItem;
+import static org.isoron.uhabits.espresso.MainActivityActions.deleteHabit;
+import static org.isoron.uhabits.espresso.MainActivityActions.deleteHabits;
+import static org.isoron.uhabits.espresso.MainActivityActions.selectHabit;
+import static org.isoron.uhabits.espresso.MainActivityActions.selectHabits;
+import static org.isoron.uhabits.espresso.MainActivityActions.typeHabitData;
+import static org.isoron.uhabits.espresso.ShowHabitActivityActions.openHistoryEditor;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -190,13 +190,15 @@ public class MainTest
     {
         String name = addHabit(true);
 
-        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+        onData(
+            Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                 .onChildView(withId(R.id.checkmarkPanel))
                 .perform(toggleAllCheckmarks());
 
         Thread.sleep(1200);
 
-        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+        onData(
+            Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(click());
 
@@ -217,7 +219,8 @@ public class MainTest
     {
         String name = addHabit();
 
-        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+        onData(
+            Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(longClick());
 
@@ -247,7 +250,8 @@ public class MainTest
     {
         String name = addHabit();
 
-        onData(allOf(is(instanceOf(HabitRecord.class)), withName(name)))
+        onData(
+            Matchers.allOf(is(instanceOf(HabitRecord.class)), HabitMatchers.withName(name)))
                 .onChildView(withId(R.id.label))
                 .perform(click());
 

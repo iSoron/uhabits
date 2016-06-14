@@ -17,16 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.views;
+package org.isoron.uhabits.widgets.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.widgets.views.CheckmarkWidgetView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +34,7 @@ import java.io.IOException;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class CheckmarkWidgetViewTest extends ViewTest
+public class CheckmarkWidgetViewTest extends BaseViewTest
 {
     private CheckmarkWidgetView view;
 

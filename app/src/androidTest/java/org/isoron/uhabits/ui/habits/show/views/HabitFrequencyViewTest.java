@@ -17,24 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.show.views.HabitStreakView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitStreakViewTest extends ViewTest
+public class HabitFrequencyViewTest extends BaseViewTest
 {
-    private HabitStreakView view;
+    private HabitFrequencyView view;
 
-    @Override
     @Before
     public void setUp()
     {
@@ -43,32 +42,38 @@ public class HabitStreakViewTest extends ViewTest
         fixtures.purgeHabits(habitList);
         Habit habit = fixtures.createLongHabit();
 
-        view = new HabitStreakView(targetContext);
-        measureView(dpToPixels(300), dpToPixels(100), view);
-
+        view = new HabitFrequencyView(targetContext);
         view.setHabit(habit);
         refreshData(view);
+        measureView(dpToPixels(300), dpToPixels(100), view);
     }
 
     @Test
     public void testRender() throws Throwable
     {
-        assertRenders(view, "HabitStreakView/render.png");
+        assertRenders(view, "HabitFrequencyView/render.png");
     }
 
     @Test
-    public void testRender_withSmallSize() throws Throwable
+    public void testRender_withDataOffset() throws Throwable
     {
-        measureView(dpToPixels(100), dpToPixels(100), view);
-        refreshData(view);
+        view.onScroll(null, null, -dpToPixels(150), 0);
+        view.invalidate();
 
-        assertRenders(view, "HabitStreakView/renderSmallSize.png");
+        assertRenders(view, "HabitFrequencyView/renderDataOffset.png");
+    }
+
+    @Test
+    public void testRender_withDifferentSize() throws Throwable
+    {
+        measureView(dpToPixels(200), dpToPixels(200), view);
+        assertRenders(view, "HabitFrequencyView/renderDifferentSize.png");
     }
 
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
         view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitStreakView/renderTransparent.png");
+        assertRenders(view, "HabitFrequencyView/renderTransparent.png");
     }
 }

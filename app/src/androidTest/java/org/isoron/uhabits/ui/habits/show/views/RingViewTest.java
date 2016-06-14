@@ -17,14 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.ui.habits.show.views.RingView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ import java.io.IOException;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class RingViewTest extends ViewTest
+public class RingViewTest extends BaseViewTest
 {
     private RingView view;
 

@@ -17,14 +17,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.tasks;
+package org.isoron.uhabits.tasks;
 
 import android.support.annotation.NonNull;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.tasks.ImportDataTask;
 import org.isoron.uhabits.utils.FileUtils;
 import org.junit.Before;
 import org.junit.Test;

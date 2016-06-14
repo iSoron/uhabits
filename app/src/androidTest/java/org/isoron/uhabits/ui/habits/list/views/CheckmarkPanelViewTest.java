@@ -17,15 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.ui.habits.list.view;
+package org.isoron.uhabits.ui.habits.list.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.views.CheckmarkPanelView;
-import org.isoron.uhabits.unit.views.ViewTest;
+import org.isoron.uhabits.BaseViewTest;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +34,7 @@ import java.util.concurrent.CountDownLatch;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class CheckmarkPanelViewTest extends ViewTest
+public class CheckmarkPanelViewTest extends BaseViewTest
 {
     public static final String PATH = "ui/habits/list/CheckmarkPanelView/";
 

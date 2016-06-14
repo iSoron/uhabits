@@ -17,14 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitHistoryViewTest extends ViewTest
+public class HabitHistoryViewTest extends BaseViewTest
 {
     private Habit habit;
 

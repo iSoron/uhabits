@@ -17,21 +17,21 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.views;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.show.views.HabitScoreView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitScoreViewTest extends ViewTest
+public class HabitScoreViewTest extends BaseViewTest
 {
     private Habit habit;
 

@@ -17,22 +17,20 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit;
+package org.isoron.uhabits;
 
-import android.os.Build;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.os.*;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.ui.BaseSystem;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.ui.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.IOException;
+import java.io.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest

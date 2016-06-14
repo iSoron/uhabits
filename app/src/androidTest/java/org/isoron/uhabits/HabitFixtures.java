@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit;
+package org.isoron.uhabits;
 
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.HabitList;

@@ -26,7 +26,6 @@ import android.support.test.InstrumentationRegistry;
 
 import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.unit.HabitFixtures;
 import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;
 import org.isoron.uhabits.utils.Preferences;

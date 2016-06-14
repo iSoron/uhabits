@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.io;
+package org.isoron.uhabits.io;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -25,7 +25,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.io.HabitsCSVExporter;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.utils.FileUtils;
 import org.junit.Before;
