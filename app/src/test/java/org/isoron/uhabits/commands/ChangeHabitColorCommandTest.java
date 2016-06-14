@@ -17,30 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.commands;
+package org.isoron.uhabits.commands;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.junit.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.commands.ChangeHabitColorCommand;
-import org.isoron.uhabits.models.Habit;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.*;
 
-import java.util.LinkedList;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class ChangeHabitColorCommandTest extends BaseAndroidTest
+public class ChangeHabitColorCommandTest extends BaseUnitTest
 {
     private ChangeHabitColorCommand command;
+
     private LinkedList<Habit> habits;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -48,7 +42,7 @@ public class ChangeHabitColorCommandTest extends BaseAndroidTest
 
         habits = new LinkedList<>();
 
-        for(int i = 0; i < 3; i ++)
+        for (int i = 0; i < 3; i++)
         {
             Habit habit = fixtures.createShortHabit();
             habit.setColor(i + 1);
@@ -73,16 +67,16 @@ public class ChangeHabitColorCommandTest extends BaseAndroidTest
         checkNewColors();
     }
 
+    private void checkNewColors()
+    {
+        for (Habit h : habits)
+            assertThat(h.getColor(), equalTo(0));
+    }
+
     private void checkOriginalColors()
     {
         int k = 0;
-        for(Habit h : habits)
+        for (Habit h : habits)
             assertThat(h.getColor(), equalTo(++k));
-    }
-
-    private void checkNewColors()
-    {
-        for(Habit h : habits)
-            assertThat(h.getColor(), equalTo(0));
     }
 }

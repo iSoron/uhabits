@@ -17,26 +17,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.commands;
-
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
+package org.isoron.uhabits.commands;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.junit.*;
 import org.junit.rules.*;
-import org.junit.runner.*;
 
 import java.util.*;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class DeleteHabitsCommandTest extends BaseAndroidTest
+public class DeleteHabitsCommandTest extends BaseUnitTest
 {
     private DeleteHabitsCommand command;
 
@@ -51,7 +44,7 @@ public class DeleteHabitsCommandTest extends BaseAndroidTest
     {
         super.setUp();
 
-        fixtures.purgeHabits(habitList);
+        fixtures.purgeHabits();
         habits = new LinkedList<>();
 
         // Habits that should be deleted

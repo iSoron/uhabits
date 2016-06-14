@@ -17,31 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.commands;
+package org.isoron.uhabits.commands;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static junit.framework.Assert.*;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class ToggleRepetitionCommandTest extends BaseAndroidTest
+public class ToggleRepetitionCommandTest extends BaseUnitTest
 {
 
     private ToggleRepetitionCommand command;
     private Habit habit;
     private long today;
 
+    @Override
     @Before
     public void setUp()
     {

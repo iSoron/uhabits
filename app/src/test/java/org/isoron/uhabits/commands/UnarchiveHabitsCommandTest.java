@@ -17,52 +17,46 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.commands;
+package org.isoron.uhabits.commands;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.junit.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.commands.ArchiveHabitsCommand;
-import org.isoron.uhabits.models.Habit;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.*;
 
-import java.util.Collections;
+import static junit.framework.Assert.*;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class ArchiveHabitsCommandTest extends BaseAndroidTest
+public class UnarchiveHabitsCommandTest extends BaseUnitTest
 {
-
-    private ArchiveHabitsCommand command;
+    private UnarchiveHabitsCommand command;
     private Habit habit;
 
+    @Override
     @Before
     public void setUp()
     {
         super.setUp();
 
         habit = fixtures.createShortHabit();
-        command = new ArchiveHabitsCommand(Collections.singletonList(habit));
+        habit.setArchived(1);
+        habitList.update(habit);
+
+        command = new UnarchiveHabitsCommand(Collections.singletonList(habit));
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertFalse(habit.isArchived());
+        assertTrue(habit.isArchived());
 
         command.execute();
-        assertTrue(habit.isArchived());
+        assertFalse(habit.isArchived());
 
         command.undo();
-        assertFalse(habit.isArchived());
+        assertTrue(habit.isArchived());
 
         command.execute();
-        assertTrue(habit.isArchived());
+        assertFalse(habit.isArchived());
     }
 }

@@ -17,33 +17,26 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.commands;
+package org.isoron.uhabits.commands;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.junit.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.commands.CreateHabitCommand;
-import org.isoron.uhabits.models.Habit;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.*;
 
-import java.util.List;
+import static junit.framework.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class CreateHabitCommandTest extends BaseAndroidTest
+public class CreateHabitCommandTest extends BaseUnitTest
 {
 
     private CreateHabitCommand command;
 
     private Habit model;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -52,8 +45,7 @@ public class CreateHabitCommandTest extends BaseAndroidTest
         model = new Habit();
         model.setName("New habit");
         command = new CreateHabitCommand(model);
-
-        fixtures.purgeHabits(habitList);
+        fixtures.purgeHabits();
     }
 
     @Test
@@ -82,4 +74,6 @@ public class CreateHabitCommandTest extends BaseAndroidTest
         assertThat(id, equalTo(newId));
         assertThat(habit.getName(), equalTo(model.getName()));
     }
+
+
 }

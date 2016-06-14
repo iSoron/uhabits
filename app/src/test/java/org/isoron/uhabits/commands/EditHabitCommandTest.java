@@ -17,25 +17,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.unit.commands;
+package org.isoron.uhabits.commands;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.junit.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.commands.EditHabitCommand;
-import org.isoron.uhabits.models.Habit;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-
-@RunWith(AndroidJUnit4.class)
-@SmallTest
-public class EditHabitCommandTest extends BaseAndroidTest
+public class EditHabitCommandTest extends BaseUnitTest
 {
 
     private EditHabitCommand command;
