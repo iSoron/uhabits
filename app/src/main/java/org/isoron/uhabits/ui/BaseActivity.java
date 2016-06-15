@@ -54,8 +54,8 @@ abstract public class BaseActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(@Nullable Menu menu)
     {
-        if (menu == null) return false;
-        if (baseMenu == null) return false;
+        if (menu == null) return true;
+        if (baseMenu == null) return true;
         baseMenu.onCreate(getMenuInflater(), menu);
         return true;
     }
