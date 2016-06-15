@@ -75,7 +75,7 @@ public class ListHabitsScreen extends BaseScreen
         HabitCardListAdapter adapter = new HabitCardListAdapter(
             ListHabitsRootView.MAX_CHECKMARK_COUNT);
         rootView.setListAdapter(adapter);
-        selectionMenu.setAdapter(adapter);
+        selectionMenu.setListAdapter(adapter);
     }
 
     @Override

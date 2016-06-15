@@ -19,26 +19,19 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.*;
+import android.view.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.ArchiveHabitsCommand;
-import org.isoron.uhabits.commands.ChangeHabitColorCommand;
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.commands.DeleteHabitsCommand;
-import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.BaseSelectionMenu;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardListController;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
 
-import java.util.List;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 public class ListHabitsSelectionMenu extends BaseSelectionMenu
     implements HabitCardListController.SelectionListener
@@ -50,7 +43,10 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     CommandRunner commandRunner;
 
     @Nullable
-    private HabitCardListAdapter adapter;
+    private HabitCardListAdapter listAdapter;
+
+    @Nullable
+    private HabitCardListController listController;
 
     public ListHabitsSelectionMenu(@NonNull ListHabitsScreen screen)
     {
@@ -61,16 +57,16 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Override
     public void onFinish()
     {
-        if (adapter != null) adapter.clearSelection();
+        if (listController != null) listController.onSelectionFinished();
         super.onFinish();
     }
 
     @Override
     public boolean onItemClicked(@NonNull MenuItem item)
     {
-        if (adapter == null) return false;
+        if (listAdapter == null) return false;
 
-        List<Habit> selected = adapter.getSelected();
+        List<Habit> selected = listAdapter.getSelected();
         if (selected.isEmpty()) return false;
 
         Habit firstHabit = selected.get(0);
@@ -108,8 +104,8 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Override
     public boolean onPrepare(@NonNull Menu menu)
     {
-        if (adapter == null) return false;
-        List<Habit> selected = adapter.getSelected();
+        if (listAdapter == null) return false;
+        List<Habit> selected = listAdapter.getSelected();
 
         boolean showEdit = (selected.size() == 1);
         boolean showArchive = true;
@@ -153,10 +149,21 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
         screen.startSelection();
     }
 
-    public void setAdapter(@Nullable HabitCardListAdapter adapter)
+    public void setListAdapter(@Nullable HabitCardListAdapter listAdapter)
     {
-        if (adapter == null) return;
-        this.adapter = adapter;
+        if (listAdapter == null) return;
+        this.listAdapter = listAdapter;
+    }
+
+    public void setListController(HabitCardListController listController)
+    {
+        this.listController = listController;
+    }
+
+    @Override
+    protected int getResourceId()
+    {
+        return R.menu.list_habits_selection;
     }
 
     private void archive(@NonNull List<Habit> selected)
@@ -175,12 +182,6 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     private void edit(@NonNull Habit firstHabit)
     {
         screen.showEditHabitScreen(firstHabit);
-    }
-
-    @Override
-    protected int getResourceId()
-    {
-        return R.menu.list_habits_selection;
     }
 
     private void showColorPicker(@NonNull List<Habit> selected,

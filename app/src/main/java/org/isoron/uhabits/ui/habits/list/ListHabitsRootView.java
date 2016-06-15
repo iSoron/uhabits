@@ -119,13 +119,15 @@ public class ListHabitsRootView extends BaseRootView
                               @Nullable ListHabitsSelectionMenu menu)
     {
         listView.setController(null);
-        if (controller == null || listAdapter == null) return;
+        if (controller == null || menu == null || listAdapter == null) return;
 
         HabitCardListController listController =
             new HabitCardListController(listAdapter, listView);
+
         listController.setHabitListener(controller);
         listController.setSelectionListener(menu);
         listView.setController(listController);
+        menu.setListController(listController);
     }
 
     public void setListAdapter(@NonNull HabitCardListAdapter listAdapter)
