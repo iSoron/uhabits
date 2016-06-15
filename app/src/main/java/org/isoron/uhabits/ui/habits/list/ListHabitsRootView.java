@@ -84,12 +84,6 @@ public class ListHabitsRootView extends BaseRootView
         return progressBar;
     }
 
-    public boolean getShowArchived()
-    {
-        if (listAdapter == null) return false;
-        return listAdapter.getIncludeArchived();
-    }
-
     public void setShowArchived(boolean showArchived)
     {
         if (listAdapter == null) return;
@@ -144,9 +138,6 @@ public class ListHabitsRootView extends BaseRootView
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-
-        updateEmptyView();
-
         if (listAdapter != null) listAdapter.getObservable().addListener(this);
     }
 
@@ -175,6 +166,7 @@ public class ListHabitsRootView extends BaseRootView
     private void updateEmptyView()
     {
         if (listAdapter == null) return;
+
         llEmpty.setVisibility(
             listAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
