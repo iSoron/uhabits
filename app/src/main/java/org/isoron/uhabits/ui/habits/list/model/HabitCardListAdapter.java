@@ -19,22 +19,15 @@
 
 package org.isoron.uhabits.ui.habits.list.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.support.annotation.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.ModelObservable;
-import org.isoron.uhabits.ui.habits.list.views.HabitCardListView;
-import org.isoron.uhabits.ui.habits.list.views.HabitCardView;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.views.*;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Provides data that backs a {@link HabitCardListView}.
@@ -48,25 +41,25 @@ public class HabitCardListAdapter extends BaseAdapter
     @NonNull
     private ModelObservable observable;
 
-    @Inject
-    @NonNull
-    HabitCardListCache cache;
-
     @Nullable
     private HabitCardListView listView;
 
     @NonNull
     private final LinkedList<Habit> selected;
 
-    public HabitCardListAdapter()
+    @NonNull
+    private final HabitCardListCache cache;
+
+    public HabitCardListAdapter(int checkmarkCount)
     {
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
 
         HabitsApplication.getComponent().inject(this);
 
+        cache = new HabitCardListCache();
         cache.setListener(this);
-        cache.setCheckmarkCount(5); // TODO: make this dynamic somehow
+        cache.setCheckmarkCount(checkmarkCount);
     }
 
     /**

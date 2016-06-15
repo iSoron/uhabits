@@ -51,6 +51,7 @@ import java.io.File;
 
 public class ListHabitsScreen extends BaseScreen
 {
+
     @Nullable
     ListHabitsController controller;
 
@@ -71,7 +72,8 @@ public class ListHabitsScreen extends BaseScreen
         setMenu(menu);
         setSelectionMenu(selectionMenu);
 
-        HabitCardListAdapter adapter = new HabitCardListAdapter();
+        HabitCardListAdapter adapter = new HabitCardListAdapter(
+            ListHabitsRootView.MAX_CHECKMARK_COUNT);
         rootView.setListAdapter(adapter);
         selectionMenu.setAdapter(adapter);
     }

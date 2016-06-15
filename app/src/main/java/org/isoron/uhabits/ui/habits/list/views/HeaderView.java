@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ui.habits.list.*;
 import org.isoron.uhabits.utils.DateUtils;
 
 import java.util.GregorianCalendar;
@@ -50,8 +51,9 @@ public class HeaderView extends LinearLayout
     {
         removeAllViews();
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
+        double count = ListHabitsRootView.getCheckmarkCount(this);
 
-        for (int i = 0; i < getButtonCount(); i++)
+        for (int i = 0; i < count; i++)
         {
             int position = 0;
 
@@ -64,14 +66,6 @@ public class HeaderView extends LinearLayout
             addView(tvDay, position);
             day.add(GregorianCalendar.DAY_OF_MONTH, -1);
         }
-    }
-
-    private int getButtonCount()
-    {
-        float labelWidth = getResources().getDimension(R.dimen.habitNameWidth);
-        float buttonWidth = getResources().getDimension(R.dimen.checkmarkWidth);
-        return Math.max(0,
-            (int) ((getMeasuredWidth() - labelWidth) / buttonWidth));
     }
 
     private int getCheckmarkOrder()

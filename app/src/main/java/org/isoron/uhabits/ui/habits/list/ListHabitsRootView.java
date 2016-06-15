@@ -19,31 +19,28 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.content.*;
+import android.content.res.*;
+import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.ModelObservable;
-import org.isoron.uhabits.ui.BaseRootView;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardListController;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
-import org.isoron.uhabits.ui.habits.list.model.HintList;
-import org.isoron.uhabits.ui.habits.list.views.HabitCardListView;
-import org.isoron.uhabits.ui.habits.list.views.HintView;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
+import org.isoron.uhabits.ui.habits.list.views.*;
+import org.isoron.uhabits.utils.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.*;
 
 public class ListHabitsRootView extends BaseRootView
     implements ModelObservable.Listener
 {
+    public static final int MAX_CHECKMARK_COUNT = 21;
+
     @BindView(R.id.listView)
     HabitCardListView listView;
 
@@ -71,6 +68,15 @@ public class ListHabitsRootView extends BaseRootView
         init();
     }
 
+    public static int getCheckmarkCount(View v)
+    {
+        Resources res = v.getResources();
+        float labelWidth = res.getDimension(R.dimen.habitNameWidth);
+        float buttonWidth = res.getDimension(R.dimen.checkmarkWidth);
+        return Math.min(MAX_CHECKMARK_COUNT, Math.max(0,
+            (int) ((v.getMeasuredWidth() - labelWidth) / buttonWidth)));
+    }
+
     @Override
     @NonNull
     public ProgressBar getProgressBar()
@@ -80,8 +86,14 @@ public class ListHabitsRootView extends BaseRootView
 
     public boolean getShowArchived()
     {
-        if(listAdapter == null) return false;
+        if (listAdapter == null) return false;
         return listAdapter.getIncludeArchived();
+    }
+
+    public void setShowArchived(boolean showArchived)
+    {
+        if (listAdapter == null) return;
+        listAdapter.setShowArchived(showArchived);
     }
 
     @NonNull
@@ -101,19 +113,6 @@ public class ListHabitsRootView extends BaseRootView
     public void onModelChange()
     {
         updateEmptyView();
-    }
-
-    public void setShowArchived(boolean showArchived)
-    {
-        if(listAdapter == null) return;
-        listAdapter.setShowArchived(showArchived);
-    }
-
-    private void updateEmptyView()
-    {
-        if (listAdapter == null) return;
-        llEmpty.setVisibility(
-            listAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
 
     public void setController(@Nullable ListHabitsController controller,
@@ -139,20 +138,6 @@ public class ListHabitsRootView extends BaseRootView
         listAdapter.setListView(listView);
     }
 
-    private void init()
-    {
-        addView(inflate(getContext(), R.layout.list_habits, null));
-        ButterKnife.bind(this);
-
-        tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
-        initToolbar();
-
-        String hints[] =
-            getContext().getResources().getStringArray(R.array.hints);
-        HintList hintList = new HintList(hints);
-        hintView.setHints(hintList);
-    }
-
     @Override
     protected void onAttachedToWindow()
     {
@@ -169,5 +154,26 @@ public class ListHabitsRootView extends BaseRootView
         if (listAdapter != null)
             listAdapter.getObservable().removeListener(this);
         super.onDetachedFromWindow();
+    }
+
+    private void init()
+    {
+        addView(inflate(getContext(), R.layout.list_habits, null));
+        ButterKnife.bind(this);
+
+        tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+        initToolbar();
+
+        String hints[] =
+            getContext().getResources().getStringArray(R.array.hints);
+        HintList hintList = new HintList(hints);
+        hintView.setHints(hintList);
+    }
+
+    private void updateEmptyView()
+    {
+        if (listAdapter == null) return;
+        llEmpty.setVisibility(
+            listAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
 }

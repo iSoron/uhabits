@@ -19,22 +19,18 @@
 
 package org.isoron.uhabits.ui.habits.list.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
+import android.util.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * A HabitCardListCache fetches and keeps a cache of all the data necessary to
@@ -114,7 +110,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     public void onAttached()
     {
-//        refreshAllHabits(true);
+        refreshAllHabits(true);
         if (lastLoadTimestamp == null) refreshAllHabits(true);
         commandRunner.addListener(this);
     }
@@ -129,11 +125,12 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     public void onDetached()
     {
-//        commandRunner.removeListener(this);
+        commandRunner.removeListener(this);
     }
 
     public void refreshAllHabits(final boolean refreshScoresAndCheckmarks)
     {
+        Log.d("HabitCardListCache", "Refreshing all habits");
         if (currentFetchTask != null) currentFetchTask.cancel(true);
         currentFetchTask = new RefreshAllHabitsTask(refreshScoresAndCheckmarks);
         currentFetchTask.execute();

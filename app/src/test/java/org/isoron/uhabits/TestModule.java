@@ -19,21 +19,16 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.models.ModelFactory;
-import org.isoron.uhabits.models.memory.MemoryHabitList;
-import org.isoron.uhabits.models.memory.MemoryModelFactory;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListCache;
-import org.isoron.uhabits.utils.Preferences;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.memory.*;
+import org.isoron.uhabits.utils.*;
 
-import javax.inject.Singleton;
+import javax.inject.*;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.*;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @Module
 public class TestModule
@@ -50,13 +45,6 @@ public class TestModule
     CommandRunner provideCommandRunner()
     {
         return mock(CommandRunner.class);
-    }
-
-    @Singleton
-    @Provides
-    HabitCardListCache provideHabitCardListCache()
-    {
-        return mock(HabitCardListCache.class);
     }
 
     @Singleton

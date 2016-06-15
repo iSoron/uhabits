@@ -19,18 +19,14 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.models.ModelFactory;
-import org.isoron.uhabits.models.sqlite.SQLModelFactory;
-import org.isoron.uhabits.models.sqlite.SQLiteHabitList;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListCache;
-import org.isoron.uhabits.utils.Preferences;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.utils.*;
 
-import javax.inject.Singleton;
+import javax.inject.*;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.*;
 
 /**
  * Module that provides dependencies when the application is running on
@@ -46,13 +42,6 @@ public class AndroidModule
     CommandRunner provideCommandRunner()
     {
         return new CommandRunner();
-    }
-
-    @Provides
-    @Singleton
-    HabitCardListCache provideHabitCardListCache()
-    {
-        return new HabitCardListCache();
     }
 
     @Provides

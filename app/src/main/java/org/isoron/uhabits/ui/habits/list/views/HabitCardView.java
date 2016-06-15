@@ -32,10 +32,11 @@ import android.widget.TextView;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.ui.habits.list.*;
 import org.isoron.uhabits.ui.habits.show.views.RingView;
 import org.isoron.uhabits.utils.ColorUtils;
 
-import java.util.Random;
+import java.util.*;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,7 +82,9 @@ public class HabitCardView extends FrameLayout
 
     public void setCheckmarkValues(int checkmarks[])
     {
-        checkmarkPanel.setCheckmarkValues(checkmarks);
+        int count = ListHabitsRootView.getCheckmarkCount(this);
+        int visibleCheckmarks[] = Arrays.copyOfRange(checkmarks, 0, count);
+        checkmarkPanel.setCheckmarkValues(visibleCheckmarks);
         postInvalidate();
     }
 
