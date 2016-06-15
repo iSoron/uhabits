@@ -19,30 +19,25 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.util.AttributeSet;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.annotation.*;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.os.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.list.*;
-import org.isoron.uhabits.ui.habits.show.views.RingView;
-import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.getStyledColor;
-import static org.isoron.uhabits.utils.InterfaceUtils.getStyledDrawable;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HabitCardView extends FrameLayout
 {
@@ -125,14 +120,16 @@ public class HabitCardView extends FrameLayout
         updateBackground(isSelected);
     }
 
-    public void triggerRipple(final float x, final float y)
+    public void triggerRipple(long timestamp)
     {
-        final Drawable background = innerFrame.getBackground();
-        if (android.os.Build.VERSION.SDK_INT >= 21) background.setHotspot(x, y);
-        background.setState(new int[]{
-            android.R.attr.state_pressed, android.R.attr.state_enabled
-        });
-        new Handler().postDelayed(() -> background.setState(new int[]{}), 25);
+        long today = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
+        int offset = (int) ((today - timestamp) / day);
+        CheckmarkButtonView button = checkmarkPanel.getButton(offset);
+
+        float y = button.getHeight() / 2.0f;
+        float x = checkmarkPanel.getX() + button.getX() + button.getWidth() / 2;
+        triggerRipple(x, y);
     }
 
     private int getActiveColor(Habit habit)
@@ -191,6 +188,16 @@ public class HabitCardView extends FrameLayout
         scoreRing.setPercentage(rand.nextFloat());
         checkmarkPanel.setColor(color);
         checkmarkPanel.setCheckmarkValues(values);
+    }
+
+    private void triggerRipple(final float x, final float y)
+    {
+        final Drawable background = innerFrame.getBackground();
+        if (android.os.Build.VERSION.SDK_INT >= 21) background.setHotspot(x, y);
+        background.setState(new int[]{
+            android.R.attr.state_pressed, android.R.attr.state_enabled
+        });
+        new Handler().postDelayed(() -> background.setState(new int[]{}), 25);
     }
 
     private void updateBackground(boolean isSelected)

@@ -41,7 +41,7 @@ public class HabitCardController implements HabitCardView.Controller
     @Override
     public void onToggle(Habit habit, long timestamp)
     {
-        if (view != null) view.triggerRipple(0, 0);
+        if (view != null) view.triggerRipple(timestamp);
         if (listener != null) listener.onToggle(habit, timestamp);
     }
 
