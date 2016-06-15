@@ -31,7 +31,6 @@ import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.Score;
 import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitWidgetView;
 import org.isoron.uhabits.ui.habits.show.views.RingView;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.isoron.uhabits.utils.InterfaceUtils;

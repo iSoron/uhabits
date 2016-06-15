@@ -161,7 +161,7 @@ public class BaseSystem
                 Environment.getExternalStorageState());
     }
 
-    private String getLogcat() throws IOException
+    public String getLogcat() throws IOException
     {
         int maxLineCount = 250;
         StringBuilder builder = new StringBuilder();

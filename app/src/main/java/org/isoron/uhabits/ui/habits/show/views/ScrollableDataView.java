@@ -19,14 +19,11 @@
 
 package org.isoron.uhabits.ui.habits.show.views;
 
-import android.animation.ValueAnimator;
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewParent;
-import android.widget.Scroller;
+import android.animation.*;
+import android.content.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
 public abstract class ScrollableDataView extends View
     implements GestureDetector.OnGestureListener,

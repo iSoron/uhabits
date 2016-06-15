@@ -17,27 +17,26 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.widgets.views;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.InsetDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.content.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import android.graphics.drawable.shapes.*;
+import android.support.annotation.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.Arrays;
+import java.util.*;
 
-public abstract  class HabitWidgetView extends FrameLayout implements HabitDataView
+public abstract class HabitWidgetView extends FrameLayout
+    implements HabitDataView
 {
     @Nullable
     protected InsetDrawable background;
@@ -47,12 +46,8 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
 
     @Nullable
     protected Habit habit;
-    protected ViewGroup frame;
 
-    public void setShadowAlpha(int shadowAlpha)
-    {
-        this.shadowAlpha = shadowAlpha;
-    }
+    protected ViewGroup frame;
 
     private int shadowAlpha;
 
@@ -68,21 +63,28 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
         init();
     }
 
-    private void init()
+    @Override
+    public void setHabit(@NonNull Habit habit)
     {
-        inflate(getContext(), getInnerLayoutId(), this);
-        shadowAlpha = (int) (255 * InterfaceUtils.getStyledFloat(getContext(), R.attr.widgetShadowAlpha));
-        rebuildBackground();
+        this.habit = habit;
     }
 
-    protected abstract @NonNull Integer getInnerLayoutId();
+    public void setShadowAlpha(int shadowAlpha)
+    {
+        this.shadowAlpha = shadowAlpha;
+    }
+
+    protected abstract
+    @NonNull
+    Integer getInnerLayoutId();
 
     protected void rebuildBackground()
     {
         Context context = getContext();
 
-        int backgroundAlpha =
-                (int) (255 * InterfaceUtils.getStyledFloat(context, R.attr.widgetBackgroundAlpha));
+        int backgroundAlpha = (int) (255 *
+                                     InterfaceUtils.getStyledFloat(context,
+                                         R.attr.widgetBackgroundAlpha));
 
         int shadowRadius = (int) InterfaceUtils.dpToPixels(context, 2);
         int shadowOffset = (int) InterfaceUtils.dpToPixels(context, 1);
@@ -98,20 +100,25 @@ public abstract  class HabitWidgetView extends FrameLayout implements HabitDataV
         int insetLeftTop = Math.max(shadowRadius - shadowOffset, 0);
         int insetRightBottom = shadowRadius + shadowOffset;
 
-        background = new InsetDrawable(innerDrawable, insetLeftTop, insetLeftTop, insetRightBottom,
-                insetRightBottom);
+        background =
+            new InsetDrawable(innerDrawable, insetLeftTop, insetLeftTop,
+                insetRightBottom, insetRightBottom);
         backgroundPaint = innerDrawable.getPaint();
-        backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset, shadowColor);
-        backgroundPaint.setColor(InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor));
+        backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset,
+            shadowColor);
+        backgroundPaint.setColor(
+            InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor));
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);
-        if(frame != null) frame.setBackgroundDrawable(background);
+        if (frame != null) frame.setBackgroundDrawable(background);
     }
 
-    @Override
-    public void setHabit(@NonNull Habit habit)
+    private void init()
     {
-        this.habit = habit;
+        inflate(getContext(), getInnerLayoutId(), this);
+        shadowAlpha = (int) (255 * InterfaceUtils.getStyledFloat(getContext(),
+            R.attr.widgetShadowAlpha));
+        rebuildBackground();
     }
 }

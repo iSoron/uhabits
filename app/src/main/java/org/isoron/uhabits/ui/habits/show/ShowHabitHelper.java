@@ -19,16 +19,14 @@
 
 package org.isoron.uhabits.ui.habits.show;
 
-import android.content.res.Resources;
-import android.view.View;
-import android.widget.TextView;
+import android.content.res.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.ui.habits.show.views.RingView;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.utils.*;
 
 public class ShowHabitHelper
 {
@@ -63,44 +61,33 @@ public class ShowHabitHelper
             resources.getString(R.string.days));
     }
 
-    void updateScore(View view)
+    void updateCardHeaders(View view)
     {
-        if (fragment.habit == null) return;
-        if (view == null) return;
+        updateColor(view, R.id.tvHistory);
+        updateColor(view, R.id.tvOverview);
+        updateColor(view, R.id.tvStrength);
+        updateColor(view, R.id.tvStreaks);
+        updateColor(view, R.id.tvWeekdayFreq);
+        updateColor(view, R.id.scoreLabel);
+    }
 
-        float todayPercentage = fragment.todayScore / Score.MAX_VALUE;
-        float monthDiff =
-            todayPercentage - (fragment.lastMonthScore / Score.MAX_VALUE);
-        float yearDiff =
-            todayPercentage - (fragment.lastYearScore / Score.MAX_VALUE);
+    void updateColor(View view, int viewId)
+    {
+        if (fragment.habit == null || fragment.activity == null) return;
 
-        RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
+        TextView textView = (TextView) view.findViewById(viewId);
         int androidColor =
-            ColorUtils.getColor(fragment.getActivity(),
-                fragment.habit.getColor());
-        scoreRing.setColor(androidColor);
-        scoreRing.setPercentage(todayPercentage);
+            ColorUtils.getColor(fragment.activity, fragment.habit.getColor());
+        textView.setTextColor(androidColor);
+    }
 
-        TextView scoreLabel = (TextView) view.findViewById(R.id.scoreLabel);
-        TextView monthDiffLabel =
-            (TextView) view.findViewById(R.id.monthDiffLabel);
-        TextView yearDiffLabel =
-            (TextView) view.findViewById(R.id.yearDiffLabel);
-
-        scoreLabel.setText(String.format("%.0f%%", todayPercentage * 100));
-
-        String minus = "\u2212";
-        monthDiffLabel.setText(
-            String.format("%s%.0f%%", (monthDiff >= 0 ? "+" : minus),
-                Math.abs(monthDiff) * 100));
-        yearDiffLabel.setText(
-            String.format("%s%.0f%%", (yearDiff >= 0 ? "+" : minus),
-                Math.abs(yearDiff) * 100));
-
-        monthDiffLabel.setTextColor(
-            monthDiff >= 0 ? fragment.activeColor : fragment.inactiveColor);
-        yearDiffLabel.setTextColor(
-            yearDiff >= 0 ? fragment.activeColor : fragment.inactiveColor);
+    void updateColors()
+    {
+        fragment.activeColor = ColorUtils.getColor(fragment.getContext(),
+            fragment.habit.getColor());
+        fragment.inactiveColor =
+            InterfaceUtils.getStyledColor(fragment.getContext(),
+                R.attr.mediumContrastTextColor);
     }
 
     void updateMainHeader(View view)
@@ -129,33 +116,42 @@ public class ShowHabitHelper
             questionLabel.setVisibility(View.GONE);
     }
 
-    void updateCardHeaders(View view)
+    void updateScore(View view)
     {
-        updateColor(view, R.id.tvHistory);
-        updateColor(view, R.id.tvOverview);
-        updateColor(view, R.id.tvStrength);
-        updateColor(view, R.id.tvStreaks);
-        updateColor(view, R.id.tvWeekdayFreq);
-        updateColor(view, R.id.scoreLabel);
-    }
+        if (fragment.habit == null) return;
+        if (view == null) return;
 
-    void updateColor(View view, int viewId)
-    {
-        if (fragment.habit == null || fragment.activity == null) return;
+        float todayPercentage = fragment.todayScore / Score.MAX_VALUE;
+        float monthDiff =
+            todayPercentage - (fragment.lastMonthScore / Score.MAX_VALUE);
+        float yearDiff =
+            todayPercentage - (fragment.lastYearScore / Score.MAX_VALUE);
 
-        TextView textView = (TextView) view.findViewById(viewId);
-        int androidColor =
-            ColorUtils.getColor(fragment.activity, fragment.habit.getColor());
-        textView.setTextColor(androidColor);
-    }
+        RingView scoreRing = (RingView) view.findViewById(R.id.scoreRing);
+        int androidColor = ColorUtils.getColor(fragment.getActivity(),
+            fragment.habit.getColor());
+        scoreRing.setColor(androidColor);
+        scoreRing.setPercentage(todayPercentage);
 
-    void updateColors()
-    {
-        fragment.activeColor =
-            ColorUtils.getColor(fragment.getContext(),
-                fragment.habit.getColor());
-        fragment.inactiveColor =
-            InterfaceUtils.getStyledColor(fragment.getContext(),
-                R.attr.mediumContrastTextColor);
+        TextView scoreLabel = (TextView) view.findViewById(R.id.scoreLabel);
+        TextView monthDiffLabel =
+            (TextView) view.findViewById(R.id.monthDiffLabel);
+        TextView yearDiffLabel =
+            (TextView) view.findViewById(R.id.yearDiffLabel);
+
+        scoreLabel.setText(String.format("%.0f%%", todayPercentage * 100));
+
+        String minus = "\u2212";
+        monthDiffLabel.setText(
+            String.format("%s%.0f%%", (monthDiff >= 0 ? "+" : minus),
+                Math.abs(monthDiff) * 100));
+        yearDiffLabel.setText(
+            String.format("%s%.0f%%", (yearDiff >= 0 ? "+" : minus),
+                Math.abs(yearDiff) * 100));
+
+        monthDiffLabel.setTextColor(
+            monthDiff >= 0 ? fragment.activeColor : fragment.inactiveColor);
+        yearDiffLabel.setTextColor(
+            yearDiff >= 0 ? fragment.activeColor : fragment.inactiveColor);
     }
 }

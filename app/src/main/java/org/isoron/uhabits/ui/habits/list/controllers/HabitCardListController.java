@@ -306,7 +306,7 @@ public class HabitCardListController implements DragSortListView.DropListener,
 
         protected void notifyListener()
         {
-            if (habitListener == null) return;
+            if(selectionListener == null) return;
 
             if (activeMode == SELECTION_MODE)
                 selectionListener.onSelectionChange();

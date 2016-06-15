@@ -33,7 +33,7 @@ import javax.inject.*;
 
 /**
  * Activity that allows the user to see more information about a single habit.
- *
+ * <p>
  * Shows all the metadata for the habit, in addition to several charts.
  */
 public class ShowHabitActivity extends BaseActivity
@@ -43,19 +43,9 @@ public class ShowHabitActivity extends BaseActivity
     @Inject
     HabitList habitList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public Habit getHabit()
     {
-        super.onCreate(savedInstanceState);
-        HabitsApplication.getComponent().inject(this);
-
-        Uri data = getIntent().getData();
-        habit = habitList.getById(ContentUris.parseId(data));
-
-        setContentView(R.layout.show_habit_activity);
-        BaseScreen.setupActionBarColor(this, ColorUtils.getColor(this, habit.getColor()));
-
-        setupHabitActionBar();
+        return habit;
     }
 
     public void setupHabitActionBar()
@@ -68,8 +58,19 @@ public class ShowHabitActivity extends BaseActivity
         actionBar.setTitle(habit.getName());
     }
 
-    public Habit getHabit()
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
     {
-        return habit;
+        super.onCreate(savedInstanceState);
+        HabitsApplication.getComponent().inject(this);
+
+        Uri data = getIntent().getData();
+        habit = habitList.getById(ContentUris.parseId(data));
+
+        setContentView(R.layout.show_habit_activity);
+        BaseScreen.setupActionBarColor(this,
+            ColorUtils.getColor(this, habit.getColor()));
+
+        setupHabitActionBar();
     }
 }

@@ -111,13 +111,6 @@ public class HabitCardListView extends DragSortListView
         });
     }
 
-    public void toggleShowArchived()
-    {
-//        showArchived = !showArchived;
-//        cache.setIncludeArchived(showArchived);
-//        cache.refreshAllHabits(true);
-    }
-
     @Override
     protected void onAttachedToWindow()
     {

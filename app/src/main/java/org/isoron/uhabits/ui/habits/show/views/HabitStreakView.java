@@ -19,27 +19,18 @@
 
 package org.isoron.uhabits.ui.habits.show.views;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.util.AttributeSet;
-import android.view.View;
+import android.content.*;
+import android.graphics.*;
+import android.util.*;
+import android.view.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.ModelObservable;
-import org.isoron.uhabits.models.Streak;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.utils.*;
 
-import java.text.DateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.text.*;
+import java.util.*;
 
 public class HabitStreakView extends View
     implements HabitDataView, ModelObservable.Listener
@@ -124,88 +115,11 @@ public class HabitStreakView extends View
         createColors();
     }
 
-    private void createColors()
-    {
-        if (habit != null) this.primaryColor =
-            ColorUtils.getColor(getContext(), habit.getColor());
-
-        int red = Color.red(primaryColor);
-        int green = Color.green(primaryColor);
-        int blue = Color.blue(primaryColor);
-
-        colors = new int[4];
-        colors[3] = primaryColor;
-        colors[2] = Color.argb(192, red, green, blue);
-        colors[1] = Color.argb(96, red, green, blue);
-        colors[0] = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
-        textColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
-        reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.highContrastReverseTextColor);
-    }
-
     protected void createPaints()
     {
         paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setAntiAlias(true);
-    }
-
-    private void drawRow(Canvas canvas, Streak streak, RectF rect)
-    {
-        if (maxLength == 0) return;
-
-        float percentage = (float) streak.getLength() / maxLength;
-        float availableWidth = width - 2 * maxLabelWidth;
-        if (shouldShowLabels) availableWidth -= 2 * textMargin;
-
-        float barWidth = percentage * availableWidth;
-        float minBarWidth =
-            paint.measureText(Long.toString(streak.getLength())) + em;
-        barWidth = Math.max(barWidth, minBarWidth);
-
-        float gap = (width - barWidth) / 2;
-        float paddingTopBottom = baseSize * 0.05f;
-
-        paint.setColor(percentageToColor(percentage));
-
-        canvas.drawRect(rect.left + gap, rect.top + paddingTopBottom,
-            rect.right - gap, rect.bottom - paddingTopBottom, paint);
-
-        float yOffset = rect.centerY() + 0.3f * em;
-
-        paint.setColor(reverseTextColor);
-        paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(Long.toString(streak.getLength()), rect.centerX(),
-            yOffset, paint);
-
-        if (shouldShowLabels)
-        {
-            String startLabel = dateFormat.format(new Date(streak.getStart()));
-            String endLabel = dateFormat.format(new Date(streak.getEnd()));
-
-            paint.setColor(textColor);
-            paint.setTextAlign(Paint.Align.RIGHT);
-            canvas.drawText(startLabel, gap - textMargin, yOffset, paint);
-
-            paint.setTextAlign(Paint.Align.LEFT);
-            canvas.drawText(endLabel, width - gap + textMargin, yOffset, paint);
-        }
-    }
-
-    private void init()
-    {
-        createPaints();
-        createColors();
-
-        streaks = Collections.emptyList();
-
-        dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        rect = new RectF();
-        maxStreakCount = 10;
-        baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
 
     @Override
@@ -275,6 +189,83 @@ public class HabitStreakView extends View
         textMargin = 0.5f * em;
 
         updateMaxMin();
+    }
+
+    private void createColors()
+    {
+        if (habit != null) this.primaryColor =
+            ColorUtils.getColor(getContext(), habit.getColor());
+
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        colors = new int[4];
+        colors[3] = primaryColor;
+        colors[2] = Color.argb(192, red, green, blue);
+        colors[1] = Color.argb(96, red, green, blue);
+        colors[0] = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.lowContrastTextColor);
+        textColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.mediumContrastTextColor);
+        reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.highContrastReverseTextColor);
+    }
+
+    private void drawRow(Canvas canvas, Streak streak, RectF rect)
+    {
+        if (maxLength == 0) return;
+
+        float percentage = (float) streak.getLength() / maxLength;
+        float availableWidth = width - 2 * maxLabelWidth;
+        if (shouldShowLabels) availableWidth -= 2 * textMargin;
+
+        float barWidth = percentage * availableWidth;
+        float minBarWidth =
+            paint.measureText(Long.toString(streak.getLength())) + em;
+        barWidth = Math.max(barWidth, minBarWidth);
+
+        float gap = (width - barWidth) / 2;
+        float paddingTopBottom = baseSize * 0.05f;
+
+        paint.setColor(percentageToColor(percentage));
+
+        canvas.drawRect(rect.left + gap, rect.top + paddingTopBottom,
+            rect.right - gap, rect.bottom - paddingTopBottom, paint);
+
+        float yOffset = rect.centerY() + 0.3f * em;
+
+        paint.setColor(reverseTextColor);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(Long.toString(streak.getLength()), rect.centerX(),
+            yOffset, paint);
+
+        if (shouldShowLabels)
+        {
+            String startLabel = dateFormat.format(new Date(streak.getStart()));
+            String endLabel = dateFormat.format(new Date(streak.getEnd()));
+
+            paint.setColor(textColor);
+            paint.setTextAlign(Paint.Align.RIGHT);
+            canvas.drawText(startLabel, gap - textMargin, yOffset, paint);
+
+            paint.setTextAlign(Paint.Align.LEFT);
+            canvas.drawText(endLabel, width - gap + textMargin, yOffset, paint);
+        }
+    }
+
+    private void init()
+    {
+        createPaints();
+        createColors();
+
+        streaks = Collections.emptyList();
+
+        dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        rect = new RectF();
+        maxStreakCount = 10;
+        baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
 
     private int percentageToColor(float percentage)

@@ -20,6 +20,9 @@
 package org.isoron.uhabits.ui.settings;
 
 import android.os.*;
+import android.support.annotation.*;
+import android.support.v4.app.*;
+import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.ui.*;

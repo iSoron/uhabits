@@ -19,34 +19,18 @@
 
 package org.isoron.uhabits.ui.habits.show.views;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.util.Log;
+import android.content.*;
+import android.graphics.*;
+import android.support.annotation.*;
+import android.util.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.ModelObservable;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.utils.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.text.*;
+import java.util.*;
 
 public class HabitScoreView extends ScrollableDataView
     implements HabitDataView, ModelObservable.Listener
@@ -138,10 +122,8 @@ public class HabitScoreView extends ScrollableDataView
         else
         {
             if (habit == null) return;
-            if (bucketSize == 1)
-                scores = habit.getScores().getAll();
-            else
-                scores = habit.getScores().groupBy(getTruncateField());
+            if (bucketSize == 1) scores = habit.getScores().getAll();
+            else scores = habit.getScores().groupBy(getTruncateField());
 
             createColors();
         }
@@ -168,19 +150,6 @@ public class HabitScoreView extends ScrollableDataView
         requestLayout();
     }
 
-    private void createColors()
-    {
-        if (habit != null) this.primaryColor =
-            ColorUtils.getColor(getContext(), habit.getColor());
-
-        textColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
-        gridColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
-        backgroundColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.cardBackgroundColor);
-    }
-
     protected void createPaints()
     {
         pText = new Paint();
@@ -192,6 +161,158 @@ public class HabitScoreView extends ScrollableDataView
 
         pGrid = new Paint();
         pGrid.setAntiAlias(true);
+    }
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                refreshData();
+            }
+        }.execute();
+        habit.getObservable().addListener(this);
+        habit.getScores().getObservable().addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        habit.getScores().getObservable().removeListener(this);
+        habit.getObservable().removeListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        super.onDraw(canvas);
+        Canvas activeCanvas;
+
+        if (isTransparencyEnabled)
+        {
+            if (drawingCache == null) initCache(getWidth(), getHeight());
+
+            activeCanvas = cacheCanvas;
+            drawingCache.eraseColor(Color.TRANSPARENT);
+        }
+        else
+        {
+            activeCanvas = canvas;
+        }
+
+        if (habit == null || scores == null) return;
+
+        rect.set(0, 0, nColumns * columnWidth, columnHeight);
+        rect.offset(0, paddingTop);
+
+        drawGrid(activeCanvas, rect);
+
+        pText.setColor(textColor);
+        pGraph.setColor(primaryColor);
+        prevRect.setEmpty();
+
+        previousMonthText = "";
+        previousYearText = "";
+        skipYear = 0;
+
+        long currentDate = DateUtils.getStartOfToday();
+
+        for (int k = 0; k < nColumns + getDataOffset() - 1; k++)
+            currentDate -= bucketSize * DateUtils.millisecondsInOneDay;
+
+        for (int k = 0; k < nColumns; k++)
+        {
+            int score = 0;
+            int offset = nColumns - k - 1 + getDataOffset();
+            if (offset < scores.size()) score = scores.get(offset).getValue();
+
+            double relativeScore = ((double) score) / Score.MAX_VALUE;
+            int height = (int) (columnHeight * relativeScore);
+
+            rect.set(0, 0, baseSize, baseSize);
+            rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,
+                paddingTop + columnHeight - height - baseSize / 2);
+
+            if (!prevRect.isEmpty())
+            {
+                drawLine(activeCanvas, prevRect, rect);
+                drawMarker(activeCanvas, prevRect);
+            }
+
+            if (k == nColumns - 1) drawMarker(activeCanvas, rect);
+
+            prevRect.set(rect);
+            rect.set(0, 0, columnWidth, columnHeight);
+            rect.offset(k * columnWidth, paddingTop);
+
+            drawFooter(activeCanvas, rect, currentDate);
+
+            currentDate += bucketSize * DateUtils.millisecondsInOneDay;
+        }
+
+        if (activeCanvas != canvas) canvas.drawBitmap(drawingCache, 0, 0, null);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onSizeChanged(int width,
+                                 int height,
+                                 int oldWidth,
+                                 int oldHeight)
+    {
+        if (height < 9) height = 200;
+
+        float maxTextSize = getResources().getDimension(R.dimen.tinyTextSize);
+        float textSize = height * 0.06f;
+        pText.setTextSize(Math.min(textSize, maxTextSize));
+        em = pText.getFontSpacing();
+
+        footerHeight = (int) (3 * em);
+        paddingTop = (int) (em);
+
+        baseSize = (height - footerHeight - paddingTop) / 8;
+        setScrollerBucketSize(baseSize);
+
+        columnWidth = baseSize;
+        columnWidth = Math.max(columnWidth, getMaxDayWidth() * 1.5f);
+        columnWidth = Math.max(columnWidth, getMaxMonthWidth() * 1.2f);
+
+        nColumns = (int) (width / columnWidth);
+        columnWidth = (float) width / nColumns;
+
+        columnHeight = 8 * baseSize;
+
+        float minStrokeWidth = InterfaceUtils.dpToPixels(getContext(), 1);
+        pGraph.setTextSize(baseSize * 0.5f);
+        pGraph.setStrokeWidth(baseSize * 0.1f);
+        pGrid.setStrokeWidth(Math.min(minStrokeWidth, baseSize * 0.05f));
+
+        if (isTransparencyEnabled) initCache(width, height);
+    }
+
+    private void createColors()
+    {
+        if (habit != null) this.primaryColor =
+            ColorUtils.getColor(getContext(), habit.getColor());
+
+        textColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.mediumContrastTextColor);
+        gridColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.lowContrastTextColor);
+        backgroundColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.cardBackgroundColor);
     }
 
     private void drawFooter(Canvas canvas, RectF rect, long currentDate)
@@ -391,145 +512,6 @@ public class HabitScoreView extends ScrollableDataView
         drawingCache =
             Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         cacheCanvas = new Canvas(drawingCache);
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                refreshData();
-            }
-        }.execute();
-        habit.getObservable().addListener(this);
-        habit.getScores().getObservable().addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        habit.getScores().getObservable().removeListener(this);
-        habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas)
-    {
-        super.onDraw(canvas);
-        Canvas activeCanvas;
-
-        if (isTransparencyEnabled)
-        {
-            if (drawingCache == null) initCache(getWidth(), getHeight());
-
-            activeCanvas = cacheCanvas;
-            drawingCache.eraseColor(Color.TRANSPARENT);
-        }
-        else
-        {
-            activeCanvas = canvas;
-        }
-
-        if (habit == null || scores == null) return;
-
-        rect.set(0, 0, nColumns * columnWidth, columnHeight);
-        rect.offset(0, paddingTop);
-
-        drawGrid(activeCanvas, rect);
-
-        pText.setColor(textColor);
-        pGraph.setColor(primaryColor);
-        prevRect.setEmpty();
-
-        previousMonthText = "";
-        previousYearText = "";
-        skipYear = 0;
-
-        long currentDate = DateUtils.getStartOfToday();
-
-        for (int k = 0; k < nColumns + getDataOffset() - 1; k++)
-            currentDate -= bucketSize * DateUtils.millisecondsInOneDay;
-
-        for (int k = 0; k < nColumns; k++)
-        {
-            int score = 0;
-            int offset = nColumns - k - 1 + getDataOffset();
-            if (offset < scores.size()) score = scores.get(offset).getValue();
-
-            double relativeScore = ((double) score) / Score.MAX_VALUE;
-            int height = (int) (columnHeight * relativeScore);
-
-            rect.set(0, 0, baseSize, baseSize);
-            rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,
-                paddingTop + columnHeight - height - baseSize / 2);
-
-            if (!prevRect.isEmpty())
-            {
-                drawLine(activeCanvas, prevRect, rect);
-                drawMarker(activeCanvas, prevRect);
-            }
-
-            if (k == nColumns - 1) drawMarker(activeCanvas, rect);
-
-            prevRect.set(rect);
-            rect.set(0, 0, columnWidth, columnHeight);
-            rect.offset(k * columnWidth, paddingTop);
-
-            drawFooter(activeCanvas, rect, currentDate);
-
-            currentDate += bucketSize * DateUtils.millisecondsInOneDay;
-        }
-
-        if (activeCanvas != canvas) canvas.drawBitmap(drawingCache, 0, 0, null);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        setMeasuredDimension(width, height);
-    }
-
-    @Override
-    protected void onSizeChanged(int width,
-                                 int height,
-                                 int oldWidth,
-                                 int oldHeight)
-    {
-        if (height < 9) height = 200;
-
-        float maxTextSize = getResources().getDimension(R.dimen.tinyTextSize);
-        float textSize = height * 0.06f;
-        pText.setTextSize(Math.min(textSize, maxTextSize));
-        em = pText.getFontSpacing();
-
-        footerHeight = (int) (3 * em);
-        paddingTop = (int) (em);
-
-        baseSize = (height - footerHeight - paddingTop) / 8;
-        setScrollerBucketSize(baseSize);
-
-        columnWidth = baseSize;
-        columnWidth = Math.max(columnWidth, getMaxDayWidth() * 1.5f);
-        columnWidth = Math.max(columnWidth, getMaxMonthWidth() * 1.2f);
-
-        nColumns = (int) (width / columnWidth);
-        columnWidth = (float) width / nColumns;
-
-        columnHeight = 8 * baseSize;
-
-        float minStrokeWidth = InterfaceUtils.dpToPixels(getContext(), 1);
-        pGraph.setTextSize(baseSize * 0.5f);
-        pGraph.setStrokeWidth(baseSize * 0.1f);
-        pGrid.setStrokeWidth(Math.min(minStrokeWidth, baseSize * 0.05f));
-
-        if (isTransparencyEnabled) initCache(width, height);
     }
 
     private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)

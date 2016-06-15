@@ -195,16 +195,11 @@ public class ShowHabitFragment extends Fragment
     public void onModelChange()
     {
         refreshData();
-        activity.runOnUiThread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                helper.updateColors();
-                helper.updateMainHeader(getView());
-                helper.updateCardHeaders(getView());
-                if (activity != null) activity.setupHabitActionBar();
-            }
+        activity.runOnUiThread(() -> {
+            helper.updateColors();
+            helper.updateMainHeader(getView());
+            helper.updateCardHeaders(getView());
+            if (activity != null) activity.setupHabitActionBar();
         });
     }
 

@@ -28,7 +28,6 @@ import android.widget.TextView;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitWidgetView;
 
 public class GraphWidgetView extends HabitWidgetView implements HabitDataView
 {
