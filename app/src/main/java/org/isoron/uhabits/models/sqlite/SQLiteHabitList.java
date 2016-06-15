@@ -205,6 +205,8 @@ public class SQLiteHabitList extends HabitList
         record.save();
 
         update(from);
+
+        getObservable().notifyListeners();
     }
 
     @Override

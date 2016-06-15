@@ -144,12 +144,9 @@ public class HabitCardListCache implements CommandRunner.Listener
     public void reorder(int from, int to)
     {
         Habit fromHabit = data.habitsList.get(from);
-        Habit toHabit = data.habitsList.get(to);
-
         data.habitsList.remove(from);
         data.habitsList.add(to, fromHabit);
-
-        allHabits.reorder(fromHabit, toHabit);
+        if(listener != null) listener.onCacheRefresh();
     }
 
     public void setCheckmarkCount(int checkmarkCount)

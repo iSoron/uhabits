@@ -178,8 +178,6 @@ public class HabitCardListAdapter extends BaseAdapter
     public void reorder(int from, int to)
     {
         cache.reorder(from, to);
-        cache.refreshAllHabits(false);
-        notifyDataSetChanged();
     }
 
     /**
