@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
+import android.database.*;
+
 import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
@@ -29,7 +31,7 @@ import org.isoron.uhabits.models.sqlite.*;
  * The SQLite database record corresponding to a {@link Checkmark}.
  */
 @Table(name = "Checkmarks")
-public class CheckmarkRecord extends Model
+public class CheckmarkRecord extends Model implements SQLiteRecord
 {
     /**
      * The habit to which this checkmark belongs.
@@ -51,6 +53,13 @@ public class CheckmarkRecord extends Model
      */
     @Column(name = "value")
     public Integer value;
+
+    @Override
+    public void copyFrom(Cursor c)
+    {
+        timestamp = c.getLong(1);
+        value = c.getInt(2);
+    }
 
     public Checkmark toCheckmark()
     {

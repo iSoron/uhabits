@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
+import android.database.*;
+
 import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
@@ -29,11 +31,8 @@ import org.isoron.uhabits.models.sqlite.*;
  * The SQLite database record corresponding to a Score.
  */
 @Table(name = "Score")
-public class ScoreRecord extends Model
+public class ScoreRecord extends Model implements SQLiteRecord
 {
-    /**
-     * Habit to which this score belongs to.
-     */
     @Column(name = "habit")
     public HabitRecord habit;
 
@@ -49,6 +48,13 @@ public class ScoreRecord extends Model
      */
     @Column(name = "score")
     public Integer score;
+
+    @Override
+    public void copyFrom(Cursor c)
+    {
+        timestamp = c.getLong(1);
+        score = c.getInt(2);
+    }
 
     /**
      * Constructs and returns a {@link Score} based on this record's data.

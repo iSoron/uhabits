@@ -20,6 +20,7 @@
 package org.isoron.uhabits.models.sqlite.records;
 
 import android.annotation.*;
+import android.database.*;
 import android.support.annotation.*;
 
 import com.activeandroid.*;
@@ -28,16 +29,23 @@ import com.activeandroid.query.*;
 import com.activeandroid.util.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.utils.DatabaseUtils;
+
+import java.lang.reflect.*;
 
 /**
  * The SQLite database record corresponding to a {@link Habit}.
  */
 @Table(name = "Habits")
-public class HabitRecord extends Model
+public class HabitRecord extends Model implements SQLiteRecord
 {
     public static final String HABIT_URI_FORMAT =
         "content://org.isoron.uhabits/habit/%d";
+
+    public static String SELECT =
+        "select id, color, description, freq_den, freq_num, " +
+        "name, position, reminder_hour, reminder_min, " +
+        "highlight, archived, reminder_days from habits ";
 
     @Column(name = "name")
     public String name;
@@ -147,6 +155,23 @@ public class HabitRecord extends Model
         this.archived = model.getArchived();
     }
 
+    @Override
+    public void copyFrom(Cursor c)
+    {
+        setId(c.getLong(0));
+        color = c.getInt(1);
+        description = c.getString(2);
+        freqDen = c.getInt(3);
+        freqNum = c.getInt(4);
+        name = c.getString(5);
+        position = c.getInt(6);
+        reminderHour = c.getInt(7);
+        reminderMin = c.getInt(8);
+        highlight = c.getInt(9);
+        archived = c.getInt(10);
+        reminderDays = c.getInt(11);
+    }
+    
     public void copyTo(Habit habit)
     {
         habit.setName(this.name);
@@ -171,5 +196,21 @@ public class HabitRecord extends Model
     {
         save();
         updateId(getId(), id);
+    }
+
+    private void setId(Long id)
+    {
+        // HACK: The id field is declared private by ActiveAndroid and
+        // there are no setters. (WTF?)
+        try
+        {
+            Field f = (Model.class).getDeclaredField("mId");
+            f.setAccessible(true);
+            f.set(this, id);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

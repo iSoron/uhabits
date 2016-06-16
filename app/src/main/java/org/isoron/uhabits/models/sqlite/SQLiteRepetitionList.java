@@ -20,12 +20,13 @@
 package org.isoron.uhabits.models.sqlite;
 
 import android.support.annotation.*;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
-import org.isoron.uhabits.utils.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -34,9 +35,15 @@ import java.util.*;
  */
 public class SQLiteRepetitionList extends RepetitionList
 {
+    private final SQLiteUtils<RepetitionRecord> sqlite;
+
+    @Nullable
+    private HabitRecord habitRecord;
+
     public SQLiteRepetitionList(@NonNull Habit habit)
     {
         super(habit);
+        sqlite = new SQLiteUtils<>(RepetitionRecord.class);
     }
 
     /**
@@ -59,25 +66,56 @@ public class SQLiteRepetitionList extends RepetitionList
     @Override
     public List<Repetition> getByInterval(long timeFrom, long timeTo)
     {
-        return toRepetitions(selectFromTo(timeFrom, timeTo).execute());
+        check(habit.getId());
+        String query = "select habit, timestamp " +
+                       "from Repetitions " +
+                       "where habit = ? and timestamp >= ? and timestamp <= ? " +
+                       "order by timestamp";
+
+        String params[] = {
+            Long.toString(habit.getId()),
+            Long.toString(timeFrom),
+            Long.toString(timeTo)
+        };
+
+        List<RepetitionRecord> records = sqlite.query(query, params);
+        return toRepetitions(records);
     }
 
     @Override
     @Nullable
     public Repetition getByTimestamp(long timestamp)
     {
-        RepetitionRecord record =
-            select().where("timestamp = ?", timestamp).executeSingle();
+        check(habit.getId());
+        String query = "select habit, timestamp " +
+                       "from Repetitions " +
+                       "where habit = ? and timestamp = ? " +
+                       "limit 1";
 
+        String params[] =
+            { Long.toString(habit.getId()), Long.toString(timestamp) };
+
+        RepetitionRecord record = sqlite.querySingle(query, params);
         if (record == null) return null;
+        record.habit = habitRecord;
         return record.toRepetition();
     }
 
     @Override
     public Repetition getOldest()
     {
-        RepetitionRecord record = select().limit(1).executeSingle();
+        check(habit.getId());
+        String query = "select habit, timestamp " +
+                       "from Repetitions " +
+                       "where habit = ? " +
+                       "order by timestamp asc " +
+                       "limit 1";
+
+        String params[] = { Long.toString(habit.getId()) };
+
+        RepetitionRecord record = sqlite.querySingle(query, params);
         if (record == null) return null;
+        record.habit = habitRecord;
         return record.toRepetition();
     }
 
@@ -93,33 +131,29 @@ public class SQLiteRepetitionList extends RepetitionList
         observable.notifyListeners();
     }
 
-    @NonNull
-    private From select()
+    @Contract("null -> fail")
+    private void check(Long id)
     {
-        return new Select()
-            .from(RepetitionRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp <= ?", DateUtils.getStartOfToday())
-            .orderBy("timestamp");
-    }
+        if (id == null) throw new RuntimeException("habit is not saved");
 
-    @NonNull
-    private From selectFromTo(long timeFrom, long timeTo)
-    {
-        return select()
-            .and("timestamp >= ?", timeFrom)
-            .and("timestamp <= ?", timeTo);
+        if (habitRecord != null) return;
+
+        habitRecord = HabitRecord.get(id);
+        if (habitRecord == null) throw new RuntimeException("habit not found");
     }
 
     @NonNull
     private List<Repetition> toRepetitions(
-        @Nullable List<RepetitionRecord> records)
+        @NonNull List<RepetitionRecord> records)
     {
-        List<Repetition> reps = new LinkedList<>();
-        if (records == null) return reps;
+        check(habit.getId());
 
+        List<Repetition> reps = new LinkedList<>();
         for (RepetitionRecord record : records)
+        {
+            record.habit = habitRecord;
             reps.add(record.toRepetition());
+        }
 
         return reps;
     }

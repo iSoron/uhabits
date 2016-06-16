@@ -21,12 +21,14 @@ package org.isoron.uhabits.models.sqlite;
 
 import android.database.sqlite.*;
 import android.support.annotation.*;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.*;
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -35,6 +37,12 @@ import java.util.*;
  */
 public class SQLiteScoreList extends ScoreList
 {
+    @Nullable
+    private HabitRecord habitRecord;
+
+    @NonNull
+    private final SQLiteUtils<ScoreRecord> sqlite;
+
     /**
      * Constructs a new ScoreList associated with the given habit.
      *
@@ -43,36 +51,13 @@ public class SQLiteScoreList extends ScoreList
     public SQLiteScoreList(@NonNull Habit habit)
     {
         super(habit);
-    }
-
-    @Override
-    @NonNull
-    public List<Score> getAll()
-    {
-        computeAll();
-
-        List<ScoreRecord> records = select().execute();
-        List<Score> scores = new LinkedList<>();
-
-        for (ScoreRecord rec : records)
-            scores.add(rec.toScore());
-
-        return scores;
-    }
-
-    @Override
-    public void invalidateNewerThan(long timestamp)
-    {
-        new Delete()
-            .from(ScoreRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp >= ?", timestamp)
-            .execute();
+        sqlite = new SQLiteUtils<>(ScoreRecord.class);
     }
 
     @Override
     public void add(List<Score> scores)
     {
+        check(habit.getId());
         String query =
             "insert into Score(habit, timestamp, score) values (?,?,?)";
 
@@ -100,32 +85,82 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
+    @NonNull
+    public List<Score> getAll()
+    {
+        check(habit.getId());
+        computeAll();
+
+        String query = "select habit, timestamp, score from Score " +
+                       "where habit = ? order by timestamp desc";
+
+        String params[] = {Long.toString(habit.getId())};
+
+        List<ScoreRecord> records = sqlite.query(query, params);
+        for (ScoreRecord record : records) record.habit = habitRecord;
+
+        List<Score> scores = new LinkedList<>();
+        for (ScoreRecord rec : records)
+            scores.add(rec.toScore());
+
+        return scores;
+    }
+
+    @Override
     @Nullable
     public Score getByTimestamp(long timestamp)
     {
+        check(habit.getId());
         computeAll();
 
-        ScoreRecord record =
-            select().where("timestamp = ?", timestamp).executeSingle();
+        String query = "select habit, timestamp, score from Score " +
+                       "where habit = ? and timestamp = ? " +
+                       "order by timestamp desc";
 
+        String params[] =
+            {Long.toString(habit.getId()), Long.toString(timestamp)};
+
+        ScoreRecord record = sqlite.querySingle(query, params);
         if (record == null) return null;
+        record.habit = habitRecord;
         return record.toScore();
+    }
+
+    @Override
+    public void invalidateNewerThan(long timestamp)
+    {
+        new Delete()
+            .from(ScoreRecord.class)
+            .where("habit = ?", habit.getId())
+            .and("timestamp >= ?", timestamp)
+            .execute();
     }
 
     @Nullable
     @Override
     protected Score getNewestComputed()
     {
-        ScoreRecord record = select().limit(1).executeSingle();
+        check(habit.getId());
+        String query = "select habit, timestamp, score from Score " +
+                       "where habit = ? order by timestamp desc " +
+                       "limit 1";
+
+        String params[] = {Long.toString(habit.getId())};
+
+        ScoreRecord record = sqlite.querySingle(query, params);
         if (record == null) return null;
+        record.habit = habitRecord;
         return record.toScore();
     }
 
-    private From select()
+    @Contract("null -> fail")
+    private void check(Long id)
     {
-        return new Select()
-            .from(ScoreRecord.class)
-            .where("habit = ?", habit.getId())
-            .orderBy("timestamp desc");
+        if (id == null) throw new RuntimeException("habit is not saved");
+
+        if(habitRecord != null) return;
+
+        habitRecord = HabitRecord.get(id);
+        if (habitRecord == null) throw new RuntimeException("habit not found");
     }
 }

@@ -19,8 +19,10 @@
 
 package org.isoron.uhabits.models.sqlite;
 
+import android.database.sqlite.*;
 import android.support.annotation.*;
 
+import com.activeandroid.*;
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
@@ -37,9 +39,13 @@ public class SQLiteHabitList extends HabitList
 
     private HashMap<Long, Habit> cache;
 
+    private final SQLiteUtils<HabitRecord> sqlite;
+
+
     private SQLiteHabitList()
     {
         cache = new HashMap<>();
+        sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
 
     /**
@@ -77,13 +83,18 @@ public class SQLiteHabitList extends HabitList
     @Override
     public int countActive()
     {
-        return select().count();
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement st = db.compileStatement(
+            "select count(*) from habits where archived = 0");
+        return (int) st.simpleQueryForLong();
     }
 
     @Override
     public int countWithArchived()
     {
-        return selectWithArchived().count();
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement st = db.compileStatement("select count(*) from habits");
+        return (int) st.simpleQueryForLong();
     }
 
     @Override
@@ -91,8 +102,17 @@ public class SQLiteHabitList extends HabitList
     public List<Habit> getAll(boolean includeArchive)
     {
         List<HabitRecord> recordList;
-        if (includeArchive) recordList = selectWithArchived().execute();
-        else recordList = select().execute();
+        if (includeArchive)
+        {
+            String query = HabitRecord.SELECT + "order by position";
+            recordList = sqlite.query(query, null);
+        }
+        else
+        {
+            String query = HabitRecord.SELECT + "where archived = 0 " +
+                           "order by position";
+            recordList = sqlite.query(query, null);
+        }
 
         List<Habit> habits = new LinkedList<>();
         for (HabitRecord record : recordList)
@@ -127,11 +147,10 @@ public class SQLiteHabitList extends HabitList
     @Nullable
     public Habit getByPosition(int position)
     {
-        HabitRecord record = selectWithArchived()
-            .where("position = ?", position)
-            .executeSingle();
-
-        if(record != null) return getById(record.getId());
+        String query = HabitRecord.SELECT + "where position = ? limit 1";
+        String params[] = { Integer.toString(position) };
+        HabitRecord record = sqlite.querySingle(query, params);
+        if (record != null) return getById(record.getId());
         return null;
     }
 
@@ -222,18 +241,4 @@ public class SQLiteHabitList extends HabitList
         }
     }
 
-    @NonNull
-    private From select()
-    {
-        return new Select()
-            .from(HabitRecord.class)
-            .where("archived = 0")
-            .orderBy("position");
-    }
-
-    @NonNull
-    private From selectWithArchived()
-    {
-        return new Select().from(HabitRecord.class).orderBy("position");
-    }
 }

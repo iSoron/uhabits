@@ -58,6 +58,7 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'org.jetbrains:annotations-java5:15.0'
 
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'

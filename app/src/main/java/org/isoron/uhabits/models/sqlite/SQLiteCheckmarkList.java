@@ -21,13 +21,14 @@ package org.isoron.uhabits.models.sqlite;
 
 import android.database.sqlite.*;
 import android.support.annotation.*;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.*;
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
-import org.isoron.uhabits.utils.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -36,14 +37,23 @@ import java.util.*;
  */
 public class SQLiteCheckmarkList extends CheckmarkList
 {
+    @Nullable
+    private HabitRecord habitRecord;
+
+    @NonNull
+    private final SQLiteUtils<CheckmarkRecord> sqlite;
+
     public SQLiteCheckmarkList(Habit habit)
     {
         super(habit);
+        sqlite = new SQLiteUtils<>(CheckmarkRecord.class);
     }
 
     @Override
     public void add(List<Checkmark> checkmarks)
     {
+        check(habit.getId());
+
         String query =
             "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
 
@@ -69,16 +79,26 @@ public class SQLiteCheckmarkList extends CheckmarkList
         }
     }
 
+    @NonNull
     @Override
     public List<Checkmark> getByInterval(long fromTimestamp, long toTimestamp)
     {
+        check(habit.getId());
         computeAll();
 
-        List<CheckmarkRecord> records = select()
-            .and("timestamp >= ?", fromTimestamp)
-            .and("timestamp <= ?", toTimestamp)
-            .execute();
+        String query = "select habit, timestamp, value " +
+                       "from checkmarks " +
+                       "where habit = ? and timestamp >= ? and timestamp <= ? " +
+                       "order by timestamp desc";
 
+        String params[] = {
+            Long.toString(habit.getId()),
+            Long.toString(fromTimestamp),
+            Long.toString(toTimestamp)
+        };
+
+        List<CheckmarkRecord> records = sqlite.query(query, params);
+        for (CheckmarkRecord record : records) record.habit = habitRecord;
         return toCheckmarks(records);
     }
 
@@ -98,19 +118,31 @@ public class SQLiteCheckmarkList extends CheckmarkList
     @Nullable
     protected Checkmark getNewestComputed()
     {
-        CheckmarkRecord record = select().limit(1).executeSingle();
+        check(habit.getId());
+
+        String query = "select habit, timestamp, value " +
+                       "from checkmarks " +
+                       "where habit = ? " +
+                       "order by timestamp desc " +
+                       "limit 1";
+
+        String params[] = { Long.toString(habit.getId()) };
+
+        CheckmarkRecord record = sqlite.querySingle(query, params);
         if (record == null) return null;
+        record.habit = habitRecord;
         return record.toCheckmark();
     }
 
-    @NonNull
-    private From select()
+    @Contract("null -> fail")
+    private void check(Long id)
     {
-        return new Select()
-            .from(CheckmarkRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp <= ?", DateUtils.getStartOfToday())
-            .orderBy("timestamp desc");
+        if (id == null) throw new RuntimeException("habit is not saved");
+
+        if (habitRecord != null) return;
+
+        habitRecord = HabitRecord.get(id);
+        if (habitRecord == null) throw new RuntimeException("habit not found");
     }
 
     @NonNull

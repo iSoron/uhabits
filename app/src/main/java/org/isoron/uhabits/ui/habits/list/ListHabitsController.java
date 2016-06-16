@@ -19,26 +19,20 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
-import android.support.annotation.NonNull;
+import android.os.*;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.tasks.ExportCSVTask;
-import org.isoron.uhabits.tasks.ExportDBTask;
-import org.isoron.uhabits.tasks.ImportDataTask;
-import org.isoron.uhabits.ui.BaseSystem;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardListController;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.Preferences;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 public class ListHabitsController
     implements ImportDataTask.Listener, HabitCardListController.HabitListener
@@ -168,8 +162,10 @@ public class ListHabitsController
         prefs.updateLastAppVersion();
         if (prefs.isFirstRun()) onFirstRun();
 
-        system.updateWidgets();
-        system.scheduleReminders();
+        new Handler().postDelayed(() -> {
+            system.updateWidgets();
+            system.scheduleReminders();
+        }, 1000);
     }
 
     @Override

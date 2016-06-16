@@ -19,18 +19,18 @@
 
 package org.isoron.uhabits;
 
-import android.app.Application;
-import android.content.Context;
-import android.support.annotation.Nullable;
+import android.app.*;
+import android.content.*;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
+import com.activeandroid.*;
 
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
+import java.io.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * The Android application for Loop Habit Tracker.
@@ -92,7 +92,7 @@ public class HabitsApplication extends Application
         {
             if (context != null) context
                 .getClassLoader()
-                .loadClass("org.isoron.uhabits.unit.models.HabitTest");
+                .loadClass("org.isoron.uhabits.BaseAndroidTest");
             return true;
         }
         catch (final Exception e)
