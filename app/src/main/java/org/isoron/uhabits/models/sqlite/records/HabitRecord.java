@@ -39,9 +39,6 @@ import java.lang.reflect.*;
 @Table(name = "Habits")
 public class HabitRecord extends Model implements SQLiteRecord
 {
-    public static final String HABIT_URI_FORMAT =
-        "content://org.isoron.uhabits/habit/%d";
-
     public static String SELECT =
         "select id, color, description, freq_den, freq_num, " +
         "name, position, reminder_hour, reminder_min, " +
@@ -148,9 +145,13 @@ public class HabitRecord extends Model implements SQLiteRecord
         this.freqNum = model.getFreqNum();
         this.freqDen = model.getFreqDen();
         this.color = model.getColor();
-        this.reminderHour = model.getReminderHour();
-        this.reminderMin = model.getReminderMin();
-        this.reminderDays = model.getReminderDays();
+        if(model.hasReminder())
+        {
+            Reminder reminder = model.getReminder();
+            this.reminderHour = reminder.getHour();
+            this.reminderMin = reminder.getMinute();
+            this.reminderDays = reminder.getDays();
+        }
         this.highlight = model.getHighlight();
         this.archived = model.getArchived();
     }
@@ -171,7 +172,7 @@ public class HabitRecord extends Model implements SQLiteRecord
         archived = c.getInt(10);
         reminderDays = c.getInt(11);
     }
-    
+
     public void copyTo(Habit habit)
     {
         habit.setName(this.name);
@@ -179,12 +180,15 @@ public class HabitRecord extends Model implements SQLiteRecord
         habit.setFreqNum(this.freqNum);
         habit.setFreqDen(this.freqDen);
         habit.setColor(this.color);
-        habit.setReminderHour(this.reminderHour);
-        habit.setReminderMin(this.reminderMin);
-        habit.setReminderDays(this.reminderDays);
         habit.setHighlight(this.highlight);
         habit.setArchived(this.archived);
         habit.setId(this.getId());
+
+        if (reminderHour != null && reminderMin != null)
+        {
+            habit.setReminder(
+                new Reminder(reminderHour, reminderMin, reminderDays));
+        }
     }
 
     /**

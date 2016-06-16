@@ -19,17 +19,16 @@
 
 package org.isoron.uhabits.io;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+import android.database.*;
+import android.database.sqlite.*;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.GregorianCalendar;
+import java.io.*;
+import java.util.*;
 
 /**
  * Class that imports database files exported by Rewire.
@@ -39,13 +38,14 @@ public class RewireDBImporter extends AbstractImporter
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
-        if(!isSQLite3File(file)) return false;
+        if (!isSQLite3File(file)) return false;
 
         SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
-                SQLiteDatabase.OPEN_READONLY);
+            SQLiteDatabase.OPEN_READONLY);
 
-        Cursor c = db.rawQuery("select count(*) from SQLITE_MASTER where name=? or name=?",
-                new String[]{"CHECKINS", "UNIT"});
+        Cursor c = db.rawQuery(
+            "select count(*) from SQLITE_MASTER where name=? or name=?",
+            new String[]{ "CHECKINS", "UNIT" });
 
         boolean result = (c.moveToFirst() && c.getInt(0) == 2);
 
@@ -57,7 +57,8 @@ public class RewireDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        final SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
+        final SQLiteDatabase db =
+            SQLiteDatabase.openDatabase(file.getPath(), null,
                 SQLiteDatabase.OPEN_READONLY);
 
         DatabaseUtils.executeAsTransaction(new DatabaseUtils.Callback()
@@ -72,14 +73,48 @@ public class RewireDBImporter extends AbstractImporter
         db.close();
     }
 
+    private void createCheckmarks(@NonNull SQLiteDatabase db,
+                                  @NonNull Habit habit,
+                                  int rewireHabitId)
+    {
+        Cursor c = null;
+
+        try
+        {
+            String[] params = { Integer.toString(rewireHabitId) };
+            c = db.rawQuery(
+                "select distinct date from checkins where habit_id=? and type=2",
+                params);
+            if (!c.moveToFirst()) return;
+
+            do
+            {
+                String date = c.getString(0);
+                int year = Integer.parseInt(date.substring(0, 4));
+                int month = Integer.parseInt(date.substring(4, 6));
+                int day = Integer.parseInt(date.substring(6, 8));
+
+                GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
+                cal.set(year, month - 1, day);
+
+                habit.getRepetitions().toggleTimestamp(cal.getTimeInMillis());
+            } while (c.moveToNext());
+        }
+        finally
+        {
+            if (c != null) c.close();
+        }
+    }
+
     private void createHabits(SQLiteDatabase db)
     {
         Cursor c = null;
 
         try
         {
-            c = db.rawQuery("select _id, name, description, schedule, active_days, " +
-                    "repeating_count, days, period from habits", new String[0]);
+            c = db.rawQuery(
+                "select _id, name, description, schedule, active_days, " +
+                "repeating_count, days, period from habits", new String[0]);
             if (!c.moveToFirst()) return;
 
             do
@@ -122,8 +157,7 @@ public class RewireDBImporter extends AbstractImporter
                 createReminder(db, habit, id);
                 createCheckmarks(db, habit, id);
 
-            }
-            while (c.moveToNext());
+            } while (c.moveToNext());
         }
         finally
         {
@@ -131,14 +165,18 @@ public class RewireDBImporter extends AbstractImporter
         }
     }
 
-    private void createReminder(SQLiteDatabase db, Habit habit, int rewireHabitId)
+    private void createReminder(SQLiteDatabase db,
+                                Habit habit,
+                                int rewireHabitId)
     {
         String[] params = { Integer.toString(rewireHabitId) };
         Cursor c = null;
 
         try
         {
-            c = db.rawQuery("select time, active_days from reminders where habit_id=? limit 1", params);
+            c = db.rawQuery(
+                "select time, active_days from reminders where habit_id=? limit 1",
+                params);
 
             if (!c.moveToFirst()) return;
             int rewireReminder = Integer.parseInt(c.getString(0));
@@ -147,47 +185,19 @@ public class RewireDBImporter extends AbstractImporter
             boolean reminderDays[] = new boolean[7];
 
             String activeDays[] = c.getString(1).split(",");
-            for(String d : activeDays)
+            for (String d : activeDays)
             {
                 int idx = (Integer.parseInt(d) + 1) % 7;
                 reminderDays[idx] = true;
             }
 
-            habit.setReminderDays(DateUtils.packWeekdayList(reminderDays));
-            habit.setReminderHour(rewireReminder / 60);
-            habit.setReminderMin(rewireReminder % 60);
+            int hour = rewireReminder / 60;
+            int minute = rewireReminder % 60;
+            Integer days = DateUtils.packWeekdayList(reminderDays);
+
+            Reminder reminder = new Reminder(hour, minute, days);
+            habit.setReminder(reminder);
             habitList.update(habit);
-        }
-        finally
-        {
-            if(c != null) c.close();
-        }
-    }
-
-    private void createCheckmarks(@NonNull SQLiteDatabase db, @NonNull
-    Habit habit, int rewireHabitId)
-    {
-        Cursor c = null;
-
-        try
-        {
-            String[] params = { Integer.toString(rewireHabitId) };
-            c = db.rawQuery("select distinct date from checkins where habit_id=? and type=2", params);
-            if (!c.moveToFirst()) return;
-
-            do
-            {
-                String date = c.getString(0);
-                int year = Integer.parseInt(date.substring(0, 4));
-                int month = Integer.parseInt(date.substring(4, 6));
-                int day = Integer.parseInt(date.substring(6, 8));
-
-                GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
-                cal.set(year, month - 1, day);
-
-                habit.getRepetitions().toggleTimestamp(cal.getTimeInMillis());
-            }
-            while (c.moveToNext());
         }
         finally
         {

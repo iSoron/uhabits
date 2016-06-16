@@ -23,6 +23,7 @@ import org.isoron.uhabits.BaseUnitTest;
 import org.isoron.uhabits.utils.DateUtils;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.IsNot.not;
@@ -38,12 +39,9 @@ public class HabitTest extends BaseUnitTest
         assertThat(habit.getArchived(), is(0));
         assertThat(habit.getHighlight(), is(0));
 
-        assertThat(habit.getReminderHour(), is(nullValue()));
-        assertThat(habit.getReminderMin(), is(nullValue()));
-
-        assertThat(habit.getReminderDays(), is(not(nullValue())));
-//        assertThat(habit.getStreaks(), is(not(nullValue())));
-//        assertThat(habit.getScores(), is(not(nullValue())));
+        assertThat(habit.hasReminder(), is(false));
+        assertThat(habit.getStreaks(), is(not(nullValue())));
+        assertThat(habit.getScores(), is(not(nullValue())));
         assertThat(habit.getRepetitions(), is(not(nullValue())));
         assertThat(habit.getCheckmarks(), is(not(nullValue())));
     }
@@ -57,9 +55,7 @@ public class HabitTest extends BaseUnitTest
         model.setColor(0);
         model.setFreqNum(10);
         model.setFreqDen(20);
-        model.setReminderDays(1);
-        model.setReminderHour(8);
-        model.setReminderMin(30);
+        model.setReminder(new Reminder(8, 30, 1));
 
         Habit habit = new Habit();
         habit.copyFrom(model);
@@ -68,9 +64,7 @@ public class HabitTest extends BaseUnitTest
         assertThat(habit.getColor(), is(model.getColor()));
         assertThat(habit.getFreqNum(), is(model.getFreqNum()));
         assertThat(habit.getFreqDen(), is(model.getFreqDen()));
-        assertThat(habit.getReminderDays(), is(model.getReminderDays()));
-        assertThat(habit.getReminderHour(), is(model.getReminderHour()));
-        assertThat(habit.getReminderMin(), is(model.getReminderMin()));
+        assertThat(habit.getReminder(), equalTo(model.getReminder()));
     }
 
 //    @Test
@@ -103,9 +97,7 @@ public class HabitTest extends BaseUnitTest
         Habit h = new Habit();
         assertThat(h.hasReminder(), is(false));
 
-        h.setReminderDays(DateUtils.ALL_WEEK_DAYS);
-        h.setReminderHour(8);
-        h.setReminderMin(30);
+        h.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
         assertThat(h.hasReminder(), is(true));
 
         h.clearReminder();

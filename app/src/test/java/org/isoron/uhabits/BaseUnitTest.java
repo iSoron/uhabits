@@ -19,16 +19,11 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.models.HabitFixtures;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.models.ModelFactory;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListCache;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.Preferences;
-import org.junit.After;
-import org.junit.Before;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 public class BaseUnitTest
 {
@@ -37,9 +32,6 @@ public class BaseUnitTest
 
     @Inject
     protected Preferences prefs;
-
-    @Inject
-    protected HabitCardListCache listCache;
 
     @Inject
     protected ModelFactory modelFactory;

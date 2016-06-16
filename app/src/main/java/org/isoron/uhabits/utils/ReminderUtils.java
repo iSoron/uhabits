@@ -19,29 +19,22 @@
 
 package org.isoron.uhabits.utils;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.annotation.Nullable;
+import android.app.*;
+import android.content.*;
+import android.media.*;
+import android.net.*;
+import android.os.*;
+import android.preference.*;
+import android.provider.*;
+import android.support.annotation.*;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.util.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.*;
+import java.util.*;
 
 public abstract class ReminderUtils
 {
@@ -50,15 +43,14 @@ public abstract class ReminderUtils
                                            @Nullable Long reminderTime)
     {
         if (!habit.hasReminder()) return;
+        Reminder reminder = habit.getReminder();
 
         if (reminderTime == null)
         {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            //noinspection ConstantConditions
-            calendar.set(Calendar.HOUR_OF_DAY, habit.getReminderHour());
-            //noinspection ConstantConditions
-            calendar.set(Calendar.MINUTE, habit.getReminderMin());
+            calendar.set(Calendar.HOUR_OF_DAY, reminder.getHour());
+            calendar.set(Calendar.MINUTE, reminder.getMinute());
             calendar.set(Calendar.SECOND, 0);
 
             reminderTime = calendar.getTimeInMillis();

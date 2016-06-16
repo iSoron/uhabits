@@ -49,15 +49,12 @@ public class Checkmark
      */
     public static final int UNCHECKED = 0;
 
-    private final Habit habit;
-
     private final long timestamp;
 
     private final int value;
 
-    public Checkmark(Habit habit, long timestamp, int value)
+    public Checkmark(long timestamp, int value)
     {
-        this.habit = habit;
         this.timestamp = timestamp;
         this.value = value;
     }
@@ -65,11 +62,6 @@ public class Checkmark
     public int compareNewer(Checkmark other)
     {
         return Long.signum(this.getTimestamp() - other.getTimestamp());
-    }
-
-    public Habit getHabit()
-    {
-        return habit;
     }
 
     public long getTimestamp()

@@ -101,12 +101,19 @@ public class ShowHabitHelper
 
         TextView reminderLabel =
             (TextView) view.findViewById(R.id.reminderLabel);
-        if (fragment.habit.hasReminder()) reminderLabel.setText(
-            DateUtils.formatTime(fragment.getActivity(),
-                fragment.habit.getReminderHour(),
-                fragment.habit.getReminderMin()));
-        else reminderLabel.setText(
-            fragment.getResources().getString(R.string.reminder_off));
+
+        if (fragment.habit.hasReminder())
+        {
+            Reminder reminder = fragment.habit.getReminder();
+            reminderLabel.setText(
+                DateUtils.formatTime(fragment.getActivity(), reminder.getHour(),
+                    reminder.getMinute()));
+        }
+        else
+        {
+            reminderLabel.setText(
+                fragment.getResources().getString(R.string.reminder_off));
+        }
 
         TextView frequencyLabel =
             (TextView) view.findViewById(R.id.frequencyLabel);

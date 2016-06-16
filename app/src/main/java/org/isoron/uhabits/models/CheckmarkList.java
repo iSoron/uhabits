@@ -221,7 +221,7 @@ public abstract class CheckmarkList
         {
             int value = checks[i];
             long timestamp = to - i * day;
-            checkmarks.add(new Checkmark(habit, timestamp, value));
+            checkmarks.add(new Checkmark(timestamp, value));
         }
 
         add(checkmarks);

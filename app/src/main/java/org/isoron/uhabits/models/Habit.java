@@ -24,7 +24,6 @@ import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -56,15 +55,6 @@ public class Habit
     @NonNull
     private Integer color;
 
-    @Nullable
-    private Integer reminderHour;
-
-    @Nullable
-    private Integer reminderMin;
-
-    @NonNull
-    private Integer reminderDays;
-
     @NonNull
     private Integer highlight;
 
@@ -83,6 +73,9 @@ public class Habit
     @NonNull
     private CheckmarkList checkmarks;
 
+    @Nullable
+    private Reminder reminder;
+
     private ModelObservable observable = new ModelObservable();
 
     @Inject
@@ -96,8 +89,6 @@ public class Habit
     public Habit(Habit model)
     {
         HabitsApplication.getComponent().inject(this);
-
-        reminderDays = DateUtils.ALL_WEEK_DAYS;
 
         copyFrom(model);
 
@@ -122,7 +113,6 @@ public class Habit
         this.archived = 0;
         this.freqDen = 7;
         this.freqNum = 3;
-        this.reminderDays = DateUtils.ALL_WEEK_DAYS;
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -136,9 +126,7 @@ public class Habit
      */
     public void clearReminder()
     {
-        reminderHour = null;
-        reminderMin = null;
-        reminderDays = DateUtils.ALL_WEEK_DAYS;
+        reminder = null;
         observable.notifyListeners();
     }
 
@@ -154,9 +142,7 @@ public class Habit
         this.freqNum = model.getFreqNum();
         this.freqDen = model.getFreqDen();
         this.color = model.getColor();
-        this.reminderHour = model.getReminderHour();
-        this.reminderMin = model.getReminderMin();
-        this.reminderDays = model.getReminderDays();
+        this.reminder = model.reminder;
         this.highlight = model.getHighlight();
         this.archived = model.getArchived();
         observable.notifyListeners();
@@ -191,6 +177,13 @@ public class Habit
     public Integer getColor()
     {
         return color;
+    }
+
+    @NonNull
+    public Reminder getReminder()
+    {
+        if(reminder == null) throw new IllegalStateException();
+        return reminder;
     }
 
     public void setColor(Integer color)
@@ -284,54 +277,6 @@ public class Habit
     }
 
     /**
-     * Days of the week the reminder should be shown. This field can be
-     * converted to a list of booleans using the method DateHelper.unpackWeekdayList
-     * and converted back to an integer by using the method
-     * DateHelper.packWeekdayList. If the habit has no reminders, this value
-     * should be ignored.
-     */
-    @NonNull
-    public Integer getReminderDays()
-    {
-        return reminderDays;
-    }
-
-    public void setReminderDays(@NonNull Integer reminderDays)
-    {
-        this.reminderDays = reminderDays;
-    }
-
-    /**
-     * Hour of the day the reminder should be shown. If there is no reminder,
-     * this equals to null.
-     */
-    @Nullable
-    public Integer getReminderHour()
-    {
-        return reminderHour;
-    }
-
-    public void setReminderHour(@Nullable Integer reminderHour)
-    {
-        this.reminderHour = reminderHour;
-    }
-
-    /**
-     * Minute the reminder should be shown. If there is no reminder, this equals
-     * to null.
-     */
-    @Nullable
-    public Integer getReminderMin()
-    {
-        return reminderMin;
-    }
-
-    public void setReminderMin(@Nullable Integer reminderMin)
-    {
-        this.reminderMin = reminderMin;
-    }
-
-    /**
      * List of repetitions belonging to this habit.
      */
     @NonNull
@@ -376,7 +321,7 @@ public class Habit
      */
     public boolean hasReminder()
     {
-        return (reminderHour != null && reminderMin != null);
+        return reminder != null;
     }
 
     /**
@@ -394,6 +339,11 @@ public class Habit
         this.archived = archived;
     }
 
+    public void setReminder(@Nullable Reminder reminder)
+    {
+        this.reminder = reminder;
+    }
+
     @Override
     public String toString()
     {
@@ -404,9 +354,6 @@ public class Habit
             .append("freqNum", freqNum)
             .append("freqDen", freqDen)
             .append("color", color)
-            .append("reminderHour", reminderHour)
-            .append("reminderMin", reminderMin)
-            .append("reminderDays", reminderDays)
             .append("highlight", highlight)
             .append("archived", archived)
             .toString();

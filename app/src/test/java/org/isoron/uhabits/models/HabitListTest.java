@@ -54,11 +54,7 @@ public class HabitListTest extends BaseUnitTest
             list.add(habit);
 
             if (i % 3 == 0)
-            {
-                habit.setReminderDays(DateUtils.ALL_WEEK_DAYS);
-                habit.setReminderHour(8);
-                habit.setReminderMin(30);
-            }
+                habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
         }
 
         habits.get(0).setArchived(1);
@@ -130,14 +126,14 @@ public class HabitListTest extends BaseUnitTest
     public void test_reorder()
     {
         int operations[][] = {
-            {5, 2}, {3, 7}, {4, 4}, {3, 2}
+            { 5, 2 }, { 3, 7 }, { 4, 4 }, { 3, 2 }
         };
 
         int expectedPosition[][] = {
-            {0, 1, 3, 4, 5, 2, 6, 7, 8, 9},
-            {0, 1, 7, 3, 4, 2, 5, 6, 8, 9},
-            {0, 1, 7, 3, 4, 2, 5, 6, 8, 9},
-            {0, 1, 7, 2, 4, 3, 5, 6, 8, 9},
+            { 0, 1, 3, 4, 5, 2, 6, 7, 8, 9 },
+            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
+            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
+            { 0, 1, 7, 2, 4, 3, 5, 6, 8, 9 },
         };
 
         for (int i = 0; i < operations.length; i++)

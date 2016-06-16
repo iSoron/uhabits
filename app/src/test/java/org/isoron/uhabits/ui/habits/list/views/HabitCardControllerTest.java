@@ -19,15 +19,13 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardController;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class HabitCardControllerTest extends BaseUnitTest
 {
@@ -68,7 +66,7 @@ public class HabitCardControllerTest extends BaseUnitTest
     {
         long timestamp = DateUtils.getStartOfToday();
         controller.onToggle(habit, timestamp);
-        verify(view).triggerRipple(0, 0);
+        verify(view).triggerRipple(timestamp);
         verify(listener).onToggle(habit, timestamp);
     }
 }

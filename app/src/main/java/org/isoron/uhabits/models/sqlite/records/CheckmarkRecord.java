@@ -65,6 +65,6 @@ public class CheckmarkRecord extends Model implements SQLiteRecord
     {
         SQLiteHabitList habitList = SQLiteHabitList.getInstance();
         Habit h = habitList.getById(habit.getId());
-        return new Checkmark(h, timestamp, value);
+        return new Checkmark(timestamp, value);
     }
 }

@@ -19,20 +19,16 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
-import android.annotation.SuppressLint;
-import android.support.v4.app.DialogFragment;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.annotation.*;
+import android.support.v4.app.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.*;
 
 public class BaseDialogHelper
 {
@@ -71,6 +67,17 @@ public class BaseDialogHelper
         ButterKnife.bind(this, view);
     }
 
+    protected void populateForm(final Habit habit)
+    {
+        if (habit.getName() != null) tvName.setText(habit.getName());
+        if (habit.getDescription() != null)
+            tvDescription.setText(habit.getDescription());
+
+        populateColor(habit.getColor());
+        populateFrequencyFields(habit);
+        populateReminderFields(habit);
+    }
+
     void parseFormIntoHabit(Habit habit)
     {
         habit.setName(tvName.getText().toString().trim());
@@ -87,23 +94,13 @@ public class BaseDialogHelper
             ColorUtils.getColor(frag.getContext(), paletteColor));
     }
 
-    protected void populateForm(final Habit habit)
-    {
-        if (habit.getName() != null) tvName.setText(habit.getName());
-        if (habit.getDescription() != null) tvDescription.setText(
-            habit.getDescription());
-
-        populateColor(habit.getColor());
-        populateFrequencyFields(habit);
-        populateReminderFields(habit);
-    }
-
     @SuppressLint("SetTextI18n")
     void populateFrequencyFields(Habit habit)
     {
         int quickSelectPosition = -1;
 
-        if (habit.getFreqNum().equals(habit.getFreqDen())) quickSelectPosition = 0;
+        if (habit.getFreqNum().equals(habit.getFreqDen()))
+            quickSelectPosition = 0;
 
         else if (habit.getFreqNum() == 1 && habit.getFreqDen() == 7)
             quickSelectPosition = 1;
@@ -133,14 +130,16 @@ public class BaseDialogHelper
             return;
         }
 
+        Reminder reminder = habit.getReminder();
+
         String time =
-            DateUtils.formatTime(frag.getContext(), habit.getReminderHour(),
-                habit.getReminderMin());
+            DateUtils.formatTime(frag.getContext(), reminder.getHour(),
+                reminder.getMinute());
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
-        boolean weekdays[] = DateUtils.unpackWeekdayList(
-            habit.getReminderDays());
+        boolean weekdays[] =
+            DateUtils.unpackWeekdayList(reminder.getDays());
         tvReminderDays.setText(
             DateUtils.formatWeekdayList(frag.getContext(), weekdays));
     }

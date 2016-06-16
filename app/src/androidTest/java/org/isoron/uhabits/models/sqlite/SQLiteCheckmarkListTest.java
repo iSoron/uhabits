@@ -67,9 +67,9 @@ public class SQLiteCheckmarkListTest extends BaseAndroidTest
         checkmarks.invalidateNewerThan(0);
 
         List<Checkmark> list = new LinkedList<>();
-        list.add(new Checkmark(habit, 0, 0));
-        list.add(new Checkmark(habit, 1, 1));
-        list.add(new Checkmark(habit, 2, 2));
+        list.add(new Checkmark(0, 0));
+        list.add(new Checkmark(1, 1));
+        list.add(new Checkmark(2, 2));
 
         checkmarks.add(list);
 

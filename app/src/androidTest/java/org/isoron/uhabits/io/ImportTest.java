@@ -19,31 +19,22 @@
 
 package org.isoron.uhabits.io;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.content.*;
+import android.support.test.*;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.FileUtils;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -128,10 +119,13 @@ public class ImportTest extends BaseAndroidTest
         assertThat(habit.getName(), equalTo("brush teeth"));
         assertThat(habit.getFreqNum(), equalTo(3));
         assertThat(habit.getFreqDen(), equalTo(7));
-        assertThat(habit.getReminderHour(), equalTo(8));
-        assertThat(habit.getReminderMin(), equalTo(0));
+        assertThat(habit.hasReminder(), equalTo(true));
+
+        Reminder reminder = habit.getReminder();
+        assertThat(reminder.getHour(), equalTo(8));
+        assertThat(reminder.getMinute(), equalTo(0));
         boolean[] reminderDays = {false, true, true, true, true, true, false};
-        assertThat(habit.getReminderDays(), equalTo(DateUtils.packWeekdayList(reminderDays)));
+        assertThat(reminder.getDays(), equalTo(DateUtils.packWeekdayList(reminderDays)));
     }
 
     @Test

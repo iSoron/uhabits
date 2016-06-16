@@ -38,9 +38,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import org.isoron.uhabits.commands.CommandRunner;
 import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.BaseTask;
 import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
 import org.isoron.uhabits.utils.DateUtils;
@@ -192,11 +190,14 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
     private boolean checkWeekday(Intent intent, Habit habit)
     {
+        if(!habit.hasReminder()) return false;
+        Reminder reminder = habit.getReminder();
+
         Long timestamp =
             intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
 
         boolean reminderDays[] =
-            DateUtils.unpackWeekdayList(habit.getReminderDays());
+            DateUtils.unpackWeekdayList(reminder.getDays());
         int weekday = DateUtils.getWeekday(timestamp);
 
         return reminderDays[weekday];

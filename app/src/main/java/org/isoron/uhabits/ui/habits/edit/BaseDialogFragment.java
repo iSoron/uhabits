@@ -19,35 +19,26 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.text.format.DateFormat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
+import android.text.format.*;
+import android.view.*;
 
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerSwatch;
-import com.android.datetimepicker.time.RadialPickerLayout;
-import com.android.datetimepicker.time.TimePickerDialog;
+import com.android.colorpicker.*;
+import com.android.datetimepicker.time.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.Preferences;
 
-import java.util.Arrays;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnItemSelected;
+import butterknife.*;
 
 public abstract class BaseDialogFragment extends AppCompatDialogFragment
 {
@@ -90,8 +81,8 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
     public void onFrequencySelected(int position)
     {
         if (position < 0 || position > 4) throw new IllegalArgumentException();
-        int freqNums[] = {1, 1, 2, 5, 3};
-        int freqDens[] = {1, 7, 7, 7, 7};
+        int freqNums[] = { 1, 1, 2, 5, 3 };
+        int freqDens[] = { 1, 7, 7, 7, 7 };
         modifiedHabit.setFreqNum(freqNums[position]);
         modifiedHabit.setFreqDen(freqDens[position]);
         helper.populateFrequencyFields(modifiedHabit);
@@ -105,15 +96,38 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
         outState.putInt("color", modifiedHabit.getColor());
         if (modifiedHabit.hasReminder())
         {
-            outState.putInt("reminderMin", modifiedHabit.getReminderMin());
-            outState.putInt("reminderHour", modifiedHabit.getReminderHour());
-            outState.putInt("reminderDays", modifiedHabit.getReminderDays());
+            Reminder reminder = modifiedHabit.getReminder();
+            outState.putInt("reminderMin", reminder.getMinute());
+            outState.putInt("reminderHour", reminder.getHour());
+            outState.putInt("reminderDays", reminder.getDays());
         }
     }
 
     protected abstract int getTitle();
 
     protected abstract void initializeHabits();
+
+    protected void restoreSavedInstance(@Nullable Bundle bundle)
+    {
+        if (bundle == null) return;
+        modifiedHabit.setColor(
+            bundle.getInt("color", modifiedHabit.getColor()));
+
+
+        modifiedHabit.setReminder(null);
+
+        int hour = (bundle.getInt("reminderHour", -1));
+        int minute = (bundle.getInt("reminderMin", -1));
+        int days = (bundle.getInt("reminderDays", -1));
+
+        if (hour >= 0 && minute >= 0)
+        {
+            Reminder reminder = new Reminder(hour, minute, days);
+            modifiedHabit.setReminder(reminder);
+        }
+    }
+
+    protected abstract void saveHabit();
 
     @OnClick(R.id.buttonDiscard)
     void onButtonDiscardClick()
@@ -130,8 +144,9 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
 
         if (modifiedHabit.hasReminder())
         {
-            defaultHour = modifiedHabit.getReminderHour();
-            defaultMin = modifiedHabit.getReminderMin();
+            Reminder reminder = modifiedHabit.getReminder();
+            defaultHour = reminder.getHour();
+            defaultMin = reminder.getMinute();
         }
 
         showTimePicker(defaultHour, defaultMin);
@@ -151,25 +166,14 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
     void onWeekdayClick()
     {
         if (!modifiedHabit.hasReminder()) return;
+        Reminder reminder = modifiedHabit.getReminder();
+
         WeekdayPickerDialog dialog = new WeekdayPickerDialog();
         dialog.setListener(new OnWeekdaysPickedListener());
         dialog.setSelectedDays(
-            DateUtils.unpackWeekdayList(modifiedHabit.getReminderDays()));
+            DateUtils.unpackWeekdayList(reminder.getDays()));
         dialog.show(getFragmentManager(), "weekdayPicker");
     }
-
-    protected void restoreSavedInstance(@Nullable Bundle bundle)
-    {
-        if (bundle == null) return;
-        modifiedHabit.setColor(
-            bundle.getInt("color", modifiedHabit.getColor()));
-        modifiedHabit.setReminderMin(bundle.getInt("reminderMin", -1));
-        modifiedHabit.setReminderHour(bundle.getInt("reminderHour", -1));
-        modifiedHabit.setReminderDays(bundle.getInt("reminderDays", -1));
-        if (modifiedHabit.getReminderMin() < 0) modifiedHabit.clearReminder();
-    }
-
-    protected abstract void saveHabit();
 
     @OnClick(R.id.buttonPickColor)
     void showColorPicker()
@@ -222,9 +226,9 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
         @Override
         public void onTimeSet(RadialPickerLayout view, int hour, int minute)
         {
-            modifiedHabit.setReminderHour(hour);
-            modifiedHabit.setReminderMin(minute);
-            modifiedHabit.setReminderDays(DateUtils.ALL_WEEK_DAYS);
+            Reminder reminder =
+                new Reminder(hour, minute, DateUtils.ALL_WEEK_DAYS);
+            modifiedHabit.setReminder(reminder);
             helper.populateReminderFields(modifiedHabit);
         }
     }
@@ -237,8 +241,10 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
         {
             if (isSelectionEmpty(selectedDays)) Arrays.fill(selectedDays, true);
 
-            modifiedHabit.setReminderDays(
-                DateUtils.packWeekdayList(selectedDays));
+            Reminder oldReminder = modifiedHabit.getReminder();
+            modifiedHabit.setReminder(
+                new Reminder(oldReminder.getHour(), oldReminder.getMinute(),
+                    DateUtils.packWeekdayList(selectedDays)));
             helper.populateReminderFields(modifiedHabit);
         }
 
