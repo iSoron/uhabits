@@ -46,7 +46,6 @@ public class RepetitionRecord extends Model implements SQLiteRecord
 
     public void copyFrom(Repetition repetition)
     {
-        habit = HabitRecord.get(repetition.getHabit().getId());
         timestamp = repetition.getTimestamp();
     }
 
@@ -60,6 +59,6 @@ public class RepetitionRecord extends Model implements SQLiteRecord
     {
         SQLiteHabitList habitList = SQLiteHabitList.getInstance();
         Habit h = habitList.getById(habit.getId());
-        return new Repetition(h, timestamp);
+        return new Repetition(timestamp);
     }
 }

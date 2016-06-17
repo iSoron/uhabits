@@ -133,25 +133,30 @@ public class RewireDBImporter extends AbstractImporter
                 habit.setDescription(description);
 
                 int periods[] = { 7, 31, 365 };
+                int numerator, denominator;
 
                 switch (schedule)
                 {
                     case 0:
-                        habit.setFreqNum(activeDays.split(",").length);
-                        habit.setFreqDen(7);
+                        numerator = activeDays.split(",").length;
+                        denominator = 7;
                         break;
 
                     case 1:
-                        habit.setFreqNum(days);
-                        habit.setFreqDen(periods[periodIndex]);
+                        numerator = days;
+                        denominator = (periods[periodIndex]);
                         break;
 
                     case 2:
-                        habit.setFreqNum(1);
-                        habit.setFreqDen(repeatingCount);
+                        numerator = 1;
+                        denominator = repeatingCount;
                         break;
+
+                    default:
+                        throw new IllegalStateException();
                 }
 
+                habit.setFrequency(new Frequency(numerator, denominator));
                 habitList.add(habit);
 
                 createReminder(db, habit, id);

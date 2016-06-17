@@ -19,18 +19,14 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.*;
-
 import org.apache.commons.lang3.builder.*;
 
 /**
  * Represents a record that the user has performed a certain habit at a certain
  * date.
  */
-public class Repetition
+public final class Repetition
 {
-    @NonNull
-    private final Habit habit;
 
     private final long timestamp;
 
@@ -40,18 +36,11 @@ public class Repetition
      * The timestamp corresponds to the days this repetition occurred. Time of
      * day must be midnight (UTC).
      *
-     * @param habit     the habit to which this repetition belongs.
      * @param timestamp the time this repetition occurred.
      */
-    public Repetition(Habit habit, long timestamp)
+    public Repetition(long timestamp)
     {
-        this.habit = habit;
         this.timestamp = timestamp;
-    }
-
-    public Habit getHabit()
-    {
-        return habit;
     }
 
     public long getTimestamp()

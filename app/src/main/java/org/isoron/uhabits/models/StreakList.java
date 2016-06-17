@@ -97,7 +97,7 @@ public abstract class StreakList
         {
             long start = transitions.get(i);
             long end = transitions.get(i + 1);
-            streaks.add(new Streak(habit, start, end));
+            streaks.add(new Streak(start, end));
         }
 
         return streaks;

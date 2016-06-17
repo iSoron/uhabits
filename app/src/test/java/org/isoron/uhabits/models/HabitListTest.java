@@ -57,10 +57,10 @@ public class HabitListTest extends BaseUnitTest
                 habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
         }
 
-        habits.get(0).setArchived(1);
-        habits.get(1).setArchived(1);
-        habits.get(4).setArchived(1);
-        habits.get(7).setArchived(1);
+        habits.get(0).setArchived(true);
+        habits.get(1).setArchived(true);
+        habits.get(4).setArchived(true);
+        habits.get(7).setArchived(true);
     }
 
     @Test
@@ -166,15 +166,13 @@ public class HabitListTest extends BaseUnitTest
         Habit h1 = new Habit();
         h1.setName("Meditate");
         h1.setDescription("Did you meditate this morning?");
-        h1.setFreqNum(1);
-        h1.setFreqDen(1);
+        h1.setFrequency(Frequency.DAILY);
         h1.setColor(3);
 
         Habit h2 = new Habit();
         h2.setName("Wake up early");
         h2.setDescription("Did you wake up before 6am?");
-        h2.setFreqNum(2);
-        h2.setFreqDen(3);
+        h2.setFrequency(new Frequency(2, 3));
         h2.setColor(5);
 
         list.add(h1);

@@ -19,8 +19,7 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DateUtils;
 
 public class HabitFixtures
@@ -42,8 +41,7 @@ public class HabitFixtures
         habit.setName("Meditate");
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(3);
-        habit.setFreqNum(1);
-        habit.setFreqDen(1);
+        habit.setFrequency(Frequency.DAILY);
         habitList.add(habit);
         return habit;
     }
@@ -51,8 +49,7 @@ public class HabitFixtures
     public Habit createLongHabit()
     {
         Habit habit = createEmptyHabit();
-        habit.setFreqNum(3);
-        habit.setFreqDen(7);
+        habit.setFrequency(new Frequency(3, 7));
         habit.setColor(4);
 
         long day = DateUtils.millisecondsInOneDay;
@@ -72,8 +69,7 @@ public class HabitFixtures
         Habit habit = new Habit();
         habit.setName("Wake up early");
         habit.setDescription("Did you wake up before 6am?");
-        habit.setFreqNum(2);
-        habit.setFreqDen(3);
+        habit.setFrequency(new Frequency(2, 3));
         habitList.add(habit);
 
         long timestamp = DateUtils.getStartOfToday();

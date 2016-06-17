@@ -19,12 +19,10 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * Command to modify a habit.
@@ -40,7 +38,7 @@ public class EditHabitCommand extends Command
 
     private long savedId;
 
-    private boolean hasIntervalChanged;
+    private boolean hasFrequencyChanged;
 
     public EditHabitCommand(Habit original, Habit modified)
     {
@@ -53,9 +51,9 @@ public class EditHabitCommand extends Command
         this.modified.copyFrom(modified);
         this.original.copyFrom(original);
 
-        hasIntervalChanged =
-            (!this.original.getFreqDen().equals(this.modified.getFreqDen()) ||
-             !this.original.getFreqNum().equals(this.modified.getFreqNum()));
+        Frequency originalFreq = this.original.getFrequency();
+        Frequency modifiedFreq = this.modified.getFrequency();
+        hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
     }
 
     @Override
@@ -95,7 +93,7 @@ public class EditHabitCommand extends Command
 
     private void invalidateIfNeeded(Habit habit)
     {
-        if (hasIntervalChanged)
+        if (hasFrequencyChanged)
         {
             habit.getCheckmarks().invalidateNewerThan(0);
             habit.getStreaks().invalidateNewerThan(0);

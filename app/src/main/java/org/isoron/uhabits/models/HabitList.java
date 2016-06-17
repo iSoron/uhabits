@@ -208,12 +208,14 @@ public abstract class HabitList
 
         for (Habit habit : getAll(true))
         {
+            Frequency freq = habit.getFrequency();
+
             String[] cols = {
                 String.format("%03d", indexOf(habit) + 1),
                 habit.getName(),
                 habit.getDescription(),
-                Integer.toString(habit.getFreqNum()),
-                Integer.toString(habit.getFreqDen()),
+                Integer.toString(freq.getNumerator()),
+                Integer.toString(freq.getDenominator()),
                 ColorUtils.CSV_PALETTE[habit.getColor()]
             };
 

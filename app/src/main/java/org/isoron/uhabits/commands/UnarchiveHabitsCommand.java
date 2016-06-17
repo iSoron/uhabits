@@ -47,14 +47,14 @@ public class UnarchiveHabitsCommand extends Command
     @Override
     public void execute()
     {
-        for(Habit h : habits) h.setArchived(0);
+        for(Habit h : habits) h.setArchived(false);
         habitList.update(habits);
     }
 
     @Override
     public void undo()
     {
-        for(Habit h : habits) h.setArchived(1);
+        for(Habit h : habits) h.setArchived(true);
         habitList.update(habits);
     }
 

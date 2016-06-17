@@ -22,17 +22,14 @@ package org.isoron.uhabits.models;
 import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.utils.*;
 
-public class Streak
+public final class Streak
 {
-    private Habit habit;
+    private final long start;
 
-    private long start;
+    private final long end;
 
-    private long end;
-
-    public Streak(Habit habit, long start, long end)
+    public Streak(long start, long end)
     {
-        this.habit = habit;
         this.start = start;
         this.end = end;
     }
@@ -53,11 +50,6 @@ public class Streak
     public long getEnd()
     {
         return end;
-    }
-
-    public Habit getHabit()
-    {
-        return habit;
     }
 
     public long getLength()

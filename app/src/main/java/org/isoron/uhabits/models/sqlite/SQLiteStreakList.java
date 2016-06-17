@@ -20,12 +20,14 @@
 package org.isoron.uhabits.models.sqlite;
 
 import android.support.annotation.*;
+import android.support.annotation.Nullable;
 
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 import org.isoron.uhabits.utils.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -34,21 +36,29 @@ import java.util.*;
  */
 public class SQLiteStreakList extends StreakList
 {
+    private HabitRecord habitRecord;
+
+    @NonNull
+    private final SQLiteUtils<StreakRecord> sqlite;
+
     public SQLiteStreakList(Habit habit)
     {
         super(habit);
+        sqlite = new SQLiteUtils<>(StreakRecord.class);
     }
 
     @Override
     public List<Streak> getAll()
     {
+        check(habit.getId());
         rebuild();
-        List<StreakRecord> records = new Select()
-            .from(StreakRecord.class)
-            .where("habit = ?", habit.getId())
-            .orderBy("end desc")
-            .execute();
 
+        String query = StreakRecord.SELECT + "where habit = ? " +
+                       "order by end desc";
+
+        String params[] = { Long.toString(habit.getId())};
+
+        List<StreakRecord> records = sqlite.query(query, params);
         return recordsToStreaks(records);
     }
 
@@ -75,11 +85,14 @@ public class SQLiteStreakList extends StreakList
     @Override
     protected void add(@NonNull List<Streak> streaks)
     {
+        check(habit.getId());
+
         DatabaseUtils.executeAsTransaction(() -> {
             for (Streak streak : streaks)
             {
                 StreakRecord record = new StreakRecord();
                 record.copyFrom(streak);
+                record.habit = habitRecord;
                 record.save();
             }
         });
@@ -95,12 +108,15 @@ public class SQLiteStreakList extends StreakList
     @Nullable
     private StreakRecord getNewestRecord()
     {
-        return new Select()
-            .from(StreakRecord.class)
-            .where("habit = ?", habit.getId())
-            .orderBy("end desc")
-            .limit(1)
-            .executeSingle();
+        check(habit.getId());
+        String query = StreakRecord.SELECT + "where habit = ? " +
+                       "order by end desc " +
+                       "limit 1 ";
+        String params[] = { habit.getId().toString() };
+        StreakRecord record = sqlite.querySingle(query, params);
+        if (record != null) record.habit = habitRecord;
+        return record;
+
     }
 
     @NonNull
@@ -109,8 +125,22 @@ public class SQLiteStreakList extends StreakList
         LinkedList<Streak> streaks = new LinkedList<>();
 
         for (StreakRecord record : records)
+        {
+            record.habit = habitRecord;
             streaks.add(record.toStreak());
+        }
 
         return streaks;
+    }
+
+    @Contract("null -> fail")
+    private void check(Long id)
+    {
+        if (id == null) throw new RuntimeException("habit is not saved");
+
+        if(habitRecord != null) return;
+
+        habitRecord = HabitRecord.get(id);
+        if (habitRecord == null) throw new RuntimeException("habit not found");
     }
 }

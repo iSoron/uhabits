@@ -56,7 +56,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
             Habit h = new Habit();
             h.setName("habit " + i);
             h.setId((long) i);
-            if (i % 2 == 0) h.setArchived(1);
+            if (i % 2 == 0) h.setArchived(true);
 
             HabitRecord record = new HabitRecord();
             record.copyFrom(h);

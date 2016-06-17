@@ -57,8 +57,11 @@ public class SQLiteRepetitionList extends RepetitionList
     @Override
     public void add(Repetition rep)
     {
+        check(habit.getId());
+
         RepetitionRecord record = new RepetitionRecord();
         record.copyFrom(rep);
+        record.habit = habitRecord;
         record.save();
         observable.notifyListeners();
     }

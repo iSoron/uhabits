@@ -21,7 +21,6 @@ package org.isoron.uhabits.models;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -183,7 +182,7 @@ public abstract class RepetitionList
         if (rep != null) remove(rep);
         else
         {
-            rep = new Repetition(habit, timestamp);
+            rep = new Repetition(timestamp);
             add(rep);
         }
 

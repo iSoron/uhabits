@@ -19,18 +19,24 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
+import android.database.*;
+
 import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
 
+import java.lang.reflect.*;
+
 /**
  * The SQLite database record corresponding to a Streak.
  */
 @Table(name = "Streak")
-public class StreakRecord extends Model
+public class StreakRecord extends Model implements SQLiteRecord
 {
+    public static final String SELECT = "select id, start, end, length from Streak ";
+
     @Column(name = "habit")
     public HabitRecord habit;
 
@@ -50,16 +56,38 @@ public class StreakRecord extends Model
 
     public void copyFrom(Streak streak)
     {
-        habit = HabitRecord.get(streak.getHabit().getId());
         start = streak.getStart();
         end = streak.getEnd();
         length = streak.getLength();
+    }
+
+    @Override
+    public void copyFrom(Cursor c)
+    {
+        setId(c.getLong(0));
+        start = c.getLong(1);
+        end = c.getLong(2);
+        length = c.getLong(3);
+    }
+
+    private void setId(long id)
+    {
+        try
+        {
+            Field f = (Model.class).getDeclaredField("mId");
+            f.setAccessible(true);
+            f.set(this, id);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public Streak toStreak()
     {
         SQLiteHabitList habitList = SQLiteHabitList.getInstance();
         Habit h = habitList.getById(habit.getId());
-        return new Streak(h, start, end);
+        return new Streak(start, end);
     }
 }

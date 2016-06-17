@@ -65,6 +65,6 @@ public class ScoreRecord extends Model implements SQLiteRecord
     {
         SQLiteHabitList habitList = SQLiteHabitList.getInstance();
         Habit h = habitList.getById(habit.getId());
-        return new Score(h, timestamp, score);
+        return new Score(timestamp, score);
     }
 }

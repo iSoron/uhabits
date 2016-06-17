@@ -46,8 +46,7 @@ public class StreakListTest extends BaseUnitTest
     {
         super.setUp();
         habit = fixtures.createLongHabit();
-        habit.setFreqDen(1);
-        habit.setFreqNum(1);
+        habit.setFrequency(Frequency.DAILY);
 
         streaks = habit.getStreaks();
         streaks.rebuild();

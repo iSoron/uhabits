@@ -41,6 +41,7 @@ import static org.junit.Assert.*;
 public class ImportTest extends BaseAndroidTest
 {
     private File baseDir;
+
     private Context context;
 
     @Before
@@ -52,33 +53,72 @@ public class ImportTest extends BaseAndroidTest
         fixtures.purgeHabits(habitList);
         context = InstrumentationRegistry.getInstrumentation().getContext();
         baseDir = FileUtils.getFilesDir("Backups");
-        if(baseDir == null) fail("baseDir should not be null");
+        if (baseDir == null) fail("baseDir should not be null");
     }
 
-    private void copyAssetToFile(String assetPath, File dst) throws IOException
+    @Test
+    public void testHabitBullCSV() throws IOException
     {
-        InputStream in = context.getAssets().open(assetPath);
-        FileUtils.copy(in, dst);
+        importFromFile("habitbull.csv");
+
+        List<Habit> habits = habitList.getAll(true);
+        assertThat(habits.size(), equalTo(4));
+
+        Habit habit = habits.get(0);
+        assertThat(habit.getName(), equalTo("Breed dragons"));
+        assertThat(habit.getDescription(), equalTo("with love and fire"));
+        assertThat(habit.getFrequency(), equalTo(Frequency.DAILY));
+        assertTrue(containsRepetition(habit, 2016, 3, 18));
+        assertTrue(containsRepetition(habit, 2016, 3, 19));
+        assertFalse(containsRepetition(habit, 2016, 3, 20));
     }
 
-    private void importFromFile(String assetFilename) throws IOException
+    @Test
+    public void testLoopDB() throws IOException
     {
-        File file = new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
-        copyAssetToFile(assetFilename, file);
-        assertTrue(file.exists());
-        assertTrue(file.canRead());
+        importFromFile("loop.db");
 
-        GenericImporter importer = new GenericImporter();
-        assertThat(importer.canHandle(file), is(true));
+        List<Habit> habits = habitList.getAll(true);
+        assertThat(habits.size(), equalTo(9));
 
-        importer.importHabitsFromFile(file);
+        Habit habit = habits.get(0);
+        assertThat(habit.getName(), equalTo("Wake up early"));
+        assertThat(habit.getFrequency(), equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertTrue(containsRepetition(habit, 2016, 3, 14));
+        assertTrue(containsRepetition(habit, 2016, 3, 16));
+        assertFalse(containsRepetition(habit, 2016, 3, 17));
     }
 
-    private boolean containsRepetition(Habit h, int year, int month, int day)
+    @Test
+    public void testRewireDB() throws IOException
     {
-        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
-        date.set(year, month - 1, day);
-        return h.getRepetitions().containsTimestamp(date.getTimeInMillis());
+        importFromFile("rewire.db");
+
+        List<Habit> habits = habitList.getAll(true);
+        assertThat(habits.size(), equalTo(3));
+
+        Habit habit = habits.get(0);
+        assertThat(habit.getName(), equalTo("Wake up early"));
+        assertThat(habit.getFrequency(),
+            equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertFalse(habit.hasReminder());
+        assertFalse(containsRepetition(habit, 2015, 12, 31));
+        assertTrue(containsRepetition(habit, 2016, 1, 18));
+        assertTrue(containsRepetition(habit, 2016, 1, 28));
+        assertFalse(containsRepetition(habit, 2016, 3, 10));
+
+        habit = habits.get(1);
+        assertThat(habit.getName(), equalTo("brush teeth"));
+        assertThat(habit.getFrequency(),
+            equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertThat(habit.hasReminder(), equalTo(true));
+
+        Reminder reminder = habit.getReminder();
+        assertThat(reminder.getHour(), equalTo(8));
+        assertThat(reminder.getMinute(), equalTo(0));
+        boolean[] reminderDays = { false, true, true, true, true, true, false };
+        assertThat(reminder.getDays(),
+            equalTo(DateUtils.packWeekdayList(reminderDays)));
     }
 
     @Test
@@ -97,69 +137,30 @@ public class ImportTest extends BaseAndroidTest
         assertFalse(containsRepetition(h, 2016, 3, 14));
     }
 
-    @Test
-    public void testRewireDB() throws IOException
+    private boolean containsRepetition(Habit h, int year, int month, int day)
     {
-        importFromFile("rewire.db");
-
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(3));
-
-        Habit habit = habits.get(0);
-        assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFreqNum(), equalTo(3));
-        assertThat(habit.getFreqDen(), equalTo(7));
-        assertFalse(habit.hasReminder());
-        assertFalse(containsRepetition(habit, 2015, 12, 31));
-        assertTrue(containsRepetition(habit, 2016, 1, 18));
-        assertTrue(containsRepetition(habit, 2016, 1, 28));
-        assertFalse(containsRepetition(habit, 2016, 3, 10));
-
-        habit = habits.get(1);
-        assertThat(habit.getName(), equalTo("brush teeth"));
-        assertThat(habit.getFreqNum(), equalTo(3));
-        assertThat(habit.getFreqDen(), equalTo(7));
-        assertThat(habit.hasReminder(), equalTo(true));
-
-        Reminder reminder = habit.getReminder();
-        assertThat(reminder.getHour(), equalTo(8));
-        assertThat(reminder.getMinute(), equalTo(0));
-        boolean[] reminderDays = {false, true, true, true, true, true, false};
-        assertThat(reminder.getDays(), equalTo(DateUtils.packWeekdayList(reminderDays)));
+        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
+        date.set(year, month - 1, day);
+        return h.getRepetitions().containsTimestamp(date.getTimeInMillis());
     }
 
-    @Test
-    public void testHabitBullCSV() throws IOException
+    private void copyAssetToFile(String assetPath, File dst) throws IOException
     {
-        importFromFile("habitbull.csv");
-
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(4));
-
-        Habit habit = habits.get(0);
-        assertThat(habit.getName(), equalTo("Breed dragons"));
-        assertThat(habit.getDescription(), equalTo("with love and fire"));
-        assertThat(habit.getFreqNum(), equalTo(1));
-        assertThat(habit.getFreqDen(), equalTo(1));
-        assertTrue(containsRepetition(habit, 2016, 3, 18));
-        assertTrue(containsRepetition(habit, 2016, 3, 19));
-        assertFalse(containsRepetition(habit, 2016, 3, 20));
+        InputStream in = context.getAssets().open(assetPath);
+        FileUtils.copy(in, dst);
     }
 
-    @Test
-    public void testLoopDB() throws IOException
+    private void importFromFile(String assetFilename) throws IOException
     {
-        importFromFile("loop.db");
+        File file =
+            new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
+        copyAssetToFile(assetFilename, file);
+        assertTrue(file.exists());
+        assertTrue(file.canRead());
 
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(9));
+        GenericImporter importer = new GenericImporter();
+        assertThat(importer.canHandle(file), is(true));
 
-        Habit habit = habits.get(0);
-        assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFreqNum(), equalTo(3));
-        assertThat(habit.getFreqDen(), equalTo(7));
-        assertTrue(containsRepetition(habit, 2016, 3, 14));
-        assertTrue(containsRepetition(habit, 2016, 3, 16));
-        assertFalse(containsRepetition(habit, 2016, 3, 17));
+        importer.importHabitsFromFile(file);
     }
 }

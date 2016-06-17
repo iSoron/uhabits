@@ -43,8 +43,7 @@ public class EditHabitCommandTest extends BaseUnitTest
 
         habit = fixtures.createShortHabit();
         habit.setName("original");
-        habit.setFreqDen(1);
-        habit.setFreqNum(1);
+        habit.setFrequency(Frequency.DAILY);
 
         modified = new Habit();
         modified.copyFrom(habit);
@@ -75,8 +74,7 @@ public class EditHabitCommandTest extends BaseUnitTest
     @Test
     public void testExecuteUndoRedo_withModifiedInterval()
     {
-        modified.setFreqNum(1);
-        modified.setFreqDen(7);
+        modified.setFrequency(Frequency.TWO_TIMES_PER_WEEK);
         command = new EditHabitCommand(habit, modified);
 
         int originalScore = habit.getScores().getTodayValue();

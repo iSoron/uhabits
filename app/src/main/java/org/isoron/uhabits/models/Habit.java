@@ -47,19 +47,13 @@ public class Habit
     private String description;
 
     @NonNull
-    private Integer freqNum;
-
-    @NonNull
-    private Integer freqDen;
+    private Frequency frequency;
 
     @NonNull
     private Integer color;
 
     @NonNull
-    private Integer highlight;
-
-    @NonNull
-    private Integer archived;
+    private boolean archived;
 
     @NonNull
     private StreakList streaks;
@@ -109,10 +103,8 @@ public class Habit
         HabitsApplication.getComponent().inject(this);
 
         this.color = 5;
-        this.highlight = 0;
-        this.archived = 0;
-        this.freqDen = 7;
-        this.freqNum = 3;
+        this.archived = false;
+        this.frequency = new Frequency(3, 7);
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -139,22 +131,11 @@ public class Habit
     {
         this.name = model.getName();
         this.description = model.getDescription();
-        this.freqNum = model.getFreqNum();
-        this.freqDen = model.getFreqDen();
         this.color = model.getColor();
+        this.archived = model.isArchived();
+        this.frequency = model.frequency;
         this.reminder = model.reminder;
-        this.highlight = model.getHighlight();
-        this.archived = model.getArchived();
         observable.notifyListeners();
-    }
-
-    /**
-     * Flag that indicates whether the habit is archived. Archived habits are
-     * usually omitted from listings, unless explicitly included.
-     */
-    public Integer getArchived()
-    {
-        return archived;
     }
 
     /**
@@ -179,21 +160,11 @@ public class Habit
         return color;
     }
 
-    @NonNull
-    public Reminder getReminder()
-    {
-        if(reminder == null) throw new IllegalStateException();
-        return reminder;
-    }
-
     public void setColor(Integer color)
     {
         this.color = color;
     }
 
-    /**
-     * Description of the habit
-     */
     public String getDescription()
     {
         return description;
@@ -204,46 +175,15 @@ public class Habit
         this.description = description;
     }
 
-    /**
-     * Frequency denominator. If a habit is performed 3 times in 7 days, this
-     * field equals 7.
-     */
-    public Integer getFreqDen()
-    {
-        return freqDen;
-    }
-
-    public void setFreqDen(Integer freqDen)
-    {
-        this.freqDen = freqDen;
-    }
-
-    /**
-     * Frequency numerator. If a habit is performed 3 times in 7 days, this
-     * field equals 3.
-     */
-    public Integer getFreqNum()
-    {
-        return freqNum;
-    }
-
-    public void setFreqNum(@NonNull Integer freqNum)
-    {
-        this.freqNum = freqNum;
-    }
-
-    /**
-     * Not currently used.
-     */
     @NonNull
-    public Integer getHighlight()
+    public Frequency getFrequency()
     {
-        return highlight;
+        return frequency;
     }
 
-    public void setHighlight(@NonNull Integer highlight)
+    public void setFrequency(@NonNull Frequency frequency)
     {
-        this.highlight = highlight;
+        this.frequency = frequency;
     }
 
     @Nullable
@@ -257,9 +197,6 @@ public class Habit
         this.id = id;
     }
 
-    /**
-     * Name of the habit
-     */
     @NonNull
     public String getName()
     {
@@ -277,26 +214,39 @@ public class Habit
     }
 
     /**
-     * List of repetitions belonging to this habit.
+     * Returns the reminder for this habit.
+     * <p>
+     * Before calling this method, you should call {@link #hasReminder()} to
+     * verify that a reminder does exist, otherwise an exception will be
+     * thrown.
+     *
+     * @return the reminder for this habit
+     * @throws IllegalStateException if habit has no reminder
      */
+    @NonNull
+    public Reminder getReminder()
+    {
+        if (reminder == null) throw new IllegalStateException();
+        return reminder;
+    }
+
+    public void setReminder(@Nullable Reminder reminder)
+    {
+        this.reminder = reminder;
+    }
+
     @NonNull
     public RepetitionList getRepetitions()
     {
         return repetitions;
     }
 
-    /**
-     * List of scores belonging to this habit.
-     */
     @NonNull
     public ScoreList getScores()
     {
         return scores;
     }
 
-    /**
-     * List of streaks belonging to this habit.
-     */
     @NonNull
     public StreakList getStreaks()
     {
@@ -315,7 +265,7 @@ public class Habit
     }
 
     /**
-     * Checks whether the habit has a reminder set.
+     * Returns whether the habit has a reminder.
      *
      * @return true if habit has reminder, false otherwise
      */
@@ -324,24 +274,14 @@ public class Habit
         return reminder != null;
     }
 
-    /**
-     * Returns whether the habit is archived or not.
-     *
-     * @return true if archived
-     */
     public boolean isArchived()
     {
-        return archived != 0;
+        return archived;
     }
 
-    public void setArchived(@NonNull Integer archived)
+    public void setArchived(boolean archived)
     {
         this.archived = archived;
-    }
-
-    public void setReminder(@Nullable Reminder reminder)
-    {
-        this.reminder = reminder;
     }
 
     @Override
@@ -351,10 +291,7 @@ public class Habit
             .append("id", id)
             .append("name", name)
             .append("description", description)
-            .append("freqNum", freqNum)
-            .append("freqDen", freqDen)
             .append("color", color)
-            .append("highlight", highlight)
             .append("archived", archived)
             .toString();
     }

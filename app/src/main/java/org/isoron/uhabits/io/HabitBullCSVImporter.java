@@ -24,7 +24,7 @@ import android.support.annotation.NonNull;
 import com.activeandroid.ActiveAndroid;
 import com.opencsv.CSVReader;
 
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DateUtils;
 
 import java.io.BufferedReader;
@@ -94,8 +94,7 @@ public class HabitBullCSVImporter extends AbstractImporter
                 h = new Habit();
                 h.setName(name);
                 h.setDescription(description);
-                h.setFreqDen(1);
-                h.setFreqNum(1);
+                h.setFrequency(Frequency.DAILY);
                 habitList.add(h);
                 habits.put(name, h);
             }

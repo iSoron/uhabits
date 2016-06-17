@@ -23,7 +23,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.DateUtils;
 
@@ -117,8 +117,7 @@ public class TickmateDBImporter extends AbstractImporter
                 Habit habit = new Habit();
                 habit.setName(name);
                 habit.setDescription(description);
-                habit.setFreqNum(1);
-                habit.setFreqDen(1);
+                habit.setFrequency(Frequency.DAILY);
                 habitList.add(habit);
 
                 createCheckmarks(db, habit, id);

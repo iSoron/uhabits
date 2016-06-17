@@ -92,9 +92,9 @@ public class SQLiteScoreListTest extends BaseAndroidTest
         new Delete().from(ScoreRecord.class).execute();
 
         List<Score> list = new LinkedList<>();
-        list.add(new Score(habit, today, 0));
-        list.add(new Score(habit, today - day, 0));
-        list.add(new Score(habit, today - 2 * day, 0));
+        list.add(new Score(today, 0));
+        list.add(new Score(today - day, 0));
+        list.add(new Score(today - 2 * day, 0));
 
         scores.add(list);
 

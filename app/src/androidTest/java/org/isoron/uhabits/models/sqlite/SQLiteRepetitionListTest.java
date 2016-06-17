@@ -67,7 +67,7 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
         RepetitionRecord record = getByTimestamp(today + day);
         assertThat(record, is(nullValue()));
 
-        Repetition rep = new Repetition(habit, today + day);
+        Repetition rep = new Repetition(today + day);
         habit.getRepetitions().add(rep);
 
         record = getByTimestamp(today + day);
@@ -91,7 +91,6 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     {
         Repetition rep = repetitions.getByTimestamp(today);
         assertThat(rep, is(not(nullValue())));
-        assertThat(rep.getHabit(), equalTo(habit));
         assertThat(rep.getTimestamp(), equalTo(today));
 
         rep = repetitions.getByTimestamp(today - 2 * day);
@@ -103,7 +102,6 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     {
         Repetition rep = repetitions.getOldest();
         assertThat(rep, is(not(nullValue())));
-        assertThat(rep.getHabit(), equalTo(habit));
         assertThat(rep.getTimestamp(), equalTo(today - 120 * day));
     }
 

@@ -425,7 +425,7 @@ public class HabitScoreView extends ScrollableDataView
             int step = Score.MAX_VALUE / 10;
             int current = previous + random.nextInt(step * 2) - step;
             current = Math.max(0, Math.min(Score.MAX_VALUE, current));
-            scores.add(new Score(habit, timestamp, current));
+            scores.add(new Score(timestamp, current));
             previous = current;
             timestamp -= day;
         }

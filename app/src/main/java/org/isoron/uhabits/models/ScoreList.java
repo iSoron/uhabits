@@ -157,7 +157,7 @@ public abstract class ScoreList implements Iterable<Score>
     protected void compute(long from, long to)
     {
         final long day = DateUtils.millisecondsInOneDay;
-        final double freq = ((double) habit.getFreqNum()) / habit.getFreqDen();
+        final double freq = habit.getFrequency().toDouble();
 
         int newestValue = 0;
         long newestTimestamp = 0;
@@ -181,7 +181,7 @@ public abstract class ScoreList implements Iterable<Score>
         {
             int value = checkmarkValues[checkmarkValues.length - i - 1];
             lastScore = Score.compute(freq, lastScore, value);
-            scores.add(new Score(habit, beginning + day * i, lastScore));
+            scores.add(new Score(beginning + day * i, lastScore));
         }
 
         add(scores);
@@ -241,7 +241,7 @@ public abstract class ScoreList implements Iterable<Score>
             for (Long v : groupValues) meanValue += v;
             meanValue /= groupValues.size();
 
-            scores.add(new Score(habit, timestamp, (int) meanValue));
+            scores.add(new Score(timestamp, (int) meanValue));
         }
 
         return scores;

@@ -189,7 +189,9 @@ public abstract class CheckmarkList
 
         if (from > to) return;
 
-        long fromExtended = from - (long) (habit.getFreqDen()) * day;
+        Frequency freq = habit.getFrequency();
+
+        long fromExtended = from - (long) (freq.getDenominator()) * day;
         List<Repetition> reps =
             habit.getRepetitions().getByInterval(fromExtended, to);
 
@@ -207,10 +209,10 @@ public abstract class CheckmarkList
         {
             int counter = 0;
 
-            for (int j = 0; j < habit.getFreqDen(); j++)
+            for (int j = 0; j < freq.getDenominator(); j++)
                 if (checks[i + j] == 2) counter++;
 
-            if (counter >= habit.getFreqNum())
+            if (counter >= freq.getNumerator())
                 if (checks[i] != Checkmark.CHECKED_EXPLICITLY)
                     checks[i] = Checkmark.CHECKED_IMPLICITLY;
         }

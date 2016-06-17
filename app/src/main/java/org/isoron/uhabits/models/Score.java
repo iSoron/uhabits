@@ -24,17 +24,12 @@ import org.apache.commons.lang3.builder.*;
 /**
  * Represents how strong a habit is at a certain date.
  */
-public class Score
+public final class Score
 {
     /**
      * Maximum score value attainable by any habit.
      */
     public static final int MAX_VALUE = 19259478;
-
-    /**
-     * Habit to which this score belongs to.
-     */
-    private Habit habit;
 
     /**
      * Timestamp of the day to which this score applies. Time of day should be
@@ -47,9 +42,8 @@ public class Score
      */
     private final Integer value;
 
-    public Score(Habit habit, Long timestamp, Integer value)
+    public Score(Long timestamp, Integer value)
     {
-        this.habit = habit;
         this.timestamp = timestamp;
         this.value = value;
     }
@@ -89,11 +83,6 @@ public class Score
     public int compareNewer(Score other)
     {
         return Long.signum(this.getTimestamp() - other.getTimestamp());
-    }
-
-    public Habit getHabit()
-    {
-        return habit;
     }
 
     public Long getTimestamp()

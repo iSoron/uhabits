@@ -30,7 +30,7 @@ import org.apache.commons.lang3.builder.*;
  * <p>
  * Checkmarks are computed automatically from the list of repetitions.
  */
-public class Checkmark
+public final class Checkmark
 {
     /**
      * Indicates that there was a repetition at the timestamp.

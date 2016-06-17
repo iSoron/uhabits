@@ -83,8 +83,7 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
         if (position < 0 || position > 4) throw new IllegalArgumentException();
         int freqNums[] = { 1, 1, 2, 5, 3 };
         int freqDens[] = { 1, 7, 7, 7, 7 };
-        modifiedHabit.setFreqNum(freqNums[position]);
-        modifiedHabit.setFreqDen(freqDens[position]);
+        modifiedHabit.setFrequency(new Frequency(freqNums[position], freqDens[position]));
         helper.populateFrequencyFields(modifiedHabit);
     }
 

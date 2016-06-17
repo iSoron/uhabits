@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.models;
 
-public class Reminder
+public final class Reminder
 {
     private final int hour;
 

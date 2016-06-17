@@ -27,7 +27,7 @@ import java.util.*;
  */
 public class ModelObservable
 {
-    List<Listener> listeners;
+    private List<Listener> listeners;
 
     /**
      * Creates a new ModelObservable with no listeners.
@@ -62,7 +62,7 @@ public class ModelObservable
      * Removes the given listener.
      * <p>
      * The listener will no longer be notified when the model changes. If the
-     * given listener is not subscrined to this observable, does nothing.
+     * given listener is not subscribed to this observable, does nothing.
      *
      * @param l the listener to be removed
      */
@@ -77,6 +77,10 @@ public class ModelObservable
      */
     public interface Listener
     {
+        /**
+         * Called whenever the model associated to this observable has been
+         * modified.
+         */
         void onModelChange();
     }
 }

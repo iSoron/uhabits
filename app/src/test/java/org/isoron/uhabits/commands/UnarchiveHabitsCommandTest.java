@@ -39,7 +39,7 @@ public class UnarchiveHabitsCommandTest extends BaseUnitTest
         super.setUp();
 
         habit = fixtures.createShortHabit();
-        habit.setArchived(1);
+        habit.setArchived(true);
         habitList.update(habit);
 
         command = new UnarchiveHabitsCommand(Collections.singletonList(habit));

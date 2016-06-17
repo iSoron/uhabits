@@ -42,8 +42,9 @@ public class ShowHabitHelper
         if (fragment.habit == null) return "";
 
         Resources resources = fragment.getResources();
-        Integer freqNum = fragment.habit.getFreqNum();
-        Integer freqDen = fragment.habit.getFreqDen();
+        Frequency freq = fragment.habit.getFrequency();
+        Integer freqNum = freq.getNumerator();
+        Integer freqDen = freq.getDenominator();
 
         if (freqNum.equals(freqDen))
             return resources.getString(R.string.every_day);

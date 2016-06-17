@@ -84,8 +84,12 @@ public class BaseDialogHelper
         habit.setDescription(tvDescription.getText().toString().trim());
         String freqNum = tvFreqNum.getText().toString();
         String freqDen = tvFreqDen.getText().toString();
-        if (!freqNum.isEmpty()) habit.setFreqNum(Integer.parseInt(freqNum));
-        if (!freqDen.isEmpty()) habit.setFreqDen(Integer.parseInt(freqDen));
+        if (!freqNum.isEmpty() && !freqDen.isEmpty())
+        {
+            int numerator = Integer.parseInt(freqNum);
+            int denominator = Integer.parseInt(freqDen);
+            habit.setFrequency(new Frequency(numerator, denominator));
+        }
     }
 
     void populateColor(int paletteColor)
@@ -99,16 +103,18 @@ public class BaseDialogHelper
     {
         int quickSelectPosition = -1;
 
-        if (habit.getFreqNum().equals(habit.getFreqDen()))
+        Frequency freq = habit.getFrequency();
+
+        if (freq.equals(Frequency.DAILY))
             quickSelectPosition = 0;
 
-        else if (habit.getFreqNum() == 1 && habit.getFreqDen() == 7)
+        else if (freq.equals(Frequency.WEEKLY))
             quickSelectPosition = 1;
 
-        else if (habit.getFreqNum() == 2 && habit.getFreqDen() == 7)
+        else if (freq.equals(Frequency.TWO_TIMES_PER_WEEK))
             quickSelectPosition = 2;
 
-        else if (habit.getFreqNum() == 5 && habit.getFreqDen() == 7)
+        else if (freq.equals(Frequency.FIVE_TIMES_PER_WEEK))
             quickSelectPosition = 3;
 
         if (quickSelectPosition >= 0)
@@ -116,8 +122,8 @@ public class BaseDialogHelper
 
         else showCustomFrequency();
 
-        tvFreqNum.setText(habit.getFreqNum().toString());
-        tvFreqDen.setText(habit.getFreqDen().toString());
+        tvFreqNum.setText(Integer.toString(freq.getNumerator()));
+        tvFreqDen.setText(Integer.toString(freq.getDenominator()));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -138,8 +144,7 @@ public class BaseDialogHelper
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
-        boolean weekdays[] =
-            DateUtils.unpackWeekdayList(reminder.getDays());
+        boolean weekdays[] = DateUtils.unpackWeekdayList(reminder.getDays());
         tvReminderDays.setText(
             DateUtils.formatWeekdayList(frag.getContext(), weekdays));
     }
@@ -169,14 +174,16 @@ public class BaseDialogHelper
             valid = false;
         }
 
-        if (habit.getFreqNum() <= 0)
+        Frequency freq = habit.getFrequency();
+
+        if (freq.getNumerator() <= 0)
         {
             tvFreqNum.setError(
                 frag.getString(R.string.validation_number_should_be_positive));
             valid = false;
         }
 
-        if (habit.getFreqNum() > habit.getFreqDen())
+        if (freq.getNumerator() > freq.getDenominator())
         {
             tvFreqNum.setError(
                 frag.getString(R.string.validation_at_most_one_rep_per_day));

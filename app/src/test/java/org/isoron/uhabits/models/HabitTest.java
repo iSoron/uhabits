@@ -27,6 +27,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class HabitTest extends BaseUnitTest
@@ -36,8 +37,7 @@ public class HabitTest extends BaseUnitTest
     public void testConstructor_default()
     {
         Habit habit = new Habit();
-        assertThat(habit.getArchived(), is(0));
-        assertThat(habit.getHighlight(), is(0));
+        assertFalse(habit.isArchived());
 
         assertThat(habit.hasReminder(), is(false));
         assertThat(habit.getStreaks(), is(not(nullValue())));
@@ -50,20 +50,16 @@ public class HabitTest extends BaseUnitTest
     public void test_copyAttributes()
     {
         Habit model = new Habit();
-        model.setArchived(1);
-        model.setHighlight(1);
+        model.setArchived(true);
         model.setColor(0);
-        model.setFreqNum(10);
-        model.setFreqDen(20);
+        model.setFrequency(new Frequency(10, 20));
         model.setReminder(new Reminder(8, 30, 1));
 
         Habit habit = new Habit();
         habit.copyFrom(model);
-        assertThat(habit.getArchived(), is(model.getArchived()));
-        assertThat(habit.getHighlight(), is(model.getHighlight()));
+        assertThat(habit.isArchived(), is(model.isArchived()));
         assertThat(habit.getColor(), is(model.getColor()));
-        assertThat(habit.getFreqNum(), is(model.getFreqNum()));
-        assertThat(habit.getFreqDen(), is(model.getFreqDen()));
+        assertThat(habit.getFrequency(), equalTo(model.getFrequency()));
         assertThat(habit.getReminder(), equalTo(model.getReminder()));
     }
 

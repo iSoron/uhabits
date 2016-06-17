@@ -147,8 +147,7 @@ public class ScoreListTest extends BaseUnitTest
         toggleRepetitions(0, 2);
         assertThat(habit.getScores().getTodayValue(), equalTo(1948077));
 
-        habit.setFreqNum(1);
-        habit.setFreqDen(2);
+        habit.setFrequency(new Frequency(1, 2));
         habit.getScores().invalidateNewerThan(0);
 
         assertThat(habit.getScores().getTodayValue(), equalTo(1974654));

@@ -142,9 +142,13 @@ public class HabitRecord extends Model implements SQLiteRecord
     {
         this.name = model.getName();
         this.description = model.getDescription();
-        this.freqNum = model.getFreqNum();
-        this.freqDen = model.getFreqDen();
+        this.highlight = 0;
         this.color = model.getColor();
+        this.archived = model.isArchived() ? 1 : 0;
+        Frequency freq = model.getFrequency();
+        this.freqNum = freq.getNumerator();
+        this.freqDen = freq.getDenominator();
+
         if(model.hasReminder())
         {
             Reminder reminder = model.getReminder();
@@ -152,8 +156,6 @@ public class HabitRecord extends Model implements SQLiteRecord
             this.reminderMin = reminder.getMinute();
             this.reminderDays = reminder.getDays();
         }
-        this.highlight = model.getHighlight();
-        this.archived = model.getArchived();
     }
 
     @Override
@@ -177,11 +179,9 @@ public class HabitRecord extends Model implements SQLiteRecord
     {
         habit.setName(this.name);
         habit.setDescription(this.description);
-        habit.setFreqNum(this.freqNum);
-        habit.setFreqDen(this.freqDen);
+        habit.setFrequency(new Frequency(this.freqNum, this.freqDen));
         habit.setColor(this.color);
-        habit.setHighlight(this.highlight);
-        habit.setArchived(this.archived);
+        habit.setArchived(this.archived != 0);
         habit.setId(this.getId());
 
         if (reminderHour != null && reminderMin != null)
@@ -204,8 +204,6 @@ public class HabitRecord extends Model implements SQLiteRecord
 
     private void setId(Long id)
     {
-        // HACK: The id field is declared private by ActiveAndroid and
-        // there are no setters. (WTF?)
         try
         {
             Field f = (Model.class).getDeclaredField("mId");
