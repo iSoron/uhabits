@@ -19,60 +19,35 @@
 
 package org.isoron.uhabits.fragments;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
+import android.app.*;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.preference.*;
+import android.support.annotation.*;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ActionMode;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.view.*;
+import android.view.ContextMenu.*;
+import android.view.View.*;
+import android.widget.*;
+import android.widget.AdapterView.*;
 
-import com.mobeta.android.dslv.DragSortController;
-import com.mobeta.android.dslv.DragSortListView;
-import com.mobeta.android.dslv.DragSortListView.DropListener;
+import com.mobeta.android.dslv.*;
+import com.mobeta.android.dslv.DragSortListView.*;
 
-import org.isoron.uhabits.BaseActivity;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.dialogs.EditHabitDialogFragment;
-import org.isoron.uhabits.dialogs.FilePickerDialog;
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.HintManager;
-import org.isoron.uhabits.helpers.ListHabitsHelper;
-import org.isoron.uhabits.helpers.ReminderHelper;
-import org.isoron.uhabits.helpers.UIHelper;
-import org.isoron.uhabits.helpers.UIHelper.OnSavedListener;
-import org.isoron.uhabits.loaders.HabitListLoader;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.ExportCSVTask;
-import org.isoron.uhabits.tasks.ExportDBTask;
-import org.isoron.uhabits.tasks.ImportDataTask;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.dialogs.*;
+import org.isoron.uhabits.helpers.*;
+import org.isoron.uhabits.helpers.UIHelper.*;
+import org.isoron.uhabits.loaders.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
 
-import java.io.File;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class ListHabitsFragment extends Fragment
         implements OnSavedListener, OnItemClickListener, OnLongClickListener, DropListener,
@@ -148,8 +123,6 @@ public class ListHabitsFragment extends Fragment
             if(frag != null) frag.setOnSavedListener(this);
         }
 
-        loader.updateAllHabits(true);
-
         setHasOptionsMenu(true);
         return view;
     }
@@ -169,11 +142,8 @@ public class ListHabitsFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        Long timestamp = loader.getLastLoadTimestamp();
 
-        if (timestamp != null && timestamp != DateHelper.getStartOfToday())
-            loader.updateAllHabits(true);
-
+        loader.updateAllHabits(true);
         helper.updateEmptyMessage(llEmpty);
         helper.updateHeader(llButtonsHeader);
         hintManager.showHintIfAppropriate();
