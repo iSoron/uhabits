@@ -19,39 +19,30 @@
 
 package org.isoron.uhabits;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
+import android.os.*;
+import android.preference.*;
+import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.content.*;
 
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.ReminderUtils;
-import org.isoron.uhabits.widgets.WidgetManager;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.habits.show.*;
+import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.widgets.*;
 
-import java.util.Date;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * The Android BroadacastReceiver for Loop Habit Tracker.
- * <p>
+ * <p/>
  * Currently, all broadcast messages are received and processed by this class.
  */
 public class HabitBroadcastReceiver extends BroadcastReceiver
@@ -89,14 +80,15 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         checkIntent.setAction(ACTION_CHECK);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 0, checkIntent,
-            PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static PendingIntent buildDismissIntent(Context context)
     {
         Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
         deleteIntent.setAction(ACTION_DISMISS);
-        return PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+        return PendingIntent.getBroadcast(context, 0, deleteIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static PendingIntent buildSnoozeIntent(Context context, Habit habit)
@@ -105,7 +97,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Intent snoozeIntent = new Intent(context, HabitBroadcastReceiver.class);
         snoozeIntent.setData(data);
         snoozeIntent.setAction(ACTION_SNOOZE);
-        return PendingIntent.getBroadcast(context, 0, snoozeIntent, 0);
+        return PendingIntent.getBroadcast(context, 0, snoozeIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static PendingIntent buildViewHabitIntent(Context context,
@@ -190,7 +183,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
     private boolean checkWeekday(Intent intent, Habit habit)
     {
-        if(!habit.hasReminder()) return false;
+        if (!habit.hasReminder()) return false;
         Reminder reminder = habit.getReminder();
 
         Long timestamp =
@@ -234,7 +227,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 Intent contentIntent = new Intent(context, MainActivity.class);
                 contentIntent.setData(data);
                 PendingIntent contentPendingIntent =
-                    PendingIntent.getActivity(context, 0, contentIntent, 0);
+                    PendingIntent.getActivity(context, 0, contentIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT);
 
                 PendingIntent dismissPendingIntent =
                     buildDismissIntent(context);
