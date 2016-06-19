@@ -47,7 +47,7 @@ public class CheckmarkWidgetProvider extends BaseWidgetProvider
     @Override
     protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
     {
-        return HabitBroadcastReceiver.buildCheckIntent(context, habit, null);
+        return HabitBroadcastReceiver.buildCheckIntent(context, habit, null, 2);
     }
 
     @Override

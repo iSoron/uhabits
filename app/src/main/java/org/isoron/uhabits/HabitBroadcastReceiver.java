@@ -173,10 +173,11 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 contentIntent.setData(data);
                 PendingIntent contentPendingIntent =
                     PendingIntent.getActivity(context, 0, contentIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT);
+                        PendingIntent.FLAG_UPDATE_CURRENT);
 
                 PendingIntent dismissPendingIntent = buildDismissIntent(context);
-                PendingIntent checkIntentPending = buildCheckIntent(context, habit, timestamp);
+                PendingIntent checkIntentPending = buildCheckIntent(context,
+                    habit, timestamp, 1);
                 PendingIntent snoozeIntentPending = buildSnoozeIntent(context, habit);
 
                 Uri ringtoneUri = ReminderHelper.getRingtoneUri(context);
@@ -223,18 +224,20 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Intent snoozeIntent = new Intent(context, HabitBroadcastReceiver.class);
         snoozeIntent.setData(data);
         snoozeIntent.setAction(ACTION_SNOOZE);
-        return PendingIntent.getBroadcast(context, 0, snoozeIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(context, 0, snoozeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static PendingIntent buildCheckIntent(Context context, Habit habit, Long timestamp)
+    public static PendingIntent buildCheckIntent(Context context, Habit
+        habit, Long timestamp, int requestCode)
     {
         Uri data = habit.getUri();
         Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
         checkIntent.setData(data);
         checkIntent.setAction(ACTION_CHECK);
         if(timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, 0, checkIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(context, requestCode, checkIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static PendingIntent buildDismissIntent(Context context)
@@ -242,7 +245,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
         deleteIntent.setAction(ACTION_DISMISS);
         return PendingIntent.getBroadcast(context, 0, deleteIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static PendingIntent buildViewHabitIntent(Context context, Habit habit)
