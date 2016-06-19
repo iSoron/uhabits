@@ -158,6 +158,14 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Michael Faille (Français)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Ivan Krušlin (Hrvatski)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Marco Cavazza (Italiano)"/>
 
                 <TextView
@@ -171,6 +179,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Dmitriy Bogdanov (Русский)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Dušan Strgar (Slovenščina)"/>
 
                 <TextView
                     style="@style/About.Item"

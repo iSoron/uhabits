@@ -172,7 +172,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 Intent contentIntent = new Intent(context, MainActivity.class);
                 contentIntent.setData(data);
                 PendingIntent contentPendingIntent =
-                        PendingIntent.getActivity(context, 0, contentIntent, 0);
+                    PendingIntent.getActivity(context, 0, contentIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT);
 
                 PendingIntent dismissPendingIntent = buildDismissIntent(context);
                 PendingIntent checkIntentPending = buildCheckIntent(context, habit, timestamp);
@@ -222,7 +223,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Intent snoozeIntent = new Intent(context, HabitBroadcastReceiver.class);
         snoozeIntent.setData(data);
         snoozeIntent.setAction(ACTION_SNOOZE);
-        return PendingIntent.getBroadcast(context, 0, snoozeIntent, 0);
+        return PendingIntent.getBroadcast(context, 0, snoozeIntent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static PendingIntent buildCheckIntent(Context context, Habit habit, Long timestamp)
@@ -232,14 +233,16 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         checkIntent.setData(data);
         checkIntent.setAction(ACTION_CHECK);
         if(timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, 0, checkIntent, PendingIntent.FLAG_ONE_SHOT);
+        return PendingIntent.getBroadcast(context, 0, checkIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static PendingIntent buildDismissIntent(Context context)
     {
         Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
         deleteIntent.setAction(ACTION_DISMISS);
-        return PendingIntent.getBroadcast(context, 0, deleteIntent, 0);
+        return PendingIntent.getBroadcast(context, 0, deleteIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     public static PendingIntent buildViewHabitIntent(Context context, Habit habit)

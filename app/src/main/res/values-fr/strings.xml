@@ -51,7 +51,7 @@
 <string name="intro_title_1">"Bienvenue"</string>
 <string name="intro_description_1">"Loop - Suivi d'habitudes vous aide à créer et maintenir de bonnes habitudes."</string>
 <string name="intro_title_2">"Créez de nouvelles habitudes"</string>
-<string name="intro_description_2">"Chaque jour, après avoir réalisé votre habitude, cochez la sur l'application."</string>
+<string name="intro_description_2">"Chaque jour, après avoir réalisé votre habitude, cochez-la sur l'application."</string>
 <string name="intro_title_3">"Continuez à le faire"</string>
 <string name="intro_description_3">"Les habitudes régulières pendant une période de temps étendue gagneront une étoile complète."</string>
 <string name="intro_title_4">"Suivez votre progrès"</string>
@@ -82,7 +82,7 @@
 <string name="hint_landscape">"Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage."</string>
 <string name="delete_habits">"Supprimer des habitudes"</string>
 <string name="delete_habits_message">"Les habitudes seront supprimées définitivement. Cette action ne peut être annulée."</string>
-<string name="weekends">"Weekends"</string>
+<string name="weekends">"Fin de semaine"</string>
 
 <!-- Fuzzy -->
 <string name="any_weekday">"Jours de la semaine"</string>
@@ -92,7 +92,7 @@
 <string name="select_weekdays">"Sélectionner des jours"</string>
 
 <!-- Fuzzy -->
-<string name="export_to_csv">"Exporter les données (CSV)"</string>
+<string name="export_to_csv">"Exporter les données dans un fichier CSV"</string>
 <string name="done_label">"Fait"</string>
 <string name="clear_label">"Supprimer"</string>
 <string name="select_hours">"Sélectionner les heures"</string>
@@ -100,19 +100,19 @@
 
 <!-- Short description used on the Google Play store. There is an 80-character limit. -->
 <string name="store_short_description">"Créez de bonnes habitudes et suivez leur progrès au fil du temps (sans pub)"</string>
-<string name="store_description_1">"Loop vous aide à créer et maintenir de bonnes habitudes, permettant de réussir vos objectifs à long terme. Des graphiques détaillés et des statistiques vous montrent comment vos habitudes s’améliorent au fil du temps. C'est totalement sans pub et open source."</string>
+<string name="store_description_1">"Loop vous aide à créer et maintenir de bonnes habitudes, permettant de réussir vos objectifs à long terme. Des graphiques détaillés et des statistiques vous montrent comment vos habitudes s’améliorent au fil du temps. C'est totalement sans pub et c'est un logiciel libre."</string>
 <string name="store_feature_interface">"&lt;b&gt;Simple, beau avec une interface moderne&lt;/b&gt;
 Loop a une interface minimaliste, facile à utiliser et qui suit les règles de material design."</string>
 <string name="store_feature_score">"&lt;b&gt;Score d'habitude&lt;/b&gt;
-En plus de montrer votre série en cours, Loop a un algorithme avancé pour calculer la force de vos habitudes. Chaque jour réussi augmente la force de l'habitude chaque jour raté la rend plus faible. Cependant, quelques jours ratés après une longue série ne détruiront pas entièrement votre progrès."</string>
+En plus de montrer votre série en cours, Loop a un algorithme avancé pour calculer la force de vos habitudes. Chacune des répétitions réussi augmente la force de l'habitude  et chacune des répétitions ratés la diminue. Cependant, quelques jours ratés après une longue série ne détruiront pas entièrement votre progrès."</string>
 <string name="store_feature_statistics">"&lt;b&gt;Graphiques détaillés et statistiques&lt;/b&gt;
 Observez clairement comment vos habitudes s’améliorent au fil du temps avec de beaux graphiques détaillés. Défilez vers les jours passés pour voir l'historique complet de vos habitudes."</string>
 <string name="store_feature_schedules">"&lt;b&gt;Calendrier flexible&lt;/b&gt;
-Supporte les habitudes quotidiennes et celles avec un calendrier plus complexes, comme 3 fois par semaine, une fois toutes les deux semaines ou un jour sur deux."</string>
+Supporte les habitudes quotidiennes et mensuelle avec des horaires multiples et complexes, comme 3 fois par semaine, une fois toutes les deux semaines ou un jour sur deux."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Rappels&lt;/b&gt;
 Créez un rappel propre pour chaque habitude, à une heure choisie de la journée. Cochez, supprimez ou reportez facilement votre habitude directement à partir de la notification, sans ouvrir l'application."</string>
-<string name="store_feature_opensource">"&lt;b&gt;Entièrement sans pub et open-source&lt;/b&gt;
-Il n'y a absolument aucune publicité ni notification embêtante ou permissions intrusives avec cette application, et il n'y en aura jamais. L'ensemble du code source est disponible sous GPLv3."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Entièrement sans pub et sous licence libre&lt;/b&gt;
+Il n'y a absolument aucune publicité ni notification embêtante ni permission intrusive avec cette application, et il n'y en aura jamais. L'ensemble du code source est disponible sous GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Optimisée pour les montres android&lt;/b&gt;
 Les rappels peuvent être cochés, reportés ou supprimés directement à partir de votre montre Android"</string>
 <string name="about">"À propos"</string>
@@ -158,20 +158,25 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 <string name="full_backup_success">"Sauvegarde complète exportée avec succès"</string>
 <string name="import_data">"Importer des données"</string>
 <string name="export_full_backup">"Exporter une sauvegarde complète"</string>
-<string name="import_data_summary">"Supporte les sauvegardes complètes générées par cette app, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d'informations."</string>
-<string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou OpenOffice Calc. Ces fichiers ne peuvent être réimportés."</string>
+<string name="import_data_summary">"Supporte les sauvegardes complètes générées par cette application, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d'informations."</string>
+<string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou LibreOffice Calc. Ces fichiers ne peuvent être réimportés."</string>
 <string name="export_full_backup_summary">"Génère un fichier contenant toutes vos données. Ce fichier peut être réimporté."</string>
 <string name="bug_report_failed">"La génération du rapport de bug a échouée."</string>
 <string name="generate_bug_report">"Générer un rapport de bug."</string>
 <string name="troubleshooting">"Résolution de problèmes"</string>
 <string name="help_translate">"Aider à traduire cette application"</string>
 <string name="night_mode">"Mode Nuit"</string>
+<string name="use_pure_black">"Utiliser un noir pure dans le mode nuit."</string>
+<string name="pure_black_description">"Remplacer le fond gris par un noir pure dans le mode nuit; ça réduit l’usage de la batterie d'un appareil ayant un écran AMOLED."</string>
+<string name="interface_preferences">"Interface"</string>
+<string name="reverse_days">"Inverser l'ordre des jours"</string>
+<string name="reverse_days_description">"Montrer les jours dans l'ordre inversé sur l'écran principal"</string>
 <string name="day">"Jour"</string>
 <string name="week">"Semaine"</string>
 <string name="month">"Mois"</string>
 
 <!-- Three-month period -->
-<string name="quarter">"Quarter"</string>
+<string name="quarter">"Trimestre"</string>
 <string name="year">"Année"</string>
 
 <!-- Middle part of the sentence '1 time in xx days' -->
@@ -182,8 +187,8 @@ Les rappels peuvent être cochés, reportés ou supprimés directement à partir
 <string name="every_x_months">"Tous les %d mois"</string>
 
 <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
-<string name="score">"Score"</string>
-<string name="reminder_sound">"Son du rappel"</string>
+<string name="score">"Pointage"</string>
+<string name="reminder_sound">"Son de rappel"</string>
 
 <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
 <string name="none">"Aucun"</string>

@@ -191,7 +191,7 @@ public abstract class UIHelper
     {
         // TODO: Move this to another place, or detect automatically
         String fullyTranslatedLanguages[] = { "ca", "zh", "en", "de", "in", "it", "ko", "pl", "pt",
-                "es", "tk", "uk", "ja"};
+                "es", "tk", "uk", "ja", "fr", "hr", "sl"};
 
         final String currentLanguage = Locale.getDefault().getLanguage();
 

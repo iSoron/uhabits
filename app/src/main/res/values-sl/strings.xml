@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Loop Sledilnik Navad"</string>
+    <string name="main_activity_title">"Navade"</string>
+    <string name="action_settings">"Nastavitve"</string>
+    <string name="edit">"Spremeni"</string>
+    <string name="delete">"Izbriši"</string>
+    <string name="archive">"Arhiviraj"</string>
+    <string name="unarchive">"Odarhiviraj"</string>
+    <string name="add_habit">"Dodaj navado"</string>
+    <string name="color_picker_default_title">"Spremeni barvo"</string>
+    <string name="toast_habit_created">"Navada ustvarjana."</string>
+    <string name="toast_habit_deleted">"Navada izbrisana."</string>
+    <string name="toast_habit_restored">"Navada obnovljena."</string>
+    <string name="toast_nothing_to_undo">"Nič za razveljaviti."</string>
+    <string name="toast_nothing_to_redo">"Nič za ponovno opraviti."</string>
+    <string name="toast_habit_changed">"Navada spremenjena."</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Navada obnovljena."</string>
+    <string name="toast_habit_archived">"Navada arhivirana."</string>
+    <string name="toast_habit_unarchived">"Navada dearhivirana."</string>
+    <string name="overview">"Pregled"</string>
+    <string name="habit_strength">"Moč navade"</string>
+    <string name="history">"Zgodovina"</string>
+    <string name="clear">"Počisti"</string>
+    <string name="description_hint">"Vprašanje (Ste ... danes?)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Ponovi"</string>
+    <string name="times_every">"krat v"</string>
+    <string name="days">"dni"</string>
+    <string name="reminder">"Opomnik"</string>
+    <string name="discard">"Zavrzi"</string>
+    <string name="save">"Shrani"</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Serije"</string>
+    <string name="no_habits_found">"Nimate aktivnih navad"</string>
+    <string name="long_press_to_toggle">"Pritisnite-in-držite, da označite ali odznačite"</string>
+    <string name="reminder_off">"Izključeno"</string>
+    <string name="validation_name_should_not_be_blank">"Ime ne more biti prazno."</string>
+    <string name="validation_number_should_be_positive">"Številka mora biti pozitivna."</string>
+    <string name="validation_at_most_one_rep_per_day">"Na dan lahko imate kvečjemu eno ponovitev"</string>
+    <string name="create_habit">"Ustvari navado"</string>
+    <string name="edit_habit">"Spremeni navado"</string>
+    <string name="check">"Označi"</string>
+    <string name="snooze">"Kasneje"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Dobrodošli"</string>
+    <string name="intro_description_1">"Loop Sledilnik Navad vam pomaga ustvariti in vzdrževati dobre navade."</string>
+    <string name="intro_title_2">"Ustvari nekaj novih navad"</string>
+    <string name="intro_description_2">"Vsak dan, potem ko opravite vašo navado, vnesite kljukico v aplikacijo."</string>
+    <string name="intro_title_3">"Kar tako naprej"</string>
+    <string name="intro_description_3">"Dalj časa dosledno izvedene Navade si bodo zaslužile polno zvezdo."</string>
+    <string name="intro_title_4">"Spremljaj svoj napredek"</string>
+    <string name="intro_description_4">"Podrobni grafi vam pokažejo kako so se skozi čas vaše navede izboljšale."</string>
+    <string name="interval_15_minutes">"15 minut"</string>
+    <string name="interval_30_minutes">"30 minut"</string>
+    <string name="interval_1_hour">"1 ura"</string>
+    <string name="interval_2_hour">"2 uri"</string>
+    <string name="interval_4_hour">"4 ure"</string>
+    <string name="interval_8_hour">"8 ur"</string>
+    <string name="pref_toggle_title">"Preklopi ponovitve s kratkim pritiskom"</string>
+    <string name="pref_toggle_description">"Bolj priročno ampak lahko povzroči nenamerne preklapljanje."</string>
+    <string name="pref_snooze_interval_title">"Interval dremeža na opomnikih"</string>
+    <string name="pref_rate_this_app">"Oceni to aplikacijo na Google Play"</string>
+    <string name="pref_send_feedback">"Pošlji povratne informacije razvijalcem"</string>
+    <string name="pref_view_source_code">"Poglej izvorno kodo na GitHub"</string>
+    <string name="pref_view_app_introduction">"Poglej uvod aplikacije"</string>
+    <string name="links">"Povezave"</string>
+    <string name="behavior">"Obnašanje"</string>
+    <string name="name">"Ime"</string>
+    <string name="show_archived">"Pokaži arhiv"</string>
+    <string name="settings">"Nastavitve"</string>
+    <string name="snooze_interval">"Interval dremeža"</string>
+    <string name="hint_title">"Ali ste vedeli?"</string>
+    <string name="hint_drag">"Če želite preurediti vnose, pritisnite-in-držite na ime navade, nato pa jo povlecite na željeno mestu."</string>
+    <string name="hint_landscape">"Ogledate si lahko več dni, s tem da telefon postavite v ležeči načinu."</string>
+    <string name="delete_habits">"Izbriši Navade"</string>
+    <string name="delete_habits_message">"Navade bodo trajno izbrisane. Te operacije ni možno razveljaviti."</string>
+    <string name="weekends">"Vikendi"</string>
+    <string name="any_weekday">"Ponedeljek do Petka"</string>
+    <string name="any_day">"Vsak dan v tednu"</string>
+    <string name="select_weekdays">"Izberi dni"</string>
+    <string name="export_to_csv">"Izvozi v CSV"</string>
+    <string name="done_label">"Končano"</string>
+    <string name="clear_label">"Počisti"</string>
+    <string name="select_hours">"Izberi ure"</string>
+    <string name="select_minutes">"Izberi minute"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Ustvarite dobre navade in spremljajte njihov napredek skozi čas (brez reklam)"</string>
+    <string name="store_description_1">"Loop vam pomaga ustvariti in vzdrževati dobre navade, kar vam omogoča, da bi dosegli svoje dolgoročne cilje. Podrobni grafi in statistike vam pokažejo kako so se vaše navade skozi čas izboljšale. Je popolnoma brez oglasov in odprtokodno."</string>
+<string name="store_feature_interface">"&lt;b&gt;Enostaven, lep in sodoben vmesnik&lt;/b&gt;
+Loop ima minimalističen vmesnik, ki je preprost za uporabo in sledi smernicam Material design."</string>
+<string name="store_feature_score">"&lt;b&gt;Ocena navade&lt;/b&gt;
+Poleg tega, da vam prikazuje vaše trenutne serije, ima Loop napreden algoritem za izračun moči vaših navad. Vsaka ponovitev naredi vašo navado močnejšo in vsak zgrešen dan jo naredi šibkejšo. Nekaj zgrešenih dni po dolgi seriji, pa vendar ne bo popolnoma uničilo vašega celotnega napredka."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Podrobni grafi in statistike&lt;/b&gt;
+Z lepimi in natančnimi grafi, jasno poglejte, kako so se skozi čas vaše navade izboljšale. Da boste videli celotno zgodovino svojih navad se pomaknite nazaj."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Prilagodljivi urniki&lt;/b&gt;
+Podpira tako vsakdanje navade in navade z bolj zapletenimi urniki, kot so 3-krat na teden; enkrat vsak drugi teden; ali vsak drugi dan."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Opomniki&lt;/b&gt;
+Ustvari individualni opomnik za vsako navado, pri izbrani uri dneva. Enostavno preverite, zavrzite ali dajte v dremež svoje navade neposredno iz obvestila, ne da bi odprli aplikacijo."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Popolnoma brez oglasov in odprtokodno&lt;/b&gt;
+V tej aplikaciji ni absolutno nobene reklame, sitnih obvestil ali vsiljivih dovoljenj in jih tudi nikoli ne bo. Celotna izvorna koda je na razpolago pod GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Optimirano za pametne ure&lt;/b&gt;
+Opomnike lahko preverite, jih date v dremež ali pa zavrzite neposredno iz vaše Android Wear ure."</string>
+    <string name="about">"O aplikaciji"</string>
+    <string name="translators">"Prevajalci"</string>
+    <string name="developers">"Razvijalci"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Verzija %s"</string>
+    <string name="frequency">"Pogostost"</string>
+    <string name="checkmark">"Kljukica"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Moč"</string>
+    <string name="best_streaks">"Najboljša serija"</string>
+    <string name="current_streaks">"Trenutna serija"</string>
+    <string name="number_of_repetitions">"Število ponovitev"</string>
+    <string name="last_x_days">"Zadnjih %d dni"</string>
+    <string name="last_x_weeks">"Zadnjih %d tednov"</string>
+    <string name="last_x_months">"Zadnjih %d mesecev"</string>
+    <string name="last_x_years">"Zadnjih %d let"</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"Ves čas"</string>
+    <string name="every_day">"Vsak dan"</string>
+    <string name="every_week">"Vsak teden"</string>
+    <string name="two_times_per_week">"2 krat na teden"</string>
+    <string name="five_times_per_week">"5 krat na teden"</string>
+    <string name="custom_frequency">"Po meri ..."</string>
+    <string name="help">"Pomoč &amp; Pogosta vprašanja"</string>
+    <string name="could_not_export">"Neuspešen izvoz podatkov."</string>
+    <string name="could_not_import">"Neuspešen uvoz podatkov."</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Datoteka ni bila prepoznana."</string>
+    <string name="habits_imported">"Navade uspešno uvožene."</string>
+    <string name="full_backup_success">"Popolna varnostna kopija uspešno izvožena."</string>
+    <string name="import_data">"Uvozi podatke"</string>
+    <string name="export_full_backup">"Izvozi popolno varnostno kopijo"</string>
+    <string name="import_data_summary">"Podpira polne varnostne kopije izvožene iz te aplikacije, kakor tudi datoteke, ki jih ustvari Tickmate, HabitBull ali Rewire. Glej Pogosta vprašanja za več informacij."</string>
+    <string name="export_as_csv_summary">"Generirane datoteke, ki se lahko odprejo s programsko opremo za preglednice, kot je Microsoft Excel ali OpenOffice Calc. Te datoteke ni mogoče uvoziti nazaj."</string>
+    <string name="export_full_backup_summary">"Ustvari datoteko, ki vsebuje vse podatke. To datoteko lahko nato uvozite nazaj."</string>
+    <string name="bug_report_failed">"Neuspeh pri ustvarjanju poročila o napakah"</string>
+    <string name="generate_bug_report">"Ustvari poročilo o napakah"</string>
+    <string name="troubleshooting">"Odpravljanje napak"</string>
+    <string name="help_translate">"Pomagajte prevesti to aplikacijo"</string>
+    <string name="night_mode">"Nočni način"</string>
+    <string name="use_pure_black">"Uporabite popolno črnino v nočnem načinu"</string>
+    <string name="pure_black_description">"Zamenja siva ozadja s popolno črnino v nočnem načinu. Zmanjša porabo baterije na telefonih z AMOLED zasloni."</string>
+    <string name="interface_preferences">"Vmesnik"</string>
+    <string name="reverse_days">"Zamenjaj vrstni red dni"</string>
+    <string name="reverse_days_description">"Prikaži dni v obratnem vrstnem redu na glavnem zaslonu"</string>
+    <string name="day">"Dan"</string>
+    <string name="week">"Teden"</string>
+    <string name="month">"Mesec"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"Četrtletje"</string>
+    <string name="year">"Leto"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"enkrat na"</string>
+    <string name="every_x_days">"Vsakih %d dni"</string>
+    <string name="every_x_weeks">"Vsakih %d tednov"</string>
+    <string name="every_x_months">"Vsakih %d mesecev"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Ocena"</string>
+    <string name="reminder_sound">"Zvok opomnika"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Noben"</string>
+</resources>
