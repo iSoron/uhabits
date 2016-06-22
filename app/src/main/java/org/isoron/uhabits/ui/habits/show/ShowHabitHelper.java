@@ -37,7 +37,6 @@ public class ShowHabitHelper
     void updateCardHeaders(View view)
     {
         updateColor(view, R.id.tvHistory);
-        updateColor(view, R.id.tvStrength);
         updateColor(view, R.id.tvStreaks);
         updateColor(view, R.id.tvWeekdayFreq);
         updateColor(view, R.id.scoreLabel);

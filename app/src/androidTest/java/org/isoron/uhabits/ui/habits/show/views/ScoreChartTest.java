@@ -25,18 +25,20 @@ import android.util.Log;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.utils.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitScoreViewTest extends BaseViewTest
+public class ScoreChartTest extends BaseViewTest
 {
     private Habit habit;
 
-    private HabitScoreView view;
+    private ScoreChart view;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -45,10 +47,10 @@ public class HabitScoreViewTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
 
-        view = new HabitScoreView(targetContext);
-        view.setHabit(habit);
+        view = new ScoreChart(targetContext);
+        view.setScores(habit.getScores().getAll());
+        view.setPrimaryColor(ColorUtils.getColor(targetContext, habit.getColor()));
         view.setBucketSize(7);
-        refreshData(view);
         measureView(dpToPixels(300), dpToPixels(200), view);
     }
 
@@ -79,8 +81,8 @@ public class HabitScoreViewTest extends BaseViewTest
     @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
+        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.MONTH));
         view.setBucketSize(30);
-        view.refreshData();
         view.invalidate();
 
         assertRenders(view, "HabitScoreView/renderMonthly.png");
@@ -96,8 +98,8 @@ public class HabitScoreViewTest extends BaseViewTest
     @Test
     public void testRender_withYearlyBucket() throws Throwable
     {
+        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.YEAR));
         view.setBucketSize(365);
-        view.refreshData();
         view.invalidate();
 
         assertRenders(view, "HabitScoreView/renderYearly.png");

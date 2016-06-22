@@ -33,7 +33,7 @@ import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
 
-public class SubtitleCardView extends LinearLayout
+public class SubtitleCard extends LinearLayout
     implements ModelObservable.Listener
 {
     @BindView(R.id.questionLabel)
@@ -48,13 +48,13 @@ public class SubtitleCardView extends LinearLayout
     @Nullable
     private Habit habit;
 
-    public SubtitleCardView(Context context)
+    public SubtitleCard(Context context)
     {
         super(context);
         init();
     }
 
-    public SubtitleCardView(Context context, AttributeSet attrs)
+    public SubtitleCard(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();

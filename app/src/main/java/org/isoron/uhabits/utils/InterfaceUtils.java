@@ -269,13 +269,13 @@ public abstract class InterfaceUtils
     }
 
 
-    public static void setDefaultScoreInterval(Context context, int position)
+    public static void setDefaultScoreSpinnerPosition(Context context, int position)
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putInt("pref_score_view_interval", position).apply();
     }
 
-    public static int getDefaultScoreInterval(Context context)
+    public static int getDefaultScoreSpinnerPosition(Context context)
     {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);

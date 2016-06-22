@@ -31,7 +31,7 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
-public class HabitFrequencyView extends ScrollableDataView
+public class FrequencyChart extends ScrollableChart
     implements HabitDataView, ModelObservable.Listener
 {
     private Paint pGrid;
@@ -70,13 +70,13 @@ public class HabitFrequencyView extends ScrollableDataView
 
     private HashMap<Long, Integer[]> frequency;
 
-    public HabitFrequencyView(Context context)
+    public FrequencyChart(Context context)
     {
         super(context);
         init();
     }
 
-    public HabitFrequencyView(Context context, AttributeSet attrs)
+    public FrequencyChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorUtils.getColor(getContext(), 7);

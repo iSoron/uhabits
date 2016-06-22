@@ -22,13 +22,11 @@ package org.isoron.uhabits.ui.habits.show;
 import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.edit.*;
 import org.isoron.uhabits.ui.habits.show.views.*;
-import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -39,17 +37,9 @@ public class ShowHabitFragment extends Fragment
 {
     Habit habit;
 
-    float todayScore;
-
-    float lastMonthScore;
-
-    float lastYearScore;
-
     int activeColor;
 
     int inactiveColor;
-
-    int previousScoreInterval;
 
     private ShowHabitHelper helper;
 
@@ -57,26 +47,23 @@ public class ShowHabitFragment extends Fragment
 
     private List<HabitDataView> dataViews;
 
-    @BindView(R.id.sStrengthInterval)
-    Spinner sStrengthInterval;
-
-    @BindView(R.id.scoreView)
-    HabitScoreView habitScoreView;
-
     @BindView(R.id.historyView)
-    HabitHistoryView habitHistoryView;
+    HistoryView historyView;
 
     @BindView(R.id.punchcardView)
-    HabitFrequencyView habitFrequencyView;
+    FrequencyChart frequencyChart;
 
-    @BindView(R.id.streakView)
-    HabitStreakView habitStreakView;
+    @BindView(R.id.streakChart)
+    StreakChart streakChart;
 
-    @BindView(R.id.subtitle)
-    SubtitleCardView subtitleView;
+    @BindView(R.id.subtitleCard)
+    SubtitleCard subtitleCard;
 
-    @BindView(R.id.overview)
-    OverviewCardView overview;
+    @BindView(R.id.overviewCard)
+    OverviewCard overviewCard;
+
+    @BindView(R.id.strengthCard)
+    ScoreCard scoreCard;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -91,15 +78,6 @@ public class ShowHabitFragment extends Fragment
 
         habit = activity.getHabit();
         helper.updateColors();
-
-        int defaultScoreInterval =
-            InterfaceUtils.getDefaultScoreInterval(getContext());
-        previousScoreInterval = defaultScoreInterval;
-        setScoreBucketSize(defaultScoreInterval);
-
-        sStrengthInterval.setSelection(defaultScoreInterval);
-        sStrengthInterval.setOnItemSelectedListener(
-            new OnItemSelectedListener());
 
         createDataViews();
         helper.updateCardHeaders(view);
@@ -118,14 +96,14 @@ public class ShowHabitFragment extends Fragment
 
     private void createDataViews()
     {
-        subtitleView.setHabit(habit);
-        overview.setHabit(habit);
+        subtitleCard.setHabit(habit);
+        overviewCard.setHabit(habit);
+        scoreCard.setHabit(habit);
 
         dataViews = new LinkedList<>();
-        dataViews.add(habitScoreView);
-        dataViews.add(habitHistoryView);
-        dataViews.add(habitFrequencyView);
-        dataViews.add(habitStreakView);
+        dataViews.add(historyView);
+        dataViews.add(frequencyChart);
+        dataViews.add(streakChart);
 
         for (HabitDataView dataView : dataViews)
             dataView.setHabit(habit);
@@ -156,17 +134,6 @@ public class ShowHabitFragment extends Fragment
         return true;
     }
 
-    private void setScoreBucketSize(int position)
-    {
-        if (getView() == null) return;
-
-        habitScoreView.setBucketSize(
-            HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
-
-        InterfaceUtils.setDefaultScoreInterval(getContext(), position);
-        previousScoreInterval = position;
-    }
-
     @Override
     public void onModelChange()
     {
@@ -189,24 +156,5 @@ public class ShowHabitFragment extends Fragment
     {
         habit.getObservable().removeListener(this);
         super.onPause();
-    }
-
-    private class OnItemSelectedListener
-        implements AdapterView.OnItemSelectedListener
-    {
-        @Override
-        public void onItemSelected(AdapterView<?> parent,
-                                   View view,
-                                   int position,
-                                   long id)
-        {
-            setScoreBucketSize(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent)
-        {
-
-        }
     }
 }

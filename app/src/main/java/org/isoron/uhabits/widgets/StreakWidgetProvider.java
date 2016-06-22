@@ -27,14 +27,14 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.widgets.views.GraphWidgetView;
 import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitStreakView;
+import org.isoron.uhabits.ui.habits.show.views.StreakChart;
 
 public class StreakWidgetProvider extends  BaseWidgetProvider
 {
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitStreakView dataView = new HabitStreakView(context);
+        StreakChart dataView = new StreakChart(context);
         GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;

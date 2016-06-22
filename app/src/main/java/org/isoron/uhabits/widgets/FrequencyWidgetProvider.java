@@ -28,14 +28,14 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.widgets.views.GraphWidgetView;
 import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitFrequencyView;
+import org.isoron.uhabits.ui.habits.show.views.FrequencyChart;
 
 public class FrequencyWidgetProvider extends BaseWidgetProvider
 {
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitFrequencyView dataView = new HabitFrequencyView(context);
+        FrequencyChart dataView = new FrequencyChart(context);
         GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;

@@ -26,14 +26,12 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
-public class HabitScoreView extends ScrollableDataView
-    implements HabitDataView, ModelObservable.Listener
+public class ScoreChart extends ScrollableChart
 {
     private static final PorterDuffXfermode XFERMODE_CLEAR =
         new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
@@ -41,13 +39,9 @@ public class HabitScoreView extends ScrollableDataView
     private static final PorterDuffXfermode XFERMODE_SRC =
         new PorterDuffXfermode(PorterDuff.Mode.SRC);
 
-    public static int DEFAULT_BUCKET_SIZES[] = {1, 7, 31, 92, 365};
-
     private Paint pGrid;
 
     private float em;
-
-    private Habit habit;
 
     private SimpleDateFormat dfMonth;
 
@@ -80,8 +74,6 @@ public class HabitScoreView extends ScrollableDataView
 
     private int bucketSize = 7;
 
-    private int footerHeight;
-
     private int backgroundColor;
 
     private Bitmap drawingCache;
@@ -96,51 +88,23 @@ public class HabitScoreView extends ScrollableDataView
 
     private String previousMonthText;
 
-    public HabitScoreView(Context context)
+    public ScoreChart(Context context)
     {
         super(context);
         init();
     }
 
-    public HabitScoreView(Context context, AttributeSet attrs)
+    public ScoreChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorUtils.getColor(getContext(), 7);
         init();
     }
 
-    @Override
-    public void onModelChange()
-    {
-        refreshData();
-    }
-
-    @Override
-    public void refreshData()
-    {
-        if (isInEditMode()) generateRandomData();
-        else
-        {
-            if (habit == null) return;
-            if (bucketSize == 1) scores = habit.getScores().getAll();
-            else scores = habit.getScores().groupBy(getTruncateField());
-
-            createColors();
-        }
-
-        postInvalidate();
-    }
-
+    @Deprecated
     public void setBucketSize(int bucketSize)
     {
         this.bucketSize = bucketSize;
-    }
-
-    @Override
-    public void setHabit(Habit habit)
-    {
-        this.habit = habit;
-        createColors();
+        postInvalidate();
     }
 
     public void setIsTransparencyEnabled(boolean enabled)
@@ -148,6 +112,18 @@ public class HabitScoreView extends ScrollableDataView
         this.isTransparencyEnabled = enabled;
         createColors();
         requestLayout();
+    }
+
+    public void setPrimaryColor(int primaryColor)
+    {
+        this.primaryColor = primaryColor;
+        postInvalidate();
+    }
+
+    public void setScores(@NonNull List<Score> scores)
+    {
+        this.scores = scores;
+        postInvalidate();
     }
 
     protected void createPaints()
@@ -161,30 +137,6 @@ public class HabitScoreView extends ScrollableDataView
 
         pGrid = new Paint();
         pGrid.setAntiAlias(true);
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                refreshData();
-            }
-        }.execute();
-        habit.getObservable().addListener(this);
-        habit.getScores().getObservable().addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        habit.getScores().getObservable().removeListener(this);
-        habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
     }
 
     @Override
@@ -205,7 +157,7 @@ public class HabitScoreView extends ScrollableDataView
             activeCanvas = canvas;
         }
 
-        if (habit == null || scores == null) return;
+        if (scores == null) return;
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
         rect.offset(0, paddingTop);
@@ -220,16 +172,13 @@ public class HabitScoreView extends ScrollableDataView
         previousYearText = "";
         skipYear = 0;
 
-        long currentDate = DateUtils.getStartOfToday();
-
-        for (int k = 0; k < nColumns + getDataOffset() - 1; k++)
-            currentDate -= bucketSize * DateUtils.millisecondsInOneDay;
-
         for (int k = 0; k < nColumns; k++)
         {
-            int score = 0;
             int offset = nColumns - k - 1 + getDataOffset();
-            if (offset < scores.size()) score = scores.get(offset).getValue();
+            if (offset >= scores.size()) continue;
+
+            int score = scores.get(offset).getValue();
+            long timestamp = scores.get(offset).getTimestamp();
 
             double relativeScore = ((double) score) / Score.MAX_VALUE;
             int height = (int) (columnHeight * relativeScore);
@@ -250,9 +199,7 @@ public class HabitScoreView extends ScrollableDataView
             rect.set(0, 0, columnWidth, columnHeight);
             rect.offset(k * columnWidth, paddingTop);
 
-            drawFooter(activeCanvas, rect, currentDate);
-
-            currentDate += bucketSize * DateUtils.millisecondsInOneDay;
+            drawFooter(activeCanvas, rect, timestamp);
         }
 
         if (activeCanvas != canvas) canvas.drawBitmap(drawingCache, 0, 0, null);
@@ -279,18 +226,17 @@ public class HabitScoreView extends ScrollableDataView
         pText.setTextSize(Math.min(textSize, maxTextSize));
         em = pText.getFontSpacing();
 
-        footerHeight = (int) (3 * em);
+        int footerHeight = (int) (3 * em);
         paddingTop = (int) (em);
 
         baseSize = (height - footerHeight - paddingTop) / 8;
-        setScrollerBucketSize(baseSize);
-
         columnWidth = baseSize;
         columnWidth = Math.max(columnWidth, getMaxDayWidth() * 1.5f);
         columnWidth = Math.max(columnWidth, getMaxMonthWidth() * 1.2f);
 
         nColumns = (int) (width / columnWidth);
         columnWidth = (float) width / nColumns;
+        setScrollerBucketSize((int) columnWidth);
 
         columnHeight = 8 * baseSize;
 
@@ -304,9 +250,7 @@ public class HabitScoreView extends ScrollableDataView
 
     private void createColors()
     {
-        if (habit != null) this.primaryColor =
-            ColorUtils.getColor(getContext(), habit.getColor());
-
+        primaryColor = Color.BLACK;
         textColor = InterfaceUtils.getStyledColor(getContext(),
             R.attr.mediumContrastTextColor);
         gridColor = InterfaceUtils.getStyledColor(getContext(),
@@ -411,7 +355,7 @@ public class HabitScoreView extends ScrollableDataView
         if (isTransparencyEnabled) pGraph.setXfermode(XFERMODE_SRC);
     }
 
-    private void generateRandomData()
+    public void populateWithRandomData()
     {
         Random random = new Random();
         scores = new LinkedList<>();
@@ -459,38 +403,6 @@ public class HabitScoreView extends ScrollableDataView
         }
 
         return maxMonthWidth;
-    }
-
-    @NonNull
-    private DateUtils.TruncateField getTruncateField()
-    {
-        DateUtils.TruncateField field;
-
-        switch (bucketSize)
-        {
-            case 7:
-                field = DateUtils.TruncateField.WEEK_NUMBER;
-                break;
-
-            case 365:
-                field = DateUtils.TruncateField.YEAR;
-                break;
-
-            case 92:
-                field = DateUtils.TruncateField.QUARTER;
-                break;
-
-            default:
-                Log.e("HabitScoreView",
-                    String.format("Unknown bucket size: %d", bucketSize));
-                // continue to case 31
-
-            case 31:
-                field = DateUtils.TruncateField.MONTH;
-                break;
-        }
-
-        return field;
     }
 
     private void init()

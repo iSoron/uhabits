@@ -27,14 +27,14 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.widgets.views.GraphWidgetView;
 import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
+import org.isoron.uhabits.ui.habits.show.views.HistoryView;
 
 public class HistoryWidgetProvider extends  BaseWidgetProvider
 {
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HabitHistoryView dataView = new HabitHistoryView(context);
+        HistoryView dataView = new HistoryView(context);
         GraphWidgetView view = new GraphWidgetView(context, dataView);
         view.setHabit(habit);
         return view;

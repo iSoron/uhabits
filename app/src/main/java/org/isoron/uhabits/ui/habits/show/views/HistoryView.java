@@ -33,10 +33,9 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
-public class HabitHistoryView extends ScrollableDataView implements
-                                                         HabitDataView,
-                                                         ToggleRepetitionTask.Listener,
-                                                         ModelObservable.Listener
+public class HistoryView extends ScrollableChart implements HabitDataView,
+                                                            ToggleRepetitionTask.Listener,
+                                                            ModelObservable.Listener
 {
     private Habit habit;
 
@@ -89,13 +88,13 @@ public class HabitHistoryView extends ScrollableDataView implements
 
     private float headerOverflow = 0;
 
-    public HabitHistoryView(Context context)
+    public HistoryView(Context context)
     {
         super(context);
         init();
     }
 
-    public HabitHistoryView(Context context, AttributeSet attrs)
+    public HistoryView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
@@ -169,6 +168,7 @@ public class HabitHistoryView extends ScrollableDataView implements
         postInvalidate();
     }
 
+    @Override
     public void setHabit(Habit habit)
     {
         this.habit = habit;

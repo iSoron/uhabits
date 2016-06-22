@@ -32,7 +32,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
+import org.isoron.uhabits.ui.habits.show.views.HistoryView;
 
 import javax.inject.Inject;
 
@@ -43,7 +43,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
     private Listener listener;
 
-    HabitHistoryView historyView;
+    HistoryView historyView;
 
     @Inject
     HabitList habitList;
@@ -53,7 +53,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     {
         Context context = getActivity();
         HabitsApplication.getComponent().inject(this);
-        historyView = new HabitHistoryView(context, null);
+        historyView = new HistoryView(context, null);
 
         if (savedInstanceState != null)
         {

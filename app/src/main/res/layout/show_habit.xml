@@ -31,49 +31,23 @@
         style="@style/CardList"
         android:clipToPadding="false">
 
-        <org.isoron.uhabits.ui.habits.show.views.SubtitleCardView
+        <org.isoron.uhabits.ui.habits.show.views.SubtitleCard
             style="@style/ShowHabit.Subtitle"
-            android:id="@+id/subtitle"/>
+            android:id="@+id/subtitleCard"/>
 
         <!--<View-->
             <!--android:id="@+id/headerShadow"-->
             <!--style="@style/ToolbarShadow"/>-->
 
-        <org.isoron.uhabits.ui.habits.show.views.OverviewCardView
-            android:id="@+id/overview"
+        <org.isoron.uhabits.ui.habits.show.views.OverviewCard
+            android:id="@+id/overviewCard"
             android:paddingTop="12dp"
             style="@style/Card" />
 
-        <RelativeLayout
+        <org.isoron.uhabits.ui.habits.show.views.ScoreCard
+            android:id="@+id/strengthCard"
             style="@style/Card"
-            android:gravity="center">
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/sStrengthInterval"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:entries="@array/strengthIntervalNames"
-                android:theme="@style/SmallSpinner"
-                />
-
-            <TextView
-                android:id="@+id/tvStrength"
-                style="@style/CardHeader"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/habit_strength"/>
-
-            <org.isoron.uhabits.ui.habits.show.views.HabitScoreView
-                android:id="@+id/scoreView"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_below="@id/tvStrength"/>
-
-        </RelativeLayout>
+            android:gravity="center" />
 
         <LinearLayout
             style="@style/Card"
@@ -86,7 +60,7 @@
                 style="@style/CardHeader"
                 android:text="@string/history"/>
 
-            <org.isoron.uhabits.ui.habits.show.views.HabitHistoryView
+            <org.isoron.uhabits.ui.habits.show.views.HistoryView
                 android:id="@+id/historyView"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"/>
@@ -113,8 +87,8 @@
                 style="@style/CardHeader"
                 android:text="@string/best_streaks"/>
 
-            <org.isoron.uhabits.ui.habits.show.views.HabitStreakView
-                android:id="@+id/streakView"
+            <org.isoron.uhabits.ui.habits.show.views.StreakChart
+                android:id="@+id/streakChart"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
         </LinearLayout>
@@ -128,7 +102,7 @@
                 style="@style/CardHeader"
                 android:text="@string/frequency"/>
 
-            <org.isoron.uhabits.ui.habits.show.views.HabitFrequencyView
+            <org.isoron.uhabits.ui.habits.show.views.FrequencyChart
                 android:id="@+id/punchcardView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>

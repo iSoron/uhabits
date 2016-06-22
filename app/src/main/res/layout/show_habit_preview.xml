@@ -20,7 +20,6 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:background="?windowBackgroundColor"
@@ -31,24 +30,28 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
-        app:title="Meditation"
         android:background="@color/deep_orange_700"
+        android:elevation="1dp"
         app:popupTheme="?toolbarPopupTheme"
-        android:elevation="1dp"/>
+        app:title="Meditation"/>
 
     <LinearLayout
         style="@style/CardList"
         android:clipToPadding="false">
 
-        <org.isoron.uhabits.ui.habits.show.views.SubtitleCardView
+        <org.isoron.uhabits.ui.habits.show.views.SubtitleCard
             android:id="@+id/subtitleView"
             style="@style/ShowHabit.Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <org.isoron.uhabits.ui.habits.show.views.OverviewCardView
-            android:paddingTop="12dp"
-            style="@style/Card" />
+        <org.isoron.uhabits.ui.habits.show.views.OverviewCard
+            style="@style/Card"
+            android:paddingTop="12dp"/>
+
+        <org.isoron.uhabits.ui.habits.show.views.ScoreCard
+            style="@style/Card"
+            android:paddingTop="12dp"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -40,7 +40,7 @@ public class HabitHistoryViewTest extends BaseViewTest
 {
     private Habit habit;
 
-    private HabitHistoryView view;
+    private HistoryView view;
 
     @Before
     public void setUp()
@@ -50,7 +50,7 @@ public class HabitHistoryViewTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
 
-        view = new HabitHistoryView(targetContext);
+        view = new HistoryView(targetContext);
         view.setHabit(habit);
         measureView(dpToPixels(400), dpToPixels(200), view);
         refreshData(view);

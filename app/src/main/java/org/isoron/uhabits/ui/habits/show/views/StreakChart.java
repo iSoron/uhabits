@@ -32,7 +32,7 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
-public class HabitStreakView extends View
+public class StreakChart extends View
     implements HabitDataView, ModelObservable.Listener
 {
     private Habit habit;
@@ -73,13 +73,13 @@ public class HabitStreakView extends View
 
     private int reverseTextColor;
 
-    public HabitStreakView(Context context)
+    public StreakChart(Context context)
     {
         super(context);
         init();
     }
 
-    public HabitStreakView(Context context, AttributeSet attrs)
+    public StreakChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.primaryColor = ColorUtils.getColor(getContext(), 7);

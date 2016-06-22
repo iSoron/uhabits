@@ -25,7 +25,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 
-public abstract class ScrollableDataView extends View
+public abstract class ScrollableChart extends View
     implements GestureDetector.OnGestureListener,
                ValueAnimator.AnimatorUpdateListener
 {
@@ -40,13 +40,13 @@ public abstract class ScrollableDataView extends View
 
     private ValueAnimator scrollAnimator;
 
-    public ScrollableDataView(Context context)
+    public ScrollableChart(Context context)
     {
         super(context);
         init(context);
     }
 
-    public ScrollableDataView(Context context, AttributeSet attrs)
+    public ScrollableChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(context);

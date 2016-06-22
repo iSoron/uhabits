@@ -31,7 +31,7 @@ import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
 
-public class OverviewCardView extends LinearLayout
+public class OverviewCard extends LinearLayout
     implements ModelObservable.Listener
 {
     @Nullable
@@ -57,13 +57,13 @@ public class OverviewCardView extends LinearLayout
 
     private int color;
 
-    public OverviewCardView(Context context)
+    public OverviewCard(Context context)
     {
         super(context);
         init();
     }
 
-    public OverviewCardView(Context context, AttributeSet attrs)
+    public OverviewCard(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();

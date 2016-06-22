@@ -30,9 +30,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitStreakViewTest extends BaseViewTest
+public class StreakChartTest extends BaseViewTest
 {
-    private HabitStreakView view;
+    private StreakChart view;
 
     @Override
     @Before
@@ -43,7 +43,7 @@ public class HabitStreakViewTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         Habit habit = fixtures.createLongHabit();
 
-        view = new HabitStreakView(targetContext);
+        view = new StreakChart(targetContext);
         measureView(dpToPixels(300), dpToPixels(100), view);
 
         view.setHabit(habit);

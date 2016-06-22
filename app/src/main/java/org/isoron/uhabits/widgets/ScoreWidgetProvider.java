@@ -18,33 +18,33 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.view.View;
+import android.app.*;
+import android.content.*;
+import android.view.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.widgets.views.GraphWidgetView;
-import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitScoreView;
+import org.apache.commons.lang3.*;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.utils.*;
 
 public class ScoreWidgetProvider extends BaseWidgetProvider
 {
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        int defaultScoreInterval = InterfaceUtils.getDefaultScoreInterval(context);
-        int size = HabitScoreView.DEFAULT_BUCKET_SIZES[defaultScoreInterval];
+        int defaultScoreInterval = InterfaceUtils.getDefaultScoreSpinnerPosition(context);
+        int size = ScoreCard.BUCKET_SIZES[defaultScoreInterval];
 
-        HabitScoreView dataView = new HabitScoreView(context);
+        ScoreChart dataView = new ScoreChart(context);
         dataView.setIsTransparencyEnabled(true);
         dataView.setBucketSize(size);
 
-        GraphWidgetView view = new GraphWidgetView(context, dataView);
-        view.setHabit(habit);
-        return view;
+//        GraphWidgetView view = new GraphWidgetView(context, dataView);
+//        view.setHabit(habit);
+//        return view;
+
+        throw new NotImplementedException("");
     }
 
     @Override

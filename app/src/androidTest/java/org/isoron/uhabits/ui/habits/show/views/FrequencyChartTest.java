@@ -30,9 +30,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitFrequencyViewTest extends BaseViewTest
+public class FrequencyChartTest extends BaseViewTest
 {
-    private HabitFrequencyView view;
+    private FrequencyChart view;
 
     @Before
     public void setUp()
@@ -42,7 +42,7 @@ public class HabitFrequencyViewTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         Habit habit = fixtures.createLongHabit();
 
-        view = new HabitFrequencyView(targetContext);
+        view = new FrequencyChart(targetContext);
         view.setHabit(habit);
         refreshData(view);
         measureView(dpToPixels(300), dpToPixels(100), view);

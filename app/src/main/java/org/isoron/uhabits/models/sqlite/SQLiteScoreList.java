@@ -134,6 +134,8 @@ public class SQLiteScoreList extends ScoreList
             .where("habit = ?", habit.getId())
             .and("timestamp >= ?", timestamp)
             .execute();
+
+        getObservable().notifyListeners();
     }
 
     @Nullable
