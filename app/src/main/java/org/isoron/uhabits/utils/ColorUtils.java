@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits.utils;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
+import android.content.*;
+import android.graphics.*;
+import android.util.*;
 
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 
 public abstract class ColorUtils
 {

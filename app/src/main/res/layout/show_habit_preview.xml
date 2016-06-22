@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="?windowBackgroundColor"
+              android:clipToPadding="false"
+              android:fillViewport="true"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        app:title="Meditation"
+        android:background="@color/deep_orange_700"
+        app:popupTheme="?toolbarPopupTheme"
+        android:elevation="1dp"/>
+
+    <LinearLayout
+        style="@style/CardList"
+        android:clipToPadding="false">
+
+        <org.isoron.uhabits.ui.habits.show.views.SubtitleCardView
+            android:id="@+id/subtitleView"
+            style="@style/ShowHabit.Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <org.isoron.uhabits.ui.habits.show.views.OverviewCardView
+            android:paddingTop="12dp"
+            style="@style/Card" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -26,6 +26,4 @@ public interface HabitDataView
     void setHabit(Habit habit);
 
     void refreshData();
-
-    void postInvalidate();
 }

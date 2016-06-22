@@ -89,8 +89,8 @@ public abstract class BaseScreen
             View view = activity.findViewById(R.id.toolbarShadow);
             if (view != null) view.setVisibility(View.GONE);
 
-            view = activity.findViewById(R.id.headerShadow);
-            if (view != null) view.setVisibility(View.GONE);
+//            view = activity.findViewById(R.id.headerShadow);
+//            if (view != null) view.setVisibility(View.GONE);
         }
     }
 
@@ -270,8 +270,8 @@ public abstract class BaseScreen
         View view = activity.findViewById(R.id.toolbarShadow);
         if (view != null) view.setVisibility(View.GONE);
 
-        view = activity.findViewById(R.id.headerShadow);
-        if (view != null) view.setVisibility(View.GONE);
+//        view = activity.findViewById(R.id.headerShadow);
+//        if (view != null) view.setVisibility(View.GONE);
     }
 
     private class ActionModeWrapper implements ActionMode.Callback

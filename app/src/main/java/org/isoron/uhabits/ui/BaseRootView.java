@@ -96,8 +96,8 @@ public abstract class BaseRootView extends FrameLayout
         View view = findViewById(R.id.toolbarShadow);
         if (view != null) view.setVisibility(View.GONE);
 
-        view = findViewById(R.id.headerShadow);
-        if (view != null) view.setVisibility(View.GONE);
+//        view = findViewById(R.id.headerShadow);
+//        if (view != null) view.setVisibility(View.GONE);
     }
 
     protected void initToolbar()

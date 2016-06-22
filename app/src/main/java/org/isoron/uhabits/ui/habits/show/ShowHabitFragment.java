@@ -19,38 +19,20 @@
 
 package org.isoron.uhabits.ui.habits.show;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.os.*;
+import android.support.v4.app.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.ModelObservable;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.ui.habits.edit.BaseDialogFragment;
-import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
-import org.isoron.uhabits.ui.habits.edit.HistoryEditorDialog;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HabitFrequencyView;
-import org.isoron.uhabits.ui.habits.show.views.HabitHistoryView;
-import org.isoron.uhabits.ui.habits.show.views.HabitScoreView;
-import org.isoron.uhabits.ui.habits.show.views.HabitStreakView;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.edit.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
 
 public class ShowHabitFragment extends Fragment
     implements ModelObservable.Listener
@@ -90,6 +72,12 @@ public class ShowHabitFragment extends Fragment
     @BindView(R.id.streakView)
     HabitStreakView habitStreakView;
 
+    @BindView(R.id.subtitle)
+    SubtitleCardView subtitleView;
+
+    @BindView(R.id.overview)
+    OverviewCardView overview;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -103,7 +91,6 @@ public class ShowHabitFragment extends Fragment
 
         habit = activity.getHabit();
         helper.updateColors();
-        helper.updateMainHeader(view);
 
         int defaultScoreInterval =
             InterfaceUtils.getDefaultScoreInterval(getContext());
@@ -131,6 +118,9 @@ public class ShowHabitFragment extends Fragment
 
     private void createDataViews()
     {
+        subtitleView.setHabit(habit);
+        overview.setHabit(habit);
+
         dataViews = new LinkedList<>();
         dataViews.add(habitScoreView);
         dataViews.add(habitHistoryView);
@@ -139,13 +129,6 @@ public class ShowHabitFragment extends Fragment
 
         for (HabitDataView dataView : dataViews)
             dataView.setHabit(habit);
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        refreshData();
     }
 
     @Override
@@ -173,19 +156,12 @@ public class ShowHabitFragment extends Fragment
         return true;
     }
 
-    public void refreshData()
-    {
-        new RefreshTask().execute();
-    }
-
     private void setScoreBucketSize(int position)
     {
         if (getView() == null) return;
 
         habitScoreView.setBucketSize(
             HabitScoreView.DEFAULT_BUCKET_SIZES[position]);
-
-        if (position != previousScoreInterval) refreshData();
 
         InterfaceUtils.setDefaultScoreInterval(getContext(), position);
         previousScoreInterval = position;
@@ -194,10 +170,8 @@ public class ShowHabitFragment extends Fragment
     @Override
     public void onModelChange()
     {
-        refreshData();
         activity.runOnUiThread(() -> {
             helper.updateColors();
-            helper.updateMainHeader(getView());
             helper.updateCardHeaders(getView());
             if (activity != null) activity.setupHabitActionBar();
         });
@@ -215,31 +189,6 @@ public class ShowHabitFragment extends Fragment
     {
         habit.getObservable().removeListener(this);
         super.onPause();
-    }
-
-    private class RefreshTask extends BaseTask
-    {
-        @Override
-        protected void doInBackground()
-        {
-            if (habit == null) return;
-            if (dataViews == null) return;
-
-            long today = DateUtils.getStartOfToday();
-            long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
-            long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
-
-            todayScore = (float) habit.getScores().getTodayValue();
-            lastMonthScore = (float) habit.getScores().getValue(lastMonth);
-            lastYearScore = (float) habit.getScores().getValue(lastYear);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid)
-        {
-            helper.updateScore(getView());
-            super.onPostExecute(aVoid);
-        }
     }
 
     private class OnItemSelectedListener
