@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.charts;
 
 import android.content.*;
 import android.graphics.*;
@@ -26,19 +26,13 @@ import android.util.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
-public class HistoryView extends ScrollableChart implements HabitDataView,
-                                                            ToggleRepetitionTask.Listener,
-                                                            ModelObservable.Listener
+public class HistoryChart extends ScrollableChart
 {
-    private Habit habit;
-
     private int[] checkmarks;
 
     private Paint pSquareBg, pSquareFg, pTextHeader;
@@ -88,13 +82,13 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
 
     private float headerOverflow = 0;
 
-    public HistoryView(Context context)
+    public HistoryChart(Context context)
     {
         super(context);
         init();
     }
 
-    public HistoryView(Context context, AttributeSet attrs)
+    public HistoryChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
@@ -104,12 +98,6 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
     public void onLongPress(MotionEvent e)
     {
         onSingleTapUp(e);
-    }
-
-    @Override
-    public void onModelChange()
-    {
-        refreshData();
     }
 
     @Override
@@ -126,59 +114,48 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
         final Long timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
-        ToggleRepetitionTask task = new ToggleRepetitionTask(habit, timestamp);
-        task.setListener(this);
-        task.execute();
+//        ToggleRepetitionTask task = new ToggleRepetitionTask(habit, timestamp);
+//        task.setListener(this);
+//        task.execute();
 
         return true;
     }
 
-    @Override
-    public void onToggleRepetitionFinished()
+    public void populateWithRandomData()
     {
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                refreshData();
-            }
+        Random random = new Random();
+        checkmarks = new int[100];
 
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                invalidate();
-                super.onPostExecute(null);
-            }
-        }.execute();
+        for (int i = 0; i < 100; i++)
+            if (random.nextFloat() < 0.3) checkmarks[i] = 2;
+
+        for (int i = 0; i < 100 - 7; i++)
+        {
+            int count = 0;
+            for (int j = 0; j < 7; j++)
+                if (checkmarks[i + j] != 0) count++;
+
+            if (count >= 3) checkmarks[i] = Math.max(checkmarks[i], 1);
+        }
     }
 
-    @Override
-    public void refreshData()
+    public void setCheckmarks(int[] checkmarks)
     {
-        if (isInEditMode()) generateRandomData();
-        else
-        {
-            if (habit == null) return;
-            checkmarks = habit.getCheckmarks().getAllValues();
-            createColors();
-        }
-
-        updateDate();
+        this.checkmarks = checkmarks;
         postInvalidate();
     }
 
-    @Override
-    public void setHabit(Habit habit)
+    public void setColor(int color)
     {
-        this.habit = habit;
-        createColors();
+        this.primaryColor = color;
+        initColors();
+        postInvalidate();
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
-        createColors();
+        initColors();
     }
 
     public void setIsEditable(boolean isEditable)
@@ -186,7 +163,7 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
         this.isEditable = isEditable;
     }
 
-    protected void createPaints()
+    protected void initPaints()
     {
         pTextHeader = new Paint();
         pTextHeader.setTextAlign(Align.LEFT);
@@ -197,30 +174,6 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
         pSquareFg = new Paint();
         pSquareFg.setAntiAlias(true);
         pSquareFg.setTextAlign(Align.CENTER);
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                refreshData();
-            }
-        }.execute();
-        habit.getObservable().addListener(this);
-        habit.getCheckmarks().observable.addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        habit.getCheckmarks().observable.removeListener(this);
-        habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
     }
 
     @Override
@@ -288,41 +241,6 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
             1;
 
         updateDate();
-    }
-
-    private void createColors()
-    {
-        if (habit != null) this.primaryColor =
-            ColorUtils.getColor(getContext(), habit.getColor());
-
-        if (isBackgroundTransparent)
-            primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
-
-        int red = Color.red(primaryColor);
-        int green = Color.green(primaryColor);
-        int blue = Color.blue(primaryColor);
-
-        if (isBackgroundTransparent)
-        {
-            colors = new int[3];
-            colors[0] = Color.argb(16, 255, 255, 255);
-            colors[1] = Color.argb(128, red, green, blue);
-            colors[2] = primaryColor;
-            textColor = Color.WHITE;
-            reverseTextColor = Color.WHITE;
-        }
-        else
-        {
-            colors = new int[3];
-            colors[0] = InterfaceUtils.getStyledColor(getContext(),
-                R.attr.lowContrastTextColor);
-            colors[1] = Color.argb(127, red, green, blue);
-            colors[2] = primaryColor;
-            textColor = InterfaceUtils.getStyledColor(getContext(),
-                R.attr.mediumContrastTextColor);
-            reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
-                R.attr.highContrastReverseTextColor);
-        }
     }
 
     private void drawAxis(Canvas canvas, RectF location)
@@ -398,24 +316,6 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
             location.centerY() + squareTextOffset, pSquareFg);
     }
 
-    private void generateRandomData()
-    {
-        Random random = new Random();
-        checkmarks = new int[100];
-
-        for (int i = 0; i < 100; i++)
-            if (random.nextFloat() < 0.3) checkmarks[i] = 2;
-
-        for (int i = 0; i < 100 - 7; i++)
-        {
-            int count = 0;
-            for (int j = 0; j < 7; j++)
-                if (checkmarks[i + j] != 0) count++;
-
-            if (count >= 3) checkmarks[i] = Math.max(checkmarks[i], 1);
-        }
-    }
-
     private float getWeekdayLabelWidth()
     {
         float width = 0;
@@ -428,15 +328,55 @@ public class HistoryView extends ScrollableChart implements HabitDataView,
 
     private void init()
     {
-        createColors();
-        createPaints();
-
         isEditable = false;
         checkmarks = new int[0];
-        primaryColor = ColorUtils.getColor(getContext(), 7);
+
+        initColors();
+        initPaints();
+        initDateFormats();
+        initRects();
+    }
+
+    private void initColors()
+    {
+        if (isBackgroundTransparent)
+            primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
+
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        if (isBackgroundTransparent)
+        {
+            colors = new int[3];
+            colors[0] = Color.argb(16, 255, 255, 255);
+            colors[1] = Color.argb(128, red, green, blue);
+            colors[2] = primaryColor;
+            textColor = Color.WHITE;
+            reverseTextColor = Color.WHITE;
+        }
+        else
+        {
+            colors = new int[3];
+            colors[0] = InterfaceUtils.getStyledColor(getContext(),
+                R.attr.lowContrastTextColor);
+            colors[1] = Color.argb(127, red, green, blue);
+            colors[2] = primaryColor;
+            textColor = InterfaceUtils.getStyledColor(getContext(),
+                R.attr.mediumContrastTextColor);
+            reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
+                R.attr.highContrastReverseTextColor);
+        }
+    }
+
+    private void initDateFormats()
+    {
         dfMonth = DateUtils.getDateFormat("MMM");
         dfYear = DateUtils.getDateFormat("yyyy");
+    }
 
+    private void initRects()
+    {
         baseLocation = new RectF();
     }
 

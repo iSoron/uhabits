@@ -24,6 +24,7 @@ import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.memory.*;
 
 import java.util.*;
 
@@ -82,14 +83,8 @@ public class Habit
      */
     public Habit(Habit model)
     {
-        HabitsApplication.getComponent().inject(this);
-
         copyFrom(model);
-
-        checkmarks = factory.buildCheckmarkList(this);
-        streaks = factory.buildStreakList(this);
-        scores = factory.buildScoreList(this);
-        repetitions = factory.buildRepetitionList(this);
+        buildLists();
     }
 
     /**
@@ -100,11 +95,18 @@ public class Habit
      */
     public Habit()
     {
-        HabitsApplication.getComponent().inject(this);
-
         this.color = 5;
         this.archived = false;
         this.frequency = new Frequency(3, 7);
+
+        buildLists();
+    }
+
+    private void buildLists()
+    {
+        BaseComponent component = HabitsApplication.getComponent();
+        if(component == null) factory = new MemoryModelFactory();
+        else component.inject(this);
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.charts;
 
 import android.content.*;
 import android.graphics.*;
@@ -26,17 +26,13 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
 public class StreakChart extends View
-    implements HabitDataView, ModelObservable.Listener
 {
-    private Habit habit;
-
     private Paint paint;
 
     private long minLength;
@@ -67,8 +63,6 @@ public class StreakChart extends View
 
     private boolean shouldShowLabels;
 
-    private int maxStreakCount;
-
     private int textColor;
 
     private int reverseTextColor;
@@ -82,68 +76,44 @@ public class StreakChart extends View
     public StreakChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorUtils.getColor(getContext(), 7);
         init();
-    }
-
-    @Override
-    public void onModelChange()
-    {
-        refreshData();
-    }
-
-    @Override
-    public void refreshData()
-    {
-        if (habit == null) return;
-        streaks = habit.getStreaks().getBest(maxStreakCount);
-        createColors();
-        updateMaxMin();
-        postInvalidate();
-    }
-
-    @Override
-    public void setHabit(Habit habit)
-    {
-        this.habit = habit;
-        createColors();
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
-        createColors();
+        initColors();
     }
 
-    protected void createPaints()
+    public void setStreaks(List<Streak> streaks)
     {
-        paint = new Paint();
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setAntiAlias(true);
+        this.streaks = streaks;
+        initColors();
+        updateMaxMinLengths();
+        requestLayout();
     }
 
-    @Override
-    protected void onAttachedToWindow()
+    public void populateWithRandomData()
     {
-        super.onAttachedToWindow();
-        new BaseTask()
+        long day = DateUtils.millisecondsInOneDay;
+        long start = DateUtils.getStartOfToday();
+        LinkedList<Streak> streaks = new LinkedList<>();
+
+        for(int i = 0; i < 10; i++)
         {
-            @Override
-            protected void doInBackground()
-            {
-                refreshData();
-            }
-        }.execute();
-        habit.getObservable().addListener(this);
-        habit.getStreaks().getObservable().addListener(this);
+            int length = new Random().nextInt(100);
+            long end = start + length * day;
+            streaks.add(new Streak(start, end));
+            start = end + day;
+        }
+
+        setStreaks(streaks);
     }
 
-    @Override
-    protected void onDetachedFromWindow()
+    public void setColor(int color)
     {
-        habit.getStreaks().getObservable().removeListener(this);
-        habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
+        this.primaryColor = color;
+        postInvalidate();
     }
 
     @Override
@@ -162,11 +132,14 @@ public class StreakChart extends View
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    protected void onMeasure(int widthSpec, int heightSpec)
     {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        setMeasuredDimension(width, height);
+        int width = MeasureSpec.getSize(widthSpec);
+        int height = streaks.size() * baseSize;
+
+        heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+        widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        setMeasuredDimension(widthSpec, heightSpec);
     }
 
     @Override
@@ -175,7 +148,6 @@ public class StreakChart extends View
                                  int oldWidth,
                                  int oldHeight)
     {
-        maxStreakCount = height / baseSize;
         this.width = width;
 
         float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
@@ -188,28 +160,7 @@ public class StreakChart extends View
         em = paint.getFontSpacing();
         textMargin = 0.5f * em;
 
-        updateMaxMin();
-    }
-
-    private void createColors()
-    {
-        if (habit != null) this.primaryColor =
-            ColorUtils.getColor(getContext(), habit.getColor());
-
-        int red = Color.red(primaryColor);
-        int green = Color.green(primaryColor);
-        int blue = Color.blue(primaryColor);
-
-        colors = new int[4];
-        colors[3] = primaryColor;
-        colors[2] = Color.argb(192, red, green, blue);
-        colors[1] = Color.argb(96, red, green, blue);
-        colors[0] = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
-        textColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
-        reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.highContrastReverseTextColor);
+        updateMaxMinLengths();
     }
 
     private void drawRow(Canvas canvas, Streak streak, RectF rect)
@@ -256,16 +207,40 @@ public class StreakChart extends View
 
     private void init()
     {
-        createPaints();
-        createColors();
+        initPaints();
+        initColors();
 
         streaks = Collections.emptyList();
 
         dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         rect = new RectF();
-        maxStreakCount = 10;
         baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
+    }
+
+    private void initColors()
+    {
+        int red = Color.red(primaryColor);
+        int green = Color.green(primaryColor);
+        int blue = Color.blue(primaryColor);
+
+        colors = new int[4];
+        colors[3] = primaryColor;
+        colors[2] = Color.argb(192, red, green, blue);
+        colors[1] = Color.argb(96, red, green, blue);
+        colors[0] = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.lowContrastTextColor);
+        textColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.mediumContrastTextColor);
+        reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.highContrastReverseTextColor);
+    }
+
+    private void initPaints()
+    {
+        paint = new Paint();
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setAntiAlias(true);
     }
 
     private int percentageToColor(float percentage)
@@ -276,7 +251,7 @@ public class StreakChart extends View
         return colors[0];
     }
 
-    private void updateMaxMin()
+    private void updateMaxMinLengths()
     {
         maxLength = 0;
         minLength = Long.MAX_VALUE;

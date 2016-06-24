@@ -17,11 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.charts;
 
 import org.isoron.uhabits.models.Habit;
 
-public interface HabitDataView
+public interface HabitChart
 {
     void setHabit(Habit habit);
 

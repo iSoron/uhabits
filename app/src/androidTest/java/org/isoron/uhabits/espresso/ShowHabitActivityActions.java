@@ -31,7 +31,7 @@ public class ShowHabitActivityActions
 {
     public static void openHistoryEditor()
     {
-        onView(ViewMatchers.withId(R.id.btEditHistory))
+        onView(ViewMatchers.withId(R.id.edit))
                 .perform(scrollTo(), click());
     }
 }

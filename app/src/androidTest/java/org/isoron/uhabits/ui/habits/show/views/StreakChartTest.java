@@ -22,8 +22,10 @@ package org.isoron.uhabits.ui.habits.show.views;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.ui.habits.show.views.charts.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,9 +47,10 @@ public class StreakChartTest extends BaseViewTest
 
         view = new StreakChart(targetContext);
         measureView(dpToPixels(300), dpToPixels(100), view);
+        throw new NotImplementedException("");
 
-        view.setHabit(habit);
-        refreshData(view);
+//        view.setHabit(habit);
+//        refreshData(view);
     }
 
     @Test
@@ -60,7 +63,7 @@ public class StreakChartTest extends BaseViewTest
     public void testRender_withSmallSize() throws Throwable
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
-        refreshData(view);
+//        refreshData(view);
 
         assertRenders(view, "HabitStreakView/renderSmallSize.png");
     }

@@ -17,28 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.charts;
 
 import android.content.*;
 import android.graphics.*;
+import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
 public class FrequencyChart extends ScrollableChart
-    implements HabitDataView, ModelObservable.Listener
 {
     private Paint pGrid;
 
     private float em;
-
-    private Habit habit;
 
     private SimpleDateFormat dfMonth;
 
@@ -68,6 +64,7 @@ public class FrequencyChart extends ScrollableChart
 
     private boolean isBackgroundTransparent;
 
+    @NonNull
     private HashMap<Long, Integer[]> frequency;
 
     public FrequencyChart(Context context)
@@ -79,42 +76,30 @@ public class FrequencyChart extends ScrollableChart
     public FrequencyChart(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.primaryColor = ColorUtils.getColor(getContext(), 7);
         this.frequency = new HashMap<>();
         init();
     }
 
-    @Override
-    public void onModelChange()
+    public void setColor(int color)
     {
-        refreshData();
-    }
-
-    public void refreshData()
-    {
-        if (isInEditMode()) generateRandomData();
-        else if (habit != null)
-        {
-            frequency = habit.getRepetitions().getWeekdayFrequency();
-            createColors();
-        }
-
+        this.primaryColor = color;
+        initColors();
         postInvalidate();
     }
 
-    public void setHabit(Habit habit)
+    public void setFrequency(HashMap<Long, Integer[]> frequency)
     {
-        this.habit = habit;
-        createColors();
+        this.frequency = frequency;
+        postInvalidate();
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
-        createColors();
+        initColors();
     }
 
-    protected void createPaints()
+    protected void initPaints()
     {
         pText = new Paint();
         pText.setAntiAlias(true);
@@ -125,30 +110,6 @@ public class FrequencyChart extends ScrollableChart
 
         pGrid = new Paint();
         pGrid.setAntiAlias(true);
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                refreshData();
-            }
-        }.execute();
-        habit.getObservable().addListener(this);
-        habit.getCheckmarks().observable.addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        habit.getCheckmarks().observable.removeListener(this);
-        habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
     }
 
     @Override
@@ -212,26 +173,6 @@ public class FrequencyChart extends ScrollableChart
         columnHeight = 8 * baseSize;
         nColumns = (int) (width / columnWidth);
         paddingTop = 0;
-    }
-
-    private void createColors()
-    {
-        if (habit != null)
-        {
-            this.primaryColor =
-                ColorUtils.getColor(getContext(), habit.getColor());
-        }
-
-        textColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
-        gridColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
-
-        colors = new int[4];
-        colors[0] = gridColor;
-        colors[3] = primaryColor;
-        colors[1] = ColorUtils.mixColors(colors[0], colors[3], 0.66f);
-        colors[2] = ColorUtils.mixColors(colors[0], colors[3], 0.33f);
     }
 
     private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date)
@@ -301,24 +242,6 @@ public class FrequencyChart extends ScrollableChart
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph);
     }
 
-    private void generateRandomData()
-    {
-        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
-        date.set(Calendar.DAY_OF_MONTH, 1);
-        Random rand = new Random();
-        frequency.clear();
-
-        for (int i = 0; i < 40; i++)
-        {
-            Integer values[] = new Integer[7];
-            for (int j = 0; j < 7; j++)
-                values[j] = rand.nextInt(5);
-
-            frequency.put(date.getTimeInMillis(), values);
-            date.add(Calendar.MONTH, -1);
-        }
-    }
-
     private float getMaxMonthWidth()
     {
         float maxMonthWidth = 0;
@@ -336,13 +259,53 @@ public class FrequencyChart extends ScrollableChart
 
     private void init()
     {
-        createPaints();
-        createColors();
+        initPaints();
+        initColors();
+        initDateFormats();
+        initRects();
+    }
 
+    private void initColors()
+    {
+        textColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.mediumContrastTextColor);
+        gridColor = InterfaceUtils.getStyledColor(getContext(),
+            R.attr.lowContrastTextColor);
+
+        colors = new int[4];
+        colors[0] = gridColor;
+        colors[3] = primaryColor;
+        colors[1] = ColorUtils.mixColors(colors[0], colors[3], 0.66f);
+        colors[2] = ColorUtils.mixColors(colors[0], colors[3], 0.33f);
+    }
+
+    private void initDateFormats()
+    {
         dfMonth = DateUtils.getDateFormat("MMM");
         dfYear = DateUtils.getDateFormat("yyyy");
+    }
 
+    private void initRects()
+    {
         rect = new RectF();
         prevRect = new RectF();
+    }
+
+    public void populateWithRandomData()
+    {
+        GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
+        date.set(Calendar.DAY_OF_MONTH, 1);
+        Random rand = new Random();
+        frequency.clear();
+
+        for (int i = 0; i < 40; i++)
+        {
+            Integer values[] = new Integer[7];
+            for (int j = 0; j < 7; j++)
+                values[j] = rand.nextInt(5);
+
+            frequency.put(date.getTimeInMillis(), values);
+            date.add(Calendar.MONTH, -1);
+        }
     }
 }

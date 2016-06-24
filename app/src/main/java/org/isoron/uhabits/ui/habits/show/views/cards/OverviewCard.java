@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.cards;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -27,16 +27,13 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
 
-public class OverviewCard extends LinearLayout
-    implements ModelObservable.Listener
+public class OverviewCard extends HabitCard
 {
-    @Nullable
-    private Habit habit;
-
     @NonNull
     private Cache cache;
 
@@ -70,60 +67,18 @@ public class OverviewCard extends LinearLayout
     }
 
     @Override
-    public void onModelChange()
+    protected void refreshData()
     {
-        refreshCache();
-    }
-
-    public void setHabit(@Nullable Habit habit)
-    {
-        this.habit = habit;
+        Habit habit = getHabit();
         color = ColorUtils.getColor(getContext(), habit.getColor());
-    }
+        refreshColors();
 
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        refreshCache();
-        if(habit != null) habit.getObservable().addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        if(habit != null) habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
-    }
-
-    private void init()
-    {
-        inflate(getContext(), R.layout.show_habit_overview, this);
-        ButterKnife.bind(this);
-        cache = new Cache();
-
-        if(isInEditMode()) initEditMode();
-    }
-
-    private void initEditMode()
-    {
-        color = ColorUtils.getAndroidTestColor(1);
-        cache.todayScore = Score.MAX_VALUE * 0.6f;
-        cache.lastMonthScore = Score.MAX_VALUE * 0.42f;
-        cache.lastYearScore = Score.MAX_VALUE * 0.75f;
-        updateScore();
-    }
-
-    private void refreshCache()
-    {
         new BaseTask()
         {
             @Override
             protected void doInBackground()
             {
-                if(habit == null) return;
                 ScoreList scores = habit.getScores();
-
 
                 long today = DateUtils.getStartOfToday();
                 long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
@@ -137,25 +92,54 @@ public class OverviewCard extends LinearLayout
             @Override
             protected void onPostExecute(Void aVoid)
             {
-                updateScore();
+                refreshScore();
                 super.onPostExecute(aVoid);
             }
         }.execute();
     }
 
-    void updateScore()
+    private String formatPercentageDiff(float percentageDiff)
+    {
+        return String.format("%s%.0f%%", (percentageDiff >= 0 ? "+" : "\u2212"),
+            Math.abs(percentageDiff) * 100);
+    }
+
+    private void init()
+    {
+        inflate(getContext(), R.layout.show_habit_overview, this);
+        ButterKnife.bind(this);
+        cache = new Cache();
+
+        if (isInEditMode()) initEditMode();
+    }
+
+    private void initEditMode()
+    {
+        color = ColorUtils.getAndroidTestColor(1);
+        cache.todayScore = Score.MAX_VALUE * 0.6f;
+        cache.lastMonthScore = Score.MAX_VALUE * 0.42f;
+        cache.lastYearScore = Score.MAX_VALUE * 0.75f;
+        refreshColors();
+        refreshScore();
+    }
+
+    private void refreshColors()
+    {
+        scoreRing.setColor(color);
+        scoreLabel.setTextColor(color);
+        title.setTextColor(color);
+    }
+
+    private void refreshScore()
     {
         float todayPercentage = cache.todayScore / Score.MAX_VALUE;
-        float monthDiff = todayPercentage - (cache.lastMonthScore / Score.MAX_VALUE);
-        float yearDiff = todayPercentage - (cache.lastYearScore / Score.MAX_VALUE);
+        float monthDiff =
+            todayPercentage - (cache.lastMonthScore / Score.MAX_VALUE);
+        float yearDiff =
+            todayPercentage - (cache.lastYearScore / Score.MAX_VALUE);
 
-        scoreRing.setColor(color);
         scoreRing.setPercentage(todayPercentage);
-
-        scoreLabel.setTextColor(color);
         scoreLabel.setText(String.format("%.0f%%", todayPercentage * 100));
-
-        title.setTextColor(color);
 
         monthDiffLabel.setText(formatPercentageDiff(monthDiff));
         yearDiffLabel.setText(formatPercentageDiff(yearDiff));
@@ -167,12 +151,6 @@ public class OverviewCard extends LinearLayout
         yearDiffLabel.setTextColor(yearDiff >= 0 ? color : inactiveColor);
 
         postInvalidate();
-    }
-
-    private String formatPercentageDiff(float percentageDiff)
-    {
-        return String.format("%s%.0f%%", (percentageDiff >= 0 ? "+" : "\u2212"),
-            Math.abs(percentageDiff) * 100);
     }
 
     private class Cache

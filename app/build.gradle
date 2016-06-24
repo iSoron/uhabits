@@ -91,3 +91,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
 }
+
+retrolambda {
+    defaultMethods true
+}

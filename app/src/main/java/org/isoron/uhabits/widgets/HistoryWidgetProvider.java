@@ -18,32 +18,31 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.view.View;
+import android.app.*;
+import android.content.*;
+import android.view.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.widgets.views.GraphWidgetView;
-import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
-import org.isoron.uhabits.ui.habits.show.views.HistoryView;
+import org.apache.commons.lang3.*;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.show.views.charts.*;
 
 public class HistoryWidgetProvider extends  BaseWidgetProvider
 {
     @Override
     protected View buildCustomView(Context context, Habit habit)
     {
-        HistoryView dataView = new HistoryView(context);
-        GraphWidgetView view = new GraphWidgetView(context, dataView);
-        view.setHabit(habit);
-        return view;
+        throw new NotImplementedException("");
+//        HistoryChart dataView = new HistoryChart(context);
+//        GraphWidgetView view = new GraphWidgetView(context, dataView);
+//        view.setHabit(habit);
+//        return view;
     }
 
     @Override
     protected void refreshCustomViewData(View view)
     {
-        ((HabitDataView) view).refreshData();
+        ((HabitChart) view).refreshData();
     }
 
     @Override

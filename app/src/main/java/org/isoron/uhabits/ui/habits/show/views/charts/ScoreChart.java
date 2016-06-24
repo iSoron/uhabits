@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.charts;
 
 import android.content.*;
 import android.graphics.*;
@@ -30,6 +30,8 @@ import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
+
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class ScoreChart extends ScrollableChart
 {
@@ -72,6 +74,7 @@ public class ScoreChart extends ScrollableChart
 
     private int primaryColor;
 
+    @Deprecated
     private int bucketSize = 7;
 
     private int backgroundColor;
@@ -100,6 +103,26 @@ public class ScoreChart extends ScrollableChart
         init();
     }
 
+    public void populateWithRandomData()
+    {
+        Random random = new Random();
+        scores = new LinkedList<>();
+
+        int previous = Score.MAX_VALUE / 2;
+        long timestamp = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
+
+        for (int i = 1; i < 100; i++)
+        {
+            int step = Score.MAX_VALUE / 10;
+            int current = previous + random.nextInt(step * 2) - step;
+            current = Math.max(0, Math.min(Score.MAX_VALUE, current));
+            scores.add(new Score(timestamp, current));
+            previous = current;
+            timestamp -= day;
+        }
+    }
+
     @Deprecated
     public void setBucketSize(int bucketSize)
     {
@@ -110,7 +133,7 @@ public class ScoreChart extends ScrollableChart
     public void setIsTransparencyEnabled(boolean enabled)
     {
         this.isTransparencyEnabled = enabled;
-        createColors();
+        initColors();
         requestLayout();
     }
 
@@ -124,19 +147,6 @@ public class ScoreChart extends ScrollableChart
     {
         this.scores = scores;
         postInvalidate();
-    }
-
-    protected void createPaints()
-    {
-        pText = new Paint();
-        pText.setAntiAlias(true);
-
-        pGraph = new Paint();
-        pGraph.setTextAlign(Paint.Align.CENTER);
-        pGraph.setAntiAlias(true);
-
-        pGrid = new Paint();
-        pGrid.setAntiAlias(true);
     }
 
     @Override
@@ -240,23 +250,12 @@ public class ScoreChart extends ScrollableChart
 
         columnHeight = 8 * baseSize;
 
-        float minStrokeWidth = InterfaceUtils.dpToPixels(getContext(), 1);
+        float minStrokeWidth = dpToPixels(getContext(), 1);
         pGraph.setTextSize(baseSize * 0.5f);
         pGraph.setStrokeWidth(baseSize * 0.1f);
         pGrid.setStrokeWidth(Math.min(minStrokeWidth, baseSize * 0.05f));
 
         if (isTransparencyEnabled) initCache(width, height);
-    }
-
-    private void createColors()
-    {
-        primaryColor = Color.BLACK;
-        textColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
-        gridColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
-        backgroundColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.cardBackgroundColor);
     }
 
     private void drawFooter(Canvas canvas, RectF rect, long currentDate)
@@ -340,7 +339,7 @@ public class ScoreChart extends ScrollableChart
 
     private void drawMarker(Canvas canvas, RectF rect)
     {
-        rect.inset(baseSize * 0.15f, baseSize * 0.15f);
+        rect.inset(baseSize * 0.225f, baseSize * 0.225f);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
@@ -348,31 +347,11 @@ public class ScoreChart extends ScrollableChart
         setModeOrColor(pGraph, XFERMODE_SRC, primaryColor);
         canvas.drawOval(rect, pGraph);
 
-        rect.inset(baseSize * 0.1f, baseSize * 0.1f);
-        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
-        canvas.drawOval(rect, pGraph);
+//        rect.inset(baseSize * 0.1f, baseSize * 0.1f);
+//        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
+//        canvas.drawOval(rect, pGraph);
 
         if (isTransparencyEnabled) pGraph.setXfermode(XFERMODE_SRC);
-    }
-
-    public void populateWithRandomData()
-    {
-        Random random = new Random();
-        scores = new LinkedList<>();
-
-        int previous = Score.MAX_VALUE / 2;
-        long timestamp = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
-
-        for (int i = 1; i < 100; i++)
-        {
-            int step = Score.MAX_VALUE / 10;
-            int current = previous + random.nextInt(step * 2) - step;
-            current = Math.max(0, Math.min(Score.MAX_VALUE, current));
-            scores.add(new Score(timestamp, current));
-            previous = current;
-            timestamp -= day;
-        }
     }
 
     private float getMaxDayWidth()
@@ -407,15 +386,10 @@ public class ScoreChart extends ScrollableChart
 
     private void init()
     {
-        createPaints();
-        createColors();
-
-        dfYear = DateUtils.getDateFormat("yyyy");
-        dfMonth = DateUtils.getDateFormat("MMM");
-        dfDay = DateUtils.getDateFormat("d");
-
-        rect = new RectF();
-        prevRect = new RectF();
+        initPaints();
+        initColors();
+        initDateFormats();
+        initRects();
     }
 
     private void initCache(int width, int height)
@@ -424,6 +398,42 @@ public class ScoreChart extends ScrollableChart
         drawingCache =
             Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         cacheCanvas = new Canvas(drawingCache);
+    }
+
+    private void initColors()
+    {
+        Context context = getContext();
+
+        primaryColor = Color.BLACK;
+        textColor = getStyledColor(context, R.attr.mediumContrastTextColor);
+        gridColor = getStyledColor(context, R.attr.lowContrastTextColor);
+        backgroundColor = getStyledColor(context, R.attr.cardBackgroundColor);
+    }
+
+    private void initDateFormats()
+    {
+        dfYear = DateUtils.getDateFormat("yyyy");
+        dfMonth = DateUtils.getDateFormat("MMM");
+        dfDay = DateUtils.getDateFormat("d");
+    }
+
+    private void initPaints()
+    {
+        pText = new Paint();
+        pText.setAntiAlias(true);
+
+        pGraph = new Paint();
+        pGraph.setTextAlign(Paint.Align.CENTER);
+        pGraph.setAntiAlias(true);
+
+        pGrid = new Paint();
+        pGrid.setAntiAlias(true);
+    }
+
+    private void initRects()
+    {
+        rect = new RectF();
+        prevRect = new RectF();
     }
 
     private void setModeOrColor(Paint p, PorterDuffXfermode mode, int color)

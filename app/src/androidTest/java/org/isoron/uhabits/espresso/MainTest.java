@@ -135,7 +135,7 @@ public class MainTest
 
         onView(withId(R.id.scoreView)).perform(scrollTo(), swipeRight());
 
-        onView(withId(R.id.punchcardView)).perform(scrollTo(), swipeRight());
+        onView(withId(R.id.frequencyChart)).perform(scrollTo(), swipeRight());
     }
 
     /**
@@ -234,7 +234,7 @@ public class MainTest
             clickAtRandomLocations(20));
 
         pressBack();
-        onView(withId(R.id.historyView)).perform(scrollTo(), swipeRight(),
+        onView(withId(R.id.historyChart)).perform(scrollTo(), swipeRight(),
             swipeLeft());
     }
 

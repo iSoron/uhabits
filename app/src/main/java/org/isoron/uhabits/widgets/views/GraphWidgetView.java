@@ -27,15 +27,15 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.show.views.HabitDataView;
+import org.isoron.uhabits.ui.habits.show.views.charts.HabitChart;
 
-public class GraphWidgetView extends HabitWidgetView implements HabitDataView
+public class GraphWidgetView extends HabitWidgetView implements HabitChart
 {
 
-    private final HabitDataView dataView;
+    private final HabitChart dataView;
     private TextView title;
 
-    public GraphWidgetView(Context context, HabitDataView dataView)
+    public GraphWidgetView(Context context, HabitChart dataView)
     {
         super(context);
         this.dataView = dataView;

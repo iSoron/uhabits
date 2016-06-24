@@ -19,7 +19,6 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:habit="http://isoron.org/android"
 
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -31,7 +30,7 @@
         style="@style/CardList"
         android:clipToPadding="false">
 
-        <org.isoron.uhabits.ui.habits.show.views.SubtitleCard
+        <org.isoron.uhabits.ui.habits.show.views.cards.SubtitleCard
             style="@style/ShowHabit.Subtitle"
             android:id="@+id/subtitleCard"/>
 
@@ -39,74 +38,29 @@
             <!--android:id="@+id/headerShadow"-->
             <!--style="@style/ToolbarShadow"/>-->
 
-        <org.isoron.uhabits.ui.habits.show.views.OverviewCard
+        <org.isoron.uhabits.ui.habits.show.views.cards.OverviewCard
             android:id="@+id/overviewCard"
             android:paddingTop="12dp"
             style="@style/Card" />
 
-        <org.isoron.uhabits.ui.habits.show.views.ScoreCard
+        <org.isoron.uhabits.ui.habits.show.views.cards.ScoreCard
             android:id="@+id/strengthCard"
             style="@style/Card"
             android:gravity="center" />
 
-        <LinearLayout
+        <org.isoron.uhabits.ui.habits.show.views.cards.HistoryCard
+            android:id="@+id/historyCard"
             style="@style/Card"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingBottom="0dp">
+            android:paddingBottom="0dp"
+            android:gravity="center" />
 
-            <TextView
-                android:id="@+id/tvHistory"
-                style="@style/CardHeader"
-                android:text="@string/history"/>
+        <org.isoron.uhabits.ui.habits.show.views.cards.StreakCard
+            android:id="@+id/streakCard"
+            style="@style/Card"/>
 
-            <org.isoron.uhabits.ui.habits.show.views.HistoryView
-                android:id="@+id/historyView"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"/>
+        <org.isoron.uhabits.ui.habits.show.views.cards.FrequencyCard
+            android:id="@+id/frequencyCard"
+            style="@style/Card"/>
 
-            <Button
-                android:id="@+id/btEditHistory"
-                style="?android:borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_action_edit_light"
-                android:text="@string/edit"
-                android:textColor="@color/grey_400"
-                android:textSize="@dimen/smallTextSize"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/Card"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvStreaks"
-                style="@style/CardHeader"
-                android:text="@string/best_streaks"/>
-
-            <org.isoron.uhabits.ui.habits.show.views.StreakChart
-                android:id="@+id/streakChart"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/Card"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvWeekdayFreq"
-                style="@style/CardHeader"
-                android:text="@string/frequency"/>
-
-            <org.isoron.uhabits.ui.habits.show.views.FrequencyChart
-                android:id="@+id/punchcardView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
-
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

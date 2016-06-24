@@ -24,7 +24,7 @@ import android.os.*;
 import android.view.*;
 
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.ui.habits.show.views.charts.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -209,7 +209,7 @@ public class BaseViewTest extends BaseAndroidTest
         e.recycle();
     }
 
-    protected void refreshData(final HabitDataView view)
+    protected void refreshData(final HabitChart view)
     {
         new BaseTask()
         {

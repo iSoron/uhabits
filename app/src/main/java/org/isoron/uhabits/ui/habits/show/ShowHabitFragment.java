@@ -26,35 +26,21 @@ import android.view.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.edit.*;
-import org.isoron.uhabits.ui.habits.show.views.*;
-
-import java.util.*;
+import org.isoron.uhabits.ui.habits.show.views.cards.*;
 
 import butterknife.*;
 
 public class ShowHabitFragment extends Fragment
-    implements ModelObservable.Listener
 {
     Habit habit;
 
-    int activeColor;
-
-    int inactiveColor;
-
-    private ShowHabitHelper helper;
-
     protected ShowHabitActivity activity;
 
-    private List<HabitDataView> dataViews;
+    @BindView(R.id.frequencyCard)
+    FrequencyCard frequencyCard;
 
-    @BindView(R.id.historyView)
-    HistoryView historyView;
-
-    @BindView(R.id.punchcardView)
-    FrequencyChart frequencyChart;
-
-    @BindView(R.id.streakChart)
-    StreakChart streakChart;
+    @BindView(R.id.streakCard)
+    StreakCard streakCard;
 
     @BindView(R.id.subtitleCard)
     SubtitleCard subtitleCard;
@@ -65,6 +51,15 @@ public class ShowHabitFragment extends Fragment
     @BindView(R.id.strengthCard)
     ScoreCard scoreCard;
 
+    @BindView(R.id.historyCard)
+    HistoryCard historyCard;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+//        inflater.inflate(R.menu.show_habit_fragment, menu);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -74,45 +69,17 @@ public class ShowHabitFragment extends Fragment
         ButterKnife.bind(this, view);
 
         activity = (ShowHabitActivity) getActivity();
-        helper = new ShowHabitHelper(this);
-
         habit = activity.getHabit();
-        helper.updateColors();
 
-        createDataViews();
-        helper.updateCardHeaders(view);
-        setHasOptionsMenu(true);
-
-        return view;
-    }
-
-    @OnClick(R.id.btEditHistory)
-    public void onClickEditHistory()
-    {
-        HistoryEditorDialog frag = new HistoryEditorDialog();
-        frag.setHabit(habit);
-        frag.show(getFragmentManager(), "historyEditor");
-    }
-
-    private void createDataViews()
-    {
         subtitleCard.setHabit(habit);
         overviewCard.setHabit(habit);
         scoreCard.setHabit(habit);
+        historyCard.setHabit(habit);
+        streakCard.setHabit(habit);
+        frequencyCard.setHabit(habit);
 
-        dataViews = new LinkedList<>();
-        dataViews.add(historyView);
-        dataViews.add(frequencyChart);
-        dataViews.add(streakChart);
-
-        for (HabitDataView dataView : dataViews)
-            dataView.setHabit(habit);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-//        inflater.inflate(R.menu.show_habit_fragment, menu);
+        setHasOptionsMenu(true);
+        return view;
     }
 
     @Override
@@ -124,6 +91,7 @@ public class ShowHabitFragment extends Fragment
         return false;
     }
 
+
     private boolean showEditHabitDialog()
     {
         if (habit == null) return false;
@@ -132,29 +100,5 @@ public class ShowHabitFragment extends Fragment
             EditHabitDialogFragment.newInstance(habit.getId());
         frag.show(getFragmentManager(), "editHabit");
         return true;
-    }
-
-    @Override
-    public void onModelChange()
-    {
-        activity.runOnUiThread(() -> {
-            helper.updateColors();
-            helper.updateCardHeaders(getView());
-            if (activity != null) activity.setupHabitActionBar();
-        });
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        habit.getObservable().addListener(this);
-    }
-
-    @Override
-    public void onPause()
-    {
-        habit.getObservable().removeListener(this);
-        super.onPause();
     }
 }

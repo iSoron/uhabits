@@ -27,12 +27,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.DisplayMetrics;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.ui.habits.show.views.HistoryView;
+import org.isoron.uhabits.ui.habits.show.views.charts.HistoryChart;
 
 import javax.inject.Inject;
 
@@ -43,7 +44,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
     private Listener listener;
 
-    HistoryView historyView;
+    HistoryChart historyChart;
 
     @Inject
     HabitList habitList;
@@ -53,7 +54,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     {
         Context context = getActivity();
         HabitsApplication.getComponent().inject(this);
-        historyView = new HistoryView(context, null);
+        historyChart = new HistoryChart(context, null);
 
         if (savedInstanceState != null)
         {
@@ -63,14 +64,16 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
         int padding =
             (int) getResources().getDimension(R.dimen.history_editor_padding);
-        historyView.setPadding(padding, 0, padding, 0);
-        historyView.setHabit(habit);
-        historyView.setIsEditable(true);
+
+        if(true) throw new NotImplementedException("");
+        historyChart.setPadding(padding, 0, padding, 0);
+//        historyChart.setHabit(habit);
+        historyChart.setIsEditable(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder
             .setTitle(R.string.history)
-            .setView(historyView)
+            .setView(historyChart)
             .setPositiveButton(android.R.string.ok, this);
 
         refreshData();
@@ -85,7 +88,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             @Override
             protected void doInBackground()
             {
-                historyView.refreshData();
+//                historyChart.refreshData();
             }
         }.execute();
     }
@@ -112,8 +115,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
     public void setHabit(Habit habit)
     {
-        this.habit = habit;
-        if (historyView != null) historyView.setHabit(habit);
+//        this.habit = habit;
+//        if (historyChart != null) historyChart.setHabit(habit);
     }
 
     @Override

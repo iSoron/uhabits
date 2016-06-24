@@ -17,12 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.habits.show.views.cards;
 
 import android.annotation.*;
 import android.content.*;
 import android.content.res.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
@@ -33,8 +32,7 @@ import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
 
-public class SubtitleCard extends LinearLayout
-    implements ModelObservable.Listener
+public class SubtitleCard extends HabitCard
 {
     @BindView(R.id.questionLabel)
     TextView questionLabel;
@@ -44,9 +42,6 @@ public class SubtitleCard extends LinearLayout
 
     @BindView(R.id.reminderLabel)
     TextView reminderLabel;
-
-    @Nullable
-    private Habit habit;
 
     public SubtitleCard(Context context)
     {
@@ -58,32 +53,6 @@ public class SubtitleCard extends LinearLayout
     {
         super(context, attrs);
         init();
-    }
-
-    @Override
-    public void onModelChange()
-    {
-        refreshData();
-    }
-
-    public void setHabit(@Nullable Habit habit)
-    {
-        this.habit = habit;
-        refreshData();
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        if (habit != null) habit.getObservable().addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        if (habit != null) habit.getObservable().removeListener(this);
-        super.onDetachedFromWindow();
     }
 
     private void init()
@@ -103,9 +72,10 @@ public class SubtitleCard extends LinearLayout
         reminderLabel.setText("08:00");
     }
 
-    private void refreshData()
+    @Override
+    protected void refreshData()
     {
-        if (habit == null) return;
+        Habit habit = getHabit();
         int color = ColorUtils.getColor(getContext(), habit.getColor());
 
         reminderLabel.setText(getResources().getString(R.string.reminder_off));
@@ -123,7 +93,7 @@ public class SubtitleCard extends LinearLayout
         postInvalidate();
     }
 
-    String toText(Frequency freq)
+    private String toText(Frequency freq)
     {
         Resources resources = getResources();
         Integer num = freq.getNumerator();

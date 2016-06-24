@@ -22,8 +22,10 @@ package org.isoron.uhabits.ui.habits.show.views;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.ui.habits.show.views.charts.*;
 import org.isoron.uhabits.utils.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,11 +38,11 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HabitHistoryViewTest extends BaseViewTest
+public class HabitHistoryChartTest extends BaseViewTest
 {
     private Habit habit;
 
-    private HistoryView view;
+    private HistoryChart chart;
 
     @Before
     public void setUp()
@@ -50,10 +52,11 @@ public class HabitHistoryViewTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
 
-        view = new HistoryView(targetContext);
-        view.setHabit(habit);
-        measureView(dpToPixels(400), dpToPixels(200), view);
-        refreshData(view);
+        chart = new HistoryChart(targetContext);
+        throw new NotImplementedException("");
+//        chart.setHabit(habit);
+//        measureView(dpToPixels(400), dpToPixels(200), chart);
+//        refreshData(chart);
     }
 
     @Test
@@ -61,10 +64,10 @@ public class HabitHistoryViewTest extends BaseViewTest
     {
         int expectedCheckmarkValues[] = habit.getCheckmarks().getAllValues();
 
-        view.setIsEditable(true);
-        tap(view, 118, 13); // header
-        tap(view, 336, 60); // tomorrow's square
-        tap(view, 370, 60); // right axis
+        chart.setIsEditable(true);
+        tap(chart, 118, 13); // header
+        tap(chart, 336, 60); // tomorrow's square
+        tap(chart, 370, 60); // right axis
         waitForAsyncTasks();
 
         int actualCheckmarkValues[] = habit.getCheckmarks().getAllValues();
@@ -74,8 +77,8 @@ public class HabitHistoryViewTest extends BaseViewTest
     @Test
     public void tapDate_withEditableView() throws Throwable
     {
-        view.setIsEditable(true);
-        tap(view, 340, 40); // today's square
+        chart.setIsEditable(true);
+        tap(chart, 340, 40); // today's square
         waitForAsyncTasks();
 
         long today = DateUtils.getStartOfToday();
@@ -85,8 +88,8 @@ public class HabitHistoryViewTest extends BaseViewTest
     @Test
     public void tapDate_withReadOnlyView() throws Throwable
     {
-        view.setIsEditable(false);
-        tap(view, 340, 40); // today's square
+        chart.setIsEditable(false);
+        tap(chart, 340, 40); // today's square
         waitForAsyncTasks();
 
         long today = DateUtils.getStartOfToday();
@@ -96,30 +99,29 @@ public class HabitHistoryViewTest extends BaseViewTest
     @Test
     public void testRender() throws Throwable
     {
-        assertRenders(view, "HabitHistoryView/render.png");
+        assertRenders(chart, "HabitHistoryView/render.png");
     }
 
     @Test
     public void testRender_withDataOffset() throws Throwable
     {
-        view.onScroll(null, null, -dpToPixels(150), 0);
-        view.invalidate();
+        chart.onScroll(null, null, -dpToPixels(150), 0);
+        chart.invalidate();
 
-        assertRenders(view, "HabitHistoryView/renderDataOffset.png");
+        assertRenders(chart, "HabitHistoryView/renderDataOffset.png");
     }
 
     @Test
     public void testRender_withDifferentSize() throws Throwable
     {
-        measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "HabitHistoryView/renderDifferentSize.png");
+        measureView(dpToPixels(200), dpToPixels(200), chart);
+        assertRenders(chart, "HabitHistoryView/renderDifferentSize.png");
     }
 
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
-        view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitHistoryView/renderTransparent.png");
+        chart.setIsBackgroundTransparent(true);
+        assertRenders(chart, "HabitHistoryView/renderTransparent.png");
     }
-
 }

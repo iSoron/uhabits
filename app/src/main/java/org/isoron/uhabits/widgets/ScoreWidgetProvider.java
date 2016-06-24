@@ -25,7 +25,8 @@ import android.view.*;
 import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.ui.habits.show.views.cards.*;
+import org.isoron.uhabits.ui.habits.show.views.charts.*;
 import org.isoron.uhabits.utils.*;
 
 public class ScoreWidgetProvider extends BaseWidgetProvider
@@ -50,7 +51,7 @@ public class ScoreWidgetProvider extends BaseWidgetProvider
     @Override
     protected void refreshCustomViewData(View view)
     {
-        ((HabitDataView) view).refreshData();
+        ((HabitChart) view).refreshData();
     }
 
     @Override
