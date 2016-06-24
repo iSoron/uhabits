@@ -10,16 +10,20 @@
 <string name="add_habit">"Gewohnheit hinzufügen"</string>
 <string name="color_picker_default_title">"Farbe ändern"</string>
 <string name="toast_habit_created">"Gewohnheit erstellt."</string>
-<string name="toast_habit_deleted">"Gewohnheiten gelöscht."</string>
-<string name="toast_habit_restored">"Gewohnheiten wiederhergestellt."</string>
+<string name="toast_habit_deleted">"Gewohnheit gelöscht."</string>
+<string name="toast_habits_deleted">"Gewohnheiten gelöscht."</string>
+<string name="toast_habit_restored">"Gewohnheit wiederhergestellt."</string>
+<string name="toast_habits_restored">"Gewohnheiten wiederhergestellt."</string>
 <string name="toast_nothing_to_undo">"Nichts zum rückgängig machen."</string>
 <string name="toast_nothing_to_redo">"Nichts zum wiederherstellen."</string>
 <string name="toast_habit_changed">"Gewohnheit geändert."</string>
 
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"Gewohnheit zurückgeändert."</string>
-<string name="toast_habit_archived">"Gewohnheiten archiviert."</string>
-<string name="toast_habit_unarchived">"Gewohnheiten dearchiviert."</string>
+<string name="toast_habit_archived">"Gewohnheit archiviert."</string>
+<string name="toast_habits_archived">"Gewohnheiten archiviert."</string>
+<string name="toast_habit_unarchived">"Gewohnheit dearchiviert."</string>
+<string name="toast_habits_unarchived">"Gewohnheiten dearchiviert."</string>
 <string name="overview">"Übersicht"</string>
 
 <!-- Fuzzy -->
