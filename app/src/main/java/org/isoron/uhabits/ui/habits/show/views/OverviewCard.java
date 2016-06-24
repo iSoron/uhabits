@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views.cards;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -27,7 +27,7 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.views.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -69,33 +69,7 @@ public class OverviewCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        Habit habit = getHabit();
-        color = ColorUtils.getColor(getContext(), habit.getColor());
-        refreshColors();
-
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                ScoreList scores = habit.getScores();
-
-                long today = DateUtils.getStartOfToday();
-                long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
-                long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
-
-                cache.todayScore = (float) scores.getTodayValue();
-                cache.lastMonthScore = (float) scores.getValue(lastMonth);
-                cache.lastYearScore = (float) scores.getValue(lastYear);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                refreshScore();
-                super.onPostExecute(aVoid);
-            }
-        }.execute();
+        new RefreshTask().execute();
     }
 
     private String formatPercentageDiff(float percentageDiff)
@@ -160,5 +134,37 @@ public class OverviewCard extends HabitCard
         public float lastMonthScore;
 
         public float lastYearScore;
+    }
+
+    private class RefreshTask extends BaseTask
+    {
+        @Override
+        protected void doInBackground()
+        {
+            ScoreList scores = getHabit().getScores();
+
+            long today = DateUtils.getStartOfToday();
+            long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
+            long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
+
+            cache.todayScore = (float) scores.getTodayValue();
+            cache.lastMonthScore = (float) scores.getValue(lastMonth);
+            cache.lastYearScore = (float) scores.getValue(lastYear);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            refreshScore();
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            color = ColorUtils.getColor(getContext(), getHabit().getColor());
+            refreshColors();
+        }
     }
 }

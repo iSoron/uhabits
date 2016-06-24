@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.show.views.charts.HabitChart;
+import org.isoron.uhabits.ui.common.views.HabitChart;
 
 public class GraphWidgetView extends HabitWidgetView implements HabitChart
 {

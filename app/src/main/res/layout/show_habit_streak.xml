@@ -24,7 +24,7 @@
         style="@style/CardHeader"
         android:text="@string/best_streaks"/>
 
-    <org.isoron.uhabits.ui.habits.show.views.charts.StreakChart
+    <org.isoron.uhabits.ui.common.views.StreakChart
         android:id="@+id/streakChart"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>

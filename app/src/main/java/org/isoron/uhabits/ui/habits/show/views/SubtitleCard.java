@@ -17,13 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views.cards;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.annotation.*;
 import android.content.*;
 import android.content.res.*;
 import android.util.*;
-import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
@@ -55,23 +54,6 @@ public class SubtitleCard extends HabitCard
         init();
     }
 
-    private void init()
-    {
-        Context context = getContext();
-        inflate(context, R.layout.show_habit_subtitle, this);
-        ButterKnife.bind(this);
-
-        if (isInEditMode()) initEditMode();
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void initEditMode()
-    {
-        questionLabel.setTextColor(ColorUtils.getAndroidTestColor(1));
-        questionLabel.setText("Have you meditated today?");
-        reminderLabel.setText("08:00");
-    }
-
     @Override
     protected void refreshData()
     {
@@ -87,10 +69,26 @@ public class SubtitleCard extends HabitCard
 
         if (habit.hasReminder()) updateReminderText(habit.getReminder());
 
-        if (habit.getDescription().isEmpty())
-            questionLabel.setVisibility(View.GONE);
+        if (habit.getDescription().isEmpty()) questionLabel.setVisibility(GONE);
 
-        postInvalidate();
+        invalidate();
+    }
+
+    private void init()
+    {
+        Context context = getContext();
+        inflate(context, R.layout.show_habit_subtitle, this);
+        ButterKnife.bind(this);
+
+        if (isInEditMode()) initEditMode();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initEditMode()
+    {
+        questionLabel.setTextColor(ColorUtils.getAndroidTestColor(1));
+        questionLabel.setText("Have you meditated today?");
+        reminderLabel.setText("08:00");
     }
 
     private String toText(Frequency freq)

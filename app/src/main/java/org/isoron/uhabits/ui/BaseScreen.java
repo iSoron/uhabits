@@ -56,13 +56,13 @@ public abstract class BaseScreen
     @Nullable
     private BaseSelectionMenu selectionMenu;
 
-    public BaseScreen(BaseActivity activity)
+    public BaseScreen(@NonNull BaseActivity activity)
     {
         this.activity = activity;
     }
 
     @Deprecated
-    public static void setupActionBarColor(AppCompatActivity activity,
+    public static void setupActionBarColor(@NonNull AppCompatActivity activity,
                                            int color)
     {
 
@@ -166,7 +166,7 @@ public abstract class BaseScreen
         activity.setContentView(rootView);
         if (rootView == null) return;
 
-        initToolbar();
+        invalidateToolbar();
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class BaseScreen
         dialog.show(activity.getSupportFragmentManager(), tag);
     }
 
-    private void initToolbar()
+    public void invalidateToolbar()
     {
         if (rootView == null) return;
 

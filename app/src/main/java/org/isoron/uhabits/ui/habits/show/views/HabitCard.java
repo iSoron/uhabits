@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views.cards;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -61,7 +61,7 @@ public abstract class HabitCard extends LinearLayout
     @Override
     public void onModelChange()
     {
-        refreshData();
+        post(() -> refreshData());
     }
 
     @Override

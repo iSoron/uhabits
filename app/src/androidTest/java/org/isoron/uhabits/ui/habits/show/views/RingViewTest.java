@@ -24,6 +24,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.junit.Before;
 import org.junit.Test;

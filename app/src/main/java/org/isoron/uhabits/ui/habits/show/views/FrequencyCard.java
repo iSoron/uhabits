@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views.cards;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.*;
 import android.util.*;
@@ -26,74 +26,73 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.views.charts.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
 import butterknife.*;
 
-public class StreakCard extends HabitCard
+public class FrequencyCard extends HabitCard
 {
     @BindView(R.id.title)
     TextView title;
 
-    @BindView(R.id.streakChart)
-    StreakChart streakChart;
+    @BindView(R.id.frequencyChart)
+    FrequencyChart chart;
 
-    public StreakCard(Context context)
+    public FrequencyCard(Context context)
     {
         super(context);
         init();
     }
 
-    public StreakCard(Context context, AttributeSet attrs)
+    public FrequencyCard(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
+    @Override
+    protected void refreshData()
+    {
+        new RefreshTask().execute();
+    }
+
     private void init()
     {
-        inflate(getContext(), R.layout.show_habit_streak, this);
+        inflate(getContext(), R.layout.show_habit_frequency, this);
         ButterKnife.bind(this);
-        setOrientation(VERTICAL);
-        if(isInEditMode()) initEditMode();
+
+        if (isInEditMode()) initEditMode();
     }
 
     private void initEditMode()
     {
         int color = ColorUtils.getAndroidTestColor(1);
         title.setTextColor(color);
-        streakChart.setColor(color);
-        streakChart.populateWithRandomData();
+        chart.setColor(color);
+        chart.populateWithRandomData();
     }
 
-    @Override
-    protected void refreshData()
+    private class RefreshTask extends BaseTask
     {
-        Habit habit = getHabit();
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
-
-        title.setTextColor(color);
-        streakChart.setColor(color);
-
-        new BaseTask()
+        @Override
+        protected void doInBackground()
         {
-            public List<Streak> streaks;
+            RepetitionList reps = getHabit().getRepetitions();
+            HashMap<Long, Integer[]> frequency = reps.getWeekdayFrequency();
+            chart.setFrequency(frequency);
+        }
 
-            @Override
-            protected void doInBackground()
-            {
-                streaks = habit.getStreaks().getBest(10);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid)
-            {
-                streakChart.setStreaks(streaks);
-                super.onPostExecute(aVoid);
-            }
-        }.execute();
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            int color =
+                ColorUtils.getColor(getContext(), getHabit().getColor());
+            title.setTextColor(color);
+            chart.setColor(color);
+        }
     }
 }

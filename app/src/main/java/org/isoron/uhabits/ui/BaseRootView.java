@@ -19,20 +19,15 @@
 
 package org.isoron.uhabits.ui;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
 
 public abstract class BaseRootView extends FrameLayout
 {
@@ -41,28 +36,6 @@ public abstract class BaseRootView extends FrameLayout
     public BaseRootView(Context context)
     {
         super(context);
-        this.context = context;
-    }
-
-    public BaseRootView(Context context, AttributeSet attrs)
-    {
-        super(context, attrs);
-        this.context = context;
-    }
-
-    public BaseRootView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-        this.context = context;
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseRootView(Context context,
-                        AttributeSet attrs,
-                        int defStyleAttr,
-                        int defStyleRes)
-    {
-        super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
     }
 
@@ -82,29 +55,22 @@ public abstract class BaseRootView extends FrameLayout
 
     public int getToolbarColor()
     {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-//        {
-//            if (InterfaceUtils.isNightMode()) return;
-//            int color = activity.getResources().getColor(R.color.grey_900);
-//        }
-//        if (!InterfaceUtils.getStyledBoolean(activity, R.attr.useHabitColorAsPrimary)) return;
-        return Color.BLACK;
-    }
+        if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) &&
+            !InterfaceUtils.isNightMode())
+        {
+            return getContext().getResources().getColor(R.color.grey_900);
+        }
 
-    private void hideFakeToolbarShadow()
-    {
-        View view = findViewById(R.id.toolbarShadow);
-        if (view != null) view.setVisibility(View.GONE);
-
-//        view = findViewById(R.id.headerShadow);
-//        if (view != null) view.setVisibility(View.GONE);
+        return InterfaceUtils.getStyledColor(getContext(), R.attr.colorPrimary);
     }
 
     protected void initToolbar()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getToolbar().setElevation(InterfaceUtils.dpToPixels(context, 2));
-
-        hideFakeToolbarShadow();
+            View view = findViewById(R.id.toolbarShadow);
+            if (view != null) view.setVisibility(View.GONE);
+        }
     }
 }

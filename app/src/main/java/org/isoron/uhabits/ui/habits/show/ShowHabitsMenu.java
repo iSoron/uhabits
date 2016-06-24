@@ -19,44 +19,41 @@
 
 package org.isoron.uhabits.ui.habits.show;
 
-import android.content.*;
-import android.net.*;
-import android.os.*;
 import android.support.annotation.*;
+import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 
-import javax.inject.*;
-
-/**
- * Activity that allows the user to see more information about a single habit.
- * <p>
- * Shows all the metadata for the habit, in addition to several charts.
- */
-public class ShowHabitActivity extends BaseActivity
+public class ShowHabitsMenu extends BaseMenu
 {
-    @Inject
-    HabitList habitList;
+    @NonNull
+    private final ShowHabitScreen screen;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public ShowHabitsMenu(@NonNull BaseActivity activity,
+                          @NonNull ShowHabitScreen screen)
     {
-        super.onCreate(savedInstanceState);
-        HabitsApplication.getComponent().inject(this);
-
-        Habit habit = getHabitFromIntent();
-        ShowHabitScreen screen = new ShowHabitScreen(this, habit);
-        setScreen(screen);
+        super(activity);
+        this.screen = screen;
     }
 
-    @NonNull
-    private Habit getHabitFromIntent()
+    @Override
+    public boolean onItemSelected(@NonNull MenuItem item)
     {
-        Uri data = getIntent().getData();
-        Habit habit = habitList.getById(ContentUris.parseId(data));
-        if (habit == null) throw new RuntimeException("habit not found");
-        return habit;
+        switch (item.getItemId())
+        {
+            case R.id.action_edit_habit:
+                screen.showEditHabitDialog();
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    protected int getMenuResourceId()
+    {
+        return R.menu.show_habit;
     }
 }

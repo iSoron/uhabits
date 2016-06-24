@@ -19,44 +19,35 @@
 
 package org.isoron.uhabits.ui.habits.show;
 
-import android.content.*;
-import android.net.*;
-import android.os.*;
 import android.support.annotation.*;
+import android.support.v4.app.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.edit.*;
 
-import javax.inject.*;
-
-/**
- * Activity that allows the user to see more information about a single habit.
- * <p>
- * Shows all the metadata for the habit, in addition to several charts.
- */
-public class ShowHabitActivity extends BaseActivity
+public class ShowHabitScreen extends BaseScreen
 {
-    @Inject
-    HabitList habitList;
+    @NonNull
+    private final Habit habit;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public ShowHabitScreen(@NonNull BaseActivity activity, @NonNull Habit habit)
     {
-        super.onCreate(savedInstanceState);
-        HabitsApplication.getComponent().inject(this);
+        super(activity);
+        this.habit = habit;
 
-        Habit habit = getHabitFromIntent();
-        ShowHabitScreen screen = new ShowHabitScreen(this, habit);
-        setScreen(screen);
+        ShowHabitRootView view = new ShowHabitRootView(activity, habit, this);
+        ShowHabitsMenu menu = new ShowHabitsMenu(activity, this);
+
+        setRootView(view);
+        setMenu(menu);
     }
 
-    @NonNull
-    private Habit getHabitFromIntent()
+    public void showEditHabitDialog()
     {
-        Uri data = getIntent().getData();
-        Habit habit = habitList.getById(ContentUris.parseId(data));
-        if (habit == null) throw new RuntimeException("habit not found");
-        return habit;
+        FragmentManager manager = activity.getSupportFragmentManager();
+        EditHabitDialogFragment
+            .newInstance(habit.getId())
+            .show(manager, "editHabit");
     }
 }

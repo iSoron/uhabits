@@ -18,7 +18,6 @@
  */
 
 /**
- * Provides activity that displays detailed habit information and related
- * classes.
+ * Provides views that are used across the app, such as RingView.
  */
-package org.isoron.uhabits.ui.habits.show;
+package org.isoron.uhabits.ui.common.views;

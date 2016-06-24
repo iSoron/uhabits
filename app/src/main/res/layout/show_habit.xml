@@ -17,50 +17,23 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ScrollView
+<LinearLayout
+    android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="?windowBackgroundColor"
-    android:clipToPadding="false"
-    android:fillViewport="true">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        app:popupTheme="?toolbarPopupTheme"/>
 
-    <LinearLayout
-        style="@style/CardList"
-        android:clipToPadding="false">
+    <View
+        android:id="@+id/toolbarShadow"
+        style="@style/ToolbarShadow"/>
 
-        <org.isoron.uhabits.ui.habits.show.views.cards.SubtitleCard
-            style="@style/ShowHabit.Subtitle"
-            android:id="@+id/subtitleCard"/>
-
-        <!--<View-->
-            <!--android:id="@+id/headerShadow"-->
-            <!--style="@style/ToolbarShadow"/>-->
-
-        <org.isoron.uhabits.ui.habits.show.views.cards.OverviewCard
-            android:id="@+id/overviewCard"
-            android:paddingTop="12dp"
-            style="@style/Card" />
-
-        <org.isoron.uhabits.ui.habits.show.views.cards.ScoreCard
-            android:id="@+id/strengthCard"
-            style="@style/Card"
-            android:gravity="center" />
-
-        <org.isoron.uhabits.ui.habits.show.views.cards.HistoryCard
-            android:id="@+id/historyCard"
-            style="@style/Card"
-            android:paddingBottom="0dp"
-            android:gravity="center" />
-
-        <org.isoron.uhabits.ui.habits.show.views.cards.StreakCard
-            android:id="@+id/streakCard"
-            style="@style/Card"/>
-
-        <org.isoron.uhabits.ui.habits.show.views.cards.FrequencyCard
-            android:id="@+id/frequencyCard"
-            style="@style/Card"/>
-
-    </LinearLayout>
-</ScrollView>
+    <!-- Separate file so that we can use the layout editor to preview it -->
+    <include layout="@layout/show_habit_inner"/>
+</LinearLayout>

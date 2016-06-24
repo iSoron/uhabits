@@ -98,12 +98,6 @@ public class ListHabitsRootView extends BaseRootView
     }
 
     @Override
-    public int getToolbarColor()
-    {
-        return InterfaceUtils.getStyledColor(getContext(), R.attr.colorPrimary);
-    }
-
-    @Override
     public void onModelChange()
     {
         updateEmptyView();

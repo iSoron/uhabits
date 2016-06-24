@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views.cards;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.*;
 import android.util.*;
@@ -26,7 +26,7 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.views.charts.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -61,6 +61,31 @@ public class HistoryCard extends HabitCard
 //        frag.show(getContext().getFragmentManager(), "historyEditor");
     }
 
+    @Override
+    protected void refreshData()
+    {
+        Habit habit = getHabit();
+
+        new BaseTask()
+        {
+            @Override
+            protected void doInBackground()
+            {
+                int checkmarks[] = habit.getCheckmarks().getAllValues();
+                chart.setCheckmarks(checkmarks);
+            }
+
+            @Override
+            protected void onPreExecute()
+            {
+                super.onPreExecute();
+                int color = ColorUtils.getColor(getContext(), habit.getColor());
+                title.setTextColor(color);
+                chart.setColor(color);
+            }
+        }.execute();
+    }
+
     private void init()
     {
         inflate(getContext(), R.layout.show_habit_history, this);
@@ -75,25 +100,5 @@ public class HistoryCard extends HabitCard
         title.setTextColor(color);
         chart.setColor(color);
         chart.populateWithRandomData();
-    }
-
-    @Override
-    protected void refreshData()
-    {
-        Habit habit = getHabit();
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
-
-        title.setTextColor(color);
-        chart.setColor(color);
-
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                int checkmarks[] = habit.getCheckmarks().getAllValues();
-                chart.setCheckmarks(checkmarks);
-            }
-        }.execute();
     }
 }

@@ -33,7 +33,7 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.models.HabitList;
 import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.ui.habits.show.views.charts.HistoryChart;
+import org.isoron.uhabits.ui.common.views.HistoryChart;
 
 import javax.inject.Inject;
 

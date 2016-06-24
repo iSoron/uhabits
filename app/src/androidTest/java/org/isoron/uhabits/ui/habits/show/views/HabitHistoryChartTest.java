@@ -25,7 +25,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.show.views.charts.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.DateUtils;
 import org.junit.Before;
 import org.junit.Test;

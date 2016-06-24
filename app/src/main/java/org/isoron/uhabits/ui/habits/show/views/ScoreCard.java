@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views.cards;
+package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -27,7 +27,7 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.views.charts.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -71,26 +71,7 @@ public class ScoreCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        Habit habit = getHabit();
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
-
-        title.setTextColor(color);
-        chart.setPrimaryColor(color);
-
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                List<Score> scores;
-
-                if (bucketSize == 1) scores = habit.getScores().getAll();
-                else scores = habit.getScores().groupBy(getTruncateField());
-
-                chart.setScores(scores);
-                chart.setBucketSize(bucketSize);
-            }
-        }.execute();
+        new RefreshTask().execute();
     }
 
     private int getDefaultSpinnerPosition()
@@ -137,5 +118,30 @@ public class ScoreCard extends HabitCard
 
         InterfaceUtils.setDefaultScoreSpinnerPosition(getContext(), position);
         bucketSize = BUCKET_SIZES[position];
+    }
+
+    private class RefreshTask extends BaseTask
+    {
+        @Override
+        protected void doInBackground()
+        {
+            List<Score> scores;
+
+            if (bucketSize == 1) scores = getHabit().getScores().getAll();
+            else scores = getHabit().getScores().groupBy(getTruncateField());
+
+            chart.setScores(scores);
+            chart.setBucketSize(bucketSize);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            int color =
+                ColorUtils.getColor(getContext(), getHabit().getColor());
+            title.setTextColor(color);
+            chart.setPrimaryColor(color);
+        }
     }
 }

@@ -29,8 +29,8 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.ui.habits.list.*;
-import org.isoron.uhabits.ui.habits.show.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;

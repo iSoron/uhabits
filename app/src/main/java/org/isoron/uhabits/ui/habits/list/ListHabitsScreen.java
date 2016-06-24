@@ -19,35 +19,26 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
 
-import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.MainActivity;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.ui.BaseScreen;
-import org.isoron.uhabits.ui.about.AboutActivity;
-import org.isoron.uhabits.ui.habits.edit.BaseDialogFragment;
-import org.isoron.uhabits.ui.habits.edit.CreateHabitDialogFragment;
-import org.isoron.uhabits.ui.habits.edit.EditHabitDialogFragment;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
-import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
-import org.isoron.uhabits.ui.intro.IntroActivity;
-import org.isoron.uhabits.ui.settings.FilePickerDialog;
-import org.isoron.uhabits.ui.settings.SettingsActivity;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.FileUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.about.*;
+import org.isoron.uhabits.ui.habits.edit.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
+import org.isoron.uhabits.ui.habits.show.*;
+import org.isoron.uhabits.ui.intro.*;
+import org.isoron.uhabits.ui.settings.*;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
+import java.io.*;
 
 public class ListHabitsScreen extends BaseScreen
 {
@@ -72,10 +63,16 @@ public class ListHabitsScreen extends BaseScreen
         setMenu(menu);
         setSelectionMenu(selectionMenu);
 
-        HabitCardListAdapter adapter = new HabitCardListAdapter(
-            ListHabitsRootView.MAX_CHECKMARK_COUNT);
+        HabitCardListAdapter adapter =
+            new HabitCardListAdapter(ListHabitsRootView.MAX_CHECKMARK_COUNT);
         rootView.setListAdapter(adapter);
         selectionMenu.setListAdapter(adapter);
+    }
+
+    @NonNull
+    public ListHabitsRootView getRootView()
+    {
+        return rootView;
     }
 
     @Override
@@ -228,11 +225,5 @@ public class ListHabitsScreen extends BaseScreen
     public interface OnColorSelectedListener
     {
         void onColorSelected(int color);
-    }
-
-    @NonNull
-    public ListHabitsRootView getRootView()
-    {
-        return rootView;
     }
 }

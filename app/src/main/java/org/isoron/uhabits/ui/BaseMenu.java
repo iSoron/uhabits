@@ -33,9 +33,10 @@ import javax.annotation.*;
  */
 public abstract class BaseMenu
 {
+    @NonNull
     private final BaseActivity activity;
 
-    public BaseMenu(BaseActivity activity)
+    public BaseMenu(@NonNull BaseActivity activity)
     {
         this.activity = activity;
     }
@@ -85,7 +86,7 @@ public abstract class BaseMenu
      */
     public boolean onItemSelected(@NonNull MenuItem item)
     {
-        return true;
+        return false;
     }
 
     /**

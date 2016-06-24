@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.common.views;
 
 import android.content.*;
 import android.graphics.*;

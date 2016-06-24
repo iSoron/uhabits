@@ -24,7 +24,7 @@ import android.os.*;
 import android.view.*;
 
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.views.charts.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
