@@ -10,15 +10,18 @@
 <string name="add_habit">"Agregar hábito"</string>
 <string name="color_picker_default_title">"Cambiar color"</string>
 <string name="toast_habit_created">"Hábito creado."</string>
-<string name="toast_habit_deleted">"Hábitos eliminados."</string>
-<string name="toast_habit_restored">"Hábitos restaurados."</string>
+<string name="toast_habit_deleted">"Hábito eliminado."</string>
+<string name="toast_habits_deleted">"Hábitos eliminados."</string>
+<string name="toast_habit_restored">"Hábito restaurado."</string>
+<string name="toast_habits_restored">"Hábitos restaurados."</string>
 <string name="toast_nothing_to_undo">"Nada que deshacer."</string>
 <string name="toast_nothing_to_redo">"Nada que rehacer."</string>
 <string name="toast_habit_changed">"Hábito cambiado."</string>
 
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"Hábito cambiado devuelta."</string>
-<string name="toast_habit_archived">"Hábitos archivados."</string>
+<string name="toast_habit_archived">"Hábito archivado."</string>
+<string name="toast_habits_archived">"Hábitos archivados."</string>
 <string name="toast_habit_unarchived">"Hábitos desarchivados."</string>
 <string name="overview">"Visión general"</string>
 <string name="habit_strength">"Fuerza del hábito"</string>
@@ -182,7 +185,6 @@ Los recordatorios se pueden marcar, aplazar o descartar directamente desde tu re
 <string name="quarter">"Cuatrimestre"</string>
 <string name="year">"Año"</string>
 
-<!-- Middle part of the sentence '1 time in xx days' -->
 <!-- Middle part of the sentence '1 time in xx days' -->
 <string name="time_every">"veces en"</string>
 <string name="every_x_days">"Cada %d días"</string>

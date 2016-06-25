@@ -11,7 +11,9 @@
 <string name="color_picker_default_title">"選擇顏色"</string>
 <string name="toast_habit_created">"已創建的習慣"</string>
 <string name="toast_habit_deleted">"刪除習慣"</string>
+<string name="toast_habits_deleted">"刪除習慣"</string>
 <string name="toast_habit_restored">"恢復習慣"</string>
+<string name="toast_habits_restored">"恢復習慣"</string>
 <string name="toast_nothing_to_undo">"沒有可以撤銷的習慣"</string>
 <string name="toast_nothing_to_redo">"沒有可以恢復的習慣"</string>
 <string name="toast_habit_changed">"習慣已經被修改"</string>
@@ -19,7 +21,9 @@
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"修改已取消"</string>
 <string name="toast_habit_archived">"習慣存檔成功"</string>
+<string name="toast_habits_archived">"習慣存檔成功"</string>
 <string name="toast_habit_unarchived">"未完成"</string>
+<string name="toast_habits_unarchived">"未完成"</string>
 <string name="overview">"總覽"</string>
 <string name="habit_strength">"強度"</string>
 <string name="history">"歴史紀錄"</string>
