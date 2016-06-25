@@ -32,7 +32,7 @@ public class DeleteHabitsCommand extends Command
     public DeleteHabitsCommand(List<Habit> habits)
     {
         this.habits = habits;
-        this.plural = (habits.size > 1) ? true : false;
+        this.plural = (habits.size() > 1) ? true : false;
     }
 
     @Override

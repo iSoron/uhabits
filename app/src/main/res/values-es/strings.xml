@@ -186,7 +186,6 @@ Los recordatorios se pueden marcar, aplazar o descartar directamente desde tu re
 <string name="year">"Año"</string>
 
 <!-- Middle part of the sentence '1 time in xx days' -->
-<!-- Middle part of the sentence '1 time in xx days' -->
 <string name="time_every">"veces en"</string>
 <string name="every_x_days">"Cada %d días"</string>
 <string name="every_x_weeks">"Cada %d semanas"</string>
