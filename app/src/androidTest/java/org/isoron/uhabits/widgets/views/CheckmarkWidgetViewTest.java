@@ -20,7 +20,7 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.Habit;
@@ -33,13 +33,16 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class CheckmarkWidgetViewTest extends BaseViewTest
 {
+    private static final String PATH = "widgets/CheckmarkWidgetView/";
+
     private CheckmarkWidgetView view;
 
     private Habit habit;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -56,7 +59,7 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
     @Test
     public void testRender_checked() throws IOException
     {
-        assertRenders(view, "CheckmarkView/checked.png");
+        assertRenders(view, PATH + "checked.png");
     }
 
     @Test
@@ -69,14 +72,14 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         habit.getRepetitions().toggleTimestamp(today - 2 * day);
         view.refreshData();
 
-        assertRenders(view, "CheckmarkView/implicitly_checked.png");
+        assertRenders(view, PATH + "implicitly_checked.png");
     }
 
     @Test
     public void testRender_largeSize() throws IOException
     {
         measureView(dpToPixels(300), dpToPixels(300), view);
-        assertRenders(view, "CheckmarkView/large_size.png");
+        assertRenders(view, PATH + "large_size.png");
     }
 
     @Test
@@ -85,6 +88,6 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         habit.getRepetitions().toggleTimestamp(DateUtils.getStartOfToday());
         view.refreshData();
 
-        assertRenders(view, "CheckmarkView/unchecked.png");
+        assertRenders(view, PATH + "unchecked.png");
     }
 }

@@ -17,24 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.common.views;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
+import android.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.common.views.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.*;
+import org.junit.runner.*;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class ScoreChartTest extends BaseViewTest
 {
+    private static final String BASE_PATH = "common/ScoreChart/";
+
     private Habit habit;
 
     private ScoreChart view;
@@ -60,7 +60,7 @@ public class ScoreChartTest extends BaseViewTest
     {
         Log.d("HabitScoreViewTest",
             String.format("height=%d", dpToPixels(100)));
-        assertRenders(view, "HabitScoreView/render.png");
+        assertRenders(view, BASE_PATH + "render.png");
     }
 
     @Test
@@ -69,14 +69,14 @@ public class ScoreChartTest extends BaseViewTest
         view.onScroll(null, null, -dpToPixels(150), 0);
         view.invalidate();
 
-        assertRenders(view, "HabitScoreView/renderDataOffset.png");
+        assertRenders(view, BASE_PATH + "renderDataOffset.png");
     }
 
     @Test
     public void testRender_withDifferentSize() throws Throwable
     {
         measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "HabitScoreView/renderDifferentSize.png");
+        assertRenders(view, BASE_PATH + "renderDifferentSize.png");
     }
 
     @Test
@@ -86,14 +86,14 @@ public class ScoreChartTest extends BaseViewTest
         view.setBucketSize(30);
         view.invalidate();
 
-        assertRenders(view, "HabitScoreView/renderMonthly.png");
+        assertRenders(view, BASE_PATH + "renderMonthly.png");
     }
 
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
         view.setIsTransparencyEnabled(true);
-        assertRenders(view, "HabitScoreView/renderTransparent.png");
+        assertRenders(view, BASE_PATH + "renderTransparent.png");
     }
 
     @Test
@@ -103,6 +103,6 @@ public class ScoreChartTest extends BaseViewTest
         view.setBucketSize(365);
         view.invalidate();
 
-        assertRenders(view, "HabitScoreView/renderYearly.png");
+        assertRenders(view, BASE_PATH + "renderYearly.png");
     }
 }

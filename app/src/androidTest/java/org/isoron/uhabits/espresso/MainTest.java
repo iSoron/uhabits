@@ -30,7 +30,7 @@ import android.test.suitebuilder.annotation.*;
 import org.hamcrest.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -121,14 +121,14 @@ public class MainTest
     {
         String name = addHabit(true);
 
-        onData(Matchers.allOf(is(instanceOf(HabitRecord.class)),
+        onData(Matchers.allOf(is(instanceOf(Habit.class)),
             HabitMatchers.withName(name)))
             .onChildView(withId(R.id.checkmarkPanel))
             .perform(toggleAllCheckmarks());
 
         Thread.sleep(1200);
 
-        onData(Matchers.allOf(is(instanceOf(HabitRecord.class)),
+        onData(Matchers.allOf(is(instanceOf(Habit.class)),
             HabitMatchers.withName(name)))
             .onChildView(withId(R.id.label))
             .perform(click());
@@ -193,7 +193,7 @@ public class MainTest
     {
         String name = addHabit();
 
-        onData(Matchers.allOf(is(instanceOf(HabitRecord.class)),
+        onData(Matchers.allOf(is(instanceOf(Habit.class)),
             HabitMatchers.withName(name)))
             .onChildView(withId(R.id.label))
             .perform(longClick());
@@ -224,7 +224,7 @@ public class MainTest
     {
         String name = addHabit();
 
-        onData(Matchers.allOf(is(instanceOf(HabitRecord.class)),
+        onData(Matchers.allOf(is(instanceOf(Habit.class)),
             HabitMatchers.withName(name)))
             .onChildView(withId(R.id.label))
             .perform(click());

@@ -20,7 +20,7 @@
 package org.isoron.uhabits.ui.habits.list.views;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.models.Checkmark;
 import org.isoron.uhabits.BaseViewTest;
@@ -33,10 +33,10 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class CheckmarkButtonViewTest extends BaseViewTest
 {
-    public static final String PATH = "ui/habits/list/CheckmarkButtonView/";
+    public static final String PATH = "habits/list/CheckmarkButtonView/";
 
     private CountDownLatch latch;
 

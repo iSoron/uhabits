@@ -17,21 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.list.views;
+package org.isoron.uhabits.ui.habits.list.controllers;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardListController;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
-import org.junit.Before;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
+import org.isoron.uhabits.ui.habits.list.views.*;
+import org.junit.*;
 
-import java.util.LinkedList;
+import java.util.*;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class HabitCardListControllerTest extends BaseUnitTest
 {

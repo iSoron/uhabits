@@ -17,25 +17,26 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.common.views;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.common.views.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class FrequencyChartTest extends BaseViewTest
 {
+    public static final String BASE_PATH = "common/FrequencyChart/";
+
     private FrequencyChart view;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -45,16 +46,15 @@ public class FrequencyChartTest extends BaseViewTest
         Habit habit = fixtures.createLongHabit();
 
         view = new FrequencyChart(targetContext);
-        throw new NotImplementedException("");
-//        view.setHabit(habit);
-//        refreshData(view);
-//        measureView(dpToPixels(300), dpToPixels(100), view);
+        view.setFrequency(habit.getRepetitions().getWeekdayFrequency());
+        view.setColor(ColorUtils.getAndroidTestColor(habit.getColor()));
+        measureView(dpToPixels(300), dpToPixels(100), view);
     }
 
     @Test
     public void testRender() throws Throwable
     {
-        assertRenders(view, "HabitFrequencyView/render.png");
+        assertRenders(view, BASE_PATH + "render.png");
     }
 
     @Test
@@ -63,20 +63,20 @@ public class FrequencyChartTest extends BaseViewTest
         view.onScroll(null, null, -dpToPixels(150), 0);
         view.invalidate();
 
-        assertRenders(view, "HabitFrequencyView/renderDataOffset.png");
+        assertRenders(view, BASE_PATH + "renderDataOffset.png");
     }
 
     @Test
     public void testRender_withDifferentSize() throws Throwable
     {
         measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "HabitFrequencyView/renderDifferentSize.png");
+        assertRenders(view, BASE_PATH + "renderDifferentSize.png");
     }
 
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
         view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitFrequencyView/renderTransparent.png");
+        assertRenders(view, BASE_PATH + "renderTransparent.png");
     }
 }

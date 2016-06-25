@@ -20,4 +20,4 @@
 /**
  * Contains views for ListHabitsActivity
  */
-package org.isoron.uhabits.ui.habits.list.views;
+package org.isoron.uhabits.ui.habits.list.controllers;

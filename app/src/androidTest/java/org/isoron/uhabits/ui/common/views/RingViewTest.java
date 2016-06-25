@@ -17,27 +17,28 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.common.views;
 
-import android.graphics.Color;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.graphics.*;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.ui.common.views.*;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.IOException;
+import java.io.*;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class RingViewTest extends BaseViewTest
 {
+    private static final String BASE_PATH = "common/RingView/";
+
     private RingView view;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -55,7 +56,7 @@ public class RingViewTest extends BaseViewTest
     public void testRender_base() throws IOException
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
-        assertRenders(view, "RingView/render.png");
+        assertRenders(view, BASE_PATH + "render.png");
     }
 
     @Test
@@ -65,6 +66,6 @@ public class RingViewTest extends BaseViewTest
         view.setColor(ColorUtils.getAndroidTestColor(5));
 
         measureView(dpToPixels(200), dpToPixels(200), view);
-        assertRenders(view, "RingView/renderDifferentParams.png");
+        assertRenders(view, BASE_PATH + "renderDifferentParams.png");
     }
 }

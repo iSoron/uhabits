@@ -17,23 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show.views;
+package org.isoron.uhabits.ui.common.views;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.common.views.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class StreakChartTest extends BaseViewTest
 {
+    private static final String BASE_PATH = "common/StreakChart/";
+
     private StreakChart view;
 
     @Override
@@ -46,32 +46,28 @@ public class StreakChartTest extends BaseViewTest
         Habit habit = fixtures.createLongHabit();
 
         view = new StreakChart(targetContext);
+        view.setColor(ColorUtils.getAndroidTestColor(habit.getColor()));
+        view.setStreaks(habit.getStreaks().getBest(5));
         measureView(dpToPixels(300), dpToPixels(100), view);
-        throw new NotImplementedException("");
-
-//        view.setHabit(habit);
-//        refreshData(view);
     }
 
     @Test
     public void testRender() throws Throwable
     {
-        assertRenders(view, "HabitStreakView/render.png");
+        assertRenders(view, BASE_PATH + "render.png");
     }
 
     @Test
     public void testRender_withSmallSize() throws Throwable
     {
         measureView(dpToPixels(100), dpToPixels(100), view);
-//        refreshData(view);
-
-        assertRenders(view, "HabitStreakView/renderSmallSize.png");
+        assertRenders(view, BASE_PATH + "renderSmallSize.png");
     }
 
     @Test
     public void testRender_withTransparentBackground() throws Throwable
     {
         view.setIsBackgroundTransparent(true);
-        assertRenders(view, "HabitStreakView/renderTransparent.png");
+        assertRenders(view, BASE_PATH + "renderTransparent.png");
     }
 }

@@ -17,11 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.list.views;
+package org.isoron.uhabits.ui.habits.list.controllers;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.views.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
