@@ -11,7 +11,9 @@
     <string name="color_picker_default_title">"Промена боје"</string>
     <string name="toast_habit_created">"Навика је створена."</string>
     <string name="toast_habit_deleted">"Навике су обрисане."</string>
+    <string name="toast_habits_deleted">"Навике су обрисане."</string>
     <string name="toast_habit_restored">"Навике су враћене."</string>
+    <string name="toast_habits_restored">"Навике су враћене."</string>
     <string name="toast_nothing_to_undo">"Нема шта да се опозове."</string>
     <string name="toast_nothing_to_redo">"Нема шта да се понови."</string>
     <string name="toast_habit_changed">"Навика је промењена."</string>
@@ -19,7 +21,9 @@
     <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
     <string name="toast_habit_changed_back">"Навика је враћена."</string>
     <string name="toast_habit_archived">"Навике су архивиране."</string>
+    <string name="toast_habits_archived">"Навике су архивиране."</string>
     <string name="toast_habit_unarchived">"Навике су враћене из архива."</string>
+    <string name="toast_habits_unarchived">"Навике су враћене из архива."</string>
     <string name="overview">"Преглед"</string>
     <string name="habit_strength">"Снага навике"</string>
     <string name="history">"Историја"</string>

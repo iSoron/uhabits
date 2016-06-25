@@ -11,7 +11,9 @@
     <string name="color_picker_default_title">"Spremeni barvo"</string>
     <string name="toast_habit_created">"Navada ustvarjana."</string>
     <string name="toast_habit_deleted">"Navada izbrisana."</string>
+    <string name="toast_habits_deleted">"Navada izbrisana."</string>
     <string name="toast_habit_restored">"Navada obnovljena."</string>
+    <string name="toast_habits_restored">"Navada obnovljena."</string>
     <string name="toast_nothing_to_undo">"Nič za razveljaviti."</string>
     <string name="toast_nothing_to_redo">"Nič za ponovno opraviti."</string>
     <string name="toast_habit_changed">"Navada spremenjena."</string>
@@ -19,7 +21,9 @@
     <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
     <string name="toast_habit_changed_back">"Navada obnovljena."</string>
     <string name="toast_habit_archived">"Navada arhivirana."</string>
+    <string name="toast_habits_archived">"Navada arhivirana."</string>
     <string name="toast_habit_unarchived">"Navada dearhivirana."</string>
+    <string name="toast_habits_unarchived">"Navada dearhivirana."</string>
     <string name="overview">"Pregled"</string>
     <string name="habit_strength">"Moč navade"</string>
     <string name="history">"Zgodovina"</string>

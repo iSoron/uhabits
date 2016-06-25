@@ -11,7 +11,9 @@
 <string name="color_picker_default_title">"Renk Değiştir"</string>
 <string name="toast_habit_created">"Alışkanlık oluşturuldu."</string>
 <string name="toast_habit_deleted">"Alışkanlık silindi."</string>
+<string name="toast_habits_deleted">"Alışkanlık silindi."</string>
 <string name="toast_habit_restored">"Alışkanlık"</string>
+<string name="toast_habits_restored">"Alışkanlık"</string>
 <string name="toast_nothing_to_undo">"Geri alınacak birşey yok."</string>
 <string name="toast_nothing_to_redo">"Tekrar yapılacak birşey yok."</string>
 <string name="toast_habit_changed">"Alışkanlık değişti."</string>
@@ -19,7 +21,9 @@
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"Alışkanlık eski haline getirildi."</string>
 <string name="toast_habit_archived">"Alışkanlık arşivlendi."</string>
+<string name="toast_habits_archived">"Alışkanlık arşivlendi."</string>
 <string name="toast_habit_unarchived">"Alışkanlık arşivden çıkarıldı."</string>
+<string name="toast_habits_unarchived">"Alışkanlık arşivden çıkarıldı."</string>
 <string name="overview">"Genel bakış"</string>
 <string name="habit_strength">"Alışkanlık dayanımı"</string>
 <string name="history">"Geçmiş"</string>

@@ -11,7 +11,9 @@
 <string name="color_picker_default_title">"Byt färg"</string>
 <string name="toast_habit_created">"Vana skapad"</string>
 <string name="toast_habit_deleted">"Vana borttagen"</string>
+<string name="toast_habits_deleted">"Vana borttagen"</string>
 <string name="toast_habit_restored">"Vana återställd"</string>
+<string name="toast_habits_restored">"Vana återställd"</string>
 <string name="toast_nothing_to_undo">"Inget att ångra"</string>
 <string name="toast_nothing_to_redo">"Inget att göra om"</string>
 <string name="toast_habit_changed">"Vana ändrad"</string>
@@ -19,7 +21,9 @@
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"Vana ändrad tillbaka"</string>
 <string name="toast_habit_archived">"Vanor arkiverade"</string>
+<string name="toast_habits_archived">"Vanor arkiverade"</string>
 <string name="toast_habit_unarchived">"Vanor avakriverade"</string>
+<string name="toast_habits_unarchived">"Vanor avakriverade"</string>
 <string name="overview">"Översikt"</string>
 <string name="habit_strength">"Vanestyrka"</string>
 <string name="history">"Historik"</string>

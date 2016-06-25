@@ -11,7 +11,9 @@
 <string name="color_picker_default_title">"Changer la couleur"</string>
 <string name="toast_habit_created">"Habitude créée."</string>
 <string name="toast_habit_deleted">"Habitude supprimée."</string>
+<string name="toast_habits_deleted">"Habitude supprimée."</string>
 <string name="toast_habit_restored">"Habitude rétablie."</string>
+<string name="toast_habits_restored">"Habitude rétablie."</string>
 <string name="toast_nothing_to_undo">"Rien à annuler."</string>
 <string name="toast_nothing_to_redo">"Rien à refaire."</string>
 <string name="toast_habit_changed">"Habitude changée."</string>
@@ -19,7 +21,9 @@
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"Habitude restaurée."</string>
 <string name="toast_habit_archived">"Habitudes archivées."</string>
+<string name="toast_habits_archived">"Habitudes archivées."</string>
 <string name="toast_habit_unarchived">"Habitudes désarchivées."</string>
+<string name="toast_habits_unarchived">"Habitudes désarchivées."</string>
 <string name="overview">"Vue d'ensemble"</string>
 <string name="habit_strength">"Force de l'habitude"</string>
 <string name="history">"Historique"</string>
