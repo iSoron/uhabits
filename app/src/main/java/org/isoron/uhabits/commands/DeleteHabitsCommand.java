@@ -27,12 +27,12 @@ import java.util.List;
 public class DeleteHabitsCommand extends Command
 {
     private List<Habit> habits;
-    private Boolean plural;
+    private Boolean hasOnlyOne;
 
     public DeleteHabitsCommand(List<Habit> habits)
     {
         this.habits = habits;
-        this.plural = (habits.size() > 1) ? true : false;
+        this.hasOnlyOne = (habits.size() == 1) ? true : false;
     }
 
     @Override
@@ -52,21 +52,21 @@ public class DeleteHabitsCommand extends Command
 
     public Integer getExecuteStringId()
     {
-        if (this.plural) {
-            return R.string.toast_habits_deleted;
+        if (this.hasOnlyOne) {
+            return R.string.toast_habit_deleted;
         }
         else {
-            return R.string.toast_habit_deleted;
+            return R.string.toast_habits_deleted;
         }
     }
 
     public Integer getUndoStringId()
     {
-        if (this.plural){
-            return R.string.toast_habits_restored;
+        if (this.hasOnlyOne){
+            return R.string.toast_habit_restored;
         }
         else {
-            return R.string.toast_habit_restored;
+            return R.string.toast_habits_restored;
         }
     }
 }
