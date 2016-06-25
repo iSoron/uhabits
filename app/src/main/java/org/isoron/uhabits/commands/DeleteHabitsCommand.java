@@ -52,7 +52,7 @@ public class DeleteHabitsCommand extends Command
 
     public Integer getExecuteStringId()
     {
-        if ((this.plural) && (toast_habits_deleted != null)) {
+        if (this.plural) {
             return R.string.toast_habits_deleted;
         }
         else {
@@ -62,7 +62,7 @@ public class DeleteHabitsCommand extends Command
 
     public Integer getUndoStringId()
     {
-        if ((this.plural) && (toast_habits_deleted != null)){
+        if (this.plural){
             return R.string.toast_habits_restored;
         }
         else {
