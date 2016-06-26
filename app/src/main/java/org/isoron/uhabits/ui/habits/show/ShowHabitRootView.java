@@ -33,7 +33,8 @@ import butterknife.*;
 
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
-public class ShowHabitRootView extends BaseRootView implements ModelObservable.Listener
+public class ShowHabitRootView extends BaseRootView
+    implements ModelObservable.Listener
 {
     @NonNull
     private Habit habit;
@@ -59,27 +60,63 @@ public class ShowHabitRootView extends BaseRootView implements ModelObservable.L
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    private final ShowHabitScreen screen;
+    @NonNull
+    private Controller controller;
 
     public ShowHabitRootView(@NonNull Context context,
-                             @NonNull Habit habit,
-                             @NonNull ShowHabitScreen screen)
+                             @NonNull Habit habit)
     {
         super(context);
         this.habit = habit;
-        this.screen = screen;
 
         addView(inflate(getContext(), R.layout.show_habit, null));
         ButterKnife.bind(this);
+
+        controller = new Controller() {};
 
         initCards();
         initToolbar();
     }
 
     @Override
+    public boolean getDisplayHomeAsUp()
+    {
+        return true;
+    }
+
+    @NonNull
+    @Override
+    public Toolbar getToolbar()
+    {
+        return toolbar;
+    }
+
+    public void setController(@NonNull Controller controller)
+    {
+        this.controller = controller;
+        historyCard.setController(controller);
+    }
+
+    @Override
+    public int getToolbarColor()
+    {
+        if (!getStyledBoolean(getContext(), R.attr.useHabitColorAsPrimary))
+            return super.getToolbarColor();
+
+        return ColorUtils.getColor(getContext(), habit.getColor());
+    }
+
+    @Override
     public void onModelChange()
     {
-        post(() -> screen.invalidateToolbar());
+        controller.onToolbarChanged();
+    }
+
+    @Override
+    protected void initToolbar()
+    {
+        super.initToolbar();
+        toolbar.setTitle(habit.getName());
     }
 
     @Override
@@ -96,35 +133,6 @@ public class ShowHabitRootView extends BaseRootView implements ModelObservable.L
         super.onDetachedFromWindow();
     }
 
-    @Override
-    public boolean getDisplayHomeAsUp()
-    {
-        return true;
-    }
-
-    @NonNull
-    @Override
-    public Toolbar getToolbar()
-    {
-        return toolbar;
-    }
-
-    @Override
-    public int getToolbarColor()
-    {
-        if (!getStyledBoolean(getContext(), R.attr.useHabitColorAsPrimary))
-            return super.getToolbarColor();
-
-        return ColorUtils.getColor(getContext(), habit.getColor());
-    }
-
-    @Override
-    protected void initToolbar()
-    {
-        super.initToolbar();
-        toolbar.setTitle(habit.getName());
-    }
-
     private void initCards()
     {
         subtitleCard.setHabit(habit);
@@ -133,5 +141,10 @@ public class ShowHabitRootView extends BaseRootView implements ModelObservable.L
         historyCard.setHabit(habit);
         streakCard.setHabit(habit);
         frequencyCard.setHabit(habit);
+    }
+
+    public interface Controller extends HistoryCard.Controller
+    {
+        default void onToolbarChanged(){}
     }
 }

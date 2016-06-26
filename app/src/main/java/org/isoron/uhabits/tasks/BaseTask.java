@@ -21,6 +21,7 @@ package org.isoron.uhabits.tasks;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.*;
 
 import java.util.concurrent.TimeoutException;
 
@@ -28,6 +29,7 @@ public abstract class BaseTask extends AsyncTask<Void, Integer, Void>
 {
     private static int activeTaskCount;
 
+    @CallSuper
     @Override
     protected void onPreExecute()
     {
@@ -35,6 +37,7 @@ public abstract class BaseTask extends AsyncTask<Void, Integer, Void>
         activeTaskCount++;
     }
 
+    @CallSuper
     @Override
     protected void onPostExecute(Void aVoid)
     {

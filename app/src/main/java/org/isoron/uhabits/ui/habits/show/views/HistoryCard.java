@@ -20,6 +20,7 @@
 package org.isoron.uhabits.ui.habits.show.views;
 
 import android.content.*;
+import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
@@ -39,6 +40,9 @@ public class HistoryCard extends HabitCard
     @BindView(R.id.title)
     TextView title;
 
+    @NonNull
+    private Controller controller;
+
     public HistoryCard(Context context)
     {
         super(context);
@@ -55,10 +59,13 @@ public class HistoryCard extends HabitCard
     public void onClickEditButton()
     {
         Log.d("HistoryCard", "onClickEditButton");
+        controller.onEditHistoryButtonClick();
+    }
 
-//        HistoryEditorDialog frag = new HistoryEditorDialog();
-//        frag.setHabit(habit);
-//        frag.show(getContext().getFragmentManager(), "historyEditor");
+    public void setController(@NonNull Controller controller)
+    {
+        this.controller = controller;
+        chart.setController(controller);
     }
 
     @Override
@@ -90,7 +97,7 @@ public class HistoryCard extends HabitCard
     {
         inflate(getContext(), R.layout.show_habit_history, this);
         ButterKnife.bind(this);
-
+        controller = new Controller() {};
         if (isInEditMode()) initEditMode();
     }
 
@@ -100,5 +107,10 @@ public class HistoryCard extends HabitCard
         title.setTextColor(color);
         chart.setColor(color);
         chart.populateWithRandomData();
+    }
+
+    public interface Controller extends HistoryChart.Controller
+    {
+        default void onEditHistoryButtonClick() {}
     }
 }

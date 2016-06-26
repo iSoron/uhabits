@@ -19,42 +19,56 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.util.DisplayMetrics;
+import android.support.v7.app.*;
+import android.util.*;
 
-import org.apache.commons.lang3.*;
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.ui.common.views.HistoryChart;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.common.views.*;
+import org.isoron.uhabits.utils.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
-    implements DialogInterface.OnClickListener
+    implements DialogInterface.OnClickListener, ModelObservable.Listener
 {
+    @Nullable
     private Habit habit;
 
-    private Listener listener;
-
+    @Nullable
     HistoryChart historyChart;
 
     @Inject
     HabitList habitList;
 
+    @NonNull
+    private Controller controller;
+
+    public HistoryEditorDialog()
+    {
+        this.controller = new Controller() {};
+    }
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
+    public void onClick(DialogInterface dialog, int which)
+    {
+        dismiss();
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
     {
         Context context = getActivity();
         HabitsApplication.getComponent().inject(this);
-        historyChart = new HistoryChart(context, null);
+        historyChart = new HistoryChart(context);
+        historyChart.setController(controller);
 
         if (savedInstanceState != null)
         {
@@ -65,9 +79,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         int padding =
             (int) getResources().getDimension(R.dimen.history_editor_padding);
 
-        if(true) throw new NotImplementedException("");
         historyChart.setPadding(padding, 0, padding, 0);
-//        historyChart.setHabit(habit);
         historyChart.setIsEditable(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -76,21 +88,13 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             .setView(historyChart)
             .setPositiveButton(android.R.string.ok, this);
 
-        refreshData();
-
         return builder.create();
     }
 
-    private void refreshData()
+    @Override
+    public void onModelChange()
     {
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-//                historyChart.refreshData();
-            }
-        }.execute();
+        refreshData();
     }
 
     @Override
@@ -105,25 +109,16 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         int height = Math.min(metrics.heightPixels, maxHeight);
 
         getDialog().getWindow().setLayout(width, height);
-    }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which)
-    {
-        dismiss();
-    }
-
-    public void setHabit(Habit habit)
-    {
-//        this.habit = habit;
-//        if (historyChart != null) historyChart.setHabit(habit);
+        refreshData();
+        habit.getCheckmarks().observable.addListener(this);
     }
 
     @Override
     public void onPause()
     {
+        habit.getCheckmarks().observable.removeListener(this);
         super.onPause();
-        if (listener != null) listener.onHistoryEditorClosed();
     }
 
     @Override
@@ -132,13 +127,42 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         outState.putLong("habit", habit.getId());
     }
 
-    public void setListener(Listener listener)
+    public void setController(@NonNull Controller controller)
     {
-        this.listener = listener;
+        this.controller = controller;
+        if (historyChart != null) historyChart.setController(controller);
     }
 
-    public interface Listener
+    public void setHabit(@Nullable Habit habit)
     {
-        void onHistoryEditorClosed();
+        this.habit = habit;
+    }
+
+    private void refreshData()
+    {
+        if (habit == null) return;
+        new RefreshTask().execute();
+    }
+
+    public interface Controller extends HistoryChart.Controller {}
+
+    private class RefreshTask extends BaseTask
+    {
+        public int[] checkmarks;
+
+        @Override
+        protected void doInBackground()
+        {
+            checkmarks = habit.getCheckmarks().getAllValues();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid)
+        {
+            int color = ColorUtils.getColor(getContext(), habit.getColor());
+            historyChart.setColor(color);
+            historyChart.setCheckmarks(checkmarks);
+            super.onPostExecute(aVoid);
+        }
     }
 }

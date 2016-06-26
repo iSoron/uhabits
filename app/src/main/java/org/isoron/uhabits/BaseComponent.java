@@ -19,30 +19,18 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.commands.ArchiveHabitsCommand;
-import org.isoron.uhabits.commands.ChangeHabitColorCommand;
-import org.isoron.uhabits.commands.CreateHabitCommand;
-import org.isoron.uhabits.commands.DeleteHabitsCommand;
-import org.isoron.uhabits.commands.EditHabitCommand;
-import org.isoron.uhabits.commands.UnarchiveHabitsCommand;
-import org.isoron.uhabits.io.AbstractImporter;
-import org.isoron.uhabits.io.HabitsCSVExporter;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.ToggleRepetitionTask;
-import org.isoron.uhabits.ui.BaseSystem;
-import org.isoron.uhabits.ui.habits.edit.BaseDialogFragment;
-import org.isoron.uhabits.ui.habits.edit.HistoryEditorDialog;
-import org.isoron.uhabits.ui.habits.list.ListHabitsActivity;
-import org.isoron.uhabits.ui.habits.list.ListHabitsController;
-import org.isoron.uhabits.ui.habits.list.ListHabitsSelectionMenu;
-import org.isoron.uhabits.ui.habits.list.controllers.CheckmarkButtonController;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListCache;
-import org.isoron.uhabits.ui.habits.list.model.HintList;
-import org.isoron.uhabits.ui.habits.list.views.CheckmarkPanelView;
-import org.isoron.uhabits.ui.habits.show.ShowHabitActivity;
-import org.isoron.uhabits.widgets.BaseWidgetProvider;
-import org.isoron.uhabits.widgets.HabitPickerDialog;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.edit.*;
+import org.isoron.uhabits.ui.habits.list.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
+import org.isoron.uhabits.ui.habits.list.views.*;
+import org.isoron.uhabits.ui.habits.show.*;
+import org.isoron.uhabits.widgets.*;
 
 /**
  * Base component for dependency injection.
@@ -100,4 +88,6 @@ public interface BaseComponent
     void inject(HabitsCSVExporter habitsCSVExporter);
 
     void inject(BaseDialogFragment baseDialogFragment);
+
+    void inject(ShowHabitController showHabitController);
 }

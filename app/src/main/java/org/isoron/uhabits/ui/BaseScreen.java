@@ -234,17 +234,19 @@ public abstract class BaseScreen
     {
         if (rootView == null) return;
 
-        Toolbar toolbar = rootView.getToolbar();
-        activity.setSupportActionBar(toolbar);
-        ActionBar actionBar = activity.getSupportActionBar();
-        if (actionBar == null) return;
+        activity.runOnUiThread(() -> {
+            Toolbar toolbar = rootView.getToolbar();
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar == null) return;
 
-        actionBar.setDisplayHomeAsUpEnabled(rootView.getDisplayHomeAsUp());
+            actionBar.setDisplayHomeAsUpEnabled(rootView.getDisplayHomeAsUp());
 
-        int color = rootView.getToolbarColor();
-        setActionBarColor(actionBar, color);
-        setStatusBarColor(color);
-        setupToolbarElevation(toolbar);
+            int color = rootView.getToolbarColor();
+            setActionBarColor(actionBar, color);
+            setStatusBarColor(color);
+            setupToolbarElevation(toolbar);
+        });
     }
 
     private void setActionBarColor(@NonNull ActionBar actionBar, int color)

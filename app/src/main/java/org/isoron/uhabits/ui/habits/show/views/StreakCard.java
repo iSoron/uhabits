@@ -58,7 +58,7 @@ public class StreakCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        new MyBaseTask().execute();
+        new RefreshTask().execute();
     }
 
     private void init()
@@ -77,20 +77,21 @@ public class StreakCard extends HabitCard
         streakChart.populateWithRandomData();
     }
 
-    private class MyBaseTask extends BaseTask
+    private class RefreshTask extends BaseTask
     {
-        public List<Streak> streaks;
+        public List<Streak> bestStreaks;
 
         @Override
         protected void doInBackground()
         {
-            streaks = getHabit().getStreaks().getBest(NUM_STREAKS);
+            StreakList streaks = getHabit().getStreaks();
+            bestStreaks = streaks.getBest(NUM_STREAKS);
         }
 
         @Override
         protected void onPostExecute(Void aVoid)
         {
-            streakChart.setStreaks(streaks);
+            streakChart.setStreaks(bestStreaks);
             super.onPostExecute(aVoid);
         }
 

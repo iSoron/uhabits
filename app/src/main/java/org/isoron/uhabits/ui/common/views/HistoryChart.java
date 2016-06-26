@@ -22,6 +22,7 @@ package org.isoron.uhabits.ui.common.views;
 import android.content.*;
 import android.graphics.*;
 import android.graphics.Paint.*;
+import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 
@@ -82,6 +83,9 @@ public class HistoryChart extends ScrollableChart
 
     private float headerOverflow = 0;
 
+    @NonNull
+    private Controller controller;
+
     public HistoryChart(Context context)
     {
         super(context);
@@ -114,12 +118,11 @@ public class HistoryChart extends ScrollableChart
         final Long timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
-//        ToggleRepetitionTask task = new ToggleRepetitionTask(habit, timestamp);
-//        task.setListener(this);
-//        task.execute();
+        controller.onToggleCheckmark(timestamp);
 
         return true;
     }
+
 
     public void populateWithRandomData()
     {
@@ -150,6 +153,11 @@ public class HistoryChart extends ScrollableChart
         this.primaryColor = color;
         initColors();
         postInvalidate();
+    }
+
+    public void setController(@NonNull Controller controller)
+    {
+        this.controller = controller;
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
@@ -330,6 +338,7 @@ public class HistoryChart extends ScrollableChart
     {
         isEditable = false;
         checkmarks = new int[0];
+        controller = new Controller() {};
 
         initColors();
         initPaints();
@@ -411,5 +420,10 @@ public class HistoryChart extends ScrollableChart
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayPositionInColumn);
+    }
+
+    public interface Controller
+    {
+        default void onToggleCheckmark(long timestamp) {}
     }
 }

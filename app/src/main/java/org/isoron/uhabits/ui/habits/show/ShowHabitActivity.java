@@ -48,7 +48,14 @@ public class ShowHabitActivity extends BaseActivity
 
         Habit habit = getHabitFromIntent();
         ShowHabitScreen screen = new ShowHabitScreen(this, habit);
-        setScreen(screen);
+        ShowHabitRootView view = new ShowHabitRootView(this, habit);
+        screen.setRootView(view);
+        this.setScreen(screen);
+
+        ShowHabitsMenu menu = new ShowHabitsMenu(this, screen);
+        ShowHabitController controller = new ShowHabitController(screen, habit);
+        screen.setMenu(menu);
+        view.setController(controller);
     }
 
     @NonNull

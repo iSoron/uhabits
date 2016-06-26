@@ -35,19 +35,23 @@ public class ShowHabitScreen extends BaseScreen
     {
         super(activity);
         this.habit = habit;
-
-        ShowHabitRootView view = new ShowHabitRootView(activity, habit, this);
-        ShowHabitsMenu menu = new ShowHabitsMenu(activity, this);
-
-        setRootView(view);
-        setMenu(menu);
     }
 
     public void showEditHabitDialog()
     {
+        Long id = habit.getId();
+        if (id == null) throw new RuntimeException("habit not saved");
+
         FragmentManager manager = activity.getSupportFragmentManager();
-        EditHabitDialogFragment
-            .newInstance(habit.getId())
-            .show(manager, "editHabit");
+        EditHabitDialogFragment.newInstance(id).show(manager, "editHabit");
+    }
+
+    public void showEditHistoryDialog(
+        @NonNull HistoryEditorDialog.Controller controller)
+    {
+        HistoryEditorDialog dialog = new HistoryEditorDialog();
+        dialog.setHabit(habit);
+        dialog.setController(controller);
+        dialog.show(activity.getSupportFragmentManager(), "historyEditor");
     }
 }
