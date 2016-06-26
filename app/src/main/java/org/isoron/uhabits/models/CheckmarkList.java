@@ -36,7 +36,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CheckmarkList
 {
@@ -298,5 +300,68 @@ public class CheckmarkList
 
         cursor.close();
         out.close();
+    }
+    
+    /**
+     * Writes the checkmark of all habits for each date to the given writer, in CSV format. There is one
+     * line for each date. Each line contains two fields: timestamp and checkmark value.
+     *
+     * @param habits the list of habits to write
+     * @param out the writer where the CSV will be output
+     * @throws IOException in case write operations fail
+     */
+    public static void writeCSV(List<Habit> habits, Writer out) throws IOException {
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+        String query = "select DISTINCT timestamp from checkmarks order by timestamp";
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (!cursor.moveToFirst()) return;
+
+        out.write(String.format("%s", "Date"));
+        for (Habit habit : habits) {
+            out.write(String.format(",%s", habit.name));
+        }
+        Map values;
+        do {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            out.write(String.format("\n%s", timestamp));
+            values =  getValuesPerTimestamp(Long.toString(cursor.getLong(0)));
+            int i =0;
+            for (Habit habit : habits) {
+                if(values.containsKey(habit.getId().toString())) {
+                    out.write(String.format(",%s", values.get(habit.getId().toString())));
+                } else if(++i == habits.size()) {
+                    out.write(String.format(""));
+                } else {
+                    out.write(String.format(","));
+                }
+                i++;
+            }
+
+        } while (cursor.moveToNext());
+        cursor.close();
+        out.close();
+    }
+
+    /**
+     * Returns Map with habits and their value for a given timestamp.
+     *
+     * @param timestamp the timestamp where the values must me returned
+     * @return Map with habits and their score
+     */
+    public static Map getValuesPerTimestamp(String timestamp) {
+        String query = "select habit, value from checkmarks where timestamp = ? order by habit";
+        SQLiteDatabase db = Cache.openDatabase();
+        String args[] = {timestamp};
+        Cursor cursor = db.rawQuery(query, args);
+
+        if (!cursor.moveToFirst()) return null;
+
+        Map values = new HashMap();
+        do {
+            values.put(cursor.getString(0), cursor.getInt(1));
+        } while (cursor.moveToNext());
+        return values;
     }
 }

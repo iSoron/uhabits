@@ -39,6 +39,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ScoreList
 {
@@ -342,4 +345,67 @@ public class ScoreList
         cursor.close();
         out.close();
     }
+    
+    /**
+     * Writes the score of all habits for each date to the given writer, in CSV format. There is one
+     * line for each date. Each line contains two fields: timestamp and score.
+     *
+     * @param habits the list of habits to write
+     * @param out    the writer where the CSV will be output
+     * @throws IOException in case write operations fail
+     */
+    public static void writeCSV(List<Habit> habits, Writer out) throws IOException {
+        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
+        String query = "select DISTINCT timestamp from score order by timestamp";
+        SQLiteDatabase db = Cache.openDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (!cursor.moveToFirst()) return;
+
+        out.write(String.format("%s", "Date"));
+        for (Habit habit : habits) {
+            out.write(String.format(",%s", habit.name));
+        }
+        Map scores;
+        do {
+            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
+            out.write(String.format("\n%s", timestamp));
+            scores =  getValuesPerTimestamp(Long.toString(cursor.getLong(0)));
+            int i =0;
+            for (Habit habit : habits) {
+                if(scores.containsKey(habit.getId().toString())) {
+                    out.write(String.format(",%s", scores.get(habit.getId().toString())));
+                } else if(++i == habits.size()) {
+                    out.write(String.format(""));
+                } else {
+                    out.write(String.format(","));
+                }
+                i++;
+            }
+
+        } while (cursor.moveToNext());
+        cursor.close();
+        out.close();
+    }
+
+    /**
+     * Returns Map with habits and their score for a given timestamp.
+     *
+     * @param timestamp the timestamp where the values must me returned
+     * @return Map with habits and their score
+     */
+    public static Map getValuesPerTimestamp(String timestamp) {
+        String query = "select habit, score from Score where timestamp = ? order by habit";
+        SQLiteDatabase db = Cache.openDatabase();
+        String args[] = {timestamp};
+        Cursor cursor = db.rawQuery(query, args);
+
+        if (!cursor.moveToFirst()) return null;
+
+        Map scores = new HashMap();
+        do {
+            scores.put(cursor.getString(0), String.format("%.4f", ((float) cursor.getLong(1)) / Score.MAX_VALUE));
+        } while (cursor.moveToNext());
+        return scores;
+    }    
 }

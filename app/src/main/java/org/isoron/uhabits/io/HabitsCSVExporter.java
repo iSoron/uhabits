@@ -62,6 +62,18 @@ public class HabitsCSVExporter
         FileWriter out = new FileWriter(exportDirName + filename);
         generateFilenames.add(filename);
         Habit.writeCSV(habits, out);
+
+        filename = "AllCheckmarks.csv";
+        new File(exportDirName).mkdirs();
+        out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
+        CheckmarkList.writeCSV(habits, out);
+
+        filename = "AllScores.csv";
+        new File(exportDirName).mkdirs();
+        out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
+        ScoreList.writeCSV(habits, out);
         out.close();
 
         for(Habit h : habits)
