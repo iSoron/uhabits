@@ -28,7 +28,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
-import org.isoron.uhabits.widgets.*;
 
 import java.io.*;
 import java.lang.Process;
@@ -115,22 +114,6 @@ public class BaseSystem
             protected void doInBackground()
             {
                 ReminderUtils.createReminderAlarms(context, habitList);
-            }
-        }.execute();
-    }
-
-    /**
-     * Refreshes all application widgets.
-     */
-    public void updateWidgets()
-    {
-        new BaseTask()
-        {
-
-            @Override
-            protected void doInBackground()
-            {
-                WidgetManager.updateWidgets(context);
             }
         }.execute();
     }

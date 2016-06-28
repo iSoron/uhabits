@@ -19,13 +19,10 @@
 
 package org.isoron.uhabits.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.*;
+import android.preference.*;
 
-import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 
 public class Preferences
 {
@@ -103,9 +100,9 @@ public class Preferences
     public void setShouldReverseCheckmarks(boolean shouldReverse)
     {
         prefs
-                .edit()
-                .putBoolean("pref_checkmark_reverse_order", shouldReverse)
-                .apply();
+            .edit()
+            .putBoolean("pref_checkmark_reverse_order", shouldReverse)
+            .apply();
     }
 
     public boolean shouldReverseCheckmarks()
@@ -127,11 +124,9 @@ public class Preferences
     public void updateLastHint(int number, long timestamp)
     {
         prefs
-                .edit()
-                .putInt("last_hint_number", number)
-                .putLong("last_hint_timestamp", timestamp)
-                .apply();
+            .edit()
+            .putInt("last_hint_number", number)
+            .putLong("last_hint_timestamp", timestamp)
+            .apply();
     }
-
-
 }

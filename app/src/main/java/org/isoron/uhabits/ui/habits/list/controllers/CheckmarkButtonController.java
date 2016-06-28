@@ -93,6 +93,6 @@ public class CheckmarkButtonController
         void onInvalidToggle();
 
 
-        void onToggle(Habit habit, long timestamp);
+        void onToggle(@NonNull Habit habit, long timestamp);
     }
 }

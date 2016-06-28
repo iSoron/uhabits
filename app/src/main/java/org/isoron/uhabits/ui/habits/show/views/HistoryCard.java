@@ -58,7 +58,6 @@ public class HistoryCard extends HabitCard
     @OnClick(R.id.edit)
     public void onClickEditButton()
     {
-        Log.d("HistoryCard", "onClickEditButton");
         controller.onEditHistoryButtonClick();
     }
 

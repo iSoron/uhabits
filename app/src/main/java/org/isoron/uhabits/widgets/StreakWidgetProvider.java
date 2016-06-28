@@ -18,54 +18,69 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.*;
 import android.content.*;
-import android.view.*;
+import android.support.annotation.*;
 
 import org.apache.commons.lang3.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.common.views.*;
+import org.isoron.uhabits.ui.widgets.*;
 
-public class StreakWidgetProvider extends  BaseWidgetProvider
+public class StreakWidgetProvider extends BaseWidgetProvider
 {
+    @NonNull
     @Override
-    protected View buildCustomView(Context context, Habit habit)
+    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        StreakChart dataView = new StreakChart(context);
         throw new NotImplementedException("");
+    }
+
+//    @Override
+//    protected View buildCustomView(Context context, Habit habit)
+//    {
+//        StreakChart dataView = new StreakChart(context);
 //        GraphWidgetView view = new GraphWidgetView(context, dataView);
-//        view.setHabit(habit);
+//        view.setTitle(habit.getName());
 //        return view;
-    }
-
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitChart) view).refreshData();
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
-    {
-        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-    }
-
-    @Override
-    protected int getDefaultHeight()
-    {
-        return 200;
-    }
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 200;
-    }
-
-    @Override
-    protected int getLayoutId()
-    {
-        return R.layout.widget_wrapper;
-    }
+//    }
+//
+//    @Override
+//    protected int getDefaultHeight()
+//    {
+//        return 200;
+//    }
+//
+//    @Override
+//    protected int getDefaultWidth()
+//    {
+//        return 200;
+//    }
+//
+//    @Override
+//    protected int getLayoutId()
+//    {
+//        return R.layout.widget_wrapper;
+//    }
+//
+//    @Override
+//    protected PendingIntent getOnClickPendingIntent(Context context,
+//                                                    Habit habit)
+//    {
+//        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
+//    }
+//
+//    @Override
+//    protected void refreshCustomViewData(Context context,
+//                                         View view,
+//                                         Habit habit)
+//    {
+//        GraphWidgetView widgetView = (GraphWidgetView) view;
+//        StreakChart chart = (StreakChart) widgetView.getDataView();
+//
+//        int color = ColorUtils.getColor(context, habit.getColor());
+//
+//        // TODO: make this dynamic
+//        List<Streak> streaks = habit.getStreaks().getBest(10);
+//
+//        chart.setColor(color);
+//        chart.setStreaks(streaks);
+//    }
 }

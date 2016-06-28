@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.ui.BaseActivity;
 import org.isoron.uhabits.ui.BaseMenu;
+import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.utils.InterfaceUtils;
 
 public class ListHabitsMenu extends BaseMenu
@@ -35,11 +36,15 @@ public class ListHabitsMenu extends BaseMenu
 
     private boolean showArchived;
 
+    private final HabitCardListAdapter adapter;
+
     public ListHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull ListHabitsScreen screen)
+                          @NonNull ListHabitsScreen screen,
+                          @NonNull HabitCardListAdapter adapter)
     {
         super(activity);
         this.screen = screen;
+        this.adapter = adapter;
     }
 
     @Override
@@ -79,7 +84,7 @@ public class ListHabitsMenu extends BaseMenu
 
             case R.id.action_show_archived:
                 showArchived = !showArchived;
-                screen.getRootView().setShowArchived(showArchived);
+                adapter.setShowArchived(showArchived);
                 invalidate();
                 return true;
 

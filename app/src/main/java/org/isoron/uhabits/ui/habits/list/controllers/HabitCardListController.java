@@ -147,7 +147,7 @@ public class HabitCardListController implements DragSortListView.DropListener,
      * @param timestamp the timestamps of the checkmark
      */
     @Override
-    public void onToggle(Habit habit, long timestamp)
+    public void onToggle(@NonNull Habit habit, long timestamp)
     {
         if (habitListener != null) habitListener.onToggle(habit, timestamp);
     }
@@ -203,7 +203,7 @@ public class HabitCardListController implements DragSortListView.DropListener,
          *
          * @param habit the habit clicked
          */
-        void onHabitClick(Habit habit);
+        void onHabitClick(@NonNull Habit habit);
 
         /**
          * Called when the user wants to change the position of a habit on the
@@ -212,7 +212,7 @@ public class HabitCardListController implements DragSortListView.DropListener,
          * @param from habit to be moved
          * @param to   habit that currently occupies the desired position
          */
-        void onHabitReorder(Habit from, Habit to);
+        void onHabitReorder(@NonNull Habit from, @NonNull Habit to);
     }
 
     /**

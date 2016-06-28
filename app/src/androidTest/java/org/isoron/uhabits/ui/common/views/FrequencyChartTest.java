@@ -48,7 +48,7 @@ public class FrequencyChartTest extends BaseViewTest
         view = new FrequencyChart(targetContext);
         view.setFrequency(habit.getRepetitions().getWeekdayFrequency());
         view.setColor(ColorUtils.getAndroidTestColor(habit.getColor()));
-        measureView(dpToPixels(300), dpToPixels(100), view);
+        measureView(view, dpToPixels(300), dpToPixels(100));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class FrequencyChartTest extends BaseViewTest
     @Test
     public void testRender_withDifferentSize() throws Throwable
     {
-        measureView(dpToPixels(200), dpToPixels(200), view);
+        measureView(view, dpToPixels(200), dpToPixels(200));
         assertRenders(view, BASE_PATH + "renderDifferentSize.png");
     }
 

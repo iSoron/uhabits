@@ -19,14 +19,14 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
-import android.os.Bundle;
+import android.os.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.ui.BaseSystem;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
@@ -36,19 +36,55 @@ public class ListHabitsActivity extends BaseActivity
     @Inject
     HabitList habitList;
 
+    private HabitCardListAdapter adapter;
+
+    private ListHabitsRootView rootView;
+
+    private ListHabitsScreen screen;
+
+    private ListHabitsMenu menu;
+
+    private ListHabitsSelectionMenu selectionMenu;
+
+    private ListHabitsController controller;
+
+    private BaseSystem system;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         HabitsApplication.getComponent().inject(this);
 
-        BaseSystem system = new BaseSystem(this);
-        ListHabitsScreen screen = new ListHabitsScreen(this);
-        ListHabitsController controller =
-            new ListHabitsController(screen, system, habitList);
+        int checkmarkCount = ListHabitsRootView.MAX_CHECKMARK_COUNT;
 
-        screen.setController(controller);
+        system = new BaseSystem(this);
+        adapter = new HabitCardListAdapter(checkmarkCount);
+        rootView = new ListHabitsRootView(this, adapter);
+        screen = new ListHabitsScreen(this, rootView);
+        menu = new ListHabitsMenu(this, screen, adapter);
+        selectionMenu = new ListHabitsSelectionMenu(screen, adapter);
+        controller = new ListHabitsController(screen, system, habitList);
+
+        screen.setMenu(menu);
+        screen.setSelectionMenu(selectionMenu);
+        rootView.setController(controller, selectionMenu);
+
         setScreen(screen);
         controller.onStartup();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        adapter.cancelRefresh();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        adapter.refresh();
     }
 }

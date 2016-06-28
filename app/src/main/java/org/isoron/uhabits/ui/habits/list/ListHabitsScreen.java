@@ -32,7 +32,6 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.about.*;
 import org.isoron.uhabits.ui.habits.edit.*;
-import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.ui.habits.show.*;
 import org.isoron.uhabits.ui.intro.*;
 import org.isoron.uhabits.ui.settings.*;
@@ -42,37 +41,14 @@ import java.io.*;
 
 public class ListHabitsScreen extends BaseScreen
 {
-
     @Nullable
     ListHabitsController controller;
 
-    @NonNull
-    private final ListHabitsRootView rootView;
-
-    @NonNull
-    private final ListHabitsSelectionMenu selectionMenu;
-
-    public ListHabitsScreen(@NonNull BaseActivity activity)
+    public ListHabitsScreen(@NonNull BaseActivity activity,
+                            ListHabitsRootView rootView)
     {
         super(activity);
-        rootView = new ListHabitsRootView(activity);
         setRootView(rootView);
-
-        ListHabitsMenu menu = new ListHabitsMenu(activity, this);
-        selectionMenu = new ListHabitsSelectionMenu(this);
-        setMenu(menu);
-        setSelectionMenu(selectionMenu);
-
-        HabitCardListAdapter adapter =
-            new HabitCardListAdapter(ListHabitsRootView.MAX_CHECKMARK_COUNT);
-        rootView.setListAdapter(adapter);
-        selectionMenu.setListAdapter(adapter);
-    }
-
-    @NonNull
-    public ListHabitsRootView getRootView()
-    {
-        return rootView;
     }
 
     @Override
@@ -98,12 +74,6 @@ public class ListHabitsScreen extends BaseScreen
                 controller.onSendBugReport();
                 break;
         }
-    }
-
-    public void setController(@Nullable ListHabitsController controller)
-    {
-        this.controller = controller;
-        rootView.setController(controller, selectionMenu);
     }
 
     public void showAboutScreen()

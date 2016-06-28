@@ -30,6 +30,7 @@ import org.isoron.uhabits.ui.habits.list.controllers.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 import org.isoron.uhabits.ui.habits.show.*;
+import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.widgets.*;
 
 /**
@@ -90,4 +91,8 @@ public interface BaseComponent
     void inject(BaseDialogFragment baseDialogFragment);
 
     void inject(ShowHabitController showHabitController);
+
+    void inject(BaseWidget baseWidget);
+
+    void inject(WidgetUpdater widgetManager);
 }

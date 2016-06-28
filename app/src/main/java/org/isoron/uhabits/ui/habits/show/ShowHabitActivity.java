@@ -40,6 +40,14 @@ public class ShowHabitActivity extends BaseActivity
     @Inject
     HabitList habitList;
 
+    private ShowHabitController controller;
+
+    private ShowHabitRootView rootView;
+
+    private ShowHabitScreen screen;
+
+    private ShowHabitsMenu menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -47,15 +55,15 @@ public class ShowHabitActivity extends BaseActivity
         HabitsApplication.getComponent().inject(this);
 
         Habit habit = getHabitFromIntent();
-        ShowHabitScreen screen = new ShowHabitScreen(this, habit);
-        ShowHabitRootView view = new ShowHabitRootView(this, habit);
-        screen.setRootView(view);
-        this.setScreen(screen);
+        rootView = new ShowHabitRootView(this, habit);
+        screen = new ShowHabitScreen(this, habit, rootView);
+        setScreen(screen);
 
-        ShowHabitsMenu menu = new ShowHabitsMenu(this, screen);
-        ShowHabitController controller = new ShowHabitController(screen, habit);
+        menu = new ShowHabitsMenu(this, screen);
         screen.setMenu(menu);
-        view.setController(controller);
+
+        controller = new ShowHabitController(screen, habit);
+        rootView.setController(controller);
     }
 
     @NonNull

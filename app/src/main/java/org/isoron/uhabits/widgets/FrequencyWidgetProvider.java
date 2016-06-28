@@ -19,54 +19,73 @@
 
 package org.isoron.uhabits.widgets;
 
-import android.app.*;
 import android.content.*;
-import android.view.*;
+import android.support.annotation.*;
 
 import org.apache.commons.lang3.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.common.views.*;
+import org.isoron.uhabits.ui.widgets.*;
 
 public class FrequencyWidgetProvider extends BaseWidgetProvider
 {
+    @NonNull
     @Override
-    protected View buildCustomView(Context context, Habit habit)
+    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        FrequencyChart dataView = new FrequencyChart(context);
         throw new NotImplementedException("");
-//        GraphWidgetView view = new GraphWidgetView(context, dataView);
-//        view.setHabit(habit);
+    }
+
+//    @NonNull
+//    @Override
+//    protected BaseWidget getWidgetFromId(int id)
+//    {
+//        throw new NotImplementedException("");
+//    }
+//
+//    @Override
+//    protected View buildCustomView(Context context, Habit habit)
+//    {
+//        FrequencyChart chart = new FrequencyChart(context);
+//        GraphWidgetView view = new GraphWidgetView(context, chart);
+//        view.setTitle(habit.getName());
 //        return view;
-    }
-
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitChart) view).refreshData();
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
-    {
-        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-    }
-
-    @Override
-    protected int getDefaultHeight()
-    {
-        return 200;
-    }
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 200;
-    }
-
-    @Override
-    protected int getLayoutId()
-    {
-        return R.layout.widget_wrapper;
-    }
+//    }
+//
+//    @Override
+//    protected int getDefaultHeight()
+//    {
+//        return 200;
+//    }
+//
+//    @Override
+//    protected int getDefaultWidth()
+//    {
+//        return 200;
+//    }
+//
+//    @Override
+//    protected int getLayoutId()
+//    {
+//        return R.layout.widget_wrapper;
+//    }
+//
+//    @Override
+//    protected PendingIntent getOnClickPendingIntent(Context context,
+//                                                    Habit habit)
+//    {
+//        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
+//    }
+//
+//    @Override
+//    protected void refreshCustomViewData(Context context,
+//                                         View view,
+//                                         Habit habit)
+//    {
+//        GraphWidgetView widgetView = (GraphWidgetView) view;
+//        FrequencyChart chart = (FrequencyChart) widgetView.getDataView();
+//
+//        int color = ColorUtils.getColor(context, habit.getColor());
+//
+//        chart.setColor(color);
+//        chart.setFrequency(habit.getRepetitions().getWeekdayFrequency());
+//    }
 }

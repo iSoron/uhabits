@@ -25,21 +25,16 @@ import android.support.annotation.*;
 
 import com.activeandroid.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
-
-import javax.inject.*;
 
 /**
  * The Android application for Loop Habit Tracker.
  */
 public class HabitsApplication extends Application
 {
-    public static final String ACTION_REFRESH =
-        "org.isoron.uhabits.ACTION_REFRESH";
-
     public static final int RESULT_BUG_REPORT = 4;
 
     public static final int RESULT_EXPORT_CSV = 2;
@@ -56,17 +51,11 @@ public class HabitsApplication extends Application
     @Nullable
     private static Context context;
 
-    @Inject
-    HabitList habitList;
+    private static WidgetUpdater widgetManager;
 
     public static BaseComponent getComponent()
     {
         return component;
-    }
-
-    public HabitList getHabitList()
-    {
-        return habitList;
     }
 
     public static void setComponent(BaseComponent component)
@@ -84,6 +73,15 @@ public class HabitsApplication extends Application
     public static HabitsApplication getInstance()
     {
         return application;
+    }
+
+    @NonNull
+    public static WidgetUpdater getWidgetManager()
+    {
+        if (widgetManager == null)
+            throw new RuntimeException("widgetManager is null");
+
+        return widgetManager;
     }
 
     public static boolean isTestMode()
@@ -108,6 +106,7 @@ public class HabitsApplication extends Application
         HabitsApplication.context = this;
         HabitsApplication.application = this;
         component = DaggerAndroidComponent.builder().build();
+        component.inject(this);
 
         if (isTestMode())
         {
@@ -115,7 +114,9 @@ public class HabitsApplication extends Application
             if (db.exists()) db.delete();
         }
 
-        component.inject(this);
+        widgetManager = new WidgetUpdater(this);
+        widgetManager.startListening();
+
         DatabaseUtils.initializeActiveAndroid();
     }
 
@@ -124,6 +125,7 @@ public class HabitsApplication extends Application
     {
         HabitsApplication.context = null;
         ActiveAndroid.dispose();
+        widgetManager.stopListening();
         super.onTerminate();
     }
 }

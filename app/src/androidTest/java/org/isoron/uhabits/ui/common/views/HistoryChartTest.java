@@ -48,7 +48,7 @@ public class HistoryChartTest extends BaseViewTest
         chart = new HistoryChart(targetContext);
         chart.setCheckmarks(habit.getCheckmarks().getAllValues());
         chart.setColor(ColorUtils.getAndroidTestColor(habit.getColor()));
-        measureView(dpToPixels(400), dpToPixels(200), chart);
+        measureView(chart, dpToPixels(400), dpToPixels(200));
     }
 
 //    @Test
@@ -106,7 +106,7 @@ public class HistoryChartTest extends BaseViewTest
     @Test
     public void testRender_withDifferentSize() throws Throwable
     {
-        measureView(dpToPixels(200), dpToPixels(200), chart);
+        measureView(chart, dpToPixels(200), dpToPixels(200));
         assertRenders(chart, BASE_PATH + "renderDifferentSize.png");
     }
 

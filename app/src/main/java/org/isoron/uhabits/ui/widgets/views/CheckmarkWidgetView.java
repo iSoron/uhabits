@@ -17,26 +17,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.widgets.views;
+package org.isoron.uhabits.ui.widgets.views;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.widget.TextView;
+import android.content.*;
+import android.support.annotation.*;
+import android.util.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.Score;
-import org.isoron.uhabits.ui.common.views.HabitChart;
-import org.isoron.uhabits.ui.common.views.RingView;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.common.views.*;
+import org.isoron.uhabits.utils.*;
 
 public class CheckmarkWidgetView extends HabitWidgetView
-    implements HabitChart
 {
     private int activeColor;
 
@@ -94,6 +87,10 @@ public class CheckmarkWidgetView extends HabitWidgetView
                     R.attr.cardBackgroundColor);
                 foregroundColor = InterfaceUtils.getStyledColor(context,
                     R.attr.mediumContrastTextColor);
+
+                setShadowAlpha(0x00);
+                rebuildBackground();
+
                 break;
 
             case Checkmark.UNCHECKED:
@@ -103,6 +100,10 @@ public class CheckmarkWidgetView extends HabitWidgetView
                     R.attr.cardBackgroundColor);
                 foregroundColor = InterfaceUtils.getStyledColor(context,
                     R.attr.mediumContrastTextColor);
+
+                setShadowAlpha(0x00);
+                rebuildBackground();
+
                 break;
         }
 
@@ -118,23 +119,24 @@ public class CheckmarkWidgetView extends HabitWidgetView
         postInvalidate();
     }
 
-    @Override
-    public void refreshData()
+    public void setCheckmarkValue(int checkmarkValue)
     {
-        if (habit == null) return;
-        this.percentage =
-            (float) habit.getScores().getTodayValue() / Score.MAX_VALUE;
-        this.checkmarkValue = habit.getCheckmarks().getTodayValue();
-        refresh();
+        this.checkmarkValue = checkmarkValue;
     }
 
-    @Override
-    public void setHabit(@NonNull Habit habit)
+    public void setName(@NonNull String name)
     {
-        super.setHabit(habit);
-        this.name = habit.getName();
-        this.activeColor = ColorUtils.getColor(getContext(), habit.getColor());
-        refresh();
+        this.name = name;
+    }
+
+    public void setPercentage(float percentage)
+    {
+        this.percentage = percentage;
+    }
+
+    public void setActiveColor(int activeColor)
+    {
+        this.activeColor = activeColor;
     }
 
     @Override
@@ -142,23 +144,6 @@ public class CheckmarkWidgetView extends HabitWidgetView
     protected Integer getInnerLayoutId()
     {
         return R.layout.widget_checkmark;
-    }
-
-    private void init()
-    {
-        ring = (RingView) findViewById(R.id.scoreRing);
-        label = (TextView) findViewById(R.id.label);
-
-        if (ring != null) ring.setIsTransparencyEnabled(true);
-
-        if (isInEditMode())
-        {
-            percentage = 0.75f;
-            name = "Wake up early";
-            activeColor = ColorUtils.getAndroidTestColor(6);
-            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
-            refresh();
-        }
     }
 
     @Override
@@ -193,5 +178,22 @@ public class CheckmarkWidgetView extends HabitWidgetView
         ring.setThickness(0.15f * textSize);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void init()
+    {
+        ring = (RingView) findViewById(R.id.scoreRing);
+        label = (TextView) findViewById(R.id.label);
+
+        if (ring != null) ring.setIsTransparencyEnabled(true);
+
+        if (isInEditMode())
+        {
+            percentage = 0.75f;
+            name = "Wake up early";
+            activeColor = ColorUtils.getAndroidTestColor(6);
+            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
+            refresh();
+        }
     }
 }

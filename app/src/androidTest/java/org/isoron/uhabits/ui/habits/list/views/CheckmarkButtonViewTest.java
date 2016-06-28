@@ -54,7 +54,7 @@ public class CheckmarkButtonViewTest extends BaseViewTest
         view.setValue(Checkmark.UNCHECKED);
         view.setColor(ColorUtils.getAndroidTestColor(7));
 
-        measureView(dpToPixels(40), dpToPixels(40), view);
+        measureView(view, dpToPixels(40), dpToPixels(40));
     }
 
     @Test

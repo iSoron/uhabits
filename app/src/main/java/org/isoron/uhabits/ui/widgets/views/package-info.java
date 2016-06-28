@@ -20,4 +20,4 @@
 /**
  * Provides views that are specific for the home-screen widgets.
  */
-package org.isoron.uhabits.widgets.views;
+package org.isoron.uhabits.ui.widgets.views;

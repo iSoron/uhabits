@@ -81,7 +81,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
-            android:name=".widgets.HabitPickerDialog"
+            android:name=".ui.widgets.HabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
@@ -108,53 +108,53 @@
                 android:resource="@xml/widget_checkmark_info"/>
         </receiver>
 
-        <receiver
-            android:name=".widgets.HistoryWidgetProvider"
-            android:label="@string/history">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
+        <!--<receiver-->
+            <!--android:name=".widgets.HistoryWidgetProvider"-->
+            <!--android:label="@string/history">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>-->
+            <!--</intent-filter>-->
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_history_info"/>
-        </receiver>
+            <!--<meta-data-->
+                <!--android:name="android.appwidget.provider"-->
+                <!--android:resource="@xml/widget_history_info"/>-->
+        <!--</receiver>-->
 
-        <receiver
-            android:name=".widgets.ScoreWidgetProvider"
-            android:label="@string/habit_strength">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
+        <!--<receiver-->
+            <!--android:name=".widgets.ScoreWidgetProvider"-->
+            <!--android:label="@string/habit_strength">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>-->
+            <!--</intent-filter>-->
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_score_info"/>
-        </receiver>
+            <!--<meta-data-->
+                <!--android:name="android.appwidget.provider"-->
+                <!--android:resource="@xml/widget_score_info"/>-->
+        <!--</receiver>-->
 
-        <receiver
-            android:name=".widgets.StreakWidgetProvider"
-            android:label="@string/streaks">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
+        <!--<receiver-->
+            <!--android:name=".widgets.StreakWidgetProvider"-->
+            <!--android:label="@string/streaks">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>-->
+            <!--</intent-filter>-->
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_streak_info"/>
-        </receiver>
+            <!--<meta-data-->
+                <!--android:name="android.appwidget.provider"-->
+                <!--android:resource="@xml/widget_streak_info"/>-->
+        <!--</receiver>-->
 
-        <receiver
-            android:name=".widgets.FrequencyWidgetProvider"
-            android:label="@string/frequency">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
+        <!--<receiver-->
+            <!--android:name=".widgets.FrequencyWidgetProvider"-->
+            <!--android:label="@string/frequency">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>-->
+            <!--</intent-filter>-->
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_frequency_info"/>
-        </receiver>
+            <!--<meta-data-->
+                <!--android:name="android.appwidget.provider"-->
+                <!--android:resource="@xml/widget_frequency_info"/>-->
+        <!--</receiver>-->
 
         <receiver android:name=".HabitBroadcastReceiver">
             <intent-filter>

@@ -48,7 +48,7 @@ public class StreakChartTest extends BaseViewTest
         view = new StreakChart(targetContext);
         view.setColor(ColorUtils.getAndroidTestColor(habit.getColor()));
         view.setStreaks(habit.getStreaks().getBest(5));
-        measureView(dpToPixels(300), dpToPixels(100), view);
+        measureView(view, dpToPixels(300), dpToPixels(100));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class StreakChartTest extends BaseViewTest
     @Test
     public void testRender_withSmallSize() throws Throwable
     {
-        measureView(dpToPixels(100), dpToPixels(100), view);
+        measureView(view, dpToPixels(100), dpToPixels(100));
         assertRenders(view, BASE_PATH + "renderSmallSize.png");
     }
 

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.widgets.views;
+package org.isoron.uhabits.ui.widgets.views;
 
 import android.content.*;
 import android.graphics.*;
@@ -29,23 +29,17 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
 public abstract class HabitWidgetView extends FrameLayout
-    implements HabitChart
 {
     @Nullable
     protected InsetDrawable background;
 
     @Nullable
     protected Paint backgroundPaint;
-
-    @Nullable
-    protected Habit habit;
 
     protected ViewGroup frame;
 
@@ -61,12 +55,6 @@ public abstract class HabitWidgetView extends FrameLayout
     {
         super(context, attrs);
         init();
-    }
-
-    @Override
-    public void setHabit(@NonNull Habit habit)
-    {
-        this.habit = habit;
     }
 
     public void setShadowAlpha(int shadowAlpha)

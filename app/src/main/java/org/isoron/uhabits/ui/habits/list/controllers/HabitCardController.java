@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.ui.habits.list.controllers;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
 import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.ui.habits.list.views.HabitCardView;
@@ -39,7 +39,7 @@ public class HabitCardController implements HabitCardView.Controller
     }
 
     @Override
-    public void onToggle(Habit habit, long timestamp)
+    public void onToggle(@NonNull Habit habit, long timestamp)
     {
         if (view != null) view.triggerRipple(timestamp);
         if (listener != null) listener.onToggle(habit, timestamp);

@@ -50,9 +50,9 @@ public class ScoreChartTest extends BaseViewTest
 
         view = new ScoreChart(targetContext);
         view.setScores(habit.getScores().getAll());
-        view.setPrimaryColor(ColorUtils.getColor(targetContext, habit.getColor()));
+        view.setColor(ColorUtils.getColor(targetContext, habit.getColor()));
         view.setBucketSize(7);
-        measureView(dpToPixels(300), dpToPixels(200), view);
+        measureView(view, dpToPixels(300), dpToPixels(200));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withDifferentSize() throws Throwable
     {
-        measureView(dpToPixels(200), dpToPixels(200), view);
+        measureView(view, dpToPixels(200), dpToPixels(200));
         assertRenders(view, BASE_PATH + "renderDifferentSize.png");
     }
 

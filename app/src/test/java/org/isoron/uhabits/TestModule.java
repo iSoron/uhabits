@@ -35,16 +35,15 @@ public class TestModule
 {
     @Singleton
     @Provides
-    Preferences providePreferences()
-    {
-        return mock(Preferences.class);
-    }
-
-    @Singleton
-    @Provides
     CommandRunner provideCommandRunner()
     {
         return mock(CommandRunner.class);
+    }
+
+    @Provides
+    Habit provideHabit()
+    {
+        return mock(Habit.class);
     }
 
     @Singleton
@@ -55,15 +54,23 @@ public class TestModule
     }
 
     @Provides
-    Habit provideHabit()
-    {
-        return mock(Habit.class);
-    }
-
-    @Provides
     @Singleton
     ModelFactory provideModelFactory()
     {
         return new MemoryModelFactory();
+    }
+
+    @Singleton
+    @Provides
+    Preferences providePreferences()
+    {
+        return mock(Preferences.class);
+    }
+
+    @Provides
+    @Singleton
+    WidgetPreferences provideWidgetPreferences()
+    {
+        return mock(WidgetPreferences.class);
     }
 }

@@ -62,6 +62,11 @@ public class HabitCardListAdapter extends BaseAdapter
         cache.setCheckmarkCount(checkmarkCount);
     }
 
+    public void cancelRefresh()
+    {
+        cache.cancelTasks();
+    }
+
     /**
      * Sets all items as not selected.
      */
@@ -75,11 +80,6 @@ public class HabitCardListAdapter extends BaseAdapter
     public int getCount()
     {
         return cache.getHabitCount();
-    }
-
-    public boolean getIncludeArchived()
-    {
-        return cache.getIncludeArchived();
     }
 
     /**
@@ -161,6 +161,11 @@ public class HabitCardListAdapter extends BaseAdapter
     public void onDetached()
     {
         cache.onDetached();
+    }
+
+    public void refresh()
+    {
+        cache.refreshAllHabits(true);
     }
 
     /**

@@ -17,20 +17,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.widgets.views;
+package org.isoron.uhabits.ui.widgets.views;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.IOException;
+import java.io.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -51,9 +49,16 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
 
         habit = fixtures.createShortHabit();
         view = new CheckmarkWidgetView(targetContext);
-        view.setHabit(habit);
-        refreshData(view);
-        measureView(dpToPixels(100), dpToPixels(200), view);
+        int color = ColorUtils.getAndroidTestColor(habit.getColor());
+        int score = habit.getScores().getTodayValue();
+        float percentage = (float) score / Score.MAX_VALUE;
+
+        view.setActiveColor(color);
+        view.setCheckmarkValue(habit.getCheckmarks().getTodayValue());
+        view.setPercentage(percentage);
+        view.setName(habit.getName());
+        view.refresh();
+        measureView(view, dpToPixels(100), dpToPixels(200));
     }
 
     @Test
@@ -65,29 +70,23 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
     @Test
     public void testRender_implicitlyChecked() throws IOException
     {
-        long today = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
-        habit.getRepetitions().toggleTimestamp(today);
-        habit.getRepetitions().toggleTimestamp(today - day);
-        habit.getRepetitions().toggleTimestamp(today - 2 * day);
-        view.refreshData();
-
+        view.setCheckmarkValue(Checkmark.CHECKED_IMPLICITLY);
+        view.refresh();
         assertRenders(view, PATH + "implicitly_checked.png");
     }
 
     @Test
     public void testRender_largeSize() throws IOException
     {
-        measureView(dpToPixels(300), dpToPixels(300), view);
+        measureView(view, dpToPixels(300), dpToPixels(300));
         assertRenders(view, PATH + "large_size.png");
     }
 
     @Test
     public void testRender_unchecked() throws IOException
     {
-        habit.getRepetitions().toggleTimestamp(DateUtils.getStartOfToday());
-        view.refreshData();
-
+        view.setCheckmarkValue(Checkmark.UNCHECKED);
+        view.refresh();
         assertRenders(view, PATH + "unchecked.png");
     }
 }

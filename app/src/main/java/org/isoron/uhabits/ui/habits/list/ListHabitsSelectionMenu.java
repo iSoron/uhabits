@@ -42,16 +42,18 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Inject
     CommandRunner commandRunner;
 
-    @Nullable
-    private HabitCardListAdapter listAdapter;
+    @NonNull
+    private final HabitCardListAdapter listAdapter;
 
     @Nullable
     private HabitCardListController listController;
 
-    public ListHabitsSelectionMenu(@NonNull ListHabitsScreen screen)
+    public ListHabitsSelectionMenu(@NonNull ListHabitsScreen screen,
+                                   HabitCardListAdapter listAdapter)
     {
         this.screen = screen;
         HabitsApplication.getComponent().inject(this);
+        this.listAdapter = listAdapter;
     }
 
     @Override
@@ -64,8 +66,6 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Override
     public boolean onItemClicked(@NonNull MenuItem item)
     {
-        if (listAdapter == null) return false;
-
         List<Habit> selected = listAdapter.getSelected();
         if (selected.isEmpty()) return false;
 
@@ -104,7 +104,6 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Override
     public boolean onPrepare(@NonNull Menu menu)
     {
-        if (listAdapter == null) return false;
         List<Habit> selected = listAdapter.getSelected();
 
         boolean showEdit = (selected.size() == 1);
@@ -147,12 +146,6 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     public void onSelectionStart()
     {
         screen.startSelection();
-    }
-
-    public void setListAdapter(@Nullable HabitCardListAdapter listAdapter)
-    {
-        if (listAdapter == null) return;
-        this.listAdapter = listAdapter;
     }
 
     public void setListController(HabitCardListController listController)

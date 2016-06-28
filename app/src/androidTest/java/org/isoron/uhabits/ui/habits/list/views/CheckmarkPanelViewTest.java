@@ -62,7 +62,7 @@ public class CheckmarkPanelViewTest extends BaseViewTest
         view.setCheckmarkValues(checkmarks);
         view.setColor(ColorUtils.getAndroidTestColor(7));
 
-        measureView(dpToPixels(200), dpToPixels(200), view);
+        measureView(view, dpToPixels(200), dpToPixels(200));
     }
 
 //    protected void waitForLatch() throws InterruptedException

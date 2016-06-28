@@ -27,14 +27,12 @@ import android.os.*;
 import android.preference.*;
 import android.support.v4.app.*;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.content.*;
 
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.habits.show.*;
 import org.isoron.uhabits.utils.*;
-import org.isoron.uhabits.widgets.*;
 
 import java.util.*;
 
@@ -124,16 +122,6 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         notificationManager.cancel(notificationId);
     }
 
-    public static void sendRefreshBroadcast(Context context)
-    {
-        LocalBroadcastManager manager =
-            LocalBroadcastManager.getInstance(context);
-        Intent refreshIntent = new Intent(HabitsApplication.ACTION_REFRESH);
-        manager.sendBroadcast(refreshIntent);
-
-        WidgetManager.updateWidgets(context);
-    }
-
     @Override
     public void onReceive(final Context context, Intent intent)
     {
@@ -178,7 +166,6 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         }
 
         dismissNotification(context, habitId);
-        sendRefreshBroadcast(context);
     }
 
     private boolean checkWeekday(Intent intent, Habit habit)

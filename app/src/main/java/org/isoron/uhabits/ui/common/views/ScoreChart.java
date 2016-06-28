@@ -137,7 +137,7 @@ public class ScoreChart extends ScrollableChart
         requestLayout();
     }
 
-    public void setPrimaryColor(int primaryColor)
+    public void setColor(int primaryColor)
     {
         this.primaryColor = primaryColor;
         postInvalidate();

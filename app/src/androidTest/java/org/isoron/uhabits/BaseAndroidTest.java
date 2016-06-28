@@ -19,21 +19,25 @@
 
 package org.isoron.uhabits;
 
-import android.content.Context;
-import android.os.Build;
-import android.os.Looper;
-import android.support.test.InstrumentationRegistry;
+import android.appwidget.*;
+import android.content.*;
+import android.os.*;
+import android.support.test.*;
 
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.tasks.BaseTask;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.utils.Preferences;
-import org.junit.Before;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import java.util.concurrent.TimeoutException;
+import java.util.*;
+import java.util.concurrent.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
+
+import static junit.framework.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 public class BaseAndroidTest
 {
@@ -51,6 +55,9 @@ public class BaseAndroidTest
 
     @Inject
     protected HabitList habitList;
+
+    @Inject
+    protected CommandRunner commandRunner;
 
     protected AndroidTestComponent androidTestComponent;
 
@@ -78,6 +85,18 @@ public class BaseAndroidTest
         fixtures = new HabitFixtures(habitList);
     }
 
+    protected void sleep(int time)
+    {
+        try
+        {
+            Thread.sleep(time);
+        }
+        catch (InterruptedException e)
+        {
+            fail();
+        }
+    }
+
     protected void waitForAsyncTasks()
         throws InterruptedException, TimeoutException
     {
@@ -88,5 +107,20 @@ public class BaseAndroidTest
         }
 
         BaseTask.waitForTasks(10000);
+    }
+
+    protected void assertWidgetProviderIsInstalled(ComponentName desiredProvider)
+    {
+        AppWidgetManager manager = AppWidgetManager.getInstance(targetContext);
+        List<AppWidgetProviderInfo> providerInfoList;
+        List<ComponentName> installedProviders;
+
+        providerInfoList = manager.getInstalledProviders();
+        installedProviders = new LinkedList<>();
+
+        for (AppWidgetProviderInfo info : providerInfoList)
+            installedProviders.add(info.provider);
+
+        assertThat(installedProviders, hasItems(desiredProvider));
     }
 }

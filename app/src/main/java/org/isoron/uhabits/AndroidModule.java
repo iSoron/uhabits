@@ -63,4 +63,11 @@ public class AndroidModule
     {
         return new Preferences();
     }
+
+    @Provides
+    @Singleton
+    WidgetPreferences provideWidgetPreferences()
+    {
+        return new WidgetPreferences();
+    }
 }

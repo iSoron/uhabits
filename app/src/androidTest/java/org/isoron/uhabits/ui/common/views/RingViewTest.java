@@ -55,7 +55,7 @@ public class RingViewTest extends BaseViewTest
     @Test
     public void testRender_base() throws IOException
     {
-        measureView(dpToPixels(100), dpToPixels(100), view);
+        measureView(view, dpToPixels(100), dpToPixels(100));
         assertRenders(view, BASE_PATH + "render.png");
     }
 
@@ -65,7 +65,7 @@ public class RingViewTest extends BaseViewTest
         view.setPercentage(0.25f);
         view.setColor(ColorUtils.getAndroidTestColor(5));
 
-        measureView(dpToPixels(200), dpToPixels(200), view);
+        measureView(view, dpToPixels(200), dpToPixels(200));
         assertRenders(view, BASE_PATH + "renderDifferentParams.png");
     }
 }

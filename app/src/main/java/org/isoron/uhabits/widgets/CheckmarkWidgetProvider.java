@@ -18,55 +18,19 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.*;
 import android.content.*;
-import android.view.*;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.common.views.*;
-import org.isoron.uhabits.widgets.views.*;
+import org.isoron.uhabits.ui.widgets.*;
 
 public class CheckmarkWidgetProvider extends BaseWidgetProvider
 {
+    @NonNull
     @Override
-    protected View buildCustomView(Context context, Habit habit)
+    protected CheckmarkWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        CheckmarkWidgetView view = new CheckmarkWidgetView(context);
-        view.setHabit(habit);
-        return view;
+        Habit habit = getHabitFromWidgetId(id);
+        return new CheckmarkWidget(context, id, habit);
     }
-
-    @Override
-    protected int getDefaultHeight()
-    {
-        return 125;
-    }
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 125;
-    }
-
-    @Override
-    protected int getLayoutId()
-    {
-        return R.layout.widget_wrapper;
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context,
-                                                    Habit habit)
-    {
-        return HabitBroadcastReceiver.buildCheckIntent(context, habit, null);
-    }
-
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitChart) view).refreshData();
-    }
-
-
 }

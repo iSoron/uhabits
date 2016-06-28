@@ -31,10 +31,13 @@ public class ShowHabitScreen extends BaseScreen
     @NonNull
     private final Habit habit;
 
-    public ShowHabitScreen(@NonNull BaseActivity activity, @NonNull Habit habit)
+    public ShowHabitScreen(@NonNull BaseActivity activity,
+                           @NonNull Habit habit,
+                           ShowHabitRootView view)
     {
         super(activity);
         this.habit = habit;
+        setRootView(view);
     }
 
     public void showEditHabitDialog()

@@ -69,6 +69,12 @@ public class HabitCardListCache implements CommandRunner.Listener
         HabitsApplication.getComponent().inject(this);
     }
 
+    public void cancelTasks()
+    {
+        if(currentFetchTask != null)
+            currentFetchTask.cancel(true);
+    }
+
     public int[] getCheckmarks(long habitId)
     {
         return data.checkmarks.get(habitId);
@@ -256,6 +262,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             newData.copyScoresFrom(data);
             newData.copyCheckmarksFrom(data);
 
+//            sleep(1000);
             commit();
 
             if (!refreshScoresAndCheckmarks) return;
@@ -274,7 +281,20 @@ public class HabitCardListCache implements CommandRunner.Listener
                 newData.checkmarks.put(id,
                     h.getCheckmarks().getValues(dateFrom, dateTo));
 
+//                sleep(1000);
                 publishProgress(current++, newData.habits.size());
+            }
+        }
+
+        private void sleep(int time)
+        {
+            try
+            {
+                Thread.sleep(time);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
             }
         }
 

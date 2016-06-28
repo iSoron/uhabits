@@ -95,7 +95,7 @@ public class ListHabitsController
         habitList.reorder(from, to);
     }
 
-    public void onImportData(File file)
+    public void onImportData(@NonNull File file)
     {
         ImportDataTask task = new ImportDataTask(file, screen.getProgressBar());
         task.setListener(this);
@@ -163,7 +163,6 @@ public class ListHabitsController
         if (prefs.isFirstRun()) onFirstRun();
 
         new Handler().postDelayed(() -> {
-            system.updateWidgets();
             system.scheduleReminders();
         }, 1000);
     }

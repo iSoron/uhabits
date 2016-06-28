@@ -59,13 +59,27 @@ public class ListHabitsRootView extends BaseRootView
     @BindView(R.id.hintView)
     HintView hintView;
 
-    @Nullable
-    private HabitCardListAdapter listAdapter;
+    @NonNull
+    private final HabitCardListAdapter listAdapter;
 
-    public ListHabitsRootView(@NonNull Context context)
+    public ListHabitsRootView(@NonNull Context context,
+                              @NonNull HabitCardListAdapter listAdapter)
     {
         super(context);
-        init();
+        addView(inflate(getContext(), R.layout.list_habits, null));
+        ButterKnife.bind(this);
+
+        this.listAdapter = listAdapter;
+        listView.setAdapter(listAdapter);
+        listAdapter.setListView(listView);
+
+        tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+        initToolbar();
+
+        String hints[] =
+            getContext().getResources().getStringArray(R.array.hints);
+        HintList hintList = new HintList(hints);
+        hintView.setHints(hintList);
     }
 
     public static int getCheckmarkCount(View v)
@@ -84,12 +98,6 @@ public class ListHabitsRootView extends BaseRootView
         return progressBar;
     }
 
-    public void setShowArchived(boolean showArchived)
-    {
-        if (listAdapter == null) return;
-        listAdapter.setShowArchived(showArchived);
-    }
-
     @NonNull
     @Override
     public Toolbar getToolbar()
@@ -103,12 +111,9 @@ public class ListHabitsRootView extends BaseRootView
         updateEmptyView();
     }
 
-    public void setController(@Nullable ListHabitsController controller,
-                              @Nullable ListHabitsSelectionMenu menu)
+    public void setController(@NonNull ListHabitsController controller,
+                              @NonNull ListHabitsSelectionMenu menu)
     {
-        listView.setController(null);
-        if (controller == null || menu == null || listAdapter == null) return;
-
         HabitCardListController listController =
             new HabitCardListController(listAdapter, listView);
 
@@ -118,49 +123,23 @@ public class ListHabitsRootView extends BaseRootView
         menu.setListController(listController);
     }
 
-    public void setListAdapter(@NonNull HabitCardListAdapter listAdapter)
-    {
-        if (this.listAdapter != null)
-            listAdapter.getObservable().removeListener(this);
-
-        this.listAdapter = listAdapter;
-        listView.setAdapter(listAdapter);
-        listAdapter.setListView(listView);
-    }
-
     @Override
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        if (listAdapter != null) listAdapter.getObservable().addListener(this);
+        listAdapter.getObservable().addListener(this);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
-        if (listAdapter != null)
-            listAdapter.getObservable().removeListener(this);
+        listAdapter.getObservable().removeListener(this);
         super.onDetachedFromWindow();
     }
 
-    private void init()
-    {
-        addView(inflate(getContext(), R.layout.list_habits, null));
-        ButterKnife.bind(this);
-
-        tvStarEmpty.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
-        initToolbar();
-
-        String hints[] =
-            getContext().getResources().getStringArray(R.array.hints);
-        HintList hintList = new HintList(hints);
-        hintView.setHints(hintList);
-    }
 
     private void updateEmptyView()
     {
-        if (listAdapter == null) return;
-
         llEmpty.setVisibility(
             listAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
     }
