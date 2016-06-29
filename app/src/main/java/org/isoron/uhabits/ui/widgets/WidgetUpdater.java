@@ -54,7 +54,7 @@ public class WidgetUpdater implements CommandRunner.Listener
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        updateWidgets(context);
+        updateWidgets();
     }
 
     /**
@@ -76,16 +76,16 @@ public class WidgetUpdater implements CommandRunner.Listener
         commandRunner.removeListener(this);
     }
 
-    void updateWidgets(Context context)
+    public void updateWidgets()
     {
-        updateWidgets(context, CheckmarkWidgetProvider.class);
-        updateWidgets(context, HistoryWidgetProvider.class);
-        updateWidgets(context, ScoreWidgetProvider.class);
-        updateWidgets(context, StreakWidgetProvider.class);
-        updateWidgets(context, FrequencyWidgetProvider.class);
+        updateWidgets(CheckmarkWidgetProvider.class);
+        updateWidgets(HistoryWidgetProvider.class);
+        updateWidgets(ScoreWidgetProvider.class);
+        updateWidgets(StreakWidgetProvider.class);
+        updateWidgets(FrequencyWidgetProvider.class);
     }
 
-    private void updateWidgets(Context context, Class providerClass)
+    public void updateWidgets(Class providerClass)
     {
         ComponentName provider = new ComponentName(context, providerClass);
         Intent intent = new Intent(context, providerClass);

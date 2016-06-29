@@ -61,10 +61,25 @@ public class ScoreCard extends HabitCard
         init();
     }
 
+    @NonNull
+    public static DateUtils.TruncateField getTruncateField(int bucketSize)
+    {
+        if (bucketSize == 7) return DateUtils.TruncateField.WEEK_NUMBER;
+        if (bucketSize == 31) return DateUtils.TruncateField.MONTH;
+        if (bucketSize == 92) return DateUtils.TruncateField.QUARTER;
+        if (bucketSize == 365) return DateUtils.TruncateField.YEAR;
+
+        Log.e("ScoreCard",
+            String.format("Unknown bucket size: %d", bucketSize));
+
+        return DateUtils.TruncateField.MONTH;
+    }
+
     @OnItemSelected(R.id.spinner)
     public void onItemSelected(int position)
     {
         setBucketSizeFromPosition(position);
+        HabitsApplication.getWidgetManager().updateWidgets();
         refreshData();
     }
 
@@ -78,20 +93,6 @@ public class ScoreCard extends HabitCard
     {
         if (isInEditMode()) return 0;
         return InterfaceUtils.getDefaultScoreSpinnerPosition(getContext());
-    }
-
-    @NonNull
-    private DateUtils.TruncateField getTruncateField()
-    {
-        if (bucketSize == 7) return DateUtils.TruncateField.WEEK_NUMBER;
-        if (bucketSize == 31) return DateUtils.TruncateField.MONTH;
-        if (bucketSize == 92) return DateUtils.TruncateField.QUARTER;
-        if (bucketSize == 365) return DateUtils.TruncateField.YEAR;
-
-        Log.e("ScoreCard",
-            String.format("Unknown bucket size: %d", bucketSize));
-
-        return DateUtils.TruncateField.MONTH;
     }
 
     private void init()
@@ -126,9 +127,10 @@ public class ScoreCard extends HabitCard
         protected void doInBackground()
         {
             List<Score> scores;
+            ScoreList scoreList = getHabit().getScores();
 
-            if (bucketSize == 1) scores = getHabit().getScores().getAll();
-            else scores = getHabit().getScores().groupBy(getTruncateField());
+            if (bucketSize == 1) scores = scoreList.getAll();
+            else scores = scoreList.groupBy(getTruncateField(bucketSize));
 
             chart.setScores(scores);
             chart.setBucketSize(bucketSize);

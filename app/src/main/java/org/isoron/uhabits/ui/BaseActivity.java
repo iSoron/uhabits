@@ -106,31 +106,6 @@ abstract public class BaseActivity extends AppCompatActivity
         screen.onResult(request, result, data);
     }
 
-//    @Override
-//    public void onCommandExecuted(Command command, Long refreshKey)
-//    {
-//        window.showMessage(command.getExecuteStringId());
-//        new BaseTask()
-//        {
-//            @Override
-//            protected void doInBackground()
-//            {
-//                dismissNotifications(BaseActivity.this);
-//                BackupManager.dataChanged("org.isoron.uhabits");
-//                WidgetManager.updateWidgets(BaseActivity.this);
-//            }
-//        }.execute();
-//    }
-
-//    private void dismissNotifications(Context context)
-//    {
-//        for (Habit h : Habit.getHabitsWithReminder())
-//        {
-//            if (h.checkmarks.getTodayValue() != Checkmark.UNCHECKED)
-//                HabitBroadcastReceiver.dismissNotification(context, h);
-//        }
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

@@ -29,20 +29,13 @@ import org.isoron.uhabits.widgets.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.isoron.uhabits.models.Checkmark.*;
-
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class CheckmarkWidgetTest extends BaseViewTest
+public class HistoryWidgetTest extends BaseViewTest
 {
-
-    private static final String PATH = "widgets/CheckmarkWidgetView/";
+    private static final String PATH = "widgets/HistoryWidget/";
 
     private Habit habit;
-
-    private CheckmarkList checkmarks;
 
     private FrameLayout view;
 
@@ -50,37 +43,22 @@ public class CheckmarkWidgetTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        habit = fixtures.createShortHabit();
-        checkmarks = habit.getCheckmarks();
-        CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
-        view = convertToView(widget, 200, 250);
+        setTheme(R.style.TransparentWidgetTheme);
 
-        assertThat(checkmarks.getTodayValue(), equalTo(CHECKED_EXPLICITLY));
-    }
-
-    @Test
-    public void testClick() throws Exception
-    {
-        Button button = (Button) view.findViewById(R.id.button);
-        assertThat(button, is(not(nullValue())));
-
-        // A better test would be to capture the intent, but it doesn't seem
-        // possible to capture intents sent to BroadcastReceivers.
-        button.performClick();
-        sleep(1000);
-
-        assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
+        habit = fixtures.createLongHabit();
+        HistoryWidget widget = new HistoryWidget(targetContext, 0, habit);
+        view = convertToView(widget, 400, 400);
     }
 
     @Test
     public void testIsInstalled()
     {
-        assertWidgetProviderIsInstalled(CheckmarkWidgetProvider.class);
+        assertWidgetProviderIsInstalled(HistoryWidgetProvider.class);
     }
 
     @Test
     public void testRender() throws Exception
     {
-        assertRenders(view, PATH + "checked.png");
+        assertRenders(view, PATH + "render.png");
     }
 }

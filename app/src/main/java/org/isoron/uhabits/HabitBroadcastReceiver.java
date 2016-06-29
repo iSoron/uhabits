@@ -26,12 +26,10 @@ import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.support.v4.app.*;
-import android.support.v4.app.TaskStackBuilder;
 
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.show.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -39,9 +37,9 @@ import java.util.*;
 import javax.inject.*;
 
 /**
- * The Android BroadacastReceiver for Loop Habit Tracker.
+ * The Android BroadcastReceiver for Loop Habit Tracker.
  * <p/>
- * Currently, all broadcast messages are received and processed by this class.
+ * All broadcast messages are received and processed by this class.
  */
 public class HabitBroadcastReceiver extends BroadcastReceiver
 {
@@ -66,50 +64,6 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     {
         super();
         HabitsApplication.getComponent().inject(this);
-    }
-
-    public static PendingIntent buildCheckIntent(Context context,
-                                                 Habit habit,
-                                                 Long timestamp)
-    {
-        Uri data = habit.getUri();
-        Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
-        checkIntent.setData(data);
-        checkIntent.setAction(ACTION_CHECK);
-        if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, 0, checkIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
-    }
-
-    public static PendingIntent buildDismissIntent(Context context)
-    {
-        Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
-        deleteIntent.setAction(ACTION_DISMISS);
-        return PendingIntent.getBroadcast(context, 0, deleteIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
-    }
-
-    public static PendingIntent buildSnoozeIntent(Context context, Habit habit)
-    {
-        Uri data = habit.getUri();
-        Intent snoozeIntent = new Intent(context, HabitBroadcastReceiver.class);
-        snoozeIntent.setData(data);
-        snoozeIntent.setAction(ACTION_SNOOZE);
-        return PendingIntent.getBroadcast(context, 0, snoozeIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
-    }
-
-    public static PendingIntent buildViewHabitIntent(Context context,
-                                                     Habit habit)
-    {
-        Intent intent = new Intent(context, ShowHabitActivity.class);
-        intent.setData(
-            Uri.parse("content://org.isoron.uhabits/habit/" + habit.getId()));
-
-        return TaskStackBuilder
-            .create(context.getApplicationContext())
-            .addNextIntentWithParentStack(intent)
-            .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static void dismissNotification(Context context, Habit habit)
@@ -153,8 +107,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     private void checkHabit(Context context, Intent intent)
     {
         Uri data = intent.getData();
-        Long timestamp =
-            intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
+        long today = DateUtils.getStartOfToday();
+        Long timestamp = intent.getLongExtra("timestamp", today);
 
         long habitId = ContentUris.parseId(data);
         Habit habit = habitList.getById(habitId);
@@ -217,12 +171,13 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                     PendingIntent.getActivity(context, 0, contentIntent,
                         PendingIntent.FLAG_CANCEL_CURRENT);
 
-                PendingIntent dismissPendingIntent =
-                    buildDismissIntent(context);
+                PendingIntent dismissPendingIntent;
+                dismissPendingIntent =
+                    HabitPendingIntents.dismissNotification(context);
                 PendingIntent checkIntentPending =
-                    buildCheckIntent(context, habit, timestamp);
+                    HabitPendingIntents.toggleCheckmark(context, habit, timestamp);
                 PendingIntent snoozeIntentPending =
-                    buildSnoozeIntent(context, habit);
+                    HabitPendingIntents.snoozeNotification(context, habit);
 
                 Uri ringtoneUri = ReminderUtils.getRingtoneUri(context);
 

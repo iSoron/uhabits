@@ -164,6 +164,7 @@ public class ListHabitsController
 
         new Handler().postDelayed(() -> {
             system.scheduleReminders();
+            HabitsApplication.getWidgetManager().updateWidgets();
         }, 1000);
     }
 

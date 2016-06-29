@@ -26,59 +26,62 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.ui.widgets.views.*;
 import org.isoron.uhabits.utils.*;
 
-public class CheckmarkWidget extends BaseWidget
+import java.util.*;
+
+public class StreakWidget extends BaseWidget
 {
     @NonNull
-    private final Habit habit;
+    private Habit habit;
 
-    public CheckmarkWidget(@NonNull Context context,
-                           int widgetId,
-                           @NonNull Habit habit)
+    public StreakWidget(@NonNull Context context, int id, @NonNull Habit habit)
     {
-        super(context, widgetId);
+        super(context, id);
         this.habit = habit;
     }
 
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        return HabitPendingIntents.toggleCheckmark(context, habit, null);
+        return HabitPendingIntents.viewHabit(context, habit);
     }
 
     @Override
-    public void refreshData(View v)
+    public void refreshData(View view)
     {
-        CheckmarkWidgetView view = (CheckmarkWidgetView) v;
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
-        int score = habit.getScores().getTodayValue();
-        float percentage = (float) score / Score.MAX_VALUE;
-        int checkmark = habit.getCheckmarks().getTodayValue();
+        GraphWidgetView widgetView = (GraphWidgetView) view;
+        StreakChart chart = (StreakChart) widgetView.getDataView();
 
-        view.setPercentage(percentage);
-        view.setActiveColor(color);
-        view.setName(habit.getName());
-        view.setCheckmarkValue(checkmark);
-        view.refresh();
+        int color = ColorUtils.getColor(getContext(), habit.getColor());
+
+        // TODO: make this dynamic
+        List<Streak> streaks = habit.getStreaks().getBest(10);
+
+        chart.setColor(color);
+        chart.setStreaks(streaks);
     }
 
     @Override
     protected View buildView()
     {
-        return new CheckmarkWidgetView(getContext());
+        StreakChart dataView = new StreakChart(getContext());
+        GraphWidgetView view = new GraphWidgetView(getContext(), dataView);
+        view.setTitle(habit.getName());
+        return view;
     }
 
     @Override
     protected int getDefaultHeight()
     {
-        return 125;
+        return 200;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 125;
+        return 200;
     }
 }

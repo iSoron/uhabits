@@ -21,7 +21,7 @@ package org.isoron.uhabits.widgets;
 import android.content.*;
 import android.support.annotation.*;
 
-import org.apache.commons.lang3.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.widgets.*;
 
 public class StreakWidgetProvider extends BaseWidgetProvider
@@ -30,48 +30,10 @@ public class StreakWidgetProvider extends BaseWidgetProvider
     @Override
     protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        throw new NotImplementedException("");
+        Habit habit = getHabitFromWidgetId(id);
+        return new StreakWidget(context, id, habit);
     }
 
-//    @Override
-//    protected View buildCustomView(Context context, Habit habit)
-//    {
-//        StreakChart dataView = new StreakChart(context);
-//        GraphWidgetView view = new GraphWidgetView(context, dataView);
-//        view.setTitle(habit.getName());
-//        return view;
-//    }
-//
-//    @Override
-//    protected int getDefaultHeight()
-//    {
-//        return 200;
-//    }
-//
-//    @Override
-//    protected int getDefaultWidth()
-//    {
-//        return 200;
-//    }
-//
-//    @Override
-//    protected int getLayoutId()
-//    {
-//        return R.layout.widget_wrapper;
-//    }
-//
-//    @Override
-//    protected PendingIntent getOnClickPendingIntent(Context context,
-//                                                    Habit habit)
-//    {
-//        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-//    }
-//
-//    @Override
-//    protected void refreshCustomViewData(Context context,
-//                                         View view,
-//                                         Habit habit)
-//    {
 //        GraphWidgetView widgetView = (GraphWidgetView) view;
 //        StreakChart chart = (StreakChart) widgetView.getDataView();
 //

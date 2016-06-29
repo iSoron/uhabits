@@ -79,8 +79,6 @@ public abstract class BaseWidget
             dimensions.getLandscapeHeight());
     }
 
-    public abstract int getLayoutId();
-
     public abstract PendingIntent getOnClickPendingIntent(Context context);
 
     @NonNull
@@ -103,8 +101,6 @@ public abstract class BaseWidget
 
     protected abstract int getDefaultWidth();
 
-    protected abstract String getTitle();
-
     private void adjustRemoteViewsPadding(RemoteViews remoteViews,
                                           View view,
                                           int width,
@@ -122,7 +118,6 @@ public abstract class BaseWidget
                                   int height)
     {
         Bitmap bitmap = getBitmapFromView(view);
-        remoteViews.setTextViewText(R.id.label, getTitle());
         remoteViews.setImageViewBitmap(R.id.imageView, bitmap);
 
         if (SDK_INT >= JELLY_BEAN)
@@ -160,11 +155,10 @@ public abstract class BaseWidget
 
         refreshData(view);
 
-        if(view.isLayoutRequested())
-            measureView(view, width, height);
+        if (view.isLayoutRequested()) measureView(view, width, height);
 
         RemoteViews remoteViews =
-            new RemoteViews(context.getPackageName(), getLayoutId());
+            new RemoteViews(context.getPackageName(), R.layout.widget_wrapper);
 
         buildRemoteViews(view, remoteViews, width, height);
 
@@ -174,7 +168,7 @@ public abstract class BaseWidget
     private void measureView(View view, int width, int height)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View entireView = inflater.inflate(getLayoutId(), null);
+        View entireView = inflater.inflate(R.layout.widget_wrapper, null);
 
         int specWidth = makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int specHeight = makeMeasureSpec(height, View.MeasureSpec.EXACTLY);

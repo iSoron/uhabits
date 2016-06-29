@@ -56,7 +56,7 @@ public class HabitPickerDialog extends Activity
     {
         Long habitId = habitIds.get(position);
         preferences.addWidget(widgetId, habitId);
-        HabitsApplication.getWidgetManager().updateWidgets(this);
+        HabitsApplication.getWidgetManager().updateWidgets();
 
         Intent resultValue = new Intent();
         resultValue.putExtra(EXTRA_APPWIDGET_ID, widgetId);

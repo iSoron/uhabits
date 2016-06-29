@@ -26,59 +26,72 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.common.views.*;
+import org.isoron.uhabits.ui.habits.show.views.*;
 import org.isoron.uhabits.ui.widgets.views.*;
 import org.isoron.uhabits.utils.*;
 
-public class CheckmarkWidget extends BaseWidget
+import java.util.*;
+
+public class ScoreWidget extends BaseWidget
 {
     @NonNull
-    private final Habit habit;
+    private Habit habit;
 
-    public CheckmarkWidget(@NonNull Context context,
-                           int widgetId,
-                           @NonNull Habit habit)
+    public ScoreWidget(@NonNull Context context, int id, @NonNull Habit habit)
     {
-        super(context, widgetId);
+        super(context, id);
         this.habit = habit;
     }
 
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        return HabitPendingIntents.toggleCheckmark(context, habit, null);
+        return HabitPendingIntents.viewHabit(context, habit);
     }
 
     @Override
-    public void refreshData(View v)
+    public void refreshData(View view)
     {
-        CheckmarkWidgetView view = (CheckmarkWidgetView) v;
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
-        int score = habit.getScores().getTodayValue();
-        float percentage = (float) score / Score.MAX_VALUE;
-        int checkmark = habit.getCheckmarks().getTodayValue();
+        int defaultScoreInterval =
+            InterfaceUtils.getDefaultScoreSpinnerPosition(getContext());
+        int size = ScoreCard.BUCKET_SIZES[defaultScoreInterval];
 
-        view.setPercentage(percentage);
-        view.setActiveColor(color);
-        view.setName(habit.getName());
-        view.setCheckmarkValue(checkmark);
-        view.refresh();
+        GraphWidgetView widgetView = (GraphWidgetView) view;
+        ScoreChart chart = (ScoreChart) widgetView.getDataView();
+
+        List<Score> scores;
+        ScoreList scoreList = habit.getScores();
+
+        if (size == 1) scores = scoreList.getAll();
+        else scores = scoreList.groupBy(ScoreCard.getTruncateField(size));
+
+        int color = ColorUtils.getColor(getContext(), habit.getColor());
+
+        chart.setIsTransparencyEnabled(true);
+        chart.setBucketSize(size);
+        chart.setColor(color);
+        chart.setScores(scores);
     }
 
     @Override
     protected View buildView()
     {
-        return new CheckmarkWidgetView(getContext());
+        ScoreChart dataView = new ScoreChart(getContext());
+        GraphWidgetView view = new GraphWidgetView(getContext(), dataView);
+        view.setTitle(habit.getName());
+        return view;
     }
 
     @Override
     protected int getDefaultHeight()
     {
-        return 125;
+        return 300;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 125;
+        return 300;
     }
 }

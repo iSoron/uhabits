@@ -21,7 +21,7 @@ package org.isoron.uhabits.widgets;
 import android.content.*;
 import android.support.annotation.*;
 
-import org.apache.commons.lang3.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.widgets.*;
 
 public class HistoryWidgetProvider extends BaseWidgetProvider
@@ -30,62 +30,7 @@ public class HistoryWidgetProvider extends BaseWidgetProvider
     @Override
     protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        throw new NotImplementedException("");
+        Habit habit = getHabitFromWidgetId(id);
+        return new HistoryWidget(context, id, habit);
     }
-
-//    @NonNull
-//    @Override
-//    protected BaseWidget getWidgetFromId(int id)
-//    {
-//        throw new NotImplementedException("");
-//    }
-//
-//    @Override
-//    protected View buildCustomView(Context context, Habit habit)
-//    {
-//        HistoryChart dataView = new HistoryChart(context);
-//        GraphWidgetView widgetView = new GraphWidgetView(context, dataView);
-//        widgetView.setTitle(habit.getName());
-//        return widgetView;
-//    }
-//
-//    @Override
-//    protected int getDefaultHeight()
-//    {
-//        return 250;
-//    }
-//
-//    @Override
-//    protected int getDefaultWidth()
-//    {
-//        return 250;
-//    }
-//
-//    @Override
-//    protected int getLayoutId()
-//    {
-//        return R.layout.widget_wrapper;
-//    }
-//
-//    @Override
-//    protected PendingIntent getOnClickPendingIntent(Context context,
-//                                                    Habit habit)
-//    {
-//        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-//    }
-//
-//    @Override
-//    protected void refreshCustomViewData(Context context,
-//                                         View view,
-//                                         Habit habit)
-//    {
-//        GraphWidgetView widgetView = (GraphWidgetView) view;
-//        HistoryChart chart = (HistoryChart) widgetView.getDataView();
-//
-//        int color = ColorUtils.getColor(context, habit.getColor());
-//        int[] values = habit.getCheckmarks().getAllValues();
-//
-//        chart.setColor(color);
-//        chart.setCheckmarks(values);
-//    }
 }

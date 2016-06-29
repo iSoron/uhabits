@@ -26,15 +26,16 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.ui.widgets.views.*;
 import org.isoron.uhabits.utils.*;
 
-public class CheckmarkWidget extends BaseWidget
+public class FrequencyWidget extends BaseWidget
 {
     @NonNull
     private final Habit habit;
 
-    public CheckmarkWidget(@NonNull Context context,
+    public FrequencyWidget(@NonNull Context context,
                            int widgetId,
                            @NonNull Habit habit)
     {
@@ -45,40 +46,39 @@ public class CheckmarkWidget extends BaseWidget
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        return HabitPendingIntents.toggleCheckmark(context, habit, null);
+        return HabitPendingIntents.viewHabit(context, habit);
     }
 
     @Override
     public void refreshData(View v)
     {
-        CheckmarkWidgetView view = (CheckmarkWidgetView) v;
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
-        int score = habit.getScores().getTodayValue();
-        float percentage = (float) score / Score.MAX_VALUE;
-        int checkmark = habit.getCheckmarks().getTodayValue();
+        GraphWidgetView widgetView = (GraphWidgetView) v;
+        FrequencyChart chart = (FrequencyChart) widgetView.getDataView();
 
-        view.setPercentage(percentage);
-        view.setActiveColor(color);
-        view.setName(habit.getName());
-        view.setCheckmarkValue(checkmark);
-        view.refresh();
+        widgetView.setTitle(habit.getName());
+
+        int color = ColorUtils.getColor(getContext(), habit.getColor());
+
+        chart.setColor(color);
+        chart.setFrequency(habit.getRepetitions().getWeekdayFrequency());
     }
 
     @Override
     protected View buildView()
     {
-        return new CheckmarkWidgetView(getContext());
+        FrequencyChart chart = new FrequencyChart(getContext());
+        return new GraphWidgetView(getContext(), chart);
     }
 
     @Override
     protected int getDefaultHeight()
     {
-        return 125;
+        return 200;
     }
 
     @Override
     protected int getDefaultWidth()
     {
-        return 125;
+        return 200;
     }
 }

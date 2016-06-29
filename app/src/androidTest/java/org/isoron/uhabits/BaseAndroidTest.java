@@ -22,6 +22,7 @@ package org.isoron.uhabits;
 import android.appwidget.*;
 import android.content.*;
 import android.os.*;
+import android.support.annotation.*;
 import android.support.test.*;
 
 import org.isoron.uhabits.commands.*;
@@ -63,6 +64,8 @@ public class BaseAndroidTest
 
     protected HabitFixtures fixtures;
 
+    protected CountDownLatch latch;
+
     @Before
     public void setUp()
     {
@@ -83,6 +86,27 @@ public class BaseAndroidTest
         androidTestComponent.inject(this);
 
         fixtures = new HabitFixtures(habitList);
+
+        latch = new CountDownLatch(1);
+    }
+
+    protected void assertWidgetProviderIsInstalled(Class componentClass)
+    {
+        ComponentName provider =
+            new ComponentName(targetContext, componentClass);
+        AppWidgetManager manager = AppWidgetManager.getInstance(targetContext);
+
+        List<ComponentName> installedProviders = new LinkedList<>();
+        for (AppWidgetProviderInfo info : manager.getInstalledProviders())
+            installedProviders.add(info.provider);
+
+        assertThat(installedProviders, hasItems(provider));
+    }
+
+    protected void setTheme(@StyleRes int themeId)
+    {
+        InterfaceUtils.setFixedTheme(themeId);
+        targetContext.setTheme(themeId);
     }
 
     protected void sleep(int time)
@@ -107,20 +131,5 @@ public class BaseAndroidTest
         }
 
         BaseTask.waitForTasks(10000);
-    }
-
-    protected void assertWidgetProviderIsInstalled(ComponentName desiredProvider)
-    {
-        AppWidgetManager manager = AppWidgetManager.getInstance(targetContext);
-        List<AppWidgetProviderInfo> providerInfoList;
-        List<ComponentName> installedProviders;
-
-        providerInfoList = manager.getInstalledProviders();
-        installedProviders = new LinkedList<>();
-
-        for (AppWidgetProviderInfo info : providerInfoList)
-            installedProviders.add(info.provider);
-
-        assertThat(installedProviders, hasItems(desiredProvider));
     }
 }
