@@ -21,6 +21,8 @@ package org.isoron.uhabits.io;
 
 import android.support.annotation.NonNull;
 
+import org.isoron.uhabits.models.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -34,13 +36,14 @@ public class GenericImporter extends AbstractImporter
 {
     List<AbstractImporter> importers;
 
-    public GenericImporter()
+    public GenericImporter(HabitList habits)
     {
+        super(habits);
         importers = new LinkedList<>();
-        importers.add(new LoopDBImporter());
-        importers.add(new RewireDBImporter());
-        importers.add(new TickmateDBImporter());
-        importers.add(new HabitBullCSVImporter());
+        importers.add(new LoopDBImporter(habits));
+        importers.add(new RewireDBImporter(habits));
+        importers.add(new TickmateDBImporter(habits));
+        importers.add(new HabitBullCSVImporter(habits));
     }
 
     @Override

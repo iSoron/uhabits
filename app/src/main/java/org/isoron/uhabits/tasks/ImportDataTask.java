@@ -19,23 +19,20 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.io.GenericImporter;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
 
-import java.io.File;
+import java.io.*;
 
 public class ImportDataTask extends BaseTask
 {
-    public static final int SUCCESS = 1;
-    public static final int NOT_RECOGNIZED = 2;
     public static final int FAILED = 3;
 
-    public interface Listener
-    {
-        void onImportDataFinished(int result);
-    }
+    public static final int NOT_RECOGNIZED = 2;
+
+    public static final int SUCCESS = 1;
 
     @Nullable
     private final ProgressBar progressBar;
@@ -48,8 +45,14 @@ public class ImportDataTask extends BaseTask
 
     int result;
 
-    public ImportDataTask(@NonNull File file, @Nullable ProgressBar progressBar)
+    @NonNull
+    private HabitList habits;
+
+    public ImportDataTask(@NonNull HabitList habits,
+                          @NonNull File file,
+                          @Nullable ProgressBar progressBar)
     {
+        this.habits = habits;
         this.file = file;
         this.progressBar = progressBar;
     }
@@ -60,28 +63,12 @@ public class ImportDataTask extends BaseTask
     }
 
     @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-
-        if(progressBar != null) progressBar.show();
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        if(progressBar != null) progressBar.hide();
-        if(listener != null) listener.onImportDataFinished(result);
-        super.onPostExecute(null);
-    }
-
-    @Override
     protected void doInBackground()
     {
         try
         {
-            GenericImporter importer = new GenericImporter();
-            if(importer.canHandle(file))
+            GenericImporter importer = new GenericImporter(habits);
+            if (importer.canHandle(file))
             {
                 importer.importHabitsFromFile(file);
                 result = SUCCESS;
@@ -96,5 +83,26 @@ public class ImportDataTask extends BaseTask
             result = FAILED;
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+        if (progressBar != null) progressBar.hide();
+        if (listener != null) listener.onImportDataFinished(result);
+        super.onPostExecute(null);
+    }
+
+    @Override
+    protected void onPreExecute()
+    {
+        super.onPreExecute();
+
+        if (progressBar != null) progressBar.show();
+    }
+
+    public interface Listener
+    {
+        void onImportDataFinished(int result);
     }
 }

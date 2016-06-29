@@ -39,6 +39,11 @@ import java.util.HashMap;
  */
 public class HabitBullCSVImporter extends AbstractImporter
 {
+    public HabitBullCSVImporter(HabitList habits)
+    {
+        super(habits);
+    }
+
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
@@ -66,7 +71,7 @@ public class HabitBullCSVImporter extends AbstractImporter
     private void parseFile(@NonNull File file) throws IOException
     {
         CSVReader reader = new CSVReader(new FileReader(file));
-        HashMap<String, Habit> habits = new HashMap<>();
+        HashMap<String, Habit> map = new HashMap<>();
 
         for(String line[] : reader)
         {
@@ -87,7 +92,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             int value = Integer.parseInt(line[4]);
             if(value != 1) continue;
 
-            Habit h = habits.get(name);
+            Habit h = map.get(name);
 
             if(h == null)
             {
@@ -95,8 +100,8 @@ public class HabitBullCSVImporter extends AbstractImporter
                 h.setName(name);
                 h.setDescription(description);
                 h.setFrequency(Frequency.DAILY);
-                habitList.add(h);
-                habits.put(name, h);
+                habits.add(h);
+                map.put(name, h);
             }
 
             if(!h.getRepetitions().containsTimestamp(timestamp))

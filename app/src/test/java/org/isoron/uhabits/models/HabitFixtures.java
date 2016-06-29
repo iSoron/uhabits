@@ -83,7 +83,6 @@ public class HabitFixtures
 
     public void purgeHabits()
     {
-        for (Habit h : habitList.getAll(true))
-            habitList.remove(h);
+        habitList.removeAll();
     }
 }

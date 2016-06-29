@@ -35,6 +35,13 @@ public class MemoryHabitList extends HabitList
 
     public MemoryHabitList()
     {
+        super();
+        list = new LinkedList<>();
+    }
+
+    protected MemoryHabitList(@NonNull HabitMatcher matcher)
+    {
+        super(matcher);
         list = new LinkedList<>();
     }
 
@@ -53,31 +60,13 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public int countActive()
-    {
-        int count = 0;
-        for (Habit h : list) if (!h.isArchived()) count++;
-        return count;
-    }
-
-    @Override
-    public int countWithArchived()
-    {
-        return list.size();
-    }
-
-    @NonNull
-    @Override
-    public List<Habit> getAll(boolean includeArchive)
-    {
-        if (includeArchive) return new LinkedList<>(list);
-        return getFiltered(habit -> !habit.isArchived());
-    }
-
-    @Override
     public Habit getById(long id)
     {
-        for (Habit h : list) if (h.getId() == id) return h;
+        for (Habit h : list)
+        {
+            if (h.getId() == null) continue;
+            if (h.getId() == id) return h;
+        }
         return null;
     }
 
@@ -88,10 +77,25 @@ public class MemoryHabitList extends HabitList
         return list.get(position);
     }
 
+    @NonNull
+    @Override
+    public HabitList getFiltered(HabitMatcher matcher)
+    {
+        MemoryHabitList habits = new MemoryHabitList(matcher);
+        for(Habit h : this) if (matcher.matches(h)) habits.add(h);
+        return habits;
+    }
+
     @Override
     public int indexOf(@NonNull Habit h)
     {
         return list.indexOf(h);
+    }
+
+    @Override
+    public Iterator<Habit> iterator()
+    {
+        return Collections.unmodifiableCollection(list).iterator();
     }
 
     @Override
@@ -106,6 +110,12 @@ public class MemoryHabitList extends HabitList
         int toPos = indexOf(to);
         list.remove(from);
         list.add(toPos, from);
+    }
+
+    @Override
+    public int size()
+    {
+        return list.size();
     }
 
     @Override

@@ -19,17 +19,13 @@
 
 package org.isoron.uhabits.io;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
-
-import javax.inject.Inject;
+import java.io.*;
+import java.util.*;
 
 /**
  * AbstractImporter is the base class for all classes that import data from
@@ -37,12 +33,12 @@ import javax.inject.Inject;
  */
 public abstract class AbstractImporter
 {
-    @Inject
-    HabitList habitList;
+    protected final HabitList habits;
 
-    public AbstractImporter()
+    public AbstractImporter(HabitList habits)
     {
         HabitsApplication.getComponent().inject(this);
+        this.habits = habits;
     }
 
     public abstract boolean canHandle(@NonNull File file) throws IOException;

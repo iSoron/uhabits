@@ -40,7 +40,8 @@ public class ArchiveHabitsCommandTest extends BaseUnitTest
         super.setUp();
 
         habit = fixtures.createShortHabit();
-        command = new ArchiveHabitsCommand(Collections.singletonList(habit));
+        command = new ArchiveHabitsCommand(habitList, Collections
+            .singletonList(habit));
     }
 
     @Test

@@ -42,7 +42,9 @@ public class UnarchiveHabitsCommandTest extends BaseUnitTest
         habit.setArchived(true);
         habitList.update(habit);
 
-        command = new UnarchiveHabitsCommand(Collections.singletonList(habit));
+        command = new UnarchiveHabitsCommand(habitList, Collections
+            .singletonList
+            (habit));
     }
 
     @Test

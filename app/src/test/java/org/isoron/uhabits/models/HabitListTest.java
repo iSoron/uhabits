@@ -32,93 +32,90 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 
+@SuppressWarnings("JavaDoc")
 public class HabitListTest extends BaseUnitTest
 {
-    private HabitList list;
+    private HabitList allHabits;
 
-    private ArrayList<Habit> habits;
+    private ArrayList<Habit> habitsArray;
+
+    private HabitList activeHabits;
+
+    private HabitList reminderHabits;
 
     @Override
     public void setUp()
     {
         super.setUp();
 
-        list = modelFactory.buildHabitList();
-        habits = new ArrayList<>();
+        allHabits = modelFactory.buildHabitList();
+        habitsArray = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
             Habit habit = new Habit();
             habit.setId((long) i);
-            habits.add(habit);
-            list.add(habit);
+            habitsArray.add(habit);
+            allHabits.add(habit);
 
             if (i % 3 == 0)
                 habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
         }
 
-        habits.get(0).setArchived(true);
-        habits.get(1).setArchived(true);
-        habits.get(4).setArchived(true);
-        habits.get(7).setArchived(true);
+        habitsArray.get(0).setArchived(true);
+        habitsArray.get(1).setArchived(true);
+        habitsArray.get(4).setArchived(true);
+        habitsArray.get(7).setArchived(true);
+
+        activeHabits = allHabits.getFiltered(
+            new HabitMatcherBuilder().build());
+        reminderHabits = allHabits.getFiltered(new HabitMatcherBuilder()
+            .setArchivedAllowed(true)
+            .setReminderRequired(true)
+            .build());
     }
 
     @Test
-    public void test_count()
+    public void testSize()
     {
-        assertThat(list.countActive(), equalTo(6));
+        assertThat(allHabits.size(), equalTo(10));
     }
 
     @Test
-    public void test_countWithArchived()
+    public void test_countActive()
     {
-        assertThat(list.countWithArchived(), equalTo(10));
-    }
-
-    @Test
-    public void test_getAll()
-    {
-        List<Habit> filteredList = list.getAll(false);
-
-        assertThat(filteredList.size(), equalTo(6));
-        assertThat(filteredList.contains(habits.get(2)), is(true));
-        assertThat(filteredList.contains(habits.get(4)), is(false));
-
-        filteredList = list.getAll(true);
-
-        assertThat(filteredList.size(), equalTo(10));
-        assertThat(filteredList.contains(habits.get(2)), is(true));
-        assertThat(filteredList.contains(habits.get(4)), is(true));
+        assertThat(activeHabits.size(), equalTo(6));
     }
 
     @Test
     public void test_getByPosition()
     {
-        assertThat(list.getByPosition(0), equalTo(habits.get(0)));
-        assertThat(list.getByPosition(3), equalTo(habits.get(3)));
-        assertThat(list.getByPosition(9), equalTo(habits.get(9)));
+        assertThat(allHabits.getByPosition(0), equalTo(habitsArray.get(0)));
+        assertThat(allHabits.getByPosition(3), equalTo(habitsArray.get(3)));
+        assertThat(allHabits.getByPosition(9), equalTo(habitsArray.get(9)));
+
+        assertThat(activeHabits.getByPosition(0), equalTo(habitsArray.get(2)));
     }
 
     @Test
     public void test_getHabitsWithReminder()
     {
-        List<Habit> filtered = list.getWithReminder();
-        assertThat(filtered.size(), equalTo(4));
-        assertThat(filtered.contains(habits.get(0)), equalTo(true));
-        assertThat(filtered.contains(habits.get(1)), equalTo(false));
+        assertThat(reminderHabits.size(), equalTo(4));
+        assertThat(reminderHabits.getByPosition(1),
+            equalTo(habitsArray.get(3)));
     }
 
     @Test
     public void test_get_withInvalidId()
     {
-        assertThat(list.getById(100L), is(nullValue()));
+        assertThat(allHabits.getById(100L), is(nullValue()));
     }
 
     @Test
     public void test_get_withValidId()
     {
-        Habit habit1 = habits.get(0);
-        Habit habit2 = list.getById(habit1.getId());
+        Habit habit1 = habitsArray.get(0);
+        Habit habit2 = allHabits.getById(habit1.getId());
         assertThat(habit1, equalTo(habit2));
     }
 
@@ -141,17 +138,17 @@ public class HabitListTest extends BaseUnitTest
             int from = operations[i][0];
             int to = operations[i][1];
 
-            Habit fromHabit = list.getByPosition(from);
-            Habit toHabit = list.getByPosition(to);
-            list.reorder(fromHabit, toHabit);
+            Habit fromHabit = allHabits.getByPosition(from);
+            Habit toHabit = allHabits.getByPosition(to);
+            allHabits.reorder(fromHabit, toHabit);
 
             int actualPositions[] = new int[10];
 
             for (int j = 0; j < 10; j++)
             {
-                Habit h = list.getById(j);
+                Habit h = allHabits.getById(j);
                 if (h == null) fail();
-                actualPositions[j] = list.indexOf(h);
+                actualPositions[j] = allHabits.indexOf(h);
             }
 
             assertThat(actualPositions, equalTo(expectedPosition[i]));

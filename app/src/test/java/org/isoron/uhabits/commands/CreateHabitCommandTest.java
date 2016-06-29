@@ -23,8 +23,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.junit.*;
 
-import java.util.*;
-
 import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -44,32 +42,30 @@ public class CreateHabitCommandTest extends BaseUnitTest
 
         model = new Habit();
         model.setName("New habit");
-        command = new CreateHabitCommand(model);
+        command = new CreateHabitCommand(habitList, model);
         fixtures.purgeHabits();
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertTrue(habitList.getAll(true).isEmpty());
+        assertTrue(habitList.isEmpty());
 
         command.execute();
 
-        List<Habit> allHabits = habitList.getAll(true);
-        assertThat(allHabits.size(), equalTo(1));
+        assertThat(habitList.size(), equalTo(1));
 
-        Habit habit = allHabits.get(0);
+        Habit habit = habitList.getByPosition(0);
         Long id = habit.getId();
         assertThat(habit.getName(), equalTo(model.getName()));
 
         command.undo();
-        assertTrue(habitList.getAll(true).isEmpty());
+        assertTrue(habitList.isEmpty());
 
         command.execute();
-        allHabits = habitList.getAll(true);
-        assertThat(allHabits.size(), equalTo(1));
+        assertThat(habitList.size(), equalTo(1));
 
-        habit = allHabits.get(0);
+        habit = habitList.getByPosition(0);
         Long newId = habit.getId();
         assertThat(id, equalTo(newId));
         assertThat(habit.getName(), equalTo(model.getName()));

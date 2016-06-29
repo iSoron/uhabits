@@ -19,29 +19,24 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.util.List;
-
-import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Command to unarchive a list of habits.
  */
 public class UnarchiveHabitsCommand extends Command
 {
-    @Inject
     HabitList habitList;
 
     private List<Habit> habits;
 
-    public UnarchiveHabitsCommand(List<Habit> habits)
+    public UnarchiveHabitsCommand(HabitList habitList, List<Habit> selected)
     {
-        this.habits = habits;
-        HabitsApplication.getComponent().inject(this);
+        this.habits = selected;
+        this.habitList = habitList;
     }
 
     @Override

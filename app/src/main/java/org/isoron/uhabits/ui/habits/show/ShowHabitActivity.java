@@ -38,7 +38,7 @@ import javax.inject.*;
 public class ShowHabitActivity extends BaseActivity
 {
     @Inject
-    HabitList habitList;
+    HabitList habits;
 
     private ShowHabitController controller;
 
@@ -70,7 +70,7 @@ public class ShowHabitActivity extends BaseActivity
     private Habit getHabitFromIntent()
     {
         Uri data = getIntent().getData();
-        Habit habit = habitList.getById(ContentUris.parseId(data));
+        Habit habit = habits.getById(ContentUris.parseId(data));
         if (habit == null) throw new RuntimeException("habit not found");
         return habit;
     }

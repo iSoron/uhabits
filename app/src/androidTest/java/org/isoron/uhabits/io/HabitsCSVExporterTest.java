@@ -19,27 +19,22 @@
 
 package org.isoron.uhabits.io;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.content.*;
+import android.support.test.*;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.io.*;
+import java.util.*;
+import java.util.zip.*;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -63,9 +58,11 @@ public class HabitsCSVExporterTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws IOException
     {
-        List<Habit> habits = habitList.getAll(true);
+        List<Habit> selected = new LinkedList<>();
+        for (Habit h : habitList) selected.add(h);
 
-        HabitsCSVExporter exporter = new HabitsCSVExporter(habits, baseDir);
+        HabitsCSVExporter exporter =
+            new HabitsCSVExporter(habitList, selected, baseDir);
         String filename = exporter.writeArchive();
         assertAbsolutePathExists(filename);
 

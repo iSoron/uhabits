@@ -31,6 +31,7 @@ import org.isoron.uhabits.ui.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
+import java.util.*;
 
 import javax.inject.*;
 
@@ -52,9 +53,9 @@ public class ListHabitsController
     @Inject
     CommandRunner commandRunner;
 
-    public ListHabitsController(@NonNull ListHabitsScreen screen,
-                                @NonNull BaseSystem system,
-                                @NonNull HabitList habitList)
+    public ListHabitsController(@NonNull HabitList habitList,
+                                @NonNull ListHabitsScreen screen,
+                                @NonNull BaseSystem system)
     {
         this.screen = screen;
         this.system = system;
@@ -64,8 +65,13 @@ public class ListHabitsController
 
     public void onExportCSV()
     {
+        List<Habit> selected = new LinkedList<>();
+        for (Habit h : habitList) selected.add(h);
+
+        ProgressBar progressBar = screen.getProgressBar();
         ExportCSVTask task =
-            new ExportCSVTask(habitList.getAll(true), screen.getProgressBar());
+            new ExportCSVTask(habitList, selected, progressBar);
+
         task.setListener(filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
@@ -97,7 +103,8 @@ public class ListHabitsController
 
     public void onImportData(@NonNull File file)
     {
-        ImportDataTask task = new ImportDataTask(file, screen.getProgressBar());
+        ProgressBar bar = screen.getProgressBar();
+        ImportDataTask task = new ImportDataTask(habitList, file, bar);
         task.setListener(this);
         task.execute();
     }

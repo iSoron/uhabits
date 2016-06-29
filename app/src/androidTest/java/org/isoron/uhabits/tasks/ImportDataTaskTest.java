@@ -80,7 +80,7 @@ public class ImportDataTaskTest extends BaseAndroidTest
     {
         File file = new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
         copyAssetToFile(assetFilename, file);
-        return new ImportDataTask(file, null);
+        return new ImportDataTask(habitList, file, null);
     }
 
     @Test

@@ -49,9 +49,10 @@ public class ExportCSVTaskTest extends BaseAndroidTest
     public void testExportCSV() throws Throwable
     {
         fixtures.createShortHabit();
-        List<Habit> habits = habitList.getAll(true);
+        List<Habit> selected = new LinkedList<>();
+        for(Habit h : habitList) selected.add(h);
 
-        ExportCSVTask task = new ExportCSVTask(habits, null);
+        ExportCSVTask task = new ExportCSVTask(habitList, selected, null);
         task.setListener(archiveFilename -> {
             assertThat(archiveFilename, is(not(nullValue())));
 

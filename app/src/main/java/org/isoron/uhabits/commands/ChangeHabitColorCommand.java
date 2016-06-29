@@ -19,46 +19,41 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Command to change the color of a list of habits.
  */
 public class ChangeHabitColorCommand extends Command
 {
-    @Inject
     HabitList habitList;
 
-    List<Habit> habits;
+    List<Habit> selected;
 
     List<Integer> originalColors;
 
     Integer newColor;
 
-    public ChangeHabitColorCommand(List<Habit> habits, Integer newColor)
+    public ChangeHabitColorCommand(HabitList habitList,
+                                   List<Habit> selected,
+                                   Integer newColor)
     {
-        HabitsApplication.getComponent().inject(this);
-
-        this.habits = habits;
+        this.habitList = habitList;
+        this.selected = selected;
         this.newColor = newColor;
-        this.originalColors = new ArrayList<>(habits.size());
+        this.originalColors = new ArrayList<>(selected.size());
 
-        for (Habit h : habits) originalColors.add(h.getColor());
+        for (Habit h : selected) originalColors.add(h.getColor());
     }
 
     @Override
     public void execute()
     {
-        for(Habit h : habits) h.setColor(newColor);
-        habitList.update(habits);
+        for (Habit h : selected) h.setColor(newColor);
+        habitList.update(selected);
     }
 
     @Override
@@ -77,7 +72,7 @@ public class ChangeHabitColorCommand extends Command
     public void undo()
     {
         int k = 0;
-        for (Habit h : habits)  h.setColor(originalColors.get(k++));
-        habitList.update(habits);
+        for (Habit h : selected) h.setColor(originalColors.get(k++));
+        habitList.update(selected);
     }
 }

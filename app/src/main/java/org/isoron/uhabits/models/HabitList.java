@@ -31,9 +31,12 @@ import java.util.*;
 /**
  * An ordered collection of {@link Habit}s.
  */
-public abstract class HabitList
+public abstract class HabitList implements Iterable<Habit>
 {
     private ModelObservable observable;
+
+    @NonNull
+    protected final HabitMatcher filter;
 
     /**
      * Creates a new HabitList.
@@ -45,6 +48,15 @@ public abstract class HabitList
     public HabitList()
     {
         observable = new ModelObservable();
+        filter = new HabitMatcherBuilder()
+            .setArchivedAllowed(true)
+            .build();
+    }
+
+    protected HabitList(@NonNull HabitMatcher filter)
+    {
+        observable = new ModelObservable();
+        this.filter = filter;
     }
 
     /**
@@ -60,30 +72,6 @@ public abstract class HabitList
      */
     public abstract void add(@NonNull Habit habit)
         throws IllegalArgumentException;
-
-    /**
-     * Returns the total number of active habits.
-     *
-     * @return number of active habits
-     */
-    public abstract int countActive();
-
-    /**
-     * Returns the total number of habits, including archived habits.
-     *
-     * @return number of habits, including archived
-     */
-    public abstract int countWithArchived();
-
-    /**
-     * Returns a list of all habits, optionally including archived habits.
-     *
-     * @param includeArchive whether archived habits should be included the
-     *                       list
-     * @return list of all habits
-     */
-    @NonNull
-    public abstract List<Habit> getAll(boolean includeArchive);
 
     /**
      * Returns the habit with specified id.
@@ -110,28 +98,11 @@ public abstract class HabitList
      * @return the list of matching habits
      */
     @NonNull
-    public List<Habit> getFiltered(HabitMatcher matcher)
-    {
-        LinkedList<Habit> habits = new LinkedList<>();
-        for (Habit h : getAll(true)) if (matcher.matches(h)) habits.add(h);
-        return habits;
-    }
+    public abstract HabitList getFiltered(HabitMatcher matcher);
 
     public ModelObservable getObservable()
     {
         return observable;
-    }
-
-    /**
-     * Returns a list the habits that have a reminder. Does not include archived
-     * habits.
-     *
-     * @return list of habits with reminder
-     */
-    @NonNull
-    public List<Habit> getWithReminder()
-    {
-        return getFiltered(habit -> habit.hasReminder());
     }
 
     /**
@@ -143,6 +114,11 @@ public abstract class HabitList
      */
     public abstract int indexOf(@NonNull Habit h);
 
+    public boolean isEmpty()
+    {
+        return size() == 0;
+    }
+
     /**
      * Removes the given habit from the list.
      * <p>
@@ -153,12 +129,29 @@ public abstract class HabitList
     public abstract void remove(@NonNull Habit h);
 
     /**
+     * Removes all the habits from the list.
+     */
+    public void removeAll()
+    {
+        List<Habit> copy = new LinkedList<>();
+        for (Habit h : this) copy.add(h);
+        for (Habit h : copy) remove(h);
+    }
+
+    /**
      * Changes the position of a habit in the list.
      *
      * @param from the habit that should be moved
      * @param to   the habit that currently occupies the desired position
      */
     public abstract void reorder(Habit from, Habit to);
+
+    /**
+     * Returns the number of habits in this list.
+     *
+     * @return number of habits
+     */
+    public abstract int size();
 
     /**
      * Notifies the list that a certain list of habits has been modified.
@@ -206,7 +199,7 @@ public abstract class HabitList
         CSVWriter csv = new CSVWriter(out);
         csv.writeNext(header, false);
 
-        for (Habit habit : getAll(true))
+        for (Habit habit : this)
         {
             Frequency freq = habit.getFrequency();
 
@@ -223,20 +216,5 @@ public abstract class HabitList
         }
 
         csv.close();
-    }
-
-    /**
-     * A HabitMatcher decides whether habits match or not a certain condition.
-     * They can be used to produce filtered lists of habits.
-     */
-    public interface HabitMatcher
-    {
-        /**
-         * Returns true if the given habit matches.
-         *
-         * @param habit the habit to be checked.
-         * @return true if matches, false otherwise.
-         */
-        boolean matches(Habit habit);
     }
 }

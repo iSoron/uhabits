@@ -50,14 +50,15 @@ public class HabitCardListAdapter extends BaseAdapter
     @NonNull
     private final HabitCardListCache cache;
 
-    public HabitCardListAdapter(int checkmarkCount)
+    public HabitCardListAdapter(@NonNull HabitList allHabits,
+                                int checkmarkCount)
     {
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
 
         HabitsApplication.getComponent().inject(this);
 
-        cache = new HabitCardListCache();
+        cache = new HabitCardListCache(allHabits);
         cache.setListener(this);
         cache.setCheckmarkCount(checkmarkCount);
     }
@@ -183,6 +184,11 @@ public class HabitCardListAdapter extends BaseAdapter
     public void reorder(int from, int to)
     {
         cache.reorder(from, to);
+    }
+
+    public void setFilter(HabitMatcher matcher)
+    {
+        cache.setFilter(matcher);
     }
 
     /**

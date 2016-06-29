@@ -85,16 +85,17 @@ public abstract class ReminderUtils
                 pendingIntent);
         else manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
 
-        String name = habit.getName().substring(0, Math.min(3, habit.getName().length()));
+        String name =
+            habit.getName().substring(0, Math.min(3, habit.getName().length()));
         Log.d("ReminderHelper", String.format("Setting alarm (%s): %s",
             DateFormat.getDateTimeInstance().format(new Date(reminderTime)),
             name));
     }
 
-    public static void createReminderAlarms(Context context,
-                                            HabitList habitList)
+    public static void createReminderAlarms(Context context, HabitList habits)
     {
-        for (Habit habit : habitList.getWithReminder())
+        HabitList reminderHabits = habits.getFiltered(HabitMatcher.WITH_ALARM);
+        for (Habit habit : reminderHabits)
             createReminderAlarm(context, habit, null);
     }
 

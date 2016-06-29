@@ -19,133 +19,45 @@
 
 package org.isoron.uhabits.io;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.CheckmarkList;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-import org.isoron.uhabits.models.ScoreList;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.inject.Inject;
+import java.io.*;
+import java.text.*;
+import java.util.*;
+import java.util.zip.*;
 
 /**
  * Class that exports the application data to CSV files.
  */
 public class HabitsCSVExporter
 {
-    private List<Habit> habits;
+    private List<Habit> selectedHabits;
 
     private List<String> generateDirs;
+
     private List<String> generateFilenames;
 
     private String exportDirName;
 
-    @Inject
-    HabitList habitList;
+    @NonNull
+    private final HabitList allHabits;
 
-    public HabitsCSVExporter(List<Habit> habits, File dir)
+    public HabitsCSVExporter(@NonNull HabitList allHabits,
+                             @NonNull List<Habit> selectedHabits,
+                             @NonNull File dir)
     {
         HabitsApplication.getComponent().inject(this);
 
-        this.habits = habits;
+        this.allHabits = allHabits;
+        this.selectedHabits = selectedHabits;
         this.exportDirName = dir.getAbsolutePath() + "/";
 
         generateDirs = new LinkedList<>();
         generateFilenames = new LinkedList<>();
-    }
-
-    private void writeHabits() throws IOException
-    {
-        String filename = "Habits.csv";
-        new File(exportDirName).mkdirs();
-        FileWriter out = new FileWriter(exportDirName + filename);
-        generateFilenames.add(filename);
-        habitList.writeCSV(out);
-        out.close();
-
-        for(Habit h : habits)
-        {
-            String sane = sanitizeFilename(h.getName());
-            String habitDirName = String.format("%03d %s", habitList.indexOf(h) + 1, sane);
-            habitDirName = habitDirName.trim() + "/";
-
-            new File(exportDirName + habitDirName).mkdirs();
-            generateDirs.add(habitDirName);
-
-            writeScores(habitDirName, h.getScores());
-            writeCheckmarks(habitDirName, h.getCheckmarks());
-        }
-    }
-
-    @NonNull
-    private String sanitizeFilename(String name)
-    {
-        String s = name.replaceAll("[^ a-zA-Z0-9\\._-]+", "");
-        return s.substring(0, Math.min(s.length(), 100));
-    }
-
-    private void writeScores(String habitDirName, ScoreList scores) throws IOException
-    {
-        String path = habitDirName + "Scores.csv";
-        FileWriter out = new FileWriter(exportDirName + path);
-        generateFilenames.add(path);
-        scores.writeCSV(out);
-        out.close();
-    }
-
-    private void writeCheckmarks(String habitDirName, CheckmarkList checkmarks) throws IOException
-    {
-        String filename = habitDirName + "Checkmarks.csv";
-        FileWriter out = new FileWriter(exportDirName + filename);
-        generateFilenames.add(filename);
-        checkmarks.writeCSV(out);
-        out.close();
-    }
-
-    private String writeZipFile() throws IOException
-    {
-        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
-        String date = dateFormat.format(DateUtils.getStartOfToday());
-        String zipFilename = String.format("%s/Loop Habits CSV %s.zip", exportDirName, date);
-
-        FileOutputStream fos = new FileOutputStream(zipFilename);
-        ZipOutputStream zos = new ZipOutputStream(fos);
-
-        for(String filename : generateFilenames)
-            addFileToZip(zos, filename);
-
-        zos.close();
-        fos.close();
-
-        return zipFilename;
-    }
-
-    private void addFileToZip(ZipOutputStream zos, String filename) throws IOException
-    {
-        FileInputStream fis = new FileInputStream(new File(exportDirName + filename));
-        ZipEntry ze = new ZipEntry(filename);
-        zos.putNextEntry(ze);
-
-        int length;
-        byte bytes[] = new byte[1024];
-        while((length = fis.read(bytes)) >= 0)
-            zos.write(bytes, 0, length);
-
-        zos.closeEntry();
-        fis.close();
     }
 
     public String writeArchive() throws IOException
@@ -159,14 +71,100 @@ public class HabitsCSVExporter
         return zipFilename;
     }
 
+    private void addFileToZip(ZipOutputStream zos, String filename)
+        throws IOException
+    {
+        FileInputStream fis =
+            new FileInputStream(new File(exportDirName + filename));
+        ZipEntry ze = new ZipEntry(filename);
+        zos.putNextEntry(ze);
+
+        int length;
+        byte bytes[] = new byte[1024];
+        while ((length = fis.read(bytes)) >= 0) zos.write(bytes, 0, length);
+
+        zos.closeEntry();
+        fis.close();
+    }
+
     private void cleanup()
     {
-        for(String filename : generateFilenames)
+        for (String filename : generateFilenames)
             new File(exportDirName + filename).delete();
 
-        for(String filename : generateDirs)
+        for (String filename : generateDirs)
             new File(exportDirName + filename).delete();
 
         new File(exportDirName).delete();
+    }
+
+    @NonNull
+    private String sanitizeFilename(String name)
+    {
+        String s = name.replaceAll("[^ a-zA-Z0-9\\._-]+", "");
+        return s.substring(0, Math.min(s.length(), 100));
+    }
+
+    private void writeCheckmarks(String habitDirName, CheckmarkList checkmarks)
+        throws IOException
+    {
+        String filename = habitDirName + "Checkmarks.csv";
+        FileWriter out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
+        checkmarks.writeCSV(out);
+        out.close();
+    }
+
+    private void writeHabits() throws IOException
+    {
+        String filename = "Habits.csv";
+        new File(exportDirName).mkdirs();
+        FileWriter out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
+        allHabits.writeCSV(out);
+        out.close();
+
+        for (Habit h : selectedHabits)
+        {
+            String sane = sanitizeFilename(h.getName());
+            String habitDirName =
+                String.format("%03d %s", allHabits.indexOf(h) + 1, sane);
+            habitDirName = habitDirName.trim() + "/";
+
+            new File(exportDirName + habitDirName).mkdirs();
+            generateDirs.add(habitDirName);
+
+            writeScores(habitDirName, h.getScores());
+            writeCheckmarks(habitDirName, h.getCheckmarks());
+        }
+    }
+
+    private void writeScores(String habitDirName, ScoreList scores)
+        throws IOException
+    {
+        String path = habitDirName + "Scores.csv";
+        FileWriter out = new FileWriter(exportDirName + path);
+        generateFilenames.add(path);
+        scores.writeCSV(out);
+        out.close();
+    }
+
+    private String writeZipFile() throws IOException
+    {
+        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
+        String date = dateFormat.format(DateUtils.getStartOfToday());
+        String zipFilename =
+            String.format("%s/Loop Habits CSV %s.zip", exportDirName, date);
+
+        FileOutputStream fos = new FileOutputStream(zipFilename);
+        ZipOutputStream zos = new ZipOutputStream(fos);
+
+        for (String filename : generateFilenames)
+            addFileToZip(zos, filename);
+
+        zos.close();
+        fos.close();
+
+        return zipFilename;
     }
 }

@@ -17,33 +17,37 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.edit;
+package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
-
-public class CreateHabitDialogFragment extends BaseDialogFragment
+public class HabitMatcherBuilder
 {
-    @Override
-    protected int getTitle()
+    private boolean archivedAllowed = false;
+
+    private boolean reminderRequired = false;
+
+    private boolean completedAllowed = true;
+
+    public HabitMatcher build()
     {
-        return R.string.create_habit;
+        return new HabitMatcher(archivedAllowed, reminderRequired,
+            completedAllowed);
     }
 
-    @Override
-    protected void initializeHabits()
+    public HabitMatcherBuilder setArchivedAllowed(boolean archivedAllowed)
     {
-        modifiedHabit = new Habit();
-        modifiedHabit.setFrequency(Frequency.DAILY);
-        modifiedHabit.setColor(
-            prefs.getDefaultHabitColor(modifiedHabit.getColor()));
+        this.archivedAllowed = archivedAllowed;
+        return this;
     }
 
-    @Override
-    protected void saveHabit()
+    public HabitMatcherBuilder setCompletedAllowed(boolean completedAllowed)
     {
-        Command command = new CreateHabitCommand(habitList, modifiedHabit);
-        commandRunner.execute(command, null);
+        this.completedAllowed = completedAllowed;
+        return this;
+    }
+
+    public HabitMatcherBuilder setReminderRequired(boolean reminderRequired)
+    {
+        this.reminderRequired = reminderRequired;
+        return this;
     }
 }

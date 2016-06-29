@@ -53,7 +53,7 @@ public class EditHabitCommandTest extends BaseUnitTest
     @Test
     public void testExecuteUndoRedo()
     {
-        command = new EditHabitCommand(habit, modified);
+        command = new EditHabitCommand(habitList, habit, modified);
 
         int originalScore = habit.getScores().getTodayValue();
         assertThat(habit.getName(), equalTo("original"));
@@ -75,7 +75,7 @@ public class EditHabitCommandTest extends BaseUnitTest
     public void testExecuteUndoRedo_withModifiedInterval()
     {
         modified.setFrequency(Frequency.TWO_TIMES_PER_WEEK);
-        command = new EditHabitCommand(habit, modified);
+        command = new EditHabitCommand(habitList, habit, modified);
 
         int originalScore = habit.getScores().getTodayValue();
         assertThat(habit.getName(), equalTo("original"));

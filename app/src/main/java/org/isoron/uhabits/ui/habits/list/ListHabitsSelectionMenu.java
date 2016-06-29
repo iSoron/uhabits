@@ -48,9 +48,14 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Nullable
     private HabitCardListController listController;
 
-    public ListHabitsSelectionMenu(@NonNull ListHabitsScreen screen,
-                                   HabitCardListAdapter listAdapter)
+    @NonNull
+    private final HabitList habitList;
+
+    public ListHabitsSelectionMenu(@NonNull HabitList habitList,
+                                   @NonNull ListHabitsScreen screen,
+                                   @NonNull HabitCardListAdapter listAdapter)
     {
+        this.habitList = habitList;
         this.screen = screen;
         HabitsApplication.getComponent().inject(this);
         this.listAdapter = listAdapter;
@@ -161,13 +166,15 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
 
     private void archive(@NonNull List<Habit> selected)
     {
-        commandRunner.execute(new ArchiveHabitsCommand(selected), null);
+        commandRunner.execute(new ArchiveHabitsCommand(habitList, selected),
+            null);
     }
 
     private void delete(@NonNull List<Habit> selected)
     {
         screen.showDeleteConfirmationScreen(() -> {
-            commandRunner.execute(new DeleteHabitsCommand(selected), null);
+            commandRunner.execute(new DeleteHabitsCommand(habitList, selected),
+                null);
             finish();
         });
     }
@@ -181,14 +188,15 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
                                  @NonNull Habit firstHabit)
     {
         screen.showColorPicker(firstHabit, color -> {
-            commandRunner.execute(new ChangeHabitColorCommand(selected, color),
-                null);
+            commandRunner.execute(
+                new ChangeHabitColorCommand(habitList, selected, color), null);
             finish();
         });
     }
 
     private void unarchive(@NonNull List<Habit> selected)
     {
-        commandRunner.execute(new UnarchiveHabitsCommand(selected), null);
+        commandRunner.execute(new UnarchiveHabitsCommand(habitList, selected),
+            null);
     }
 }

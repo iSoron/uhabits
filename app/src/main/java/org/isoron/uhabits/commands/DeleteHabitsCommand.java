@@ -19,29 +19,24 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.util.List;
-
-import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Command to delete a list of habits.
  */
 public class DeleteHabitsCommand extends Command
 {
-    @Inject
     HabitList habitList;
 
     private List<Habit> habits;
 
-    public DeleteHabitsCommand(List<Habit> habits)
+    public DeleteHabitsCommand(HabitList habitList, List<Habit> habits)
     {
         this.habits = habits;
-        HabitsApplication.getComponent().inject(this);
+        this.habitList = habitList;
     }
 
     @Override

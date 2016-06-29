@@ -22,14 +22,11 @@ package org.isoron.uhabits.commands;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
-import javax.inject.*;
-
 /**
  * Command to modify a habit.
  */
 public class EditHabitCommand extends Command
 {
-    @Inject
     HabitList habitList;
 
     private Habit original;
@@ -40,10 +37,9 @@ public class EditHabitCommand extends Command
 
     private boolean hasFrequencyChanged;
 
-    public EditHabitCommand(Habit original, Habit modified)
+    public EditHabitCommand(HabitList habitList, Habit original, Habit modified)
     {
-        HabitsApplication.getComponent().inject(this);
-
+        this.habitList = habitList;
         this.savedId = original.getId();
         this.modified = new Habit();
         this.original = new Habit();

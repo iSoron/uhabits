@@ -19,30 +19,33 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.io.HabitsCSVExporter;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class ExportCSVTask extends BaseTask
 {
-    public interface Listener
-    {
-        void onExportCSVFinished(@Nullable String archiveFilename);
-    }
-
     private ProgressBar progressBar;
+
     private final List<Habit> selectedHabits;
+
     private String archiveFilename;
+
     private ExportCSVTask.Listener listener;
 
-    public ExportCSVTask(List<Habit> selectedHabits, ProgressBar progressBar)
+    @NonNull
+    private final HabitList habitList;
+
+    public ExportCSVTask(HabitList habitList,
+                         List<Habit> selectedHabits,
+                         ProgressBar progressBar)
     {
+        this.habitList = habitList;
         this.selectedHabits = selectedHabits;
         this.progressBar = progressBar;
     }
@@ -53,36 +56,41 @@ public class ExportCSVTask extends BaseTask
     }
 
     @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-        if(progressBar != null) progressBar.show();
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        if(listener != null)
-            listener.onExportCSVFinished(archiveFilename);
-
-        if(progressBar != null) progressBar.hide();
-        super.onPostExecute(null);
-    }
-
-    @Override
     protected void doInBackground()
     {
         try
         {
             File dir = FileUtils.getFilesDir("CSV");
-            if(dir == null) return;
+            if (dir == null) return;
 
-            HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dir);
+            HabitsCSVExporter exporter =
+                new HabitsCSVExporter(habitList, selectedHabits, dir);
             archiveFilename = exporter.writeArchive();
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+        if (listener != null) listener.onExportCSVFinished(archiveFilename);
+
+        if (progressBar != null) progressBar.hide();
+        super.onPostExecute(null);
+    }
+
+    @Override
+    protected void onPreExecute()
+    {
+        super.onPreExecute();
+        if (progressBar != null) progressBar.show();
+    }
+
+    public interface Listener
+    {
+        void onExportCSVFinished(@Nullable String archiveFilename);
     }
 }

@@ -82,7 +82,6 @@ public class HabitRecord extends Model implements SQLiteRecord
 
     public HabitRecord()
     {
-
     }
 
     @Nullable
@@ -149,7 +148,7 @@ public class HabitRecord extends Model implements SQLiteRecord
         this.freqNum = freq.getNumerator();
         this.freqDen = freq.getDenominator();
 
-        if(model.hasReminder())
+        if (model.hasReminder())
         {
             Reminder reminder = model.getReminder();
             this.reminderHour = reminder.getHour();

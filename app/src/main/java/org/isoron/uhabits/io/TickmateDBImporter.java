@@ -36,6 +36,11 @@ import java.util.GregorianCalendar;
  */
 public class TickmateDBImporter extends AbstractImporter
 {
+    public TickmateDBImporter(HabitList habits)
+    {
+        super(habits);
+    }
+
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
@@ -118,7 +123,7 @@ public class TickmateDBImporter extends AbstractImporter
                 habit.setName(name);
                 habit.setDescription(description);
                 habit.setFrequency(Frequency.DAILY);
-                habitList.add(habit);
+                habits.add(habit);
 
                 createCheckmarks(db, habit, id);
 

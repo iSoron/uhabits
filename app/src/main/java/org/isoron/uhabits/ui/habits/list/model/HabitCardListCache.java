@@ -60,19 +60,23 @@ public class HabitCardListCache implements CommandRunner.Listener
     @Inject
     CommandRunner commandRunner;
 
-    @Inject
-    HabitList allHabits;
+    @NonNull
+    private HabitList allHabits;
 
-    public HabitCardListCache()
+    @NonNull
+    private HabitList filteredHabits;
+
+    public HabitCardListCache(@NonNull HabitList allHabits)
     {
+        this.allHabits = allHabits;
+        this.filteredHabits = allHabits;
         data = new CacheData();
         HabitsApplication.getComponent().inject(this);
     }
 
     public void cancelTasks()
     {
-        if(currentFetchTask != null)
-            currentFetchTask.cancel(true);
+        if (currentFetchTask != null) currentFetchTask.cancel(true);
     }
 
     public int[] getCheckmarks(long habitId)
@@ -90,12 +94,22 @@ public class HabitCardListCache implements CommandRunner.Listener
     @NonNull
     public Habit getHabitByPosition(int position)
     {
-        return data.habitsList.get(position);
+        return data.habits.get(position);
     }
 
     public int getHabitCount()
     {
         return data.habits.size();
+    }
+
+    public boolean getIncludeArchived()
+    {
+        return includeArchived;
+    }
+
+    public void setIncludeArchived(boolean includeArchived)
+    {
+        this.includeArchived = includeArchived;
     }
 
     @Nullable
@@ -107,11 +121,6 @@ public class HabitCardListCache implements CommandRunner.Listener
     public int getScore(long habitId)
     {
         return data.scores.get(habitId);
-    }
-
-    public boolean getIncludeArchived()
-    {
-        return includeArchived;
     }
 
     public void onAttached()
@@ -149,10 +158,10 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     public void reorder(int from, int to)
     {
-        Habit fromHabit = data.habitsList.get(from);
-        data.habitsList.remove(from);
-        data.habitsList.add(to, fromHabit);
-        if(listener != null) listener.onCacheRefresh();
+        Habit fromHabit = data.habits.get(from);
+        data.habits.remove(from);
+        data.habits.add(to, fromHabit);
+        if (listener != null) listener.onCacheRefresh();
     }
 
     public void setCheckmarkCount(int checkmarkCount)
@@ -160,9 +169,9 @@ public class HabitCardListCache implements CommandRunner.Listener
         this.checkmarkCount = checkmarkCount;
     }
 
-    public void setIncludeArchived(boolean includeArchived)
+    public void setFilter(HabitMatcher matcher)
     {
-        this.includeArchived = includeArchived;
+        filteredHabits = allHabits.getFiltered(matcher);
     }
 
     public void setListener(@Nullable Listener listener)
@@ -185,10 +194,10 @@ public class HabitCardListCache implements CommandRunner.Listener
     private class CacheData
     {
         @NonNull
-        public HashMap<Long, Habit> habits;
+        public HashMap<Long, Habit> map;
 
         @NonNull
-        public List<Habit> habitsList;
+        public List<Habit> habits;
 
         @NonNull
         public HashMap<Long, int[]> checkmarks;
@@ -201,8 +210,8 @@ public class HabitCardListCache implements CommandRunner.Listener
          */
         public CacheData()
         {
-            habits = new HashMap<>();
-            habitsList = new LinkedList<>();
+            map = new HashMap<>();
+            habits = new LinkedList<>();
             checkmarks = new HashMap<>();
             scores = new HashMap<>();
         }
@@ -211,7 +220,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         {
             int[] empty = new int[checkmarkCount];
 
-            for (Long id : habits.keySet())
+            for (Long id : map.keySet())
             {
                 if (oldData.checkmarks.containsKey(id))
                     checkmarks.put(id, oldData.checkmarks.get(id));
@@ -221,7 +230,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 
         public void copyScoresFrom(@NonNull CacheData oldData)
         {
-            for (Long id : habits.keySet())
+            for (Long id : map.keySet())
             {
                 if (oldData.scores.containsKey(id))
                     scores.put(id, oldData.scores.get(id));
@@ -231,9 +240,11 @@ public class HabitCardListCache implements CommandRunner.Listener
 
         public void fetchHabits()
         {
-            habitsList = allHabits.getAll(includeArchived);
-            for (Habit h : habitsList)
-                habits.put(h.getId(), h);
+            for (Habit h : filteredHabits)
+            {
+                habits.add(h);
+                map.put(h.getId(), h);
+            }
         }
     }
 
@@ -248,11 +259,6 @@ public class HabitCardListCache implements CommandRunner.Listener
         {
             this.refreshScoresAndCheckmarks = refreshScoresAndCheckmarks;
             newData = new CacheData();
-        }
-
-        private void commit()
-        {
-            data = newData;
         }
 
         @Override
@@ -272,7 +278,7 @@ public class HabitCardListCache implements CommandRunner.Listener
                 dateTo - (checkmarkCount - 1) * DateUtils.millisecondsInOneDay;
 
             int current = 0;
-            for (Habit h : newData.habitsList)
+            for (Habit h : newData.habits)
             {
                 if (isCancelled()) return;
 
@@ -282,19 +288,7 @@ public class HabitCardListCache implements CommandRunner.Listener
                     h.getCheckmarks().getValues(dateFrom, dateTo));
 
 //                sleep(1000);
-                publishProgress(current++, newData.habits.size());
-            }
-        }
-
-        private void sleep(int time)
-        {
-            try
-            {
-                Thread.sleep(time);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
+                publishProgress(current++, newData.map.size());
             }
         }
 
@@ -314,6 +308,23 @@ public class HabitCardListCache implements CommandRunner.Listener
         protected void onProgressUpdate(Integer... values)
         {
             if (listener != null) listener.onCacheRefresh();
+        }
+
+        private void commit()
+        {
+            data = newData;
+        }
+
+        private void sleep(int time)
+        {
+            try
+            {
+                Thread.sleep(time);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -337,9 +348,10 @@ public class HabitCardListCache implements CommandRunner.Listener
             Habit h = allHabits.getById(id);
             if (h == null) return;
 
-            data.habits.put(id, h);
+            data.map.put(id, h);
             data.scores.put(id, h.getScores().getTodayValue());
-            data.checkmarks.put(id, h.getCheckmarks().getValues(dateFrom, dateTo));
+            data.checkmarks.put(id,
+                h.getCheckmarks().getValues(dateFrom, dateTo));
         }
 
         @Override

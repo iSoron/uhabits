@@ -19,12 +19,11 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
-import android.os.Bundle;
+import android.os.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.commands.Command;
-import org.isoron.uhabits.commands.EditHabitCommand;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
 
 public class EditHabitDialogFragment extends BaseDialogFragment
 {
@@ -58,7 +57,8 @@ public class EditHabitDialogFragment extends BaseDialogFragment
     @Override
     protected void saveHabit()
     {
-        Command command = new EditHabitCommand(originalHabit, modifiedHabit);
+        Command command =
+            new EditHabitCommand(habitList, originalHabit, modifiedHabit);
         commandRunner.execute(command, originalHabit.getId());
     }
 }

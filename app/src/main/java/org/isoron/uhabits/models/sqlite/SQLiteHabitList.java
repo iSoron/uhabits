@@ -19,12 +19,11 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import com.activeandroid.*;
 import com.activeandroid.query.*;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 
@@ -41,9 +40,17 @@ public class SQLiteHabitList extends HabitList
 
     private final SQLiteUtils<HabitRecord> sqlite;
 
-
-    private SQLiteHabitList()
+    protected SQLiteHabitList()
     {
+        super();
+        cache = new HashMap<>();
+        sqlite = new SQLiteUtils<>(HabitRecord.class);
+    }
+
+    protected SQLiteHabitList(
+        @NonNull org.isoron.uhabits.models.HabitMatcher filter)
+    {
+        super(filter);
         cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
@@ -70,7 +77,7 @@ public class SQLiteHabitList extends HabitList
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
-        record.position = countWithArchived();
+        record.position = size();
 
         Long id = habit.getId();
         if (id == null) id = record.save();
@@ -78,52 +85,6 @@ public class SQLiteHabitList extends HabitList
 
         habit.setId(id);
         cache.put(id, habit);
-    }
-
-    @Override
-    public int countActive()
-    {
-        SQLiteDatabase db = Cache.openDatabase();
-        SQLiteStatement st = db.compileStatement(
-            "select count(*) from habits where archived = 0");
-        return (int) st.simpleQueryForLong();
-    }
-
-    @Override
-    public int countWithArchived()
-    {
-        SQLiteDatabase db = Cache.openDatabase();
-        SQLiteStatement st = db.compileStatement("select count(*) from habits");
-        return (int) st.simpleQueryForLong();
-    }
-
-    @Override
-    @NonNull
-    public List<Habit> getAll(boolean includeArchive)
-    {
-        List<HabitRecord> recordList;
-        if (includeArchive)
-        {
-            String query = HabitRecord.SELECT + "order by position";
-            recordList = sqlite.query(query, null);
-        }
-        else
-        {
-            String query = HabitRecord.SELECT + "where archived = 0 " +
-                           "order by position";
-            recordList = sqlite.query(query, null);
-        }
-
-        List<Habit> habits = new LinkedList<>();
-        for (HabitRecord record : recordList)
-        {
-            Habit habit = getById(record.getId());
-            if (habit == null)
-                throw new RuntimeException("habit not in database");
-            habits.add(habit);
-        }
-
-        return habits;
     }
 
     @Override
@@ -147,26 +108,36 @@ public class SQLiteHabitList extends HabitList
     @Nullable
     public Habit getByPosition(int position)
     {
-        String query = HabitRecord.SELECT + "where position = ? limit 1";
+        String query = buildSelectQuery() + "limit 1 offset ?";
         String params[] = { Integer.toString(position) };
         HabitRecord record = sqlite.querySingle(query, params);
         if (record != null) return getById(record.getId());
         return null;
     }
 
+    @NonNull
+    @Override
+    public HabitList getFiltered(org.isoron.uhabits.models.HabitMatcher filter)
+    {
+        return new SQLiteHabitList(filter);
+    }
+
     @Override
     public int indexOf(@NonNull Habit h)
     {
-        if (h.getId() == null) return -1;
-        HabitRecord record = HabitRecord.get(h.getId());
-        if (record == null) return -1;
-        return record.position;
+        return toList().indexOf(h);
+    }
+
+    @Override
+    public Iterator<Habit> iterator()
+    {
+        return Collections.unmodifiableCollection(toList()).iterator();
     }
 
     @Deprecated
     public void rebuildOrder()
     {
-        List<Habit> habits = getAll(true);
+        List<Habit> habits = toList();
 
         int i = 0;
         for (Habit h : habits)
@@ -193,6 +164,16 @@ public class SQLiteHabitList extends HabitList
         if (record == null) throw new RuntimeException("habit not in database");
         record.cascadeDelete();
         rebuildOrder();
+    }
+
+    @Override
+    public void removeAll()
+    {
+        sqlite.query("delete from checkmarks", null);
+        sqlite.query("delete from score", null);
+        sqlite.query("delete from streak", null);
+        sqlite.query("delete from repetitions", null);
+        sqlite.query("delete from habits", null);
     }
 
     @Override
@@ -229,6 +210,16 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
+    public int size()
+    {
+//        SQLiteDatabase db = Cache.openDatabase();
+//        SQLiteStatement st = db.compileStatement(buildCountQuery());
+//        return (int) st.simpleQueryForLong();
+
+        return toList().size();
+    }
+
+    @Override
     public void update(List<Habit> habits)
     {
         for (Habit h : habits)
@@ -241,4 +232,66 @@ public class SQLiteHabitList extends HabitList
         }
     }
 
+    protected List<Habit> toList()
+    {
+        String query = buildSelectQuery();
+        List<HabitRecord> recordList = sqlite.query(query, null);
+
+        List<Habit> habits = new LinkedList<>();
+        for (HabitRecord record : recordList)
+        {
+            Habit habit = getById(record.getId());
+            if (habit == null)
+                throw new RuntimeException("habit not in database");
+
+            if(!filter.matches(habit)) continue;
+            habits.add(habit);
+        }
+
+        return habits;
+    }
+
+    private void appendCount(StringBuilder query)
+    {
+        query.append("select count (*) from habits ");
+    }
+
+    private void appendOrderBy(StringBuilder query)
+    {
+        query.append("order by position ");
+    }
+
+    private void appendSelect(StringBuilder query)
+    {
+        query.append(HabitRecord.SELECT);
+    }
+
+    private void appendWhere(StringBuilder query)
+    {
+        ArrayList<Object> where = new ArrayList<>();
+        if (filter.isReminderRequired()) where.add("reminder_hour is not null");
+        if (!filter.isArchivedAllowed()) where.add("archived = 0");
+
+        if(where.isEmpty()) return;
+        query.append("where ");
+        query.append(StringUtils.join(where, " and "));
+        query.append(" ");
+    }
+
+    private String buildCountQuery()
+    {
+        StringBuilder query = new StringBuilder();
+        appendCount(query);
+        appendWhere(query);
+        return query.toString();
+    }
+
+    private String buildSelectQuery()
+    {
+        StringBuilder query = new StringBuilder();
+        appendSelect(query);
+        appendWhere(query);
+        appendOrderBy(query);
+        return query.toString();
+    }
 }

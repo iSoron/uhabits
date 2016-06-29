@@ -44,6 +44,7 @@ public class ImportTest extends BaseAndroidTest
 
     private Context context;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -61,10 +62,9 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("habitbull.csv");
 
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(4));
+        assertThat(habitList.size(), equalTo(4));
 
-        Habit habit = habits.get(0);
+        Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Breed dragons"));
         assertThat(habit.getDescription(), equalTo("with love and fire"));
         assertThat(habit.getFrequency(), equalTo(Frequency.DAILY));
@@ -78,10 +78,9 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("loop.db");
 
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(9));
+        assertThat(habitList.size(), equalTo(9));
 
-        Habit habit = habits.get(0);
+        Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
         assertThat(habit.getFrequency(), equalTo(Frequency.THREE_TIMES_PER_WEEK));
         assertTrue(containsRepetition(habit, 2016, 3, 14));
@@ -94,10 +93,9 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("rewire.db");
 
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(3));
+        assertThat(habitList.size(), equalTo(3));
 
-        Habit habit = habits.get(0);
+        Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
         assertThat(habit.getFrequency(),
             equalTo(Frequency.THREE_TIMES_PER_WEEK));
@@ -107,7 +105,7 @@ public class ImportTest extends BaseAndroidTest
         assertTrue(containsRepetition(habit, 2016, 1, 28));
         assertFalse(containsRepetition(habit, 2016, 3, 10));
 
-        habit = habits.get(1);
+        habit = habitList.getByPosition(1);
         assertThat(habit.getName(), equalTo("brush teeth"));
         assertThat(habit.getFrequency(),
             equalTo(Frequency.THREE_TIMES_PER_WEEK));
@@ -126,10 +124,9 @@ public class ImportTest extends BaseAndroidTest
     {
         importFromFile("tickmate.db");
 
-        List<Habit> habits = habitList.getAll(true);
-        assertThat(habits.size(), equalTo(3));
+        assertThat(habitList.size(), equalTo(3));
 
-        Habit h = habits.get(0);
+        Habit h = habitList.getByPosition(0);
         assertThat(h.getName(), equalTo("Vegan"));
         assertTrue(containsRepetition(h, 2016, 1, 24));
         assertTrue(containsRepetition(h, 2016, 2, 5));
@@ -158,7 +155,7 @@ public class ImportTest extends BaseAndroidTest
         assertTrue(file.exists());
         assertTrue(file.canRead());
 
-        GenericImporter importer = new GenericImporter();
+        GenericImporter importer = new GenericImporter(habitList);
         assertThat(importer.canHandle(file), is(true));
 
         importer.importHabitsFromFile(file);

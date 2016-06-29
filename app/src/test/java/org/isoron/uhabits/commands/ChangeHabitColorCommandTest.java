@@ -49,7 +49,7 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
             habits.add(habit);
         }
 
-        command = new ChangeHabitColorCommand(habits, 0);
+        command = new ChangeHabitColorCommand(habitList, habits, 0);
     }
 
     @Test

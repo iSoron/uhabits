@@ -19,28 +19,23 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.models.HabitList;
-
-import javax.inject.Inject;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
 /**
  * Command to create a habit.
  */
 public class CreateHabitCommand extends Command
 {
-    @Inject
     HabitList habitList;
 
     private Habit model;
     private Long savedId;
 
-    public CreateHabitCommand(Habit model)
+    public CreateHabitCommand(HabitList habitList, Habit model)
     {
+        this.habitList = habitList;
         this.model = model;
-        HabitsApplication.getComponent().inject(this);
     }
 
     @Override

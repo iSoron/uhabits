@@ -45,10 +45,13 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    private SQLiteHabitList habitList;
+
     @Override
     public void setUp()
     {
         super.setUp();
+        this.habitList = (SQLiteHabitList) super.habitList;
         fixtures.purgeHabits(habitList);
 
         for (int i = 0; i < 10; i++)
@@ -105,35 +108,29 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     }
 
     @Test
-    public void testCountActive()
+    public void testSize()
     {
-        assertThat(habitList.countActive(), equalTo(5));
-    }
-
-    @Test
-    public void testCountWithArchived()
-    {
-        assertThat(habitList.countWithArchived(), equalTo(10));
+        assertThat(habitList.size(), equalTo(10));
     }
 
     @Test
     public void testGetAll_withArchived()
     {
-        List<Habit> habits = habitList.getAll(true);
+        List<Habit> habits = habitList.toList();
         assertThat(habits.size(), equalTo(10));
         assertThat(habits.get(3).getName(), equalTo("habit 3"));
     }
 
-    @Test
-    public void testGetAll_withoutArchived()
-    {
-        List<Habit> habits = habitList.getAll(false);
-        assertThat(habits.size(), equalTo(5));
-        assertThat(habits.get(3).getName(), equalTo("habit 7"));
-
-        List<Habit> another = habitList.getAll(false);
-        assertThat(habits, equalTo(another));
-    }
+//    @Test
+//    public void testGetAll_withoutArchived()
+//    {
+//        List<Habit> habits = habitList.toList();
+//        assertThat(habits.size(), equalTo(5));
+//        assertThat(habits.get(3).getName(), equalTo("habit 7"));
+//
+//        List<Habit> another = habitList.toList();
+//        assertThat(habits, equalTo(another));
+//    }
 
     @Test
     public void testGetById()

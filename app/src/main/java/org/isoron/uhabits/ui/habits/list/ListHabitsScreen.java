@@ -76,6 +76,11 @@ public class ListHabitsScreen extends BaseScreen
         }
     }
 
+    public void setController(@Nullable ListHabitsController controller)
+    {
+        this.controller = controller;
+    }
+
     public void showAboutScreen()
     {
         Intent intent = new Intent(activity, AboutActivity.class);

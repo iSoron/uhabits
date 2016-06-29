@@ -58,17 +58,17 @@ public class DeleteHabitsCommandTest extends BaseUnitTest
         Habit extraHabit = fixtures.createShortHabit();
         extraHabit.setName("extra");
 
-        command = new DeleteHabitsCommand(habits);
+        command = new DeleteHabitsCommand(habitList, habits);
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertThat(habitList.getAll(true).size(), equalTo(4));
+        assertThat(habitList.size(), equalTo(4));
 
         command.execute();
-        assertThat(habitList.getAll(true).size(), equalTo(1));
-        assertThat(habitList.getAll(true).get(0).getName(), equalTo("extra"));
+        assertThat(habitList.size(), equalTo(1));
+        assertThat(habitList.getByPosition(0).getName(), equalTo("extra"));
 
         thrown.expect(UnsupportedOperationException.class);
         command.undo();

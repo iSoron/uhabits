@@ -35,6 +35,11 @@ import java.util.*;
  */
 public class RewireDBImporter extends AbstractImporter
 {
+    public RewireDBImporter(HabitList habits)
+    {
+        super(habits);
+    }
+
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
@@ -157,7 +162,7 @@ public class RewireDBImporter extends AbstractImporter
                 }
 
                 habit.setFrequency(new Frequency(numerator, denominator));
-                habitList.add(habit);
+                habits.add(habit);
 
                 createReminder(db, habit, id);
                 createCheckmarks(db, habit, id);
@@ -202,7 +207,7 @@ public class RewireDBImporter extends AbstractImporter
 
             Reminder reminder = new Reminder(hour, minute, days);
             habit.setReminder(reminder);
-            habitList.update(habit);
+            habits.update(habit);
         }
         finally
         {

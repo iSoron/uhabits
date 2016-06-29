@@ -34,7 +34,7 @@ import javax.inject.*;
 public class ListHabitsActivity extends BaseActivity
 {
     @Inject
-    HabitList habitList;
+    HabitList habits;
 
     private HabitCardListAdapter adapter;
 
@@ -59,14 +59,22 @@ public class ListHabitsActivity extends BaseActivity
         int checkmarkCount = ListHabitsRootView.MAX_CHECKMARK_COUNT;
 
         system = new BaseSystem(this);
-        adapter = new HabitCardListAdapter(checkmarkCount);
+        adapter = new HabitCardListAdapter(habits, checkmarkCount);
+
+//        HabitMatcher matcher = new HabitMatcherBuilder()
+//            .setCompletedAllowed(false)
+//            .setArchivedAllowed(false)
+//            .build();
+//        adapter.setFilter(matcher);
+
         rootView = new ListHabitsRootView(this, adapter);
         screen = new ListHabitsScreen(this, rootView);
         menu = new ListHabitsMenu(this, screen, adapter);
-        selectionMenu = new ListHabitsSelectionMenu(screen, adapter);
-        controller = new ListHabitsController(screen, system, habitList);
+        selectionMenu = new ListHabitsSelectionMenu(habits, screen, adapter);
+        controller = new ListHabitsController(habits, screen, system);
 
         screen.setMenu(menu);
+        screen.setController(controller);
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 

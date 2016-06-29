@@ -82,8 +82,7 @@ public class HabitPickerDialog extends Activity
         habitIds = new ArrayList<>();
         ArrayList<String> habitNames = new ArrayList<>();
 
-        List<Habit> habits = habitList.getAll(false);
-        for (Habit h : habits)
+        for (Habit h : habitList)
         {
             habitIds.add(h.getId());
             habitNames.add(h.getName());

@@ -55,7 +55,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         "org.isoron.uhabits.ACTION_SNOOZE";
 
     @Inject
-    HabitList habitList;
+    HabitList habits;
 
     @Inject
     CommandRunner commandRunner;
@@ -99,7 +99,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 break;
 
             case Intent.ACTION_BOOT_COMPLETED:
-                ReminderUtils.createReminderAlarms(context, habitList);
+                ReminderUtils.createReminderAlarms(context, habits);
                 break;
         }
     }
@@ -111,7 +111,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         Long timestamp = intent.getLongExtra("timestamp", today);
 
         long habitId = ContentUris.parseId(data);
-        Habit habit = habitList.getById(habitId);
+        Habit habit = habits.getById(habitId);
         if (habit != null)
         {
             ToggleRepetitionCommand command =
@@ -140,7 +140,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     private void createNotification(final Context context, final Intent intent)
     {
         final Uri data = intent.getData();
-        final Habit habit = habitList.getById(ContentUris.parseId(data));
+        final Habit habit = habits.getById(ContentUris.parseId(data));
         final Long timestamp =
             intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
         final Long reminderTime =
@@ -223,7 +223,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     private void createReminderAlarmsDelayed(final Context context)
     {
         new Handler().postDelayed(
-            () -> ReminderUtils.createReminderAlarms(context, habitList), 5000);
+            () -> ReminderUtils.createReminderAlarms(context, habits), 5000);
     }
 
     private void dismissAllHabits()
@@ -250,7 +250,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
 
         long habitId = ContentUris.parseId(data);
-        Habit habit = habitList.getById(habitId);
+        Habit habit = habits.getById(habitId);
         if (habit != null) ReminderUtils.createReminderAlarm(context, habit,
             new Date().getTime() + delayMinutes * 60 * 1000);
         dismissNotification(context, habitId);

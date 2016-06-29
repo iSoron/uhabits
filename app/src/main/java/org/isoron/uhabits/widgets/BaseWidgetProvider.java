@@ -39,7 +39,7 @@ import static org.isoron.uhabits.utils.WidgetUtils.*;
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
     @Inject
-    HabitList habitList;
+    HabitList habits;
 
     @Inject
     WidgetPreferences widgetPrefs;
@@ -105,7 +105,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     protected Habit getHabitFromWidgetId(int widgetId)
     {
         long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
-        Habit habit = habitList.getById(habitId);
+        Habit habit = habits.getById(habitId);
         if (habit == null) throw new RuntimeException("habit not found");
         return habit;
     }

@@ -25,6 +25,7 @@ import android.support.annotation.NonNull;
 
 import com.activeandroid.ActiveAndroid;
 
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.FileUtils;
 
@@ -36,6 +37,11 @@ import java.io.IOException;
  */
 public class LoopDBImporter extends AbstractImporter
 {
+    public LoopDBImporter(HabitList habits)
+    {
+        super(habits);
+    }
+
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
