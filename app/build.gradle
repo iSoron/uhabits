@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -13,7 +15,7 @@ android {
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //testInstrumentationRunnerArgument "size", "small"
+        testInstrumentationRunnerArgument "size", "medium"
     }
 
     buildTypes {
@@ -29,6 +31,22 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
+
 }
 
 dependencies {
@@ -40,12 +58,29 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'com.opencsv:opencsv:3.7'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'org.jetbrains:annotations-java5:15.0'
+
+    compile 'com.jakewharton:butterknife:8.0.1'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+
+    compile 'com.google.dagger:dagger:2.2'
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    testApt 'com.google.dagger:dagger-compiler:2.2'
+    androidTestApt 'com.google.dagger:dagger-compiler:2.2'
+    provided 'javax.annotation:jsr250-api:1.0'
 
     compile project(':libs:drag-sort-listview:library')
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 
     androidTestCompile 'com.android.support:support-annotations:23.3.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
         exclude group: 'com.android.support'
@@ -60,13 +95,6 @@ dependencies {
     }
 }
 
-
-task grantAnimationPermission(type: Exec, dependsOn: 'installDebug') {
-    commandLine "adb shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE".split(' ')
-}
-
-tasks.whenTaskAdded { task ->
-    if (task.name.startsWith('connected')) {
-        task.dependsOn grantAnimationPermission
-    }
+retrolambda {
+    defaultMethods true
 }

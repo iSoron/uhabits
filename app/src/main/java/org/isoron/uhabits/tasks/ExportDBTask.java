@@ -20,10 +20,9 @@
 package org.isoron.uhabits.tasks;
 
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.DatabaseUtils;
+import org.isoron.uhabits.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,23 +52,14 @@ public class ExportDBTask extends BaseTask
     protected void onPreExecute()
     {
         super.onPreExecute();
-
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        if(progressBar != null) progressBar.show();
     }
 
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        if(listener != null)
-            listener.onExportDBFinished(filename);
-        
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
+        if(listener != null) listener.onExportDBFinished(filename);
+        if(progressBar != null) progressBar.hide();
         super.onPostExecute(null);
     }
 
@@ -80,10 +70,10 @@ public class ExportDBTask extends BaseTask
 
         try
         {
-            File dir = DatabaseHelper.getFilesDir("Backups");
+            File dir = FileUtils.getFilesDir("Backups");
             if(dir == null) return;
 
-            filename = DatabaseHelper.saveDatabaseCopy(dir);
+            filename = DatabaseUtils.saveDatabaseCopy(dir);
         }
         catch(IOException e)
         {

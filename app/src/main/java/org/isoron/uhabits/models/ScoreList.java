@@ -19,279 +19,60 @@
 
 package org.isoron.uhabits.models;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import com.activeandroid.Cache;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
-import com.activeandroid.util.SQLiteUtils;
+import org.isoron.uhabits.utils.*;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class ScoreList
+public abstract class ScoreList implements Iterable<Score>
 {
-    @NonNull
-    private Habit habit;
+    protected final Habit habit;
+
+    protected ModelObservable observable;
 
     /**
-     * Constructs a new ScoreList associated with the given habit.
+     * Creates a new ScoreList for the given habit.
+     * <p>
+     * The list is populated automatically according to the repetitions that the
+     * habit has.
      *
-     * @param habit the habit this list should be associated with
+     * @param habit the habit to which the scores belong.
      */
-    public ScoreList(@NonNull Habit habit)
+    public ScoreList(Habit habit)
     {
         this.habit = habit;
-    }
-
-    protected From select()
-    {
-        return new Select()
-                .from(Score.class)
-                .where("habit = ?", habit.getId())
-                .orderBy("timestamp desc");
+        observable = new ModelObservable();
     }
 
     /**
-     * Marks all scores that have timestamp equal to or newer than the given timestamp as invalid.
-     * Any following getValue calls will trigger the scores to be recomputed.
+     * Adds the given scores to the list.
+     * <p>
+     * This method should not be called by the application, since the scores are
+     * computed automatically from the list of repetitions.
      *
-     * @param timestamp the oldest timestamp that should be invalidated
+     * @param scores the scores to add.
      */
-    public void invalidateNewerThan(long timestamp)
-    {
-        new Delete().from(Score.class)
-                .where("habit = ?", habit.getId())
-                .and("timestamp >= ?", timestamp)
-                .execute();
-    }
+    public abstract void add(List<Score> scores);
+
+    public abstract List<Score> getAll();
 
     /**
-     * Computes and saves the scores that are missing since the first repetition of the habit.
-     */
-    private void computeAll()
-    {
-        long fromTimestamp = habit.repetitions.getOldestTimestamp();
-        if(fromTimestamp == 0) return;
-
-        long toTimestamp = DateHelper.getStartOfToday();
-        compute(fromTimestamp, toTimestamp);
-    }
-
-    /**
-     * Computes and saves the scores that are missing inside a given time interval.  Scores that
-     * have already been computed are skipped, therefore there is no harm in calling this function
-     * more times, or with larger intervals, than strictly needed. The endpoints of the interval are
-     * included.
+     * Returns the score that has the given timestamp.
+     * <p>
+     * If no such score exists, returns null.
      *
-     * This function assumes that there are no gaps on the scores. That is, if the newest score has
-     * timestamp t, then every score with timestamp lower than t has already been computed.
-     *
-     * @param from timestamp of the beginning of the interval
-     * @param to timestamp of the end of the time interval
-     */
-    protected void compute(long from, long to)
-    {
-        UIHelper.throwIfMainThread();
-
-        final long day = DateHelper.millisecondsInOneDay;
-        final double freq = ((double) habit.freqNum) / habit.freqDen;
-
-        int newestScoreValue = findNewestValue();
-        long newestTimestamp = findNewestTimestamp();
-
-        if(newestTimestamp > 0)
-            from = newestTimestamp + day;
-
-        final int checkmarkValues[] = habit.checkmarks.getValues(from, to);
-        final long beginning = from;
-
-        int lastScore = newestScoreValue;
-        int size = checkmarkValues.length;
-
-        long timestamps[] = new long[size];
-        long values[] = new long[size];
-
-        for (int i = 0; i < checkmarkValues.length; i++)
-        {
-            int checkmarkValue = checkmarkValues[checkmarkValues.length - i - 1];
-            lastScore = Score.compute(freq, lastScore, checkmarkValue);
-            timestamps[i] = beginning + day * i;
-            values[i] = lastScore;
-        }
-
-        insert(timestamps, values);
-    }
-
-    /**
-     * Returns the value of the most recent score that was already computed. If no score has been
-     * computed yet, returns zero.
-     *
-     * @return value of newest score, or zero if none exist
-     */
-    protected int findNewestValue()
-    {
-        String args[] = { habit.getId().toString() };
-        String query = "select score from Score where habit = ? order by timestamp desc limit 1";
-        return SQLiteUtils.intQuery(query, args);
-    }
-
-    private long findNewestTimestamp()
-    {
-        String args[] = { habit.getId().toString() };
-        String query = "select timestamp from Score where habit = ? order by timestamp desc limit 1";
-        return DatabaseHelper.longQuery(query, args);
-    }
-
-    private void insert(long timestamps[], long values[])
-    {
-        String query = "insert into Score(habit, timestamp, score) values (?,?,?)";
-
-        SQLiteDatabase db = Cache.openDatabase();
-        db.beginTransaction();
-
-        try
-        {
-            SQLiteStatement statement = db.compileStatement(query);
-
-            for (int i = 0; i < timestamps.length; i++)
-            {
-                statement.bindLong(1, habit.getId());
-                statement.bindLong(2, timestamps[i]);
-                statement.bindLong(3, values[i]);
-                statement.execute();
-            }
-
-            db.setTransactionSuccessful();
-        }
-        finally
-        {
-            db.endTransaction();
-        }
-    }
-
-    /**
-     * Returns the score for a certain day.
-     *
-     * @param timestamp the timestamp for the day
-     * @return the score for the day
+     * @param timestamp the timestamp to find.
+     * @return the score with given timestamp, or null if none exists.
      */
     @Nullable
-    protected Score get(long timestamp)
+    public abstract Score getByTimestamp(long timestamp);
+
+    public ModelObservable getObservable()
     {
-        Repetition oldestRep = habit.repetitions.getOldest();
-        if(oldestRep == null) return null;
-
-        compute(oldestRep.timestamp, timestamp);
-
-        return select().where("timestamp = ?", timestamp).executeSingle();
-    }
-
-    /**
-     * Returns the value of the score for a given day.
-     *
-     * @param timestamp the timestamp of a day
-     * @return score for that day
-     */
-    public int getValue(long timestamp)
-    {
-        computeAll();
-        String[] args = { habit.getId().toString(), Long.toString(timestamp) };
-        return SQLiteUtils.intQuery("select score from Score where habit = ? and timestamp = ?", args);
-    }
-
-    /**
-     * Returns the values of all the scores, from day of the first repetition until today, grouped
-     * in chunks of specified size.
-     *
-     * If the group size is one, then the value of each score is returned individually. If the group
-     * is, for example, seven, then the days are grouped in groups of seven consecutive days.
-     *
-     * The values are returned in an array of integers, with one entry for each group of days in the
-     * interval. This value corresponds to the average of the scores for the days inside the group.
-     * The first entry corresponds to the ending of the interval (that is, the most recent group of
-     * days). The last entry corresponds to the beginning of the interval. As usual, the time of the
-     * day for the timestamps should be midnight (UTC). The endpoints of the interval are included.
-     *
-     * The values are returned in an integer array. There is one entry for each day inside the
-     * interval. The first entry corresponds to today, while the last entry corresponds to the
-     * day of the oldest repetition.
-     *
-     * @param divisor the size of the groups
-     * @return array of values, with one entry for each group of days
-     */
-    @NonNull
-    public int[] getAllValues(long divisor)
-    {
-        Repetition oldestRep = habit.repetitions.getOldest();
-        if(oldestRep == null) return new int[0];
-
-        long fromTimestamp = oldestRep.timestamp;
-        long toTimestamp = DateHelper.getStartOfToday();
-        return getValues(fromTimestamp, toTimestamp, divisor);
-    }
-
-    /**
-     * Same as getAllValues(long), but using a specified interval.
-     *
-     * @param from beginning of the interval (included)
-     * @param to end of the interval (included)
-     * @param divisor size of the groups
-     * @return array of values, with one entry for each group of days
-     */
-    @NonNull
-    protected int[] getValues(long from, long to, long divisor)
-    {
-        compute(from, to);
-
-        divisor *= DateHelper.millisecondsInOneDay;
-        Long offset = to + divisor;
-
-        String query = "select ((timestamp - ?) / ?) as time, avg(score) from Score " +
-                "where habit = ? and timestamp >= ? and timestamp <= ? " +
-                "group by time order by time desc";
-
-        String params[] = { offset.toString(), Long.toString(divisor), habit.getId().toString(),
-                Long.toString(from), Long.toString(to) };
-
-        SQLiteDatabase db = Cache.openDatabase();
-        Cursor cursor = db.rawQuery(query, params);
-
-        if(!cursor.moveToFirst()) return new int[0];
-
-        int k = 0;
-        int[] scores = new int[cursor.getCount()];
-
-        do
-        {
-            scores[k++] = (int) cursor.getFloat(1);
-        }
-        while (cursor.moveToNext());
-
-        cursor.close();
-        return scores;
-    }
-
-    /**
-     * Returns the score for today.
-     *
-     * @return score for today
-     */
-    @Nullable
-    protected Score getToday()
-    {
-        return get(DateHelper.getStartOfToday());
+        return observable;
     }
 
     /**
@@ -301,45 +82,168 @@ public class ScoreList
      */
     public int getTodayValue()
     {
-        return getValue(DateHelper.getStartOfToday());
+        return getValue(DateUtils.getStartOfToday());
     }
 
     /**
-     * Returns the star status for today. The returned value is either Score.EMPTY_STAR,
-     * Score.HALF_STAR or Score.FULL_STAR.
+     * Returns the value of the score for a given day.
+     * <p>
+     * If there is no score at the given timestamp (for example, if the
+     * timestamp given happens before the first repetition of the habit) then
+     * returns zero.
      *
-     * @return star status for today
+     * @param timestamp the timestamp of a day
+     * @return score value for that day
      */
-    public int getTodayStarStatus()
+    public final int getValue(long timestamp)
     {
-        Score score = getToday();
-        if(score != null) return score.getStarStatus();
-        else return Score.EMPTY_STAR;
+        Score s = getByTimestamp(timestamp);
+        if (s != null) return s.getValue();
+        return 0;
+    }
+
+    public List<Score> groupBy(DateUtils.TruncateField field)
+    {
+        HashMap<Long, ArrayList<Long>> groups = getGroupedValues(field);
+        List<Score> scores = groupsToAvgScores(groups);
+        Collections.sort(scores, (s1, s2) -> s2.compareNewer(s1));
+        return scores;
+    }
+
+    /**
+     * Marks all scores that have timestamp equal to or newer than the given
+     * timestamp as invalid. Any following getValue calls will trigger the
+     * scores to be recomputed.
+     *
+     * @param timestamp the oldest timestamp that should be invalidated
+     */
+    public abstract void invalidateNewerThan(long timestamp);
+
+    @Override
+    public Iterator<Score> iterator()
+    {
+        return getAll().iterator();
     }
 
     public void writeCSV(Writer out) throws IOException
     {
         computeAll();
+        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
 
-        SimpleDateFormat dateFormat = DateHelper.getCSVDateFormat();
-
-        String query = "select timestamp, score from score where habit = ? order by timestamp";
-        String params[] = { habit.getId().toString() };
-
-        SQLiteDatabase db = Cache.openDatabase();
-        Cursor cursor = db.rawQuery(query, params);
-
-        if(!cursor.moveToFirst()) return;
-
-        do
+        for (Score s : this)
         {
-            String timestamp = dateFormat.format(new Date(cursor.getLong(0)));
-            String score = String.format("%.4f", ((float) cursor.getInt(1)) / Score.MAX_VALUE);
+            String timestamp = dateFormat.format(s.getTimestamp());
+            String score =
+                String.format("%.4f", ((float) s.getValue()) / Score.MAX_VALUE);
             out.write(String.format("%s,%s\n", timestamp, score));
+        }
+    }
 
-        } while(cursor.moveToNext());
+    /**
+     * Computes and saves the scores that are missing inside a given time
+     * interval.
+     * <p>
+     * Scores that have already been computed are skipped, therefore there is no
+     * harm in calling this function more times, or with larger intervals, than
+     * strictly needed. The endpoints of the interval are included.
+     * <p>
+     * This function assumes that there are no gaps on the scores. That is, if
+     * the newest score has timestamp t, then every score with timestamp lower
+     * than t has already been computed.
+     *
+     * @param from timestamp of the beginning of the interval
+     * @param to   timestamp of the end of the time interval
+     */
+    protected void compute(long from, long to)
+    {
+        final long day = DateUtils.millisecondsInOneDay;
+        final double freq = habit.getFrequency().toDouble();
 
-        cursor.close();
-        out.close();
+        int newestValue = 0;
+        long newestTimestamp = 0;
+
+        Score newest = getNewestComputed();
+        if (newest != null)
+        {
+            newestValue = newest.getValue();
+            newestTimestamp = newest.getTimestamp();
+        }
+
+        if (newestTimestamp > 0) from = newestTimestamp + day;
+
+        final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
+        final long beginning = from;
+
+        int lastScore = newestValue;
+        List<Score> scores = new LinkedList<>();
+
+        for (int i = 0; i < checkmarkValues.length; i++)
+        {
+            int value = checkmarkValues[checkmarkValues.length - i - 1];
+            lastScore = Score.compute(freq, lastScore, value);
+            scores.add(new Score(beginning + day * i, lastScore));
+        }
+
+        add(scores);
+    }
+
+    /**
+     * Computes and saves the scores that are missing since the first repetition
+     * of the habit.
+     */
+    protected void computeAll()
+    {
+        Repetition oldestRep = habit.getRepetitions().getOldest();
+        if (oldestRep == null) return;
+
+        long toTimestamp = DateUtils.getStartOfToday();
+        compute(oldestRep.getTimestamp(), toTimestamp);
+    }
+
+    /**
+     * Returns the most recent score that has already been computed.
+     * <p>
+     * If no score has been computed yet, returns null.
+     *
+     * @return the newest score computed, or null if none exist
+     */
+    @Nullable
+    protected abstract Score getNewestComputed();
+
+    @NonNull
+    private HashMap<Long, ArrayList<Long>> getGroupedValues(DateUtils.TruncateField field)
+    {
+        HashMap<Long, ArrayList<Long>> groups = new HashMap<>();
+
+        for (Score s : this)
+        {
+            long groupTimestamp = DateUtils.truncate(field, s.getTimestamp());
+
+            if (!groups.containsKey(groupTimestamp))
+                groups.put(groupTimestamp, new ArrayList<>());
+
+            groups.get(groupTimestamp).add((long) s.getValue());
+        }
+
+        return groups;
+    }
+
+    @NonNull
+    private List<Score> groupsToAvgScores(HashMap<Long, ArrayList<Long>> groups)
+    {
+        List<Score> scores = new LinkedList<>();
+
+        for (Long timestamp : groups.keySet())
+        {
+            long meanValue = 0L;
+            ArrayList<Long> groupValues = groups.get(timestamp);
+
+            for (Long v : groupValues) meanValue += v;
+            meanValue /= groupValues.size();
+
+            scores.add(new Score(timestamp, (int) meanValue));
+        }
+
+        return scores;
     }
 }

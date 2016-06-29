@@ -19,30 +19,59 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
+import javax.inject.*;
+
+/**
+ * Command to modify a habit.
+ */
 public class EditHabitCommand extends Command
 {
+    @Inject
+    HabitList habitList;
+
     private Habit original;
+
     private Habit modified;
+
     private long savedId;
-    private boolean hasIntervalChanged;
+
+    private boolean hasFrequencyChanged;
 
     public EditHabitCommand(Habit original, Habit modified)
     {
-        this.savedId = original.getId();
-        this.modified = new Habit(modified);
-        this.original = new Habit(original);
+        HabitsApplication.getComponent().inject(this);
 
-        hasIntervalChanged = (!this.original.freqDen.equals(this.modified.freqDen) ||
-                !this.original.freqNum.equals(this.modified.freqNum));
+        this.savedId = original.getId();
+        this.modified = new Habit();
+        this.original = new Habit();
+
+        this.modified.copyFrom(modified);
+        this.original.copyFrom(original);
+
+        Frequency originalFreq = this.original.getFrequency();
+        Frequency modifiedFreq = this.modified.getFrequency();
+        hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
     }
 
     @Override
     public void execute()
     {
         copyAttributes(this.modified);
+    }
+
+    @Override
+    public Integer getExecuteStringId()
+    {
+        return R.string.toast_habit_changed;
+    }
+
+    @Override
+    public Integer getUndoStringId()
+    {
+        return R.string.toast_habit_changed_back;
     }
 
     @Override
@@ -53,32 +82,22 @@ public class EditHabitCommand extends Command
 
     private void copyAttributes(Habit model)
     {
-        Habit habit = Habit.get(savedId);
-        if(habit == null) throw new RuntimeException("Habit not found");
+        Habit habit = habitList.getById(savedId);
+        if (habit == null) throw new RuntimeException("Habit not found");
 
-        habit.copyAttributes(model);
-        habit.save();
+        habit.copyFrom(model);
+        habitList.update(habit);
 
         invalidateIfNeeded(habit);
     }
 
     private void invalidateIfNeeded(Habit habit)
     {
-        if (hasIntervalChanged)
+        if (hasFrequencyChanged)
         {
-            habit.checkmarks.deleteNewerThan(0);
-            habit.streaks.deleteNewerThan(0);
-            habit.scores.invalidateNewerThan(0);
+            habit.getCheckmarks().invalidateNewerThan(0);
+            habit.getStreaks().invalidateNewerThan(0);
+            habit.getScores().invalidateNewerThan(0);
         }
-    }
-
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_changed;
-    }
-
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_changed_back;
     }
 }

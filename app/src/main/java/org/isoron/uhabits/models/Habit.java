@@ -19,133 +19,62 @@
 
 package org.isoron.uhabits.models;
 
-import android.annotation.SuppressLint;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.net.*;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
-import com.activeandroid.query.Update;
-import com.activeandroid.util.SQLiteUtils;
-import com.opencsv.CSVWriter;
+import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.memory.*;
 
-import org.isoron.uhabits.helpers.ColorHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import java.util.*;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
-import java.util.Locale;
+import javax.inject.*;
 
-@Table(name = "Habits")
-public class Habit extends Model
+/**
+ * The thing that the user wants to track.
+ */
+public class Habit
 {
-    /**
-     * Name of the habit
-     */
-    @Column(name = "name")
-    public String name;
+    public static final String HABIT_URI_FORMAT =
+        "content://org.isoron.uhabits/habit/%d";
 
-    /**
-     * Description of the habit
-     */
-    @Column(name = "description")
-    public String description;
-
-    /**
-     * Frequency numerator. If a habit is performed 3 times in 7 days, this field equals 3.
-     */
-    @Column(name = "freq_num")
-    public Integer freqNum;
-
-    /**
-     * Frequency denominator. If a habit is performed 3 times in 7 days, this field equals 7.
-     */
-    @Column(name = "freq_den")
-    public Integer freqDen;
-
-    /**
-     * Color of the habit.
-     *
-     * This number is not an android.graphics.Color, but an index to the activity color palette,
-     * which changes according to the theme. To convert this color into an android.graphics.Color,
-     * use ColorHelper.getColor(context, habit.color).
-     */
-    @Column(name = "color")
-    public Integer color;
-
-    /**
-     * Position of the habit. Habits are usually sorted by this field.
-     */
-    @Column(name = "position")
-    public Integer position;
-
-    /**
-     * Hour of the day the reminder should be shown. If there is no reminder, this equals to null.
-     */
     @Nullable
-    @Column(name = "reminder_hour")
-    public Integer reminderHour;
+    private Long id;
 
-    /**
-     * Minute the reminder should be shown. If there is no reminder, this equals to null.
-     */
+    @NonNull
+    private String name;
+
+    @NonNull
+    private String description;
+
+    @NonNull
+    private Frequency frequency;
+
+    @NonNull
+    private Integer color;
+
+    @NonNull
+    private boolean archived;
+
+    @NonNull
+    private StreakList streaks;
+
+    @NonNull
+    private ScoreList scores;
+
+    @NonNull
+    private RepetitionList repetitions;
+
+    @NonNull
+    private CheckmarkList checkmarks;
+
     @Nullable
-    @Column(name = "reminder_min")
-    public Integer reminderMin;
+    private Reminder reminder;
 
-    /**
-     * Days of the week the reminder should be shown. This field can be converted to a list of
-     * booleans using the method DateHelper.unpackWeekdayList and converted back to an integer by
-     * using the method DateHelper.packWeekdayList. If the habit has no reminders, this value
-     * should be ignored.
-     */
-    @NonNull
-    @Column(name = "reminder_days")
-    public Integer reminderDays;
+    private ModelObservable observable = new ModelObservable();
 
-    /**
-     * Not currently used.
-     */
-    @Column(name = "highlight")
-    public Integer highlight;
-
-    /**
-     * Flag that indicates whether the habit is archived. Archived habits are usually omitted from
-     * listings, unless explicitly included.
-     */
-    @Column(name = "archived")
-    public Integer archived;
-
-    /**
-     * List of streaks belonging to this habit.
-     */
-    @NonNull
-    public StreakList streaks;
-
-    /**
-     * List of scores belonging to this habit.
-     */
-    @NonNull
-    public ScoreList scores;
-
-    /**
-     * List of repetitions belonging to this habit.
-     */
-    @NonNull
-    public RepetitionList repetitions;
-
-    /**
-     * List of checkmarks belonging to this habit.
-     */
-    @NonNull
-    public CheckmarkList checkmarks;
+    @Inject
+    ModelFactory factory;
 
     /**
      * Constructs a habit with the same attributes as the specified habit.
@@ -154,180 +83,45 @@ public class Habit extends Model
      */
     public Habit(Habit model)
     {
-        reminderDays = DateHelper.ALL_WEEK_DAYS;
-
-        copyAttributes(model);
-
-        checkmarks = new CheckmarkList(this);
-        streaks = new StreakList(this);
-        scores = new ScoreList(this);
-        repetitions = new RepetitionList(this);
+        copyFrom(model);
+        buildLists();
     }
 
     /**
-     * Constructs a habit with default attributes. The habit is not archived, not highlighted, has
-     * no reminders and is placed in the last position of the list of habits.
+     * Constructs a habit with default attributes.
+     * <p>
+     * The habit is not archived, not highlighted, has no reminders and is
+     * placed in the last position of the list of habits.
      */
     public Habit()
     {
         this.color = 5;
-        this.position = Habit.countWithArchived();
-        this.highlight = 0;
-        this.archived = 0;
-        this.freqDen = 7;
-        this.freqNum = 3;
-        this.reminderDays = DateHelper.ALL_WEEK_DAYS;
+        this.archived = false;
+        this.frequency = new Frequency(3, 7);
 
-        checkmarks = new CheckmarkList(this);
-        streaks = new StreakList(this);
-        scores = new ScoreList(this);
-        repetitions = new RepetitionList(this);
+        buildLists();
+    }
+
+    private void buildLists()
+    {
+        BaseComponent component = HabitsApplication.getComponent();
+        if(component == null) factory = new MemoryModelFactory();
+        else component.inject(this);
+
+        checkmarks = factory.buildCheckmarkList(this);
+        streaks = factory.buildStreakList(this);
+        scores = factory.buildScoreList(this);
+        repetitions = factory.buildRepetitionList(this);
     }
 
     /**
-     * Returns the habit with specified id.
-     *
-     * @param id the id of the habit
-     * @return the habit, or null if none exist
+     * Clears the reminder for a habit. This sets all the related fields to
+     * null.
      */
-    @Nullable
-    public static Habit get(long id)
+    public void clearReminder()
     {
-        return Habit.load(Habit.class, id);
-    }
-
-    /**
-     * Returns a list of all habits, optionally including archived habits.
-     *
-     * @param includeArchive whether archived habits should be included the list
-     * @return list of all habits
-     */
-    @NonNull
-    public static List<Habit> getAll(boolean includeArchive)
-    {
-        if(includeArchive) return selectWithArchived().execute();
-        else return select().execute();
-    }
-
-    /**
-     * Returns the habit that occupies a certain position.
-     *
-     * @param position the position of the desired habit
-     * @return the habit at that position, or null if there is none
-     */
-    @Nullable
-    public static Habit getByPosition(int position)
-    {
-        return selectWithArchived().where("position = ?", position).executeSingle();
-    }
-
-    /**
-     * Changes the id of a habit on the database.
-     *
-     * @param oldId the original id
-     * @param newId the new id
-     */
-    @SuppressLint("DefaultLocale")
-    public static void updateId(long oldId, long newId)
-    {
-        SQLiteUtils.execSql(String.format("update Habits set Id = %d where Id = %d", newId, oldId));
-    }
-
-    @NonNull
-    protected static From select()
-    {
-        return new Select().from(Habit.class).where("archived = 0").orderBy("position");
-    }
-
-    @NonNull
-    protected static From selectWithArchived()
-    {
-        return new Select().from(Habit.class).orderBy("position");
-    }
-
-    /**
-     * Returns the total number of unarchived habits.
-     *
-     * @return number of unarchived habits
-     */
-    public static int count()
-    {
-        return select().count();
-    }
-
-    /**
-     * Returns the total number of habits, including archived habits.
-     *
-     * @return number of habits, including archived
-     */
-    public static int countWithArchived()
-    {
-        return selectWithArchived().count();
-    }
-
-    /**
-     * Returns a list the habits that have a reminder. Does not include archived habits.
-     *
-     * @return list of habits with reminder
-     */
-    @NonNull
-    public static List<Habit> getHabitsWithReminder()
-    {
-        return select().where("reminder_hour is not null").execute();
-    }
-
-    /**
-     * Changes the position of a habit on the list.
-     *
-     * @param from the habit that should be moved
-     * @param to the habit that currently occupies the desired position
-     */
-    public static void reorder(Habit from, Habit to)
-    {
-        if(from == to) return;
-
-        if (to.position < from.position)
-        {
-            new Update(Habit.class).set("position = position + 1")
-                    .where("position >= ? and position < ?", to.position, from.position)
-                    .execute();
-        }
-        else
-        {
-            new Update(Habit.class).set("position = position - 1")
-                    .where("position > ? and position <= ?", from.position, to.position)
-                    .execute();
-        }
-
-        from.position = to.position;
-        from.save();
-    }
-
-    /**
-     * Recomputes the position for every habit in the database. It should never be necessary
-     * to call this method.
-     */
-    public static void rebuildOrder()
-    {
-        List<Habit> habits = selectWithArchived().execute();
-
-        ActiveAndroid.beginTransaction();
-        try
-        {
-            int i = 0;
-            for (Habit h : habits)
-            {
-                h.position = i++;
-                h.save();
-            }
-
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
-
+        reminder = null;
+        observable.notifyListeners();
     }
 
     /**
@@ -335,180 +129,172 @@ public class Habit extends Model
      *
      * @param model the model whose attributes should be copied from
      */
-    public void copyAttributes(@NonNull Habit model)
+    public void copyFrom(@NonNull Habit model)
     {
-        this.name = model.name;
-        this.description = model.description;
-        this.freqNum = model.freqNum;
-        this.freqDen = model.freqDen;
-        this.color = model.color;
-        this.position = model.position;
-        this.reminderHour = model.reminderHour;
-        this.reminderMin = model.reminderMin;
-        this.reminderDays = model.reminderDays;
-        this.highlight = model.highlight;
-        this.archived = model.archived;
+        this.name = model.getName();
+        this.description = model.getDescription();
+        this.color = model.getColor();
+        this.archived = model.isArchived();
+        this.frequency = model.frequency;
+        this.reminder = model.reminder;
+        observable.notifyListeners();
     }
 
     /**
-     * Saves the habit on the database, and assigns the specified id to it.
+     * List of checkmarks belonging to this habit.
+     */
+    @NonNull
+    public CheckmarkList getCheckmarks()
+    {
+        return checkmarks;
+    }
+
+    /**
+     * Color of the habit.
+     * <p>
+     * This number is not an android.graphics.Color, but an index to the
+     * activity color palette, which changes according to the theme. To convert
+     * this color into an android.graphics.Color, use ColorHelper.getColor(context,
+     * habit.color).
+     */
+    public Integer getColor()
+    {
+        return color;
+    }
+
+    public void setColor(Integer color)
+    {
+        this.color = color;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    @NonNull
+    public Frequency getFrequency()
+    {
+        return frequency;
+    }
+
+    public void setFrequency(@NonNull Frequency frequency)
+    {
+        this.frequency = frequency;
+    }
+
+    @Nullable
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(@Nullable Long id)
+    {
+        this.id = id;
+    }
+
+    @NonNull
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(@NonNull String name)
+    {
+        this.name = name;
+    }
+
+    public ModelObservable getObservable()
+    {
+        return observable;
+    }
+
+    /**
+     * Returns the reminder for this habit.
+     * <p>
+     * Before calling this method, you should call {@link #hasReminder()} to
+     * verify that a reminder does exist, otherwise an exception will be
+     * thrown.
      *
-     * @param id the id that the habit should receive
+     * @return the reminder for this habit
+     * @throws IllegalStateException if habit has no reminder
      */
-    public void save(long id)
+    @NonNull
+    public Reminder getReminder()
     {
-        save();
-        Habit.updateId(getId(), id);
+        if (reminder == null) throw new IllegalStateException();
+        return reminder;
     }
 
-    /**
-     * Deletes the habit and all data associated to it, including checkmarks, repetitions and
-     * scores.
-     */
-    public void cascadeDelete()
+    public void setReminder(@Nullable Reminder reminder)
     {
-        Long id = getId();
+        this.reminder = reminder;
+    }
 
-        ActiveAndroid.beginTransaction();
-        try
-        {
-            new Delete().from(Checkmark.class).where("habit = ?", id).execute();
-            new Delete().from(Repetition.class).where("habit = ?", id).execute();
-            new Delete().from(Score.class).where("habit = ?", id).execute();
-            new Delete().from(Streak.class).where("habit = ?", id).execute();
-            delete();
+    @NonNull
+    public RepetitionList getRepetitions()
+    {
+        return repetitions;
+    }
 
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
+    @NonNull
+    public ScoreList getScores()
+    {
+        return scores;
+    }
+
+    @NonNull
+    public StreakList getStreaks()
+    {
+        return streaks;
     }
 
     /**
      * Returns the public URI that identifies this habit
+     *
      * @return the uri
      */
     public Uri getUri()
     {
-        String s = String.format(Locale.US, "content://org.isoron.uhabits/habit/%d", getId());
+        String s = String.format(Locale.US, HABIT_URI_FORMAT, getId());
         return Uri.parse(s);
     }
 
     /**
-     * Returns whether the habit is archived or not.
-     * @return true if archived
-     */
-    public boolean isArchived()
-    {
-        return archived != 0;
-    }
-
-    private static void updateAttributes(@NonNull List<Habit> habits, @Nullable Integer color,
-                                         @Nullable Integer archived)
-    {
-        ActiveAndroid.beginTransaction();
-
-        try
-        {
-            for (Habit h : habits)
-            {
-                if(color != null) h.color = color;
-                if(archived != null) h.archived = archived;
-                h.save();
-            }
-
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
-    }
-
-    /**
-     * Archives an entire list of habits
+     * Returns whether the habit has a reminder.
      *
-     * @param habits the habits to be archived
-     */
-    public static void archive(@NonNull List<Habit> habits)
-    {
-        updateAttributes(habits, null, 1);
-    }
-
-    /**
-     * Unarchives an entire list of habits
-     *
-     * @param habits the habits to be unarchived
-     */
-    public static void unarchive(@NonNull List<Habit> habits)
-    {
-        updateAttributes(habits, null, 0);
-    }
-
-    /**
-     * Sets the color for an entire list of habits.
-     *
-     * @param habits the habits to be modified
-     * @param color the new color to be set
-     */
-    public static void setColor(@NonNull List<Habit> habits, int color)
-    {
-        updateAttributes(habits, color, null);
-    }
-
-    /**
-     * Checks whether the habit has a reminder set.
-     *
-     * @return true if habit has reminder
+     * @return true if habit has reminder, false otherwise
      */
     public boolean hasReminder()
     {
-        return (reminderHour != null && reminderMin != null);
+        return reminder != null;
     }
 
-    /**
-     * Clears the reminder for a habit. This sets all the related fields to null.
-     */
-    public void clearReminder()
+    public boolean isArchived()
     {
-        reminderHour = null;
-        reminderMin = null;
-        reminderDays = DateHelper.ALL_WEEK_DAYS;
+        return archived;
     }
 
-    /**
-     * Writes the list of habits to the given writer, in CSV format. There is one line for each
-     * habit, containing the fields name, description, frequency numerator, frequency denominator
-     * and color. The color is written in HTML format (#000000).
-     *
-     * @param habits the list of habits to write
-     * @param out the writer that will receive the result
-     * @throws IOException if write operations fail
-     */
-    public static void writeCSV(List<Habit> habits, Writer out) throws IOException
+    public void setArchived(boolean archived)
     {
-        String header[] = { "Position", "Name", "Description", "NumRepetitions", "Interval", "Color" };
+        this.archived = archived;
+    }
 
-        CSVWriter csv = new CSVWriter(out);
-        csv.writeNext(header, false);
-
-        for(Habit habit : habits)
-        {
-            String[] cols =
-            {
-                    String.format("%03d", habit.position + 1),
-                    habit.name,
-                    habit.description,
-                    Integer.toString(habit.freqNum),
-                    Integer.toString(habit.freqDen),
-                    ColorHelper.toHTML(ColorHelper.CSV_PALETTE[habit.color])
-            };
-
-            csv.writeNext(cols, false);
-        }
-
-        csv.close();
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("id", id)
+            .append("name", name)
+            .append("description", description)
+            .append("color", color)
+            .append("archived", archived)
+            .toString();
     }
 }

@@ -24,8 +24,8 @@ import android.support.annotation.NonNull;
 import com.activeandroid.ActiveAndroid;
 import com.opencsv.CSVReader;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.DateUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,6 +34,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 
+/**
+ * Class that imports data from HabitBull CSV files.
+ */
 public class HabitBullCSVImporter extends AbstractImporter
 {
     @Override
@@ -76,7 +79,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             int month = Integer.parseInt(dateString[1]);
             int day = Integer.parseInt(dateString[2]);
 
-            Calendar date = DateHelper.getStartOfTodayCalendar();
+            Calendar date = DateUtils.getStartOfTodayCalendar();
             date.set(year, month - 1, day);
 
             long timestamp = date.getTimeInMillis();
@@ -89,16 +92,15 @@ public class HabitBullCSVImporter extends AbstractImporter
             if(h == null)
             {
                 h = new Habit();
-                h.name = name;
-                h.description = description;
-                h.freqNum = h.freqDen = 1;
-                h.save();
-
+                h.setName(name);
+                h.setDescription(description);
+                h.setFrequency(Frequency.DAILY);
+                habitList.add(h);
                 habits.put(name, h);
             }
 
-            if(!h.repetitions.contains(timestamp))
-                h.repetitions.toggle(timestamp);
+            if(!h.getRepetitions().containsTimestamp(timestamp))
+                h.getRepetitions().toggleTimestamp(timestamp);
         }
     }
 }

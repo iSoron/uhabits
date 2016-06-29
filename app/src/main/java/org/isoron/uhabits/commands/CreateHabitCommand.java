@@ -19,41 +19,48 @@
 
 package org.isoron.uhabits.commands;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 
+import javax.inject.Inject;
+
+/**
+ * Command to create a habit.
+ */
 public class CreateHabitCommand extends Command
 {
+    @Inject
+    HabitList habitList;
+
     private Habit model;
     private Long savedId;
 
     public CreateHabitCommand(Habit model)
     {
         this.model = model;
+        HabitsApplication.getComponent().inject(this);
     }
 
     @Override
     public void execute()
     {
-        Habit savedHabit = new Habit(model);
-        if (savedId == null)
-        {
-            savedHabit.save();
-            savedId = savedHabit.getId();
-        }
-        else
-        {
-            savedHabit.save(savedId);
-        }
+        Habit savedHabit = new Habit();
+        savedHabit.copyFrom(model);
+        savedHabit.setId(savedId);
+
+        habitList.add(savedHabit);
+        savedId = savedHabit.getId();
     }
 
     @Override
     public void undo()
     {
-        Habit habit = Habit.get(savedId);
+        Habit habit = habitList.getById(savedId);
         if(habit == null) throw new RuntimeException("Habit not found");
 
-        habit.cascadeDelete();
+        habitList.remove(habit);
     }
 
     @Override

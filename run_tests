@@ -14,11 +14,14 @@ fail() {
     exit 1
 }
 
+info "Running JVM tests..."
+./gradlew :app:testDebugUnitTest >> $LOG 2>> $LOG || fail
+
 info "Cleaning output directory..."
 rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
 
-info "Building project..."
+info "Building instrumentation APKs..."
 ./gradlew assembleDebug assembleAndroidTest >> $LOG 2>> $LOG || fail
 
 info "Installing APK..."
@@ -30,9 +33,9 @@ info "Granting permissions..."
 adb shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE \
     >> $LOG 2>> $LOG || fail
 
-info "Running tests..."
+info "Running instrumentation tests..."
 adb shell am instrument \
-    -e coverage true $* \
+    -e coverage true -e size medium \
     -w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
     | tee ${OUTPUT_DIR}/runner.txt \
     | tee -a $LOG

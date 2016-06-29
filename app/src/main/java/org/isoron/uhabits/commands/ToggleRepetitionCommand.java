@@ -21,6 +21,9 @@ package org.isoron.uhabits.commands;
 
 import org.isoron.uhabits.models.Habit;
 
+/**
+ * Command to toggle a repetition.
+ */
 public class ToggleRepetitionCommand extends Command
 {
     private Long offset;
@@ -35,7 +38,7 @@ public class ToggleRepetitionCommand extends Command
     @Override
     public void execute()
     {
-        habit.repetitions.toggle(offset);
+        habit.getRepetitions().toggleTimestamp(offset);
     }
 
     @Override

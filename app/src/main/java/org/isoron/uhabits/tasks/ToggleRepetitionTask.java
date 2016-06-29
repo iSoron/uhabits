@@ -19,10 +19,18 @@
 
 package org.isoron.uhabits.tasks;
 
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.commands.CommandRunner;
+import org.isoron.uhabits.commands.ToggleRepetitionCommand;
 import org.isoron.uhabits.models.Habit;
 
+import javax.inject.Inject;
+
 public class ToggleRepetitionTask extends BaseTask
-{;
+{
+    @Inject
+    CommandRunner commandRunner;
+
     public interface Listener {
         void onToggleRepetitionFinished();
     }
@@ -35,12 +43,14 @@ public class ToggleRepetitionTask extends BaseTask
     {
         this.timestamp = timestamp;
         this.habit = habit;
+        HabitsApplication.getComponent().inject(this);
     }
 
     @Override
     protected void doInBackground()
     {
-        habit.repetitions.toggle(timestamp);
+        ToggleRepetitionCommand command = new ToggleRepetitionCommand(habit, timestamp);
+        commandRunner.execute(command, habit.getId());
     }
 
     @Override

@@ -18,55 +18,31 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.view.View;
+import android.content.*;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.GraphWidgetView;
-import org.isoron.uhabits.views.HabitDataView;
-import org.isoron.uhabits.views.HabitStreakView;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.widgets.*;
 
-public class StreakWidgetProvider extends  BaseWidgetProvider
+public class StreakWidgetProvider extends BaseWidgetProvider
 {
+    @NonNull
     @Override
-    protected View buildCustomView(Context context, Habit habit)
+    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        HabitStreakView dataView = new HabitStreakView(context);
-        GraphWidgetView view = new GraphWidgetView(context, dataView);
-        view.setHabit(habit);
-        return view;
+        Habit habit = getHabitFromWidgetId(id);
+        return new StreakWidget(context, id, habit);
     }
 
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitDataView) view).refreshData();
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
-    {
-        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-    }
-
-    @Override
-    protected int getDefaultHeight()
-    {
-        return 200;
-    }
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 200;
-    }
-
-    @Override
-    protected int getLayoutId()
-    {
-        return R.layout.widget_wrapper;
-    }
+//        GraphWidgetView widgetView = (GraphWidgetView) view;
+//        StreakChart chart = (StreakChart) widgetView.getDataView();
+//
+//        int color = ColorUtils.getColor(context, habit.getColor());
+//
+//        // TODO: make this dynamic
+//        List<Streak> streaks = habit.getStreaks().getBest(10);
+//
+//        chart.setColor(color);
+//        chart.setStreaks(streaks);
+//    }
 }

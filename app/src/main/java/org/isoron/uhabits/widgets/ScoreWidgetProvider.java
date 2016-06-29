@@ -18,62 +18,19 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.view.View;
+import android.content.*;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.UIHelper;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.GraphWidgetView;
-import org.isoron.uhabits.views.HabitDataView;
-import org.isoron.uhabits.views.HabitScoreView;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.widgets.*;
 
 public class ScoreWidgetProvider extends BaseWidgetProvider
 {
+    @NonNull
     @Override
-    protected View buildCustomView(Context context, Habit habit)
+    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        int defaultScoreInterval = UIHelper.getDefaultScoreInterval(context);
-        int size = HabitScoreView.DEFAULT_BUCKET_SIZES[defaultScoreInterval];
-
-        HabitScoreView dataView = new HabitScoreView(context);
-        dataView.setIsTransparencyEnabled(true);
-        dataView.setBucketSize(size);
-
-        GraphWidgetView view = new GraphWidgetView(context, dataView);
-        view.setHabit(habit);
-        return view;
-    }
-
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitDataView) view).refreshData();
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
-    {
-        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-    }
-
-    @Override
-    protected int getDefaultHeight()
-    {
-        return 300;
-    }
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 300;
-    }
-
-    @Override
-    protected int getLayoutId()
-    {
-        return R.layout.widget_wrapper;
+        Habit habit = getHabitFromWidgetId(id);
+        return new ScoreWidget(context, id, habit);
     }
 }

@@ -19,38 +19,52 @@
 
 package org.isoron.uhabits.commands;
 
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+/**
+ * Command to archive a list of habits.
+ */
 public class ArchiveHabitsCommand extends Command
 {
+    @Inject
+    HabitList habitList;
 
     private List<Habit> habits;
 
     public ArchiveHabitsCommand(List<Habit> habits)
     {
+        HabitsApplication.getComponent().inject(this);
         this.habits = habits;
     }
 
     @Override
     public void execute()
     {
-        Habit.archive(habits);
+        for(Habit h : habits) h.setArchived(true);
+        habitList.update(habits);
     }
 
     @Override
     public void undo()
     {
-        Habit.unarchive(habits);
+        for(Habit h : habits) h.setArchived(false);
+        habitList.update(habits);
     }
 
+    @Override
     public Integer getExecuteStringId()
     {
         return R.string.toast_habit_archived;
     }
 
+    @Override
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_unarchived;

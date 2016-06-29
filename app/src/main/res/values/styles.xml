@@ -240,7 +240,6 @@
         <item name="android:layout_height">?actionBarSize</item>
         <item name="android:background">?colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <item name="android:layout_alignParentTop">true</item>
     </style>
 
     <style name="Preference.Category.Material">
@@ -252,6 +251,5 @@
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/toolbar_shadow</item>
         <item name="android:alpha">0.2</item>
-        <item name="android:layout_below">@id/toolbar</item>
     </style>
 </resources>

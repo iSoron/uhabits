@@ -19,78 +19,54 @@
 
 package org.isoron.uhabits.models;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
+import org.apache.commons.lang3.builder.*;
 
-@Table(name = "Score")
-public class Score extends Model
+/**
+ * Represents how strong a habit is at a certain date.
+ */
+public final class Score
 {
-    /**
-     * Minimum score value required to earn half a star.
-     */
-    public static final int HALF_STAR_CUTOFF =  9629750;
-
-    /**
-     * Minimum score value required to earn a full star.
-     */
-    public static final int FULL_STAR_CUTOFF = 15407600;
-
     /**
      * Maximum score value attainable by any habit.
      */
     public static final int MAX_VALUE = 19259478;
 
     /**
-     * Status indicating that the habit has not earned any star.
+     * Timestamp of the day to which this score applies. Time of day should be
+     * midnight (UTC).
      */
-    public static final int EMPTY_STAR = 0;
-
-    /**
-     * Status indicating that the habit has earned half a star.
-     */
-    public static final int HALF_STAR = 1;
-
-    /**
-     * Status indicating that the habit has earned a full star.
-     */
-    public static final int FULL_STAR = 2;
-
-    /**
-     * Habit to which this score belongs to.
-     */
-    @Column(name = "habit")
-    public Habit habit;
-
-    /**
-     * Timestamp of the day to which this score applies. Time of day should be midnight (UTC).
-     */
-    @Column(name = "timestamp")
-    public Long timestamp;
+    private final Long timestamp;
 
     /**
      * Value of the score.
      */
-    @Column(name = "score")
-    public Integer score;
+    private final Integer value;
+
+    public Score(Long timestamp, Integer value)
+    {
+        this.timestamp = timestamp;
+        this.value = value;
+    }
 
     /**
-     * Given the frequency of the habit, the previous score, and the value of the current checkmark,
-     * computes the current score for the habit.
+     * Given the frequency of the habit, the previous score, and the value of
+     * the current checkmark, computes the current score for the habit.
+     * <p>
+     * The frequency of the habit is the number of repetitions divided by the
+     * length of the interval. For example, a habit that should be repeated 3
+     * times in 8 days has frequency 3.0 / 8.0 = 0.375.
+     * <p>
+     * The checkmarkValue should be UNCHECKED, CHECKED_IMPLICITLY or
+     * CHECK_EXPLICITLY.
      *
-     * The frequency of the habit is the number of repetitions divided by the length of the
-     * interval. For example, a habit that should be repeated 3 times in 8 days has frequency 3.0 /
-     * 8.0 = 0.375.
-     *
-     * The checkmarkValue should be UNCHECKED, CHECKED_IMPLICITLY or CHECK_EXPLICITLY.
-     *
-     * @param frequency the frequency of the habit
-     * @param previousScore the previous score of the habit
+     * @param frequency      the frequency of the habit
+     * @param previousScore  the previous score of the habit
      * @param checkmarkValue the value of the current checkmark
-     *
      * @return the current score
      */
-    public static int compute(double frequency, int previousScore, int checkmarkValue)
+    public static int compute(double frequency,
+                              int previousScore,
+                              int checkmarkValue)
     {
         double multiplier = Math.pow(0.5, 1.0 / (14.0 / frequency - 1));
         int score = (int) (previousScore * multiplier);
@@ -104,16 +80,27 @@ public class Score extends Model
         return score;
     }
 
-    /**
-     * Return the current star status for the habit, which can one of EMPTY_STAR, HALF_STAR or
-     * FULL_STAR.
-     *
-     * @return current star status
-     */
-    public int getStarStatus()
+    public int compareNewer(Score other)
     {
-        if(score >= Score.FULL_STAR_CUTOFF) return Score.FULL_STAR;
-        if(score >= Score.HALF_STAR_CUTOFF) return Score.HALF_STAR;
-        return Score.EMPTY_STAR;
+        return Long.signum(this.getTimestamp() - other.getTimestamp());
+    }
+
+    public Long getTimestamp()
+    {
+        return timestamp;
+    }
+
+    public Integer getValue()
+    {
+        return value;
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("timestamp", timestamp)
+            .append("value", value)
+            .toString();
     }
 }

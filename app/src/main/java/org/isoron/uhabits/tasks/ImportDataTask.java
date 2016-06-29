@@ -21,8 +21,6 @@ package org.isoron.uhabits.tasks;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import org.isoron.uhabits.io.GenericImporter;
 
@@ -36,7 +34,7 @@ public class ImportDataTask extends BaseTask
 
     public interface Listener
     {
-        void onImportFinished(int result);
+        void onImportDataFinished(int result);
     }
 
     @Nullable
@@ -66,21 +64,14 @@ public class ImportDataTask extends BaseTask
     {
         super.onPreExecute();
 
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        if(progressBar != null) progressBar.show();
     }
 
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
-        if(listener != null) listener.onImportFinished(result);
-
+        if(progressBar != null) progressBar.hide();
+        if(listener != null) listener.onImportDataFinished(result);
         super.onPostExecute(null);
     }
 

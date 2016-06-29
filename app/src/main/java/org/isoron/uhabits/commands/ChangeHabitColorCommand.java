@@ -19,62 +19,65 @@
 
 package org.isoron.uhabits.commands;
 
-import com.activeandroid.ActiveAndroid;
-
+import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DatabaseHelper;
 import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.HabitList;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+/**
+ * Command to change the color of a list of habits.
+ */
 public class ChangeHabitColorCommand extends Command
 {
+    @Inject
+    HabitList habitList;
+
     List<Habit> habits;
+
     List<Integer> originalColors;
+
     Integer newColor;
 
     public ChangeHabitColorCommand(List<Habit> habits, Integer newColor)
     {
+        HabitsApplication.getComponent().inject(this);
+
         this.habits = habits;
         this.newColor = newColor;
         this.originalColors = new ArrayList<>(habits.size());
 
-        for(Habit h : habits)
-            originalColors.add(h.color);
+        for (Habit h : habits) originalColors.add(h.getColor());
     }
 
     @Override
     public void execute()
     {
-        Habit.setColor(habits, newColor);
+        for(Habit h : habits) h.setColor(newColor);
+        habitList.update(habits);
     }
 
     @Override
-    public void undo()
-    {
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
-        {
-            @Override
-            public void execute()
-            {
-                int k = 0;
-                for(Habit h : habits)
-                {
-                    h.color = originalColors.get(k++);
-                    h.save();
-                }
-            }
-        });
-    }
-
     public Integer getExecuteStringId()
     {
         return R.string.toast_habit_changed;
     }
 
+    @Override
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_changed;
+    }
+
+    @Override
+    public void undo()
+    {
+        int k = 0;
+        for (Habit h : habits)  h.setColor(originalColors.get(k++));
+        habitList.update(habits);
     }
 }

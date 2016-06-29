@@ -26,6 +26,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * A GenericImporter decides which implementation of AbstractImporter is able to
+ * handle a given file and delegates to it the task of importing the data.
+ */
 public class GenericImporter extends AbstractImporter
 {
     List<AbstractImporter> importers;
@@ -42,8 +46,8 @@ public class GenericImporter extends AbstractImporter
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
-        for(AbstractImporter importer : importers)
-            if(importer.canHandle(file)) return true;
+        for (AbstractImporter importer : importers)
+            if (importer.canHandle(file)) return true;
 
         return false;
     }
@@ -51,8 +55,7 @@ public class GenericImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        for(AbstractImporter importer : importers)
-            if(importer.canHandle(file))
-                importer.importHabitsFromFile(file);
+        for (AbstractImporter importer : importers)
+            if (importer.canHandle(file)) importer.importHabitsFromFile(file);
     }
 }
