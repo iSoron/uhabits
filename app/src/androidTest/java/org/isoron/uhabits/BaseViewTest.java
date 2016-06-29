@@ -30,6 +30,7 @@ import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
+import static android.view.View.MeasureSpec.*;
 import static junit.framework.Assert.*;
 
 public class BaseViewTest extends BaseAndroidTest
@@ -52,6 +53,9 @@ public class BaseViewTest extends BaseAndroidTest
     {
         StringBuilder errorMessage = new StringBuilder();
         expectedImagePath = getVersionedViewAssetPath(expectedImagePath);
+
+        if (view.isLayoutRequested()) measureView(view, view.getMeasuredWidth(),
+            view.getMeasuredHeight());
 
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
@@ -80,12 +84,26 @@ public class BaseViewTest extends BaseAndroidTest
             saveBitmap(expectedImagePath, ".expected", scaledExpected);
             String path = saveBitmap(expectedImagePath, "", actual);
             errorMessage.append(
-                String.format("Actual rendered image " + "saved to %s", path));
+                String.format("Actual rendered image saved to %s", path));
             fail(errorMessage.toString());
         }
 
         expected.recycle();
         scaledExpected.recycle();
+    }
+
+    @NonNull
+    protected FrameLayout convertToView(BaseWidget widget,
+                                        int width,
+                                        int height)
+    {
+        widget.setDimensions(
+            new WidgetDimensions(width, height, width, height));
+        FrameLayout view = new FrameLayout(targetContext);
+        RemoteViews remoteViews = widget.getPortraitRemoteViews();
+        view.addView(remoteViews.apply(targetContext, view));
+        measureView(view, width, height);
+        return view;
     }
 
     protected int dpToPixels(int dp)
@@ -95,10 +113,8 @@ public class BaseViewTest extends BaseAndroidTest
 
     protected void measureView(View view, int width, int height)
     {
-        int specWidth =
-            View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-        int specHeight =
-            View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+        int specWidth = makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int specHeight = makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
 
         view.measure(specWidth, specHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
@@ -107,6 +123,13 @@ public class BaseViewTest extends BaseAndroidTest
     protected void setSimilarityCutoff(double similarityCutoff)
     {
         this.similarityCutoff = similarityCutoff;
+    }
+
+    protected void skipAnimation(View view)
+    {
+        ViewPropertyAnimator animator = view.animate();
+        animator.setDuration(0);
+        animator.start();
     }
 
     protected void tap(GestureDetector.OnGestureListener view, int x, int y)
@@ -140,20 +163,6 @@ public class BaseViewTest extends BaseAndroidTest
         }
 
         return (double) diff / total / 2;
-    }
-
-    @NonNull
-    protected FrameLayout convertToView(BaseWidget widget,
-                                        int width,
-                                        int height)
-    {
-        widget.setDimensions(
-            new WidgetDimensions(width, height, width, height));
-        FrameLayout view = new FrameLayout(targetContext);
-        RemoteViews remoteViews = widget.getPortraitRemoteViews();
-        view.addView(remoteViews.apply(targetContext, view));
-        measureView(view, width, height);
-        return view;
     }
 
     private Bitmap getBitmapFromAssets(String path) throws IOException

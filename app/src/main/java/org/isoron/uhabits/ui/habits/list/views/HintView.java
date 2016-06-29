@@ -56,12 +56,6 @@ public class HintView extends FrameLayout
         init();
     }
 
-    public HintView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
     @Override
     public void onAttachedToWindow()
     {
@@ -113,7 +107,7 @@ public class HintView extends FrameLayout
         setAlpha(1.0f);
     }
 
-    private void showNext()
+    protected void showNext()
     {
         if (hintList == null) return;
         if (!hintList.shouldShow()) return;
@@ -122,6 +116,8 @@ public class HintView extends FrameLayout
         if (hint == null) return;
 
         hintContent.setText(hint);
+        requestLayout();
+
         setAlpha(0.0f);
         setVisibility(View.VISIBLE);
         animate().alpha(1f).setDuration(500);
