@@ -175,7 +175,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 dismissPendingIntent =
                     HabitPendingIntents.dismissNotification(context);
                 PendingIntent checkIntentPending =
-                    HabitPendingIntents.toggleCheckmark(context, habit, timestamp);
+                    HabitPendingIntents.toggleCheckmark(context, habit,
+                        timestamp, 1);
                 PendingIntent snoozeIntentPending =
                     HabitPendingIntents.snoozeNotification(context, habit);
 

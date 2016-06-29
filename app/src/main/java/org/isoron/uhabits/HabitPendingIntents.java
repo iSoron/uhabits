@@ -37,7 +37,7 @@ public abstract class HabitPendingIntents
         Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
         deleteIntent.setAction(HabitBroadcastReceiver.ACTION_DISMISS);
         return PendingIntent.getBroadcast(context, 0, deleteIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static PendingIntent snoozeNotification(Context context, Habit habit)
@@ -47,20 +47,21 @@ public abstract class HabitPendingIntents
         snoozeIntent.setData(data);
         snoozeIntent.setAction(HabitBroadcastReceiver.ACTION_SNOOZE);
         return PendingIntent.getBroadcast(context, 0, snoozeIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static PendingIntent toggleCheckmark(Context context,
                                                 Habit habit,
-                                                Long timestamp)
+                                                Long timestamp,
+                                                int requestCode)
     {
         Uri data = habit.getUri();
         Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
         checkIntent.setData(data);
         checkIntent.setAction(HabitBroadcastReceiver.ACTION_CHECK);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, 0, checkIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(context, requestCode, checkIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static PendingIntent viewHabit(Context context, Habit habit)
