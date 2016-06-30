@@ -19,6 +19,10 @@
 
 package org.isoron.uhabits.models;
 
+import android.support.annotation.*;
+
+import java.util.*;
+
 import static org.isoron.uhabits.models.Checkmark.*;
 
 public class HabitMatcher
@@ -34,13 +38,22 @@ public class HabitMatcher
 
     private final boolean completedAllowed;
 
+    private final List<Integer> allowedColors;
+
     public HabitMatcher(boolean allowArchived,
                         boolean reminderRequired,
-                        boolean completedAllowed)
+                        boolean completedAllowed,
+                        @NonNull List<Integer> allowedColors)
     {
         this.archivedAllowed = allowArchived;
         this.reminderRequired = reminderRequired;
         this.completedAllowed = completedAllowed;
+        this.allowedColors = allowedColors;
+    }
+
+    public List<Integer> getAllowedColors()
+    {
+        return allowedColors;
     }
 
     public boolean isArchivedAllowed()
@@ -65,7 +78,7 @@ public class HabitMatcher
 
         int todayCheckmark = habit.getCheckmarks().getTodayValue();
         if (todayCheckmark != UNCHECKED && !isCompletedAllowed()) return false;
-
+        if(!allowedColors.contains(habit.getColor())) return false;
         return true;
     }
 }
