@@ -22,3 +22,6 @@ general:
     ignore:
       - gh-pages
       - poeditor
+machine:
+    java:
+        version: oraclejdk8
