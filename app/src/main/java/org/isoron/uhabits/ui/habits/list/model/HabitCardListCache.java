@@ -172,6 +172,7 @@ public class HabitCardListCache implements CommandRunner.Listener
     public void setFilter(HabitMatcher matcher)
     {
         filteredHabits = allHabits.getFiltered(matcher);
+        refreshAllHabits(true);
     }
 
     public void setListener(@Nullable Listener listener)

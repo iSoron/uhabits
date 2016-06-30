@@ -61,17 +61,6 @@ public class ListHabitsActivity extends BaseActivity
         system = new BaseSystem(this);
         adapter = new HabitCardListAdapter(habits, checkmarkCount);
 
-//        List<Integer> colors = new ArrayList<>();
-//        colors.add(0);
-//        colors.add(1);
-//        colors.add(2);
-//
-//        HabitMatcher matcher = new HabitMatcherBuilder()
-//            .setArchivedAllowed(false)
-//            .setAllowedColors(colors)
-//            .build();
-//        adapter.setFilter(matcher);
-
         rootView = new ListHabitsRootView(this, adapter);
         screen = new ListHabitsScreen(this, rootView);
         menu = new ListHabitsMenu(this, screen, adapter);

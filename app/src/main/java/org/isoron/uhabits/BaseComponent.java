@@ -95,4 +95,6 @@ public interface BaseComponent
     void inject(BaseWidget baseWidget);
 
     void inject(WidgetUpdater widgetManager);
+
+    void inject(ListHabitsMenu listHabitsMenu);
 }

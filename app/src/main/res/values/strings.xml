@@ -180,4 +180,6 @@
     <string name="score">Score</string>
     <string name="reminder_sound">Reminder sound</string>
     <string name="none">None</string>
+    <string name="filter">Filter</string>
+    <string name="show_completed">Show completed</string>
 </resources>

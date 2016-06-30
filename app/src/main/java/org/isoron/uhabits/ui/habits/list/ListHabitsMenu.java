@@ -19,32 +19,43 @@
 
 package org.isoron.uhabits.ui.habits.list;
 
-import android.support.annotation.NonNull;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.*;
+import android.view.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.ui.BaseActivity;
-import org.isoron.uhabits.ui.BaseMenu;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.utils.*;
+
+import javax.inject.*;
 
 public class ListHabitsMenu extends BaseMenu
 {
     @NonNull
     private final ListHabitsScreen screen;
 
+    private final HabitCardListAdapter adapter;
+
     private boolean showArchived;
 
-    private final HabitCardListAdapter adapter;
+    private boolean showCompleted;
+
+    @Inject
+    Preferences preferences;
 
     public ListHabitsMenu(@NonNull BaseActivity activity,
                           @NonNull ListHabitsScreen screen,
                           @NonNull HabitCardListAdapter adapter)
     {
         super(activity);
+        HabitsApplication.getComponent().inject(this);
         this.screen = screen;
         this.adapter = adapter;
+
+        showCompleted = preferences.getShowCompleted();
+        showArchived = preferences.getShowArchived();
+        updateAdapterFilter();
     }
 
     @Override
@@ -55,6 +66,9 @@ public class ListHabitsMenu extends BaseMenu
 
         MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
         showArchivedItem.setChecked(showArchived);
+
+        MenuItem showCompletedItem = menu.findItem(R.id.actionShowCompleted);
+        showCompletedItem.setChecked(showCompleted);
     }
 
     @Override
@@ -83,8 +97,12 @@ public class ListHabitsMenu extends BaseMenu
                 return true;
 
             case R.id.action_show_archived:
-                showArchived = !showArchived;
-                adapter.setShowArchived(showArchived);
+                toggleShowArchived();
+                invalidate();
+                return true;
+
+            case R.id.actionShowCompleted:
+                toggleShowCompleted();
                 invalidate();
                 return true;
 
@@ -96,6 +114,28 @@ public class ListHabitsMenu extends BaseMenu
     @Override
     protected int getMenuResourceId()
     {
-        return R.menu.main_activity;
+        return R.menu.list_habits;
+    }
+
+    private void toggleShowArchived()
+    {
+        showArchived = !showArchived;
+        preferences.setShowArchived(showArchived);
+        updateAdapterFilter();
+    }
+
+    private void toggleShowCompleted()
+    {
+        showCompleted = !showCompleted;
+        preferences.setShowCompleted(showCompleted);
+        updateAdapterFilter();
+    }
+
+    private void updateAdapterFilter()
+    {
+        adapter.setFilter(new HabitMatcherBuilder()
+            .setArchivedAllowed(showArchived)
+            .setCompletedAllowed(showCompleted)
+            .build());
     }
 }

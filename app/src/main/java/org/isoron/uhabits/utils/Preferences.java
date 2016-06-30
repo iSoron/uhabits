@@ -61,6 +61,16 @@ public class Preferences
         return prefs.getLong("last_hint_timestamp", -1);
     }
 
+    public boolean getShowArchived()
+    {
+        return prefs.getBoolean("pref_show_archived", false);
+    }
+
+    public boolean getShowCompleted()
+    {
+        return prefs.getBoolean("pref_show_completed", true);
+    }
+
     public void incrementLaunchCount()
     {
         int count = prefs.getInt("launch_count", 0);
@@ -103,6 +113,16 @@ public class Preferences
             .edit()
             .putBoolean("pref_checkmark_reverse_order", shouldReverse)
             .apply();
+    }
+
+    public void setShowCompleted(boolean showCompleted)
+    {
+        prefs.edit().putBoolean("pref_show_completed", showCompleted).apply();
+    }
+
+    public void setShowArchived(boolean showArchived)
+    {
+        prefs.edit().putBoolean("pref_show_archived", showArchived).apply();
     }
 
     public boolean shouldReverseCheckmarks()
