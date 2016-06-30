@@ -1,9 +1,9 @@
 # Loop Habit Tracker
 
-<!--
 <a href="https://circleci.com/gh/iSoron/uhabits/tree/dev">
   <img src="https://img.shields.io/circleci/project/iSoron/uhabits/dev.svg">
 </a>
+<!--
 <a href="https://codecov.io/github/iSoron/uhabits?branch=dev">
   <img src="https://img.shields.io/codecov/c/github/iSoron/uhabits.svg" alt="Coverage via Codecov" />
 </a>
