@@ -14,12 +14,12 @@ fail() {
     exit 1
 }
 
-info "Running JVM tests..."
-./gradlew :app:testDebugUnitTest >> $LOG 2>> $LOG || fail
-
 info "Cleaning output directory..."
 rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
+
+info "Running JVM tests..."
+./gradlew :app:testDebugUnitTest >> $LOG 2>> $LOG || fail
 
 info "Building instrumentation APKs..."
 ./gradlew assembleDebug assembleAndroidTest >> $LOG 2>> $LOG || fail
