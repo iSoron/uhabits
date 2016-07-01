@@ -121,7 +121,8 @@ public class HabitCardListAdapter
         boolean selected = this.selected.contains(habit);
 
         HabitCardView cardView = (HabitCardView) holder.itemView;
-        listView.bindCardView(cardView, habit, score, checkmarks, selected);
+        listView.bindCardView(cardView, habit, score, checkmarks, selected,
+            position);
     }
 
     @Override

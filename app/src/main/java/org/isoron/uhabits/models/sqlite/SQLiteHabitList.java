@@ -22,6 +22,7 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.annotation.*;
 
 import com.activeandroid.query.*;
+import com.activeandroid.util.*;
 
 import org.apache.commons.lang3.*;
 import org.isoron.uhabits.models.*;
@@ -181,8 +182,16 @@ public class SQLiteHabitList extends HabitList
     {
         if (from == to) return;
 
-        Integer toPos = indexOf(to);
-        Integer fromPos = indexOf(from);
+        HabitRecord fromRecord = HabitRecord.get(from.getId());
+        HabitRecord toRecord = HabitRecord.get(to.getId());
+
+        if (fromRecord == null) throw new RuntimeException("habit not in database");
+        if (toRecord == null) throw new RuntimeException("habit not in database");
+
+        Integer fromPos = fromRecord.position;
+        Integer toPos = toRecord.position;
+
+        Log.d("SQLiteHabitList", String.format("reorder: %d %d", fromPos, toPos));
 
         if (toPos < fromPos)
         {
@@ -199,10 +208,8 @@ public class SQLiteHabitList extends HabitList
                 .execute();
         }
 
-        HabitRecord record = HabitRecord.get(from.getId());
-        if (record == null) throw new RuntimeException("habit not in database");
-        record.position = toPos;
-        record.save();
+        fromRecord.position = toPos;
+        fromRecord.save();
 
         update(from);
 
@@ -212,10 +219,6 @@ public class SQLiteHabitList extends HabitList
     @Override
     public int size()
     {
-//        SQLiteDatabase db = Cache.openDatabase();
-//        SQLiteStatement st = db.compileStatement(buildCountQuery());
-//        return (int) st.simpleQueryForLong();
-
         return toList().size();
     }
 
@@ -251,11 +254,6 @@ public class SQLiteHabitList extends HabitList
         return habits;
     }
 
-    private void appendCount(StringBuilder query)
-    {
-        query.append("select count (*) from habits ");
-    }
-
     private void appendOrderBy(StringBuilder query)
     {
         query.append("order by position ");
@@ -276,14 +274,6 @@ public class SQLiteHabitList extends HabitList
         query.append("where ");
         query.append(StringUtils.join(where, " and "));
         query.append(" ");
-    }
-
-    private String buildCountQuery()
-    {
-        StringBuilder query = new StringBuilder();
-        appendCount(query);
-        appendWhere(query);
-        return query.toString();
     }
 
     private String buildSelectQuery()

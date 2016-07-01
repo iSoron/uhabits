@@ -22,10 +22,9 @@ package org.isoron.uhabits.ui.habits.list.views;
 import android.content.*;
 import android.support.annotation.*;
 import android.support.v7.widget.*;
+import android.support.v7.widget.helper.*;
 import android.util.*;
 import android.view.*;
-
-import com.mobeta.android.dslv.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.list.controllers.*;
@@ -42,11 +41,12 @@ public class HabitCardListView extends RecyclerView
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-//        setFloatViewManager(new ViewManager());
-//        setDragEnabled(true);
         setLongClickable(true);
         setHasFixedSize(true);
         setLayoutManager(new LinearLayoutManager(getContext()));
+
+        TouchHelperCallback callback = new TouchHelperCallback();
+        new ItemTouchHelper(callback).attachToRecyclerView(this);
     }
 
     /**
@@ -60,13 +60,15 @@ public class HabitCardListView extends RecyclerView
      * @param checkmarks the list of checkmark values to be included in the
      *                   card
      * @param selected   true if the card is selected, false otherwise
+     * @param position
      * @return the HabitCardView generated
      */
     public View bindCardView(@NonNull HabitCardView cardView,
                              @NonNull Habit habit,
                              int score,
                              int[] checkmarks,
-                             boolean selected)
+                             boolean selected,
+                             int position)
     {
         cardView.setHabit(habit);
         cardView.setSelected(selected);
@@ -79,6 +81,12 @@ public class HabitCardListView extends RecyclerView
             cardController.setListener(controller);
             cardView.setController(cardController);
             cardController.setView(cardView);
+
+            cardView.setOnClickListener(v -> controller.onItemClick(position));
+            cardView.setOnLongClickListener(v -> {
+                controller.onItemLongClick(position);
+                return true;
+            });
         }
 
         return cardView;
@@ -99,18 +107,6 @@ public class HabitCardListView extends RecyclerView
     public void setController(@Nullable Controller controller)
     {
         this.controller = controller;
-//        setDropListener(controller);
-//        setDragListener(controller);
-//        setOnItemClickListener(null);
-        setOnLongClickListener(null);
-
-        if (controller == null) return;
-
-//        setOnItemClickListener((p, v, pos, id) -> controller.onItemClick(pos));
-//        setOnItemLongClickListener((p, v, pos, id) -> {
-//            controller.onItemLongClick(pos);
-//            return true;
-//        });
     }
 
     @Override
@@ -128,33 +124,56 @@ public class HabitCardListView extends RecyclerView
     }
 
     public interface Controller extends CheckmarkButtonController.Listener,
-                                        HabitCardController.Listener,
-                                        DragSortListView.DropListener,
-                                        DragSortListView.DragListener
+                                        HabitCardController.Listener
     {
+        void drag(int from, int to);
+
+        void drop(int from, int to);
+
         void onItemClick(int pos);
 
         void onItemLongClick(int pos);
+
+        void startDrag(int position);
     }
 
-//    private class ViewManager extends DragSortController
-//    {
-//        public ViewManager()
-//        {
-//            super(HabitCardListView.this);
-//            setRemoveEnabled(false);
-//        }
-//
-//        @Override
-//        public View onCreateFloatView(int position)
-//        {
-//            if (adapter == null) return null;
-//            return adapter.getView(position, null, null);
-//        }
-//
-//        @Override
-//        public void onDestroyFloatView(View floatView)
-//        {
-//        }
-//    }
+    class TouchHelperCallback extends ItemTouchHelper.Callback
+    {
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView,
+                                    ViewHolder viewHolder)
+        {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled()
+        {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled()
+        {
+            return false;
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView,
+                              ViewHolder from,
+                              ViewHolder to)
+        {
+            if (controller == null) return false;
+            controller.drop(from.getAdapterPosition(), to.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(ViewHolder viewHolder, int direction)
+        {
+            // NOP
+        }
+    }
 }

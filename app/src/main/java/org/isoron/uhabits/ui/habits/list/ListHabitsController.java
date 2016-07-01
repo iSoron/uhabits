@@ -98,7 +98,7 @@ public class ListHabitsController
     @Override
     public void onHabitReorder(@NonNull Habit from, @NonNull Habit to)
     {
-        habitList.reorder(from, to);
+        new SimpleTask(() -> habitList.reorder(from, to)).execute();
     }
 
     public void onImportData(@NonNull File file)

@@ -45,9 +45,6 @@
         android:divider="?windowBackgroundColor"
         android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent"
-        app:drag_start_mode="onLongPress"
-        app:sort_enabled="true"
-        app:track_drag_sort="false"
         android:layout_below="@id/header"/>
 
     <LinearLayout

@@ -21,8 +21,6 @@ package org.isoron.uhabits.ui.habits.list.controllers;
 
 import android.support.annotation.*;
 
-import com.mobeta.android.dslv.*;
-
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
@@ -32,9 +30,7 @@ import org.isoron.uhabits.ui.habits.list.views.*;
  * HabitListView. These include selecting and reordering items, toggling
  * checkmarks and clicking habits.
  */
-public class HabitCardListController implements DragSortListView.DropListener,
-                                                DragSortListView.DragListener,
-                                                HabitCardListView.Controller
+public class HabitCardListController implements HabitCardListView.Controller
 {
     private final Mode NORMAL_MODE = new NormalMode();
 
@@ -42,9 +38,6 @@ public class HabitCardListController implements DragSortListView.DropListener,
 
     @NonNull
     private final HabitCardListAdapter adapter;
-
-    @NonNull
-    private final HabitCardListView view;
 
     @Nullable
     private HabitListener habitListener;
@@ -55,11 +48,9 @@ public class HabitCardListController implements DragSortListView.DropListener,
     @NonNull
     private Mode activeMode;
 
-    public HabitCardListController(@NonNull HabitCardListAdapter adapter,
-                                   @NonNull HabitCardListView view)
+    public HabitCardListController(@NonNull HabitCardListAdapter adapter)
     {
         this.adapter = adapter;
-        this.view = view;
         this.activeMode = new NormalMode();
     }
 
@@ -190,7 +181,6 @@ public class HabitCardListController implements DragSortListView.DropListener,
     private void cancelSelection()
     {
         adapter.clearSelection();
-//        view.setDragEnabled(true);
         activeMode = new NormalMode();
 
         if (selectionListener != null) selectionListener.onSelectionFinish();
