@@ -141,6 +141,6 @@ public class ListHabitsRootView extends BaseRootView
     private void updateEmptyView()
     {
         llEmpty.setVisibility(
-            listAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
+            listAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
     }
 }

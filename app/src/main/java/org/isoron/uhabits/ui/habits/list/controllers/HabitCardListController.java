@@ -190,7 +190,7 @@ public class HabitCardListController implements DragSortListView.DropListener,
     private void cancelSelection()
     {
         adapter.clearSelection();
-        view.setDragEnabled(true);
+//        view.setDragEnabled(true);
         activeMode = new NormalMode();
 
         if (selectionListener != null) selectionListener.onSelectionFinish();

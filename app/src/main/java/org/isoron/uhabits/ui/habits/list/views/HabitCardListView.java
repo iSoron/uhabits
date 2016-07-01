@@ -19,22 +19,19 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ListAdapter;
+import android.content.*;
+import android.support.annotation.*;
+import android.support.v7.widget.*;
+import android.util.*;
+import android.view.*;
 
-import com.mobeta.android.dslv.DragSortController;
-import com.mobeta.android.dslv.DragSortListView;
+import com.mobeta.android.dslv.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.controllers.CheckmarkButtonController;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardController;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
 
-public class HabitCardListView extends DragSortListView
+public class HabitCardListView extends RecyclerView
 {
     @Nullable
     private HabitCardListAdapter adapter;
@@ -45,9 +42,11 @@ public class HabitCardListView extends DragSortListView
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        setFloatViewManager(new ViewManager());
-        setDragEnabled(true);
+//        setFloatViewManager(new ViewManager());
+//        setDragEnabled(true);
         setLongClickable(true);
+        setHasFixedSize(true);
+        setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     /**
@@ -63,14 +62,12 @@ public class HabitCardListView extends DragSortListView
      * @param selected   true if the card is selected, false otherwise
      * @return the HabitCardView generated
      */
-    public View buildCardView(@Nullable HabitCardView cardView,
-                              @NonNull Habit habit,
-                              int score,
-                              int[] checkmarks,
-                              boolean selected)
+    public View bindCardView(@NonNull HabitCardView cardView,
+                             @NonNull Habit habit,
+                             int score,
+                             int[] checkmarks,
+                             boolean selected)
     {
-        if (cardView == null) cardView = new HabitCardView(getContext());
-
         cardView.setHabit(habit);
         cardView.setSelected(selected);
         cardView.setCheckmarkValues(checkmarks);
@@ -87,8 +84,13 @@ public class HabitCardListView extends DragSortListView
         return cardView;
     }
 
+    public View createCardView()
+    {
+        return new HabitCardView(getContext());
+    }
+
     @Override
-    public void setAdapter(ListAdapter adapter)
+    public void setAdapter(RecyclerView.Adapter adapter)
     {
         this.adapter = (HabitCardListAdapter) adapter;
         super.setAdapter(adapter);
@@ -97,18 +99,18 @@ public class HabitCardListView extends DragSortListView
     public void setController(@Nullable Controller controller)
     {
         this.controller = controller;
-        setDropListener(controller);
-        setDragListener(controller);
-        setOnItemClickListener(null);
+//        setDropListener(controller);
+//        setDragListener(controller);
+//        setOnItemClickListener(null);
         setOnLongClickListener(null);
 
         if (controller == null) return;
 
-        setOnItemClickListener((p, v, pos, id) -> controller.onItemClick(pos));
-        setOnItemLongClickListener((p, v, pos, id) -> {
-            controller.onItemLongClick(pos);
-            return true;
-        });
+//        setOnItemClickListener((p, v, pos, id) -> controller.onItemClick(pos));
+//        setOnItemLongClickListener((p, v, pos, id) -> {
+//            controller.onItemLongClick(pos);
+//            return true;
+//        });
     }
 
     @Override
@@ -127,32 +129,32 @@ public class HabitCardListView extends DragSortListView
 
     public interface Controller extends CheckmarkButtonController.Listener,
                                         HabitCardController.Listener,
-                                        DropListener,
-                                        DragListener
+                                        DragSortListView.DropListener,
+                                        DragSortListView.DragListener
     {
         void onItemClick(int pos);
 
         void onItemLongClick(int pos);
     }
 
-    private class ViewManager extends DragSortController
-    {
-        public ViewManager()
-        {
-            super(HabitCardListView.this);
-            setRemoveEnabled(false);
-        }
-
-        @Override
-        public View onCreateFloatView(int position)
-        {
-            if (adapter == null) return null;
-            return adapter.getView(position, null, null);
-        }
-
-        @Override
-        public void onDestroyFloatView(View floatView)
-        {
-        }
-    }
+//    private class ViewManager extends DragSortController
+//    {
+//        public ViewManager()
+//        {
+//            super(HabitCardListView.this);
+//            setRemoveEnabled(false);
+//        }
+//
+//        @Override
+//        public View onCreateFloatView(int position)
+//        {
+//            if (adapter == null) return null;
+//            return adapter.getView(position, null, null);
+//        }
+//
+//        @Override
+//        public void onDestroyFloatView(View floatView)
+//        {
+//        }
+//    }
 }
