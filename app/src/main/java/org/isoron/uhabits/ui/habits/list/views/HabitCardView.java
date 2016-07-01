@@ -88,6 +88,10 @@ public class HabitCardView extends FrameLayout
         checkmarkPanel.setController(null);
         if (controller == null) return;
 
+        setOnClickListener(v -> {
+
+        });
+
         checkmarkPanel.setController(controller);
     }
 

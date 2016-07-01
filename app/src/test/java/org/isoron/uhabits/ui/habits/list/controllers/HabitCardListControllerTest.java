@@ -66,7 +66,7 @@ public class HabitCardListControllerTest extends BaseUnitTest
 
         resetMocks();
 
-        this.controller = new HabitCardListController(adapter, view);
+        this.controller = new HabitCardListController(adapter);
         controller.setHabitListener(habitListener);
         controller.setSelectionListener(selectionListener);
         view.setController(controller);

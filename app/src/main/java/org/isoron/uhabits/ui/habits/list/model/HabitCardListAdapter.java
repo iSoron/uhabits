@@ -20,8 +20,8 @@
 package org.isoron.uhabits.ui.habits.list.model;
 
 import android.support.annotation.*;
+import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
@@ -35,7 +35,8 @@ import java.util.*;
  * The data if fetched and cached by a {@link HabitCardListCache}. This adapter
  * also holds a list of items that have been selected.
  */
-public class HabitCardListAdapter extends BaseAdapter
+public class HabitCardListAdapter
+    extends RecyclerView.Adapter<HabitCardViewHolder>
     implements HabitCardListCache.Listener
 {
     @NonNull
@@ -61,6 +62,8 @@ public class HabitCardListAdapter extends BaseAdapter
         cache = new HabitCardListCache(allHabits);
         cache.setListener(this);
         cache.setCheckmarkCount(checkmarkCount);
+
+        setHasStableIds(true);
     }
 
     public void cancelRefresh()
@@ -78,7 +81,7 @@ public class HabitCardListAdapter extends BaseAdapter
     }
 
     @Override
-    public int getCount()
+    public int getItemCount()
     {
         return cache.getHabitCount();
     }
@@ -90,11 +93,36 @@ public class HabitCardListAdapter extends BaseAdapter
      * @return the item at given position
      * @throws IndexOutOfBoundsException if position is not valid
      */
-    @Override
+    @Deprecated
     @NonNull
     public Habit getItem(int position)
     {
         return cache.getHabitByPosition(position);
+    }
+
+    @Override
+    public HabitCardViewHolder onCreateViewHolder(ViewGroup parent,
+                                                  int viewType)
+    {
+        if(listView == null) return null;
+        View view = listView.createCardView();
+        return new HabitCardViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@Nullable HabitCardViewHolder holder, int position)
+    {
+        if(holder == null) return;
+        if(listView == null) return;
+
+        Habit habit = cache.getHabitByPosition(position);
+        int score = cache.getScore(habit.getId());
+        int checkmarks[] = cache.getCheckmarks(habit.getId());
+        boolean selected = this.selected.contains(habit);
+
+        HabitCardView cardView = (HabitCardView) holder.itemView;
+        listView.bindCardView(cardView, habit, score, checkmarks, selected,
+            position);
     }
 
     @Override
@@ -115,21 +143,21 @@ public class HabitCardListAdapter extends BaseAdapter
         return new LinkedList<>(selected);
     }
 
-    @Override
-    public View getView(int position,
-                        @Nullable View view,
-                        @Nullable ViewGroup parent)
-    {
-        if (listView == null) return null;
-
-        Habit habit = cache.getHabitByPosition(position);
-        int score = cache.getScore(habit.getId());
-        int checkmarks[] = cache.getCheckmarks(habit.getId());
-        boolean selected = this.selected.contains(habit);
-
-        return listView.buildCardView((HabitCardView) view, habit, score,
-            checkmarks, selected);
-    }
+//    @Override
+//    public View getView(int position,
+//                        @Nullable View view,
+//                        @Nullable ViewGroup parent)
+//    {
+//        if (listView == null) return null;
+//
+//        Habit habit = cache.getHabitByPosition(position);
+//        int score = cache.getScore(habit.getId());
+//        int checkmarks[] = cache.getCheckmarks(habit.getId());
+//        boolean selected = this.selected.contains(habit);
+//
+//        return listView.buildCardView((HabitCardView) view, habit, score,
+//            checkmarks, selected);
+//    }
 
     /**
      * Returns whether list of selected items is empty.
@@ -201,12 +229,6 @@ public class HabitCardListAdapter extends BaseAdapter
     public void setListView(@Nullable HabitCardListView listView)
     {
         this.listView = listView;
-    }
-
-    public void setShowArchived(boolean showArchived)
-    {
-        cache.setIncludeArchived(showArchived);
-        cache.refreshAllHabits(true);
     }
 
     /**

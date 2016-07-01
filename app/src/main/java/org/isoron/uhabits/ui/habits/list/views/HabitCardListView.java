@@ -19,22 +19,18 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ListAdapter;
+import android.content.*;
+import android.support.annotation.*;
+import android.support.v7.widget.*;
+import android.support.v7.widget.helper.*;
+import android.util.*;
+import android.view.*;
 
-import com.mobeta.android.dslv.DragSortController;
-import com.mobeta.android.dslv.DragSortListView;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.controllers.CheckmarkButtonController;
-import org.isoron.uhabits.ui.habits.list.controllers.HabitCardController;
-import org.isoron.uhabits.ui.habits.list.model.HabitCardListAdapter;
-
-public class HabitCardListView extends DragSortListView
+public class HabitCardListView extends RecyclerView
 {
     @Nullable
     private HabitCardListAdapter adapter;
@@ -45,9 +41,12 @@ public class HabitCardListView extends DragSortListView
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        setFloatViewManager(new ViewManager());
-        setDragEnabled(true);
         setLongClickable(true);
+        setHasFixedSize(true);
+        setLayoutManager(new LinearLayoutManager(getContext()));
+
+        TouchHelperCallback callback = new TouchHelperCallback();
+        new ItemTouchHelper(callback).attachToRecyclerView(this);
     }
 
     /**
@@ -61,16 +60,16 @@ public class HabitCardListView extends DragSortListView
      * @param checkmarks the list of checkmark values to be included in the
      *                   card
      * @param selected   true if the card is selected, false otherwise
+     * @param position
      * @return the HabitCardView generated
      */
-    public View buildCardView(@Nullable HabitCardView cardView,
-                              @NonNull Habit habit,
-                              int score,
-                              int[] checkmarks,
-                              boolean selected)
+    public View bindCardView(@NonNull HabitCardView cardView,
+                             @NonNull Habit habit,
+                             int score,
+                             int[] checkmarks,
+                             boolean selected,
+                             int position)
     {
-        if (cardView == null) cardView = new HabitCardView(getContext());
-
         cardView.setHabit(habit);
         cardView.setSelected(selected);
         cardView.setCheckmarkValues(checkmarks);
@@ -82,13 +81,24 @@ public class HabitCardListView extends DragSortListView
             cardController.setListener(controller);
             cardView.setController(cardController);
             cardController.setView(cardView);
+
+            cardView.setOnClickListener(v -> controller.onItemClick(position));
+            cardView.setOnLongClickListener(v -> {
+                controller.onItemLongClick(position);
+                return true;
+            });
         }
 
         return cardView;
     }
 
+    public View createCardView()
+    {
+        return new HabitCardView(getContext());
+    }
+
     @Override
-    public void setAdapter(ListAdapter adapter)
+    public void setAdapter(RecyclerView.Adapter adapter)
     {
         this.adapter = (HabitCardListAdapter) adapter;
         super.setAdapter(adapter);
@@ -97,18 +107,6 @@ public class HabitCardListView extends DragSortListView
     public void setController(@Nullable Controller controller)
     {
         this.controller = controller;
-        setDropListener(controller);
-        setDragListener(controller);
-        setOnItemClickListener(null);
-        setOnLongClickListener(null);
-
-        if (controller == null) return;
-
-        setOnItemClickListener((p, v, pos, id) -> controller.onItemClick(pos));
-        setOnItemLongClickListener((p, v, pos, id) -> {
-            controller.onItemLongClick(pos);
-            return true;
-        });
     }
 
     @Override
@@ -126,33 +124,56 @@ public class HabitCardListView extends DragSortListView
     }
 
     public interface Controller extends CheckmarkButtonController.Listener,
-                                        HabitCardController.Listener,
-                                        DropListener,
-                                        DragListener
+                                        HabitCardController.Listener
     {
+        void drag(int from, int to);
+
+        void drop(int from, int to);
+
         void onItemClick(int pos);
 
         void onItemLongClick(int pos);
+
+        void startDrag(int position);
     }
 
-    private class ViewManager extends DragSortController
+    class TouchHelperCallback extends ItemTouchHelper.Callback
     {
-        public ViewManager()
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView,
+                                    ViewHolder viewHolder)
         {
-            super(HabitCardListView.this);
-            setRemoveEnabled(false);
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
         }
 
         @Override
-        public View onCreateFloatView(int position)
+        public boolean isLongPressDragEnabled()
         {
-            if (adapter == null) return null;
-            return adapter.getView(position, null, null);
+            return true;
         }
 
         @Override
-        public void onDestroyFloatView(View floatView)
+        public boolean isItemViewSwipeEnabled()
         {
+            return false;
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView,
+                              ViewHolder from,
+                              ViewHolder to)
+        {
+            if (controller == null) return false;
+            controller.drop(from.getAdapterPosition(), to.getAdapterPosition());
+            return true;
+        }
+
+        @Override
+        public void onSwiped(ViewHolder viewHolder, int direction)
+        {
+            // NOP
         }
     }
 }

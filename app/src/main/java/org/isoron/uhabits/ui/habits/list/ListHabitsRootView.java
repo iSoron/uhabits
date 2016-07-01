@@ -115,7 +115,7 @@ public class ListHabitsRootView extends BaseRootView
                               @NonNull ListHabitsSelectionMenu menu)
     {
         HabitCardListController listController =
-            new HabitCardListController(listAdapter, listView);
+            new HabitCardListController(listAdapter);
 
         listController.setHabitListener(controller);
         listController.setSelectionListener(menu);
@@ -141,6 +141,6 @@ public class ListHabitsRootView extends BaseRootView
     private void updateEmptyView()
     {
         llEmpty.setVisibility(
-            listAdapter.getCount() > 0 ? View.GONE : View.VISIBLE);
+            listAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
     }
 }

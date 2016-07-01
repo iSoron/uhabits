@@ -102,16 +102,6 @@ public class HabitCardListCache implements CommandRunner.Listener
         return data.habits.size();
     }
 
-    public boolean getIncludeArchived()
-    {
-        return includeArchived;
-    }
-
-    public void setIncludeArchived(boolean includeArchived)
-    {
-        this.includeArchived = includeArchived;
-    }
-
     @Nullable
     public Long getLastLoadTimestamp()
     {
