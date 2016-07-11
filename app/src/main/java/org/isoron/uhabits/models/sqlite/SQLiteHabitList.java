@@ -109,11 +109,7 @@ public class SQLiteHabitList extends HabitList
     @Nullable
     public Habit getByPosition(int position)
     {
-        String query = buildSelectQuery() + "limit 1 offset ?";
-        String params[] = { Integer.toString(position) };
-        HabitRecord record = sqlite.querySingle(query, params);
-        if (record != null) return getById(record.getId());
-        return null;
+        return toList().get(position);
     }
 
     @NonNull

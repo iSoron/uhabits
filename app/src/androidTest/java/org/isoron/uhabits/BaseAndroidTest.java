@@ -132,4 +132,9 @@ public class BaseAndroidTest
 
         BaseTask.waitForTasks(10000);
     }
+
+    protected void awaitLatch() throws InterruptedException
+    {
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
+    }
 }

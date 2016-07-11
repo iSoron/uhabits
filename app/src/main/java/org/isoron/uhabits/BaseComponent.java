@@ -22,6 +22,7 @@ package org.isoron.uhabits;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.pebble.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.edit.*;
@@ -97,4 +98,6 @@ public interface BaseComponent
     void inject(WidgetUpdater widgetManager);
 
     void inject(ListHabitsMenu listHabitsMenu);
+
+    void inject(PebbleReceiver receiver);
 }
