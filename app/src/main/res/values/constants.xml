@@ -32,6 +32,7 @@
         <item>@string/interval_2_hour</item>
         <item>@string/interval_4_hour</item>
         <item>@string/interval_8_hour</item>
+        <item>@string/interval_24_hour</item>
     </string-array>
 
     <string-array name="snooze_interval_values" translatable="false">
@@ -41,6 +42,7 @@
         <item>120</item>
         <item>240</item>
         <item>480</item>
+        <item>1440</item>
     </string-array>
 
     <string-array name="frequencyQuickSelect" translatable="false">
