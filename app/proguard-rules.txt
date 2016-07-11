@@ -1,0 +1,3 @@
+-dontwarn java.beans.**
+-dontwarn java.lang.**
+-dontobfuscate
