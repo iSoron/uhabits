@@ -137,5 +137,6 @@ public class ListHabitsMenu extends BaseMenu
             .setArchivedAllowed(showArchived)
             .setCompletedAllowed(showCompleted)
             .build());
+        adapter.refresh();
     }
 }

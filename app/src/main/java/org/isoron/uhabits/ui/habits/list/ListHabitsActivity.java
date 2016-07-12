@@ -87,6 +87,5 @@ public class ListHabitsActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
-        adapter.refresh();
     }
 }

@@ -179,7 +179,7 @@ public class ListHabitsController
     public void onToggle(@NonNull Habit habit, long timestamp)
     {
         commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
-            null);
+            habit.getId());
     }
 
     private void onFirstRun()

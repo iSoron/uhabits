@@ -68,8 +68,8 @@ public class CheckmarkButtonView extends FrameLayout
 
     public void toggle()
     {
-//        value = (value == Checkmark.CHECKED_EXPLICITLY ? Checkmark.UNCHECKED :
-//            Checkmark.CHECKED_EXPLICITLY);
+        value = (value == Checkmark.CHECKED_EXPLICITLY ? Checkmark.UNCHECKED :
+            Checkmark.CHECKED_EXPLICITLY);
 
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         postInvalidate();

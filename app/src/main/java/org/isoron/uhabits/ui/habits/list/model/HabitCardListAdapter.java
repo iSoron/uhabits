@@ -21,6 +21,7 @@ package org.isoron.uhabits.ui.habits.list.model;
 
 import android.support.annotation.*;
 import android.support.v7.widget.*;
+import android.util.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
@@ -80,12 +81,6 @@ public class HabitCardListAdapter
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemCount()
-    {
-        return cache.getHabitCount();
-    }
-
     /**
      * Returns the item that occupies a certain position on the list
      *
@@ -101,28 +96,9 @@ public class HabitCardListAdapter
     }
 
     @Override
-    public HabitCardViewHolder onCreateViewHolder(ViewGroup parent,
-                                                  int viewType)
+    public int getItemCount()
     {
-        if(listView == null) return null;
-        View view = listView.createCardView();
-        return new HabitCardViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@Nullable HabitCardViewHolder holder, int position)
-    {
-        if(holder == null) return;
-        if(listView == null) return;
-
-        Habit habit = cache.getHabitByPosition(position);
-        int score = cache.getScore(habit.getId());
-        int checkmarks[] = cache.getCheckmarks(habit.getId());
-        boolean selected = this.selected.contains(habit);
-
-        HabitCardView cardView = (HabitCardView) holder.itemView;
-        listView.bindCardView(cardView, habit, score, checkmarks, selected,
-            position);
+        return cache.getHabitCount();
     }
 
     @Override
@@ -143,22 +119,6 @@ public class HabitCardListAdapter
         return new LinkedList<>(selected);
     }
 
-//    @Override
-//    public View getView(int position,
-//                        @Nullable View view,
-//                        @Nullable ViewGroup parent)
-//    {
-//        if (listView == null) return null;
-//
-//        Habit habit = cache.getHabitByPosition(position);
-//        int score = cache.getScore(habit.getId());
-//        int checkmarks[] = cache.getCheckmarks(habit.getId());
-//        boolean selected = this.selected.contains(habit);
-//
-//        return listView.buildCardView((HabitCardView) view, habit, score,
-//            checkmarks, selected);
-//    }
-
     /**
      * Returns whether list of selected items is empty.
      *
@@ -177,11 +137,50 @@ public class HabitCardListAdapter
         cache.onAttached();
     }
 
+//    @Override
+//    public View getView(int position,
+//                        @Nullable View view,
+//                        @Nullable ViewGroup parent)
+//    {
+//        if (listView == null) return null;
+//
+//        Habit habit = cache.getHabitByPosition(position);
+//        int score = cache.getScore(habit.getId());
+//        int checkmarks[] = cache.getCheckmarks(habit.getId());
+//        boolean selected = this.selected.contains(habit);
+//
+//        return listView.buildCardView((HabitCardView) view, habit, score,
+//            checkmarks, selected);
+//    }
+
     @Override
-    public void onCacheRefresh()
+    public void onBindViewHolder(@Nullable HabitCardViewHolder holder,
+                                 int position)
     {
-        notifyDataSetChanged();
-        observable.notifyListeners();
+        if (holder == null) return;
+        if (listView == null) return;
+
+        Habit habit = cache.getHabitByPosition(position);
+        int score = cache.getScore(habit.getId());
+        int checkmarks[] = cache.getCheckmarks(habit.getId());
+        boolean selected = this.selected.contains(habit);
+
+        Log.d("HabitCardListView",
+            String.format("bind pos=%d itemId=%d, habit=%d:%s", position,
+                holder.getItemId(), habit.getId(), habit.getName()));
+
+        HabitCardView cardView = (HabitCardView) holder.itemView;
+        listView.bindCardView(cardView, habit, score, checkmarks, selected,
+            position);
+    }
+
+    @Override
+    public HabitCardViewHolder onCreateViewHolder(ViewGroup parent,
+                                                  int viewType)
+    {
+        if (listView == null) return null;
+        View view = listView.createCardView();
+        return new HabitCardViewHolder(view);
     }
 
     /**
@@ -190,6 +189,34 @@ public class HabitCardListAdapter
     public void onDetached()
     {
         cache.onDetached();
+    }
+
+    @Override
+    public void onItemChanged(int position)
+    {
+        notifyItemChanged(position);
+        observable.notifyListeners();
+    }
+
+    @Override
+    public void onItemInserted(int position)
+    {
+        notifyItemInserted(position);
+        observable.notifyListeners();
+    }
+
+    @Override
+    public void onItemMoved(int fromPosition, int toPosition)
+    {
+        notifyItemMoved(fromPosition, toPosition);
+        observable.notifyListeners();
+    }
+
+    @Override
+    public void onItemRemoved(int position)
+    {
+        notifyItemRemoved(position);
+        observable.notifyListeners();
     }
 
     public void refresh()
@@ -212,6 +239,7 @@ public class HabitCardListAdapter
     public void reorder(int from, int to)
     {
         cache.reorder(from, to);
+        notifyItemMoved(from, to);
     }
 
     public void setFilter(HabitMatcher matcher)
@@ -242,6 +270,6 @@ public class HabitCardListAdapter
         int k = selected.indexOf(h);
         if (k < 0) selected.add(h);
         else selected.remove(h);
-        notifyDataSetChanged();
+        notifyItemChanged(position);
     }
 }

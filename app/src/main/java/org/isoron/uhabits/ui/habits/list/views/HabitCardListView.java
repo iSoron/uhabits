@@ -42,11 +42,10 @@ public class HabitCardListView extends RecyclerView
     {
         super(context, attrs);
         setLongClickable(true);
-        setHasFixedSize(true);
         setLayoutManager(new LinearLayoutManager(getContext()));
 
-        TouchHelperCallback callback = new TouchHelperCallback();
-        new ItemTouchHelper(callback).attachToRecyclerView(this);
+//        TouchHelperCallback callback = new TouchHelperCallback();
+//        new ItemTouchHelper(callback).attachToRecyclerView(this);
     }
 
     /**
