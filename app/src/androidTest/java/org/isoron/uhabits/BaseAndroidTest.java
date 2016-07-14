@@ -135,6 +135,6 @@ public class BaseAndroidTest
 
     protected void awaitLatch() throws InterruptedException
     {
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertTrue(latch.await(60, TimeUnit.SECONDS));
     }
 }
