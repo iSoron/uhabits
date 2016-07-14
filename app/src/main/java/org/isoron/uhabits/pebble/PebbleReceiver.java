@@ -113,7 +113,7 @@ public class PebbleReceiver extends PebbleDataReceiver
         if (habit == null) return;
 
         long today = DateUtils.getStartOfToday();
-        runner.execute(new ToggleRepetitionCommand(habit, today), null);
+        runner.execute(new ToggleRepetitionCommand(habit, today), habitId);
 
         sendOK();
     }

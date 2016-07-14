@@ -86,7 +86,8 @@ public abstract class HabitList implements Iterable<Habit>
      * Returns the habit that occupies a certain position.
      *
      * @param position the position of the desired habit
-     * @return the habit at that position, or null if there is none
+     * @return the habit at that position
+     * @throws IndexOutOfBoundsException when the position is invalid
      */
     @Nullable
     public abstract Habit getByPosition(int position);

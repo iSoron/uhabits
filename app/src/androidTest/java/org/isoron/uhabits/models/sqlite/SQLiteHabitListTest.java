@@ -158,9 +158,6 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         Habit h = habitList.getByPosition(5);
         assertNotNull(h);
         assertThat(h.getName(), equalTo("habit 5"));
-
-        h = habitList.getByPosition(5000);
-        assertNull(h);
     }
 
     @Test
