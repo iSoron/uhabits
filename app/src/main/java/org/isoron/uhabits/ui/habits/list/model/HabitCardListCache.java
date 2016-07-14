@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.ui.habits.list.model;
 
+import android.os.*;
 import android.support.annotation.*;
-import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
@@ -49,9 +49,6 @@ public class HabitCardListCache implements CommandRunner.Listener
     @Nullable
     private Listener listener;
 
-    @Nullable
-    private Long lastLoadTimestamp;
-
     @NonNull
     private CacheData data;
 
@@ -64,10 +61,14 @@ public class HabitCardListCache implements CommandRunner.Listener
     @NonNull
     private HabitList filteredHabits;
 
+    @NonNull
+    private ProgressBar progressBar;
+
     public HabitCardListCache(@NonNull HabitList allHabits)
     {
         this.allHabits = allHabits;
         this.filteredHabits = allHabits;
+        this.progressBar = new ProgressBar() {};
         data = new CacheData();
         HabitsApplication.getComponent().inject(this);
     }
@@ -100,12 +101,6 @@ public class HabitCardListCache implements CommandRunner.Listener
         return data.habits.size();
     }
 
-    @Nullable
-    public Long getLastLoadTimestamp()
-    {
-        return lastLoadTimestamp;
-    }
-
     public int getScore(long habitId)
     {
         return data.scores.get(habitId);
@@ -113,7 +108,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     public void onAttached()
     {
-        refreshAllHabits(true);
+        refreshAllHabits();
         commandRunner.addListener(this);
     }
 
@@ -121,7 +116,7 @@ public class HabitCardListCache implements CommandRunner.Listener
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        if (refreshKey == null) refreshAllHabits(true);
+        if (refreshKey == null) refreshAllHabits();
         else refreshHabit(refreshKey);
     }
 
@@ -130,17 +125,16 @@ public class HabitCardListCache implements CommandRunner.Listener
         commandRunner.removeListener(this);
     }
 
-    public void refreshAllHabits(final boolean refreshScoresAndCheckmarks)
+    public void refreshAllHabits()
     {
-        Log.d("HabitCardListCache", "Refreshing all habits");
         if (currentFetchTask != null) currentFetchTask.cancel(true);
-        currentFetchTask = new RefreshAllHabitsTask(refreshScoresAndCheckmarks);
+        currentFetchTask = new RefreshTask();
         currentFetchTask.execute();
     }
 
-    public void refreshHabit(final Long id)
+    public void refreshHabit(long id)
     {
-        new RefreshHabitTask(id).execute();
+        new RefreshTask(id).execute();
     }
 
     public void reorder(int from, int to)
@@ -148,8 +142,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         Habit fromHabit = data.habits.get(from);
         data.habits.remove(from);
         data.habits.add(to, fromHabit);
-        if(listener != null)
-            listener.onItemMoved(from, to);
+        if (listener != null) listener.onItemMoved(from, to);
     }
 
     public void setCheckmarkCount(int checkmarkCount)
@@ -165,6 +158,11 @@ public class HabitCardListCache implements CommandRunner.Listener
     public void setListener(@Nullable Listener listener)
     {
         this.listener = listener;
+    }
+
+    public void setProgressBar(@NonNull ProgressBar progressBar)
+    {
+        this.progressBar = progressBar;
     }
 
     /**
@@ -239,17 +237,24 @@ public class HabitCardListCache implements CommandRunner.Listener
         }
     }
 
-    private class RefreshAllHabitsTask extends BaseTask
+    private class RefreshTask extends BaseTask
     {
         @NonNull
         private CacheData newData;
 
-        private final boolean refreshScoresAndCheckmarks;
+        @Nullable
+        private Long targetId;
 
-        public RefreshAllHabitsTask(boolean refreshScoresAndCheckmarks)
+        public RefreshTask()
         {
-            this.refreshScoresAndCheckmarks = refreshScoresAndCheckmarks;
             newData = new CacheData();
+            targetId = null;
+        }
+
+        public RefreshTask(Long targetId)
+        {
+            newData = new CacheData();
+            this.targetId = targetId;
         }
 
         @Override
@@ -263,38 +268,106 @@ public class HabitCardListCache implements CommandRunner.Listener
             long day = DateUtils.millisecondsInOneDay;
             long dateFrom = dateTo - (checkmarkCount - 1) * day;
 
-            for(Habit h : newData.habits)
-            {
-                Long id = h.getId();
-                newData.scores.put(id, h.getScores().getTodayValue());
-                newData.checkmarks.put(id,
-                    h.getCheckmarks().getValues(dateFrom, dateTo));
-            }
+            publishProgress(-1);
 
-            publishProgress(0);
+            for (int position = 0; position < newData.habits.size(); position++)
+            {
+                if (isCancelled()) return;
+
+                Habit habit = newData.habits.get(position);
+                Long id = habit.getId();
+                if (targetId != null && !targetId.equals(id)) continue;
+
+                newData.scores.put(id, habit.getScores().getTodayValue());
+                newData.checkmarks.put(id,
+                    habit.getCheckmarks().getValues(dateFrom, dateTo));
+
+                publishProgress(position);
+            }
         }
 
         @Override
         protected void onPostExecute(Void aVoid)
         {
-            lastLoadTimestamp = DateUtils.getStartOfToday();
             currentFetchTask = null;
+            progressBar.hide();
             super.onPostExecute(null);
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            new Handler().postDelayed(() -> {
+                if (getStatus() == Status.RUNNING) progressBar.show();
+            }, 1000);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values)
         {
-            if(listener == null) throw new RuntimeException(
-                "listener should have been attached");
+            int currentPosition = values[0];
 
+            if (currentPosition < 0)
+            {
+                progressBar.setTotal(newData.habits.size() - 1);
+                processRemovedHabits();
+            }
+            else
+            {
+                progressBar.setCurrent(currentPosition);
+                processPosition(currentPosition);
+            }
+        }
+
+        private void performInsert(Habit habit, int position)
+        {
+            Long id = habit.getId();
+            data.habits.add(position, habit);
+            data.id_to_habit.put(id, habit);
+            data.scores.put(id, newData.scores.get(id));
+            data.checkmarks.put(id, newData.checkmarks.get(id));
+            if (listener != null) listener.onItemInserted(position);
+        }
+
+        private void performMove(Habit habit, int toPosition, int fromPosition)
+        {
+            data.habits.remove(fromPosition);
+            data.habits.add(toPosition, habit);
+            if (listener != null)
+                listener.onItemMoved(fromPosition, toPosition);
+        }
+
+        private void performUpdate(Long id, int position)
+        {
+            data.scores.put(id, newData.scores.get(id));
+            data.checkmarks.put(id, newData.checkmarks.get(id));
+            listener.onItemChanged(position);
+        }
+
+        private void processPosition(int currentPosition)
+        {
+            Habit habit = newData.habits.get(currentPosition);
+            Long id = habit.getId();
+
+            Habit prevHabit = data.id_to_habit.get(id);
+            int prevPosition = data.habits.indexOf(prevHabit);
+
+            if (prevPosition < 0) performInsert(habit, currentPosition);
+            else if (prevPosition == currentPosition)
+                performUpdate(id, currentPosition);
+            else performMove(habit, currentPosition, prevPosition);
+        }
+
+        private void processRemovedHabits()
+        {
             Set<Long> before = data.id_to_habit.keySet();
             Set<Long> after = newData.id_to_habit.keySet();
 
             Set<Long> removed = new TreeSet<>(before);
             removed.removeAll(after);
 
-            for(Long id : removed)
+            for (Long id : removed)
             {
                 Habit h = data.id_to_habit.get(id);
                 int position = data.habits.indexOf(h);
@@ -302,77 +375,8 @@ public class HabitCardListCache implements CommandRunner.Listener
                 data.id_to_habit.remove(id);
                 data.checkmarks.remove(id);
                 data.scores.remove(id);
-                listener.onItemRemoved(position);
-                Log.d("HabitCardListCache", String.format("removed %d",
-                    position));
+                if (listener != null) listener.onItemRemoved(position);
             }
-
-            for(int k = 0; k < newData.habits.size(); k++)
-            {
-                Habit h = newData.habits.get(k);
-                Long id = h.getId();
-
-                Habit prevHabit = data.id_to_habit.get(id);
-                int prevPosition = data.habits.indexOf(prevHabit);
-                if(prevPosition == k) continue;
-
-                if(prevPosition < 0)
-                {
-                    data.habits.add(k, h);
-                    data.id_to_habit.put(id, h);
-                    data.scores.put(id, newData.scores.get(id));
-                    data.checkmarks.put(id, newData.checkmarks.get(id));
-                    listener.onItemInserted(k);
-                    Log.d("HabitCardListCache", String.format("inserted %d",
-                        k));
-                }
-                else
-                {
-                    data.habits.remove(prevPosition);
-                    data.habits.add(k, h);
-                    listener.onItemMoved(prevPosition, k);
-                    Log.d("HabitCardListCache", String.format("moved %d %d",
-                        prevPosition, k));
-                }
-            }
-        }
-    }
-
-    private class RefreshHabitTask extends BaseTask
-    {
-        private final Long id;
-
-        public RefreshHabitTask(Long id)
-        {
-            this.id = id;
-        }
-
-        @Override
-        protected void doInBackground()
-        {
-            long dateTo = DateUtils.getStartOfDay(DateUtils.getLocalTime());
-            long day = DateUtils.millisecondsInOneDay;
-            long dateFrom = dateTo - (checkmarkCount - 1) * day;
-
-            Habit h = allHabits.getById(id);
-            if (h == null) return;
-
-            data.scores.put(id, h.getScores().getTodayValue());
-            data.checkmarks.put(id,
-                h.getCheckmarks().getValues(dateFrom, dateTo));
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid)
-        {
-            if (listener != null)
-            {
-                Habit h = data.id_to_habit.get(id);
-                int position = data.habits.indexOf(h);
-                listener.onItemChanged(position);
-            }
-
-            super.onPostExecute(null);
         }
     }
 }

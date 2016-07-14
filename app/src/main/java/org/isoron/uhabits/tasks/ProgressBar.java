@@ -25,12 +25,16 @@ package org.isoron.uhabits.tasks;
 public interface ProgressBar
 {
     /**
-     * Shows the progress bar.
-     */
-    void show();
-
-    /**
      * Hides the progress bar.
      */
-    void hide();
+    default void hide() {}
+
+    default void setCurrent(int current) {}
+
+    default void setTotal(int total) {}
+
+    /**
+     * Shows the progress bar.
+     */
+    default void show() {}
 }

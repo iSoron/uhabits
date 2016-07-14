@@ -21,11 +21,11 @@ package org.isoron.uhabits.ui.habits.list.model;
 
 import android.support.annotation.*;
 import android.support.v7.widget.*;
-import android.util.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 
 import java.util.*;
@@ -137,22 +137,6 @@ public class HabitCardListAdapter
         cache.onAttached();
     }
 
-//    @Override
-//    public View getView(int position,
-//                        @Nullable View view,
-//                        @Nullable ViewGroup parent)
-//    {
-//        if (listView == null) return null;
-//
-//        Habit habit = cache.getHabitByPosition(position);
-//        int score = cache.getScore(habit.getId());
-//        int checkmarks[] = cache.getCheckmarks(habit.getId());
-//        boolean selected = this.selected.contains(habit);
-//
-//        return listView.buildCardView((HabitCardView) view, habit, score,
-//            checkmarks, selected);
-//    }
-
     @Override
     public void onBindViewHolder(@Nullable HabitCardViewHolder holder,
                                  int position)
@@ -161,13 +145,9 @@ public class HabitCardListAdapter
         if (listView == null) return;
 
         Habit habit = cache.getHabitByPosition(position);
-        int score = cache.getScore(habit.getId());
+            int score = cache.getScore(habit.getId());
         int checkmarks[] = cache.getCheckmarks(habit.getId());
         boolean selected = this.selected.contains(habit);
-
-        Log.d("HabitCardListView",
-            String.format("bind pos=%d itemId=%d, habit=%d:%s", position,
-                holder.getItemId(), habit.getId(), habit.getName()));
 
         HabitCardView cardView = (HabitCardView) holder.itemView;
         listView.bindCardView(cardView, habit, score, checkmarks, selected,
@@ -221,7 +201,7 @@ public class HabitCardListAdapter
 
     public void refresh()
     {
-        cache.refreshAllHabits(true);
+        cache.refreshAllHabits();
     }
 
     /**
@@ -257,6 +237,11 @@ public class HabitCardListAdapter
     public void setListView(@Nullable HabitCardListView listView)
     {
         this.listView = listView;
+    }
+
+    public void setProgressBar(ProgressBar progressBar)
+    {
+        cache.setProgressBar(progressBar);
     }
 
     /**

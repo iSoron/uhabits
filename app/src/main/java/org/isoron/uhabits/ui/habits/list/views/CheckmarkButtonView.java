@@ -19,19 +19,17 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.view.HapticFeedbackConstants;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.content.*;
+import android.graphics.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.ui.habits.list.controllers.CheckmarkButtonController;
-import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.utils.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.*;
 
 public class CheckmarkButtonView extends FrameLayout
 {
@@ -58,6 +56,10 @@ public class CheckmarkButtonView extends FrameLayout
     {
         setOnClickListener(v -> controller.onClick());
         setOnLongClickListener(v -> controller.onLongClick());
+        setOnTouchListener((v, ev) -> {
+            getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
     }
 
     public void setValue(int value)

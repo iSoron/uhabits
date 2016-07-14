@@ -42,9 +42,26 @@ public class AndroidProgressBar implements ProgressBar
     }
 
     @Override
+    public void setTotal(int total)
+    {
+        if(total == 0)
+            progressBar.setIndeterminate(true);
+        else
+        {
+            progressBar.setIndeterminate(false);
+            progressBar.setMax(total);
+        }
+    }
+
+    @Override
+    public void setCurrent(int current)
+    {
+        progressBar.setProgress(current);
+    }
+
+    @Override
     public void show()
     {
-        progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
     }
 }

@@ -97,8 +97,11 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
         context.setTheme(R.style.TransparentWidgetTheme);
 
-        for (int id : widgetIds)
-            update(context, manager, id);
+        new Handler().postDelayed(() ->{
+            for (int id : widgetIds)
+                update(context, manager, id);
+        }, 500);
+
     }
 
     @NonNull
