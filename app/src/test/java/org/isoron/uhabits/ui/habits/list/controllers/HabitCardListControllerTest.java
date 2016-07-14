@@ -119,7 +119,7 @@ public class HabitCardListControllerTest extends BaseUnitTest
         controller.drop(1, 3);
         verify(habitListener).onHabitReorder(habits.get(1), habits.get(3));
         verify(selectionListener).onSelectionFinish();
-        verify(adapter).reorder(1, 3);
+        verify(adapter).performReorder(1, 3);
         resetMocks();
     }
 
@@ -134,7 +134,7 @@ public class HabitCardListControllerTest extends BaseUnitTest
         controller.drop(0, 3);
         verify(habitListener).onHabitReorder(habits.get(0), habits.get(3));
         verify(selectionListener).onSelectionFinish();
-        verify(adapter).reorder(0, 3);
+        verify(adapter).performReorder(0, 3);
         verify(adapter).clearSelection();
     }
 

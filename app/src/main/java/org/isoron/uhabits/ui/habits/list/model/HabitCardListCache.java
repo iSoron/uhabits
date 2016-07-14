@@ -165,6 +165,20 @@ public class HabitCardListCache implements CommandRunner.Listener
         this.progressBar = progressBar;
     }
 
+    public void remove(@NonNull Long id)
+    {
+        Habit h = data.id_to_habit.get(id);
+        if(h == null) return;
+
+        int position = data.habits.indexOf(h);
+        data.habits.remove(position);
+        data.id_to_habit.remove(id);
+        data.checkmarks.remove(id);
+        data.scores.remove(id);
+
+        if (listener != null) listener.onItemRemoved(position);
+    }
+
     /**
      * Interface definition for a callback to be invoked when the data on the
      * cache has been modified.
@@ -298,6 +312,8 @@ public class HabitCardListCache implements CommandRunner.Listener
         protected void onPreExecute()
         {
             super.onPreExecute();
+            progressBar.setTotal(0);
+
             new Handler().postDelayed(() -> {
                 if (getStatus() == Status.RUNNING) progressBar.show();
             }, 1000);
@@ -367,16 +383,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             Set<Long> removed = new TreeSet<>(before);
             removed.removeAll(after);
 
-            for (Long id : removed)
-            {
-                Habit h = data.id_to_habit.get(id);
-                int position = data.habits.indexOf(h);
-                data.habits.remove(position);
-                data.id_to_habit.remove(id);
-                data.checkmarks.remove(id);
-                data.scores.remove(id);
-                if (listener != null) listener.onItemRemoved(position);
-            }
+            for (Long id : removed) remove(id);
         }
     }
 }

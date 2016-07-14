@@ -83,7 +83,7 @@ public class HabitCardListController implements HabitCardListView.Controller
 
         Habit habitFrom = adapter.getItem(from);
         Habit habitTo = adapter.getItem(to);
-        adapter.reorder(from, to);
+        adapter.performReorder(from, to);
 
         if (habitListener != null)
             habitListener.onHabitReorder(habitFrom, habitTo);

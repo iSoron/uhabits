@@ -79,22 +79,22 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
         switch (item.getItemId())
         {
             case R.id.action_edit_habit:
-                edit(firstHabit);
+                showEditScreen(firstHabit);
                 finish();
                 return true;
 
             case R.id.action_archive_habit:
-                archive(selected);
+                performArchive(selected);
                 finish();
                 return true;
 
             case R.id.action_unarchive_habit:
-                unarchive(selected);
+                performUnarchive(selected);
                 finish();
                 return true;
 
             case R.id.action_delete:
-                delete(selected);
+                performDelete(selected);
                 return true;
 
             case R.id.action_color:
@@ -164,24 +164,26 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
         return R.menu.list_habits_selection;
     }
 
-    private void archive(@NonNull List<Habit> selected)
+    private void performArchive(@NonNull List<Habit> selected)
     {
         commandRunner.execute(new ArchiveHabitsCommand(habitList, selected),
             null);
     }
 
-    private void delete(@NonNull List<Habit> selected)
+    private void performDelete(@NonNull List<Habit> selected)
     {
         screen.showDeleteConfirmationScreen(() -> {
+            listAdapter.performRemove(selected);
             commandRunner.execute(new DeleteHabitsCommand(habitList, selected),
                 null);
             finish();
         });
     }
 
-    private void edit(@NonNull Habit firstHabit)
+    private void performUnarchive(@NonNull List<Habit> selected)
     {
-        screen.showEditHabitScreen(firstHabit);
+        commandRunner.execute(new UnarchiveHabitsCommand(habitList, selected),
+            null);
     }
 
     private void showColorPicker(@NonNull List<Habit> selected,
@@ -194,9 +196,8 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
         });
     }
 
-    private void unarchive(@NonNull List<Habit> selected)
+    private void showEditScreen(@NonNull Habit firstHabit)
     {
-        commandRunner.execute(new UnarchiveHabitsCommand(habitList, selected),
-            null);
+        screen.showEditHabitScreen(firstHabit);
     }
 }
