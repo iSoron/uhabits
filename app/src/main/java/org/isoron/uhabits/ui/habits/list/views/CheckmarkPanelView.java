@@ -19,19 +19,17 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.content.*;
+import android.support.annotation.*;
+import android.util.*;
+import android.widget.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.controllers.CheckmarkButtonController;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.Preferences;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.utils.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 public class CheckmarkPanelView extends LinearLayout
 {
@@ -100,6 +98,7 @@ public class CheckmarkPanelView extends LinearLayout
     public void setController(Controller controller)
     {
         this.controller = controller;
+        setupCheckmarkButtons();
     }
 
     public void setHabit(@NonNull Habit habit)

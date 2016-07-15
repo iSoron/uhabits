@@ -38,6 +38,8 @@ public class HabitCardListView extends RecyclerView
     @Nullable
     private Controller controller;
 
+    private final ItemTouchHelper touchHelper;
+
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -46,15 +48,16 @@ public class HabitCardListView extends RecyclerView
         setLayoutManager(new LinearLayoutManager(getContext()));
 
         TouchHelperCallback callback = new TouchHelperCallback();
-        new ItemTouchHelper(callback).attachToRecyclerView(this);
+        touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(this);
     }
 
     /**
      * Builds a new HabitCardView to be eventually added to this list,
      * containing the given data.
      *
-     * @param cardView   an old HabitCardView that should be reused if possible,
-     *                   possibly null
+     * @param holder     the ViewHolder containing the HabitCardView that should
+     *                   be built
      * @param habit      the habit for this card
      * @param score      the current score for the habit
      * @param checkmarks the list of checkmark values to be included in the
@@ -63,32 +66,19 @@ public class HabitCardListView extends RecyclerView
      * @param position
      * @return the HabitCardView generated
      */
-    public View bindCardView(@NonNull HabitCardView cardView,
+    public View bindCardView(@NonNull HabitCardViewHolder holder,
                              @NonNull Habit habit,
                              int score,
                              int[] checkmarks,
                              boolean selected,
                              int position)
     {
+        HabitCardView cardView = (HabitCardView) holder.itemView;
         cardView.setHabit(habit);
         cardView.setSelected(selected);
         cardView.setCheckmarkValues(checkmarks);
         cardView.setScore(score);
-
-        if (controller != null)
-        {
-            HabitCardController cardController = new HabitCardController();
-            cardController.setListener(controller);
-            cardView.setController(cardController);
-            cardController.setView(cardView);
-
-            cardView.setOnClickListener(v -> controller.onItemClick(position));
-            cardView.setOnLongClickListener(v -> {
-                controller.onItemLongClick(position);
-                return true;
-            });
-        }
-
+        if (controller != null) setupCardViewController(holder, position);
         return cardView;
     }
 
@@ -123,8 +113,26 @@ public class HabitCardListView extends RecyclerView
         super.onDetachedFromWindow();
     }
 
-    public interface Controller extends CheckmarkButtonController.Listener,
-                                        HabitCardController.Listener
+    protected void setupCardViewController(@NonNull HabitCardViewHolder holder,
+                                           int position)
+    {
+        HabitCardView cardView = (HabitCardView) holder.itemView;
+        HabitCardController cardController = new HabitCardController();
+        cardController.setListener(controller);
+        cardView.setController(cardController);
+        cardController.setView(cardView);
+
+        GestureDetector detector = new GestureDetector(getContext(),
+            new CardViewGestureDetector(position, holder));
+
+        cardView.setOnTouchListener((v, ev) -> {
+            detector.onTouchEvent(ev);
+            return true;
+        });
+    }
+
+    public interface Controller
+        extends CheckmarkButtonController.Listener, HabitCardController.Listener
     {
         void drag(int from, int to);
 
@@ -135,6 +143,36 @@ public class HabitCardListView extends RecyclerView
         void onItemLongClick(int pos);
 
         void startDrag(int position);
+    }
+
+    private class CardViewGestureDetector
+        extends GestureDetector.SimpleOnGestureListener
+    {
+        private final int position;
+
+        @NonNull
+        private final HabitCardViewHolder holder;
+
+        public CardViewGestureDetector(int position,
+                                       @NonNull HabitCardViewHolder holder)
+        {
+            this.position = position;
+            this.holder = holder;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e)
+        {
+            if (controller != null) controller.onItemLongClick(position);
+            touchHelper.startDrag(holder);
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e)
+        {
+            if (controller != null) controller.onItemClick(position);
+            return true;
+        }
     }
 
     class TouchHelperCallback extends ItemTouchHelper.Callback
@@ -149,13 +187,13 @@ public class HabitCardListView extends RecyclerView
         }
 
         @Override
-        public boolean isLongPressDragEnabled()
+        public boolean isItemViewSwipeEnabled()
         {
-            return true;
+            return false;
         }
 
         @Override
-        public boolean isItemViewSwipeEnabled()
+        public boolean isLongPressDragEnabled()
         {
             return false;
         }

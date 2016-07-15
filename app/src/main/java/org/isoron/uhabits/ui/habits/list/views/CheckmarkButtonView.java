@@ -56,10 +56,6 @@ public class CheckmarkButtonView extends FrameLayout
     {
         setOnClickListener(v -> controller.onClick());
         setOnLongClickListener(v -> controller.onLongClick());
-        setOnTouchListener((v, ev) -> {
-            getParent().requestDisallowInterceptTouchEvent(true);
-            return false;
-        });
     }
 
     public void setValue(int value)
@@ -71,22 +67,10 @@ public class CheckmarkButtonView extends FrameLayout
     public void toggle()
     {
         value = (value == Checkmark.CHECKED_EXPLICITLY ? Checkmark.UNCHECKED :
-            Checkmark.CHECKED_EXPLICITLY);
+                     Checkmark.CHECKED_EXPLICITLY);
 
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         postInvalidate();
-    }
-
-    private void init()
-    {
-        addView(
-            inflate(getContext(), R.layout.list_habits_card_checkmark, null));
-        ButterKnife.bind(this);
-
-        setWillNotDraw(false);
-        setHapticFeedbackEnabled(false);
-
-        tvCheck.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
     }
 
     @Override
@@ -114,5 +98,17 @@ public class CheckmarkButtonView extends FrameLayout
         }
 
         super.onDraw(canvas);
+    }
+
+    private void init()
+    {
+        addView(
+            inflate(getContext(), R.layout.list_habits_card_checkmark, null));
+        ButterKnife.bind(this);
+
+        setWillNotDraw(false);
+        setHapticFeedbackEnabled(false);
+
+        tvCheck.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
     }
 }

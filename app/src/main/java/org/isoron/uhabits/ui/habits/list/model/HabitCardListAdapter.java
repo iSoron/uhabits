@@ -149,8 +149,7 @@ public class HabitCardListAdapter
         int checkmarks[] = cache.getCheckmarks(habit.getId());
         boolean selected = this.selected.contains(habit);
 
-        HabitCardView cardView = (HabitCardView) holder.itemView;
-        listView.bindCardView(cardView, habit, score, checkmarks, selected,
+        listView.bindCardView(holder, habit, score, checkmarks, selected,
             position);
     }
 
@@ -271,6 +270,6 @@ public class HabitCardListAdapter
         int k = selected.indexOf(h);
         if (k < 0) selected.add(h);
         else selected.remove(h);
-        notifyItemChanged(position);
+        notifyDataSetChanged();
     }
 }

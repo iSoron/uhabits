@@ -87,11 +87,6 @@ public class HabitCardView extends FrameLayout
     {
         checkmarkPanel.setController(null);
         if (controller == null) return;
-
-        setOnClickListener(v -> {
-
-        });
-
         checkmarkPanel.setController(controller);
     }
 
@@ -224,7 +219,5 @@ public class HabitCardView extends FrameLayout
         }
     }
 
-    public interface Controller extends CheckmarkPanelView.Controller
-    {
-    }
+    public interface Controller extends CheckmarkPanelView.Controller {}
 }
