@@ -84,6 +84,9 @@ public class SQLiteHabitList extends HabitList
         if (id == null) id = record.save();
         else record.save(id);
 
+        if(id < 0)
+            throw new IllegalArgumentException("habit could not be saved");
+
         habit.setId(id);
         cache.put(id, habit);
     }
