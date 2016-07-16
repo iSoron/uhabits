@@ -37,14 +37,14 @@ public class SQLiteHabitList extends HabitList
 {
     private static SQLiteHabitList instance;
 
-    private HashMap<Long, Habit> cache;
+    private static HashMap<Long, Habit> cache;
 
     private final SQLiteUtils<HabitRecord> sqlite;
 
     protected SQLiteHabitList()
     {
         super();
-        cache = new HashMap<>();
+        if(cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
 
@@ -52,7 +52,7 @@ public class SQLiteHabitList extends HabitList
         @NonNull org.isoron.uhabits.models.HabitMatcher filter)
     {
         super(filter);
-        cache = new HashMap<>();
+        if(cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
 

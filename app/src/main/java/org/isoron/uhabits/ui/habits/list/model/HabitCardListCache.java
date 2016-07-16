@@ -346,7 +346,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             if (listener != null) listener.onItemInserted(position);
         }
 
-        private void performMove(Habit habit, int toPosition, int fromPosition)
+        private void performMove(Habit habit, int fromPosition, int toPosition)
         {
             data.habits.remove(fromPosition);
             data.habits.add(toPosition, habit);
@@ -358,7 +358,8 @@ public class HabitCardListCache implements CommandRunner.Listener
         {
             data.scores.put(id, newData.scores.get(id));
             data.checkmarks.put(id, newData.checkmarks.get(id));
-            listener.onItemChanged(position);
+            if(listener != null)
+                listener.onItemChanged(position);
         }
 
         private void processPosition(int currentPosition)
@@ -366,13 +367,12 @@ public class HabitCardListCache implements CommandRunner.Listener
             Habit habit = newData.habits.get(currentPosition);
             Long id = habit.getId();
 
-            Habit prevHabit = data.id_to_habit.get(id);
-            int prevPosition = data.habits.indexOf(prevHabit);
+            int prevPosition = data.habits.indexOf(habit);
 
             if (prevPosition < 0) performInsert(habit, currentPosition);
             else if (prevPosition == currentPosition)
                 performUpdate(id, currentPosition);
-            else performMove(habit, currentPosition, prevPosition);
+            else performMove(habit, prevPosition, currentPosition);
         }
 
         private void processRemovedHabits()
