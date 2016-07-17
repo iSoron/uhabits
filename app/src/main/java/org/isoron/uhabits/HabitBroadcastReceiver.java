@@ -38,7 +38,7 @@ import javax.inject.*;
 
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
- * <p/>
+ * <p>
  * All broadcast messages are received and processed by this class.
  */
 public class HabitBroadcastReceiver extends BroadcastReceiver
@@ -66,16 +66,6 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         HabitsApplication.getComponent().inject(this);
     }
 
-    public static void dismissNotification(Context context, Habit habit)
-    {
-        NotificationManager notificationManager =
-            (NotificationManager) context.getSystemService(
-                Activity.NOTIFICATION_SERVICE);
-
-        int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
-        notificationManager.cancel(notificationId);
-    }
-
     @Override
     public void onReceive(final Context context, Intent intent)
     {
@@ -87,7 +77,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 break;
 
             case ACTION_DISMISS:
-                dismissAllHabits();
+                // NOP
                 break;
 
             case ACTION_CHECK:
@@ -112,14 +102,21 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
 
         long habitId = ContentUris.parseId(data);
         Habit habit = habits.getById(habitId);
-        if (habit != null)
+        try
         {
+            if (habit == null) return;
+
+            Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
+            if (rep != null) return;
+
             ToggleRepetitionCommand command =
                 new ToggleRepetitionCommand(habit, timestamp);
             commandRunner.execute(command, habitId);
         }
-
-        dismissNotification(context, habitId);
+        finally
+        {
+            dismissNotification(context, habitId);
+        }
     }
 
     private boolean checkWeekday(Intent intent, Habit habit)
@@ -224,11 +221,6 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     {
         new Handler().postDelayed(
             () -> ReminderUtils.createReminderAlarms(context, habits), 5000);
-    }
-
-    private void dismissAllHabits()
-    {
-
     }
 
     private void dismissNotification(Context context, Long habitId)
