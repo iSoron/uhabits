@@ -28,13 +28,13 @@
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="18"/>
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="18"/>
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name="HabitsApplication"
@@ -42,8 +42,8 @@
         android:backupAgent=".HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
-        android:theme="@style/AppBaseTheme"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/AppBaseTheme">
 
         <meta-data
             android:name="com.google.android.backup.api_key"
@@ -93,7 +93,7 @@
             android:label="@string/about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".MainActivity"/>
         </activity>
 
         <receiver
@@ -156,18 +156,37 @@
                 android:resource="@xml/widget_frequency_info"/>
         </receiver>
 
-        <receiver android:name=".HabitBroadcastReceiver">
+        <receiver android:name=".receivers.ReminderReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
 
-         <receiver android:name=".pebble.PebbleReceiver">
+        <receiver android:name=".receivers.WidgetReceiver">
             <intent-filter>
-                <action android:name="com.getpebble.action.app.RECEIVE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="org.isoron.uhabits.ACTION_TOGGLE_REPETITION"/>
+                <data android:host="org.isoron.uhabits" android:scheme="content"/>
+            </intent-filter>
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="org.isoron.uhabits.ACTION_ADD_REPETITION"/>
+                <data android:host="org.isoron.uhabits" android:scheme="content"/>
+            </intent-filter>
+
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="org.isoron.uhabits.ACTION_REMOVE_REPETITION"/>
+                <data android:host="org.isoron.uhabits" android:scheme="content"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.PebbleReceiver">
+            <intent-filter>
+                <action android:name="com.getpebble.action.app.RECEIVE"/>
             </intent-filter>
         </receiver>
 
     </application>
-
 </manifest>

@@ -24,12 +24,12 @@ import android.content.*;
 import android.net.*;
 
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.ui.habits.show.*;
 
 public abstract class HabitPendingIntents
 {
-
-    private static final String BASE_URL =
+    public static final String BASE_URL =
         "content://org.isoron.uhabits/habit/";
 
     public static PendingIntent addCheckmark(Context context,
@@ -37,9 +37,9 @@ public abstract class HabitPendingIntents
                                              Long timestamp)
     {
         Uri data = habit.getUri();
-        Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
+        Intent checkIntent = new Intent(context, WidgetReceiver.class);
         checkIntent.setData(data);
-        checkIntent.setAction(HabitBroadcastReceiver.ACTION_CHECK);
+        checkIntent.setAction(WidgetReceiver.ACTION_ADD_REPETITION);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 1, checkIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
@@ -47,8 +47,8 @@ public abstract class HabitPendingIntents
 
     public static PendingIntent dismissNotification(Context context)
     {
-        Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
-        deleteIntent.setAction(HabitBroadcastReceiver.ACTION_DISMISS);
+        Intent deleteIntent = new Intent(context, ReminderReceiver.class);
+        deleteIntent.setAction(WidgetReceiver.ACTION_DISMISS_REMINDER);
         return PendingIntent.getBroadcast(context, 0, deleteIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -56,9 +56,9 @@ public abstract class HabitPendingIntents
     public static PendingIntent snoozeNotification(Context context, Habit habit)
     {
         Uri data = habit.getUri();
-        Intent snoozeIntent = new Intent(context, HabitBroadcastReceiver.class);
+        Intent snoozeIntent = new Intent(context, ReminderReceiver.class);
         snoozeIntent.setData(data);
-        snoozeIntent.setAction(HabitBroadcastReceiver.ACTION_SNOOZE);
+        snoozeIntent.setAction(ReminderReceiver.ACTION_SNOOZE_REMINDER);
         return PendingIntent.getBroadcast(context, 0, snoozeIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -68,9 +68,9 @@ public abstract class HabitPendingIntents
                                                 Long timestamp)
     {
         Uri data = habit.getUri();
-        Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
+        Intent checkIntent = new Intent(context, WidgetReceiver.class);
         checkIntent.setData(data);
-        checkIntent.setAction(HabitBroadcastReceiver.ACTION_TOGGLE);
+        checkIntent.setAction(WidgetReceiver.ACTION_TOGGLE_REPETITION);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 2, checkIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);

@@ -22,7 +22,7 @@ package org.isoron.uhabits;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.pebble.*;
+import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.edit.*;
@@ -49,7 +49,7 @@ public interface BaseComponent
 
     void inject(HabitCardListCache habitCardListCache);
 
-    void inject(HabitBroadcastReceiver habitBroadcastReceiver);
+    void inject(WidgetReceiver widgetReceiver);
 
     void inject(ListHabitsSelectionMenu listHabitsSelectionMenu);
 
@@ -102,4 +102,8 @@ public interface BaseComponent
     void inject(PebbleReceiver receiver);
 
     void inject(HeaderView headerView);
+
+    void inject(ReceiverActions receiverActions);
+
+    void inject(ReminderReceiver reminderReceiver);
 }

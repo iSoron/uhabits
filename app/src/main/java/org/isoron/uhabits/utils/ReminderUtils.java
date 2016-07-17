@@ -32,6 +32,7 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.receivers.*;
 
 import java.text.*;
 import java.util.*;
@@ -64,8 +65,8 @@ public abstract class ReminderUtils
 
         Uri uri = habit.getUri();
 
-        Intent alarmIntent = new Intent(context, HabitBroadcastReceiver.class);
-        alarmIntent.setAction(HabitBroadcastReceiver.ACTION_SHOW_REMINDER);
+        Intent alarmIntent = new Intent(context, ReminderReceiver.class);
+        alarmIntent.setAction(ReminderReceiver.ACTION_SHOW_REMINDER);
         alarmIntent.setData(uri);
         alarmIntent.putExtra("timestamp", timestamp);
         alarmIntent.putExtra("reminderTime", reminderTime);

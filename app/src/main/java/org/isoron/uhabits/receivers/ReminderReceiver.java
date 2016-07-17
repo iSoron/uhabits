@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.receivers;
 
 import android.app.*;
 import android.content.*;
@@ -26,8 +26,9 @@ import android.net.*;
 import android.os.*;
 import android.preference.*;
 import android.support.v4.app.*;
+import android.util.*;
 
-import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
@@ -41,29 +42,23 @@ import javax.inject.*;
  * <p>
  * All broadcast messages are received and processed by this class.
  */
-public class HabitBroadcastReceiver extends BroadcastReceiver
+public class ReminderReceiver extends BroadcastReceiver
 {
-    public static final String ACTION_CHECK = "org.isoron.uhabits.ACTION_CHECK";
-
-    public static final String ACTION_DISMISS =
-        "org.isoron.uhabits.ACTION_DISMISS";
+    public static final String ACTION_DISMISS_REMINDER =
+        "org.isoron.uhabits.ACTION_DISMISS_REMINDER";
 
     public static final String ACTION_SHOW_REMINDER =
         "org.isoron.uhabits.ACTION_SHOW_REMINDER";
 
-    public static final String ACTION_SNOOZE =
-        "org.isoron.uhabits.ACTION_SNOOZE";
+    public static final String ACTION_SNOOZE_REMINDER =
+        "org.isoron.uhabits.ACTION_SNOOZE_REMINDER";
 
-    public static final String ACTION_TOGGLE =
-        "org.isoron.uhabits.ACTION_TOGGLE";
+    private static final String TAG = "ReminderReceiver";
 
     @Inject
     HabitList habits;
 
-    @Inject
-    CommandRunner commandRunner;
-
-    public HabitBroadcastReceiver()
+    public ReminderReceiver()
     {
         super();
         HabitsApplication.getComponent().inject(this);
@@ -72,79 +67,44 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-        switch (intent.getAction())
-        {
-            case ACTION_SHOW_REMINDER:
-                createNotification(context, intent);
-                createReminderAlarmsDelayed(context);
-                break;
+        Log.i(TAG, String.format("Received intent: %s", intent.toString()));
 
-            case ACTION_DISMISS:
-                // NOP
-                break;
-
-            case ACTION_CHECK:
-                addRepetition(context, intent);
-                break;
-
-            case ACTION_TOGGLE:
-                toggleRepetition(context, intent);
-                break;
-
-            case ACTION_SNOOZE:
-                snoozeHabit(context, intent);
-                break;
-
-            case Intent.ACTION_BOOT_COMPLETED:
-                ReminderUtils.createReminderAlarms(context, habits);
-                break;
-        }
-    }
-
-    private void addOrRemoveRepetition(Context context,
-                                       Intent intent,
-                                       boolean abortIfExists)
-    {
-        Uri data = intent.getData();
-        long today = DateUtils.getStartOfToday();
-        Long timestamp = intent.getLongExtra("timestamp", today);
-
-        long habitId = ContentUris.parseId(data);
-        Habit habit = habits.getById(habitId);
         try
         {
-            if (habit == null) return;
+            switch (intent.getAction())
+            {
+                case ACTION_SHOW_REMINDER:
+                    onActionShowReminder(context, intent);
+                    break;
 
-            Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
-            if (abortIfExists && rep != null) return;
+                case ACTION_DISMISS_REMINDER:
+                    // NOP
+                    break;
 
-            commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
-                habitId);
+                case ACTION_SNOOZE_REMINDER:
+                    onActionSnoozeReminder(context, intent);
+                    break;
+
+                case Intent.ACTION_BOOT_COMPLETED:
+                    onActionBootCompleted(context);
+                    break;
+            }
         }
-        finally
+        catch (RuntimeException e)
         {
-            dismissNotification(context, habitId);
+            Log.e(TAG, "could not process intent", e);
         }
     }
 
-    private void addRepetition(Context context, Intent intent)
+    protected void onActionBootCompleted(Context context)
     {
-        addOrRemoveRepetition(context, intent, true);
+        ReminderUtils.createReminderAlarms(context, habits);
     }
 
-    private boolean checkWeekday(Intent intent, Habit habit)
+    protected void onActionShowReminder(Context context, Intent intent)
     {
-        if (!habit.hasReminder()) return false;
-        Reminder reminder = habit.getReminder();
-
-        Long timestamp =
-            intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
-
-        boolean reminderDays[] =
-            DateUtils.unpackWeekdayList(reminder.getDays());
-        int weekday = DateUtils.getWeekday(timestamp);
-
-        return reminderDays[weekday];
+        createNotification(context, intent);
+        createReminderAlarmsDelayed(context);
     }
 
     private void createNotification(final Context context, final Intent intent)
@@ -172,7 +132,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             protected void onPostExecute(Void aVoid)
             {
                 if (todayValue != Checkmark.UNCHECKED) return;
-                if (!checkWeekday(intent, habit)) return;
+                if (!shouldShowReminderToday(intent, habit)) return;
                 if (!habit.hasReminder()) return;
 
                 Intent contentIntent = new Intent(context, MainActivity.class);
@@ -185,8 +145,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 dismissPendingIntent =
                     HabitPendingIntents.dismissNotification(context);
                 PendingIntent checkIntentPending =
-                    HabitPendingIntents.addCheckmark(context, habit,
-                        timestamp);
+                    HabitPendingIntents.addCheckmark(context, habit, timestamp);
                 PendingIntent snoozeIntentPending =
                     HabitPendingIntents.snoozeNotification(context, habit);
 
@@ -246,7 +205,7 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         notificationManager.cancel(notificationId);
     }
 
-    private void snoozeHabit(Context context, Intent intent)
+    private void onActionSnoozeReminder(Context context, Intent intent)
     {
         Uri data = intent.getData();
         SharedPreferences prefs =
@@ -261,8 +220,18 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         dismissNotification(context, habitId);
     }
 
-    private void toggleRepetition(Context context, Intent intent)
+    private boolean shouldShowReminderToday(Intent intent, Habit habit)
     {
-        addOrRemoveRepetition(context, intent, false);
+        if (!habit.hasReminder()) return false;
+        Reminder reminder = habit.getReminder();
+
+        Long timestamp =
+            intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
+
+        boolean reminderDays[] =
+            DateUtils.unpackWeekdayList(reminder.getDays());
+        int weekday = DateUtils.getWeekday(timestamp);
+
+        return reminderDays[weekday];
     }
 }

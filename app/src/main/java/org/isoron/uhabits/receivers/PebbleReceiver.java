@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.pebble;
+package org.isoron.uhabits.receivers;
 
 import android.content.*;
 import android.support.annotation.*;
