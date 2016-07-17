@@ -28,6 +28,7 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.controllers.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -47,6 +48,8 @@ public class ListHabitsController
     @NonNull
     private final HabitList habitList;
 
+    private HabitCardListAdapter adapter;
+
     @Inject
     Preferences prefs;
 
@@ -55,11 +58,13 @@ public class ListHabitsController
 
     public ListHabitsController(@NonNull HabitList habitList,
                                 @NonNull ListHabitsScreen screen,
-                                @NonNull BaseSystem system)
+                                @NonNull BaseSystem system,
+                                @NonNull HabitCardListAdapter adapter)
     {
         this.screen = screen;
         this.system = system;
         this.habitList = habitList;
+        this.adapter = adapter;
         HabitsApplication.getComponent().inject(this);
     }
 
@@ -115,7 +120,7 @@ public class ListHabitsController
         switch (result)
         {
             case ImportDataTask.SUCCESS:
-                screen.invalidate();
+                adapter.refresh();
                 screen.showMessage(R.string.habits_imported);
                 break;
 

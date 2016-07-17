@@ -65,7 +65,7 @@ public class ListHabitsActivity extends BaseActivity
         screen = new ListHabitsScreen(this, rootView);
         menu = new ListHabitsMenu(this, screen, adapter);
         selectionMenu = new ListHabitsSelectionMenu(habits, screen, adapter);
-        controller = new ListHabitsController(habits, screen, system);
+        controller = new ListHabitsController(habits, screen, system, adapter);
 
         adapter.setProgressBar(
             new AndroidProgressBar(rootView.getProgressBar()));
