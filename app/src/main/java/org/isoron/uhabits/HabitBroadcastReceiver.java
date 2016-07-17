@@ -54,6 +54,9 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
     public static final String ACTION_SNOOZE =
         "org.isoron.uhabits.ACTION_SNOOZE";
 
+    public static final String ACTION_TOGGLE =
+        "org.isoron.uhabits.ACTION_TOGGLE";
+
     @Inject
     HabitList habits;
 
@@ -81,7 +84,11 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 break;
 
             case ACTION_CHECK:
-                checkHabit(context, intent);
+                addRepetition(context, intent);
+                break;
+
+            case ACTION_TOGGLE:
+                toggleRepetition(context, intent);
                 break;
 
             case ACTION_SNOOZE:
@@ -94,7 +101,9 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         }
     }
 
-    private void checkHabit(Context context, Intent intent)
+    private void addOrRemoveRepetition(Context context,
+                                       Intent intent,
+                                       boolean abortIfExists)
     {
         Uri data = intent.getData();
         long today = DateUtils.getStartOfToday();
@@ -107,16 +116,20 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
             if (habit == null) return;
 
             Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
-            if (rep != null) return;
+            if (abortIfExists && rep != null) return;
 
-            ToggleRepetitionCommand command =
-                new ToggleRepetitionCommand(habit, timestamp);
-            commandRunner.execute(command, habitId);
+            commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
+                habitId);
         }
         finally
         {
             dismissNotification(context, habitId);
         }
+    }
+
+    private void addRepetition(Context context, Intent intent)
+    {
+        addOrRemoveRepetition(context, intent, true);
     }
 
     private boolean checkWeekday(Intent intent, Habit habit)
@@ -172,8 +185,8 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
                 dismissPendingIntent =
                     HabitPendingIntents.dismissNotification(context);
                 PendingIntent checkIntentPending =
-                    HabitPendingIntents.toggleCheckmark(context, habit,
-                        timestamp, 1);
+                    HabitPendingIntents.addCheckmark(context, habit,
+                        timestamp);
                 PendingIntent snoozeIntentPending =
                     HabitPendingIntents.snoozeNotification(context, habit);
 
@@ -246,5 +259,10 @@ public class HabitBroadcastReceiver extends BroadcastReceiver
         if (habit != null) ReminderUtils.createReminderAlarm(context, habit,
             new Date().getTime() + delayMinutes * 60 * 1000);
         dismissNotification(context, habitId);
+    }
+
+    private void toggleRepetition(Context context, Intent intent)
+    {
+        addOrRemoveRepetition(context, intent, false);
     }
 }

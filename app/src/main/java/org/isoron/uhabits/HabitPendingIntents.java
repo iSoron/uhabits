@@ -32,6 +32,19 @@ public abstract class HabitPendingIntents
     private static final String BASE_URL =
         "content://org.isoron.uhabits/habit/";
 
+    public static PendingIntent addCheckmark(Context context,
+                                             Habit habit,
+                                             Long timestamp)
+    {
+        Uri data = habit.getUri();
+        Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
+        checkIntent.setData(data);
+        checkIntent.setAction(HabitBroadcastReceiver.ACTION_CHECK);
+        if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
+        return PendingIntent.getBroadcast(context, 1, checkIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
     public static PendingIntent dismissNotification(Context context)
     {
         Intent deleteIntent = new Intent(context, HabitBroadcastReceiver.class);
@@ -52,15 +65,14 @@ public abstract class HabitPendingIntents
 
     public static PendingIntent toggleCheckmark(Context context,
                                                 Habit habit,
-                                                Long timestamp,
-                                                int requestCode)
+                                                Long timestamp)
     {
         Uri data = habit.getUri();
         Intent checkIntent = new Intent(context, HabitBroadcastReceiver.class);
         checkIntent.setData(data);
-        checkIntent.setAction(HabitBroadcastReceiver.ACTION_CHECK);
+        checkIntent.setAction(HabitBroadcastReceiver.ACTION_TOGGLE);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, requestCode, checkIntent,
+        return PendingIntent.getBroadcast(context, 2, checkIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
 

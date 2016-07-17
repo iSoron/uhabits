@@ -45,7 +45,7 @@ public class CheckmarkWidget extends BaseWidget
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        return HabitPendingIntents.toggleCheckmark(context, habit, null, 2);
+        return HabitPendingIntents.toggleCheckmark(context, habit, null);
     }
 
     @Override
