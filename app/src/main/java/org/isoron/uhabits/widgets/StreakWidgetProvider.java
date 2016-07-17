@@ -33,16 +33,4 @@ public class StreakWidgetProvider extends BaseWidgetProvider
         Habit habit = getHabitFromWidgetId(id);
         return new StreakWidget(context, id, habit);
     }
-
-//        GraphWidgetView widgetView = (GraphWidgetView) view;
-//        StreakChart chart = (StreakChart) widgetView.getDataView();
-//
-//        int color = ColorUtils.getColor(context, habit.getColor());
-//
-//        // TODO: make this dynamic
-//        List<Streak> streaks = habit.getStreaks().getBest(10);
-//
-//        chart.setColor(color);
-//        chart.setStreaks(streaks);
-//    }
 }

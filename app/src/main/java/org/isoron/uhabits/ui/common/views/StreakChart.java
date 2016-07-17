@@ -23,6 +23,7 @@ import android.content.*;
 import android.graphics.*;
 import android.util.*;
 import android.view.*;
+import android.view.ViewGroup.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
@@ -30,6 +31,8 @@ import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
+
+import static android.view.View.MeasureSpec.*;
 
 public class StreakChart extends View
 {
@@ -79,18 +82,15 @@ public class StreakChart extends View
         init();
     }
 
-    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    /**
+     * Returns the maximum number of streaks this view is able to show, given
+     * its current size.
+     *
+     * @return max number of visible streaks
+     */
+    public int getMaxStreakCount()
     {
-        this.isBackgroundTransparent = isBackgroundTransparent;
-        initColors();
-    }
-
-    public void setStreaks(List<Streak> streaks)
-    {
-        this.streaks = streaks;
-        initColors();
-        updateMaxMinLengths();
-        requestLayout();
+        return (int) Math.floor(getMeasuredHeight() / baseSize);
     }
 
     public void populateWithRandomData()
@@ -99,7 +99,7 @@ public class StreakChart extends View
         long start = DateUtils.getStartOfToday();
         LinkedList<Streak> streaks = new LinkedList<>();
 
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             int length = new Random().nextInt(100);
             long end = start + length * day;
@@ -114,6 +114,20 @@ public class StreakChart extends View
     {
         this.primaryColor = color;
         postInvalidate();
+    }
+
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
+    {
+        this.isBackgroundTransparent = isBackgroundTransparent;
+        initColors();
+    }
+
+    public void setStreaks(List<Streak> streaks)
+    {
+        this.streaks = streaks;
+        initColors();
+        updateMaxMinLengths();
+        requestLayout();
     }
 
     @Override
@@ -134,11 +148,17 @@ public class StreakChart extends View
     @Override
     protected void onMeasure(int widthSpec, int heightSpec)
     {
-        int width = MeasureSpec.getSize(widthSpec);
-        int height = streaks.size() * baseSize;
+        LayoutParams params = getLayoutParams();
 
-        heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+        if (params != null && params.height == LayoutParams.WRAP_CONTENT)
+        {
+            int width = getSize(widthSpec);
+            int height = streaks.size() * baseSize;
+
+            heightSpec = makeMeasureSpec(height, EXACTLY);
+            widthSpec = makeMeasureSpec(width, EXACTLY);
+        }
+
         setMeasuredDimension(widthSpec, heightSpec);
     }
 

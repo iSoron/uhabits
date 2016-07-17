@@ -23,6 +23,7 @@ import android.app.*;
 import android.content.*;
 import android.support.annotation.*;
 import android.view.*;
+import android.view.ViewGroup.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
@@ -31,6 +32,8 @@ import org.isoron.uhabits.ui.widgets.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class StreakWidget extends BaseWidget
 {
@@ -57,8 +60,8 @@ public class StreakWidget extends BaseWidget
 
         int color = ColorUtils.getColor(getContext(), habit.getColor());
 
-        // TODO: make this dynamic
-        List<Streak> streaks = habit.getStreaks().getBest(10);
+        int count = chart.getMaxStreakCount();
+        List<Streak> streaks = habit.getStreaks().getBest(count);
 
         chart.setColor(color);
         chart.setStreaks(streaks);
@@ -69,7 +72,9 @@ public class StreakWidget extends BaseWidget
     {
         StreakChart dataView = new StreakChart(getContext());
         GraphWidgetView view = new GraphWidgetView(getContext(), dataView);
+        LayoutParams params = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
         view.setTitle(habit.getName());
+        view.setLayoutParams(params);
         return view;
     }
 
