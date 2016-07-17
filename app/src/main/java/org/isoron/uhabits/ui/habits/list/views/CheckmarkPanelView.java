@@ -63,14 +63,6 @@ public class CheckmarkPanelView extends LinearLayout
         init();
     }
 
-    public CheckmarkPanelView(Context context,
-                              AttributeSet attrs,
-                              int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
     public CheckmarkButtonView getButton(int position)
     {
         return (CheckmarkButtonView) getChildAt(position);
@@ -104,6 +96,24 @@ public class CheckmarkPanelView extends LinearLayout
     public void setHabit(@NonNull Habit habit)
     {
         this.habit = habit;
+        setupCheckmarkButtons();
+    }
+
+    @Override
+    protected void onMeasure(int widthSpec, int heightSpec)
+    {
+        float buttonWidth = getResources().getDimension(R.dimen.checkmarkWidth);
+        float buttonHeight =
+            getResources().getDimension(R.dimen.checkmarkHeight);
+
+        float width = buttonWidth * nButtons;
+
+        widthSpec =
+            MeasureSpec.makeMeasureSpec((int) width, MeasureSpec.EXACTLY);
+        heightSpec = MeasureSpec.makeMeasureSpec((int) buttonHeight,
+            MeasureSpec.EXACTLY);
+
+        super.onMeasure(widthSpec, heightSpec);
     }
 
     private void addCheckmarkButtons()
@@ -138,23 +148,6 @@ public class CheckmarkPanelView extends LinearLayout
         setWillNotDraw(false);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        float buttonWidth = getResources().getDimension(R.dimen.checkmarkWidth);
-        float buttonHeight =
-            getResources().getDimension(R.dimen.checkmarkHeight);
-
-        float width = buttonWidth * nButtons;
-
-        widthMeasureSpec =
-            MeasureSpec.makeMeasureSpec((int) width, MeasureSpec.EXACTLY);
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec((int) buttonHeight,
-            MeasureSpec.EXACTLY);
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
     private void setupButtonControllers(long timestamp,
                                         CheckmarkButtonView buttonView)
     {
@@ -185,5 +178,6 @@ public class CheckmarkPanelView extends LinearLayout
 
     public interface Controller extends CheckmarkButtonController.Listener
     {
+
     }
 }

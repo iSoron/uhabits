@@ -19,19 +19,16 @@
 
 package org.isoron.uhabits.ui.habits.list.views;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.content.*;
+import android.preference.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.ui.habits.list.*;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
 
-import java.util.GregorianCalendar;
+import java.util.*;
 
 public class HeaderView extends LinearLayout
 {
@@ -41,19 +38,33 @@ public class HeaderView extends LinearLayout
 
     private final Context context;
 
+    private int buttonCount;
+
     public HeaderView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.context = context;
     }
 
+    public void setButtonCount(int buttonCount)
+    {
+        this.buttonCount = buttonCount;
+        createButtons();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        createButtons();
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
     private void createButtons()
     {
         removeAllViews();
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
-        double count = ListHabitsRootView.getCheckmarkCount(this);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < buttonCount; i++)
         {
             int position = 0;
 
@@ -77,12 +88,5 @@ public class HeaderView extends LinearLayout
         boolean reverse =
             prefs.getBoolean("pref_checkmark_reverse_order", false);
         return reverse ? CHECKMARK_RIGHT_TO_LEFT : CHECKMARK_LEFT_TO_RIGHT;
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        createButtons();
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

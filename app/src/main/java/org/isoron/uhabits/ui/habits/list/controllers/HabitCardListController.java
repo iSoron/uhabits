@@ -55,20 +55,6 @@ public class HabitCardListController implements HabitCardListView.Controller
     }
 
     /**
-     * Called when the user is dragging a habit which was originally at position
-     * 'from' and is currently hovering over position 'to'. Note that the user
-     * has not yet finished the dragging operation.
-     *
-     * @param from the original position of the habit
-     * @param to   the position where the habit is currently hovering
-     */
-    @Override
-    public void drag(int from, int to)
-    {
-        // ignored
-    }
-
-    /**
      * Called when the user drags a habit and drops it somewhere. Note that the
      * dragging operation is already complete.
      *

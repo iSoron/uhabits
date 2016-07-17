@@ -30,7 +30,6 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.common.views.*;
-import org.isoron.uhabits.ui.habits.list.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -77,9 +76,7 @@ public class HabitCardView extends FrameLayout
 
     public void setCheckmarkValues(int checkmarks[])
     {
-        int count = ListHabitsRootView.getCheckmarkCount(this);
-        int visibleCheckmarks[] = Arrays.copyOfRange(checkmarks, 0, count);
-        checkmarkPanel.setCheckmarkValues(visibleCheckmarks);
+        checkmarkPanel.setCheckmarkValues(checkmarks);
         postInvalidate();
     }
 

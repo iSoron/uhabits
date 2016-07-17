@@ -20,6 +20,7 @@
 package org.isoron.uhabits.ui.habits.list;
 
 import android.content.*;
+import android.content.res.*;
 import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
@@ -58,6 +59,9 @@ public class ListHabitsRootView extends BaseRootView
     @BindView(R.id.hintView)
     HintView hintView;
 
+    @BindView(R.id.header)
+    HeaderView header;
+
     @NonNull
     private final HabitCardListAdapter listAdapter;
 
@@ -79,17 +83,6 @@ public class ListHabitsRootView extends BaseRootView
             getContext().getResources().getStringArray(R.array.hints);
         HintList hintList = new HintList(hints);
         hintView.setHints(hintList);
-    }
-
-    public static int getCheckmarkCount(View v)
-    {
-//        Resources res = v.getResources();
-//        float labelWidth = res.getDimension(R.dimen.habitNameWidth);
-//        float buttonWidth = res.getDimension(R.dimen.checkmarkWidth);
-//        return Math.min(MAX_CHECKMARK_COUNT, Math.max(0,
-//            (int) ((v.getMeasuredWidth() - labelWidth) / buttonWidth)));
-
-        return 5; // TODO: Fix this.
     }
 
     @Override
@@ -138,10 +131,27 @@ public class ListHabitsRootView extends BaseRootView
         super.onDetachedFromWindow();
     }
 
+    private int getCheckmarkCount()
+    {
+        Resources res = getResources();
+        float labelWidth = res.getDimension(R.dimen.habitNameWidth);
+        float buttonWidth = res.getDimension(R.dimen.checkmarkWidth);
+        return Math.min(MAX_CHECKMARK_COUNT, Math.max(0,
+            (int) ((getMeasuredWidth() - labelWidth) / buttonWidth)));
+    }
 
     private void updateEmptyView()
     {
         llEmpty.setVisibility(
             listAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        int count = getCheckmarkCount();
+        header.setButtonCount(count);
+        listView.setCheckmarkCount(count);
+        super.onSizeChanged(w, h, oldw, oldh);
     }
 }

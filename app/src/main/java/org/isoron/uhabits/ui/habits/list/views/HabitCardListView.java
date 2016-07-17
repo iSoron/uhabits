@@ -30,6 +30,8 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.list.controllers.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
 
+import java.util.*;
+
 public class HabitCardListView extends RecyclerView
 {
     @Nullable
@@ -39,6 +41,8 @@ public class HabitCardListView extends RecyclerView
     private Controller controller;
 
     private final ItemTouchHelper touchHelper;
+
+    private int checkmarkCount;
 
     public HabitCardListView(Context context, AttributeSet attrs)
     {
@@ -73,10 +77,13 @@ public class HabitCardListView extends RecyclerView
                              boolean selected,
                              int position)
     {
+        int visibleCheckmarks[] =
+            Arrays.copyOfRange(checkmarks, 0, checkmarkCount);
+
         HabitCardView cardView = (HabitCardView) holder.itemView;
         cardView.setHabit(habit);
         cardView.setSelected(selected);
-        cardView.setCheckmarkValues(checkmarks);
+        cardView.setCheckmarkValues(visibleCheckmarks);
         cardView.setScore(score);
         if (controller != null) setupCardViewController(holder, position);
         return cardView;
@@ -92,6 +99,11 @@ public class HabitCardListView extends RecyclerView
     {
         this.adapter = (HabitCardListAdapter) adapter;
         super.setAdapter(adapter);
+    }
+
+    public void setCheckmarkCount(int checkmarkCount)
+    {
+        this.checkmarkCount = checkmarkCount;
     }
 
     public void setController(@Nullable Controller controller)
@@ -134,8 +146,6 @@ public class HabitCardListView extends RecyclerView
     public interface Controller
         extends CheckmarkButtonController.Listener, HabitCardController.Listener
     {
-        void drag(int from, int to);
-
         void drop(int from, int to);
 
         void onItemClick(int pos);
