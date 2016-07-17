@@ -88,6 +88,8 @@ public class ListHabitsActivity extends BaseActivity
     @Override
     protected void onResume()
     {
+        adapter.refresh();
+        rootView.postInvalidate();
         super.onResume();
     }
 }

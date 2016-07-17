@@ -100,4 +100,6 @@ public interface BaseComponent
     void inject(ListHabitsMenu listHabitsMenu);
 
     void inject(PebbleReceiver receiver);
+
+    void inject(HeaderView headerView);
 }

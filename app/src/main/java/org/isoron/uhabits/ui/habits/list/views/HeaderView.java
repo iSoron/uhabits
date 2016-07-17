@@ -20,7 +20,7 @@
 package org.isoron.uhabits.ui.habits.list.views;
 
 import android.content.*;
-import android.preference.*;
+import android.graphics.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
@@ -30,26 +30,54 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
+import javax.inject.*;
+
 public class HeaderView extends LinearLayout
 {
-    private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
-
-    private static final int CHECKMARK_RIGHT_TO_LEFT = 1;
-
     private final Context context;
 
     private int buttonCount;
+
+    @Inject
+    Preferences prefs;
 
     public HeaderView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         this.context = context;
+
+        if (isInEditMode())
+        {
+            setButtonCount(5);
+            return;
+        }
+
+        HabitsApplication.getComponent().inject(this);
     }
 
     public void setButtonCount(int buttonCount)
     {
         this.buttonCount = buttonCount;
         createButtons();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
+
+        for (int i = 0; i < getChildCount(); i++)
+        {
+            int position = i;
+            if (shouldReverseCheckmarks()) position = getChildCount() - i - 1;
+
+            View button = getChildAt(position);
+            TextView label = (TextView) button.findViewById(R.id.tvCheck);
+            label.setText(DateUtils.formatHeaderDate(day));
+            day.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        }
+
+        super.onDraw(canvas);
     }
 
     @Override
@@ -61,32 +89,16 @@ public class HeaderView extends LinearLayout
 
     private void createButtons()
     {
+        int layout = R.layout.list_habits_header_checkmark;
+
         removeAllViews();
-        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
-
         for (int i = 0; i < buttonCount; i++)
-        {
-            int position = 0;
-
-            if (getCheckmarkOrder() == CHECKMARK_LEFT_TO_RIGHT) position = i;
-
-            View tvDay =
-                inflate(context, R.layout.list_habits_header_checkmark, null);
-            TextView btCheck = (TextView) tvDay.findViewById(R.id.tvCheck);
-            btCheck.setText(DateUtils.formatHeaderDate(day));
-            addView(tvDay, position);
-            day.add(GregorianCalendar.DAY_OF_MONTH, -1);
-        }
+            addView(inflate(context, layout, null));
     }
 
-    private int getCheckmarkOrder()
+    private boolean shouldReverseCheckmarks()
     {
-        if (isInEditMode()) return CHECKMARK_LEFT_TO_RIGHT;
-
-        SharedPreferences prefs =
-            PreferenceManager.getDefaultSharedPreferences(getContext());
-        boolean reverse =
-            prefs.getBoolean("pref_checkmark_reverse_order", false);
-        return reverse ? CHECKMARK_RIGHT_TO_LEFT : CHECKMARK_LEFT_TO_RIGHT;
+        if (isInEditMode()) return false;
+        return prefs.shouldReverseCheckmarks();
     }
 }
