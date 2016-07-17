@@ -32,6 +32,8 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
+import static org.isoron.uhabits.models.Checkmark.*;
+
 public class HistoryChart extends ScrollableChart
 {
     private int[] checkmarks;
@@ -118,11 +120,14 @@ public class HistoryChart extends ScrollableChart
         final Long timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
-        controller.onToggleCheckmark(timestamp);
+        int offset = timestampToOffset(timestamp);
+        boolean isChecked = checkmarks[offset] == CHECKED_EXPLICITLY;
+        checkmarks[offset] = (isChecked ? UNCHECKED : CHECKED_EXPLICITLY);
 
+        controller.onToggleCheckmark(timestamp);
+        postInvalidate();
         return true;
     }
-
 
     public void populateWithRandomData()
     {
@@ -405,6 +410,14 @@ public class HistoryChart extends ScrollableChart
             DateUtils.getStartOfToday()) return null;
 
         return date.getTimeInMillis();
+    }
+
+    private int timestampToOffset(Long timestamp)
+    {
+        Long day = DateUtils.millisecondsInOneDay;
+        Long today = DateUtils.getStartOfToday();
+
+        return (int) ((today - timestamp) / day);
     }
 
     private void updateDate()
