@@ -141,13 +141,15 @@ public class ReminderReceiver extends BroadcastReceiver
                     PendingIntent.getActivity(context, 0, contentIntent,
                         PendingIntent.FLAG_CANCEL_CURRENT);
 
+                PendingIntentFactory intentFactory =
+                    new PendingIntentFactory(context);
+
                 PendingIntent dismissPendingIntent;
-                dismissPendingIntent =
-                    HabitPendingIntents.dismissNotification(context);
+                dismissPendingIntent = intentFactory.buildDismissNotification();
                 PendingIntent checkIntentPending =
-                    HabitPendingIntents.addCheckmark(context, habit, timestamp);
+                    intentFactory.buildAddCheckmark(habit, timestamp);
                 PendingIntent snoozeIntentPending =
-                    HabitPendingIntents.snoozeNotification(context, habit);
+                    intentFactory.buildSnoozeNotification(habit);
 
                 Uri ringtoneUri = ReminderUtils.getRingtoneUri(context);
 

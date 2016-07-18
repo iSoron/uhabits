@@ -24,8 +24,8 @@ import android.content.*;
 import android.support.annotation.*;
 import android.view.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.ui.widgets.views.*;
 import org.isoron.uhabits.utils.*;
 
@@ -45,7 +45,8 @@ public class CheckmarkWidget extends BaseWidget
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        return HabitPendingIntents.toggleCheckmark(context, habit, null);
+        PendingIntentFactory factory = new PendingIntentFactory(context);
+        return factory.buildToggleCheckmark(habit, null);
     }
 
     @Override

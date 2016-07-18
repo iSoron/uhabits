@@ -17,24 +17,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.receivers;
 
 import android.app.*;
 import android.content.*;
 import android.net.*;
+import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.ui.habits.show.*;
 
-public abstract class HabitPendingIntents
+public class PendingIntentFactory
 {
-    public static final String BASE_URL =
-        "content://org.isoron.uhabits/habit/";
+    public static final String BASE_URL = "content://org.isoron.uhabits/habit/";
 
-    public static PendingIntent addCheckmark(Context context,
-                                             Habit habit,
-                                             Long timestamp)
+    @NonNull
+    private final Context context;
+
+    public PendingIntentFactory(Context context)
+    {
+        this.context = context;
+    }
+
+    public PendingIntent buildAddCheckmark(Habit habit, Long timestamp)
     {
         Uri data = habit.getUri();
         Intent checkIntent = new Intent(context, WidgetReceiver.class);
@@ -45,7 +50,7 @@ public abstract class HabitPendingIntents
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static PendingIntent dismissNotification(Context context)
+    public PendingIntent buildDismissNotification()
     {
         Intent deleteIntent = new Intent(context, ReminderReceiver.class);
         deleteIntent.setAction(WidgetReceiver.ACTION_DISMISS_REMINDER);
@@ -53,7 +58,7 @@ public abstract class HabitPendingIntents
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static PendingIntent snoozeNotification(Context context, Habit habit)
+    public PendingIntent buildSnoozeNotification(Habit habit)
     {
         Uri data = habit.getUri();
         Intent snoozeIntent = new Intent(context, ReminderReceiver.class);
@@ -63,9 +68,7 @@ public abstract class HabitPendingIntents
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static PendingIntent toggleCheckmark(Context context,
-                                                Habit habit,
-                                                Long timestamp)
+    public PendingIntent buildToggleCheckmark(Habit habit, Long timestamp)
     {
         Uri data = habit.getUri();
         Intent checkIntent = new Intent(context, WidgetReceiver.class);
@@ -76,7 +79,7 @@ public abstract class HabitPendingIntents
             PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static PendingIntent viewHabit(Context context, Habit habit)
+    public PendingIntent buildViewHabit(Habit habit)
     {
         Intent intent = new Intent(context, ShowHabitActivity.class);
         intent.setData(Uri.parse(BASE_URL + habit.getId()));
