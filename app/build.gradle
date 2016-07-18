@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 23
@@ -46,7 +47,6 @@ android {
             }
         }
     }
-
 }
 
 dependencies {
@@ -96,4 +96,40 @@ dependencies {
 
 retrolambda {
     defaultMethods true
+}
+
+jacoco {
+    toolVersion = "0.7.4.201502262128"
+}
+
+task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+
+    jacocoClasspath = configurations['androidJacocoAnt']
+
+    reports {
+        html.enabled = true
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*',
+            '**/*Test*.*',
+            '**/*$Lambda$*',
+            '**/*$ViewBinder*',
+            '**/*MembersInjector*',
+            '**/*_Provide*',
+            '**/com/android/**/*',
+            'android/**/*'
+    ]
+
+    def srcDir = "${project.projectDir}/src/main/java"
+    def classDir = "${buildDir}/intermediates/classes/debug"
+    def jvmExecData = "${buildDir}/jacoco/testDebugUnitTest.exec"
+    def connectedExecData = "${buildDir}/outputs/code-coverage/connected/coverage.ec"
+
+    sourceDirectories = files(srcDir)
+    classDirectories = files(fileTree(dir: classDir, excludes: excludes))
+    executionData = files(jvmExecData, connectedExecData)
 }
