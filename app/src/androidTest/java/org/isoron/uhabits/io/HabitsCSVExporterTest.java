@@ -37,7 +37,7 @@ import java.util.zip.*;
 import static junit.framework.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class HabitsCSVExporterTest extends BaseAndroidTest
 {
     private File baseDir;

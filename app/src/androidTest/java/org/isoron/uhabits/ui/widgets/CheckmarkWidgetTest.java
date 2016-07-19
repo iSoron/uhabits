@@ -37,7 +37,6 @@ import static org.isoron.uhabits.models.Checkmark.*;
 @MediumTest
 public class CheckmarkWidgetTest extends BaseViewTest
 {
-
     private static final String PATH = "widgets/CheckmarkWidgetView/";
 
     private Habit habit;

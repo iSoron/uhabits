@@ -36,7 +36,7 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class ExportCSVTaskTest extends BaseAndroidTest
 {
     @Before

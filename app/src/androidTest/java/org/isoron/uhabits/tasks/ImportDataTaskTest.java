@@ -21,7 +21,7 @@ package org.isoron.uhabits.tasks;
 
 import android.support.annotation.NonNull;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.BaseAndroidTest;
 import org.isoron.uhabits.utils.FileUtils;
@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class ImportDataTaskTest extends BaseAndroidTest
 {
     private File baseDir;
