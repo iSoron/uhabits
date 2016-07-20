@@ -50,6 +50,9 @@ public class BaseSystem
     @Inject
     HabitList habitList;
 
+    @Inject
+    ReminderScheduler reminderScheduler;
+
     public BaseSystem(Context context)
     {
         this.context = context;
@@ -69,16 +72,16 @@ public class BaseSystem
     @NonNull
     public File dumpBugReportToFile() throws IOException
     {
-        String date =
-            DateUtils.getBackupDateFormat().format(DateUtils.getLocalTime());
+        String date = DateUtils.getBackupDateFormat().format(
+                DateUtils.getLocalTime());
 
         if (context == null) throw new RuntimeException(
-            "application context should not be null");
+                "application context should not be null");
         File dir = FileUtils.getFilesDir("Logs");
         if (dir == null) throw new IOException("log dir should not be null");
 
-        File logFile =
-            new File(String.format("%s/Log %s.txt", dir.getPath(), date));
+        File logFile = new File(
+                String.format("%s/Log %s.txt", dir.getPath(), date));
         FileWriter output = new FileWriter(logFile);
         output.write(getBugReport());
         output.close();
@@ -102,54 +105,12 @@ public class BaseSystem
         return deviceInfo + "\n" + logcat;
     }
 
-    /**
-     * Recreates all application reminders.
-     */
-    public void scheduleReminders()
-    {
-        new BaseTask()
-        {
-
-            @Override
-            protected void doInBackground()
-            {
-                ReminderUtils.createReminderAlarms(context, habitList);
-            }
-        }.execute();
-    }
-
-    private String getDeviceInfo()
-    {
-        if (context == null) return "null context\n";
-
-        WindowManager wm =
-            (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-        return
-            String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME) +
-            String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE) +
-            String.format("OS Version: %s (%s)\n",
-                 System.getProperty("os.version"), Build.VERSION.INCREMENTAL) +
-            String.format("OS API Level: %s\n", Build.VERSION.SDK) +
-            String.format("Device: %s\n", Build.DEVICE) +
-            String.format("Model (Product): %s (%s)\n", Build.MODEL,
-                Build.PRODUCT) +
-            String.format("Manufacturer: %s\n", Build.MANUFACTURER) +
-            String.format("Other tags: %s\n", Build.TAGS) +
-            String.format("Screen Width: %s\n",
-                wm.getDefaultDisplay().getWidth()) +
-            String.format("Screen Height: %s\n",
-                wm.getDefaultDisplay().getHeight()) +
-            String.format("External storage state: %s\n\n",
-                Environment.getExternalStorageState());
-    }
-
     public String getLogcat() throws IOException
     {
         int maxLineCount = 250;
         StringBuilder builder = new StringBuilder();
 
-        String[] command = new String[]{"logcat", "-d"};
+        String[] command = new String[]{ "logcat", "-d" };
         Process process = Runtime.getRuntime().exec(command);
 
         InputStreamReader in = new InputStreamReader(process.getInputStream());
@@ -171,5 +132,41 @@ public class BaseSystem
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Recreates all application reminders.
+     */
+    public void scheduleReminders()
+    {
+        new SimpleTask(() -> reminderScheduler.schedule(habitList)).execute();
+    }
+
+    private String getDeviceInfo()
+    {
+        if (context == null) return "null context\n";
+
+        WindowManager wm = (WindowManager) context.getSystemService(
+                Context.WINDOW_SERVICE);
+
+        return String.format("App Version Name: %s\n",
+                BuildConfig.VERSION_NAME) +
+               String.format("App Version Code: %s\n",
+                       BuildConfig.VERSION_CODE) +
+               String.format("OS Version: %s (%s)\n",
+                       System.getProperty("os.version"),
+                       Build.VERSION.INCREMENTAL) +
+               String.format("OS API Level: %s\n", Build.VERSION.SDK) +
+               String.format("Device: %s\n", Build.DEVICE) +
+               String.format("Model (Product): %s (%s)\n", Build.MODEL,
+                       Build.PRODUCT) +
+               String.format("Manufacturer: %s\n", Build.MANUFACTURER) +
+               String.format("Other tags: %s\n", Build.TAGS) +
+               String.format("Screen Width: %s\n",
+                       wm.getDefaultDisplay().getWidth()) +
+               String.format("Screen Height: %s\n",
+                       wm.getDefaultDisplay().getHeight()) +
+               String.format("External storage state: %s\n\n",
+                       Environment.getExternalStorageState());
     }
 }

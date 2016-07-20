@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.receivers;
+package org.isoron.uhabits.intents;
 
 import android.content.*;
 import android.net.*;
@@ -70,7 +70,7 @@ public class IntentParser
         return timestamp;
     }
 
-    class CheckmarkIntentData
+    public class CheckmarkIntentData
     {
         public Habit habit;
 

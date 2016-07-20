@@ -36,10 +36,13 @@ public class BaseUnitTest
     @Inject
     protected ModelFactory modelFactory;
 
-    protected TestComponent testComponent;
-
     @Inject
     protected HabitList habitList;
+
+    @Inject
+    protected HabitLogger logger;
+
+    protected TestComponent testComponent;
 
     protected HabitFixtures fixtures;
 

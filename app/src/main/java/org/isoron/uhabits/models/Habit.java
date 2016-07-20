@@ -115,8 +115,7 @@ public class Habit
     }
 
     /**
-     * Clears the reminder for a habit. This sets all the related fields to
-     * null.
+     * Clears the reminder for a habit.
      */
     public void clearReminder()
     {

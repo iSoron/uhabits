@@ -24,8 +24,8 @@ import android.content.*;
 import android.support.annotation.*;
 import android.view.*;
 
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.ui.habits.show.views.*;
 import org.isoron.uhabits.ui.widgets.views.*;
@@ -47,7 +47,7 @@ public class ScoreWidget extends BaseWidget
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        PendingIntentFactory factory = new PendingIntentFactory(context);
+        IntentFactory factory = new IntentFactory(context);
         return factory.buildViewHabit(habit);
     }
 

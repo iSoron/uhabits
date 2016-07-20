@@ -19,23 +19,35 @@
 
 package org.isoron.uhabits.ui.settings;
 
-import android.app.backup.BackupManager;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceCategory;
-import android.support.v7.preference.PreferenceFragmentCompat;
+import android.app.backup.*;
+import android.content.*;
+import android.os.*;
+import android.support.v7.preference.*;
 
-import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.utils.InterfaceUtils;
-import org.isoron.uhabits.utils.ReminderUtils;
+import org.isoron.uhabits.utils.*;
+
+import static org.isoron.uhabits.HabitsApplication.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static int RINGTONE_REQUEST_CODE = 1;
+
+    private SharedPreferences prefs;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == RINGTONE_REQUEST_CODE)
+        {
+            RingtoneUtils.parseRingtoneData(getContext(), data);
+            updateRingtoneDescription();
+            return;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -43,14 +55,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        setResultOnPreferenceClick("importData",
-            HabitsApplication.RESULT_IMPORT_DATA);
-        setResultOnPreferenceClick("exportCSV",
-            HabitsApplication.RESULT_EXPORT_CSV);
-        setResultOnPreferenceClick("exportDB",
-            HabitsApplication.RESULT_EXPORT_DB);
-        setResultOnPreferenceClick("bugReport",
-            HabitsApplication.RESULT_BUG_REPORT);
+        setResultOnPreferenceClick("importData", RESULT_IMPORT_DATA);
+        setResultOnPreferenceClick("exportCSV", RESULT_EXPORT_CSV);
+        setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
+        setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
 
@@ -61,7 +69,45 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onCreatePreferences(Bundle bundle, String s)
     {
+        // NOP
+    }
 
+    @Override
+    public void onPause()
+    {
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference)
+    {
+        String key = preference.getKey();
+        if (key == null) return false;
+
+        if (key.equals("reminderSound"))
+        {
+            RingtoneUtils.startRingtonePickerActivity(this,
+                RINGTONE_REQUEST_CODE);
+            return true;
+        }
+
+        return super.onPreferenceTreeClick(preference);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        prefs = getPreferenceManager().getSharedPreferences();
+        prefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key)
+    {
+        BackupManager.dataChanged("org.isoron.uhabits");
     }
 
     private void removePreference(String preferenceKey, String categoryKey)
@@ -82,61 +128,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
         });
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        getPreferenceManager().getSharedPreferences().
-            registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onPause()
-    {
-        getPreferenceManager().getSharedPreferences().
-            unregisterOnSharedPreferenceChangeListener(this);
-        super.onPause();
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                          String key)
-    {
-        BackupManager.dataChanged("org.isoron.uhabits");
-    }
-
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference)
-    {
-        if (preference.getKey() == null) return false;
-
-        if (preference.getKey().equals("reminderSound"))
-        {
-            ReminderUtils.startRingtonePickerActivity(this,
-                RINGTONE_REQUEST_CODE);
-            return true;
-        }
-
-        return super.onPreferenceTreeClick(preference);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == RINGTONE_REQUEST_CODE)
-        {
-            ReminderUtils.parseRingtoneData(getContext(), data);
-            updateRingtoneDescription();
-            return;
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     private void updateRingtoneDescription()
     {
-        String ringtoneName = ReminderUtils.getRingtoneName(getContext());
-        if(ringtoneName == null) return;
+        String ringtoneName = RingtoneUtils.getRingtoneName(getContext());
+        if (ringtoneName == null) return;
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);
     }

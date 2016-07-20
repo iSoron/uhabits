@@ -19,7 +19,10 @@
 
 package org.isoron.uhabits;
 
+import android.content.*;
+
 import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.utils.*;
@@ -69,5 +72,22 @@ public class AndroidModule
     WidgetPreferences provideWidgetPreferences()
     {
         return new WidgetPreferences();
+    }
+
+    @Provides
+    @Singleton
+    ReminderScheduler provideReminderScheduler()
+    {
+        Context context = HabitsApplication.getContext();
+        IntentScheduler intentScheduler = new IntentScheduler(context);
+        IntentFactory intentFactory = new IntentFactory(context);
+        return new ReminderScheduler(intentFactory, intentScheduler);
+    }
+
+    @Provides
+    @Singleton
+    HabitLogger provideLogger()
+    {
+        return new HabitLogger();
     }
 }

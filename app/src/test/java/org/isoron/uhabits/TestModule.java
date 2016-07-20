@@ -73,4 +73,18 @@ public class TestModule
     {
         return mock(WidgetPreferences.class);
     }
+
+    @Provides
+    @Singleton
+    ReminderScheduler provideReminderScheduler()
+    {
+        return mock(ReminderScheduler.class);
+    }
+
+    @Provides
+    @Singleton
+    HabitLogger provideLogger()
+    {
+        return mock(HabitLogger.class);
+    }
 }

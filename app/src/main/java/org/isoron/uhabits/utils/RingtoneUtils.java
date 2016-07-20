@@ -19,87 +19,18 @@
 
 package org.isoron.uhabits.utils;
 
-import android.app.*;
 import android.content.*;
 import android.media.*;
 import android.net.*;
-import android.os.*;
 import android.preference.*;
 import android.provider.*;
 import android.support.annotation.*;
-import android.support.v4.app.Fragment;
-import android.util.*;
+import android.support.v4.app.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.receivers.*;
 
-import java.text.*;
-import java.util.*;
-
-public abstract class ReminderUtils
+public abstract class RingtoneUtils
 {
-    public static void createReminderAlarm(Context context,
-                                           Habit habit,
-                                           @Nullable Long reminderTime)
-    {
-        if (!habit.hasReminder()) return;
-        Reminder reminder = habit.getReminder();
-
-        if (reminderTime == null)
-        {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, reminder.getHour());
-            calendar.set(Calendar.MINUTE, reminder.getMinute());
-            calendar.set(Calendar.SECOND, 0);
-
-            reminderTime = calendar.getTimeInMillis();
-
-            if (System.currentTimeMillis() > reminderTime)
-                reminderTime += AlarmManager.INTERVAL_DAY;
-        }
-
-        long timestamp =
-            DateUtils.getStartOfDay(DateUtils.toLocalTime(reminderTime));
-
-        Uri uri = habit.getUri();
-
-        Intent alarmIntent = new Intent(context, ReminderReceiver.class);
-        alarmIntent.setAction(ReminderReceiver.ACTION_SHOW_REMINDER);
-        alarmIntent.setData(uri);
-        alarmIntent.putExtra("timestamp", timestamp);
-        alarmIntent.putExtra("reminderTime", reminderTime);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-            ((int) (habit.getId() % Integer.MAX_VALUE)) + 1, alarmIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager manager =
-            (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= 23)
-            manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                reminderTime, pendingIntent);
-        else if (Build.VERSION.SDK_INT >= 19)
-            manager.setExact(AlarmManager.RTC_WAKEUP, reminderTime,
-                pendingIntent);
-        else manager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
-
-        String name =
-            habit.getName().substring(0, Math.min(3, habit.getName().length()));
-        Log.d("ReminderHelper", String.format("Setting alarm (%s): %s",
-            DateFormat.getDateTimeInstance().format(new Date(reminderTime)),
-            name));
-    }
-
-    public static void createReminderAlarms(Context context, HabitList habits)
-    {
-        HabitList reminderHabits = habits.getFiltered(HabitMatcher.WITH_ALARM);
-        for (Habit habit : reminderHabits)
-            createReminderAlarm(context, habit, null);
-    }
-
     @Nullable
     public static String getRingtoneName(Context context)
     {
@@ -174,7 +105,7 @@ public abstract class ReminderUtils
                                                    int requestCode)
     {
         Uri existingRingtoneUri =
-            ReminderUtils.getRingtoneUri(fragment.getContext());
+            getRingtoneUri(fragment.getContext());
         Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
 
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);

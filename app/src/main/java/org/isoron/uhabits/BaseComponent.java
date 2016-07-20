@@ -32,6 +32,7 @@ import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 import org.isoron.uhabits.ui.habits.show.*;
 import org.isoron.uhabits.ui.widgets.*;
+import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
 /**
@@ -106,4 +107,6 @@ public interface BaseComponent
     void inject(ReceiverActions receiverActions);
 
     void inject(ReminderReceiver reminderReceiver);
+
+    void inject(ReminderScheduler reminderScheduler);
 }

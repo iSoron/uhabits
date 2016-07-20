@@ -51,7 +51,7 @@ public class HabitsApplication extends Application
     @Nullable
     private static Context context;
 
-    private static WidgetUpdater widgetManager;
+    private static WidgetUpdater widgetUpdater;
 
     public static BaseComponent getComponent()
     {
@@ -63,9 +63,10 @@ public class HabitsApplication extends Application
         HabitsApplication.component = component;
     }
 
-    @Nullable
+    @NonNull
     public static Context getContext()
     {
+        if (context == null) throw new RuntimeException("context is null");
         return context;
     }
 
@@ -76,21 +77,23 @@ public class HabitsApplication extends Application
     }
 
     @NonNull
-    public static WidgetUpdater getWidgetManager()
+    public static WidgetUpdater getWidgetUpdater()
     {
-        if (widgetManager == null)
-            throw new RuntimeException("widgetManager is null");
+        if (widgetUpdater == null) throw new RuntimeException(
+                "widgetUpdater is null");
 
-        return widgetManager;
+        return widgetUpdater;
     }
 
     public static boolean isTestMode()
     {
         try
         {
-            if (context != null) context
-                .getClassLoader()
-                .loadClass("org.isoron.uhabits.BaseAndroidTest");
+            if (context != null)
+            {
+                String testClass = "org.isoron.uhabits.BaseAndroidTest";
+                context.getClassLoader().loadClass(testClass);
+            }
             return true;
         }
         catch (final Exception e)
@@ -114,8 +117,8 @@ public class HabitsApplication extends Application
             if (db.exists()) db.delete();
         }
 
-        widgetManager = new WidgetUpdater(this);
-        widgetManager.startListening();
+        widgetUpdater = new WidgetUpdater(this);
+        widgetUpdater.startListening();
 
         DatabaseUtils.initializeActiveAndroid();
     }
@@ -125,7 +128,7 @@ public class HabitsApplication extends Application
     {
         HabitsApplication.context = null;
         ActiveAndroid.dispose();
-        widgetManager.stopListening();
+        widgetUpdater.stopListening();
         super.onTerminate();
     }
 }

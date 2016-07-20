@@ -23,6 +23,7 @@ import android.os.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -34,22 +35,32 @@ import static org.hamcrest.Matchers.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class HabitsApplicationTest extends BaseAndroidTest
+public class HabitLoggerTest extends BaseAndroidTest
 {
     @Test
-    public void test_getLogcat() throws IOException
+    public void testLogReminderScheduled() throws IOException
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            return;
+        if (!isLogcatAvailable()) return;
 
-        String msg = "LOGCAT TEST";
-        new RuntimeException(msg).printStackTrace();
+        long time = 1422277200000L; // 13:00 jan 26, 2015 (UTC)
+        Habit habit = fixtures.createEmptyHabit();
+        habit.setName("Write journal");
 
-        HabitsApplication app = HabitsApplication.getInstance();
-        assert(app != null);
+        logger.logReminderScheduled(habit, time);
 
+        String expectedMsg = "Setting alarm (2015-01-26 130000): Wri\n";
+        assertLogcatContains(expectedMsg);
+    }
+
+    protected void assertLogcatContains(String expectedMsg) throws IOException
+    {
         BaseSystem system = new BaseSystem(targetContext);
-        String log = system.getLogcat();
-        assertThat(log, containsString(msg));
+        String logcat = system.getLogcat();
+        assertThat(logcat, containsString(expectedMsg));
+    }
+
+    protected boolean isLogcatAvailable()
+    {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 }

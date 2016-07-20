@@ -17,42 +17,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models;
+package org.isoron.uhabits;
 
-public final class Reminder
+import android.support.annotation.*;
+import android.util.*;
+
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+
+import java.text.*;
+import java.util.*;
+
+public class HabitLogger
 {
-    private final int hour;
-
-    private final int minute;
-
-    private final int days;
-
-    public Reminder(int hour, int minute, int days)
+    public void logReminderScheduled(@NonNull Habit habit,
+                                     @NonNull Long reminderTime)
     {
-        this.hour = hour;
-        this.minute = minute;
-        this.days = days;
-    }
+        int min = Math.min(3, habit.getName().length());
+        String name = habit.getName().substring(0, min);
 
-    /**
-     * Returns the days of the week the reminder should be shown.
-     * <p>
-     * This field can be converted to a list of booleans using the method
-     * DateUtils.unpackWeekdayList and converted back to an integer by using the
-     * method DateUtils.packWeekdayList.
-     */
-    public int getDays()
-    {
-        return days;
-    }
+        DateFormat df = DateUtils.getBackupDateFormat();
+        String time = df.format(new Date(reminderTime));
 
-    public int getHour()
-    {
-        return hour;
-    }
-
-    public int getMinute()
-    {
-        return minute;
+        Log.i("ReminderHelper",
+                String.format("Setting alarm (%s): %s", time, name));
     }
 }
