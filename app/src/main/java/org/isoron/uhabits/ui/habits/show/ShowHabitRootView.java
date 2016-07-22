@@ -51,7 +51,7 @@ public class ShowHabitRootView extends BaseRootView
     @BindView(R.id.overviewCard)
     OverviewCard overviewCard;
 
-    @BindView(R.id.strengthCard)
+    @BindView(R.id.scoreCard)
     ScoreCard scoreCard;
 
     @BindView(R.id.historyCard)

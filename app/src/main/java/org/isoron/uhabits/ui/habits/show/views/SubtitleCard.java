@@ -42,12 +42,6 @@ public class SubtitleCard extends HabitCard
     @BindView(R.id.reminderLabel)
     TextView reminderLabel;
 
-    public SubtitleCard(Context context)
-    {
-        super(context);
-        init();
-    }
-
     public SubtitleCard(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -76,8 +70,7 @@ public class SubtitleCard extends HabitCard
 
     private void init()
     {
-        Context context = getContext();
-        inflate(context, R.layout.show_habit_subtitle, this);
+        inflate(getContext(), R.layout.show_habit_subtitle, this);
         ButterKnife.bind(this);
 
         if (isInEditMode()) initEditMode();

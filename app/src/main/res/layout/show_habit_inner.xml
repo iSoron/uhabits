@@ -46,7 +46,7 @@
             android:paddingTop="12dp"/>
 
         <org.isoron.uhabits.ui.habits.show.views.ScoreCard
-            android:id="@+id/strengthCard"
+            android:id="@+id/scoreCard"
             style="@style/Card"
             android:gravity="center"/>
 

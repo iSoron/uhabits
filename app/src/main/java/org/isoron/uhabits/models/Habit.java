@@ -156,22 +156,24 @@ public class Habit
      * this color into an android.graphics.Color, use ColorHelper.getColor(context,
      * habit.color).
      */
+    @NonNull
     public Integer getColor()
     {
         return color;
     }
 
-    public void setColor(Integer color)
+    public void setColor(@NonNull Integer color)
     {
         this.color = color;
     }
 
+    @NonNull
     public String getDescription()
     {
         return description;
     }
 
-    public void setDescription(String description)
+    public void setDescription(@NonNull String description)
     {
         this.description = description;
     }

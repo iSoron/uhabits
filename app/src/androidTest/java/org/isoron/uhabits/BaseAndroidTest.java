@@ -81,8 +81,8 @@ public class BaseAndroidTest
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();
 
-        InterfaceUtils.setFixedTheme(R.style.AppBaseTheme);
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
+        setTheme(R.style.AppBaseTheme);
 
         androidTestComponent = DaggerAndroidTestComponent.builder().build();
         HabitsApplication.setComponent(androidTestComponent);
@@ -106,6 +106,11 @@ public class BaseAndroidTest
         assertThat(installedProviders, hasItems(provider));
     }
 
+    protected void awaitLatch() throws InterruptedException
+    {
+        assertTrue(latch.await(60, TimeUnit.SECONDS));
+    }
+
     protected void setTheme(@StyleRes int themeId)
     {
         InterfaceUtils.setFixedTheme(themeId);
@@ -125,19 +130,20 @@ public class BaseAndroidTest
     }
 
     protected void waitForAsyncTasks()
-        throws InterruptedException, TimeoutException
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+        try
         {
-            Thread.sleep(1000);
-            return;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+            {
+                Thread.sleep(1000);
+                return;
+            }
+
+            BaseTask.waitForTasks(10000);
         }
-
-        BaseTask.waitForTasks(10000);
-    }
-
-    protected void awaitLatch() throws InterruptedException
-    {
-        assertTrue(latch.await(60, TimeUnit.SECONDS));
+        catch (Exception e)
+        {
+            fail();
+        }
     }
 }
