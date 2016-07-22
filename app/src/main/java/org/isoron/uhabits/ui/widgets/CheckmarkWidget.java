@@ -45,8 +45,8 @@ public class CheckmarkWidget extends BaseWidget
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        IntentFactory factory = new IntentFactory(context);
-        return factory.buildToggleCheckmark(habit, null);
+        PendingIntentFactory factory = new PendingIntentFactory(context);
+        return factory.toggleCheckmark(habit, null);
     }
 
     @Override

@@ -22,7 +22,6 @@ package org.isoron.uhabits.utils;
 import android.app.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.junit.*;
 
@@ -31,26 +30,19 @@ import static org.mockito.Mockito.*;
 @SuppressWarnings("JavaDoc")
 public class ReminderSchedulerTest extends BaseUnitTest
 {
-    private IntentFactory intentFactory;
-
-    private IntentScheduler intentScheduler;
-
-    private ReminderScheduler scheduler;
-
     private Habit habit;
 
     private PendingIntent intent;
+
+    private ReminderScheduler reminderScheduler;
 
     @Before
     @Override
     public void setUp()
     {
         super.setUp();
-        intentFactory = mock(IntentFactory.class);
-        intentScheduler = mock(IntentScheduler.class);
         intent = mock(PendingIntent.class);
-
-        scheduler = new ReminderScheduler(intentFactory, intentScheduler);
+        reminderScheduler = new ReminderScheduler();
         habit = fixtures.createEmptyHabit();
     }
 
@@ -94,7 +86,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
 
         fixtures.createEmptyHabit();
 
-        scheduler.schedule(habitList);
+        reminderScheduler.schedule(habitList);
 
         verify(intentScheduler).schedule(1422347400000L, null);
         verify(intentScheduler).schedule(1422297000000L, null);
@@ -117,7 +109,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_withoutReminder()
     {
-        scheduler.schedule(habit, null);
+        reminderScheduler.schedule(habit, null);
         verifyZeroInteractions(intentScheduler);
     }
 
@@ -125,15 +117,15 @@ public class ReminderSchedulerTest extends BaseUnitTest
                                    long expectedCheckmarkTime,
                                    long expectedReminderTime)
     {
-        when(intentFactory.buildShowReminder(habit, expectedReminderTime,
-                expectedCheckmarkTime)).thenReturn(intent);
+        when(pendingIntentFactory.showReminder(habit, expectedReminderTime,
+            expectedCheckmarkTime)).thenReturn(intent);
 
-        scheduler.schedule(habit, atTime);
+        reminderScheduler.schedule(habit, atTime);
 
         verify(logger).logReminderScheduled(habit, expectedReminderTime);
 
-        verify(intentFactory).buildShowReminder(habit, expectedReminderTime,
-                expectedCheckmarkTime);
+        verify(pendingIntentFactory).showReminder(habit, expectedReminderTime,
+            expectedCheckmarkTime);
         verify(intentScheduler).schedule(expectedReminderTime, intent);
     }
 }

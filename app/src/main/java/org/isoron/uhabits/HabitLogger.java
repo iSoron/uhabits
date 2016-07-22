@@ -28,8 +28,17 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
+import javax.inject.*;
+
+@Singleton
 public class HabitLogger
 {
+    @Inject
+    public HabitLogger()
+    {
+
+    }
+
     public void logReminderScheduled(@NonNull Habit habit,
                                      @NonNull Long reminderTime)
     {

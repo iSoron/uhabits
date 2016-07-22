@@ -19,7 +19,10 @@
 
 package org.isoron.uhabits;
 
+import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -37,20 +40,40 @@ public class BaseUnitTest
     protected ModelFactory modelFactory;
 
     @Inject
+    protected DialogFactory dialogFactory;
+
+    @Inject
+    protected IntentFactory intentFactory;
+
+    @Inject
     protected HabitList habitList;
 
     @Inject
     protected HabitLogger logger;
 
+    @Inject
+    protected PendingIntentFactory pendingIntentFactory;
+
+    @Inject
+    protected IntentScheduler intentScheduler;
+
+    @Inject
+    protected DirFinder dirFinder;
+
     protected TestComponent testComponent;
 
     protected HabitFixtures fixtures;
+
+    public void log(String format, Object... args)
+    {
+        System.out.println(String.format(format, args));
+    }
 
     @Before
     public void setUp()
     {
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
-        testComponent = DaggerTestComponent.builder().build();
+        testComponent = DaggerTestComponent.create();
         HabitsApplication.setComponent(testComponent);
         testComponent.inject(this);
         fixtures = new HabitFixtures(habitList);
@@ -62,10 +85,5 @@ public class BaseUnitTest
         DateUtils.setFixedLocalTime(null);
         fixtures.purgeHabits();
 
-    }
-
-    public void log(String format, Object... args)
-    {
-        System.out.println(String.format(format, args));
     }
 }

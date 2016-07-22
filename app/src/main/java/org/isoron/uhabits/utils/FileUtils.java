@@ -19,21 +19,15 @@
 
 package org.isoron.uhabits.utils;
 
-import android.content.Context;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v4.content.*;
+import android.util.*;
 
-import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public abstract class FileUtils
 {
@@ -60,27 +54,49 @@ public abstract class FileUtils
     }
 
     @Nullable
-    public static File getSDCardDir(@Nullable String relativePath)
+    private static File getDir(@NonNull File potentialParentDirs[],
+                               @Nullable String relativePath)
     {
-        File parents[] = new File[]{ Environment.getExternalStorageDirectory() };
-        return getDir(parents, relativePath);
+        if (relativePath == null) relativePath = "";
+
+        File chosenDir = null;
+        for (File dir : potentialParentDirs)
+        {
+            if (dir == null || !dir.canWrite()) continue;
+            chosenDir = dir;
+            break;
+        }
+
+        if (chosenDir == null)
+        {
+            Log.e("DatabaseHelper",
+                "getDir: all potential parents are null or non-writable");
+            return null;
+        }
+
+        File dir = new File(
+            String.format("%s/%s/", chosenDir.getAbsolutePath(), relativePath));
+        if (!dir.exists() && !dir.mkdirs())
+        {
+            Log.e("DatabaseHelper",
+                "getDir: chosen dir does not exist and cannot be created");
+            return null;
+        }
+
+        return dir;
     }
 
     @Nullable
     public static File getFilesDir(@Nullable String relativePath)
     {
         Context context = HabitsApplication.getContext();
-        if(context == null)
-        {
-            Log.e("DatabaseHelper", "getFilesDir: no application context available");
-            return null;
-        }
+        File externalFilesDirs[] =
+            ContextCompat.getExternalFilesDirs(context, null);
 
-        File externalFilesDirs[] = ContextCompat.getExternalFilesDirs(context, null);
-
-        if(externalFilesDirs == null)
+        if (externalFilesDirs == null)
         {
-            Log.e("DatabaseHelper", "getFilesDir: getExternalFilesDirs returned null");
+            Log.e("DatabaseHelper",
+                "getFilesDir: getExternalFilesDirs returned null");
             return null;
         }
 
@@ -88,32 +104,10 @@ public abstract class FileUtils
     }
 
     @Nullable
-    private static File getDir(@NonNull File potentialParentDirs[], @Nullable String relativePath)
+    public static File getSDCardDir(@Nullable String relativePath)
     {
-        if(relativePath == null) relativePath = "";
-
-        File chosenDir = null;
-        for(File dir : potentialParentDirs)
-        {
-            if (dir == null || !dir.canWrite()) continue;
-            chosenDir = dir;
-            break;
-        }
-
-        if(chosenDir == null)
-        {
-            Log.e("DatabaseHelper", "getDir: all potential parents are null or non-writable");
-            return null;
-        }
-
-        File dir = new File(String.format("%s/%s/", chosenDir.getAbsolutePath(), relativePath));
-        if (!dir.exists() && !dir.mkdirs())
-        {
-            Log.e("DatabaseHelper", "getDir: chosen dir does not exist and cannot be created");
-            return null;
-        }
-
-        return dir;
+        File parents[] =
+            new File[]{ Environment.getExternalStorageDirectory() };
+        return getDir(parents, relativePath);
     }
-
 }

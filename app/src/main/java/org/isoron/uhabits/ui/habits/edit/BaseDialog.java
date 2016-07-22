@@ -25,14 +25,14 @@ import android.support.v7.app.*;
 import android.text.format.*;
 import android.view.*;
 
-import com.android.colorpicker.*;
 import com.android.datetimepicker.time.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -40,7 +40,7 @@ import javax.inject.*;
 
 import butterknife.*;
 
-public abstract class BaseDialogFragment extends AppCompatDialogFragment
+public abstract class BaseDialog extends AppCompatDialogFragment
 {
     @Nullable
     protected Habit originalHabit;
@@ -59,6 +59,9 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
 
     @Inject
     protected HabitList habitList;
+
+    @Inject
+    protected DialogFactory dialogFactory;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -83,7 +86,8 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
         if (position < 0 || position > 4) throw new IllegalArgumentException();
         int freqNums[] = { 1, 1, 2, 5, 3 };
         int freqDens[] = { 1, 7, 7, 7, 7 };
-        modifiedHabit.setFrequency(new Frequency(freqNums[position], freqDens[position]));
+        modifiedHabit.setFrequency(
+            new Frequency(freqNums[position], freqDens[position]));
         helper.populateFrequencyFields(modifiedHabit);
     }
 
@@ -169,23 +173,22 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
 
         WeekdayPickerDialog dialog = new WeekdayPickerDialog();
         dialog.setListener(new OnWeekdaysPickedListener());
-        dialog.setSelectedDays(
-            DateUtils.unpackWeekdayList(reminder.getDays()));
+        dialog.setSelectedDays(DateUtils.unpackWeekdayList(reminder.getDays()));
         dialog.show(getFragmentManager(), "weekdayPicker");
     }
 
     @OnClick(R.id.buttonPickColor)
     void showColorPicker()
     {
-        int androidColor =
-            ColorUtils.getColor(getContext(), modifiedHabit.getColor());
+        int color = modifiedHabit.getColor();
+        ColorPickerDialog picker = dialogFactory.buildColorPicker(color);
 
-        ColorPickerDialog picker =
-            ColorPickerDialog.newInstance(R.string.color_picker_default_title,
-                ColorUtils.getPalette(getContext()), androidColor, 4,
-                ColorPickerDialog.SIZE_SMALL);
+        picker.setListener(c -> {
+            prefs.setDefaultHabitColor(c);
+            modifiedHabit.setColor(c);
+            helper.populateColor(c);
+        });
 
-        picker.setOnColorSelectedListener(new OnColorSelectedListener());
         picker.show(getFragmentManager(), "picker");
     }
 
@@ -196,20 +199,6 @@ public abstract class BaseDialogFragment extends AppCompatDialogFragment
             TimePickerDialog.newInstance(new OnTimeSetListener(), defaultHour,
                 defaultMin, is24HourMode);
         timePicker.show(getFragmentManager(), "timePicker");
-    }
-
-    private class OnColorSelectedListener
-        implements ColorPickerSwatch.OnColorSelectedListener
-    {
-        @Override
-        public void onColorSelected(int androidColor)
-        {
-            int paletteColor =
-                ColorUtils.colorToPaletteIndex(getActivity(), androidColor);
-            prefs.setDefaultHabitColor(paletteColor);
-            modifiedHabit.setColor(paletteColor);
-            helper.populateColor(paletteColor);
-        }
     }
 
     private class OnTimeSetListener

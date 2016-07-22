@@ -25,13 +25,16 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 
-public class EditHabitDialogFragment extends BaseDialogFragment
+public class EditHabitDialog extends BaseDialog
 {
-    public static EditHabitDialogFragment newInstance(long habitId)
+    public static EditHabitDialog newInstance(Habit habit)
     {
-        EditHabitDialogFragment frag = new EditHabitDialogFragment();
+        if(habit.getId() == null)
+            throw new IllegalArgumentException("habit not saved");
+
+        EditHabitDialog frag = new EditHabitDialog();
         Bundle args = new Bundle();
-        args.putLong("habitId", habitId);
+        args.putLong("habitId", habit.getId());
         frag.setArguments(args);
         return frag;
     }

@@ -20,8 +20,11 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.memory.*;
+import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
@@ -41,6 +44,20 @@ public class TestModule
     }
 
     @Provides
+    @Singleton
+    DialogFactory provideDialogFactory()
+    {
+        return mock(DialogFactory.class);
+    }
+
+    @Provides
+    @Singleton
+    DirFinder provideDirFinder()
+    {
+        return mock(DirFinder.class);
+    }
+
+    @Provides
     Habit provideHabit()
     {
         return mock(Habit.class);
@@ -55,9 +72,37 @@ public class TestModule
 
     @Provides
     @Singleton
+    IntentFactory provideIntentFactory()
+    {
+        return mock(IntentFactory.class);
+    }
+
+    @Provides
+    @Singleton
+    IntentScheduler provideIntentScheduler()
+    {
+        return mock(IntentScheduler.class);
+    }
+
+    @Provides
+    @Singleton
+    HabitLogger provideLogger()
+    {
+        return mock(HabitLogger.class);
+    }
+
+    @Provides
+    @Singleton
     ModelFactory provideModelFactory()
     {
         return new MemoryModelFactory();
+    }
+
+    @Singleton
+    @Provides
+    PendingIntentFactory providePendingIntentFactory()
+    {
+        return mock(PendingIntentFactory.class);
     }
 
     @Singleton
@@ -69,13 +114,6 @@ public class TestModule
 
     @Provides
     @Singleton
-    WidgetPreferences provideWidgetPreferences()
-    {
-        return mock(WidgetPreferences.class);
-    }
-
-    @Provides
-    @Singleton
     ReminderScheduler provideReminderScheduler()
     {
         return mock(ReminderScheduler.class);
@@ -83,8 +121,8 @@ public class TestModule
 
     @Provides
     @Singleton
-    HabitLogger provideLogger()
+    WidgetPreferences provideWidgetPreferences()
     {
-        return mock(HabitLogger.class);
+        return mock(WidgetPreferences.class);
     }
 }

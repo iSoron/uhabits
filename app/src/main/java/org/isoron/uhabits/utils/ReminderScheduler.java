@@ -32,20 +32,21 @@ import javax.inject.*;
 
 import static org.isoron.uhabits.utils.DateUtils.*;
 
+@Singleton
 public class ReminderScheduler
 {
-    private final IntentFactory intentFactory;
+    @Inject
+    protected PendingIntentFactory pendingIntentFactory;
 
-    private final IntentScheduler intentScheduler;
+    @Inject
+    protected IntentScheduler intentScheduler;
 
     @Inject
     HabitLogger logger;
 
-    public ReminderScheduler(IntentFactory intentFactory,
-                             IntentScheduler intentScheduler)
+    @Inject
+    public ReminderScheduler()
     {
-        this.intentFactory = intentFactory;
-        this.intentScheduler = intentScheduler;
         HabitsApplication.getComponent().inject(this);
     }
 
@@ -56,7 +57,7 @@ public class ReminderScheduler
         if (reminderTime == null) reminderTime = getReminderTime(reminder);
         long timestamp = getStartOfDay(toLocalTime(reminderTime));
 
-        PendingIntent intent = intentFactory.buildShowReminder(habit,
+        PendingIntent intent = pendingIntentFactory.showReminder(habit,
                 reminderTime, timestamp);
         intentScheduler.schedule(reminderTime, intent);
         logger.logReminderScheduled(habit, reminderTime);

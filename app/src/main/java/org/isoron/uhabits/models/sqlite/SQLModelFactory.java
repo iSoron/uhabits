@@ -21,11 +21,20 @@ package org.isoron.uhabits.models.sqlite;
 
 import org.isoron.uhabits.models.*;
 
+import javax.inject.*;
+
 /**
  * Factory that provides models backed by an SQLite database.
  */
+@Singleton
 public class SQLModelFactory implements ModelFactory
 {
+    @Inject
+    public SQLModelFactory()
+    {
+
+    }
+
     @Override
     public RepetitionList buildRepetitionList(Habit habit)
     {

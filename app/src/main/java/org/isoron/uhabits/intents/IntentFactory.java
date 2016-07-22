@@ -19,94 +19,53 @@
 
 package org.isoron.uhabits.intents;
 
-import android.app.*;
 import android.content.*;
 import android.net.*;
-import android.support.annotation.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.receivers.*;
+import org.isoron.uhabits.ui.about.*;
 import org.isoron.uhabits.ui.habits.show.*;
+import org.isoron.uhabits.ui.intro.*;
+import org.isoron.uhabits.ui.settings.*;
 
-import static android.app.PendingIntent.*;
+import javax.inject.*;
 
 public class IntentFactory
 {
-    @NonNull
-    private final Context context;
-
-    public IntentFactory(@NonNull Context context)
+    @Inject
+    public IntentFactory()
     {
-        this.context = context;
+
     }
 
-    public PendingIntent buildAddCheckmark(@NonNull Habit habit,
-                                           @Nullable Long timestamp)
+    public Intent startAboutActivity(Context context)
     {
-        Uri data = habit.getUri();
-        Intent checkIntent = new Intent(context, WidgetReceiver.class);
-        checkIntent.setData(data);
-        checkIntent.setAction(WidgetReceiver.ACTION_ADD_REPETITION);
-        if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, 1, checkIntent,
-                FLAG_UPDATE_CURRENT);
+        return new Intent(context, AboutActivity.class);
     }
 
-    public PendingIntent buildDismissNotification()
+    public Intent startIntroActivity(Context context)
     {
-        Intent deleteIntent = new Intent(context, ReminderReceiver.class);
-        deleteIntent.setAction(WidgetReceiver.ACTION_DISMISS_REMINDER);
-        return PendingIntent.getBroadcast(context, 0, deleteIntent,
-                FLAG_UPDATE_CURRENT);
+        return new Intent(context, IntroActivity.class);
     }
 
-    public PendingIntent buildShowReminder(@NonNull Habit habit,
-                                           @Nullable Long reminderTime,
-                                           long timestamp)
+    public Intent startSettingsActivity(Context context)
     {
-        Uri uri = habit.getUri();
-
-        Intent intent = new Intent(context, ReminderReceiver.class);
-        intent.setAction(ReminderReceiver.ACTION_SHOW_REMINDER);
-        intent.setData(uri);
-        intent.putExtra("timestamp", timestamp);
-        intent.putExtra("reminderTime", reminderTime);
-        int reqCode = ((int) (habit.getId() % Integer.MAX_VALUE)) + 1;
-        return PendingIntent.getBroadcast(context, reqCode, intent,
-                FLAG_UPDATE_CURRENT);
+        return new Intent(context, SettingsActivity.class);
     }
 
-    public PendingIntent buildSnoozeNotification(@NonNull Habit habit)
+    public Intent startShowHabitActivity(Context context, Habit habit)
     {
-        Uri data = habit.getUri();
-        Intent snoozeIntent = new Intent(context, ReminderReceiver.class);
-        snoozeIntent.setData(data);
-        snoozeIntent.setAction(ReminderReceiver.ACTION_SNOOZE_REMINDER);
-        return PendingIntent.getBroadcast(context, 0, snoozeIntent,
-                FLAG_UPDATE_CURRENT);
-    }
-
-    public PendingIntent buildToggleCheckmark(@NonNull Habit habit,
-                                              @Nullable Long timestamp)
-    {
-        Uri data = habit.getUri();
-        Intent checkIntent = new Intent(context, WidgetReceiver.class);
-        checkIntent.setData(data);
-        checkIntent.setAction(WidgetReceiver.ACTION_TOGGLE_REPETITION);
-        if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
-        return PendingIntent.getBroadcast(context, 2, checkIntent,
-                FLAG_UPDATE_CURRENT);
-    }
-
-    public PendingIntent buildViewHabit(Habit habit)
-    {
-        Uri uri = habit.getUri();
-
         Intent intent = new Intent(context, ShowHabitActivity.class);
-        intent.setData(uri);
-        return android.support.v4.app.TaskStackBuilder
-                .create(context)
-                .addNextIntentWithParentStack(intent)
-                .getPendingIntent(0, FLAG_UPDATE_CURRENT);
+        intent.setData(habit.getUri());
+        return intent;
+    }
+
+    public Intent viewFAQ(Context context)
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(context.getString(R.string.helpURL)));
+        return intent;
     }
 }

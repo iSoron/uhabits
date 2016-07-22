@@ -24,15 +24,12 @@ import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.test.*;
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
-import org.junit.runner.*;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -43,8 +40,6 @@ import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-@RunWith(AndroidJUnit4.class)
-@MediumTest
 public class BaseAndroidTest
 {
     // 8:00am, January 25th, 2015 (UTC)

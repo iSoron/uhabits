@@ -23,7 +23,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 
-public class CreateHabitDialogFragment extends BaseDialogFragment
+public class CreateHabitDialog extends BaseDialog
 {
     @Override
     protected int getTitle()

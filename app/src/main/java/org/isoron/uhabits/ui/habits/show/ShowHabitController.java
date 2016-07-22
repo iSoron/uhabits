@@ -25,7 +25,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.habits.edit.*;
+import org.isoron.uhabits.ui.common.dialogs.*;
 
 import javax.inject.*;
 

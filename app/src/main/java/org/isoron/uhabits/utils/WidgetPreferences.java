@@ -22,17 +22,17 @@ package org.isoron.uhabits.utils;
 import android.content.*;
 import android.preference.*;
 
-import org.isoron.uhabits.*;
+import javax.inject.*;
 
+@Singleton
 public class WidgetPreferences
 {
-    private Context context;
 
     private SharedPreferences prefs;
 
-    public WidgetPreferences()
+    @Inject
+    public WidgetPreferences(Context context)
     {
-        this.context = HabitsApplication.getContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

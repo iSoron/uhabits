@@ -20,33 +20,38 @@
 package org.isoron.uhabits.ui.habits.show;
 
 import android.support.annotation.*;
-import android.support.v4.app.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.ui.habits.edit.*;
+
+import javax.inject.*;
 
 public class ShowHabitScreen extends BaseScreen
 {
     @NonNull
     private final Habit habit;
 
+    @Inject
+    protected DialogFactory dialogFactory;
+
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
                            ShowHabitRootView view)
     {
         super(activity);
+        HabitsApplication.getComponent().inject(this);
+
         this.habit = habit;
         setRootView(view);
     }
 
     public void showEditHabitDialog()
     {
-        Long id = habit.getId();
-        if (id == null) throw new RuntimeException("habit not saved");
-
-        FragmentManager manager = activity.getSupportFragmentManager();
-        EditHabitDialogFragment.newInstance(id).show(manager, "editHabit");
+        EditHabitDialog dialog = dialogFactory.buildEditHabitDialog(habit);
+        activity.showDialog(dialog, "editHabit");
     }
 
     public void showEditHistoryDialog(

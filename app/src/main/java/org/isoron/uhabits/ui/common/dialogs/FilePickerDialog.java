@@ -17,56 +17,54 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.settings;
+package org.isoron.uhabits.ui.common.dialogs;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.support.annotation.NonNull;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.content.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
+import android.view.*;
+import android.view.WindowManager.*;
+import android.widget.*;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
+/**
+ * Dialog that allows the user to pick a file.
+ */
 public class FilePickerDialog implements AdapterView.OnItemClickListener
 {
     private static final String PARENT_DIR = "..";
 
-    private final Activity activity;
+    private final Context context;
 
     private ListView list;
 
-    private Dialog dialog;
+    private AppCompatDialog dialog;
 
     private File currentPath;
 
-    public interface OnFileSelectedListener
-    {
-        void onFileSelected(File file);
-    }
-
     private OnFileSelectedListener listener;
 
-    public FilePickerDialog(Activity activity, File initialDirectory)
+    public FilePickerDialog(Context context, File initialDirectory)
     {
-        this.activity = activity;
+        this.context = context;
 
-        list = new ListView(activity);
+        list = new ListView(context);
         list.setOnItemClickListener(this);
 
-        dialog = new Dialog(activity);
+        dialog = new AppCompatDialog(context);
         dialog.setContentView(list);
         dialog
             .getWindow()
             .setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         navigateTo(initialDirectory);
+    }
+
+    public AppCompatDialog getDialog()
+    {
+        return dialog;
     }
 
     @Override
@@ -92,27 +90,14 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
         }
     }
 
-    public void show()
-    {
-        dialog.show();
-    }
-
     public void setListener(OnFileSelectedListener listener)
     {
         this.listener = listener;
     }
 
-    private void navigateTo(File path)
+    public void show()
     {
-        if (!path.exists()) return;
-
-        File[] dirs = path.listFiles(new ReadableDirFilter());
-        File[] files = path.listFiles(new RegularReadableFileFilter());
-        if (dirs == null || files == null) return;
-
-        this.currentPath = path;
-        dialog.setTitle(currentPath.getPath());
-        list.setAdapter(new FilePickerAdapter(getFileList(path, dirs, files)));
+        dialog.show();
     }
 
     @NonNull
@@ -144,11 +129,38 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
         return fileList;
     }
 
+    private void navigateTo(File path)
+    {
+        if (!path.exists()) return;
+
+        File[] dirs = path.listFiles(new ReadableDirFilter());
+        File[] files = path.listFiles(new RegularReadableFileFilter());
+        if (dirs == null || files == null) return;
+
+        this.currentPath = path;
+        dialog.setTitle(currentPath.getPath());
+        list.setAdapter(new FilePickerAdapter(getFileList(path, dirs, files)));
+    }
+
+    public interface OnFileSelectedListener
+    {
+        void onFileSelected(File file);
+    }
+
+    private static class ReadableDirFilter implements FileFilter
+    {
+        @Override
+        public boolean accept(File file)
+        {
+            return (file.isDirectory() && file.canRead());
+        }
+    }
+
     private class FilePickerAdapter extends ArrayAdapter<String>
     {
         public FilePickerAdapter(@NonNull String[] fileList)
         {
-            super(FilePickerDialog.this.activity,
+            super(FilePickerDialog.this.context,
                 android.R.layout.simple_list_item_1, fileList);
         }
 
@@ -159,15 +171,6 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
             TextView tv = (TextView) view;
             tv.setSingleLine(true);
             return view;
-        }
-    }
-
-    private static class ReadableDirFilter implements FileFilter
-    {
-        @Override
-        public boolean accept(File file)
-        {
-            return (file.isDirectory() && file.canRead());
         }
     }
 

@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits.ui.intro;
 
-import android.graphics.Color;
-import android.os.Bundle;
+import android.content.*;
+import android.graphics.*;
+import android.os.*;
 
-import com.github.paolorotolo.appintro.AppIntro2;
-import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.github.paolorotolo.appintro.*;
 
 import org.isoron.uhabits.R;
 

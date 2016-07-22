@@ -26,16 +26,20 @@ import org.isoron.uhabits.tasks.BaseTask;
 
 import java.util.LinkedList;
 
+import javax.inject.*;
+
 /**
  * A CommandRunner executes and undoes commands.
  * <p>
  * CommandRunners also allows objects to subscribe to it, and receive events
  * whenever a command is performed.
  */
+@Singleton
 public class CommandRunner
 {
     private LinkedList<Listener> listeners;
 
+    @Inject
     public CommandRunner()
     {
         listeners = new LinkedList<>();

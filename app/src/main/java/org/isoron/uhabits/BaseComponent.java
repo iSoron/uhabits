@@ -20,11 +20,13 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.ui.habits.edit.*;
 import org.isoron.uhabits.ui.habits.list.*;
 import org.isoron.uhabits.ui.habits.list.controllers.*;
@@ -40,6 +42,8 @@ import org.isoron.uhabits.widgets.*;
  */
 public interface BaseComponent
 {
+    IntentFactory getIntentFactory();
+
     void inject(CheckmarkButtonController checkmarkButtonController);
 
     void inject(ListHabitsController listHabitsController);
@@ -90,7 +94,7 @@ public interface BaseComponent
 
     void inject(HabitsCSVExporter habitsCSVExporter);
 
-    void inject(BaseDialogFragment baseDialogFragment);
+    void inject(BaseDialog baseDialog);
 
     void inject(ShowHabitController showHabitController);
 
@@ -109,4 +113,12 @@ public interface BaseComponent
     void inject(ReminderReceiver reminderReceiver);
 
     void inject(ReminderScheduler reminderScheduler);
+
+    void inject(ListHabitsScreen listHabitsScreen);
+
+    void inject(ShowHabitScreen showHabitScreen);
+
+    void inject(ConfirmDeleteDialog confirmDeleteDialog);
+
+    void inject(PendingIntentFactory pendingIntentFactory);
 }

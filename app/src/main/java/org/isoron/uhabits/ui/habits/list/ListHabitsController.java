@@ -48,7 +48,8 @@ public class ListHabitsController
     @NonNull
     private final HabitList habitList;
 
-    private HabitCardListAdapter adapter;
+    @NonNull
+    private final HabitCardListAdapter adapter;
 
     @Inject
     Preferences prefs;
@@ -81,6 +82,7 @@ public class ListHabitsController
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         });
+
         task.execute();
     }
 

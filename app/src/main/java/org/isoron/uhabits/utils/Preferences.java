@@ -24,12 +24,16 @@ import android.preference.*;
 
 import org.isoron.uhabits.*;
 
+import javax.inject.*;
+
+@Singleton
 public class Preferences
 {
     private Context context;
 
     private SharedPreferences prefs;
 
+    @Inject
     public Preferences()
     {
         this.context = HabitsApplication.getContext();

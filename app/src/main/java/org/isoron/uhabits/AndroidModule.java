@@ -21,11 +21,8 @@ package org.isoron.uhabits;
 
 import android.content.*;
 
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
 
@@ -42,52 +39,21 @@ public class AndroidModule
 {
     @Provides
     @Singleton
-    CommandRunner provideCommandRunner()
-    {
-        return new CommandRunner();
-    }
-
-    @Provides
-    @Singleton
-    HabitList provideHabitList()
+    static HabitList provideHabitList()
     {
         return SQLiteHabitList.getInstance();
     }
 
     @Provides
-    ModelFactory provideModelFactory()
+    static ModelFactory provideModelFactory()
     {
         return new SQLModelFactory();
     }
 
     @Provides
     @Singleton
-    Preferences providePreferences()
+    static Context provideApplicationContext()
     {
-        return new Preferences();
-    }
-
-    @Provides
-    @Singleton
-    WidgetPreferences provideWidgetPreferences()
-    {
-        return new WidgetPreferences();
-    }
-
-    @Provides
-    @Singleton
-    ReminderScheduler provideReminderScheduler()
-    {
-        Context context = HabitsApplication.getContext();
-        IntentScheduler intentScheduler = new IntentScheduler(context);
-        IntentFactory intentFactory = new IntentFactory(context);
-        return new ReminderScheduler(intentFactory, intentScheduler);
-    }
-
-    @Provides
-    @Singleton
-    HabitLogger provideLogger()
-    {
-        return new HabitLogger();
+        return HabitsApplication.getContext();
     }
 }

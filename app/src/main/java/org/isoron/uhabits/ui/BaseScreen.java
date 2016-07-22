@@ -27,12 +27,11 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.tasks.ProgressBar;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -47,8 +46,6 @@ import java.io.*;
 public abstract class BaseScreen
 {
     protected BaseActivity activity;
-
-    private Toast toast;
 
     @Nullable
     private BaseRootView rootView;
@@ -155,6 +152,11 @@ public abstract class BaseScreen
         activity.setBaseMenu(menu);
     }
 
+    public void showMessage(@StringRes int stringId)
+    {
+        activity.showMessage(stringId);
+    }
+
     /**
      * Sets the root view for this screen.
      *
@@ -177,20 +179,6 @@ public abstract class BaseScreen
     public void setSelectionMenu(@Nullable BaseSelectionMenu menu)
     {
         this.selectionMenu = menu;
-    }
-
-    /**
-     * Shows a message on the screen.
-     *
-     * @param stringId the string resource id for this message.
-     */
-    public void showMessage(@Nullable Integer stringId)
-    {
-        if (stringId == null) return;
-        if (toast == null)
-            toast = Toast.makeText(activity, stringId, Toast.LENGTH_SHORT);
-        else toast.setText(stringId);
-        toast.show();
     }
 
     public void showSendEmailScreen(String to, String subject, String content)
@@ -223,11 +211,6 @@ public abstract class BaseScreen
     public void startSelection()
     {
         activity.startSupportActionMode(new ActionModeWrapper());
-    }
-
-    protected void showDialog(AppCompatDialogFragment dialog, String tag)
-    {
-        dialog.show(activity.getSupportFragmentManager(), tag);
     }
 
     public void invalidateToolbar()
