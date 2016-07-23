@@ -41,6 +41,8 @@ public class FrequencyCard extends HabitCard
     @BindView(R.id.frequencyChart)
     FrequencyChart chart;
 
+    private TaskRunner taskRunner;
+
     public FrequencyCard(Context context)
     {
         super(context);
@@ -56,13 +58,14 @@ public class FrequencyCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        new RefreshTask().execute();
+        taskRunner.execute(new RefreshTask());
     }
 
     private void init()
     {
         inflate(getContext(), R.layout.show_habit_frequency, this);
         ButterKnife.bind(this);
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
 
         if (isInEditMode()) initEditMode();
     }
@@ -75,10 +78,10 @@ public class FrequencyCard extends HabitCard
         chart.populateWithRandomData();
     }
 
-    private class RefreshTask extends BaseTask
+    private class RefreshTask implements Task
     {
         @Override
-        protected void doInBackground()
+        public void doInBackground()
         {
             RepetitionList reps = getHabit().getRepetitions();
             HashMap<Long, Integer[]> frequency = reps.getWeekdayFrequency();
@@ -86,11 +89,10 @@ public class FrequencyCard extends HabitCard
         }
 
         @Override
-        protected void onPreExecute()
+        public void onPreExecute()
         {
-            super.onPreExecute();
-            int color =
-                ColorUtils.getColor(getContext(), getHabit().getColor());
+            int paletteColor = getHabit().getColor();
+            int color = ColorUtils.getColor(getContext(), paletteColor);
             title.setTextColor(color);
             chart.setColor(color);
         }

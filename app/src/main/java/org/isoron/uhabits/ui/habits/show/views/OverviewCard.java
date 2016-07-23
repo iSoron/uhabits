@@ -54,6 +54,8 @@ public class OverviewCard extends HabitCard
 
     private int color;
 
+    private TaskRunner taskRunner;
+
     public OverviewCard(Context context)
     {
         super(context);
@@ -69,7 +71,7 @@ public class OverviewCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        new RefreshTask().execute();
+        taskRunner.execute(new RefreshTask());
     }
 
     private String formatPercentageDiff(float percentageDiff)
@@ -80,6 +82,7 @@ public class OverviewCard extends HabitCard
 
     private void init()
     {
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
         inflate(getContext(), R.layout.show_habit_overview, this);
         ButterKnife.bind(this);
         cache = new Cache();
@@ -136,10 +139,10 @@ public class OverviewCard extends HabitCard
         public float lastYearScore;
     }
 
-    private class RefreshTask extends BaseTask
+    private class RefreshTask implements Task
     {
         @Override
-        protected void doInBackground()
+        public void doInBackground()
         {
             ScoreList scores = getHabit().getScores();
 
@@ -153,16 +156,14 @@ public class OverviewCard extends HabitCard
         }
 
         @Override
-        protected void onPostExecute(Void aVoid)
+        public void onPostExecute()
         {
             refreshScore();
-            super.onPostExecute(aVoid);
         }
 
         @Override
-        protected void onPreExecute()
+        public void onPreExecute()
         {
-            super.onPreExecute();
             color = ColorUtils.getColor(getContext(), getHabit().getColor());
             refreshColors();
         }

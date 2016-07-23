@@ -43,6 +43,8 @@ public class HistoryCard extends HabitCard
     @NonNull
     private Controller controller;
 
+    private TaskRunner taskRunner;
+
     public HistoryCard(Context context)
     {
         super(context);
@@ -70,32 +72,14 @@ public class HistoryCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        Habit habit = getHabit();
-
-        new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                int checkmarks[] = habit.getCheckmarks().getAllValues();
-                chart.setCheckmarks(checkmarks);
-            }
-
-            @Override
-            protected void onPreExecute()
-            {
-                super.onPreExecute();
-                int color = ColorUtils.getColor(getContext(), habit.getColor());
-                title.setTextColor(color);
-                chart.setColor(color);
-            }
-        }.execute();
+        taskRunner.execute(new RefreshTask(getHabit()));
     }
 
     private void init()
     {
         inflate(getContext(), R.layout.show_habit_history, this);
         ButterKnife.bind(this);
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
         controller = new Controller() {};
         if (isInEditMode()) initEditMode();
     }
@@ -111,5 +95,27 @@ public class HistoryCard extends HabitCard
     public interface Controller extends HistoryChart.Controller
     {
         default void onEditHistoryButtonClick() {}
+    }
+
+    private class RefreshTask implements Task
+    {
+        private final Habit habit;
+
+        public RefreshTask(Habit habit) {this.habit = habit;}
+
+        @Override
+        public void doInBackground()
+        {
+            int checkmarks[] = habit.getCheckmarks().getAllValues();
+            chart.setCheckmarks(checkmarks);
+        }
+
+        @Override
+        public void onPreExecute()
+        {
+            int color = ColorUtils.getColor(getContext(), habit.getColor());
+            title.setTextColor(color);
+            chart.setColor(color);
+        }
     }
 }

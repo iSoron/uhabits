@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.ui.habits.list.model;
 
-import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
@@ -29,8 +28,6 @@ import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
-
-import javax.inject.*;
 
 /**
  * A HabitCardListCache fetches and keeps a cache of all the data necessary to
@@ -44,7 +41,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 {
     private int checkmarkCount;
 
-    private BaseTask currentFetchTask;
+    private Task currentFetchTask;
 
     @Nullable
     private Listener listener;
@@ -52,30 +49,30 @@ public class HabitCardListCache implements CommandRunner.Listener
     @NonNull
     private CacheData data;
 
-    @Inject
-    CommandRunner commandRunner;
-
     @NonNull
     private HabitList allHabits;
 
     @NonNull
     private HabitList filteredHabits;
 
-    @NonNull
-    private ProgressBar progressBar;
+    private final TaskRunner taskRunner;
+
+    private final CommandRunner commandRunner;
 
     public HabitCardListCache(@NonNull HabitList allHabits)
     {
         this.allHabits = allHabits;
         this.filteredHabits = allHabits;
-        this.progressBar = new ProgressBar() {};
         data = new CacheData();
-        HabitsApplication.getComponent().inject(this);
+
+        BaseComponent component = HabitsApplication.getComponent();
+        commandRunner = component.getCommandRunner();
+        taskRunner = component.getTaskRunner();
     }
 
     public void cancelTasks()
     {
-        if (currentFetchTask != null) currentFetchTask.cancel(true);
+        if (currentFetchTask != null) currentFetchTask.cancel();
     }
 
     public int[] getCheckmarks(long habitId)
@@ -127,14 +124,28 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     public void refreshAllHabits()
     {
-        if (currentFetchTask != null) currentFetchTask.cancel(true);
+        if (currentFetchTask != null) currentFetchTask.cancel();
         currentFetchTask = new RefreshTask();
-        currentFetchTask.execute();
+        taskRunner.execute(currentFetchTask);
     }
 
     public void refreshHabit(long id)
     {
-        new RefreshTask(id).execute();
+        taskRunner.execute(new RefreshTask(id));
+    }
+
+    public void remove(@NonNull Long id)
+    {
+        Habit h = data.id_to_habit.get(id);
+        if (h == null) return;
+
+        int position = data.habits.indexOf(h);
+        data.habits.remove(position);
+        data.id_to_habit.remove(id);
+        data.checkmarks.remove(id);
+        data.scores.remove(id);
+
+        if (listener != null) listener.onItemRemoved(position);
     }
 
     public void reorder(int from, int to)
@@ -162,21 +173,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     public void setProgressBar(@NonNull ProgressBar progressBar)
     {
-        this.progressBar = progressBar;
-    }
 
-    public void remove(@NonNull Long id)
-    {
-        Habit h = data.id_to_habit.get(id);
-        if(h == null) return;
-
-        int position = data.habits.indexOf(h);
-        data.habits.remove(position);
-        data.id_to_habit.remove(id);
-        data.checkmarks.remove(id);
-        data.scores.remove(id);
-
-        if (listener != null) listener.onItemRemoved(position);
     }
 
     /**
@@ -251,7 +248,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         }
     }
 
-    private class RefreshTask extends BaseTask
+    private class RefreshTask implements Task
     {
         @NonNull
         private CacheData newData;
@@ -259,10 +256,15 @@ public class HabitCardListCache implements CommandRunner.Listener
         @Nullable
         private Long targetId;
 
+        private boolean isCancelled;
+
+        private TaskRunner runner;
+
         public RefreshTask()
         {
             newData = new CacheData();
             targetId = null;
+            isCancelled = false;
         }
 
         public RefreshTask(Long targetId)
@@ -272,7 +274,13 @@ public class HabitCardListCache implements CommandRunner.Listener
         }
 
         @Override
-        protected void doInBackground()
+        public void cancel()
+        {
+            isCancelled = true;
+        }
+
+        @Override
+        public void doInBackground()
         {
             newData.fetchHabits();
             newData.copyScoresFrom(data);
@@ -282,11 +290,11 @@ public class HabitCardListCache implements CommandRunner.Listener
             long day = DateUtils.millisecondsInOneDay;
             long dateFrom = dateTo - (checkmarkCount - 1) * day;
 
-            publishProgress(-1);
+            runner.setCurrentProgress(this, -1);
 
             for (int position = 0; position < newData.habits.size(); position++)
             {
-                if (isCancelled()) return;
+                if (isCancelled) return;
 
                 Habit habit = newData.habits.get(position);
                 Long id = habit.getId();
@@ -296,44 +304,27 @@ public class HabitCardListCache implements CommandRunner.Listener
                 newData.checkmarks.put(id,
                     habit.getCheckmarks().getValues(dateFrom, dateTo));
 
-                publishProgress(position);
+                runner.setCurrentProgress(this, position);
             }
         }
 
         @Override
-        protected void onPostExecute(Void aVoid)
+        public void onAttached(@NonNull TaskRunner runner)
+        {
+            this.runner = runner;
+        }
+
+        @Override
+        public void onPostExecute()
         {
             currentFetchTask = null;
-            progressBar.hide();
-            super.onPostExecute(null);
         }
 
         @Override
-        protected void onPreExecute()
+        public void onProgressUpdate(int currentPosition)
         {
-            super.onPreExecute();
-            progressBar.setTotal(0);
-
-            new Handler().postDelayed(() -> {
-                if (getStatus() == Status.RUNNING) progressBar.show();
-            }, 1000);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values)
-        {
-            int currentPosition = values[0];
-
-            if (currentPosition < 0)
-            {
-                progressBar.setTotal(newData.habits.size() - 1);
-                processRemovedHabits();
-            }
-            else
-            {
-                progressBar.setCurrent(currentPosition);
-                processPosition(currentPosition);
-            }
+            if (currentPosition < 0) processRemovedHabits();
+            else processPosition(currentPosition);
         }
 
         private void performInsert(Habit habit, int position)
@@ -358,8 +349,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         {
             data.scores.put(id, newData.scores.get(id));
             data.checkmarks.put(id, newData.checkmarks.get(id));
-            if(listener != null)
-                listener.onItemChanged(position);
+            if (listener != null) listener.onItemChanged(position);
         }
 
         private void processPosition(int currentPosition)

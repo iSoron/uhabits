@@ -19,20 +19,18 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.File;
+import java.io.*;
 
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static junit.framework.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -48,21 +46,15 @@ public class ExportDBTaskTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws Throwable
     {
-        ExportDBTask task = new ExportDBTask(null);
-        task.setListener(new ExportDBTask.Listener()
-        {
-            @Override
-            public void onExportDBFinished(String filename)
-            {
-                assertThat(filename, is(not(nullValue())));
+        ExportDBTask task = new ExportDBTask(filename -> {
+            assertThat(filename, is(not(nullValue())));
 
-                File f = new File(filename);
-                assertTrue(f.exists());
-                assertTrue(f.canRead());
-            }
+            File f = new File(filename);
+            assertTrue(f.exists());
+            assertTrue(f.canRead());
         });
 
-        task.execute();
+        taskRunner.execute(task);
         waitForAsyncTasks();
     }
 }

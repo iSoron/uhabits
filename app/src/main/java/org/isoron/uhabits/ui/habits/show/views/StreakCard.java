@@ -43,6 +43,8 @@ public class StreakCard extends HabitCard
     @BindView(R.id.streakChart)
     StreakChart streakChart;
 
+    private TaskRunner taskRunner;
+
     public StreakCard(Context context)
     {
         super(context);
@@ -58,11 +60,12 @@ public class StreakCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        new RefreshTask().execute();
+        taskRunner.execute(new RefreshTask());
     }
 
     private void init()
     {
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
         inflate(getContext(), R.layout.show_habit_streak, this);
         ButterKnife.bind(this);
         setOrientation(VERTICAL);
@@ -77,28 +80,26 @@ public class StreakCard extends HabitCard
         streakChart.populateWithRandomData();
     }
 
-    private class RefreshTask extends BaseTask
+    private class RefreshTask implements Task
     {
         public List<Streak> bestStreaks;
 
         @Override
-        protected void doInBackground()
+        public void doInBackground()
         {
             StreakList streaks = getHabit().getStreaks();
             bestStreaks = streaks.getBest(NUM_STREAKS);
         }
 
         @Override
-        protected void onPostExecute(Void aVoid)
+        public void onPostExecute()
         {
             streakChart.setStreaks(bestStreaks);
-            super.onPostExecute(aVoid);
         }
 
         @Override
-        protected void onPreExecute()
+        public void onPreExecute()
         {
-            super.onPreExecute();
             int color =
                 ColorUtils.getColor(getContext(), getHabit().getColor());
             title.setTextColor(color);

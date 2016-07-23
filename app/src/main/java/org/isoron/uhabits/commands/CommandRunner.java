@@ -19,12 +19,12 @@
 
 package org.isoron.uhabits.commands;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.tasks.*;
 
-import java.util.LinkedList;
+import java.util.*;
 
 import javax.inject.*;
 
@@ -37,17 +37,15 @@ import javax.inject.*;
 @Singleton
 public class CommandRunner
 {
+    private TaskRunner taskRunner;
+
     private LinkedList<Listener> listeners;
 
     @Inject
     public CommandRunner()
     {
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
         listeners = new LinkedList<>();
-    }
-
-    private static CommandRunner getInstance()
-    {
-        return null;
     }
 
     public void addListener(Listener l)
@@ -57,23 +55,21 @@ public class CommandRunner
 
     public void execute(final Command command, final Long refreshKey)
     {
-        new BaseTask()
+        taskRunner.execute(new Task()
         {
             @Override
-            protected void doInBackground()
+            public void doInBackground()
             {
                 command.execute();
             }
 
             @Override
-            protected void onPostExecute(Void aVoid)
+            public void onPostExecute()
             {
                 for (Listener l : listeners)
                     l.onCommandExecuted(command, refreshKey);
-
-                super.onPostExecute(null);
             }
-        }.execute();
+        });
     }
 
     public void removeListener(Listener l)

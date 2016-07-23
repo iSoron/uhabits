@@ -61,6 +61,9 @@ public class BaseAndroidTest
     protected CommandRunner commandRunner;
 
     @Inject
+    protected TaskRunner taskRunner;
+
+    @Inject
     protected HabitLogger logger;
 
     protected AndroidTestComponent androidTestComponent;
@@ -139,7 +142,7 @@ public class BaseAndroidTest
                 return;
             }
 
-            BaseTask.waitForTasks(10000);
+            taskRunner.waitForTasks(10000);
         }
         catch (Exception e)
         {

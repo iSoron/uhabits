@@ -24,13 +24,12 @@ import android.support.annotation.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
 
 import javax.inject.*;
 
-public class ShowHabitController implements ShowHabitRootView.Controller,
-                                            HistoryEditorDialog.Controller
+public class ShowHabitController
+    implements ShowHabitRootView.Controller, HistoryEditorDialog.Controller
 {
     @NonNull
     private final ShowHabitScreen screen;
@@ -50,12 +49,6 @@ public class ShowHabitController implements ShowHabitRootView.Controller,
     }
 
     @Override
-    public void onToolbarChanged()
-    {
-        screen.invalidateToolbar();
-    }
-
-    @Override
     public void onEditHistoryButtonClick()
     {
         screen.showEditHistoryDialog(this);
@@ -64,10 +57,13 @@ public class ShowHabitController implements ShowHabitRootView.Controller,
     @Override
     public void onToggleCheckmark(long timestamp)
     {
-        new SimpleTask(() -> {
-            ToggleRepetitionCommand command;
-            command = new ToggleRepetitionCommand(habit, timestamp);
-            commandRunner.execute(command, null);
-        }).execute();
+        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
+            null);
+    }
+
+    @Override
+    public void onToolbarChanged()
+    {
+        screen.invalidateToolbar();
     }
 }

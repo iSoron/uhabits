@@ -28,43 +28,38 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 import java.util.*;
 
-public class ExportCSVTask extends BaseTask
+public class ExportCSVTask implements Task
 {
-    private ProgressBar progressBar;
-
-    private final List<Habit> selectedHabits;
-
     private String archiveFilename;
 
-    private ExportCSVTask.Listener listener;
+    @NonNull
+    private final List<Habit> selectedHabits;
+
+    @NonNull
+    private final ExportCSVTask.Listener listener;
 
     @NonNull
     private final HabitList habitList;
 
-    public ExportCSVTask(HabitList habitList,
-                         List<Habit> selectedHabits,
-                         ProgressBar progressBar)
-    {
-        this.habitList = habitList;
-        this.selectedHabits = selectedHabits;
-        this.progressBar = progressBar;
-    }
-
-    public void setListener(Listener listener)
+    public ExportCSVTask(@NonNull HabitList habitList,
+                         @NonNull List<Habit> selectedHabits,
+                         @NonNull Listener listener)
     {
         this.listener = listener;
+        this.habitList = habitList;
+        this.selectedHabits = selectedHabits;
     }
 
     @Override
-    protected void doInBackground()
+    public void doInBackground()
     {
         try
         {
             File dir = FileUtils.getFilesDir("CSV");
             if (dir == null) return;
 
-            HabitsCSVExporter exporter =
-                new HabitsCSVExporter(habitList, selectedHabits, dir);
+            HabitsCSVExporter exporter;
+            exporter = new HabitsCSVExporter(habitList, selectedHabits, dir);
             archiveFilename = exporter.writeArchive();
         }
         catch (IOException e)
@@ -74,19 +69,9 @@ public class ExportCSVTask extends BaseTask
     }
 
     @Override
-    protected void onPostExecute(Void aVoid)
+    public void onPostExecute()
     {
-        if (listener != null) listener.onExportCSVFinished(archiveFilename);
-
-        if (progressBar != null) progressBar.hide();
-        super.onPostExecute(null);
-    }
-
-    @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-        if (progressBar != null) progressBar.show();
+        listener.onExportCSVFinished(archiveFilename);
     }
 
     public interface Listener

@@ -40,6 +40,7 @@ import static org.hamcrest.core.IsNot.not;
 public class ExportCSVTaskTest extends BaseAndroidTest
 {
     @Before
+    @Override
     public void setUp()
     {
         super.setUp();
@@ -48,20 +49,20 @@ public class ExportCSVTaskTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws Throwable
     {
+        fixtures.purgeHabits(habitList);
         fixtures.createShortHabit();
+
         List<Habit> selected = new LinkedList<>();
-        for(Habit h : habitList) selected.add(h);
+        for (Habit h : habitList) selected.add(h);
 
-        ExportCSVTask task = new ExportCSVTask(habitList, selected, null);
-        task.setListener(archiveFilename -> {
-            assertThat(archiveFilename, is(not(nullValue())));
+        taskRunner.execute(
+            new ExportCSVTask(habitList, selected, archiveFilename -> {
+                assertThat(archiveFilename, is(not(nullValue())));
+                File f = new File(archiveFilename);
+                assertTrue(f.exists());
+                assertTrue(f.canRead());
+            }));
 
-            File f = new File(archiveFilename);
-            assertTrue(f.exists());
-            assertTrue(f.canRead());
-        });
-
-        task.execute();
         waitForAsyncTasks();
     }
 }

@@ -46,7 +46,10 @@ public class PebbleReceiver extends PebbleDataReceiver
     protected HabitList allHabits;
 
     @Inject
-    protected CommandRunner runner;
+    protected CommandRunner commandRunner;
+
+    @Inject
+    protected TaskRunner taskRunner;
 
     protected HabitList filteredHabits;
 
@@ -74,7 +77,7 @@ public class PebbleReceiver extends PebbleDataReceiver
         PebbleKit.sendAckToPebble(context, transactionId);
         Log.d("PebbleReceiver", "<-- " + data.getString(0));
 
-        new SimpleTask(() -> {
+        taskRunner.execute(() -> {
             switch (data.getString(0))
             {
                 case "COUNT":
@@ -89,7 +92,7 @@ public class PebbleReceiver extends PebbleDataReceiver
                     processToggle(data);
                     break;
             }
-        }).execute();
+        });
     }
 
     private void processFetch(@NonNull PebbleDictionary dict)
@@ -113,7 +116,8 @@ public class PebbleReceiver extends PebbleDataReceiver
         if (habit == null) return;
 
         long today = DateUtils.getStartOfToday();
-        runner.execute(new ToggleRepetitionCommand(habit, today), habitId);
+        commandRunner.execute(new ToggleRepetitionCommand(habit, today),
+            habitId);
 
         sendOK();
     }

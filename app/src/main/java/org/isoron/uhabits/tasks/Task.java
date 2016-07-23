@@ -19,24 +19,19 @@
 
 package org.isoron.uhabits.tasks;
 
-public class SimpleTask
+import android.support.annotation.*;
+
+public interface Task
 {
-    private final BaseTask baseTask;
+    default void cancel() {}
 
-    public SimpleTask(Runnable runnable)
-    {
-        this.baseTask = new BaseTask()
-        {
-            @Override
-            protected void doInBackground()
-            {
-                runnable.run();
-            }
-        };
-    }
+    void doInBackground();
 
-    public void execute()
-    {
-        baseTask.execute();
-    }
+    default void onAttached(@NonNull TaskRunner runner) {}
+
+    default void onPostExecute() {}
+
+    default void onPreExecute() {}
+
+    default void onProgressUpdate(int value) {}
 }

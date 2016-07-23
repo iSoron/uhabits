@@ -19,23 +19,18 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.NonNull;
-import android.support.test.runner.AndroidJUnit4;
+import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.BaseAndroidTest;
-import org.isoron.uhabits.utils.FileUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -49,38 +44,7 @@ public class ImportDataTaskTest extends BaseAndroidTest
         super.setUp();
 
         baseDir = FileUtils.getFilesDir("Backups");
-        if(baseDir == null) fail("baseDir should not be null");
-    }
-
-    private void copyAssetToFile(String assetPath, File dst) throws IOException
-    {
-        InputStream in = testContext.getAssets().open(assetPath);
-        FileUtils.copy(in, dst);
-    }
-
-    private void assertTaskResult(final int expectedResult, String assetFilename) throws Throwable
-    {
-        ImportDataTask task = createTask(assetFilename);
-
-        task.setListener(new ImportDataTask.Listener()
-        {
-            @Override
-            public void onImportDataFinished(int result)
-            {
-                assertThat(result, equalTo(expectedResult));
-            }
-        });
-
-        task.execute();
-        waitForAsyncTasks();
-    }
-
-    @NonNull
-    private ImportDataTask createTask(String assetFilename) throws IOException
-    {
-        File file = new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
-        copyAssetToFile(assetFilename, file);
-        return new ImportDataTask(habitList, file, null);
+        if (baseDir == null) fail("baseDir should not be null");
     }
 
     @Test
@@ -93,5 +57,23 @@ public class ImportDataTaskTest extends BaseAndroidTest
     public void testImportValidData() throws Throwable
     {
         assertTaskResult(ImportDataTask.SUCCESS, "loop.db");
+    }
+
+    private void assertTaskResult(final int expectedResult,
+                                  String assetFilename) throws Throwable
+    {
+        File file = new File(baseDir.getPath() + "/" + assetFilename);
+        copyAssetToFile(assetFilename, file);
+
+        taskRunner.execute(new ImportDataTask(habitList, file,
+            (result) -> assertThat(result, equalTo(expectedResult))));
+
+        waitForAsyncTasks();
+    }
+
+    private void copyAssetToFile(String assetPath, File dst) throws IOException
+    {
+        InputStream in = testContext.getAssets().open(assetPath);
+        FileUtils.copy(in, dst);
     }
 }

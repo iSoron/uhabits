@@ -24,7 +24,6 @@ import android.support.annotation.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 
 import javax.inject.*;
 
@@ -54,9 +53,7 @@ public class ReceiverActions
 
     public void toggle_repetition(@NonNull Habit habit, long timestamp)
     {
-        new SimpleTask(() -> {
-            commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
-                habit.getId());
-        }).execute();
+        commandRunner.execute(
+            new ToggleRepetitionCommand(habit, timestamp), habit.getId());
     }
 }

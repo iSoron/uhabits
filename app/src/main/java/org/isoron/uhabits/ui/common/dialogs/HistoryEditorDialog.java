@@ -33,8 +33,6 @@ import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.common.views.*;
 import org.isoron.uhabits.utils.*;
 
-import javax.inject.*;
-
 public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener, ModelObservable.Listener
 {
@@ -44,15 +42,18 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     @Nullable
     HistoryChart historyChart;
 
-    @Inject
-    HabitList habitList;
-
     @NonNull
     private Controller controller;
+
+    private HabitList habitList;
+
+    private TaskRunner taskRunner;
 
     public HistoryEditorDialog()
     {
         this.controller = new Controller() {};
+        habitList = HabitsApplication.getComponent().getHabitList();
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
     }
 
     @Override
@@ -66,7 +67,6 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
     {
         Context context = getActivity();
-        HabitsApplication.getComponent().inject(this);
         historyChart = new HistoryChart(context);
         historyChart.setController(controller);
 
@@ -141,28 +141,27 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     private void refreshData()
     {
         if (habit == null) return;
-        new RefreshTask().execute();
+        taskRunner.execute(new RefreshTask());
     }
 
     public interface Controller extends HistoryChart.Controller {}
 
-    private class RefreshTask extends BaseTask
+    private class RefreshTask implements Task
     {
         public int[] checkmarks;
 
         @Override
-        protected void doInBackground()
+        public void doInBackground()
         {
             checkmarks = habit.getCheckmarks().getAllValues();
         }
 
         @Override
-        protected void onPostExecute(Void aVoid)
+        public void onPostExecute()
         {
             int color = ColorUtils.getColor(getContext(), habit.getColor());
             historyChart.setColor(color);
             historyChart.setCheckmarks(checkmarks);
-            super.onPostExecute(aVoid);
         }
     }
 }

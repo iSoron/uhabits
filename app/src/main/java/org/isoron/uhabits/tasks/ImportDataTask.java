@@ -26,7 +26,7 @@ import org.isoron.uhabits.models.*;
 
 import java.io.*;
 
-public class ImportDataTask extends BaseTask
+public class ImportDataTask implements Task
 {
     public static final int FAILED = 3;
 
@@ -34,36 +34,28 @@ public class ImportDataTask extends BaseTask
 
     public static final int SUCCESS = 1;
 
-    @Nullable
-    private final ProgressBar progressBar;
+    int result;
 
     @NonNull
     private final File file;
 
-    @Nullable
-    private Listener listener;
-
-    int result;
+    @NonNull
+    private final Listener listener;
 
     @NonNull
-    private HabitList habits;
+    private final HabitList habits;
 
     public ImportDataTask(@NonNull HabitList habits,
                           @NonNull File file,
-                          @Nullable ProgressBar progressBar)
-    {
-        this.habits = habits;
-        this.file = file;
-        this.progressBar = progressBar;
-    }
-
-    public void setListener(@Nullable Listener listener)
+                          @NonNull Listener listener)
     {
         this.listener = listener;
+        this.habits = habits;
+        this.file = file;
     }
 
     @Override
-    protected void doInBackground()
+    public void doInBackground()
     {
         try
         {
@@ -86,19 +78,9 @@ public class ImportDataTask extends BaseTask
     }
 
     @Override
-    protected void onPostExecute(Void aVoid)
+    public void onPostExecute()
     {
-        if (progressBar != null) progressBar.hide();
-        if (listener != null) listener.onImportDataFinished(result);
-        super.onPostExecute(null);
-    }
-
-    @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-
-        if (progressBar != null) progressBar.show();
+        listener.onImportDataFinished(result);
     }
 
     public interface Listener

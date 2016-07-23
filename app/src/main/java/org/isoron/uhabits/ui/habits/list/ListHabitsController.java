@@ -37,7 +37,7 @@ import java.util.*;
 import javax.inject.*;
 
 public class ListHabitsController
-    implements ImportDataTask.Listener, HabitCardListController.HabitListener
+    implements HabitCardListController.HabitListener
 {
     @NonNull
     private final ListHabitsScreen screen;
@@ -57,6 +57,12 @@ public class ListHabitsController
     @Inject
     CommandRunner commandRunner;
 
+    @Inject
+    ReminderScheduler reminderScheduler;
+
+    @Inject
+    TaskRunner taskRuner;
+
     public ListHabitsController(@NonNull HabitList habitList,
                                 @NonNull ListHabitsScreen screen,
                                 @NonNull BaseSystem system,
@@ -74,26 +80,18 @@ public class ListHabitsController
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
 
-        ProgressBar progressBar = screen.getProgressBar();
-        ExportCSVTask task =
-            new ExportCSVTask(habitList, selected, progressBar);
-
-        task.setListener(filename -> {
+        taskRuner.execute(new ExportCSVTask(habitList, selected, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
-        });
-
-        task.execute();
+        }));
     }
 
     public void onExportDB()
     {
-        ExportDBTask task = new ExportDBTask(screen.getProgressBar());
-        task.setListener(filename -> {
+        taskRuner.execute(new ExportDBTask(filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
-        });
-        task.execute();
+        }));
     }
 
     @Override
@@ -105,36 +103,30 @@ public class ListHabitsController
     @Override
     public void onHabitReorder(@NonNull Habit from, @NonNull Habit to)
     {
-        new SimpleTask(() -> habitList.reorder(from, to)).execute();
+        taskRuner.execute(() -> habitList.reorder(from, to));
     }
 
     public void onImportData(@NonNull File file)
     {
-        ProgressBar bar = screen.getProgressBar();
-        ImportDataTask task = new ImportDataTask(habitList, file, bar);
-        task.setListener(this);
-        task.execute();
+        taskRuner.execute(new ImportDataTask(habitList, file, result -> {
+            switch (result)
+            {
+                case ImportDataTask.SUCCESS:
+                    adapter.refresh();
+                    screen.showMessage(R.string.habits_imported);
+                    break;
+
+                case ImportDataTask.NOT_RECOGNIZED:
+                    screen.showMessage(R.string.file_not_recognized);
+                    break;
+
+                default:
+                    screen.showMessage(R.string.could_not_import);
+                    break;
+            }
+        }));
     }
 
-    @Override
-    public void onImportDataFinished(int result)
-    {
-        switch (result)
-        {
-            case ImportDataTask.SUCCESS:
-                adapter.refresh();
-                screen.showMessage(R.string.habits_imported);
-                break;
-
-            case ImportDataTask.NOT_RECOGNIZED:
-                screen.showMessage(R.string.file_not_recognized);
-                break;
-
-            default:
-                screen.showMessage(R.string.could_not_import);
-                break;
-        }
-    }
 
     @Override
     public void onInvalidToggle()
@@ -177,7 +169,7 @@ public class ListHabitsController
         if (prefs.isFirstRun()) onFirstRun();
 
         new Handler().postDelayed(() -> {
-            system.scheduleReminders();
+            taskRuner.execute(() -> reminderScheduler.schedule(habitList));
             HabitsApplication.getWidgetUpdater().updateWidgets();
         }, 1000);
     }

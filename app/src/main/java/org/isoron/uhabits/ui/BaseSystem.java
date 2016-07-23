@@ -134,14 +134,6 @@ public class BaseSystem
         return builder.toString();
     }
 
-    /**
-     * Recreates all application reminders.
-     */
-    public void scheduleReminders()
-    {
-        new SimpleTask(() -> reminderScheduler.schedule(habitList)).execute();
-    }
-
     private String getDeviceInfo()
     {
         if (context == null) return "null context\n";

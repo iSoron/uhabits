@@ -19,49 +19,51 @@
 
 package org.isoron.uhabits.tasks;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.commands.CommandRunner;
-import org.isoron.uhabits.commands.ToggleRepetitionCommand;
-import org.isoron.uhabits.models.Habit;
+import android.support.annotation.*;
 
-import javax.inject.Inject;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
 
-public class ToggleRepetitionTask extends BaseTask
+public class ToggleRepetitionTask implements Task
 {
-    @Inject
-    CommandRunner commandRunner;
+    @NonNull
+    private final CommandRunner commandRunner;
 
-    public interface Listener {
-        void onToggleRepetitionFinished();
-    }
+    @NonNull
+    private final Listener listener;
 
-    private Listener listener;
+    @NonNull
     private final Habit habit;
-    private final Long timestamp;
 
-    public ToggleRepetitionTask(Habit habit, Long timestamp)
+    private final long timestamp;
+
+    public ToggleRepetitionTask(@NonNull Habit habit,
+                                long timestamp,
+                                @NonNull Listener listener)
     {
-        this.timestamp = timestamp;
         this.habit = habit;
-        HabitsApplication.getComponent().inject(this);
-    }
-
-    @Override
-    protected void doInBackground()
-    {
-        ToggleRepetitionCommand command = new ToggleRepetitionCommand(habit, timestamp);
-        commandRunner.execute(command, habit.getId());
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        if(listener != null) listener.onToggleRepetitionFinished();
-        super.onPostExecute(null);
-    }
-
-    public void setListener(Listener listener)
-    {
+        this.timestamp = timestamp;
         this.listener = listener;
+
+        commandRunner = HabitsApplication.getComponent().getCommandRunner();
+    }
+
+    @Override
+    public void doInBackground()
+    {
+        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
+            habit.getId());
+    }
+
+    @Override
+    public void onPostExecute()
+    {
+        listener.onToggleRepetitionFinished();
+    }
+
+    public interface Listener
+    {
+        void onToggleRepetitionFinished();
     }
 }

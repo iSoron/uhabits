@@ -42,17 +42,21 @@ import org.isoron.uhabits.widgets.*;
  */
 public interface BaseComponent
 {
+    CommandRunner getCommandRunner();
+
+    HabitList getHabitList();
+
     IntentFactory getIntentFactory();
+
+    ReminderScheduler getReminderScheduler();
+
+    TaskRunner getTaskRunner();
 
     void inject(CheckmarkButtonController checkmarkButtonController);
 
     void inject(ListHabitsController listHabitsController);
 
     void inject(CheckmarkPanelView checkmarkPanelView);
-
-    void inject(ToggleRepetitionTask toggleRepetitionTask);
-
-    void inject(HabitCardListCache habitCardListCache);
 
     void inject(WidgetReceiver widgetReceiver);
 
@@ -84,8 +88,6 @@ public interface BaseComponent
 
     void inject(BaseSystem baseSystem);
 
-    void inject(HistoryEditorDialog historyEditorDialog);
-
     void inject(HabitsApplication application);
 
     void inject(Habit habit);
@@ -109,8 +111,6 @@ public interface BaseComponent
     void inject(HeaderView headerView);
 
     void inject(ReceiverActions receiverActions);
-
-    void inject(ReminderReceiver reminderReceiver);
 
     void inject(ReminderScheduler reminderScheduler);
 

@@ -49,6 +49,8 @@ public class ScoreCard extends HabitCard
 
     private int bucketSize;
 
+    private TaskRunner taskRunner;
+
     public ScoreCard(Context context)
     {
         super(context);
@@ -86,7 +88,7 @@ public class ScoreCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        new RefreshTask().execute();
+        taskRunner.execute(new RefreshTask());
     }
 
     private int getDefaultSpinnerPosition()
@@ -97,6 +99,8 @@ public class ScoreCard extends HabitCard
 
     private void init()
     {
+        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+
         inflate(getContext(), R.layout.show_habit_score, this);
         ButterKnife.bind(this);
 
@@ -121,10 +125,10 @@ public class ScoreCard extends HabitCard
         bucketSize = BUCKET_SIZES[position];
     }
 
-    private class RefreshTask extends BaseTask
+    private class RefreshTask implements Task
     {
         @Override
-        protected void doInBackground()
+        public void doInBackground()
         {
             List<Score> scores;
             ScoreList scoreList = getHabit().getScores();
@@ -137,9 +141,8 @@ public class ScoreCard extends HabitCard
         }
 
         @Override
-        protected void onPreExecute()
+        public void onPreExecute()
         {
-            super.onPreExecute();
             int color =
                 ColorUtils.getColor(getContext(), getHabit().getColor());
             title.setTextColor(color);
