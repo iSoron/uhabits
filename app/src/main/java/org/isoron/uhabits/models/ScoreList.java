@@ -128,7 +128,7 @@ public abstract class ScoreList implements Iterable<Score>
     public void writeCSV(Writer out) throws IOException
     {
         computeAll();
-        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
+        SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
 
         for (Score s : this)
         {

@@ -20,7 +20,7 @@
 package org.isoron.uhabits.models;
 
 import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -177,7 +177,7 @@ public class ScoreListTest extends BaseUnitTest
 
     private void log(List<Score> list)
     {
-        SimpleDateFormat df = DateUtils.getCSVDateFormat();
+        SimpleDateFormat df = DateFormats.getCSVDateFormat();
         for (Score s : list)
             log("%s %d", df.format(new Date(s.getTimestamp())), s.getValue());
     }

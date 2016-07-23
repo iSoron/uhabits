@@ -161,7 +161,7 @@ public abstract class CheckmarkList
 
         int values[] = getAllValues();
         long timestamp = DateUtils.getStartOfToday();
-        SimpleDateFormat dateFormat = DateUtils.getCSVDateFormat();
+        SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
 
         for (int value : values)
         {

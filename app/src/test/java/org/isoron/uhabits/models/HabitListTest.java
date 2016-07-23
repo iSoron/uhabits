@@ -21,7 +21,6 @@ package org.isoron.uhabits.models;
 
 import org.hamcrest.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import java.io.*;
@@ -59,7 +58,7 @@ public class HabitListTest extends BaseUnitTest
             allHabits.add(habit);
 
             if (i % 3 == 0)
-                habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
+                habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         }
 
         habitsArray.get(0).setArchived(true);

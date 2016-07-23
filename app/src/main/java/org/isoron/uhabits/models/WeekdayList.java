@@ -19,36 +19,47 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.*;
+import java.util.*;
 
-public final class Reminder
+public class WeekdayList
 {
-    private final int hour;
+    public static WeekdayList EVERY_DAY = new WeekdayList(127);
 
-    private final int minute;
+    private final boolean[] weekdays;
 
-    private final WeekdayList days;
-
-    public Reminder(int hour, int minute, @NonNull WeekdayList days)
+    public WeekdayList(int packedList)
     {
-        this.hour = hour;
-        this.minute = minute;
-        this.days = days;
+        weekdays = new boolean[7];
+        int current = 1;
+
+        for (int i = 0; i < 7; i++)
+        {
+            if ((packedList & current) != 0) weekdays[i] = true;
+            current = current << 1;
+        }
     }
 
-    @NonNull
-    public WeekdayList getDays()
+    public WeekdayList(boolean weekdays[])
     {
-        return days;
+        this.weekdays = Arrays.copyOf(weekdays, 7);
     }
 
-    public int getHour()
+    public boolean[] toArray()
     {
-        return hour;
+        return weekdays;
     }
 
-    public int getMinute()
+    public int toInteger()
     {
-        return minute;
+        int packedList = 0;
+        int current = 1;
+
+        for (int i = 0; i < 7; i++)
+        {
+            if (weekdays[i]) packedList |= current;
+            current = current << 1;
+        }
+
+        return packedList;
     }
 }

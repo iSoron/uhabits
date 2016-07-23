@@ -52,7 +52,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long atTime = 1422617400000L; // 11:30 jan 30, 2015 (UTC)
         long expectedCheckmarkTime = 1422576000000L; // 00:00 jan 27, 2015 (UTC)
 
-        habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
+        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(atTime, expectedCheckmarkTime, atTime);
     }
 
@@ -65,7 +65,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long expectedCheckmarkTime = 1422230400000L; // 00:00 jan 26, 2015 (UTC)
         long expectedReminderTime = 1422261000000L; // 08:30 jan 26, 2015 (UTC)
 
-        habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
+        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
 
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
     }
@@ -79,10 +79,10 @@ public class ReminderSchedulerTest extends BaseUnitTest
         fixtures.purgeHabits();
 
         Habit h1 = fixtures.createEmptyHabit();
-        h1.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
+        h1.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
 
         Habit h2 = fixtures.createEmptyHabit();
-        h2.setReminder(new Reminder(18, 30, DateUtils.ALL_WEEK_DAYS));
+        h2.setReminder(new Reminder(18, 30, WeekdayList.EVERY_DAY));
 
         fixtures.createEmptyHabit();
 
@@ -102,7 +102,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long expectedCheckmarkTime = 1453852800000L; // 00:00 jan 27, 2016 (UTC)
         long expectedReminderTime = 1453883400000L; // 08:30 jan 27, 2016 (UTC)
 
-        habit.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
+        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
     }
 

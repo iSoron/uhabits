@@ -385,8 +385,8 @@ public class HistoryChart extends ScrollableChart
 
     private void initDateFormats()
     {
-        dfMonth = DateUtils.getDateFormat("MMM");
-        dfYear = DateUtils.getDateFormat("yyyy");
+        dfMonth = DateFormats.fromSkeleton("MMM");
+        dfYear = DateFormats.fromSkeleton("yyyy");
     }
 
     private void initRects()

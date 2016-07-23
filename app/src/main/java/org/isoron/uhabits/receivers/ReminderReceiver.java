@@ -241,8 +241,7 @@ public class ReminderReceiver extends BroadcastReceiver
         Long timestamp =
             intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
 
-        boolean reminderDays[] =
-            DateUtils.unpackWeekdayList(reminder.getDays());
+        boolean reminderDays[] = reminder.getDays().toArray();
         int weekday = DateUtils.getWeekday(timestamp);
 
         return reminderDays[weekday];

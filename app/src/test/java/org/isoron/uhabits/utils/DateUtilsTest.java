@@ -19,21 +19,27 @@
 
 package org.isoron.uhabits.utils;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.junit.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.text.*;
+import java.util.*;
 
+import static java.util.Calendar.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
 public class DateUtilsTest extends BaseUnitTest
 {
+    @Test
+    public void testFormatHeaderDate()
+    {
+        long timestamp = timestamp(2015, DECEMBER, 31);
+        GregorianCalendar date = DateUtils.getCalendar(timestamp);
+        String formatted = DateUtils.formatHeaderDate(date);
+        assertThat(formatted, equalTo("Thu\n31"));
+    }
+
     @Test
     public void testTruncate_dayOfWeek()
     {
@@ -72,10 +78,10 @@ public class DateUtilsTest extends BaseUnitTest
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
 
-        expected = timestamp(2016, Calendar.DECEMBER, 1);
-        t0 = timestamp(2016, Calendar.DECEMBER, 1);
-        t1 = timestamp(2016, Calendar.DECEMBER, 15);
-        t2 = timestamp(2016, Calendar.DECEMBER, 31);
+        expected = timestamp(2016, DECEMBER, 1);
+        t0 = timestamp(2016, DECEMBER, 1);
+        t1 = timestamp(2016, DECEMBER, 15);
+        t2 = timestamp(2016, DECEMBER, 31);
 
         assertThat(DateUtils.truncate(field, t0), equalTo(expected));
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
@@ -87,19 +93,19 @@ public class DateUtilsTest extends BaseUnitTest
     {
         DateUtils.TruncateField field = DateUtils.TruncateField.QUARTER;
 
-        long expected = timestamp(2016, Calendar.JANUARY, 1);
-        long t0 = timestamp(2016, Calendar.JANUARY, 20);
-        long t1 = timestamp(2016, Calendar.FEBRUARY, 15);
-        long t2 = timestamp(2016, Calendar.MARCH, 30);
+        long expected = timestamp(2016, JANUARY, 1);
+        long t0 = timestamp(2016, JANUARY, 20);
+        long t1 = timestamp(2016, FEBRUARY, 15);
+        long t2 = timestamp(2016, MARCH, 30);
 
         assertThat(DateUtils.truncate(field, t0), equalTo(expected));
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
 
-        expected = timestamp(2016, Calendar.APRIL, 1);
-        t0 = timestamp(2016, Calendar.APRIL, 1);
-        t1 = timestamp(2016, Calendar.MAY, 30);
-        t2 = timestamp(2016, Calendar.JUNE, 20);
+        expected = timestamp(2016, APRIL, 1);
+        t0 = timestamp(2016, APRIL, 1);
+        t1 = timestamp(2016, MAY, 30);
+        t2 = timestamp(2016, JUNE, 20);
 
         assertThat(DateUtils.truncate(field, t0), equalTo(expected));
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
@@ -111,30 +117,23 @@ public class DateUtilsTest extends BaseUnitTest
     {
         DateUtils.TruncateField field = DateUtils.TruncateField.YEAR;
 
-        long expected = timestamp(2016, Calendar.JANUARY, 1);
-        long t0 = timestamp(2016, Calendar.JANUARY, 1);
-        long t1 = timestamp(2016, Calendar.FEBRUARY, 25);
-        long t2 = timestamp(2016, Calendar.DECEMBER, 31);
+        long expected = timestamp(2016, JANUARY, 1);
+        long t0 = timestamp(2016, JANUARY, 1);
+        long t1 = timestamp(2016, FEBRUARY, 25);
+        long t2 = timestamp(2016, DECEMBER, 31);
 
         assertThat(DateUtils.truncate(field, t0), equalTo(expected));
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
 
-        expected = timestamp(2017, Calendar.JANUARY, 1);
-        t0 = timestamp(2017, Calendar.JANUARY, 1);
-        t1 = timestamp(2017, Calendar.MAY, 30);
-        t2 = timestamp(2017, Calendar.DECEMBER, 31);
+        expected = timestamp(2017, JANUARY, 1);
+        t0 = timestamp(2017, JANUARY, 1);
+        t1 = timestamp(2017, MAY, 30);
+        t2 = timestamp(2017, DECEMBER, 31);
 
         assertThat(DateUtils.truncate(field, t0), equalTo(expected));
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
-    }
-
-    private void log(long timestamp)
-    {
-        DateFormat df = SimpleDateFormat.getDateTimeInstance();
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        log("%s", df.format(new Date(timestamp)));
     }
 
     public long timestamp(int year, int month, int day)
@@ -142,5 +141,12 @@ public class DateUtilsTest extends BaseUnitTest
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day);
         return cal.getTimeInMillis();
+    }
+
+    private void log(long timestamp)
+    {
+        DateFormat df = SimpleDateFormat.getDateTimeInstance();
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        log("%s", df.format(new Date(timestamp)));
     }
 }

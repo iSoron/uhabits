@@ -82,7 +82,8 @@ public class ImportTest extends BaseAndroidTest
 
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFrequency(), equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(),
+            equalTo(Frequency.THREE_TIMES_PER_WEEK));
         assertTrue(containsRepetition(habit, 2016, 3, 14));
         assertTrue(containsRepetition(habit, 2016, 3, 16));
         assertFalse(containsRepetition(habit, 2016, 3, 17));
@@ -115,8 +116,7 @@ public class ImportTest extends BaseAndroidTest
         assertThat(reminder.getHour(), equalTo(8));
         assertThat(reminder.getMinute(), equalTo(0));
         boolean[] reminderDays = { false, true, true, true, true, true, false };
-        assertThat(reminder.getDays(),
-            equalTo(DateUtils.packWeekdayList(reminderDays)));
+        assertThat(reminder.getDays().toArray(), equalTo(reminderDays));
     }
 
     @Test

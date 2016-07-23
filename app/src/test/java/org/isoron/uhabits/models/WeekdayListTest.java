@@ -17,38 +17,30 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.models;
 
-import android.support.annotation.*;
-import android.util.*;
+import org.isoron.uhabits.*;
+import org.junit.*;
 
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.core.IsEqual.*;
 
-import java.text.*;
-import java.util.*;
-
-import javax.inject.*;
-
-@Singleton
-public class HabitLogger
+public class WeekdayListTest extends BaseUnitTest
 {
-    @Inject
-    public HabitLogger()
+    @Test
+    public void test()
     {
+        int daysInt = 124;
+        boolean[] daysArray = new boolean[]{
+            false, false, true, true, true, true, true
+        };
 
-    }
+        WeekdayList list = new WeekdayList(daysArray);
+        assertThat(list.toArray(), equalTo(daysArray));
+        assertThat(list.toInteger(), equalTo(daysInt));
 
-    public void logReminderScheduled(@NonNull Habit habit,
-                                     @NonNull Long reminderTime)
-    {
-        int min = Math.min(3, habit.getName().length());
-        String name = habit.getName().substring(0, min);
-
-        DateFormat df = DateFormats.getBackupDateFormat();
-        String time = df.format(new Date(reminderTime));
-
-        Log.i("ReminderHelper",
-                String.format("Setting alarm (%s): %s", time, name));
+        list = new WeekdayList(daysInt);
+        assertThat(list.toArray(), equalTo(daysArray));
+        assertThat(list.toInteger(), equalTo(daysInt));
     }
 }

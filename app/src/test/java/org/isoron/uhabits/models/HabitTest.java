@@ -19,8 +19,7 @@
 
 package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.*;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -53,7 +52,7 @@ public class HabitTest extends BaseUnitTest
         model.setArchived(true);
         model.setColor(0);
         model.setFrequency(new Frequency(10, 20));
-        model.setReminder(new Reminder(8, 30, 1));
+        model.setReminder(new Reminder(8, 30, new WeekdayList(1)));
 
         Habit habit = new Habit();
         habit.copyFrom(model);
@@ -93,7 +92,7 @@ public class HabitTest extends BaseUnitTest
         Habit h = new Habit();
         assertThat(h.hasReminder(), is(false));
 
-        h.setReminder(new Reminder(8, 30, DateUtils.ALL_WEEK_DAYS));
+        h.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         assertThat(h.hasReminder(), is(true));
 
         h.clearReminder();

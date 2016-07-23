@@ -154,7 +154,7 @@ public class HabitRecord extends Model implements SQLiteRecord
             Reminder reminder = model.getReminder();
             this.reminderHour = reminder.getHour();
             this.reminderMin = reminder.getMinute();
-            this.reminderDays = reminder.getDays();
+            this.reminderDays = reminder.getDays().toInteger();
         }
     }
 
@@ -186,8 +186,8 @@ public class HabitRecord extends Model implements SQLiteRecord
 
         if (reminderHour != null && reminderMin != null)
         {
-            habit.setReminder(
-                new Reminder(reminderHour, reminderMin, reminderDays));
+            habit.setReminder(new Reminder(reminderHour, reminderMin,
+                new WeekdayList(reminderDays)));
         }
     }
 

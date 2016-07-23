@@ -109,7 +109,7 @@ public abstract class DatabaseUtils
     {
         File db = getDatabaseFile();
 
-        SimpleDateFormat dateFormat = DateUtils.getBackupDateFormat();
+        SimpleDateFormat dateFormat = DateFormats.getBackupDateFormat();
         String date = dateFormat.format(DateUtils.getLocalTime());
         File dbCopy = new File(
             String.format("%s/Loop Habits Backup %s.db", dir.getAbsolutePath(),

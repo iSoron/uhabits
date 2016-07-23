@@ -19,21 +19,17 @@
 
 package org.isoron.uhabits.utils;
 
-import android.content.Context;
-import android.text.format.DateFormat;
+import android.content.*;
+import android.text.format.*;
 
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
+
+import static java.util.Calendar.*;
 
 public abstract class DateUtils
 {
-    public static int ALL_WEEK_DAYS = 127;
 
     private static Long fixedLocalTime = null;
 
@@ -44,11 +40,9 @@ public abstract class DateUtils
 
     public static String formatHeaderDate(GregorianCalendar day)
     {
-        String dayOfMonth =
-            Integer.toString(day.get(GregorianCalendar.DAY_OF_MONTH));
-        String dayOfWeek = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK,
-            GregorianCalendar.SHORT, Locale.getDefault());
-
+        Locale locale = Locale.getDefault();
+        String dayOfMonth = Integer.toString(day.get(DAY_OF_MONTH));
+        String dayOfWeek = day.getDisplayName(DAY_OF_WEEK, SHORT, locale);
         return dayOfWeek + "\n" + dayOfMonth;
     }
 
@@ -94,24 +88,6 @@ public abstract class DateUtils
         return buffer.toString();
     }
 
-    public static SimpleDateFormat getBackupDateFormat()
-    {
-        SimpleDateFormat dateFormat =
-            new SimpleDateFormat("yyyy-MM-dd HHmmss", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        return dateFormat;
-    }
-
-    public static SimpleDateFormat getCSVDateFormat()
-    {
-        SimpleDateFormat dateFormat =
-            new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        return dateFormat;
-    }
-
     public static GregorianCalendar getCalendar(long timestamp)
     {
         GregorianCalendar day =
@@ -120,34 +96,18 @@ public abstract class DateUtils
         return day;
     }
 
-    public static SimpleDateFormat getDateFormat(String skeleton)
-    {
-        String pattern;
-        Locale locale = Locale.getDefault();
-
-        if (android.os.Build.VERSION.SDK_INT >=
-            android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
-            pattern = DateFormat.getBestDateTimePattern(locale, skeleton);
-        else pattern = skeleton;
-
-        SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
-        format.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        return format;
-    }
-
     public static String[] getDayNames(int format)
     {
         String[] wdays = new String[7];
 
         Calendar day = new GregorianCalendar();
-        day.set(GregorianCalendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        day.set(DAY_OF_WEEK, Calendar.SATURDAY);
 
         for (int i = 0; i < wdays.length; i++)
         {
-            wdays[i] = day.getDisplayName(GregorianCalendar.DAY_OF_WEEK, format,
-                Locale.getDefault());
-            day.add(GregorianCalendar.DAY_OF_MONTH, 1);
+            wdays[i] =
+                day.getDisplayName(DAY_OF_WEEK, format, Locale.getDefault());
+            day.add(DAY_OF_MONTH, 1);
         }
 
         return wdays;
@@ -171,14 +131,12 @@ public abstract class DateUtils
         String[] days = new String[7];
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(GregorianCalendar.DAY_OF_WEEK,
-            calendar.getFirstDayOfWeek());
+        calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         for (int i = 0; i < days.length; i++)
         {
-            days[i] =
-                calendar.getDisplayName(GregorianCalendar.DAY_OF_WEEK, format,
-                    Locale.getDefault());
-            calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+            days[i] = calendar.getDisplayName(DAY_OF_WEEK, format,
+                Locale.getDefault());
+            calendar.add(DAY_OF_MONTH, 1);
         }
 
         return days;
@@ -192,12 +150,11 @@ public abstract class DateUtils
     {
         Integer[] dayNumbers = new Integer[7];
         Calendar calendar = new GregorianCalendar();
-        calendar.set(GregorianCalendar.DAY_OF_WEEK,
-            calendar.getFirstDayOfWeek());
+        calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         for (int i = 0; i < dayNumbers.length; i++)
         {
-            dayNumbers[i] = calendar.get(GregorianCalendar.DAY_OF_WEEK);
-            calendar.add(GregorianCalendar.DAY_OF_MONTH, 1);
+            dayNumbers[i] = calendar.get(DAY_OF_WEEK);
+            calendar.add(DAY_OF_MONTH, 1);
         }
         return dayNumbers;
     }
@@ -209,7 +166,7 @@ public abstract class DateUtils
 
     public static String[] getShortDayNames()
     {
-        return getDayNames(GregorianCalendar.SHORT);
+        return getDayNames(SHORT);
     }
 
     public static long getStartOfDay(long timestamp)
@@ -230,7 +187,7 @@ public abstract class DateUtils
     public static int getWeekday(long timestamp)
     {
         GregorianCalendar day = getCalendar(timestamp);
-        return day.get(GregorianCalendar.DAY_OF_WEEK) % 7;
+        return day.get(DAY_OF_WEEK) % 7;
     }
 
     /**
@@ -244,20 +201,6 @@ public abstract class DateUtils
     public static int javaWeekdayToLoopWeekday(int number)
     {
         return number % 7;
-    }
-
-    public static Integer packWeekdayList(boolean weekday[])
-    {
-        int list = 0;
-        int current = 1;
-
-        for (int i = 0; i < 7; i++)
-        {
-            if (weekday[i]) list |= current;
-            current = current << 1;
-        }
-
-        return list;
     }
 
     public static void setFixedLocalTime(Long timestamp)
@@ -279,12 +222,12 @@ public abstract class DateUtils
         switch (field)
         {
             case MONTH:
-                cal.set(Calendar.DAY_OF_MONTH, 1);
+                cal.set(DAY_OF_MONTH, 1);
                 return cal.getTimeInMillis();
 
             case WEEK_NUMBER:
                 int firstWeekday = cal.getFirstDayOfWeek();
-                int weekday = cal.get(Calendar.DAY_OF_WEEK);
+                int weekday = cal.get(DAY_OF_WEEK);
                 int delta = weekday - firstWeekday;
                 if (delta < 0) delta += 7;
                 cal.add(Calendar.DAY_OF_YEAR, -delta);
@@ -292,32 +235,18 @@ public abstract class DateUtils
 
             case QUARTER:
                 int quarter = cal.get(Calendar.MONTH) / 3;
-                cal.set(Calendar.DAY_OF_MONTH, 1);
+                cal.set(DAY_OF_MONTH, 1);
                 cal.set(Calendar.MONTH, quarter * 3);
                 return cal.getTimeInMillis();
 
             case YEAR:
                 cal.set(Calendar.MONTH, Calendar.JANUARY);
-                cal.set(Calendar.DAY_OF_MONTH, 1);
+                cal.set(DAY_OF_MONTH, 1);
                 return cal.getTimeInMillis();
 
             default:
                 throw new IllegalArgumentException();
         }
-    }
-
-    public static boolean[] unpackWeekdayList(int list)
-    {
-        boolean[] weekday = new boolean[7];
-        int current = 1;
-
-        for (int i = 0; i < 7; i++)
-        {
-            if ((list & current) != 0) weekday[i] = true;
-            current = current << 1;
-        }
-
-        return weekday;
     }
 
     public enum TruncateField

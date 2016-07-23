@@ -26,7 +26,6 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -72,7 +71,7 @@ public class BaseSystem
     @NonNull
     public File dumpBugReportToFile() throws IOException
     {
-        String date = DateUtils.getBackupDateFormat().format(
+        String date = DateFormats.getBackupDateFormat().format(
                 DateUtils.getLocalTime());
 
         if (context == null) throw new RuntimeException(

@@ -263,7 +263,7 @@ public class MainTest
         clickMenuItem(R.string.settings);
 
         String date =
-            DateUtils.getBackupDateFormat().format(DateUtils.getLocalTime());
+            DateFormats.getBackupDateFormat().format(DateUtils.getLocalTime());
         date = date.substring(0, date.length() - 2);
 
         clickSettingsItem("Export full backup");

@@ -31,7 +31,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
-import org.isoron.uhabits.utils.DateUtils;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -102,7 +101,7 @@ public abstract class BaseDialog extends AppCompatDialogFragment
             Reminder reminder = modifiedHabit.getReminder();
             outState.putInt("reminderMin", reminder.getMinute());
             outState.putInt("reminderHour", reminder.getHour());
-            outState.putInt("reminderDays", reminder.getDays());
+            outState.putInt("reminderDays", reminder.getDays().toInteger());
         }
     }
 
@@ -125,7 +124,8 @@ public abstract class BaseDialog extends AppCompatDialogFragment
 
         if (hour >= 0 && minute >= 0)
         {
-            Reminder reminder = new Reminder(hour, minute, days);
+            Reminder reminder =
+                new Reminder(hour, minute, new WeekdayList(days));
             modifiedHabit.setReminder(reminder);
         }
     }
@@ -173,7 +173,7 @@ public abstract class BaseDialog extends AppCompatDialogFragment
 
         WeekdayPickerDialog dialog = new WeekdayPickerDialog();
         dialog.setListener(new OnWeekdaysPickedListener());
-        dialog.setSelectedDays(DateUtils.unpackWeekdayList(reminder.getDays()));
+        dialog.setSelectedDays(reminder.getDays().toArray());
         dialog.show(getFragmentManager(), "weekdayPicker");
     }
 
@@ -215,7 +215,7 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         public void onTimeSet(RadialPickerLayout view, int hour, int minute)
         {
             Reminder reminder =
-                new Reminder(hour, minute, DateUtils.ALL_WEEK_DAYS);
+                new Reminder(hour, minute, WeekdayList.EVERY_DAY);
             modifiedHabit.setReminder(reminder);
             helper.populateReminderFields(modifiedHabit);
         }
@@ -232,7 +232,7 @@ public abstract class BaseDialog extends AppCompatDialogFragment
             Reminder oldReminder = modifiedHabit.getReminder();
             modifiedHabit.setReminder(
                 new Reminder(oldReminder.getHour(), oldReminder.getMinute(),
-                    DateUtils.packWeekdayList(selectedDays)));
+                    new WeekdayList(selectedDays)));
             helper.populateReminderFields(modifiedHabit);
         }
 

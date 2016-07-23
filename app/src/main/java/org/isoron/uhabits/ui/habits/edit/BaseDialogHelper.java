@@ -144,7 +144,7 @@ public class BaseDialogHelper
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
-        boolean weekdays[] = DateUtils.unpackWeekdayList(reminder.getDays());
+        boolean weekdays[] =  reminder.getDays().toArray();
         tvReminderDays.setText(
             DateUtils.formatWeekdayList(frag.getContext(), weekdays));
     }
