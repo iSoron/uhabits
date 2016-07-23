@@ -31,7 +31,6 @@ import android.support.v7.widget.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -98,21 +97,6 @@ public abstract class BaseScreen
     {
         if (selectionMenu == null) return;
         selectionMenu.finish();
-    }
-
-    /**
-     * Returns the progress bar that is currently visible on the screen.
-     * <p>
-     * If the root view attached to the screen does not provide any progress
-     * bars, returns null.
-     *
-     * @return current progress bar, or null if there are none.
-     */
-    @Nullable
-    public ProgressBar getProgressBar()
-    {
-        if (rootView == null) return null;
-        return new AndroidProgressBar(rootView.getProgressBar());
     }
 
     /**

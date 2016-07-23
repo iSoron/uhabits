@@ -19,22 +19,38 @@
 
 package org.isoron.uhabits.tasks;
 
-/**
- * Simple progress bar, used to indicate the progress of a task.
- */
-public interface ProgressBar
+import org.isoron.uhabits.*;
+import org.junit.*;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import org.mockito.*;
+
+import static org.mockito.Mockito.*;
+
+@RunWith(JUnit4.class)
+public class SingleThreadTaskRunnerTest extends BaseUnitTest
 {
-    /**
-     * Hides the progress bar.
-     */
-    default void hide() {}
+    private SingleThreadTaskRunner runner;
 
-    default void setCurrent(int current) {}
+    private Task task;
 
-    default void setTotal(int total) {}
+    @Override
+    public void setUp()
+    {
+        super.setUp();
+        runner = new SingleThreadTaskRunner();
+        task = mock(Task.class);
+    }
 
-    /**
-     * Shows the progress bar.
-     */
-    default void show() {}
+    @Test
+    public void test()
+    {
+        runner.execute(task);
+
+        InOrder inOrder = inOrder(task);
+        inOrder.verify(task).onAttached(runner);
+        inOrder.verify(task).onPreExecute();
+        inOrder.verify(task).doInBackground();
+        inOrder.verify(task).onPostExecute();
+    }
 }

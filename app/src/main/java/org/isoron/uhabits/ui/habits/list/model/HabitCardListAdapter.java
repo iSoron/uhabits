@@ -25,7 +25,6 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 
 import java.util.*;
@@ -252,11 +251,6 @@ public class HabitCardListAdapter
     public void setListView(@Nullable HabitCardListView listView)
     {
         this.listView = listView;
-    }
-
-    public void setProgressBar(ProgressBar progressBar)
-    {
-        cache.setProgressBar(progressBar);
     }
 
     /**

@@ -23,6 +23,7 @@ import android.content.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.tasks.*;
 
 import javax.inject.*;
 
@@ -55,5 +56,12 @@ public class AndroidModule
     static Context provideApplicationContext()
     {
         return HabitsApplication.getContext();
+    }
+
+    @Provides
+    @Singleton
+    static TaskRunner provideTaskRunner()
+    {
+        return new AndroidTaskRunner();
     }
 }

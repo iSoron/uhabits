@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits;
 
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
@@ -59,6 +60,9 @@ public class BaseUnitTest
 
     @Inject
     protected DirFinder dirFinder;
+
+    @Inject
+    protected CommandRunner commandRunner;
 
     protected TestComponent testComponent;
 

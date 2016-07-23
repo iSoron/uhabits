@@ -43,7 +43,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     private Task currentFetchTask;
 
-    @Nullable
+    @NonNull
     private Listener listener;
 
     @NonNull
@@ -63,6 +63,7 @@ public class HabitCardListCache implements CommandRunner.Listener
     {
         this.allHabits = allHabits;
         this.filteredHabits = allHabits;
+        this.listener = new Listener() {};
         data = new CacheData();
 
         BaseComponent component = HabitsApplication.getComponent();
@@ -145,7 +146,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         data.checkmarks.remove(id);
         data.scores.remove(id);
 
-        if (listener != null) listener.onItemRemoved(position);
+        listener.onItemRemoved(position);
     }
 
     public void reorder(int from, int to)
@@ -153,7 +154,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         Habit fromHabit = data.habits.get(from);
         data.habits.remove(from);
         data.habits.add(to, fromHabit);
-        if (listener != null) listener.onItemMoved(from, to);
+        listener.onItemMoved(from, to);
     }
 
     public void setCheckmarkCount(int checkmarkCount)
@@ -166,14 +167,9 @@ public class HabitCardListCache implements CommandRunner.Listener
         filteredHabits = allHabits.getFiltered(matcher);
     }
 
-    public void setListener(@Nullable Listener listener)
+    public void setListener(@NonNull Listener listener)
     {
         this.listener = listener;
-    }
-
-    public void setProgressBar(@NonNull ProgressBar progressBar)
-    {
-
     }
 
     /**
@@ -182,13 +178,13 @@ public class HabitCardListCache implements CommandRunner.Listener
      */
     public interface Listener
     {
-        void onItemChanged(int position);
+        default void onItemChanged(int position) {}
 
-        void onItemInserted(int position);
+        default void onItemInserted(int position) {}
 
-        void onItemMoved(int oldPosition, int newPosition);
+        default void onItemMoved(int oldPosition, int newPosition) {}
 
-        void onItemRemoved(int position);
+        default void onItemRemoved(int position) {}
     }
 
     private class CacheData
@@ -267,7 +263,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             isCancelled = false;
         }
 
-        public RefreshTask(Long targetId)
+        public RefreshTask(long targetId)
         {
             newData = new CacheData();
             this.targetId = targetId;
@@ -286,11 +282,11 @@ public class HabitCardListCache implements CommandRunner.Listener
             newData.copyScoresFrom(data);
             newData.copyCheckmarksFrom(data);
 
-            long dateTo = DateUtils.getStartOfDay(DateUtils.getLocalTime());
             long day = DateUtils.millisecondsInOneDay;
+            long dateTo = DateUtils.getStartOfDay(DateUtils.getLocalTime());
             long dateFrom = dateTo - (checkmarkCount - 1) * day;
 
-            runner.setCurrentProgress(this, -1);
+            runner.publishProgress(this, -1);
 
             for (int position = 0; position < newData.habits.size(); position++)
             {
@@ -304,7 +300,7 @@ public class HabitCardListCache implements CommandRunner.Listener
                 newData.checkmarks.put(id,
                     habit.getCheckmarks().getValues(dateFrom, dateTo));
 
-                runner.setCurrentProgress(this, position);
+                runner.publishProgress(this, position);
             }
         }
 
@@ -334,22 +330,32 @@ public class HabitCardListCache implements CommandRunner.Listener
             data.id_to_habit.put(id, habit);
             data.scores.put(id, newData.scores.get(id));
             data.checkmarks.put(id, newData.checkmarks.get(id));
-            if (listener != null) listener.onItemInserted(position);
+            listener.onItemInserted(position);
         }
 
         private void performMove(Habit habit, int fromPosition, int toPosition)
         {
             data.habits.remove(fromPosition);
             data.habits.add(toPosition, habit);
-            if (listener != null)
-                listener.onItemMoved(fromPosition, toPosition);
+            listener.onItemMoved(fromPosition, toPosition);
         }
 
         private void performUpdate(Long id, int position)
         {
-            data.scores.put(id, newData.scores.get(id));
-            data.checkmarks.put(id, newData.checkmarks.get(id));
-            if (listener != null) listener.onItemChanged(position);
+            Integer oldScore = data.scores.get(id);
+            int[] oldCheckmarks = data.checkmarks.get(id);
+
+            Integer newScore = newData.scores.get(id);
+            int[] newCheckmarks = newData.checkmarks.get(id);
+
+            boolean unchanged = true;
+            if (!oldScore.equals(newScore)) unchanged = false;
+            if (!Arrays.equals(oldCheckmarks, newCheckmarks)) unchanged = false;
+            if(unchanged) return;
+
+            data.scores.put(id, newScore);
+            data.checkmarks.put(id, newCheckmarks);
+            listener.onItemChanged(position);
         }
 
         private void processPosition(int currentPosition)

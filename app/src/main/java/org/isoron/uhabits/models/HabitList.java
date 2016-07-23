@@ -89,7 +89,7 @@ public abstract class HabitList implements Iterable<Habit>
      * @return the habit at that position
      * @throws IndexOutOfBoundsException when the position is invalid
      */
-    @Nullable
+    @NonNull
     public abstract Habit getByPosition(int position);
 
     /**

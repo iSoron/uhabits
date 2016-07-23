@@ -17,51 +17,31 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui;
+package org.isoron.uhabits.tasks;
 
-import android.view.*;
+import java.util.concurrent.*;
 
-import org.isoron.uhabits.tasks.*;
-
-/**
- * Android implementation of {@link ProgressBar}.
- */
-public class AndroidProgressBar implements ProgressBar
+public class SingleThreadTaskRunner implements TaskRunner
 {
-    private final android.widget.ProgressBar progressBar;
-
-    public AndroidProgressBar(android.widget.ProgressBar progressBar)
+    @Override
+    public void execute(Task task)
     {
-        this.progressBar = progressBar;
+        task.onAttached(this);
+        task.onPreExecute();
+        task.doInBackground();
+        task.onPostExecute();
     }
 
     @Override
-    public void hide()
+    public void publishProgress(Task task, int progress)
     {
-        progressBar.setVisibility(View.GONE);
+        task.onProgressUpdate(progress);
     }
 
     @Override
-    public void setTotal(int total)
+    public void waitForTasks(long timeout)
+        throws TimeoutException, InterruptedException
     {
-        if(total == 0)
-            progressBar.setIndeterminate(true);
-        else
-        {
-            progressBar.setIndeterminate(false);
-            progressBar.setMax(total);
-        }
-    }
-
-    @Override
-    public void setCurrent(int current)
-    {
-        progressBar.setProgress(current);
-    }
-
-    @Override
-    public void show()
-    {
-        progressBar.setVisibility(View.VISIBLE);
+        // NOP
     }
 }

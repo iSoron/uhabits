@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.memory.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.utils.*;
 
@@ -36,13 +36,6 @@ import static org.mockito.Mockito.*;
 @Module
 public class TestModule
 {
-    @Singleton
-    @Provides
-    CommandRunner provideCommandRunner()
-    {
-        return mock(CommandRunner.class);
-    }
-
     @Provides
     @Singleton
     DialogFactory provideDialogFactory()
@@ -124,5 +117,12 @@ public class TestModule
     WidgetPreferences provideWidgetPreferences()
     {
         return mock(WidgetPreferences.class);
+    }
+
+    @Provides
+    @Singleton
+    TaskRunner provideTaskRunner()
+    {
+        return new SingleThreadTaskRunner();
     }
 }
