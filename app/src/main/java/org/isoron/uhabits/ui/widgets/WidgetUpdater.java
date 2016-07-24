@@ -27,8 +27,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.widgets.*;
 
-import javax.inject.*;
-
 /**
  * A WidgetUpdater listens to the commands being executed by the application and
  * updates the home-screen widgets accordingly.
@@ -38,8 +36,7 @@ import javax.inject.*;
  */
 public class WidgetUpdater implements CommandRunner.Listener
 {
-    @Inject
-    CommandRunner commandRunner;
+    private final CommandRunner commandRunner;
 
     @NonNull
     private final Context context;
@@ -47,7 +44,7 @@ public class WidgetUpdater implements CommandRunner.Listener
     public WidgetUpdater(@NonNull Context context)
     {
         this.context = context;
-        HabitsApplication.getComponent().inject(this);
+        commandRunner = HabitsApplication.getComponent().getCommandRunner();
     }
 
     @Override

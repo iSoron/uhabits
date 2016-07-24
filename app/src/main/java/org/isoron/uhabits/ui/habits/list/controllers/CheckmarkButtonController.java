@@ -19,15 +19,12 @@
 
 package org.isoron.uhabits.ui.habits.list.controllers;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.ui.habits.list.views.CheckmarkButtonView;
-import org.isoron.uhabits.utils.Preferences;
-
-import javax.inject.Inject;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.list.views.*;
+import org.isoron.uhabits.utils.*;
 
 public class CheckmarkButtonController
 {
@@ -37,8 +34,8 @@ public class CheckmarkButtonController
     @Nullable
     private Listener listener;
 
-    @Inject
-    Preferences prefs;
+    @NonNull
+    private final Preferences prefs;
 
     @NonNull
     private Habit habit;
@@ -49,7 +46,7 @@ public class CheckmarkButtonController
     {
         this.habit = habit;
         this.timestamp = timestamp;
-        HabitsApplication.getComponent().inject(this);
+        prefs = HabitsApplication.getComponent().getPreferences();
     }
 
     public void onClick()

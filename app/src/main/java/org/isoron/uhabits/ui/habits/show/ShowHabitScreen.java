@@ -27,22 +27,19 @@ import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.ui.habits.edit.*;
 
-import javax.inject.*;
-
 public class ShowHabitScreen extends BaseScreen
 {
     @NonNull
     private final Habit habit;
 
-    @Inject
-    protected DialogFactory dialogFactory;
+    private DialogFactory dialogFactory;
 
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
                            ShowHabitRootView view)
     {
         super(activity);
-        HabitsApplication.getComponent().inject(this);
+        dialogFactory = HabitsApplication.getComponent().getDialogFactory();
 
         this.habit = habit;
         setRootView(view);

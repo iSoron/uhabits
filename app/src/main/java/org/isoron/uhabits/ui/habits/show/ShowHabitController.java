@@ -26,8 +26,6 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
 
-import javax.inject.*;
-
 public class ShowHabitController
     implements ShowHabitRootView.Controller, HistoryEditorDialog.Controller
 {
@@ -37,13 +35,12 @@ public class ShowHabitController
     @NonNull
     private final Habit habit;
 
-    @Inject
-    CommandRunner commandRunner;
+    private final CommandRunner commandRunner;
 
     public ShowHabitController(@NonNull ShowHabitScreen screen,
                                @NonNull Habit habit)
     {
-        HabitsApplication.getComponent().inject(this);
+        commandRunner = HabitsApplication.getComponent().getCommandRunner();
         this.screen = screen;
         this.habit = habit;
     }

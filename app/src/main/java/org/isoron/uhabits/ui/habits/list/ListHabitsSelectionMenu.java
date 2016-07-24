@@ -57,8 +57,9 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     {
         this.habitList = habitList;
         this.screen = screen;
-        HabitsApplication.getComponent().inject(this);
         this.listAdapter = listAdapter;
+
+        commandRunner = HabitsApplication.getComponent().getCommandRunner();
     }
 
     @Override

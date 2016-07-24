@@ -25,16 +25,13 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 
-import javax.inject.*;
-
 public class ReceiverActions
 {
-    @Inject
-    CommandRunner commandRunner;
+    private final CommandRunner commandRunner;
 
     public ReceiverActions()
     {
-        HabitsApplication.getComponent().inject(this);
+        commandRunner = HabitsApplication.getComponent().getCommandRunner();
     }
 
     public void add_repetition(@NonNull Habit habit, long timestamp)
@@ -53,7 +50,7 @@ public class ReceiverActions
 
     public void toggle_repetition(@NonNull Habit habit, long timestamp)
     {
-        commandRunner.execute(
-            new ToggleRepetitionCommand(habit, timestamp), habit.getId());
+        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
+            habit.getId());
     }
 }

@@ -35,19 +35,19 @@ import static org.isoron.uhabits.utils.DateUtils.*;
 @Singleton
 public class ReminderScheduler
 {
-    @Inject
-    protected PendingIntentFactory pendingIntentFactory;
+    private final PendingIntentFactory pendingIntentFactory;
 
-    @Inject
-    protected IntentScheduler intentScheduler;
+    private final IntentScheduler intentScheduler;
 
-    @Inject
-    HabitLogger logger;
+    private final HabitLogger logger;
 
     @Inject
     public ReminderScheduler()
     {
-        HabitsApplication.getComponent().inject(this);
+        BaseComponent component = HabitsApplication.getComponent();
+        pendingIntentFactory = component.getPendingIntentFactory();
+        intentScheduler = component.getIntentScheduler();
+        logger = component.getHabitLogger();
     }
 
     public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)
@@ -57,8 +57,8 @@ public class ReminderScheduler
         if (reminderTime == null) reminderTime = getReminderTime(reminder);
         long timestamp = getStartOfDay(toLocalTime(reminderTime));
 
-        PendingIntent intent = pendingIntentFactory.showReminder(habit,
-                reminderTime, timestamp);
+        PendingIntent intent =
+            pendingIntentFactory.showReminder(habit, reminderTime, timestamp);
         intentScheduler.schedule(reminderTime, intent);
         logger.logReminderScheduled(habit, reminderTime);
     }
@@ -79,8 +79,7 @@ public class ReminderScheduler
         calendar.set(Calendar.SECOND, 0);
         Long time = calendar.getTimeInMillis();
 
-        if (DateUtils.getLocalTime() > time)
-            time += AlarmManager.INTERVAL_DAY;
+        if (DateUtils.getLocalTime() > time) time += AlarmManager.INTERVAL_DAY;
 
         return time;
     }

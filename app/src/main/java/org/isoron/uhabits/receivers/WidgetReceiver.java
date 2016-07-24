@@ -27,8 +27,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 
-import javax.inject.*;
-
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
  * <p>
@@ -48,8 +46,8 @@ public class WidgetReceiver extends BroadcastReceiver
     public static final String ACTION_TOGGLE_REPETITION =
         "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
 
-    @Inject
-    HabitList habits;
+    @NonNull
+    private final HabitList habits;
 
     @NonNull
     private final IntentParser parser;
@@ -60,9 +58,10 @@ public class WidgetReceiver extends BroadcastReceiver
     public WidgetReceiver()
     {
         super();
-        HabitsApplication.getComponent().inject(this);
+        habits = HabitsApplication.getComponent().getHabitList();
         parser = new IntentParser(habits);
         actions = new ReceiverActions();
+
     }
 
     @Override

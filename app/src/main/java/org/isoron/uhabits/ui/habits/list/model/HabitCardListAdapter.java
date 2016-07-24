@@ -23,7 +23,6 @@ import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.view.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 
@@ -56,8 +55,6 @@ public class HabitCardListAdapter
     {
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
-
-        HabitsApplication.getComponent().inject(this);
 
         cache = new HabitCardListCache(allHabits);
         cache.setListener(this);

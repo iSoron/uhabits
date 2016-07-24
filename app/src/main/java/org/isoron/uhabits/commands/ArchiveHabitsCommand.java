@@ -36,7 +36,6 @@ public class ArchiveHabitsCommand extends Command
     public ArchiveHabitsCommand(HabitList habitList, List<Habit> selectedHabits)
     {
         this.habitList = habitList;
-        HabitsApplication.getComponent().inject(this);
         this.selectedHabits = selectedHabits;
     }
 

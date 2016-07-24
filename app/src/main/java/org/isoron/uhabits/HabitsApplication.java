@@ -109,7 +109,6 @@ public class HabitsApplication extends Application
         HabitsApplication.context = this;
         HabitsApplication.application = this;
         component = DaggerAndroidComponent.builder().build();
-        component.inject(this);
 
         if (isTestMode())
         {

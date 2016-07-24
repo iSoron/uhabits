@@ -38,14 +38,13 @@ public class PendingIntentFactory
     @NonNull
     private final Context context;
 
-    @Inject
-    protected IntentFactory intentFactory;
+    private IntentFactory intentFactory;
 
     @Inject
     public PendingIntentFactory(@NonNull Context context)
     {
         this.context = context;
-        HabitsApplication.getComponent().inject(this);
+        intentFactory = HabitsApplication.getComponent().getIntentFactory();
     }
 
     public PendingIntent addCheckmark(@NonNull Habit habit,

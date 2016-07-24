@@ -29,16 +29,13 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
-import javax.inject.*;
-
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 import static android.view.View.MeasureSpec.*;
 
 public abstract class BaseWidget
 {
-    @Inject
-    WidgetPreferences preferences;
+    private final WidgetPreferences prefs;
 
     private final int id;
 
@@ -52,13 +49,13 @@ public abstract class BaseWidget
     {
         this.id = id;
         this.context = context;
-        HabitsApplication.getComponent().inject(this);
+        prefs = HabitsApplication.getComponent().getWidgetPreferences();
         dimensions = new WidgetDimensions(0, 0, 0, 0);
     }
 
     public void delete()
     {
-        preferences.removeWidget(id);
+        prefs.removeWidget(id);
     }
 
     @NonNull

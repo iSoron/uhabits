@@ -21,7 +21,6 @@ package org.isoron.uhabits.io;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
@@ -50,8 +49,6 @@ public class HabitsCSVExporter
                              @NonNull List<Habit> selectedHabits,
                              @NonNull File dir)
     {
-        HabitsApplication.getComponent().inject(this);
-
         this.allHabits = allHabits;
         this.selectedHabits = selectedHabits;
         this.exportDirName = dir.getAbsolutePath() + "/";

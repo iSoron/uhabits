@@ -29,16 +29,13 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
 
-import javax.inject.*;
-
 public class CheckmarkPanelView extends LinearLayout
 {
     private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
 
     private static final int CHECKMARK_RIGHT_TO_LEFT = 1;
 
-    @Inject
-    Preferences prefs;
+    private Preferences prefs;
 
     private int checkmarkValues[];
 
@@ -144,7 +141,7 @@ public class CheckmarkPanelView extends LinearLayout
     private void init()
     {
         if (isInEditMode()) return;
-        HabitsApplication.getComponent().inject(this);
+        prefs = HabitsApplication.getComponent().getPreferences();
         setWillNotDraw(false);
     }
 

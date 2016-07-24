@@ -34,8 +34,6 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 import java.util.*;
 
-import javax.inject.*;
-
 public class ListHabitsController
     implements HabitCardListController.HabitListener
 {
@@ -51,17 +49,17 @@ public class ListHabitsController
     @NonNull
     private final HabitCardListAdapter adapter;
 
-    @Inject
-    Preferences prefs;
+    @NonNull
+    private final Preferences prefs;
 
-    @Inject
-    CommandRunner commandRunner;
+    @NonNull
+    private final CommandRunner commandRunner;
 
-    @Inject
-    ReminderScheduler reminderScheduler;
+    @NonNull
+    private final ReminderScheduler reminderScheduler;
 
-    @Inject
-    TaskRunner taskRuner;
+    @NonNull
+    private final TaskRunner taskRunner;
 
     public ListHabitsController(@NonNull HabitList habitList,
                                 @NonNull ListHabitsScreen screen,
@@ -72,7 +70,12 @@ public class ListHabitsController
         this.system = system;
         this.habitList = habitList;
         this.adapter = adapter;
-        HabitsApplication.getComponent().inject(this);
+
+        BaseComponent component = HabitsApplication.getComponent();
+        prefs = component.getPreferences();
+        taskRunner = component.getTaskRunner();
+        commandRunner = component.getCommandRunner();
+        reminderScheduler = component.getReminderScheduler();
     }
 
     public void onExportCSV()
@@ -80,7 +83,7 @@ public class ListHabitsController
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
 
-        taskRuner.execute(new ExportCSVTask(habitList, selected, filename -> {
+        taskRunner.execute(new ExportCSVTask(habitList, selected, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
@@ -88,7 +91,7 @@ public class ListHabitsController
 
     public void onExportDB()
     {
-        taskRuner.execute(new ExportDBTask(filename -> {
+        taskRunner.execute(new ExportDBTask(filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
@@ -103,12 +106,12 @@ public class ListHabitsController
     @Override
     public void onHabitReorder(@NonNull Habit from, @NonNull Habit to)
     {
-        taskRuner.execute(() -> habitList.reorder(from, to));
+        taskRunner.execute(() -> habitList.reorder(from, to));
     }
 
     public void onImportData(@NonNull File file)
     {
-        taskRuner.execute(new ImportDataTask(habitList, file, result -> {
+        taskRunner.execute(new ImportDataTask(habitList, file, result -> {
             switch (result)
             {
                 case ImportDataTask.SUCCESS:
@@ -169,7 +172,7 @@ public class ListHabitsController
         if (prefs.isFirstRun()) onFirstRun();
 
         new Handler().postDelayed(() -> {
-            taskRuner.execute(() -> reminderScheduler.schedule(habitList));
+            taskRunner.execute(() -> reminderScheduler.schedule(habitList));
             HabitsApplication.getWidgetUpdater().updateWidgets();
         }, 1000);
     }

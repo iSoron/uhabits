@@ -35,8 +35,6 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import javax.inject.*;
-
 import butterknife.*;
 
 public abstract class BaseDialog extends AppCompatDialogFragment
@@ -50,17 +48,13 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     @Nullable
     protected BaseDialogHelper helper;
 
-    @Inject
     protected Preferences prefs;
 
-    @Inject
     protected CommandRunner commandRunner;
 
-    @Inject
     protected HabitList habitList;
 
-    @Inject
-    protected DialogFactory dialogFactory;
+    private DialogFactory dialogFactory;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -68,7 +62,13 @@ public abstract class BaseDialog extends AppCompatDialogFragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.edit_habit, container, false);
-        HabitsApplication.getComponent().inject(this);
+
+        BaseComponent component = HabitsApplication.getComponent();
+        prefs = component.getPreferences();
+        habitList = component.getHabitList();
+        commandRunner = component.getCommandRunner();
+        dialogFactory = component.getDialogFactory();
+
         ButterKnife.bind(this, view);
 
         helper = new BaseDialogHelper(this, view);

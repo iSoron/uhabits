@@ -35,28 +35,26 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import javax.inject.*;
-
 public class PebbleReceiver extends PebbleDataReceiver
 {
     public static final UUID WATCHAPP_UUID =
         UUID.fromString("82629d99-8ea6-4631-a022-9ca77a12a058");
 
-    @Inject
-    protected HabitList allHabits;
+    private final HabitList allHabits;
 
-    @Inject
-    protected CommandRunner commandRunner;
+    private final CommandRunner commandRunner;
 
-    @Inject
-    protected TaskRunner taskRunner;
+    private final TaskRunner taskRunner;
 
-    protected HabitList filteredHabits;
+    private final HabitList filteredHabits;
 
     public PebbleReceiver()
     {
         super(WATCHAPP_UUID);
-        HabitsApplication.getComponent().inject(this);
+        BaseComponent component = HabitsApplication.getComponent();
+        commandRunner = component.getCommandRunner();
+        taskRunner = component.getTaskRunner();
+        allHabits = component.getHabitList();
 
         HabitMatcher build = new HabitMatcherBuilder()
             .setArchivedAllowed(false)

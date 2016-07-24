@@ -26,15 +26,12 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
 
-import javax.inject.*;
-
 /**
  * Activity that allows the user to see and modify the list of habits.
  */
 public class ListHabitsActivity extends BaseActivity
 {
-    @Inject
-    HabitList habits;
+    private HabitList habits;
 
     private HabitCardListAdapter adapter;
 
@@ -54,7 +51,7 @@ public class ListHabitsActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        HabitsApplication.getComponent().inject(this);
+        habits = HabitsApplication.getComponent().getHabitList();
 
         int checkmarkCount = ListHabitsRootView.MAX_CHECKMARK_COUNT;
 

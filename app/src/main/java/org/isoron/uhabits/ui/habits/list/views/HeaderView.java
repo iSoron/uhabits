@@ -30,16 +30,13 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import javax.inject.*;
-
 public class HeaderView extends LinearLayout
 {
     private final Context context;
 
     private int buttonCount;
 
-    @Inject
-    Preferences prefs;
+    private Preferences prefs;
 
     public HeaderView(Context context, AttributeSet attrs)
     {
@@ -49,10 +46,9 @@ public class HeaderView extends LinearLayout
         if (isInEditMode())
         {
             setButtonCount(5);
-            return;
         }
 
-        HabitsApplication.getComponent().inject(this);
+        prefs = HabitsApplication.getComponent().getPreferences();
     }
 
     public void setButtonCount(int buttonCount)

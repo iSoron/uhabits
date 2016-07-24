@@ -55,7 +55,10 @@ public class BaseSystem
     public BaseSystem(Context context)
     {
         this.context = context;
-        HabitsApplication.getComponent().inject(this);
+
+        BaseComponent component = HabitsApplication.getComponent();
+        habitList = component.getHabitList();
+        reminderScheduler = component.getReminderScheduler();
     }
 
     /**

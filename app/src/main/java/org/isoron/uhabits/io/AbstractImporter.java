@@ -21,7 +21,6 @@ package org.isoron.uhabits.io;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 import java.io.*;
@@ -37,7 +36,6 @@ public abstract class AbstractImporter
 
     public AbstractImporter(HabitList habits)
     {
-        HabitsApplication.getComponent().inject(this);
         this.habits = habits;
     }
 

@@ -24,11 +24,8 @@ import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.memory.*;
 
 import java.util.*;
-
-import javax.inject.*;
 
 /**
  * The thing that the user wants to track.
@@ -73,8 +70,7 @@ public class Habit
 
     private ModelObservable observable = new ModelObservable();
 
-    @Inject
-    ModelFactory factory;
+    private ModelFactory factory;
 
     /**
      * Constructs a habit with the same attributes as the specified habit.
@@ -104,9 +100,7 @@ public class Habit
 
     private void buildLists()
     {
-        BaseComponent component = HabitsApplication.getComponent();
-        if(component == null) factory = new MemoryModelFactory();
-        else component.inject(this);
+        factory = HabitsApplication.getComponent().getModelFactory();
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);

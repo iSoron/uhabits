@@ -31,18 +31,14 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import javax.inject.*;
-
 import static android.appwidget.AppWidgetManager.*;
 
 public class HabitPickerDialog extends Activity
     implements AdapterView.OnItemClickListener
 {
-    @Inject
-    HabitList habitList;
+    private HabitList habitList;
 
-    @Inject
-    WidgetPreferences preferences;
+    private WidgetPreferences preferences;
 
     private Integer widgetId;
 
@@ -69,7 +65,10 @@ public class HabitPickerDialog extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.widget_configure_activity);
-        HabitsApplication.getComponent().inject(this);
+
+        BaseComponent component = HabitsApplication.getComponent();
+        habitList = component.getHabitList();
+        preferences = component.getWidgetPreferences();
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();

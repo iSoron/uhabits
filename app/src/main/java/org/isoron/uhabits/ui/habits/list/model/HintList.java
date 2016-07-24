@@ -19,13 +19,10 @@
 
 package org.isoron.uhabits.ui.habits.list.model;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.utils.DateUtils;
-import org.isoron.uhabits.utils.Preferences;
-
-import javax.inject.Inject;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
 
 /**
  * Provides a list of hints to be shown at the application startup, and takes
@@ -33,8 +30,7 @@ import javax.inject.Inject;
  */
 public class HintList
 {
-    @Inject
-    Preferences prefs;
+    private final Preferences prefs;
 
     @NonNull
     private final String[] hints;
@@ -47,7 +43,7 @@ public class HintList
     public HintList(@NonNull String hints[])
     {
         this.hints = hints;
-        HabitsApplication.getComponent().inject(this);
+        prefs = HabitsApplication.getComponent().getPreferences();
     }
 
     /**

@@ -35,28 +35,30 @@ import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
-import javax.inject.*;
-
 public class ListHabitsScreen extends BaseScreen
 {
     @Nullable
     ListHabitsController controller;
 
-    @Inject
-    protected DialogFactory dialogFactory;
+    @NonNull
+    private final DialogFactory dialogFactory;
 
-    @Inject
-    protected IntentFactory intentFactory;
+    @NonNull
+    private final IntentFactory intentFactory;
 
-    @Inject
-    protected DirFinder dirFinder;
+    @NonNull
+    private final DirFinder dirFinder;
 
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull ListHabitsRootView rootView)
     {
         super(activity);
         setRootView(rootView);
-        HabitsApplication.getComponent().inject(this);
+
+        BaseComponent component = HabitsApplication.getComponent();
+        dialogFactory = component.getDialogFactory();
+        intentFactory = component.getIntentFactory();
+        dirFinder = component.getDirFinder();
     }
 
     @Override

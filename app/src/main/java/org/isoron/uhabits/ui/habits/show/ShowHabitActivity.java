@@ -28,8 +28,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 
-import javax.inject.*;
-
 /**
  * Activity that allows the user to see more information about a single habit.
  * <p>
@@ -37,8 +35,7 @@ import javax.inject.*;
  */
 public class ShowHabitActivity extends BaseActivity
 {
-    @Inject
-    HabitList habits;
+    private HabitList habits;
 
     private ShowHabitController controller;
 
@@ -52,7 +49,7 @@ public class ShowHabitActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        HabitsApplication.getComponent().inject(this);
+        habits = HabitsApplication.getComponent().getHabitList();
 
         Habit habit = getHabitFromIntent();
         rootView = new ShowHabitRootView(this, habit);

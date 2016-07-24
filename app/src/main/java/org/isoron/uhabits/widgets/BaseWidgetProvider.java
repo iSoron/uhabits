@@ -30,23 +30,21 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 
-import javax.inject.*;
-
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 import static org.isoron.uhabits.utils.WidgetUtils.*;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
-    @Inject
-    HabitList habits;
+    private final HabitList habits;
 
-    @Inject
-    WidgetPreferences widgetPrefs;
+    private final WidgetPreferences widgetPrefs;
 
     public BaseWidgetProvider()
     {
-        HabitsApplication.getComponent().inject(this);
+        BaseComponent component = HabitsApplication.getComponent();
+        habits = component.getHabitList();
+        widgetPrefs = component.getWidgetPreferences();
     }
 
     @Override
@@ -97,7 +95,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
         context.setTheme(R.style.TransparentWidgetTheme);
 
-        new Handler().postDelayed(() ->{
+        new Handler().postDelayed(() -> {
             for (int id : widgetIds)
                 update(context, manager, id);
         }, 500);
