@@ -207,7 +207,7 @@ public class ListHabitsScreen extends BaseScreen
     private void refreshTheme()
     {
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(activity, ListHabitsActivity.class);
+            Intent intent = new Intent(activity, MainActivity.class);
 
             activity.finish();
             activity.overridePendingTransition(android.R.anim.fade_in,
