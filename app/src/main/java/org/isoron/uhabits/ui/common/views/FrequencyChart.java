@@ -267,10 +267,9 @@ public class FrequencyChart extends ScrollableChart
 
     private void initColors()
     {
-        textColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
-        gridColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
+        StyledResources res = new StyledResources(getContext());
+        textColor = res.getColor(R.attr.mediumContrastTextColor);
+        gridColor = res.getColor(R.attr.lowContrastTextColor);
 
         colors = new int[4];
         colors[0] = gridColor;

@@ -108,6 +108,25 @@ public abstract class BaseScreen
         rootView.invalidate();
     }
 
+    public void invalidateToolbar()
+    {
+        if (rootView == null) return;
+
+        activity.runOnUiThread(() -> {
+            Toolbar toolbar = rootView.getToolbar();
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar == null) return;
+
+            actionBar.setDisplayHomeAsUpEnabled(rootView.getDisplayHomeAsUp());
+
+            int color = rootView.getToolbarColor();
+            setActionBarColor(actionBar, color);
+            setStatusBarColor(color);
+            setupToolbarElevation(toolbar);
+        });
+    }
+
     /**
      * Called when another Activity has finished, and has returned some result.
      *
@@ -136,25 +155,6 @@ public abstract class BaseScreen
         activity.setBaseMenu(menu);
     }
 
-    public void showMessage(@StringRes int stringId)
-    {
-        activity.showMessage(stringId);
-    }
-
-    /**
-     * Sets the root view for this screen.
-     *
-     * @param rootView the root view for this screen.
-     */
-    protected void setRootView(@Nullable BaseRootView rootView)
-    {
-        this.rootView = rootView;
-        activity.setContentView(rootView);
-        if (rootView == null) return;
-
-        invalidateToolbar();
-    }
-
     /**
      * Sets the menu to be shown when a selection is active on the screen.
      *
@@ -165,12 +165,22 @@ public abstract class BaseScreen
         this.selectionMenu = menu;
     }
 
-    public void showSendEmailScreen(String to, String subject, String content)
+    public void showMessage(@StringRes int stringId)
     {
+        activity.showMessage(stringId);
+    }
+
+    public void showSendEmailScreen(@StringRes int toId,
+                                    @StringRes int subjectId,
+                                    String content)
+    {
+        String to = activity.getString(toId);
+        String subject = activity.getString(subjectId);
+
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ to });
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, content);
         activity.startActivity(intent);
@@ -197,23 +207,18 @@ public abstract class BaseScreen
         activity.startSupportActionMode(new ActionModeWrapper());
     }
 
-    public void invalidateToolbar()
+    /**
+     * Sets the root view for this screen.
+     *
+     * @param rootView the root view for this screen.
+     */
+    protected void setRootView(@Nullable BaseRootView rootView)
     {
+        this.rootView = rootView;
+        activity.setContentView(rootView);
         if (rootView == null) return;
 
-        activity.runOnUiThread(() -> {
-            Toolbar toolbar = rootView.getToolbar();
-            activity.setSupportActionBar(toolbar);
-            ActionBar actionBar = activity.getSupportActionBar();
-            if (actionBar == null) return;
-
-            actionBar.setDisplayHomeAsUpEnabled(rootView.getDisplayHomeAsUp());
-
-            int color = rootView.getToolbarColor();
-            setActionBarColor(actionBar, color);
-            setStatusBarColor(color);
-            setupToolbarElevation(toolbar);
-        });
+        invalidateToolbar();
     }
 
     private void setActionBarColor(@NonNull ActionBar actionBar, int color)

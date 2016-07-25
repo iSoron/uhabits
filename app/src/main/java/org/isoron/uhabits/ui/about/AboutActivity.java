@@ -76,8 +76,8 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener
 
         setContentView(R.layout.about);
 
-        int color =
-            InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
+        StyledResources res = new StyledResources(this);
+        int color = res.getColor(R.attr.aboutScreenColor);
 
         BaseScreen.setupActionBarColor(this, color);
 

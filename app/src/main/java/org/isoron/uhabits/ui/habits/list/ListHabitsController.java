@@ -56,9 +56,6 @@ public class ListHabitsController
     private final CommandRunner commandRunner;
 
     @NonNull
-    private final ReminderScheduler reminderScheduler;
-
-    @NonNull
     private final TaskRunner taskRunner;
 
     public ListHabitsController(@NonNull HabitList habitList,
@@ -75,7 +72,6 @@ public class ListHabitsController
         prefs = component.getPreferences();
         taskRunner = component.getTaskRunner();
         commandRunner = component.getCommandRunner();
-        reminderScheduler = component.getReminderScheduler();
     }
 
     public void onExportCSV()
@@ -150,12 +146,10 @@ public class ListHabitsController
 
         try
         {
-            String log = "---------- BUG REPORT BEGINS ----------\n";
-            log += system.getBugReport();
-            log += "---------- BUG REPORT ENDS ------------\n";
-            String to = "dev@loophabits.org";
-            String subject = "Bug Report - Loop Habit Tracker";
-            screen.showSendEmailScreen(log, to, subject);
+            String log = system.getBugReport();
+            int to = R.string.bugReportTo;
+            int subject = R.string.bugReportSubject;
+            screen.showSendEmailScreen(to, subject, log);
         }
         catch (IOException e)
         {
@@ -172,6 +166,8 @@ public class ListHabitsController
         if (prefs.isFirstRun()) onFirstRun();
 
         new Handler().postDelayed(() -> {
+            ReminderScheduler reminderScheduler =
+                HabitsApplication.getComponent().getReminderScheduler();
             taskRunner.execute(() -> reminderScheduler.schedule(habitList));
             HabitsApplication.getWidgetUpdater().updateWidgets();
         }, 1000);

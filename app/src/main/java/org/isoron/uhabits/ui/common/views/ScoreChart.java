@@ -402,12 +402,12 @@ public class ScoreChart extends ScrollableChart
 
     private void initColors()
     {
-        Context context = getContext();
+        StyledResources res = new StyledResources(getContext());
 
         primaryColor = Color.BLACK;
-        textColor = getStyledColor(context, R.attr.mediumContrastTextColor);
-        gridColor = getStyledColor(context, R.attr.lowContrastTextColor);
-        backgroundColor = getStyledColor(context, R.attr.cardBackgroundColor);
+        textColor = res.getColor(R.attr.mediumContrastTextColor);
+        gridColor = res.getColor(R.attr.lowContrastTextColor);
+        backgroundColor = res.getColor(R.attr.cardBackgroundColor);
     }
 
     private void initDateFormats()

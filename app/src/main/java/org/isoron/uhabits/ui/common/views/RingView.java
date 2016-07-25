@@ -29,6 +29,7 @@ import android.view.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
+import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class RingView extends View
@@ -91,8 +92,7 @@ public class RingView extends View
         precision = getFloatAttribute(ctx, attrs, "precision", 0.01f);
 
         color = getColorAttribute(ctx, attrs, "color", 0);
-        backgroundColor =
-            getColorAttribute(ctx, attrs, "backgroundColor", null);
+        backgroundColor = getColorAttribute(ctx, attrs, "backgroundColor", null);
         inactiveColor = getColorAttribute(ctx, attrs, "inactiveColor", null);
 
         thickness = getFloatAttribute(ctx, attrs, "thickness", 0);
@@ -102,10 +102,10 @@ public class RingView extends View
             ctx.getResources().getDimension(R.dimen.smallTextSize);
         textSize = getFloatAttribute(ctx, attrs, "textSize", defaultTextSize);
         textSize = spToPixels(ctx, textSize);
-        text = getAttribute(ctx, attrs, "text", "");
+        text = AttributeSetUtils.getAttribute(ctx, attrs, "text", "");
 
-        enableFontAwesome =
-            getBooleanAttribute(ctx, attrs, "enableFontAwesome", false);
+        enableFontAwesome = AttributeSetUtils.getBooleanAttribute(ctx, attrs,
+            "enableFontAwesome", false);
 
         init();
     }
@@ -234,13 +234,13 @@ public class RingView extends View
         pRing.setColor(color);
         pRing.setTextAlign(Paint.Align.CENTER);
 
-        if (backgroundColor == null) backgroundColor =
-            InterfaceUtils.getStyledColor(getContext(),
-                R.attr.cardBackgroundColor);
+        StyledResources res = new StyledResources(getContext());
 
-        if (inactiveColor == null) inactiveColor =
-            InterfaceUtils.getStyledColor(getContext(),
-                R.attr.highContrastTextColor);
+        if (backgroundColor == null)
+            backgroundColor = res.getColor(R.attr.cardBackgroundColor);
+
+        if (inactiveColor == null)
+            inactiveColor = res.getColor(R.attr.highContrastTextColor);
 
         inactiveColor = ColorUtils.setAlpha(inactiveColor, 0.1f);
 

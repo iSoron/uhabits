@@ -36,11 +36,11 @@ import java.util.*;
 
 import butterknife.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.*;
 
 public class HabitCardView extends FrameLayout
 {
-    private Habit habit;
 
     @BindView(R.id.checkmarkPanel)
     CheckmarkPanelView checkmarkPanel;
@@ -56,6 +56,8 @@ public class HabitCardView extends FrameLayout
 
     private final Context context = getContext();
 
+    private StyledResources res;
+
     public HabitCardView(Context context)
     {
         super(context);
@@ -65,12 +67,6 @@ public class HabitCardView extends FrameLayout
     public HabitCardView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init();
-    }
-
-    public HabitCardView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
         init();
     }
 
@@ -89,7 +85,6 @@ public class HabitCardView extends FrameLayout
 
     public void setHabit(Habit habit)
     {
-        this.habit = habit;
         int color = getActiveColor(habit);
 
         label.setText(habit.getName());
@@ -130,8 +125,7 @@ public class HabitCardView extends FrameLayout
 
     private int getActiveColor(Habit habit)
     {
-        int mediumContrastColor =
-            getStyledColor(context, R.attr.mediumContrastTextColor);
+        int mediumContrastColor = res.getColor(R.attr.mediumContrastTextColor);
         int activeColor = ColorUtils.getColor(context, habit.getColor());
         if (habit.isArchived()) activeColor = mediumContrastColor;
 
@@ -143,11 +137,13 @@ public class HabitCardView extends FrameLayout
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        res = new StyledResources(getContext());
+
         inflate(context, R.layout.list_habits_card, this);
         ButterKnife.bind(this);
 
         innerFrame.setOnTouchListener((v, event) -> {
-            if (android.os.Build.VERSION.SDK_INT >= 21)
+            if (SDK_INT >= LOLLIPOP)
                 v.getBackground().setHotspot(event.getX(), event.getY());
             return false;
         });
@@ -189,7 +185,7 @@ public class HabitCardView extends FrameLayout
     private void triggerRipple(final float x, final float y)
     {
         final Drawable background = innerFrame.getBackground();
-        if (android.os.Build.VERSION.SDK_INT >= 21) background.setHotspot(x, y);
+        if (SDK_INT >= LOLLIPOP) background.setHotspot(x, y);
         background.setState(new int[]{
             android.R.attr.state_pressed, android.R.attr.state_enabled
         });
@@ -198,7 +194,7 @@ public class HabitCardView extends FrameLayout
 
     private void updateBackground(boolean isSelected)
     {
-        if (android.os.Build.VERSION.SDK_INT >= 21)
+        if (SDK_INT >= LOLLIPOP)
         {
             if (isSelected)
                 innerFrame.setBackgroundResource(R.drawable.selected_box);
@@ -208,11 +204,11 @@ public class HabitCardView extends FrameLayout
         {
             Drawable background;
 
-            if (isSelected) background =
-                getStyledDrawable(context, R.attr.selectedBackground);
-            else background = getStyledDrawable(context, R.attr.cardBackground);
+            if (isSelected)
+                background = res.getDrawable(R.attr.selectedBackground);
+            else background = res.getDrawable(R.attr.cardBackground);
 
-            innerFrame.setBackgroundDrawable(background);
+            innerFrame.setBackground(background);
         }
     }
 

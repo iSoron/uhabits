@@ -33,6 +33,8 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
+
 public abstract class HabitWidgetView extends FrameLayout
 {
     @Nullable
@@ -44,6 +46,8 @@ public abstract class HabitWidgetView extends FrameLayout
     protected ViewGroup frame;
 
     private int shadowAlpha;
+
+    private StyledResources res;
 
     public HabitWidgetView(Context context)
     {
@@ -70,15 +74,14 @@ public abstract class HabitWidgetView extends FrameLayout
     {
         Context context = getContext();
 
-        int backgroundAlpha = (int) (255 *
-                                     InterfaceUtils.getStyledFloat(context,
-                                         R.attr.widgetBackgroundAlpha));
+        int backgroundAlpha =
+            (int) (255 * res.getFloat(R.attr.widgetBackgroundAlpha));
 
-        int shadowRadius = (int) InterfaceUtils.dpToPixels(context, 2);
-        int shadowOffset = (int) InterfaceUtils.dpToPixels(context, 1);
+        int shadowRadius = (int) dpToPixels(context, 2);
+        int shadowOffset = (int) dpToPixels(context, 1);
         int shadowColor = Color.argb(shadowAlpha, 0, 0, 0);
 
-        float cornerRadius = InterfaceUtils.dpToPixels(context, 5);
+        float cornerRadius = dpToPixels(context, 5);
         float[] radii = new float[8];
         Arrays.fill(radii, cornerRadius);
 
@@ -94,8 +97,7 @@ public abstract class HabitWidgetView extends FrameLayout
         backgroundPaint = innerDrawable.getPaint();
         backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset,
             shadowColor);
-        backgroundPaint.setColor(
-            InterfaceUtils.getStyledColor(context, R.attr.cardBackgroundColor));
+        backgroundPaint.setColor(res.getColor(R.attr.cardBackgroundColor));
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);
@@ -105,8 +107,8 @@ public abstract class HabitWidgetView extends FrameLayout
     private void init()
     {
         inflate(getContext(), getInnerLayoutId(), this);
-        shadowAlpha = (int) (255 * InterfaceUtils.getStyledFloat(getContext(),
-            R.attr.widgetShadowAlpha));
+        res = new StyledResources(getContext());
+        shadowAlpha = (int) (255 * res.getFloat(R.attr.widgetShadowAlpha));
         rebuildBackground();
     }
 }

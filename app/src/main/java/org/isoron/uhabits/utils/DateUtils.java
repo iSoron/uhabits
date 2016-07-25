@@ -30,7 +30,6 @@ import static java.util.Calendar.*;
 
 public abstract class DateUtils
 {
-
     private static Long fixedLocalTime = null;
 
     /**

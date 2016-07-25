@@ -40,6 +40,8 @@ public class CheckmarkButtonView extends FrameLayout
     @BindView(R.id.tvCheck)
     TextView tvCheck;
 
+    private StyledResources res;
+
     public CheckmarkButtonView(Context context)
     {
         super(context);
@@ -76,8 +78,7 @@ public class CheckmarkButtonView extends FrameLayout
     @Override
     protected void onDraw(Canvas canvas)
     {
-        int lowContrastColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.lowContrastTextColor);
+        int lowContrastColor = res.getColor(R.attr.lowContrastTextColor);
 
         if (value == Checkmark.CHECKED_EXPLICITLY)
         {
@@ -105,6 +106,8 @@ public class CheckmarkButtonView extends FrameLayout
         addView(
             inflate(getContext(), R.layout.list_habits_card_checkmark, null));
         ButterKnife.bind(this);
+
+        res = new StyledResources(getContext());
 
         setWillNotDraw(false);
         setHapticFeedbackEnabled(false);

@@ -31,8 +31,6 @@ import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
-
 public class ShowHabitRootView extends BaseRootView
     implements ModelObservable.Listener
 {
@@ -63,8 +61,7 @@ public class ShowHabitRootView extends BaseRootView
     @NonNull
     private Controller controller;
 
-    public ShowHabitRootView(@NonNull Context context,
-                             @NonNull Habit habit)
+    public ShowHabitRootView(@NonNull Context context, @NonNull Habit habit)
     {
         super(context);
         this.habit = habit;
@@ -91,16 +88,11 @@ public class ShowHabitRootView extends BaseRootView
         return toolbar;
     }
 
-    public void setController(@NonNull Controller controller)
-    {
-        this.controller = controller;
-        historyCard.setController(controller);
-    }
-
     @Override
     public int getToolbarColor()
     {
-        if (!getStyledBoolean(getContext(), R.attr.useHabitColorAsPrimary))
+        StyledResources res = new StyledResources(getContext());
+        if (!res.getBoolean(R.attr.useHabitColorAsPrimary))
             return super.getToolbarColor();
 
         return ColorUtils.getColor(getContext(), habit.getColor());
@@ -110,6 +102,12 @@ public class ShowHabitRootView extends BaseRootView
     public void onModelChange()
     {
         controller.onToolbarChanged();
+    }
+
+    public void setController(@NonNull Controller controller)
+    {
+        this.controller = controller;
+        historyCard.setController(controller);
     }
 
     @Override
@@ -145,6 +143,6 @@ public class ShowHabitRootView extends BaseRootView
 
     public interface Controller extends HistoryCard.Controller
     {
-        default void onToolbarChanged(){}
+        default void onToolbarChanged() {}
     }
 }

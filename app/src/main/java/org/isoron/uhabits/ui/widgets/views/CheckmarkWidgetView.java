@@ -60,33 +60,30 @@ public class CheckmarkWidgetView extends HabitWidgetView
     {
         if (backgroundPaint == null || frame == null || ring == null) return;
 
-        Context context = getContext();
+        StyledResources res = new StyledResources(getContext());
 
         String text;
-        int backgroundColor;
-        int foregroundColor;
+        int bgColor;
+        int fgColor;
 
         switch (checkmarkValue)
         {
             case Checkmark.CHECKED_EXPLICITLY:
                 text = getResources().getString(R.string.fa_check);
-                backgroundColor = activeColor;
-                foregroundColor = InterfaceUtils.getStyledColor(context,
-                    R.attr.highContrastReverseTextColor);
+                bgColor = activeColor;
+                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
 
                 setShadowAlpha(0x4f);
                 rebuildBackground();
 
-                backgroundPaint.setColor(backgroundColor);
+                backgroundPaint.setColor(bgColor);
                 frame.setBackgroundDrawable(background);
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
                 text = getResources().getString(R.string.fa_check);
-                backgroundColor = InterfaceUtils.getStyledColor(context,
-                    R.attr.cardBackgroundColor);
-                foregroundColor = InterfaceUtils.getStyledColor(context,
-                    R.attr.mediumContrastTextColor);
+                bgColor = res.getColor(R.attr.cardBackgroundColor);
+                fgColor = res.getColor(R.attr.mediumContrastTextColor);
 
                 setShadowAlpha(0x00);
                 rebuildBackground();
@@ -96,10 +93,8 @@ public class CheckmarkWidgetView extends HabitWidgetView
             case Checkmark.UNCHECKED:
             default:
                 text = getResources().getString(R.string.fa_times);
-                backgroundColor = InterfaceUtils.getStyledColor(context,
-                    R.attr.cardBackgroundColor);
-                foregroundColor = InterfaceUtils.getStyledColor(context,
-                    R.attr.mediumContrastTextColor);
+                bgColor = res.getColor(R.attr.cardBackgroundColor);
+                fgColor = res.getColor(R.attr.mediumContrastTextColor);
 
                 setShadowAlpha(0x00);
                 rebuildBackground();
@@ -108,15 +103,20 @@ public class CheckmarkWidgetView extends HabitWidgetView
         }
 
         ring.setPercentage(percentage);
-        ring.setColor(foregroundColor);
-        ring.setBackgroundColor(backgroundColor);
+        ring.setColor(fgColor);
+        ring.setBackgroundColor(bgColor);
         ring.setText(text);
 
         label.setText(name);
-        label.setTextColor(foregroundColor);
+        label.setTextColor(fgColor);
 
         requestLayout();
         postInvalidate();
+    }
+
+    public void setActiveColor(int activeColor)
+    {
+        this.activeColor = activeColor;
     }
 
     public void setCheckmarkValue(int checkmarkValue)
@@ -132,11 +132,6 @@ public class CheckmarkWidgetView extends HabitWidgetView
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
-    }
-
-    public void setActiveColor(int activeColor)
-    {
-        this.activeColor = activeColor;
     }
 
     @Override

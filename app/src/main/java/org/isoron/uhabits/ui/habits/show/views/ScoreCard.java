@@ -51,6 +51,8 @@ public class ScoreCard extends HabitCard
 
     private TaskRunner taskRunner;
 
+    private Preferences prefs;
+
     public ScoreCard(Context context)
     {
         super(context);
@@ -94,12 +96,13 @@ public class ScoreCard extends HabitCard
     private int getDefaultSpinnerPosition()
     {
         if (isInEditMode()) return 0;
-        return InterfaceUtils.getDefaultScoreSpinnerPosition(getContext());
+        return prefs.getDefaultScoreSpinnerPosition();
     }
 
     private void init()
     {
         taskRunner = HabitsApplication.getComponent().getTaskRunner();
+        prefs = HabitsApplication.getComponent().getPreferences();
 
         inflate(getContext(), R.layout.show_habit_score, this);
         ButterKnife.bind(this);
@@ -121,7 +124,7 @@ public class ScoreCard extends HabitCard
     {
         if (isInEditMode()) return;
 
-        InterfaceUtils.setDefaultScoreSpinnerPosition(getContext(), position);
+        prefs.setDefaultScoreSpinnerPosition(position);
         bucketSize = BUCKET_SIZES[position];
     }
 

@@ -36,8 +36,8 @@ public class SettingsActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
-        int color =
-            InterfaceUtils.getStyledColor(this, R.attr.aboutScreenColor);
+        StyledResources res = new StyledResources(this);
+        int color = res.getColor(R.attr.aboutScreenColor);
         BaseScreen.setupActionBarColor(this, color);
     }
 }

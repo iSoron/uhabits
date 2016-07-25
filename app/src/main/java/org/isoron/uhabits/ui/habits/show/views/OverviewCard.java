@@ -121,8 +121,8 @@ public class OverviewCard extends HabitCard
         monthDiffLabel.setText(formatPercentageDiff(monthDiff));
         yearDiffLabel.setText(formatPercentageDiff(yearDiff));
 
-        int inactiveColor = InterfaceUtils.getStyledColor(getContext(),
-            R.attr.mediumContrastTextColor);
+        StyledResources res = new StyledResources(getContext());
+        int inactiveColor = res.getColor(R.attr.mediumContrastTextColor);
 
         monthDiffLabel.setTextColor(monthDiff >= 0 ? color : inactiveColor);
         yearDiffLabel.setTextColor(yearDiff >= 0 ? color : inactiveColor);

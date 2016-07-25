@@ -353,6 +353,8 @@ public class HistoryChart extends ScrollableChart
 
     private void initColors()
     {
+        StyledResources res = new StyledResources(getContext());
+
         if (isBackgroundTransparent)
             primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
 
@@ -372,14 +374,12 @@ public class HistoryChart extends ScrollableChart
         else
         {
             colors = new int[3];
-            colors[0] = InterfaceUtils.getStyledColor(getContext(),
-                R.attr.lowContrastTextColor);
+            colors[0] = res.getColor(R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = InterfaceUtils.getStyledColor(getContext(),
-                R.attr.mediumContrastTextColor);
-            reverseTextColor = InterfaceUtils.getStyledColor(getContext(),
-                R.attr.highContrastReverseTextColor);
+            textColor = res.getColor(R.attr.mediumContrastTextColor);
+            reverseTextColor =
+                res.getColor(R.attr.highContrastReverseTextColor);
         }
     }
 

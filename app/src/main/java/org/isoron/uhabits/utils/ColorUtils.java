@@ -23,8 +23,6 @@ import android.content.*;
 import android.graphics.*;
 import android.util.*;
 
-import org.isoron.uhabits.*;
-
 public abstract class ColorUtils
 {
     public static String CSV_PALETTE[] = {
@@ -45,7 +43,8 @@ public abstract class ColorUtils
 
     public static int colorToPaletteIndex(Context context, int color)
     {
-        int[] palette = getPalette(context);
+        StyledResources res = new StyledResources(context);
+        int[] palette = res.getPalette();
 
         for (int k = 0; k < palette.length; k++)
             if (palette[k] == color) return k;
@@ -79,7 +78,8 @@ public abstract class ColorUtils
         if (context == null)
             throw new IllegalArgumentException("Context is null");
 
-        int palette[] = getPalette(context);
+        StyledResources res = new StyledResources(context);
+        int palette[] = res.getPalette();
         if (paletteColor < 0 || paletteColor >= palette.length)
         {
             Log.w("ColorHelper",
@@ -89,15 +89,6 @@ public abstract class ColorUtils
         }
 
         return palette[paletteColor];
-    }
-
-    public static int[] getPalette(Context context)
-    {
-        int resourceId =
-            InterfaceUtils.getStyleResource(context, R.attr.palette);
-        if (resourceId < 0) throw new RuntimeException("resource not found");
-
-        return context.getResources().getIntArray(resourceId);
     }
 
     public static int mixColors(int color1, int color2, float amount)

@@ -45,6 +45,19 @@ public class Preferences
         return prefs.getInt("pref_default_habit_palette_color", fallbackColor);
     }
 
+    public int getDefaultScoreSpinnerPosition()
+    {
+        int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);
+        if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
+            defaultScoreInterval = 1;
+        return defaultScoreInterval;
+    }
+
+    public void setDefaultScoreSpinnerPosition(int position)
+    {
+        prefs.edit().putInt("pref_score_view_interval", position).apply();
+    }
+
     /**
      * Returns the number of the last hint shown to the user.
      *
@@ -70,9 +83,19 @@ public class Preferences
         return prefs.getBoolean("pref_show_archived", false);
     }
 
+    public void setShowArchived(boolean showArchived)
+    {
+        prefs.edit().putBoolean("pref_show_archived", showArchived).apply();
+    }
+
     public boolean getShowCompleted()
     {
         return prefs.getBoolean("pref_show_completed", true);
+    }
+
+    public void setShowCompleted(boolean showCompleted)
+    {
+        prefs.edit().putBoolean("pref_show_completed", showCompleted).apply();
     }
 
     public void incrementLaunchCount()
@@ -117,16 +140,6 @@ public class Preferences
             .edit()
             .putBoolean("pref_checkmark_reverse_order", shouldReverse)
             .apply();
-    }
-
-    public void setShowCompleted(boolean showCompleted)
-    {
-        prefs.edit().putBoolean("pref_show_completed", showCompleted).apply();
-    }
-
-    public void setShowArchived(boolean showArchived)
-    {
-        prefs.edit().putBoolean("pref_show_archived", showArchived).apply();
     }
 
     public boolean shouldReverseCheckmarks()

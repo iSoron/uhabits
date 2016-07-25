@@ -24,6 +24,7 @@ import android.content.*;
 import android.support.annotation.*;
 import android.view.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.common.views.*;
@@ -38,10 +39,13 @@ public class ScoreWidget extends BaseWidget
     @NonNull
     private Habit habit;
 
+    private final Preferences prefs;
+
     public ScoreWidget(@NonNull Context context, int id, @NonNull Habit habit)
     {
         super(context, id);
         this.habit = habit;
+        prefs = HabitsApplication.getComponent().getPreferences();
     }
 
     @Override
@@ -54,8 +58,7 @@ public class ScoreWidget extends BaseWidget
     @Override
     public void refreshData(View view)
     {
-        int defaultScoreInterval =
-            InterfaceUtils.getDefaultScoreSpinnerPosition(getContext());
+        int defaultScoreInterval = prefs.getDefaultScoreSpinnerPosition();
         int size = ScoreCard.BUCKET_SIZES[defaultScoreInterval];
 
         GraphWidgetView widgetView = (GraphWidgetView) view;

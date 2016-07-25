@@ -74,16 +74,16 @@ public class BaseSystem
     @NonNull
     public File dumpBugReportToFile() throws IOException
     {
-        String date = DateFormats.getBackupDateFormat().format(
-                DateUtils.getLocalTime());
+        String date =
+            DateFormats.getBackupDateFormat().format(DateUtils.getLocalTime());
 
         if (context == null) throw new RuntimeException(
-                "application context should not be null");
+            "application context should not be null");
         File dir = FileUtils.getFilesDir("Logs");
         if (dir == null) throw new IOException("log dir should not be null");
 
-        File logFile = new File(
-                String.format("%s/Log %s.txt", dir.getPath(), date));
+        File logFile =
+            new File(String.format("%s/Log %s.txt", dir.getPath(), date));
         FileWriter output = new FileWriter(logFile);
         output.write(getBugReport());
         output.close();
@@ -104,7 +104,12 @@ public class BaseSystem
     {
         String logcat = getLogcat();
         String deviceInfo = getDeviceInfo();
-        return deviceInfo + "\n" + logcat;
+
+        String log = "---------- BUG REPORT BEGINS ----------\n";
+        log += deviceInfo + "\n" + logcat;
+        log += "---------- BUG REPORT ENDS ------------\n";
+
+        return log;
     }
 
     public String getLogcat() throws IOException
@@ -140,27 +145,25 @@ public class BaseSystem
     {
         if (context == null) return "null context\n";
 
-        WindowManager wm = (WindowManager) context.getSystemService(
-                Context.WINDOW_SERVICE);
+        WindowManager wm =
+            (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
-        return String.format("App Version Name: %s\n",
-                BuildConfig.VERSION_NAME) +
-               String.format("App Version Code: %s\n",
-                       BuildConfig.VERSION_CODE) +
-               String.format("OS Version: %s (%s)\n",
-                       System.getProperty("os.version"),
-                       Build.VERSION.INCREMENTAL) +
-               String.format("OS API Level: %s\n", Build.VERSION.SDK) +
-               String.format("Device: %s\n", Build.DEVICE) +
-               String.format("Model (Product): %s (%s)\n", Build.MODEL,
-                       Build.PRODUCT) +
-               String.format("Manufacturer: %s\n", Build.MANUFACTURER) +
-               String.format("Other tags: %s\n", Build.TAGS) +
-               String.format("Screen Width: %s\n",
-                       wm.getDefaultDisplay().getWidth()) +
-               String.format("Screen Height: %s\n",
-                       wm.getDefaultDisplay().getHeight()) +
-               String.format("External storage state: %s\n\n",
-                       Environment.getExternalStorageState());
+        return
+            String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME) +
+            String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE) +
+            String.format("OS Version: %s (%s)\n",
+                System.getProperty("os.version"), Build.VERSION.INCREMENTAL) +
+            String.format("OS API Level: %s\n", Build.VERSION.SDK) +
+            String.format("Device: %s\n", Build.DEVICE) +
+            String.format("Model (Product): %s (%s)\n", Build.MODEL,
+                Build.PRODUCT) +
+            String.format("Manufacturer: %s\n", Build.MANUFACTURER) +
+            String.format("Other tags: %s\n", Build.TAGS) +
+            String.format("Screen Width: %s\n",
+                wm.getDefaultDisplay().getWidth()) +
+            String.format("Screen Height: %s\n",
+                wm.getDefaultDisplay().getHeight()) +
+            String.format("External storage state: %s\n\n",
+                Environment.getExternalStorageState());
     }
 }

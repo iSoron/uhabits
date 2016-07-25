@@ -33,12 +33,12 @@ public class ColorPickerDialog extends com.android.colorpicker.ColorPickerDialog
     {
         ColorPickerDialog dialog = new ColorPickerDialog();
         Context context = dialog.getContext();
+        StyledResources res = new StyledResources(context);
 
         int color = ColorUtils.getColor(context, paletteColor);
 
-        dialog.initialize(R.string.color_picker_default_title,
-                ColorUtils.getPalette(context), color, 4,
-                com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);
+        dialog.initialize(R.string.color_picker_default_title, res.getPalette(),
+            color, 4, com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);
 
         return dialog;
     }

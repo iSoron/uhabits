@@ -61,7 +61,8 @@ public abstract class BaseRootView extends FrameLayout
             return getContext().getResources().getColor(R.color.grey_900);
         }
 
-        return InterfaceUtils.getStyledColor(getContext(), R.attr.colorPrimary);
+        StyledResources res = new StyledResources(getContext());
+        return res.getColor(R.attr.colorPrimary);
     }
 
     protected void initToolbar()
