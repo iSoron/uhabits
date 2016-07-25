@@ -24,7 +24,6 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.utils.*;
 
@@ -51,8 +50,6 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Nullable
     private BaseScreen screen;
-
-    private Toast toast;
 
     @Override
     public boolean onCreateOptionsMenu(@Nullable Menu menu)
@@ -89,20 +86,6 @@ abstract public class BaseActivity extends AppCompatActivity
     public void showDialog(AppCompatDialog dialog)
     {
         dialog.show();
-    }
-
-    /**
-     * Shows a message on the screen.
-     *
-     * @param stringId the string resource id for this message.
-     */
-    public void showMessage(@StringRes Integer stringId)
-    {
-        if (stringId == null) return;
-        if (toast == null)
-            toast = Toast.makeText(this, stringId, Toast.LENGTH_SHORT);
-        else toast.setText(stringId);
-        toast.show();
     }
 
     @Override

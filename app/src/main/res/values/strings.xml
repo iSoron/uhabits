@@ -30,15 +30,15 @@
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Change color</string>
 
-    <string name="toast_habit_created">Habit created.</string>
-    <string name="toast_habit_deleted">Habits deleted.</string>
-    <string name="toast_habit_restored">Habits restored.</string>
-    <string name="toast_nothing_to_undo">Nothing to undo.</string>
-    <string name="toast_nothing_to_redo">Nothing to redo.</string>
-    <string name="toast_habit_changed">Habit changed.</string>
-    <string name="toast_habit_changed_back">Habit changed back.</string>
-    <string name="toast_habit_archived">Habits archived.</string>
-    <string name="toast_habit_unarchived">Habits unarchived.</string>
+    <string name="toast_habit_created">Habit created</string>
+    <string name="toast_habit_deleted">Habits deleted</string>
+    <string name="toast_habit_restored">Habits restored</string>
+    <string name="toast_nothing_to_undo">Nothing to undo</string>
+    <string name="toast_nothing_to_redo">Nothing to redo</string>
+    <string name="toast_habit_changed">Habit changed</string>
+    <string name="toast_habit_changed_back">Habit changed back</string>
+    <string name="toast_habit_archived">Habits archived</string>
+    <string name="toast_habit_unarchived">Habits unarchived</string>
 
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>

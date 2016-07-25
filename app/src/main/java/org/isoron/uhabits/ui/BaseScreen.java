@@ -25,10 +25,12 @@ import android.graphics.drawable.*;
 import android.net.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.support.design.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.*;
+import android.support.v7.widget.Toolbar;
 import android.view.*;
+import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
@@ -51,6 +53,8 @@ public abstract class BaseScreen
 
     @Nullable
     private BaseSelectionMenu selectionMenu;
+
+    private Snackbar snackbar;
 
     public BaseScreen(@NonNull BaseActivity activity)
     {
@@ -88,15 +92,6 @@ public abstract class BaseScreen
 //            view = activity.findViewById(R.id.headerShadow);
 //            if (view != null) view.setVisibility(View.GONE);
         }
-    }
-
-    /**
-     * Ends the current selection operation.
-     */
-    public void finishSelection()
-    {
-        if (selectionMenu == null) return;
-        selectionMenu.finish();
     }
 
     /**
@@ -165,9 +160,23 @@ public abstract class BaseScreen
         this.selectionMenu = menu;
     }
 
-    public void showMessage(@StringRes int stringId)
+    /**
+     * Shows a message on the screen.
+     *
+     * @param stringId the string resource id for this message.
+     */
+    public void showMessage(@StringRes Integer stringId)
     {
-        activity.showMessage(stringId);
+        if (stringId == null || rootView == null) return;
+        if (snackbar == null)
+        {
+            snackbar = Snackbar.make(rootView, stringId, Snackbar.LENGTH_SHORT);
+            int tvId = android.support.design.R.id.snackbar_text;
+            TextView tv = (TextView) snackbar.getView().findViewById(tvId);
+            tv.setTextColor(Color.WHITE);
+        }
+        else snackbar.setText(stringId);
+        snackbar.show();
     }
 
     public void showSendEmailScreen(@StringRes int toId,

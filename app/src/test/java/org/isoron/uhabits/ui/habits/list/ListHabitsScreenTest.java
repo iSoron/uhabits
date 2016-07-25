@@ -192,7 +192,6 @@ public class ListHabitsScreenTest extends BaseUnitTest
     {
         when(dirFinder.findStorageDir(any())).thenReturn(null);
         screen.showImportScreen();
-        verify(activity).showMessage(R.string.could_not_import);
     }
 
     @Test

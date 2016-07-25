@@ -24,6 +24,7 @@ import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
@@ -36,6 +37,7 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 
 public class ListHabitsScreen extends BaseScreen
+    implements CommandRunner.Listener
 {
     @Nullable
     ListHabitsController controller;
@@ -49,6 +51,8 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private final DirFinder dirFinder;
 
+    private final CommandRunner commandRunner;
+
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull ListHabitsRootView rootView)
     {
@@ -59,6 +63,24 @@ public class ListHabitsScreen extends BaseScreen
         dialogFactory = component.getDialogFactory();
         intentFactory = component.getIntentFactory();
         dirFinder = component.getDirFinder();
+        commandRunner = component.getCommandRunner();
+    }
+
+    public void onAttached()
+    {
+        commandRunner.addListener(this);
+    }
+
+    @Override
+    public void onCommandExecuted(@NonNull Command command,
+                                  @Nullable Long refreshKey)
+    {
+        showMessage(command.getExecuteStringId());
+    }
+
+    public void onDettached()
+    {
+        commandRunner.removeListener(this);
     }
 
     @Override
@@ -151,7 +173,7 @@ public class ListHabitsScreen extends BaseScreen
 
         if (dir == null)
         {
-            activity.showMessage(R.string.could_not_import);
+            showMessage(R.string.could_not_import);
             return;
         }
 
@@ -185,7 +207,7 @@ public class ListHabitsScreen extends BaseScreen
     private void refreshTheme()
     {
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(activity, ListHabitsScreen.class);
+            Intent intent = new Intent(activity, ListHabitsActivity.class);
 
             activity.finish();
             activity.overridePendingTransition(android.R.anim.fade_in,

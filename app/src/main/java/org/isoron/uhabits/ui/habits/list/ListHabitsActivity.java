@@ -76,6 +76,7 @@ public class ListHabitsActivity extends BaseActivity
     @Override
     protected void onPause()
     {
+        screen.onDettached();
         adapter.cancelRefresh();
         super.onPause();
     }
@@ -84,6 +85,7 @@ public class ListHabitsActivity extends BaseActivity
     protected void onResume()
     {
         adapter.refresh();
+        screen.onAttached();
         rootView.postInvalidate();
         super.onResume();
     }
