@@ -21,7 +21,6 @@ package org.isoron.uhabits.ui.habits.show;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
@@ -39,7 +38,7 @@ public class ShowHabitScreen extends BaseScreen
                            ShowHabitRootView view)
     {
         super(activity);
-        dialogFactory = HabitsApplication.getComponent().getDialogFactory();
+        dialogFactory = activity.getComponent().getDialogFactory();
 
         this.habit = habit;
         setRootView(view);

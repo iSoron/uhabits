@@ -39,6 +39,14 @@ import java.io.*;
 public class ListHabitsScreen extends BaseScreen
     implements CommandRunner.Listener
 {
+    public static final int RESULT_BUG_REPORT = 4;
+
+    public static final int RESULT_EXPORT_CSV = 2;
+
+    public static final int RESULT_EXPORT_DB = 3;
+
+    public static final int RESULT_IMPORT_DATA = 1;
+
     @Nullable
     ListHabitsController controller;
 
@@ -59,11 +67,11 @@ public class ListHabitsScreen extends BaseScreen
         super(activity);
         setRootView(rootView);
 
-        BaseComponent component = HabitsApplication.getComponent();
-        dialogFactory = component.getDialogFactory();
-        intentFactory = component.getIntentFactory();
-        dirFinder = component.getDirFinder();
-        commandRunner = component.getCommandRunner();
+        AppComponent comp = HabitsApplication.getComponent();
+        intentFactory = comp.getIntentFactory();
+        dirFinder = comp.getDirFinder();
+        commandRunner = comp.getCommandRunner();
+        dialogFactory = activity.getComponent().getDialogFactory();
     }
 
     public void onAttached()
@@ -90,19 +98,19 @@ public class ListHabitsScreen extends BaseScreen
 
         switch (resultCode)
         {
-            case HabitsApplication.RESULT_IMPORT_DATA:
+            case RESULT_IMPORT_DATA:
                 showImportScreen();
                 break;
 
-            case HabitsApplication.RESULT_EXPORT_CSV:
+            case RESULT_EXPORT_CSV:
                 controller.onExportCSV();
                 break;
 
-            case HabitsApplication.RESULT_EXPORT_DB:
+            case RESULT_EXPORT_DB:
                 controller.onExportDB();
                 break;
 
-            case HabitsApplication.RESULT_BUG_REPORT:
+            case RESULT_BUG_REPORT:
                 controller.onSendBugReport();
                 break;
         }
@@ -145,7 +153,7 @@ public class ListHabitsScreen extends BaseScreen
     public void showDeleteConfirmationScreen(ConfirmDeleteDialog.Callback callback)
     {
         ConfirmDeleteDialog dialog =
-            dialogFactory.buildConfirmDeleteDialog(activity, callback);
+            dialogFactory.buildConfirmDeleteDialog(callback);
         activity.showDialog(dialog);
     }
 
@@ -177,7 +185,7 @@ public class ListHabitsScreen extends BaseScreen
             return;
         }
 
-        FilePickerDialog picker = dialogFactory.buildFilePicker(activity, dir);
+        FilePickerDialog picker = dialogFactory.buildFilePicker(dir);
         if (controller != null)
             picker.setListener(file -> controller.onImportData(file));
         activity.showDialog(picker.getDialog());

@@ -22,9 +22,9 @@ package org.isoron.uhabits;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.memory.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
+import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
@@ -34,7 +34,7 @@ import dagger.*;
 import static org.mockito.Mockito.*;
 
 @Module
-public class TestModule
+public class MockModule
 {
     @Provides
     @Singleton
@@ -56,13 +56,6 @@ public class TestModule
         return mock(Habit.class);
     }
 
-    @Singleton
-    @Provides
-    HabitList provideHabitList()
-    {
-        return new MemoryHabitList();
-    }
-
     @Provides
     @Singleton
     IntentFactory provideIntentFactory()
@@ -82,13 +75,6 @@ public class TestModule
     HabitLogger provideLogger()
     {
         return mock(HabitLogger.class);
-    }
-
-    @Provides
-    @Singleton
-    ModelFactory provideModelFactory()
-    {
-        return new MemoryModelFactory();
     }
 
     @Singleton
@@ -124,5 +110,12 @@ public class TestModule
     TaskRunner provideTaskRunner()
     {
         return new SingleThreadTaskRunner();
+    }
+
+    @Provides
+    @Singleton
+    WidgetUpdater provideWidgetUpdate()
+    {
+        return mock(WidgetUpdater.class);
     }
 }

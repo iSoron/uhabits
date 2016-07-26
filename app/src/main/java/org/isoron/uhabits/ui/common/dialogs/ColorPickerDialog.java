@@ -29,10 +29,10 @@ import org.isoron.uhabits.utils.*;
  */
 public class ColorPickerDialog extends com.android.colorpicker.ColorPickerDialog
 {
-    public static ColorPickerDialog newInstance(int paletteColor)
+    public static ColorPickerDialog newInstance(Context context,
+                                                int paletteColor)
     {
         ColorPickerDialog dialog = new ColorPickerDialog();
-        Context context = dialog.getContext();
         StyledResources res = new StyledResources(context);
 
         int color = ColorUtils.getColor(context, paletteColor);

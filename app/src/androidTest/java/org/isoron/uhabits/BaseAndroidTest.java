@@ -66,8 +66,6 @@ public class BaseAndroidTest
     @Inject
     protected HabitLogger logger;
 
-    protected AndroidTestComponent androidTestComponent;
-
     protected HabitFixtures fixtures;
 
     protected CountDownLatch latch;
@@ -87,9 +85,13 @@ public class BaseAndroidTest
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
         setTheme(R.style.AppBaseTheme);
 
-        androidTestComponent = DaggerAndroidTestComponent.builder().build();
-        HabitsApplication.setComponent(androidTestComponent);
-        androidTestComponent.inject(this);
+        AppComponent component = DaggerAppComponent.builder().build();
+        HabitsApplication.setComponent(component);
+        prefs = component.getPreferences();
+        habitList = component.getHabitList();
+        commandRunner = component.getCommandRunner();
+        taskRunner = component.getTaskRunner();
+        logger = component.getHabitsLogger();
 
         fixtures = new HabitFixtures(habitList);
 

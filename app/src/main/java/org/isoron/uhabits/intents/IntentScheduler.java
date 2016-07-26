@@ -24,6 +24,8 @@ import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
 
+import org.isoron.uhabits.*;
+
 import javax.inject.*;
 
 import static android.app.AlarmManager.*;
@@ -35,7 +37,7 @@ public class IntentScheduler
     private final AlarmManager manager;
 
     @Inject
-    public IntentScheduler(@NonNull Context context)
+    public IntentScheduler(@AppContext Context context)
     {
         manager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
     }

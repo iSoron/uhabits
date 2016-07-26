@@ -19,13 +19,15 @@
 
 package org.isoron.uhabits;
 
-import javax.inject.Singleton;
+import org.isoron.uhabits.models.memory.*;
 
-import dagger.Component;
+import javax.inject.*;
+
+import dagger.*;
 
 @Singleton
-@Component(modules = {TestModule.class})
-public interface TestComponent extends BaseComponent
+@Component(modules = { MockModule.class, MemoryModelFactory.class })
+public interface TestComponent extends AppComponent
 {
     void inject(BaseUnitTest baseUnitTest);
 }

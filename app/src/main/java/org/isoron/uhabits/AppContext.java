@@ -17,43 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.tasks;
+package org.isoron.uhabits;
 
-import java.util.concurrent.*;
+import java.lang.annotation.*;
 
 import javax.inject.*;
 
-import dagger.*;
-
-@Module
-public class SingleThreadTaskRunner implements TaskRunner
+@Qualifier
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AppContext
 {
-    @Provides
-    @Singleton
-    public static SingleThreadTaskRunner getInstance()
-    {
-        return new SingleThreadTaskRunner();
-    }
-
-    @Override
-    public void execute(Task task)
-    {
-        task.onAttached(this);
-        task.onPreExecute();
-        task.doInBackground();
-        task.onPostExecute();
-    }
-
-    @Override
-    public void publishProgress(Task task, int progress)
-    {
-        task.onProgressUpdate(progress);
-    }
-
-    @Override
-    public void waitForTasks(long timeout)
-        throws TimeoutException, InterruptedException
-    {
-        // NOP
-    }
 }

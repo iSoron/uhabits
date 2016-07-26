@@ -26,15 +26,23 @@ import java.util.concurrent.*;
 
 import javax.inject.*;
 
+import dagger.*;
+
+@Module
 @Singleton
 public class AndroidTaskRunner implements TaskRunner
 {
     private final LinkedList<CustomAsyncTask> activeTasks;
 
-    @Inject
     public AndroidTaskRunner()
     {
         activeTasks = new LinkedList<>();
+    }
+
+    @Provides
+    public static TaskRunner provideTaskRunner()
+    {
+        return new AndroidTaskRunner();
     }
 
     @Override
@@ -56,13 +64,14 @@ public class AndroidTaskRunner implements TaskRunner
         throws TimeoutException, InterruptedException
     {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            throw new UnsupportedOperationException("waitForTasks requires API 16+");
+            throw new UnsupportedOperationException(
+                "waitForTasks requires API 16+");
 
         int poolInterval = 100;
 
-        while(timeout > 0)
+        while (timeout > 0)
         {
-            if(activeTasks.isEmpty()) return;
+            if (activeTasks.isEmpty()) return;
 
             timeout -= poolInterval;
             Thread.sleep(poolInterval);
@@ -105,16 +114,16 @@ public class AndroidTaskRunner implements TaskRunner
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values)
-        {
-            task.onProgressUpdate(values[0]);
-        }
-
-        @Override
         protected void onPreExecute()
         {
             activeTasks.add(this);
             task.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values)
+        {
+            task.onProgressUpdate(values[0]);
         }
     }
 }

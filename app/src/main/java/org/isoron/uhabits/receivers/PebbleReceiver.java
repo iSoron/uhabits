@@ -51,7 +51,7 @@ public class PebbleReceiver extends PebbleDataReceiver
     public PebbleReceiver()
     {
         super(WATCHAPP_UUID);
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         commandRunner = component.getCommandRunner();
         taskRunner = component.getTaskRunner();
         allHabits = component.getHabitList();

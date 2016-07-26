@@ -17,18 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
-import javax.inject.Singleton;
+import java.lang.annotation.*;
 
-import dagger.Component;
+import javax.inject.*;
 
-/**
- * Dependency injection component for classes that are specific to Android.
- */
-@Singleton
-@Component(modules = {AndroidModule.class})
-public interface AndroidComponent extends BaseComponent
+@Qualifier
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ActivityContext
 {
 }
-

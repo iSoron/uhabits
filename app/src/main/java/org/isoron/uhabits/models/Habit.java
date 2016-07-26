@@ -70,19 +70,6 @@ public class Habit
 
     private ModelObservable observable = new ModelObservable();
 
-    private ModelFactory factory;
-
-    /**
-     * Constructs a habit with the same attributes as the specified habit.
-     *
-     * @param model the model whose attributes should be copied from
-     */
-    public Habit(Habit model)
-    {
-        copyFrom(model);
-        buildLists();
-    }
-
     /**
      * Constructs a habit with default attributes.
      * <p>
@@ -95,13 +82,8 @@ public class Habit
         this.archived = false;
         this.frequency = new Frequency(3, 7);
 
-        buildLists();
-    }
-
-    private void buildLists()
-    {
-        factory = HabitsApplication.getComponent().getModelFactory();
-
+        ModelFactory factory =
+            HabitsApplication.getComponent().getModelFactory();
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);

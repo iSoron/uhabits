@@ -19,14 +19,24 @@
 
 package org.isoron.uhabits;
 
-import javax.inject.Singleton;
+import android.content.*;
 
-import dagger.Component;
+import dagger.*;
 
-@Singleton
-@Component(modules = {AndroidModule.class})
-public interface AndroidTestComponent extends BaseComponent
+@Module
+public class AppModule
 {
-    void inject(BaseAndroidTest baseAndroidTest);
-}
+    private final Context context;
 
+    public AppModule(@AppContext Context context)
+    {
+        this.context = context;
+    }
+
+    @Provides
+    @AppContext
+    Context getContext()
+    {
+        return context;
+    }
+}

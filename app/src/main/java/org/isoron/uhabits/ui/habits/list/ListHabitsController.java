@@ -29,6 +29,7 @@ import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.controllers.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
+import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -68,7 +69,7 @@ public class ListHabitsController
         this.habitList = habitList;
         this.adapter = adapter;
 
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         prefs = component.getPreferences();
         taskRunner = component.getTaskRunner();
         commandRunner = component.getCommandRunner();
@@ -165,11 +166,16 @@ public class ListHabitsController
         prefs.updateLastAppVersion();
         if (prefs.isFirstRun()) onFirstRun();
 
-        new Handler().postDelayed(() -> {
-            ReminderScheduler reminderScheduler =
-                HabitsApplication.getComponent().getReminderScheduler();
-            taskRunner.execute(() -> reminderScheduler.schedule(habitList));
-            HabitsApplication.getWidgetUpdater().updateWidgets();
+        new Handler().postDelayed(() ->
+        {
+            AppComponent component = HabitsApplication.getComponent();
+            ReminderScheduler scheduler = component.getReminderScheduler();
+            WidgetUpdater widgetUpdater = component.getWidgetUpdater();
+
+            taskRunner.execute(() -> {
+                scheduler.schedule(habitList);
+                widgetUpdater.updateWidgets();
+            });
         }, 1000);
     }
 

@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import com.activeandroid.ActiveAndroid;
 import com.opencsv.CSVReader;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DateUtils;
 

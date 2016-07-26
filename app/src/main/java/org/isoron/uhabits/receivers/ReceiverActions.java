@@ -21,34 +21,37 @@ package org.isoron.uhabits.receivers;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 
+import javax.inject.*;
+
+@Singleton
 public class ReceiverActions
 {
     private final CommandRunner commandRunner;
 
-    public ReceiverActions()
+    @Inject
+    public ReceiverActions(CommandRunner commandRunner)
     {
-        commandRunner = HabitsApplication.getComponent().getCommandRunner();
+        this.commandRunner = commandRunner;
     }
 
-    public void add_repetition(@NonNull Habit habit, long timestamp)
+    public void addRepetition(@NonNull Habit habit, long timestamp)
     {
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
-        toggle_repetition(habit, timestamp);
+        toggleRepetition(habit, timestamp);
     }
 
-    public void remove_repetition(@NonNull Habit habit, long timestamp)
+    public void removeRepetition(@NonNull Habit habit, long timestamp)
     {
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
-        toggle_repetition(habit, timestamp);
+        toggleRepetition(habit, timestamp);
     }
 
-    public void toggle_repetition(@NonNull Habit habit, long timestamp)
+    public void toggleRepetition(@NonNull Habit habit, long timestamp)
     {
         commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
             habit.getId());

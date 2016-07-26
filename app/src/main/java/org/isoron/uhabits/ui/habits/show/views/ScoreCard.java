@@ -83,7 +83,7 @@ public class ScoreCard extends HabitCard
     public void onItemSelected(int position)
     {
         setBucketSizeFromPosition(position);
-        HabitsApplication.getWidgetUpdater().updateWidgets();
+        HabitsApplication.getComponent().getWidgetUpdater().updateWidgets();
         refreshData();
     }
 

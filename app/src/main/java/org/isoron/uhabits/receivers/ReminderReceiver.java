@@ -64,7 +64,7 @@ public class ReminderReceiver extends BroadcastReceiver
     {
         super();
 
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         habits = component.getHabitList();
         taskRunner = component.getTaskRunner();
         reminderScheduler = component.getReminderScheduler();

@@ -58,7 +58,11 @@ public class ListHabitsScreenTest extends BaseUnitTest
     {
         super.setUp();
 
+        ActivityComponent activityComponent = mock(ActivityComponent.class);
+
         activity = mock(BaseActivity.class);
+        when(activity.getComponent()).thenReturn(activityComponent);
+
         rootView = mock(ListHabitsRootView.class);
         controller = mock(ListHabitsController.class);
         intent = mock(Intent.class);
@@ -82,28 +86,28 @@ public class ListHabitsScreenTest extends BaseUnitTest
     @Test
     public void testOnResult_bugReport()
     {
-        screen.onResult(0, HabitsApplication.RESULT_BUG_REPORT, null);
+        screen.onResult(0, ListHabitsScreen.RESULT_BUG_REPORT, null);
         verify(controller).onSendBugReport();
     }
 
     @Test
     public void testOnResult_exportCSV()
     {
-        screen.onResult(0, HabitsApplication.RESULT_EXPORT_CSV, null);
+        screen.onResult(0, ListHabitsScreen.RESULT_EXPORT_CSV, null);
         verify(controller).onExportCSV();
     }
 
     @Test
     public void testOnResult_exportDB()
     {
-        screen.onResult(0, HabitsApplication.RESULT_EXPORT_DB, null);
+        screen.onResult(0, ListHabitsScreen.RESULT_EXPORT_DB, null);
         verify(controller).onExportDB();
     }
 
     @Test
     public void testOnResult_importData()
     {
-        screen.onResult(0, HabitsApplication.RESULT_IMPORT_DATA, null);
+        screen.onResult(0, ListHabitsScreen.RESULT_IMPORT_DATA, null);
         testShowImportScreen();
     }
 
@@ -136,8 +140,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
         callback = mock(ConfirmDeleteDialog.Callback.class);
 
         ConfirmDeleteDialog dialog = mock(ConfirmDeleteDialog.class);
-        when(dialogFactory.buildConfirmDeleteDialog(activity,
-            callback)).thenReturn(dialog);
+        when(dialogFactory.buildConfirmDeleteDialog(callback)).thenReturn(dialog);
 
         screen.showDeleteConfirmationScreen(callback);
 
@@ -180,7 +183,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
         FilePickerDialog picker = mock(FilePickerDialog.class);
         AppCompatDialog dialog = mock(AppCompatDialog.class);
         when(picker.getDialog()).thenReturn(dialog);
-        when(dialogFactory.buildFilePicker(activity, dir)).thenReturn(picker);
+        when(dialogFactory.buildFilePicker(dir)).thenReturn(picker);
 
         screen.showImportScreen();
 

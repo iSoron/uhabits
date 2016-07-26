@@ -29,14 +29,14 @@ import javax.inject.*;
 @Singleton
 public class Preferences
 {
-    private Context context;
+    private final Context context;
 
     private SharedPreferences prefs;
 
     @Inject
-    public Preferences()
+    public Preferences(@AppContext Context context)
     {
-        this.context = HabitsApplication.getContext();
+        this.context = context;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 

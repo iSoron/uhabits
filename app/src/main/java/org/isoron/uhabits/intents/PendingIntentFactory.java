@@ -35,13 +35,12 @@ import static android.app.PendingIntent.*;
 @Singleton
 public class PendingIntentFactory
 {
-    @NonNull
     private final Context context;
 
     private IntentFactory intentFactory;
 
     @Inject
-    public PendingIntentFactory(@NonNull Context context)
+    public PendingIntentFactory(@AppContext Context context)
     {
         this.context = context;
         intentFactory = HabitsApplication.getComponent().getIntentFactory();

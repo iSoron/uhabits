@@ -42,9 +42,9 @@ public class DirFinder
     private final Context context;
 
     @Inject
-    public DirFinder()
+    public DirFinder(@AppContext Context context)
     {
-        context = HabitsApplication.getContext();
+        this.context = context;
     }
 
     @Nullable

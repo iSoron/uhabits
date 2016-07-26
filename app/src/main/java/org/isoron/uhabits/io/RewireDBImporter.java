@@ -23,6 +23,7 @@ import android.database.*;
 import android.database.sqlite.*;
 import android.support.annotation.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.*;

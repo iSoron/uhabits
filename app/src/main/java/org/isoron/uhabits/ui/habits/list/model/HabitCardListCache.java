@@ -66,7 +66,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         this.listener = new Listener() {};
         data = new CacheData();
 
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         commandRunner = component.getCommandRunner();
         taskRunner = component.getTaskRunner();
     }

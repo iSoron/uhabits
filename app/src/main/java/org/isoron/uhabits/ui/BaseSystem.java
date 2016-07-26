@@ -25,7 +25,6 @@ import android.support.annotation.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -47,17 +46,13 @@ public class BaseSystem
     private Context context;
 
     @Inject
-    HabitList habitList;
-
-    @Inject
     ReminderScheduler reminderScheduler;
 
     public BaseSystem(Context context)
     {
         this.context = context;
 
-        BaseComponent component = HabitsApplication.getComponent();
-        habitList = component.getHabitList();
+        AppComponent component = HabitsApplication.getComponent();
         reminderScheduler = component.getReminderScheduler();
     }
 

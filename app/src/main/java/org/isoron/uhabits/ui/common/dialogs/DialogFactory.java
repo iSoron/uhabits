@@ -23,6 +23,7 @@ import android.content.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.edit.*;
 
 import java.io.*;
@@ -31,21 +32,22 @@ import javax.inject.*;
 
 public class DialogFactory
 {
-    @Inject
-    public DialogFactory()
-    {
+    private final Context context;
 
+    @Inject
+    public DialogFactory(@ActivityContext Context context)
+    {
+        this.context = context;
     }
 
     @NonNull
     public ColorPickerDialog buildColorPicker(int paletteColor)
     {
-        return ColorPickerDialog.newInstance(paletteColor);
+        return ColorPickerDialog.newInstance(context, paletteColor);
     }
 
     @NonNull
     public ConfirmDeleteDialog buildConfirmDeleteDialog(
-        @NonNull Context context,
         @NonNull ConfirmDeleteDialog.Callback callback)
     {
         return new ConfirmDeleteDialog(context, callback);
@@ -64,7 +66,7 @@ public class DialogFactory
     }
 
     @NonNull
-    public FilePickerDialog buildFilePicker(Context context, File dir)
+    public FilePickerDialog buildFilePicker(File dir)
     {
         return new FilePickerDialog(context, dir);
     }

@@ -19,17 +19,16 @@
 
 package org.isoron.uhabits.io;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+import android.database.*;
+import android.database.sqlite.*;
+import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.GregorianCalendar;
+import java.io.*;
+import java.util.*;
 
 /**
  * Class that imports data from database files exported by Tickmate.

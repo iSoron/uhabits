@@ -17,44 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
-import org.isoron.uhabits.utils.*;
 
-/**
- * Base component for dependency injection.
- */
-public interface BaseComponent
+import dagger.*;
+
+@Component(modules = { ActivityModule.class })
+public interface ActivityComponent
 {
-    CommandRunner getCommandRunner();
-
     DialogFactory getDialogFactory();
-
-    DirFinder getDirFinder();
-
-    HabitList getHabitList();
-
-    HabitLogger getHabitLogger();
-
-    IntentFactory getIntentFactory();
-
-    IntentScheduler getIntentScheduler();
-
-    ModelFactory getModelFactory();
-
-    PendingIntentFactory getPendingIntentFactory();
-
-    Preferences getPreferences();
-
-    ReminderScheduler getReminderScheduler();
-
-    TaskRunner getTaskRunner();
-
-    WidgetPreferences getWidgetPreferences();
 }

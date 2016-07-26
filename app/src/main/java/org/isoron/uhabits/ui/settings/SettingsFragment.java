@@ -25,9 +25,8 @@ import android.os.*;
 import android.support.v7.preference.*;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ui.habits.list.*;
 import org.isoron.uhabits.utils.*;
-
-import static org.isoron.uhabits.HabitsApplication.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -55,10 +54,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        setResultOnPreferenceClick("importData", RESULT_IMPORT_DATA);
-        setResultOnPreferenceClick("exportCSV", RESULT_EXPORT_CSV);
-        setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
-        setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
+        setResultOnPreferenceClick("importData", ListHabitsScreen.RESULT_IMPORT_DATA);
+        setResultOnPreferenceClick("exportCSV", ListHabitsScreen.RESULT_EXPORT_CSV);
+        setResultOnPreferenceClick("exportDB", ListHabitsScreen.RESULT_EXPORT_DB);
+        setResultOnPreferenceClick("bugReport", ListHabitsScreen.RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
 

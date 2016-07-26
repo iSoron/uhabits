@@ -51,6 +51,13 @@ abstract public class BaseActivity extends AppCompatActivity
     @Nullable
     private BaseScreen screen;
 
+    private ActivityComponent component;
+
+    public ActivityComponent getComponent()
+    {
+        return component;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(@Nullable Menu menu)
     {
@@ -123,5 +130,10 @@ abstract public class BaseActivity extends AppCompatActivity
         InterfaceUtils.applyCurrentTheme(this);
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+
+        component = DaggerActivityComponent
+            .builder()
+            .activityModule(new ActivityModule(this))
+            .build();
     }
 }

@@ -57,11 +57,10 @@ public class WidgetReceiver extends BroadcastReceiver
 
     public WidgetReceiver()
     {
-        super();
-        habits = HabitsApplication.getComponent().getHabitList();
+        AppComponent component = HabitsApplication.getComponent();
+        habits = component.getHabitList();
+        actions = component.getReceiverActions();
         parser = new IntentParser(habits);
-        actions = new ReceiverActions();
-
     }
 
     @Override
@@ -96,20 +95,20 @@ public class WidgetReceiver extends BroadcastReceiver
     {
         IntentParser.CheckmarkIntentData data;
         data = parser.parseCheckmarkIntent(intent);
-        actions.add_repetition(data.habit, data.timestamp);
+        actions.addRepetition(data.habit, data.timestamp);
     }
 
     private void onActionRemoveRepetition(Intent intent)
     {
         IntentParser.CheckmarkIntentData data;
         data = parser.parseCheckmarkIntent(intent);
-        actions.remove_repetition(data.habit, data.timestamp);
+        actions.removeRepetition(data.habit, data.timestamp);
     }
 
     private void onActionToggleRepetition(Intent intent)
     {
         IntentParser.CheckmarkIntentData data;
         data = parser.parseCheckmarkIntent(intent);
-        actions.toggle_repetition(data.habit, data.timestamp);
+        actions.toggleRepetition(data.habit, data.timestamp);
     }
 }

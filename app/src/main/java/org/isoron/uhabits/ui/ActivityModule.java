@@ -17,51 +17,26 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
 import android.content.*;
 
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.tasks.*;
-
-import javax.inject.*;
-
 import dagger.*;
 
-/**
- * Module that provides dependencies when the application is running on
- * Android.
- * <p>
- * This module is also used for instrumented tests.
- */
 @Module
-public class AndroidModule
+public class ActivityModule
 {
-    @Provides
-    @Singleton
-    static HabitList provideHabitList()
+    private final Context context;
+
+    public ActivityModule(@ActivityContext Context context)
     {
-        return SQLiteHabitList.getInstance();
+        this.context = context;
     }
 
     @Provides
-    static ModelFactory provideModelFactory()
+    @ActivityContext
+    Context getContext()
     {
-        return new SQLModelFactory();
-    }
-
-    @Provides
-    @Singleton
-    static Context provideApplicationContext()
-    {
-        return HabitsApplication.getContext();
-    }
-
-    @Provides
-    @Singleton
-    static TaskRunner provideTaskRunner()
-    {
-        return new AndroidTaskRunner();
+        return context;
     }
 }

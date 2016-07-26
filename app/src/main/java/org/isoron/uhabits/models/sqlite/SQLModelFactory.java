@@ -23,22 +23,25 @@ import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
+import dagger.*;
+
 /**
  * Factory that provides models backed by an SQLite database.
  */
-@Singleton
+@Module
 public class SQLModelFactory implements ModelFactory
 {
-    @Inject
-    public SQLModelFactory()
+    @Provides
+    public static ModelFactory provideModelFactory()
     {
-
+        return new SQLModelFactory();
     }
 
-    @Override
-    public RepetitionList buildRepetitionList(Habit habit)
+    @Provides
+    @Singleton
+    static HabitList provideHabitList()
     {
-        return new SQLiteRepetitionList(habit);
+        return SQLiteHabitList.getInstance();
     }
 
     @Override
@@ -51,6 +54,12 @@ public class SQLModelFactory implements ModelFactory
     public HabitList buildHabitList()
     {
         return SQLiteHabitList.getInstance();
+    }
+
+    @Override
+    public RepetitionList buildRepetitionList(Habit habit)
+    {
+        return new SQLiteRepetitionList(habit);
     }
 
     @Override

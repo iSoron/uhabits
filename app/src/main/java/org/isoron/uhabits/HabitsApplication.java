@@ -35,30 +35,18 @@ import java.io.*;
  */
 public class HabitsApplication extends Application
 {
-    public static final int RESULT_BUG_REPORT = 4;
-
-    public static final int RESULT_EXPORT_CSV = 2;
-
-    public static final int RESULT_EXPORT_DB = 3;
-
-    public static final int RESULT_IMPORT_DATA = 1;
-
-    @Nullable
-    private static HabitsApplication application;
-
-    private static BaseComponent component;
-
-    @Nullable
     private static Context context;
+
+    private static AppComponent component;
 
     private static WidgetUpdater widgetUpdater;
 
-    public static BaseComponent getComponent()
+    public static AppComponent getComponent()
     {
         return component;
     }
 
-    public static void setComponent(BaseComponent component)
+    public static void setComponent(AppComponent component)
     {
         HabitsApplication.component = component;
     }
@@ -68,21 +56,6 @@ public class HabitsApplication extends Application
     {
         if (context == null) throw new RuntimeException("context is null");
         return context;
-    }
-
-    @Nullable
-    public static HabitsApplication getInstance()
-    {
-        return application;
-    }
-
-    @NonNull
-    public static WidgetUpdater getWidgetUpdater()
-    {
-        if (widgetUpdater == null) throw new RuntimeException(
-                "widgetUpdater is null");
-
-        return widgetUpdater;
     }
 
     public static boolean isTestMode()
@@ -107,8 +80,11 @@ public class HabitsApplication extends Application
     {
         super.onCreate();
         HabitsApplication.context = this;
-        HabitsApplication.application = this;
-        component = DaggerAndroidComponent.builder().build();
+
+        component = DaggerAppComponent
+            .builder()
+            .appModule(new AppModule(context))
+            .build();
 
         if (isTestMode())
         {
@@ -116,7 +92,7 @@ public class HabitsApplication extends Application
             if (db.exists()) db.delete();
         }
 
-        widgetUpdater = new WidgetUpdater(this);
+        widgetUpdater = component.getWidgetUpdater();
         widgetUpdater.startListening();
 
         DatabaseUtils.initializeActiveAndroid();

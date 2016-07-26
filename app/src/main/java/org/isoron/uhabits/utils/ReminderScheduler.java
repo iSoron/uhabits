@@ -44,10 +44,10 @@ public class ReminderScheduler
     @Inject
     public ReminderScheduler()
     {
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         pendingIntentFactory = component.getPendingIntentFactory();
         intentScheduler = component.getIntentScheduler();
-        logger = component.getHabitLogger();
+        logger = component.getHabitsLogger();
     }
 
     public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)

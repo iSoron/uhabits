@@ -21,12 +21,31 @@ package org.isoron.uhabits.models.memory;
 
 import org.isoron.uhabits.models.*;
 
+import javax.inject.*;
+
+import dagger.*;
+
+@Module
 public class MemoryModelFactory implements ModelFactory
 {
-    @Override
-    public RepetitionList buildRepetitionList(Habit habit)
+    @Provides
+    @Singleton
+    public static HabitList provideHabitList()
     {
-        return new MemoryRepetitionList(habit);
+        return new MemoryHabitList();
+    }
+
+    @Provides
+    @Singleton
+    public static ModelFactory provideModelFactory()
+    {
+        return new MemoryModelFactory();
+    }
+
+    @Override
+    public CheckmarkList buildCheckmarkList(Habit habit)
+    {
+        return new MemoryCheckmarkList(habit);
     }
 
     @Override
@@ -36,9 +55,9 @@ public class MemoryModelFactory implements ModelFactory
     }
 
     @Override
-    public CheckmarkList buildCheckmarkList(Habit habit)
+    public RepetitionList buildRepetitionList(Habit habit)
     {
-        return new MemoryCheckmarkList(habit);
+        return new MemoryRepetitionList(habit);
     }
 
     @Override

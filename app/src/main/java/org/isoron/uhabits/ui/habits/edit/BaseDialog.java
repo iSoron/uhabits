@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.ui.habits.edit;
 
+import android.app.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
@@ -26,10 +27,12 @@ import android.text.format.*;
 import android.view.*;
 
 import com.android.datetimepicker.time.*;
+import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
 import org.isoron.uhabits.utils.*;
 
@@ -63,11 +66,10 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     {
         View view = inflater.inflate(R.layout.edit_habit, container, false);
 
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         prefs = component.getPreferences();
         habitList = component.getHabitList();
         commandRunner = component.getCommandRunner();
-        dialogFactory = component.getDialogFactory();
 
         ButterKnife.bind(this, view);
 
@@ -77,6 +79,16 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         restoreSavedInstance(savedInstanceState);
         helper.populateForm(modifiedHabit);
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+
+        BaseActivity baseActivity = (BaseActivity) activity;
+        ActivityComponent component = baseActivity.getComponent();
+        dialogFactory = component.getDialogFactory();
     }
 
     @OnItemSelected(R.id.sFrequency)

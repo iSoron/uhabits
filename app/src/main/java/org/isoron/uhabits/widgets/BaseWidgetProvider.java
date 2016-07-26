@@ -42,7 +42,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     public BaseWidgetProvider()
     {
-        BaseComponent component = HabitsApplication.getComponent();
+        AppComponent component = HabitsApplication.getComponent();
         habits = component.getHabitList();
         widgetPrefs = component.getWidgetPreferences();
     }
