@@ -28,6 +28,9 @@ import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.utils.*;
 
+import javax.inject.*;
+
+@ActivityScope
 public class ListHabitsMenu extends BaseMenu
 {
     @NonNull
@@ -41,15 +44,16 @@ public class ListHabitsMenu extends BaseMenu
 
     private final Preferences preferences;
 
+    @Inject
     public ListHabitsMenu(@NonNull BaseActivity activity,
                           @NonNull ListHabitsScreen screen,
-                          @NonNull HabitCardListAdapter adapter)
+                          @NonNull HabitCardListAdapter adapter,
+                          @NonNull Preferences preferences)
     {
         super(activity);
         this.screen = screen;
         this.adapter = adapter;
-
-        preferences = HabitsApplication.getComponent().getPreferences();
+        this.preferences = preferences;
 
         showCompleted = preferences.getShowCompleted();
         showArchived = preferences.getShowArchived();

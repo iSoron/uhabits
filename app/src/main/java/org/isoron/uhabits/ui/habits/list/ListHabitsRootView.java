@@ -34,8 +34,11 @@ import org.isoron.uhabits.ui.habits.list.model.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 import org.isoron.uhabits.utils.*;
 
+import javax.inject.*;
+
 import butterknife.*;
 
+@ActivityScope
 public class ListHabitsRootView extends BaseRootView
     implements ModelObservable.Listener
 {
@@ -65,8 +68,9 @@ public class ListHabitsRootView extends BaseRootView
     @NonNull
     private final HabitCardListAdapter listAdapter;
 
-    public ListHabitsRootView(@NonNull Context context,
-                              @NonNull HabitCardListAdapter listAdapter)
+    @Inject
+    public ListHabitsRootView(@ActivityContext Context context,
+                              HabitCardListAdapter listAdapter)
     {
         super(context);
         addView(inflate(getContext(), R.layout.list_habits, null));

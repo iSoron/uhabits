@@ -33,13 +33,14 @@ import java.util.*;
 
 import javax.inject.*;
 
+@ActivityScope
 public class ListHabitsSelectionMenu extends BaseSelectionMenu
     implements HabitCardListController.SelectionListener
 {
     @NonNull
     private final ListHabitsScreen screen;
 
-    @Inject
+    @NonNull
     CommandRunner commandRunner;
 
     @NonNull
@@ -51,15 +52,16 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @NonNull
     private final HabitList habitList;
 
+    @Inject
     public ListHabitsSelectionMenu(@NonNull HabitList habitList,
                                    @NonNull ListHabitsScreen screen,
-                                   @NonNull HabitCardListAdapter listAdapter)
+                                   @NonNull HabitCardListAdapter listAdapter,
+                                   @NonNull CommandRunner commandRunner)
     {
         this.habitList = habitList;
         this.screen = screen;
         this.listAdapter = listAdapter;
-
-        commandRunner = HabitsApplication.getComponent().getCommandRunner();
+        this.commandRunner = commandRunner;
     }
 
     @Override

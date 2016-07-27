@@ -35,6 +35,9 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 import java.util.*;
 
+import javax.inject.*;
+
+@ActivityScope
 public class ListHabitsController
     implements HabitCardListController.HabitListener
 {
@@ -59,20 +62,30 @@ public class ListHabitsController
     @NonNull
     private final TaskRunner taskRunner;
 
-    public ListHabitsController(@NonNull HabitList habitList,
+    private ReminderScheduler reminderScheduler;
+
+    private WidgetUpdater widgetUpdater;
+
+    @Inject
+    public ListHabitsController(@NonNull BaseSystem system,
+                                @NonNull CommandRunner commandRunner,
+                                @NonNull HabitList habitList,
+                                @NonNull HabitCardListAdapter adapter,
                                 @NonNull ListHabitsScreen screen,
-                                @NonNull BaseSystem system,
-                                @NonNull HabitCardListAdapter adapter)
+                                @NonNull Preferences prefs,
+                                @NonNull ReminderScheduler reminderScheduler,
+                                @NonNull TaskRunner taskRunner,
+                                @NonNull WidgetUpdater widgetUpdater)
     {
+        this.adapter = adapter;
+        this.commandRunner = commandRunner;
+        this.habitList = habitList;
+        this.prefs = prefs;
         this.screen = screen;
         this.system = system;
-        this.habitList = habitList;
-        this.adapter = adapter;
-
-        AppComponent component = HabitsApplication.getComponent();
-        prefs = component.getPreferences();
-        taskRunner = component.getTaskRunner();
-        commandRunner = component.getCommandRunner();
+        this.taskRunner = taskRunner;
+        this.reminderScheduler = reminderScheduler;
+        this.widgetUpdater = widgetUpdater;
     }
 
     public void onExportCSV()
@@ -166,17 +179,10 @@ public class ListHabitsController
         prefs.updateLastAppVersion();
         if (prefs.isFirstRun()) onFirstRun();
 
-        new Handler().postDelayed(() ->
-        {
-            AppComponent component = HabitsApplication.getComponent();
-            ReminderScheduler scheduler = component.getReminderScheduler();
-            WidgetUpdater widgetUpdater = component.getWidgetUpdater();
-
-            taskRunner.execute(() -> {
-                scheduler.schedule(habitList);
-                widgetUpdater.updateWidgets();
-            });
-        }, 1000);
+        new Handler().postDelayed(() -> taskRunner.execute(() -> {
+            reminderScheduler.schedule(habitList);
+            widgetUpdater.updateWidgets();
+        }), 1000);
     }
 
     @Override

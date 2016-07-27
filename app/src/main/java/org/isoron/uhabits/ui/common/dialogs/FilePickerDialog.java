@@ -26,12 +26,17 @@ import android.view.*;
 import android.view.WindowManager.*;
 import android.widget.*;
 
+import com.google.auto.factory.*;
+
+import org.isoron.uhabits.ui.*;
+
 import java.io.*;
 import java.util.*;
 
 /**
  * Dialog that allows the user to pick a file.
  */
+@AutoFactory(allowSubclasses = true)
 public class FilePickerDialog implements AdapterView.OnItemClickListener
 {
     private static final String PARENT_DIR = "..";
@@ -46,7 +51,8 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener
 
     private OnFileSelectedListener listener;
 
-    public FilePickerDialog(Context context, File initialDirectory)
+    public FilePickerDialog(@Provided @ActivityContext Context context,
+                            File initialDirectory)
     {
         this.context = context;
 

@@ -17,36 +17,28 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.edit;
-
-import com.google.auto.factory.*;
+package org.isoron.uhabits.ui.habits.list;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.habits.list.model.*;
 
-@AutoFactory(allowSubclasses = true)
-public class CreateHabitDialog extends BaseDialog
+import dagger.*;
+
+@ActivityScope
+@Component(modules = { ActivityModule.class },
+           dependencies = { AppComponent.class })
+public interface ListHabitsComponent
 {
-    @Override
-    protected int getTitle()
-    {
-        return R.string.create_habit;
-    }
+    HabitCardListAdapter getAdapter();
 
-    @Override
-    protected void initializeHabits()
-    {
-        modifiedHabit = new Habit();
-        modifiedHabit.setFrequency(Frequency.DAILY);
-        modifiedHabit.setColor(
-            prefs.getDefaultHabitColor(modifiedHabit.getColor()));
-    }
+    ListHabitsController getController();
 
-    @Override
-    protected void saveHabit()
-    {
-        Command command = new CreateHabitCommand(habitList, modifiedHabit);
-        commandRunner.execute(command, null);
-    }
+    ListHabitsMenu getMenu();
+
+    ListHabitsRootView getRootView();
+
+    ListHabitsScreen getScreen();
+
+    ListHabitsSelectionMenu getSelectionMenu();
 }

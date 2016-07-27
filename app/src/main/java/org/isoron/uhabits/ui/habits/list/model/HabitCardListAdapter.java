@@ -24,9 +24,12 @@ import android.support.v7.widget.*;
 import android.view.*;
 
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.views.*;
 
 import java.util.*;
+
+import javax.inject.*;
 
 /**
  * Provides data that backs a {@link HabitCardListView}.
@@ -34,6 +37,7 @@ import java.util.*;
  * The data if fetched and cached by a {@link HabitCardListCache}. This adapter
  * also holds a list of items that have been selected.
  */
+@ActivityScope
 public class HabitCardListAdapter
     extends RecyclerView.Adapter<HabitCardViewHolder>
     implements HabitCardListCache.Listener
@@ -49,6 +53,12 @@ public class HabitCardListAdapter
 
     @NonNull
     private final HabitCardListCache cache;
+
+    @Inject
+    public HabitCardListAdapter(HabitList allHabits)
+    {
+        this(allHabits, 10);
+    }
 
     public HabitCardListAdapter(@NonNull HabitList allHabits,
                                 int checkmarkCount)

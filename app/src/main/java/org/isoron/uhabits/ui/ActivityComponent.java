@@ -23,6 +23,7 @@ import org.isoron.uhabits.ui.common.dialogs.*;
 
 import dagger.*;
 
+@ActivityScope
 @Component(modules = { ActivityModule.class })
 public interface ActivityComponent
 {

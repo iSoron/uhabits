@@ -22,7 +22,6 @@ package org.isoron.uhabits.ui.habits.list;
 import android.os.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.habits.list.model.*;
 
@@ -31,38 +30,30 @@ import org.isoron.uhabits.ui.habits.list.model.*;
  */
 public class ListHabitsActivity extends BaseActivity
 {
-    private HabitList habits;
-
     private HabitCardListAdapter adapter;
 
     private ListHabitsRootView rootView;
 
     private ListHabitsScreen screen;
 
-    private ListHabitsMenu menu;
-
-    private ListHabitsSelectionMenu selectionMenu;
-
-    private ListHabitsController controller;
-
-    private BaseSystem system;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        habits = HabitsApplication.getComponent().getHabitList();
 
-        int checkmarkCount = ListHabitsRootView.MAX_CHECKMARK_COUNT;
+        ListHabitsComponent component = DaggerListHabitsComponent
+            .builder()
+            .appComponent(HabitsApplication.getComponent())
+            .activityModule(new ActivityModule(this))
+            .build();
 
-        system = new BaseSystem(this);
-        adapter = new HabitCardListAdapter(habits, checkmarkCount);
+        ListHabitsMenu menu = component.getMenu();
+        ListHabitsSelectionMenu selectionMenu = component.getSelectionMenu();
+        ListHabitsController controller = component.getController();
 
-        rootView = new ListHabitsRootView(this, adapter);
-        screen = new ListHabitsScreen(this, rootView);
-        menu = new ListHabitsMenu(this, screen, adapter);
-        selectionMenu = new ListHabitsSelectionMenu(habits, screen, adapter);
-        controller = new ListHabitsController(habits, screen, system, adapter);
+        adapter = component.getAdapter();
+        rootView = component.getRootView();
+        screen = component.getScreen();
 
         screen.setMenu(menu);
         screen.setController(controller);

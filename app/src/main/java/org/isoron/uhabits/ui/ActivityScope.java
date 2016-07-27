@@ -17,36 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.common.dialogs;
-
-import android.content.*;
-import android.support.annotation.*;
-
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.*;
-import org.isoron.uhabits.ui.habits.edit.*;
+package org.isoron.uhabits.ui;
 
 import javax.inject.*;
 
-public class DialogFactory
+@Scope
+public @interface ActivityScope
 {
-    private final Context context;
-
-    @Inject
-    public DialogFactory(@ActivityContext Context context)
-    {
-        this.context = context;
-    }
-
-    @NonNull
-    public ColorPickerDialog buildColorPicker(int paletteColor)
-    {
-        return ColorPickerDialog.newInstance(context, paletteColor);
-    }
-
-    @NonNull
-    public EditHabitDialog buildEditHabitDialog(Habit habit)
-    {
-        return EditHabitDialog.newInstance(habit);
-    }
 }

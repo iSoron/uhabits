@@ -36,6 +36,9 @@ import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
+import javax.inject.*;
+
+@ActivityScope
 public class ListHabitsScreen extends BaseScreen
     implements CommandRunner.Listener
 {
@@ -48,7 +51,7 @@ public class ListHabitsScreen extends BaseScreen
     public static final int RESULT_IMPORT_DATA = 1;
 
     @Nullable
-    ListHabitsController controller;
+    private ListHabitsController controller;
 
     @NonNull
     private final DialogFactory dialogFactory;
@@ -59,19 +62,38 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private final DirFinder dirFinder;
 
+    @NonNull
     private final CommandRunner commandRunner;
 
+    @NonNull
+    private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
+
+    @NonNull
+    private final CreateHabitDialogFactory createHabitDialogFactory;
+
+    @NonNull
+    private final FilePickerDialogFactory filePickerDialogFactory;
+
+    @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
-                            @NonNull ListHabitsRootView rootView)
+                            @NonNull CommandRunner commandRunner,
+                            @NonNull DirFinder dirFinder,
+                            @NonNull DialogFactory dialogFactory,
+                            @NonNull ListHabitsRootView rootView,
+                            @NonNull IntentFactory intentFactory,
+                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                            @NonNull CreateHabitDialogFactory createHabitDialogFactory,
+                            @NonNull FilePickerDialogFactory filePickerDialogFactory)
     {
         super(activity);
         setRootView(rootView);
-
-        AppComponent comp = HabitsApplication.getComponent();
-        intentFactory = comp.getIntentFactory();
-        dirFinder = comp.getDirFinder();
-        commandRunner = comp.getCommandRunner();
-        dialogFactory = activity.getComponent().getDialogFactory();
+        this.commandRunner = commandRunner;
+        this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
+        this.createHabitDialogFactory = createHabitDialogFactory;
+        this.dialogFactory = dialogFactory;
+        this.dirFinder = dirFinder;
+        this.filePickerDialogFactory = filePickerDialogFactory;
+        this.intentFactory = intentFactory;
     }
 
     public void onAttached()
@@ -146,15 +168,12 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showCreateHabitScreen()
     {
-        CreateHabitDialog dialog = dialogFactory.buildCreateHabitDialog();
-        activity.showDialog(dialog, "editHabit");
+        activity.showDialog(createHabitDialogFactory.create(), "editHabit");
     }
 
     public void showDeleteConfirmationScreen(ConfirmDeleteDialog.Callback callback)
     {
-        ConfirmDeleteDialog dialog =
-            dialogFactory.buildConfirmDeleteDialog(callback);
-        activity.showDialog(dialog);
+        activity.showDialog(confirmDeleteDialogFactory.create(callback));
     }
 
     public void showEditHabitScreen(Habit habit)
@@ -185,7 +204,8 @@ public class ListHabitsScreen extends BaseScreen
             return;
         }
 
-        FilePickerDialog picker = dialogFactory.buildFilePicker(dir);
+        FilePickerDialog picker = filePickerDialogFactory.create(dir);
+
         if (controller != null)
             picker.setListener(file -> controller.onImportData(file));
         activity.showDialog(picker.getDialog());

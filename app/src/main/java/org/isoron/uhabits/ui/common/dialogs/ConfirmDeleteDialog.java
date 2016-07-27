@@ -20,16 +20,19 @@
 package org.isoron.uhabits.ui.common.dialogs;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.support.v7.app.*;
 
+import com.google.auto.factory.*;
+
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.ui.*;
 
 import butterknife.*;
 
 /**
  * Dialog that asks the user confirmation before executing a delete operation.
  */
+@AutoFactory(allowSubclasses = true)
 public class ConfirmDeleteDialog extends AlertDialog
 {
     @BindString(R.string.delete_habits_message)
@@ -41,8 +44,8 @@ public class ConfirmDeleteDialog extends AlertDialog
     @BindString(android.R.string.no)
     protected String no;
 
-    protected ConfirmDeleteDialog(@NonNull Context context,
-                                  @NonNull Callback callback)
+    protected ConfirmDeleteDialog(@Provided @ActivityContext Context context,
+                                  Callback callback)
     {
         super(context);
         ButterKnife.bind(this);

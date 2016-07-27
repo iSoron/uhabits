@@ -25,6 +25,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -37,6 +38,7 @@ import java.util.*;
  * the ListView very slow. It also registers itself as an observer of the
  * models, in order to update itself automatically.
  */
+@ActivityScope
 public class HabitCardListCache implements CommandRunner.Listener
 {
     private int checkmarkCount;

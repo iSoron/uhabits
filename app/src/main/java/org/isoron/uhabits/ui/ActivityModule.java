@@ -26,17 +26,29 @@ import dagger.*;
 @Module
 public class ActivityModule
 {
-    private final Context context;
+    private BaseActivity activity;
 
-    public ActivityModule(@ActivityContext Context context)
+    public ActivityModule(BaseActivity activity)
     {
-        this.context = context;
+        this.activity = activity;
+    }
+
+    @Provides
+    BaseActivity getActivity()
+    {
+        return activity;
     }
 
     @Provides
     @ActivityContext
     Context getContext()
     {
-        return context;
+        return activity;
+    }
+
+    @Provides
+    BaseSystem getBaseSystem()
+    {
+        return new BaseSystem(activity);
     }
 }

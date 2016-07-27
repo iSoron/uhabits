@@ -24,6 +24,9 @@ import android.content.*;
 import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.ui.common.dialogs.*;
@@ -35,6 +38,9 @@ import org.junit.runners.*;
 
 import java.io.*;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
@@ -52,31 +58,44 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private Intent intent;
 
+    private ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
+
+    private CreateHabitDialogFactory createHabitDialogFactory;
+
+    private FilePickerDialogFactory filePickerDialogFactory;
+
     @Before
     @Override
     public void setUp()
     {
         super.setUp();
 
-        ActivityComponent activityComponent = mock(ActivityComponent.class);
-
         activity = mock(BaseActivity.class);
-        when(activity.getComponent()).thenReturn(activityComponent);
-
+        commandRunner = mock(CommandRunner.class);
+        dirFinder = mock(DirFinder.class);
+        dialogFactory = mock(DialogFactory.class);
         rootView = mock(ListHabitsRootView.class);
+        intentFactory = mock(IntentFactory.class);
+        confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
+        createHabitDialogFactory = mock(CreateHabitDialogFactory.class);
+        filePickerDialogFactory = mock(FilePickerDialogFactory.class);
+
+        screen = new ListHabitsScreen(activity, commandRunner, dirFinder,
+            dialogFactory, rootView, intentFactory, confirmDeleteDialogFactory,
+            createHabitDialogFactory, filePickerDialogFactory);
+
         controller = mock(ListHabitsController.class);
-        intent = mock(Intent.class);
+        screen.setController(controller);
 
         habit = new Habit();
-        screen = new ListHabitsScreen(activity, rootView);
-        screen.setController(controller);
+        intent = mock(Intent.class);
     }
 
     @Test
     public void testCreateHabitScreen()
     {
         CreateHabitDialog dialog = mock(CreateHabitDialog.class);
-        when(dialogFactory.buildCreateHabitDialog()).thenReturn(dialog);
+        when(createHabitDialogFactory.create()).thenReturn(dialog);
 
         screen.showCreateHabitScreen();
 
@@ -140,7 +159,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
         callback = mock(ConfirmDeleteDialog.Callback.class);
 
         ConfirmDeleteDialog dialog = mock(ConfirmDeleteDialog.class);
-        when(dialogFactory.buildConfirmDeleteDialog(callback)).thenReturn(dialog);
+        when(confirmDeleteDialogFactory.create(callback)).thenReturn(dialog);
 
         screen.showDeleteConfirmationScreen(callback);
 
@@ -183,7 +202,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
         FilePickerDialog picker = mock(FilePickerDialog.class);
         AppCompatDialog dialog = mock(AppCompatDialog.class);
         when(picker.getDialog()).thenReturn(dialog);
-        when(dialogFactory.buildFilePicker(dir)).thenReturn(picker);
+        when(filePickerDialogFactory.create(dir)).thenReturn(picker);
 
         screen.showImportScreen();
 
