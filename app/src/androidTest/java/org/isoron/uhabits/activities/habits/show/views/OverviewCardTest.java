@@ -52,8 +52,6 @@ public class OverviewCardTest extends BaseViewTest
 
         view.setHabit(habit);
         view.refreshData();
-        waitForAsyncTasks();
-
         measureView(view, 800, 300);
     }
 

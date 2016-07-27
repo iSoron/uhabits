@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.tasks;
 
-import java.util.concurrent.*;
-
 import javax.inject.*;
 
 import dagger.*;
@@ -50,10 +48,4 @@ public class SingleThreadTaskRunner implements TaskRunner
         task.onProgressUpdate(progress);
     }
 
-    @Override
-    public void waitForTasks(long timeout)
-        throws TimeoutException, InterruptedException
-    {
-        // NOP
-    }
 }

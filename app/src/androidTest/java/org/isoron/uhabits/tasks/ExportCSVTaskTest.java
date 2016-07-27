@@ -62,7 +62,5 @@ public class ExportCSVTaskTest extends BaseAndroidTest
                 assertTrue(f.exists());
                 assertTrue(f.canRead());
             }));
-
-        waitForAsyncTasks();
     }
 }

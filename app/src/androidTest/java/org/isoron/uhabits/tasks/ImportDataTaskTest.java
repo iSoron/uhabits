@@ -67,8 +67,6 @@ public class ImportDataTaskTest extends BaseAndroidTest
 
         taskRunner.execute(new ImportDataTask(habitList, file,
             (result) -> assertThat(result, equalTo(expectedResult))));
-
-        waitForAsyncTasks();
     }
 
     private void copyAssetToFile(String assetPath, File dst) throws IOException

@@ -19,14 +19,9 @@
 
 package org.isoron.uhabits.tasks;
 
-import java.util.concurrent.*;
-
 public interface TaskRunner
 {
     void execute(Task task);
 
     void publishProgress(Task task, int progress);
-
-    void waitForTasks(long timeout)
-        throws TimeoutException, InterruptedException;
 }

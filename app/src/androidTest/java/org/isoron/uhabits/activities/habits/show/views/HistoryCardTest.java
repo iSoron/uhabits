@@ -52,7 +52,6 @@ public class HistoryCardTest extends BaseViewTest
 
         view.setHabit(habit);
         view.refreshData();
-        waitForAsyncTasks();
 
         measureView(view, 800, 600);
     }

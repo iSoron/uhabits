@@ -22,7 +22,6 @@ package org.isoron.uhabits.tasks;
 import android.os.*;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 import javax.inject.*;
 
@@ -57,27 +56,6 @@ public class AndroidTaskRunner implements TaskRunner
     {
         for (CustomAsyncTask asyncTask : activeTasks)
             if (asyncTask.getTask() == task) asyncTask.publish(progress);
-    }
-
-    @Override
-    public void waitForTasks(long timeout)
-        throws TimeoutException, InterruptedException
-    {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            throw new UnsupportedOperationException(
-                "waitForTasks requires API 16+");
-
-        int poolInterval = 100;
-
-        while (timeout > 0)
-        {
-            if (activeTasks.isEmpty()) return;
-
-            timeout -= poolInterval;
-            Thread.sleep(poolInterval);
-        }
-
-        throw new TimeoutException();
     }
 
     private class CustomAsyncTask extends AsyncTask<Void, Integer, Void>

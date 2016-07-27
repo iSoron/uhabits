@@ -55,6 +55,5 @@ public class ExportDBTaskTest extends BaseAndroidTest
         });
 
         taskRunner.execute(task);
-        waitForAsyncTasks();
     }
 }

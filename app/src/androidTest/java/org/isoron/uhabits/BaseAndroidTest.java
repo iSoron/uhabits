@@ -127,23 +127,4 @@ public class BaseAndroidTest
             fail();
         }
     }
-
-    @Deprecated
-    protected void waitForAsyncTasks()
-    {
-        try
-        {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            {
-                Thread.sleep(1000);
-                return;
-            }
-
-            taskRunner.waitForTasks(10000);
-        }
-        catch (Exception e)
-        {
-            fail();
-        }
-    }
 }
