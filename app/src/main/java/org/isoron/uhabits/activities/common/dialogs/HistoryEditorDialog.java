@@ -28,9 +28,9 @@ import android.support.v7.app.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
@@ -52,8 +52,11 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public HistoryEditorDialog()
     {
         this.controller = new Controller() {};
-        habitList = HabitsApplication.getComponent().getHabitList();
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        habitList = app.getComponent().getHabitList();
+        taskRunner = app.getComponent().getTaskRunner();
     }
 
     @Override
@@ -98,6 +101,13 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     }
 
     @Override
+    public void onPause()
+    {
+        habit.getCheckmarks().observable.removeListener(this);
+        super.onPause();
+    }
+
+    @Override
     public void onResume()
     {
         super.onResume();
@@ -112,13 +122,6 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
         refreshData();
         habit.getCheckmarks().observable.addListener(this);
-    }
-
-    @Override
-    public void onPause()
-    {
-        habit.getCheckmarks().observable.removeListener(this);
-        super.onPause();
     }
 
     @Override

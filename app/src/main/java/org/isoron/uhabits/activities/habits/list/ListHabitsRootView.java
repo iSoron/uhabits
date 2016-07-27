@@ -70,7 +70,8 @@ public class ListHabitsRootView extends BaseRootView
 
     @Inject
     public ListHabitsRootView(@ActivityContext Context context,
-                              HabitCardListAdapter listAdapter)
+                              @NonNull HintListFactory hintListFactory,
+                              @NonNull HabitCardListAdapter listAdapter)
     {
         super(context);
         addView(inflate(getContext(), R.layout.list_habits, null));
@@ -85,7 +86,7 @@ public class ListHabitsRootView extends BaseRootView
 
         String hints[] =
             getContext().getResources().getStringArray(R.array.hints);
-        HintList hintList = new HintList(hints);
+        HintList hintList = hintListFactory.create(hints);
         hintView.setHints(hintList);
     }
 

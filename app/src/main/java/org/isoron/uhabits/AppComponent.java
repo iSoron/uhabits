@@ -49,8 +49,6 @@ public interface AppComponent
 
     IntentFactory getIntentFactory();
 
-    IntentScheduler getIntentScheduler();
-
     ModelFactory getModelFactory();
 
     PendingIntentFactory getPendingIntentFactory();

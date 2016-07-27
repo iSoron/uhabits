@@ -24,9 +24,9 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -65,7 +65,10 @@ public class StreakCard extends HabitCard
 
     private void init()
     {
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        taskRunner = app.getComponent().getTaskRunner();
+
         inflate(getContext(), R.layout.show_habit_streak, this);
         ButterKnife.bind(this);
         setOrientation(VERTICAL);

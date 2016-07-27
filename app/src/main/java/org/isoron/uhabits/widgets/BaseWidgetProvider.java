@@ -35,16 +35,9 @@ import static org.isoron.uhabits.utils.WidgetUtils.*;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
-    private final HabitList habits;
+    private HabitList habits;
 
-    private final WidgetPreferences widgetPrefs;
-
-    public BaseWidgetProvider()
-    {
-        AppComponent component = HabitsApplication.getComponent();
-        habits = component.getHabitList();
-        widgetPrefs = component.getWidgetPreferences();
-    }
+    private WidgetPreferences widgetPrefs;
 
     @Override
     public void onAppWidgetOptionsChanged(@Nullable Context context,
@@ -58,6 +51,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
             context.setTheme(R.style.TransparentWidgetTheme);
+
+            updateDependencies(context);
 
             BaseWidget widget = getWidgetFromId(context, widgetId);
             WidgetDimensions dims = getDimensionsFromOptions(context, options);
@@ -77,6 +72,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (ids == null) throw new RuntimeException("ids is null");
 
+        updateDependencies(context);
+
         for (int id : ids)
         {
             BaseWidget widget = getWidgetFromId(context, id);
@@ -93,6 +90,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
         context.setTheme(R.style.TransparentWidgetTheme);
+
+        updateDependencies(context);
 
         new Handler().postDelayed(() -> {
             for (int id : widgetIds)
@@ -145,5 +144,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             drawErrorWidget(context, manager, widgetId);
             e.printStackTrace();
         }
+    }
+
+    private void updateDependencies(Context context)
+    {
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+        habits = app.getComponent().getHabitList();
+        widgetPrefs = app.getComponent().getWidgetPreferences();
     }
 }

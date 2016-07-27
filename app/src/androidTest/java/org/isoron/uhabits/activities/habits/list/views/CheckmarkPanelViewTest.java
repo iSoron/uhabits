@@ -50,7 +50,7 @@ public class CheckmarkPanelViewTest extends BaseViewTest
         setSimilarityCutoff(0.03f);
         prefs.setShouldReverseCheckmarks(false);
 
-        Habit habit = new Habit();
+        Habit habit = fixtures.createEmptyHabit();
 
         latch = new CountDownLatch(1);
         checkmarks = new int[]{

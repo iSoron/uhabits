@@ -47,25 +47,24 @@ public class WidgetReceiver extends BroadcastReceiver
         "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
 
     @NonNull
-    private final HabitList habits;
+    private HabitList habits;
 
     @NonNull
-    private final IntentParser parser;
+    private IntentParser parser;
 
     @NonNull
-    private final ReceiverActions actions;
-
-    public WidgetReceiver()
-    {
-        AppComponent component = HabitsApplication.getComponent();
-        habits = component.getHabitList();
-        actions = component.getReceiverActions();
-        parser = new IntentParser(habits);
-    }
+    private ReceiverActions actions;
 
     @Override
     public void onReceive(final Context context, Intent intent)
     {
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+
+        habits = app.getComponent().getHabitList();
+        actions = app.getComponent().getReceiverActions();
+        parser = new IntentParser(habits);
+
         Log.d("WidgetReceiver",
             String.format("Received intent: %s", intent.toString()));
         try

@@ -21,13 +21,15 @@ package org.isoron.uhabits.activities.habits.list.model;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
+import com.google.auto.factory.*;
+
 import org.isoron.uhabits.utils.*;
 
 /**
  * Provides a list of hints to be shown at the application startup, and takes
  * care of deciding when a new hint should be shown.
  */
+@AutoFactory
 public class HintList
 {
     private final Preferences prefs;
@@ -40,10 +42,11 @@ public class HintList
      *
      * @param hints initial list of hints
      */
-    public HintList(@NonNull String hints[])
+    public HintList(@Provided @NonNull Preferences prefs,
+                    @NonNull String hints[])
     {
+        this.prefs = prefs;
         this.hints = hints;
-        prefs = HabitsApplication.getComponent().getPreferences();
     }
 
     /**

@@ -25,11 +25,16 @@ package org.isoron.uhabits.models;
  */
 public interface ModelFactory
 {
-    RepetitionList buildRepetitionList(Habit habit);
-
     CheckmarkList buildCheckmarkList(Habit habit);
 
+    default Habit buildHabit()
+    {
+        return new Habit(this);
+    }
+
     HabitList buildHabitList();
+
+    RepetitionList buildRepetitionList(Habit habit);
 
     ScoreList buildScoreList(Habit habit);
 

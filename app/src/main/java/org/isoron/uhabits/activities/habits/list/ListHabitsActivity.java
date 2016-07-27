@@ -41,9 +41,11 @@ public class ListHabitsActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
 
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+
         ListHabitsComponent component = DaggerListHabitsComponent
             .builder()
-            .appComponent(HabitsApplication.getComponent())
+            .appComponent(app.getComponent())
             .activityModule(new ActivityModule(this))
             .build();
 

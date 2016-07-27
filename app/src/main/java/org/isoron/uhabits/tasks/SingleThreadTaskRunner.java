@@ -30,7 +30,7 @@ public class SingleThreadTaskRunner implements TaskRunner
 {
     @Provides
     @Singleton
-    public static SingleThreadTaskRunner getInstance()
+    public static TaskRunner getInstance()
     {
         return new SingleThreadTaskRunner();
     }

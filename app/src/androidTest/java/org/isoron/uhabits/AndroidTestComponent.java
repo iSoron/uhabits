@@ -17,20 +17,21 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
+package org.isoron.uhabits;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
+
+import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.tasks.*;
+
+import javax.inject.*;
 
 import dagger.*;
 
-@ActivityScope
-@Component(modules = { ActivityModule.class },
-           dependencies = { AppComponent.class })
-public interface ActivityComponent
+@Singleton
+@Component(modules = {
+    AppModule.class, SingleThreadTaskRunner.class, SQLModelFactory.class
+})
+public interface AndroidTestComponent extends AppComponent
 {
-    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
 
-    DialogFactory getDialogFactory();
 }

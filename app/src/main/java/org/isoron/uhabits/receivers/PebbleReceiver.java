@@ -40,28 +40,17 @@ public class PebbleReceiver extends PebbleDataReceiver
     public static final UUID WATCHAPP_UUID =
         UUID.fromString("82629d99-8ea6-4631-a022-9ca77a12a058");
 
-    private final HabitList allHabits;
+    private HabitList allHabits;
 
-    private final CommandRunner commandRunner;
+    private CommandRunner commandRunner;
 
-    private final TaskRunner taskRunner;
+    private TaskRunner taskRunner;
 
-    private final HabitList filteredHabits;
+    private HabitList filteredHabits;
 
     public PebbleReceiver()
     {
         super(WATCHAPP_UUID);
-        AppComponent component = HabitsApplication.getComponent();
-        commandRunner = component.getCommandRunner();
-        taskRunner = component.getTaskRunner();
-        allHabits = component.getHabitList();
-
-        HabitMatcher build = new HabitMatcherBuilder()
-            .setArchivedAllowed(false)
-            .setCompletedAllowed(false)
-            .build();
-
-        filteredHabits = allHabits.getFiltered(build);
     }
 
     @Override
@@ -71,6 +60,20 @@ public class PebbleReceiver extends PebbleDataReceiver
     {
         if (context == null) throw new RuntimeException("context is null");
         if (data == null) throw new RuntimeException("data is null");
+
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+
+        commandRunner = app.getComponent().getCommandRunner();
+        taskRunner = app.getComponent().getTaskRunner();
+        allHabits = app.getComponent().getHabitList();
+
+        HabitMatcher build = new HabitMatcherBuilder()
+            .setArchivedAllowed(false)
+            .setCompletedAllowed(false)
+            .build();
+
+        filteredHabits = allHabits.getFiltered(build);
 
         PebbleKit.sendAckToPebble(context, transactionId);
         Log.d("PebbleReceiver", "<-- " + data.getString(0));

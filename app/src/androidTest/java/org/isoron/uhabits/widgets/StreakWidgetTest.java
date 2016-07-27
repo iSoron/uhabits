@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.widgets;
+package org.isoron.uhabits.widgets;
 
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
@@ -25,15 +25,14 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.widgets.*;
 import org.junit.*;
 import org.junit.runner.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class ScoreWidgetTest extends BaseViewTest
+public class StreakWidgetTest extends BaseViewTest
 {
-    private static final String PATH = "widgets/ScoreWidget/";
+    private static final String PATH = "widgets/StreakWidget/";
 
     private Habit habit;
 
@@ -46,14 +45,14 @@ public class ScoreWidgetTest extends BaseViewTest
         setTheme(R.style.TransparentWidgetTheme);
 
         habit = fixtures.createLongHabit();
-        ScoreWidget widget = new ScoreWidget(targetContext, 0, habit);
+        StreakWidget widget = new StreakWidget(targetContext, 0, habit);
         view = convertToView(widget, 400, 400);
     }
 
     @Test
     public void testIsInstalled()
     {
-        assertWidgetProviderIsInstalled(ScoreWidgetProvider.class);
+        assertWidgetProviderIsInstalled(StreakWidgetProvider.class);
     }
 
     @Test

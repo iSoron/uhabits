@@ -23,9 +23,10 @@ import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.view.*;
 
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
+import org.isoron.uhabits.models.*;
 
 import java.util.*;
 
@@ -55,20 +56,14 @@ public class HabitCardListAdapter
     private final HabitCardListCache cache;
 
     @Inject
-    public HabitCardListAdapter(HabitList allHabits)
-    {
-        this(allHabits, 10);
-    }
-
-    public HabitCardListAdapter(@NonNull HabitList allHabits,
-                                int checkmarkCount)
+    public HabitCardListAdapter(@NonNull HabitCardListCache cache)
     {
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
+        this.cache = cache;
 
-        cache = new HabitCardListCache(allHabits);
         cache.setListener(this);
-        cache.setCheckmarkCount(checkmarkCount);
+        cache.setCheckmarkCount(ListHabitsRootView.MAX_CHECKMARK_COUNT);
 
         setHasStableIds(true);
     }

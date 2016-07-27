@@ -48,7 +48,9 @@ public class HeaderView extends LinearLayout
             setButtonCount(5);
         }
 
-        prefs = HabitsApplication.getComponent().getPreferences();
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+        prefs = app.getComponent().getPreferences();
     }
 
     public void setButtonCount(int buttonCount)

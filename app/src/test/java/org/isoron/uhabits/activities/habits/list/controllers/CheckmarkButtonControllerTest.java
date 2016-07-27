@@ -20,8 +20,9 @@
 package org.isoron.uhabits.activities.habits.list.controllers;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import static org.mockito.Mockito.*;
@@ -38,6 +39,8 @@ public class CheckmarkButtonControllerTest extends BaseUnitTest
 
     private int timestamp;
 
+    private Preferences prefs;
+
     @Override
     @Before
     public void setUp()
@@ -46,10 +49,12 @@ public class CheckmarkButtonControllerTest extends BaseUnitTest
 
         timestamp = 0;
         habit = mock(Habit.class);
+        prefs = mock(Preferences.class);
 
         this.view = mock(CheckmarkButtonView.class);
         this.listener = mock(CheckmarkButtonController.Listener.class);
-        this.controller = new CheckmarkButtonController(habit, timestamp);
+        this.controller =
+            new CheckmarkButtonController(prefs, habit, timestamp);
         controller.setView(view);
         controller.setListener(listener);
     }

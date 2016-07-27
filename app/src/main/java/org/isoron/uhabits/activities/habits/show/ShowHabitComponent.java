@@ -17,20 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
+package org.isoron.uhabits.activities.habits.show;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
+import org.isoron.uhabits.activities.*;
 
 import dagger.*;
 
 @ActivityScope
-@Component(modules = { ActivityModule.class },
+@Component(modules = { ShowHabitModule.class },
            dependencies = { AppComponent.class })
-public interface ActivityComponent
+public interface ShowHabitComponent
 {
-    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
+    ShowHabitController getController();
 
-    DialogFactory getDialogFactory();
+    ShowHabitsMenu getMenu();
+
+    ShowHabitRootView getRootView();
+
+    ShowHabitScreen getScreen();
 }

@@ -25,11 +25,14 @@ import android.view.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 
+import javax.inject.*;
+
 public class ShowHabitsMenu extends BaseMenu
 {
     @NonNull
     private final ShowHabitScreen screen;
 
+    @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
                           @NonNull ShowHabitScreen screen)
     {

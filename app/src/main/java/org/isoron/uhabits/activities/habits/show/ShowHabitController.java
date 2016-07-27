@@ -21,10 +21,11 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
+
+import javax.inject.*;
 
 public class ShowHabitController
     implements ShowHabitRootView.Controller, HistoryEditorDialog.Controller
@@ -35,14 +36,17 @@ public class ShowHabitController
     @NonNull
     private final Habit habit;
 
+    @NonNull
     private final CommandRunner commandRunner;
 
+    @Inject
     public ShowHabitController(@NonNull ShowHabitScreen screen,
+                               @NonNull CommandRunner commandRunner,
                                @NonNull Habit habit)
     {
-        commandRunner = HabitsApplication.getComponent().getCommandRunner();
         this.screen = screen;
         this.habit = habit;
+        this.commandRunner = commandRunner;
     }
 
     @Override

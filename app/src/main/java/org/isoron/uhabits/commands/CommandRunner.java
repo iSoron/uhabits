@@ -21,7 +21,6 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.tasks.*;
 
 import java.util.*;
@@ -42,9 +41,9 @@ public class CommandRunner
     private LinkedList<Listener> listeners;
 
     @Inject
-    public CommandRunner()
+    public CommandRunner(@NonNull TaskRunner taskRunner)
     {
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+        this.taskRunner = taskRunner;
         listeners = new LinkedList<>();
     }
 

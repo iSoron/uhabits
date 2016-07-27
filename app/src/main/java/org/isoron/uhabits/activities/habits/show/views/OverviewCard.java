@@ -82,7 +82,9 @@ public class OverviewCard extends HabitCard
 
     private void init()
     {
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        taskRunner = app.getComponent().getTaskRunner();
         inflate(getContext(), R.layout.show_habit_overview, this);
         ButterKnife.bind(this);
         cache = new Cache();

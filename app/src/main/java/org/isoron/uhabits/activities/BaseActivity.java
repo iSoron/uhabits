@@ -25,6 +25,7 @@ import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.view.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
 /**
@@ -131,9 +132,12 @@ abstract public class BaseActivity extends AppCompatActivity
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
 
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+
         component = DaggerActivityComponent
             .builder()
             .activityModule(new ActivityModule(this))
+            .appComponent(app.getComponent())
             .build();
     }
 }

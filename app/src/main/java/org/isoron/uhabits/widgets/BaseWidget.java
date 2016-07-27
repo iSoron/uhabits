@@ -27,6 +27,7 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.utils.*;
 
 import static android.os.Build.VERSION.*;
@@ -45,11 +46,18 @@ public abstract class BaseWidget
     @NonNull
     private final Context context;
 
+    protected final PendingIntentFactory pendingIntentFactory;
+
     public BaseWidget(@NonNull Context context, int id)
     {
         this.id = id;
         this.context = context;
-        prefs = HabitsApplication.getComponent().getWidgetPreferences();
+
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+
+        prefs = app.getComponent().getWidgetPreferences();
+        pendingIntentFactory = app.getComponent().getPendingIntentFactory();
         dimensions = new WidgetDimensions(0, 0, 0, 0);
     }
 

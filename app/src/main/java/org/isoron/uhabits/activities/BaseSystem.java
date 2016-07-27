@@ -41,19 +41,15 @@ import javax.inject.*;
  * a bug report, obtaining device information, or requesting runtime
  * permissions.
  */
+@ActivityScope
 public class BaseSystem
 {
     private Context context;
 
     @Inject
-    ReminderScheduler reminderScheduler;
-
-    public BaseSystem(Context context)
+    public BaseSystem(@ActivityContext Context context)
     {
         this.context = context;
-
-        AppComponent component = HabitsApplication.getComponent();
-        reminderScheduler = component.getReminderScheduler();
     }
 
     /**

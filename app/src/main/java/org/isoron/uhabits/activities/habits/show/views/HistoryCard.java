@@ -25,9 +25,9 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -79,7 +79,10 @@ public class HistoryCard extends HabitCard
     {
         inflate(getContext(), R.layout.show_habit_history, this);
         ButterKnife.bind(this);
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        taskRunner = app.getComponent().getTaskRunner();
         controller = new Controller() {};
         if (isInEditMode()) initEditMode();
     }

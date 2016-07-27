@@ -40,10 +40,11 @@ public class PendingIntentFactory
     private IntentFactory intentFactory;
 
     @Inject
-    public PendingIntentFactory(@AppContext Context context)
+    public PendingIntentFactory(@AppContext Context context,
+                                @NonNull IntentFactory intentFactory)
     {
         this.context = context;
-        intentFactory = HabitsApplication.getComponent().getIntentFactory();
+        this.intentFactory = intentFactory;
     }
 
     public PendingIntent addCheckmark(@NonNull Habit habit,
@@ -55,7 +56,7 @@ public class PendingIntentFactory
         checkIntent.setAction(WidgetReceiver.ACTION_ADD_REPETITION);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 1, checkIntent,
-                FLAG_UPDATE_CURRENT);
+            FLAG_UPDATE_CURRENT);
     }
 
     public PendingIntent dismissNotification()
@@ -63,7 +64,17 @@ public class PendingIntentFactory
         Intent deleteIntent = new Intent(context, ReminderReceiver.class);
         deleteIntent.setAction(WidgetReceiver.ACTION_DISMISS_REMINDER);
         return PendingIntent.getBroadcast(context, 0, deleteIntent,
-                FLAG_UPDATE_CURRENT);
+            FLAG_UPDATE_CURRENT);
+    }
+
+    public PendingIntent showHabit(Habit habit)
+    {
+        Intent intent = intentFactory.startShowHabitActivity(context, habit);
+
+        return android.support.v4.app.TaskStackBuilder
+            .create(context)
+            .addNextIntentWithParentStack(intent)
+            .getPendingIntent(0, FLAG_UPDATE_CURRENT);
     }
 
     public PendingIntent showReminder(@NonNull Habit habit,
@@ -79,7 +90,7 @@ public class PendingIntentFactory
         intent.putExtra("reminderTime", reminderTime);
         int reqCode = ((int) (habit.getId() % Integer.MAX_VALUE)) + 1;
         return PendingIntent.getBroadcast(context, reqCode, intent,
-                FLAG_UPDATE_CURRENT);
+            FLAG_UPDATE_CURRENT);
     }
 
     public PendingIntent snoozeNotification(@NonNull Habit habit)
@@ -89,7 +100,7 @@ public class PendingIntentFactory
         snoozeIntent.setData(data);
         snoozeIntent.setAction(ReminderReceiver.ACTION_SNOOZE_REMINDER);
         return PendingIntent.getBroadcast(context, 0, snoozeIntent,
-                FLAG_UPDATE_CURRENT);
+            FLAG_UPDATE_CURRENT);
     }
 
     public PendingIntent toggleCheckmark(@NonNull Habit habit,
@@ -101,16 +112,6 @@ public class PendingIntentFactory
         checkIntent.setAction(WidgetReceiver.ACTION_TOGGLE_REPETITION);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 2, checkIntent,
-                FLAG_UPDATE_CURRENT);
-    }
-
-    public PendingIntent showHabit(Habit habit)
-    {
-        Intent intent = intentFactory.startShowHabitActivity(context, habit);
-
-        return android.support.v4.app.TaskStackBuilder
-                .create(context)
-                .addNextIntentWithParentStack(intent)
-                .getPendingIntent(0, FLAG_UPDATE_CURRENT);
+            FLAG_UPDATE_CURRENT);
     }
 }

@@ -21,14 +21,15 @@ package org.isoron.uhabits.activities.habits.list.model;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
+
+import javax.inject.*;
 
 /**
  * A HabitCardListCache fetches and keeps a cache of all the data necessary to
@@ -61,16 +62,18 @@ public class HabitCardListCache implements CommandRunner.Listener
 
     private final CommandRunner commandRunner;
 
-    public HabitCardListCache(@NonNull HabitList allHabits)
+    @Inject
+    public HabitCardListCache(@NonNull HabitList allHabits,
+                              @NonNull CommandRunner commandRunner,
+                              @NonNull TaskRunner taskRunner)
     {
         this.allHabits = allHabits;
+        this.commandRunner = commandRunner;
         this.filteredHabits = allHabits;
+        this.taskRunner = taskRunner;
+
         this.listener = new Listener() {};
         data = new CacheData();
-
-        AppComponent component = HabitsApplication.getComponent();
-        commandRunner = component.getCommandRunner();
-        taskRunner = component.getTaskRunner();
     }
 
     public void cancelTasks()

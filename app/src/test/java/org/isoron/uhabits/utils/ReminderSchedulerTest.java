@@ -42,7 +42,9 @@ public class ReminderSchedulerTest extends BaseUnitTest
     {
         super.setUp();
         intent = mock(PendingIntent.class);
-        reminderScheduler = new ReminderScheduler();
+        reminderScheduler =
+            new ReminderScheduler(pendingIntentFactory, intentScheduler,
+                logger);
         habit = fixtures.createEmptyHabit();
     }
 

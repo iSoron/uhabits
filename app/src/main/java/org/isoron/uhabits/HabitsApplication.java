@@ -41,7 +41,13 @@ public class HabitsApplication extends Application
 
     private static WidgetUpdater widgetUpdater;
 
-    public static AppComponent getComponent()
+    @Deprecated
+    public static AppComponent getStaticComponent()
+    {
+        return component;
+    }
+
+    public AppComponent getComponent()
     {
         return component;
     }

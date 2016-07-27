@@ -24,6 +24,7 @@ import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -33,9 +34,6 @@ public class BaseUnitTest
 {
     // 8:00am, January 25th, 2015 (UTC)
     public static final long FIXED_LOCAL_TIME = 1422172800000L;
-
-    @Inject
-    protected Preferences prefs;
 
     @Inject
     protected ModelFactory modelFactory;
@@ -68,6 +66,8 @@ public class BaseUnitTest
 
     protected HabitFixtures fixtures;
 
+    protected SingleThreadTaskRunner taskRunner;
+
     public void log(String format, Object... args)
     {
         System.out.println(String.format(format, args));
@@ -80,7 +80,8 @@ public class BaseUnitTest
         testComponent = DaggerTestComponent.create();
         HabitsApplication.setComponent(testComponent);
         testComponent.inject(this);
-        fixtures = new HabitFixtures(habitList);
+        fixtures = new HabitFixtures(modelFactory, habitList);
+        taskRunner = new SingleThreadTaskRunner();
     }
 
     @After

@@ -24,9 +24,9 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -65,7 +65,10 @@ public class FrequencyCard extends HabitCard
     {
         inflate(getContext(), R.layout.show_habit_frequency, this);
         ButterKnife.bind(this);
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
+
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        taskRunner = app.getComponent().getTaskRunner();
 
         if (isInEditMode()) initEditMode();
     }

@@ -42,12 +42,13 @@ public class ReminderScheduler
     private final HabitLogger logger;
 
     @Inject
-    public ReminderScheduler()
+    public ReminderScheduler(@NonNull PendingIntentFactory pendingIntentFactory,
+                             @NonNull IntentScheduler intentScheduler,
+                             @NonNull HabitLogger logger)
     {
-        AppComponent component = HabitsApplication.getComponent();
-        pendingIntentFactory = component.getPendingIntentFactory();
-        intentScheduler = component.getIntentScheduler();
-        logger = component.getHabitsLogger();
+        this.pendingIntentFactory = pendingIntentFactory;
+        this.intentScheduler = intentScheduler;
+        this.logger = logger;
     }
 
     public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)

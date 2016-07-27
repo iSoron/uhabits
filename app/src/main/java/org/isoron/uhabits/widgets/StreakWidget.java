@@ -25,15 +25,14 @@ import android.support.annotation.*;
 import android.view.*;
 import android.view.ViewGroup.*;
 
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.widgets.views.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.widgets.views.*;
 
 import java.util.*;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.*;
 
 public class StreakWidget extends BaseWidget
 {
@@ -49,8 +48,7 @@ public class StreakWidget extends BaseWidget
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        PendingIntentFactory factory = new PendingIntentFactory(context);
-        return factory.showHabit(habit);
+        return pendingIntentFactory.showHabit(habit);
     }
 
     @Override

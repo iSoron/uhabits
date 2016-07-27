@@ -123,12 +123,12 @@ public class ListHabitsScreenTest extends BaseUnitTest
         verify(controller).onExportDB();
     }
 
-    @Test
-    public void testOnResult_importData()
-    {
-        screen.onResult(0, ListHabitsScreen.RESULT_IMPORT_DATA, null);
-        testShowImportScreen();
-    }
+//    @Test
+//    public void testOnResult_importData()
+//    {
+//        screen.onResult(0, ListHabitsScreen.RESULT_IMPORT_DATA, null);
+//        testShowImportScreen();
+//    }
 
     @Test
     public void testShowAboutScreen() throws Exception
@@ -209,12 +209,12 @@ public class ListHabitsScreenTest extends BaseUnitTest
         verify(activity).showDialog(dialog);
     }
 
-    @Test
-    public void testShowImportScreen_withInvalidPath()
-    {
-        when(dirFinder.findStorageDir(any())).thenReturn(null);
-        screen.showImportScreen();
-    }
+//    @Test
+//    public void testShowImportScreen_withInvalidPath()
+//    {
+//        when(dirFinder.findStorageDir(any())).thenReturn(null);
+//        screen.showImportScreen();
+//    }
 
     @Test
     public void testShowIntroScreen()

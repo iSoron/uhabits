@@ -25,9 +25,9 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -83,7 +83,9 @@ public class ScoreCard extends HabitCard
     public void onItemSelected(int position)
     {
         setBucketSizeFromPosition(position);
-        HabitsApplication.getComponent().getWidgetUpdater().updateWidgets();
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        app.getComponent().getWidgetUpdater().updateWidgets();
         refreshData();
     }
 
@@ -101,8 +103,10 @@ public class ScoreCard extends HabitCard
 
     private void init()
     {
-        taskRunner = HabitsApplication.getComponent().getTaskRunner();
-        prefs = HabitsApplication.getComponent().getPreferences();
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        taskRunner = app.getComponent().getTaskRunner();
+        prefs = app.getComponent().getPreferences();
 
         inflate(getContext(), R.layout.show_habit_score, this);
         ButterKnife.bind(this);

@@ -66,7 +66,9 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     {
         View view = inflater.inflate(R.layout.edit_habit, container, false);
 
-        AppComponent component = HabitsApplication.getComponent();
+        HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
+        AppComponent component = app.getComponent();
+
         prefs = component.getPreferences();
         habitList = component.getHabitList();
         commandRunner = component.getCommandRunner();

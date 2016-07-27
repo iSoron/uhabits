@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.widgets;
+package org.isoron.uhabits.widgets;
 
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;

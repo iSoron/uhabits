@@ -34,21 +34,15 @@ public class ActivityModule
     }
 
     @Provides
-    BaseActivity getActivity()
+    public BaseActivity getActivity()
     {
         return activity;
     }
 
     @Provides
     @ActivityContext
-    Context getContext()
+    public Context getContext()
     {
         return activity;
-    }
-
-    @Provides
-    BaseSystem getBaseSystem()
-    {
-        return new BaseSystem(activity);
     }
 }

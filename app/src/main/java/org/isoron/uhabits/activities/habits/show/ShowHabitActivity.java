@@ -25,8 +25,8 @@ import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.models.*;
 
 /**
  * Activity that allows the user to see more information about a single habit.
@@ -37,30 +37,27 @@ public class ShowHabitActivity extends BaseActivity
 {
     private HabitList habits;
 
-    private ShowHabitController controller;
-
-    private ShowHabitRootView rootView;
-
-    private ShowHabitScreen screen;
-
-    private ShowHabitsMenu menu;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        habits = HabitsApplication.getComponent().getHabitList();
 
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+        habits = app.getComponent().getHabitList();
         Habit habit = getHabitFromIntent();
-        rootView = new ShowHabitRootView(this, habit);
-        screen = new ShowHabitScreen(this, habit, rootView);
+
+        ShowHabitComponent component = DaggerShowHabitComponent
+            .builder()
+            .appComponent(app.getComponent())
+            .showHabitModule(new ShowHabitModule(this, habit))
+            .build();
+
+        ShowHabitRootView rootView = component.getRootView();
+        ShowHabitScreen screen = component.getScreen();
+
         setScreen(screen);
-
-        menu = new ShowHabitsMenu(this, screen);
-        screen.setMenu(menu);
-
-        controller = new ShowHabitController(screen, habit);
-        rootView.setController(controller);
+        screen.setMenu(component.getMenu());
+        rootView.setController(component.getController());
     }
 
     @NonNull

@@ -53,7 +53,8 @@ public class HabitPickerDialog extends Activity
         Long habitId = habitIds.get(position);
         preferences.addWidget(widgetId, habitId);
 
-        HabitsApplication.getComponent().getWidgetUpdater().updateWidgets();
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+        app.getComponent().getWidgetUpdater().updateWidgets();
 
         Intent resultValue = new Intent();
         resultValue.putExtra(EXTRA_APPWIDGET_ID, widgetId);
@@ -67,7 +68,8 @@ public class HabitPickerDialog extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.widget_configure_activity);
 
-        AppComponent component = HabitsApplication.getComponent();
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+        AppComponent component = app.getComponent();
         habitList = component.getHabitList();
         preferences = component.getWidgetPreferences();
 

@@ -51,7 +51,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
             else fixtures.createShortHabit();
         }
 
-        cache = new HabitCardListCache(habitList);
+        cache = new HabitCardListCache(habitList, commandRunner, taskRunner);
         cache.setCheckmarkCount(10);
         cache.refreshAllHabits();
         cache.onAttached();

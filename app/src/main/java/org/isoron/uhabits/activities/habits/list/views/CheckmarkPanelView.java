@@ -25,8 +25,9 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 public class CheckmarkPanelView extends LinearLayout
@@ -141,7 +142,10 @@ public class CheckmarkPanelView extends LinearLayout
     private void init()
     {
         if (isInEditMode()) return;
-        prefs = HabitsApplication.getComponent().getPreferences();
+
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+        prefs = app.getComponent().getPreferences();
         setWillNotDraw(false);
     }
 
@@ -150,9 +154,12 @@ public class CheckmarkPanelView extends LinearLayout
     {
         if (controller == null) return;
 
-        CheckmarkButtonController buttonController =
-            new CheckmarkButtonController(habit, timestamp);
+        ListHabitsActivity activity = (ListHabitsActivity) getContext();
+        CheckmarkButtonControllerFactory buttonControllerFactory =
+            activity.getComponent().getCheckmarkButtonControllerFactory();
 
+        CheckmarkButtonController buttonController =
+            buttonControllerFactory.create(habit, timestamp);
         buttonController.setListener(controller);
         buttonController.setView(buttonView);
         buttonView.setController(buttonController);

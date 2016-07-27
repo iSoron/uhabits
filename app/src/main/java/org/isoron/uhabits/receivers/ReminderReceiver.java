@@ -54,25 +54,25 @@ public class ReminderReceiver extends BroadcastReceiver
 
     private static final String TAG = "ReminderReceiver";
 
-    private final HabitList habits;
+    private HabitList habits;
 
-    private final TaskRunner taskRunner;
+    private TaskRunner taskRunner;
 
-    private final ReminderScheduler reminderScheduler;
+    private ReminderScheduler reminderScheduler;
 
-    public ReminderReceiver()
-    {
-        super();
-
-        AppComponent component = HabitsApplication.getComponent();
-        habits = component.getHabitList();
-        taskRunner = component.getTaskRunner();
-        reminderScheduler = component.getReminderScheduler();
-    }
+    private PendingIntentFactory pendingIntentFactory;
 
     @Override
     public void onReceive(final Context context, Intent intent)
     {
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+
+        habits = app.getComponent().getHabitList();
+        taskRunner = app.getComponent().getTaskRunner();
+        reminderScheduler = app.getComponent().getReminderScheduler();
+        pendingIntentFactory = app.getComponent().getPendingIntentFactory();
+
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
 
         try
@@ -146,9 +146,6 @@ public class ReminderReceiver extends BroadcastReceiver
                 PendingIntent contentPendingIntent =
                     PendingIntent.getActivity(context, 0, contentIntent,
                         PendingIntent.FLAG_CANCEL_CURRENT);
-
-                PendingIntentFactory pendingIntentFactory =
-                    new PendingIntentFactory(context);
 
                 PendingIntent dismissPendingIntent;
                 dismissPendingIntent =

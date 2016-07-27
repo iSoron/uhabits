@@ -27,16 +27,19 @@ public class HabitFixtures
         true, false, false, true, true, true, false, false, true, true
     };
 
+    private final ModelFactory modelFactory;
+
     private final HabitList habitList;
 
-    public HabitFixtures(HabitList habitList)
+    public HabitFixtures(ModelFactory modelFactory, HabitList habitList)
     {
+        this.modelFactory = modelFactory;
         this.habitList = habitList;
     }
 
     public Habit createEmptyHabit()
     {
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         habit.setName("Meditate");
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(3);
@@ -65,7 +68,7 @@ public class HabitFixtures
 
     public Habit createShortHabit()
     {
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         habit.setName("Wake up early");
         habit.setDescription("Did you wake up before 6am?");
         habit.setFrequency(new Frequency(2, 3));

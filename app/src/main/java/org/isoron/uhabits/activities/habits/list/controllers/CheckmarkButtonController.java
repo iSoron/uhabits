@@ -21,11 +21,13 @@ package org.isoron.uhabits.activities.habits.list.controllers;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import com.google.auto.factory.*;
+
 import org.isoron.uhabits.activities.habits.list.views.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
+@AutoFactory
 public class CheckmarkButtonController
 {
     @Nullable
@@ -42,11 +44,13 @@ public class CheckmarkButtonController
 
     private long timestamp;
 
-    public CheckmarkButtonController(@NonNull Habit habit, long timestamp)
+    public CheckmarkButtonController(@Provided @NonNull Preferences prefs,
+                                     @NonNull Habit habit,
+                                     long timestamp)
     {
         this.habit = habit;
         this.timestamp = timestamp;
-        prefs = HabitsApplication.getComponent().getPreferences();
+        this.prefs = prefs;
     }
 
     public void onClick()

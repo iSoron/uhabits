@@ -25,12 +25,11 @@ import android.support.annotation.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.show.views.*;
-import org.isoron.uhabits.widgets.views.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.widgets.views.*;
 
 import java.util.*;
 
@@ -45,14 +44,16 @@ public class ScoreWidget extends BaseWidget
     {
         super(context, id);
         this.habit = habit;
-        prefs = HabitsApplication.getComponent().getPreferences();
+
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+        prefs = app.getComponent().getPreferences();
     }
 
     @Override
     public PendingIntent getOnClickPendingIntent(Context context)
     {
-        PendingIntentFactory factory = new PendingIntentFactory(context);
-        return factory.showHabit(habit);
+        return pendingIntentFactory.showHabit(habit);
     }
 
     @Override

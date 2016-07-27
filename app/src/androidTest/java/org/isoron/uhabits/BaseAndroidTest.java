@@ -25,7 +25,6 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.test.*;
 
-import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
@@ -33,8 +32,6 @@ import org.junit.*;
 
 import java.util.*;
 import java.util.concurrent.*;
-
-import javax.inject.*;
 
 import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -51,19 +48,12 @@ public class BaseAndroidTest
 
     protected Context targetContext;
 
-    @Inject
     protected Preferences prefs;
 
-    @Inject
     protected HabitList habitList;
 
-    @Inject
-    protected CommandRunner commandRunner;
-
-    @Inject
     protected TaskRunner taskRunner;
 
-    @Inject
     protected HabitLogger logger;
 
     protected HabitFixtures fixtures;
@@ -85,15 +75,19 @@ public class BaseAndroidTest
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
         setTheme(R.style.AppBaseTheme);
 
-        AppComponent component = DaggerAppComponent.builder().build();
+        AppComponent component = DaggerAndroidTestComponent
+            .builder()
+            .appModule(new AppModule(targetContext.getApplicationContext()))
+            .build();
+
         HabitsApplication.setComponent(component);
         prefs = component.getPreferences();
         habitList = component.getHabitList();
-        commandRunner = component.getCommandRunner();
         taskRunner = component.getTaskRunner();
         logger = component.getHabitsLogger();
 
-        fixtures = new HabitFixtures(habitList);
+        ModelFactory modelFactory = component.getModelFactory();
+        fixtures = new HabitFixtures(modelFactory, habitList);
 
         latch = new CountDownLatch(1);
     }
@@ -134,6 +128,7 @@ public class BaseAndroidTest
         }
     }
 
+    @Deprecated
     protected void waitForAsyncTasks()
     {
         try

@@ -24,10 +24,12 @@ import android.support.annotation.*;
 import android.support.v7.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.show.views.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
+
+import javax.inject.*;
 
 import butterknife.*;
 
@@ -61,7 +63,9 @@ public class ShowHabitRootView extends BaseRootView
     @NonNull
     private Controller controller;
 
-    public ShowHabitRootView(@NonNull Context context, @NonNull Habit habit)
+    @Inject
+    public ShowHabitRootView(@NonNull @ActivityContext Context context,
+                             @NonNull Habit habit)
     {
         super(context);
         this.habit = habit;
