@@ -30,14 +30,21 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 import java.util.*;
 
+import javax.inject.*;
+
 /**
  * Class that imports data from database files exported by Tickmate.
  */
 public class TickmateDBImporter extends AbstractImporter
 {
-    public TickmateDBImporter(HabitList habits)
+    private ModelFactory modelFactory;
+
+    @Inject
+    public TickmateDBImporter(@NonNull HabitList habits,
+                              @NonNull ModelFactory modelFactory)
     {
         super(habits);
+        this.modelFactory = modelFactory;
     }
 
     @Override
@@ -118,7 +125,7 @@ public class TickmateDBImporter extends AbstractImporter
                 String name = c.getString(1);
                 String description = c.getString(2);
 
-                Habit habit = new Habit();
+                Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
                 habit.setDescription(description);
                 habit.setFrequency(Frequency.DAILY);

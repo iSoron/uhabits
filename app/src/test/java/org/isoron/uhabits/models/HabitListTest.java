@@ -34,8 +34,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @SuppressWarnings("JavaDoc")
 public class HabitListTest extends BaseUnitTest
 {
-    private HabitList allHabits;
-
     private ArrayList<Habit> habitsArray;
 
     private HabitList activeHabits;
@@ -46,16 +44,15 @@ public class HabitListTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
+        fixtures.purgeHabits();
 
-        allHabits = modelFactory.buildHabitList();
         habitsArray = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
-            Habit habit = new Habit();
+            Habit habit = fixtures.createEmptyHabit();
             habit.setId((long) i);
             habitsArray.add(habit);
-            allHabits.add(habit);
 
             if (i % 3 == 0)
                 habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
@@ -66,9 +63,9 @@ public class HabitListTest extends BaseUnitTest
         habitsArray.get(4).setArchived(true);
         habitsArray.get(7).setArchived(true);
 
-        activeHabits = allHabits.getFiltered(
-            new HabitMatcherBuilder().build());
-        reminderHabits = allHabits.getFiltered(new HabitMatcherBuilder()
+        activeHabits = habitList.getFiltered(new HabitMatcherBuilder().build());
+
+        reminderHabits = habitList.getFiltered(new HabitMatcherBuilder()
             .setArchivedAllowed(true)
             .setReminderRequired(true)
             .build());
@@ -77,7 +74,7 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void testSize()
     {
-        assertThat(allHabits.size(), equalTo(10));
+        assertThat(habitList.size(), equalTo(10));
     }
 
     @Test
@@ -89,9 +86,9 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void test_getByPosition()
     {
-        assertThat(allHabits.getByPosition(0), equalTo(habitsArray.get(0)));
-        assertThat(allHabits.getByPosition(3), equalTo(habitsArray.get(3)));
-        assertThat(allHabits.getByPosition(9), equalTo(habitsArray.get(9)));
+        assertThat(habitList.getByPosition(0), equalTo(habitsArray.get(0)));
+        assertThat(habitList.getByPosition(3), equalTo(habitsArray.get(3)));
+        assertThat(habitList.getByPosition(9), equalTo(habitsArray.get(9)));
 
         assertThat(activeHabits.getByPosition(0), equalTo(habitsArray.get(2)));
     }
@@ -107,14 +104,14 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void test_get_withInvalidId()
     {
-        assertThat(allHabits.getById(100L), is(nullValue()));
+        assertThat(habitList.getById(100L), is(nullValue()));
     }
 
     @Test
     public void test_get_withValidId()
     {
         Habit habit1 = habitsArray.get(0);
-        Habit habit2 = allHabits.getById(habit1.getId());
+        Habit habit2 = habitList.getById(habit1.getId());
         assertThat(habit1, equalTo(habit2));
     }
 
@@ -137,17 +134,17 @@ public class HabitListTest extends BaseUnitTest
             int from = operations[i][0];
             int to = operations[i][1];
 
-            Habit fromHabit = allHabits.getByPosition(from);
-            Habit toHabit = allHabits.getByPosition(to);
-            allHabits.reorder(fromHabit, toHabit);
+            Habit fromHabit = habitList.getByPosition(from);
+            Habit toHabit = habitList.getByPosition(to);
+            habitList.reorder(fromHabit, toHabit);
 
             int actualPositions[] = new int[10];
 
             for (int j = 0; j < 10; j++)
             {
-                Habit h = allHabits.getById(j);
+                Habit h = habitList.getById(j);
                 if (h == null) fail();
-                actualPositions[j] = allHabits.indexOf(h);
+                actualPositions[j] = habitList.indexOf(h);
             }
 
             assertThat(actualPositions, equalTo(expectedPosition[i]));
@@ -159,13 +156,13 @@ public class HabitListTest extends BaseUnitTest
     {
         HabitList list = modelFactory.buildHabitList();
 
-        Habit h1 = new Habit();
+        Habit h1 = fixtures.createEmptyHabit();
         h1.setName("Meditate");
         h1.setDescription("Did you meditate this morning?");
         h1.setFrequency(Frequency.DAILY);
         h1.setColor(3);
 
-        Habit h2 = new Habit();
+        Habit h2 = fixtures.createEmptyHabit();
         h2.setName("Wake up early");
         h2.setDescription("Did you wake up before 6am?");
         h2.setFrequency(new Frequency(2, 3));

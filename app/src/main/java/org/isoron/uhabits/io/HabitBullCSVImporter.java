@@ -19,30 +19,32 @@
 
 package org.isoron.uhabits.io;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
-import com.opencsv.CSVReader;
+import com.activeandroid.*;
+import com.opencsv.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
+
+import javax.inject.*;
 
 /**
  * Class that imports data from HabitBull CSV files.
  */
 public class HabitBullCSVImporter extends AbstractImporter
 {
-    public HabitBullCSVImporter(HabitList habits)
+    private ModelFactory modelFactory;
+
+    @Inject
+    public HabitBullCSVImporter(@NonNull HabitList habits,
+                                @NonNull ModelFactory modelFactory)
     {
         super(habits);
+        this.modelFactory = modelFactory;
     }
 
     @Override
@@ -97,7 +99,7 @@ public class HabitBullCSVImporter extends AbstractImporter
 
             if(h == null)
             {
-                h = new Habit();
+                h = modelFactory.buildHabit();
                 h.setName(name);
                 h.setDescription(description);
                 h.setFrequency(Frequency.DAILY);

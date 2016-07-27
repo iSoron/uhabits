@@ -19,21 +19,32 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.*;
+
+import com.google.auto.factory.*;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 /**
  * Command to create a habit.
  */
+@AutoFactory
 public class CreateHabitCommand extends Command
 {
+    private ModelFactory modelFactory;
+
     HabitList habitList;
 
     private Habit model;
+
     private Long savedId;
 
-    public CreateHabitCommand(HabitList habitList, Habit model)
+    public CreateHabitCommand(@Provided @NonNull ModelFactory modelFactory,
+                              @NonNull HabitList habitList,
+                              @NonNull Habit model)
     {
+        this.modelFactory = modelFactory;
         this.habitList = habitList;
         this.model = model;
     }
@@ -41,21 +52,12 @@ public class CreateHabitCommand extends Command
     @Override
     public void execute()
     {
-        Habit savedHabit = new Habit();
+        Habit savedHabit = modelFactory.buildHabit();
         savedHabit.copyFrom(model);
         savedHabit.setId(savedId);
 
         habitList.add(savedHabit);
         savedId = savedHabit.getId();
-    }
-
-    @Override
-    public void undo()
-    {
-        Habit habit = habitList.getById(savedId);
-        if(habit == null) throw new RuntimeException("Habit not found");
-
-        habitList.remove(habit);
     }
 
     @Override
@@ -68,6 +70,15 @@ public class CreateHabitCommand extends Command
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_deleted;
+    }
+
+    @Override
+    public void undo()
+    {
+        Habit habit = habitList.getById(savedId);
+        if (habit == null) throw new RuntimeException("Habit not found");
+
+        habitList.remove(habit);
     }
 
 }

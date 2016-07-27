@@ -25,6 +25,7 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.memory.*;
 
 public abstract class HabitCard extends LinearLayout
     implements ModelObservable.Listener
@@ -97,6 +98,6 @@ public abstract class HabitCard extends LinearLayout
 
     private void init()
     {
-        if(!isInEditMode()) habit = new Habit();
+        if(!isInEditMode()) habit = new MemoryModelFactory().buildHabit();
     }
 }

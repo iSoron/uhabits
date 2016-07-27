@@ -32,12 +32,15 @@ import org.isoron.uhabits.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
+import javax.inject.*;
+
 /**
  * Class that imports data from database files exported by Loop Habit Tracker.
  */
 public class LoopDBImporter extends AbstractImporter
 {
-    public LoopDBImporter(HabitList habits)
+    @Inject
+    public LoopDBImporter(@NonNull HabitList habits)
     {
         super(habits);
     }

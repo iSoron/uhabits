@@ -25,7 +25,6 @@ import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 
 /**
  * The SQLite database record corresponding to a {@link Checkmark}.
@@ -63,8 +62,6 @@ public class CheckmarkRecord extends Model implements SQLiteRecord
 
     public Checkmark toCheckmark()
     {
-        SQLiteHabitList habitList = SQLiteHabitList.getInstance();
-        Habit h = habitList.getById(habit.getId());
         return new Checkmark(timestamp, value);
     }
 }

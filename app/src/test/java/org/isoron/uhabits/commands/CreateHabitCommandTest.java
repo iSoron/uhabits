@@ -40,9 +40,10 @@ public class CreateHabitCommandTest extends BaseUnitTest
     {
         super.setUp();
 
-        model = new Habit();
+        model = fixtures.createEmptyHabit();
         model.setName("New habit");
-        command = new CreateHabitCommand(habitList, model);
+
+        command = new CreateHabitCommand(modelFactory, habitList, model);
         fixtures.purgeHabits();
     }
 

@@ -20,22 +20,24 @@
 package org.isoron.uhabits.models;
 
 import org.isoron.uhabits.*;
-import org.junit.Test;
+import org.junit.*;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class HabitTest extends BaseUnitTest
 {
+    @Override
+    public void setUp()
+    {
+        super.setUp();
+    }
 
     @Test
     public void testConstructor_default()
     {
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         assertFalse(habit.isArchived());
 
         assertThat(habit.hasReminder(), is(false));
@@ -48,13 +50,13 @@ public class HabitTest extends BaseUnitTest
     @Test
     public void test_copyAttributes()
     {
-        Habit model = new Habit();
+        Habit model = modelFactory.buildHabit();
         model.setArchived(true);
         model.setColor(0);
         model.setFrequency(new Frequency(10, 20));
         model.setReminder(new Reminder(8, 30, new WeekdayList(1)));
 
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         habit.copyFrom(model);
         assertThat(habit.isArchived(), is(model.isArchived()));
         assertThat(habit.getColor(), is(model.getColor()));
@@ -62,34 +64,11 @@ public class HabitTest extends BaseUnitTest
         assertThat(habit.getReminder(), equalTo(model.getReminder()));
     }
 
-//    @Test
-//    public  void test_rebuildOrder()
-//    {
-//        List<Long> ids = new LinkedList<>();
-//        int originalPositions[] = { 0, 1, 1, 4, 6, 8, 10, 10, 13};
-//
-//        for (int p : originalPositions)
-//        {
-//            Habit h = new Habit();
-//            habitList.insert(h);
-//            ids.add(h.getId());
-//        }
-//
-//        ((SQLiteHabitList) habitList).rebuildOrder();
-//
-//        for (int i = 0; i < originalPositions.length; i++)
-//        {
-//            Habit h = habitList.get(ids.get(i));
-//            if(h == null) fail();
-//            assertThat(habitList.indexOf(h), is(i));
-//        }
-//    }
-
 
     @Test
     public void test_hasReminder_clearReminder()
     {
-        Habit h = new Habit();
+        Habit h = modelFactory.buildHabit();
         assertThat(h.hasReminder(), is(false));
 
         h.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));

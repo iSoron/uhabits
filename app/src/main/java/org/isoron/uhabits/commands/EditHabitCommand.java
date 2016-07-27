@@ -19,12 +19,17 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.*;
+
+import com.google.auto.factory.*;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 /**
  * Command to modify a habit.
  */
+@AutoFactory
 public class EditHabitCommand extends Command
 {
     HabitList habitList;
@@ -37,12 +42,15 @@ public class EditHabitCommand extends Command
 
     private boolean hasFrequencyChanged;
 
-    public EditHabitCommand(HabitList habitList, Habit original, Habit modified)
+    public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
+                            @NonNull HabitList habitList,
+                            @NonNull Habit original,
+                            @NonNull Habit modified)
     {
         this.habitList = habitList;
         this.savedId = original.getId();
-        this.modified = new Habit();
-        this.original = new Habit();
+        this.modified = modelFactory.buildHabit();
+        this.original = modelFactory.buildHabit();
 
         this.modified.copyFrom(modified);
         this.original.copyFrom(original);

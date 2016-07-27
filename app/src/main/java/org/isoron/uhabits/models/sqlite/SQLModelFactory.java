@@ -39,9 +39,9 @@ public class SQLModelFactory implements ModelFactory
 
     @Provides
     @Singleton
-    static HabitList provideHabitList()
+    public static HabitList provideHabitList()
     {
-        return SQLiteHabitList.getInstance();
+        return SQLiteHabitList.getInstance(provideModelFactory());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SQLModelFactory implements ModelFactory
     @Override
     public HabitList buildHabitList()
     {
-        return SQLiteHabitList.getInstance();
+        return SQLiteHabitList.getInstance(provideModelFactory());
     }
 
     @Override

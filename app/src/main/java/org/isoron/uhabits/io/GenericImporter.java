@@ -19,14 +19,14 @@
 
 package org.isoron.uhabits.io;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+
+import javax.inject.*;
 
 /**
  * A GenericImporter decides which implementation of AbstractImporter is able to
@@ -36,14 +36,19 @@ public class GenericImporter extends AbstractImporter
 {
     List<AbstractImporter> importers;
 
-    public GenericImporter(HabitList habits)
+    @Inject
+    public GenericImporter(@NonNull HabitList habits,
+                           @NonNull LoopDBImporter loopDBImporter,
+                           @NonNull RewireDBImporter rewireDBImporter,
+                           @NonNull TickmateDBImporter tickmateDBImporter,
+                           @NonNull HabitBullCSVImporter habitBullCSVImporter)
     {
         super(habits);
         importers = new LinkedList<>();
-        importers.add(new LoopDBImporter(habits));
-        importers.add(new RewireDBImporter(habits));
-        importers.add(new TickmateDBImporter(habits));
-        importers.add(new HabitBullCSVImporter(habits));
+        importers.add(loopDBImporter);
+        importers.add(rewireDBImporter);
+        importers.add(tickmateDBImporter);
+        importers.add(habitBullCSVImporter);
     }
 
     @Override

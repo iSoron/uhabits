@@ -37,7 +37,7 @@ public class CreateHabitDialog extends BaseDialog
     @Override
     protected void initializeHabits()
     {
-        modifiedHabit = new Habit();
+        modifiedHabit = modelFactory.buildHabit();
         modifiedHabit.setFrequency(Frequency.DAILY);
         modifiedHabit.setColor(
             prefs.getDefaultHabitColor(modifiedHabit.getColor()));
@@ -46,7 +46,9 @@ public class CreateHabitDialog extends BaseDialog
     @Override
     protected void saveHabit()
     {
-        Command command = new CreateHabitCommand(habitList, modifiedHabit);
+        Command command = component
+            .getCreateHabitCommandFactory()
+            .create(habitList, modifiedHabit);
         commandRunner.execute(command, null);
     }
 }

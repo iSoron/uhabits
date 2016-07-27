@@ -23,7 +23,6 @@ import android.net.*;
 import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
-import org.isoron.uhabits.*;
 
 import java.util.*;
 
@@ -78,23 +77,8 @@ public class Habit
      * The habit is not archived, not highlighted, has no reminders and is
      * placed in the last position of the list of habits.
      */
-    @Deprecated
-    public Habit()
-    {
-        this.color = 5;
-        this.archived = false;
-        this.frequency = new Frequency(3, 7);
-
-        ModelFactory factory =
-            HabitsApplication.getStaticComponent().getModelFactory();
-        checkmarks = factory.buildCheckmarkList(this);
-        streaks = factory.buildStreakList(this);
-        scores = factory.buildScoreList(this);
-        repetitions = factory.buildRepetitionList(this);
-    }
-
     @Inject
-    public Habit(@NonNull ModelFactory factory)
+    Habit(@NonNull ModelFactory factory)
     {
         this.color = 5;
         this.archived = false;

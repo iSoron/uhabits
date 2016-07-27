@@ -47,6 +47,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
     private SQLiteHabitList habitList;
 
+    private ModelFactory modelFactory;
+
     @Override
     public void setUp()
     {
@@ -54,9 +56,11 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         this.habitList = (SQLiteHabitList) super.habitList;
         fixtures.purgeHabits(habitList);
 
+        modelFactory = component.getModelFactory();
+
         for (int i = 0; i < 10; i++)
         {
-            Habit h = new Habit();
+            Habit h = modelFactory.buildHabit();
             h.setName("habit " + i);
             h.setId((long) i);
             if (i % 2 == 0) h.setArchived(true);
@@ -71,7 +75,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     @Test
     public void testAdd_withDuplicate()
     {
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         habitList.add(habit);
         exception.expect(IllegalArgumentException.class);
         habitList.add(habit);
@@ -80,7 +84,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     @Test
     public void testAdd_withId()
     {
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         habit.setName("Hello world with id");
         habit.setId(12300L);
 
@@ -95,7 +99,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     @Test
     public void testAdd_withoutId()
     {
-        Habit habit = new Habit();
+        Habit habit = modelFactory.buildHabit();
         habit.setName("Hello world");
         assertNull(habit.getId());
 
@@ -167,7 +171,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         assertNotNull(h1);
         assertThat(habitList.indexOf(h1), equalTo(5));
 
-        Habit h2 = new Habit();
+        Habit h2 = modelFactory.buildHabit();
         assertThat(habitList.indexOf(h2), equalTo(-1));
 
         h2.setId(1000L);

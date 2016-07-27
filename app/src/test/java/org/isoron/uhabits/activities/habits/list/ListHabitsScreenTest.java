@@ -87,7 +87,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
         controller = mock(ListHabitsController.class);
         screen.setController(controller);
 
-        habit = new Habit();
+        habit = fixtures.createEmptyHabit();
         intent = mock(Intent.class);
     }
 

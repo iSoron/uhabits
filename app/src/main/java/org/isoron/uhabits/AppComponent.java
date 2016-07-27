@@ -41,7 +41,13 @@ public interface AppComponent
 {
     CommandRunner getCommandRunner();
 
+    CreateHabitCommandFactory getCreateHabitCommandFactory();
+
     DirFinder getDirFinder();
+
+    EditHabitCommandFactory getEditHabitCommandFactory();
+
+    GenericImporter getGenericImporter();
 
     HabitList getHabitList();
 

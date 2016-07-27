@@ -19,27 +19,18 @@
 
 package org.isoron.uhabits.models;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.IsEqual.*;
+import static org.mockito.Mockito.*;
 
 public class RepetitionListTest extends BaseUnitTest
 {
@@ -61,7 +52,7 @@ public class RepetitionListTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
-        habit = new Habit();
+        habit = fixtures.createEmptyHabit();
         reps = habit.getRepetitions();
 
         today = DateUtils.getStartOfToday();
@@ -105,7 +96,7 @@ public class RepetitionListTest extends BaseUnitTest
     @Test
     public void test_getWeekDayFrequency()
     {
-        habit = new Habit();
+        habit = fixtures.createEmptyHabit();
         reps = habit.getRepetitions();
 
         Random random = new Random();

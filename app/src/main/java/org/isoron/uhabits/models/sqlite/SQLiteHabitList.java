@@ -35,38 +35,34 @@ import java.util.*;
  */
 public class SQLiteHabitList extends HabitList
 {
-    private static SQLiteHabitList instance;
-
     private static HashMap<Long, Habit> cache;
+
+    private static SQLiteHabitList instance;
 
     private final SQLiteUtils<HabitRecord> sqlite;
 
-    protected SQLiteHabitList()
+    private ModelFactory modelFactory;
+
+    public SQLiteHabitList(@NonNull ModelFactory modelFactory)
     {
         super();
-        if(cache == null) cache = new HashMap<>();
+        this.modelFactory = modelFactory;
+
+        if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
 
-    protected SQLiteHabitList(
-        @NonNull org.isoron.uhabits.models.HabitMatcher filter)
+    protected SQLiteHabitList(@NonNull HabitMatcher filter)
     {
         super(filter);
-        if(cache == null) cache = new HashMap<>();
+        if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
 
-    /**
-     * Returns the global list of habits.
-     * <p>
-     * There is only one list of habit per application, corresponding to the
-     * habits table of the SQLite database.
-     *
-     * @return the global list of habits.
-     */
-    public static SQLiteHabitList getInstance()
+    public static SQLiteHabitList getInstance(
+        @NonNull ModelFactory modelFactory)
     {
-        if (instance == null) instance = new SQLiteHabitList();
+        if (instance == null) instance = new SQLiteHabitList(modelFactory);
         return instance;
     }
 
@@ -84,7 +80,7 @@ public class SQLiteHabitList extends HabitList
         if (id == null) id = record.save();
         else record.save(id);
 
-        if(id < 0)
+        if (id < 0)
             throw new IllegalArgumentException("habit could not be saved");
 
         habit.setId(id);
@@ -100,7 +96,7 @@ public class SQLiteHabitList extends HabitList
             HabitRecord record = HabitRecord.get(id);
             if (record == null) return null;
 
-            Habit habit = new Habit();
+            Habit habit = modelFactory.buildHabit();
             record.copyTo(habit);
             cache.put(id, habit);
         }
@@ -117,7 +113,7 @@ public class SQLiteHabitList extends HabitList
 
     @NonNull
     @Override
-    public HabitList getFiltered(org.isoron.uhabits.models.HabitMatcher filter)
+    public HabitList getFiltered(HabitMatcher filter)
     {
         return new SQLiteHabitList(filter);
     }
@@ -184,13 +180,16 @@ public class SQLiteHabitList extends HabitList
         HabitRecord fromRecord = HabitRecord.get(from.getId());
         HabitRecord toRecord = HabitRecord.get(to.getId());
 
-        if (fromRecord == null) throw new RuntimeException("habit not in database");
-        if (toRecord == null) throw new RuntimeException("habit not in database");
+        if (fromRecord == null)
+            throw new RuntimeException("habit not in database");
+        if (toRecord == null)
+            throw new RuntimeException("habit not in database");
 
         Integer fromPos = fromRecord.position;
         Integer toPos = toRecord.position;
 
-        Log.d("SQLiteHabitList", String.format("reorder: %d %d", fromPos, toPos));
+        Log.d("SQLiteHabitList",
+            String.format("reorder: %d %d", fromPos, toPos));
 
         if (toPos < fromPos)
         {
@@ -246,7 +245,7 @@ public class SQLiteHabitList extends HabitList
             if (habit == null)
                 throw new RuntimeException("habit not in database");
 
-            if(!filter.matches(habit)) continue;
+            if (!filter.matches(habit)) continue;
             habits.add(habit);
         }
 
@@ -269,7 +268,7 @@ public class SQLiteHabitList extends HabitList
         if (filter.isReminderRequired()) where.add("reminder_hour is not null");
         if (!filter.isArchivedAllowed()) where.add("archived = 0");
 
-        if(where.isEmpty()) return;
+        if (where.isEmpty()) return;
         query.append("where ");
         query.append(StringUtils.join(where, " and "));
         query.append(" ");

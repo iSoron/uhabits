@@ -21,11 +21,13 @@ package org.isoron.uhabits.tasks;
 
 import android.support.annotation.*;
 
+import com.google.auto.factory.*;
+
 import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.*;
 
 import java.io.*;
 
+@AutoFactory
 public class ImportDataTask implements Task
 {
     public static final int FAILED = 3;
@@ -39,18 +41,17 @@ public class ImportDataTask implements Task
     @NonNull
     private final File file;
 
+    private GenericImporter importer;
+
     @NonNull
     private final Listener listener;
 
-    @NonNull
-    private final HabitList habits;
-
-    public ImportDataTask(@NonNull HabitList habits,
+    public ImportDataTask(@Provided @NonNull GenericImporter importer,
                           @NonNull File file,
                           @NonNull Listener listener)
     {
+        this.importer = importer;
         this.listener = listener;
-        this.habits = habits;
         this.file = file;
     }
 
@@ -59,7 +60,6 @@ public class ImportDataTask implements Task
     {
         try
         {
-            GenericImporter importer = new GenericImporter(habits);
             if (importer.canHandle(file))
             {
                 importer.importHabitsFromFile(file);

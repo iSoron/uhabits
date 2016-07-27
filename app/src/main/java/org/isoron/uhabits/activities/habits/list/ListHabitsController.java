@@ -23,12 +23,12 @@ import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -66,6 +66,8 @@ public class ListHabitsController
 
     private WidgetUpdater widgetUpdater;
 
+    private ImportDataTaskFactory importTaskFactory;
+
     @Inject
     public ListHabitsController(@NonNull BaseSystem system,
                                 @NonNull CommandRunner commandRunner,
@@ -75,7 +77,8 @@ public class ListHabitsController
                                 @NonNull Preferences prefs,
                                 @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
-                                @NonNull WidgetUpdater widgetUpdater)
+                                @NonNull WidgetUpdater widgetUpdater,
+                                @NonNull ImportDataTaskFactory importTaskFactory)
     {
         this.adapter = adapter;
         this.commandRunner = commandRunner;
@@ -86,6 +89,7 @@ public class ListHabitsController
         this.taskRunner = taskRunner;
         this.reminderScheduler = reminderScheduler;
         this.widgetUpdater = widgetUpdater;
+        this.importTaskFactory = importTaskFactory;
     }
 
     public void onExportCSV()
@@ -121,7 +125,7 @@ public class ListHabitsController
 
     public void onImportData(@NonNull File file)
     {
-        taskRunner.execute(new ImportDataTask(habitList, file, result -> {
+        taskRunner.execute(importTaskFactory.create(file, result -> {
             switch (result)
             {
                 case ImportDataTask.SUCCESS:

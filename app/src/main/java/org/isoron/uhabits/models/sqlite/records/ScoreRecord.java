@@ -25,7 +25,6 @@ import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 
 /**
  * The SQLite database record corresponding to a Score.
@@ -63,8 +62,6 @@ public class ScoreRecord extends Model implements SQLiteRecord
      */
     public Score toScore()
     {
-        SQLiteHabitList habitList = SQLiteHabitList.getInstance();
-        Habit h = habitList.getById(habit.getId());
         return new Score(timestamp, score);
     }
 }

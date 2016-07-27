@@ -60,6 +60,8 @@ public class BaseAndroidTest
 
     protected CountDownLatch latch;
 
+    protected AndroidTestComponent component;
+
     @Before
     public void setUp()
     {
@@ -75,7 +77,7 @@ public class BaseAndroidTest
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
         setTheme(R.style.AppBaseTheme);
 
-        AppComponent component = DaggerAndroidTestComponent
+        component = DaggerAndroidTestComponent
             .builder()
             .appModule(new AppModule(targetContext.getApplicationContext()))
             .build();

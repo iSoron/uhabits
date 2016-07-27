@@ -29,7 +29,7 @@ public class EditHabitDialog extends BaseDialog
 {
     public static EditHabitDialog newInstance(Habit habit)
     {
-        if(habit.getId() == null)
+        if (habit.getId() == null)
             throw new IllegalArgumentException("habit not saved");
 
         EditHabitDialog frag = new EditHabitDialog();
@@ -53,15 +53,15 @@ public class EditHabitDialog extends BaseDialog
             throw new IllegalArgumentException("habitId must be specified");
 
         originalHabit = habitList.getById(habitId);
-        modifiedHabit = new Habit();
+        modifiedHabit = modelFactory.buildHabit();
         modifiedHabit.copyFrom(originalHabit);
     }
 
     @Override
     protected void saveHabit()
     {
-        Command command =
-            new EditHabitCommand(habitList, originalHabit, modifiedHabit);
+        Command command = component.getEditHabitCommandFactory().
+            create(habitList, originalHabit, modifiedHabit);
         commandRunner.execute(command, originalHabit.getId());
     }
 }

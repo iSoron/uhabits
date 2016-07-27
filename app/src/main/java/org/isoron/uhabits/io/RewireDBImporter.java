@@ -23,7 +23,6 @@ import android.database.*;
 import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.*;
@@ -31,14 +30,23 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 import java.util.*;
 
+import javax.inject.*;
+
+import static android.database.sqlite.SQLiteDatabase.*;
+
 /**
  * Class that imports database files exported by Rewire.
  */
 public class RewireDBImporter extends AbstractImporter
 {
-    public RewireDBImporter(HabitList habits)
+    private ModelFactory modelFactory;
+
+    @Inject
+    public RewireDBImporter(@NonNull HabitList habits,
+                            @NonNull ModelFactory modelFactory)
     {
         super(habits);
+        this.modelFactory = modelFactory;
     }
 
     @Override
@@ -46,8 +54,7 @@ public class RewireDBImporter extends AbstractImporter
     {
         if (!isSQLite3File(file)) return false;
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
-            SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = openDatabase(file.getPath(), null, OPEN_READONLY);
 
         Cursor c = db.rawQuery(
             "select count(*) from SQLITE_MASTER where name=? or name=?",
@@ -63,19 +70,10 @@ public class RewireDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        final SQLiteDatabase db =
-            SQLiteDatabase.openDatabase(file.getPath(), null,
-                SQLiteDatabase.OPEN_READONLY);
+        String path = file.getPath();
+        final SQLiteDatabase db = openDatabase(path, null, OPEN_READONLY);
 
-        DatabaseUtils.executeAsTransaction(new DatabaseUtils.Callback()
-        {
-            @Override
-            public void execute()
-            {
-                createHabits(db);
-            }
-        });
-
+        DatabaseUtils.executeAsTransaction(() -> createHabits(db));
         db.close();
     }
 
@@ -134,7 +132,7 @@ public class RewireDBImporter extends AbstractImporter
                 int days = c.getInt(6);
                 int periodIndex = c.getInt(7);
 
-                Habit habit = new Habit();
+                Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
                 habit.setDescription(description);
 

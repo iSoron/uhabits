@@ -25,7 +25,6 @@ import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 
 import java.lang.reflect.*;
 
@@ -86,8 +85,6 @@ public class StreakRecord extends Model implements SQLiteRecord
 
     public Streak toStreak()
     {
-        SQLiteHabitList habitList = SQLiteHabitList.getInstance();
-        Habit h = habitList.getById(habit.getId());
         return new Streak(start, end);
     }
 }

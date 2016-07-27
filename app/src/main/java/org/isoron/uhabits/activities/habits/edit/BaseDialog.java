@@ -59,6 +59,10 @@ public abstract class BaseDialog extends AppCompatDialogFragment
 
     private DialogFactory dialogFactory;
 
+    protected AppComponent component;
+
+    protected ModelFactory modelFactory;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -67,11 +71,11 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         View view = inflater.inflate(R.layout.edit_habit, container, false);
 
         HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
-        AppComponent component = app.getComponent();
-
+        component = app.getComponent();
         prefs = component.getPreferences();
         habitList = component.getHabitList();
         commandRunner = component.getCommandRunner();
+        modelFactory = component.getModelFactory();
 
         ButterKnife.bind(this, view);
 
