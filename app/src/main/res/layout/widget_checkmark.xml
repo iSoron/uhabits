@@ -27,7 +27,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <org.isoron.uhabits.ui.common.views.RingView
+    <org.isoron.uhabits.activities.common.views.RingView
         android:id="@+id/scoreRing"
         android:layout_width="match_parent"
         android:layout_height="0dp"

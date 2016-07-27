@@ -60,7 +60,7 @@
         </activity>
 
         <activity
-            android:name=".ui.habits.show.ShowHabitActivity"
+            android:name=".activities.habits.show.ShowHabitActivity"
             android:label="@string/title_activity_show_habit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -68,7 +68,7 @@
         </activity>
 
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".activities.settings.SettingsActivity"
             android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -76,12 +76,12 @@
         </activity>
 
         <activity
-            android:name=".ui.intro.IntroActivity"
+            android:name=".activities.intro.IntroActivity"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
-            android:name=".ui.widgets.HabitPickerDialog"
+            android:name=".widgets.HabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
@@ -89,7 +89,7 @@
         </activity>
 
         <activity
-            android:name=".ui.about.AboutActivity"
+            android:name=".activities.about.AboutActivity"
             android:label="@string/about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

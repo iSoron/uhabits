@@ -23,7 +23,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.common.dialogs.*;
+import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 

@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.ui.habits.list.ListHabitsActivity;
+import org.isoron.uhabits.activities.habits.list.ListHabitsActivity;
 
 /**
  * Application that starts upon clicking the launcher icon.

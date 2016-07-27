@@ -30,7 +30,7 @@
         app:popupTheme="?toolbarPopupTheme"
         android:layout_alignParentTop="true"/>
 
-    <org.isoron.uhabits.ui.habits.list.views.HeaderView
+    <org.isoron.uhabits.activities.habits.list.views.HeaderView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
@@ -48,23 +48,23 @@
         android:layout_below="@id/header"
         android:orientation="vertical">
 
-        <org.isoron.uhabits.ui.habits.list.views.HabitCardView
+        <org.isoron.uhabits.activities.habits.list.views.HabitCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <org.isoron.uhabits.ui.habits.list.views.HabitCardView
+        <org.isoron.uhabits.activities.habits.list.views.HabitCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <org.isoron.uhabits.ui.habits.list.views.HabitCardView
+        <org.isoron.uhabits.activities.habits.list.views.HabitCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <org.isoron.uhabits.ui.habits.list.views.HabitCardView
+        <org.isoron.uhabits.activities.habits.list.views.HabitCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <org.isoron.uhabits.ui.habits.list.views.HabitCardView
+        <org.isoron.uhabits.activities.habits.list.views.HabitCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -109,7 +109,7 @@
         android:visibility="gone"
         />
 
-    <org.isoron.uhabits.ui.habits.list.views.HintView
+    <org.isoron.uhabits.activities.habits.list.views.HintView
         android:id="@+id/hintView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

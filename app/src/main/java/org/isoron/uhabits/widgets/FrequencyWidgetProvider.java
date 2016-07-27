@@ -23,7 +23,6 @@ import android.content.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.widgets.*;
 
 public class FrequencyWidgetProvider extends BaseWidgetProvider
 {

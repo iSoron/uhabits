@@ -25,7 +25,7 @@ import android.os.*;
 import android.support.annotation.*;
 import android.widget.*;
 
-import org.isoron.uhabits.ui.widgets.*;
+import org.isoron.uhabits.widgets.*;
 
 import static android.appwidget.AppWidgetManager.*;
 import static android.os.Build.VERSION.*;

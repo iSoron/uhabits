@@ -27,7 +27,6 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 
 import static android.os.Build.VERSION.*;

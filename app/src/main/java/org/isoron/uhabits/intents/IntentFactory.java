@@ -24,10 +24,10 @@ import android.net.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.about.*;
-import org.isoron.uhabits.ui.habits.show.*;
-import org.isoron.uhabits.ui.intro.*;
-import org.isoron.uhabits.ui.settings.*;
+import org.isoron.uhabits.activities.about.*;
+import org.isoron.uhabits.activities.habits.show.*;
+import org.isoron.uhabits.activities.intro.*;
+import org.isoron.uhabits.activities.settings.*;
 
 import javax.inject.*;
 

@@ -25,8 +25,8 @@ import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
 
-import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.widgets.*;
 
 import java.io.*;
 

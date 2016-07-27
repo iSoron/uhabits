@@ -32,7 +32,7 @@
         style="@style/CardList"
         android:clipToPadding="false">
 
-        <org.isoron.uhabits.ui.habits.show.views.SubtitleCard
+        <org.isoron.uhabits.activities.habits.show.views.SubtitleCard
             android:id="@+id/subtitleCard"
             style="@style/ShowHabit.Subtitle"/>
 
@@ -40,27 +40,27 @@
         <!--android:id="@+id/headerShadow"-->
         <!--style="@style/ToolbarShadow"/>-->
 
-        <org.isoron.uhabits.ui.habits.show.views.OverviewCard
+        <org.isoron.uhabits.activities.habits.show.views.OverviewCard
             android:id="@+id/overviewCard"
             style="@style/Card"
             android:paddingTop="12dp"/>
 
-        <org.isoron.uhabits.ui.habits.show.views.ScoreCard
+        <org.isoron.uhabits.activities.habits.show.views.ScoreCard
             android:id="@+id/scoreCard"
             style="@style/Card"
             android:gravity="center"/>
 
-        <org.isoron.uhabits.ui.habits.show.views.HistoryCard
+        <org.isoron.uhabits.activities.habits.show.views.HistoryCard
             android:id="@+id/historyCard"
             style="@style/Card"
             android:gravity="center"
             android:paddingBottom="0dp"/>
 
-        <org.isoron.uhabits.ui.habits.show.views.StreakCard
+        <org.isoron.uhabits.activities.habits.show.views.StreakCard
             android:id="@+id/streakCard"
             style="@style/Card"/>
 
-        <org.isoron.uhabits.ui.habits.show.views.FrequencyCard
+        <org.isoron.uhabits.activities.habits.show.views.FrequencyCard
             android:id="@+id/frequencyCard"
             style="@style/Card"/>
 

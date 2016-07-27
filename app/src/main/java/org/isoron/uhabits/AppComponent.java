@@ -26,8 +26,8 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.widgets.*;
 
 import javax.inject.*;
 
