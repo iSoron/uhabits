@@ -90,13 +90,6 @@ public class ListHabitsRootView extends BaseRootView
         hintView.setHints(hintList);
     }
 
-    @Override
-    @NonNull
-    public ProgressBar getProgressBar()
-    {
-        return progressBar;
-    }
-
     @NonNull
     @Override
     public Toolbar getToolbar()

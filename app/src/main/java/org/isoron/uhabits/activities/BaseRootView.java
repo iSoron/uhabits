@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities;
 
 import android.content.*;
-import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
@@ -29,6 +28,17 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
+import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.*;
+
+/**
+ * Base class for all root views in the application.
+ * <p>
+ * A root view is an Android view that is directly attached to an activity. This
+ * view usually includes a toolbar and a progress bar. This abstract class hides
+ * some of the complexity of setting these things up, for every version of
+ * Android.
+ */
 public abstract class BaseRootView extends FrameLayout
 {
     private final Context context;
@@ -44,30 +54,25 @@ public abstract class BaseRootView extends FrameLayout
         return false;
     }
 
-    @Nullable
-    public ProgressBar getProgressBar()
-    {
-        return null;
-    }
-
     @NonNull
     public abstract Toolbar getToolbar();
 
     public int getToolbarColor()
     {
-        if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) &&
-            !InterfaceUtils.isNightMode())
+        if (SDK_INT < LOLLIPOP && !InterfaceUtils.isNightMode())
         {
-            return getContext().getResources().getColor(R.color.grey_900);
+            return context
+                .getResources()
+                .getColor(R.color.grey_900, context.getTheme());
         }
 
-        StyledResources res = new StyledResources(getContext());
+        StyledResources res = new StyledResources(context);
         return res.getColor(R.attr.colorPrimary);
     }
 
     protected void initToolbar()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (SDK_INT >= LOLLIPOP)
         {
             getToolbar().setElevation(InterfaceUtils.dpToPixels(context, 2));
             View view = findViewById(R.id.toolbarShadow);

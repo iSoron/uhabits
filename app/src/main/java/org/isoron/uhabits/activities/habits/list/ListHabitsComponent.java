@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 
 import dagger.*;
@@ -30,6 +31,8 @@ import dagger.*;
            dependencies = { AppComponent.class })
 public interface ListHabitsComponent
 {
+    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
+
     HabitCardListAdapter getAdapter();
 
     ListHabitsController getController();

@@ -36,6 +36,8 @@ public class ListHabitsActivity extends BaseActivity
 
     private ListHabitsScreen screen;
 
+    private ListHabitsComponent component;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,7 +45,7 @@ public class ListHabitsActivity extends BaseActivity
 
         HabitsApplication app = (HabitsApplication) getApplicationContext();
 
-        ListHabitsComponent component = DaggerListHabitsComponent
+        component = DaggerListHabitsComponent
             .builder()
             .appComponent(app.getComponent())
             .activityModule(new ActivityModule(this))
@@ -64,6 +66,11 @@ public class ListHabitsActivity extends BaseActivity
 
         setScreen(screen);
         controller.onStartup();
+    }
+
+    public ListHabitsComponent getListHabitsComponent()
+    {
+        return component;
     }
 
     @Override

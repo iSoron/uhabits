@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
 
 import dagger.*;
 
@@ -30,7 +29,5 @@ import dagger.*;
            dependencies = { AppComponent.class })
 public interface ActivityComponent
 {
-    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
-
     DialogFactory getDialogFactory();
 }
