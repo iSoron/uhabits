@@ -22,6 +22,7 @@ package org.isoron.uhabits.utils;
 import android.app.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.junit.*;
 
@@ -36,12 +37,22 @@ public class ReminderSchedulerTest extends BaseUnitTest
 
     private ReminderScheduler reminderScheduler;
 
+    private HabitLogger logger;
+
+    private PendingIntentFactory pendingIntentFactory;
+
+    private IntentScheduler intentScheduler;
+
     @Before
     @Override
     public void setUp()
     {
         super.setUp();
         intent = mock(PendingIntent.class);
+        logger = mock(HabitLogger.class);
+        pendingIntentFactory = mock(PendingIntentFactory.class);
+        intentScheduler = mock(IntentScheduler.class);
+
         reminderScheduler =
             new ReminderScheduler(pendingIntentFactory, intentScheduler,
                 logger);
@@ -78,15 +89,16 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long now = 1422277200000L; // 13:00 jan 26, 2015 (UTC)
         DateUtils.setFixedLocalTime(now);
 
-        fixtures.purgeHabits();
-
         Habit h1 = fixtures.createEmptyHabit();
         h1.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habitList.add(h1);
 
         Habit h2 = fixtures.createEmptyHabit();
         h2.setReminder(new Reminder(18, 30, WeekdayList.EVERY_DAY));
+        habitList.add(h2);
 
-        fixtures.createEmptyHabit();
+        Habit h3 = fixtures.createEmptyHabit();
+        habitList.add(h3);
 
         reminderScheduler.schedule(habitList);
 

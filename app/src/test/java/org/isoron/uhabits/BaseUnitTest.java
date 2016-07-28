@@ -19,76 +19,34 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.models.memory.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
-import javax.inject.*;
-
 public class BaseUnitTest
 {
-    // 8:00am, January 25th, 2015 (UTC)
-    public static final long FIXED_LOCAL_TIME = 1422172800000L;
-
-    @Inject
-    protected ModelFactory modelFactory;
-
-    @Inject
-    protected DialogFactory dialogFactory;
-
-    @Inject
-    protected IntentFactory intentFactory;
-
-    @Inject
     protected HabitList habitList;
-
-    @Inject
-    protected HabitLogger logger;
-
-    @Inject
-    protected PendingIntentFactory pendingIntentFactory;
-
-    @Inject
-    protected IntentScheduler intentScheduler;
-
-    @Inject
-    protected DirFinder dirFinder;
-
-    @Inject
-    protected CommandRunner commandRunner;
-
-    protected TestComponent testComponent;
 
     protected HabitFixtures fixtures;
 
-    protected SingleThreadTaskRunner taskRunner;
-
-    public void log(String format, Object... args)
-    {
-        System.out.println(String.format(format, args));
-    }
+    protected MemoryModelFactory modelFactory;
 
     @Before
     public void setUp()
     {
+        // 8:00am, January 25th, 2015 (UTC)
+        long FIXED_LOCAL_TIME = 1422172800000L;
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
-        testComponent = DaggerTestComponent.create();
-        HabitsApplication.setComponent(testComponent);
-        testComponent.inject(this);
-        fixtures = new HabitFixtures(modelFactory, habitList);
-        taskRunner = new SingleThreadTaskRunner();
+
+        modelFactory = new MemoryModelFactory();
+        habitList = modelFactory.buildHabitList();
+        fixtures = new HabitFixtures(modelFactory);
     }
 
     @After
     public void tearDown()
     {
         DateUtils.setFixedLocalTime(null);
-        fixtures.purgeHabits();
-
     }
 }

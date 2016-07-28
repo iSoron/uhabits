@@ -33,7 +33,7 @@ public class DeleteHabitsCommandTest extends BaseUnitTest
 {
     private DeleteHabitsCommand command;
 
-    private LinkedList<Habit> habits;
+    private LinkedList<Habit> selected;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -43,22 +43,22 @@ public class DeleteHabitsCommandTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
-
-        fixtures.purgeHabits();
-        habits = new LinkedList<>();
+        selected = new LinkedList<>();
 
         // Habits that should be deleted
         for (int i = 0; i < 3; i++)
         {
             Habit habit = fixtures.createShortHabit();
-            habits.add(habit);
+            habitList.add(habit);
+            selected.add(habit);
         }
 
         // Extra habit that should not be deleted
         Habit extraHabit = fixtures.createShortHabit();
         extraHabit.setName("extra");
+        habitList.add(extraHabit);
 
-        command = new DeleteHabitsCommand(habitList, habits);
+        command = new DeleteHabitsCommand(habitList, selected);
     }
 
     @Test

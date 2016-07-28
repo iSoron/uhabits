@@ -29,12 +29,9 @@ public class HabitFixtures
 
     private final ModelFactory modelFactory;
 
-    private final HabitList habitList;
-
-    public HabitFixtures(ModelFactory modelFactory, HabitList habitList)
+    public HabitFixtures(ModelFactory modelFactory)
     {
         this.modelFactory = modelFactory;
-        this.habitList = habitList;
     }
 
     public Habit createEmptyHabit()
@@ -44,7 +41,6 @@ public class HabitFixtures
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(3);
         habit.setFrequency(Frequency.DAILY);
-        habitList.add(habit);
         return habit;
     }
 
@@ -72,7 +68,6 @@ public class HabitFixtures
         habit.setName("Wake up early");
         habit.setDescription("Did you wake up before 6am?");
         habit.setFrequency(new Frequency(2, 3));
-        habitList.add(habit);
 
         long timestamp = DateUtils.getStartOfToday();
         for (boolean c : NON_DAILY_HABIT_CHECKS)
@@ -82,10 +77,5 @@ public class HabitFixtures
         }
 
         return habit;
-    }
-
-    public void purgeHabits()
-    {
-        habitList.removeAll();
     }
 }

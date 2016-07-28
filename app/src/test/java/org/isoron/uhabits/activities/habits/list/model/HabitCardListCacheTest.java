@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.model;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -38,18 +39,21 @@ public class HabitCardListCacheTest extends BaseUnitTest
 
     private HabitCardListCache.Listener listener;
 
+    private CommandRunner commandRunner;
+
     @Override
     public void setUp()
     {
         super.setUp();
 
-        fixtures.purgeHabits();
-
         for (int i = 0; i < 10; i++)
         {
-            if (i == 3) fixtures.createLongHabit();
-            else fixtures.createShortHabit();
+            if (i == 3) habitList.add(fixtures.createLongHabit());
+            else habitList.add(fixtures.createShortHabit());
         }
+
+        SingleThreadTaskRunner taskRunner = new SingleThreadTaskRunner();
+        commandRunner = new CommandRunner(taskRunner);
 
         cache = new HabitCardListCache(habitList, commandRunner, taskRunner);
         cache.setCheckmarkCount(10);

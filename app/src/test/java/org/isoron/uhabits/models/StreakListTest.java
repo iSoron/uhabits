@@ -137,11 +137,4 @@ public class StreakListTest extends BaseUnitTest
         s = streaks.getNewestComputed();
         assertThat(s.getEnd(), equalTo(today - 12 * day));
     }
-
-    private void log(List<Streak> sl)
-    {
-        for (Streak s : sl)
-            log("%5d -- %5d (%d)", (today - s.getEnd()) / day,
-                (today - s.getStart()) / day, s.getLength());
-    }
 }

@@ -19,16 +19,12 @@
 
 package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.BaseUnitTest;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -173,13 +169,6 @@ public class ScoreListTest extends BaseUnitTest
         habit.getScores().writeCSV(writer);
 
         assertThat(writer.toString(), equalTo(expectedCSV));
-    }
-
-    private void log(List<Score> list)
-    {
-        SimpleDateFormat df = DateFormats.getCSVDateFormat();
-        for (Score s : list)
-            log("%s %d", df.format(new Date(s.getTimestamp())), s.getValue());
     }
 
     private void toggleRepetitions(final int from, final int to)

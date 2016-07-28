@@ -19,19 +19,15 @@
 
 package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.utils.DateUtils;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
 
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.isoron.uhabits.models.Checkmark.CHECKED_EXPLICITLY;
-import static org.isoron.uhabits.models.Checkmark.CHECKED_IMPLICITLY;
-import static org.isoron.uhabits.models.Checkmark.UNCHECKED;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.core.IsEqual.*;
+import static org.isoron.uhabits.models.Checkmark.*;
 
 public class CheckmarkListTest extends BaseUnitTest
 {
@@ -46,7 +42,10 @@ public class CheckmarkListTest extends BaseUnitTest
 
         fixtures.createShortHabit();
         nonDailyHabit = fixtures.createShortHabit();
+        habitList.add(nonDailyHabit);
+
         emptyHabit = fixtures.createEmptyHabit();
+        habitList.add(emptyHabit);
     }
 
     @Test

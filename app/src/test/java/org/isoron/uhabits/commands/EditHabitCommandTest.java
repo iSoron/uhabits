@@ -44,10 +44,12 @@ public class EditHabitCommandTest extends BaseUnitTest
         habit = fixtures.createShortHabit();
         habit.setName("original");
         habit.setFrequency(Frequency.DAILY);
+        habitList.add(habit);
 
         modified = fixtures.createEmptyHabit();
         modified.copyFrom(habit);
         modified.setName("modified");
+        habitList.add(modified);
     }
 
     @Test

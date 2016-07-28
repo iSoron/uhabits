@@ -22,7 +22,6 @@ package org.isoron.uhabits.utils;
 import org.isoron.uhabits.*;
 import org.junit.*;
 
-import java.text.*;
 import java.util.*;
 
 import static java.util.Calendar.*;
@@ -141,12 +140,5 @@ public class DateUtilsTest extends BaseUnitTest
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day);
         return cal.getTimeInMillis();
-    }
-
-    private void log(long timestamp)
-    {
-        DateFormat df = SimpleDateFormat.getDateTimeInstance();
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        log("%s", df.format(new Date(timestamp)));
     }
 }

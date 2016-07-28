@@ -44,14 +44,12 @@ public class HabitListTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
-        fixtures.purgeHabits();
-
         habitsArray = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
             Habit habit = fixtures.createEmptyHabit();
-            habit.setId((long) i);
+            habitList.add(habit);
             habitsArray.add(habit);
 
             if (i % 3 == 0)

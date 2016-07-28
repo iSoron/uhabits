@@ -29,7 +29,6 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class CreateHabitCommandTest extends BaseUnitTest
 {
-
     private CreateHabitCommand command;
 
     private Habit model;
@@ -44,7 +43,6 @@ public class CreateHabitCommandTest extends BaseUnitTest
         model.setName("New habit");
 
         command = new CreateHabitCommand(modelFactory, habitList, model);
-        fixtures.purgeHabits();
     }
 
     @Test

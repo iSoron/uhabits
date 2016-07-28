@@ -64,6 +64,14 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private FilePickerDialogFactory filePickerDialogFactory;
 
+    private IntentFactory intentFactory;
+
+    private DialogFactory dialogFactory;
+
+    private DirFinder dirFinder;
+
+    private CommandRunner commandRunner;
+
     @Before
     @Override
     public void setUp()
