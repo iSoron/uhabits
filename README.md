@@ -19,6 +19,15 @@ source.
 <a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Git if on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
 </p>
 
+## Screenshots
+
+[![Main screen][screen1th]][screen1]
+[![Edit habit][screen2th]][screen2]
+[![Habit strength][screen3th]][screen3]
+[![Habit history and streaks][screen4th]][screen4]
+[![Widgets][screen5th]][screen5]
+[![Night mode][screen6th]][screen6]
+
 ## Features
 
 * **Simple, beautiful and modern interface.** Loop has a minimalistic interface
@@ -50,21 +59,12 @@ source.
   and there will never be. The complete source code is available under the
   GPLv3.
 
-## Screenshots
-
-[![Main screen][screen1th]][screen1]
-[![Edit habit][screen2th]][screen2]
-[![Habit strength][screen3th]][screen3]
-[![Habit history and streaks][screen4th]][screen4]
-[![Widgets][screen5th]][screen5]
-[![Night mode][screen6th]][screen6]
-
 ## Installing
 
 The easiest way to install Loop is through the [Google Play Store][playstore] or [F-Droid][fdroid].
 You may also download and install the APK from the [releases page][releases];
 note, however, that the app will not be updated automatically.  To build this
-app from the source code, see [building instructions][build].
+app from the source code, see [build instructions][build].
 
 ## Contributing
 
@@ -91,6 +91,8 @@ contribute, even if you are not a software developer.
   contribute with code. Please, see the [developer guidelines][dev-guide] for more details.
 
 ## License
+
+<img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
 	Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
 
