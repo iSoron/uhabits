@@ -31,6 +31,9 @@ import static org.isoron.uhabits.models.Checkmark.*;
 
 public class CheckmarkListTest extends BaseUnitTest
 {
+    // 8:00am, January 25th, 2015 (UTC)
+    private long fixed_local_time = 1422172800000L;
+
     private Habit nonDailyHabit;
 
     private Habit emptyHabit;
@@ -39,6 +42,8 @@ public class CheckmarkListTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
+
+        DateUtils.setFixedLocalTime(fixed_local_time);
 
         fixtures.createShortHabit();
         nonDailyHabit = fixtures.createShortHabit();
@@ -199,6 +204,6 @@ public class CheckmarkListTest extends BaseUnitTest
     private void travelInTime(int days)
     {
         DateUtils.setFixedLocalTime(
-            FIXED_LOCAL_TIME + days * DateUtils.millisecondsInOneDay);
+            fixed_local_time + days * DateUtils.millisecondsInOneDay);
     }
 }

@@ -36,8 +36,8 @@ public class BaseUnitTest
     public void setUp()
     {
         // 8:00am, January 25th, 2015 (UTC)
-        long FIXED_LOCAL_TIME = 1422172800000L;
-        DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
+        long fixed_local_time = 1422172800000L;
+        DateUtils.setFixedLocalTime(fixed_local_time);
 
         modelFactory = new MemoryModelFactory();
         habitList = modelFactory.buildHabitList();
