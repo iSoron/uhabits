@@ -70,7 +70,7 @@ public class MemoryHabitList extends HabitList
         return null;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public Habit getByPosition(int position)
     {

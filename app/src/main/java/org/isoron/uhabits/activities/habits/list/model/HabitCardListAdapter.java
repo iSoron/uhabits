@@ -199,6 +199,12 @@ public class HabitCardListAdapter
         observable.notifyListeners();
     }
 
+    @Override
+    public void onRefreshFinished()
+    {
+        observable.notifyListeners();
+    }
+
     /**
      * Removes a list of habits from the adapter.
      * <p>

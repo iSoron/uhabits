@@ -82,6 +82,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
             null);
 
         verify(listener).onItemRemoved(0);
+        verify(listener).onRefreshFinished();
         assertThat(cache.getHabitCount(), equalTo(9));
     }
 
@@ -94,6 +95,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
             h2.getId());
 
         verify(listener).onItemChanged(2);
+        verify(listener).onRefreshFinished();
         verifyNoMoreInteractions(listener);
     }
 
@@ -128,7 +130,16 @@ public class HabitCardListCacheTest extends BaseUnitTest
         cache.refreshAllHabits();
         verify(listener).onItemRemoved(0);
         verify(listener).onItemRemoved(3);
+        verify(listener).onRefreshFinished();
         assertThat(cache.getHabitCount(), equalTo(8));
+    }
+
+    @Test
+    public void testRefreshWithNoChanges()
+    {
+        cache.refreshAllHabits();
+        verify(listener).onRefreshFinished();
+        verifyNoMoreInteractions(listener);
     }
 
     @Test
@@ -170,6 +181,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
         verify(listener).onItemMoved(5, 4);
         verify(listener).onItemMoved(6, 5);
         verify(listener).onItemMoved(7, 6);
+        verify(listener).onRefreshFinished();
         verifyNoMoreInteractions(listener);
     }
 

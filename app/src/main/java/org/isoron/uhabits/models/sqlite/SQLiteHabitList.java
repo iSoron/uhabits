@@ -41,7 +41,7 @@ public class SQLiteHabitList extends HabitList
 
     private final SQLiteUtils<HabitRecord> sqlite;
 
-    private ModelFactory modelFactory;
+    private final ModelFactory modelFactory;
 
     public SQLiteHabitList(@NonNull ModelFactory modelFactory)
     {
@@ -52,9 +52,12 @@ public class SQLiteHabitList extends HabitList
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
 
-    protected SQLiteHabitList(@NonNull HabitMatcher filter)
+    protected SQLiteHabitList(@NonNull ModelFactory modelFactory,
+                              @NonNull HabitMatcher filter)
     {
         super(filter);
+        this.modelFactory = modelFactory;
+
         if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
     }
@@ -105,7 +108,7 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    @Nullable
+    @NonNull
     public Habit getByPosition(int position)
     {
         return toList().get(position);
@@ -115,7 +118,7 @@ public class SQLiteHabitList extends HabitList
     @Override
     public HabitList getFiltered(HabitMatcher filter)
     {
-        return new SQLiteHabitList(filter);
+        return new SQLiteHabitList(modelFactory, filter);
     }
 
     @Override

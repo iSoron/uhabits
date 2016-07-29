@@ -190,6 +190,8 @@ public class HabitCardListCache implements CommandRunner.Listener
         default void onItemMoved(int oldPosition, int newPosition) {}
 
         default void onItemRemoved(int position) {}
+
+        default void onRefreshFinished() {}
     }
 
     private class CacheData
@@ -319,6 +321,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         public void onPostExecute()
         {
             currentFetchTask = null;
+            listener.onRefreshFinished();
         }
 
         @Override
