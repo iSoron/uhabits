@@ -33,9 +33,12 @@ public class AndroidTaskRunner implements TaskRunner
 {
     private final LinkedList<CustomAsyncTask> activeTasks;
 
+    private final HashMap<Task, CustomAsyncTask> taskToAsyncTask;
+
     public AndroidTaskRunner()
     {
         activeTasks = new LinkedList<>();
+        taskToAsyncTask = new HashMap<>();
     }
 
     @Provides
@@ -54,8 +57,9 @@ public class AndroidTaskRunner implements TaskRunner
     @Override
     public void publishProgress(Task task, int progress)
     {
-        for (CustomAsyncTask asyncTask : activeTasks)
-            if (asyncTask.getTask() == task) asyncTask.publish(progress);
+        CustomAsyncTask asyncTask = taskToAsyncTask.get(task);
+        if(asyncTask == null) return;
+        asyncTask.publish(progress);
     }
 
     private class CustomAsyncTask extends AsyncTask<Void, Integer, Void>
@@ -89,12 +93,14 @@ public class AndroidTaskRunner implements TaskRunner
         {
             task.onPostExecute();
             activeTasks.remove(this);
+            taskToAsyncTask.remove(task);
         }
 
         @Override
         protected void onPreExecute()
         {
             activeTasks.add(this);
+            taskToAsyncTask.put(task, this);
             task.onPreExecute();
         }
 
