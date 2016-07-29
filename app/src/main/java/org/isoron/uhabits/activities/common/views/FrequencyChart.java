@@ -235,10 +235,14 @@ public class FrequencyChart extends ScrollableChart
     private void drawMarker(Canvas canvas, RectF rect, Integer value)
     {
         float padding = rect.height() * 0.2f;
-        float radius =
-            (rect.height() - 2 * padding) / 2.0f / 4.0f * Math.min(value, 4);
+        // maximal allowed mark radius
+        float maxRadius = (rect.height() - 2 * padding) / 2.0f;
+        // the real mark radius is scaled down by a factor depending on the value
+        float scale = Math.min(value, 4) / 4.0f;
+        float radius = maxRadius * scale;
 
-        pGraph.setColor(colors[Math.min(3, Math.max(0, value - 1))]);
+        int colorIndex = Math.round((colors.length-1) * scale);
+        pGraph.setColor(colors[colorIndex]);
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph);
     }
 
