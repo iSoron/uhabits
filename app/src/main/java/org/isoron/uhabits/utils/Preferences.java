@@ -28,6 +28,7 @@ import javax.inject.*;
 
 @Singleton
 public class Preferences
+    implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private final Context context;
 
@@ -39,7 +40,9 @@ public class Preferences
     public Preferences(@AppContext Context context)
     {
         this.context = context;
+
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     public Integer getDefaultHabitColor(int fallbackColor)
@@ -53,6 +56,14 @@ public class Preferences
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
             defaultScoreInterval = 1;
         return defaultScoreInterval;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key)
+    {
+        if(key.equals("pref_checkmark_reverse_order"))
+            shouldReverseCheckmarks = null;
     }
 
     public void setDefaultScoreSpinnerPosition(int position)
