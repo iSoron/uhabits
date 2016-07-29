@@ -78,13 +78,6 @@ public class HeaderView extends LinearLayout
         super.onDraw(canvas);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        createButtons();
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
     private void createButtons()
     {
         int layout = R.layout.list_habits_header_checkmark;

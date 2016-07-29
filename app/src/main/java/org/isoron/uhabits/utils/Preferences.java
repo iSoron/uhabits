@@ -33,6 +33,8 @@ public class Preferences
 
     private SharedPreferences prefs;
 
+    private Boolean shouldReverseCheckmarks = null;
+
     @Inject
     public Preferences(@AppContext Context context)
     {
@@ -134,17 +136,21 @@ public class Preferences
         prefs.edit().putInt("pref_default_habit_palette_color", color).apply();
     }
 
-    public void setShouldReverseCheckmarks(boolean shouldReverse)
+    public void setShouldReverseCheckmarks(boolean reverse)
     {
+        shouldReverseCheckmarks = null;
         prefs
             .edit()
-            .putBoolean("pref_checkmark_reverse_order", shouldReverse)
+            .putBoolean("pref_checkmark_reverse_order", reverse)
             .apply();
     }
 
     public boolean shouldReverseCheckmarks()
     {
-        return prefs.getBoolean("pref_checkmark_reverse_order", false);
+        if (shouldReverseCheckmarks == null) shouldReverseCheckmarks =
+            prefs.getBoolean("pref_checkmark_reverse_order", false);
+
+        return shouldReverseCheckmarks;
     }
 
     public void updateLastAppVersion()

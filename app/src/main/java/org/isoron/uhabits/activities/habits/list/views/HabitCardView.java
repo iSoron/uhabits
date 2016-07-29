@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list.views;
 
 import android.annotation.*;
 import android.content.*;
-import android.graphics.*;
 import android.graphics.drawable.*;
 import android.os.*;
 import android.support.annotation.*;
@@ -78,7 +77,7 @@ public class HabitCardView extends FrameLayout
     @Override
     public void onModelChange()
     {
-        postInvalidate();
+        refresh();
     }
 
     public void setCheckmarkValues(int checkmarks[])
@@ -100,9 +99,19 @@ public class HabitCardView extends FrameLayout
 
         this.habit = habit;
         checkmarkPanel.setHabit(habit);
+        refresh();
 
         attachToHabit();
         postInvalidate();
+    }
+
+    private void refresh()
+    {
+        int color = getActiveColor(habit);
+        label.setText(habit.getName());
+        label.setTextColor(color);
+        scoreRing.setColor(color);
+        checkmarkPanel.setColor(color);
     }
 
     public void setScore(int score)
@@ -144,21 +153,6 @@ public class HabitCardView extends FrameLayout
         super.onDetachedFromWindow();
     }
 
-    @Override
-    protected void onDraw(Canvas canvas)
-    {
-        if (habit != null)
-        {
-            int color = getActiveColor(habit);
-            label.setText(habit.getName());
-            label.setTextColor(color);
-            scoreRing.setColor(color);
-            checkmarkPanel.setColor(color);
-        }
-
-        super.onDraw(canvas);
-    }
-
     private void attachToHabit()
     {
         if (habit != null) habit.getObservable().addListener(this);
@@ -182,8 +176,6 @@ public class HabitCardView extends FrameLayout
 
         inflate(context, R.layout.list_habits_card, this);
         ButterKnife.bind(this);
-
-        setWillNotDraw(false);
 
         innerFrame.setOnTouchListener((v, event) -> {
             if (SDK_INT >= LOLLIPOP)
