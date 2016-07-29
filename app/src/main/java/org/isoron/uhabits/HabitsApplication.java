@@ -39,7 +39,9 @@ public class HabitsApplication extends Application
 
     private static AppComponent component;
 
-    private static WidgetUpdater widgetUpdater;
+    private WidgetUpdater widgetUpdater;
+
+    private ReminderScheduler reminderScheduler;
 
     public AppComponent getComponent()
     {
@@ -95,6 +97,9 @@ public class HabitsApplication extends Application
         widgetUpdater = component.getWidgetUpdater();
         widgetUpdater.startListening();
 
+        reminderScheduler = component.getReminderScheduler();
+        reminderScheduler.startListening();
+
         DatabaseUtils.initializeActiveAndroid();
     }
 
@@ -103,6 +108,8 @@ public class HabitsApplication extends Application
     {
         HabitsApplication.context = null;
         ActiveAndroid.dispose();
+
+        reminderScheduler.stopListening();
         widgetUpdater.stopListening();
         super.onTerminate();
     }

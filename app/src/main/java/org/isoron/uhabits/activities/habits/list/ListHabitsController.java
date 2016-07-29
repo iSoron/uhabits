@@ -184,7 +184,7 @@ public class ListHabitsController
         if (prefs.isFirstRun()) onFirstRun();
 
         new Handler().postDelayed(() -> taskRunner.execute(() -> {
-            reminderScheduler.schedule(habitList);
+            reminderScheduler.scheduleAll();
             widgetUpdater.updateWidgets();
         }), 1000);
     }

@@ -34,8 +34,6 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
-import java.util.*;
-
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
  * <p>
@@ -104,7 +102,7 @@ public class ReminderReceiver extends BroadcastReceiver
 
     protected void onActionBootCompleted()
     {
-        reminderScheduler.schedule(habits);
+        reminderScheduler.scheduleAll();
     }
 
     protected void onActionShowReminder(Context context, Intent intent)
@@ -196,7 +194,7 @@ public class ReminderReceiver extends BroadcastReceiver
     private void createReminderAlarmsDelayed()
     {
         new Handler().postDelayed(() -> {
-            reminderScheduler.schedule(habits);
+            reminderScheduler.scheduleAll();
         }, 5000);
     }
 
@@ -223,7 +221,7 @@ public class ReminderReceiver extends BroadcastReceiver
 
         if (habit != null)
         {
-            long reminderTime = new Date().getTime() + delayMinutes * 60 * 1000;
+            long reminderTime = DateUtils.getLocalTime() + delayMinutes * 60 * 1000;
             reminderScheduler.schedule(habit, reminderTime);
         }
 

@@ -22,9 +22,12 @@ package org.isoron.uhabits.utils;
 import android.app.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.junit.*;
+
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -43,6 +46,8 @@ public class ReminderSchedulerTest extends BaseUnitTest
 
     private IntentScheduler intentScheduler;
 
+    private CommandRunner commandRunner;
+
     @Before
     @Override
     public void setUp()
@@ -52,18 +57,21 @@ public class ReminderSchedulerTest extends BaseUnitTest
         logger = mock(HabitLogger.class);
         pendingIntentFactory = mock(PendingIntentFactory.class);
         intentScheduler = mock(IntentScheduler.class);
+        commandRunner = mock(CommandRunner.class);
 
         reminderScheduler =
-            new ReminderScheduler(pendingIntentFactory, intentScheduler,
-                logger);
+            new ReminderScheduler(pendingIntentFactory, intentScheduler, logger,
+                commandRunner, habitList);
         habit = fixtures.createEmptyHabit();
+
+        DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT-4"));
     }
 
     @Test
     public void testSchedule_atSpecificTime()
     {
-        long atTime = 1422617400000L; // 11:30 jan 30, 2015 (UTC)
-        long expectedCheckmarkTime = 1422576000000L; // 00:00 jan 27, 2015 (UTC)
+        long atTime = timestamp(2015, 1, 30, 11, 30);
+        long expectedCheckmarkTime = timestamp(2015, 1, 30, 0, 0);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(atTime, expectedCheckmarkTime, atTime);
@@ -72,11 +80,11 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_laterToday()
     {
-        long now = 1422253800000L; // 06:30 jan 26, 2015 (UTC)
+        long now = timestamp(2015, 1, 26, 6, 30);
         DateUtils.setFixedLocalTime(now);
 
-        long expectedCheckmarkTime = 1422230400000L; // 00:00 jan 26, 2015 (UTC)
-        long expectedReminderTime = 1422261000000L; // 08:30 jan 26, 2015 (UTC)
+        long expectedCheckmarkTime = timestamp(2015, 1, 26, 0, 0);
+        long expectedReminderTime = timestamp(2015, 1, 26, 12, 30);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
 
@@ -86,7 +94,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_list()
     {
-        long now = 1422277200000L; // 13:00 jan 26, 2015 (UTC)
+        long now = timestamp(2015, 1, 26, 13, 0);
         DateUtils.setFixedLocalTime(now);
 
         Habit h1 = fixtures.createEmptyHabit();
@@ -100,21 +108,21 @@ public class ReminderSchedulerTest extends BaseUnitTest
         Habit h3 = fixtures.createEmptyHabit();
         habitList.add(h3);
 
-        reminderScheduler.schedule(habitList);
+        reminderScheduler.scheduleAll();
 
-        verify(intentScheduler).schedule(1422347400000L, null);
-        verify(intentScheduler).schedule(1422297000000L, null);
+        verify(intentScheduler).schedule(timestamp(2015, 1, 27, 12, 30), null);
+        verify(intentScheduler).schedule(timestamp(2015, 1, 26, 22, 30), null);
         verifyNoMoreInteractions(intentScheduler);
     }
 
     @Test
     public void testSchedule_tomorrow()
     {
-        long now = 1453813200000L; // 13:00 jan 26, 2016 (UTC)
+        long now = timestamp(2015, 1, 26, 13, 0);
         DateUtils.setFixedLocalTime(now);
 
-        long expectedCheckmarkTime = 1453852800000L; // 00:00 jan 27, 2016 (UTC)
-        long expectedReminderTime = 1453883400000L; // 08:30 jan 27, 2016 (UTC)
+        long expectedCheckmarkTime = timestamp(2015, 1, 27, 0, 0);
+        long expectedReminderTime = timestamp(2015, 1, 27, 12, 30);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
@@ -125,6 +133,13 @@ public class ReminderSchedulerTest extends BaseUnitTest
     {
         reminderScheduler.schedule(habit, null);
         verifyZeroInteractions(intentScheduler);
+    }
+
+    public long timestamp(int year, int month, int day, int hour, int minute)
+    {
+        Calendar cal = DateUtils.getStartOfTodayCalendar();
+        cal.set(year, month, day, hour, minute);
+        return cal.getTimeInMillis();
     }
 
     private void scheduleAndVerify(Long atTime,

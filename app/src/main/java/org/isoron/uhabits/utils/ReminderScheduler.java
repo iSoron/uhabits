@@ -23,6 +23,7 @@ import android.app.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 
@@ -33,7 +34,7 @@ import javax.inject.*;
 import static org.isoron.uhabits.utils.DateUtils.*;
 
 @Singleton
-public class ReminderScheduler
+public class ReminderScheduler implements CommandRunner.Listener
 {
     private final PendingIntentFactory pendingIntentFactory;
 
@@ -41,14 +42,31 @@ public class ReminderScheduler
 
     private final HabitLogger logger;
 
+    private CommandRunner commandRunner;
+
+    private HabitList habitList;
+
     @Inject
     public ReminderScheduler(@NonNull PendingIntentFactory pendingIntentFactory,
                              @NonNull IntentScheduler intentScheduler,
-                             @NonNull HabitLogger logger)
+                             @NonNull HabitLogger logger,
+                             @NonNull CommandRunner commandRunner,
+                             @NonNull HabitList habitList)
     {
         this.pendingIntentFactory = pendingIntentFactory;
         this.intentScheduler = intentScheduler;
         this.logger = logger;
+        this.commandRunner = commandRunner;
+        this.habitList = habitList;
+    }
+
+    @Override
+    public void onCommandExecuted(@NonNull Command command,
+                                  @Nullable Long refreshKey)
+    {
+        if(command instanceof ToggleRepetitionCommand) return;
+        if(command instanceof ChangeHabitColorCommand) return;
+        scheduleAll();
     }
 
     public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)
@@ -56,7 +74,7 @@ public class ReminderScheduler
         if (!habit.hasReminder()) return;
         Reminder reminder = habit.getReminder();
         if (reminderTime == null) reminderTime = getReminderTime(reminder);
-        long timestamp = getStartOfDay(toLocalTime(reminderTime));
+        long timestamp = getStartOfDay(removeTimezone(reminderTime));
 
         PendingIntent intent =
             pendingIntentFactory.showReminder(habit, reminderTime, timestamp);
@@ -64,11 +82,22 @@ public class ReminderScheduler
         logger.logReminderScheduled(habit, reminderTime);
     }
 
-    public void schedule(@NonNull HabitList habits)
+    public void scheduleAll()
     {
-        HabitList reminderHabits = habits.getFiltered(HabitMatcher.WITH_ALARM);
+        HabitList reminderHabits =
+            habitList.getFiltered(HabitMatcher.WITH_ALARM);
         for (Habit habit : reminderHabits)
             schedule(habit, null);
+    }
+
+    public void startListening()
+    {
+        commandRunner.addListener(this);
+    }
+
+    public void stopListening()
+    {
+        commandRunner.removeListener(this);
     }
 
     @NonNull
@@ -82,6 +111,6 @@ public class ReminderScheduler
 
         if (DateUtils.getLocalTime() > time) time += AlarmManager.INTERVAL_DAY;
 
-        return time;
+        return applyTimezone(time);
     }
 }

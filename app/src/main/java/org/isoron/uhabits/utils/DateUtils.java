@@ -32,10 +32,19 @@ public abstract class DateUtils
 {
     private static Long fixedLocalTime = null;
 
+    private static TimeZone fixedTimeZone = null;
+
     /**
      * Number of milliseconds in one day.
      */
     public static long millisecondsInOneDay = 24 * 60 * 60 * 1000;
+
+    public static long applyTimezone(long localTimestamp)
+    {
+        TimeZone tz = getTimezone();
+        long now = new Date(localTimestamp).getTime();
+        return now - tz.getOffset(now);
+    }
 
     public static String formatHeaderDate(GregorianCalendar day)
     {
@@ -116,7 +125,7 @@ public abstract class DateUtils
     {
         if (fixedLocalTime != null) return fixedLocalTime;
 
-        TimeZone tz = TimeZone.getDefault();
+        TimeZone tz = getTimezone();
         long now = new Date().getTime();
         return now + tz.getOffset(now);
     }
@@ -183,6 +192,17 @@ public abstract class DateUtils
         return getCalendar(getStartOfToday());
     }
 
+    public static TimeZone getTimezone()
+    {
+        if(fixedTimeZone != null) return fixedTimeZone;
+        return TimeZone.getDefault();
+    }
+
+    public static void setFixedTimeZone(TimeZone tz)
+    {
+        fixedTimeZone = tz;
+    }
+
     public static int getWeekday(long timestamp)
     {
         GregorianCalendar day = getCalendar(timestamp);
@@ -202,16 +222,16 @@ public abstract class DateUtils
         return number % 7;
     }
 
+    public static long removeTimezone(long timestamp)
+    {
+        TimeZone tz = getTimezone();
+        long now = new Date(timestamp).getTime();
+        return now + tz.getOffset(now);
+    }
+
     public static void setFixedLocalTime(Long timestamp)
     {
         fixedLocalTime = timestamp;
-    }
-
-    public static long toLocalTime(long timestamp)
-    {
-        TimeZone tz = TimeZone.getDefault();
-        long now = new Date(timestamp).getTime();
-        return now + tz.getOffset(now);
     }
 
     public static Long truncate(TruncateField field, long timestamp)
