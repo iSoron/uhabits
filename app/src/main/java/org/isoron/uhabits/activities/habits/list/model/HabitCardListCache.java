@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list.model;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
@@ -38,8 +37,11 @@ import javax.inject.*;
  * This is needed since performing database lookups during scrolling can make
  * the ListView very slow. It also registers itself as an observer of the
  * models, in order to update itself automatically.
+ * <p>
+ * Note that this class is singleton-scoped, therefore it is shared among all
+ * activities.
  */
-@ActivityScope
+@Singleton
 public class HabitCardListCache implements CommandRunner.Listener
 {
     private int checkmarkCount;
@@ -359,7 +361,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             boolean unchanged = true;
             if (!oldScore.equals(newScore)) unchanged = false;
             if (!Arrays.equals(oldCheckmarks, newCheckmarks)) unchanged = false;
-            if(unchanged) return;
+            if (unchanged) return;
 
             data.scores.put(id, newScore);
             data.checkmarks.put(id, newCheckmarks);

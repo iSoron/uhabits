@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits;
 
+import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
@@ -70,4 +71,6 @@ public interface AppComponent
     WidgetPreferences getWidgetPreferences();
 
     WidgetUpdater getWidgetUpdater();
+
+    HabitCardListCache getHabitCardListCache();
 }
