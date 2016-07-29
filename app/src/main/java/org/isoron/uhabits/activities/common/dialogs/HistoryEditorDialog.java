@@ -52,11 +52,6 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public HistoryEditorDialog()
     {
         this.controller = new Controller() {};
-
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        habitList = app.getComponent().getHabitList();
-        taskRunner = app.getComponent().getTaskRunner();
     }
 
     @Override
@@ -70,6 +65,12 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
     {
         Context context = getActivity();
+
+        HabitsApplication app =
+            (HabitsApplication) getActivity().getApplicationContext();
+        habitList = app.getComponent().getHabitList();
+        taskRunner = app.getComponent().getTaskRunner();
+
         historyChart = new HistoryChart(context);
         historyChart.setController(controller);
 

@@ -27,6 +27,7 @@ import org.isoron.uhabits.activities.*;
 
 import javax.inject.*;
 
+@ActivityScope
 public class ShowHabitsMenu extends BaseMenu
 {
     @NonNull

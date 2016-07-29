@@ -57,7 +57,10 @@ public class ShowHabitActivity extends BaseActivity
 
         setScreen(screen);
         screen.setMenu(component.getMenu());
+        screen.setController(component.getController());
         rootView.setController(component.getController());
+
+        screen.reattachDialogs();
     }
 
     @NonNull

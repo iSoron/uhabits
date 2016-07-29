@@ -33,6 +33,7 @@ import javax.inject.*;
 
 import butterknife.*;
 
+@ActivityScope
 public class ShowHabitRootView extends BaseRootView
     implements ModelObservable.Listener
 {

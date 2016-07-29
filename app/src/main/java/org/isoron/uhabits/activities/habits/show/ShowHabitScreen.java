@@ -21,19 +21,23 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
+import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
+@ActivityScope
 public class ShowHabitScreen extends BaseScreen
 {
     @NonNull
     private final Habit habit;
 
     private DialogFactory dialogFactory;
+
+    @Nullable
+    private ShowHabitController controller;
 
     @Inject
     public ShowHabitScreen(@NonNull BaseActivity activity,
@@ -47,15 +51,33 @@ public class ShowHabitScreen extends BaseScreen
         this.dialogFactory = dialogFactory;
     }
 
+    public void setController(@NonNull ShowHabitController controller)
+    {
+        this.controller = controller;
+    }
+
+    public void reattachDialogs()
+    {
+        if(controller == null) throw new IllegalStateException();
+
+        HistoryEditorDialog historyEditor = (HistoryEditorDialog) activity
+            .getSupportFragmentManager()
+            .findFragmentByTag("historyEditor");
+
+        if (historyEditor != null)
+            historyEditor.setController(controller);
+    }
+
     public void showEditHabitDialog()
     {
         EditHabitDialog dialog = dialogFactory.buildEditHabitDialog(habit);
         activity.showDialog(dialog, "editHabit");
     }
 
-    public void showEditHistoryDialog(
-        @NonNull HistoryEditorDialog.Controller controller)
+    public void showEditHistoryDialog()
     {
+        if(controller == null) throw new IllegalStateException();
+
         HistoryEditorDialog dialog = new HistoryEditorDialog();
         dialog.setHabit(habit);
         dialog.setController(controller);

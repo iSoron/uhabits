@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
-import android.app.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
@@ -27,13 +26,12 @@ import android.text.format.*;
 import android.view.*;
 
 import com.android.datetimepicker.time.*;
-import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -88,11 +86,11 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     }
 
     @Override
-    public void onAttach(Activity activity)
+    public void onActivityCreated(Bundle savedInstanceState)
     {
-        super.onAttach(activity);
+        super.onActivityCreated(savedInstanceState);
 
-        BaseActivity baseActivity = (BaseActivity) activity;
+        BaseActivity baseActivity = (BaseActivity) getActivity();
         ActivityComponent component = baseActivity.getComponent();
         dialogFactory = component.getDialogFactory();
     }
@@ -132,7 +130,6 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         if (bundle == null) return;
         modifiedHabit.setColor(
             bundle.getInt("color", modifiedHabit.getColor()));
-
 
         modifiedHabit.setReminder(null);
 

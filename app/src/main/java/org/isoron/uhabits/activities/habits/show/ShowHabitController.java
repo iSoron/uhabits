@@ -21,12 +21,14 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.support.annotation.*;
 
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
+@ActivityScope
 public class ShowHabitController
     implements ShowHabitRootView.Controller, HistoryEditorDialog.Controller
 {
@@ -52,7 +54,7 @@ public class ShowHabitController
     @Override
     public void onEditHistoryButtonClick()
     {
-        screen.showEditHistoryDialog(this);
+        screen.showEditHistoryDialog();
     }
 
     @Override

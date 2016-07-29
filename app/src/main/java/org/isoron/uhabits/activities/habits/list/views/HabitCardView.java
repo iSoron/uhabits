@@ -21,15 +21,16 @@ package org.isoron.uhabits.activities.habits.list.views;
 
 import android.annotation.*;
 import android.content.*;
+import android.graphics.*;
 import android.graphics.drawable.*;
 import android.os.*;
+import android.support.annotation.*;
 import android.util.*;
-import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.common.views.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -40,6 +41,7 @@ import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 
 public class HabitCardView extends FrameLayout
+    implements ModelObservable.Listener
 {
 
     @BindView(R.id.checkmarkPanel)
@@ -58,6 +60,9 @@ public class HabitCardView extends FrameLayout
 
     private StyledResources res;
 
+    @Nullable
+    private Habit habit;
+
     public HabitCardView(Context context)
     {
         super(context);
@@ -68,6 +73,12 @@ public class HabitCardView extends FrameLayout
     {
         super(context, attrs);
         init();
+    }
+
+    @Override
+    public void onModelChange()
+    {
+        postInvalidate();
     }
 
     public void setCheckmarkValues(int checkmarks[])
@@ -83,16 +94,14 @@ public class HabitCardView extends FrameLayout
         checkmarkPanel.setController(controller);
     }
 
-    public void setHabit(Habit habit)
+    public void setHabit(@NonNull Habit habit)
     {
-        int color = getActiveColor(habit);
+        if (this.habit != null) detachFromHabit();
 
-        label.setText(habit.getName());
-        label.setTextColor(color);
-        scoreRing.setColor(color);
-        checkmarkPanel.setColor(color);
+        this.habit = habit;
         checkmarkPanel.setHabit(habit);
 
+        attachToHabit();
         postInvalidate();
     }
 
@@ -123,6 +132,38 @@ public class HabitCardView extends FrameLayout
         triggerRipple(x, y);
     }
 
+    protected void detachFromHabit()
+    {
+        if (habit != null) habit.getObservable().removeListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        if (habit != null) detachFromHabit();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        if (habit != null)
+        {
+            int color = getActiveColor(habit);
+            label.setText(habit.getName());
+            label.setTextColor(color);
+            scoreRing.setColor(color);
+            checkmarkPanel.setColor(color);
+        }
+
+        super.onDraw(canvas);
+    }
+
+    private void attachToHabit()
+    {
+        if (habit != null) habit.getObservable().addListener(this);
+    }
+
     private int getActiveColor(Habit habit)
     {
         int mediumContrastColor = res.getColor(R.attr.mediumContrastTextColor);
@@ -134,13 +175,15 @@ public class HabitCardView extends FrameLayout
 
     private void init()
     {
-        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT));
+        setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT));
 
         res = new StyledResources(getContext());
 
         inflate(context, R.layout.list_habits_card, this);
         ButterKnife.bind(this);
+
+        setWillNotDraw(false);
 
         innerFrame.setOnTouchListener((v, event) -> {
             if (SDK_INT >= LOLLIPOP)
