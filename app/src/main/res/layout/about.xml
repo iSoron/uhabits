@@ -105,6 +105,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Álinson Xavier"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Денис (sciamano)"/>
             </LinearLayout>
 
             <LinearLayout
