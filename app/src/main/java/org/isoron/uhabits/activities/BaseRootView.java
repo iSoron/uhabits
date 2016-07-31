@@ -43,10 +43,16 @@ public abstract class BaseRootView extends FrameLayout
 {
     private final Context context;
 
+    private final BaseActivity activity;
+
+    private final ThemeSwitcher themeSwitcher;
+
     public BaseRootView(Context context)
     {
         super(context);
         this.context = context;
+        activity = (BaseActivity) context;
+        themeSwitcher = activity.getComponent().getThemeSwitcher();
     }
 
     public boolean getDisplayHomeAsUp()
@@ -59,7 +65,7 @@ public abstract class BaseRootView extends FrameLayout
 
     public int getToolbarColor()
     {
-        if (SDK_INT < LOLLIPOP && !InterfaceUtils.isNightMode())
+        if (SDK_INT < LOLLIPOP && !themeSwitcher.isNightMode())
         {
             return context
                 .getResources()

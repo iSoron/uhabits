@@ -32,7 +32,6 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
@@ -75,7 +74,10 @@ public class ListHabitsScreen extends BaseScreen
     private final ColorPickerDialogFactory colorPickerFactory;
 
     @NonNull
-    private EditHabitDialogFactory editHabitDialogFactory;
+    private final EditHabitDialogFactory editHabitDialogFactory;
+
+    @NonNull
+    private final ThemeSwitcher themeSwitcher;
 
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
@@ -83,6 +85,7 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull DirFinder dirFinder,
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
+                            @NonNull ThemeSwitcher themeSwitcher,
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull CreateHabitDialogFactory createHabitDialogFactory,
                             @NonNull FilePickerDialogFactory filePickerDialogFactory,
@@ -99,6 +102,7 @@ public class ListHabitsScreen extends BaseScreen
         this.dirFinder = dirFinder;
         this.filePickerDialogFactory = filePickerDialogFactory;
         this.intentFactory = intentFactory;
+        this.themeSwitcher = themeSwitcher;
     }
 
     public void onAttached()
@@ -229,9 +233,9 @@ public class ListHabitsScreen extends BaseScreen
 
     public void toggleNightMode()
     {
-        if (InterfaceUtils.isNightMode())
-            InterfaceUtils.setCurrentTheme(InterfaceUtils.THEME_LIGHT);
-        else InterfaceUtils.setCurrentTheme(InterfaceUtils.THEME_DARK);
+        if (themeSwitcher.isNightMode())
+            themeSwitcher.setTheme(ThemeSwitcher.THEME_LIGHT);
+        else themeSwitcher.setTheme(ThemeSwitcher.THEME_DARK);
 
         refreshTheme();
     }

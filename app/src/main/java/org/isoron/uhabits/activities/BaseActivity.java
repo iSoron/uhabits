@@ -26,7 +26,6 @@ import android.support.v7.app.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.utils.*;
 
 /**
  * Base class for all activities in the application.
@@ -128,7 +127,7 @@ abstract public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        InterfaceUtils.applyCurrentTheme(this);
+
         androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
 
@@ -139,5 +138,7 @@ abstract public class BaseActivity extends AppCompatActivity
             .activityModule(new ActivityModule(this))
             .appComponent(app.getComponent())
             .build();
+
+        component.getThemeSwitcher().apply();
     }
 }

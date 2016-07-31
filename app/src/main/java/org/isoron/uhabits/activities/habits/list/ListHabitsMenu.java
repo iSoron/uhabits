@@ -44,16 +44,20 @@ public class ListHabitsMenu extends BaseMenu
 
     private final Preferences preferences;
 
+    private ThemeSwitcher themeSwitcher;
+
     @Inject
     public ListHabitsMenu(@NonNull BaseActivity activity,
                           @NonNull ListHabitsScreen screen,
                           @NonNull HabitCardListAdapter adapter,
-                          @NonNull Preferences preferences)
+                          @NonNull Preferences preferences,
+                          @NonNull ThemeSwitcher themeSwitcher)
     {
         super(activity);
         this.screen = screen;
         this.adapter = adapter;
         this.preferences = preferences;
+        this.themeSwitcher = themeSwitcher;
 
         showCompleted = preferences.getShowCompleted();
         showArchived = preferences.getShowArchived();
@@ -64,7 +68,7 @@ public class ListHabitsMenu extends BaseMenu
     public void onCreate(@NonNull Menu menu)
     {
         MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);
-        nightModeItem.setChecked(InterfaceUtils.isNightMode());
+        nightModeItem.setChecked(themeSwitcher.isNightMode());
 
         MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
         showArchivedItem.setChecked(showArchived);

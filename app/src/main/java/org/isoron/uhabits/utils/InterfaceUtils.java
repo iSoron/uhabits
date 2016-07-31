@@ -19,14 +19,10 @@
 
 package org.isoron.uhabits.utils;
 
-import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
-import android.preference.*;
 import android.util.*;
-
-import org.isoron.uhabits.*;
 
 import java.util.*;
 
@@ -39,18 +35,7 @@ public abstract class InterfaceUtils
         "ja", "fr", "hr", "sl"
     };
 
-    public static final int THEME_DARK = 1;
-
-    public static final int THEME_LIGHT = 0;
-
-    public static Integer fixedTheme;
-
     private static Typeface fontAwesome;
-
-    public static void setFixedTheme(Integer fixedTheme)
-    {
-        InterfaceUtils.fixedTheme = fixedTheme;
-    }
 
     public static Typeface getFontAwesome(Context context)
     {
@@ -84,46 +69,4 @@ public abstract class InterfaceUtils
         return false;
     }
 
-    public static void applyCurrentTheme(Activity activity)
-    {
-        switch(getCurrentTheme())
-        {
-            case THEME_DARK:
-            {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-                boolean pureBlackEnabled = prefs.getBoolean("pref_pure_black", false);
-
-                if(pureBlackEnabled)
-                    activity.setTheme(R.style.AppBaseThemeDark_PureBlack);
-                else
-                    activity.setTheme(R.style.AppBaseThemeDark);
-
-                break;
-            }
-
-            case THEME_LIGHT:
-            default:
-                activity.setTheme(R.style.AppBaseTheme);
-                break;
-        }
-    }
-
-    private static int getCurrentTheme()
-    {
-        Context appContext = HabitsApplication.getContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
-        return prefs.getInt("pref_theme", THEME_LIGHT);
-    }
-
-    public static void setCurrentTheme(int theme)
-    {
-        Context appContext = HabitsApplication.getContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
-        prefs.edit().putInt("pref_theme", theme).apply();
-    }
-
-    public static boolean isNightMode()
-    {
-        return getCurrentTheme() == THEME_DARK;
-    }
 }

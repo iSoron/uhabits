@@ -30,4 +30,6 @@ import dagger.*;
 public interface ActivityComponent
 {
     ColorPickerDialogFactory getColorPickerDialogFactory();
+
+    ThemeSwitcher getThemeSwitcher();
 }

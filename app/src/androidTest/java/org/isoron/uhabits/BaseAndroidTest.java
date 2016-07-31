@@ -114,7 +114,6 @@ public class BaseAndroidTest
 
     protected void setTheme(@StyleRes int themeId)
     {
-        InterfaceUtils.setFixedTheme(themeId);
         targetContext.setTheme(themeId);
     }
 

@@ -92,9 +92,9 @@ public class StyledResources
     {
         int[] attrs = new int[]{ attrId };
 
-        Integer fixedTheme = InterfaceUtils.fixedTheme;
-        if (fixedTheme != null)
-            return context.getTheme().obtainStyledAttributes(fixedTheme, attrs);
+//        Integer fixedTheme = ThemeSwitcher.fixedTheme;
+//        if (fixedTheme != null)
+//            return context.getTheme().obtainStyledAttributes(fixedTheme, attrs);
 
         return context.obtainStyledAttributes(attrs);
     }

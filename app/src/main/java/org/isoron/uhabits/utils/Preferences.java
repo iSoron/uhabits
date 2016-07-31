@@ -23,6 +23,7 @@ import android.content.*;
 import android.preference.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.*;
 
 import javax.inject.*;
 
@@ -56,6 +57,16 @@ public class Preferences
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
             defaultScoreInterval = 1;
         return defaultScoreInterval;
+    }
+
+    public int getTheme()
+    {
+        return prefs.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
+    }
+
+    public boolean isPureBlackEnabled()
+    {
+        return prefs.getBoolean("pref_pure_black", false);
     }
 
     @Override
@@ -154,6 +165,11 @@ public class Preferences
             .edit()
             .putBoolean("pref_checkmark_reverse_order", reverse)
             .apply();
+    }
+
+    public void setTheme(int theme)
+    {
+        prefs.edit().putInt("pref_theme", theme).apply();
     }
 
     public boolean shouldReverseCheckmarks()
