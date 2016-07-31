@@ -25,6 +25,7 @@ import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;

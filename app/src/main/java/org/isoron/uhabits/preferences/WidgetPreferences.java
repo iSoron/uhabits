@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.uhabits.preferences;
 
 import android.content.*;
 import android.preference.*;

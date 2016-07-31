@@ -25,7 +25,7 @@ import com.google.auto.factory.*;
 
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.preferences.*;
 
 @AutoFactory
 public class CheckmarkButtonController

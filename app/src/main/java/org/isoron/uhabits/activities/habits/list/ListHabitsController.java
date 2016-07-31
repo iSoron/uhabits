@@ -28,6 +28,7 @@ import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;

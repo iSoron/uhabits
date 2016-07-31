@@ -26,7 +26,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.preferences.*;
 
 import javax.inject.*;
 

@@ -28,6 +28,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 public class CheckmarkPanelView extends LinearLayout

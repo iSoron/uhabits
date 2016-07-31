@@ -23,6 +23,7 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 /**

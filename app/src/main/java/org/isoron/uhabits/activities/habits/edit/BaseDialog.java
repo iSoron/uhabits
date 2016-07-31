@@ -32,7 +32,7 @@ import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.preferences.*;
 
 import java.util.*;
 

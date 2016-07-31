@@ -28,7 +28,7 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.preferences.*;
 
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;

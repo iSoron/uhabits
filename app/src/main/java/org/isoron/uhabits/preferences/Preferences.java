@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.uhabits.preferences;
 
 import android.content.*;
 import android.preference.*;
@@ -57,24 +57,6 @@ public class Preferences
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
             defaultScoreInterval = 1;
         return defaultScoreInterval;
-    }
-
-    public int getTheme()
-    {
-        return prefs.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
-    }
-
-    public boolean isPureBlackEnabled()
-    {
-        return prefs.getBoolean("pref_pure_black", false);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                          String key)
-    {
-        if(key.equals("pref_checkmark_reverse_order"))
-            shouldReverseCheckmarks = null;
     }
 
     public void setDefaultScoreSpinnerPosition(int position)
@@ -122,6 +104,16 @@ public class Preferences
         prefs.edit().putBoolean("pref_show_completed", showCompleted).apply();
     }
 
+    public int getTheme()
+    {
+        return prefs.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
+    }
+
+    public void setTheme(int theme)
+    {
+        prefs.edit().putInt("pref_theme", theme).apply();
+    }
+
     public void incrementLaunchCount()
     {
         int count = prefs.getInt("launch_count", 0);
@@ -143,14 +135,22 @@ public class Preferences
         prefs.edit().putBoolean("pref_first_run", isFirstRun).apply();
     }
 
+    public boolean isPureBlackEnabled()
+    {
+        return prefs.getBoolean("pref_pure_black", false);
+    }
+
     public boolean isShortToggleEnabled()
     {
         return prefs.getBoolean("pref_short_toggle", false);
     }
 
-    public void setShortToggleEnabled(boolean enabled)
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                          String key)
     {
-        prefs.edit().putBoolean("pref_short_toggle", enabled).apply();
+        if (key.equals("pref_checkmark_reverse_order"))
+            shouldReverseCheckmarks = null;
     }
 
     public void setDefaultHabitColor(int color)
@@ -165,11 +165,6 @@ public class Preferences
             .edit()
             .putBoolean("pref_checkmark_reverse_order", reverse)
             .apply();
-    }
-
-    public void setTheme(int theme)
-    {
-        prefs.edit().putInt("pref_theme", theme).apply();
     }
 
     public boolean shouldReverseCheckmarks()
