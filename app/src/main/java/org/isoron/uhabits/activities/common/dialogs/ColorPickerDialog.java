@@ -19,9 +19,6 @@
 
 package org.isoron.uhabits.activities.common.dialogs;
 
-import android.content.*;
-
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
 /**
@@ -29,20 +26,6 @@ import org.isoron.uhabits.utils.*;
  */
 public class ColorPickerDialog extends com.android.colorpicker.ColorPickerDialog
 {
-    public static ColorPickerDialog newInstance(Context context,
-                                                int paletteColor)
-    {
-        ColorPickerDialog dialog = new ColorPickerDialog();
-        StyledResources res = new StyledResources(context);
-
-        int color = ColorUtils.getColor(context, paletteColor);
-
-        dialog.initialize(R.string.color_picker_default_title, res.getPalette(),
-            color, 4, com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);
-
-        return dialog;
-    }
-
     public void setListener(OnColorSelectedListener listener)
     {
         super.setOnColorSelectedListener(c -> {

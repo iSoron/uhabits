@@ -29,5 +29,5 @@ import dagger.*;
            dependencies = { AppComponent.class })
 public interface ActivityComponent
 {
-    DialogFactory getDialogFactory();
+    ColorPickerDialogFactory getColorPickerDialogFactory();
 }

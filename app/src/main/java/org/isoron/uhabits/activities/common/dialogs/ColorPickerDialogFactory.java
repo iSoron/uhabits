@@ -17,38 +17,36 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.edit;
+package org.isoron.uhabits.activities.common.dialogs;
 
-import com.google.auto.factory.*;
+import android.content.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.utils.*;
 
-@AutoFactory(allowSubclasses = true)
-public class CreateHabitDialog extends BaseDialog
+import javax.inject.*;
+
+@ActivityScope
+public class ColorPickerDialogFactory
 {
-    @Override
-    protected int getTitle()
+    private final Context context;
+
+    @Inject
+    public ColorPickerDialogFactory(@ActivityContext Context context)
     {
-        return R.string.create_habit;
+        this.context = context;
     }
 
-    @Override
-    protected void initializeHabits()
+    public ColorPickerDialog create(int paletteColor)
     {
-        modifiedHabit = modelFactory.buildHabit();
-        modifiedHabit.setFrequency(Frequency.DAILY);
-        modifiedHabit.setColor(
-            prefs.getDefaultHabitColor(modifiedHabit.getColor()));
-    }
+        ColorPickerDialog dialog = new ColorPickerDialog();
+        StyledResources res = new StyledResources(context);
+        int color = ColorUtils.getColor(context, paletteColor);
 
-    @Override
-    protected void saveHabit()
-    {
-        Command command = appComponent
-            .getCreateHabitCommandFactory()
-            .create(habitList, modifiedHabit);
-        commandRunner.execute(command, null);
+        dialog.initialize(R.string.color_picker_default_title, res.getPalette(),
+            color, 4, com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);
+
+        return dialog;
     }
 }

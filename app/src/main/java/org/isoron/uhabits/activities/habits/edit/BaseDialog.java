@@ -55,11 +55,21 @@ public abstract class BaseDialog extends AppCompatDialogFragment
 
     protected HabitList habitList;
 
-    private DialogFactory dialogFactory;
-
-    protected AppComponent component;
+    protected AppComponent appComponent;
 
     protected ModelFactory modelFactory;
+
+    private ColorPickerDialogFactory colorPickerDialogFactory;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+
+        BaseActivity activity = (BaseActivity) getActivity();
+        colorPickerDialogFactory =
+            activity.getComponent().getColorPickerDialogFactory();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -68,12 +78,13 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     {
         View view = inflater.inflate(R.layout.edit_habit, container, false);
 
-        HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
-        component = app.getComponent();
-        prefs = component.getPreferences();
-        habitList = component.getHabitList();
-        commandRunner = component.getCommandRunner();
-        modelFactory = component.getModelFactory();
+        HabitsApplication app =
+            (HabitsApplication) getContext().getApplicationContext();
+
+        prefs = app.getComponent().getPreferences();
+        habitList = app.getComponent().getHabitList();
+        commandRunner = app.getComponent().getCommandRunner();
+        modelFactory = app.getComponent().getModelFactory();
 
         ButterKnife.bind(this, view);
 
@@ -83,16 +94,6 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         restoreSavedInstance(savedInstanceState);
         helper.populateForm(modifiedHabit);
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
-
-        BaseActivity baseActivity = (BaseActivity) getActivity();
-        ActivityComponent component = baseActivity.getComponent();
-        dialogFactory = component.getDialogFactory();
     }
 
     @OnItemSelected(R.id.sFrequency)
@@ -196,7 +197,7 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     void showColorPicker()
     {
         int color = modifiedHabit.getColor();
-        ColorPickerDialog picker = dialogFactory.buildColorPicker(color);
+        ColorPickerDialog picker = colorPickerDialogFactory.create(color);
 
         picker.setListener(c -> {
             prefs.setDefaultHabitColor(c);

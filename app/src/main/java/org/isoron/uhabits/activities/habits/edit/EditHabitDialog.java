@@ -19,26 +19,11 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
-import android.os.*;
-
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
 
 public class EditHabitDialog extends BaseDialog
 {
-    public static EditHabitDialog newInstance(Habit habit)
-    {
-        if (habit.getId() == null)
-            throw new IllegalArgumentException("habit not saved");
-
-        EditHabitDialog frag = new EditHabitDialog();
-        Bundle args = new Bundle();
-        args.putLong("habitId", habit.getId());
-        frag.setArguments(args);
-        return frag;
-    }
-
     @Override
     protected int getTitle()
     {
@@ -60,7 +45,7 @@ public class EditHabitDialog extends BaseDialog
     @Override
     protected void saveHabit()
     {
-        Command command = component.getEditHabitCommandFactory().
+        Command command = appComponent.getEditHabitCommandFactory().
             create(habitList, originalHabit, modifiedHabit);
         commandRunner.execute(command, originalHabit.getId());
     }

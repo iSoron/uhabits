@@ -29,7 +29,7 @@ import dagger.*;
 @ActivityScope
 @Component(modules = { ActivityModule.class },
            dependencies = { AppComponent.class })
-public interface ListHabitsComponent
+public interface ListHabitsComponent extends ActivityComponent
 {
     CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
 

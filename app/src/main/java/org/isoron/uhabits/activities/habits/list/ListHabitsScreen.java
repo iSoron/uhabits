@@ -24,14 +24,14 @@ import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -54,9 +54,6 @@ public class ListHabitsScreen extends BaseScreen
     private ListHabitsController controller;
 
     @NonNull
-    private final DialogFactory dialogFactory;
-
-    @NonNull
     private final IntentFactory intentFactory;
 
     @NonNull
@@ -74,23 +71,31 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private final FilePickerDialogFactory filePickerDialogFactory;
 
+    @NonNull
+    private final ColorPickerDialogFactory colorPickerFactory;
+
+    @NonNull
+    private EditHabitDialogFactory editHabitDialogFactory;
+
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull CommandRunner commandRunner,
                             @NonNull DirFinder dirFinder,
-                            @NonNull DialogFactory dialogFactory,
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull CreateHabitDialogFactory createHabitDialogFactory,
-                            @NonNull FilePickerDialogFactory filePickerDialogFactory)
+                            @NonNull FilePickerDialogFactory filePickerDialogFactory,
+                            @NonNull ColorPickerDialogFactory colorPickerFactory,
+                            @NonNull EditHabitDialogFactory editHabitDialogFactory)
     {
         super(activity);
         setRootView(rootView);
+        this.editHabitDialogFactory = editHabitDialogFactory;
+        this.colorPickerFactory = colorPickerFactory;
         this.commandRunner = commandRunner;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         this.createHabitDialogFactory = createHabitDialogFactory;
-        this.dialogFactory = dialogFactory;
         this.dirFinder = dirFinder;
         this.filePickerDialogFactory = filePickerDialogFactory;
         this.intentFactory = intentFactory;
@@ -160,8 +165,7 @@ public class ListHabitsScreen extends BaseScreen
     public void showColorPicker(@NonNull Habit habit,
                                 @NonNull OnColorSelectedListener callback)
     {
-        ColorPickerDialog picker =
-            dialogFactory.buildColorPicker(habit.getColor());
+        ColorPickerDialog picker = colorPickerFactory.create(habit.getColor());
         picker.setListener(callback);
         activity.showDialog(picker, "picker");
     }
@@ -178,7 +182,7 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showEditHabitScreen(Habit habit)
     {
-        EditHabitDialog dialog = dialogFactory.buildEditHabitDialog(habit);
+        EditHabitDialog dialog = editHabitDialogFactory.create(habit);
         activity.showDialog(dialog, "editHabit");
     }
 

@@ -17,36 +17,31 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.common.dialogs;
+package org.isoron.uhabits.activities.habits.edit;
 
-import android.content.*;
+import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.habits.edit.*;
 
 import javax.inject.*;
 
-public class DialogFactory
+public class EditHabitDialogFactory
 {
-    private final Context context;
-
     @Inject
-    public DialogFactory(@ActivityContext Context context)
+    public EditHabitDialogFactory()
     {
-        this.context = context;
     }
 
-    @NonNull
-    public ColorPickerDialog buildColorPicker(int paletteColor)
+    public EditHabitDialog create(@NonNull Habit habit)
     {
-        return ColorPickerDialog.newInstance(context, paletteColor);
-    }
+        if (habit.getId() == null)
+            throw new IllegalArgumentException("habit not saved");
 
-    @NonNull
-    public EditHabitDialog buildEditHabitDialog(Habit habit)
-    {
-        return EditHabitDialog.newInstance(habit);
+        EditHabitDialog dialog = new EditHabitDialog();
+        Bundle args = new Bundle();
+        args.putLong("habitId", habit.getId());
+        dialog.setArguments(args);
+        return dialog;
     }
 }

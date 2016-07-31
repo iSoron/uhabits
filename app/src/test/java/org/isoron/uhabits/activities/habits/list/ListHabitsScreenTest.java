@@ -24,14 +24,14 @@ import android.content.*;
 import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.*;
@@ -66,11 +66,13 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private IntentFactory intentFactory;
 
-    private DialogFactory dialogFactory;
-
     private DirFinder dirFinder;
 
     private CommandRunner commandRunner;
+
+    private ColorPickerDialogFactory colorPickerDialogFactory;
+
+    private EditHabitDialogFactory editHabitDialogFactory;
 
     @Before
     @Override
@@ -81,16 +83,19 @@ public class ListHabitsScreenTest extends BaseUnitTest
         activity = mock(BaseActivity.class);
         commandRunner = mock(CommandRunner.class);
         dirFinder = mock(DirFinder.class);
-        dialogFactory = mock(DialogFactory.class);
         rootView = mock(ListHabitsRootView.class);
         intentFactory = mock(IntentFactory.class);
         confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
         createHabitDialogFactory = mock(CreateHabitDialogFactory.class);
         filePickerDialogFactory = mock(FilePickerDialogFactory.class);
+        colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
+        editHabitDialogFactory = mock(EditHabitDialogFactory.class);
 
-        screen = new ListHabitsScreen(activity, commandRunner, dirFinder,
-            dialogFactory, rootView, intentFactory, confirmDeleteDialogFactory,
-            createHabitDialogFactory, filePickerDialogFactory);
+        screen =
+            new ListHabitsScreen(activity, commandRunner, dirFinder, rootView,
+                intentFactory, confirmDeleteDialogFactory,
+                createHabitDialogFactory, filePickerDialogFactory,
+                colorPickerDialogFactory, editHabitDialogFactory);
 
         controller = mock(ListHabitsController.class);
         screen.setController(controller);
@@ -151,7 +156,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
     {
         habit.setColor(999);
         ColorPickerDialog picker = mock(ColorPickerDialog.class);
-        when(dialogFactory.buildColorPicker(999)).thenReturn(picker);
+        when(colorPickerDialogFactory.create(999)).thenReturn(picker);
         OnColorSelectedListener callback = mock(OnColorSelectedListener.class);
 
         screen.showColorPicker(habit, callback);
@@ -178,7 +183,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
     public void testShowEditHabitScreen()
     {
         EditHabitDialog dialog = mock(EditHabitDialog.class);
-        when(dialogFactory.buildEditHabitDialog(habit)).thenReturn(dialog);
+        when(editHabitDialogFactory.create(habit)).thenReturn(dialog);
 
         screen.showEditHabitScreen(habit);
         verify(activity).showDialog(eq(dialog), any());
