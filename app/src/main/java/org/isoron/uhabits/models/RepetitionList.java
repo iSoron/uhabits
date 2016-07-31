@@ -130,7 +130,7 @@ public abstract class RepetitionList
         for (Repetition r : reps)
         {
             Calendar date = DateUtils.getCalendar(r.getTimestamp());
-            int weekday = date.get(Calendar.DAY_OF_WEEK) % 7;
+            int weekday = DateUtils.getWeekday(r.getTimestamp());
             date.set(Calendar.DAY_OF_MONTH, 1);
 
             long timestamp = date.getTimeInMillis();

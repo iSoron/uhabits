@@ -66,6 +66,7 @@ public class FrequencyChart extends ScrollableChart
 
     @NonNull
     private HashMap<Long, Integer[]> frequency;
+    private int maxFreq;
 
     public FrequencyChart(Context context)
     {
@@ -90,7 +91,21 @@ public class FrequencyChart extends ScrollableChart
     public void setFrequency(HashMap<Long, Integer[]> frequency)
     {
         this.frequency = frequency;
+        maxFreq = getMaxFreq(frequency);
         postInvalidate();
+    }
+
+    private int getMaxFreq(HashMap<Long, Integer[]> frequency)
+    {
+        int maxValue = 1;
+        for (Integer[] values : frequency.values())
+        {
+            for (Integer value : values)
+            {
+                maxValue = Math.max(value, maxValue);
+            }
+        }
+        return maxValue;
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
@@ -235,10 +250,14 @@ public class FrequencyChart extends ScrollableChart
     private void drawMarker(Canvas canvas, RectF rect, Integer value)
     {
         float padding = rect.height() * 0.2f;
-        float radius =
-            (rect.height() - 2 * padding) / 2.0f / 4.0f * Math.min(value, 4);
+        // maximal allowed mark radius
+        float maxRadius = (rect.height() - 2 * padding) / 2.0f;
+        // the real mark radius is scaled down by a factor depending on the maximal frequency
+        float scale = 1.0f/maxFreq * value;
+        float radius = maxRadius * scale;
 
-        pGraph.setColor(colors[Math.min(3, Math.max(0, value - 1))]);
+        int colorIndex = Math.round((colors.length-1) * scale);
+        pGraph.setColor(colors[colorIndex]);
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph);
     }
 

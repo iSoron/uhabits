@@ -206,7 +206,7 @@ public abstract class DateUtils
     public static int getWeekday(long timestamp)
     {
         GregorianCalendar day = getCalendar(timestamp);
-        return day.get(DAY_OF_WEEK) % 7;
+        return javaWeekdayToLoopWeekday(day.get(DAY_OF_WEEK));
     }
 
     /**
