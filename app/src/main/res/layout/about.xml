@@ -206,7 +206,7 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Yurii Stavytskyi (Української)"/>
+                    android:text="Yurii Stavytskyi (Українська)"/>
 
                 <TextView
                     style="@style/About.Item"
