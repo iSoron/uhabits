@@ -30,7 +30,7 @@ import java.util.*;
 
 import javax.inject.*;
 
-@Singleton
+@AppScope
 public class HabitLogger
 {
     @Inject

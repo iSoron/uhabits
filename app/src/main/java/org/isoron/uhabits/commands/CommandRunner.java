@@ -21,6 +21,7 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.tasks.*;
 
 import java.util.*;
@@ -33,7 +34,7 @@ import javax.inject.*;
  * CommandRunners also allows objects to subscribe to it, and receive events
  * whenever a command is performed.
  */
-@Singleton
+@AppScope
 public class CommandRunner
 {
     private TaskRunner taskRunner;

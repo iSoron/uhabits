@@ -19,9 +19,8 @@
 
 package org.isoron.uhabits.models.sqlite;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-
-import javax.inject.*;
 
 import dagger.*;
 
@@ -38,7 +37,7 @@ public class SQLModelFactory implements ModelFactory
     }
 
     @Provides
-    @Singleton
+    @AppScope
     public static HabitList provideHabitList()
     {
         return SQLiteHabitList.getInstance(provideModelFactory());

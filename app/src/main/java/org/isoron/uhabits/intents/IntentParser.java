@@ -23,6 +23,7 @@ import android.content.*;
 import android.net.*;
 import android.support.annotation.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
@@ -30,7 +31,7 @@ import javax.inject.*;
 
 import static android.content.ContentUris.*;
 
-@Singleton
+@AppScope
 public class IntentParser
 {
     private HabitList habits;

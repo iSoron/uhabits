@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.tasks;
 
-import javax.inject.*;
+import org.isoron.uhabits.*;
 
 import dagger.*;
 
@@ -27,7 +27,7 @@ import dagger.*;
 public class SingleThreadTaskRunner implements TaskRunner
 {
     @Provides
-    @Singleton
+    @AppScope
     public static TaskRunner getInstance()
     {
         return new SingleThreadTaskRunner();

@@ -26,7 +26,7 @@ import org.isoron.uhabits.*;
 
 import javax.inject.*;
 
-@Singleton
+@AppScope
 public class WidgetPreferences
 {
     private final SharedPreferences prefs;

@@ -21,14 +21,14 @@ package org.isoron.uhabits.tasks;
 
 import android.os.*;
 
-import java.util.*;
+import org.isoron.uhabits.*;
 
-import javax.inject.*;
+import java.util.*;
 
 import dagger.*;
 
 @Module
-@Singleton
+@AppScope
 public class AndroidTaskRunner implements TaskRunner
 {
     private final LinkedList<CustomAsyncTask> activeTasks;

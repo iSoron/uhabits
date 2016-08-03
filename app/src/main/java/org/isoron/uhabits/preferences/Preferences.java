@@ -27,7 +27,7 @@ import org.isoron.uhabits.activities.*;
 
 import javax.inject.*;
 
-@Singleton
+@AppScope
 public class Preferences
     implements SharedPreferences.OnSharedPreferenceChangeListener
 {

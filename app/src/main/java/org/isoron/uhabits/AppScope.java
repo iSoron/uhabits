@@ -19,18 +19,7 @@
 
 package org.isoron.uhabits;
 
+import javax.inject.*;
 
-import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.tasks.*;
-
-import dagger.*;
-
-@AppScope
-@Component(modules = {
-    AppModule.class, SingleThreadTaskRunner.class, SQLModelFactory.class
-})
-public interface AndroidTestComponent extends AppComponent
-{
-
-
-}
+@Scope
+public @interface AppScope {}

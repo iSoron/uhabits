@@ -19,9 +19,8 @@
 
 package org.isoron.uhabits.models.memory;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-
-import javax.inject.*;
 
 import dagger.*;
 
@@ -29,14 +28,14 @@ import dagger.*;
 public class MemoryModelFactory implements ModelFactory
 {
     @Provides
-    @Singleton
+    @AppScope
     public static HabitList provideHabitList()
     {
         return new MemoryHabitList();
     }
 
     @Provides
-    @Singleton
+    @AppScope
     public static ModelFactory provideModelFactory()
     {
         return new MemoryModelFactory();

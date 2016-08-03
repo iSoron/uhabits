@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list.model;
 
 import android.support.annotation.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
@@ -41,7 +42,7 @@ import javax.inject.*;
  * Note that this class is singleton-scoped, therefore it is shared among all
  * activities.
  */
-@Singleton
+@AppScope
 public class HabitCardListCache implements CommandRunner.Listener
 {
     private int checkmarkCount;

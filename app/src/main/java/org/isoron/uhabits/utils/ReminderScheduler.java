@@ -33,7 +33,7 @@ import javax.inject.*;
 
 import static org.isoron.uhabits.utils.DateUtils.*;
 
-@Singleton
+@AppScope
 public class ReminderScheduler implements CommandRunner.Listener
 {
     private final PendingIntentFactory pendingIntentFactory;

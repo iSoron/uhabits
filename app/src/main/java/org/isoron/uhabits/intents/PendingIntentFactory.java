@@ -32,7 +32,7 @@ import javax.inject.*;
 
 import static android.app.PendingIntent.*;
 
-@Singleton
+@AppScope
 public class PendingIntentFactory
 {
     private final Context context;

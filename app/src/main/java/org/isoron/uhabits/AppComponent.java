@@ -30,11 +30,9 @@ import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
-import javax.inject.*;
-
 import dagger.*;
 
-@Singleton
+@AppScope
 @Component(modules = {
     AppModule.class, AndroidTaskRunner.class, SQLModelFactory.class
 })

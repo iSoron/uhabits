@@ -31,7 +31,7 @@ import javax.inject.*;
 import static android.app.AlarmManager.*;
 import static android.content.Context.*;
 
-@Singleton
+@AppScope
 public class IntentScheduler
 {
     private final AlarmManager manager;
