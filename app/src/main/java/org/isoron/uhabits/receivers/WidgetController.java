@@ -26,32 +26,38 @@ import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
-@Singleton
-public class ReceiverActions
+@ReceiverScope
+public class WidgetController
 {
+    @NonNull
     private final CommandRunner commandRunner;
 
     @Inject
-    public ReceiverActions(CommandRunner commandRunner)
+    public WidgetController(@NonNull CommandRunner commandRunner)
     {
         this.commandRunner = commandRunner;
     }
 
-    public void addRepetition(@NonNull Habit habit, long timestamp)
+    public void onAddRepetition(@NonNull Habit habit, long timestamp)
     {
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
-        toggleRepetition(habit, timestamp);
+        performToggle(habit, timestamp);
     }
 
-    public void removeRepetition(@NonNull Habit habit, long timestamp)
+    public void onRemoveRepetition(@NonNull Habit habit, long timestamp)
     {
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
-        toggleRepetition(habit, timestamp);
+        performToggle(habit, timestamp);
     }
 
-    public void toggleRepetition(@NonNull Habit habit, long timestamp)
+    public void onToggleRepetition(@NonNull Habit habit, long timestamp)
+    {
+        performToggle(habit, timestamp);
+    }
+
+    private void performToggle(@NonNull Habit habit, long timestamp)
     {
         commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
             habit.getId());

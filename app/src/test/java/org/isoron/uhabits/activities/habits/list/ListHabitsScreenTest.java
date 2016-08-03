@@ -74,6 +74,8 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private EditHabitDialogFactory editHabitDialogFactory;
 
+    private ThemeSwitcher themeSwitcher;
+
     @Before
     @Override
     public void setUp()
@@ -85,6 +87,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
         dirFinder = mock(DirFinder.class);
         rootView = mock(ListHabitsRootView.class);
         intentFactory = mock(IntentFactory.class);
+        themeSwitcher = mock(ThemeSwitcher.class);
         confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
         createHabitDialogFactory = mock(CreateHabitDialogFactory.class);
         filePickerDialogFactory = mock(FilePickerDialogFactory.class);
@@ -93,7 +96,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
         screen =
             new ListHabitsScreen(activity, commandRunner, dirFinder, rootView,
-                intentFactory, confirmDeleteDialogFactory,
+                intentFactory, themeSwitcher, confirmDeleteDialogFactory,
                 createHabitDialogFactory, filePickerDialogFactory,
                 colorPickerDialogFactory, editHabitDialogFactory);
 

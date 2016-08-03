@@ -26,7 +26,6 @@ import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
@@ -57,13 +56,13 @@ public interface AppComponent
 
     IntentFactory getIntentFactory();
 
+    IntentParser getIntentParser();
+
     ModelFactory getModelFactory();
 
     PendingIntentFactory getPendingIntentFactory();
 
     Preferences getPreferences();
-
-    ReceiverActions getReceiverActions();
 
     ReminderScheduler getReminderScheduler();
 

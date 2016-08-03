@@ -59,6 +59,11 @@ public class Preferences
         return defaultScoreInterval;
     }
 
+    public long getSnoozeInterval()
+    {
+        return Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
+    }
+
     public void setDefaultScoreSpinnerPosition(int position)
     {
         prefs.edit().putInt("pref_score_view_interval", position).apply();

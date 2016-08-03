@@ -26,10 +26,16 @@ import android.support.annotation.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
+import javax.inject.*;
+
+import static android.content.ContentUris.*;
+
+@Singleton
 public class IntentParser
 {
     private HabitList habits;
 
+    @Inject
     public IntentParser(@NonNull HabitList habits)
     {
         this.habits = habits;
@@ -38,6 +44,8 @@ public class IntentParser
     public CheckmarkIntentData parseCheckmarkIntent(@NonNull Intent intent)
     {
         Uri uri = intent.getData();
+        if (uri == null) throw new IllegalArgumentException("uri is null");
+
         CheckmarkIntentData data = new CheckmarkIntentData();
         data.habit = parseHabit(uri);
         data.timestamp = parseTimestamp(intent);
@@ -47,12 +55,9 @@ public class IntentParser
     @NonNull
     protected Habit parseHabit(@NonNull Uri uri)
     {
-        long habitId = ContentUris.parseId(uri);
-
-        Habit habit = habits.getById(habitId);
+        Habit habit = habits.getById(parseId(uri));
         if (habit == null)
             throw new IllegalArgumentException("habit not found");
-
         return habit;
     }
 
@@ -60,7 +65,6 @@ public class IntentParser
     protected Long parseTimestamp(@NonNull Intent intent)
     {
         long today = DateUtils.getStartOfToday();
-
         Long timestamp = intent.getLongExtra("timestamp", today);
         timestamp = DateUtils.getStartOfDay(timestamp);
 

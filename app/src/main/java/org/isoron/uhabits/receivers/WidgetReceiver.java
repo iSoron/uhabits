@@ -20,12 +20,12 @@
 package org.isoron.uhabits.receivers;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.models.*;
+
+import dagger.*;
 
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
@@ -46,41 +46,37 @@ public class WidgetReceiver extends BroadcastReceiver
     public static final String ACTION_TOGGLE_REPETITION =
         "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
 
-    @NonNull
-    private HabitList habits;
-
-    @NonNull
-    private IntentParser parser;
-
-    @NonNull
-    private ReceiverActions actions;
-
     @Override
     public void onReceive(final Context context, Intent intent)
     {
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
 
-        habits = app.getComponent().getHabitList();
-        actions = app.getComponent().getReceiverActions();
-        parser = new IntentParser(habits);
+        WidgetComponent component = DaggerWidgetReceiver_WidgetComponent
+            .builder()
+            .appComponent(app.getComponent())
+            .build();
 
-        Log.d("WidgetReceiver",
-            String.format("Received intent: %s", intent.toString()));
+        IntentParser parser = app.getComponent().getIntentParser();
+        WidgetController controller = component.getWidgetController();
+
         try
         {
+            IntentParser.CheckmarkIntentData data;
+            data = parser.parseCheckmarkIntent(intent);
+
             switch (intent.getAction())
             {
                 case ACTION_ADD_REPETITION:
-                    onActionAddRepetition(intent);
+                    controller.onAddRepetition(data.habit, data.timestamp);
                     break;
 
                 case ACTION_TOGGLE_REPETITION:
-                    onActionToggleRepetition(intent);
+                    controller.onToggleRepetition(data.habit, data.timestamp);
                     break;
 
                 case ACTION_REMOVE_REPETITION:
-                    onActionRemoveRepetition(intent);
+                    controller.onRemoveRepetition(data.habit, data.timestamp);
                     break;
             }
         }
@@ -90,24 +86,10 @@ public class WidgetReceiver extends BroadcastReceiver
         }
     }
 
-    private void onActionAddRepetition(Intent intent)
+    @ReceiverScope
+    @Component(dependencies = AppComponent.class, modules = AppModule.class)
+    interface WidgetComponent
     {
-        IntentParser.CheckmarkIntentData data;
-        data = parser.parseCheckmarkIntent(intent);
-        actions.addRepetition(data.habit, data.timestamp);
-    }
-
-    private void onActionRemoveRepetition(Intent intent)
-    {
-        IntentParser.CheckmarkIntentData data;
-        data = parser.parseCheckmarkIntent(intent);
-        actions.removeRepetition(data.habit, data.timestamp);
-    }
-
-    private void onActionToggleRepetition(Intent intent)
-    {
-        IntentParser.CheckmarkIntentData data;
-        data = parser.parseCheckmarkIntent(intent);
-        actions.toggleRepetition(data.habit, data.timestamp);
+        WidgetController getWidgetController();
     }
 }

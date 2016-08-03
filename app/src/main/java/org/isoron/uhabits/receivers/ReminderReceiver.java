@@ -19,20 +19,16 @@
 
 package org.isoron.uhabits.receivers;
 
-import android.app.*;
 import android.content.*;
-import android.graphics.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.support.v4.app.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
+
+import dagger.*;
+
+import static android.content.ContentUris.*;
 
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
@@ -52,45 +48,50 @@ public class ReminderReceiver extends BroadcastReceiver
 
     private static final String TAG = "ReminderReceiver";
 
-    private HabitList habits;
-
-    private TaskRunner taskRunner;
-
-    private ReminderScheduler reminderScheduler;
-
-    private PendingIntentFactory pendingIntentFactory;
-
     @Override
     public void onReceive(final Context context, Intent intent)
     {
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
 
-        habits = app.getComponent().getHabitList();
-        taskRunner = app.getComponent().getTaskRunner();
-        reminderScheduler = app.getComponent().getReminderScheduler();
-        pendingIntentFactory = app.getComponent().getPendingIntentFactory();
+        ReminderComponent component = DaggerReminderReceiver_ReminderComponent
+            .builder()
+            .appComponent(app.getComponent())
+            .build();
+
+        HabitList habits = app.getComponent().getHabitList();
+        ReminderController reminderController =
+            component.getReminderController();
 
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
+
+        long today = DateUtils.getStartOfToday();
+        final Habit habit = habits.getById(parseId(intent.getData()));
+        final Long timestamp = intent.getLongExtra("timestamp", today);
+        final Long reminderTime = intent.getLongExtra("reminderTime", today);
 
         try
         {
             switch (intent.getAction())
             {
                 case ACTION_SHOW_REMINDER:
-                    onActionShowReminder(context, intent);
+                    if (habit == null) return;
+                    reminderController.onShowReminder(habit, timestamp,
+                        reminderTime);
                     break;
 
                 case ACTION_DISMISS_REMINDER:
-                    // NOP
+                    if (habit == null) return;
+                    reminderController.onDismiss(habit);
                     break;
 
                 case ACTION_SNOOZE_REMINDER:
-                    onActionSnoozeReminder(context, intent);
+                    if (habit == null) return;
+                    reminderController.onSnooze(habit);
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:
-                    onActionBootCompleted();
+                    reminderController.onBootCompleted();
                     break;
             }
         }
@@ -100,145 +101,10 @@ public class ReminderReceiver extends BroadcastReceiver
         }
     }
 
-    protected void onActionBootCompleted()
+    @ReceiverScope
+    @Component(dependencies = AppComponent.class, modules = AppModule.class)
+    interface ReminderComponent
     {
-        reminderScheduler.scheduleAll();
-    }
-
-    protected void onActionShowReminder(Context context, Intent intent)
-    {
-        createNotification(context, intent);
-        createReminderAlarmsDelayed();
-    }
-
-    private void createNotification(final Context context, final Intent intent)
-    {
-        final Uri data = intent.getData();
-        final Habit habit = habits.getById(ContentUris.parseId(data));
-        final Long timestamp =
-            intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
-        final Long reminderTime =
-            intent.getLongExtra("reminderTime", DateUtils.getStartOfToday());
-
-        if (habit == null) return;
-
-        taskRunner.execute(new Task()
-        {
-            int todayValue;
-
-            @Override
-            public void doInBackground()
-            {
-                todayValue = habit.getCheckmarks().getTodayValue();
-            }
-
-            @Override
-            public void onPostExecute()
-            {
-                if (todayValue != Checkmark.UNCHECKED) return;
-                if (!shouldShowReminderToday(intent, habit)) return;
-                if (!habit.hasReminder()) return;
-
-                Intent contentIntent = new Intent(context, MainActivity.class);
-                contentIntent.setData(data);
-                PendingIntent contentPendingIntent =
-                    PendingIntent.getActivity(context, 0, contentIntent,
-                        PendingIntent.FLAG_CANCEL_CURRENT);
-
-                PendingIntent dismissPendingIntent;
-                dismissPendingIntent =
-                    pendingIntentFactory.dismissNotification();
-                PendingIntent checkIntentPending =
-                    pendingIntentFactory.addCheckmark(habit, timestamp);
-                PendingIntent snoozeIntentPending =
-                    pendingIntentFactory.snoozeNotification(habit);
-
-                Uri ringtoneUri = RingtoneUtils.getRingtoneUri(context);
-
-                NotificationCompat.WearableExtender wearableExtender =
-                    new NotificationCompat.WearableExtender().setBackground(
-                        BitmapFactory.decodeResource(context.getResources(),
-                            R.drawable.stripe));
-
-                Notification notification =
-                    new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setContentTitle(habit.getName())
-                        .setContentText(habit.getDescription())
-                        .setContentIntent(contentPendingIntent)
-                        .setDeleteIntent(dismissPendingIntent)
-                        .addAction(R.drawable.ic_action_check,
-                            context.getString(R.string.check),
-                            checkIntentPending)
-                        .addAction(R.drawable.ic_action_snooze,
-                            context.getString(R.string.snooze),
-                            snoozeIntentPending)
-                        .setSound(ringtoneUri)
-                        .extend(wearableExtender)
-                        .setWhen(reminderTime)
-                        .setShowWhen(true)
-                        .build();
-
-                notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
-                NotificationManager notificationManager =
-                    (NotificationManager) context.getSystemService(
-                        Activity.NOTIFICATION_SERVICE);
-
-                int notificationId = (int) (habit.getId() % Integer.MAX_VALUE);
-                notificationManager.notify(notificationId, notification);
-            }
-        });
-    }
-
-    private void createReminderAlarmsDelayed()
-    {
-        new Handler().postDelayed(() -> {
-            reminderScheduler.scheduleAll();
-        }, 5000);
-    }
-
-    private void dismissNotification(Context context, Long habitId)
-    {
-        NotificationManager notificationManager =
-            (NotificationManager) context.getSystemService(
-                Activity.NOTIFICATION_SERVICE);
-
-        int notificationId = (int) (habitId % Integer.MAX_VALUE);
-        notificationManager.cancel(notificationId);
-    }
-
-    private void onActionSnoozeReminder(Context context, Intent intent)
-    {
-        Uri data = intent.getData();
-        SharedPreferences prefs =
-            PreferenceManager.getDefaultSharedPreferences(context);
-        long delayMinutes =
-            Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
-
-        long habitId = ContentUris.parseId(data);
-        Habit habit = habits.getById(habitId);
-
-        if (habit != null)
-        {
-            long reminderTime = DateUtils.getLocalTime() + delayMinutes * 60 * 1000;
-            reminderScheduler.schedule(habit, reminderTime);
-        }
-
-        dismissNotification(context, habitId);
-    }
-
-    private boolean shouldShowReminderToday(Intent intent, Habit habit)
-    {
-        if (!habit.hasReminder()) return false;
-        Reminder reminder = habit.getReminder();
-
-        Long timestamp =
-            intent.getLongExtra("timestamp", DateUtils.getStartOfToday());
-
-        boolean reminderDays[] = reminder.getDays().toArray();
-        int weekday = DateUtils.getWeekday(timestamp);
-
-        return reminderDays[weekday];
+        ReminderController getReminderController();
     }
 }
