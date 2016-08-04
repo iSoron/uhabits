@@ -81,10 +81,11 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         HabitsApplication app =
             (HabitsApplication) getContext().getApplicationContext();
 
-        prefs = app.getComponent().getPreferences();
-        habitList = app.getComponent().getHabitList();
-        commandRunner = app.getComponent().getCommandRunner();
-        modelFactory = app.getComponent().getModelFactory();
+        appComponent = app.getComponent();
+        prefs = appComponent.getPreferences();
+        habitList = appComponent.getHabitList();
+        commandRunner = appComponent.getCommandRunner();
+        modelFactory = appComponent.getModelFactory();
 
         ButterKnife.bind(this, view);
 
