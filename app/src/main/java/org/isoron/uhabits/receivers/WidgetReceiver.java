@@ -87,7 +87,7 @@ public class WidgetReceiver extends BroadcastReceiver
     }
 
     @ReceiverScope
-    @Component(dependencies = AppComponent.class, modules = AppModule.class)
+    @Component(dependencies = AppComponent.class)
     interface WidgetComponent
     {
         WidgetController getWidgetController();

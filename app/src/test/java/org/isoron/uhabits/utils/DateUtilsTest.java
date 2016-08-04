@@ -134,11 +134,4 @@ public class DateUtilsTest extends BaseUnitTest
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
     }
-
-    public long timestamp(int year, int month, int day)
-    {
-        GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
-        cal.set(year, month, day);
-        return cal.getTimeInMillis();
-    }
 }

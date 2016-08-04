@@ -68,8 +68,8 @@ public class ReminderController
 
         long now = DateUtils.getLocalTime();
         long reminderTime = now + snoozeInterval * 60 * 1000;
-        reminderScheduler.schedule(habit, reminderTime);
 
+        reminderScheduler.schedule(habit, reminderTime);
         notificationTray.cancel(habit);
     }
 

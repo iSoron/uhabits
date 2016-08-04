@@ -36,6 +36,7 @@ import javax.inject.*;
 import static android.graphics.BitmapFactory.*;
 import static org.isoron.uhabits.utils.RingtoneUtils.*;
 
+@AppScope
 public class NotificationTray
 {
     @NonNull

@@ -127,7 +127,8 @@ task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             '**/*_Provide*',
             '**/com/android/**/*',
             'android/**/*',
-            '**/*Dagger*'
+            '**/*Dagger*',
+            '**/*_Factory*'
     ]
 
     def srcDir = "${project.projectDir}/src/main/java"

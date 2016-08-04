@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
 
 /**
  * Command to toggle a repetition.

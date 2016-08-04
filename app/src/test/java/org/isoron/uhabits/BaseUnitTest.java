@@ -24,6 +24,8 @@ import org.isoron.uhabits.models.memory.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
+import java.util.*;
+
 public class BaseUnitTest
 {
     protected HabitList habitList;
@@ -48,5 +50,12 @@ public class BaseUnitTest
     public void tearDown()
     {
         DateUtils.setFixedLocalTime(null);
+    }
+
+    public long timestamp(int year, int month, int day)
+    {
+        GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
+        cal.set(year, month, day);
+        return cal.getTimeInMillis();
     }
 }

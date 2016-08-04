@@ -19,12 +19,15 @@
 
 package org.isoron.uhabits;
 
+import android.content.*;
+
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
@@ -40,6 +43,9 @@ public interface AppComponent
 {
     CommandRunner getCommandRunner();
 
+    @AppContext
+    Context getContext();
+
     CreateHabitCommandFactory getCreateHabitCommandFactory();
 
     DirFinder getDirFinder();
@@ -47,6 +53,8 @@ public interface AppComponent
     EditHabitCommandFactory getEditHabitCommandFactory();
 
     GenericImporter getGenericImporter();
+
+    HabitCardListCache getHabitCardListCache();
 
     HabitList getHabitList();
 
@@ -57,6 +65,8 @@ public interface AppComponent
     IntentParser getIntentParser();
 
     ModelFactory getModelFactory();
+
+    NotificationTray getNotificationTray();
 
     PendingIntentFactory getPendingIntentFactory();
 
@@ -69,6 +79,4 @@ public interface AppComponent
     WidgetPreferences getWidgetPreferences();
 
     WidgetUpdater getWidgetUpdater();
-
-    HabitCardListCache getHabitCardListCache();
 }
