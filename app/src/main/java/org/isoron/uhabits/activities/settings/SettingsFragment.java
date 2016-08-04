@@ -19,21 +19,31 @@
 
 package org.isoron.uhabits.activities.settings;
 
-import android.app.backup.*;
-import android.content.*;
-import android.os.*;
-import android.support.v7.preference.*;
+import android.Manifest;
+import android.app.backup.BackupManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.habits.list.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.activities.habits.list.ListHabitsScreen;
+import org.isoron.uhabits.utils.InterfaceUtils;
+import org.isoron.uhabits.utils.RingtoneUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
 {
+    private static final int REQUEST_PERMISSION_STORAGE = 123;
     private static int RINGTONE_REQUEST_CODE = 1;
 
     private SharedPreferences prefs;
+    private Preference preferenceRequested;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -109,6 +119,19 @@ public class SettingsFragment extends PreferenceFragmentCompat
         BackupManager.dataChanged("org.isoron.uhabits");
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_PERMISSION_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setResult(ListHabitsScreen.RESULT_IMPORT_DATA);
+                }
+                break;
+        }
+    }
+
     private void removePreference(String preferenceKey, String categoryKey)
     {
         PreferenceCategory cat =
@@ -121,10 +144,30 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         Preference pref = findPreference(key);
         pref.setOnPreferenceClickListener(preference -> {
-            getActivity().setResult(result);
-            getActivity().finish();
-            return true;
+            if (key.equals("importData"))
+            {
+                if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+                {
+                    setResult(result);
+                    return true;
+                } else
+                {
+                    preferenceRequested = preference;
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
+                    return true;
+                }
+            }
+            else
+            {
+                setResult(result);
+                return true;
+            }
         });
+    }
+
+    private void setResult(int result) {
+        getActivity().setResult(result);
+        getActivity().finish();
     }
 
     private void updateRingtoneDescription()
