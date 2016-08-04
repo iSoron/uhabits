@@ -116,6 +116,7 @@ public class BaseAndroidTest
     protected void setTheme(@StyleRes int themeId)
     {
         targetContext.setTheme(themeId);
+        StyledResources.setFixedTheme(themeId);
     }
 
     protected void sleep(int time)

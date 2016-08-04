@@ -28,11 +28,18 @@ import org.isoron.uhabits.*;
 
 public class StyledResources
 {
+    private static Integer fixedTheme;
+
     private final Context context;
 
     public StyledResources(@NonNull Context context)
     {
         this.context = context;
+    }
+
+    public static void setFixedTheme(Integer theme)
+    {
+        fixedTheme = theme;
     }
 
     public boolean getBoolean(@AttrRes int attrId)
@@ -92,9 +99,8 @@ public class StyledResources
     {
         int[] attrs = new int[]{ attrId };
 
-//        Integer fixedTheme = ThemeSwitcher.fixedTheme;
-//        if (fixedTheme != null)
-//            return context.getTheme().obtainStyledAttributes(fixedTheme, attrs);
+        if (fixedTheme != null)
+            return context.getTheme().obtainStyledAttributes(fixedTheme, attrs);
 
         return context.obtainStyledAttributes(attrs);
     }
