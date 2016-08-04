@@ -77,7 +77,7 @@ public class HabitCardView extends FrameLayout
     @Override
     public void onModelChange()
     {
-        refresh();
+        new Handler(Looper.getMainLooper()).post(() -> refresh());
     }
 
     public void setCheckmarkValues(int checkmarks[])
