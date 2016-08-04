@@ -25,6 +25,7 @@ import android.support.annotation.*;
 
 import com.activeandroid.*;
 
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -43,6 +44,8 @@ public class HabitsApplication extends Application
 
     private ReminderScheduler reminderScheduler;
 
+    private NotificationTray notificationTray;
+
     public AppComponent getComponent()
     {
         return component;
@@ -54,6 +57,7 @@ public class HabitsApplication extends Application
     }
 
     @NonNull
+    @Deprecated
     public static Context getContext()
     {
         if (context == null) throw new RuntimeException("context is null");
@@ -100,6 +104,9 @@ public class HabitsApplication extends Application
         reminderScheduler = component.getReminderScheduler();
         reminderScheduler.startListening();
 
+        notificationTray = component.getNotificationTray();
+        notificationTray.startListening();
+
         DatabaseUtils.initializeActiveAndroid();
     }
 
@@ -111,6 +118,7 @@ public class HabitsApplication extends Application
 
         reminderScheduler.stopListening();
         widgetUpdater.stopListening();
+        notificationTray.stopListening();
         super.onTerminate();
     }
 }

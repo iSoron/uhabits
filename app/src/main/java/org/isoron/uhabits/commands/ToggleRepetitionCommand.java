@@ -46,4 +46,9 @@ public class ToggleRepetitionCommand extends Command
     {
         execute();
     }
+
+    public Habit getHabit()
+    {
+        return habit;
+    }
 }

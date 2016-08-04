@@ -26,6 +26,7 @@ import android.support.v4.app.*;
 import android.support.v4.app.NotificationCompat.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
@@ -37,7 +38,7 @@ import static android.graphics.BitmapFactory.*;
 import static org.isoron.uhabits.utils.RingtoneUtils.*;
 
 @AppScope
-public class NotificationTray
+public class NotificationTray implements CommandRunner.Listener
 {
     @NonNull
     private final Context context;
@@ -48,14 +49,18 @@ public class NotificationTray
     @NonNull
     private final PendingIntentFactory pendingIntents;
 
+    private CommandRunner commandRunner;
+
     @Inject
     public NotificationTray(@AppContext @NonNull Context context,
                             @NonNull TaskRunner taskRunner,
-                            @NonNull PendingIntentFactory pendingIntents)
+                            @NonNull PendingIntentFactory pendingIntents,
+                            @NonNull CommandRunner commandRunner)
     {
         this.context = context;
         this.taskRunner = taskRunner;
         this.pendingIntents = pendingIntents;
+        this.commandRunner = commandRunner;
     }
 
     public void cancel(@NonNull Habit habit)
@@ -64,10 +69,35 @@ public class NotificationTray
         NotificationManagerCompat.from(context).cancel(notificationId);
     }
 
+    @Override
+    public void onCommandExecuted(@NonNull Command command,
+                                  @Nullable Long refreshKey)
+    {
+        if (!(command instanceof ToggleRepetitionCommand))
+            return;
+
+        ToggleRepetitionCommand toggleCommand =
+            (ToggleRepetitionCommand) command;
+
+        Habit habit = toggleCommand.getHabit();
+        if(habit.getCheckmarks().getTodayValue() != Checkmark.UNCHECKED)
+            cancel(habit);
+    }
+
     public void show(@NonNull Habit habit, long timestamp, long reminderTime)
     {
         taskRunner.execute(
             new ShowNotificationTask(habit, timestamp, reminderTime));
+    }
+
+    public void startListening()
+    {
+        commandRunner.addListener(this);
+    }
+
+    public void stopListening()
+    {
+        commandRunner.removeListener(this);
     }
 
     private int getNotificationId(Habit habit)
