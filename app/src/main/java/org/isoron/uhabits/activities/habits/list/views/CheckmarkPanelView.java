@@ -154,6 +154,7 @@ public class CheckmarkPanelView extends LinearLayout
                                         CheckmarkButtonView buttonView)
     {
         if (controller == null) return;
+        if(!(getContext() instanceof  ListHabitsActivity)) return;
 
         ListHabitsActivity activity = (ListHabitsActivity) getContext();
         CheckmarkButtonControllerFactory buttonControllerFactory = activity

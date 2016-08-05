@@ -43,6 +43,16 @@ public class HabitCardView extends FrameLayout
     implements ModelObservable.Listener
 {
 
+    private static final String EDIT_MODE_HABITS[] = {
+        "Wake up early",
+        "Wash dishes",
+        "Exercise",
+        "Meditate",
+        "Play guitar",
+        "Wash clothes",
+        "Get a haircut"
+    };
+
     @BindView(R.id.checkmarkPanel)
     CheckmarkPanelView checkmarkPanel;
 
@@ -105,15 +115,6 @@ public class HabitCardView extends FrameLayout
         postInvalidate();
     }
 
-    private void refresh()
-    {
-        int color = getActiveColor(habit);
-        label.setText(habit.getName());
-        label.setTextColor(color);
-        scoreRing.setColor(color);
-        checkmarkPanel.setColor(color);
-    }
-
     public void setScore(int score)
     {
         float percentage = (float) score / Score.MAX_VALUE;
@@ -141,11 +142,6 @@ public class HabitCardView extends FrameLayout
         triggerRipple(x, y);
     }
 
-    protected void detachFromHabit()
-    {
-        if (habit != null) habit.getObservable().removeListener(this);
-    }
-
     @Override
     protected void onDetachedFromWindow()
     {
@@ -156,6 +152,11 @@ public class HabitCardView extends FrameLayout
     private void attachToHabit()
     {
         if (habit != null) habit.getObservable().addListener(this);
+    }
+
+    private void detachFromHabit()
+    {
+        if (habit != null) habit.getObservable().removeListener(this);
     }
 
     private int getActiveColor(Habit habit)
@@ -189,32 +190,27 @@ public class HabitCardView extends FrameLayout
     @SuppressLint("SetTextI18n")
     private void initEditMode()
     {
-        String habits[] = {
-            "Wake up early",
-            "Wash dishes",
-            "Exercise",
-            "Meditate",
-            "Play guitar",
-            "Wash clothes",
-            "Get a haircut"
-        };
-
         Random rand = new Random();
         int color = ColorUtils.getAndroidTestColor(rand.nextInt(10));
-        int[] values = {
-            rand.nextInt(3),
-            rand.nextInt(3),
-            rand.nextInt(3),
-            rand.nextInt(3),
-            rand.nextInt(3)
-        };
+        int[] values = new int[5];
+        for (int i = 0; i < 5; i++) values[i] = rand.nextInt(3);
 
-        label.setText(habits[rand.nextInt(habits.length)]);
+        label.setText(EDIT_MODE_HABITS[rand.nextInt(EDIT_MODE_HABITS.length)]);
         label.setTextColor(color);
         scoreRing.setColor(color);
         scoreRing.setPercentage(rand.nextFloat());
         checkmarkPanel.setColor(color);
         checkmarkPanel.setCheckmarkValues(values);
+    }
+
+    private void refresh()
+    {
+        int color = getActiveColor(habit);
+        label.setText(habit.getName());
+        label.setTextColor(color);
+        scoreRing.setColor(color);
+        checkmarkPanel.setColor(color);
+        postInvalidate();
     }
 
     private void triggerRipple(final float x, final float y)
