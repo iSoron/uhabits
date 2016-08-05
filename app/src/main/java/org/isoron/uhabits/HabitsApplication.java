@@ -100,6 +100,8 @@ public class HabitsApplication extends Application
             if (db.exists()) db.delete();
         }
 
+        DatabaseUtils.initializeActiveAndroid();
+
         widgetUpdater = component.getWidgetUpdater();
         widgetUpdater.startListening();
 
@@ -118,8 +120,6 @@ public class HabitsApplication extends Application
             reminderScheduler.scheduleAll();
             widgetUpdater.updateWidgets();
         });
-
-        DatabaseUtils.initializeActiveAndroid();
     }
 
     @Override
