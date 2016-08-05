@@ -94,7 +94,6 @@
     <string name="links">Links</string>
     <string name="behavior">Behavior</string>
     <string name="name">Name</string>
-    <string name="show_archived">Show archived</string>
     <string name="settings">Settings</string>
     <string name="snooze_interval">Snooze interval</string>
 
@@ -182,5 +181,6 @@
     <string name="reminder_sound">Reminder sound</string>
     <string name="none">None</string>
     <string name="filter">Filter</string>
-    <string name="show_completed">Show completed</string>
+    <string name="hide_completed">Hide completed</string>
+    <string name="hide_archived">Hide archived</string>
 </resources>

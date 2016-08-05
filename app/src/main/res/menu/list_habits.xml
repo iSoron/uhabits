@@ -35,16 +35,16 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/actionShowArchived"
+                android:id="@+id/actionHideArchived"
                 android:checkable="true"
                 android:enabled="true"
-                android:title="@string/show_archived"/>
+                android:title="@string/hide_archived"/>
 
             <item
-                android:id="@+id/actionShowCompleted"
+                android:id="@+id/actionHideCompleted"
                 android:checkable="true"
                 android:enabled="true"
-                android:title="@string/show_completed"/>
+                android:title="@string/hide_completed"/>
         </menu>
     </item>
 

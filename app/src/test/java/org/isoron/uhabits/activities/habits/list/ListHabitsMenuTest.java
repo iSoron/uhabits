@@ -80,9 +80,9 @@ public class ListHabitsMenuTest extends BaseUnitTest
         Menu androidMenu = mock(Menu.class);
         when(androidMenu.findItem(R.id.actionToggleNightMode)).thenReturn(
             nightModeItem);
-        when(androidMenu.findItem(R.id.actionShowArchived)).thenReturn
+        when(androidMenu.findItem(R.id.actionHideArchived)).thenReturn
             (showArchivedItem);
-        when(androidMenu.findItem(R.id.actionShowCompleted)).thenReturn
+        when(androidMenu.findItem(R.id.actionHideCompleted)).thenReturn
             (showCompletedItem);
 
         menu.onCreate(androidMenu);
@@ -134,14 +134,14 @@ public class ListHabitsMenuTest extends BaseUnitTest
     @Test
     public void testOnSelected_showArchived()
     {
-        onItemSelected(R.id.actionShowArchived);
+        onItemSelected(R.id.actionHideArchived);
         verify(preferences).setShowArchived(true);
         verify(adapter).setFilter(matcherCaptor.capture());
         verify(adapter).refresh();
         assertTrue(matcherCaptor.getValue().isArchivedAllowed());
         reset(adapter);
 
-        onItemSelected(R.id.actionShowArchived);
+        onItemSelected(R.id.actionHideArchived);
         verify(preferences).setShowArchived(false);
         verify(adapter).setFilter(matcherCaptor.capture());
         verify(adapter).refresh();
@@ -151,14 +151,14 @@ public class ListHabitsMenuTest extends BaseUnitTest
     @Test
     public void testOnSelected_showCompleted()
     {
-        onItemSelected(R.id.actionShowCompleted);
+        onItemSelected(R.id.actionHideCompleted);
         verify(preferences).setShowCompleted(true);
         verify(adapter).setFilter(matcherCaptor.capture());
         verify(adapter).refresh();
         assertTrue(matcherCaptor.getValue().isCompletedAllowed());
         reset(adapter);
 
-        onItemSelected(R.id.actionShowCompleted);
+        onItemSelected(R.id.actionHideCompleted);
         verify(preferences).setShowCompleted(false);
         verify(adapter).setFilter(matcherCaptor.capture());
         verify(adapter).refresh();
