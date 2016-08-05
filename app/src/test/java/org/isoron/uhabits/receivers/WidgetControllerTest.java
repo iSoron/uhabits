@@ -22,6 +22,7 @@ package org.isoron.uhabits.receivers;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -40,6 +41,8 @@ public class WidgetControllerTest extends BaseUnitTest
 
     private long today;
 
+    private NotificationTray notificationTray;
+
     @Override
     public void setUp()
     {
@@ -48,7 +51,8 @@ public class WidgetControllerTest extends BaseUnitTest
         today = DateUtils.getStartOfToday();
         habit = fixtures.createEmptyHabit();
         commandRunner = mock(CommandRunner.class);
-        controller = new WidgetController(commandRunner);
+        notificationTray = mock(NotificationTray.class);
+        controller = new WidgetController(commandRunner, notificationTray);
     }
 
     @Test
@@ -68,6 +72,7 @@ public class WidgetControllerTest extends BaseUnitTest
         assertThat(todayValue, equalTo(UNCHECKED));
         controller.onAddRepetition(habit, today);
         verify(commandRunner).execute(any(), anyLong());
+        verify(notificationTray).cancel(habit);
     }
 
     @Test

@@ -23,7 +23,7 @@
       tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_add"
+        android:id="@+id/actionAdd"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
         app:showAsAction="ifRoom"/>
@@ -35,7 +35,7 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/action_show_archived"
+                android:id="@+id/actionShowArchived"
                 android:checkable="true"
                 android:enabled="true"
                 android:title="@string/show_archived"/>
@@ -49,7 +49,7 @@
     </item>
 
     <item
-        android:id="@+id/action_night_mode"
+        android:id="@+id/actionToggleNightMode"
         android:checkable="true"
         android:enabled="true"
         android:orderInCategory="50"
@@ -57,19 +57,19 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/actionSettings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_faq"
+        android:id="@+id/actionFAQ"
         android:orderInCategory="100"
         android:title="@string/help"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_about"
+        android:id="@+id/actionAbout"
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never"/>

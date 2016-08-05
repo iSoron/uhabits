@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
-import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
@@ -69,6 +68,8 @@ public class ListHabitsController
 
     private ImportDataTaskFactory importTaskFactory;
 
+    private ExportCSVTaskFactory exportCSVFactory;
+
     @Inject
     public ListHabitsController(@NonNull BaseSystem system,
                                 @NonNull CommandRunner commandRunner,
@@ -79,7 +80,8 @@ public class ListHabitsController
                                 @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
                                 @NonNull WidgetUpdater widgetUpdater,
-                                @NonNull ImportDataTaskFactory importTaskFactory)
+                                @NonNull ImportDataTaskFactory importTaskFactory,
+                                @NonNull ExportCSVTaskFactory exportCSVFactory)
     {
         this.adapter = adapter;
         this.commandRunner = commandRunner;
@@ -91,6 +93,7 @@ public class ListHabitsController
         this.reminderScheduler = reminderScheduler;
         this.widgetUpdater = widgetUpdater;
         this.importTaskFactory = importTaskFactory;
+        this.exportCSVFactory = exportCSVFactory;
     }
 
     public void onExportCSV()
@@ -98,7 +101,7 @@ public class ListHabitsController
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
 
-        taskRunner.execute(new ExportCSVTask(habitList, selected, filename -> {
+        taskRunner.execute(exportCSVFactory.create(selected, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
@@ -179,15 +182,8 @@ public class ListHabitsController
 
     public void onStartup()
     {
-        prefs.initialize();
         prefs.incrementLaunchCount();
-        prefs.updateLastAppVersion();
         if (prefs.isFirstRun()) onFirstRun();
-
-        new Handler().postDelayed(() -> taskRunner.execute(() -> {
-            reminderScheduler.scheduleAll();
-            widgetUpdater.updateWidgets();
-        }), 1000);
     }
 
     @Override

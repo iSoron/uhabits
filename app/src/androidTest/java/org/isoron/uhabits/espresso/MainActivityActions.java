@@ -51,7 +51,7 @@ public class MainActivityActions
         String num = "4";
         String den = "8";
 
-        onView(withId(R.id.action_add)).perform(click());
+        onView(withId(R.id.actionAdd)).perform(click());
 
         typeHabitData(name, description, num, den);
 

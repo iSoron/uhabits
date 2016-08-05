@@ -27,6 +27,8 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 
+import static android.R.anim.*;
+
 /**
  * Base class for all activities in the application.
  * <p>
@@ -73,6 +75,17 @@ abstract public class BaseActivity extends AppCompatActivity
         if (item == null) return false;
         if (baseMenu == null) return false;
         return baseMenu.onItemSelected(item);
+    }
+
+    public void restartWithFade()
+    {
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            finish();
+            overridePendingTransition(fade_in, fade_out);
+            startActivity(intent);
+
+        }, 500); // HACK: Let the menu disappear first
     }
 
     public void setBaseMenu(@Nullable BaseMenu baseMenu)

@@ -27,7 +27,7 @@ import org.isoron.uhabits.io.*;
 
 import java.io.*;
 
-@AutoFactory
+@AutoFactory(allowSubclasses = true)
 public class ImportDataTask implements Task
 {
     public static final int FAILED = 3;

@@ -67,10 +67,10 @@ public class ListHabitsMenu extends BaseMenu
     @Override
     public void onCreate(@NonNull Menu menu)
     {
-        MenuItem nightModeItem = menu.findItem(R.id.action_night_mode);
+        MenuItem nightModeItem = menu.findItem(R.id.actionToggleNightMode);
         nightModeItem.setChecked(themeSwitcher.isNightMode());
 
-        MenuItem showArchivedItem = menu.findItem(R.id.action_show_archived);
+        MenuItem showArchivedItem = menu.findItem(R.id.actionShowArchived);
         showArchivedItem.setChecked(showArchived);
 
         MenuItem showCompletedItem = menu.findItem(R.id.actionShowCompleted);
@@ -82,27 +82,27 @@ public class ListHabitsMenu extends BaseMenu
     {
         switch (item.getItemId())
         {
-            case R.id.action_night_mode:
+            case R.id.actionToggleNightMode:
                 screen.toggleNightMode();
                 return true;
 
-            case R.id.action_add:
+            case R.id.actionAdd:
                 screen.showCreateHabitScreen();
                 return true;
 
-            case R.id.action_faq:
+            case R.id.actionFAQ:
                 screen.showFAQScreen();
                 return true;
 
-            case R.id.action_about:
+            case R.id.actionAbout:
                 screen.showAboutScreen();
                 return true;
 
-            case R.id.action_settings:
+            case R.id.actionSettings:
                 screen.showSettingsScreen();
                 return true;
 
-            case R.id.action_show_archived:
+            case R.id.actionShowArchived:
                 toggleShowArchived();
                 invalidate();
                 return true;

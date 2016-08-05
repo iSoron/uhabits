@@ -26,6 +26,8 @@ import android.support.annotation.*;
 import com.activeandroid.*;
 
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -106,6 +108,16 @@ public class HabitsApplication extends Application
 
         notificationTray = component.getNotificationTray();
         notificationTray.startListening();
+
+        Preferences prefs = component.getPreferences();
+        prefs.initialize();
+        prefs.updateLastAppVersion();
+
+        TaskRunner taskRunner = component.getTaskRunner();
+        taskRunner.execute(() -> {
+            reminderScheduler.scheduleAll();
+            widgetUpdater.updateWidgets();
+        });
 
         DatabaseUtils.initializeActiveAndroid();
     }

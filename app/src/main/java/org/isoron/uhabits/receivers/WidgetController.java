@@ -23,6 +23,7 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.notifications.*;
 
 import javax.inject.*;
 
@@ -32,10 +33,14 @@ public class WidgetController
     @NonNull
     private final CommandRunner commandRunner;
 
+    private NotificationTray notificationTray;
+
     @Inject
-    public WidgetController(@NonNull CommandRunner commandRunner)
+    public WidgetController(@NonNull CommandRunner commandRunner,
+                            @NonNull NotificationTray notificationTray)
     {
         this.commandRunner = commandRunner;
+        this.notificationTray = notificationTray;
     }
 
     public void onAddRepetition(@NonNull Habit habit, long timestamp)
@@ -43,6 +48,7 @@ public class WidgetController
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
         performToggle(habit, timestamp);
+        notificationTray.cancel(habit);
     }
 
     public void onRemoveRepetition(@NonNull Habit habit, long timestamp)

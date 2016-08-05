@@ -145,7 +145,7 @@ public class MainTest
     @Test
     public void testAddInvalidHabit()
     {
-        onView(withId(R.id.action_add)).perform(click());
+        onView(withId(R.id.actionAdd)).perform(click());
 
         typeHabitData("", "", "15", "7");
 

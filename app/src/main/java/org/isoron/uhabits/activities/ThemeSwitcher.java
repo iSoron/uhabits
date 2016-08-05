@@ -66,6 +66,17 @@ public class ThemeSwitcher
         return getTheme() == THEME_DARK;
     }
 
+    public void refreshTheme()
+    {
+
+    }
+
+    public void toggleNightMode()
+    {
+        if (isNightMode()) setTheme(THEME_LIGHT);
+        else setTheme(THEME_DARK);
+    }
+
     private void applyDarkTheme()
     {
         if (preferences.isPureBlackEnabled())

@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list;
 
 import android.content.*;
-import android.os.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
@@ -233,23 +232,7 @@ public class ListHabitsScreen extends BaseScreen
 
     public void toggleNightMode()
     {
-        if (themeSwitcher.isNightMode())
-            themeSwitcher.setTheme(ThemeSwitcher.THEME_LIGHT);
-        else themeSwitcher.setTheme(ThemeSwitcher.THEME_DARK);
-
-        refreshTheme();
-    }
-
-    private void refreshTheme()
-    {
-        new Handler().postDelayed(() -> {
-            Intent intent = new Intent(activity, MainActivity.class);
-
-            activity.finish();
-            activity.overridePendingTransition(android.R.anim.fade_in,
-                android.R.anim.fade_out);
-            activity.startActivity(intent);
-
-        }, 500); // HACK: Let the menu disappear first
+        themeSwitcher.toggleNightMode();
+        activity.restartWithFade();
     }
 }
