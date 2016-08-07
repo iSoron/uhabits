@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
+import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
@@ -43,6 +44,7 @@ public class StreakCard extends HabitCard
     @BindView(R.id.streakChart)
     StreakChart streakChart;
 
+    @Nullable
     private TaskRunner taskRunner;
 
     public StreakCard(Context context)
@@ -60,14 +62,18 @@ public class StreakCard extends HabitCard
     @Override
     protected void refreshData()
     {
+        if(taskRunner == null) return;
         taskRunner.execute(new RefreshTask());
     }
 
     private void init()
     {
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        taskRunner = app.getComponent().getTaskRunner();
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            taskRunner = app.getComponent().getTaskRunner();
+        }
 
         inflate(getContext(), R.layout.show_habit_streak, this);
         ButterKnife.bind(this);

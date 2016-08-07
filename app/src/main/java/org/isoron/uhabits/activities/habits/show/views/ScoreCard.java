@@ -50,8 +50,10 @@ public class ScoreCard extends HabitCard
 
     private int bucketSize;
 
+    @Nullable
     private TaskRunner taskRunner;
 
+    @Nullable
     private Preferences prefs;
 
     public ScoreCard(Context context)
@@ -93,21 +95,25 @@ public class ScoreCard extends HabitCard
     @Override
     protected void refreshData()
     {
+        if(taskRunner == null) return;
         taskRunner.execute(new RefreshTask());
     }
 
     private int getDefaultSpinnerPosition()
     {
-        if (isInEditMode()) return 0;
+        if(prefs == null) return 0;
         return prefs.getDefaultScoreSpinnerPosition();
     }
 
     private void init()
     {
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        taskRunner = app.getComponent().getTaskRunner();
-        prefs = app.getComponent().getPreferences();
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            taskRunner = app.getComponent().getTaskRunner();
+            prefs = app.getComponent().getPreferences();
+        }
 
         inflate(getContext(), R.layout.show_habit_score, this);
         ButterKnife.bind(this);
@@ -127,8 +133,7 @@ public class ScoreCard extends HabitCard
 
     private void setBucketSizeFromPosition(int position)
     {
-        if (isInEditMode()) return;
-
+        if(prefs == null) return;
         prefs.setDefaultScoreSpinnerPosition(position);
         bucketSize = BUCKET_SIZES[position];
     }

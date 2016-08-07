@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
+import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
@@ -41,6 +42,7 @@ public class FrequencyCard extends HabitCard
     @BindView(R.id.frequencyChart)
     FrequencyChart chart;
 
+    @Nullable
     private TaskRunner taskRunner;
 
     public FrequencyCard(Context context)
@@ -58,6 +60,7 @@ public class FrequencyCard extends HabitCard
     @Override
     protected void refreshData()
     {
+        if(taskRunner == null) return;
         taskRunner.execute(new RefreshTask());
     }
 
@@ -66,9 +69,12 @@ public class FrequencyCard extends HabitCard
         inflate(getContext(), R.layout.show_habit_frequency, this);
         ButterKnife.bind(this);
 
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        taskRunner = app.getComponent().getTaskRunner();
+        Context appContext = getContext().getApplicationContext();
+        if(appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            taskRunner = app.getComponent().getTaskRunner();
+        }
 
         if (isInEditMode()) initEditMode();
     }

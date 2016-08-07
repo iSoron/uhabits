@@ -25,9 +25,9 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -54,6 +54,7 @@ public class OverviewCard extends HabitCard
 
     private int color;
 
+    @Nullable
     private TaskRunner taskRunner;
 
     public OverviewCard(Context context)
@@ -71,6 +72,7 @@ public class OverviewCard extends HabitCard
     @Override
     protected void refreshData()
     {
+        if(taskRunner == null) return;
         taskRunner.execute(new RefreshTask());
     }
 
@@ -82,9 +84,13 @@ public class OverviewCard extends HabitCard
 
     private void init()
     {
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        taskRunner = app.getComponent().getTaskRunner();
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            taskRunner = app.getComponent().getTaskRunner();
+        }
+
         inflate(getContext(), R.layout.show_habit_overview, this);
         ButterKnife.bind(this);
         cache = new Cache();

@@ -43,6 +43,7 @@ public class HistoryCard extends HabitCard
     @NonNull
     private Controller controller;
 
+    @Nullable
     private TaskRunner taskRunner;
 
     public HistoryCard(Context context)
@@ -72,6 +73,7 @@ public class HistoryCard extends HabitCard
     @Override
     protected void refreshData()
     {
+        if(taskRunner == null) return;
         taskRunner.execute(new RefreshTask(getHabit()));
     }
 
@@ -80,9 +82,13 @@ public class HistoryCard extends HabitCard
         inflate(getContext(), R.layout.show_habit_history, this);
         ButterKnife.bind(this);
 
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        taskRunner = app.getComponent().getTaskRunner();
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            taskRunner = app.getComponent().getTaskRunner();
+        }
+
         controller = new Controller() {};
         if (isInEditMode()) initEditMode();
     }
