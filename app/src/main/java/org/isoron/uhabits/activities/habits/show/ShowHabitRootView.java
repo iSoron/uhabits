@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.show;
 
 import android.content.*;
+import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.widget.*;
 
@@ -106,6 +107,10 @@ public class ShowHabitRootView extends BaseRootView
     @Override
     public void onModelChange()
     {
+        new Handler(Looper.getMainLooper()).post(() -> {
+            toolbar.setTitle(habit.getName());
+        });
+
         controller.onToolbarChanged();
     }
 
