@@ -75,21 +75,21 @@ public class ListHabitsMenuTest extends BaseUnitTest
     public void testOnCreate()
     {
         MenuItem nightModeItem = mock(MenuItem.class);
-        MenuItem showArchivedItem = mock(MenuItem.class);
-        MenuItem showCompletedItem = mock(MenuItem.class);
+        MenuItem hideArchivedItem = mock(MenuItem.class);
+        MenuItem hideCompletedItem = mock(MenuItem.class);
         Menu androidMenu = mock(Menu.class);
         when(androidMenu.findItem(R.id.actionToggleNightMode)).thenReturn(
             nightModeItem);
-        when(androidMenu.findItem(R.id.actionHideArchived)).thenReturn
-            (showArchivedItem);
-        when(androidMenu.findItem(R.id.actionHideCompleted)).thenReturn
-            (showCompletedItem);
+        when(androidMenu.findItem(R.id.actionHideArchived)).thenReturn(
+            hideArchivedItem);
+        when(androidMenu.findItem(R.id.actionHideCompleted)).thenReturn(
+            hideCompletedItem);
 
         menu.onCreate(androidMenu);
         verify(nightModeItem).setChecked(false);
-        verify(showArchivedItem).setChecked(false);
-        verify(showCompletedItem).setChecked(false);
-        reset(nightModeItem, showArchivedItem, showCompletedItem);
+        verify(hideArchivedItem).setChecked(true);
+        verify(hideCompletedItem).setChecked(true);
+        reset(nightModeItem, hideArchivedItem, hideCompletedItem);
 
         when(themeSwitcher.isNightMode()).thenReturn(true);
         menu.onCreate(androidMenu);
