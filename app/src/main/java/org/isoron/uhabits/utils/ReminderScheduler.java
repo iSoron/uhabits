@@ -72,6 +72,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)
     {
         if (!habit.hasReminder()) return;
+        if (habit.isArchived()) return;
         Reminder reminder = habit.getReminder();
         if (reminderTime == null) reminderTime = getReminderTime(reminder);
         long timestamp = getStartOfDay(removeTimezone(reminderTime));
