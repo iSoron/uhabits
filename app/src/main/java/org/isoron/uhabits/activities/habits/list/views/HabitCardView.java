@@ -135,7 +135,7 @@ public class HabitCardView extends FrameLayout
         long today = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
         int offset = (int) ((today - timestamp) / day);
-        CheckmarkButtonView button = checkmarkPanel.getButton(offset);
+        CheckmarkButtonView button = checkmarkPanel.indexToButton(offset);
 
         float y = button.getHeight() / 2.0f;
         float x = checkmarkPanel.getX() + button.getX() + button.getWidth() / 2;

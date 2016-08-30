@@ -31,6 +31,8 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
+import static android.view.View.MeasureSpec.*;
+
 public class CheckmarkPanelView extends LinearLayout
 {
     private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
@@ -62,8 +64,13 @@ public class CheckmarkPanelView extends LinearLayout
         init();
     }
 
-    public CheckmarkButtonView getButton(int position)
+    public CheckmarkButtonView indexToButton(int i)
     {
+        int position = i;
+
+        if (getCheckmarkOrder() == CHECKMARK_RIGHT_TO_LEFT)
+            position = nButtons - i - 1;
+
         return (CheckmarkButtonView) getChildAt(position);
     }
 
@@ -107,10 +114,8 @@ public class CheckmarkPanelView extends LinearLayout
 
         float width = buttonWidth * nButtons;
 
-        widthSpec =
-            MeasureSpec.makeMeasureSpec((int) width, MeasureSpec.EXACTLY);
-        heightSpec = MeasureSpec.makeMeasureSpec((int) buttonHeight,
-            MeasureSpec.EXACTLY);
+        widthSpec = makeMeasureSpec((int) width, EXACTLY);
+        heightSpec = makeMeasureSpec((int) buttonHeight, EXACTLY);
 
         super.onMeasure(widthSpec, heightSpec);
     }
@@ -130,16 +135,6 @@ public class CheckmarkPanelView extends LinearLayout
             CHECKMARK_LEFT_TO_RIGHT;
     }
 
-    private CheckmarkButtonView indexToButton(int i)
-    {
-        int position = i;
-
-        if (getCheckmarkOrder() == CHECKMARK_RIGHT_TO_LEFT)
-            position = nButtons - i - 1;
-
-        return (CheckmarkButtonView) getChildAt(position);
-    }
-
     private void init()
     {
         if (isInEditMode()) return;
@@ -154,7 +149,7 @@ public class CheckmarkPanelView extends LinearLayout
                                         CheckmarkButtonView buttonView)
     {
         if (controller == null) return;
-        if(!(getContext() instanceof  ListHabitsActivity)) return;
+        if (!(getContext() instanceof ListHabitsActivity)) return;
 
         ListHabitsActivity activity = (ListHabitsActivity) getContext();
         CheckmarkButtonControllerFactory buttonControllerFactory = activity
