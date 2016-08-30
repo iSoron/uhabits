@@ -28,23 +28,32 @@ import java.util.*;
 import dagger.*;
 
 @Module
-@AppScope
 public class AndroidTaskRunner implements TaskRunner
 {
     private final LinkedList<CustomAsyncTask> activeTasks;
 
     private final HashMap<Task, CustomAsyncTask> taskToAsyncTask;
 
+    private LinkedList<Listener> listeners;
+
     public AndroidTaskRunner()
     {
         activeTasks = new LinkedList<>();
         taskToAsyncTask = new HashMap<>();
+        listeners = new LinkedList<>();
     }
 
     @Provides
+    @AppScope
     public static TaskRunner provideTaskRunner()
     {
         return new AndroidTaskRunner();
+    }
+
+    @Override
+    public void addListener(Listener listener)
+    {
+        listeners.add(listener);
     }
 
     @Override
@@ -55,11 +64,23 @@ public class AndroidTaskRunner implements TaskRunner
     }
 
     @Override
+    public int getActiveTaskCount()
+    {
+        return activeTasks.size();
+    }
+
+    @Override
     public void publishProgress(Task task, int progress)
     {
         CustomAsyncTask asyncTask = taskToAsyncTask.get(task);
-        if(asyncTask == null) return;
+        if (asyncTask == null) return;
         asyncTask.publish(progress);
+    }
+
+    @Override
+    public void removeListener(Listener listener)
+    {
+        listeners.remove(listener);
     }
 
     private class CustomAsyncTask extends AsyncTask<Void, Integer, Void>
@@ -94,11 +115,13 @@ public class AndroidTaskRunner implements TaskRunner
             task.onPostExecute();
             activeTasks.remove(this);
             taskToAsyncTask.remove(task);
+            for (Listener l : listeners) l.onTaskFinished(task);
         }
 
         @Override
         protected void onPreExecute()
         {
+            for (Listener l : listeners) l.onTaskStarted(task);
             activeTasks.add(this);
             taskToAsyncTask.put(task, this);
             task.onPreExecute();

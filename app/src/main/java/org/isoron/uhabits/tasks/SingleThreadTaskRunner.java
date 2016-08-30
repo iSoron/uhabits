@@ -28,9 +28,15 @@ public class SingleThreadTaskRunner implements TaskRunner
 {
     @Provides
     @AppScope
-    public static TaskRunner getInstance()
+    public static TaskRunner provideTaskRunner()
     {
         return new SingleThreadTaskRunner();
+    }
+
+    @Override
+    public void addListener(Listener listener)
+    {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -43,9 +49,20 @@ public class SingleThreadTaskRunner implements TaskRunner
     }
 
     @Override
+    public int getActiveTaskCount()
+    {
+        return 0;
+    }
+
+    @Override
     public void publishProgress(Task task, int progress)
     {
         task.onProgressUpdate(progress);
     }
 
+    @Override
+    public void removeListener(Listener listener)
+    {
+        throw new UnsupportedOperationException();
+    }
 }
