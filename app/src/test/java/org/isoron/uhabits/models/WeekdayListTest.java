@@ -43,4 +43,11 @@ public class WeekdayListTest extends BaseUnitTest
         assertThat(list.toArray(), equalTo(daysArray));
         assertThat(list.toInteger(), equalTo(daysInt));
     }
+
+    @Test
+    public void testEmpty()
+    {
+        WeekdayList list = new WeekdayList(0);
+        assertThat(list.toArray(), equalTo(WeekdayList.EVERY_DAY.toArray()));
+    }
 }

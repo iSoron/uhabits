@@ -29,9 +29,10 @@ public class WeekdayList
 
     public WeekdayList(int packedList)
     {
+        if(packedList == 0) packedList = 127;
         weekdays = new boolean[7];
-        int current = 1;
 
+        int current = 1;
         for (int i = 0; i < 7; i++)
         {
             if ((packedList & current) != 0) weekdays[i] = true;
@@ -41,6 +42,10 @@ public class WeekdayList
 
     public WeekdayList(boolean weekdays[])
     {
+        boolean isEmpty = true;
+        for(boolean b : weekdays) if(b) isEmpty = false;
+        if(isEmpty) throw new IllegalArgumentException("empty list");
+
         this.weekdays = Arrays.copyOf(weekdays, 7);
     }
 
