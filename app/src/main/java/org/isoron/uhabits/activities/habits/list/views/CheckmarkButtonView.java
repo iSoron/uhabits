@@ -25,20 +25,15 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
-import butterknife.*;
-
-public class CheckmarkButtonView extends FrameLayout
+public class CheckmarkButtonView extends TextView
 {
     private int color;
 
     private int value;
-
-    @BindView(R.id.tvCheck)
-    TextView tvCheck;
 
     private StyledResources res;
 
@@ -82,20 +77,20 @@ public class CheckmarkButtonView extends FrameLayout
 
         if (value == Checkmark.CHECKED_EXPLICITLY)
         {
-            tvCheck.setText(R.string.fa_check);
-            tvCheck.setTextColor(color);
+            setText(R.string.fa_check);
+            setTextColor(color);
         }
 
         if (value == Checkmark.CHECKED_IMPLICITLY)
         {
-            tvCheck.setText(R.string.fa_check);
-            tvCheck.setTextColor(lowContrastColor);
+            setText(R.string.fa_check);
+            setTextColor(lowContrastColor);
         }
 
         if (value == Checkmark.UNCHECKED)
         {
-            tvCheck.setText(R.string.fa_times);
-            tvCheck.setTextColor(lowContrastColor);
+            setText(R.string.fa_times);
+            setTextColor(lowContrastColor);
         }
 
         super.onDraw(canvas);
@@ -103,15 +98,16 @@ public class CheckmarkButtonView extends FrameLayout
 
     private void init()
     {
-        addView(
-            inflate(getContext(), R.layout.list_habits_card_checkmark, null));
-        ButterKnife.bind(this);
-
         res = new StyledResources(getContext());
 
         setWillNotDraw(false);
         setHapticFeedbackEnabled(false);
 
-        tvCheck.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+        setMinHeight(getResources().getDimensionPixelSize(R.dimen.checkmarkHeight));
+        setMinWidth(getResources().getDimensionPixelSize(R.dimen.checkmarkWidth));
+
+        setFocusable(false);
+        setGravity(Gravity.CENTER);
+        setTypeface(InterfaceUtils.getFontAwesome(getContext()));
     }
 }
