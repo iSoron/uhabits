@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
 import android.graphics.*;
+import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
@@ -37,6 +38,7 @@ public class HeaderView extends LinearLayout
 
     private int buttonCount;
 
+    @Nullable
     private Preferences prefs;
 
     public HeaderView(Context context, AttributeSet attrs)
@@ -49,9 +51,12 @@ public class HeaderView extends LinearLayout
             setButtonCount(5);
         }
 
-        HabitsApplication app =
-            (HabitsApplication) context.getApplicationContext();
-        prefs = app.getComponent().getPreferences();
+        Context appContext = context.getApplicationContext();
+        if(appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
     }
 
     public void setButtonCount(int buttonCount)
@@ -90,7 +95,7 @@ public class HeaderView extends LinearLayout
 
     private boolean shouldReverseCheckmarks()
     {
-        if (isInEditMode()) return false;
+        if(prefs == null) return false;
         return prefs.shouldReverseCheckmarks();
     }
 }

@@ -39,6 +39,7 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
 
     private static final int CHECKMARK_RIGHT_TO_LEFT = 1;
 
+    @Nullable
     private Preferences prefs;
 
     private int checkmarkValues[];
@@ -130,18 +131,20 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
 
     private int getCheckmarkOrder()
     {
-        if (isInEditMode()) return CHECKMARK_LEFT_TO_RIGHT;
+        if (prefs == null) return CHECKMARK_LEFT_TO_RIGHT;
         return prefs.shouldReverseCheckmarks() ? CHECKMARK_RIGHT_TO_LEFT :
             CHECKMARK_LEFT_TO_RIGHT;
     }
 
     private void init()
     {
-        if (isInEditMode()) return;
+        Context appContext = getContext().getApplicationContext();
+        if(appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
 
-        HabitsApplication app =
-            (HabitsApplication) getContext().getApplicationContext();
-        prefs = app.getComponent().getPreferences();
         setWillNotDraw(false);
     }
 
@@ -182,13 +185,13 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
     protected void onAttachedToWindow()
     {
         super.onAttachedToWindow();
-        prefs.addListener(this);
+        if(prefs != null) prefs.addListener(this);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
-        prefs.removeListener(this);
+        if(prefs != null) prefs.removeListener(this);
         super.onDetachedFromWindow();
     }
 
