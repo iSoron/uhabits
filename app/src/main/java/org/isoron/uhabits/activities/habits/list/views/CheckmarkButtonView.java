@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
-import android.graphics.*;
 import android.view.*;
 import android.widget.*;
 
@@ -58,7 +57,7 @@ public class CheckmarkButtonView extends TextView
     public void setValue(int value)
     {
         this.value = value;
-        postInvalidate();
+        updateText();
     }
 
     public void toggle()
@@ -67,11 +66,27 @@ public class CheckmarkButtonView extends TextView
                      Checkmark.CHECKED_EXPLICITLY);
 
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-        postInvalidate();
+        updateText();
     }
 
-    @Override
-    protected void onDraw(Canvas canvas)
+    private void init()
+    {
+        res = new StyledResources(getContext());
+
+        setWillNotDraw(false);
+        setHapticFeedbackEnabled(false);
+
+        setMinHeight(
+            getResources().getDimensionPixelSize(R.dimen.checkmarkHeight));
+        setMinWidth(
+            getResources().getDimensionPixelSize(R.dimen.checkmarkWidth));
+
+        setFocusable(false);
+        setGravity(Gravity.CENTER);
+        setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+    }
+
+    private void updateText()
     {
         int lowContrastColor = res.getColor(R.attr.lowContrastTextColor);
 
@@ -92,22 +107,5 @@ public class CheckmarkButtonView extends TextView
             setText(R.string.fa_times);
             setTextColor(lowContrastColor);
         }
-
-        super.onDraw(canvas);
-    }
-
-    private void init()
-    {
-        res = new StyledResources(getContext());
-
-        setWillNotDraw(false);
-        setHapticFeedbackEnabled(false);
-
-        setMinHeight(getResources().getDimensionPixelSize(R.dimen.checkmarkHeight));
-        setMinWidth(getResources().getDimensionPixelSize(R.dimen.checkmarkWidth));
-
-        setFocusable(false);
-        setGravity(Gravity.CENTER);
-        setTypeface(InterfaceUtils.getFontAwesome(getContext()));
     }
 }
