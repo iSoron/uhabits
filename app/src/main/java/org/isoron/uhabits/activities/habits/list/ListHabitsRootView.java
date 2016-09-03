@@ -181,8 +181,10 @@ public class ListHabitsRootView extends BaseRootView
     private void updateProgressBar()
     {
         postDelayed(() -> {
-            progressBar.setVisibility(
-                runner.getActiveTaskCount() > 0 ? VISIBLE : GONE);
+            int activeTaskCount = runner.getActiveTaskCount();
+            int newVisibility = activeTaskCount > 0 ? VISIBLE : GONE;
+            if (progressBar.getVisibility() != newVisibility)
+                progressBar.setVisibility(newVisibility);
         }, 500);
     }
 }
