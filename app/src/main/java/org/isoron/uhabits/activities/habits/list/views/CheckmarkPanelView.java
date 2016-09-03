@@ -33,7 +33,7 @@ import org.isoron.uhabits.utils.*;
 
 import static android.view.View.MeasureSpec.*;
 
-public class CheckmarkPanelView extends LinearLayout
+public class CheckmarkPanelView extends LinearLayout implements Preferences.Listener
 {
     private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
 
@@ -176,6 +176,26 @@ public class CheckmarkPanelView extends LinearLayout
             setupButtonControllers(timestamp, buttonView);
             timestamp -= day;
         }
+    }
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        prefs.addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        prefs.removeListener(this);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onCheckmarkOrderChanged()
+    {
+        setupCheckmarkButtons();
     }
 
     public interface Controller extends CheckmarkButtonController.Listener

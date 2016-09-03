@@ -25,6 +25,8 @@ import android.preference.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 
+import java.util.*;
+
 import javax.inject.*;
 
 @AppScope
@@ -37,13 +39,21 @@ public class Preferences
 
     private Boolean shouldReverseCheckmarks = null;
 
+    private LinkedList<Listener> listeners;
+
     @Inject
     public Preferences(@AppContext Context context)
     {
         this.context = context;
+        listeners = new LinkedList<>();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    public void addListener(Listener listener)
+    {
+        listeners.add(listener);
     }
 
     public Integer getDefaultHabitColor(int fallbackColor)
@@ -57,11 +67,6 @@ public class Preferences
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
             defaultScoreInterval = 1;
         return defaultScoreInterval;
-    }
-
-    public long getSnoozeInterval()
-    {
-        return Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
     }
 
     public void setDefaultScoreSpinnerPosition(int position)
@@ -107,6 +112,11 @@ public class Preferences
     public void setShowCompleted(boolean showCompleted)
     {
         prefs.edit().putBoolean("pref_show_completed", showCompleted).apply();
+    }
+
+    public long getSnoozeInterval()
+    {
+        return Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
     }
 
     public int getTheme()
@@ -155,7 +165,15 @@ public class Preferences
                                           String key)
     {
         if (key.equals("pref_checkmark_reverse_order"))
+        {
             shouldReverseCheckmarks = null;
+            for(Listener l : listeners) l.onCheckmarkOrderChanged();
+        }
+    }
+
+    public void removeListener(Listener listener)
+    {
+        listeners.remove(listener);
     }
 
     public void setDefaultHabitColor(int color)
@@ -170,6 +188,8 @@ public class Preferences
             .edit()
             .putBoolean("pref_checkmark_reverse_order", reverse)
             .apply();
+
+        for(Listener l : listeners) l.onCheckmarkOrderChanged();
     }
 
     public boolean shouldReverseCheckmarks()
@@ -198,5 +218,10 @@ public class Preferences
             .putInt("last_hint_number", number)
             .putLong("last_hint_timestamp", timestamp)
             .apply();
+    }
+
+    public interface Listener
+    {
+        default void onCheckmarkOrderChanged() {}
     }
 }
