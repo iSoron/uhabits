@@ -24,6 +24,7 @@ import android.os.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.preferences.*;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
@@ -37,6 +38,15 @@ public class ListHabitsActivity extends BaseActivity
     private ListHabitsScreen screen;
 
     private ListHabitsComponent component;
+
+    private boolean pureBlack;
+
+    private Preferences prefs;
+
+    public ListHabitsComponent getListHabitsComponent()
+    {
+        return component;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,6 +69,9 @@ public class ListHabitsActivity extends BaseActivity
         rootView = component.getRootView();
         screen = component.getScreen();
 
+        prefs = app.getComponent().getPreferences();
+        pureBlack = prefs.isPureBlackEnabled();
+
         screen.setMenu(menu);
         screen.setController(controller);
         screen.setSelectionMenu(selectionMenu);
@@ -66,11 +79,6 @@ public class ListHabitsActivity extends BaseActivity
 
         setScreen(screen);
         controller.onStartup();
-    }
-
-    public ListHabitsComponent getListHabitsComponent()
-    {
-        return component;
     }
 
     @Override
@@ -87,6 +95,13 @@ public class ListHabitsActivity extends BaseActivity
         adapter.refresh();
         screen.onAttached();
         rootView.postInvalidate();
+
+        if (prefs.getTheme() == ThemeSwitcher.THEME_DARK &&
+            prefs.isPureBlackEnabled() != pureBlack)
+        {
+            restartWithFade();
+        }
+
         super.onResume();
     }
 }
