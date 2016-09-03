@@ -133,7 +133,6 @@ public class SQLiteHabitList extends HabitList
         return Collections.unmodifiableCollection(toList()).iterator();
     }
 
-    @Deprecated
     public void rebuildOrder()
     {
         List<Habit> habits = toList();
@@ -176,7 +175,7 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public void reorder(Habit from, Habit to)
+    public synchronized void reorder(Habit from, Habit to)
     {
         if (from == to) return;
 
@@ -213,6 +212,7 @@ public class SQLiteHabitList extends HabitList
         fromRecord.save();
 
         update(from);
+        rebuildOrder();
 
         getObservable().notifyListeners();
     }
