@@ -154,7 +154,7 @@ public abstract class ScoreList implements Iterable<Score>
      * @param from timestamp of the beginning of the interval
      * @param to   timestamp of the end of the time interval
      */
-    protected void compute(long from, long to)
+    protected synchronized void compute(long from, long to)
     {
         final long day = DateUtils.millisecondsInOneDay;
         final double freq = habit.getFrequency().toDouble();

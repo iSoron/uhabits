@@ -27,6 +27,8 @@ import java.util.*;
 
 import dagger.*;
 
+import static android.os.AsyncTask.*;
+
 @Module
 public class AndroidTaskRunner implements TaskRunner
 {
@@ -60,7 +62,7 @@ public class AndroidTaskRunner implements TaskRunner
     public void execute(Task task)
     {
         task.onAttached(this);
-        new CustomAsyncTask(task).execute();
+        new CustomAsyncTask(task).executeOnExecutor(THREAD_POOL_EXECUTOR);
     }
 
     @Override

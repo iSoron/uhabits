@@ -179,7 +179,7 @@ public abstract class CheckmarkList
      * @param from timestamp for the beginning of the interval
      * @param to   timestamp for the end of the interval
      */
-    protected final void compute(long from, final long to)
+    protected final synchronized void compute(long from, final long to)
     {
         final long day = DateUtils.millisecondsInOneDay;
 

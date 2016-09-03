@@ -65,7 +65,7 @@ public abstract class StreakList
 
     public abstract void invalidateNewerThan(long timestamp);
 
-    public void rebuild()
+    public synchronized void rebuild()
     {
         long today = DateUtils.getStartOfToday();
 
