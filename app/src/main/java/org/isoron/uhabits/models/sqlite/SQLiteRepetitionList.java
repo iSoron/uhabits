@@ -19,9 +19,12 @@
 
 package org.isoron.uhabits.models.sqlite;
 
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
+import com.activeandroid.Cache;
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
@@ -159,5 +162,15 @@ public class SQLiteRepetitionList extends RepetitionList
         }
 
         return reps;
+    }
+
+    @NonNull
+    @Override
+    public long getTotalCount()
+    {
+        SQLiteDatabase db = Cache.openDatabase();
+
+        return DatabaseUtils.queryNumEntries(db, "Repetitions",
+                "habit=?", new String[] { Long.toString(habit.getId()) });
     }
 }

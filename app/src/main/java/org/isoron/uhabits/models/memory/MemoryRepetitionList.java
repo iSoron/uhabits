@@ -99,4 +99,10 @@ public class MemoryRepetitionList extends RepetitionList
         observable.notifyListeners();
     }
 
+    @NonNull
+    @Override
+    public long getTotalCount()
+    {
+        return list.size();
+    }
 }
