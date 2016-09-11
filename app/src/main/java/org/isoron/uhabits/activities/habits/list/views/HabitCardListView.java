@@ -67,15 +67,13 @@ public class HabitCardListView extends RecyclerView
      * @param checkmarks the list of checkmark values to be included in the
      *                   card
      * @param selected   true if the card is selected, false otherwise
-     * @param position
      * @return the HabitCardView generated
      */
     public View bindCardView(@NonNull HabitCardViewHolder holder,
                              @NonNull Habit habit,
                              int score,
                              int[] checkmarks,
-                             boolean selected,
-                             int position)
+                             boolean selected)
     {
         int visibleCheckmarks[] =
             Arrays.copyOfRange(checkmarks, 0, checkmarkCount);
@@ -85,7 +83,7 @@ public class HabitCardListView extends RecyclerView
         cardView.setSelected(selected);
         cardView.setCheckmarkValues(visibleCheckmarks);
         cardView.setScore(score);
-        if (controller != null) setupCardViewController(holder, position);
+        if (controller != null) setupCardViewController(holder);
         return cardView;
     }
 
@@ -125,8 +123,7 @@ public class HabitCardListView extends RecyclerView
         super.onDetachedFromWindow();
     }
 
-    protected void setupCardViewController(@NonNull HabitCardViewHolder holder,
-                                           int position)
+    protected void setupCardViewController(@NonNull HabitCardViewHolder holder)
     {
         HabitCardView cardView = (HabitCardView) holder.itemView;
         HabitCardController cardController = new HabitCardController();
@@ -135,7 +132,7 @@ public class HabitCardListView extends RecyclerView
         cardController.setView(cardView);
 
         GestureDetector detector = new GestureDetector(getContext(),
-            new CardViewGestureDetector(position, holder));
+            new CardViewGestureDetector(holder));
 
         cardView.setOnTouchListener((v, ev) -> {
             detector.onTouchEvent(ev);
@@ -158,21 +155,18 @@ public class HabitCardListView extends RecyclerView
     private class CardViewGestureDetector
         extends GestureDetector.SimpleOnGestureListener
     {
-        private final int position;
-
         @NonNull
         private final HabitCardViewHolder holder;
 
-        public CardViewGestureDetector(int position,
-                                       @NonNull HabitCardViewHolder holder)
+        public CardViewGestureDetector(@NonNull HabitCardViewHolder holder)
         {
-            this.position = position;
             this.holder = holder;
         }
 
         @Override
         public void onLongPress(MotionEvent e)
         {
+            int position = holder.getAdapterPosition();
             if (controller != null) controller.onItemLongClick(position);
             touchHelper.startDrag(holder);
         }
@@ -180,6 +174,7 @@ public class HabitCardListView extends RecyclerView
         @Override
         public boolean onSingleTapUp(MotionEvent e)
         {
+            int position = holder.getAdapterPosition();
             if (controller != null) controller.onItemClick(position);
             return true;
         }
