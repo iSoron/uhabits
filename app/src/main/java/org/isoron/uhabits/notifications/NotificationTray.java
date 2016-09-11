@@ -161,8 +161,6 @@ public class NotificationTray implements CommandRunner.Listener
                 .setShowWhen(true)
                 .build();
 
-            notification.flags |= Notification.FLAG_AUTO_CANCEL;
-
             NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(
                     Activity.NOTIFICATION_SERVICE);
