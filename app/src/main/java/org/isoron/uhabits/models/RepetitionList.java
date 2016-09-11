@@ -191,4 +191,12 @@ public abstract class RepetitionList
         habit.getStreaks().invalidateNewerThan(timestamp);
         return rep;
     }
+
+    /**
+     * Returns the number of all repetitions
+     *
+     * @return number of all repetitions
+     */
+    @NonNull
+    public abstract long getTotalCount();
 }

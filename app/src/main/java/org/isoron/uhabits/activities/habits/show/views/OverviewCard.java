@@ -49,6 +49,9 @@ public class OverviewCard extends HabitCard
     @BindView(R.id.yearDiffLabel)
     TextView yearDiffLabel;
 
+    @BindView(R.id.totalCountLabel)
+    TextView totalCountLabel;
+
     @BindView(R.id.title)
     TextView title;
 
@@ -128,12 +131,14 @@ public class OverviewCard extends HabitCard
 
         monthDiffLabel.setText(formatPercentageDiff(monthDiff));
         yearDiffLabel.setText(formatPercentageDiff(yearDiff));
+        totalCountLabel.setText(String.valueOf(cache.totalCount));
 
         StyledResources res = new StyledResources(getContext());
         int inactiveColor = res.getColor(R.attr.mediumContrastTextColor);
 
         monthDiffLabel.setTextColor(monthDiff >= 0 ? color : inactiveColor);
         yearDiffLabel.setTextColor(yearDiff >= 0 ? color : inactiveColor);
+        totalCountLabel.setTextColor(yearDiff >= 0 ? color : inactiveColor);
 
         postInvalidate();
     }
@@ -145,6 +150,8 @@ public class OverviewCard extends HabitCard
         public float lastMonthScore;
 
         public float lastYearScore;
+
+        public long totalCount;
     }
 
     private class RefreshTask implements Task
@@ -152,7 +159,9 @@ public class OverviewCard extends HabitCard
         @Override
         public void doInBackground()
         {
-            ScoreList scores = getHabit().getScores();
+            Habit habit = getHabit();
+
+            ScoreList scores = habit.getScores();
 
             long today = DateUtils.getStartOfToday();
             long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
@@ -161,6 +170,7 @@ public class OverviewCard extends HabitCard
             cache.todayScore = (float) scores.getTodayValue();
             cache.lastMonthScore = (float) scores.getValue(lastMonth);
             cache.lastYearScore = (float) scores.getValue(lastYear);
+            cache.totalCount = habit.getRepetitions().getTotalCount();
         }
 
         @Override
