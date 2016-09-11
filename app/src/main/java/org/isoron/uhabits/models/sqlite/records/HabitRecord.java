@@ -148,6 +148,8 @@ public class HabitRecord extends Model implements SQLiteRecord
         this.freqNum = freq.getNumerator();
         this.freqDen = freq.getDenominator();
         this.reminderDays = 0;
+        this.reminderMin = null;
+        this.reminderHour = null;
 
         if (model.hasReminder())
         {
