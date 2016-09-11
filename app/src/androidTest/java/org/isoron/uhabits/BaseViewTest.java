@@ -116,6 +116,7 @@ public class BaseViewTest extends BaseAndroidTest
         int specWidth = makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int specHeight = makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
 
+        view.setLayoutParams(new ViewGroup.LayoutParams(width, height));
         view.measure(specWidth, specHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
     }

@@ -19,18 +19,17 @@
 
 package org.isoron.uhabits.activities.habits.list.views;
 
-import android.support.test.runner.AndroidJUnit4;
+import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.BaseViewTest;
-import org.isoron.uhabits.utils.ColorUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
+import org.junit.*;
+import org.junit.runner.*;
 
-import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
+import java.io.*;
+import java.util.concurrent.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
