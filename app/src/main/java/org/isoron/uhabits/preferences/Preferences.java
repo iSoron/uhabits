@@ -169,6 +169,11 @@ public class Preferences
             shouldReverseCheckmarks = null;
             for(Listener l : listeners) l.onCheckmarkOrderChanged();
         }
+
+        if(key.equals("pref_sticky_notifications"))
+        {
+            for(Listener l : listeners) l.onNotificationsChanged();
+        }
     }
 
     public void removeListener(Listener listener)
@@ -200,6 +205,11 @@ public class Preferences
         return shouldReverseCheckmarks;
     }
 
+    public boolean shouldMakeNotificationsSticky()
+    {
+        return prefs.getBoolean("pref_sticky_notifications", false);
+    }
+
     public void updateLastAppVersion()
     {
         prefs.edit().putInt("last_version", BuildConfig.VERSION_CODE).apply();
@@ -223,5 +233,7 @@ public class Preferences
     public interface Listener
     {
         default void onCheckmarkOrderChanged() {}
+
+        default void onNotificationsChanged() {}
     }
 }

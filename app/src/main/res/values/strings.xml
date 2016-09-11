@@ -185,4 +185,7 @@
     <string name="filter">Filter</string>
     <string name="hide_completed">Hide completed</string>
     <string name="hide_archived">Hide archived</string>
+
+    <string name="sticky_notifications">Make notifications sticky</string>
+    <string name="sticky_notifications_description">Prevents notifications from being swiped away.</string>
 </resources>

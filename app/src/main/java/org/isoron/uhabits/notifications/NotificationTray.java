@@ -29,8 +29,11 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
+
+import java.util.*;
 
 import javax.inject.*;
 
@@ -38,7 +41,8 @@ import static android.graphics.BitmapFactory.*;
 import static org.isoron.uhabits.utils.RingtoneUtils.*;
 
 @AppScope
-public class NotificationTray implements CommandRunner.Listener
+public class NotificationTray
+    implements CommandRunner.Listener, Preferences.Listener
 {
     @NonNull
     private final Context context;
@@ -49,55 +53,74 @@ public class NotificationTray implements CommandRunner.Listener
     @NonNull
     private final PendingIntentFactory pendingIntents;
 
-    private CommandRunner commandRunner;
+    @NonNull
+    private final CommandRunner commandRunner;
+
+    @NonNull
+    private final Preferences preferences;
+
+    @NonNull
+    private final HashMap<Habit, NotificationData> active;
 
     @Inject
     public NotificationTray(@AppContext @NonNull Context context,
                             @NonNull TaskRunner taskRunner,
                             @NonNull PendingIntentFactory pendingIntents,
-                            @NonNull CommandRunner commandRunner)
+                            @NonNull CommandRunner commandRunner,
+                            @NonNull Preferences preferences)
     {
         this.context = context;
         this.taskRunner = taskRunner;
         this.pendingIntents = pendingIntents;
         this.commandRunner = commandRunner;
+        this.preferences = preferences;
+        this.active = new HashMap<>();
     }
 
     public void cancel(@NonNull Habit habit)
     {
         int notificationId = getNotificationId(habit);
         NotificationManagerCompat.from(context).cancel(notificationId);
+        active.remove(habit);
     }
 
     @Override
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        if (!(command instanceof ToggleRepetitionCommand))
-            return;
+        if (!(command instanceof ToggleRepetitionCommand)) return;
 
         ToggleRepetitionCommand toggleCommand =
             (ToggleRepetitionCommand) command;
 
         Habit habit = toggleCommand.getHabit();
-        if(habit.getCheckmarks().getTodayValue() != Checkmark.UNCHECKED)
+        if (habit.getCheckmarks().getTodayValue() != Checkmark.UNCHECKED)
             cancel(habit);
+    }
+
+    @Override
+    public void onNotificationsChanged()
+    {
+        reshowAll();
     }
 
     public void show(@NonNull Habit habit, long timestamp, long reminderTime)
     {
-        taskRunner.execute(
-            new ShowNotificationTask(habit, timestamp, reminderTime));
+        NotificationData data = new NotificationData(timestamp, reminderTime);
+        active.put(habit, data);
+        taskRunner.execute(new ShowNotificationTask(habit, data));
     }
 
     public void startListening()
     {
         commandRunner.addListener(this);
+        preferences.addListener(this);
     }
 
     public void stopListening()
     {
         commandRunner.removeListener(this);
+        preferences.removeListener(this);
     }
 
     private int getNotificationId(Habit habit)
@@ -105,6 +128,28 @@ public class NotificationTray implements CommandRunner.Listener
         Long id = habit.getId();
         if (id == null) return 0;
         return (int) (id % Integer.MAX_VALUE);
+    }
+
+    private void reshowAll()
+    {
+        for (Habit habit : active.keySet())
+        {
+            NotificationData data = active.get(habit);
+            taskRunner.execute(new ShowNotificationTask(habit, data));
+        }
+    }
+
+    class NotificationData
+    {
+        public final long timestamp;
+
+        public final long reminderTime;
+
+        public NotificationData(long timestamp, long reminderTime)
+        {
+            this.timestamp = timestamp;
+            this.reminderTime = reminderTime;
+        }
     }
 
     private class ShowNotificationTask implements Task
@@ -117,13 +162,11 @@ public class NotificationTray implements CommandRunner.Listener
 
         private final long reminderTime;
 
-        public ShowNotificationTask(Habit habit,
-                                    long timestamp,
-                                    long reminderTime)
+        public ShowNotificationTask(Habit habit, NotificationData data)
         {
             this.habit = habit;
-            this.timestamp = timestamp;
-            this.reminderTime = reminderTime;
+            this.timestamp = data.timestamp;
+            this.reminderTime = data.reminderTime;
         }
 
         @Override
@@ -148,7 +191,7 @@ public class NotificationTray implements CommandRunner.Listener
                 .setContentTitle(habit.getName())
                 .setContentText(habit.getDescription())
                 .setContentIntent(pendingIntents.showHabit(habit))
-                .setDeleteIntent(pendingIntents.dismissNotification())
+                .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .addAction(R.drawable.ic_action_check,
                     context.getString(R.string.check),
                     pendingIntents.addCheckmark(habit, timestamp))
@@ -159,6 +202,7 @@ public class NotificationTray implements CommandRunner.Listener
                 .extend(wearableExtender)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
+                .setOngoing(preferences.shouldMakeNotificationsSticky())
                 .build();
 
             NotificationManager notificationManager =
@@ -179,6 +223,5 @@ public class NotificationTray implements CommandRunner.Listener
 
             return reminderDays[weekday];
         }
-
     }
 }

@@ -75,6 +75,6 @@ public class ReminderController
 
     public void onDismiss(@NonNull Habit habit)
     {
-        // nop
+        notificationTray.cancel(habit);
     }
 }

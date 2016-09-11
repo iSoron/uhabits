@@ -50,19 +50,19 @@ public class PendingIntentFactory
     public PendingIntent addCheckmark(@NonNull Habit habit,
                                       @Nullable Long timestamp)
     {
-        Uri data = habit.getUri();
         Intent checkIntent = new Intent(context, WidgetReceiver.class);
-        checkIntent.setData(data);
+        checkIntent.setData(habit.getUri());
         checkIntent.setAction(WidgetReceiver.ACTION_ADD_REPETITION);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 1, checkIntent,
             FLAG_UPDATE_CURRENT);
     }
 
-    public PendingIntent dismissNotification()
+    public PendingIntent dismissNotification(@NonNull Habit habit)
     {
         Intent deleteIntent = new Intent(context, ReminderReceiver.class);
         deleteIntent.setAction(WidgetReceiver.ACTION_DISMISS_REMINDER);
+        deleteIntent.setData(habit.getUri());
         return PendingIntent.getBroadcast(context, 0, deleteIntent,
             FLAG_UPDATE_CURRENT);
     }
