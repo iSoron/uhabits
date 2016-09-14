@@ -166,7 +166,7 @@ public class ListHabitsRootView extends BaseRootView
     private int getCheckmarkCount()
     {
         Resources res = getResources();
-        float labelWidth = res.getDimension(R.dimen.habitNameWidth);
+        float labelWidth = Math.max(getMeasuredWidth() / 3, res.getDimension(R.dimen.habitNameWidth));
         float buttonWidth = res.getDimension(R.dimen.checkmarkWidth);
         return Math.min(MAX_CHECKMARK_COUNT, Math.max(0,
             (int) ((getMeasuredWidth() - labelWidth) / buttonWidth)));
