@@ -23,7 +23,6 @@ import android.content.*;
 import android.content.res.*;
 import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
-import android.util.*;
 import android.view.*;
 import android.widget.*;
 
@@ -115,14 +114,12 @@ public class ListHabitsRootView extends BaseRootView
     public void onTaskFinished(Task task)
     {
         updateProgressBar();
-        Log.d("RootView", "onTaskFinished");
     }
 
     @Override
     public void onTaskStarted(Task task)
     {
         updateProgressBar();
-        Log.d("RootView", "onTaskStarted");
     }
 
     public void setController(@NonNull ListHabitsController controller,
