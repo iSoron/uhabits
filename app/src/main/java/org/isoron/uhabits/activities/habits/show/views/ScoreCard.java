@@ -146,7 +146,7 @@ public class ScoreCard extends HabitCard
             List<Score> scores;
             ScoreList scoreList = getHabit().getScores();
 
-            if (bucketSize == 1) scores = scoreList.getAll();
+            if (bucketSize == 1) scores = scoreList.toList();
             else scores = scoreList.groupBy(getTruncateField(bucketSize));
 
             chart.setScores(scores);

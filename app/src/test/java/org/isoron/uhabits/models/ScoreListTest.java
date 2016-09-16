@@ -110,14 +110,17 @@ public class ScoreListTest extends BaseUnitTest
             3699107,
             2846927,
             1948077,
-            1000000
+            1000000,
+            0,
+            0,
+            0
         };
 
+        ScoreList scores = habit.getScores();
         long current = DateUtils.getStartOfToday();
         for (int expectedValue : expectedValues)
         {
-            assertThat(habit.getScores().getValue(current),
-                equalTo(expectedValue));
+            assertThat(scores.getValue(current), equalTo(expectedValue));
             current -= DateUtils.millisecondsInOneDay;
         }
     }

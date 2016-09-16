@@ -57,19 +57,6 @@ public abstract class ScoreList implements Iterable<Score>
      */
     public abstract void add(List<Score> scores);
 
-    public abstract List<Score> getAll();
-
-    /**
-     * Returns the score that has the given timestamp.
-     * <p>
-     * If no such score exists, returns null.
-     *
-     * @param timestamp the timestamp to find.
-     * @return the score with given timestamp, or null if none exists.
-     */
-    @Nullable
-    public abstract Score getByTimestamp(long timestamp);
-
     public ModelObservable getObservable()
     {
         return observable;
@@ -88,22 +75,23 @@ public abstract class ScoreList implements Iterable<Score>
     /**
      * Returns the value of the score for a given day.
      * <p>
-     * If there is no score at the given timestamp (for example, if the
-     * timestamp given happens before the first repetition of the habit) then
-     * returns zero.
+     * If the timestamp given happens before the first repetition of the habit
+     * then returns zero.
      *
      * @param timestamp the timestamp of a day
      * @return score value for that day
      */
     public final int getValue(long timestamp)
     {
-        Score s = getByTimestamp(timestamp);
-        if (s != null) return s.getValue();
-        return 0;
+        compute(timestamp, timestamp);
+        Score s = getComputedByTimestamp(timestamp);
+        if(s == null) throw new IllegalStateException();
+        return s.getValue();
     }
 
     public List<Score> groupBy(DateUtils.TruncateField field)
     {
+        computeAll();
         HashMap<Long, ArrayList<Long>> groups = getGroupedValues(field);
         List<Score> scores = groupsToAvgScores(groups);
         Collections.sort(scores, (s1, s2) -> s2.compareNewer(s1));
@@ -122,8 +110,19 @@ public abstract class ScoreList implements Iterable<Score>
     @Override
     public Iterator<Score> iterator()
     {
-        return getAll().iterator();
+        return toList().iterator();
     }
+
+    /**
+     * Returns a Java list of scores, containing one score for each day, from
+     * the first repetition of the habit until today.
+     * <p>
+     * The scores are sorted by decreasing timestamp. The first score
+     * corresponds to today.
+     *
+     * @return list of scores
+     */
+    public abstract List<Score> toList();
 
     public void writeCSV(Writer out) throws IOException
     {
@@ -140,16 +139,15 @@ public abstract class ScoreList implements Iterable<Score>
     }
 
     /**
-     * Computes and saves the scores that are missing inside a given time
-     * interval.
+     * Computes and stores one score for each day inside the given interval.
      * <p>
      * Scores that have already been computed are skipped, therefore there is no
      * harm in calling this function more times, or with larger intervals, than
      * strictly needed. The endpoints of the interval are included.
      * <p>
-     * This function assumes that there are no gaps on the scores. That is, if
-     * the newest score has timestamp t, then every score with timestamp lower
-     * than t has already been computed.
+     * This method assumes the list of computed scores has no holes. That is, if
+     * there is a score computed at time t1 and another at time t2, then every
+     * score between t1 and t2 is also computed.
      *
      * @param from timestamp of the beginning of the interval
      * @param to   timestamp of the end of the time interval
@@ -157,34 +155,24 @@ public abstract class ScoreList implements Iterable<Score>
     protected synchronized void compute(long from, long to)
     {
         final long day = DateUtils.millisecondsInOneDay;
-        final double freq = habit.getFrequency().toDouble();
-
-        int newestValue = 0;
-        long newestTimestamp = 0;
 
         Score newest = getNewestComputed();
-        if (newest != null)
+        Score oldest = getOldestComputed();
+
+        if (newest == null)
         {
-            newestValue = newest.getValue();
-            newestTimestamp = newest.getTimestamp();
+            Repetition oldestRep = habit.getRepetitions().getOldest();
+            if (oldestRep != null)
+                from = Math.min(from, oldestRep.getTimestamp());
+            forceRecompute(from, to, 0);
         }
-
-        if (newestTimestamp > 0) from = newestTimestamp + day;
-
-        final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
-        final long beginning = from;
-
-        int lastScore = newestValue;
-        List<Score> scores = new LinkedList<>();
-
-        for (int i = 0; i < checkmarkValues.length; i++)
+        else
         {
-            int value = checkmarkValues[checkmarkValues.length - i - 1];
-            lastScore = Score.compute(freq, lastScore, value);
-            scores.add(new Score(beginning + day * i, lastScore));
+            if (oldest == null) throw new IllegalStateException();
+            forceRecompute(from, oldest.getTimestamp() - day, 0);
+            forceRecompute(newest.getTimestamp() + day, to,
+                newest.getValue());
         }
-
-        add(scores);
     }
 
     /**
@@ -196,19 +184,65 @@ public abstract class ScoreList implements Iterable<Score>
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep == null) return;
 
-        long toTimestamp = DateUtils.getStartOfToday();
-        compute(oldestRep.getTimestamp(), toTimestamp);
+        long today = DateUtils.getStartOfToday();
+        compute(oldestRep.getTimestamp(), today);
     }
 
     /**
-     * Returns the most recent score that has already been computed.
-     * <p>
-     * If no score has been computed yet, returns null.
+     * Returns the score that has the given timestamp, if it has already been
+     * computed. If that score has not been computed yet, returns null.
      *
-     * @return the newest score computed, or null if none exist
+     * @param timestamp the timestamp of the score
+     * @return the score with given timestamp, or null not yet computed.
+     */
+    @Nullable
+    protected abstract Score getComputedByTimestamp(long timestamp);
+
+    /**
+     * Returns the most recent score that has already been computed. If no score
+     * has been computed yet, returns null.
      */
     @Nullable
     protected abstract Score getNewestComputed();
+
+    /**
+     * Returns oldest score already computed. If no score has been computed yet,
+     * returns null.
+     */
+    @Nullable
+    protected abstract Score getOldestComputed();
+
+    /**
+     * Computes and stores one score for each day inside the given interval.
+     * <p>
+     * This function does not check if the scores have already been computed. If
+     * they have, then it stores duplicate scores, which is a bad thing.
+     *
+     * @param from          timestamp of the beginning of the interval
+     * @param to            timestamp of the end of the interval
+     * @param previousValue value of the score on the day immediately before the
+     *                      interval begins
+     */
+    private void forceRecompute(long from, long to, int previousValue)
+    {
+        if(from > to) return;
+
+        final long day = DateUtils.millisecondsInOneDay;
+
+        final double freq = habit.getFrequency().toDouble();
+        final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
+
+        List<Score> scores = new LinkedList<>();
+
+        for (int i = 0; i < checkmarkValues.length; i++)
+        {
+            int value = checkmarkValues[checkmarkValues.length - i - 1];
+            previousValue = Score.compute(freq, previousValue, value);
+            scores.add(new Score(from + day * i, previousValue));
+        }
+
+        add(scores);
+    }
 
     @NonNull
     private HashMap<Long, ArrayList<Long>> getGroupedValues(DateUtils.TruncateField field)

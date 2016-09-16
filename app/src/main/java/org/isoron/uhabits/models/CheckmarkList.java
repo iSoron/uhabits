@@ -176,19 +176,54 @@ public abstract class CheckmarkList
      * specified interval of time. Days that already have a corresponding
      * checkmark are skipped.
      *
+     * This method assumes the list of computed checkmarks has no holes. That
+     * is, if there is a checkmark computed at time t1 and another at time t2,
+     * then every checkmark between t1 and t2 is also computed.
+     *
      * @param from timestamp for the beginning of the interval
      * @param to   timestamp for the end of the interval
      */
-    protected final synchronized void compute(long from, final long to)
+    protected final synchronized void compute(long from, long to)
     {
         final long day = DateUtils.millisecondsInOneDay;
 
-        Checkmark newestCheckmark = getNewestComputed();
-        if (newestCheckmark != null)
-            from = newestCheckmark.getTimestamp() + day;
+        Checkmark newest = getNewestComputed();
+        Checkmark oldest = getOldestComputed();
 
+        if (newest == null)
+        {
+            forceRecompute(from, to);
+        }
+        else
+        {
+            forceRecompute(from, oldest.getTimestamp() - day);
+            forceRecompute(newest.getTimestamp() + day, to);
+        }
+    }
+
+    /**
+     * Returns oldest checkmark that has already been computed.
+     *
+     * @return oldest checkmark already computed
+     */
+    protected abstract Checkmark getOldestComputed();
+
+    /**
+     * Computes and stores one checkmark for each day that falls inside the
+     * specified interval of time.
+     *
+     * This method does not check if the checkmarks have already been
+     * computed or not. If they have, then duplicate checkmarks will
+     * be stored, which is a bad thing.
+     *
+     * @param from timestamp for the beginning of the interval
+     * @param to   timestamp for the end of the interval
+     */
+    private synchronized void forceRecompute(long from, long to)
+    {
         if (from > to) return;
 
+        final long day = DateUtils.millisecondsInOneDay;
         Frequency freq = habit.getFrequency();
 
         long fromExtended = from - (long) (freq.getDenominator()) * day;
@@ -231,8 +266,8 @@ public abstract class CheckmarkList
 
     /**
      * Computes and stores one checkmark for each day, since the first
-     * repetition until today. Days that already have a corresponding checkmark
-     * are skipped.
+     * repetition of the habit until today. Days that already have a
+     * corresponding checkmark are skipped.
      */
     protected final void computeAll()
     {
@@ -245,8 +280,6 @@ public abstract class CheckmarkList
 
     /**
      * Returns newest checkmark that has already been computed.
-     * <p>
-     * Ignores any checkmark that has timestamp in the future.
      *
      * @return newest checkmark already computed
      */

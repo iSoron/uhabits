@@ -93,6 +93,16 @@ public class SQLiteCheckmarkListTest extends BaseAndroidTest
     }
 
     @Test
+    public void testGetByInterval_withLongInterval()
+    {
+        long from = today - 200 * day;
+        long to = today;
+
+        List<Checkmark> list = checkmarks.getByInterval(from, to);
+        assertThat(list.size(), equalTo(201));
+    }
+
+    @Test
     public void testInvalidateNewerThan()
     {
         List<CheckmarkRecord> records = getAllRecords();

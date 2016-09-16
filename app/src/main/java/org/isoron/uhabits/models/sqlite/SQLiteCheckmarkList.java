@@ -84,7 +84,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
     public List<Checkmark> getByInterval(long fromTimestamp, long toTimestamp)
     {
         check(habit.getId());
-        computeAll();
+        compute(fromTimestamp, toTimestamp);
 
         String query = "select habit, timestamp, value " +
                        "from checkmarks " +
@@ -119,7 +119,6 @@ public class SQLiteCheckmarkList extends CheckmarkList
     protected Checkmark getNewestComputed()
     {
         check(habit.getId());
-
         String query = "select habit, timestamp, value " +
                        "from checkmarks " +
                        "where habit = ? " +
@@ -127,22 +126,40 @@ public class SQLiteCheckmarkList extends CheckmarkList
                        "limit 1";
 
         String params[] = { Long.toString(habit.getId()) };
+        return getSingleCheckmarkFromQuery(query, params);
+    }
 
-        CheckmarkRecord record = sqlite.querySingle(query, params);
-        if (record == null) return null;
-        record.habit = habitRecord;
-        return record.toCheckmark();
+    @Override
+    protected Checkmark getOldestComputed()
+    {
+        check(habit.getId());
+        String query = "select habit, timestamp, value " +
+                       "from checkmarks " +
+                       "where habit = ? " +
+                       "order by timestamp asc " +
+                       "limit 1";
+
+        String params[] = { Long.toString(habit.getId()) };
+        return getSingleCheckmarkFromQuery(query, params);
     }
 
     @Contract("null -> fail")
     private void check(Long id)
     {
         if (id == null) throw new RuntimeException("habit is not saved");
-
         if (habitRecord != null) return;
 
         habitRecord = HabitRecord.get(id);
         if (habitRecord == null) throw new RuntimeException("habit not found");
+    }
+
+    @Nullable
+    private Checkmark getSingleCheckmarkFromQuery(String query, String params[])
+    {
+        CheckmarkRecord record = sqlite.querySingle(query, params);
+        if (record == null) return null;
+        record.habit = habitRecord;
+        return record.toCheckmark();
     }
 
     @NonNull

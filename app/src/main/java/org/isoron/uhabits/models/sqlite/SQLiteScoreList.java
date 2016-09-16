@@ -85,45 +85,19 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
-    @NonNull
-    public List<Score> getAll()
-    {
-        check(habit.getId());
-        computeAll();
-
-        String query = "select habit, timestamp, score from Score " +
-                       "where habit = ? order by timestamp desc";
-
-        String params[] = {Long.toString(habit.getId())};
-
-        List<ScoreRecord> records = sqlite.query(query, params);
-        for (ScoreRecord record : records) record.habit = habitRecord;
-
-        List<Score> scores = new LinkedList<>();
-        for (ScoreRecord rec : records)
-            scores.add(rec.toScore());
-
-        return scores;
-    }
-
-    @Override
     @Nullable
-    public Score getByTimestamp(long timestamp)
+    public Score getComputedByTimestamp(long timestamp)
     {
         check(habit.getId());
-        computeAll();
 
         String query = "select habit, timestamp, score from Score " +
                        "where habit = ? and timestamp = ? " +
                        "order by timestamp desc";
 
         String params[] =
-            {Long.toString(habit.getId()), Long.toString(timestamp)};
+            { Long.toString(habit.getId()), Long.toString(timestamp) };
 
-        ScoreRecord record = sqlite.querySingle(query, params);
-        if (record == null) return null;
-        record.habit = habitRecord;
-        return record.toScore();
+        return getScoreFromQuery(query, params);
     }
 
     @Override
@@ -138,6 +112,28 @@ public class SQLiteScoreList extends ScoreList
         getObservable().notifyListeners();
     }
 
+    @Override
+    @NonNull
+    public List<Score> toList()
+    {
+        check(habit.getId());
+        computeAll();
+
+        String query = "select habit, timestamp, score from Score " +
+                       "where habit = ? order by timestamp desc";
+
+        String params[] = { Long.toString(habit.getId()) };
+
+        List<ScoreRecord> records = sqlite.query(query, params);
+        for (ScoreRecord record : records) record.habit = habitRecord;
+
+        List<Score> scores = new LinkedList<>();
+        for (ScoreRecord rec : records)
+            scores.add(rec.toScore());
+
+        return scores;
+    }
+
     @Nullable
     @Override
     protected Score getNewestComputed()
@@ -147,22 +143,38 @@ public class SQLiteScoreList extends ScoreList
                        "where habit = ? order by timestamp desc " +
                        "limit 1";
 
-        String params[] = {Long.toString(habit.getId())};
+        String params[] = { Long.toString(habit.getId()) };
+        return getScoreFromQuery(query, params);
+    }
 
-        ScoreRecord record = sqlite.querySingle(query, params);
-        if (record == null) return null;
-        record.habit = habitRecord;
-        return record.toScore();
+    @Nullable
+    @Override
+    protected Score getOldestComputed()
+    {
+        check(habit.getId());
+        String query = "select habit, timestamp, score from Score " +
+                       "where habit = ? order by timestamp asc " +
+                       "limit 1";
+
+        String params[] = { Long.toString(habit.getId()) };
+        return getScoreFromQuery(query, params);
     }
 
     @Contract("null -> fail")
     private void check(Long id)
     {
         if (id == null) throw new RuntimeException("habit is not saved");
-
-        if(habitRecord != null) return;
-
+        if (habitRecord != null) return;
         habitRecord = HabitRecord.get(id);
         if (habitRecord == null) throw new RuntimeException("habit not found");
+    }
+
+    @Nullable
+    private Score getScoreFromQuery(String query, String[] params)
+    {
+        ScoreRecord record = sqlite.querySingle(query, params);
+        if (record == null) return null;
+        record.habit = habitRecord;
+        return record.toScore();
     }
 }

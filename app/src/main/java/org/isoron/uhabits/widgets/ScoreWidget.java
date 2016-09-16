@@ -69,7 +69,7 @@ public class ScoreWidget extends BaseWidget
         List<Score> scores;
         ScoreList scoreList = habit.getScores();
 
-        if (size == 1) scores = scoreList.getAll();
+        if (size == 1) scores = scoreList.toList();
         else scores = scoreList.groupBy(ScoreCard.getTruncateField(size));
 
         int color = ColorUtils.getColor(getContext(), habit.getColor());

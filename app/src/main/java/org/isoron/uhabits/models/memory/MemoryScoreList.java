@@ -27,12 +27,30 @@ import java.util.*;
 
 public class MemoryScoreList extends ScoreList
 {
-    List<Score> list;
+    LinkedList<Score> list;
 
     public MemoryScoreList(Habit habit)
     {
         super(habit);
         list = new LinkedList<>();
+    }
+
+    @Override
+    public void add(List<Score> scores)
+    {
+        list.addAll(scores);
+        Collections.sort(list,
+            (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
+    }
+
+    @Nullable
+    @Override
+    public Score getComputedByTimestamp(long timestamp)
+    {
+        for (Score s : list)
+            if (s.getTimestamp() == timestamp) return s;
+
+        return null;
     }
 
     @Override
@@ -49,7 +67,7 @@ public class MemoryScoreList extends ScoreList
 
     @Override
     @NonNull
-    public List<Score> getAll()
+    public List<Score> toList()
     {
         computeAll();
         return new LinkedList<>(list);
@@ -57,28 +75,17 @@ public class MemoryScoreList extends ScoreList
 
     @Nullable
     @Override
-    public Score getByTimestamp(long timestamp)
+    protected Score getNewestComputed()
     {
-        computeAll();
-        for (Score s : list)
-            if (s.getTimestamp() == timestamp) return s;
-
-        return null;
-    }
-
-    @Override
-    public void add(List<Score> scores)
-    {
-        list.addAll(scores);
-        Collections.sort(list,
-            (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
+        if (list.isEmpty()) return null;
+        return list.getFirst();
     }
 
     @Nullable
     @Override
-    protected Score getNewestComputed()
+    protected Score getOldestComputed()
     {
         if (list.isEmpty()) return null;
-        return list.get(0);
+        return list.getLast();
     }
 }

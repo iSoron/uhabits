@@ -49,7 +49,7 @@ public class ScoreChartTest extends BaseViewTest
         habit = fixtures.createLongHabit();
 
         view = new ScoreChart(targetContext);
-        view.setScores(habit.getScores().getAll());
+        view.setScores(habit.getScores().toList());
         view.setColor(ColorUtils.getColor(targetContext, habit.getColor()));
         view.setBucketSize(7);
         measureView(view, dpToPixels(300), dpToPixels(200));

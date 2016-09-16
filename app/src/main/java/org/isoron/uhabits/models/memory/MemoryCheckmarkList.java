@@ -72,21 +72,17 @@ public class MemoryCheckmarkList extends CheckmarkList
     }
 
     @Override
+    protected Checkmark getOldestComputed()
+    {
+        if(list.isEmpty()) return null;
+        return list.getLast();
+    }
+
+    @Override
     protected Checkmark getNewestComputed()
     {
-        long newestTimestamp = 0;
-        Checkmark newestCheck = null;
-
-        for (Checkmark c : list)
-        {
-            if (c.getTimestamp() > newestTimestamp)
-            {
-                newestCheck = c;
-                newestTimestamp = c.getTimestamp();
-            }
-        }
-
-        return newestCheck;
+        if(list.isEmpty()) return null;
+        return list.getFirst();
     }
 
 }

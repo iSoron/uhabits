@@ -33,8 +33,6 @@ import org.junit.runner.*;
 
 import java.util.*;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -66,7 +64,7 @@ public class SQLiteScoreListTest extends BaseAndroidTest
     @Test
     public void testGetAll()
     {
-        List<Score> list = scores.getAll();
+        List<Score> list = scores.toList();
         assertThat(list.size(), equalTo(121));
         assertThat(list.get(0).getTimestamp(), equalTo(today));
         assertThat(list.get(10).getTimestamp(), equalTo(today - 10 * day));
@@ -101,17 +99,6 @@ public class SQLiteScoreListTest extends BaseAndroidTest
         List<ScoreRecord> records = getAllRecords();
         assertThat(records.size(), equalTo(3));
         assertThat(records.get(0).timestamp, equalTo(today));
-    }
-
-    @Test
-    public void testGetByTimestamp()
-    {
-        Score s = scores.getByTimestamp(today);
-        assertNotNull(s);
-        assertThat(s.getTimestamp(), equalTo(today));
-
-        s = scores.getByTimestamp(today - 200 * day);
-        assertNull(s);
     }
 
     private List<ScoreRecord> getAllRecords()
