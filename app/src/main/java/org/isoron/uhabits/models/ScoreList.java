@@ -89,6 +89,46 @@ public abstract class ScoreList implements Iterable<Score>
         return s.getValue();
     }
 
+    /**
+     * Returns the list of scores that fall within the given interval.
+     * <p>
+     * There is exactly one score per day in the interval. The endpoints of
+     * the interval are included. The list is ordered by timestamp (decreasing).
+     * That is, the first score corresponds to the newest timestamp, and the
+     * last score corresponds to the oldest timestamp.
+     *
+     * @param fromTimestamp timestamp of the beginning of the interval.
+     * @param toTimestamp   timestamp of the end of the interval.
+     * @return the list of scores within the interval.
+     */
+    @NonNull
+    public abstract List<Score> getByInterval(long fromTimestamp,
+                                                  long toTimestamp);
+
+    /**
+     * Returns the values of the scores that fall inside a certain interval
+     * of time.
+     * <p>
+     * The values are returned in an array containing one integer value for each
+     * day of the interval. The first entry corresponds to the most recent day
+     * in the interval. Each subsequent entry corresponds to one day older than
+     * the previous entry. The boundaries of the time interval are included.
+     *
+     * @param from timestamp for the oldest score
+     * @param to   timestamp for the newest score
+     * @return values for the scores inside the given interval
+     */
+    public final int[] getValues(long from, long to)
+    {
+        List<Score> scores = getByInterval(from, to);
+        int[] values = new int[scores.size()];
+
+        for(int i = 0; i < values.length; i++)
+            values[i] = scores.get(i).getValue();
+
+        return values;
+    }
+
     public List<Score> groupBy(DateUtils.TruncateField field)
     {
         computeAll();

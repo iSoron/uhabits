@@ -107,6 +107,16 @@ public abstract class RepetitionList
      */
     @Nullable
     public abstract Repetition getOldest();
+    @Nullable
+    /**
+     * Returns the newest repetition in the list.
+     * <p>
+     * If the list is empty, returns null. Repetitions in the past are
+     * discarded.
+     *
+     * @return newest repetition in the list, or null if list is empty.
+     */
+    public abstract Repetition getNewest();
 
     /**
      * Returns the total number of repetitions for each month, from the first

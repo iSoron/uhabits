@@ -134,4 +134,14 @@ public class DateUtilsTest extends BaseUnitTest
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
     }
+
+    @Test
+    public void test_getDaysBetween()
+    {
+        long t1 = timestamp(2016, JANUARY, 1);
+        long t2 = timestamp(2016, DECEMBER, 31);
+        int expected = 365;
+        assertThat(DateUtils.getDaysBetween(t1, t2), equalTo(expected));
+        assertThat(DateUtils.getDaysBetween(t2, t1), equalTo(expected));
+    }
 }

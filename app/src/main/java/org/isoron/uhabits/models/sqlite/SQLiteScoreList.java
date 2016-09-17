@@ -84,6 +84,29 @@ public class SQLiteScoreList extends ScoreList
         }
     }
 
+    @NonNull
+    @Override
+    public List<Score> getByInterval(long fromTimestamp, long toTimestamp)
+    {
+        check(habit.getId());
+        compute(fromTimestamp, toTimestamp);
+
+        String query = "select habit, timestamp, score " +
+                "from Score " +
+                "where habit = ? and timestamp >= ? and timestamp <= ? " +
+                "order by timestamp desc";
+
+        String params[] = {
+                Long.toString(habit.getId()),
+                Long.toString(fromTimestamp),
+                Long.toString(toTimestamp)
+        };
+
+        List<ScoreRecord> records = sqlite.query(query, params);
+        for (ScoreRecord record : records) record.habit = habitRecord;
+        return toScores(records);
+    }
+
     @Override
     @Nullable
     public Score getComputedByTimestamp(long timestamp)
@@ -127,11 +150,7 @@ public class SQLiteScoreList extends ScoreList
         List<ScoreRecord> records = sqlite.query(query, params);
         for (ScoreRecord record : records) record.habit = habitRecord;
 
-        List<Score> scores = new LinkedList<>();
-        for (ScoreRecord rec : records)
-            scores.add(rec.toScore());
-
-        return scores;
+        return toScores(records);
     }
 
     @Nullable
@@ -176,5 +195,13 @@ public class SQLiteScoreList extends ScoreList
         if (record == null) return null;
         record.habit = habitRecord;
         return record.toScore();
+    }
+
+    @NonNull
+    private List<Score> toScores(@NonNull List<ScoreRecord> records)
+    {
+        List<Score> scores = new LinkedList<>();
+        for (ScoreRecord r : records) scores.add(r.toScore());
+        return scores;
     }
 }

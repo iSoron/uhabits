@@ -101,6 +101,30 @@ public class SQLiteScoreListTest extends BaseAndroidTest
         assertThat(records.get(0).timestamp, equalTo(today));
     }
 
+    @Test
+    public void testGetByInterval()
+    {
+        long from = today - 10 * day;
+        long to = today - 3 * day;
+
+        List<Score> list = scores.getByInterval(from, to);
+        assertThat(list.size(), equalTo(8));
+
+        assertThat(list.get(0).getTimestamp(), equalTo(today - 3 * day));
+        assertThat(list.get(3).getTimestamp(), equalTo(today - 6 * day));
+        assertThat(list.get(7).getTimestamp(), equalTo(today - 10 * day));
+    }
+
+    @Test
+    public void testGetByInterval_withLongInterval()
+    {
+        long from = today - 200 * day;
+        long to = today;
+
+        List<Score> list = scores.getByInterval(from, to);
+        assertThat(list.size(), equalTo(201));
+    }
+
     private List<ScoreRecord> getAllRecords()
     {
         return new Select()
@@ -109,5 +133,4 @@ public class SQLiteScoreListTest extends BaseAndroidTest
             .orderBy("timestamp desc")
             .execute();
     }
-
 }

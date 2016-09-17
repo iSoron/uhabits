@@ -41,6 +41,10 @@ public class HabitsCSVExporter
     private List<String> generateFilenames;
 
     private String exportDirName;
+    /**
+     * Delimiter used in a CSV file.
+     */
+    private final String DELIMITER = ",";
 
     @NonNull
     private final HabitList allHabits;
@@ -102,16 +106,6 @@ public class HabitsCSVExporter
         return s.substring(0, Math.min(s.length(), 100));
     }
 
-    private void writeCheckmarks(String habitDirName, CheckmarkList checkmarks)
-        throws IOException
-    {
-        String filename = habitDirName + "Checkmarks.csv";
-        FileWriter out = new FileWriter(exportDirName + filename);
-        generateFilenames.add(filename);
-        checkmarks.writeCSV(out);
-        out.close();
-    }
-
     private void writeHabits() throws IOException
     {
         String filename = "Habits.csv";
@@ -134,6 +128,8 @@ public class HabitsCSVExporter
             writeScores(habitDirName, h.getScores());
             writeCheckmarks(habitDirName, h.getCheckmarks());
         }
+
+        writeMultipleHabits();
     }
 
     private void writeScores(String habitDirName, ScoreList scores)
@@ -144,6 +140,118 @@ public class HabitsCSVExporter
         generateFilenames.add(path);
         scores.writeCSV(out);
         out.close();
+    }
+
+    private void writeCheckmarks(String habitDirName, CheckmarkList checkmarks)
+        throws IOException
+    {
+        String filename = habitDirName + "Checkmarks.csv";
+        FileWriter out = new FileWriter(exportDirName + filename);
+        generateFilenames.add(filename);
+        checkmarks.writeCSV(out);
+        out.close();
+    }
+
+    /**
+     * Writes a scores file and a checkmarks file containing scores and checkmarks of every habit.
+     * The first column corresponds to the date. Subsequent columns correspond to a habit.
+     * Habits are taken from the list of selected habits.
+     * Dates are determined from the oldest repetition date to the newest repetition date found in
+     * the list of habits.
+     *
+     * @throws IOException if there was problem writing the files
+     */
+    private void writeMultipleHabits() throws IOException
+    {
+        String scoresFileName = "Scores.csv";
+        String checksFileName = "Checkmarks.csv";
+        generateFilenames.add(scoresFileName);
+        generateFilenames.add(checksFileName);
+        FileWriter scoresWriter = new FileWriter(exportDirName + scoresFileName);
+        FileWriter checksWriter = new FileWriter(exportDirName + checksFileName);
+
+        writeMultipleHabitsHeader(scoresWriter);
+        writeMultipleHabitsHeader(checksWriter);
+
+        long[] timeframe = getTimeframe();
+        long oldest = timeframe[0];
+        long newest = DateUtils.getStartOfToday();
+
+        List<int[]> checkmarks = new ArrayList<>();
+        List<int[]> scores = new ArrayList<>();
+        for (Habit h : selectedHabits)
+        {
+            checkmarks.add(h.getCheckmarks().getValues(oldest, newest));
+            scores.add(h.getScores().getValues(oldest, newest));
+        }
+
+        int days = DateUtils.getDaysBetween(oldest, newest);
+        SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
+        for (int i = 0; i <= days; i++)
+        {
+            Date day = new Date(newest - i * DateUtils.millisecondsInOneDay);
+
+            String date = dateFormat.format(day);
+            StringBuilder sb = new StringBuilder();
+            sb.append(date).append(DELIMITER);
+            checksWriter.write(sb.toString());
+            scoresWriter.write(sb.toString());
+
+            for(int j = 0; j < selectedHabits.size(); j++)
+            {
+                checksWriter.write(String.valueOf(checkmarks.get(j)[i]));
+                checksWriter.write(DELIMITER);
+                String score =
+                        String.format("%.4f", ((float) scores.get(j)[i]) / Score.MAX_VALUE);
+                scoresWriter.write(score);
+                scoresWriter.write(DELIMITER);
+            }
+            checksWriter.write("\n");
+            scoresWriter.write("\n");
+        }
+        scoresWriter.close();
+        checksWriter.close();
+    }
+
+    /**
+     * Writes the first row, containing header information, using the given writer.
+     * This consists of the date title and the names of the selected habits.
+     *
+     * @param out the writer to use
+     * @throws IOException if there was a problem writing
+     */
+    private void writeMultipleHabitsHeader(Writer out) throws IOException
+    {
+        out.write("Date" + DELIMITER);
+        for (Habit h : selectedHabits) {
+            out.write(h.getName());
+            out.write(DELIMITER);
+        }
+        out.write("\n");
+    }
+
+    /**
+     * Gets the overall timeframe of the selected habits.
+     * The timeframe is an array containing the oldest timestamp among the habits and the
+     * newest timestamp among the habits.
+     * Both timestamps are in milliseconds.
+     *
+     * @return the timeframe containing the oldest timestamp and the newest timestamp
+     */
+    private long[] getTimeframe()
+    {
+        long oldest = Long.MAX_VALUE;
+        long newest = -1;
+        for (Habit h : selectedHabits)
+        {
+            if(h.getRepetitions().getOldest() == null || h.getRepetitions().getNewest() == null)
+                continue;
+            long currOld = h.getRepetitions().getOldest().getTimestamp();
+            long currNew = h.getRepetitions().getNewest().getTimestamp();
+            oldest = currOld > oldest ? oldest : currOld;
+            newest = currNew < newest ? newest : currNew;
+        }
+        return new long[]{oldest, newest};
     }
 
     private String writeZipFile() throws IOException

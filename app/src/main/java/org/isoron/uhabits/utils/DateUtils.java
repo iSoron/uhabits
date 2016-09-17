@@ -272,4 +272,18 @@ public abstract class DateUtils
     {
         MONTH, WEEK_NUMBER, YEAR, QUARTER
     }
+
+    /**
+     * Gets the number of days between two timestamps (exclusively).
+     *
+     * @param t1 the first timestamp to use in milliseconds
+     * @param t2 the second timestamp to use in milliseconds
+     * @return the number of days between the two timestamps
+     */
+    public static int getDaysBetween(long t1, long t2)
+    {
+        Date d1 = new Date(t1);
+        Date d2 = new Date(t2);
+        return (int) (Math.abs((d2.getTime() - d1.getTime()) / millisecondsInOneDay));
+    }
 }
