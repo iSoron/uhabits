@@ -39,6 +39,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     private WidgetPreferences widgetPrefs;
 
+    //Used to show meaningful message if a habit is deleted
+    private Boolean habitNotFound = false;
+
     @Override
     public void onAppWidgetOptionsChanged(@Nullable Context context,
                                           @Nullable AppWidgetManager manager,
@@ -97,7 +100,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             for (int id : widgetIds)
                 update(context, manager, id);
         }, 500);
-
     }
 
     @NonNull
@@ -105,7 +107,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     {
         long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
         Habit habit = habits.getById(habitId);
-        if (habit == null) throw new RuntimeException("habit not found");
+        if (habit == null) {
+            habitNotFound = true;
+            throw new RuntimeException("habit not found");
+        }
         return habit;
     }
 
@@ -119,6 +124,11 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     {
         RemoteViews errorView =
             new RemoteViews(context.getPackageName(), R.layout.widget_error);
+
+        if(habitNotFound) {
+            errorView.setCharSequence(R.id.label, "setText", context.getString(R.string.habit_not_found));
+        }
+
         manager.updateAppWidget(widgetId, errorView);
     }
 
