@@ -92,6 +92,26 @@ public class MemoryRepetitionList extends RepetitionList
         return oldestRep;
     }
 
+    @Nullable
+    @Override
+    public Repetition getNewest()
+    {
+        long newestTime = -1;
+        Repetition newestRep = null;
+
+        for (Repetition rep : list)
+        {
+            if (rep.getTimestamp() > newestTime)
+            {
+                newestRep = rep;
+                newestTime = rep.getTimestamp();
+            }
+
+        }
+
+        return newestRep;
+    }
+
     @Override
     public void remove(@NonNull Repetition repetition)
     {

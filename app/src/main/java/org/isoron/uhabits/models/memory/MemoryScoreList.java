@@ -43,6 +43,21 @@ public class MemoryScoreList extends ScoreList
             (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
     }
 
+    @NonNull
+    @Override
+    public List<Score> getByInterval(long fromTimestamp, long toTimestamp)
+    {
+        compute(fromTimestamp, toTimestamp);
+
+        List<Score> filtered = new LinkedList<>();
+
+        for (Score s : list)
+            if (s.getTimestamp() >= fromTimestamp &&
+                    s.getTimestamp() <= toTimestamp) filtered.add(s);
+
+        return filtered;
+    }
+
     @Nullable
     @Override
     public Score getComputedByTimestamp(long timestamp)

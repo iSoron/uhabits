@@ -126,6 +126,24 @@ public class SQLiteRepetitionList extends RepetitionList
     }
 
     @Override
+    public Repetition getNewest()
+    {
+        check(habit.getId());
+        String query = "select habit, timestamp " +
+                "from Repetitions " +
+                "where habit = ? " +
+                "order by timestamp desc " +
+                "limit 1";
+
+        String params[] = { Long.toString(habit.getId()) };
+
+        RepetitionRecord record = sqlite.querySingle(query, params);
+        if (record == null) return null;
+        record.habit = habitRecord;
+        return record.toRepetition();
+    }
+
+    @Override
     public void remove(@NonNull Repetition repetition)
     {
         new Delete()

@@ -174,6 +174,27 @@ public class ScoreListTest extends BaseUnitTest
         assertThat(writer.toString(), equalTo(expectedCSV));
     }
 
+    @Test
+    public void test_getValues()
+    {
+        toggleRepetitions(0, 20);
+
+        long today = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
+
+        long from = today - 4 * day;
+        long to = today - 2 * day;
+
+        int[] expected = {
+                11883254,
+                11479288,
+                11053198,
+        };
+
+        int[] actual = habit.getScores().getValues(from, to);
+        assertThat(actual, equalTo(expected));
+    }
+
     private void toggleRepetitions(final int from, final int to)
     {
         RepetitionList reps = habit.getRepetitions();

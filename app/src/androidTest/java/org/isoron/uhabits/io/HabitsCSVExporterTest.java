@@ -75,6 +75,8 @@ public class HabitsCSVExporterTest extends BaseAndroidTest
         assertPathExists("001 Wake up early/Scores.csv");
         assertPathExists("002 Meditate/Checkmarks.csv");
         assertPathExists("002 Meditate/Scores.csv");
+        assertPathExists("Checkmarks.csv");
+        assertPathExists("Scores.csv");
     }
 
     private void assertAbsolutePathExists(String s)
