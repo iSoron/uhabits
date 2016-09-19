@@ -84,6 +84,36 @@
       becomes selected, tap the overflow icon on the menu bar (it looks like three
       vertical dots), then select delete.</p>
       
+      <h4 id="how-is-the-score-calculated">How is the score calculated?</h4>
+      
+      <p>To compute the score of a habit, the app uses the statistical method known as
+      exponential smoothing. Basically, it computes a weighted average that takes
+      into consideration every single repetition of the habit, from the very first
+      you started your habit until today. Recent repetitions are considered more
+      important than old ones, and have a larger impact on the score. This method has
+      many nice properties, including:</p>
+      
+      <ol>
+        <li>Every repetition counts, even way back in the past. This is not true for
+      other simpler formulas, such as counting how many times have you performed
+      the habit in the last week/month/year and then dividing by the number of
+      days in that interval.</li>
+        <li>If you have a poor habit score, then a few repetitions can bring your score
+      up very quickly. As your score improves, however, the reward for each
+      repetition gets smaller and smaller, so you have to keep at it if you want
+      to see any increase.</li>
+        <li>If you have a high score for a very long time and you take a short break,
+      it's quite easy to restore your score back to what it was. If you start
+      taking frequent breaks, however, then your score will suffer.</li>
+      </ol>
+      
+      <p>The precise parameters on the formula were tweaked so that, if you perform a
+      new daily habit perfectly, the score reaches 80% after one month, 96% after two
+      months and 99% after three months. For non-daily habits, it takes longer to
+      reach the same percentages. If your habit is repeated every other day, for example, 
+      then it takes two months to reach 80%, and if you habit is weekly, then it
+      takes seven months.</p>
+      
       <h3 id="importing-and-exporting-data">Importing and exporting data</h3>
       
       <h4 id="if-i-uninstall-the-app-will-i-lose-all-my-data">If I uninstall the app, will I lose all my data?</h4>
@@ -240,7 +270,7 @@
       <a href='http://sass-lang.com/'>sass</a>
       <br>
       Last update:
-      2016-07-27
+      2016-09-19
     </div>
   </body>
 </html>
