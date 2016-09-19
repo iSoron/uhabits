@@ -21,6 +21,7 @@ package org.isoron.uhabits.notifications;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.*;
 import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.support.v4.app.NotificationCompat.*;
@@ -102,7 +103,7 @@ public class NotificationTray
         {
             DeleteHabitsCommand deleteCommand = (DeleteHabitsCommand) command;
             List<Habit> deleted = deleteCommand.getHabits();
-            for(Habit habit : deleted)
+            for (Habit habit : deleted)
                 cancel(habit);
         }
     }
@@ -191,9 +192,24 @@ public class NotificationTray
             if (!shouldShowReminderToday()) return;
             if (!habit.hasReminder()) return;
 
-            WearableExtender wearableExtender =
-                new WearableExtender().setBackground(
-                    decodeResource(context.getResources(), R.drawable.stripe));
+            Action checkAction = new Action(R.drawable.ic_action_check,
+                context.getString(R.string.check),
+                pendingIntents.addCheckmark(habit, timestamp));
+
+            Action snoozeAction = new Action(R.drawable.ic_action_snooze,
+                context.getString(R.string.snooze),
+                pendingIntents.snoozeNotification(habit));
+
+            Bitmap wearableBg =
+                decodeResource(context.getResources(), R.drawable.stripe);
+
+            // Even though the set of actions is the same on the phone and
+            // on the watch, Pebble requires us to add them to the
+            // WearableExtender.
+            WearableExtender wearableExtender = new WearableExtender()
+                .setBackground(wearableBg)
+                .addAction(checkAction)
+                .addAction(snoozeAction);
 
             Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -201,12 +217,8 @@ public class NotificationTray
                 .setContentText(habit.getDescription())
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .addAction(R.drawable.ic_action_check,
-                    context.getString(R.string.check),
-                    pendingIntents.addCheckmark(habit, timestamp))
-                .addAction(R.drawable.ic_action_snooze,
-                    context.getString(R.string.snooze),
-                    pendingIntents.snoozeNotification(habit))
+                .addAction(checkAction)
+                .addAction(snoozeAction)
                 .setSound(getRingtoneUri(context))
                 .extend(wearableExtender)
                 .setWhen(reminderTime)
