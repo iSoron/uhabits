@@ -189,4 +189,6 @@
 
     <string name="sticky_notifications">Make notifications sticky</string>
     <string name="sticky_notifications_description">Prevents notifications from being swiped away.</string>
+    <string name="repair_database">Repair database</string>
+    <string name="database_repaired">Database repaired.</string>
 </resources>

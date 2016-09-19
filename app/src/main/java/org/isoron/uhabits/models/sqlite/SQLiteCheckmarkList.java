@@ -28,6 +28,7 @@ import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -99,6 +100,15 @@ public class SQLiteCheckmarkList extends CheckmarkList
 
         List<CheckmarkRecord> records = sqlite.query(query, params);
         for (CheckmarkRecord record : records) record.habit = habitRecord;
+
+        int nDays = DateUtils.getDaysBetween(fromTimestamp, toTimestamp) + 1;
+        if (records.size() != nDays)
+        {
+            throw new InconsistentDatabaseException(
+                String.format("habit=%s, %d expected, %d found",
+                    habit.getName(), nDays, records.size()));
+        }
+
         return toCheckmarks(records);
     }
 

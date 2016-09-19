@@ -130,6 +130,8 @@ public abstract class CheckmarkList
      */
     public final int[] getValues(long from, long to)
     {
+        if(from > to) return new int[0];
+
         List<Checkmark> checkmarks = getByInterval(from, to);
         int values[] = new int[checkmarks.size()];
 

@@ -46,6 +46,8 @@ public class ListHabitsScreen extends BaseScreen
 
     public static final int RESULT_EXPORT_DB = 3;
 
+    public static final int RESULT_REPAIR_DB = 5;
+
     public static final int RESULT_IMPORT_DATA = 1;
 
     @Nullable
@@ -142,6 +144,10 @@ public class ListHabitsScreen extends BaseScreen
 
             case RESULT_BUG_REPORT:
                 controller.onSendBugReport();
+                break;
+
+            case RESULT_REPAIR_DB:
+                controller.onRepairDB();
                 break;
         }
     }

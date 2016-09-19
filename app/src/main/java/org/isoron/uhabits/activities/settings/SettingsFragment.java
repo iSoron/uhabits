@@ -57,6 +57,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("importData", ListHabitsScreen.RESULT_IMPORT_DATA);
         setResultOnPreferenceClick("exportCSV", ListHabitsScreen.RESULT_EXPORT_CSV);
         setResultOnPreferenceClick("exportDB", ListHabitsScreen.RESULT_EXPORT_DB);
+        setResultOnPreferenceClick("repairDB", ListHabitsScreen.RESULT_REPAIR_DB);
         setResultOnPreferenceClick("bugReport", ListHabitsScreen.RESULT_BUG_REPORT);
 
         updateRingtoneDescription();

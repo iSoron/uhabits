@@ -80,7 +80,8 @@ public class ListHabitsController
                                 @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
                                 @NonNull WidgetUpdater widgetUpdater,
-                                @NonNull ImportDataTaskFactory importTaskFactory,
+                                @NonNull
+                                ImportDataTaskFactory importTaskFactory,
                                 @NonNull ExportCSVTaskFactory exportCSVFactory)
     {
         this.adapter = adapter;
@@ -153,6 +154,18 @@ public class ListHabitsController
     public void onInvalidToggle()
     {
         screen.showMessage(R.string.long_press_to_toggle);
+    }
+
+    public void onRepairDB()
+    {
+        taskRunner.execute(() -> {
+            for(Habit h : habitList) {
+                h.getCheckmarks().invalidateNewerThan(0);
+                h.getStreaks().invalidateNewerThan(0);
+                h.getScores().invalidateNewerThan(0);
+            }
+            screen.showMessage(R.string.database_repaired);
+        });
     }
 
     public void onSendBugReport()

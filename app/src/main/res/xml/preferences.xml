@@ -100,8 +100,11 @@
 
         <Preference
             android:key="bugReport"
-            android:title="@string/generate_bug_report">
-        </Preference>
+            android:title="@string/generate_bug_report"/>
+
+        <Preference
+            android:key="repairDB"
+            android:title="@string/repair_database"/>
 
     </PreferenceCategory>
 
