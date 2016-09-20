@@ -61,7 +61,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }
         catch (RuntimeException e)
         {
-            drawErrorWidget(context, manager, widgetId);
+            drawErrorWidget(context, manager, widgetId, e);
             e.printStackTrace();
         }
     }
@@ -105,7 +105,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     {
         long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
         Habit habit = habits.getById(habitId);
-        if (habit == null) throw new RuntimeException("habit not found");
+        if (habit == null) throw new HabitNotFoundException();
         return habit;
     }
 
@@ -115,10 +115,16 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     private void drawErrorWidget(Context context,
                                  AppWidgetManager manager,
-                                 int widgetId)
+                                 int widgetId,
+                                 RuntimeException e)
     {
         RemoteViews errorView =
             new RemoteViews(context.getPackageName(), R.layout.widget_error);
+
+        if(e instanceof HabitNotFoundException) {
+            errorView.setCharSequence(R.id.label, "setText", context.getString(R.string.habit_not_found));
+        }
+
         manager.updateAppWidget(widgetId, errorView);
     }
 
@@ -141,7 +147,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }
         catch (RuntimeException e)
         {
-            drawErrorWidget(context, manager, widgetId);
+            drawErrorWidget(context, manager, widgetId, e);
             e.printStackTrace();
         }
     }
