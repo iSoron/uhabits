@@ -28,8 +28,8 @@ import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
 import org.hamcrest.*;
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
@@ -56,8 +56,8 @@ public class MainTest
     private SystemHelper sys;
 
     @Rule
-    public IntentsTestRule<MainActivity> activityRule =
-        new IntentsTestRule<>(MainActivity.class);
+    public IntentsTestRule<ListHabitsActivity> activityRule =
+        new IntentsTestRule<>(ListHabitsActivity.class);
 
     @Before
     public void setup()
