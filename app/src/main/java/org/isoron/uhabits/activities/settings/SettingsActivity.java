@@ -35,9 +35,17 @@ public class SettingsActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        setupActionBarColor();
+    }
 
+    private void setupActionBarColor()
+    {
         StyledResources res = new StyledResources(this);
-        int color = res.getColor(R.attr.aboutScreenColor);
+        int color = BaseScreen.getDefaultActionBarColor(this);
+
+        if (res.getBoolean(R.attr.useHabitColorAsPrimary))
+            color = res.getColor(R.attr.aboutScreenColor);
+
         BaseScreen.setupActionBarColor(this, color);
     }
 }

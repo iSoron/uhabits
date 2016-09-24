@@ -37,6 +37,9 @@ import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
+import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.*;
+
 /**
  * Base class for all screens in the application.
  * <p>
@@ -92,6 +95,22 @@ public class BaseScreen
 
 //            view = activity.findViewById(R.id.headerShadow);
 //            if (view != null) view.setVisibility(View.GONE);
+        }
+    }
+
+    @Deprecated
+    public static int getDefaultActionBarColor(Context context)
+    {
+        if (SDK_INT < LOLLIPOP)
+        {
+            return context
+                .getResources()
+                .getColor(R.color.grey_900, context.getTheme());
+        }
+        else
+        {
+            StyledResources res = new StyledResources(context);
+            return res.getColor(R.attr.colorPrimary);
         }
     }
 
