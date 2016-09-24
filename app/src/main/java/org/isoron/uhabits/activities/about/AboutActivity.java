@@ -19,78 +19,24 @@
 
 package org.isoron.uhabits.activities.about;
 
-import android.content.*;
-import android.net.*;
 import android.os.*;
-import android.view.*;
-import android.widget.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.intents.*;
 
 /**
  * Activity that allows the user to see information about the app itself.
  * Display current version, link to Google Play and list of contributors.
  */
-public class AboutActivity extends BaseActivity implements View.OnClickListener
+public class AboutActivity extends BaseActivity
 {
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.tvRate:
-            {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(getString(R.string.playStoreURL)));
-                startActivity(intent);
-                break;
-            }
-
-            case R.id.tvFeedback:
-            {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse(getString(R.string.feedbackURL)));
-                startActivity(intent);
-                break;
-            }
-
-            case R.id.tvSource:
-            {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(getString(R.string.sourceCodeURL)));
-                startActivity(intent);
-                break;
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.about);
-
-        StyledResources res = new StyledResources(this);
-        int color = res.getColor(R.attr.aboutScreenColor);
-
-        BaseScreen.setupActionBarColor(this, color);
-
-        TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
-        TextView tvRate = (TextView) findViewById(R.id.tvRate);
-        TextView tvFeedback = (TextView) findViewById(R.id.tvFeedback);
-        TextView tvSource = (TextView) findViewById(R.id.tvSource);
-
-        tvVersion.setText(
-            String.format(getResources().getString(R.string.version_n),
-                BuildConfig.VERSION_NAME));
-        tvRate.setOnClickListener(this);
-        tvFeedback.setOnClickListener(this);
-        tvSource.setOnClickListener(this);
+        AboutRootView rootView = new AboutRootView(this, new IntentFactory());
+        BaseScreen screen = new BaseScreen(this);
+        screen.setRootView(rootView);
+        setScreen(screen);
     }
 }

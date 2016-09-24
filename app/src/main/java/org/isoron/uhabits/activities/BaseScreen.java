@@ -44,7 +44,7 @@ import java.io.*;
  * attached to the main window. They are also responsible for showing other
  * screens and for receiving their results.
  */
-public abstract class BaseScreen
+public class BaseScreen
 {
     protected BaseActivity activity;
 
@@ -75,6 +75,7 @@ public abstract class BaseScreen
         if (actionBar == null) return;
 
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         ColorDrawable drawable = new ColorDrawable(color);
         actionBar.setBackgroundDrawable(drawable);
@@ -151,6 +152,20 @@ public abstract class BaseScreen
     }
 
     /**
+     * Sets the root view for this screen.
+     *
+     * @param rootView the root view for this screen.
+     */
+    public void setRootView(@Nullable BaseRootView rootView)
+    {
+        this.rootView = rootView;
+        activity.setContentView(rootView);
+        if (rootView == null) return;
+
+        invalidateToolbar();
+    }
+
+    /**
      * Sets the menu to be shown when a selection is active on the screen.
      *
      * @param menu the menu to be shown during a selection
@@ -214,20 +229,6 @@ public abstract class BaseScreen
     public void startSelection()
     {
         activity.startSupportActionMode(new ActionModeWrapper());
-    }
-
-    /**
-     * Sets the root view for this screen.
-     *
-     * @param rootView the root view for this screen.
-     */
-    protected void setRootView(@Nullable BaseRootView rootView)
-    {
-        this.rootView = rootView;
-        activity.setContentView(rootView);
-        if (rootView == null) return;
-
-        invalidateToolbar();
     }
 
     private void setActionBarColor(@NonNull ActionBar actionBar, int color)
