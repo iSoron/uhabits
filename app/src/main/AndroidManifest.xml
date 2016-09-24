@@ -50,22 +50,28 @@
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw"/>
 
         <activity
+            android:name=".activities.habits.list.ListHabitsActivity"
+            android:exported="true"
+            android:label="@string/main_activity_title"
+            android:launchMode="singleTop"/>
+
+        <activity-alias
             android:name=".MainActivity"
             android:label="@string/main_activity_title"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:targetActivity=".activities.habits.list.ListHabitsActivity">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
+        </activity-alias>
 
         <activity
             android:name=".activities.habits.show.ShowHabitActivity"
             android:label="@string/title_activity_show_habit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.habits.list.ListHabitsActivity"/>
         </activity>
 
         <activity
@@ -73,7 +79,7 @@
             android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.habits.list.ListHabitsActivity"/>
         </activity>
 
         <activity
@@ -94,7 +100,7 @@
             android:label="@string/about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".activities.habits.list.ListHabitsActivity"/>
         </activity>
 
         <receiver
@@ -167,19 +173,25 @@
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="org.isoron.uhabits.ACTION_TOGGLE_REPETITION"/>
-                <data android:host="org.isoron.uhabits" android:scheme="content"/>
+                <data
+                    android:host="org.isoron.uhabits"
+                    android:scheme="content"/>
             </intent-filter>
 
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="org.isoron.uhabits.ACTION_ADD_REPETITION"/>
-                <data android:host="org.isoron.uhabits" android:scheme="content"/>
+                <data
+                    android:host="org.isoron.uhabits"
+                    android:scheme="content"/>
             </intent-filter>
 
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="org.isoron.uhabits.ACTION_REMOVE_REPETITION"/>
-                <data android:host="org.isoron.uhabits" android:scheme="content"/>
+                <data
+                    android:host="org.isoron.uhabits"
+                    android:scheme="content"/>
             </intent-filter>
         </receiver>
 

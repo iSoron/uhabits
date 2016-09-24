@@ -26,6 +26,7 @@ import android.support.v7.app.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.habits.list.*;
 
 import static android.R.anim.*;
 
@@ -80,7 +81,7 @@ abstract public class BaseActivity extends AppCompatActivity
     public void restartWithFade()
     {
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, ListHabitsActivity.class);
             finish();
             overridePendingTransition(fade_in, fade_out);
             startActivity(intent);
