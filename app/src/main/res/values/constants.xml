@@ -55,6 +55,12 @@
         <item>@string/custom_frequency</item>
     </string-array>
 
+    <string-array name="actions" translatable="false">
+        <item>@string/check</item>
+        <item>@string/uncheck</item>
+        <item>@string/toggle</item>
+    </string-array>
+
     <string-array name="strengthIntervalNames" translatable="false">
         <item>@string/day</item>
         <item>@string/week</item>
