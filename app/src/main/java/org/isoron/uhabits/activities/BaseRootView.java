@@ -65,7 +65,7 @@ public abstract class BaseRootView extends FrameLayout
 
     public int getToolbarColor()
     {
-        if (SDK_INT < LOLLIPOP && !themeSwitcher.isNightMode())
+        if (SDK_INT >= M && !themeSwitcher.isNightMode())
         {
             return context
                 .getResources()
