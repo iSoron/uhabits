@@ -239,7 +239,7 @@ public class HabitCardView extends FrameLayout
                 background = res.getDrawable(R.attr.selectedBackground);
             else background = res.getDrawable(R.attr.cardBackground);
 
-            innerFrame.setBackground(background);
+            innerFrame.setBackgroundDrawable(background);
         }
     }
 

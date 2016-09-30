@@ -26,6 +26,7 @@ import android.net.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.design.widget.*;
+import android.support.v4.content.res.*;
 import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
@@ -103,9 +104,8 @@ public class BaseScreen
     {
         if (SDK_INT < LOLLIPOP)
         {
-            return context
-                .getResources()
-                .getColor(R.color.grey_900, context.getTheme());
+            return ResourcesCompat.getColor(context.getResources(),
+                R.color.grey_900, context.getTheme());
         }
         else
         {

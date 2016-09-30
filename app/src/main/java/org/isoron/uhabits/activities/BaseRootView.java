@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities;
 
 import android.content.*;
 import android.support.annotation.*;
+import android.support.v4.content.res.*;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
@@ -67,9 +68,8 @@ public abstract class BaseRootView extends FrameLayout
     {
         if (SDK_INT < LOLLIPOP && !themeSwitcher.isNightMode())
         {
-            return context
-                .getResources()
-                .getColor(R.color.grey_900, context.getTheme());
+            return ResourcesCompat.getColor(context.getResources(),
+                R.color.grey_900, context.getTheme());
         }
 
         StyledResources res = new StyledResources(context);

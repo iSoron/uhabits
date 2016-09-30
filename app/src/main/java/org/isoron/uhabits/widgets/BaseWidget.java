@@ -144,12 +144,18 @@ public abstract class BaseWidget
         return new int[]{ w, h, w, h };
     }
 
+    @NonNull
     private Bitmap getBitmapFromView(View view)
     {
         view.invalidate();
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache(true);
-        return view.getDrawingCache();
+        Bitmap drawingCache = view.getDrawingCache();
+
+        if(drawingCache == null)
+            throw new IllegalStateException("bitmap is null");
+
+        return drawingCache;
     }
 
     @NonNull
