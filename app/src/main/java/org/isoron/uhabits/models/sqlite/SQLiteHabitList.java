@@ -210,10 +210,7 @@ public class SQLiteHabitList extends HabitList
 
         fromRecord.position = toPos;
         fromRecord.save();
-
         update(from);
-        rebuildOrder();
-
         getObservable().notifyListeners();
     }
 
