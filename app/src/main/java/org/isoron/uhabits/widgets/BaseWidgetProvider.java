@@ -93,11 +93,11 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
         updateDependencies(context);
 
-        new Handler().postDelayed(() -> {
+        new Thread(() -> {
+            Looper.prepare();
             for (int id : widgetIds)
                 update(context, manager, id);
-        }, 500);
-
+        }).start();
     }
 
     @NonNull
