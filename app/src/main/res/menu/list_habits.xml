@@ -26,13 +26,13 @@
         android:id="@+id/actionAdd"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_filter"
         android:icon="?iconFilter"
         android:title="@string/filter"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/actionHideArchived"
