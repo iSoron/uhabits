@@ -58,7 +58,8 @@ public abstract class BaseWidget
 
         prefs = app.getComponent().getWidgetPreferences();
         pendingIntentFactory = app.getComponent().getPendingIntentFactory();
-        dimensions = new WidgetDimensions(0, 0, 0, 0);
+        dimensions = new WidgetDimensions(getDefaultWidth(), getDefaultHeight(),
+            getDefaultWidth(), getDefaultHeight());
     }
 
     public void delete()
