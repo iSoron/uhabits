@@ -245,6 +245,7 @@
 
     <View
         android:id="@+id/toolbarShadow"
-        style="@style/ToolbarShadow"/>
+        style="@style/ToolbarShadow"
+        android:layout_below="@id/toolbar"/>
 
 </RelativeLayout>

@@ -25,8 +25,9 @@
     </style>
 
     <style name="ListHabits.Header">
-        <item name="android:background">?headerBackground</item>
+        <item name="android:background">?headerBackgroundColor</item>
         <item name="android:paddingRight">4dp</item>
+        <item name="android:gravity">end</item>
     </style>
 
     <style name="ListHabits.Star">

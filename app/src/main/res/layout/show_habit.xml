@@ -17,7 +17,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
+<RelativeLayout
     android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,12 +28,15 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
-        app:popupTheme="?toolbarPopupTheme"/>
-
-    <View
-        android:id="@+id/toolbarShadow"
-        style="@style/ToolbarShadow"/>
+        app:popupTheme="?toolbarPopupTheme"
+        android:layout_alignParentTop="true"/>
 
     <!-- Separate file so that we can use the layout editor to preview it -->
     <include layout="@layout/show_habit_inner"/>
-</LinearLayout>
+
+    <View
+        android:id="@+id/toolbarShadow"
+        style="@style/ToolbarShadow"
+        android:layout_below="@id/toolbar"/>
+
+</RelativeLayout>

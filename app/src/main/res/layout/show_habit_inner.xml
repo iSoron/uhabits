@@ -23,6 +23,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_below="@id/toolbar"
     android:background="?windowBackgroundColor"
     android:clipToPadding="false"
     android:fillViewport="true"
@@ -36,9 +37,9 @@
             android:id="@+id/subtitleCard"
             style="@style/ShowHabit.Subtitle"/>
 
-        <!--<View-->
-        <!--android:id="@+id/headerShadow"-->
-        <!--style="@style/ToolbarShadow"/>-->
+        <View
+            android:id="@+id/headerShadow"
+            style="@style/ToolbarShadow"/>
 
         <org.isoron.uhabits.activities.habits.show.views.OverviewCard
             android:id="@+id/overviewCard"

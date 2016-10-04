@@ -88,4 +88,9 @@
         android:layout_below="@id/toolbar"
         style="@style/ToolbarShadow"/>
 
+    <View
+        android:id="@+id/headerShadow"
+        android:layout_below="@id/header"
+        style="@style/ToolbarShadow"/>
+
 </RelativeLayout>
