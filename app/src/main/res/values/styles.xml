@@ -28,7 +28,6 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="selectedBackground">@drawable/selected_box_light</item>
-        <item name="headerBackground">@drawable/habits_list_header_light_background</item>
         <item name="cardBackground">@drawable/card_light_background</item>
 
         <item name="colorPrimary">@color/blue_grey_800</item>
@@ -81,7 +80,6 @@
         <item name="actionModeBackground">@color/grey_800</item>
 
         <item name="selectedBackground">@drawable/selected_box_dark</item>
-        <item name="headerBackground">@drawable/habits_list_header_dark_background</item>
         <item name="cardBackground">@drawable/card_dark_background</item>
 
         <item name="colorPrimary">@color/grey_950</item>
@@ -125,7 +123,6 @@
 
     <style name="AppBaseThemeDark.PureBlack">
         <item name="selectedBackground">@drawable/selected_box_amoled</item>
-        <item name="headerBackground">@drawable/habits_list_header_amoled_background</item>
         <item name="cardBackground">@drawable/card_amoled_background</item>
 
         <item name="colorPrimary">@color/black</item>
