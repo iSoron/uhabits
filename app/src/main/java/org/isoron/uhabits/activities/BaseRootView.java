@@ -81,8 +81,12 @@ public abstract class BaseRootView extends FrameLayout
         if (SDK_INT >= LOLLIPOP)
         {
             getToolbar().setElevation(InterfaceUtils.dpToPixels(context, 2));
+
             View view = findViewById(R.id.toolbarShadow);
-            if (view != null) view.setVisibility(View.GONE);
+            if (view != null) view.setVisibility(GONE);
+
+            view = findViewById(R.id.headerShadow);
+            if(view != null) view.setVisibility(GONE);
         }
     }
 }

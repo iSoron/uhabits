@@ -138,7 +138,6 @@ public class BaseScreen
             int color = rootView.getToolbarColor();
             setActionBarColor(actionBar, color);
             setStatusBarColor(color);
-            setupToolbarElevation(toolbar);
         });
     }
 
@@ -262,19 +261,6 @@ public class BaseScreen
 
         int darkerColor = ColorUtils.mixColors(baseColor, Color.BLACK, 0.75f);
         activity.getWindow().setStatusBarColor(darkerColor);
-    }
-
-    private void setupToolbarElevation(Toolbar toolbar)
-    {
-        if (SDK_INT < LOLLIPOP) return;
-
-        toolbar.setElevation(InterfaceUtils.dpToPixels(activity, 2));
-
-        View view = activity.findViewById(R.id.toolbarShadow);
-        if (view != null) view.setVisibility(View.GONE);
-
-//        view = activity.findViewById(R.id.headerShadow);
-//        if (view != null) view.setVisibility(View.GONE);
     }
 
     private class ActionModeWrapper implements ActionMode.Callback
