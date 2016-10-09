@@ -10,6 +10,7 @@
 * Export an unified CSV file, with checkmarks for all the habits
 * Increase width of name column according to screen size
 * Stop showing reminders for archived habits
+* Add Danish, Dutch, Greek, Hindi and Portuguese (PT) translations
 * Other minor fixes and enhancements
 
 ### 1.5.6 (Jun 19, 2016)

@@ -1,180 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"Трекер звичок Loop"</string>
-<string name="main_activity_title">"Звички"</string>
-<string name="action_settings">"Налаштування"</string>
-<string name="edit">"Редагувати"</string>
-<string name="delete">"Видалити"</string>
-<string name="archive">"Архівувати"</string>
-<string name="unarchive">"Повернути з архіву"</string>
-<string name="add_habit">"Додати звичку"</string>
-<string name="color_picker_default_title">"Змінити колір"</string>
-<string name="toast_habit_created">"Звичка створена."</string>
-<string name="toast_habit_deleted">"Звички видалені."</string>
-<string name="toast_habit_restored">"Звички відновлені."</string>
-<string name="toast_nothing_to_undo">"Відміняти нічого."</string>
-<string name="toast_nothing_to_redo">"Повторювати нічого."</string>
-<string name="toast_habit_changed">"Звичка змінена."</string>
+    <string name="app_name">"Трекер звичок Loop"</string>
+    <string name="main_activity_title">"Звички"</string>
+    <string name="action_settings">"Налаштування"</string>
+    <string name="edit">"Редаґувати"</string>
+    <string name="delete">"Вилучити"</string>
+    <string name="archive">"Архівувати"</string>
+    <string name="unarchive">"Повернути з архіву"</string>
+    <string name="add_habit">"Додати звичку"</string>
+    <string name="color_picker_default_title">"Змінити колір"</string>
+    <string name="toast_habit_created">"Звичку створено."</string>
+    <string name="toast_habit_deleted">"Звички вилучено."</string>
+    <string name="toast_habit_restored">"Звички відновлено."</string>
+    <string name="toast_nothing_to_undo">"Скасовувати нічого."</string>
+    <string name="toast_nothing_to_redo">"Повторювати нічого."</string>
+    <string name="toast_habit_changed">"Звичку змінено."</string>
 
-<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-<string name="toast_habit_changed_back">"Зміна звички скасована."</string>
-<string name="toast_habit_archived">"Звички архівовані."</string>
-<string name="toast_habit_unarchived">"Звички повернуті з архіву."</string>
-<string name="overview">"Огляд"</string>
-<string name="habit_strength">"Сила звички"</string>
-<string name="history">"Історія"</string>
-<string name="clear">"Очистити"</string>
-<string name="description_hint">"Питання (приклад: \"Чи робили ви ранкову зарядку сьогодні?\")"</string>
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Зміну звички скасовано."</string>
+    <string name="toast_habit_archived">"Звички архівовано."</string>
+    <string name="toast_habit_unarchived">"Звички повернуто з архіву."</string>
+    <string name="overview">"Огляд"</string>
+    <string name="habit_strength">"Сила звички"</string>
+    <string name="history">"Історія"</string>
+    <string name="clear">"Очистити"</string>
+    <string name="description_hint">"Питання (приклад: \"Чи робили ви ранкову зарядку сьогодні?\")"</string>
 
-<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
-<string name="repeat">"Повторювати"</string>
-<string name="times_every">"разів за"</string>
-<string name="days">"днів"</string>
-<string name="reminder">"Нагадування"</string>
-<string name="discard">"Відмінити"</string>
-<string name="save">"Зберегти"</string>
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Повторювати"</string>
+    <string name="times_every">"разів за"</string>
+    <string name="days">"дні(-в)"</string>
+    <string name="reminder">"Нагадування"</string>
+    <string name="discard">"Скасувати"</string>
+    <string name="save">"Зберегти"</string>
 
-<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
-<string name="streaks">"Серії"</string>
-<string name="no_habits_found">"У вас немає активних звичок"</string>
-<string name="long_press_to_toggle">"Натисніть та утримуйте, щоб встановити або зняти галочку"</string>
-<string name="reminder_off">"Вимкнути"</string>
-<string name="validation_name_should_not_be_blank">"Назва не може бути порожньою."</string>
-<string name="validation_number_should_be_positive">"Число повинно бути додатнім."</string>
-<string name="validation_at_most_one_rep_per_day">"Може бути не більше одного повторення на добу"</string>
-<string name="create_habit">"Додати звичку"</string>
-<string name="edit_habit">"Редагувати звичку"</string>
-<string name="check">"Відмітити"</string>
-<string name="snooze">"Відкласти"</string>
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Серії"</string>
+    <string name="no_habits_found">"У вас немає активних звичок"</string>
+    <string name="long_press_to_toggle">"Натисніть та утримуйте, щоб встановити або зняти галочку"</string>
+    <string name="reminder_off">"Вимкнути"</string>
+    <string name="validation_name_should_not_be_blank">"Назва не може бути порожньою."</string>
+    <string name="validation_number_should_be_positive">"Число має бути додатнім."</string>
+    <string name="validation_at_most_one_rep_per_day">"Можливо не більше одного повторення на добу"</string>
+    <string name="create_habit">"Додати звичку"</string>
+    <string name="edit_habit">"Редаґувати звичку"</string>
+    <string name="check">"Відзначити"</string>
+    <string name="snooze">"Відкласти"</string>
 
-<!-- App introduction -->
-<string name="intro_title_1">"Ласкаво просимо"</string>
-<string name="intro_description_1">"Трекер звичок Loop допомагає вам розвивати і підтримувати корисні звички."</string>
-<string name="intro_title_2">"Додайте кілька звичок"</string>
-<string name="intro_description_2">"Кожного дня, після виконання вашої звички, поставте галочку в програмі."</string>
-<string name="intro_title_3">"Продовжуйте в тому ж дусі"</string>
-<string name="intro_description_3">"Постійно дотримувані звички будуть відмічені повною зірочкою."</string>
-<string name="intro_title_4">"Відстежуйте свої успіхи"</string>
-<string name="intro_description_4">"Деталізовані діаграми демонструють вам, як ваші звички покращилися з часом."</string>
-<string name="interval_15_minutes">"15 хвилин"</string>
-<string name="interval_30_minutes">"30 хвилин"</string>
-<string name="interval_1_hour">"1 година"</string>
-<string name="interval_2_hour">"2 години"</string>
-<string name="interval_4_hour">"4 години"</string>
-<string name="interval_8_hour">"8 годин"</string>
-<string name="pref_toggle_title">"Відмічати повторення коротким натисканням"</string>
-<string name="pref_toggle_description">"Зручніше, але може стати причиною випадкових натискань."</string>
-<string name="pref_snooze_interval_title">"Інтервал відкладення нагадувань"</string>
-<string name="pref_rate_this_app">"Оцінити цю програму в Google Play"</string>
-<string name="pref_send_feedback">"Надіслати відгук розробнику"</string>
-<string name="pref_view_source_code">"Подивитись вихідний код на GitHub"</string>
-<string name="pref_view_app_introduction">"Переглянути вступні інструкції"</string>
-<string name="links">"Посилання"</string>
-<string name="behavior">"Поведінка"</string>
-<string name="name">"Назва"</string>
-<string name="show_archived">"Показати архівовані"</string>
-<string name="settings">"Налаштування"</string>
-<string name="snooze_interval">"Інтервал відкладення"</string>
-<string name="hint_title">"Чи знаєте ви?"</string>
-<string name="hint_drag">"Щоб змінити порядок записів, натисніть і утримуйте назву запису, потім перетягніть запис на потрібне місце."</string>
-<string name="hint_landscape">"В альбомному режимі відображається більше днів."</string>
-<string name="delete_habits">"Видалити звички"</string>
-<string name="delete_habits_message">"Звички будуть видалені. Ця дія не може бути скасованою."</string>
-<string name="weekends">"По вихідних"</string>
-<string name="any_weekday">"По буднях"</string>
-<string name="any_day">"Кожного дня"</string>
-<string name="select_weekdays">"Оберіть дні"</string>
-<string name="export_to_csv">"Експортувати дані (CVS)"</string>
-<string name="done_label">"Готово"</string>
-<string name="clear_label">"Очистити"</string>
-<string name="select_hours">"Оберіть години"</string>
-<string name="select_minutes">"Оберіть хвилини"</string>
+    <!-- App introduction -->
+    <string name="intro_title_1">"Ласкаво просимо"</string>
+    <string name="intro_description_1">"Трекер звичок Loop допомагає вам розвивати і підтримувати корисні звички."</string>
+    <string name="intro_title_2">"Додайте кілька звичок"</string>
+    <string name="intro_description_2">"Кожного дня, після виконання вашої звички, поставте галочку в програмі."</string>
+    <string name="intro_title_3">"Продовжуйте в тому ж дусі"</string>
+    <string name="intro_description_3">"Постійно дотримувані звички буде відзначено повною зірочкою."</string>
+    <string name="intro_title_4">"Відстежуйте свої успіхи"</string>
+    <string name="intro_description_4">"Деталізовані діяграми демонструють вам, як ваші звички покращилися з часом."</string>
+    <string name="interval_15_minutes">"15 хвилин"</string>
+    <string name="interval_30_minutes">"30 хвилин"</string>
+    <string name="interval_1_hour">"1 година"</string>
+    <string name="interval_2_hour">"2 години"</string>
+    <string name="interval_4_hour">"4 години"</string>
+    <string name="interval_8_hour">"8 годин"</string>
+    <string name="pref_toggle_title">"Відзначати повтор. коротким натисканням"</string>
+    <string name="pref_toggle_description">"Дещо зручніше, але може стати причиною випадкових натискань."</string>
+    <string name="pref_snooze_interval_title">"Інтервал відкладення нагадувань"</string>
+    <string name="pref_rate_this_app">"Оцінити цю програму в Google Play"</string>
+    <string name="pref_send_feedback">"Надіслати відозву розробнику"</string>
+    <string name="pref_view_source_code">"Подивитися вихідний код на GitHub"</string>
+    <string name="pref_view_app_introduction">"Переглянути вступні інструкції"</string>
+    <string name="links">"Посилання"</string>
+    <string name="behavior">"Поведінка"</string>
+    <string name="name">"Назва"</string>
+    <string name="show_archived">"Показати архівовані"</string>
+    <string name="settings">"Налаштування"</string>
+    <string name="snooze_interval">"Інтервал відкладення"</string>
+    <string name="hint_title">"Чи знаєте ви?"</string>
+    <string name="hint_drag">"Аби змінити лад записів, натисніть і утримуйте назву запису, опісля перетягніть запис на потрібне місце."</string>
+    <string name="hint_landscape">"В альбомному режимі відображається більше днів."</string>
+    <string name="delete_habits">"Вилучити звички"</string>
+    <string name="delete_habits_message">"Звички буде вилучено. Цю дію не можна скасувати."</string>
+    <string name="weekends">"По вихідних"</string>
+    <string name="any_weekday">"По буднях"</string>
+    <string name="any_day">"Щодня"</string>
+    <string name="select_weekdays">"Оберіть дні"</string>
+    <string name="export_to_csv">"Експортувати дані (CVS)"</string>
+    <string name="done_label">"Готово"</string>
+    <string name="clear_label">"Очистити"</string>
+    <string name="select_hours">"Оберіть години"</string>
+    <string name="select_minutes">"Оберіть хвилини"</string>
 
-<!-- Short description used on the Google Play store. There is an 80-character limit. -->
-<string name="store_short_description">"Розвивайте корисні звички і відстежуйте свої успіхи (без реклами)"</string>
-<string name="store_description_1">"Трекер звичок Loop допоможе вам розвивати та підтримувати хороші звички, що дозволить вам досягнути ваших довгострокових цілей. Докладні графіки та статистичні дані показують вам, як ваші звички покращилися з часом. Трекер не містить реклами і є програмою з відкритим вихідним кодом."</string>
-<string name="store_feature_interface">"&lt;b&gt;Простий, красивий і сучасний інтерфейс&lt;/b&gt;
-Loop має легкий у використанні мінімалістичний інтерфейс, що відповідає принципам Material Design."</string>
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Розвивайте корисні звички і відстежуйте свої успіхи (без реклами)"</string>
+    <string name="store_description_1">"Трекер звичок Loop допоможе вам розвивати і підтримувати хороші звички, що дозволить вам досягнути ваших довгострокових цілей. Детальні ґрафіки та статистичні дані показують вам, як ваші звички покращилися з часом. Трекер не містить реклами і є програмою з відкритим вихідним кодом."</string>
+<string name="store_feature_interface">"&lt;b&gt;Проста, красива і сучасна оболонка&lt;/b&gt;
+Loop має легку у використанні, мінімалістську оболонку, що відповідає принципам Material Design."</string>
 <string name="store_feature_score">"&lt;b&gt;Оцінка звичок&lt;/b&gt;
-На додаток до відображення поточної серії повторень, програма має передовий алгоритм розрахунку \"сили\" ваших звичок. Кожне повторення робить вашу звичку \"сильніше\", а кожний пропуск - \"слабкіше\". Проте, кілька пропущених днів після тривалої серії повторень не зведуть ваші успіхи повністю нанівець."</string>
-<string name="store_feature_statistics">"&lt;b&gt;Детальні діаграми і статистичні дані&lt;/b&gt;
-За допомогою красивих і деталізованих діаграм ви з легкістю можете переглянути, як ваші звички закріпилися з часом. Прокрутіть назад, щод переглянути повну історію ваших звичок."</string>
-<string name="store_feature_schedules">"&lt;b&gt;Гнучкий графік&lt;/b&gt;
-Підтримуються як щоденні звички, так і звички з більш складними графіками, наприклад: 3 рази на тиждень, один раз на два тижні, через день."</string>
+На додаток до відображення поточної серії повторень, програма має передовий алгоритм розрахунку \"сили\" ваших звичок. Кожне повторення робить вашу звичку \"сильнішою\", водночас пропуск - \"слабкішою\". Проте, кілька пропущених днів після тривалої серії повторень не зведуть ваші успіхи геть нанівець."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Детальні діяграми і статистичні дані&lt;/b&gt;
+За допомогою красивих і деталізованих діяграм ви з легкістю можете подивитися, як ваші звички закріпилися з часом. Прокрутіть назад, аби переглянути повну історію ваших звичок."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Гнучкий ґрафік&lt;/b&gt;
+Підтримуються як щоденні звички, так і звички зі складнішими ґрафіками, наприклад: тричі на тиждень, один раз на два тижні, через день."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Нагадування&lt;/b&gt;
-Створюйте окремі нагадування для кожної звички в певні години дня. З легкістю відмічайте, пропускайте або відкладайте виконання звички безпосередньо із повідомлення, не відкриваючи програму."</string>
-<string name="store_feature_opensource">"&lt;b&gt;Повна відсутність реклами та відкритий вихідний код&lt;/b&gt;
-У програмі абсолютно немає реклами, дратівливих повідомлень або нав'язливих дозволів,і ніколи не буде. Весь вихідний код доступний на умовах ліцензії GPLv3."</string>
-<string name="store_feature_wear">"&lt;b&gt;Оптимізовано для \"розумних\" годинників&lt;/b&gt;
-Нагадування можуть бути відмічені, відкладені або пропущені безпосередньо з вашого годинника Android Wear."</string>
-<string name="about">"Про програму"</string>
-<string name="translators">"Перекладачі"</string>
-<string name="developers">"Розробники"</string>
+Створюйте окремі нагадування для кожної звички у певні години дня. З легкістю відзначайте, пропускайте або ж відкладайте виконання звички безпосередньо зі сповіщення, не відкриваючи програму."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Цілковита відсутність реклами та відкритий вихідний код&lt;/b&gt;
+У програмі абсолютно немає реклами, дратівливих повідомлень, чи ж нав'язливих дозволів, і ніколи не буде. Увесь вихідний код доступний на умовах ліцензії GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Оптимізовано для розумних годинників&lt;/b&gt;
+Нагадування можна відзначити, відкласти або ж пропустити безпосередньо з вашого годинника Android Wear."</string>
+    <string name="about">"Про програму"</string>
+    <string name="translators">"Перекладачі"</string>
+    <string name="developers">"Розробники"</string>
 
-<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
-<string name="version_n">"Версія %s"</string>
-<string name="frequency">"Частота"</string>
-<string name="checkmark">"Галочка"</string>
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Версія %s"</string>
+    <string name="frequency">"Частота"</string>
+    <string name="checkmark">"Галочка"</string>
 
-<!-- This is a shorter version of "Habit Strength" -->
-<string name="strength">"Сила"</string>
-<string name="best_streaks">"Кращі серії"</string>
-<string name="current_streaks">"Поточна серія"</string>
-<string name="number_of_repetitions">"Кількість повторень"</string>
-<string name="last_x_days">"Останні %d днів"</string>
-<string name="last_x_weeks">"Останні %d тижнів"</string>
-<string name="last_x_months">"Останні %d місяців"</string>
-<string name="last_x_years">"Останні %d років"</string>
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Сила"</string>
+    <string name="best_streaks">"Найкращі серії"</string>
+    <string name="current_streaks">"Поточна серія"</string>
+    <string name="number_of_repetitions">"Число повторень"</string>
+    <string name="last_x_days">"Останні %d дні(-в)"</string>
+    <string name="last_x_weeks">"Останні %d тижні(-в)"</string>
+    <string name="last_x_months">"Останні %d місяці(-в)"</string>
+    <string name="last_x_years">"Останні %d роки(-ів)"</string>
 
-<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
-<string name="all_time">"За весь час"</string>
-<string name="every_day">"Кожен день"</string>
-<string name="every_week">"Кожен тиждень"</string>
-<string name="two_times_per_week">"2 рази на тиждень"</string>
-<string name="five_times_per_week">"5 разів на тиждень"</string>
-<string name="custom_frequency">"Інше ..."</string>
-<string name="help">"Допомога та FAQ"</string>
-<string name="could_not_export">"Помилка експорту даних."</string>
-<string name="could_not_import">"Помилка імпорту даних."</string>
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"За весь час"</string>
+    <string name="every_day">"Щодня"</string>
+    <string name="every_week">"Щотижня"</string>
+    <string name="two_times_per_week">"Двічі на тиждень"</string>
+    <string name="five_times_per_week">"5 разів на тиждень"</string>
+    <string name="custom_frequency">"Инше..."</string>
+    <string name="help">"Допомога та ЧаПи"</string>
+    <string name="could_not_export">"Помилка експортування даних."</string>
+    <string name="could_not_import">"Помилка імпортування даних."</string>
 
-<!-- Appears when the user tries to import a file which we do not support or recognize. -->
-<string name="file_not_recognized">"Неможливо визначити тип файлу."</string>
-<string name="habits_imported">"Звички успішно імпортовані."</string>
-<string name="full_backup_success">"Повна резервна копія успішно експортована."</string>
-<string name="import_data">"Імпортувати дані"</string>
-<string name="export_full_backup">"Експортувати повну резервну копію"</string>
-<string name="import_data_summary">"Підтримує імпорт повної резервної копії, експортованої цією програмою, а також файлів, згенерованих програмами Tickmate, HabitBull та Rewire. Більше інформації дивіться в FAQ."</string>
-<string name="export_as_csv_summary">"Генерує файли, які можна відкрити в програмах для роботи з таблицями (таких як Microsoft Excel або OpenOffice Calc). Цей файл не можна імпортувати назад."</string>
-<string name="export_full_backup_summary">"Генерує файл, що містить всі ваші дані. Цей файл можна імпортувати назад."</string>
-<string name="bug_report_failed">"Помилка генерації звіту про помилку."</string>
-<string name="generate_bug_report">"Згенерувати звіт про помилку"</string>
-<string name="troubleshooting">"Усунення несправностей"</string>
-<string name="help_translate">"Допоможіть перекласти цю програму"</string>
-<string name="night_mode">"Нічний режим"</string>
-<string name="use_pure_black">"Використовувати справжній чорний в нічному режимі"</string>
-<string name="pure_black_description">"Замінює сірий фон на справжній чорний в нічному режимі. Зменшує використання батареї в телефонах з дисплеєм AMOLED."</string>
-<string name="interface_preferences">"Інтерфейс"</string>
-<string name="reverse_days">"Зворотній порядок днів"</string>
-<string name="reverse_days_description">"Відображати дні в зворотному порядку на головному екрані"</string>
-<string name="day">"День"</string>
-<string name="week">"Тиждень"</string>
-<string name="month">"Місяць"</string>
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Неможливо визначити тип файлу."</string>
+    <string name="habits_imported">"Звички успішно імпортовано."</string>
+    <string name="full_backup_success">"Повна резервна копія успішно експортована."</string>
+    <string name="import_data">"Імпортувати дані"</string>
+    <string name="export_full_backup">"Експортувати повну резервну копію"</string>
+    <string name="import_data_summary">"Підтримує імпорт повної резервної копії, експортованої цією програмою, а також файлів, створених програмами Tickmate, HabitBull та Rewire. Більше інформації дивіться у ЧаПи."</string>
+    <string name="export_as_csv_summary">"Створює файли, які можна відкрити у програмах для роботи з таблицями (як-от: Microsoft Excel або OpenOffice Calc). Цей файл не можна імпортувати назад."</string>
+    <string name="export_full_backup_summary">"Створює файл, що містить усі ваші дані. Цей файл можна імпортувати назад."</string>
+    <string name="bug_report_failed">"Помилка створення звіту про помилку."</string>
+    <string name="generate_bug_report">"Створити звіт про помилку"</string>
+    <string name="troubleshooting">"Усунення несправностей"</string>
+    <string name="help_translate">"Допоможіть перекласти цю програму"</string>
+    <string name="night_mode">"Нічний режим"</string>
+    <string name="use_pure_black">"Користати цілком чорне тло у нічному режимі"</string>
+    <string name="pure_black_description">"Замінює сіре тло на цілком чорне у нічному режимі. Зменшує використання батареї в телефонах із дисплеєм AMOLED."</string>
+    <string name="interface_preferences">"Оболонка"</string>
+    <string name="reverse_days">"Зворотній лад днів"</string>
+    <string name="reverse_days_description">"Відображає дні у зворотньому ладу на головному екрані"</string>
+    <string name="day">"День"</string>
+    <string name="week">"Тиждень"</string>
+    <string name="month">"Місяць"</string>
 
-<!-- Three-month period -->
-<string name="quarter">"Квартал"</string>
-<string name="year">"Рік"</string>
+    <!-- Three-month period -->
+    <string name="quarter">"Квартал"</string>
+    <string name="year">"Рік"</string>
 
-<!-- Middle part of the sentence '1 time in xx days' -->
-<!-- Middle part of the sentence '1 time in xx days' -->
-<string name="time_every">"раз за"</string>
-<string name="every_x_days">"Кожні %d днів"</string>
-<string name="every_x_weeks">"Кожні %d тижнів"</string>
-<string name="every_x_months">"Кожні %d місяців"</string>
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"раз за"</string>
+    <string name="every_x_days">"Кожні %d дні(-в)"</string>
+    <string name="every_x_weeks">"Кожні %d тижні(-в)"</string>
+    <string name="every_x_months">"Кожні %d місяці(-в)"</string>
 
-<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
-<string name="score">"Стабільність"</string>
-<string name="reminder_sound">"Звук нагадування"</string>
+    <!-- "Стабільність" не вміщається, тому ліпше "Сталість". -->
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Сталість"</string>
+    <string name="reminder_sound">"Звук нагадування"</string>
 
-<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
-<string name="none">"Немає"</string>
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Немає"</string>
 </resources>

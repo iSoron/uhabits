@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Hábitos"</string>
+    <string name="main_activity_title">"Hábitos"</string>
+    <string name="action_settings">"Configurações"</string>
+    <string name="edit">"Editar"</string>
+    <string name="delete">"Deletar"</string>
+    <string name="archive">"Arquivar"</string>
+    <string name="unarchive">"Desarquivar"</string>
+    <string name="add_habit">"Adicionar hábito"</string>
+    <string name="color_picker_default_title">"Mudar cor"</string>
+    <string name="toast_habit_created">"Hábito criado."</string>
+    <string name="toast_habit_deleted">"Hábito deletado."</string>
+    <string name="toast_habit_restored">"Hábitos restaurados."</string>
+    <string name="toast_nothing_to_undo">"Nada para desfazer."</string>
+    <string name="toast_nothing_to_redo">"Nada para refazer."</string>
+    <string name="toast_habit_changed">"Hábito modificado."</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Hábito restaurado."</string>
+    <string name="toast_habit_archived">"Hábitos arquivados."</string>
+    <string name="toast_habit_unarchived">"Hábitos restaurados."</string>
+    <string name="overview">"Visão geral"</string>
+    <string name="habit_strength">"Estabilidade"</string>
+    <string name="history">"Histórico"</string>
+    <string name="clear">"Limpar"</string>
+    <string name="description_hint">"Pergunta (por ex., \"você meditou hoje?\")"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Repetir"</string>
+    <string name="times_every">"vezes em"</string>
+    <string name="days">"dias"</string>
+    <string name="reminder">"Lembrete"</string>
+    <string name="discard">"Cancelar"</string>
+    <string name="save">"Salvar"</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Correntes"</string>
+    <string name="no_habits_found">"Você não tem nenhum hábito ativo"</string>
+    <string name="long_press_to_toggle">"Sustente por um segundo para marcar ou desmarcar"</string>
+    <string name="reminder_off">"Desligado"</string>
+    <string name="validation_name_should_not_be_blank">"Nome não pode ficar em branco."</string>
+    <string name="validation_number_should_be_positive">"Número precisa ser positivo."</string>
+    <string name="validation_at_most_one_rep_per_day">"Você pode ter no máximo uma repetição por dia."</string>
+    <string name="create_habit">"Criar hábito"</string>
+    <string name="edit_habit">"Editar hábito"</string>
+    <string name="check">"Marcar"</string>
+    <string name="snooze">"Mais tarde"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Bem vindo"</string>
+    <string name="intro_description_1">"Loop é um aplicativo que te ajuda a criar e manter bons hábitos."</string>
+    <string name="intro_title_2">"Adicione alguns hábitos"</string>
+    <string name="intro_description_2">"Todo dia, depois de praticar o seu hábito, marque no aplicativo."</string>
+    <string name="intro_title_3">"Continue praticando"</string>
+    <string name="intro_description_3">"Hábitos praticados regularmente por um longo período recebem uma estrela."</string>
+    <string name="intro_title_4">"Acompanhe o seu progresso"</string>
+    <string name="intro_description_4">"Veja como seus hábitos estão progredindo através de diagramas."</string>
+    <string name="interval_15_minutes">"15 minutos"</string>
+    <string name="interval_30_minutes">"30 minutos"</string>
+    <string name="interval_1_hour">"1 hora"</string>
+    <string name="interval_2_hour">"2 horas"</string>
+    <string name="interval_4_hour">"4 horas"</string>
+    <string name="interval_8_hour">"8 horas"</string>
+    <string name="pref_toggle_title">"Marcar repetições com um toque curto"</string>
+    <string name="pref_toggle_description">"Mais conveniente, mas pode causar marcações acidentais"</string>
+    <string name="pref_snooze_interval_title">"Duração do \"mais tarde\" nos lembretes"</string>
+    <string name="pref_rate_this_app">"Avaliar esse app no Google Play"</string>
+    <string name="pref_send_feedback">"Mandar sugestões para o desenvolvedor"</string>
+    <string name="pref_view_source_code">"Ver código-fonte no GitHub"</string>
+    <string name="pref_view_app_introduction">"Assistir introdução ao aplicativo"</string>
+    <string name="links">"Links"</string>
+    <string name="behavior">"Interação"</string>
+    <string name="name">"Nome"</string>
+    <string name="show_archived">"Mostrar hábitos arquivados"</string>
+    <string name="settings">"Configurações"</string>
+    <string name="snooze_interval">"Duração do \"mais tarde\""</string>
+    <string name="hint_title">"Dica"</string>
+    <string name="hint_drag">"Para mudar a ordem dos hábitos, aperte no nome do hábito, sustente e arraste."</string>
+    <string name="hint_landscape">"Para ver mais dias, coloque seu aparelho em modo paisagem."</string>
+    <string name="delete_habits">"Deletar hábitos"</string>
+    <string name="delete_habits_message">"Os hábitos escolhidos serão deletados permanentemente. Esta ação não pode ser desfeita."</string>
+    <string name="weekends">"Fim de semana"</string>
+    <string name="any_weekday">"Segunda a sexta"</string>
+    <string name="any_day">"Qualquer dia da semana"</string>
+    <string name="select_weekdays">"Selecionar dias"</string>
+    <string name="export_to_csv">"Exportar em formato CSV"</string>
+    <string name="done_label">"Pronto"</string>
+    <string name="clear_label">"Limpar"</string>
+    <string name="select_hours">"Selecionar horas"</string>
+    <string name="select_minutes">"Selecionar minutos"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Acompanhe o progresso dos seus hábitos com o passar do tempo (sem anúncios)"</string>
+    <string name="store_description_1">"Loop é um aplicativo que te ajuda a criar e manter bons hábitos, permitindo que você alcance os seus objetivos de longo prazo. Gráficos e estatísticas te mostram em detalhe como os teus hábitos progrediram ao passar do tempo. Este aplicativo não tem propagandas e é Open Source."</string>
+<string name="store_feature_interface">"&lt;b&gt;Interface bonita, moderna e simples&lt;/b&gt;
+Loop tem uma interface minimalista bem simples de se usar, e segue o novo visual Material Design."</string>
+<string name="store_feature_score">"&lt;b&gt;Estabilidade dos hábitos&lt;/b&gt;
+Além de mostrar quantos dias seguidos você praticou cada rotina, Loop também conta com um avançado algoritmo para calcular a estabilidade dos seus hábitos. Cada repetição melhora a estabilidade do hábito, e cada dia de folga piora a estabilidade. Alguns dias de folga após um longo período perfeito, no entanto, não destruirá por completo o teu progresso."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Gráficos e estatísticas detalhadas&lt;/b&gt;
+Veja claramente como os teus hábitos estão progredindo com o passar do tempo, através de bonitos e detalhados diagramas. O histórico completo de cada hábito fica arquivado."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Rotina flexível&lt;/b&gt;
+Loop aceita tanto hábitos diários, quanto hábitos com rotinas mais complexas, como 3 vezes por semana; uma vez a cada duas semanas; ou uma vez a cada dois dias."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Lembretes&lt;/b&gt;
+É possível criar lembretes individuais para cada hábito, na hora do dia em que você escolher. Marque como completado diretamente da barra de notificação, sem precisar abrir o aplicativo."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Completamente sem propagandas e Open Source&lt;/b&gt;
+Não há nenhum anúncio neste aplicativo, nem notificações chatas ou permissões intrusivas; e será assim para sempre. O código fonte completo está disponível sob a licença livre GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Otimizado para relógios inteligentes&lt;/b&gt;
+Lembretes podem ser marcados ou ignorados diretamente a partir do seu relógio Android Wear."</string>
+    <string name="about">"Sobre"</string>
+    <string name="translators">"Tradutores"</string>
+    <string name="developers">"Desenvolvedores"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Versão %s"</string>
+    <string name="frequency">"Frequência"</string>
+    <string name="checkmark">"Marcações"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Estabilidade"</string>
+    <string name="best_streaks">"Correntes mais longas"</string>
+    <string name="current_streaks">"Corrente atual"</string>
+    <string name="number_of_repetitions">"Número de repetições"</string>
+    <string name="last_x_days">"Últimos %d dias"</string>
+    <string name="last_x_weeks">"Últimas %d semanas"</string>
+    <string name="last_x_months">"Últimos %d meses"</string>
+    <string name="last_x_years">"Últimos %d anos"</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"Desde o início"</string>
+    <string name="every_day">"Todo dia"</string>
+    <string name="every_week">"Toda semana"</string>
+    <string name="two_times_per_week">"2 vezes por semana"</string>
+    <string name="five_times_per_week">"5 vezes por semana"</string>
+    <string name="custom_frequency">"Personalizar ..."</string>
+    <string name="help">"Ajuda &amp; FAQ"</string>
+    <string name="could_not_export">"Erro ao exportar dados."</string>
+    <string name="could_not_import">"Erro ao importar dados."</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Arquivo não reconhecido."</string>
+    <string name="habits_imported">"Hábitos importados com sucesso."</string>
+    <string name="full_backup_success">"Backup completo exportado com sucesso."</string>
+    <string name="import_data">"Importar dados"</string>
+    <string name="export_full_backup">"Exportar backup completo"</string>
+    <string name="import_data_summary">"Aceita backups completos exportados por este app, além de arquivos gerados por Tickmate, HabitBull ou Rewire. Veja \"Ajuda\" para mais informações."</string>
+    <string name="export_as_csv_summary">"Gera arquivos que podem ser abertos em editores de planilha, como Microsoft Excel ou Openoffice Calc. Estes arquivos não podem ser importados de volta."</string>
+    <string name="export_full_backup_summary">"Gera um arquivo que contém todos os dados. Este arquivo pode ser importado de volta."</string>
+    <string name="bug_report_failed">"Erro ao gerar relatório de erros."</string>
+    <string name="generate_bug_report">"Gerar relatório de erros."</string>
+    <string name="troubleshooting">"Solução de problemas"</string>
+    <string name="help_translate">"Ajude a traduzir este app"</string>
+    <string name="night_mode">"Modo noturno"</string>
+    <string name="use_pure_black">"Usar preto em modo noturno"</string>
+    <string name="pure_black_description">"Substitui os tons de cinza por preto puro em modo noturno. Economiza bateria em telefones com tela AMOLED."</string>
+    <string name="interface_preferences">"Interface"</string>
+    <string name="reverse_days">"Inverter a ordem dos dias"</string>
+    <string name="reverse_days_description">"Mostra os dias em ordem inversa na tela principal"</string>
+    <string name="day">"Dia"</string>
+    <string name="week">"Semana"</string>
+    <string name="month">"Mês"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"Trimestre"</string>
+    <string name="year">"Ano"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"vez em"</string>
+    <string name="every_x_days">"A cada %d dias"</string>
+    <string name="every_x_weeks">"A cada %d semanas"</string>
+    <string name="every_x_months">"A cada %d meses"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Estabilidade"</string>
+    <string name="reminder_sound">"Toque dos lembretes"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Nenhum"</string>
+</resources>

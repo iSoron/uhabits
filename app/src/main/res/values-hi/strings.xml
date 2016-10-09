@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Loop आदत पर नजर"</string>
+    <string name="main_activity_title">"आदतें"</string>
+    <string name="action_settings">"सेटिंग्स"</string>
+
+    <!-- This is not a common Hindi Word but the closest I could get -->
+    <string name="edit">"संपादन"</string>
+<string name="delete">"
+मिटा देना"</string>
+<string name="archive">"
+संग्रह "</string>
+    <string name="unarchive">"असंगृहीत करें"</string>
+    <string name="add_habit">"आदत जोड़े"</string>
+    <string name="color_picker_default_title">"रंग बदलें"</string>
+    <string name="toast_habit_created">"आदत बनाए गए"</string>
+    <string name="toast_habit_deleted">"आदत हटाया गया"</string>
+    <string name="toast_habit_restored">"आदत फिर से चालू किया गया"</string>
+    <string name="toast_nothing_to_undo">"कुछ भी नहीं पूर्ववत करने के लिए"</string>
+    <string name="toast_nothing_to_redo">"कुछ भी नही फिर से करने के लिए"</string>
+    <string name="toast_habit_changed">"आदत मे बदलाव"</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+<string name="toast_habit_changed_back">"
+आदत बहाल"</string>
+    <string name="toast_habit_archived">"आदत  संग्रहीत"</string>
+    <string name="toast_habit_unarchived">"आदत को संग्रह से निकाला गया"</string>
+    <string name="overview">"अवलोकन"</string>
+    <string name="habit_strength">"आदत की ताक़त"</string>
+<string name="history">"
+इतिहास"</string>
+<string name="clear">"
+साफ़"</string>
+    <string name="description_hint">"सवाल (क्या आज .......किया?)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"दोहराए"</string>
+    <string name="times_every">"बार"</string>
+    <string name="days">"दिन"</string>
+<string name="reminder">"
+अनुस्मारक"</string>
+<string name="discard">"
+हटाना"</string>
+<string name="save">"
+सुरक्षित "</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+<string name="streaks">"
+लहर"</string>
+<string name="no_habits_found">"आपकी कोई सक्रिय आदत नही है
+"</string>
+    <string name="long_press_to_toggle">"चेक या अनचेक करने के लिए दबाएँ व दबाएँ रखें "</string>
+    <string name="reminder_off">"बंद"</string>
+    <string name="validation_name_should_not_be_blank">"नाम को खाली नही छोड़ सकते"</string>
+    <string name="validation_number_should_be_positive">"नंबर सकारात्मक डालें"</string>
+<string name="validation_at_most_one_rep_per_day">"
+आप एक दिन मे अधिक से अधिक एक पुनरावृत्ति हो सकती है"</string>
+    <string name="create_habit">"आदत उत्पन्न करें"</string>
+    <string name="edit_habit">"आदत संपादित करें"</string>
+<string name="check">"
+चेक"</string>
+    <string name="snooze">"बाद में"</string>
+
+    <!-- App introduction -->
+<string name="intro_title_1">"
+स्वागत हे"</string>
+<string name="intro_description_1">"
+लूप हैबिट ट्रैकर नई और अच्छी आदतों को बनाए रखने मे लिए मदद करता है ।"</string>
+    <string name="intro_title_2">"कुछ नई अच्छी आदतें बनाएँ"</string>
+    <string name="intro_description_2">"हर दिन, अपनी आदत के प्रदर्शन के बाद , अप्प पर एक सही का निशान डालें"</string>
+    <string name="intro_title_3">"इसे करते रहें"</string>
+<string name="intro_description_3">"
+एक लंबे समय के लिए लगातार प्रदर्शन की आदतों से पूर्ण स्टार अर्जित करेंगे।"</string>
+<string name="intro_title_4">"
+अपनी प्रगति को ट्रैक करें"</string>
+<string name="intro_description_4">"
+विस्तृत रेखांकन आपको बताएंगे कि कैसे अपनी आदतों में समय के साथ सुधार करें"</string>
+    <string name="interval_15_minutes">"15 मिनिट"</string>
+    <string name="interval_30_minutes">"30 मिनिट"</string>
+    <string name="interval_1_hour">"1 घंटा"</string>
+    <string name="interval_2_hour">"2 घंटा"</string>
+    <string name="interval_4_hour">"4 घंटा"</string>
+    <string name="interval_8_hour">"8 घंटा"</string>
+    <string name="pref_toggle_title">"टॉगल पुनरावृत्ति  हल्का दबाने से"</string>
+<string name="pref_toggle_description">"
+अधिक सुविधाजनक है, लेकिन आकस्मिक टॉगल  हो सकता है ।"</string>
+    <string name="pref_snooze_interval_title">"रिमाइंडर मे स्नूज़ अंतराल"</string>
+<string name="pref_rate_this_app">"
+गूगले प्ले पर इस ऐप्लिकेशन को रेट करें"</string>
+    <string name="pref_send_feedback">"डेवेलपर को प्रतिक्रिया भेजें "</string>
+    <string name="pref_view_source_code">"Github मे सोर्स कोड देखें"</string>
+    <string name="pref_view_app_introduction">"अप्प्प का परिचय देखें"</string>
+    <string name="links">"लिंक"</string>
+<string name="behavior">"
+व्यवहार"</string>
+    <string name="name">"नाम"</string>
+    <string name="show_archived">"संग्रह देखें"</string>
+    <string name="settings">"सेटिंग्स"</string>
+<string name="snooze_interval">"
+झपकी का अंतराल"</string>
+    <string name="hint_title">"क्या आप जानते .?"</string>
+<string name="hint_drag">"
+प्रविष्टियों को पुनर्व्यवस्थित करने के लिए, आदत के नाम पर प्रेस करें और सही जगह पर खींचें।"</string>
+<string name="hint_landscape">"
+ अपने फोन को लांडसकपे मोड मे रख कर आप अधिक दिनों से देख सकते हैं"</string>
+    <string name="delete_habits">"आदत हटाएँ"</string>
+<string name="delete_habits_message">"
+आदतों को स्थायी रूप से हटा दिया जाएगा। इस क्रिया को पूर्ववत नहीं किया जा सकता है।"</string>
+<string name="weekends">"
+सप्ताहांत"</string>
+<string name="any_weekday">"
+सोमवार से शुक्रवार"</string>
+<string name="any_day">"
+सप्ताह का कोई भी दिन"</string>
+    <string name="select_weekdays">"दिन चुनें"</string>
+    <string name="export_to_csv">"CSV में निर्यात करें"</string>
+<string name="done_label">"
+पूर्ण"</string>
+<string name="clear_label">"
+साफ़"</string>
+    <string name="select_hours">"घंटे चुनें"</string>
+    <string name="select_minutes">"मिनट चुनें"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+<string name="store_short_description">"
+अच्छी आदतें बनाएं और समय के साथ अपनी प्रगति को ट्रैक (विज्ञापन मुक्त )"</string>
+    <string name="store_description_1">"लूप अच्छी आदतों को बनाए रखने के लिए, वा लंबी अवधि के लक्ष्यों को प्राप्त करने में आपकी मदद करता है । विस्तृत रेखांकन और आँकड़े आपको बताएंगे कि कैसे अपनी आदतों में समय के साथ सुधार होगा। यह पूरी तरह से विज्ञापन मुक्त और ओपन सोर्स है"</string>
+<string name="store_feature_interface">"
+&lt;b&gt;सरल, सुंदर और आधुनिक इंटरफ़ेस&lt;/b&gt;
+लूप मे न्यूनतर इंटरफ़ेस है जो उपयोग करने के लिए आसान है मेटीरियल डिजाइन दिशा निर्देशों का पालन करता है"</string>
+<string name="store_feature_score">"आदत स्कोर
+अपने वर्तमान स्ट्रीक दिखाने के अलावा , लूप मे अपनी आदतों की ताकत की गणना के लिए एक उन्नत एल्गोरिथ्म है। हर पुनरावृत्ति अपनी आदत को मजबूत बनाता है , और हर चूक दिन यह कमजोर बना देता है। हालांकि कुछ चूक दिन एक लंबी स्ट्रीक के बाद , पूरी तरह से आपके पूरे प्रगति को नष्ट नहीं होगा ।"</string>
+<string name="store_feature_statistics">"
+विस्तृत रेखांकन और आँकड़े
+स्पष्ट रूप से सुंदर और विस्तृत रेखांकन के साथ देखें कि कैसे आपकी आदतों मे साथ समय के साथ सुधार हुआ है। अपनी आदतों का पूरा इतिहास देखने के लिए वापस स्क्रॉल करें।"</string>
+<string name="store_feature_schedules">"
+लचीला कार्यक्रम
+ दैनिक आदतों और अधिक जटिल कार्यक्रम दोनो को सपोर्ट  ,इस तरह के रूप में 3 बार हर सप्ताह समर्थन करता है; एक बार हर दूसरे सप्ताह ; या हर दूसरे दिन ।"</string>
+<string name="store_feature_reminders">"रिमाइंडर
+प्रत्येक आदत के लिए एक रिमाइंडर बनाएं , दिन के एक चुने हुए घंटे में । आसानी से , जांच को खारिज या अधिसूचना से सीधे अपने नोटिफिकेशन से, एप्लिकेशन को खोले बिना"</string>
+<string name="store_feature_opensource">"पूर्ण रूप से मुफ़्त और ओपन सोर्स
+यहाँ बिल्कुल भी कोई विज्ञापन , कष्टप्रद सूचनाएं या फ़िज़ूल पर्मिशन नही है और  कभी नहीं होगा।
+पूरा सोर्स कोड GPLv3 के तहत उपलब्ध है।"</string>
+<string name="store_feature_wear">"Smartwatches के लिए अनुकूल
+रिमाइंडर को चेक कर सकते हैं, स्नूज़ या हटा सकते हैं सीधे अपनी स्मार्ट वॉच से"</string>
+<string name="about">"
+बारे में"</string>
+<string name="translators">"
+अनुवादक"</string>
+<string name="developers">"
+डिवेलपर"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"वर्ज़न %s"</string>
+    <string name="frequency">"आवृत्ति"</string>
+    <string name="checkmark">"सही का चिह्न"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+<string name="strength">"
+ताक़त"</string>
+    <string name="best_streaks">"बेस्ट स्ट्रीक्स"</string>
+<string name="current_streaks">"
+वर्तमान स्ट्रीक्स"</string>
+<string name="number_of_repetitions">"
+repetitions की संख्या"</string>
+    <string name="last_x_days">"अंतिम %d दिवस"</string>
+    <string name="last_x_weeks">"पिछले %d सप्ताह"</string>
+    <string name="last_x_months">"पिछले %d माह"</string>
+<string name="last_x_years">"
+पिछले %d साल"</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"पूरा समय"</string>
+<string name="every_day">"
+हर दिन"</string>
+<string name="every_week">"
+प्रति सप्ताह"</string>
+<string name="two_times_per_week">"
+प्रति सप्ताह 2 बार"</string>
+<string name="five_times_per_week">"
+प्रति सप्ताह 5 बार"</string>
+    <string name="custom_frequency">"अन्य"</string>
+<string name="help">"
+मदद और बार-बार सवाल पूछने वाले सवाल"</string>
+<string name="could_not_export">"
+डेटा निर्यात करने में विफल"</string>
+    <string name="could_not_import">"डेटा आयात करने में विफल रहा है"</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"फाइल की पहचान नही "</string>
+<string name="habits_imported">"
+आदतों को सफलतापूर्वक आयात"</string>
+<string name="full_backup_success">"
+पूर्ण बैकअप सफलतापूर्वक निर्यात किया।"</string>
+<string name="import_data">"
+डेटा आयात"</string>
+<string name="export_full_backup">"
+निर्यात पूर्ण बैकअप"</string>
+    <string name="import_data_summary">"इस एप्लिकेशन के द्वारा निर्यात पूर्ण बैकअप को सपोर्ट करता है , साथ ही फाइलों टिक्कमते , हबिठबुल्ल या रिवाइयर द्वारा उत्पन्न फाइल्स को सपोर्ट करता है। अधिक जानकारी के लिए सामान्य प्रश्न देखें।"</string>
+<string name="export_as_csv_summary">"ऐसी फाइल्स उत्पन्न करता है जो स्प्रेडशीट सॉफ़्टवरेस जैसे Microsoft Excel, OpenOffice Calc मे खुल सकती है.
+ इस फ़ाइल में वापस आयात नहीं किया जा सकता है।"</string>
+    <string name="export_full_backup_summary">"ऐसी फाइल्स उत्पन्न करता है जिसमे आपका सारा डेटा रहता है इस फ़ाइल को वापस आयात किया जा सकता है।"</string>
+    <string name="bug_report_failed">"बग रिपोर्ट जनरेट करने मे असफल"</string>
+    <string name="generate_bug_report">"बग रिपोर्ट जनरेट करने मे सफल"</string>
+<string name="troubleshooting">"
+समस्या निवारण"</string>
+<string name="help_translate">"
+इस एप्लिकेशन का अनुवाद करने में मदद करें"</string>
+    <string name="night_mode">"नाइट मोड"</string>
+    <string name="use_pure_black">"नाइट मोड मे पूरा काला यूज़ करें"</string>
+<string name="pure_black_description">"
+रात मोड में शुद्ध काले रंग के साथ ग्रे पृष्ठभूमि में बदलें.  अमोलेड प्रदर्शन के साथ फोन में बैटरी उपयोग कम कर देता है ।"</string>
+    <string name="interface_preferences">"इंटरफेस"</string>
+<string name="reverse_days">"
+दिनों की रिवर्स आदेश"</string>
+    <string name="reverse_days_description">"दिनों को रिवर्स क्रम में मुख्य स्क्रीन पर दिखाएँ"</string>
+    <string name="day">"दिन "</string>
+    <string name="week">"हफ्ते"</string>
+    <string name="month">"माह"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"तिमाही"</string>
+    <string name="year">"साल"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"समय शुरू"</string>
+<string name="every_x_days">"
+हर %d दिन"</string>
+<string name="every_x_weeks">"
+हर %d हफ्ते"</string>
+<string name="every_x_months">"
+हर %d साल"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"स्कोर"</string>
+    <string name="reminder_sound">"अनुस्मारक ध्वनि"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+<string name="none">"
+कोई आवाज नहीं"</string>
+</resources>

@@ -99,6 +99,8 @@
 <string name="store_description_1">"Loop ti aiuta a creare e mantenere buone abitudini, permettendoti di raggiungere i tuoi obbiettivi a lungo termine. Grafici dettagliati e le statistiche ti mostrano come le tue abitudini sono migliorate nel tempo. E' completamente senza pubblicità ed opensource."</string>
 <string name="store_feature_interface">"&lt;b&gt;Interfaccia semplice e moderna&lt;/b&gt;
 Loop ha un'interfaccia minimale che è semplice da usare e segue le linee guida del Material Design"</string>
+
+<!-- Fuzzy -->
 <string name="store_feature_score">"&lt;b&gt;Forza dell'abitudine&lt;/b&gt;
 In aggiunta al traguardo attuale, Loop ha un algoritmo avanzato per calcolare la forza delle tue abitudini. Ogni ripetizione la rafforza, mentre ogni giorno mancato la indebolisce. Pochi giorni mancati dopo una lunga serie però non vanificherà completamente il tuo progresso totale."</string>
 <string name="store_feature_statistics">"&lt;b&gt;Grafici dettagliati e statistiche&lt;/b&gt;
@@ -121,7 +123,7 @@ Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne sar
 
 <!-- This is a shorter version of "Habit Strength" -->
 <string name="strength">"Forza"</string>
-<string name="best_streaks">"Migliore serie"</string>
+<string name="best_streaks">"Serie migliori"</string>
 <string name="current_streaks">"Serie corrente"</string>
 
 <!-- Fuzzy -->
