@@ -133,8 +133,8 @@ abstract public class BaseActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int request, int result, Intent data)
     {
-        if (screen == null) return;
-        screen.onResult(request, result, data);
+        if (screen == null) super.onActivityResult(request, result, data);
+        else screen.onResult(request, result, data);
     }
 
     @Override
