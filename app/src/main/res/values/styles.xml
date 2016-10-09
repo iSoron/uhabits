@@ -251,4 +251,8 @@
         <item name="android:background">@drawable/toolbar_shadow</item>
         <item name="android:alpha">0.2</item>
     </style>
+
+    <style name="TimePickerDialog" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

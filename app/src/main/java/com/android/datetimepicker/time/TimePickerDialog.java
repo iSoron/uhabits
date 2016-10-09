@@ -24,13 +24,14 @@ import org.isoron.uhabits.R;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.*;
+import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.app.*;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -194,9 +195,15 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
     }
 
     @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
+        return new AppCompatDialog(getActivity(), R.style.TimePickerDialog);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         View view = inflater.inflate(R.layout.time_picker_dialog, null);
         KeyboardListener keyboardListener = new KeyboardListener();
