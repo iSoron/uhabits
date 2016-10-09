@@ -76,8 +76,12 @@ public class HabitMatcher
         if (!isArchivedAllowed() && habit.isArchived()) return false;
         if (isReminderRequired() && !habit.hasReminder()) return false;
 
-        int todayCheckmark = habit.getCheckmarks().getTodayValue();
-        if (todayCheckmark != UNCHECKED && !isCompletedAllowed()) return false;
+        if(!isCompletedAllowed())
+        {
+            int todayCheckmark = habit.getCheckmarks().getTodayValue();
+            if (todayCheckmark != UNCHECKED) return false;
+        }
+
         if(!allowedColors.contains(habit.getColor())) return false;
         return true;
     }
