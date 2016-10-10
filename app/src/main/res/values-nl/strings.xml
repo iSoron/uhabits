@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Loop Habit Tracker"</string>
+    <string name="main_activity_title">"Gewoontes"</string>
+    <string name="action_settings">"Instellingen"</string>
+    <string name="edit">"Wijzig"</string>
+    <string name="delete">"Verwijder"</string>
+    <string name="archive">"Archiveer"</string>
+    <string name="unarchive">"Dearchiveren"</string>
+    <string name="add_habit">"Voeg gewoonte toe"</string>
+    <string name="color_picker_default_title">"Verander kleur"</string>
+    <string name="toast_habit_created">"Gewoonte aangemaakt."</string>
+    <string name="toast_habit_deleted">"Gewoonte verwijderd."</string>
+    <string name="toast_habit_restored">"Gewoonte hersteld."</string>
+    <string name="toast_nothing_to_undo">"Niets om ongedaan te maken."</string>
+    <string name="toast_nothing_to_redo">"Niets om over te doen."</string>
+    <string name="toast_habit_changed">"Gewoonte gewijzigd."</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Wijziging gewoonte ongedaan gemaakt."</string>
+    <string name="toast_habit_archived">"Gewoonte gearchiveerd."</string>
+    <string name="toast_habit_unarchived">"Gewoonte hersteld uit archief."</string>
+    <string name="overview">"Overzicht"</string>
+    <string name="habit_strength">"Gewoonte-sterkte"</string>
+    <string name="history">"Geschiedenis"</string>
+    <string name="clear">"Wis"</string>
+    <string name="description_hint">"Vraag (Heb jij vandaag .... ?)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Herhaal"</string>
+    <string name="times_every">"keer in "</string>
+    <string name="days">"dagen"</string>
+    <string name="reminder">"Herinnering"</string>
+    <string name="discard">"Verwijder"</string>
+<string name="save">"Opslaan
+"</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Reeksen"</string>
+    <string name="no_habits_found">"Je hebt geen actieve gewoontes"</string>
+    <string name="long_press_to_toggle">"Houdt ingedrukt om te selecteren of deselecteren"</string>
+    <string name="reminder_off">"Uit"</string>
+    <string name="validation_name_should_not_be_blank">"Naam kan niet leeg zijn."</string>
+    <string name="validation_number_should_be_positive">"Nummer moet positief zijn."</string>
+    <string name="validation_at_most_one_rep_per_day">"Je kunt maximaal een repetitie per dag hebben"</string>
+    <string name="create_habit">"Maak gewoonte aan"</string>
+    <string name="edit_habit">"Wijzig gewoonte"</string>
+    <string name="check">"Voltooid"</string>
+    <string name="snooze">"Later"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Welkom"</string>
+    <string name="intro_description_1">"Loop Habit Tracker helpt je om goede gewoontes te creëren en te onderhouden."</string>
+    <string name="intro_title_2">"Creëer enkele nieuwe gewoontes"</string>
+    <string name="intro_description_2">"Plaats iedere dag, na het uitvoeren van jouw gewoonte, een vinkje in de app."</string>
+    <string name="intro_title_3">"Blijf het doen"</string>
+    <string name="intro_description_3">"Gewoontes die een langere tijd consistent worden uitgevoerd, zullen een volle ster verdienen."</string>
+    <string name="intro_title_4">"Volg jouw voortgang"</string>
+    <string name="intro_description_4">"Gedetailleerde grafieken tonen je hoe jouw gewoontes met de tijd verbeteren."</string>
+    <string name="interval_15_minutes">"15 minuten"</string>
+    <string name="interval_30_minutes">"30 minuten"</string>
+    <string name="interval_1_hour">"1 uur"</string>
+    <string name="interval_2_hour">"2 uur"</string>
+    <string name="interval_4_hour">"4 uur"</string>
+    <string name="interval_8_hour">"8 uur"</string>
+    <string name="pref_toggle_title">"Wijzig herhalingen door kort indrukken"</string>
+    <string name="pref_toggle_description">"Handiger, maar kan onbedoelde wijzigingen veroorzaken."</string>
+    <string name="pref_snooze_interval_title">"Snooze interval voor herinneringen"</string>
+    <string name="pref_rate_this_app">"Beoordeel deze app in Google Play"</string>
+    <string name="pref_send_feedback">"Stuur feedback aan de ontwikkelaar"</string>
+    <string name="pref_view_source_code">"Bekijk de broncode op GitHub"</string>
+    <string name="pref_view_app_introduction">"Bekijk de app introductie"</string>
+    <string name="links">"Links"</string>
+    <string name="behavior">"Gedrag"</string>
+    <string name="name">"Naam"</string>
+    <string name="show_archived">"Toon gearchiveerd"</string>
+    <string name="settings">"Instellingen"</string>
+    <string name="snooze_interval">"Snooze interval"</string>
+    <string name="hint_title">"Wist je dat?"</string>
+    <string name="hint_drag">"Om de rijen te ordenen houdt de gewoonte ingedrukt en sleep het naar de gewenste plek."</string>
+    <string name="hint_landscape">"Je kunt meer dagen zien door de telefoon in landschapmodus te zetten."</string>
+    <string name="delete_habits">"Verwijder gewoontes"</string>
+    <string name="delete_habits_message">"De gewoontes zullen permanent verwijderd worden. Deze actie kan niet ongedaan gemaakt worden."</string>
+    <string name="weekends">"In het weekend"</string>
+    <string name="any_weekday">"Maandag tot vrijdag"</string>
+    <string name="any_day">"Elke dag van de week"</string>
+    <string name="select_weekdays">"Selecteer dagen"</string>
+    <string name="export_to_csv">"Exporteer als CSV"</string>
+    <string name="done_label">"Voltooid"</string>
+    <string name="clear_label">"Wis"</string>
+    <string name="select_hours">"Selecteer uren"</string>
+    <string name="select_minutes">"Selecteer minuten"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Creëer goede gewoontes en hou hun voortgang in de loop van de tijd bij (reclamevrij)"</string>
+    <string name="store_description_1">"Loop helpt jou om goede gewoontes te creëren en te onderhouden zodat je jouw lange-termijn doelen kunt behalen. Gedetaileerde grafieken en statistieken laten je zien hoe jouw gewoontes zich verbeteren door te tijd heen. De app is compleet  advertentie-vrij en open source."</string>
+<string name="store_feature_interface">"&lt;b&gt;Een simpele, mooie en modern uiterlijk&lt;/b&gt;
+Loop heeft een minimalistisch uiterlijk, is makkelijk in gebruik en volgt de material design richtlijnen."</string>
+<string name="store_feature_score">"&lt;b&gt;Gewoonte-score&lt;/b&gt;
+Naast het tonen van de huidige reeks heeft Loop een geavanceerd algoritme for het berekenen van de sterkte van je gewoontes. Elke herhaling maken je gewoonte sterker, en elke gemiste dag maakt hem zwakker. Enkele gemiste dagen na een lange reeks zal jouw progressie echter niet geheel ongedaan maken."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Gedetailleerde grafieken en statistieken&lt;/b&gt;
+Zie duidelijk hoe jouw gewoontes verbeteren door te tijd heen met prachtige en gedetailleerde grafieken. Scroll terug om de gehele geschiedenis van jouw gewoontes te zien."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Flexibele planningen&lt;/b&gt;
+Ondersteunt zowel dagelijkse gewoontes als gewoontes met meerdere complexere planningen. Zoals 3 keer per week; 1 keer in de 2 weken; of om de dag."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Herinneringen&lt;/b&gt;
+Creeer een individuele herinnering voor elke gewoonte, op een bepaald uur van de dag. Selecteer, stel uit en snooze jouw gewoontes gemakkelijk vanuit de notificatie zonder de app te openen."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Volledig reclamevrij en open source&lt;/b&gt;
+Er zijn absoluut geen advertenties, vervelende notificaties of indringende machtigingen in deze app, en deze zullen er nooit komen. De volledige broncode is beschikbaar onder de GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Geoptimaliseerd voor smartwatches&lt;/b&gt;
+Herinneringen kunnen worden bekeken, gesnoozed, of uitgesteld direct vanaf jouw Android Wear horloge."</string>
+    <string name="about">"Over"</string>
+    <string name="translators">"Vertalers"</string>
+    <string name="developers">"Ontwikkelaars"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Versie %s"</string>
+    <string name="frequency">"Frequentie"</string>
+    <string name="checkmark">"Vinkje"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Sterkte"</string>
+    <string name="best_streaks">"Beste reeksen"</string>
+    <string name="current_streaks">"Huidige reeks"</string>
+    <string name="number_of_repetitions">"Aantal herhalingen"</string>
+    <string name="last_x_days">"Laatste %d dagen"</string>
+    <string name="last_x_weeks">"Laatste %d weken"</string>
+    <string name="last_x_months">"Laatste %d maanden"</string>
+    <string name="last_x_years">"Laatste %d jaren"</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"Altijd"</string>
+    <string name="every_day">"Iedere dag"</string>
+    <string name="every_week">"Iedere week"</string>
+    <string name="two_times_per_week">"2 keer per week"</string>
+    <string name="five_times_per_week">"5 keer per week"</string>
+    <string name="custom_frequency">"Aangepast"</string>
+    <string name="help">"Hulp en veelgestelde vragen"</string>
+    <string name="could_not_export">"Het exporteren van de data is mislukt."</string>
+    <string name="could_not_import">"Importeren van data mislukt."</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Bestand niet herkend."</string>
+    <string name="habits_imported">"Gewoontes succesvol geïmporteerd."</string>
+    <string name="full_backup_success">"Volledige backup succesvol geëxporteerd."</string>
+    <string name="import_data">"Importeer gegevens"</string>
+    <string name="export_full_backup">"Exporteer volledige backup"</string>
+    <string name="import_data_summary">"Ondersteund volledige backups geexporteerd door deze app. Ondersteund ook bestanden gegenereerd door Tickmate, HabitBull of Rewire. Zie FAQ voor meer informatie"</string>
+    <string name="export_as_csv_summary">"Genereert bestanden die geopend kunnen worden door spreadsheet software zoals Microsoft Excel or OpenOffice Calc. Dit bestand kan niet terug geïmporteerd worden."</string>
+    <string name="export_full_backup_summary">"Genereert een bestand met al uw gegevens. Dit bestand kan ook terug geïmporteerd worden."</string>
+    <string name="bug_report_failed">"Het genereren van het foutenrapport is mislukt."</string>
+    <string name="generate_bug_report">"Genereer foutenrapport"</string>
+    <string name="troubleshooting">"Probleemoplossing"</string>
+    <string name="help_translate">"Help deze app te vertalen"</string>
+    <string name="night_mode">"Nachtmodus"</string>
+    <string name="use_pure_black">"Gebruik puur zwart in nachtmodus"</string>
+    <string name="pure_black_description">"Vervangt grijze achtergronden door puur zwart in nachtmodus. Vermindert batterijgebruik in telefoons met AMOLED scherm."</string>
+    <string name="interface_preferences">"Uiterlijk"</string>
+    <string name="reverse_days">"Omgekeerde volgorde van dagen"</string>
+    <string name="reverse_days_description">"Toon dagen in omgekeerde volgorde op het hoofdscherm"</string>
+    <string name="day">"Dag"</string>
+    <string name="week">"Week"</string>
+    <string name="month">"Maand"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"Kwartaal"</string>
+    <string name="year">"Jaar"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"keer per"</string>
+    <string name="every_x_days">"Iedere %d dagen"</string>
+    <string name="every_x_weeks">"Iedere %d weken"</string>
+    <string name="every_x_months">"Iedere %d maanden"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Score"</string>
+    <string name="reminder_sound">"Herinneringsgeluid"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Stil"</string>
+</resources>

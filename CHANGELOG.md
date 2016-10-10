@@ -1,5 +1,29 @@
 # Changelog
 
+### 1.6.0 (Oct 10, 2016)
+
+* Add option to make notifications sticky
+* Add option to hide completed habits
+* Display total number of repetitions for each habit
+* Pebble integration: check/snooze habits from the watch
+* Tasker/Locale integration: allow third-party apps to add checkmarks
+* Export an unified CSV file, with checkmarks for all the habits
+* Increase width of name column according to screen size
+* Stop showing reminders for archived habits
+* Add Danish, Dutch, Greek, Hindi and Portuguese (PT) translations
+* Other minor fixes and enhancements
+
+### 1.5.6 (Jun 19, 2016)
+
+* Fix bug that prevented checkmark widget from working
+
+### 1.5.5 (Jun 19, 2016)
+
+* Fix bug that prevented check button on notification to work sometimes
+* Fix bug that caused back button to apparently erase some checkmarks
+* Complete French translation
+* Add Croatian and Slovenian translations
+
 ### 1.5.4 (May 29, 2016)
 
 * Fix crash upon opening settings screen in some phones

@@ -27,7 +27,6 @@ import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
@@ -160,19 +159,7 @@ public class ListHabitsController
     public void onRepairDB()
     {
         taskRunner.execute(() -> {
-            for(Habit h : habitList)
-            {
-                h.getCheckmarks().invalidateNewerThan(0);
-                h.getStreaks().invalidateNewerThan(0);
-                h.getScores().invalidateNewerThan(0);
-            }
-
-            if(habitList instanceof SQLiteHabitList)
-            {
-                SQLiteHabitList sqlList = (SQLiteHabitList) habitList;
-                sqlList.rebuildOrder();
-            }
-
+            habitList.repair();
             screen.showMessage(R.string.database_repaired);
         });
     }

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Loop Vane Tracker"</string>
+    <string name="main_activity_title">"Vaner"</string>
+    <string name="action_settings">"Indstillinger"</string>
+    <string name="edit">"Rediger"</string>
+    <string name="delete">"Slet"</string>
+    <string name="archive">"Arkiver"</string>
+    <string name="unarchive">"Fjern fra arkiv"</string>
+    <string name="add_habit">"Tilføj vane"</string>
+    <string name="color_picker_default_title">"Skift farve"</string>
+    <string name="toast_habit_created">"Vanen er skabt."</string>
+    <string name="toast_habit_deleted">"Vanen er slettet."</string>
+    <string name="toast_habit_restored">"Vanen er genskabt."</string>
+    <string name="toast_nothing_to_undo">"Intet at fortryde."</string>
+    <string name="toast_nothing_to_redo">"Intet at gengøre."</string>
+    <string name="toast_habit_changed">"Vanen er ændret"</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Vanen er ændret tilbage."</string>
+    <string name="toast_habit_archived">"Vanerne er arkiveret."</string>
+    <string name="toast_habit_unarchived">"Vanerne er fjernet fra arkivet."</string>
+    <string name="overview">"Overblik"</string>
+    <string name="habit_strength">"Vanestyrke"</string>
+    <string name="history">"Historie"</string>
+    <string name="clear">"Rens"</string>
+    <string name="description_hint">"Spørgsmål (Fik du … i dag)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Gentag"</string>
+    <string name="times_every">"gange på"</string>
+    <string name="days">"dage"</string>
+    <string name="reminder">"Påmindelse"</string>
+    <string name="discard">"Forkast"</string>
+    <string name="save">"Gem"</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"i træk"</string>
+    <string name="no_habits_found">"Du har ingen aktive vaner"</string>
+    <string name="long_press_to_toggle">"Tryk og hold nede for at afkrydse"</string>
+    <string name="reminder_off">"Slukket"</string>
+    <string name="validation_name_should_not_be_blank">"Navn skal udfyldes."</string>
+    <string name="validation_number_should_be_positive">"Tallet skal være positivt."</string>
+    <string name="validation_at_most_one_rep_per_day">"Du kan højst have én gentagelse per dag"</string>
+    <string name="create_habit">"Skab en vane"</string>
+    <string name="edit_habit">"Rediger vane"</string>
+    <string name="check">"Tjek"</string>
+    <string name="snooze">"Senere"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Velkommen"</string>
+    <string name="intro_description_1">"Loop Habit Tracker hjælper dig med at holde gode vaner."</string>
+    <string name="intro_title_2">"Skab nogle nye vaner"</string>
+    <string name="intro_description_2">"Hver dag, efter at have udført din vane, skal du sætte et flueben i app'en."</string>
+    <string name="intro_title_3">"Fortsæt"</string>
+    <string name="intro_description_3">"Vaner fulgt regelmæssigt gennem langtid modtager en stjerne."</string>
+    <string name="intro_title_4">"Følg dine fremskridt"</string>
+    <string name="intro_description_4">"Detaljerede grafer viser dig hvordan dine vaner udvikler sig over tid."</string>
+    <string name="interval_15_minutes">"15 minutter"</string>
+    <string name="interval_30_minutes">"30 minutter"</string>
+    <string name="interval_1_hour">"1 time"</string>
+    <string name="interval_2_hour">"2 timer"</string>
+    <string name="interval_4_hour">"4 timer"</string>
+    <string name="interval_8_hour">"8 timer"</string>
+    <string name="pref_toggle_title">"Vælg gentagelser med kort tryk"</string>
+    <string name="pref_toggle_description">"Mere bekvemmeligt, men kan forårsage uhensigtede tryk."</string>
+    <string name="pref_snooze_interval_title">"Snooze interval på påmindelserne"</string>
+    <string name="pref_rate_this_app">"Bedøm denne app på Google Play"</string>
+    <string name="pref_send_feedback">"Send feedback til udvikleren"</string>
+    <string name="pref_view_source_code">"Se kildekoden på GitHub"</string>
+    <string name="pref_view_app_introduction">"Se app introduktion"</string>
+    <string name="links">"Henvisninger"</string>
+    <string name="behavior">"Opførelse"</string>
+    <string name="name">"Navn"</string>
+    <string name="show_archived">"Vis arkiverede"</string>
+    <string name="settings">"Indstillinger"</string>
+    <string name="snooze_interval">"Snooze interval"</string>
+    <string name="hint_title">"Vidste du?"</string>
+    <string name="hint_drag">"For at omarrangere poster, tryk og hold på navnet på den vane, og træk den til det korrekte sted."</string>
+    <string name="hint_landscape">"Du kan se flere dage ved at sætte telefonen i liggende tilstand."</string>
+    <string name="delete_habits">"Slet vaner"</string>
+    <string name="delete_habits_message">"Vanerne vil blive slettet permanent. Denne handling kan ikke fortrydes."</string>
+    <string name="weekends">"Weekender"</string>
+    <string name="any_weekday">"Mandag til Fredag"</string>
+    <string name="any_day">"En hvilken som helst dag i ugen"</string>
+    <string name="select_weekdays">"Vælg dage"</string>
+    <string name="export_to_csv">"Eksporter som CSV"</string>
+    <string name="done_label">"Færdig"</string>
+    <string name="clear_label">"Fjern"</string>
+    <string name="select_hours">"Vælg timer"</string>
+    <string name="select_minutes">"Vælg minutter"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Opret gode vaner og spore deres fremskridt over tid (reklamefri)"</string>
+    <string name="store_description_1">"Loop hjælper dig med at oprette og vedligeholde gode vaner, så du kan nå dine langsigtede mål. Detaljerede grafer og statistikker viser dig, hvordan dine vaner har forbedret over tid. Det er helt reklamefri og open source."</string>
+<string name="store_feature_interface">"&lt;B&gt; Enkel, smuk og moderne grænseflade &lt;/ b&gt;
+Loop har en minimalistisk brugerflade, der er nem at bruge og følger Google's retningslinjer for materielle design."</string>
+<string name="store_feature_score">"&lt;B&gt; Habit score &lt;/ b&gt;
+Ud over at vise din nuværende stribe, har Loop en avanceret algoritme til at beregne styrken af dine vaner. Hver gentagelse gør din vane stærkere, og hver misset dag gør det svagere. Et par misset dage efter en lang stribe, vil dog ikke helt ødelægge hele din fremgang."</string>
+<string name="store_feature_statistics">"&lt;B&gt; Detaljerede grafer og statistikker &lt;/ b&gt;
+Se, hvordan dine vaner har forbedret over tid med smukke og detaljerede grafer. Rul tilbage for at se den komplette oversigt over dine vaner."</string>
+<string name="store_feature_schedules">"&lt;B&gt; Fleksible skemaer &lt;/ b&gt;
+Understøtter både daglige vaner og vaner med mere komplekse skemaer, såsom 3 gange hver uge; én gang hver anden uge; eller hver anden dag."</string>
+<string name="store_feature_reminders">"&lt;B&gt; Påmindelser &lt;/ b&gt;
+Opret en individuel påmindelse for hver vane, på et valgt tidspunkt af dagen. Nemt kontrollere, afskedige eller udsætte din vane direkte fra notifikationen, uden at åbne applikationen."</string>
+<string name="store_feature_opensource">"&lt;B&gt; Helt reklamefri og open source &lt;/ b&gt;
+Der er absolut ingen reklamer, irriterende meddelelser eller indgribende tilladelser i denne app, og det vil der aldrig være. Den komplette kildekode er tilgængelig under GPLv3."</string>
+<string name="store_feature_wear">"&lt;B&gt; Optimeret til smartwatches &lt;/ b&gt;
+Påmindelser kan kontrolleres, udsæt eller afvise direkte fra din Android Wear ur."</string>
+    <string name="about">"Om"</string>
+    <string name="translators">"Oversættere"</string>
+    <string name="developers">"Udviklere"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Version %s"</string>
+    <string name="frequency">"Hyppighed"</string>
+    <string name="checkmark">"Afkrydsning"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Styrke"</string>
+    <string name="best_streaks">"Bedste striber"</string>
+    <string name="current_streaks">"Aktuel stribe"</string>
+    <string name="number_of_repetitions">"Antal gentagelser"</string>
+    <string name="last_x_days">"Sidste % dage"</string>
+    <string name="last_x_weeks">"Sidste %d uger"</string>
+    <string name="last_x_months">"Sidste %d måneder"</string>
+    <string name="last_x_years">"Sidste %d år"</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"All time"</string>
+    <string name="every_day">"Hver dag"</string>
+    <string name="every_week">"Hver uge"</string>
+    <string name="two_times_per_week">"2 gange om ugen"</string>
+    <string name="five_times_per_week">"5 gange om ugen"</string>
+    <string name="custom_frequency">"Brugerdefinerede"</string>
+    <string name="help">"Hjælp &amp; FAQ"</string>
+    <string name="could_not_export">"Kunne ikke eksportere data"</string>
+    <string name="could_not_import">"Kunne ikke importere data"</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Fil ikke genkendt."</string>
+    <string name="habits_imported">"Vaner importeret."</string>
+    <string name="full_backup_success">"Fuld backup eksporteret."</string>
+    <string name="import_data">"Importer data"</string>
+    <string name="export_full_backup">"Eksporter fuld backup."</string>
+    <string name="import_data_summary">"Understøtter fuld backup eksporteret af denne app, samt filer genereret af Tickmate, HabitBull eller Rewire. Se FAQ for mere information."</string>
+    <string name="export_as_csv_summary">"Opretter filer, der kan åbnes af regneark fra Microsoft Excel eller OpenOffice Calc. Denne fil kan ikke importeres tilbage."</string>
+    <string name="export_full_backup_summary">"Opretter en fil, der indeholder alle dine data. Denne fil kan importeres tilbage."</string>
+    <string name="bug_report_failed">"Kunne ikke generere fejlrapport."</string>
+    <string name="generate_bug_report">"Generer fejlrapport"</string>
+    <string name="troubleshooting">"Fejlfinding"</string>
+    <string name="help_translate">"Hjælpe med at oversætte denne app"</string>
+    <string name="night_mode">"Nat-tilstand"</string>
+    <string name="use_pure_black">"Brug ren sort i nat-tilstand"</string>
+    <string name="pure_black_description">"Erstatter grå baggrunde med ren sort i nat-tilstand. Reducerer batteriforbruget i telefoner med AMOLED skærm."</string>
+    <string name="interface_preferences">"Grænseflade"</string>
+    <string name="reverse_days">"Omvendt rækkefølge af dage"</string>
+    <string name="reverse_days_description">"Vis dag i omvendt rækkefølge på hovedskærmen"</string>
+    <string name="day">"Dag"</string>
+    <string name="week">"Uge"</string>
+    <string name="month">"Måned"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"Kvartal"</string>
+    <string name="year">"År"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"Tid til"</string>
+    <string name="every_x_days">"Hver %d dage"</string>
+    <string name="every_x_weeks">"Hver %d uger"</string>
+    <string name="every_x_months">"Hver %d måneder"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Point"</string>
+    <string name="reminder_sound">"Påmindelse lyd"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Ingen"</string>
+</resources>

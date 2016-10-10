@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Loop - Καταγραφή Συνηθειών"</string>
+    <string name="main_activity_title">"Συνήθειες"</string>
+    <string name="action_settings">"Ρυθμίσεις"</string>
+    <string name="edit">"Επεξεργασία"</string>
+    <string name="delete">"Διαγραφή"</string>
+    <string name="archive">"Αρχειοθέτηση"</string>
+    <string name="unarchive">"Κατάργηση αρχειοθέτησης"</string>
+    <string name="add_habit">"Νέα συνήθεια"</string>
+    <string name="color_picker_default_title">"Αλλαγή χρώματος"</string>
+    <string name="toast_habit_created">"Δημιουργήθηκε συνήθεια."</string>
+    <string name="toast_habit_deleted">"Συνήθεια διαγράφτηκε."</string>
+    <string name="toast_habit_restored">"Η συνήθεια επαναφέρθηκε."</string>
+    <string name="toast_nothing_to_undo">"Τίποτα για αναίρεση"</string>
+    <string name="toast_nothing_to_redo">"Τίποτα προς επανάληψη."</string>
+    <string name="toast_habit_changed">"Η συνήθεια άλλαξε"</string>
+
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Δεν έγινε αλλαγή."</string>
+    <string name="toast_habit_archived">"Η συνήθεια αρχειοθετήθηκε."</string>
+    <string name="toast_habit_unarchived">"Έγινε αφαίρεση αρχειοθέτησης."</string>
+    <string name="overview">"Επισκόπηση"</string>
+    <string name="habit_strength">"Δύναμη συνήθειας"</string>
+    <string name="history">"Ιστορικό"</string>
+    <string name="clear">"Εκκαθάριση"</string>
+    <string name="description_hint">"Ερώτηση (Κάνατε...σήμερα;)"</string>
+
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Επανέλαβε"</string>
+    <string name="times_every">"φορές την"</string>
+    <string name="days">"ημέρες"</string>
+    <string name="reminder">"Υπενθύμιση"</string>
+    <string name="discard">"Απόρριψη"</string>
+    <string name="save">"Αποθήκευση"</string>
+
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Σερί"</string>
+    <string name="no_habits_found">"Δεν έχετε ενεργές συνήθειες"</string>
+    <string name="long_press_to_toggle">"Πατήστε παρατεταμένα για επιλογή η αποεπιλογή"</string>
+    <string name="reminder_off">"Χωρίς"</string>
+    <string name="validation_name_should_not_be_blank">"Το όνομα δεν μπορεί να είναι κενό"</string>
+    <string name="validation_number_should_be_positive">"Πρεπει να είναι θετικό"</string>
+    <string name="validation_at_most_one_rep_per_day">"Μπορείτε να κάνετε μονάχα μία επανάληψη ανά ημέρα"</string>
+    <string name="create_habit">"Δημιουργία συνήθειας"</string>
+    <string name="edit_habit">"Επεξεργασία συνήθειας"</string>
+    <string name="check">"Επιλογή"</string>
+    <string name="snooze">"Αργότερα"</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">"Καλώς ορίσατε"</string>
+    <string name="intro_description_1">"Το Loop - Καταγραφή Συνηθειών σας βοηθάει να δημιουργήσετε και να διατηρήσετε καλές συνήθειες."</string>
+    <string name="intro_title_2">"Δημιουργήστε μερικές νέες συνήθειες"</string>
+    <string name="intro_description_2">"Κάθε μέρα, με το πέρας της συνήθειας, βάλτε ένα τικ στην εφαρμογή."</string>
+    <string name="intro_title_3">"Συνεχίστε να το κάνετε"</string>
+    <string name="intro_description_3">"Συνήθειες που εκτελούνται με συνέπεια για πολύ καιρό"</string>
+    <string name="intro_title_4">"Κατέγραψε την πρόοδο σου"</string>
+    <string name="intro_description_4">"Λεπτομερή διαγράμματα σας δείχνουν την πρόοδο των συνηθειών."</string>
+    <string name="interval_15_minutes">"15 λεπτά"</string>
+    <string name="interval_30_minutes">"30 λεπτά"</string>
+    <string name="interval_1_hour">"1 ώρα"</string>
+    <string name="interval_2_hour">"2 ώρες"</string>
+    <string name="interval_4_hour">"4 ώρες"</string>
+    <string name="interval_8_hour">"8 ώρες"</string>
+    <string name="pref_toggle_title">"Κάντε εναλλαγή των επαναλήψεων με σύντομο πάτημα"</string>
+    <string name="pref_toggle_description">"Βολικότερο, αλλά ίσως προκαλέσει ακούσιες εναλλαγές."</string>
+    <string name="pref_snooze_interval_title">"Διάστημα αναβολής υπενθυμίσεων"</string>
+    <string name="pref_rate_this_app">"Βαθμολογήστε αυτή την εφαρμογή στο Google Play"</string>
+    <string name="pref_send_feedback">"Στείλετε σχόλια"</string>
+    <string name="pref_view_source_code">"Δείτε τον πηγαίο κώδικα στο GitHub"</string>
+    <string name="pref_view_app_introduction">"Δείτε την εισαγωγή"</string>
+    <string name="links">"Σύνδεσμοι"</string>
+    <string name="behavior">"Συμπεριφορά"</string>
+    <string name="name">"Όνομα"</string>
+    <string name="show_archived">"Αρχειοθετημένα"</string>
+    <string name="settings">"Ρυθμίσεις"</string>
+    <string name="snooze_interval">"Διάστημα αναβολής"</string>
+    <string name="hint_title">"Γνωρίζατε;"</string>
+    <string name="hint_drag">"Αναδιατάξετε τις συνήθειες πατώντας παρατεταμένα στο όνομα και σύροντας στην σωστή θέση."</string>
+    <string name="hint_landscape">"Μπορείτε να δείτε περισσότερες ημέρες στην οριζόντια προβολή."</string>
+    <string name="delete_habits">"Διαγραφή συνηθειών"</string>
+    <string name="delete_habits_message">"Οι συνήθειες θα διαγραφτούν οριστικά. Αυτό δεν μπορεί να αναιρεθεί."</string>
+    <string name="weekends">"Σαββατοκύριακα"</string>
+    <string name="any_weekday">"Δευτέρα μέχρι Παρασκευή"</string>
+    <string name="any_day">"Οποιαδήποτε μέρα της εβδομάδας"</string>
+    <string name="select_weekdays">"Επιλογή ημερών"</string>
+    <string name="export_to_csv">"Εξαγωγή σαν CSV"</string>
+    <string name="done_label">"Έγινε"</string>
+    <string name="clear_label">"Εκκαθάριση"</string>
+    <string name="select_hours">"Επιλογή ωρών"</string>
+    <string name="select_minutes">"Επιλογή λεπτών"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Δημιουργήστε καλές συνήθειες και δείτε την πρόοδο τους(ad-free)"</string>
+    <string name="store_description_1">"Το Loop συμβάλλει στην δημιουργία και διατήρηση καλών συνηθειών, επιτρέποντας την επίτευξη των στόχων σας. Λεπτομερή διαγράμματα και στατιστικά για την πρόοδο των συνηθειών σας. Χωρίς διαφημίσεις, ανοικτού κώδικα."</string>
+<string name="store_feature_interface">"&lt;b&gt;Απλή, κομψή και μοντέρνα διεπαφή χρήστη&lt;/b&gt;
+Το Loop έχει μια μινιμαλιστική διεπαφή χρήστη που το καθιστά εύκολο στην χρήση ενώ ακολουθεί τις κατευθυντήριες γραμμές του ματεριαλιστικού σχεδιασμού."</string>
+<string name="store_feature_score">"&lt;b&gt;Σκόρ συνήθειας&lt;b&gt;
+Εκτώς της προβολής του τρέχοντος σερί, το Loop χρησιμοποιεί έναν προηγμένο αλγόριθμο για τον υπολογισμό της δύναμης των συνηθειών σας. Κάθε επανάληψη κάνει την συνήθεια δυνατότερη ενώ κάθε παράλειψη ασθενέστερη. Ωστόσο μερικές χαμένες μέρες μετά από ένα μεγάλο σερί δεν θα καταστρέψουν την συνολική σας πρόοδο."</string>
+<string name="store_feature_statistics">"&lt;b&gt;Λεπτομερή διαγράμματα και στατιστικά&lt;/b&gt;
+Δείτε καθαρά την πρόοδο των συνηθειών σας σε βάθος χρόνου με όμορφα και λεπτομερή διαγράμματα. Ανατρέξτε στο πλήρες ιστορικό των συνηθειών σας."</string>
+<string name="store_feature_schedules">"&lt;b&gt;Ευέλικτα προγράμματα&lt;/b&gt;
+Υποστηρίζει εξίσου καθημερινές συνήθειες και συνήθειες με περίπλοκα προγράμματα, όπως 3 φορές κάθε εβδομάδα, μια φορά κάθε δεύτερη εβδομάδα ή ημέρα."</string>
+<string name="store_feature_reminders">"&lt;b&gt;Υπενθυμίσεις&lt;/b&gt;
+Δημιουργήστε μία εξατομικευμένη υπενθύμιση για την κάθε συνήθεια, σε μια επιλεγμένη ώρα της ημέρας. Τσεκάρετε, απορρίψτε ή αναβάλλετε εύκολα την συνήθεια απευθείας από την υπενθύμιση χωρίς να ανοίξετε την εφαρμογή."</string>
+<string name="store_feature_opensource">"&lt;b&gt;Χωρίς διαφημίσεις και ανοικτού κώδικα&lt;/b&gt;
+Χωρίς καθόλου διαφημίσεις, ενοχλητικές ειδοποιήσεις ή παρεμβατικές άδειες για την εφαρμογή και δεν θα υπάρξουν ποτέ. Το σύνολο του κώδικα είναι διαθέσιμο υπό το GPLv3."</string>
+<string name="store_feature_wear">"&lt;b&gt;Κατασκευασμένο για smartwatch&lt;/b&gt;
+Οι υπενθυμίσεις μπορούν να επιλεχθούν, να αναβληθούν ή να απορριφθούν απευθείας από το Android Wear ρολόι σας."</string>
+    <string name="about">"Σχετικά με"</string>
+    <string name="translators">"Μεταφραστές"</string>
+    <string name="developers">"Προγραμματιστές"</string>
+
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Έκδοση %s"</string>
+    <string name="frequency">"Συχνότητα"</string>
+    <string name="checkmark">"Σημάδι επιλογής"</string>
+
+    <!-- This is a shorter version of "Habit Strength" -->
+    <string name="strength">"Δύναμη"</string>
+    <string name="best_streaks">"Καλύτερα σερί"</string>
+    <string name="current_streaks">"Τρέχον σερί"</string>
+    <string name="number_of_repetitions">"Αριθμός επαναλήψεων"</string>
+    <string name="last_x_days">"Τελευταίες %d ημέρες"</string>
+    <string name="last_x_weeks">"Τελευταίες %d εβδομάδες"</string>
+    <string name="last_x_months">"Τελευταίους %d μήνες"</string>
+    <string name="last_x_years">"Τελευταία %d χρόνια"</string>
+
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"Όλα"</string>
+    <string name="every_day">"Κάθε μέρα"</string>
+    <string name="every_week">"Κάθε εβδομάδα"</string>
+    <string name="two_times_per_week">"2 φορές την εβδομάδα"</string>
+    <string name="five_times_per_week">"5 φορές την εβδομάδα"</string>
+    <string name="custom_frequency">"Προσαρμογή"</string>
+    <string name="help">"Βοήθεια &amp; FAQ"</string>
+    <string name="could_not_export">"Αποτυχία εξαγωγής."</string>
+    <string name="could_not_import">"Αποτυχία εισαγωγής."</string>
+
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Άγνωστο αρχείο."</string>
+    <string name="habits_imported">"Οι συνήθειες εισάχθηκαν επιτυχώς."</string>
+    <string name="full_backup_success">"Το πλήρες αντίγραφο εξάχθηκε επιτυχώς."</string>
+    <string name="import_data">"Εισαγωγή δεδομένων"</string>
+    <string name="export_full_backup">"Εξαγωγή πλήρους αντιγ. ασφαλείας"</string>
+    <string name="import_data_summary">"Υποστηρίζει πλήρως αντίγραφα ασφαλείας που έχουν εξαχθεί από την ίδια την εφαρμογή καθώς και από τα Tickmate, HabitBull και Rewire. Δείτε τις FAQ για περισσότερες πληροφορίες."</string>
+    <string name="export_as_csv_summary">"Παράγει αρχεία τα οποία μπορούν να ανοιχτούν από προγράμματα υπολογιστικών φύλλων όπως το Microsoft Edge ή το OpenOffice Calc. Δεν γίνεται επανεισαγωγή του αρχείου."</string>
+    <string name="export_full_backup_summary">"Παράγει ένα αρχείο το οποίο περιέχει όλα τα δεδομένα σας. Είναι δυνατή η επανεισαγωγή του αρχείου."</string>
+    <string name="bug_report_failed">"Απέτυχε ή παραγωγή αναφοράς bug."</string>
+    <string name="generate_bug_report">"Παραγωγή αναφοράς bug."</string>
+    <string name="troubleshooting">"Αντιμετ.Προβλημάτων"</string>
+    <string name="help_translate">"Βοηθήστε στην μετάφραση"</string>
+    <string name="night_mode">"Νυχτ.Λειτ."</string>
+    <string name="use_pure_black">"Χρήση απόλυτου μαύρου στη νυχτ.λειτουργία"</string>
+    <string name="pure_black_description">"Αντικαθιστά τα γκρί υπόβαθρα με απόλυτα μαύρα σε νυχτ.λειτουργία. Μειώνει την κατανάλωση μπαταρίας σε συσκευές με οθόνη AMOLED."</string>
+    <string name="interface_preferences">"Διεπιφάνεια"</string>
+    <string name="reverse_days">"Αναστροφή σειράς των ημερών."</string>
+    <string name="reverse_days_description">"Προβολή των ημερών σε αντίστροφη σειρά στην κυρία οθόνη."</string>
+    <string name="day">"Ημέρα"</string>
+    <string name="week">"Εβδομάδα"</string>
+    <string name="month">"Μήνας"</string>
+
+    <!-- Three-month period -->
+    <string name="quarter">"Τρίμηνο"</string>
+    <string name="year">"Χρόνος"</string>
+
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"φορά σε"</string>
+    <string name="every_x_days">"Κάθε %d ημέρες"</string>
+    <string name="every_x_weeks">"Κάθε %d εβδομάδες"</string>
+    <string name="every_x_months">"Κάθε %d μήνες"</string>
+
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Σκόρ"</string>
+    <string name="reminder_sound">"Ήχος υπενθύμισης"</string>
+
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Σιωπηλό"</string>
+</resources>
