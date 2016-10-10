@@ -282,4 +282,11 @@ public class SQLiteHabitList extends HabitList
         appendOrderBy(query);
         return query.toString();
     }
+
+    @Override
+    public void repair()
+    {
+        super.repair();
+        rebuildOrder();
+    }
 }

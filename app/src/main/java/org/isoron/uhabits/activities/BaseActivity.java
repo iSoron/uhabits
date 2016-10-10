@@ -27,6 +27,8 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.models.sqlite.*;
 
 import static android.R.anim.*;
 
@@ -123,6 +125,14 @@ abstract public class BaseActivity extends AppCompatActivity
         catch (Exception e)
         {
             // ignored
+        }
+
+        if (ex.getCause() instanceof InconsistentDatabaseException)
+        {
+            HabitsApplication app = (HabitsApplication) getApplication();
+            HabitList habits = app.getComponent().getHabitList();
+            habits.repair();
+            System.exit(0);
         }
 
         if (androidExceptionHandler != null)

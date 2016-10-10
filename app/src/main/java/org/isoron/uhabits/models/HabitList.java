@@ -147,6 +147,16 @@ public abstract class HabitList implements Iterable<Habit>
      */
     public abstract void reorder(Habit from, Habit to);
 
+    public void repair()
+    {
+        for(Habit h : this)
+        {
+            h.getCheckmarks().invalidateNewerThan(0);
+            h.getStreaks().invalidateNewerThan(0);
+            h.getScores().invalidateNewerThan(0);
+        }
+    }
+
     /**
      * Returns the number of habits in this list.
      *
