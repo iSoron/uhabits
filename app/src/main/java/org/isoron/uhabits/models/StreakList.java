@@ -19,99 +19,122 @@
 
 package org.isoron.uhabits.models;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Cache;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
+import org.isoron.uhabits.utils.*;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.helpers.UIHelper;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-public class StreakList
+/**
+ * The collection of {@link Streak}s that belong to a habit.
+ * <p>
+ * This list is populated automatically from the list of repetitions.
+ */
+public abstract class StreakList
 {
-    private Habit habit;
+    protected final Habit habit;
 
-    public StreakList(Habit habit)
+    protected ModelObservable observable;
+
+    protected StreakList(Habit habit)
     {
         this.habit = habit;
+        observable = new ModelObservable();
     }
 
-    public List<Streak> getAll(int limit)
+    public abstract List<Streak> getAll();
+
+    @NonNull
+    public List<Streak> getBest(int limit)
     {
-        rebuild();
+        List<Streak> streaks = getAll();
+        Collections.sort(streaks, (s1, s2) -> s2.compareLonger(s1));
+        streaks = streaks.subList(0, Math.min(streaks.size(), limit));
+        Collections.sort(streaks, (s1, s2) -> s2.compareNewer(s1));
+        return streaks;
+    }
 
-        String query = "select * from (select * from streak where habit=? " +
-                "order by end <> ?, length desc, end desc limit ?) order by end desc";
+    @Nullable
+    public abstract Streak getNewestComputed();
 
-        String params[] = {habit.getId().toString(), Long.toString(DateHelper.getStartOfToday()),
-                Integer.toString(limit)};
+    @NonNull
+    public ModelObservable getObservable()
+    {
+        return observable;
+    }
 
-        SQLiteDatabase db = Cache.openDatabase();
-        Cursor cursor = db.rawQuery(query, params);
+    public abstract void invalidateNewerThan(long timestamp);
 
-        if(!cursor.moveToFirst())
-        {
-            cursor.close();
-            return new LinkedList<>();
-        }
+    public synchronized void rebuild()
+    {
+        long today = DateUtils.getStartOfToday();
+
+        Long beginning = findBeginning();
+        if (beginning == null || beginning > today) return;
+
+        int checks[] = habit.getCheckmarks().getValues(beginning, today);
+        List<Streak> streaks = checkmarksToStreaks(beginning, checks);
+
+        removeNewestComputed();
+        add(streaks);
+    }
+
+    /**
+     * Converts a list of checkmark values to a list of streaks.
+     *
+     * @param beginning the timestamp corresponding to the first checkmark
+     *                  value.
+     * @param checks    the checkmarks values, ordered by decreasing timestamp.
+     * @return the list of streaks.
+     */
+    @NonNull
+    protected List<Streak> checkmarksToStreaks(long beginning, int[] checks)
+    {
+        ArrayList<Long> transitions = getTransitions(beginning, checks);
 
         List<Streak> streaks = new LinkedList<>();
-
-        do
+        for (int i = 0; i < transitions.size(); i += 2)
         {
-            Streak s =  Streak.load(Streak.class, cursor.getInt(0));
-            streaks.add(s);
+            long start = transitions.get(i);
+            long end = transitions.get(i + 1);
+            streaks.add(new Streak(start, end));
         }
-        while (cursor.moveToNext());
 
-        cursor.close();
         return streaks;
-
     }
 
-    public Streak getNewest()
+    /**
+     * Finds the place where we should start when recomputing the streaks.
+     *
+     * @return
+     */
+    @Nullable
+    protected Long findBeginning()
     {
-        return new Select().from(Streak.class)
-                .where("habit = ?", habit.getId())
-                .orderBy("end desc")
-                .limit(1)
-                .executeSingle();
+        Streak newestStreak = getNewestComputed();
+        if (newestStreak != null) return newestStreak.getStart();
+
+        Repetition oldestRep = habit.getRepetitions().getOldest();
+        if (oldestRep != null) return oldestRep.getTimestamp();
+
+        return null;
     }
 
-    public void rebuild()
+    /**
+     * Returns the timestamps where there was a transition from performing a
+     * habit to not performing a habit, and vice-versa.
+     *
+     * @param beginning the timestamp for the first checkmark
+     * @param checks    the checkmarks, ordered by decresing timestamp
+     * @return the list of transitions
+     */
+    @NonNull
+    protected ArrayList<Long> getTransitions(long beginning, int[] checks)
     {
-        UIHelper.throwIfMainThread();
-
-        long beginning;
-        long today = DateHelper.getStartOfToday();
-        long day = DateHelper.millisecondsInOneDay;
-
-        Streak newestStreak = getNewest();
-        if (newestStreak != null)
-        {
-            beginning = newestStreak.start;
-        }
-        else
-        {
-            Repetition oldestRep = habit.repetitions.getOldest();
-            if (oldestRep == null) return;
-
-            beginning = oldestRep.timestamp;
-        }
-
-        if (beginning > today) return;
-
-        int checks[] = habit.checkmarks.getValues(beginning, today);
-        ArrayList<Long> list = new ArrayList<>();
-
+        long day = DateUtils.millisecondsInOneDay;
         long current = beginning;
+
+        ArrayList<Long> list = new ArrayList<>();
         list.add(current);
 
         for (int i = 1; i < checks.length; i++)
@@ -125,36 +148,10 @@ public class StreakList
 
         if (list.size() % 2 == 1) list.add(current);
 
-        ActiveAndroid.beginTransaction();
-
-        if(newestStreak != null) newestStreak.delete();
-
-        try
-        {
-            for (int i = 0; i < list.size(); i += 2)
-            {
-                Streak streak = new Streak();
-                streak.habit = habit;
-                streak.start = list.get(i);
-                streak.end = list.get(i + 1);
-                streak.length = (streak.end - streak.start) / day + 1;
-                streak.save();
-            }
-
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
-        }
+        return list;
     }
 
+    protected abstract void add(@NonNull List<Streak> streaks);
 
-    public void deleteNewerThan(long timestamp)
-    {
-        new Delete().from(Streak.class)
-                .where("habit = ?", habit.getId())
-                .and("end >= ?", timestamp - DateHelper.millisecondsInOneDay)
-                .execute();
-    }
+    protected abstract void removeNewestComputed();
 }

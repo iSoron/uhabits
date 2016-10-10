@@ -1,10 +1,13 @@
 # Loop Habit Tracker
+
 <a href="https://circleci.com/gh/iSoron/uhabits/tree/dev">
   <img src="https://img.shields.io/circleci/project/iSoron/uhabits/dev.svg">
 </a>
+<!--
 <a href="https://codecov.io/github/iSoron/uhabits?branch=dev">
   <img src="https://img.shields.io/codecov/c/github/iSoron/uhabits.svg" alt="Coverage via Codecov" />
 </a>
+-->
 
 Loop is a simple Android app that helps you create and maintain good habits,
 allowing you to achieve your long-term goals. Detailed graphs and statistics
@@ -15,6 +18,15 @@ source.
 <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
 <a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Git if on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
 </p>
+
+## Screenshots
+
+[![Main screen][screen1th]][screen1]
+[![Edit habit][screen2th]][screen2]
+[![Habit strength][screen3th]][screen3]
+[![Habit history and streaks][screen4th]][screen4]
+[![Widgets][screen5th]][screen5]
+[![Night mode][screen6th]][screen6]
 
 ## Features
 
@@ -47,21 +59,12 @@ source.
   and there will never be. The complete source code is available under the
   GPLv3.
 
-## Screenshots
-
-[![Main screen][screen1th]][screen1]
-[![Edit habit][screen2th]][screen2]
-[![Habit strength][screen3th]][screen3]
-[![Habit history and streaks][screen4th]][screen4]
-[![Widgets][screen5th]][screen5]
-[![Night mode][screen6th]][screen6]
-
 ## Installing
 
 The easiest way to install Loop is through the [Google Play Store][playstore] or [F-Droid][fdroid].
 You may also download and install the APK from the [releases page][releases];
 note, however, that the app will not be updated automatically.  To build this
-app from the source code, see [building instructions][build].
+app from the source code, see [build instructions][build].
 
 ## Contributing
 
@@ -89,18 +92,22 @@ contribute, even if you are not a software developer.
 
 ## License
 
-    This program is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by the Free
-    Software Foundation, either version 3 of the License, or (at your option)
-    any later version.
+<img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
-    This program is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details.
+	Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
 
-    You should have received a copy of the GNU General Public License along
-    with this program.  If not, see <http://www.gnu.org/licenses/>.
+	Loop Habit Tracker is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by the
+	Free Software Foundation, either version 3 of the License, or (at your
+	option) any later version.
+
+	Loop Habit Tracker is distributed in the hope that it will be useful, but
+	WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+	or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+	more details.
+
+	You should have received a copy of the GNU General Public License along
+	with this program. If not, see <http://www.gnu.org/licenses/>.
 
 [screen1]: screenshots/original/uhabits1.png
 [screen2]: screenshots/original/uhabits2.png

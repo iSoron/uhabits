@@ -19,42 +19,53 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.util.List;
+import java.util.*;
 
+/**
+ * Command to delete a list of habits.
+ */
 public class DeleteHabitsCommand extends Command
 {
+    HabitList habitList;
+
     private List<Habit> habits;
 
-    public DeleteHabitsCommand(List<Habit> habits)
+    public DeleteHabitsCommand(HabitList habitList, List<Habit> habits)
     {
         this.habits = habits;
+        this.habitList = habitList;
     }
 
     @Override
     public void execute()
     {
-        for(Habit h : habits)
-            h.cascadeDelete();
+        for (Habit h : habits)
+            habitList.remove(h);
+    }
 
-        Habit.rebuildOrder();
+    @Override
+    public Integer getExecuteStringId()
+    {
+        return R.string.toast_habit_deleted;
+    }
+
+    public List<Habit> getHabits()
+    {
+        return new LinkedList<>(habits);
+    }
+
+    @Override
+    public Integer getUndoStringId()
+    {
+        return R.string.toast_habit_restored;
     }
 
     @Override
     public void undo()
     {
         throw new UnsupportedOperationException();
-    }
-
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_deleted;
-    }
-
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_restored;
     }
 }

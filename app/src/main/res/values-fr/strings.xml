@@ -1,106 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"Loop - Suivi d'habitudes"</string>
-<string name="main_activity_title">"Habitudes"</string>
-<string name="action_settings">"Paramètres"</string>
-<string name="edit">"Modifier"</string>
-<string name="delete">"Supprimer"</string>
-<string name="archive">"Archiver"</string>
-<string name="unarchive">"Désarchiver"</string>
-<string name="add_habit">"Ajouter une habitude"</string>
-<string name="color_picker_default_title">"Changer la couleur"</string>
-<string name="toast_habit_created">"Habitude créée."</string>
-<string name="toast_habit_deleted">"Habitude supprimée."</string>
-<string name="toast_habit_restored">"Habitude rétablie."</string>
-<string name="toast_nothing_to_undo">"Rien à annuler."</string>
-<string name="toast_nothing_to_redo">"Rien à refaire."</string>
-<string name="toast_habit_changed">"Habitude changée."</string>
 
-<!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
-<string name="toast_habit_changed_back">"Habitude restaurée."</string>
-<string name="toast_habit_archived">"Habitudes archivées."</string>
-<string name="toast_habit_unarchived">"Habitudes désarchivées."</string>
-<string name="overview">"Vue d'ensemble"</string>
-<string name="habit_strength">"Force de l'habitude"</string>
-<string name="history">"Historique"</string>
-<string name="clear">"Supprimer"</string>
-<string name="description_hint">"Question (As-tu ... aujourd'hui?)"</string>
+    <!-- Fuzzy -->
+    <string name="app_name">"Loop - Suivi d'habitudes"</string>
 
-<!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
-<string name="repeat">"Répéter"</string>
-<string name="times_every">"fois en"</string>
-<string name="days">"jours"</string>
-<string name="reminder">"Rappel"</string>
-<string name="discard">"Annuler"</string>
-<string name="save">"Sauvegarder"</string>
+    <!-- Fuzzy -->
+    <string name="main_activity_title">"Habitudes"</string>
 
-<!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
-<string name="streaks">"Séries"</string>
-<string name="no_habits_found">"Vous n'avez pas d'habitudes actives"</string>
-<string name="long_press_to_toggle">"Appuyez longtemps pour cocher ou décocher"</string>
-<string name="reminder_off">"Off"</string>
-<string name="validation_name_should_not_be_blank">"Le nom ne peut être vide."</string>
-<string name="validation_number_should_be_positive">"Le nombre doit être positif."</string>
-<string name="validation_at_most_one_rep_per_day">"Vous pouvez avoir au plus une répétition par jour"</string>
-<string name="create_habit">"Créer une habitude"</string>
-<string name="edit_habit">"Modifier l'habitude"</string>
-<string name="check">"Cocher"</string>
-<string name="snooze">"Plus tard"</string>
+    <!-- Fuzzy -->
+    <string name="action_settings">"Paramètres"</string>
 
-<!-- App introduction -->
-<string name="intro_title_1">"Bienvenue"</string>
-<string name="intro_description_1">"Loop - Suivi d'habitudes vous aide à créer et maintenir de bonnes habitudes."</string>
-<string name="intro_title_2">"Créez de nouvelles habitudes"</string>
-<string name="intro_description_2">"Chaque jour, après avoir réalisé votre habitude, cochez-la sur l'application."</string>
-<string name="intro_title_3">"Continuez à le faire"</string>
-<string name="intro_description_3">"Les habitudes régulières pendant une période de temps étendue gagneront une étoile complète."</string>
-<string name="intro_title_4">"Suivez votre progrès"</string>
-<string name="intro_description_4">"Des graphiques détaillés vous montrent comment vos habitudes évoluent au fil du temps."</string>
-<string name="interval_15_minutes">"15 minutes"</string>
-<string name="interval_30_minutes">"30 minutes"</string>
-<string name="interval_1_hour">"1 heure"</string>
-<string name="interval_2_hour">"2 heures"</string>
-<string name="interval_4_hour">"4 heures"</string>
-<string name="interval_8_hour">"8 heures"</string>
-<string name="pref_toggle_title">"Activer les répétitions avec un appui court"</string>
-<string name="pref_toggle_description">"Plus pratique, mais peut causer des activations accidentelles."</string>
+    <!-- Fuzzy -->
+    <string name="edit">"Modifier"</string>
+    <string name="delete">"Supprimer"</string>
+    <string name="archive">"Archiver"</string>
+    <string name="unarchive">"Désarchiver"</string>
+    <string name="add_habit">"Ajouter une habitude"</string>
+    <string name="color_picker_default_title">"Changer la couleur"</string>
+    <string name="toast_habit_created">"Habitude créée."</string>
+    <string name="toast_habit_deleted">"Habitude supprimée."</string>
+    <string name="toast_habit_restored">"Habitude rétablie."</string>
+    <string name="toast_nothing_to_undo">"Rien à annuler."</string>
+    <string name="toast_nothing_to_redo">"Rien à refaire."</string>
+    <string name="toast_habit_changed">"Habitude changée."</string>
 
-<!-- Je pense qu'en français, on parle plutôt d'intervalle de report/temporisation des répétitions/rappels. -->
-<string name="pref_snooze_interval_title">"Intervalle de report des rappels"</string>
-<string name="pref_rate_this_app">"Notez cette app sur le Google Play Store"</string>
-<string name="pref_send_feedback">"Envoyez un avis au développeur"</string>
-<string name="pref_view_source_code">"Voir le code source sur GitHub"</string>
-<string name="pref_view_app_introduction">"Voir l'intro de l'app"</string>
-<string name="links">"Liens"</string>
-<string name="behavior">"Comportement"</string>
-<string name="name">"Nom"</string>
-<string name="show_archived">"Montrer les archives"</string>
-<string name="settings">"Paramètres"</string>
-<string name="snooze_interval">"Intervalle de report"</string>
-<string name="hint_title">"Le saviez-vous ?"</string>
-<string name="hint_drag">"Pour réarranger les habitudes, faites un appui long sur le nom de l'habitude et placez la à la bonne place."</string>
-<string name="hint_landscape">"Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage."</string>
-<string name="delete_habits">"Supprimer des habitudes"</string>
-<string name="delete_habits_message">"Les habitudes seront supprimées définitivement. Cette action ne peut être annulée."</string>
-<string name="weekends">"Fin de semaine"</string>
+    <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
+    <string name="toast_habit_changed_back">"Habitude restaurée."</string>
+    <string name="toast_habit_archived">"Habitudes archivées."</string>
+    <string name="toast_habit_unarchived">"Habitudes désarchivées."</string>
+    <string name="overview">"Vue d'ensemble"</string>
+    <string name="habit_strength">"Force de l'habitude"</string>
+    <string name="history">"Historique"</string>
+    <string name="clear">"Supprimer"</string>
+    <string name="description_hint">"Question (As-tu ... aujourd'hui?)"</string>
 
-<!-- Fuzzy -->
-<string name="any_weekday">"Jours de la semaine"</string>
+    <!-- This and the next two terms form the sentence "Repeat 3 times in 7 days" that you see when you create a habit. Let me know if you have trouble adapting this into your language. -->
+    <string name="repeat">"Répéter"</string>
+    <string name="times_every">"fois en"</string>
+    <string name="days">"jours"</string>
+    <string name="reminder">"Rappel"</string>
+    <string name="discard">"Annuler"</string>
+    <string name="save">"Sauvegarder"</string>
 
-<!-- Fuzzy -->
-<string name="any_day">"N'importe quel jour"</string>
-<string name="select_weekdays">"Sélectionner des jours"</string>
+    <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
+    <string name="streaks">"Séries"</string>
+    <string name="no_habits_found">"Vous n'avez pas d'habitudes actives"</string>
+    <string name="long_press_to_toggle">"Appuyez longtemps pour cocher ou décocher"</string>
+    <string name="reminder_off">"Off"</string>
+    <string name="validation_name_should_not_be_blank">"Le nom ne peut être vide."</string>
+    <string name="validation_number_should_be_positive">"Le nombre doit être positif."</string>
+    <string name="validation_at_most_one_rep_per_day">"Vous pouvez avoir au plus une répétition par jour"</string>
+    <string name="create_habit">"Créer une habitude"</string>
+    <string name="edit_habit">"Modifier l'habitude"</string>
+    <string name="check">"Cocher"</string>
+    <string name="snooze">"Plus tard"</string>
 
-<!-- Fuzzy -->
-<string name="export_to_csv">"Exporter les données dans un fichier CSV"</string>
-<string name="done_label">"Fait"</string>
-<string name="clear_label">"Supprimer"</string>
-<string name="select_hours">"Sélectionner les heures"</string>
-<string name="select_minutes">"Sélectionner les minutes"</string>
+    <!-- App introduction -->
+    <string name="intro_title_1">"Bienvenue"</string>
+    <string name="intro_description_1">"Loop - Suivi d'habitudes vous aide à créer et maintenir de bonnes habitudes."</string>
+    <string name="intro_title_2">"Créez de nouvelles habitudes"</string>
+    <string name="intro_description_2">"Chaque jour, après avoir réalisé votre habitude, cochez-la sur l'application."</string>
+    <string name="intro_title_3">"Continuez à le faire"</string>
+    <string name="intro_description_3">"Les habitudes régulières pendant une période de temps étendue gagneront une étoile complète."</string>
+    <string name="intro_title_4">"Suivez votre progrès"</string>
+    <string name="intro_description_4">"Des graphiques détaillés vous montrent comment vos habitudes évoluent au fil du temps."</string>
+    <string name="interval_15_minutes">"15 minutes"</string>
+    <string name="interval_30_minutes">"30 minutes"</string>
+    <string name="interval_1_hour">"1 heure"</string>
+    <string name="interval_2_hour">"2 heures"</string>
+    <string name="interval_4_hour">"4 heures"</string>
+    <string name="interval_8_hour">"8 heures"</string>
+    <string name="pref_toggle_title">"Activer les répétitions avec un appui court"</string>
+    <string name="pref_toggle_description">"Plus pratique, mais peut causer des activations accidentelles."</string>
 
-<!-- Short description used on the Google Play store. There is an 80-character limit. -->
-<string name="store_short_description">"Créez de bonnes habitudes et suivez leur progrès au fil du temps (sans pub)"</string>
-<string name="store_description_1">"Loop vous aide à créer et maintenir de bonnes habitudes, permettant de réussir vos objectifs à long terme. Des graphiques détaillés et des statistiques vous montrent comment vos habitudes s’améliorent au fil du temps. C'est totalement sans pub et c'est un logiciel libre."</string>
+    <!-- Je pense qu'en français, on parle plutôt d'intervalle de report/temporisation des répétitions/rappels. -->
+    <string name="pref_snooze_interval_title">"Intervalle de report des rappels"</string>
+    <string name="pref_rate_this_app">"Notez cette app sur le Google Play Store"</string>
+    <string name="pref_send_feedback">"Envoyez un avis au développeur"</string>
+    <string name="pref_view_source_code">"Voir le code source sur GitHub"</string>
+    <string name="pref_view_app_introduction">"Voir l'intro de l'app"</string>
+    <string name="links">"Liens"</string>
+    <string name="behavior">"Comportement"</string>
+    <string name="name">"Nom"</string>
+    <string name="show_archived">"Montrer les archives"</string>
+    <string name="settings">"Paramètres"</string>
+    <string name="snooze_interval">"Intervalle de report"</string>
+    <string name="hint_title">"Le saviez-vous ?"</string>
+    <string name="hint_drag">"Pour réarranger les habitudes, faites un appui long sur le nom de l'habitude et placez la à la bonne place."</string>
+    <string name="hint_landscape">"Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage."</string>
+    <string name="delete_habits">"Supprimer des habitudes"</string>
+    <string name="delete_habits_message">"Les habitudes seront supprimées définitivement. Cette action ne peut être annulée."</string>
+    <string name="weekends">"Fin de semaine"</string>
+
+    <!-- Sorry I made a mistake so I restore the previous version -->
+    <string name="any_weekday">"Jours de la semaine"</string>
+
+    <!-- Fuzzy -->
+    <string name="any_day">"N'importe quel jour"</string>
+    <string name="select_weekdays">"Sélectionner des jours"</string>
+
+    <!-- Fuzzy -->
+    <string name="export_to_csv">"Exporter les données dans un fichier CSV"</string>
+    <string name="done_label">"Fait"</string>
+    <string name="clear_label">"Supprimer"</string>
+    <string name="select_hours">"Sélectionner les heures"</string>
+    <string name="select_minutes">"Sélectionner les minutes"</string>
+
+    <!-- Short description used on the Google Play store. There is an 80-character limit. -->
+    <string name="store_short_description">"Créez de bonnes habitudes et suivez leur progrès au fil du temps (sans pub)"</string>
+    <string name="store_description_1">"Loop vous aide à créer et maintenir de bonnes habitudes, permettant de réussir vos objectifs à long terme. Des graphiques détaillés et des statistiques vous montrent comment vos habitudes s’améliorent au fil du temps. C'est totalement sans pub et c'est un logiciel libre."</string>
 <string name="store_feature_interface">"&lt;b&gt;Simple, beau avec une interface moderne&lt;/b&gt;
 Loop a une interface minimaliste, facile à utiliser et qui suit les règles de material design."</string>
 <string name="store_feature_score">"&lt;b&gt;Score d'habitude&lt;/b&gt;
@@ -115,81 +123,81 @@ Créez un rappel propre pour chaque habitude, à une heure choisie de la journé
 Il n'y a absolument aucune publicité ni notification embêtante ni permission intrusive avec cette application, et il n'y en aura jamais. L'ensemble du code source est disponible sous GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Optimisée pour les montres android&lt;/b&gt;
 Les rappels peuvent être cochés, reportés ou supprimés directement à partir de votre montre Android"</string>
-<string name="about">"À propos"</string>
-<string name="translators">"Traducteurs"</string>
-<string name="developers">"Développeurs"</string>
+    <string name="about">"À propos"</string>
+    <string name="translators">"Traducteurs"</string>
+    <string name="developers">"Développeurs"</string>
 
-<!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
-<string name="version_n">"Version %s"</string>
-<string name="frequency">"Fréquence"</string>
+    <!-- %s will get replaced by the version number. For example, "Versão %d" will become "Versão 1.2.0". -->
+    <string name="version_n">"Version %s"</string>
+    <string name="frequency">"Fréquence"</string>
 
-<!-- Fuzzy -->
-<string name="checkmark">"Croix"</string>
+    <!-- Fuzzy -->
+    <string name="checkmark">"Croix"</string>
 
-<!-- This is a shorter version of "Habit Strength" -->
-<!-- Fuzzy -->
-<string name="strength">"Force"</string>
+    <!-- This is a shorter version of "Habit Strength" -->
+    <!-- Fuzzy -->
+    <string name="strength">"Force"</string>
 
-<!-- Fuzzy -->
-<string name="best_streaks">"Meilleures séries"</string>
-<string name="current_streaks">"Série actuelle"</string>
-<string name="number_of_repetitions">"Nombre de répétitions"</string>
-<string name="last_x_days">"%d derniers jours"</string>
-<string name="last_x_weeks">"%d dernières semaines"</string>
-<string name="last_x_months">"%d derniers mois"</string>
-<string name="last_x_years">"%d dernières années"</string>
+    <!-- Fuzzy -->
+    <string name="best_streaks">"Meilleures séries"</string>
+    <string name="current_streaks">"Série actuelle"</string>
+    <string name="number_of_repetitions">"Nombre de répétitions"</string>
+    <string name="last_x_days">"%d derniers jours"</string>
+    <string name="last_x_weeks">"%d dernières semaines"</string>
+    <string name="last_x_months">"%d derniers mois"</string>
+    <string name="last_x_years">"%d dernières années"</string>
 
-<!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
-<string name="all_time">"Depuis le début"</string>
-<string name="every_day">"Tous les jours"</string>
-<string name="every_week">"Toutes les semaines"</string>
-<string name="two_times_per_week">"2 fois par semaine"</string>
-<string name="five_times_per_week">"5 fois par semaine"</string>
+    <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
+    <string name="all_time">"Depuis le début"</string>
+    <string name="every_day">"Tous les jours"</string>
+    <string name="every_week">"Toutes les semaines"</string>
+    <string name="two_times_per_week">"2 fois par semaine"</string>
+    <string name="five_times_per_week">"5 fois par semaine"</string>
 
-<!-- Fuzzy -->
-<string name="custom_frequency">"Personnalisée ..."</string>
-<string name="help">"Aide &amp; FAQ"</string>
-<string name="could_not_export">"Export des données échoué."</string>
-<string name="could_not_import">"Import des données échoué."</string>
+    <!-- Fuzzy -->
+    <string name="custom_frequency">"Personnalisée ..."</string>
+    <string name="help">"Aide &amp; FAQ"</string>
+    <string name="could_not_export">"Export des données échoué."</string>
+    <string name="could_not_import">"Import des données échoué."</string>
 
-<!-- Appears when the user tries to import a file which we do not support or recognize. -->
-<string name="file_not_recognized">"Fichier non reconnu"</string>
-<string name="habits_imported">"Habitudes importées avec succès"</string>
-<string name="full_backup_success">"Sauvegarde complète exportée avec succès"</string>
-<string name="import_data">"Importer des données"</string>
-<string name="export_full_backup">"Exporter une sauvegarde complète"</string>
-<string name="import_data_summary">"Supporte les sauvegardes complètes générées par cette application, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d'informations."</string>
-<string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou LibreOffice Calc. Ces fichiers ne peuvent être réimportés."</string>
-<string name="export_full_backup_summary">"Génère un fichier contenant toutes vos données. Ce fichier peut être réimporté."</string>
-<string name="bug_report_failed">"La génération du rapport de bug a échouée."</string>
-<string name="generate_bug_report">"Générer un rapport de bug."</string>
-<string name="troubleshooting">"Résolution de problèmes"</string>
-<string name="help_translate">"Aider à traduire cette application"</string>
-<string name="night_mode">"Mode Nuit"</string>
-<string name="use_pure_black">"Utiliser un noir pure dans le mode nuit."</string>
-<string name="pure_black_description">"Remplacer le fond gris par un noir pure dans le mode nuit; ça réduit l’usage de la batterie d'un appareil ayant un écran AMOLED."</string>
-<string name="interface_preferences">"Interface"</string>
-<string name="reverse_days">"Inverser l'ordre des jours"</string>
-<string name="reverse_days_description">"Montrer les jours dans l'ordre inversé sur l'écran principal"</string>
-<string name="day">"Jour"</string>
-<string name="week">"Semaine"</string>
-<string name="month">"Mois"</string>
+    <!-- Appears when the user tries to import a file which we do not support or recognize. -->
+    <string name="file_not_recognized">"Fichier non reconnu"</string>
+    <string name="habits_imported">"Habitudes importées avec succès"</string>
+    <string name="full_backup_success">"Sauvegarde complète exportée avec succès"</string>
+    <string name="import_data">"Importer des données"</string>
+    <string name="export_full_backup">"Exporter une sauvegarde complète"</string>
+    <string name="import_data_summary">"Supporte les sauvegardes complètes générées par cette application, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d'informations."</string>
+    <string name="export_as_csv_summary">"Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou LibreOffice Calc. Ces fichiers ne peuvent être réimportés."</string>
+    <string name="export_full_backup_summary">"Génère un fichier contenant toutes vos données. Ce fichier peut être réimporté."</string>
+    <string name="bug_report_failed">"La génération du rapport de bug a échouée."</string>
+    <string name="generate_bug_report">"Générer un rapport de bug."</string>
+    <string name="troubleshooting">"Résolution de problèmes"</string>
+    <string name="help_translate">"Aider à traduire cette application"</string>
+    <string name="night_mode">"Mode Nuit"</string>
+    <string name="use_pure_black">"Utiliser un noir pure dans le mode nuit."</string>
+    <string name="pure_black_description">"Remplacer le fond gris par un noir pure dans le mode nuit; ça réduit l’usage de la batterie d'un appareil ayant un écran AMOLED."</string>
+    <string name="interface_preferences">"Interface"</string>
+    <string name="reverse_days">"Inverser l'ordre des jours"</string>
+    <string name="reverse_days_description">"Montrer les jours dans l'ordre inversé sur l'écran principal"</string>
+    <string name="day">"Jour"</string>
+    <string name="week">"Semaine"</string>
+    <string name="month">"Mois"</string>
 
-<!-- Three-month period -->
-<string name="quarter">"Trimestre"</string>
-<string name="year">"Année"</string>
+    <!-- Three-month period -->
+    <string name="quarter">"Trimestre"</string>
+    <string name="year">"Année"</string>
 
-<!-- Middle part of the sentence '1 time in xx days' -->
-<!-- Middle part of the sentence '1 time in xx days' -->
-<string name="time_every">"fois tous les"</string>
-<string name="every_x_days">"Tous les %d jours"</string>
-<string name="every_x_weeks">"Toutes les %d semaines"</string>
-<string name="every_x_months">"Tous les %d mois"</string>
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="time_every">"fois tous les"</string>
+    <string name="every_x_days">"Tous les %d jours"</string>
+    <string name="every_x_weeks">"Toutes les %d semaines"</string>
+    <string name="every_x_months">"Tous les %d mois"</string>
 
-<!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
-<string name="score">"Pointage"</string>
-<string name="reminder_sound">"Son de rappel"</string>
+    <!-- The old "habit strength" has been replaced by "score". Feel free to translate "score" as "strength" or "stability" if it sounds more natural in your language. -->
+    <string name="score">"Pointage"</string>
+    <string name="reminder_sound">"Son de rappel"</string>
 
-<!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
-<string name="none">"Aucun"</string>
+    <!-- Appears when the user disables the reminder sound. Could also be "no sound", "mute" or "silent". -->
+    <string name="none">"Aucun"</string>
 </resources>

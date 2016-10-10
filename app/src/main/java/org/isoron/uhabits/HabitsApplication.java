@@ -19,36 +19,62 @@
 
 package org.isoron.uhabits;
 
-import android.app.Application;
-import android.content.Context;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.WindowManager;
+import android.app.*;
+import android.content.*;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
+import com.activeandroid.*;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.widgets.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.io.*;
 
+/**
+ * The Android application for Loop Habit Tracker.
+ */
 public class HabitsApplication extends Application
 {
-    @Nullable
     private static Context context;
+
+    private static AppComponent component;
+
+    private WidgetUpdater widgetUpdater;
+
+    private ReminderScheduler reminderScheduler;
+
+    private NotificationTray notificationTray;
+
+    public AppComponent getComponent()
+    {
+        return component;
+    }
+
+    public static void setComponent(AppComponent component)
+    {
+        HabitsApplication.component = component;
+    }
+
+    @NonNull
+    @Deprecated
+    public static Context getContext()
+    {
+        if (context == null) throw new RuntimeException("context is null");
+        return context;
+    }
 
     public static boolean isTestMode()
     {
         try
         {
-            if(context != null)
-                context.getClassLoader().loadClass("org.isoron.uhabits.unit.models.HabitTest");
+            if (context != null)
+            {
+                String testClass = "org.isoron.uhabits.BaseAndroidTest";
+                context.getClassLoader().loadClass(testClass);
+            }
             return true;
         }
         catch (final Exception e)
@@ -57,25 +83,43 @@ public class HabitsApplication extends Application
         }
     }
 
-    @Nullable
-    public static Context getContext()
-    {
-        return context;
-    }
-
     @Override
     public void onCreate()
     {
         super.onCreate();
         HabitsApplication.context = this;
 
+        component = DaggerAppComponent
+            .builder()
+            .appModule(new AppModule(context))
+            .build();
+
         if (isTestMode())
         {
-            File db = DatabaseHelper.getDatabaseFile();
-            if(db.exists()) db.delete();
+            File db = DatabaseUtils.getDatabaseFile();
+            if (db.exists()) db.delete();
         }
 
-        DatabaseHelper.initializeActiveAndroid();
+        DatabaseUtils.initializeActiveAndroid();
+
+        widgetUpdater = component.getWidgetUpdater();
+        widgetUpdater.startListening();
+
+        reminderScheduler = component.getReminderScheduler();
+        reminderScheduler.startListening();
+
+        notificationTray = component.getNotificationTray();
+        notificationTray.startListening();
+
+        Preferences prefs = component.getPreferences();
+        prefs.initialize();
+        prefs.updateLastAppVersion();
+
+        TaskRunner taskRunner = component.getTaskRunner();
+        taskRunner.execute(() -> {
+            reminderScheduler.scheduleAll();
+            widgetUpdater.updateWidgets();
+        });
     }
 
     @Override
@@ -83,84 +127,10 @@ public class HabitsApplication extends Application
     {
         HabitsApplication.context = null;
         ActiveAndroid.dispose();
+
+        reminderScheduler.stopListening();
+        widgetUpdater.stopListening();
+        notificationTray.stopListening();
         super.onTerminate();
-    }
-
-    public static String getLogcat() throws IOException
-    {
-        int maxNLines = 250;
-        StringBuilder builder = new StringBuilder();
-
-        String[] command = new String[] { "logcat", "-d"};
-        Process process = Runtime.getRuntime().exec(command);
-
-        InputStreamReader in = new InputStreamReader(process.getInputStream());
-        BufferedReader bufferedReader = new BufferedReader(in);
-
-        LinkedList<String> log = new LinkedList<>();
-
-        String line;
-        while ((line = bufferedReader.readLine()) != null)
-        {
-            log.addLast(line);
-            if(log.size() > maxNLines) log.removeFirst();
-        }
-
-        for(String l : log)
-        {
-            builder.append(l);
-            builder.append('\n');
-        }
-
-        return builder.toString();
-    }
-
-    public static String getDeviceInfo()
-    {
-        if(context == null) return "";
-
-        StringBuilder b = new StringBuilder();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-        b.append(String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME));
-        b.append(String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE));
-        b.append(String.format("OS Version: %s (%s)\n", System.getProperty("os.version"),
-                android.os.Build.VERSION.INCREMENTAL));
-        b.append(String.format("OS API Level: %s\n", android.os.Build.VERSION.SDK));
-        b.append(String.format("Device: %s\n", android.os.Build.DEVICE));
-        b.append(String.format("Model (Product): %s (%s)\n", android.os.Build.MODEL,
-                android.os.Build.PRODUCT));
-        b.append(String.format("Manufacturer: %s\n", android.os.Build.MANUFACTURER));
-        b.append(String.format("Other tags: %s\n", android.os.Build.TAGS));
-        b.append(String.format("Screen Width: %s\n", wm.getDefaultDisplay().getWidth()));
-        b.append(String.format("Screen Height: %s\n", wm.getDefaultDisplay().getHeight()));
-        b.append(String.format("SD Card state: %s\n\n", Environment.getExternalStorageState()));
-
-        return b.toString();
-    }
-
-    @NonNull
-    public static File dumpBugReportToFile() throws IOException
-    {
-        String date = DateHelper.getBackupDateFormat().format(DateHelper.getLocalTime());
-
-        if(context == null) throw new RuntimeException("application context should not be null");
-        File dir = DatabaseHelper.getFilesDir("Logs");
-        if (dir == null) throw new IOException("log dir should not be null");
-
-        File logFile = new File(String.format("%s/Log %s.txt", dir.getPath(), date));
-        FileWriter output = new FileWriter(logFile);
-        output.write(generateBugReport());
-        output.close();
-
-        return logFile;
-    }
-
-    @NonNull
-    public static String generateBugReport() throws IOException
-    {
-        String logcat = getLogcat();
-        String deviceInfo = getDeviceInfo();
-        return deviceInfo + "\n" + logcat;
     }
 }

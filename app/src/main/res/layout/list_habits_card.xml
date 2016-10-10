@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<merge android:id="@+id/outerFrame"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:habit="http://isoron.org/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/innerFrame"
+        style="@style/ListHabits.HabitCard"
+        android:layout_width="match_parent">
+
+        <org.isoron.uhabits.activities.common.views.RingView
+            android:id="@+id/scoreRing"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="0dp"
+            habit:thickness="3"/>
+
+        <TextView
+            android:id="@+id/label"
+            style="@style/ListHabits.Label"/>
+
+        <org.isoron.uhabits.activities.habits.list.views.CheckmarkPanelView
+            android:id="@+id/checkmarkPanel"
+            style="@style/ListHabits.CheckmarkPanel"/>
+
+    </LinearLayout>
+
+</merge>

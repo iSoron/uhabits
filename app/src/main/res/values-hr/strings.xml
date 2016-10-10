@@ -21,7 +21,7 @@
     <string name="toast_habit_archived">"Navike su arhivirane."</string>
     <string name="toast_habit_unarchived">"Navike su vraćene iz arhive."</string>
     <string name="overview">"Pregled"</string>
-    <string name="habit_strength">"Jačina navike"</string>
+    <string name="habit_strength">"Snaga navike"</string>
     <string name="history">"Povijest"</string>
     <string name="clear">"Očisti"</string>
     <string name="description_hint">"Pitanje (Jesi li danas...?)"</string>
@@ -36,7 +36,7 @@
 
     <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
     <string name="streaks">"Niz"</string>
-    <string name="no_habits_found">"Nemate "</string>
+    <string name="no_habits_found">"Nemate aktivnih navika"</string>
     <string name="long_press_to_toggle">"Pritisnite i držite za označavanje ili odznačavanje."</string>
     <string name="reminder_off">"Isključen"</string>
     <string name="validation_name_should_not_be_blank">"Naziv ne može biti prazan."</string>
@@ -50,7 +50,7 @@
     <!-- App introduction -->
     <string name="intro_title_1">"Dobrodošli"</string>
     <string name="intro_description_1">"Loop Habit Tracker vam pomaže stvoriti i održavati dobre navike."</string>
-    <string name="intro_title_2">"Stvori neke nove navike"</string>
+    <string name="intro_title_2">"Stvorite neke nove navike"</string>
     <string name="intro_description_2">"Svaki dan, nakon izvođenja vaše navike, postavite \"kvačicu\" u aplikaciji."</string>
     <string name="intro_title_3">"Nastavite tako"</string>
     <string name="intro_description_3">"Navike"</string>
@@ -61,15 +61,15 @@
     <string name="interval_1_hour">"1 sat"</string>
     <string name="interval_2_hour">"2 sata"</string>
     <string name="interval_4_hour">"4 sata"</string>
-    <string name="interval_8_hour">" 8 sati"</string>
-    <string name="pref_toggle_title">"Označi ponavljanja sa kratkim pritiskom"</string>
+    <string name="interval_8_hour">"8 sati"</string>
+    <string name="pref_toggle_title">"Označi ponavljanja sa kratkim pritisk."</string>
     <string name="pref_toggle_description">"Zgodnije je, no može uzrokovati slučajna označavanja."</string>
     <string name="pref_snooze_interval_title">"Interval odgađanja na podsjetnicima"</string>
     <string name="pref_rate_this_app">"Ocijenite ovu aplikaciju na Google Playu"</string>
-    <string name="pref_send_feedback">"Pošaljite povratne informacije razvojnom programeru"</string>
-    <string name="pref_view_source_code">"Prikaži izvorni kod na GitHubu"</string>
+    <string name="pref_send_feedback">"Pošaljite povratne informacije raz. programeru"</string>
+    <string name="pref_view_source_code">"Pogledajte izvorni kod na GitHubu"</string>
     <string name="pref_view_app_introduction">"Prikaži uvod u aplikaciju"</string>
-    <string name="links">"Veze"</string>
+    <string name="links">"Poveznice"</string>
     <string name="behavior">"Ponašanje"</string>
     <string name="name">"Naziv"</string>
     <string name="show_archived">"Prikaži arhivirano"</string>
@@ -103,6 +103,8 @@ Jasno vidite kako su se vaše navike poboljšale kroz vrijeme u prekrasnim i det
 Podržava i dnevne navike i navike sa složenijim planiranjem, kao npr. 3 puta svakog tjedna; jednom svaki drugi tjedan; ili svaki drugi dan."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Podsjetnici&lt;/b&gt;
 Stvorite individualne podsjetnike za svaku naviku, u određenom satu u danu. Lako provjeravajte, odbacite i odgodite vašu naviku direktno iz obavijesti, bez otvaranja aplikacije."</string>
+
+    <!-- Fuzzy -->
     <string name="store_feature_opensource">"&lt;b&gt;Potpuno bez oglasa i otvorenog izvora koda&lt;/b&gt;"</string>
 <string name="store_feature_wear">"&lt;b&gt;Optimizirano za pametne satove&lt;/b&gt;
 Podsjetnici se mogu provjeravati, odgoditi ili odbaciti direktno sa vašeg Android Wear sata."</string>
@@ -132,7 +134,7 @@ Podsjetnici se mogu provjeravati, odgoditi ili odbaciti direktno sa vašeg Andro
     <string name="two_times_per_week">"2 puta tjedno"</string>
     <string name="five_times_per_week">"5 puta tjedno"</string>
     <string name="custom_frequency">"Prilagođeno ..."</string>
-    <string name="help">"Pomoć i FAQ"</string>
+    <string name="help">"Pomoć i pitanja"</string>
     <string name="could_not_export">"Izvoz podataka nije uspio."</string>
     <string name="could_not_import">"Uvoz podataka nije uspio."</string>
 
@@ -142,7 +144,7 @@ Podsjetnici se mogu provjeravati, odgoditi ili odbaciti direktno sa vašeg Andro
     <string name="full_backup_success">"Sigurnosna kopija je uspješno izvezena."</string>
     <string name="import_data">"Uvezi podatke"</string>
     <string name="export_full_backup">"Izvezi sigurnosnu kopiju"</string>
-    <string name="import_data_summary">"Podržava sigurnosne kopije izvezene iz ove aplikacije, isto kao i datoteke generirane u Tickmate, HabitBull i Rewire. Pogledajte FAQ za više informacija."</string>
+    <string name="import_data_summary">"Podržava sigurnosne kopije izvezene iz ove aplikacije, isto kao i datoteke generirane u Tickmate, HabitBull i Rewire. Pogledajte Pomoć i pitanja za više informacija."</string>
     <string name="export_as_csv_summary">"Generira datoteke koje se mogu otvarati programima za tablice kao što su Microsoft Excel ili OpenOffice Calc. Ova datoteka se ne može uvoziti."</string>
     <string name="export_full_backup_summary">"Generira datoteku koja sadrži sve vaše podatke. Ova datoteka se može uvoziti."</string>
     <string name="bug_report_failed">"Generiranje izvješća o pogrešci nije uspjelo."</string>

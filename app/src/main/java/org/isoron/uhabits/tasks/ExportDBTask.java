@@ -19,75 +19,50 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-public class ExportDBTask extends BaseTask
+public class ExportDBTask implements Task
 {
-    public interface Listener
-    {
-        void onExportDBFinished(@Nullable String filename);
-    }
-
-    private ProgressBar progressBar;
     private String filename;
-    private Listener listener;
 
-    public ExportDBTask(ProgressBar progressBar)
-    {
-        this.progressBar = progressBar;
-    }
+    @NonNull
+    private final Listener listener;
 
-    public void setListener(Listener listener)
+    public ExportDBTask(@NonNull Listener listener)
     {
         this.listener = listener;
     }
 
     @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        if(listener != null)
-            listener.onExportDBFinished(filename);
-        
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
-        super.onPostExecute(null);
-    }
-
-    @Override
-    protected void doInBackground()
+    public void doInBackground()
     {
         filename = null;
 
         try
         {
-            File dir = DatabaseHelper.getFilesDir("Backups");
-            if(dir == null) return;
+            File dir = FileUtils.getFilesDir("Backups");
+            if (dir == null) return;
 
-            filename = DatabaseHelper.saveDatabaseCopy(dir);
+            filename = DatabaseUtils.saveDatabaseCopy(dir);
         }
-        catch(IOException e)
+        catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onPostExecute()
+    {
+        listener.onExportDBFinished(filename);
+    }
+
+    public interface Listener
+    {
+        void onExportDBFinished(@Nullable String filename);
     }
 }

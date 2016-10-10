@@ -19,23 +19,34 @@
 
 package org.isoron.uhabits.io;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import com.activeandroid.ActiveAndroid;
-import com.opencsv.CSVReader;
+import com.activeandroid.*;
+import com.opencsv.*;
 
-import org.isoron.uhabits.helpers.DateHelper;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.io.*;
+import java.util.*;
 
+import javax.inject.*;
+
+/**
+ * Class that imports data from HabitBull CSV files.
+ */
 public class HabitBullCSVImporter extends AbstractImporter
 {
+    private ModelFactory modelFactory;
+
+    @Inject
+    public HabitBullCSVImporter(@NonNull HabitList habits,
+                                @NonNull ModelFactory modelFactory)
+    {
+        super(habits);
+        this.modelFactory = modelFactory;
+    }
+
     @Override
     public boolean canHandle(@NonNull File file) throws IOException
     {
@@ -63,7 +74,7 @@ public class HabitBullCSVImporter extends AbstractImporter
     private void parseFile(@NonNull File file) throws IOException
     {
         CSVReader reader = new CSVReader(new FileReader(file));
-        HashMap<String, Habit> habits = new HashMap<>();
+        HashMap<String, Habit> map = new HashMap<>();
 
         for(String line[] : reader)
         {
@@ -76,7 +87,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             int month = Integer.parseInt(dateString[1]);
             int day = Integer.parseInt(dateString[2]);
 
-            Calendar date = DateHelper.getStartOfTodayCalendar();
+            Calendar date = DateUtils.getStartOfTodayCalendar();
             date.set(year, month - 1, day);
 
             long timestamp = date.getTimeInMillis();
@@ -84,21 +95,20 @@ public class HabitBullCSVImporter extends AbstractImporter
             int value = Integer.parseInt(line[4]);
             if(value != 1) continue;
 
-            Habit h = habits.get(name);
+            Habit h = map.get(name);
 
             if(h == null)
             {
-                h = new Habit();
-                h.name = name;
-                h.description = description;
-                h.freqNum = h.freqDen = 1;
-                h.save();
-
-                habits.put(name, h);
+                h = modelFactory.buildHabit();
+                h.setName(name);
+                h.setDescription(description);
+                h.setFrequency(Frequency.DAILY);
+                habits.add(h);
+                map.put(name, h);
             }
 
-            if(!h.repetitions.contains(timestamp))
-                h.repetitions.toggle(timestamp);
+            if(!h.getRepetitions().containsTimestamp(timestamp))
+                h.getRepetitions().toggleTimestamp(timestamp);
         }
     }
 }

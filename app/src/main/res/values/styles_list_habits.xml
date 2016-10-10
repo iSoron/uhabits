@@ -25,11 +25,9 @@
     </style>
 
     <style name="ListHabits.Header">
-        <item name="android:background">?headerBackground</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">?headerBackgroundColor</item>
         <item name="android:paddingRight">4dp</item>
+        <item name="android:gravity">end</item>
     </style>
 
     <style name="ListHabits.Star">

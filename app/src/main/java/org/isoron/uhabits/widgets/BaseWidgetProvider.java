@@ -19,300 +19,144 @@
 
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RemoteViews;
-import android.widget.TextView;
+import android.appwidget.*;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.UIHelper;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.tasks.BaseTask;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.*;
+import static org.isoron.uhabits.utils.WidgetUtils.*;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
-    private class WidgetDimensions
-    {
-        public int portraitWidth, portraitHeight;
-        public int landscapeWidth, landscapeHeight;
-    }
+    private HabitList habits;
 
-    protected abstract int getDefaultHeight();
-
-    protected abstract int getDefaultWidth();
-
-    protected abstract PendingIntent getOnClickPendingIntent(Context context, Habit habit);
-
-    protected abstract  int getLayoutId();
-
-    protected abstract View buildCustomView(Context context, Habit habit);
-
-    public static String getHabitIdKey(long widgetId)
-    {
-        return String.format("widget-%06d-habit", widgetId);
-    }
+    private WidgetPreferences widgetPrefs;
 
     @Override
-    public void onDeleted(Context context, int[] appWidgetIds)
-    {
-        Context appContext = context.getApplicationContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
-
-        for(Integer id : appWidgetIds)
-            prefs.edit().remove(getHabitIdKey(id)).apply();
-    }
-
-    @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
-                                          int appWidgetId, Bundle newOptions)
-    {
-        updateWidget(context, appWidgetManager, appWidgetId, newOptions);
-    }
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds)
-    {
-        for(int id : appWidgetIds)
-        {
-            Bundle options = null;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
-                options = manager.getAppWidgetOptions(id);
-
-            updateWidget(context, manager, id, options);
-        }
-    }
-
-    private void updateWidget(Context context, AppWidgetManager manager,
-                              int widgetId, Bundle options)
-    {
-        WidgetDimensions dim = getWidgetDimensions(context, options);
-
-        Context appContext = context.getApplicationContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(appContext);
-
-        Long habitId = prefs.getLong(getHabitIdKey(widgetId), -1L);
-        if(habitId < 0) return;
-
-        Habit habit = Habit.get(habitId);
-        if(habit == null)
-        {
-            drawErrorWidget(context, manager, widgetId);
-            return;
-        }
-
-        new RenderWidgetTask(widgetId, context, habit, dim, manager).execute();
-    }
-
-    private void drawErrorWidget(Context context, AppWidgetManager manager, int widgetId)
-    {
-        RemoteViews errorView = new RemoteViews(context.getPackageName(), R.layout.widget_error);
-        manager.updateAppWidget(widgetId, errorView);
-    }
-
-    protected abstract void refreshCustomViewData(View widgetView);
-
-    private void savePreview(Context context, int widgetId, Bitmap widgetCache, int width,
-                             int height, String label)
+    public void onAppWidgetOptionsChanged(@Nullable Context context,
+                                          @Nullable AppWidgetManager manager,
+                                          int widgetId,
+                                          @Nullable Bundle options)
     {
         try
         {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(getLayoutId(), null);
+            if (context == null) throw new RuntimeException("context is null");
+            if (manager == null) throw new RuntimeException("manager is null");
+            if (options == null) throw new RuntimeException("options is null");
+            context.setTheme(R.style.TransparentWidgetTheme);
 
-            TextView tvLabel = (TextView) view.findViewById(R.id.label);
-            if(tvLabel != null) tvLabel.setText(label);
+            updateDependencies(context);
 
-            ImageView iv = (ImageView) view.findViewById(R.id.imageView);
-            if(iv != null) iv.setImageBitmap(widgetCache);
-
-            view.measure(width, height);
-            view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-            view.setDrawingCacheEnabled(true);
-            view.buildDrawingCache();
-            Bitmap previewCache = view.getDrawingCache();
-
-            String filename = String.format("%s/%d_%d.png", context.getExternalCacheDir(), widgetId, width);
-            Log.d("BaseWidgetProvider", String.format("Writing %s", filename));
-            FileOutputStream out = new FileOutputStream(filename);
-
-            if(previewCache != null)
-                previewCache.compress(Bitmap.CompressFormat.PNG, 100, out);
-
-            out.close();
+            BaseWidget widget = getWidgetFromId(context, widgetId);
+            WidgetDimensions dims = getDimensionsFromOptions(context, options);
+            widget.setDimensions(dims);
+            updateAppWidget(manager, widget);
         }
-        catch (IOException e)
+        catch (RuntimeException e)
         {
+            drawErrorWidget(context, manager, widgetId, e);
             e.printStackTrace();
         }
     }
 
-    private WidgetDimensions getWidgetDimensions(Context context, Bundle options)
+    @Override
+    public void onDeleted(@Nullable Context context, @Nullable int[] ids)
     {
-        int maxWidth = getDefaultWidth();
-        int minWidth = getDefaultWidth();
-        int maxHeight = getDefaultHeight();
-        int minHeight = getDefaultHeight();
+        if (context == null) throw new RuntimeException("context is null");
+        if (ids == null) throw new RuntimeException("ids is null");
 
-        if (options != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+        updateDependencies(context);
+
+        for (int id : ids)
         {
-            maxWidth = (int) UIHelper.dpToPixels(context,
-                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH));
-            maxHeight = (int) UIHelper.dpToPixels(context,
-                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
-            minWidth = (int) UIHelper.dpToPixels(context,
-                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
-            minHeight = (int) UIHelper.dpToPixels(context,
-                    options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
-        }
-
-        WidgetDimensions ws = new WidgetDimensions();
-        ws.portraitWidth = minWidth;
-        ws.portraitHeight = maxHeight;
-        ws.landscapeWidth = maxWidth;
-        ws.landscapeHeight = minHeight;
-        return ws;
-    }
-
-    private void measureCustomView(Context context, int w, int h, View customView)
-    {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View entireView = inflater.inflate(getLayoutId(), null);
-
-        int specWidth = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
-        int specHeight = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
-
-        entireView.measure(specWidth, specHeight);
-        entireView.layout(0, 0, entireView.getMeasuredWidth(), entireView.getMeasuredHeight());
-
-        View imageView = entireView.findViewById(R.id.imageView);
-        w = imageView.getMeasuredWidth();
-        h = imageView.getMeasuredHeight();
-
-        specWidth = View.MeasureSpec.makeMeasureSpec(w, View.MeasureSpec.EXACTLY);
-        specHeight = View.MeasureSpec.makeMeasureSpec(h, View.MeasureSpec.EXACTLY);
-        customView.measure(specWidth, specHeight);
-        customView.layout(0, 0, customView.getMeasuredWidth(), customView.getMeasuredHeight());
-    }
-
-    private class RenderWidgetTask extends BaseTask
-    {
-        private final int widgetId;
-        private final Context context;
-        private final Habit habit;
-        private final AppWidgetManager manager;
-        private RemoteViews portraitRemoteViews, landscapeRemoteViews;
-        private View portraitWidgetView, landscapeWidgetView;
-        private WidgetDimensions dim;
-
-        public RenderWidgetTask(int widgetId, Context context, Habit habit, WidgetDimensions ws,
-                                AppWidgetManager manager)
-        {
-            this.widgetId = widgetId;
-            this.context = context;
-            this.habit = habit;
-            this.manager = manager;
-            this.dim = ws;
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-            super.onPreExecute();
-            context.setTheme(R.style.TransparentWidgetTheme);
-
-            portraitRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
-            portraitWidgetView = buildCustomView(context, habit);
-            measureCustomView(context, dim.portraitWidth, dim.portraitHeight, portraitWidgetView);
-
-            landscapeRemoteViews = new RemoteViews(context.getPackageName(), getLayoutId());
-            landscapeWidgetView = buildCustomView(context, habit);
-            measureCustomView(context, dim.landscapeWidth, dim.landscapeHeight,
-                    landscapeWidgetView);
-        }
-
-        private void updateAppWidget()
-        {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-                manager.updateAppWidget(widgetId, new RemoteViews(landscapeRemoteViews,
-                        portraitRemoteViews));
-            else
-                manager.updateAppWidget(widgetId, portraitRemoteViews);
-        }
-
-        @Override
-        protected void doInBackground()
-        {
-            refreshCustomViewData(portraitWidgetView);
-            refreshCustomViewData(landscapeWidgetView);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid)
-        {
-            try
-            {
-                buildRemoteViews(portraitWidgetView, portraitRemoteViews,
-                        dim.portraitWidth, dim.portraitHeight);
-                buildRemoteViews(landscapeWidgetView, landscapeRemoteViews,
-                        dim.landscapeWidth, dim.landscapeHeight);
-                updateAppWidget();
-            }
-            catch (Exception e)
-            {
-                drawErrorWidget(context, manager, widgetId);
-                e.printStackTrace();
-            }
-
-            super.onPostExecute(aVoid);
-        }
-
-        private void buildRemoteViews(View widgetView, RemoteViews remoteViews, int width,
-                                      int height)
-        {
-            widgetView.invalidate();
-            widgetView.setDrawingCacheEnabled(true);
-            widgetView.buildDrawingCache(true);
-            Bitmap drawingCache = widgetView.getDrawingCache();
-            remoteViews.setTextViewText(R.id.label, habit.name);
-            remoteViews.setImageViewBitmap(R.id.imageView, drawingCache);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            {
-                int imageWidth = widgetView.getMeasuredWidth();
-                int imageHeight = widgetView.getMeasuredHeight();
-                int p[] = getPadding(width, height, imageWidth, imageHeight);
-                remoteViews.setViewPadding(R.id.buttonOverlay, p[0], p[1], p[2], p[3]);
-            }
-
-            //savePreview(context, widgetId, drawingCache, width, height, habit.name);
-
-            PendingIntent onClickIntent = getOnClickPendingIntent(context, habit);
-            if (onClickIntent != null) remoteViews.setOnClickPendingIntent(R.id.button,
-                    onClickIntent);
+            BaseWidget widget = getWidgetFromId(context, id);
+            widget.delete();
         }
     }
 
-    private int[] getPadding(int entireWidth, int entireHeight, int imageWidth,
-                             int imageHeight)
+    @Override
+    public void onUpdate(@Nullable Context context,
+                         @Nullable AppWidgetManager manager,
+                         @Nullable int[] widgetIds)
     {
-        int w = (int) (((float) entireWidth - imageWidth) / 2);
-        int h = (int) (((float) entireHeight - imageHeight) / 2);
+        if (context == null) throw new RuntimeException("context is null");
+        if (manager == null) throw new RuntimeException("manager is null");
+        if (widgetIds == null) throw new RuntimeException("widgetIds is null");
+        context.setTheme(R.style.TransparentWidgetTheme);
 
-        return new int[]{ w, h, w, h };
+        updateDependencies(context);
+
+        new Thread(() -> {
+            Looper.prepare();
+            for (int id : widgetIds)
+                update(context, manager, id);
+        }).start();
+    }
+
+    @NonNull
+    protected Habit getHabitFromWidgetId(int widgetId)
+    {
+        long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
+        Habit habit = habits.getById(habitId);
+        if (habit == null) throw new HabitNotFoundException();
+        return habit;
+    }
+
+    @NonNull
+    protected abstract BaseWidget getWidgetFromId(@NonNull Context context,
+                                                  int id);
+
+    private void drawErrorWidget(Context context,
+                                 AppWidgetManager manager,
+                                 int widgetId,
+                                 RuntimeException e)
+    {
+        RemoteViews errorView =
+            new RemoteViews(context.getPackageName(), R.layout.widget_error);
+
+        if(e instanceof HabitNotFoundException) {
+            errorView.setCharSequence(R.id.label, "setText", context.getString(R.string.habit_not_found));
+        }
+
+        manager.updateAppWidget(widgetId, errorView);
+    }
+
+    private void update(@NonNull Context context,
+                        @NonNull AppWidgetManager manager,
+                        int widgetId)
+    {
+        try
+        {
+            BaseWidget widget = getWidgetFromId(context, widgetId);
+
+            if (SDK_INT > JELLY_BEAN)
+            {
+                Bundle options = manager.getAppWidgetOptions(widgetId);
+                widget.setDimensions(
+                    getDimensionsFromOptions(context, options));
+            }
+
+            updateAppWidget(manager, widget);
+        }
+        catch (RuntimeException e)
+        {
+            drawErrorWidget(context, manager, widgetId, e);
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDependencies(Context context)
+    {
+        HabitsApplication app =
+            (HabitsApplication) context.getApplicationContext();
+        habits = app.getComponent().getHabitList();
+        widgetPrefs = app.getComponent().getWidgetPreferences();
     }
 }

@@ -23,7 +23,7 @@
              android:id="@+id/container"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="org.isoron.uhabits.SettingsActivity"
+             tools:context=".activities.settings.SettingsActivity"
              tools:ignore="MergeRootFrame">
 
     <android.support.v7.widget.Toolbar
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="org.isoron.uhabits.fragments.SettingsFragment"
+        android:name="org.isoron.uhabits.activities.settings.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"

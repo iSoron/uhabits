@@ -16,9 +16,12 @@ test:
     - adb shell input keyevent 82
     - ./run_tests
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS || echo ok
-    - bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -s https://codecov.io/bash) || echo ok
 general:
   branches:
     ignore:
       - gh-pages
       - poeditor
+machine:
+    java:
+        version: oraclejdk8

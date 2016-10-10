@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/toolbar"
+    android:background="?windowBackgroundColor"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    tools:showIn="@layout/show_habit">
+
+    <LinearLayout
+        style="@style/CardList"
+        android:clipToPadding="false">
+
+        <org.isoron.uhabits.activities.habits.show.views.SubtitleCard
+            android:id="@+id/subtitleCard"
+            style="@style/ShowHabit.Subtitle"/>
+
+        <View
+            android:id="@+id/headerShadow"
+            style="@style/ToolbarShadow"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.OverviewCard
+            android:id="@+id/overviewCard"
+            style="@style/Card"
+            android:paddingTop="12dp"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.ScoreCard
+            android:id="@+id/scoreCard"
+            style="@style/Card"
+            android:gravity="center"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.HistoryCard
+            android:id="@+id/historyCard"
+            style="@style/Card"
+            android:gravity="center"
+            android:paddingBottom="0dp"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.StreakCard
+            android:id="@+id/streakCard"
+            style="@style/Card"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.FrequencyCard
+            android:id="@+id/frequencyCard"
+            style="@style/Card"/>
+
+    </LinearLayout>
+</ScrollView>

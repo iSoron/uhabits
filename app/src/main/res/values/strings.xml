@@ -30,15 +30,15 @@
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Change color</string>
 
-    <string name="toast_habit_created">Habit created.</string>
-    <string name="toast_habit_deleted">Habits deleted.</string>
-    <string name="toast_habit_restored">Habits restored.</string>
-    <string name="toast_nothing_to_undo">Nothing to undo.</string>
-    <string name="toast_nothing_to_redo">Nothing to redo.</string>
-    <string name="toast_habit_changed">Habit changed.</string>
-    <string name="toast_habit_changed_back">Habit changed back.</string>
-    <string name="toast_habit_archived">Habits archived.</string>
-    <string name="toast_habit_unarchived">Habits unarchived.</string>
+    <string name="toast_habit_created">Habit created</string>
+    <string name="toast_habit_deleted">Habits deleted</string>
+    <string name="toast_habit_restored">Habits restored</string>
+    <string name="toast_nothing_to_undo">Nothing to undo</string>
+    <string name="toast_nothing_to_redo">Nothing to redo</string>
+    <string name="toast_habit_changed">Habit changed</string>
+    <string name="toast_habit_changed_back">Habit changed back</string>
+    <string name="toast_habit_archived">Habits archived</string>
+    <string name="toast_habit_unarchived">Habits unarchived</string>
 
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
@@ -83,6 +83,7 @@
     <string name="interval_2_hour">2 hours</string>
     <string name="interval_4_hour">4 hours</string>
     <string name="interval_8_hour">8 hours</string>
+    <string name="interval_24_hour">24 hours</string>
     <string name="pref_toggle_title">Toggle with short press</string>
     <string name="pref_toggle_description">Put checkmarks with a single tap instead of press-and-hold. More convenient, but might cause accidental toggles.</string>
     <string name="pref_snooze_interval_title">Snooze interval on reminders</string>
@@ -93,7 +94,6 @@
     <string name="links">Links</string>
     <string name="behavior">Behavior</string>
     <string name="name">Name</string>
-    <string name="show_archived">Show archived</string>
     <string name="settings">Settings</string>
     <string name="snooze_interval">Snooze interval</string>
 
@@ -102,6 +102,7 @@
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
     <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
+    <string name="habit_not_found">Habit deleted / not found</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Monday to Friday</string>
     <string name="any_day">Any day of the week</string>
@@ -171,6 +172,8 @@
     <string name="quarter">Quarter</string>
     <string name="year">Year</string>
 
+    <string name="total">Total</string>
+
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">time in</string>
 
@@ -180,4 +183,17 @@
     <string name="score">Score</string>
     <string name="reminder_sound">Reminder sound</string>
     <string name="none">None</string>
+    <string name="filter">Filter</string>
+    <string name="hide_completed">Hide completed</string>
+    <string name="hide_archived">Hide archived</string>
+
+    <string name="sticky_notifications">Make notifications sticky</string>
+    <string name="sticky_notifications_description">Prevents notifications from being swiped away.</string>
+    <string name="repair_database">Repair database</string>
+    <string name="database_repaired">Database repaired.</string>
+
+    <string name="uncheck">Uncheck</string>
+    <string name="toggle">Toggle</string>
+    <string name="action">Action</string>
+    <string name="habit">Habit</string>
 </resources>

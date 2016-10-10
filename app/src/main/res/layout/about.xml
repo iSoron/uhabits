@@ -105,6 +105,19 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Álinson Xavier"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Денис (sciamano)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Joseph Tran"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Nikhil (regularcoder)"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -170,11 +183,23 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Mark Macaré (Nederlands)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Jelle den Butter (Nederlands)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Adam Jurkiewicz (Polski)"/>
 
                 <TextView
                     style="@style/About.Item"
                     android:text="Álinson Xavier (Português)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Bernardo Lopes (Português)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -202,7 +227,11 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Yurii Stavytskyi (Української)"/>
+                    android:text="Yurii Stavytskyi (Українська)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Rystard (Українська)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -215,6 +244,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Ting-Hua (中文)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Bowie Chen (中文)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -235,12 +268,21 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Josh Graham (한국어 )"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Aman Satnami (हिन्दी)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Andreas Michelakis (Ελληνικά)"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <View
         android:id="@+id/toolbarShadow"
-        style="@style/ToolbarShadow"/>
+        style="@style/ToolbarShadow"
+        android:layout_below="@id/toolbar"/>
 
 </RelativeLayout>

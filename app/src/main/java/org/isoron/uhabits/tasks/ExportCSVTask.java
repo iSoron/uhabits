@@ -19,79 +19,66 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.io.HabitsCSVExporter;
-import org.isoron.uhabits.models.Habit;
+import com.google.auto.factory.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
-public class ExportCSVTask extends BaseTask
+import java.io.*;
+import java.util.*;
+
+@AutoFactory(allowSubclasses = true)
+public class ExportCSVTask implements Task
 {
-    public interface Listener
-    {
-        void onExportCSVFinished(@Nullable String archiveFilename);
-    }
-
-    private ProgressBar progressBar;
-    private final List<Habit> selectedHabits;
     private String archiveFilename;
-    private ExportCSVTask.Listener listener;
 
-    public ExportCSVTask(List<Habit> selectedHabits, ProgressBar progressBar)
-    {
-        this.selectedHabits = selectedHabits;
-        this.progressBar = progressBar;
-    }
+    @NonNull
+    private final List<Habit> selectedHabits;
 
-    public void setListener(Listener listener)
+    @NonNull
+    private final ExportCSVTask.Listener listener;
+
+    @NonNull
+    private final HabitList habitList;
+
+    public ExportCSVTask(@Provided @NonNull HabitList habitList,
+                         @NonNull List<Habit> selectedHabits,
+                         @NonNull Listener listener)
     {
         this.listener = listener;
+        this.habitList = habitList;
+        this.selectedHabits = selectedHabits;
     }
 
     @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        if(listener != null)
-            listener.onExportCSVFinished(archiveFilename);
-
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
-        super.onPostExecute(null);
-    }
-
-    @Override
-    protected void doInBackground()
+    public void doInBackground()
     {
         try
         {
-            File dir = DatabaseHelper.getFilesDir("CSV");
-            if(dir == null) return;
+            File dir = FileUtils.getFilesDir("CSV");
+            if (dir == null) return;
 
-            HabitsCSVExporter exporter = new HabitsCSVExporter(selectedHabits, dir);
+            HabitsCSVExporter exporter;
+            exporter = new HabitsCSVExporter(habitList, selectedHabits, dir);
             archiveFilename = exporter.writeArchive();
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onPostExecute()
+    {
+        listener.onExportCSVFinished(archiveFilename);
+    }
+
+    public interface Listener
+    {
+        void onExportCSVFinished(@Nullable String archiveFilename);
     }
 }

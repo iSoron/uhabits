@@ -23,12 +23,17 @@ import android.app.backup.BackupAgentHelper;
 import android.app.backup.FileBackupHelper;
 import android.app.backup.SharedPreferencesBackupHelper;
 
+/**
+ * An Android BackupAgentHelper customized for this application.
+ */
 public class HabitsBackupAgent extends BackupAgentHelper
 {
     @Override
     public void onCreate()
     {
-        addHelper("preferences", new SharedPreferencesBackupHelper(this, "preferences"));
-        addHelper("database", new FileBackupHelper(this, "../databases/uhabits.db"));
+        addHelper("preferences",
+                new SharedPreferencesBackupHelper(this, "preferences"));
+        addHelper("database",
+                new FileBackupHelper(this, "../databases/uhabits.db"));
     }
 }

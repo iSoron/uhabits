@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">"循環習慣記錄"</string>
+<string name="app_name">"Loop 習以為常"</string>
 <string name="main_activity_title">"習慣"</string>
 <string name="action_settings">"偏好設定"</string>
 <string name="edit">"編輯"</string>
 <string name="delete">"刪除"</string>
-<string name="archive">"存檔"</string>
-<string name="unarchive">"取消存檔"</string>
+<string name="archive">"封存"</string>
+<string name="unarchive">"取消封存"</string>
 <string name="add_habit">"加入新習慣"</string>
 <string name="color_picker_default_title">"選擇顏色"</string>
-<string name="toast_habit_created">"已創建的習慣"</string>
-<string name="toast_habit_deleted">"刪除習慣"</string>
-<string name="toast_habit_restored">"恢復習慣"</string>
+<string name="toast_habit_created">"習慣已增加"</string>
+<string name="toast_habit_deleted">"習慣已刪除"</string>
+<string name="toast_habit_restored">"習慣已恢復"</string>
 <string name="toast_nothing_to_undo">"沒有可以撤銷的習慣"</string>
 <string name="toast_nothing_to_redo">"沒有可以恢復的習慣"</string>
 <string name="toast_habit_changed">"習慣已經被修改"</string>
 
 <!-- This appears when the user edits a habit, and then undoes the action. The habit is "changed back" to what is was before. Alternatively, "Habit restored". -->
 <string name="toast_habit_changed_back">"修改已取消"</string>
-<string name="toast_habit_archived">"習慣存檔成功"</string>
-<string name="toast_habit_unarchived">"未完成"</string>
+<string name="toast_habit_archived">"習慣已封存"</string>
+<string name="toast_habit_unarchived">"習慣已取消封存"</string>
 <string name="overview">"總覽"</string>
-<string name="habit_strength">"強度"</string>
+<string name="habit_strength">"習慣強度"</string>
 <string name="history">"歴史紀錄"</string>
 <string name="clear">"清空"</string>
 <string name="description_hint">"問題(你今天…了嗎？)"</string>
@@ -37,7 +37,7 @@
 <!-- Streak as in "winning streak". That is, the number of times a user has performed a habit consecutively. Similar terms are "chains" or "series". -->
 <string name="streaks">"記錄"</string>
 <string name="no_habits_found">"你還沒有任何習慣"</string>
-<string name="long_press_to_toggle">"長按 標記/取消標記"</string>
+<string name="long_press_to_toggle">"長按以標記/取消標記"</string>
 <string name="reminder_off">"關閉"</string>
 <string name="validation_name_should_not_be_blank">"習慣標題不能空白"</string>
 <string name="validation_number_should_be_positive">"數字必需大於零"</string>
@@ -55,7 +55,7 @@
 <string name="intro_title_3">"堅持下去！"</string>
 <string name="intro_description_3">"習以為常幫助你建立並維持好習慣"</string>
 <string name="intro_title_4">"追蹤你的進步"</string>
-<string name="intro_description_4">"詳細的圖示將顯示你的進步"</string>
+<string name="intro_description_4">"詳細的圖表將顯示你的進步"</string>
 <string name="interval_15_minutes">"15分鐘"</string>
 <string name="interval_30_minutes">"30分鐘"</string>
 <string name="interval_1_hour">"1小時"</string>
@@ -65,7 +65,7 @@
 <string name="pref_toggle_title">"短按來記錄習慣"</string>
 <string name="pref_toggle_description">"但有可能造成意外記錄"</string>
 <string name="pref_snooze_interval_title">"提醒延遲間隔"</string>
-<string name="pref_rate_this_app">"評價這個APP在Google Play"</string>
+<string name="pref_rate_this_app">"在Google Play上評價這個App"</string>
 <string name="pref_send_feedback">"發送改進意見給開發者"</string>
 <string name="pref_view_source_code">"在GitHub上查看原始碼"</string>
 <string name="pref_view_app_introduction">"App簡介"</string>
@@ -84,7 +84,7 @@
 <string name="any_weekday">"工作日"</string>
 <string name="any_day">"每天"</string>
 <string name="select_weekdays">"選擇天數"</string>
-<string name="export_to_csv">"導出數據 (CSV)"</string>
+<string name="export_to_csv">"匯出數據 (CSV)"</string>
 <string name="done_label">"完成"</string>
 <string name="clear_label">"取消"</string>
 <string name="select_hours">"選擇小時"</string>
@@ -92,20 +92,20 @@
 
 <!-- Short description used on the Google Play store. There is an 80-character limit. -->
 <string name="store_short_description">"建立好新習慣並隨著時間進步 (無廣告)"</string>
-<string name="store_description_1">"習以為常幫助你建立和維持好習慣，達到長期目標。詳細的圖片和數字顯示出你的進步。完成無廣告的開源軟體。"</string>
-<string name="store_feature_interface">"&amp;lt;b&amp;gt;簡單，美觀，時尚的界面&amp;lt;/b&amp;gt;
+<string name="store_description_1">"習以為常幫助你建立和維持好習慣，達到長期目標。詳細的圖表和數據顯示出你的進步。這是一個無廣告的開源軟體。"</string>
+<string name="store_feature_interface">"&lt;b&gt;簡單，美觀，時尚的界面&lt;/b&gt;
 輕量型界面易於使用。"</string>
-<string name="store_feature_score">"&amp;lt;b&amp;gt; 習慣分數&amp;lt;/b&amp;gt;
+<string name="store_feature_score">"&lt;b&gt;習慣分數&lt;/b&gt;
 除了顯示你目前的習慣連勝，循環記錄有高級的演算法計算你的習慣強度。每完成一次能使你的習慣強度增加，每次錯過則會減弱。然而，幾次錯過並不會影響你的習慣進步。"</string>
-<string name="store_feature_statistics">"&amp;lt;b&amp;gt; 詳細的圖片和資料分析&amp;lt;/b&amp;gt;
+<string name="store_feature_statistics">"&lt;b&gt;詳細的圖片和資料分析&lt;/b&gt;
 詳細的圖片能顯示出你的進步。往後滑動可以查看完整的歷史記錄。"</string>
-<string name="store_feature_schedules">"&amp;lt;b&amp;gt; 靈活的時間表&amp;lt;/b&amp;gt;
+<string name="store_feature_schedules">"&lt;b&gt;靈活的時間表&lt;/b&gt;
 支援日常習慣或者是更複雜的時間間隔（例如每周3次，每周1次）"</string>
-<string name="store_feature_reminders">"&amp;lt;b&amp;gt;提醒&amp;lt;/b&amp;gt;
+<string name="store_feature_reminders">"&lt;b&gt;提醒&lt;/b&gt;
 可以選擇為每個習慣加入提醒。不需要打開程式就可以 記錄、忽略或者是延遲習慣。"</string>
-<string name="store_feature_opensource">"&amp;lt;b&amp;gt;完全無廣告和開源軟體&amp;lt;/b&amp;gt;
+<string name="store_feature_opensource">"&lt;b&gt;完全無廣告和開源軟體&lt;/b&gt;
 永遠不會有廣告和煩人的提醒。完整的程式碼在GPLv3。"</string>
-<string name="store_feature_wear">"&amp;lt;b&amp;gt;可以用在智慧型手錶上&amp;lt;/b&amp;gt;
+<string name="store_feature_wear">"&lt;b&gt;可以用在智慧型手錶上&lt;/b&gt;
 提醒可以直接在android手錶上 記錄、忽略，或者延遲。"</string>
 <string name="about">"關於本程式"</string>
 <string name="translators">"翻譯者"</string>
@@ -118,8 +118,8 @@
 
 <!-- This is a shorter version of "Habit Strength" -->
 <string name="strength">"強度"</string>
-<string name="best_streaks">"最長連勝"</string>
-<string name="current_streaks">"目前連勝"</string>
+<string name="best_streaks">"最長紀錄"</string>
+<string name="current_streaks">"目前紀錄"</string>
 <string name="number_of_repetitions">"重複次數"</string>
 <string name="last_x_days">"過去 %d 天"</string>
 <string name="last_x_weeks">"過去 %d 周"</string>
@@ -129,25 +129,25 @@
 <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
 <string name="all_time">"全部"</string>
 <string name="every_day">"每天"</string>
-<string name="every_week">"每周"</string>
-<string name="two_times_per_week">"每周兩次"</string>
-<string name="five_times_per_week">"每周五次"</string>
-<string name="custom_frequency">"自訂"</string>
-<string name="help">"幫助&amp;常見問題"</string>
-<string name="could_not_export">"輸出資料失數"</string>
-<string name="could_not_import">"輸入資料失數"</string>
+<string name="every_week">"每週"</string>
+<string name="two_times_per_week">"每週兩次"</string>
+<string name="five_times_per_week">"每週五次"</string>
+<string name="custom_frequency">"自訂週期"</string>
+<string name="help">"幫助&amp;amp;常見問題"</string>
+<string name="could_not_export">"輸出資料失敗"</string>
+<string name="could_not_import">"輸入資料失敗"</string>
 
 <!-- Appears when the user tries to import a file which we do not support or recognize. -->
 <string name="file_not_recognized">"無法辨識"</string>
 <string name="habits_imported">"習慣輸入成功"</string>
 <string name="full_backup_success">"習慣備份成功"</string>
-<string name="import_data">"輸入資料"</string>
-<string name="export_full_backup">"導出完整備份"</string>
-<string name="import_data_summary">"支援此程式輸出的資料， 也支援Tickmate ， HabitBull 或 rewire 導出文件，。請參閱常見問題以獲得更多訊息。"</string>
-<string name="export_as_csv_summary">"生成可以利用表格程式打開的文件，如Microsoft Excel或OpenOffice Calc。此文件無法重新導入。"</string>
-<string name="export_full_backup_summary">"生成一個包含所有資料的文件。該文件可以再重新輸入回来。"</string>
+<string name="import_data">"匯入資料"</string>
+<string name="export_full_backup">"匯出完整備份"</string>
+<string name="import_data_summary">"支援此程式所匯出的資料， 也支援Tickmate，HabitBull 或 Rewire 所產生的文件。請參閱常見問題以獲得更多訊息。"</string>
+<string name="export_as_csv_summary">"生成可以利用表格程式打開的文件，如Microsoft Excel或OpenOffice Calc。此文件無法重新匯入。"</string>
+<string name="export_full_backup_summary">"生成一個包含所有資料的文件。該文件可以再重新匯入。"</string>
 <string name="bug_report_failed">"錯誤報告：生成失敗"</string>
-<string name="generate_bug_report">"生成錯誤報告"</string>
+<string name="generate_bug_report">"產生錯誤報告"</string>
 <string name="troubleshooting">"問題排除"</string>
 <string name="help_translate">"協助翻譯本程式"</string>
 <string name="night_mode">"夜間模式"</string>

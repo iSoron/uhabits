@@ -18,55 +18,18 @@
  */
 package org.isoron.uhabits.widgets;
 
-import android.app.PendingIntent;
-import android.content.Context;
-import android.view.View;
+import android.content.*;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.HabitBroadcastReceiver;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.views.GraphWidgetView;
-import org.isoron.uhabits.views.HabitDataView;
-import org.isoron.uhabits.views.HabitHistoryView;
+import org.isoron.uhabits.models.*;
 
-public class HistoryWidgetProvider extends  BaseWidgetProvider
+public class HistoryWidgetProvider extends BaseWidgetProvider
 {
+    @NonNull
     @Override
-    protected View buildCustomView(Context context, Habit habit)
+    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
     {
-        HabitHistoryView dataView = new HabitHistoryView(context);
-        GraphWidgetView view = new GraphWidgetView(context, dataView);
-        view.setHabit(habit);
-        return view;
-    }
-
-    @Override
-    protected void refreshCustomViewData(View view)
-    {
-        ((HabitDataView) view).refreshData();
-    }
-
-    @Override
-    protected PendingIntent getOnClickPendingIntent(Context context, Habit habit)
-    {
-        return HabitBroadcastReceiver.buildViewHabitIntent(context, habit);
-    }
-
-    @Override
-    protected int getDefaultHeight()
-    {
-        return 250;
-    }
-
-    @Override
-    protected int getDefaultWidth()
-    {
-        return 250;
-    }
-
-    @Override
-    protected int getLayoutId()
-    {
-        return R.layout.widget_wrapper;
+        Habit habit = getHabitFromWidgetId(id);
+        return new HistoryWidget(context, id, habit);
     }
 }

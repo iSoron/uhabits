@@ -19,62 +19,60 @@
 
 package org.isoron.uhabits.commands;
 
-import com.activeandroid.ActiveAndroid;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.models.Habit;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Command to change the color of a list of habits.
+ */
 public class ChangeHabitColorCommand extends Command
 {
-    List<Habit> habits;
+    HabitList habitList;
+
+    List<Habit> selected;
+
     List<Integer> originalColors;
+
     Integer newColor;
 
-    public ChangeHabitColorCommand(List<Habit> habits, Integer newColor)
+    public ChangeHabitColorCommand(HabitList habitList,
+                                   List<Habit> selected,
+                                   Integer newColor)
     {
-        this.habits = habits;
+        this.habitList = habitList;
+        this.selected = selected;
         this.newColor = newColor;
-        this.originalColors = new ArrayList<>(habits.size());
+        this.originalColors = new ArrayList<>(selected.size());
 
-        for(Habit h : habits)
-            originalColors.add(h.color);
+        for (Habit h : selected) originalColors.add(h.getColor());
     }
 
     @Override
     public void execute()
     {
-        Habit.setColor(habits, newColor);
+        for (Habit h : selected) h.setColor(newColor);
+        habitList.update(selected);
     }
 
     @Override
-    public void undo()
-    {
-        DatabaseHelper.executeAsTransaction(new DatabaseHelper.Command()
-        {
-            @Override
-            public void execute()
-            {
-                int k = 0;
-                for(Habit h : habits)
-                {
-                    h.color = originalColors.get(k++);
-                    h.save();
-                }
-            }
-        });
-    }
-
     public Integer getExecuteStringId()
     {
         return R.string.toast_habit_changed;
     }
 
+    @Override
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_changed;
+    }
+
+    @Override
+    public void undo()
+    {
+        int k = 0;
+        for (Habit h : selected) h.setColor(originalColors.get(k++));
+        habitList.update(selected);
     }
 }

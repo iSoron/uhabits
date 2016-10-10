@@ -19,30 +19,48 @@
 
 package org.isoron.uhabits.widgets;
 
-import android.app.Activity;
-import android.appwidget.AppWidgetManager;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
 
-import org.isoron.uhabits.MainActivity;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.widgets.BaseWidgetProvider;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class HabitPickerDialog extends Activity implements AdapterView.OnItemClickListener
+import static android.appwidget.AppWidgetManager.*;
+
+public class HabitPickerDialog extends Activity
+    implements AdapterView.OnItemClickListener
 {
+    private HabitList habitList;
+
+    private WidgetPreferences preferences;
 
     private Integer widgetId;
+
     private ArrayList<Long> habitIds;
+
+    @Override
+    public void onItemClick(AdapterView<?> parent,
+                            View view,
+                            int position,
+                            long id)
+    {
+        Long habitId = habitIds.get(position);
+        preferences.addWidget(widgetId, habitId);
+
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+        app.getComponent().getWidgetUpdater().updateWidgets();
+
+        Intent resultValue = new Intent();
+        resultValue.putExtra(EXTRA_APPWIDGET_ID, widgetId);
+        setResult(RESULT_OK, resultValue);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,44 +68,33 @@ public class HabitPickerDialog extends Activity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.widget_configure_activity);
 
+        HabitsApplication app = (HabitsApplication) getApplicationContext();
+        AppComponent component = app.getComponent();
+        habitList = component.getHabitList();
+        preferences = component.getWidgetPreferences();
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        if (extras != null) widgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID);
+        if (extras != null)
+            widgetId = extras.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID);
 
         ListView listView = (ListView) findViewById(R.id.listView);
 
         habitIds = new ArrayList<>();
         ArrayList<String> habitNames = new ArrayList<>();
 
-        List<Habit> habits = Habit.getAll(false);
-        for(Habit h : habits)
+        for (Habit h : habitList)
         {
             habitIds.add(h.getId());
-            habitNames.add(h.name);
+            habitNames.add(h.getName());
         }
 
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, habitNames);
+            new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                habitNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        Long habitId = habitIds.get(position);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(
-                getApplicationContext());
-        prefs.edit().putLong(BaseWidgetProvider.getHabitIdKey(widgetId), habitId).commit();
-
-        MainActivity.updateWidgets(this);
-
-        Intent resultValue = new Intent();
-        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-        setResult(RESULT_OK, resultValue);
-        finish();
     }
 
 }

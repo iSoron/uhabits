@@ -43,6 +43,7 @@
     <attr name="dialogIconChangeColor" format="reference"/>
     <attr name="iconReminder" format="reference"/>
     <attr name="iconFrequency" format="reference"/>
+    <attr name="iconFilter" format="reference"/>
 
     <attr name="toolbarPopupTheme" format="reference"/>
 

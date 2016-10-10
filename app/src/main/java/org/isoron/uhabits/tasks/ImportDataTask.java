@@ -19,78 +19,48 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.support.annotation.*;
 
-import org.isoron.uhabits.io.GenericImporter;
+import com.google.auto.factory.*;
 
-import java.io.File;
+import org.isoron.uhabits.io.*;
 
-public class ImportDataTask extends BaseTask
+import java.io.*;
+
+@AutoFactory(allowSubclasses = true)
+public class ImportDataTask implements Task
 {
-    public static final int SUCCESS = 1;
-    public static final int NOT_RECOGNIZED = 2;
     public static final int FAILED = 3;
 
-    public interface Listener
-    {
-        void onImportFinished(int result);
-    }
+    public static final int NOT_RECOGNIZED = 2;
 
-    @Nullable
-    private final ProgressBar progressBar;
+    public static final int SUCCESS = 1;
+
+    int result;
 
     @NonNull
     private final File file;
 
-    @Nullable
-    private Listener listener;
+    private GenericImporter importer;
 
-    int result;
+    @NonNull
+    private final Listener listener;
 
-    public ImportDataTask(@NonNull File file, @Nullable ProgressBar progressBar)
+    public ImportDataTask(@Provided @NonNull GenericImporter importer,
+                          @NonNull File file,
+                          @NonNull Listener listener)
     {
-        this.file = file;
-        this.progressBar = progressBar;
-    }
-
-    public void setListener(@Nullable Listener listener)
-    {
+        this.importer = importer;
         this.listener = listener;
+        this.file = file;
     }
 
     @Override
-    protected void onPreExecute()
-    {
-        super.onPreExecute();
-
-        if(progressBar != null)
-        {
-            progressBar.setIndeterminate(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        if(progressBar != null)
-            progressBar.setVisibility(View.GONE);
-
-        if(listener != null) listener.onImportFinished(result);
-
-        super.onPostExecute(null);
-    }
-
-    @Override
-    protected void doInBackground()
+    public void doInBackground()
     {
         try
         {
-            GenericImporter importer = new GenericImporter();
-            if(importer.canHandle(file))
+            if (importer.canHandle(file))
             {
                 importer.importHabitsFromFile(file);
                 result = SUCCESS;
@@ -105,5 +75,16 @@ public class ImportDataTask extends BaseTask
             result = FAILED;
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onPostExecute()
+    {
+        listener.onImportDataFinished(result);
+    }
+
+    public interface Listener
+    {
+        void onImportDataFinished(int result);
     }
 }

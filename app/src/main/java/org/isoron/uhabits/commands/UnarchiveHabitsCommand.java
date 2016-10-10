@@ -19,38 +19,47 @@
 
 package org.isoron.uhabits.commands;
 
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
-import java.util.List;
+import java.util.*;
 
+/**
+ * Command to unarchive a list of habits.
+ */
 public class UnarchiveHabitsCommand extends Command
 {
+    HabitList habitList;
 
     private List<Habit> habits;
 
-    public UnarchiveHabitsCommand(List<Habit> habits)
+    public UnarchiveHabitsCommand(HabitList habitList, List<Habit> selected)
     {
-        this.habits = habits;
+        this.habits = selected;
+        this.habitList = habitList;
     }
 
     @Override
     public void execute()
     {
-        Habit.unarchive(habits);
+        for(Habit h : habits) h.setArchived(false);
+        habitList.update(habits);
     }
 
     @Override
     public void undo()
     {
-        Habit.archive(habits);
+        for(Habit h : habits) h.setArchived(true);
+        habitList.update(habits);
     }
 
+    @Override
     public Integer getExecuteStringId()
     {
         return R.string.toast_habit_unarchived;
     }
 
+    @Override
     public Integer getUndoStringId()
     {
         return R.string.toast_habit_archived;

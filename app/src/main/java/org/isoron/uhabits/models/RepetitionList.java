@@ -19,197 +19,194 @@
 
 package org.isoron.uhabits.models;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 
-import com.activeandroid.Cache;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
-import com.activeandroid.query.Select;
-import com.activeandroid.util.SQLiteUtils;
+import org.isoron.uhabits.utils.*;
 
-import org.isoron.uhabits.helpers.DatabaseHelper;
-import org.isoron.uhabits.helpers.DateHelper;
+import java.util.*;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-
-public class RepetitionList
+/**
+ * The collection of {@link Repetition}s belonging to a habit.
+ */
+public abstract class RepetitionList
 {
     @NonNull
-    private Habit habit;
+    protected final Habit habit;
+
+    @NonNull
+    protected final ModelObservable observable;
 
     public RepetitionList(@NonNull Habit habit)
     {
         this.habit = habit;
-    }
-
-    @NonNull
-    protected From select()
-    {
-        return new Select().from(Repetition.class)
-                .where("habit = ?", habit.getId())
-                .and("timestamp <= ?", DateHelper.getStartOfToday())
-                .orderBy("timestamp");
-    }
-
-    @NonNull
-    protected From selectFromTo(long timeFrom, long timeTo)
-    {
-        return select().and("timestamp >= ?", timeFrom).and("timestamp <= ?", timeTo);
+        this.observable = new ModelObservable();
     }
 
     /**
-     * Checks whether there is a repetition at a given timestamp.
+     * Adds a repetition to the list.
+     * <p>
+     * Any implementation of this method must call observable.notifyListeners()
+     * after the repetition has been added.
      *
-     * @param timestamp the timestamp to check
-     * @return true if there is a repetition
+     * @param repetition the repetition to be added.
      */
-    public boolean contains(long timestamp)
-    {
-        int count = select().where("timestamp = ?", timestamp).count();
-        return (count > 0);
-    }
+    public abstract void add(Repetition repetition);
 
     /**
-     * Deletes the repetition at a given timestamp, if it exists.
+     * Returns true if the list contains a repetition that has the given
+     * timestamp.
      *
-     * @param timestamp the timestamp of the repetition to delete
+     * @param timestamp the timestamp to find.
+     * @return true if list contains repetition with given timestamp, false
+     * otherwise.
      */
-    public void delete(long timestamp)
+    public boolean containsTimestamp(long timestamp)
     {
-        new Delete().from(Repetition.class)
-                .where("habit = ?", habit.getId())
-                .and("timestamp = ?", timestamp)
-                .execute();
+        return (getByTimestamp(timestamp) != null);
     }
 
     /**
-     * Toggles the repetition at a certain timestamp. That is, deletes the repetition if it exists
-     * or creates one if it does not.
+     * Returns the list of repetitions that happened within the given time
+     * interval.
+     * <p>
+     * The list is sorted by timestamp in increasing order. That is, the first
+     * element corresponds to oldest timestamp, while the last element
+     * corresponds to the newest. The endpoints of the interval are included.
      *
-     * @param timestamp the timestamp of the repetition to toggle
+     * @param fromTimestamp timestamp of the beginning of the interval
+     * @param toTimestamp   timestamp of the end of the interval
+     * @return list of repetitions within given time interval
      */
-    public void toggle(long timestamp)
-    {
-        timestamp = DateHelper.getStartOfDay(timestamp);
-
-        if (contains(timestamp))
-            delete(timestamp);
-        else
-            insert(timestamp);
-
-        habit.scores.invalidateNewerThan(timestamp);
-        habit.checkmarks.deleteNewerThan(timestamp);
-        habit.streaks.deleteNewerThan(timestamp);
-    }
-
-    private void insert(long timestamp)
-    {
-        String[] args = { habit.getId().toString(), Long.toString(timestamp) };
-        SQLiteUtils.execSql("insert into Repetitions(habit, timestamp) values (?,?)", args);
-    }
+    // TODO: Change order timestamp desc
+    public abstract List<Repetition> getByInterval(long fromTimestamp,
+                                                   long toTimestamp);
 
     /**
-     * Returns the oldest repetition for the habit. If there is no repetition, returns null.
-     * Repetitions in the future are discarded.
+     * Returns the repetition that has the given timestamp, or null if none
+     * exists.
      *
-     * @return oldest repetition for the habit
+     * @param timestamp the repetition timestamp.
+     * @return the repetition that has the given timestamp.
      */
     @Nullable
-    public Repetition getOldest()
+    public abstract Repetition getByTimestamp(long timestamp);
+
+    @NonNull
+    public ModelObservable getObservable()
     {
-        return (Repetition) select().limit(1).executeSingle();
+        return observable;
     }
 
     /**
-     * Returns the timestamp of the oldest repetition. If there are no repetitions, returns zero.
-     * Repetitions in the future are discarded.
+     * Returns the oldest repetition in the list.
+     * <p>
+     * If the list is empty, returns null. Repetitions in the future are
+     * discarded.
      *
-     * @return timestamp of the oldest repetition
+     * @return oldest repetition in the list, or null if list is empty.
      */
-    public long getOldestTimestamp()
-    {
-        String[] args = { habit.getId().toString(), Long.toString(DateHelper.getStartOfToday()) };
-        String query = "select timestamp from Repetitions where habit = ? and timestamp <= ? " +
-                "order by timestamp limit 1";
-
-        return DatabaseHelper.longQuery(query, args);
-    }
+    @Nullable
+    public abstract Repetition getOldest();
+    @Nullable
+    /**
+     * Returns the newest repetition in the list.
+     * <p>
+     * If the list is empty, returns null. Repetitions in the past are
+     * discarded.
+     *
+     * @return newest repetition in the list, or null if list is empty.
+     */
+    public abstract Repetition getNewest();
 
     /**
-     * Returns the total number of repetitions for each month, from the first repetition until
-     * today, grouped by day of week. The repetitions are returned in a HashMap. The key is the
-     * timestamp for the first day of the month, at midnight (00:00). The value is an integer
-     * array with 7 entries. The first entry contains the total number of repetitions during
-     * the specified month that occurred on a Saturday. The second entry corresponds to Sunday,
-     * and so on. If there are no repetitions during a certain month, the value is null.
+     * Returns the total number of repetitions for each month, from the first
+     * repetition until today, grouped by day of week.
+     * <p>
+     * The repetitions are returned in a HashMap. The key is the timestamp for
+     * the first day of the month, at midnight (00:00). The value is an integer
+     * array with 7 entries. The first entry contains the total number of
+     * repetitions during the specified month that occurred on a Saturday. The
+     * second entry corresponds to Sunday, and so on. If there are no
+     * repetitions during a certain month, the value is null.
      *
      * @return total number of repetitions by month versus day of week
      */
     @NonNull
     public HashMap<Long, Integer[]> getWeekdayFrequency()
     {
-        Repetition oldestRep = getOldest();
-        if(oldestRep == null) return new HashMap<>();
+        List<Repetition> reps = getByInterval(0, DateUtils.getStartOfToday());
+        HashMap<Long, Integer[]> map = new HashMap<>();
 
-        String query = "select strftime('%Y', timestamp / 1000, 'unixepoch') as year," +
-                "strftime('%m', timestamp / 1000, 'unixepoch') as month," +
-                "strftime('%w', timestamp / 1000, 'unixepoch') as weekday, " +
-                "count(*) from repetitions " +
-                "where habit = ? and timestamp <= ? " +
-                "group by year, month, weekday";
-
-        String[] params = { habit.getId().toString(),
-                Long.toString(DateHelper.getStartOfToday()) };
-
-        SQLiteDatabase db = Cache.openDatabase();
-        Cursor cursor = db.rawQuery(query, params);
-
-        if(!cursor.moveToFirst()) return new HashMap<>();
-
-        HashMap <Long, Integer[]> map = new HashMap<>();
-        GregorianCalendar date = DateHelper.getStartOfTodayCalendar();
-
-        do
+        for (Repetition r : reps)
         {
-            int year = Integer.parseInt(cursor.getString(0));
-            int month = Integer.parseInt(cursor.getString(1));
-            int weekday = (Integer.parseInt(cursor.getString(2)) + 1) % 7;
-            int count = cursor.getInt(3);
+            Calendar date = DateUtils.getCalendar(r.getTimestamp());
+            int weekday = DateUtils.getWeekday(r.getTimestamp());
+            date.set(Calendar.DAY_OF_MONTH, 1);
 
-            date.set(year, month - 1, 1);
             long timestamp = date.getTimeInMillis();
-
             Integer[] list = map.get(timestamp);
 
-            if(list == null)
+            if (list == null)
             {
                 list = new Integer[7];
                 Arrays.fill(list, 0);
                 map.put(timestamp, list);
             }
 
-            list[weekday] = count;
+            list[weekday]++;
         }
-        while (cursor.moveToNext());
-        cursor.close();
 
         return map;
     }
 
     /**
-     * Returns the total number of repetitions that happened within the specified interval of time.
+     * Removes a given repetition from the list.
+     * <p>
+     * If the list does not contain the repetition, it is unchanged.
+     * <p>
+     * Any implementation of this method must call observable.notifyListeners()
+     * after the repetition has been added.
      *
-     * @param from beginning of the interval
-     * @param to end of the interval
-     * @return number of repetition in the given interval
+     * @param repetition the repetition to be removed
      */
-    public int count(long from, long to)
+    public abstract void remove(@NonNull Repetition repetition);
+
+    /**
+     * Adds or remove a repetition at a certain timestamp.
+     * <p>
+     * If there exists a repetition on the list with the given timestamp, the
+     * method removes this repetition from the list and returns it. If there are
+     * no repetitions with the given timestamp, creates and adds one to the
+     * list, then returns it.
+     *
+     * @param timestamp the timestamp for the timestamp that should be added or
+     *                  removed.
+     * @return the repetition that has been added or removed.
+     */
+    @NonNull
+    public Repetition toggleTimestamp(long timestamp)
     {
-        return selectFromTo(from, to).count();
+        timestamp = DateUtils.getStartOfDay(timestamp);
+        Repetition rep = getByTimestamp(timestamp);
+
+        if (rep != null) remove(rep);
+        else
+        {
+            rep = new Repetition(timestamp);
+            add(rep);
+        }
+
+        habit.getScores().invalidateNewerThan(timestamp);
+        habit.getCheckmarks().invalidateNewerThan(timestamp);
+        habit.getStreaks().invalidateNewerThan(timestamp);
+        return rep;
     }
+
+    /**
+     * Returns the number of all repetitions
+     *
+     * @return number of all repetitions
+     */
+    @NonNull
+    public abstract long getTotalCount();
 }
