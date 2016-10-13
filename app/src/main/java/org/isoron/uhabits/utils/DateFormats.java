@@ -44,7 +44,7 @@ public class DateFormats
     {
         Locale locale = Locale.getDefault();
 
-        if (SDK_INT >= JELLY_BEAN)
+        if (SDK_INT >= JELLY_BEAN_MR2)
             skeleton = getBestDateTimePattern(locale, skeleton);
 
         return fromSkeleton(skeleton, locale);
