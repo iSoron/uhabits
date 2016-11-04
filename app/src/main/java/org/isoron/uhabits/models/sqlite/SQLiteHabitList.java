@@ -289,4 +289,10 @@ public class SQLiteHabitList extends HabitList
         super.repair();
         rebuildOrder();
     }
+
+    @Override
+    public void setOrder(Order order)
+    {
+        throw new NotImplementedException("Not implemented");
+    }
 }

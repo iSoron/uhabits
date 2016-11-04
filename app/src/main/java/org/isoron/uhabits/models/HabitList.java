@@ -33,6 +33,13 @@ import java.util.*;
  */
 public abstract class HabitList implements Iterable<Habit>
 {
+    public enum Order
+    {
+        BY_NAME,
+        BY_COLOR,
+        BY_POSITION
+    }
+
     private ModelObservable observable;
 
     @NonNull
@@ -156,6 +163,13 @@ public abstract class HabitList implements Iterable<Habit>
             h.getScores().invalidateNewerThan(0);
         }
     }
+
+    /**
+     * Changes the order of the elements on the list.
+     *
+     * @param order the new order criterea
+     */
+    public abstract void setOrder(Order order);
 
     /**
      * Returns the number of habits in this list.
