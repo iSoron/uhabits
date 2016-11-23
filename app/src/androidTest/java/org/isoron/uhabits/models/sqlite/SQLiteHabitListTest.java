@@ -125,17 +125,6 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         assertThat(habits.get(3).getName(), equalTo("habit 3"));
     }
 
-//    @Test
-//    public void testGetAll_withoutArchived()
-//    {
-//        List<Habit> habits = habitList.toList();
-//        assertThat(habits.size(), equalTo(5));
-//        assertThat(habits.get(3).getName(), equalTo("habit 7"));
-//
-//        List<Habit> another = habitList.toList();
-//        assertThat(habits, equalTo(another));
-//    }
-
     @Test
     public void testGetById()
     {
@@ -176,45 +165,6 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
         h2.setId(1000L);
         assertThat(habitList.indexOf(h2), equalTo(-1));
-    }
-
-    @Test
-    public void test_reorder()
-    {
-        // Same as HabitListTest.java
-        // TODO: remove duplication
-
-        int operations[][] = {
-            {5, 2}, {3, 7}, {4, 4}, {3, 2}
-        };
-
-        int expectedPosition[][] = {
-            {0, 1, 3, 4, 5, 2, 6, 7, 8, 9},
-            {0, 1, 7, 3, 4, 2, 5, 6, 8, 9},
-            {0, 1, 7, 3, 4, 2, 5, 6, 8, 9},
-            {0, 1, 7, 2, 4, 3, 5, 6, 8, 9},
-        };
-
-        for (int i = 0; i < operations.length; i++)
-        {
-            int from = operations[i][0];
-            int to = operations[i][1];
-
-            Habit fromHabit = habitList.getByPosition(from);
-            Habit toHabit = habitList.getByPosition(to);
-            habitList.reorder(fromHabit, toHabit);
-
-            int actualPositions[] = new int[10];
-
-            for (int j = 0; j < 10; j++)
-            {
-                Habit h = habitList.getById(j);
-                assertNotNull(h);
-                actualPositions[j] = habitList.indexOf(h);
-            }
-
-            assertThat(actualPositions, equalTo(expectedPosition[i]));
-        }
     }
 
     private HabitRecord getRecord(long id)

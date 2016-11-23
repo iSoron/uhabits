@@ -43,6 +43,8 @@ public class SQLiteHabitList extends HabitList
 
     private final ModelFactory modelFactory;
 
+    private Order order;
+
     public SQLiteHabitList(@NonNull ModelFactory modelFactory)
     {
         super();
@@ -50,6 +52,7 @@ public class SQLiteHabitList extends HabitList
 
         if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
+        order = Order.BY_POSITION;
     }
 
     protected SQLiteHabitList(@NonNull ModelFactory modelFactory,
@@ -60,6 +63,7 @@ public class SQLiteHabitList extends HabitList
 
         if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
+        order = Order.BY_POSITION;
     }
 
     public static SQLiteHabitList getInstance(
@@ -254,7 +258,23 @@ public class SQLiteHabitList extends HabitList
 
     private void appendOrderBy(StringBuilder query)
     {
-        query.append("order by position ");
+        switch (order)
+        {
+            case BY_POSITION:
+                query.append("order by position ");
+                break;
+
+            case BY_NAME:
+                query.append("order by name ");
+                break;
+
+            case BY_COLOR:
+                query.append("order by color ");
+                break;
+
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     private void appendSelect(StringBuilder query)
@@ -293,6 +313,6 @@ public class SQLiteHabitList extends HabitList
     @Override
     public void setOrder(Order order)
     {
-        throw new NotImplementedException("Not implemented");
+        this.order = order;
     }
 }
