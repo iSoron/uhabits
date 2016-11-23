@@ -180,6 +180,13 @@ public class HabitCardListCache implements CommandRunner.Listener
         this.listener = listener;
     }
 
+    public void setOrder(HabitList.Order order)
+    {
+        allHabits.setOrder(order);
+        filteredHabits.setOrder(order);
+        refreshAllHabits();
+    }
+
     /**
      * Interface definition for a callback to be invoked when the data on the
      * cache has been modified.

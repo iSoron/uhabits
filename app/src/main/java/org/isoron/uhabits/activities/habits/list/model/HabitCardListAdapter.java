@@ -260,6 +260,11 @@ public class HabitCardListAdapter
         this.listView = listView;
     }
 
+    public void setOrder(HabitList.Order order)
+    {
+        cache.setOrder(order);
+    }
+
     /**
      * Selects or deselects the item at a given position.
      *
