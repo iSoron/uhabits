@@ -59,6 +59,10 @@
                     <item
                         android:id="@+id/actionSortColor"
                         android:title="@string/by_color"/>
+
+                    <item
+                        android:id="@+id/actionSortScore"
+                        android:title="@string/by_score"/>
                 </menu>
             </item>
         </menu>

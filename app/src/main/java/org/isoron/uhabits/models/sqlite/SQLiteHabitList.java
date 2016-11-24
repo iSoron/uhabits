@@ -277,6 +277,15 @@ public class SQLiteHabitList extends HabitList
             habits.add(habit);
         }
 
+        if(order == Order.BY_SCORE)
+        {
+            Collections.sort(habits, (lhs, rhs) -> {
+                int s1 = lhs.getScores().getTodayValue();
+                int s2 = rhs.getScores().getTodayValue();
+                return Integer.compare(s2, s1);
+            });
+        }
+
         return habits;
     }
 
@@ -289,6 +298,7 @@ public class SQLiteHabitList extends HabitList
                 break;
 
             case BY_NAME:
+            case BY_SCORE:
                 query.append("order by name ");
                 break;
 

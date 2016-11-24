@@ -124,6 +124,10 @@ public class ListHabitsMenu extends BaseMenu
                 adapter.setOrder(HabitList.Order.BY_NAME);
                 return true;
 
+            case R.id.actionSortScore:
+                adapter.setOrder(HabitList.Order.BY_SCORE);
+                return true;
+
             default:
                 return false;
         }

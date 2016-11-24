@@ -161,9 +161,16 @@ public class MemoryHabitList extends HabitList
             else return c1.compareTo(c2);
         };
 
+        Comparator<Habit> scoreComparator = (h1, h2) -> {
+            int s1 = h1.getScores().getTodayValue();
+            int s2 = h2.getScores().getTodayValue();
+            return Integer.compare(s2, s1);
+        };
+
         if (order == BY_POSITION) return null;
         if (order == BY_NAME) return nameComparator;
         if (order == BY_COLOR) return colorComparator;
+        if (order == BY_SCORE) return scoreComparator;
         throw new IllegalStateException();
     }
 

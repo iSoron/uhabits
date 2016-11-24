@@ -240,6 +240,7 @@ public abstract class HabitList implements Iterable<Habit>
     {
         BY_NAME,
         BY_COLOR,
+        BY_SCORE,
         BY_POSITION
     }
 }
