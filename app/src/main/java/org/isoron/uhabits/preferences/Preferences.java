@@ -24,6 +24,7 @@ import android.preference.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.models.*;
 
 import java.util.*;
 
@@ -61,12 +62,32 @@ public class Preferences
         return prefs.getInt("pref_default_habit_palette_color", fallbackColor);
     }
 
+    public HabitList.Order getDefaultOrder()
+    {
+        String name = prefs.getString("pref_default_order", "BY_POSITION");
+
+        try
+        {
+            return HabitList.Order.valueOf(name);
+        }
+        catch (IllegalArgumentException e)
+        {
+            setDefaultOrder(HabitList.Order.BY_POSITION);
+            return HabitList.Order.BY_POSITION;
+        }
+    }
+
     public int getDefaultScoreSpinnerPosition()
     {
         int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
             defaultScoreInterval = 1;
         return defaultScoreInterval;
+    }
+
+    public void setDefaultOrder(HabitList.Order order)
+    {
+        prefs.edit().putString("pref_default_order", order.name()).apply();
     }
 
     public void setDefaultScoreSpinnerPosition(int position)
