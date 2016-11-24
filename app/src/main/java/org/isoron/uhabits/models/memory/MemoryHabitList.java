@@ -37,16 +37,21 @@ public class MemoryHabitList extends HabitList
 
     private Comparator<Habit> comparator = null;
 
+    @NonNull
+    private Order order;
+
     public MemoryHabitList()
     {
         super();
         list = new LinkedList<>();
+        order = Order.BY_POSITION;
     }
 
     protected MemoryHabitList(@NonNull HabitMatcher matcher)
     {
         super(matcher);
         list = new LinkedList<>();
+        order = Order.BY_POSITION;
     }
 
     @Override
@@ -93,6 +98,12 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
+    public Order getOrder()
+    {
+        return order;
+    }
+
+    @Override
     public int indexOf(@NonNull Habit h)
     {
         return list.indexOf(h);
@@ -119,8 +130,9 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public void setOrder(Order order)
+    public void setOrder(@NonNull Order order)
     {
+        this.order = order;
         this.comparator = getComparatorByOrder(order);
         resort();
     }

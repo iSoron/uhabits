@@ -130,6 +130,19 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
+    @NonNull
+    public Order getOrder()
+    {
+        return order;
+    }
+
+    @Override
+    public void setOrder(@NonNull Order order)
+    {
+        this.order = order;
+    }
+
+    @Override
     public int indexOf(@NonNull Habit h)
     {
         return toList().indexOf(h);
@@ -223,6 +236,13 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
+    public void repair()
+    {
+        super.repair();
+        rebuildOrder();
+    }
+
+    @Override
     public int size()
     {
         return toList().size();
@@ -273,7 +293,7 @@ public class SQLiteHabitList extends HabitList
                 break;
 
             case BY_COLOR:
-                query.append("order by color ");
+                query.append("order by color, name ");
                 break;
 
             default:
@@ -305,18 +325,5 @@ public class SQLiteHabitList extends HabitList
         appendWhere(query);
         appendOrderBy(query);
         return query.toString();
-    }
-
-    @Override
-    public void repair()
-    {
-        super.repair();
-        rebuildOrder();
-    }
-
-    @Override
-    public void setOrder(Order order)
-    {
-        this.order = order;
     }
 }

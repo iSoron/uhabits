@@ -168,7 +168,7 @@ public class HabitCardListView extends RecyclerView
         {
             int position = holder.getAdapterPosition();
             if (controller != null) controller.onItemLongClick(position);
-            touchHelper.startDrag(holder);
+            if(adapter.isSortable()) touchHelper.startDrag(holder);
         }
 
         @Override

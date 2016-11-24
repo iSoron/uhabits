@@ -107,6 +107,11 @@ public class HabitCardListCache implements CommandRunner.Listener
         return data.habits.size();
     }
 
+    public HabitList.Order getOrder()
+    {
+        return filteredHabits.getOrder();
+    }
+
     public int getScore(long habitId)
     {
         return data.scores.get(habitId);

@@ -130,6 +130,11 @@ public class HabitCardListAdapter
         return selected.isEmpty();
     }
 
+    public boolean isSortable()
+    {
+        return cache.getOrder() == HabitList.Order.BY_POSITION;
+    }
+
     /**
      * Notify the adapter that it has been attached to a ListView.
      */
