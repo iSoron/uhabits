@@ -28,12 +28,15 @@ import org.isoron.uhabits.utils.*;
 import java.io.*;
 import java.util.*;
 
+import javax.annotation.concurrent.*;
+
 /**
  * An ordered collection of {@link Habit}s.
  */
+@ThreadSafe
 public abstract class HabitList implements Iterable<Habit>
 {
-    private ModelObservable observable;
+    private final ModelObservable observable;
 
     @NonNull
     protected final HabitMatcher filter;

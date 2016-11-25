@@ -27,18 +27,22 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import javax.annotation.concurrent.*;
+
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
  */
+@ThreadSafe
 public abstract class CheckmarkList
 {
-    protected Habit habit;
+    protected final Habit habit;
 
-    public ModelObservable observable = new ModelObservable();
+    public final ModelObservable observable;
 
     public CheckmarkList(Habit habit)
     {
         this.habit = habit;
+        this.observable = new ModelObservable();
     }
 
     /**
@@ -64,7 +68,7 @@ public abstract class CheckmarkList
      * @return values for the checkmarks in the interval
      */
     @NonNull
-    public final int[] getAllValues()
+    public synchronized final int[] getAllValues()
     {
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep == null) return new int[0];
@@ -97,7 +101,7 @@ public abstract class CheckmarkList
      * @return checkmark for today
      */
     @Nullable
-    public final Checkmark getToday()
+    public synchronized final Checkmark getToday()
     {
         computeAll();
         return getNewestComputed();
@@ -108,7 +112,7 @@ public abstract class CheckmarkList
      *
      * @return value of today's checkmark
      */
-    public final int getTodayValue()
+    public synchronized final int getTodayValue()
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();
@@ -159,9 +163,14 @@ public abstract class CheckmarkList
      */
     public final void writeCSV(Writer out) throws IOException
     {
-        computeAll();
+        int values[];
 
-        int values[] = getAllValues();
+        synchronized (this)
+        {
+            computeAll();
+            values = getAllValues();
+        }
+
         long timestamp = DateUtils.getStartOfToday();
         SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
 
@@ -271,7 +280,7 @@ public abstract class CheckmarkList
      * repetition of the habit until today. Days that already have a
      * corresponding checkmark are skipped.
      */
-    protected final void computeAll()
+    private synchronized void computeAll()
     {
         Repetition oldest = habit.getRepetitions().getOldest();
         if (oldest == null) return;

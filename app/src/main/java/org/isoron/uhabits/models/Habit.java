@@ -26,11 +26,13 @@ import org.apache.commons.lang3.builder.*;
 
 import java.util.*;
 
+import javax.annotation.concurrent.*;
 import javax.inject.*;
 
 /**
  * The thing that the user wants to track.
  */
+@ThreadSafe
 public class Habit
 {
     public static final String HABIT_URI_FORMAT =
@@ -54,22 +56,23 @@ public class Habit
     @NonNull
     private boolean archived;
 
-    @NonNull
-    private StreakList streaks;
-
-    @NonNull
-    private ScoreList scores;
-
-    @NonNull
-    private RepetitionList repetitions;
-
-    @NonNull
-    private CheckmarkList checkmarks;
-
     @Nullable
     private Reminder reminder;
 
-    private ModelObservable observable = new ModelObservable();
+    @NonNull
+    private final StreakList streaks;
+
+    @NonNull
+    private final ScoreList scores;
+
+    @NonNull
+    private final RepetitionList repetitions;
+
+    @NonNull
+    private final CheckmarkList checkmarks;
+
+    @NonNull
+    private final ModelObservable observable;
 
     /**
      * Constructs a habit with default attributes.
@@ -88,12 +91,13 @@ public class Habit
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
+        observable = new ModelObservable();
     }
 
     /**
      * Clears the reminder for a habit.
      */
-    public void clearReminder()
+    public synchronized void clearReminder()
     {
         reminder = null;
         observable.notifyListeners();
@@ -104,7 +108,7 @@ public class Habit
      *
      * @param model the model whose attributes should be copied from
      */
-    public void copyFrom(@NonNull Habit model)
+    public synchronized void copyFrom(@NonNull Habit model)
     {
         this.name = model.getName();
         this.description = model.getDescription();
@@ -119,7 +123,7 @@ public class Habit
      * List of checkmarks belonging to this habit.
      */
     @NonNull
-    public CheckmarkList getCheckmarks()
+    public synchronized CheckmarkList getCheckmarks()
     {
         return checkmarks;
     }
@@ -133,56 +137,56 @@ public class Habit
      * habit.color).
      */
     @NonNull
-    public Integer getColor()
+    public synchronized Integer getColor()
     {
         return color;
     }
 
-    public void setColor(@NonNull Integer color)
+    public synchronized void setColor(@NonNull Integer color)
     {
         this.color = color;
     }
 
     @NonNull
-    public String getDescription()
+    public synchronized String getDescription()
     {
         return description;
     }
 
-    public void setDescription(@NonNull String description)
+    public synchronized void setDescription(@NonNull String description)
     {
         this.description = description;
     }
 
     @NonNull
-    public Frequency getFrequency()
+    public synchronized Frequency getFrequency()
     {
         return frequency;
     }
 
-    public void setFrequency(@NonNull Frequency frequency)
+    public synchronized void setFrequency(@NonNull Frequency frequency)
     {
         this.frequency = frequency;
     }
 
     @Nullable
-    public Long getId()
+    public synchronized Long getId()
     {
         return id;
     }
 
-    public void setId(@Nullable Long id)
+    public synchronized void setId(@Nullable Long id)
     {
         this.id = id;
     }
 
     @NonNull
-    public String getName()
+    public synchronized String getName()
     {
         return name;
     }
 
-    public void setName(@NonNull String name)
+    public synchronized void setName(@NonNull String name)
     {
         this.name = name;
     }
@@ -203,13 +207,13 @@ public class Habit
      * @throws IllegalStateException if habit has no reminder
      */
     @NonNull
-    public Reminder getReminder()
+    public synchronized Reminder getReminder()
     {
         if (reminder == null) throw new IllegalStateException();
         return reminder;
     }
 
-    public void setReminder(@Nullable Reminder reminder)
+    public synchronized void setReminder(@Nullable Reminder reminder)
     {
         this.reminder = reminder;
     }
@@ -248,17 +252,17 @@ public class Habit
      *
      * @return true if habit has reminder, false otherwise
      */
-    public boolean hasReminder()
+    public synchronized boolean hasReminder()
     {
         return reminder != null;
     }
 
-    public boolean isArchived()
+    public synchronized boolean isArchived()
     {
         return archived;
     }
 
-    public void setArchived(boolean archived)
+    public synchronized void setArchived(boolean archived)
     {
         this.archived = archived;
     }

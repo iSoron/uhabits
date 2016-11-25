@@ -60,7 +60,7 @@ public class AndroidTaskRunner implements TaskRunner
     public void execute(Task task)
     {
         task.onAttached(this);
-        new CustomAsyncTask(task).execute();
+        new CustomAsyncTask(task).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
