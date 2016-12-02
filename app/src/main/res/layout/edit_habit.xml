@@ -79,7 +79,7 @@
 
                 <EditText
                     android:id="@+id/tvFreqNum"
-                    style="@style/dialogFormInputSmallNumber"/>
+                    style="@style/dialogFormInputLargeNumber"/>
 
                 <TextView
                     android:id="@+id/textView3"
@@ -89,7 +89,7 @@
 
                 <EditText
                     android:id="@+id/tvFreqDen"
-                    style="@style/dialogFormInputSmallNumber"/>
+                    style="@style/dialogFormInputLargeNumber"/>
 
                 <TextView
                     android:id="@+id/textView5"

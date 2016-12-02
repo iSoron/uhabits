@@ -40,11 +40,17 @@ public class HabitFixtures
 
     public Habit createEmptyHabit()
     {
+        return createEmptyHabit(null);
+    }
+
+    public Habit createEmptyHabit(Long id)
+    {
         Habit habit = modelFactory.buildHabit();
         habit.setName("Meditate");
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(3);
         habit.setFrequency(Frequency.DAILY);
+        habit.setId(id);
         habitList.add(habit);
         return habit;
     }

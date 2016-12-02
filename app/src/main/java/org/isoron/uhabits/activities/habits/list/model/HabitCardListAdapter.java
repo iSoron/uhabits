@@ -27,6 +27,7 @@ import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 
 import java.util.*;
 
@@ -55,15 +56,21 @@ public class HabitCardListAdapter
     @NonNull
     private final HabitCardListCache cache;
 
+    @NonNull
+    private Preferences preferences;
+
     @Inject
-    public HabitCardListAdapter(@NonNull HabitCardListCache cache)
+    public HabitCardListAdapter(@NonNull HabitCardListCache cache,
+                                @NonNull Preferences preferences)
     {
+        this.preferences = preferences;
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
         this.cache = cache;
 
         cache.setListener(this);
         cache.setCheckmarkCount(ListHabitsRootView.MAX_CHECKMARK_COUNT);
+        cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);
     }
@@ -128,6 +135,11 @@ public class HabitCardListAdapter
     public boolean isSelectionEmpty()
     {
         return selected.isEmpty();
+    }
+
+    public boolean isSortable()
+    {
+        return cache.getOrder() == HabitList.Order.BY_POSITION;
     }
 
     /**
@@ -258,6 +270,12 @@ public class HabitCardListAdapter
     public void setListView(@Nullable HabitCardListView listView)
     {
         this.listView = listView;
+    }
+
+    public void setOrder(HabitList.Order order)
+    {
+        cache.setOrder(order);
+        preferences.setDefaultOrder(order);
     }
 
     /**

@@ -19,9 +19,13 @@
 
 package org.isoron.uhabits.models;
 
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
+
 import org.hamcrest.*;
 import org.isoron.uhabits.*;
 import org.junit.*;
+import org.junit.runner.*;
 
 import java.io.*;
 import java.util.*;
@@ -33,7 +37,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.isoron.uhabits.models.HabitList.Order.*;
 
 @SuppressWarnings("JavaDoc")
-public class HabitListTest extends BaseUnitTest
+@RunWith(AndroidJUnit4.class)
+@MediumTest
+public class HabitListTest extends BaseAndroidTest
 {
     private ArrayList<Habit> habitsArray;
 
@@ -45,16 +51,19 @@ public class HabitListTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
+        habitList.removeAll();
+
         habitsArray = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
-            Habit habit = fixtures.createEmptyHabit();
-            habitList.add(habit);
+            Habit habit = fixtures.createEmptyHabit((long) i);
             habitsArray.add(habit);
 
             if (i % 3 == 0)
                 habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+
+            habitList.update(habit);
         }
 
         habitsArray.get(0).setArchived(true);
@@ -142,7 +151,7 @@ public class HabitListTest extends BaseUnitTest
             for (int j = 0; j < 10; j++)
             {
                 Habit h = habitList.getById(j);
-                if (h == null) fail();
+                assertNotNull(h);
                 actualPositions[j] = habitList.indexOf(h);
             }
 
@@ -153,7 +162,7 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void test_writeCSV() throws IOException
     {
-        HabitList list = modelFactory.buildHabitList();
+        habitList.removeAll();
 
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("Meditate");
@@ -167,8 +176,8 @@ public class HabitListTest extends BaseUnitTest
         h2.setFrequency(new Frequency(2, 3));
         h2.setColor(5);
 
-        list.add(h1);
-        list.add(h2);
+        habitList.update(h1);
+        habitList.update(h2);
 
         String expectedCSV =
             "Position,Name,Description,NumRepetitions,Interval,Color\n" +
@@ -176,7 +185,7 @@ public class HabitListTest extends BaseUnitTest
             "002,Wake up early,Did you wake up before 6am?,2,3,#00897B\n";
 
         StringWriter writer = new StringWriter();
-        list.writeCSV(writer);
+        habitList.writeCSV(writer);
 
         MatcherAssert.assertThat(writer.toString(), equalTo(expectedCSV));
     }
@@ -184,48 +193,48 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void test_ordering()
     {
-        HabitList list = modelFactory.buildHabitList();
-        Habit h1 = fixtures.createEmptyHabit();
-        h1.setName("A Habit");
-        h1.setColor(2);
-
-        Habit h2 = fixtures.createEmptyHabit();
-        h2.setName("B Habit");
-        h2.setColor(2);
+        habitList.removeAll();
 
         Habit h3 = fixtures.createEmptyHabit();
         h3.setName("C Habit");
         h3.setColor(0);
+        habitList.update(h3);
+
+        Habit h1 = fixtures.createEmptyHabit();
+        h1.setName("A Habit");
+        h1.setColor(2);
+        habitList.update(h1);
 
         Habit h4 = fixtures.createEmptyHabit();
         h4.setName("D Habit");
         h4.setColor(1);
+        habitList.update(h4);
 
-        list.add(h3);
-        list.add(h1);
-        list.add(h4);
-        list.add(h2);
+        Habit h2 = fixtures.createEmptyHabit();
+        h2.setName("B Habit");
+        h2.setColor(2);
+        habitList.update(h2);
 
-        list.setOrder(BY_POSITION);
-        assertThat(list.getByPosition(0), equalTo(h3));
-        assertThat(list.getByPosition(1), equalTo(h1));
-        assertThat(list.getByPosition(2), equalTo(h4));
-        assertThat(list.getByPosition(3), equalTo(h2));
+        habitList.setOrder(BY_POSITION);
+        assertThat(habitList.getByPosition(0), equalTo(h3));
+        assertThat(habitList.getByPosition(1), equalTo(h1));
+        assertThat(habitList.getByPosition(2), equalTo(h4));
+        assertThat(habitList.getByPosition(3), equalTo(h2));
 
-        list.setOrder(BY_NAME);
-        assertThat(list.getByPosition(0), equalTo(h1));
-        assertThat(list.getByPosition(1), equalTo(h2));
-        assertThat(list.getByPosition(2), equalTo(h3));
-        assertThat(list.getByPosition(3), equalTo(h4));
+        habitList.setOrder(BY_NAME);
+        assertThat(habitList.getByPosition(0), equalTo(h1));
+        assertThat(habitList.getByPosition(1), equalTo(h2));
+        assertThat(habitList.getByPosition(2), equalTo(h3));
+        assertThat(habitList.getByPosition(3), equalTo(h4));
 
-        list.remove(h1);
-        list.add(h1);
-        assertThat(list.getByPosition(0), equalTo(h1));
+        habitList.remove(h1);
+        habitList.add(h1);
+        assertThat(habitList.getByPosition(0), equalTo(h1));
 
-        list.setOrder(BY_COLOR);
-        assertThat(list.getByPosition(0), equalTo(h3));
-        assertThat(list.getByPosition(1), equalTo(h4));
-        assertThat(list.getByPosition(2), equalTo(h1));
-        assertThat(list.getByPosition(3), equalTo(h2));
+        habitList.setOrder(BY_COLOR);
+        assertThat(habitList.getByPosition(0), equalTo(h3));
+        assertThat(habitList.getByPosition(1), equalTo(h4));
+        assertThat(habitList.getByPosition(2), equalTo(h1));
+        assertThat(habitList.getByPosition(3), equalTo(h2));
     }
 }

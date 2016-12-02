@@ -196,4 +196,10 @@
     <string name="toggle">Toggle</string>
     <string name="action">Action</string>
     <string name="habit">Habit</string>
+
+    <string name="sort">Sort</string>
+    <string name="manually">Manually</string>
+    <string name="by_name">By name</string>
+    <string name="by_color">By color</string>
+    <string name="by_score">By score</string>
 </resources>

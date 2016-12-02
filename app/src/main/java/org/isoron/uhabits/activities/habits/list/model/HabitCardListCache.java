@@ -107,6 +107,11 @@ public class HabitCardListCache implements CommandRunner.Listener
         return data.habits.size();
     }
 
+    public HabitList.Order getOrder()
+    {
+        return filteredHabits.getOrder();
+    }
+
     public int getScore(long habitId)
     {
         return data.scores.get(habitId);
@@ -178,6 +183,13 @@ public class HabitCardListCache implements CommandRunner.Listener
     public void setListener(@NonNull Listener listener)
     {
         this.listener = listener;
+    }
+
+    public void setOrder(HabitList.Order order)
+    {
+        allHabits.setOrder(order);
+        filteredHabits.setOrder(order);
+        refreshAllHabits();
     }
 
     /**
