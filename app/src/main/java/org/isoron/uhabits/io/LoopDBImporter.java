@@ -19,12 +19,14 @@
 
 package org.isoron.uhabits.io;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.activeandroid.ActiveAndroid;
 
+import org.isoron.uhabits.AppContext;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.utils.FileUtils;
@@ -39,10 +41,13 @@ import javax.inject.*;
  */
 public class LoopDBImporter extends AbstractImporter
 {
+    private Context context;
+
     @Inject
-    public LoopDBImporter(@NonNull HabitList habits)
+    public LoopDBImporter(@NonNull HabitList habits, @AppContext Context context)
     {
         super(habits);
+        this.context = context;
     }
 
     @Override
@@ -68,8 +73,8 @@ public class LoopDBImporter extends AbstractImporter
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
         ActiveAndroid.dispose();
-        File originalDB = DatabaseUtils.getDatabaseFile();
+        File originalDB = DatabaseUtils.getDatabaseFile(context);
         FileUtils.copy(file, originalDB);
-        DatabaseUtils.initializeActiveAndroid();
+        DatabaseUtils.initializeActiveAndroid(context);
     }
 }

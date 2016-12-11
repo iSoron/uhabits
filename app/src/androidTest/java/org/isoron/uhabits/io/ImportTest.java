@@ -53,7 +53,7 @@ public class ImportTest extends BaseAndroidTest
 
         fixtures.purgeHabits(habitList);
         context = InstrumentationRegistry.getInstrumentation().getContext();
-        baseDir = FileUtils.getFilesDir("Backups");
+        baseDir = FileUtils.getFilesDir(context, "Backups");
         if (baseDir == null) fail("baseDir should not be null");
     }
 

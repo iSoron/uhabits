@@ -75,7 +75,7 @@ public class ListHabitsControllerTest extends BaseUnitTest
         exportCSVFactory = mock(ExportCSVTaskFactory.class);
 
         controller =
-            spy(new ListHabitsController(system, commandRunner, habitList,
+            spy(new ListHabitsController(null,system, commandRunner, habitList,
                 adapter, screen, prefs, reminderScheduler, taskRunner,
                 widgetUpdater, importTaskFactory, exportCSVFactory));
     }

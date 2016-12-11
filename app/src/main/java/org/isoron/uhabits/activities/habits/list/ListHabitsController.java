@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
+import android.content.Context;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
@@ -41,6 +42,8 @@ import javax.inject.*;
 public class ListHabitsController
     implements HabitCardListController.HabitListener
 {
+    private final Context context;
+
     @NonNull
     private final ListHabitsScreen screen;
 
@@ -71,7 +74,8 @@ public class ListHabitsController
     private ExportCSVTaskFactory exportCSVFactory;
 
     @Inject
-    public ListHabitsController(@NonNull BaseSystem system,
+    public ListHabitsController(@ActivityContext Context context,
+                                @NonNull BaseSystem system,
                                 @NonNull CommandRunner commandRunner,
                                 @NonNull HabitList habitList,
                                 @NonNull HabitCardListAdapter adapter,
@@ -84,6 +88,7 @@ public class ListHabitsController
                                 ImportDataTaskFactory importTaskFactory,
                                 @NonNull ExportCSVTaskFactory exportCSVFactory)
     {
+        this.context = context;
         this.adapter = adapter;
         this.commandRunner = commandRunner;
         this.habitList = habitList;
@@ -102,7 +107,7 @@ public class ListHabitsController
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
 
-        taskRunner.execute(exportCSVFactory.create(selected, filename -> {
+        taskRunner.execute(exportCSVFactory.create(context, selected, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
@@ -110,7 +115,7 @@ public class ListHabitsController
 
     public void onExportDB()
     {
-        taskRunner.execute(new ExportDBTask(filename -> {
+        taskRunner.execute(new ExportDBTask(context, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));

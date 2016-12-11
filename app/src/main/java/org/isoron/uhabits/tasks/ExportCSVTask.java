@@ -19,10 +19,12 @@
 
 package org.isoron.uhabits.tasks;
 
+import android.content.Context;
 import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
+import org.isoron.uhabits.activities.ActivityContext;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
@@ -35,6 +37,8 @@ public class ExportCSVTask implements Task
 {
     private String archiveFilename;
 
+    private final Context context;
+
     @NonNull
     private final List<Habit> selectedHabits;
 
@@ -44,10 +48,12 @@ public class ExportCSVTask implements Task
     @NonNull
     private final HabitList habitList;
 
-    public ExportCSVTask(@Provided @NonNull HabitList habitList,
+    public ExportCSVTask(Context context,
+                         @Provided @NonNull HabitList habitList,
                          @NonNull List<Habit> selectedHabits,
                          @NonNull Listener listener)
     {
+        this.context = context;
         this.listener = listener;
         this.habitList = habitList;
         this.selectedHabits = selectedHabits;
@@ -58,7 +64,7 @@ public class ExportCSVTask implements Task
     {
         try
         {
-            File dir = FileUtils.getFilesDir("CSV");
+            File dir = FileUtils.getFilesDir(context, "CSV");
             if (dir == null) return;
 
             HabitsCSVExporter exporter;
