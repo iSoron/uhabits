@@ -1,7 +1,7 @@
 dependencies:
   pre:
     - echo y | android update sdk --no-ui --all --filter "tools"
-    - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"
 checkout:
   post:
     - git submodule sync
