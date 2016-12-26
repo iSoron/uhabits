@@ -4,13 +4,13 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "org.isoron.uhabits"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 25
 
         buildConfigField "Integer", "databaseVersion", "15"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
@@ -53,7 +53,7 @@ dependencies {
 
     androidTestApt 'com.google.dagger:dagger-compiler:2.2'
 
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    androidTestCompile 'com.android.support:support-annotations:25.1.0'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.google.auto.factory:auto-factory:1.0-beta3'
@@ -64,10 +64,10 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.2'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:preference-v14:23.3.0'
-    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:preference-v14:25.1.0'
+    compile 'com.android.support:support-v4:25.1.0'
     compile 'com.getpebble:pebblekit:3.0.0'
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'com.google.auto.factory:auto-factory:1.0-beta3'
