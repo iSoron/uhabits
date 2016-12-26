@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
+import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.support.annotation.*;
@@ -56,6 +57,8 @@ public class ListHabitsScreen extends BaseScreen
     public static final int RESULT_REPAIR_DB = 5;
 
     public static final int REQUEST_OPEN_DOCUMENT = 6;
+
+    public static final int REQUEST_SETTINGS = 7;
 
     @Nullable
     private ListHabitsController controller;
@@ -133,32 +136,16 @@ public class ListHabitsScreen extends BaseScreen
     @Override
     public void onResult(int requestCode, int resultCode, Intent data)
     {
-        if (controller == null) return;
-
         if (requestCode == REQUEST_OPEN_DOCUMENT)
-        {
-            if(resultCode != BaseActivity.RESULT_OK) return;
-            try
-            {
-                // TODO: Make it async
-                // TODO: Remove temporary file at the end of operation
-                Uri uri = data.getData();
-                ContentResolver cr = activity.getContentResolver();
-                InputStream is = cr.openInputStream(uri);
+            onOpenDocumentResult(resultCode, data);
 
-                File cacheDir = activity.getCacheDir();
-                File tempFile = File.createTempFile("import", "", cacheDir);
+        if (requestCode == REQUEST_SETTINGS)
+            onSettingsResult(resultCode);
+    }
 
-                FileUtils.copy(is, tempFile);
-                controller.onImportData(tempFile);
-            }
-            catch (IOException e)
-            {
-                showMessage(R.string.could_not_import);
-                e.printStackTrace();
-                return;
-            }
-        }
+    private void onSettingsResult(int resultCode)
+    {
+        if (controller == null) return;
 
         switch (resultCode)
         {
@@ -181,6 +168,30 @@ public class ListHabitsScreen extends BaseScreen
             case RESULT_REPAIR_DB:
                 controller.onRepairDB();
                 break;
+        }
+    }
+
+    private void onOpenDocumentResult(int resultCode, Intent data)
+    {
+        if (controller == null) return;
+        if (resultCode != Activity.RESULT_OK) return;
+
+        try
+        {
+            Uri uri = data.getData();
+            ContentResolver cr = activity.getContentResolver();
+            InputStream is = cr.openInputStream(uri);
+
+            File cacheDir = activity.getExternalCacheDir();
+            File tempFile = File.createTempFile("import", "", cacheDir);
+
+            FileUtils.copy(is, tempFile);
+            controller.onImportData(tempFile, () -> tempFile.delete());
+        }
+        catch (IOException e)
+        {
+            showMessage(R.string.could_not_import);
+            e.printStackTrace();
         }
     }
 
@@ -267,7 +278,7 @@ public class ListHabitsScreen extends BaseScreen
         FilePickerDialog picker = filePickerDialogFactory.create(dir);
 
         if (controller != null)
-            picker.setListener(file -> controller.onImportData(file));
+            picker.setListener(file -> controller.onImportData(file, () -> {}));
 
         activity.showDialog(picker.getDialog());
     }
@@ -281,7 +292,7 @@ public class ListHabitsScreen extends BaseScreen
     public void showSettingsScreen()
     {
         Intent intent = intentFactory.startSettingsActivity(activity);
-        activity.startActivityForResult(intent, 0);
+        activity.startActivityForResult(intent, REQUEST_SETTINGS);
     }
 
     public void toggleNightMode()
