@@ -40,6 +40,7 @@ import java.io.*;
 
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
+import static android.support.v4.content.FileProvider.*;
 
 /**
  * Base class for all screens in the application.
@@ -50,6 +51,8 @@ import static android.os.Build.VERSION_CODES.*;
  */
 public class BaseScreen
 {
+    public static final int REQUEST_CREATE_DOCUMENT = 1;
+
     protected BaseActivity activity;
 
     @Nullable
@@ -230,11 +233,14 @@ public class BaseScreen
 
     public void showSendFileScreen(@NonNull String archiveFilename)
     {
+        File file = new File(archiveFilename);
+        Uri fileUri = getUriForFile(activity, "org.isoron.uhabits", file);
+
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("application/zip");
-        intent.putExtra(Intent.EXTRA_STREAM,
-            Uri.fromFile(new File(archiveFilename)));
+        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         activity.startActivity(intent);
     }
 
