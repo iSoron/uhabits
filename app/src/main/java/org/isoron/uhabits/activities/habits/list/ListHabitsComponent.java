@@ -23,13 +23,14 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.utils.*;
 
 import dagger.*;
 
 @ActivityScope
 @Component(modules = { ActivityModule.class },
            dependencies = { AppComponent.class })
-public interface ListHabitsComponent extends ActivityComponent
+public interface ListHabitsComponent
 {
     CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
 
@@ -44,4 +45,6 @@ public interface ListHabitsComponent extends ActivityComponent
     ListHabitsScreen getScreen();
 
     ListHabitsSelectionMenu getSelectionMenu();
+
+    MidnightTimer getMidnightTimer();
 }

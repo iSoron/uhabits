@@ -28,6 +28,7 @@ import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -42,7 +43,7 @@ import javax.inject.*;
 @ActivityScope
 public class HabitCardListAdapter
     extends RecyclerView.Adapter<HabitCardViewHolder>
-    implements HabitCardListCache.Listener
+    implements HabitCardListCache.Listener, MidnightTimer.MidnightListener
 {
     @NonNull
     private ModelObservable observable;
@@ -59,20 +60,31 @@ public class HabitCardListAdapter
     @NonNull
     private Preferences preferences;
 
+    private final MidnightTimer midnightTimer;
+
     @Inject
     public HabitCardListAdapter(@NonNull HabitCardListCache cache,
-                                @NonNull Preferences preferences)
+                                @NonNull Preferences preferences,
+                                @NonNull MidnightTimer midnightTimer)
     {
         this.preferences = preferences;
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
         this.cache = cache;
 
+        this.midnightTimer = midnightTimer;
+
         cache.setListener(this);
         cache.setCheckmarkCount(ListHabitsRootView.MAX_CHECKMARK_COUNT);
         cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);
+    }
+
+    @Override
+    public void atMidnight()
+    {
+        cache.refreshAllHabits();
     }
 
     public void cancelRefresh()
@@ -148,6 +160,7 @@ public class HabitCardListAdapter
     public void onAttached()
     {
         cache.onAttached();
+        midnightTimer.addListener(this);
     }
 
     @Override
@@ -180,6 +193,7 @@ public class HabitCardListAdapter
     public void onDetached()
     {
         cache.onDetached();
+        midnightTimer.removeListener(this);
     }
 
     @Override

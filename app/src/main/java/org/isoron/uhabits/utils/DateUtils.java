@@ -187,6 +187,11 @@ public abstract class DateUtils
         return getStartOfDay(DateUtils.getLocalTime());
     }
 
+    public static long millisecondsUntilTomorrow()
+    {
+        return getStartOfToday() + millisecondsInOneDay - getLocalTime();
+    }
+
     public static GregorianCalendar getStartOfTodayCalendar()
     {
         return getCalendar(getStartOfToday());
