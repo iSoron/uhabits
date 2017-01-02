@@ -36,6 +36,7 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
+import java.util.LinkedList;
 
 import javax.inject.*;
 
@@ -154,7 +155,7 @@ public class ListHabitsScreen extends BaseScreen
                 break;
 
             case RESULT_EXPORT_CSV:
-                controller.onExportCSV();
+                controller.onExportCSV(new LinkedList<Habit>());
                 break;
 
             case RESULT_EXPORT_DB:

@@ -23,6 +23,7 @@
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">Habits</string>
     <string name="action_settings">Settings</string>
+    <string name="download">Download</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="archive">Archive</string>

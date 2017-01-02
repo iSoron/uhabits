@@ -24,7 +24,10 @@ import android.support.annotation.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
+import org.isoron.uhabits.activities.habits.list.ListHabitsController;
 import org.isoron.uhabits.models.*;
+
+import java.util.LinkedList;
 
 import javax.inject.*;
 
@@ -36,6 +39,9 @@ public class ShowHabitScreen extends BaseScreen
 
     @Nullable
     private ShowHabitController controller;
+
+    @NonNull
+    private ListHabitsController habitController;
 
     @NonNull
     private final EditHabitDialogFactory editHabitDialogFactory;
@@ -69,10 +75,18 @@ public class ShowHabitScreen extends BaseScreen
             historyEditor.setController(controller);
     }
 
+    public void setHabitsController(@Nullable ListHabitsController controller){
+        this.habitController = controller;
+    }
+
     public void showEditHabitDialog()
     {
-        EditHabitDialog dialog = editHabitDialogFactory.create(habit);
-        activity.showDialog(dialog, "editHabit");
+        LinkedList<Habit> selected = new LinkedList<>();
+        selected.add(habit);
+        habitController.onExportCSV(selected);
+
+       // EditHabitDialog dialog = editHabitDialogFactory.create(habit);
+       // activity.showDialog(dialog, "editHabit");
     }
 
     public void showEditHistoryDialog()
