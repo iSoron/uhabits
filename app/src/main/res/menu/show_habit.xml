@@ -23,7 +23,7 @@
 
     <item
         android:id="@+id/download"
-        android:icon="?iconArchive"
+        android:icon="?iconDownload"
         android:title="@string/download"
         app:showAsAction="ifRoom"/>
 

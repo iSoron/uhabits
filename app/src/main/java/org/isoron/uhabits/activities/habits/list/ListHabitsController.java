@@ -99,17 +99,23 @@ public class ListHabitsController
 
     public void onExportCSV(List<Habit> selectedHabits)
     {
-        List<Habit> selected = new LinkedList<>();
+        List<Habit> selected = new ArrayList<>();
         if(selectedHabits.isEmpty()) {
             for (Habit h : habitList) selected.add(h);
         }
         else {
             selected = selectedHabits;
         }
-        taskRunner.execute(exportCSVFactory.create(selected, filename -> {
-            if (filename != null) screen.showSendFileScreen(filename);
-            else screen.showMessage(R.string.could_not_export);
-        }));
+
+        ExportCSVTask task = exportCSVFactory.create(selected, filename -> {
+            if (filename != null){
+                screen.showSendFileScreen(filename);
+            }
+            else {
+                screen.showMessage(R.string.could_not_export);
+            }
+        });
+        taskRunner.execute(task);
     }
 
     public void onExportDB()

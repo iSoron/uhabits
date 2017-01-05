@@ -49,40 +49,15 @@ public class ShowHabitsMenuTest extends BaseUnitTest
     private ShowHabitScreen screen;
 
     private ShowHabitsMenu menu;
-    private ThemeSwitcher themeSwitcher;
-
-    private ArgumentCaptor<HabitMatcher> matcherCaptor;
 
     @Override
     public void setUp()
     {
         super.setUp();
 
-        activity = mock(ShowHabitActivity.class);
         screen = mock(ShowHabitScreen.class);
 
         menu = new ShowHabitsMenu(activity, screen);
-
-        //matcherCaptor = ArgumentCaptor.forClass(HabitMatcher.class);
-
-    }
-
-    @Test
-    public void testOnCreate()
-    {
-        MenuItem nightModeItem = mock(MenuItem.class);
-        MenuItem hideArchivedItem = mock(MenuItem.class);
-        MenuItem hideCompletedItem = mock(MenuItem.class);
-        Menu androidMenu = mock(Menu.class);
-        when(androidMenu.findItem(R.id.actionToggleNightMode)).thenReturn(
-            nightModeItem);
-        when(androidMenu.findItem(R.id.actionHideArchived)).thenReturn(
-            hideArchivedItem);
-        when(androidMenu.findItem(R.id.actionHideCompleted)).thenReturn(
-            hideCompletedItem);
-
-        menu.onCreate(androidMenu);
-
     }
 
     @Test

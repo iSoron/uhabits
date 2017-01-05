@@ -50,6 +50,10 @@ public class ShowHabitsMenu extends BaseMenu
                 screen.showEditHabitDialog();
                 return true;
 
+            case R.id.download:
+                screen.downloadHabit();
+                return true;
+
             default:
                 return false;
         }

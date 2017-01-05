@@ -27,7 +27,7 @@ import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.activities.habits.list.ListHabitsController;
 import org.isoron.uhabits.models.*;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import javax.inject.*;
 
@@ -81,12 +81,14 @@ public class ShowHabitScreen extends BaseScreen
 
     public void showEditHabitDialog()
     {
-        LinkedList<Habit> selected = new LinkedList<>();
+        EditHabitDialog dialog = editHabitDialogFactory.create(habit);
+        activity.showDialog(dialog, "editHabit");
+    }
+
+    public void downloadHabit(){
+        ArrayList<Habit> selected = new ArrayList<Habit>();
         selected.add(habit);
         habitController.onExportCSV(selected);
-
-       // EditHabitDialog dialog = editHabitDialogFactory.create(habit);
-       // activity.showDialog(dialog, "editHabit");
     }
 
     public void showEditHistoryDialog()
