@@ -40,6 +40,7 @@ public class PebbleReceiver extends PebbleDataReceiver
     public static final UUID WATCHAPP_UUID =
         UUID.fromString("82629d99-8ea6-4631-a022-9ca77a12a058");
 
+    @NonNull
     private Context context;
 
     private HabitList allHabits;

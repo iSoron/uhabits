@@ -24,6 +24,7 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
+import org.isoron.uhabits.AppContext;
 import org.isoron.uhabits.activities.ActivityContext;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
@@ -37,6 +38,7 @@ public class ExportCSVTask implements Task
 {
     private String archiveFilename;
 
+    @NonNull
     private final Context context;
 
     @NonNull
@@ -48,7 +50,7 @@ public class ExportCSVTask implements Task
     @NonNull
     private final HabitList habitList;
 
-    public ExportCSVTask(Context context,
+    public ExportCSVTask(@Provided @AppContext @NonNull Context context,
                          @Provided @NonNull HabitList habitList,
                          @NonNull List<Habit> selectedHabits,
                          @NonNull Listener listener)

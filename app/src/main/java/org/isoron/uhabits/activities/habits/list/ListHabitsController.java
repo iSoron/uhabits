@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
-import android.content.Context;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
@@ -42,7 +41,6 @@ import javax.inject.*;
 public class ListHabitsController
     implements HabitCardListController.HabitListener
 {
-    private final Context context;
 
     @NonNull
     private final ListHabitsScreen screen;
@@ -73,9 +71,10 @@ public class ListHabitsController
 
     private ExportCSVTaskFactory exportCSVFactory;
 
+    private ExportDBTaskFactory exportDBFactory;
+
     @Inject
-    public ListHabitsController(@ActivityContext Context context,
-                                @NonNull BaseSystem system,
+    public ListHabitsController(@NonNull BaseSystem system,
                                 @NonNull CommandRunner commandRunner,
                                 @NonNull HabitList habitList,
                                 @NonNull HabitCardListAdapter adapter,
@@ -86,9 +85,9 @@ public class ListHabitsController
                                 @NonNull WidgetUpdater widgetUpdater,
                                 @NonNull
                                 ImportDataTaskFactory importTaskFactory,
-                                @NonNull ExportCSVTaskFactory exportCSVFactory)
+                                @NonNull ExportCSVTaskFactory exportCSVFactory,
+                                @NonNull ExportDBTaskFactory exportDBFactory)
     {
-        this.context = context;
         this.adapter = adapter;
         this.commandRunner = commandRunner;
         this.habitList = habitList;
@@ -100,6 +99,7 @@ public class ListHabitsController
         this.widgetUpdater = widgetUpdater;
         this.importTaskFactory = importTaskFactory;
         this.exportCSVFactory = exportCSVFactory;
+        this.exportDBFactory = exportDBFactory;
     }
 
     public void onExportCSV()
@@ -107,7 +107,7 @@ public class ListHabitsController
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
 
-        taskRunner.execute(exportCSVFactory.create(context, selected, filename -> {
+        taskRunner.execute(exportCSVFactory.create(selected, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
@@ -115,7 +115,7 @@ public class ListHabitsController
 
     public void onExportDB()
     {
-        taskRunner.execute(new ExportDBTask(context, filename -> {
+        taskRunner.execute(exportDBFactory.create(filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));

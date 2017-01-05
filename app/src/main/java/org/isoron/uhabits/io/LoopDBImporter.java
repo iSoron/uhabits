@@ -41,10 +41,11 @@ import javax.inject.*;
  */
 public class LoopDBImporter extends AbstractImporter
 {
+    @NonNull
     private Context context;
 
     @Inject
-    public LoopDBImporter(@NonNull HabitList habits, @AppContext Context context)
+    public LoopDBImporter(@NonNull @AppContext Context context, @NonNull HabitList habits)
     {
         super(habits);
         this.context = context;
