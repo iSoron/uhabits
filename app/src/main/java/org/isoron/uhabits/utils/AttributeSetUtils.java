@@ -26,8 +26,12 @@ import android.util.*;
 
 import org.jetbrains.annotations.*;
 
-public class AttributeSetUtils
+public final class AttributeSetUtils
 {
+    private AttributeSetUtils() {
+        throw new IllegalAccessError("Instantiating utility class");
+    }
+
     public static final String ISORON_NAMESPACE = "http://isoron.org/android";
 
     @Nullable

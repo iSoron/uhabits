@@ -19,27 +19,85 @@
 
 package org.isoron.uhabits.utils;
 
-import android.content.*;
-import android.graphics.*;
-import android.util.*;
+import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 
-public abstract class ColorUtils
+import java.util.HashMap;
+import java.util.Map;
+
+public final class ColorUtils
 {
-    public static String CSV_PALETTE[] = {
-        "#D32F2F", //  0 red
-        "#E64A19", //  1 orange
-        "#F9A825", //  2 yellow
-        "#AFB42B", //  3 light green
-        "#388E3C", //  4 dark green
-        "#00897B", //  5 teal
-        "#00ACC1", //  6 cyan
-        "#039BE5", //  7 blue
-        "#5E35B1", //  8 deep purple
-        "#8E24AA", //  9 purple
-        "#D81B60", // 10 pink
-        "#303030", // 11 dark grey
-        "#aaaaaa"  // 12 light grey
-    };
+    private static final byte ALPHA_CHANNEL = 24;
+    private static final byte RED_CHANNEL = 16;
+    private static final byte GREEN_CHANNEL = 8;
+    private static final byte BLUE_CHANNEL = 0;
+    public static final String INVALID_COLOR_MESSAGE = "Invalid color: %d. Returning default.";
+    public static final String COLOR_HELPER_TAG = "ColorHelper";
+
+    private ColorUtils() {
+        throw new IllegalAccessError("Instantiating utility class");
+    }
+
+    public  enum  CSVPaletteEnum{
+        RED(0,"#D32F2F"),
+        ORANGE(1,"#E64A19"),
+        YELLOW(2,"#F9A825"),
+        LIGHT_GREEN(3,"#AFB42B"),
+        DARK_GREEN(4,"#388E3C"),
+        TEAL(5,"#00897B"),
+        CYAN(6,"#00ACC1"),
+        BLUE(7,"#039BE5"),
+        DEEP_PURPLE(8,"#5E35B1"),
+        PURPLE(9,"#8E24AA"),
+        PINK(10,"#D81B60"),
+        DARK_GREY(11,"#303030"),
+        LIGHT_GREY(12,"#aaaaaa");
+
+        private final int colourIndex;
+        private final  String colourCode;
+        private final static Map<Integer,CSVPaletteEnum> colourIndexValues=new HashMap<>();
+        private  final static Map<String,CSVPaletteEnum> colourCodeValues=new HashMap<>();
+
+        static {
+            for (CSVPaletteEnum en : CSVPaletteEnum.values()){
+                colourIndexValues.put(en.getColourIndex(),en);
+                colourCodeValues.put(en.getColourCode(),en);
+            }
+        }
+
+        CSVPaletteEnum(int colourIndex, String colourCode) {
+            this.colourIndex = colourIndex;
+            this.colourCode = colourCode;
+        }
+
+        public static CSVPaletteEnum valueOfIndex(int value) {
+            final CSVPaletteEnum val = colourIndexValues.get(value);
+            return val ;
+        }
+
+        public static CSVPaletteEnum valueOfColour(String value) {
+            final CSVPaletteEnum val = colourCodeValues.get(value);
+            return val ;
+        }
+
+        public int getColourIndex() {
+            return colourIndex;
+        }
+
+        public String getColourCode() {
+            return colourCode;
+        }
+
+        public static Map<Integer, CSVPaletteEnum> getColourIndexValues() {
+            return colourIndexValues;
+        }
+
+        public static Map<String, CSVPaletteEnum> getColourCodeValues() {
+            return colourCodeValues;
+        }
+    }
+
 
     public static int colorToPaletteIndex(Context context, int color)
     {
@@ -54,23 +112,7 @@ public abstract class ColorUtils
 
     public static int getAndroidTestColor(int index)
     {
-        int palette[] = {
-            Color.parseColor("#D32F2F"), //  0 red
-            Color.parseColor("#E64A19"), //  1 orange
-            Color.parseColor("#F9A825"), //  2 yellow
-            Color.parseColor("#AFB42B"), //  3 light green
-            Color.parseColor("#388E3C"), //  4 dark green
-            Color.parseColor("#00897B"), //  5 teal
-            Color.parseColor("#00ACC1"), //  6 cyan
-            Color.parseColor("#039BE5"), //  7 blue
-            Color.parseColor("#5E35B1"), //  8 deep purple
-            Color.parseColor("#8E24AA"), //  9 purple
-            Color.parseColor("#D81B60"), // 10 pink
-            Color.parseColor("#303030"), // 11 dark grey
-            Color.parseColor("#aaaaaa")  // 12 light grey
-        };
-
-        return palette[index];
+        return Color.parseColor(CSVPaletteEnum.valueOfIndex(index).getColourCode());
     }
 
     public static int getColor(Context context, int paletteColor)
@@ -82,8 +124,8 @@ public abstract class ColorUtils
         int palette[] = res.getPalette();
         if (paletteColor < 0 || paletteColor >= palette.length)
         {
-            Log.w("ColorHelper",
-                String.format("Invalid color: %d. Returning default.",
+            Log.w(COLOR_HELPER_TAG,
+                String.format(INVALID_COLOR_MESSAGE,
                     paletteColor));
             paletteColor = 0;
         }
@@ -93,10 +135,7 @@ public abstract class ColorUtils
 
     public static int mixColors(int color1, int color2, float amount)
     {
-        final byte ALPHA_CHANNEL = 24;
-        final byte RED_CHANNEL = 16;
-        final byte GREEN_CHANNEL = 8;
-        final byte BLUE_CHANNEL = 0;
+
 
         final float inverseAmount = 1.0f - amount;
 

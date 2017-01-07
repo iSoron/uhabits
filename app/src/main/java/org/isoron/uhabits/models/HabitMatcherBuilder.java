@@ -31,15 +31,7 @@ public class HabitMatcherBuilder
 
     private boolean completedAllowed = true;
 
-    private List<Integer> allowedColors = allColors();
-
-    private static List<Integer> allColors()
-    {
-        List<Integer> colors = new ArrayList<>();
-        for(int i = 0; i < ColorUtils.CSV_PALETTE.length; i++)
-            colors.add(i);
-        return colors;
-    }
+    private List<Integer> allowedColors = new ArrayList<>(ColorUtils.CSVPaletteEnum.getColourIndexValues().keySet());
 
     public HabitMatcher build()
     {
