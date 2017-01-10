@@ -70,7 +70,7 @@ public class BaseSystem
 
         if (context == null) throw new RuntimeException(
             "application context should not be null");
-        File dir = FileUtils.getFilesDir("Logs");
+        File dir = FileUtils.getFilesDir(context, "Logs");
         if (dir == null) throw new IOException("log dir should not be null");
 
         File logFile =

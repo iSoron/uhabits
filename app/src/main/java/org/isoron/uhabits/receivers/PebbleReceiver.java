@@ -40,6 +40,9 @@ public class PebbleReceiver extends PebbleDataReceiver
     public static final UUID WATCHAPP_UUID =
         UUID.fromString("82629d99-8ea6-4631-a022-9ca77a12a058");
 
+    @NonNull
+    private Context context;
+
     private HabitList allHabits;
 
     private CommandRunner commandRunner;
@@ -60,6 +63,8 @@ public class PebbleReceiver extends PebbleDataReceiver
     {
         if (context == null) throw new RuntimeException("context is null");
         if (data == null) throw new RuntimeException("data is null");
+
+        this.context = context;
 
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
@@ -136,7 +141,7 @@ public class PebbleReceiver extends PebbleDataReceiver
 
     private void sendDict(@NonNull PebbleDictionary dict)
     {
-        PebbleKit.sendDataToPebble(HabitsApplication.getContext(),
+        PebbleKit.sendDataToPebble(context,
             PebbleReceiver.WATCHAPP_UUID, dict);
     }
 

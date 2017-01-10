@@ -38,7 +38,7 @@ import java.io.*;
  */
 public class HabitsApplication extends Application
 {
-    private static Context context;
+    private Context context;
 
     private static AppComponent component;
 
@@ -58,26 +58,14 @@ public class HabitsApplication extends Application
         HabitsApplication.component = component;
     }
 
-    @NonNull
-    @Deprecated
-    public static Context getContext()
-    {
-        if (context == null) throw new RuntimeException("context is null");
-        return context;
-    }
-
     public static boolean isTestMode()
     {
         try
         {
-            if (context != null)
-            {
-                String testClass = "org.isoron.uhabits.BaseAndroidTest";
-                context.getClassLoader().loadClass(testClass);
-            }
+            Class.forName ("org.isoron.uhabits.BaseAndroidTest");
             return true;
         }
-        catch (final Exception e)
+        catch (final ClassNotFoundException e)
         {
             return false;
         }
@@ -87,7 +75,7 @@ public class HabitsApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        HabitsApplication.context = this;
+        context = this;
 
         component = DaggerAppComponent
             .builder()
@@ -96,11 +84,11 @@ public class HabitsApplication extends Application
 
         if (isTestMode())
         {
-            File db = DatabaseUtils.getDatabaseFile();
+            File db = DatabaseUtils.getDatabaseFile(context);
             if (db.exists()) db.delete();
         }
 
-        DatabaseUtils.initializeActiveAndroid();
+        DatabaseUtils.initializeActiveAndroid(context);
 
         widgetUpdater = component.getWidgetUpdater();
         widgetUpdater.startListening();
@@ -125,7 +113,7 @@ public class HabitsApplication extends Application
     @Override
     public void onTerminate()
     {
-        HabitsApplication.context = null;
+        context = null;
         ActiveAndroid.dispose();
 
         reminderScheduler.stopListening();

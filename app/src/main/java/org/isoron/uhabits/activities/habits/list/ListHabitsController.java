@@ -41,6 +41,7 @@ import javax.inject.*;
 public class ListHabitsController
     implements HabitCardListController.HabitListener
 {
+
     @NonNull
     private final ListHabitsScreen screen;
 
@@ -70,6 +71,8 @@ public class ListHabitsController
 
     private ExportCSVTaskFactory exportCSVFactory;
 
+    private ExportDBTaskFactory exportDBFactory;
+
     @Inject
     public ListHabitsController(@NonNull BaseSystem system,
                                 @NonNull CommandRunner commandRunner,
@@ -82,7 +85,8 @@ public class ListHabitsController
                                 @NonNull WidgetUpdater widgetUpdater,
                                 @NonNull
                                 ImportDataTaskFactory importTaskFactory,
-                                @NonNull ExportCSVTaskFactory exportCSVFactory)
+                                @NonNull ExportCSVTaskFactory exportCSVFactory,
+                                @NonNull ExportDBTaskFactory exportDBFactory)
     {
         this.adapter = adapter;
         this.commandRunner = commandRunner;
@@ -95,6 +99,7 @@ public class ListHabitsController
         this.widgetUpdater = widgetUpdater;
         this.importTaskFactory = importTaskFactory;
         this.exportCSVFactory = exportCSVFactory;
+        this.exportDBFactory = exportDBFactory;
     }
 
     public void onExportCSV()
@@ -110,7 +115,7 @@ public class ListHabitsController
 
     public void onExportDB()
     {
-        taskRunner.execute(new ExportDBTask(filename -> {
+        taskRunner.execute(exportDBFactory.create(filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
