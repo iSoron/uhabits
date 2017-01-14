@@ -26,12 +26,14 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-public class HeaderView extends LinearLayout implements Preferences.Listener
+public class HeaderView extends LinearLayout
+    implements Preferences.Listener, MidnightTimer.MidnightListener
 {
     private final Context context;
 
@@ -39,6 +41,9 @@ public class HeaderView extends LinearLayout implements Preferences.Listener
 
     @Nullable
     private Preferences prefs;
+
+    @Nullable
+    private MidnightTimer midnightTimer;
 
     public HeaderView(Context context, AttributeSet attrs)
     {
@@ -56,6 +61,18 @@ public class HeaderView extends LinearLayout implements Preferences.Listener
             HabitsApplication app = (HabitsApplication) appContext;
             prefs = app.getComponent().getPreferences();
         }
+
+        if (context instanceof ListHabitsActivity)
+        {
+            ListHabitsActivity activity = (ListHabitsActivity) context;
+            midnightTimer = activity.getListHabitsComponent().getMidnightTimer();
+        }
+    }
+
+    @Override
+    public void atMidnight()
+    {
+        post(() -> createButtons());
     }
 
     @Override
@@ -75,11 +92,13 @@ public class HeaderView extends LinearLayout implements Preferences.Listener
     {
         super.onAttachedToWindow();
         if (prefs != null) prefs.addListener(this);
+        if (midnightTimer != null) midnightTimer.addListener(this);
     }
 
     @Override
     protected void onDetachedFromWindow()
     {
+        if (midnightTimer != null) midnightTimer.removeListener(this);
         if (prefs != null) prefs.removeListener(this);
         super.onDetachedFromWindow();
     }

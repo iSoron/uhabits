@@ -38,10 +38,11 @@ import org.junit.runners.*;
 
 import java.io.*;
 
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
 
 @RunWith(JUnit4.class)
 public class ListHabitsScreenTest extends BaseUnitTest
@@ -124,28 +125,28 @@ public class ListHabitsScreenTest extends BaseUnitTest
     @Test
     public void testOnResult_bugReport()
     {
-        screen.onResult(0, ListHabitsScreen.RESULT_BUG_REPORT, null);
+        screen.onResult(REQUEST_SETTINGS, RESULT_BUG_REPORT, null);
         verify(controller).onSendBugReport();
     }
 
     @Test
     public void testOnResult_exportCSV()
     {
-        screen.onResult(0, ListHabitsScreen.RESULT_EXPORT_CSV, null);
+        screen.onResult(REQUEST_SETTINGS, RESULT_EXPORT_CSV, null);
         verify(controller).onExportCSV();
     }
 
     @Test
     public void testOnResult_exportDB()
     {
-        screen.onResult(0, ListHabitsScreen.RESULT_EXPORT_DB, null);
+        screen.onResult(REQUEST_SETTINGS, RESULT_EXPORT_DB, null);
         verify(controller).onExportDB();
     }
 
     @Test
     public void testOnResult_importData()
     {
-        screen.onResult(0, ListHabitsScreen.RESULT_IMPORT_DATA, null);
+        screen.onResult(REQUEST_SETTINGS, RESULT_IMPORT_DATA, null);
         testShowImportScreen();
     }
 

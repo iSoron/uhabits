@@ -25,6 +25,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.utils.*;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
@@ -42,6 +43,8 @@ public class ListHabitsActivity extends BaseActivity
     private boolean pureBlack;
 
     private Preferences prefs;
+
+    private MidnightTimer midnightTimer;
 
     public ListHabitsComponent getListHabitsComponent()
     {
@@ -77,6 +80,8 @@ public class ListHabitsActivity extends BaseActivity
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 
+        midnightTimer = component.getMidnightTimer();
+
         setScreen(screen);
         controller.onStartup();
     }
@@ -84,6 +89,7 @@ public class ListHabitsActivity extends BaseActivity
     @Override
     protected void onPause()
     {
+        midnightTimer.onPause();
         screen.onDettached();
         adapter.cancelRefresh();
         super.onPause();
@@ -95,6 +101,7 @@ public class ListHabitsActivity extends BaseActivity
         adapter.refresh();
         screen.onAttached();
         rootView.postInvalidate();
+        midnightTimer.onResume();
 
         if (prefs.getTheme() == ThemeSwitcher.THEME_DARK &&
             prefs.isPureBlackEnabled() != pureBlack)

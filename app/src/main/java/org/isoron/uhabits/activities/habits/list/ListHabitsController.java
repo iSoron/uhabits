@@ -133,7 +133,8 @@ public class ListHabitsController
         taskRunner.execute(() -> habitList.reorder(from, to));
     }
 
-    public void onImportData(@NonNull File file)
+    public void onImportData(@NonNull File file,
+                             @NonNull OnFinishedListener finishedListener)
     {
         taskRunner.execute(importTaskFactory.create(file, result -> {
             switch (result)
@@ -151,6 +152,8 @@ public class ListHabitsController
                     screen.showMessage(R.string.could_not_import);
                     break;
             }
+
+            finishedListener.onFinish();
         }));
     }
 
@@ -212,5 +215,10 @@ public class ListHabitsController
         prefs.setFirstRun(false);
         prefs.updateLastHint(-1, DateUtils.getStartOfToday());
         screen.showIntroScreen();
+    }
+
+    public interface OnFinishedListener
+    {
+        void onFinish();
     }
 }
