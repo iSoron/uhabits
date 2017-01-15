@@ -19,63 +19,65 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
-import android.view.Menu;
 import android.view.MenuItem;
 
 import org.isoron.uhabits.BaseUnitTest;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.BaseActivity;
-import org.isoron.uhabits.activities.ThemeSwitcher;
-import org.isoron.uhabits.activities.habits.list.model.HabitCardListAdapter;
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity;
 import org.isoron.uhabits.activities.habits.show.ShowHabitScreen;
 import org.isoron.uhabits.activities.habits.show.ShowHabitsMenu;
-import org.isoron.uhabits.models.HabitMatcher;
-import org.isoron.uhabits.preferences.Preferences;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.ExportCSVTask;
+import org.isoron.uhabits.tasks.ExportCSVTaskFactory;
+import org.isoron.uhabits.tasks.TaskRunner;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ShowHabitsMenuTest extends BaseUnitTest
-{
+public class ShowHabitsMenuTest extends BaseUnitTest {
     private ShowHabitActivity activity;
 
     private ShowHabitScreen screen;
 
     private ShowHabitsMenu menu;
 
+    private Habit habit;
+
+    private ExportCSVTaskFactory exportCSVFactory;
+
+    private TaskRunner taskRunner;
+
+    private ExportCSVTask task;
+
     @Override
-    public void setUp()
-    {
+    public void setUp() {
         super.setUp();
-
+        activity = mock(ShowHabitActivity.class);
         screen = mock(ShowHabitScreen.class);
-
-        menu = new ShowHabitsMenu(activity, screen);
+        habit = mock(Habit.class);
+        exportCSVFactory = mock(ExportCSVTaskFactory.class);
+        taskRunner = mock(TaskRunner.class);
+        menu = new ShowHabitsMenu(activity, screen, habit, exportCSVFactory, taskRunner);
     }
 
     @Test
-    public void testOnEdit_habit()
-    {
+    public void testOnEditHabit() {
         onItemSelected(R.id.action_edit_habit);
         verify(screen).showEditHabitDialog();
     }
 
     @Test
-    public void testOnDownload()
-    {
+    public void testOnDownloadHabit() {
         onItemSelected(R.id.download);
-        verify(screen).downloadHabit();
+        verify(taskRunner).execute(any());
     }
 
-    protected void onItemSelected(int actionId)
-    {
+    protected void onItemSelected(int actionId) {
         MenuItem item = mock(MenuItem.class);
         when(item.getItemId()).thenReturn(actionId);
         menu.onItemSelected(item);

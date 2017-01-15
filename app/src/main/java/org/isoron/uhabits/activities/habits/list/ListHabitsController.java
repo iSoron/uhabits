@@ -97,15 +97,10 @@ public class ListHabitsController
         this.exportCSVFactory = exportCSVFactory;
     }
 
-    public void onExportCSV(List<Habit> selectedHabits)
+    public void onExportCSV()
     {
-        List<Habit> selected = new ArrayList<>();
-        if(selectedHabits.isEmpty()) {
+        List<Habit> selected = new LinkedList<>();
             for (Habit h : habitList) selected.add(h);
-        }
-        else {
-            selected = selectedHabits;
-        }
 
         ExportCSVTask task = exportCSVFactory.create(selected, filename -> {
             if (filename != null){

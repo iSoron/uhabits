@@ -37,7 +37,6 @@ import org.junit.runner.*;
 import org.junit.runners.*;
 
 import java.io.*;
-import java.util.ArrayList;
 
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 import static org.mockito.Matchers.any;
@@ -134,7 +133,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
     public void testOnResult_exportCSV()
     {
         screen.onResult(REQUEST_SETTINGS, RESULT_EXPORT_CSV, null);
-        verify(controller).onExportCSV(new ArrayList<Habit>() );
+        verify(controller).onExportCSV();
     }
 
     @Test

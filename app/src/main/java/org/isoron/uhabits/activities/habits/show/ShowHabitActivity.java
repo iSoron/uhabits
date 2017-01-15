@@ -26,9 +26,7 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.habits.list.DaggerListHabitsComponent;
 import org.isoron.uhabits.activities.habits.list.ListHabitsComponent;
-import org.isoron.uhabits.activities.habits.list.ListHabitsController;
 import org.isoron.uhabits.models.*;
 
 /**
@@ -45,18 +43,9 @@ public class ShowHabitActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-
         HabitsApplication app = (HabitsApplication) getApplicationContext();
         habits = app.getComponent().getHabitList();
         Habit habit = getHabitFromIntent();
-
-        listHabitComponent = DaggerListHabitsComponent
-                .builder()
-                .appComponent(app.getComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
-        ListHabitsController listHabitController = listHabitComponent.getController();
 
         ShowHabitComponent component = DaggerShowHabitComponent
             .builder()
@@ -67,7 +56,6 @@ public class ShowHabitActivity extends BaseActivity
         ShowHabitRootView rootView = component.getRootView();
         ShowHabitScreen screen = component.getScreen();
 
-        screen.setHabitsController(listHabitController);
         setScreen(screen);
         screen.setMenu(component.getMenu());
         screen.setController(component.getController());
