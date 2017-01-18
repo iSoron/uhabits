@@ -24,30 +24,52 @@ import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.tasks.ExportCSVTask;
+import org.isoron.uhabits.tasks.ExportCSVTaskFactory;
+import org.isoron.uhabits.tasks.TaskRunner;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.inject.*;
 
 @ActivityScope
-public class ShowHabitsMenu extends BaseMenu
-{
+public class ShowHabitsMenu extends BaseMenu {
     @NonNull
     private final ShowHabitScreen screen;
 
+    @NonNull
+    private final Habit habit;
+
+    @NonNull
+    private final TaskRunner taskRunner;
+
+    @NonNull
+    private ExportCSVTaskFactory exportCSVFactory;
+
     @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull ShowHabitScreen screen)
-    {
+                          @NonNull ShowHabitScreen screen,
+                          @NonNull Habit habit,
+                          @NonNull ExportCSVTaskFactory exportCSVFactory,
+                          @NonNull TaskRunner taskRunner) {
         super(activity);
         this.screen = screen;
+        this.habit = habit;
+        this.taskRunner = taskRunner;
+        this.exportCSVFactory = exportCSVFactory;
     }
 
     @Override
-    public boolean onItemSelected(@NonNull MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_edit_habit:
                 screen.showEditHabitDialog();
+                return true;
+
+            case R.id.download:
+                this.downloadHabit();
                 return true;
 
             default:
@@ -55,9 +77,21 @@ public class ShowHabitsMenu extends BaseMenu
         }
     }
 
+    public void downloadHabit() {
+        List<Habit> selected = new LinkedList<>();
+        selected.add(habit);
+        ExportCSVTask task = exportCSVFactory.create(selected, filename -> {
+            if (filename != null) {
+                screen.showSendFileScreen(filename);
+            } else {
+                screen.showMessage(R.string.could_not_export);
+            }
+        });
+        taskRunner.execute(task);
+    }
+
     @Override
-    protected int getMenuResourceId()
-    {
+    protected int getMenuResourceId() {
         return R.menu.show_habit;
     }
 }

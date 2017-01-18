@@ -103,13 +103,13 @@ Loop hat eine minimale Oberfläche und ist deshalb einfach zu benutzen. Es folgt
 
 <!-- Fuzzy -->
 <string name="store_feature_score">"&lt;b&gt;Habit Wertung&lt;/b&gt;
-Um dir deine kleinen Schwächen zu zeigen hat Loop einen Algorithmus, um deine Gewohnheiten zu erkennen. Jede Wiederholung verstärkt diese und jedes Aussetzen schwächt sie. Aber ein paar Verfehlungen nach langem Durchhalten machen natürlich nicht gleich alles zu Nichte."</string>
+Um dir deine kleinen Schwächen zu zeigen hat Loop einen Algorithmus entwickelt, um deine Gewohnheiten zu erkennen. Jede Wiederholung verstärkt diese und jedes Aussetzen schwächt sie. Aber ein paar Fehltage nach langem Durchhalten machen natürlich nicht gleich alles zu Nichte."</string>
 <string name="store_feature_statistics">"&lt;b&gt;Statistiken&lt;/b&gt;
-Schau dir an, wie sich deine Gewohnheiten im Laufe der Zeit entwickelt haben. Schau auf die schönen Diagramme und gehe zurück im gesamten Verlauf."</string>
+Schau dir an, wie sich deine Gewohnheiten im Laufe der Zeit entwickelt haben. Schaue dir die Diagramme an oder gehe zurück im gesamten Verlauf."</string>
 <string name="store_feature_schedules">"&lt;b&gt;Flexible Zeiten&lt;/b&gt;
 Unterstützt sowohl tägliche Vorgaben, als auch komplexere Pläne, wie etwa 3 Mal pro Woche; einmal in jeder anderen Woche; oder jeden anderen Tag."</string>
 <string name="store_feature_reminders">"&lt;b&gt;Erinnerungen&lt;/b&gt;
-Erstelle individuelle Erinnerungen und wann diese dich benachrichtigen sollen. Kontrolliere deine Vorhaben ganz einfach und lehne sie bei Bedarf direkt ab, ohne die App zu öffnen."</string>
+Erstelle individuelle Erinnerungen und wann diese dich benachrichtigen sollen. Kontrolliere dein Vorhaben ganz einfach und lehne sie bei Bedarf direkt ab, ohne die App zu öffnen."</string>
 <string name="store_feature_opensource">"&lt;b&gt;Komplett werbefrei und Open Source&lt;/b&gt;
 Es gibt absolut keine Werbung, nervende Einblendungen oder merkwürdige Berechtigungen in dieser App und das wird auch so bleiben. Der komplette Quellcode steht unter der GPLv3."</string>
 <string name="store_feature_wear">"&lt;b&gt;Optimiert für Smartwatches&lt;/b&gt;
@@ -142,7 +142,7 @@ Erinnerungen können direkt von deiner Android Wear Watch abgehakt, pausiert ode
 
 <!-- "All time" number of repetitions. Or number of repetitions "since the beginning". -->
 <!-- Fuzzy -->
-<string name="all_time">"Allzeit"</string>
+<string name="all_time">"Jederzeit"</string>
 <string name="every_day">"Jeden Tag"</string>
 <string name="every_week">"Jede Woche"</string>
 <string name="two_times_per_week">"2 Mal pro Woche"</string>
