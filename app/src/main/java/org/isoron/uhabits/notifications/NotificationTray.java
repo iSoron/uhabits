@@ -172,6 +172,9 @@ public class NotificationTray
 
         private final long reminderTime;
 
+        private final String GROUP_KEY_HABITS = "group_key_habits";
+        private static final int SUMMARY_ID = 0;
+
         public ShowNotificationTask(Habit habit, NotificationData data)
         {
             this.habit = habit;
@@ -221,10 +224,21 @@ public class NotificationTray
                 .addAction(snoozeAction)
                 .setSound(getRingtoneUri(context))
                 .extend(wearableExtender)
+                .setGroup(GROUP_KEY_HABITS)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
                 .build();
+
+            //you need to create a summary notification to group notifications together.
+            Notification summaryNotification = new Builder(context)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setContentTitle(context.getString(R.string.summary_notification_title))
+                    .setWhen(reminderTime)
+                    .setGroupSummary(true)
+                    .setGroup(GROUP_KEY_HABITS)
+                    .setShowWhen(true)
+                    .build();
 
             NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(
@@ -232,6 +246,7 @@ public class NotificationTray
 
             int notificationId = getNotificationId(habit);
             notificationManager.notify(notificationId, notification);
+            notificationManager.notify(SUMMARY_ID, summaryNotification);
         }
 
         private boolean shouldShowReminderToday()
