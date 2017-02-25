@@ -24,12 +24,8 @@ import android.os.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.models.Habit;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
@@ -61,6 +57,7 @@ public class ListHabitsActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         HabitsApplication app = (HabitsApplication) getApplicationContext();
+
         component = DaggerListHabitsComponent
             .builder()
             .appComponent(app.getComponent())
@@ -85,29 +82,8 @@ public class ListHabitsActivity extends BaseActivity
 
         midnightTimer = component.getMidnightTimer();
 
-        if(savedInstanceState != null){
-            long[] selected = savedInstanceState.getLongArray("selected");
-
-            if(selected != null){
-                adapter.selectSavedHabits(selected);
-            }
-        }
-
         setScreen(screen);
         controller.onStartup();
-    }
-
-    @Override
-    protected void onSaveInstanceState (Bundle outState){
-        super.onSaveInstanceState(outState);
-        List<Habit> selected = adapter.getSelected();
-        if(selected.size() != 0){
-            long[] ids = new long[selected.size()];
-            for(int i = 0; i < selected.size(); i++){
-                ids[i] = selected.get(i).getId();
-            }
-            outState.putLongArray("selected", ids);
-        }
     }
 
     @Override

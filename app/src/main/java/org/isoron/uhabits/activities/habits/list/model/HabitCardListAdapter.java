@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.activities.habits.list.model;
 
-import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
 import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.view.*;
@@ -306,18 +304,5 @@ public class HabitCardListAdapter
         if (k < 0) selected.add(h);
         else selected.remove(h);
         notifyDataSetChanged();
-    }
-
-    public void addSelectedHabit(Habit habitToSelect){
-        selected.add(habitToSelect);
-        notifyDataSetChanged();
-    }
-
-    public void selectSavedHabits(long[] selectedIDs) throws NotFoundException {
-        for(long id : selectedIDs)
-        {
-            Habit selectedHabit = cache.getHabitById(id);
-            addSelectedHabit(selectedHabit);
-        }
     }
 }

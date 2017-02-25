@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.activities.habits.list.model;
 
-import android.content.res.Resources;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
@@ -101,16 +100,6 @@ public class HabitCardListCache implements CommandRunner.Listener
     public Habit getHabitByPosition(int position)
     {
         return data.habits.get(position);
-    }
-
-    public Habit getHabitById(long id){
-        for(Habit habit: data.habits){
-            if(habit.getId() == id){
-                return habit;
-            }
-        }
-
-        throw new Resources.NotFoundException("Habit not found.");
     }
 
     public int getHabitCount()
