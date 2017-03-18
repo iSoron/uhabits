@@ -24,7 +24,7 @@ import android.support.v7.app.*;
 
 import com.google.auto.factory.*;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.*;
 
 import butterknife.*;

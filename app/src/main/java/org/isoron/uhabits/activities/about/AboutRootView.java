@@ -25,7 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.*;
 
 import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.utils.*;
