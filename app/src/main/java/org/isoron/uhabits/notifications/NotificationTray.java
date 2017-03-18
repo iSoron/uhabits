@@ -27,6 +27,7 @@ import android.support.v4.app.*;
 import android.support.v4.app.NotificationCompat.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.habits.list.ListHabitsActivity;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
@@ -38,6 +39,7 @@ import java.util.*;
 
 import javax.inject.*;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static android.graphics.BitmapFactory.*;
 import static org.isoron.uhabits.utils.RingtoneUtils.*;
 
@@ -118,7 +120,7 @@ public class NotificationTray
     {
         NotificationData data = new NotificationData(timestamp, reminderTime);
         active.put(habit, data);
-        taskRunner.execute(new ShowNotificationTask(habit, data));
+        taskRunner.execute(new ShowNotificationTask(habit, data, this.active.keySet()));
     }
 
     public void startListening()
@@ -142,10 +144,11 @@ public class NotificationTray
 
     private void reshowAll()
     {
-        for (Habit habit : active.keySet())
+        Set<Habit> activeHabits = active.keySet();
+        for (Habit habit : activeHabits)
         {
             NotificationData data = active.get(habit);
-            taskRunner.execute(new ShowNotificationTask(habit, data));
+            taskRunner.execute(new ShowNotificationTask(habit, data, activeHabits));
         }
     }
 
@@ -172,11 +175,17 @@ public class NotificationTray
 
         private final long reminderTime;
 
-        public ShowNotificationTask(Habit habit, NotificationData data)
+        private final String GROUP_KEY_HABITS = "group_key_habits";
+        private static final int SUMMARY_ID = 0;
+
+        private Set<Habit> activeHabits;
+
+        public ShowNotificationTask(Habit habit, NotificationData data, Set<Habit> activeHabits)
         {
             this.habit = habit;
             this.timestamp = data.timestamp;
             this.reminderTime = data.reminderTime;
+            this.activeHabits = activeHabits;
         }
 
         @Override
@@ -221,17 +230,48 @@ public class NotificationTray
                 .addAction(snoozeAction)
                 .setSound(getRingtoneUri(context))
                 .extend(wearableExtender)
+                .setGroup(GROUP_KEY_HABITS)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
                 .build();
 
             NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(
-                    Activity.NOTIFICATION_SERVICE);
+                    (NotificationManager) context.getSystemService(
+                            Activity.NOTIFICATION_SERVICE);
 
             int notificationId = getNotificationId(habit);
             notificationManager.notify(notificationId, notification);
+
+            if(this.activeHabits.size() > 1)
+            {
+                //if there's more than 1 notification, let's show a summary notification
+                Intent habitListIntent = new Intent(context, ListHabitsActivity.class);
+
+                PendingIntent pendingIntent = android.support.v4.app.TaskStackBuilder
+                        .create(context)
+                        .addNextIntentWithParentStack(habitListIntent)
+                        .getPendingIntent(0, FLAG_UPDATE_CURRENT);
+
+                NotificationCompat.InboxStyle notificationInboxStyle = new NotificationCompat.InboxStyle();
+                for(Habit activeHabit: this.activeHabits){
+                    notificationInboxStyle.addLine(activeHabit.getName());
+                }
+
+                Notification summaryNotification = new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setContentTitle(String.format("%d %s", this.activeHabits.size(), context.getString(R.string.habit_reminders)))
+                        .setContentIntent(pendingIntent)
+                        .setSound(getRingtoneUri(context))
+                        .extend(wearableExtender)
+                        .setGroupSummary(true)
+                        .setStyle(notificationInboxStyle)
+                        .setGroup(GROUP_KEY_HABITS)
+                        .setOngoing(preferences.shouldMakeNotificationsSticky())
+                        .build();
+
+                notificationManager.notify(SUMMARY_ID, summaryNotification);
+            }
         }
 
         private boolean shouldShowReminderToday()
