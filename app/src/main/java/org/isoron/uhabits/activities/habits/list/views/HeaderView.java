@@ -20,22 +20,25 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
 import android.support.annotation.*;
+import android.text.*;
 import android.util.*;
-import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-public class HeaderView extends LinearLayout
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
+
+public class HeaderView extends ScrollableChart
     implements Preferences.Listener, MidnightTimer.MidnightListener
 {
-    private final Context context;
 
     private int buttonCount;
 
@@ -45,15 +48,30 @@ public class HeaderView extends LinearLayout
     @Nullable
     private MidnightTimer midnightTimer;
 
+    private final TextPaint paint;
+
+    private RectF rect;
+
     public HeaderView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.context = context;
 
         if (isInEditMode())
         {
             setButtonCount(5);
         }
+
+        StyledResources res = new StyledResources(context);
+        setScrollerBucketSize((int) dpToPixels(context, 42));
+        paint = new TextPaint();
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setTextSize(getResources().getDimension(R.dimen.tinyTextSize));
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setColor(res.getColor(R.attr.mediumContrastTextColor));
+
+        rect = new RectF();
 
         Context appContext = context.getApplicationContext();
         if (appContext instanceof HabitsApplication)
@@ -72,19 +90,19 @@ public class HeaderView extends LinearLayout
     @Override
     public void atMidnight()
     {
-        post(() -> createButtons());
+        post(() -> invalidate());
     }
 
     @Override
     public void onCheckmarkOrderChanged()
     {
-        createButtons();
+        postInvalidate();
     }
 
     public void setButtonCount(int buttonCount)
     {
         this.buttonCount = buttonCount;
-        createButtons();
+        postInvalidate();
     }
 
     @Override
@@ -103,23 +121,43 @@ public class HeaderView extends LinearLayout
         super.onDetachedFromWindow();
     }
 
-    private void createButtons()
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        removeAllViews();
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = (int) getContext()
+            .getResources()
+            .getDimension(R.dimen.checkmarkHeight);
+        setMeasuredDimension(width, height);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        super.onDraw(canvas);
+
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
+        Resources res = getContext().getResources();
+        float width = res.getDimension(R.dimen.checkmarkWidth);
+        float height = res.getDimension(R.dimen.checkmarkHeight);
+        rect.set(0, 0, width, height);
+        rect.offset(canvas.getWidth(), 0);
+
+        day.add(GregorianCalendar.DAY_OF_MONTH, -getDataOffset());
+        float em = paint.measureText("m");
+
         for (int i = 0; i < buttonCount; i++)
-            addView(
-                inflate(context, R.layout.list_habits_header_checkmark, null));
-
-        for (int i = 0; i < getChildCount(); i++)
         {
-            int position = i;
-            if (shouldReverseCheckmarks()) position = getChildCount() - i - 1;
+            rect.offset(-width, 0);
+            String text = DateUtils.formatHeaderDate(day).toUpperCase();
+            String[] lines = text.split("\n");
 
-            View button = getChildAt(position);
-            TextView label = (TextView) button.findViewById(R.id.tvCheck);
-            label.setText(DateUtils.formatHeaderDate(day));
+            int y1 = (int)(rect.centerY() - 0.5 * em);
+            int y2 = (int)(rect.centerY() + em);
+
+            canvas.drawText(lines[0], rect.centerX(), y1, paint);
+            canvas.drawText(lines[1], rect.centerX(), y2, paint);
             day.add(GregorianCalendar.DAY_OF_MONTH, -1);
         }
     }
