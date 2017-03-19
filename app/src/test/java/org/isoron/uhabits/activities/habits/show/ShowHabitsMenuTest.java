@@ -61,7 +61,7 @@ public class ShowHabitsMenuTest extends BaseUnitTest
     @Test
     public void testOnDownloadHabit()
     {
-        onItemSelected(R.id.download);
+        onItemSelected(R.id.export);
         verify(taskRunner).execute(any());
     }
 

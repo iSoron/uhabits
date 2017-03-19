@@ -60,7 +60,7 @@ public class ShowHabitsMenu extends BaseMenu
         this.exportCSVFactory = exportCSVFactory;
     }
 
-    public void downloadHabit()
+    public void exportHabit()
     {
         List<Habit> selected = new LinkedList<>();
         selected.add(habit);
@@ -80,8 +80,8 @@ public class ShowHabitsMenu extends BaseMenu
                 screen.showEditHabitDialog();
                 return true;
 
-            case R.id.download:
-                this.downloadHabit();
+            case R.id.export:
+                this.exportHabit();
                 return true;
 
             default:

@@ -203,4 +203,5 @@
     <string name="by_color">By color</string>
     <string name="by_score">By score</string>
     <string name="download">Download</string>
+    <string name="export">Export</string>
 </resources>
