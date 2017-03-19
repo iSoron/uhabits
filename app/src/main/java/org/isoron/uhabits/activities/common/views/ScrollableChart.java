@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.animation.*;
 import android.content.*;
+import android.os.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
@@ -141,6 +142,29 @@ public abstract class ScrollableChart extends View
     public void setScrollerBucketSize(int scrollerBucketSize)
     {
         this.scrollerBucketSize = scrollerBucketSize;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state)
+    {
+        BundleSavedState bss = (BundleSavedState) state;
+        int x = bss.bundle.getInt("x");
+        int y = bss.bundle.getInt("y");
+        dataOffset = bss.bundle.getInt("dataOffset");
+        scroller.startScroll(0, 0, x, y, 0);
+        scroller.computeScrollOffset();
+        super.onRestoreInstanceState(bss.getSuperState());
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState()
+    {
+        Parcelable superState = super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putInt("x", scroller.getCurrX());
+        bundle.putInt("y", scroller.getCurrY());
+        bundle.putInt("dataOffset", dataOffset);
+        return new BundleSavedState(superState, bundle);
     }
 
     private void init(Context context)
