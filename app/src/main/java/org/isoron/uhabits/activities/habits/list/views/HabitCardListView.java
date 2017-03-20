@@ -20,12 +20,14 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
+import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.support.v7.widget.helper.*;
 import android.util.*;
 import android.view.*;
 
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.models.*;
@@ -127,7 +129,7 @@ public class HabitCardListView extends RecyclerView
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
-        for(HabitCardViewHolder holder : attachedHolders)
+        for (HabitCardViewHolder holder : attachedHolders)
         {
             HabitCardView cardView = (HabitCardView) holder.itemView;
             cardView.setDataOffset(dataOffset);
@@ -146,6 +148,23 @@ public class HabitCardListView extends RecyclerView
     {
         if (adapter != null) adapter.onDetached();
         super.onDetachedFromWindow();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state)
+    {
+        BundleSavedState bss = (BundleSavedState) state;
+        dataOffset = bss.bundle.getInt("dataOffset");
+        super.onRestoreInstanceState(bss.getSuperState());
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState()
+    {
+        Parcelable superState = super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putInt("dataOffset", dataOffset);
+        return new BundleSavedState(superState, bundle);
     }
 
     protected void setupCardViewController(@NonNull HabitCardViewHolder holder)
@@ -193,7 +212,7 @@ public class HabitCardListView extends RecyclerView
         {
             int position = holder.getAdapterPosition();
             if (controller != null) controller.onItemLongClick(position);
-            if(adapter.isSortable()) touchHelper.startDrag(holder);
+            if (adapter.isSortable()) touchHelper.startDrag(holder);
         }
 
         @Override

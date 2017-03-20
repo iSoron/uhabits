@@ -40,7 +40,7 @@ public class BundleSavedState extends View.BaseSavedState
             }
         };
 
-    final Bundle bundle;
+    public final Bundle bundle;
 
     public BundleSavedState(Parcelable superState, Bundle bundle)
     {
