@@ -41,6 +41,13 @@ public abstract class ScrollableChart extends View
 
     private ValueAnimator scrollAnimator;
 
+    private ScrollController scrollController;
+
+    public void setScrollController(ScrollController scrollController)
+    {
+        this.scrollController = scrollController;
+    }
+
     public ScrollableChart(Context context)
     {
         super(context);
@@ -64,12 +71,24 @@ public abstract class ScrollableChart extends View
         if (!scroller.isFinished())
         {
             scroller.computeScrollOffset();
-            dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
-            postInvalidate();
+            updateDataOffset();
         }
         else
         {
             scrollAnimator.cancel();
+        }
+    }
+
+    private void updateDataOffset()
+    {
+        int newDataOffset =
+            Math.max(0, scroller.getCurrX() / scrollerBucketSize);
+
+        if(newDataOffset != dataOffset)
+        {
+            dataOffset = newDataOffset;
+            scrollController.onDataOffsetChanged(dataOffset);
+            postInvalidate();
         }
     }
 
@@ -115,8 +134,7 @@ public abstract class ScrollableChart extends View
         scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(),
             (int) -dx, (int) dy, 0);
         scroller.computeScrollOffset();
-        dataOffset = Math.max(0, scroller.getCurrX() / scrollerBucketSize);
-        postInvalidate();
+        updateDataOffset();
 
         return true;
     }
@@ -173,5 +191,11 @@ public abstract class ScrollableChart extends View
         scroller = new Scroller(context, null, true);
         scrollAnimator = ValueAnimator.ofFloat(0, 1);
         scrollAnimator.addUpdateListener(this);
+        scrollController = new ScrollController(){};
+    }
+
+    public interface ScrollController
+    {
+        default void onDataOffsetChanged(int newDataOffset) {}
     }
 }

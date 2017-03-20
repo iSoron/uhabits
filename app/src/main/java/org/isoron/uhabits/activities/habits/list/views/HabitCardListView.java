@@ -26,9 +26,9 @@ import android.support.v7.widget.helper.*;
 import android.util.*;
 import android.view.*;
 
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.models.*;
 
 import java.util.*;
 
@@ -44,6 +44,10 @@ public class HabitCardListView extends RecyclerView
 
     private int checkmarkCount;
 
+    private int dataOffset;
+
+    private LinkedList<HabitCardViewHolder> attachedHolders;
+
     public HabitCardListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -54,6 +58,13 @@ public class HabitCardListView extends RecyclerView
         TouchHelperCallback callback = new TouchHelperCallback();
         touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(this);
+
+        attachedHolders = new LinkedList<>();
+    }
+
+    public void attachCardView(HabitCardViewHolder holder)
+    {
+        attachedHolders.add(holder);
     }
 
     /**
@@ -75,13 +86,12 @@ public class HabitCardListView extends RecyclerView
                              int[] checkmarks,
                              boolean selected)
     {
-        int visibleCheckmarks[] =
-            Arrays.copyOfRange(checkmarks, 0, checkmarkCount);
-
         HabitCardView cardView = (HabitCardView) holder.itemView;
         cardView.setHabit(habit);
         cardView.setSelected(selected);
-        cardView.setCheckmarkValues(visibleCheckmarks);
+        cardView.setCheckmarkValues(checkmarks);
+        cardView.setCheckmarkCount(checkmarkCount);
+        cardView.setDataOffset(dataOffset);
         cardView.setScore(score);
         if (controller != null) setupCardViewController(holder);
         return cardView;
@@ -90,6 +100,11 @@ public class HabitCardListView extends RecyclerView
     public View createCardView()
     {
         return new HabitCardView(getContext());
+    }
+
+    public void detachCardView(HabitCardViewHolder holder)
+    {
+        attachedHolders.remove(holder);
     }
 
     @Override
@@ -107,6 +122,16 @@ public class HabitCardListView extends RecyclerView
     public void setController(@Nullable Controller controller)
     {
         this.controller = controller;
+    }
+
+    public void setDataOffset(int dataOffset)
+    {
+        this.dataOffset = dataOffset;
+        for(HabitCardViewHolder holder : attachedHolders)
+        {
+            HabitCardView cardView = (HabitCardView) holder.itemView;
+            cardView.setDataOffset(dataOffset);
+        }
     }
 
     @Override
