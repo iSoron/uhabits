@@ -33,7 +33,9 @@ public abstract class ScrollableChart extends View
 
     private int dataOffset;
 
-    private int scrollerBucketSize;
+    private int scrollerBucketSize = 1;
+
+    private int direction = 1;
 
     private GestureDetector detector;
 
@@ -43,10 +45,7 @@ public abstract class ScrollableChart extends View
 
     private ScrollController scrollController;
 
-    public void setScrollController(ScrollController scrollController)
-    {
-        this.scrollController = scrollController;
-    }
+    private int maxDataOffset = 10000;
 
     public ScrollableChart(Context context)
     {
@@ -79,19 +78,6 @@ public abstract class ScrollableChart extends View
         }
     }
 
-    private void updateDataOffset()
-    {
-        int newDataOffset =
-            Math.max(0, scroller.getCurrX() / scrollerBucketSize);
-
-        if(newDataOffset != dataOffset)
-        {
-            dataOffset = newDataOffset;
-            scrollController.onDataOffsetChanged(dataOffset);
-            postInvalidate();
-        }
-    }
-
     @Override
     public boolean onDown(MotionEvent e)
     {
@@ -105,19 +91,44 @@ public abstract class ScrollableChart extends View
                            float velocityY)
     {
         scroller.fling(scroller.getCurrX(), scroller.getCurrY(),
-            (int) velocityX / 2, 0, 0, 100000, 0, 0);
+            direction * ((int) velocityX) / 2, 0, 0, getMaxX(), 0, 0);
         invalidate();
 
         scrollAnimator.setDuration(scroller.getDuration());
         scrollAnimator.start();
-
         return false;
     }
 
-    @Override
-    public void onLongPress(MotionEvent e)
+    private int getMaxX()
     {
+        return maxDataOffset * scrollerBucketSize;
+    }
 
+    @Override
+    public void onRestoreInstanceState(Parcelable state)
+    {
+        BundleSavedState bss = (BundleSavedState) state;
+        int x = bss.bundle.getInt("x");
+        int y = bss.bundle.getInt("y");
+        direction = bss.bundle.getInt("direction");
+        dataOffset = bss.bundle.getInt("dataOffset");
+        maxDataOffset = bss.bundle.getInt("maxDataOffset");
+        scroller.startScroll(0, 0, x, y, 0);
+        scroller.computeScrollOffset();
+        super.onRestoreInstanceState(bss.getSuperState());
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState()
+    {
+        Parcelable superState = super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putInt("x", scroller.getCurrX());
+        bundle.putInt("y", scroller.getCurrY());
+        bundle.putInt("dataOffset", dataOffset);
+        bundle.putInt("direction", direction);
+        bundle.putInt("maxDataOffset", maxDataOffset);
+        return new BundleSavedState(superState, bundle);
     }
 
     @Override
@@ -131,11 +142,14 @@ public abstract class ScrollableChart extends View
             if (parent != null) parent.requestDisallowInterceptTouchEvent(true);
         }
 
-        scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(),
-            (int) -dx, (int) dy, 0);
+
+        dx = - direction * dx;
+        dx = Math.min(dx, getMaxX() - scroller.getCurrX());
+        scroller.startScroll(scroller.getCurrX(), scroller.getCurrY(), (int) dx,
+            (int) dy, 0);
+
         scroller.computeScrollOffset();
         updateDataOffset();
-
         return true;
     }
 
@@ -157,32 +171,35 @@ public abstract class ScrollableChart extends View
         return detector.onTouchEvent(event);
     }
 
+    public void setDirection(int direction)
+    {
+        if (direction != 1 && direction != -1)
+            throw new IllegalArgumentException();
+        this.direction = direction;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e)
+    {
+
+    }
+
+    public void setMaxDataOffset(int maxDataOffset)
+    {
+        this.maxDataOffset = maxDataOffset;
+        this.dataOffset = Math.min(dataOffset, maxDataOffset);
+        scrollController.onDataOffsetChanged(this.dataOffset);
+        postInvalidate();
+    }
+
+    public void setScrollController(ScrollController scrollController)
+    {
+        this.scrollController = scrollController;
+    }
+
     public void setScrollerBucketSize(int scrollerBucketSize)
     {
         this.scrollerBucketSize = scrollerBucketSize;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state)
-    {
-        BundleSavedState bss = (BundleSavedState) state;
-        int x = bss.bundle.getInt("x");
-        int y = bss.bundle.getInt("y");
-        dataOffset = bss.bundle.getInt("dataOffset");
-        scroller.startScroll(0, 0, x, y, 0);
-        scroller.computeScrollOffset();
-        super.onRestoreInstanceState(bss.getSuperState());
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState()
-    {
-        Parcelable superState = super.onSaveInstanceState();
-        Bundle bundle = new Bundle();
-        bundle.putInt("x", scroller.getCurrX());
-        bundle.putInt("y", scroller.getCurrY());
-        bundle.putInt("dataOffset", dataOffset);
-        return new BundleSavedState(superState, bundle);
     }
 
     private void init(Context context)
@@ -191,7 +208,21 @@ public abstract class ScrollableChart extends View
         scroller = new Scroller(context, null, true);
         scrollAnimator = ValueAnimator.ofFloat(0, 1);
         scrollAnimator.addUpdateListener(this);
-        scrollController = new ScrollController(){};
+        scrollController = new ScrollController() {};
+    }
+
+    private void updateDataOffset()
+    {
+        int newDataOffset = scroller.getCurrX() / scrollerBucketSize;
+        newDataOffset = Math.max(0, newDataOffset);
+        newDataOffset = Math.min(maxDataOffset, newDataOffset);
+
+        if (newDataOffset != dataOffset)
+        {
+            dataOffset = newDataOffset;
+            scrollController.onDataOffsetChanged(dataOffset);
+            postInvalidate();
+        }
     }
 
     public interface ScrollController

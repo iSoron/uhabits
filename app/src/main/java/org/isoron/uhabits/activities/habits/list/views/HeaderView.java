@@ -34,8 +34,6 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
-
 public class HeaderView extends ScrollableChart
     implements Preferences.Listener, MidnightTimer.MidnightListener
 {
@@ -52,6 +50,8 @@ public class HeaderView extends ScrollableChart
 
     private RectF rect;
 
+    private int maxDataOffset;
+
     public HeaderView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -60,18 +60,6 @@ public class HeaderView extends ScrollableChart
         {
             setButtonCount(5);
         }
-
-        StyledResources res = new StyledResources(context);
-        setScrollerBucketSize((int) dpToPixels(context, 42));
-        paint = new TextPaint();
-        paint.setColor(Color.BLACK);
-        paint.setAntiAlias(true);
-        paint.setTextSize(getResources().getDimension(R.dimen.tinyTextSize));
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setColor(res.getColor(R.attr.mediumContrastTextColor));
-
-        rect = new RectF();
 
         Context appContext = context.getApplicationContext();
         if (appContext instanceof HabitsApplication)
@@ -85,6 +73,21 @@ public class HeaderView extends ScrollableChart
             ListHabitsActivity activity = (ListHabitsActivity) context;
             midnightTimer = activity.getListHabitsComponent().getMidnightTimer();
         }
+
+        Resources res = context.getResources();
+        setScrollerBucketSize((int) res.getDimension(R.dimen.checkmarkWidth));
+        setDirection(shouldReverseCheckmarks() ? 1 : -1);
+
+        StyledResources sr = new StyledResources(context);
+        paint = new TextPaint();
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setTextSize(getResources().getDimension(R.dimen.tinyTextSize));
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setColor(sr.getColor(R.attr.mediumContrastTextColor));
+
+        rect = new RectF();
     }
 
     @Override
@@ -96,6 +99,7 @@ public class HeaderView extends ScrollableChart
     @Override
     public void onCheckmarkOrderChanged()
     {
+        setDirection(shouldReverseCheckmarks() ? 1 : -1);
         postInvalidate();
     }
 
@@ -137,24 +141,26 @@ public class HeaderView extends ScrollableChart
         super.onDraw(canvas);
 
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
-
         Resources res = getContext().getResources();
         float width = res.getDimension(R.dimen.checkmarkWidth);
         float height = res.getDimension(R.dimen.checkmarkHeight);
-        rect.set(0, 0, width, height);
-        rect.offset(canvas.getWidth(), 0);
+        boolean reverse = shouldReverseCheckmarks();
 
         day.add(GregorianCalendar.DAY_OF_MONTH, -getDataOffset());
         float em = paint.measureText("m");
 
         for (int i = 0; i < buttonCount; i++)
         {
-            rect.offset(-width, 0);
+            rect.set(0, 0, width, height);
+            rect.offset(canvas.getWidth(), 0);
+            if(reverse) rect.offset(- (i + 1) * width, 0);
+            else rect.offset((i - buttonCount) * width, 0);
+
             String text = DateUtils.formatHeaderDate(day).toUpperCase();
             String[] lines = text.split("\n");
 
-            int y1 = (int)(rect.centerY() - 0.5 * em);
-            int y2 = (int)(rect.centerY() + em);
+            int y1 = (int)(rect.centerY() - 0.25 * em);
+            int y2 = (int)(rect.centerY() + 1.25 * em);
 
             canvas.drawText(lines[0], rect.centerX(), y1, paint);
             canvas.drawText(lines[1], rect.centerX(), y2, paint);

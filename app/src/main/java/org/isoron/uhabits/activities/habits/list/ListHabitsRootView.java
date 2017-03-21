@@ -164,6 +164,7 @@ public class ListHabitsRootView extends BaseRootView
     {
         int count = getCheckmarkCount();
         header.setButtonCount(count);
+        header.setMaxDataOffset(Math.max(MAX_CHECKMARK_COUNT - count, 0));
         listView.setCheckmarkCount(count);
         super.onSizeChanged(w, h, oldw, oldh);
     }
