@@ -72,6 +72,8 @@ public class HabitCardView extends FrameLayout
     @Nullable
     private Habit habit;
 
+    private int dataOffset;
+
     public HabitCardView(Context context)
     {
         super(context);
@@ -90,6 +92,11 @@ public class HabitCardView extends FrameLayout
         new Handler(Looper.getMainLooper()).post(() -> refresh());
     }
 
+    public void setCheckmarkCount(int checkmarkCount)
+    {
+        checkmarkPanel.setButtonCount(checkmarkCount);
+    }
+
     public void setCheckmarkValues(int checkmarks[])
     {
         checkmarkPanel.setCheckmarkValues(checkmarks);
@@ -101,6 +108,12 @@ public class HabitCardView extends FrameLayout
         checkmarkPanel.setController(null);
         if (controller == null) return;
         checkmarkPanel.setController(controller);
+    }
+
+    public void setDataOffset(int dataOffset)
+    {
+        this.dataOffset = dataOffset;
+        checkmarkPanel.setDataOffset(dataOffset);
     }
 
     public void setHabit(@NonNull Habit habit)
@@ -134,7 +147,7 @@ public class HabitCardView extends FrameLayout
     {
         long today = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
-        int offset = (int) ((today - timestamp) / day);
+        int offset = (int) ((today - timestamp) / day) - dataOffset;
         CheckmarkButtonView button = checkmarkPanel.indexToButton(offset);
 
         float y = button.getHeight() / 2.0f;

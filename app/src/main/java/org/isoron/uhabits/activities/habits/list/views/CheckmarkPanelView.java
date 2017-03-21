@@ -53,6 +53,8 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
     @NonNull
     private Habit habit;
 
+    private int dataOffset;
+
     public CheckmarkPanelView(Context context)
     {
         super(context);
@@ -75,16 +77,20 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
         return (CheckmarkButtonView) getChildAt(position);
     }
 
-    public void setCheckmarkValues(int[] checkmarkValues)
+    public void setButtonCount(int newButtonCount)
     {
-        this.checkmarkValues = checkmarkValues;
-
-        if (this.nButtons != checkmarkValues.length)
+        if(nButtons != newButtonCount)
         {
-            this.nButtons = checkmarkValues.length;
+            nButtons = newButtonCount;
             addCheckmarkButtons();
         }
 
+        setupCheckmarkButtons();
+    }
+
+    public void setCheckmarkValues(int[] checkmarkValues)
+    {
+        this.checkmarkValues = checkmarkValues;
         setupCheckmarkButtons();
     }
 
@@ -97,6 +103,12 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
     public void setController(Controller controller)
     {
         this.controller = controller;
+        setupCheckmarkButtons();
+    }
+
+    public void setDataOffset(int dataOffset)
+    {
+        this.dataOffset = dataOffset;
         setupCheckmarkButtons();
     }
 
@@ -170,11 +182,13 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
     {
         long timestamp = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
+        timestamp -= day * dataOffset;
 
         for (int i = 0; i < nButtons; i++)
         {
             CheckmarkButtonView buttonView = indexToButton(i);
-            buttonView.setValue(checkmarkValues[i]);
+            if(i + dataOffset >= checkmarkValues.length) break;
+            buttonView.setValue(checkmarkValues[i + dataOffset]);
             buttonView.setColor(color);
             setupButtonControllers(timestamp, buttonView);
             timestamp -= day;

@@ -179,6 +179,20 @@ public class HabitCardListAdapter
     }
 
     @Override
+    public void onViewAttachedToWindow(@Nullable HabitCardViewHolder holder)
+    {
+        if (listView == null) return;
+        listView.attachCardView(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@Nullable HabitCardViewHolder holder)
+    {
+        if (listView == null) return;
+        listView.detachCardView(holder);
+    }
+
+    @Override
     public HabitCardViewHolder onCreateViewHolder(ViewGroup parent,
                                                   int viewType)
     {
