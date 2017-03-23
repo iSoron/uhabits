@@ -37,7 +37,7 @@ import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
 
-public class CheckmarkPanelView extends LinearLayout
+public class NumberPanelView extends LinearLayout
     implements Preferences.Listener
 {
     private static final int LEFT_TO_RIGHT = 0;
@@ -48,6 +48,8 @@ public class CheckmarkPanelView extends LinearLayout
     private Preferences prefs;
 
     private int values[];
+
+    private int threshold;
 
     private int nButtons;
 
@@ -60,13 +62,13 @@ public class CheckmarkPanelView extends LinearLayout
 
     private int dataOffset;
 
-    public CheckmarkPanelView(Context context)
+    public NumberPanelView(Context context)
     {
         super(context);
         init();
     }
 
-    public CheckmarkPanelView(Context ctx, AttributeSet attrs)
+    public NumberPanelView(Context ctx, AttributeSet attrs)
     {
         super(ctx, attrs);
         init();
@@ -76,18 +78,29 @@ public class CheckmarkPanelView extends LinearLayout
             int paletteColor = getIntAttribute(ctx, attrs, "color", 0);
             setColor(getAndroidTestColor(paletteColor));
             setButtonCount(getIntAttribute(ctx, attrs, "button_count", 5));
+            setThreshold(getIntAttribute(ctx, attrs, "threshold", 1));
         }
 
-        if (isInEditMode()) initEditMode();
+        if(isInEditMode()) initEditMode();
     }
 
-    public CheckmarkButtonView indexToButton(int i)
+    private void initEditMode()
+    {
+        int values[] = new int[nButtons];
+
+        for(int i = 0; i < nButtons; i++)
+            values[i] = new Random().nextInt(threshold * 3);
+
+        setValues(values);
+    }
+
+    public NumberButtonView indexToButton(int i)
     {
         int position = i;
 
         if (getCheckmarkOrder() == RIGHT_TO_LEFT) position = nButtons - i - 1;
 
-        return (CheckmarkButtonView) getChildAt(position);
+        return (NumberButtonView) getChildAt(position);
     }
 
     @Override
@@ -131,6 +144,12 @@ public class CheckmarkPanelView extends LinearLayout
         setupButtons();
     }
 
+    public void setThreshold(int threshold)
+    {
+        this.threshold = threshold;
+        setupButtons();
+    }
+
     public void setValues(int[] values)
     {
         this.values = values;
@@ -171,7 +190,7 @@ public class CheckmarkPanelView extends LinearLayout
         removeAllViews();
 
         for (int i = 0; i < nButtons; i++)
-            addView(new CheckmarkButtonView(getContext()));
+            addView(new NumberButtonView(getContext()));
     }
 
     private int getCheckmarkOrder()
@@ -193,28 +212,18 @@ public class CheckmarkPanelView extends LinearLayout
         values = new int[0];
     }
 
-    private void initEditMode()
-    {
-        int values[] = new int[nButtons];
-
-        for (int i = 0; i < nButtons; i++)
-            values[i] = new Random().nextInt(3);
-
-        setValues(values);
-    }
-
     private void setupButtonControllers(long timestamp,
-                                        CheckmarkButtonView buttonView)
+                                        NumberButtonView buttonView)
     {
         if (controller == null) return;
         if (!(getContext() instanceof ListHabitsActivity)) return;
 
         ListHabitsActivity activity = (ListHabitsActivity) getContext();
-        CheckmarkButtonControllerFactory buttonControllerFactory = activity
+        NumberButtonControllerFactory buttonControllerFactory = activity
             .getListHabitsComponent()
-            .getCheckmarkButtonControllerFactory();
+            .getNumberButtonControllerFactory();
 
-        CheckmarkButtonController buttonController =
+        NumberButtonController buttonController =
             buttonControllerFactory.create(habit, timestamp);
         buttonController.setListener(controller);
         buttonController.setView(buttonView);
@@ -229,16 +238,17 @@ public class CheckmarkPanelView extends LinearLayout
 
         for (int i = 0; i < nButtons; i++)
         {
-            CheckmarkButtonView buttonView = indexToButton(i);
+            NumberButtonView buttonView = indexToButton(i);
             if (i + dataOffset >= values.length) break;
             buttonView.setValue(values[i + dataOffset]);
             buttonView.setColor(color);
+            buttonView.setThreshold(threshold);
             setupButtonControllers(timestamp, buttonView);
             timestamp -= day;
         }
     }
 
-    public interface Controller extends CheckmarkButtonController.Listener
+    public interface Controller extends NumberButtonController.Listener
     {
 
     }

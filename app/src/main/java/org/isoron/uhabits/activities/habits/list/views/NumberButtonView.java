@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
+import android.graphics.*;
 import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
@@ -27,28 +28,32 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
 
-public class CheckmarkButtonView extends TextView
+public class NumberButtonView extends TextView
 {
+    private static Typeface TYPEFACE =
+        Typeface.create("sans-serif-condensed", Typeface.BOLD);
+
     private int color;
 
     private int value;
 
+    private int threshold;
+
     private StyledResources res;
 
-    public CheckmarkButtonView(@Nullable Context context)
+    public NumberButtonView(@Nullable Context context)
     {
         super(context);
         init();
     }
 
-    public CheckmarkButtonView(@Nullable Context context,
-                               @Nullable AttributeSet attrs)
+    public NumberButtonView(@Nullable Context context,
+                            @Nullable AttributeSet attrs)
     {
         super(context, attrs);
         init();
@@ -57,35 +62,47 @@ public class CheckmarkButtonView extends TextView
         {
             int color = getIntAttribute(context, attrs, "color", 0);
             int value = getIntAttribute(context, attrs, "value", 0);
+            int threshold = getIntAttribute(context, attrs, "threshold", 1);
             setColor(getAndroidTestColor(color));
+            setThreshold(threshold);
             setValue(value);
         }
+    }
+
+    private static String formatValue(int v)
+    {
+        double fv = (double) v;
+        if(v >= 1e9) return String.format("%.2fG", fv / 1e9);
+        if(v >= 1e8) return String.format("%.0fM", fv / 1e6);
+        if(v >= 1e7) return String.format("%.1fM", fv / 1e6);
+        if(v >= 1e6) return String.format("%.2fM", fv / 1e6);
+        if(v >= 1e5) return String.format("%.0fk", fv / 1e3);
+        if(v >= 1e4) return String.format("%.1fk", fv / 1e3);
+        if(v >= 1e3) return String.format("%.2fk", fv / 1e3);
+        return String.format("%d", v);
     }
 
     public void setColor(int color)
     {
         this.color = color;
-        updateText();
+        postInvalidate();
     }
 
-    public void setController(final CheckmarkButtonController controller)
+    public void setController(final NumberButtonController controller)
     {
         setOnClickListener(v -> controller.onClick());
         setOnLongClickListener(v -> controller.onLongClick());
     }
 
-    public void setValue(int value)
+    public void setThreshold(int threshold)
     {
-        this.value = value;
+        this.threshold = threshold;
         updateText();
     }
 
-    public void toggle()
+    public void setValue(int value)
     {
-        value = (value == Checkmark.CHECKED_EXPLICITLY ? Checkmark.UNCHECKED :
-                     Checkmark.CHECKED_EXPLICITLY);
-
-        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        this.value = value;
         updateText();
     }
 
@@ -102,29 +119,13 @@ public class CheckmarkButtonView extends TextView
 
         setFocusable(false);
         setGravity(Gravity.CENTER);
-        setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+        setTypeface(TYPEFACE);
     }
 
     private void updateText()
     {
-        int lowContrastColor = res.getColor(R.attr.lowContrastTextColor);
-
-        if (value == Checkmark.CHECKED_EXPLICITLY)
-        {
-            setText(R.string.fa_check);
-            setTextColor(color);
-        }
-
-        if (value == Checkmark.CHECKED_IMPLICITLY)
-        {
-            setText(R.string.fa_check);
-            setTextColor(lowContrastColor);
-        }
-
-        if (value == Checkmark.UNCHECKED)
-        {
-            setText(R.string.fa_times);
-            setTextColor(lowContrastColor);
-        }
+        int lowColor = res.getColor(R.attr.lowContrastTextColor);
+        setTextColor(value >= threshold ? color : lowColor);
+        setText(formatValue(value));
     }
 }

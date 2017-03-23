@@ -99,7 +99,7 @@ public class HabitCardView extends FrameLayout
 
     public void setCheckmarkValues(int checkmarks[])
     {
-        checkmarkPanel.setCheckmarkValues(checkmarks);
+        checkmarkPanel.setValues(checkmarks);
         postInvalidate();
     }
 
@@ -213,7 +213,7 @@ public class HabitCardView extends FrameLayout
         scoreRing.setColor(color);
         scoreRing.setPercentage(rand.nextFloat());
         checkmarkPanel.setColor(color);
-        checkmarkPanel.setCheckmarkValues(values);
+        checkmarkPanel.setValues(values);
     }
 
     private void refresh()
