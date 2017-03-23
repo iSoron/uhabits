@@ -36,7 +36,7 @@ import static org.isoron.uhabits.utils.ColorUtils.*;
 public class NumberButtonView extends TextView
 {
     private static Typeface TYPEFACE =
-        Typeface.create("sans-serif-condensed", Typeface.BOLD);
+        Typeface.create("sans-serif-condensed", Typeface.NORMAL);
 
     private int color;
 
@@ -72,13 +72,13 @@ public class NumberButtonView extends TextView
     private static String formatValue(int v)
     {
         double fv = (double) v;
-        if(v >= 1e9) return String.format("%.2fG", fv / 1e9);
+        if(v >= 1e9) return String.format("%.1fG", fv / 1e9);
         if(v >= 1e8) return String.format("%.0fM", fv / 1e6);
         if(v >= 1e7) return String.format("%.1fM", fv / 1e6);
-        if(v >= 1e6) return String.format("%.2fM", fv / 1e6);
+        if(v >= 1e6) return String.format("%.1fM", fv / 1e6);
         if(v >= 1e5) return String.format("%.0fk", fv / 1e3);
         if(v >= 1e4) return String.format("%.1fk", fv / 1e3);
-        if(v >= 1e3) return String.format("%.2fk", fv / 1e3);
+        if(v >= 1e3) return String.format("%.1fk", fv / 1e3);
         return String.format("%d", v);
     }
 

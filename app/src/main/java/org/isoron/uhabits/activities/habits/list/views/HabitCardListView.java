@@ -91,8 +91,8 @@ public class HabitCardListView extends RecyclerView
         HabitCardView cardView = (HabitCardView) holder.itemView;
         cardView.setHabit(habit);
         cardView.setSelected(selected);
-        cardView.setCheckmarkValues(checkmarks);
-        cardView.setCheckmarkCount(checkmarkCount);
+        cardView.setValues(checkmarks);
+        cardView.setButtonCount(checkmarkCount);
         cardView.setDataOffset(dataOffset);
         cardView.setScore(score);
         if (controller != null) setupCardViewController(holder);

@@ -84,7 +84,7 @@ public class NumberPanelView extends LinearLayout
         if(isInEditMode()) initEditMode();
     }
 
-    private void initEditMode()
+    public void initEditMode()
     {
         int values[] = new int[nButtons];
 

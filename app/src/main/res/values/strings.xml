@@ -204,4 +204,6 @@
     <string name="by_score">By score</string>
     <string name="download">Download</string>
     <string name="export">Export</string>
+    <string name="long_press_to_edit">Press-and-hold to change the
+        value</string>
 </resources>

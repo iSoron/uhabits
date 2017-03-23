@@ -157,6 +157,18 @@ public class ListHabitsController
         }));
     }
 
+    @Override
+    public void onInvalidEdit()
+    {
+        screen.showMessage(R.string.long_press_to_edit);
+    }
+
+    @Override
+    public void onEdit(@NonNull Habit habit, long timestamp)
+    {
+
+    }
+
 
     @Override
     public void onInvalidToggle()

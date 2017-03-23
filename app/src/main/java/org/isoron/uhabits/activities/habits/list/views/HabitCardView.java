@@ -56,6 +56,9 @@ public class HabitCardView extends FrameLayout
     @BindView(R.id.checkmarkPanel)
     CheckmarkPanelView checkmarkPanel;
 
+    @BindView(R.id.numberPanel)
+    NumberPanelView numberPanel;
+
     @BindView(R.id.innerFrame)
     LinearLayout innerFrame;
 
@@ -92,28 +95,38 @@ public class HabitCardView extends FrameLayout
         new Handler(Looper.getMainLooper()).post(() -> refresh());
     }
 
-    public void setCheckmarkCount(int checkmarkCount)
+    public void setButtonCount(int buttonCount)
     {
-        checkmarkPanel.setButtonCount(checkmarkCount);
+        checkmarkPanel.setButtonCount(buttonCount);
+        numberPanel.setButtonCount(buttonCount);
     }
 
-    public void setCheckmarkValues(int checkmarks[])
+    public void setValues(int values[])
     {
-        checkmarkPanel.setValues(checkmarks);
+        checkmarkPanel.setValues(values);
+
+        int[] magnitudes = new int[]{10, 100, 1000, 10000};
+        int threshold = magnitudes[new Random().nextInt(4)];
+        numberPanel.setThreshold(threshold);
+        numberPanel.initEditMode();
+
         postInvalidate();
     }
 
     public void setController(Controller controller)
     {
         checkmarkPanel.setController(null);
+        numberPanel.setController(null);
         if (controller == null) return;
         checkmarkPanel.setController(controller);
+        numberPanel.setController(controller);
     }
 
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
         checkmarkPanel.setDataOffset(dataOffset);
+        numberPanel.setDataOffset(dataOffset);
     }
 
     public void setHabit(@NonNull Habit habit)
@@ -122,6 +135,7 @@ public class HabitCardView extends FrameLayout
 
         this.habit = habit;
         checkmarkPanel.setHabit(habit);
+        numberPanel.setHabit(habit);
         refresh();
 
         attachToHabit();
@@ -191,7 +205,8 @@ public class HabitCardView extends FrameLayout
         inflate(context, R.layout.list_habits_card, this);
         ButterKnife.bind(this);
 
-        innerFrame.setOnTouchListener((v, event) -> {
+        innerFrame.setOnTouchListener((v, event) ->
+        {
             if (SDK_INT >= LOLLIPOP)
                 v.getBackground().setHotspot(event.getX(), event.getY());
             return false;
@@ -205,15 +220,12 @@ public class HabitCardView extends FrameLayout
     {
         Random rand = new Random();
         int color = ColorUtils.getAndroidTestColor(rand.nextInt(10));
-        int[] values = new int[5];
-        for (int i = 0; i < 5; i++) values[i] = rand.nextInt(3);
-
         label.setText(EDIT_MODE_HABITS[rand.nextInt(EDIT_MODE_HABITS.length)]);
         label.setTextColor(color);
         scoreRing.setColor(color);
         scoreRing.setPercentage(rand.nextFloat());
         checkmarkPanel.setColor(color);
-        checkmarkPanel.setValues(values);
+        numberPanel.setColor(color);
     }
 
     private void refresh()
@@ -223,6 +235,12 @@ public class HabitCardView extends FrameLayout
         label.setTextColor(color);
         scoreRing.setColor(color);
         checkmarkPanel.setColor(color);
+        numberPanel.setColor(color);
+
+        boolean isNumberHabit = false; //(new Random().nextInt(3) == 0);
+        checkmarkPanel.setVisibility(isNumberHabit ? GONE : VISIBLE);
+        numberPanel.setVisibility(isNumberHabit ? VISIBLE : GONE);
+
         postInvalidate();
     }
 
@@ -256,5 +274,9 @@ public class HabitCardView extends FrameLayout
         }
     }
 
-    public interface Controller extends CheckmarkPanelView.Controller {}
+    public interface Controller
+        extends CheckmarkPanelView.Controller, NumberPanelView.Controller
+    {
+
+    }
 }
