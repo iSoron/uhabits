@@ -73,7 +73,7 @@ public class SQLiteRepetitionList extends RepetitionList
     public List<Repetition> getByInterval(long timeFrom, long timeTo)
     {
         check(habit.getId());
-        String query = "select habit, timestamp " +
+        String query = "select habit, timestamp, value " +
                        "from Repetitions " +
                        "where habit = ? and timestamp >= ? and timestamp <= ? " +
                        "order by timestamp";
@@ -93,7 +93,7 @@ public class SQLiteRepetitionList extends RepetitionList
     public Repetition getByTimestamp(long timestamp)
     {
         check(habit.getId());
-        String query = "select habit, timestamp " +
+        String query = "select habit, timestamp, value " +
                        "from Repetitions " +
                        "where habit = ? and timestamp = ? " +
                        "limit 1";
@@ -111,7 +111,7 @@ public class SQLiteRepetitionList extends RepetitionList
     public Repetition getOldest()
     {
         check(habit.getId());
-        String query = "select habit, timestamp " +
+        String query = "select habit, timestamp, value " +
                        "from Repetitions " +
                        "where habit = ? " +
                        "order by timestamp asc " +
@@ -129,7 +129,7 @@ public class SQLiteRepetitionList extends RepetitionList
     public Repetition getNewest()
     {
         check(habit.getId());
-        String query = "select habit, timestamp " +
+        String query = "select habit, timestamp, value " +
                 "from Repetitions " +
                 "where habit = ? " +
                 "order by timestamp desc " +
@@ -182,7 +182,6 @@ public class SQLiteRepetitionList extends RepetitionList
         return reps;
     }
 
-    @NonNull
     @Override
     public long getTotalCount()
     {

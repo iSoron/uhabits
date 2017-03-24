@@ -104,11 +104,13 @@ public class HabitCardView extends FrameLayout
     public void setValues(int values[])
     {
         checkmarkPanel.setValues(values);
+        numberPanel.setValues(values);
+        numberPanel.setThreshold(10);
 
-        int[] magnitudes = new int[]{10, 100, 1000, 10000};
-        int threshold = magnitudes[new Random().nextInt(4)];
-        numberPanel.setThreshold(threshold);
-        numberPanel.initEditMode();
+//        int[] magnitudes = new int[]{10, 100, 1000, 10000};
+//        int threshold = magnitudes[new Random().nextInt(4)];
+//        numberPanel.setThreshold(threshold);
+//        numberPanel.initEditMode();
 
         postInvalidate();
     }
@@ -237,7 +239,7 @@ public class HabitCardView extends FrameLayout
         checkmarkPanel.setColor(color);
         numberPanel.setColor(color);
 
-        boolean isNumberHabit = false; //(new Random().nextInt(3) == 0);
+        boolean isNumberHabit = true; //(new Random().nextInt(3) == 0);
         checkmarkPanel.setVisibility(isNumberHabit ? GONE : VISIBLE);
         numberPanel.setVisibility(isNumberHabit ? VISIBLE : GONE);
 

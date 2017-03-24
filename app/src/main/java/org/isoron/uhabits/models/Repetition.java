@@ -30,6 +30,8 @@ public final class Repetition
 
     private final long timestamp;
 
+    private final int value;
+
     /**
      * Creates a new repetition with given parameters.
      * <p>
@@ -38,9 +40,24 @@ public final class Repetition
      *
      * @param timestamp the time this repetition occurred.
      */
-    public Repetition(long timestamp)
+    public Repetition(long timestamp, int value)
     {
         this.timestamp = timestamp;
+        this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Repetition that = (Repetition) o;
+
+        return new EqualsBuilder()
+            .append(timestamp, that.timestamp)
+            .append(value, that.value)
+            .isEquals();
     }
 
     public long getTimestamp()
@@ -48,11 +65,26 @@ public final class Repetition
         return timestamp;
     }
 
+    public int getValue()
+    {
+        return value;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+            .append(timestamp)
+            .append(value)
+            .toHashCode();
+    }
+
     @Override
     public String toString()
     {
         return new ToStringBuilder(this)
             .append("timestamp", timestamp)
+            .append("value", value)
             .toString();
     }
 }

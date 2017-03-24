@@ -37,6 +37,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
+import static org.isoron.uhabits.models.Checkmark.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -67,7 +68,7 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
         RepetitionRecord record = getByTimestamp(today + day);
         assertThat(record, is(nullValue()));
 
-        Repetition rep = new Repetition(today + day);
+        Repetition rep = new Repetition(today + day, CHECKED_EXPLICITLY);
         habit.getRepetitions().add(rep);
 
         record = getByTimestamp(today + day);

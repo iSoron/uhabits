@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list;
 
 import android.support.annotation.*;
-import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
@@ -169,9 +168,9 @@ public class ListHabitsController
     {
         int oldValue = habit.getCheckmarks().getTodayValue();
         screen.showNumberPicker(oldValue, newValue -> {
-            Log.d("ListHabitsController",
-                String.format("%s %d %d", habit.getName(), timestamp,
-                    newValue));
+            commandRunner.execute(
+                new CreateRepetitionCommand(habit, timestamp, newValue),
+                habit.getId());
         });
     }
 

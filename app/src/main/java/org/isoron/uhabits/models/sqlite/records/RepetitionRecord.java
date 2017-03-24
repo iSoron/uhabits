@@ -38,6 +38,9 @@ public class RepetitionRecord extends Model implements SQLiteRecord
     @Column(name = "timestamp")
     public Long timestamp;
 
+    @Column(name = "value")
+    public int value;
+
     public static RepetitionRecord get(Long id)
     {
         return RepetitionRecord.load(RepetitionRecord.class, id);
@@ -46,16 +49,18 @@ public class RepetitionRecord extends Model implements SQLiteRecord
     public void copyFrom(Repetition repetition)
     {
         timestamp = repetition.getTimestamp();
+        value = repetition.getValue();
     }
 
     @Override
     public void copyFrom(Cursor c)
     {
         timestamp = c.getLong(1);
+        value = c.getInt(2);
     }
 
     public Repetition toRepetition()
     {
-        return new Repetition(timestamp);
+        return new Repetition(timestamp, value);
     }
 }

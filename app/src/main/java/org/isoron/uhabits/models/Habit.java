@@ -274,4 +274,11 @@ public class Habit
             .append("archived", archived)
             .toString();
     }
+
+    public void invalidateNewerThan(long timestamp)
+    {
+        getScores().invalidateNewerThan(timestamp);
+        getCheckmarks().invalidateNewerThan(timestamp);
+        getStreaks().invalidateNewerThan(timestamp);
+    }
 }
