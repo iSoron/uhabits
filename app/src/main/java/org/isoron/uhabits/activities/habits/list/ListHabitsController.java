@@ -166,7 +166,7 @@ public class ListHabitsController
     @Override
     public void onEdit(@NonNull Habit habit, long timestamp)
     {
-        int oldValue = habit.getCheckmarks().getTodayValue();
+        int oldValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
         screen.showNumberPicker(oldValue, newValue -> {
             commandRunner.execute(
                 new CreateRepetitionCommand(habit, timestamp, newValue),

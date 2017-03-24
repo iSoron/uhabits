@@ -42,8 +42,10 @@ import java.io.*;
 
 import javax.inject.*;
 
+import static android.content.DialogInterface.*;
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
+import static android.view.inputmethod.EditorInfo.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 @ActivityScope
@@ -208,20 +210,29 @@ public class ListHabitsScreen extends BaseScreen
         picker.setValue(initialValue);
         picker.setWrapSelectorWheel(false);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder
+        AlertDialog dialog = new AlertDialog.Builder(activity)
             .setView(view)
             .setTitle(R.string.change_value)
-            .setPositiveButton(android.R.string.ok, (dialog, which) ->
-            {
+            .setPositiveButton(android.R.string.ok, (d, which) -> {
+                picker.clearFocus();
                 callback.onNumberPicked(picker.getValue());
-            });
+            }).create();
 
-        AlertDialog dialog = builder.create();
+        InterfaceUtils.setupEditorAction(picker, (v, actionId, event) -> {
+            if (actionId == IME_ACTION_DONE)
+                dialog.getButton(BUTTON_POSITIVE).performClick();
+            return false;
+        });
+
         dialog.show();
-        int width = (int) dpToPixels(activity, 200);
-        int height = (int) dpToPixels(activity, 275);
-        dialog.getWindow().setLayout(width, height);
+
+        Window window = dialog.getWindow();
+        if (window != null)
+        {
+            int width = (int) dpToPixels(activity, 200);
+            int height = (int) dpToPixels(activity, 275);
+            window.setLayout(width, height);
+        }
     }
 
     public void showFAQScreen()
