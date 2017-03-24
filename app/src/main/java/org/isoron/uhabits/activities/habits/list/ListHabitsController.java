@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list;
 
 import android.support.annotation.*;
+import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
@@ -166,7 +167,12 @@ public class ListHabitsController
     @Override
     public void onEdit(@NonNull Habit habit, long timestamp)
     {
-
+        int oldValue = habit.getCheckmarks().getTodayValue();
+        screen.showNumberPicker(oldValue, newValue -> {
+            Log.d("ListHabitsController",
+                String.format("%s %d %d", habit.getName(), timestamp,
+                    newValue));
+        });
     }
 
 

@@ -23,6 +23,9 @@ import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.support.annotation.*;
+import android.support.v7.app.AlertDialog;
+import android.view.*;
+import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
@@ -41,24 +44,25 @@ import javax.inject.*;
 
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 @ActivityScope
 public class ListHabitsScreen extends BaseScreen
     implements CommandRunner.Listener
 {
-    public static final int RESULT_IMPORT_DATA = 1;
+    public static final int REQUEST_OPEN_DOCUMENT = 6;
+
+    public static final int REQUEST_SETTINGS = 7;
+
+    public static final int RESULT_BUG_REPORT = 4;
 
     public static final int RESULT_EXPORT_CSV = 2;
 
     public static final int RESULT_EXPORT_DB = 3;
 
-    public static final int RESULT_BUG_REPORT = 4;
+    public static final int RESULT_IMPORT_DATA = 1;
 
     public static final int RESULT_REPAIR_DB = 5;
-
-    public static final int REQUEST_OPEN_DOCUMENT = 6;
-
-    public static final int REQUEST_SETTINGS = 7;
 
     @Nullable
     private ListHabitsController controller;
@@ -97,11 +101,16 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
-                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull CreateHabitDialogFactory createHabitDialogFactory,
-                            @NonNull FilePickerDialogFactory filePickerDialogFactory,
-                            @NonNull ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull EditHabitDialogFactory editHabitDialogFactory)
+                            @NonNull
+                                ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                            @NonNull
+                                CreateHabitDialogFactory createHabitDialogFactory,
+                            @NonNull
+                                FilePickerDialogFactory filePickerDialogFactory,
+                            @NonNull
+                                ColorPickerDialogFactory colorPickerFactory,
+                            @NonNull
+                                EditHabitDialogFactory editHabitDialogFactory)
     {
         super(activity);
         setRootView(rootView);
@@ -139,60 +148,7 @@ public class ListHabitsScreen extends BaseScreen
         if (requestCode == REQUEST_OPEN_DOCUMENT)
             onOpenDocumentResult(resultCode, data);
 
-        if (requestCode == REQUEST_SETTINGS)
-            onSettingsResult(resultCode);
-    }
-
-    private void onSettingsResult(int resultCode)
-    {
-        if (controller == null) return;
-
-        switch (resultCode)
-        {
-            case RESULT_IMPORT_DATA:
-                showImportScreen();
-                break;
-
-            case RESULT_EXPORT_CSV:
-                controller.onExportCSV();
-                break;
-
-            case RESULT_EXPORT_DB:
-                controller.onExportDB();
-                break;
-
-            case RESULT_BUG_REPORT:
-                controller.onSendBugReport();
-                break;
-
-            case RESULT_REPAIR_DB:
-                controller.onRepairDB();
-                break;
-        }
-    }
-
-    private void onOpenDocumentResult(int resultCode, Intent data)
-    {
-        if (controller == null) return;
-        if (resultCode != Activity.RESULT_OK) return;
-
-        try
-        {
-            Uri uri = data.getData();
-            ContentResolver cr = activity.getContentResolver();
-            InputStream is = cr.openInputStream(uri);
-
-            File cacheDir = activity.getExternalCacheDir();
-            File tempFile = File.createTempFile("import", "", cacheDir);
-
-            FileUtils.copy(is, tempFile);
-            controller.onImportData(tempFile, () -> tempFile.delete());
-        }
-        catch (IOException e)
-        {
-            showMessage(R.string.could_not_import);
-            e.printStackTrace();
-        }
+        if (requestCode == REQUEST_SETTINGS) onSettingsResult(resultCode);
     }
 
     public void setController(@Nullable ListHabitsController controller)
@@ -238,6 +194,36 @@ public class ListHabitsScreen extends BaseScreen
         activity.showDialog(dialog, "editHabit");
     }
 
+    public void showNumberPicker(int initialValue,
+                                 @NonNull NumberPickerCallback callback)
+    {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View view = inflater.inflate(R.layout.number_picker_dialog, null);
+
+        final NumberPicker picker =
+            (NumberPicker) view.findViewById(R.id.picker);
+
+        picker.setMinValue(0);
+        picker.setMaxValue(Integer.MAX_VALUE);
+        picker.setValue(initialValue);
+        picker.setWrapSelectorWheel(false);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder
+            .setView(view)
+            .setTitle(R.string.change_value)
+            .setPositiveButton(android.R.string.ok, (dialog, which) ->
+            {
+                callback.onNumberPicked(picker.getValue());
+            });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        int width = (int) dpToPixels(activity, 200);
+        int height = (int) dpToPixels(activity, 275);
+        dialog.getWindow().setLayout(width, height);
+    }
+
     public void showFAQScreen()
     {
         Intent intent = intentFactory.viewFAQ(activity);
@@ -278,7 +264,9 @@ public class ListHabitsScreen extends BaseScreen
         FilePickerDialog picker = filePickerDialogFactory.create(dir);
 
         if (controller != null)
-            picker.setListener(file -> controller.onImportData(file, () -> {}));
+            picker.setListener(file -> controller.onImportData(file, () ->
+            {
+            }));
 
         activity.showDialog(picker.getDialog());
     }
@@ -299,5 +287,62 @@ public class ListHabitsScreen extends BaseScreen
     {
         themeSwitcher.toggleNightMode();
         activity.restartWithFade();
+    }
+
+    private void onOpenDocumentResult(int resultCode, Intent data)
+    {
+        if (controller == null) return;
+        if (resultCode != Activity.RESULT_OK) return;
+
+        try
+        {
+            Uri uri = data.getData();
+            ContentResolver cr = activity.getContentResolver();
+            InputStream is = cr.openInputStream(uri);
+
+            File cacheDir = activity.getExternalCacheDir();
+            File tempFile = File.createTempFile("import", "", cacheDir);
+
+            FileUtils.copy(is, tempFile);
+            controller.onImportData(tempFile, () -> tempFile.delete());
+        }
+        catch (IOException e)
+        {
+            showMessage(R.string.could_not_import);
+            e.printStackTrace();
+        }
+    }
+
+    private void onSettingsResult(int resultCode)
+    {
+        if (controller == null) return;
+
+        switch (resultCode)
+        {
+            case RESULT_IMPORT_DATA:
+                showImportScreen();
+                break;
+
+            case RESULT_EXPORT_CSV:
+                controller.onExportCSV();
+                break;
+
+            case RESULT_EXPORT_DB:
+                controller.onExportDB();
+                break;
+
+            case RESULT_BUG_REPORT:
+                controller.onSendBugReport();
+                break;
+
+            case RESULT_REPAIR_DB:
+                controller.onRepairDB();
+                break;
+        }
+    }
+
+    public interface NumberPickerCallback
+    {
+        void onNumberPicked(int newValue);
     }
 }
