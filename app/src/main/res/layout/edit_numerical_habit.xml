@@ -22,7 +22,7 @@
     style="@style/dialogForm"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.habits.edit.BaseDialog"
+    tools:context=".activities.habits.edit.BooleanHabitDialog"
     tools:ignore="MergeRootFrame">
 
     <LinearLayout
@@ -52,54 +52,6 @@
             android:id="@+id/tvDescription"
             style="@style/dialogFormInputMultiline"
             android:hint="@string/description_hint"/>
-
-        <LinearLayout
-            style="@style/dialogFormRow">
-
-            <TextView
-                android:id="@+id/textView1"
-                style="@style/dialogFormLabel"
-                android:text="@string/repeat"/>
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/sFrequency"
-                android:theme="@style/dialogFormText"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:minWidth="400dp"
-                android:entries="@array/frequencyQuickSelect"
-                android:visibility="gone"/>
-
-            <org.apmem.tools.layouts.FlowLayout
-                android:id="@+id/llCustomFrequency"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:gravity="fill">
-
-                <EditText
-                    android:id="@+id/tvFreqNum"
-                    style="@style/dialogFormInputLargeNumber"/>
-
-                <TextView
-                    android:id="@+id/textView3"
-                    style="@style/dialogFormText"
-                    android:text="@string/times_every"
-                    android:gravity="center"/>
-
-                <EditText
-                    android:id="@+id/tvFreqDen"
-                    style="@style/dialogFormInputLargeNumber"/>
-
-                <TextView
-                    android:id="@+id/textView5"
-                    style="@style/dialogFormText"
-                    android:text="@string/days"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="12dp"/>
-
-            </org.apmem.tools.layouts.FlowLayout>
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/reminderPanel"

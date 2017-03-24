@@ -22,8 +22,6 @@ package org.isoron.uhabits.models.sqlite.records;
 import android.annotation.*;
 import android.database.*;
 import android.support.annotation.*;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.activeandroid.*;
 import com.activeandroid.annotation.*;
@@ -44,7 +42,7 @@ public class HabitRecord extends Model implements SQLiteRecord
     public static String SELECT =
         "select id, color, description, freq_den, freq_num, " +
         "name, position, reminder_hour, reminder_min, " +
-        "highlight, archived, reminder_days from habits ";
+        "highlight, archived, reminder_days, type from habits ";
 
     @Column(name = "name")
     public String name;
@@ -81,6 +79,9 @@ public class HabitRecord extends Model implements SQLiteRecord
 
     @Column(name = "archived")
     public Integer archived;
+
+    @Column(name = "type")
+    public Integer type;
 
     public HabitRecord()
     {
@@ -146,6 +147,8 @@ public class HabitRecord extends Model implements SQLiteRecord
         this.highlight = 0;
         this.color = model.getColor();
         this.archived = model.isArchived() ? 1 : 0;
+        this.type = model.getType();
+
         Frequency freq = model.getFrequency();
         this.freqNum = freq.getNumerator();
         this.freqDen = freq.getDenominator();
@@ -177,6 +180,7 @@ public class HabitRecord extends Model implements SQLiteRecord
         highlight = c.getInt(9);
         archived = c.getInt(10);
         reminderDays = c.getInt(11);
+        type = c.getInt(12);
     }
 
     public void copyTo(Habit habit)
@@ -187,6 +191,7 @@ public class HabitRecord extends Model implements SQLiteRecord
         habit.setColor(this.color);
         habit.setArchived(this.archived != 0);
         habit.setId(this.getId());
+        habit.setType(this.type);
 
         if (reminderHour != null && reminderMin != null)
         {

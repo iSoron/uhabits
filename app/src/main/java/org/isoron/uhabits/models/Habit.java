@@ -36,6 +36,10 @@ public class Habit
     public static final String HABIT_URI_FORMAT =
         "content://org.isoron.uhabits/habit/%d";
 
+    public static final int NUMBER_HABIT = 1;
+
+    public static final int YES_NO_HABIT = 0;
+
     @Nullable
     private Long id;
 
@@ -69,6 +73,8 @@ public class Habit
     @Nullable
     private Reminder reminder;
 
+    private int type;
+
     private ModelObservable observable = new ModelObservable();
 
     /**
@@ -83,6 +89,7 @@ public class Habit
         this.color = 5;
         this.archived = false;
         this.frequency = new Frequency(3, 7);
+        this.type = YES_NO_HABIT;
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -112,6 +119,7 @@ public class Habit
         this.archived = model.isArchived();
         this.frequency = model.frequency;
         this.reminder = model.reminder;
+        this.type = model.type;
         observable.notifyListeners();
     }
 
@@ -232,6 +240,19 @@ public class Habit
         return streaks;
     }
 
+    public int getType()
+    {
+        return type;
+    }
+
+    public void setType(int type)
+    {
+        if (type != YES_NO_HABIT && type != NUMBER_HABIT)
+            throw new IllegalArgumentException();
+
+        this.type = type;
+    }
+
     /**
      * Returns the public URI that identifies this habit
      *
@@ -253,6 +274,13 @@ public class Habit
         return reminder != null;
     }
 
+    public void invalidateNewerThan(long timestamp)
+    {
+        getScores().invalidateNewerThan(timestamp);
+        getCheckmarks().invalidateNewerThan(timestamp);
+        getStreaks().invalidateNewerThan(timestamp);
+    }
+
     public boolean isArchived()
     {
         return archived;
@@ -261,6 +289,11 @@ public class Habit
     public void setArchived(boolean archived)
     {
         this.archived = archived;
+    }
+
+    public boolean isNumerical()
+    {
+        return type == NUMBER_HABIT;
     }
 
     @Override
@@ -272,13 +305,7 @@ public class Habit
             .append("description", description)
             .append("color", color)
             .append("archived", archived)
+            .append("type", type)
             .toString();
-    }
-
-    public void invalidateNewerThan(long timestamp)
-    {
-        getScores().invalidateNewerThan(timestamp);
-        getCheckmarks().invalidateNewerThan(timestamp);
-        getStreaks().invalidateNewerThan(timestamp);
     }
 }

@@ -26,19 +26,19 @@ import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
-public class EditHabitDialogFactory
+public class EditBooleanHabitDialogFactory
 {
     @Inject
-    public EditHabitDialogFactory()
+    public EditBooleanHabitDialogFactory()
     {
     }
 
-    public EditHabitDialog create(@NonNull Habit habit)
+    public EditBooleanHabitDialog create(@NonNull Habit habit)
     {
         if (habit.getId() == null)
             throw new IllegalArgumentException("habit not saved");
 
-        EditHabitDialog dialog = new EditHabitDialog();
+        EditBooleanHabitDialog dialog = new EditBooleanHabitDialog();
         Bundle args = new Bundle();
         args.putLong("habitId", habit.getId());
         dialog.setArguments(args);

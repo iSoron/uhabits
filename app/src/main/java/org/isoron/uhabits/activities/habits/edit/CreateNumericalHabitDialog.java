@@ -26,7 +26,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 
 @AutoFactory(allowSubclasses = true)
-public class CreateHabitDialog extends BaseDialog
+public class CreateNumericalHabitDialog extends NumericalHabitDialog
 {
     @Override
     protected int getTitle()
@@ -41,6 +41,7 @@ public class CreateHabitDialog extends BaseDialog
         modifiedHabit.setFrequency(Frequency.DAILY);
         modifiedHabit.setColor(
             prefs.getDefaultHabitColor(modifiedHabit.getColor()));
+        modifiedHabit.setType(Habit.NUMBER_HABIT);
     }
 
     @Override

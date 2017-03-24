@@ -39,7 +39,7 @@ import java.util.*;
 
 import butterknife.*;
 
-public abstract class BaseDialog extends AppCompatDialogFragment
+public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 {
     @Nullable
     protected Habit originalHabit;
@@ -63,6 +63,12 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
     @Override
+    public int getTheme()
+    {
+        return R.style.DialogWithTitle;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
@@ -77,7 +83,8 @@ public abstract class BaseDialog extends AppCompatDialogFragment
                              ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.edit_habit, container, false);
+        View view =
+            inflater.inflate(R.layout.edit_numerical_habit, container, false);
 
         HabitsApplication app =
             (HabitsApplication) getContext().getApplicationContext();
@@ -96,17 +103,6 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         restoreSavedInstance(savedInstanceState);
         helper.populateForm(modifiedHabit);
         return view;
-    }
-
-    @OnItemSelected(R.id.sFrequency)
-    public void onFrequencySelected(int position)
-    {
-        if (position < 0 || position > 4) throw new IllegalArgumentException();
-        int freqNums[] = { 1, 1, 2, 5, 3 };
-        int freqDens[] = { 1, 7, 7, 7, 7 };
-        modifiedHabit.setFrequency(
-            new Frequency(freqNums[position], freqDens[position]));
-        helper.populateFrequencyFields(modifiedHabit);
     }
 
     @Override
@@ -201,7 +197,8 @@ public abstract class BaseDialog extends AppCompatDialogFragment
         int color = modifiedHabit.getColor();
         ColorPickerDialog picker = colorPickerDialogFactory.create(color);
 
-        picker.setListener(c -> {
+        picker.setListener(c ->
+        {
             prefs.setDefaultHabitColor(c);
             modifiedHabit.setColor(c);
             helper.populateColor(c);

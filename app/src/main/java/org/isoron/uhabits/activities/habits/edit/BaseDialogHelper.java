@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.edit;
 
 import android.annotation.*;
+import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
@@ -40,9 +41,11 @@ public class BaseDialogHelper
     @BindView(R.id.tvDescription)
     TextView tvDescription;
 
+    @Nullable
     @BindView(R.id.tvFreqNum)
     TextView tvFreqNum;
 
+    @Nullable
     @BindView(R.id.tvFreqDen)
     TextView tvFreqDen;
 
@@ -52,9 +55,11 @@ public class BaseDialogHelper
     @BindView(R.id.tvReminderDays)
     TextView tvReminderDays;
 
+    @Nullable
     @BindView(R.id.sFrequency)
     Spinner sFrequency;
 
+    @Nullable
     @BindView(R.id.llCustomFrequency)
     ViewGroup llCustomFrequency;
 
@@ -69,9 +74,8 @@ public class BaseDialogHelper
 
     protected void populateForm(final Habit habit)
     {
-        if (habit.getName() != null) tvName.setText(habit.getName());
-        if (habit.getDescription() != null)
-            tvDescription.setText(habit.getDescription());
+        tvName.setText(habit.getName());
+        tvDescription.setText(habit.getDescription());
 
         populateColor(habit.getColor());
         populateFrequencyFields(habit);
@@ -82,13 +86,17 @@ public class BaseDialogHelper
     {
         habit.setName(tvName.getText().toString().trim());
         habit.setDescription(tvDescription.getText().toString().trim());
-        String freqNum = tvFreqNum.getText().toString();
-        String freqDen = tvFreqDen.getText().toString();
-        if (!freqNum.isEmpty() && !freqDen.isEmpty())
+
+        if (tvFreqDen != null && tvFreqNum != null)
         {
-            int numerator = Integer.parseInt(freqNum);
-            int denominator = Integer.parseInt(freqDen);
-            habit.setFrequency(new Frequency(numerator, denominator));
+            String freqNum = tvFreqNum.getText().toString();
+            String freqDen = tvFreqDen.getText().toString();
+            if (!freqNum.isEmpty() && !freqDen.isEmpty())
+            {
+                int numerator = Integer.parseInt(freqNum);
+                int denominator = Integer.parseInt(freqDen);
+                habit.setFrequency(new Frequency(numerator, denominator));
+            }
         }
     }
 
@@ -101,15 +109,16 @@ public class BaseDialogHelper
     @SuppressLint("SetTextI18n")
     void populateFrequencyFields(Habit habit)
     {
+        if (tvFreqNum == null) return;
+        if (tvFreqDen == null) return;
+
         int quickSelectPosition = -1;
 
         Frequency freq = habit.getFrequency();
 
-        if (freq.equals(Frequency.DAILY))
-            quickSelectPosition = 0;
+        if (freq.equals(Frequency.DAILY)) quickSelectPosition = 0;
 
-        else if (freq.equals(Frequency.WEEKLY))
-            quickSelectPosition = 1;
+        else if (freq.equals(Frequency.WEEKLY)) quickSelectPosition = 1;
 
         else if (freq.equals(Frequency.TWO_TIMES_PER_WEEK))
             quickSelectPosition = 2;
@@ -144,13 +153,16 @@ public class BaseDialogHelper
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
-        boolean weekdays[] =  reminder.getDays().toArray();
+        boolean weekdays[] = reminder.getDays().toArray();
         tvReminderDays.setText(
             DateUtils.formatWeekdayList(frag.getContext(), weekdays));
     }
 
     private void showCustomFrequency()
     {
+        if(sFrequency == null) return;
+        if(llCustomFrequency == null) return;
+
         sFrequency.setVisibility(View.GONE);
         llCustomFrequency.setVisibility(View.VISIBLE);
     }
@@ -158,6 +170,9 @@ public class BaseDialogHelper
     @SuppressLint("SetTextI18n")
     private void showSimplifiedFrequency(int quickSelectPosition)
     {
+        if(sFrequency == null) return;
+        if(llCustomFrequency == null) return;
+
         sFrequency.setVisibility(View.VISIBLE);
         sFrequency.setSelection(quickSelectPosition);
         llCustomFrequency.setVisibility(View.GONE);
@@ -175,19 +190,21 @@ public class BaseDialogHelper
         }
 
         Frequency freq = habit.getFrequency();
-
-        if (freq.getNumerator() <= 0)
+        if (tvFreqNum != null && tvFreqDen != null)
         {
-            tvFreqNum.setError(
-                frag.getString(R.string.validation_number_should_be_positive));
-            valid = false;
-        }
+            if (freq.getNumerator() <= 0)
+            {
+                tvFreqNum.setError(frag.getString(
+                    R.string.validation_number_should_be_positive));
+                valid = false;
+            }
 
-        if (freq.getNumerator() > freq.getDenominator())
-        {
-            tvFreqNum.setError(
-                frag.getString(R.string.validation_at_most_one_rep_per_day));
-            valid = false;
+            if (freq.getNumerator() > freq.getDenominator())
+            {
+                tvFreqNum.setError(frag.getString(
+                    R.string.validation_at_most_one_rep_per_day));
+                valid = false;
+            }
         }
 
         return valid;

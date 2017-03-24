@@ -82,7 +82,8 @@ public class ListHabitsScreen extends BaseScreen
     private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
 
     @NonNull
-    private final CreateHabitDialogFactory createHabitDialogFactory;
+    private final CreateBooleanHabitDialogFactory
+        createBooleanHabitDialogFactory;
 
     @NonNull
     private final FilePickerDialogFactory filePickerDialogFactory;
@@ -91,10 +92,12 @@ public class ListHabitsScreen extends BaseScreen
     private final ColorPickerDialogFactory colorPickerFactory;
 
     @NonNull
-    private final EditHabitDialogFactory editHabitDialogFactory;
+    private final EditBooleanHabitDialogFactory editBooleanHabitDialogFactory;
 
     @NonNull
     private final ThemeSwitcher themeSwitcher;
+
+    private CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory;
 
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
@@ -103,24 +106,21 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
-                            @NonNull
-                                ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull
-                                CreateHabitDialogFactory createHabitDialogFactory,
-                            @NonNull
-                                FilePickerDialogFactory filePickerDialogFactory,
-                            @NonNull
-                                ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull
-                                EditHabitDialogFactory editHabitDialogFactory)
+                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                            @NonNull CreateBooleanHabitDialogFactory createBooleanHabitDialogFactory,
+                            @NonNull FilePickerDialogFactory filePickerDialogFactory,
+                            @NonNull ColorPickerDialogFactory colorPickerFactory,
+                            @NonNull EditBooleanHabitDialogFactory editBooleanHabitDialogFactory,
+                            @NonNull CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory)
     {
         super(activity);
         setRootView(rootView);
-        this.editHabitDialogFactory = editHabitDialogFactory;
         this.colorPickerFactory = colorPickerFactory;
         this.commandRunner = commandRunner;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
-        this.createHabitDialogFactory = createHabitDialogFactory;
+        this.createNumericalHabitDialogFactory = createNumericalHabitDialogFactory;
+        this.createBooleanHabitDialogFactory = createBooleanHabitDialogFactory;
+        this.editBooleanHabitDialogFactory = editBooleanHabitDialogFactory;
         this.dirFinder = dirFinder;
         this.filePickerDialogFactory = filePickerDialogFactory;
         this.intentFactory = intentFactory;
@@ -182,7 +182,29 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showCreateHabitScreen()
     {
-        activity.showDialog(createHabitDialogFactory.create(), "editHabit");
+        Dialog dialog = new AlertDialog.Builder(activity)
+            .setTitle("Type of habit")
+            .setItems(R.array.habitTypes, (d, which) -> {
+                if(which == 0) showCreateBooleanHabitScreen();
+                else showCreateNumericalHabitScreen();
+            })
+            .create();
+
+        dialog.show();
+    }
+
+    private void showCreateNumericalHabitScreen()
+    {
+        CreateNumericalHabitDialog dialog;
+        dialog = createNumericalHabitDialogFactory.create();
+        activity.showDialog(dialog, "editHabit");
+    }
+
+    public void showCreateBooleanHabitScreen()
+    {
+        CreateBooleanHabitDialog dialog;
+        dialog = createBooleanHabitDialogFactory.create();
+        activity.showDialog(dialog, "editHabit");
     }
 
     public void showDeleteConfirmationScreen(ConfirmDeleteDialog.Callback callback)
@@ -192,47 +214,9 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showEditHabitScreen(Habit habit)
     {
-        EditHabitDialog dialog = editHabitDialogFactory.create(habit);
+        EditBooleanHabitDialog dialog;
+        dialog = editBooleanHabitDialogFactory.create(habit);
         activity.showDialog(dialog, "editHabit");
-    }
-
-    public void showNumberPicker(int initialValue,
-                                 @NonNull NumberPickerCallback callback)
-    {
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.number_picker_dialog, null);
-
-        final NumberPicker picker =
-            (NumberPicker) view.findViewById(R.id.picker);
-
-        picker.setMinValue(0);
-        picker.setMaxValue(Integer.MAX_VALUE);
-        picker.setValue(initialValue);
-        picker.setWrapSelectorWheel(false);
-
-        AlertDialog dialog = new AlertDialog.Builder(activity)
-            .setView(view)
-            .setTitle(R.string.change_value)
-            .setPositiveButton(android.R.string.ok, (d, which) -> {
-                picker.clearFocus();
-                callback.onNumberPicked(picker.getValue());
-            }).create();
-
-        InterfaceUtils.setupEditorAction(picker, (v, actionId, event) -> {
-            if (actionId == IME_ACTION_DONE)
-                dialog.getButton(BUTTON_POSITIVE).performClick();
-            return false;
-        });
-
-        dialog.show();
-
-        Window window = dialog.getWindow();
-        if (window != null)
-        {
-            int width = (int) dpToPixels(activity, 200);
-            int height = (int) dpToPixels(activity, 275);
-            window.setLayout(width, height);
-        }
     }
 
     public void showFAQScreen()
@@ -286,6 +270,48 @@ public class ListHabitsScreen extends BaseScreen
     {
         Intent intent = intentFactory.startIntroActivity(activity);
         activity.startActivity(intent);
+    }
+
+    public void showNumberPicker(int initialValue,
+                                 @NonNull NumberPickerCallback callback)
+    {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View view = inflater.inflate(R.layout.number_picker_dialog, null);
+
+        final NumberPicker picker =
+            (NumberPicker) view.findViewById(R.id.picker);
+
+        picker.setMinValue(0);
+        picker.setMaxValue(Integer.MAX_VALUE);
+        picker.setValue(initialValue);
+        picker.setWrapSelectorWheel(false);
+
+        AlertDialog dialog = new AlertDialog.Builder(activity)
+            .setView(view)
+            .setTitle(R.string.change_value)
+            .setPositiveButton(android.R.string.ok, (d, which) ->
+            {
+                picker.clearFocus();
+                callback.onNumberPicked(picker.getValue());
+            })
+            .create();
+
+        InterfaceUtils.setupEditorAction(picker, (v, actionId, event) ->
+        {
+            if (actionId == IME_ACTION_DONE)
+                dialog.getButton(BUTTON_POSITIVE).performClick();
+            return false;
+        });
+
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        if (window != null)
+        {
+            int width = (int) dpToPixels(activity, 200);
+            int height = (int) dpToPixels(activity, 275);
+            window.setLayout(width, height);
+        }
     }
 
     public void showSettingsScreen()
