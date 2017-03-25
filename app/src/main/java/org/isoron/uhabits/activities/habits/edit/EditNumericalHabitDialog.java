@@ -19,35 +19,37 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
-import com.google.auto.factory.*;
-
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
 
-@AutoFactory(allowSubclasses = true)
-public class CreateBooleanHabitDialog extends BooleanHabitDialog
+public class EditNumericalHabitDialog extends NumericalHabitDialog
 {
     @Override
     protected int getTitle()
     {
-        return R.string.create_habit;
+        return R.string.edit_habit;
     }
 
     @Override
     protected void initializeHabits()
     {
+        Long habitId = (Long) getArguments().get("habitId");
+        if (habitId == null)
+            throw new IllegalArgumentException("habitId must be specified");
+
+        originalHabit = habitList.getById(habitId);
+        if (originalHabit == null)
+            throw new IllegalStateException("habit is null");
+
         modifiedHabit = modelFactory.buildHabit();
-        modifiedHabit.setFrequency(Frequency.DAILY);
-        modifiedHabit.setColor(prefs.getDefaultHabitColor(modifiedHabit.getColor()));
+        modifiedHabit.copyFrom(originalHabit);
     }
 
     @Override
     protected void saveHabit()
     {
-        Command command = appComponent
-            .getCreateHabitCommandFactory()
-            .create(habitList, modifiedHabit);
-        commandRunner.execute(command, null);
+        Command command = appComponent.getEditHabitCommandFactory().
+            create(habitList, originalHabit, modifiedHabit);
+        commandRunner.execute(command, originalHabit.getId());
     }
 }

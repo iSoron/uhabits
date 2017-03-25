@@ -22,10 +22,8 @@ package org.isoron.uhabits.activities.habits.edit;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
-import android.text.format.*;
 import android.view.*;
-
-import com.android.datetimepicker.time.*;
+import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
@@ -34,10 +32,11 @@ import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
-
-import java.util.*;
+import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
+
+import static org.isoron.uhabits.R.id.*;
 
 public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 {
@@ -46,9 +45,6 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 
     @Nullable
     protected Habit modifiedHabit;
-
-    @Nullable
-    protected BaseDialogHelper helper;
 
     protected Preferences prefs;
 
@@ -62,6 +58,12 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
+    private NumericalHabitDialogHelper helper;
+
+    private boolean tvDescriptionInitialized = false;
+
+    private boolean tvUnitInitialized = false;
+
     @Override
     public int getTheme()
     {
@@ -72,10 +74,9 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-
         BaseActivity activity = (BaseActivity) getActivity();
-        colorPickerDialogFactory =
-            activity.getComponent().getColorPickerDialogFactory();
+        ActivityComponent component = activity.getComponent();
+        colorPickerDialogFactory = component.getColorPickerDialogFactory();
     }
 
     @Override
@@ -97,7 +98,7 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 
         ButterKnife.bind(this, view);
 
-        helper = new BaseDialogHelper(this, view);
+        helper = new NumericalHabitDialogHelper(this, view);
         getDialog().setTitle(getTitle());
         initializeHabits();
         restoreSavedInstance(savedInstanceState);
@@ -106,18 +107,10 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public void onSaveInstanceState(Bundle outState)
     {
         super.onSaveInstanceState(outState);
         outState.putInt("color", modifiedHabit.getColor());
-        if (modifiedHabit.hasReminder())
-        {
-            Reminder reminder = modifiedHabit.getReminder();
-            outState.putInt("reminderMin", reminder.getMinute());
-            outState.putInt("reminderHour", reminder.getHour());
-            outState.putInt("reminderDays", reminder.getDays().toInteger());
-        }
     }
 
     protected abstract int getTitle();
@@ -127,24 +120,39 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
     protected void restoreSavedInstance(@Nullable Bundle bundle)
     {
         if (bundle == null) return;
-        modifiedHabit.setColor(
-            bundle.getInt("color", modifiedHabit.getColor()));
+        if (modifiedHabit == null) return;
 
+        int color = bundle.getInt("color", modifiedHabit.getColor());
+
+        modifiedHabit.setColor(color);
         modifiedHabit.setReminder(null);
-
-        int hour = (bundle.getInt("reminderHour", -1));
-        int minute = (bundle.getInt("reminderMin", -1));
-        int days = (bundle.getInt("reminderDays", -1));
-
-        if (hour >= 0 && minute >= 0)
-        {
-            Reminder reminder =
-                new Reminder(hour, minute, new WeekdayList(days));
-            modifiedHabit.setReminder(reminder);
-        }
     }
 
     protected abstract void saveHabit();
+
+    @OnFocusChange(tvDescription)
+    void clearDefaultDescription(boolean focused)
+    {
+        if (!focused || tvDescriptionInitialized) return;
+        tvDescriptionInitialized = true;
+        clearDefaultText(helper.tvDescription);
+    }
+
+    private void clearDefaultText(TextView textView)
+    {
+        StyledResources sr = new StyledResources(getContext());
+        int color = sr.getColor(R.attr.highContrastTextColor);
+        textView.setText("");
+        textView.setTextColor(color);
+    }
+
+    @OnFocusChange(tvUnit)
+    void clearDefaultUnit(boolean focused)
+    {
+        if (!focused || tvUnitInitialized) return;
+        tvUnitInitialized = true;
+        clearDefaultText(helper.tvUnit);
+    }
 
     @OnClick(R.id.buttonDiscard)
     void onButtonDiscardClick()
@@ -152,48 +160,20 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
         dismiss();
     }
 
-    @OnClick(R.id.tvReminderTime)
-    @SuppressWarnings("ConstantConditions")
-    void onDateSpinnerClick()
-    {
-        int defaultHour = 8;
-        int defaultMin = 0;
-
-        if (modifiedHabit.hasReminder())
-        {
-            Reminder reminder = modifiedHabit.getReminder();
-            defaultHour = reminder.getHour();
-            defaultMin = reminder.getMinute();
-        }
-
-        showTimePicker(defaultHour, defaultMin);
-    }
-
     @OnClick(R.id.buttonSave)
     void onSaveButtonClick()
     {
-        helper.parseFormIntoHabit(modifiedHabit);
+        helper.parseForm(modifiedHabit);
         if (!helper.validate(modifiedHabit)) return;
         saveHabit();
         dismiss();
     }
 
-    @OnClick(R.id.tvReminderDays)
-    @SuppressWarnings("ConstantConditions")
-    void onWeekdayClick()
-    {
-        if (!modifiedHabit.hasReminder()) return;
-        Reminder reminder = modifiedHabit.getReminder();
-
-        WeekdayPickerDialog dialog = new WeekdayPickerDialog();
-        dialog.setListener(new OnWeekdaysPickedListener());
-        dialog.setSelectedDays(reminder.getDays().toArray());
-        dialog.show(getFragmentManager(), "weekdayPicker");
-    }
-
     @OnClick(R.id.buttonPickColor)
     void showColorPicker()
     {
+        if (modifiedHabit == null) return;
+
         int color = modifiedHabit.getColor();
         ColorPickerDialog picker = colorPickerDialogFactory.create(color);
 
@@ -205,56 +185,5 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
         });
 
         picker.show(getFragmentManager(), "picker");
-    }
-
-    private void showTimePicker(int defaultHour, int defaultMin)
-    {
-        boolean is24HourMode = DateFormat.is24HourFormat(getContext());
-        TimePickerDialog timePicker =
-            TimePickerDialog.newInstance(new OnTimeSetListener(), defaultHour,
-                defaultMin, is24HourMode);
-        timePicker.show(getFragmentManager(), "timePicker");
-    }
-
-    private class OnTimeSetListener
-        implements TimePickerDialog.OnTimeSetListener
-    {
-        @Override
-        public void onTimeCleared(RadialPickerLayout view)
-        {
-            modifiedHabit.clearReminder();
-            helper.populateReminderFields(modifiedHabit);
-        }
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hour, int minute)
-        {
-            Reminder reminder =
-                new Reminder(hour, minute, WeekdayList.EVERY_DAY);
-            modifiedHabit.setReminder(reminder);
-            helper.populateReminderFields(modifiedHabit);
-        }
-    }
-
-    private class OnWeekdaysPickedListener
-        implements WeekdayPickerDialog.OnWeekdaysPickedListener
-    {
-        @Override
-        public void onWeekdaysPicked(boolean[] selectedDays)
-        {
-            if (isSelectionEmpty(selectedDays)) Arrays.fill(selectedDays, true);
-
-            Reminder oldReminder = modifiedHabit.getReminder();
-            modifiedHabit.setReminder(
-                new Reminder(oldReminder.getHour(), oldReminder.getMinute(),
-                    new WeekdayList(selectedDays)));
-            helper.populateReminderFields(modifiedHabit);
-        }
-
-        private boolean isSelectionEmpty(boolean[] selectedDays)
-        {
-            for (boolean d : selectedDays) if (d) return false;
-            return true;
-        }
     }
 }

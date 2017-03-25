@@ -83,8 +83,7 @@ public class ListHabitsController
                                 @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
                                 @NonNull WidgetUpdater widgetUpdater,
-                                @NonNull
-                                ImportDataTaskFactory importTaskFactory,
+                                @NonNull ImportDataTaskFactory importTaskFactory,
                                 @NonNull ExportCSVTaskFactory exportCSVFactory,
                                 @NonNull ExportDBTaskFactory exportDBFactory)
     {

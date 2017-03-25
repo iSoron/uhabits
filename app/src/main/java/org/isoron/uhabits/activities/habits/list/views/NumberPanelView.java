@@ -49,7 +49,7 @@ public class NumberPanelView extends LinearLayout
 
     private int values[];
 
-    private int threshold;
+    private double threshold;
 
     private int nButtons;
 
@@ -98,7 +98,7 @@ public class NumberPanelView extends LinearLayout
         int values[] = new int[nButtons];
 
         for(int i = 0; i < nButtons; i++)
-            values[i] = new Random().nextInt(threshold * 3);
+            values[i] = new Random().nextInt((int)(threshold * 3));
 
         setValues(values);
     }
@@ -153,7 +153,7 @@ public class NumberPanelView extends LinearLayout
         setupButtons();
     }
 
-    public void setThreshold(int threshold)
+    public void setThreshold(double threshold)
     {
         this.threshold = threshold;
         setupButtons();

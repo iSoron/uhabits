@@ -81,6 +81,8 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory;
 
+    private EditNumericalHabitDialogFactory editNumericalHabitDialogFactory;
+
     @Before
     @Override
     public void setUp()
@@ -98,12 +100,16 @@ public class ListHabitsScreenTest extends BaseUnitTest
         filePickerDialogFactory = mock(FilePickerDialogFactory.class);
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
         editHabitDialogFactory = mock(EditBooleanHabitDialogFactory.class);
-        createNumericalHabitDialogFactory = mock(CreateNumericalHabitDialogFactory.class);
+        editNumericalHabitDialogFactory =
+            mock(EditNumericalHabitDialogFactory.class);
+        createNumericalHabitDialogFactory =
+            mock(CreateNumericalHabitDialogFactory.class);
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, dirFinder,
             rootView, intentFactory, themeSwitcher, confirmDeleteDialogFactory,
             createHabitDialogFactory, filePickerDialogFactory,
             colorPickerDialogFactory, editHabitDialogFactory,
+            editNumericalHabitDialogFactory,
             createNumericalHabitDialogFactory));
 
         doNothing().when(screen).showMessage(anyInt());
@@ -125,6 +131,29 @@ public class ListHabitsScreenTest extends BaseUnitTest
 //
 //        verify(activity).showDialog(eq(dialog), any());
 //    }
+
+    @Test
+    public void testOnAttached()
+    {
+        screen.onAttached();
+        verify(commandRunner).addListener(screen);
+    }
+
+    @Test
+    public void testOnCommand()
+    {
+        Command c = mock(Command.class);
+        when(c.getExecuteStringId()).thenReturn(R.string.toast_habit_deleted);
+        screen.onCommandExecuted(c, null);
+        verify(screen).showMessage(R.string.toast_habit_deleted);
+    }
+
+    @Test
+    public void testOnDetach()
+    {
+        screen.onDettached();
+        verify(commandRunner).removeListener(screen);
+    }
 
     @Test
     public void testOnResult_bugReport()
@@ -263,28 +292,5 @@ public class ListHabitsScreenTest extends BaseUnitTest
         screen.toggleNightMode();
         verify(themeSwitcher).toggleNightMode();
         verify(activity).restartWithFade();
-    }
-
-    @Test
-    public void testOnAttached()
-    {
-        screen.onAttached();
-        verify(commandRunner).addListener(screen);
-    }
-
-    @Test
-    public void testOnDetach()
-    {
-        screen.onDettached();
-        verify(commandRunner).removeListener(screen);
-    }
-
-    @Test
-    public void testOnCommand()
-    {
-        Command c = mock(Command.class);
-        when(c.getExecuteStringId()).thenReturn(R.string.toast_habit_deleted);
-        screen.onCommandExecuted(c, null);
-        verify(screen).showMessage(R.string.toast_habit_deleted);
     }
 }

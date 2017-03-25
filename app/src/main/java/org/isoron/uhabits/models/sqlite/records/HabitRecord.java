@@ -42,7 +42,8 @@ public class HabitRecord extends Model implements SQLiteRecord
     public static String SELECT =
         "select id, color, description, freq_den, freq_num, " +
         "name, position, reminder_hour, reminder_min, " +
-        "highlight, archived, reminder_days, type from habits ";
+        "highlight, archived, reminder_days, type, target_type, " +
+        "target_value, unit from habits ";
 
     @Column(name = "name")
     public String name;
@@ -82,6 +83,15 @@ public class HabitRecord extends Model implements SQLiteRecord
 
     @Column(name = "type")
     public Integer type;
+
+    @Column(name = "target_value")
+    public Double targetValue;
+
+    @Column(name = "target_type")
+    public Integer targetType;
+
+    @Column(name = "unit")
+    public String unit;
 
     public HabitRecord()
     {
@@ -148,6 +158,9 @@ public class HabitRecord extends Model implements SQLiteRecord
         this.color = model.getColor();
         this.archived = model.isArchived() ? 1 : 0;
         this.type = model.getType();
+        this.targetType = model.getTargetType();
+        this.targetValue = model.getTargetValue();
+        this.unit = model.getUnit();
 
         Frequency freq = model.getFrequency();
         this.freqNum = freq.getNumerator();
@@ -181,6 +194,9 @@ public class HabitRecord extends Model implements SQLiteRecord
         archived = c.getInt(10);
         reminderDays = c.getInt(11);
         type = c.getInt(12);
+        targetType = c.getInt(13);
+        targetValue = c.getDouble(14);
+        unit = c.getString(15);
     }
 
     public void copyTo(Habit habit)
@@ -192,6 +208,9 @@ public class HabitRecord extends Model implements SQLiteRecord
         habit.setArchived(this.archived != 0);
         habit.setId(this.getId());
         habit.setType(this.type);
+        habit.setTargetType(this.targetType);
+        habit.setTargetValue(this.targetValue);
+        habit.setUnit(this.unit);
 
         if (reminderHour != null && reminderMin != null)
         {

@@ -16,7 +16,6 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <LinearLayout
     android:id="@+id/container"
     style="@style/dialogForm"
@@ -30,56 +29,87 @@
         style="@style/dialogFormPanel">
 
         <LinearLayout
-            android:id="@+id/namePanel"
             style="@style/dialogFormRow">
 
-            <EditText
-                android:id="@+id/tvName"
-                style="@style/dialogFormInput"
-                android:hint="@string/name">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6">
 
-                <requestFocus/>
-            </EditText>
+                <EditText
+                    android:id="@+id/tvName"
+                    style="@style/dialogFormInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name">
+                    <requestFocus/>
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/buttonPickColor"
                 style="@style/dialogFormInputColor"
+                android:layout_weight="1"
                 android:contentDescription="@string/color_picker_default_title"
                 android:src="?dialogIconChangeColor"/>
+
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/tvDescription"
-            style="@style/dialogFormInputMultiline"
-            android:hint="@string/description_hint"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/reminderPanel"
-            style="@style/dialogFormRow">
+            <EditText
+                android:id="@+id/tvDescription"
+                style="@style/dialogFormInputMultiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Question"
+                android:text="e.g. How many steps did you walk today?"
+                android:textColor="?attr/mediumContrastTextColor"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/TextView2"
-                style="@style/dialogFormLabel"
-                android:text="@string/reminder"/>
+        <LinearLayout style="@style/dialogFormRow">
 
-            <TextView
-                android:id="@+id/tvReminderTime"
-                style="@style/dialogFormSpinner"/>
-        </LinearLayout>
+            <Spinner
+                android:id="@+id/tvTargetType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:entries="@array/targetValues"/>
 
-        <LinearLayout
-            android:id="@+id/llReminderDays"
-            style="@style/dialogFormRow">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
 
-            <TextView
-                android:id="@+id/TextView3"
-                style="@style/dialogFormLabel"
-                android:text=""/>
+                <EditText
+                    android:id="@+id/tvTargetCount"
+                    style="@style/dialogFormInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Count"
+                    android:inputType="numberDecimal"
+                    android:text="100"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tvReminderDays"
-                style="@style/dialogFormSpinner"/>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
 
+                <EditText
+                    android:id="@+id/tvUnit"
+                    style="@style/dialogFormInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Unit"
+                    android:text="e.g. steps"
+                    android:textColor="?attr/mediumContrastTextColor"
+                    android:inputType="text"/>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -87,17 +117,14 @@
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingEnd="16dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="16dp"
-        android:paddingStart="0dp">
+        android:gravity="end">
 
         <Button
             android:id="@+id/buttonDiscard"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:text="@string/discard"/>
 
         <Button
@@ -105,6 +132,7 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:text="@string/save"/>
     </LinearLayout>
 </LinearLayout>

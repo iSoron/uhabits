@@ -46,7 +46,7 @@ public class NumberButtonView extends View
 
     private int value;
 
-    private int threshold;
+    private double threshold;
 
     private String unit;
 
@@ -86,6 +86,11 @@ public class NumberButtonView extends View
         }
     }
 
+    /**
+     *
+     * @param v
+     * @return
+     */
     private static String formatValue(int v)
     {
         double fv = (double) v;
@@ -111,7 +116,7 @@ public class NumberButtonView extends View
         setOnLongClickListener(v -> controller.onLongClick());
     }
 
-    public void setThreshold(int threshold)
+    public void setThreshold(double threshold)
     {
         this.threshold = threshold;
         postInvalidate();
@@ -146,10 +151,9 @@ public class NumberButtonView extends View
         String fv = formatValue(value);
 
         rect.set(0, 0, getWidth(), getHeight());
-        rect.offset(0, - 0.1f * em);
         canvas.drawText(fv, rect.centerX(), rect.centerY(), pBold);
 
-        rect.offset(0, 1.25f * em);
+        rect.offset(0, 1.2f * em);
         canvas.drawText(unit, rect.centerX(), rect.centerY(), pRegular);
     }
 

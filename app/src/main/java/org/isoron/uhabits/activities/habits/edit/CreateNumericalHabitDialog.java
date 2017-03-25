@@ -42,6 +42,7 @@ public class CreateNumericalHabitDialog extends NumericalHabitDialog
         modifiedHabit.setColor(
             prefs.getDefaultHabitColor(modifiedHabit.getColor()));
         modifiedHabit.setType(Habit.NUMBER_HABIT);
+        modifiedHabit.setTargetValue(100);
     }
 
     @Override

@@ -101,12 +101,9 @@ public class HabitCardView extends FrameLayout
         numberPanel.setButtonCount(buttonCount);
     }
 
-    public void setValues(int values[])
+    public void setThreshold(double threshold)
     {
-        checkmarkPanel.setValues(values);
-        numberPanel.setValues(values);
-        numberPanel.setThreshold(10);
-        postInvalidate();
+        numberPanel.setThreshold(threshold);
     }
 
     public void setController(Controller controller)
@@ -151,6 +148,19 @@ public class HabitCardView extends FrameLayout
     {
         super.setSelected(isSelected);
         updateBackground(isSelected);
+    }
+
+    public void setUnit(String unit)
+    {
+        numberPanel.setUnit(unit);
+    }
+
+    public void setValues(int values[])
+    {
+        checkmarkPanel.setValues(values);
+        numberPanel.setValues(values);
+        numberPanel.setThreshold(10);
+        postInvalidate();
     }
 
     public void triggerRipple(long timestamp)

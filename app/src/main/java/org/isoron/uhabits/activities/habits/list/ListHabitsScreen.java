@@ -97,7 +97,11 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private final ThemeSwitcher themeSwitcher;
 
+    @NonNull
     private CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory;
+
+    @NonNull
+    private EditNumericalHabitDialogFactory editNumericalHabitDialogFactory;
 
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
@@ -111,6 +115,7 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull FilePickerDialogFactory filePickerDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
                             @NonNull EditBooleanHabitDialogFactory editBooleanHabitDialogFactory,
+                            @NonNull EditNumericalHabitDialogFactory editNumericalHabitDialogFactory,
                             @NonNull CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory)
     {
         super(activity);
@@ -121,6 +126,7 @@ public class ListHabitsScreen extends BaseScreen
         this.createNumericalHabitDialogFactory = createNumericalHabitDialogFactory;
         this.createBooleanHabitDialogFactory = createBooleanHabitDialogFactory;
         this.editBooleanHabitDialogFactory = editBooleanHabitDialogFactory;
+        this.editNumericalHabitDialogFactory = editNumericalHabitDialogFactory;
         this.dirFinder = dirFinder;
         this.filePickerDialogFactory = filePickerDialogFactory;
         this.intentFactory = intentFactory;
@@ -214,9 +220,18 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showEditHabitScreen(Habit habit)
     {
-        EditBooleanHabitDialog dialog;
-        dialog = editBooleanHabitDialogFactory.create(habit);
-        activity.showDialog(dialog, "editHabit");
+        if(habit.isNumerical())
+        {
+            EditNumericalHabitDialog dialog;
+            dialog = editNumericalHabitDialogFactory.create(habit);
+            activity.showDialog(dialog, "editNumericalHabit");
+        }
+        else
+        {
+            EditBooleanHabitDialog dialog;
+            dialog = editBooleanHabitDialogFactory.create(habit);
+            activity.showDialog(dialog, "editHabit");
+        }
     }
 
     public void showFAQScreen()

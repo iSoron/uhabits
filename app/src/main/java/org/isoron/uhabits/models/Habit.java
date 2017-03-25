@@ -33,6 +33,10 @@ import javax.inject.*;
  */
 public class Habit
 {
+    public static final int AT_LEAST = 0;
+
+    public static final int AT_MOST = 1;
+
     public static final String HABIT_URI_FORMAT =
         "content://org.isoron.uhabits/habit/%d";
 
@@ -52,10 +56,8 @@ public class Habit
     @NonNull
     private Frequency frequency;
 
-    @NonNull
-    private Integer color;
+    private int color;
 
-    @NonNull
     private boolean archived;
 
     @NonNull
@@ -64,16 +66,23 @@ public class Habit
     @NonNull
     private ScoreList scores;
 
+    private int targetType;
+
+    private double targetValue;
+
+    private int type;
+
     @NonNull
     private RepetitionList repetitions;
 
     @NonNull
     private CheckmarkList checkmarks;
 
+    @NonNull
+    private String unit;
+
     @Nullable
     private Reminder reminder;
-
-    private int type;
 
     private ModelObservable observable = new ModelObservable();
 
@@ -90,6 +99,11 @@ public class Habit
         this.archived = false;
         this.frequency = new Frequency(3, 7);
         this.type = YES_NO_HABIT;
+        this.name = "";
+        this.description = "";
+        this.targetType = AT_LEAST;
+        this.targetValue = 0;
+        this.unit = "";
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -120,6 +134,9 @@ public class Habit
         this.frequency = model.frequency;
         this.reminder = model.reminder;
         this.type = model.type;
+        this.targetValue = model.targetValue;
+        this.targetType = model.targetType;
+        this.unit = model.unit;
         observable.notifyListeners();
     }
 
@@ -240,6 +257,29 @@ public class Habit
         return streaks;
     }
 
+    public int getTargetType()
+    {
+        return targetType;
+    }
+
+    public void setTargetType(int targetType)
+    {
+        if (targetType != AT_LEAST && targetType != AT_MOST)
+            throw new IllegalArgumentException();
+        this.targetType = targetType;
+    }
+
+    public double getTargetValue()
+    {
+        return targetValue;
+    }
+
+    public void setTargetValue(double targetValue)
+    {
+        if(targetValue < 0) throw new IllegalArgumentException();
+        this.targetValue = targetValue;
+    }
+
     public int getType()
     {
         return type;
@@ -251,6 +291,17 @@ public class Habit
             throw new IllegalArgumentException();
 
         this.type = type;
+    }
+
+    @NonNull
+    public String getUnit()
+    {
+        return unit;
+    }
+
+    public void setUnit(@NonNull String unit)
+    {
+        this.unit = unit;
     }
 
     /**
@@ -306,6 +357,9 @@ public class Habit
             .append("color", color)
             .append("archived", archived)
             .append("type", type)
+            .append("targetType", targetType)
+            .append("targetValue", targetValue)
+            .append("unit", unit)
             .toString();
     }
 }
