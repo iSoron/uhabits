@@ -198,7 +198,7 @@ public class CheckmarkPanelView extends LinearLayout
         int values[] = new int[nButtons];
 
         for (int i = 0; i < nButtons; i++)
-            values[i] = new Random().nextInt(3);
+            values[i] = Math.min(2, new Random().nextInt(4));
 
         setValues(values);
     }

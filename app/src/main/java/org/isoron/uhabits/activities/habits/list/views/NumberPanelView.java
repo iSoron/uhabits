@@ -57,6 +57,8 @@ public class NumberPanelView extends LinearLayout
 
     private Controller controller;
 
+    private String unit;
+
     @NonNull
     private Habit habit;
 
@@ -79,9 +81,16 @@ public class NumberPanelView extends LinearLayout
             setColor(getAndroidTestColor(paletteColor));
             setButtonCount(getIntAttribute(ctx, attrs, "button_count", 5));
             setThreshold(getIntAttribute(ctx, attrs, "threshold", 1));
+            setUnit(getAttribute(ctx, attrs, "unit", "min"));
         }
 
         if(isInEditMode()) initEditMode();
+    }
+
+    public void setUnit(String unit)
+    {
+        this.unit = unit;
+        setupButtons();
     }
 
     public void initEditMode()
@@ -243,6 +252,7 @@ public class NumberPanelView extends LinearLayout
             buttonView.setValue(values[i + dataOffset]);
             buttonView.setColor(color);
             buttonView.setThreshold(threshold);
+            buttonView.setUnit(unit);
             setupButtonControllers(timestamp, buttonView);
             timestamp -= day;
         }

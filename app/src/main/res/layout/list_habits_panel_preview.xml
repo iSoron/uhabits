@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         app:button_count="8"
         app:color="1"
-        app:threshold="10"
+        app:threshold="10000"
+        app:unit="steps"
         />
 
     <org.isoron.uhabits.activities.habits.list.views.NumberPanelView
@@ -38,7 +39,22 @@
         android:layout_height="wrap_content"
         app:button_count="8"
         app:color="2"
-        app:threshold="5000"
+        app:threshold="2000"
+        app:unit="cals"
+        />
+
+    <org.isoron.uhabits.activities.habits.list.views.CheckmarkPanelView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:button_count="8"
+        app:color="2"
+        />
+
+    <org.isoron.uhabits.activities.habits.list.views.CheckmarkPanelView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:button_count="8"
+        app:color="2"
         />
 
     <org.isoron.uhabits.activities.habits.list.views.NumberPanelView
@@ -47,6 +63,7 @@
         app:button_count="8"
         app:color="6"
         app:threshold="10"
+        app:unit="min"
         />
 
     <org.isoron.uhabits.activities.habits.list.views.CheckmarkPanelView
@@ -67,7 +84,8 @@
         android:layout_height="wrap_content"
         app:button_count="8"
         app:color="10"
-        app:threshold="5"
+        app:threshold="750"
+        app:unit="words"
         />
 
     <org.isoron.uhabits.activities.habits.list.views.CheckmarkPanelView
@@ -75,6 +93,15 @@
         android:layout_height="wrap_content"
         app:button_count="8"
         app:color="10"
+        />
+
+    <org.isoron.uhabits.activities.habits.list.views.NumberPanelView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:button_count="8"
+        app:color="8"
+        app:threshold="75"
+        app:unit="pages"
         />
 
 </LinearLayout>
