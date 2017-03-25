@@ -28,9 +28,12 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 
 public class ScoreListTest extends BaseUnitTest
 {
+    private static final double E = 1e-6;
+
     private Habit habit;
 
     @Override
@@ -47,42 +50,39 @@ public class ScoreListTest extends BaseUnitTest
         toggleRepetitions(0, 20);
 
         double expectedValues[] = {
-            12629351,
-            12266245,
-            11883254,
-            11479288,
-            11053198,
-            10603773,
-            10129735,
-            9629735,
-            9102352,
-            8546087,
-            7959357,
-            7340494,
-            6687738,
-            5999234,
-            5273023,
-            4507040,
-            3699107,
-            2846927,
-            1948077,
-            1000000
+            0.655747,
+            0.636894,
+            0.617008,
+            0.596033,
+            0.573910,
+            0.550574,
+            0.525961,
+            0.500000,
+            0.472617,
+            0.443734,
+            0.413270,
+            0.381137,
+            0.347244,
+            0.311495,
+            0.273788,
+            0.234017,
+            0.192067,
+            0.147820,
+            0.101149,
+            0.051922,
         };
-
-        double actualValues[] = new double[expectedValues.length];
 
         int i = 0;
         for (Score s : habit.getScores())
-            actualValues[i++] = s.getValue();
-
-        assertThat(actualValues, equalTo(expectedValues));
+            assertThat(s.getValue(), closeTo(expectedValues[i++], E));
     }
 
     @Test
     public void test_getTodayValue()
     {
         toggleRepetitions(0, 20);
-        assertThat(habit.getScores().getTodayValue(), equalTo(12629351.0));
+        double actual = habit.getScores().getTodayValue();
+        assertThat(actual, closeTo(0.655747, E));
     }
 
     @Test
@@ -91,36 +91,36 @@ public class ScoreListTest extends BaseUnitTest
         toggleRepetitions(0, 20);
 
         double expectedValues[] = {
-            12629351,
-            12266245,
-            11883254,
-            11479288,
-            11053198,
-            10603773,
-            10129735,
-            9629735,
-            9102352,
-            8546087,
-            7959357,
-            7340494,
-            6687738,
-            5999234,
-            5273023,
-            4507040,
-            3699107,
-            2846927,
-            1948077,
-            1000000,
-            0,
-            0,
-            0
+            0.655747,
+            0.636894,
+            0.617008,
+            0.596033,
+            0.573910,
+            0.550574,
+            0.525961,
+            0.500000,
+            0.472617,
+            0.443734,
+            0.413270,
+            0.381137,
+            0.347244,
+            0.311495,
+            0.273788,
+            0.234017,
+            0.192067,
+            0.147820,
+            0.101149,
+            0.051922,
+            0.000000,
+            0.000000,
+            0.000000
         };
 
         ScoreList scores = habit.getScores();
         long current = DateUtils.getStartOfToday();
         for (double expectedValue : expectedValues)
         {
-            assertThat(scores.getValue(current), equalTo(expectedValue));
+            assertThat(scores.getValue(current), closeTo(expectedValue, E));
             current -= DateUtils.millisecondsInOneDay;
         }
     }
@@ -133,23 +133,23 @@ public class ScoreListTest extends BaseUnitTest
             habit.getScores().groupBy(DateUtils.TruncateField.MONTH);
 
         assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), equalTo(14634077.0));
-        assertThat(list.get(1).getValue(), equalTo(12969133.0));
-        assertThat(list.get(2).getValue(), equalTo(10595391.0));
+        assertThat(list.get(0).getValue(), closeTo(0.549096, E));
+        assertThat(list.get(1).getValue(), closeTo(0.480098, E));
+        assertThat(list.get(2).getValue(), closeTo(0.377885, E));
     }
 
     @Test
     public void test_invalidateNewerThan()
     {
-        assertThat(habit.getScores().getTodayValue(), equalTo(0.0));
+        assertThat(habit.getScores().getTodayValue(), closeTo(0.0, E));
 
         toggleRepetitions(0, 2);
-        assertThat(habit.getScores().getTodayValue(), equalTo(1948077.0));
+        assertThat(habit.getScores().getTodayValue(), closeTo(0.101149, E));
 
         habit.setFrequency(new Frequency(1, 2));
         habit.getScores().invalidateNewerThan(0);
 
-        assertThat(habit.getScores().getTodayValue(), equalTo(1974654.0));
+        assertThat(habit.getScores().getTodayValue(), closeTo(0.051922, E));
     }
 
     @Test
@@ -157,16 +157,16 @@ public class ScoreListTest extends BaseUnitTest
     {
         Habit habit = fixtures.createShortHabit();
 
-        String expectedCSV = "2015-01-25,0.2649\n" +
-                             "2015-01-24,0.2205\n" +
-                             "2015-01-23,0.2283\n" +
-                             "2015-01-22,0.2364\n" +
-                             "2015-01-21,0.1909\n" +
-                             "2015-01-20,0.1439\n" +
-                             "2015-01-19,0.0952\n" +
-                             "2015-01-18,0.0986\n" +
-                             "2015-01-17,0.1021\n" +
-                             "2015-01-16,0.0519\n";
+        String expectedCSV = "2015-01-25,0.2372\n" +
+                             "2015-01-24,0.2096\n" +
+                             "2015-01-23,0.2172\n" +
+                             "2015-01-22,0.1889\n" +
+                             "2015-01-21,0.1595\n" +
+                             "2015-01-20,0.1291\n" +
+                             "2015-01-19,0.0976\n" +
+                             "2015-01-18,0.1011\n" +
+                             "2015-01-17,0.0686\n" +
+                             "2015-01-16,0.0349\n";
 
         StringWriter writer = new StringWriter();
         habit.getScores().writeCSV(writer);
@@ -186,13 +186,16 @@ public class ScoreListTest extends BaseUnitTest
         long to = today - 2 * day;
 
         double[] expected = {
-                11883254,
-                11479288,
-                11053198,
+                0.617008,
+                0.596033,
+                0.573909,
         };
 
         double[] actual = habit.getScores().getValues(from, to);
-        assertThat(actual, equalTo(expected));
+        assertThat(actual.length, equalTo(expected.length));
+
+        for(int i = 0; i < actual.length; i++)
+            assertThat(actual[i], closeTo(expected[i], E));
     }
 
     private void toggleRepetitions(final int from, final int to)

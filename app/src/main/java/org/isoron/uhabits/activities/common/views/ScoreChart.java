@@ -108,15 +108,15 @@ public class ScoreChart extends ScrollableChart
         Random random = new Random();
         scores = new LinkedList<>();
 
-        int previous = Score.MAX_VALUE / 2;
+        double previous = 0.5f;
         long timestamp = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
 
         for (int i = 1; i < 100; i++)
         {
-            int step = Score.MAX_VALUE / 10;
-            int current = previous + random.nextInt(step * 2) - step;
-            current = Math.max(0, Math.min(Score.MAX_VALUE, current));
+            double step = 0.1f;
+            double current = previous + random.nextDouble() * step * 2 - step;
+            current = Math.max(0, Math.min(1.0f, current));
             scores.add(new Score(timestamp, current));
             previous = current;
             timestamp -= day;
@@ -190,8 +190,7 @@ public class ScoreChart extends ScrollableChart
             double score = scores.get(offset).getValue();
             long timestamp = scores.get(offset).getTimestamp();
 
-            double relativeScore = score / Score.MAX_VALUE;
-            int height = (int) (columnHeight * relativeScore);
+            int height = (int) (columnHeight * score);
 
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,

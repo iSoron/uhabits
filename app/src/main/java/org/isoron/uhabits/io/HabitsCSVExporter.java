@@ -202,7 +202,7 @@ public class HabitsCSVExporter
                 checksWriter.write(String.valueOf(checkmarks.get(j)[i]));
                 checksWriter.write(DELIMITER);
                 String score =
-                        String.format("%.4f", ((float) scores.get(j)[i]) / Score.MAX_VALUE);
+                        String.format("%.4f", ((float) scores.get(j)[i]));
                 scoresWriter.write(score);
                 scoresWriter.write(DELIMITER);
             }
