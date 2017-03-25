@@ -138,7 +138,7 @@ public class HabitCardView extends FrameLayout
         postInvalidate();
     }
 
-    public void setScore(int score)
+    public void setScore(double score)
     {
         float percentage = (float) score / Score.MAX_VALUE;
         scoreRing.setPercentage(percentage);

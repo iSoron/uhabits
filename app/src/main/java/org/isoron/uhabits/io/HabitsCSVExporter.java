@@ -178,7 +178,7 @@ public class HabitsCSVExporter
         long newest = DateUtils.getStartOfToday();
 
         List<int[]> checkmarks = new ArrayList<>();
-        List<int[]> scores = new ArrayList<>();
+        List<double[]> scores = new ArrayList<>();
         for (Habit h : selectedHabits)
         {
             checkmarks.add(h.getCheckmarks().getValues(oldest, newest));

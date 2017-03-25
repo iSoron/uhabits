@@ -187,10 +187,10 @@ public class ScoreChart extends ScrollableChart
             int offset = nColumns - k - 1 + getDataOffset();
             if (offset >= scores.size()) continue;
 
-            int score = scores.get(offset).getValue();
+            double score = scores.get(offset).getValue();
             long timestamp = scores.get(offset).getTimestamp();
 
-            double relativeScore = ((double) score) / Score.MAX_VALUE;
+            double relativeScore = score / Score.MAX_VALUE;
             int height = (int) (columnHeight * relativeScore);
 
             rect.set(0, 0, baseSize, baseSize);

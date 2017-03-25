@@ -84,7 +84,7 @@ public class HabitCardListView extends RecyclerView
      */
     public View bindCardView(@NonNull HabitCardViewHolder holder,
                              @NonNull Habit habit,
-                             int score,
+                             double score,
                              int[] checkmarks,
                              boolean selected)
     {

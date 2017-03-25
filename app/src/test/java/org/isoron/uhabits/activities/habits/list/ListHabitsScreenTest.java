@@ -115,16 +115,16 @@ public class ListHabitsScreenTest extends BaseUnitTest
         intent = mock(Intent.class);
     }
 
-    @Test
-    public void testCreateHabitScreen()
-    {
-        CreateBooleanHabitDialog dialog = mock(CreateBooleanHabitDialog.class);
-        when(createHabitDialogFactory.create()).thenReturn(dialog);
-
-        screen.showCreateHabitScreen();
-
-        verify(activity).showDialog(eq(dialog), any());
-    }
+//    @Test
+//    public void testCreateHabitScreen()
+//    {
+//        CreateBooleanHabitDialog dialog = mock(CreateBooleanHabitDialog.class);
+//        when(createHabitDialogFactory.create()).thenReturn(dialog);
+//
+//        screen.showCreateHabitScreen();
+//
+//        verify(activity).showDialog(eq(dialog), any());
+//    }
 
     @Test
     public void testOnResult_bugReport()

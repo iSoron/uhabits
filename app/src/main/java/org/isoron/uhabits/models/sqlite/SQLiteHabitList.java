@@ -280,9 +280,9 @@ public class SQLiteHabitList extends HabitList
         if(order == Order.BY_SCORE)
         {
             Collections.sort(habits, (lhs, rhs) -> {
-                int s1 = lhs.getScores().getTodayValue();
-                int s2 = rhs.getScores().getTodayValue();
-                return Integer.compare(s2, s1);
+                double s1 = lhs.getScores().getTodayValue();
+                double s2 = rhs.getScores().getTodayValue();
+                return Double.compare(s2, s1);
             });
         }
 

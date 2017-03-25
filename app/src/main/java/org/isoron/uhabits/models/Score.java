@@ -35,14 +35,14 @@ public final class Score
      * Timestamp of the day to which this score applies. Time of day should be
      * midnight (UTC).
      */
-    private final Long timestamp;
+    private final long timestamp;
 
     /**
      * Value of the score.
      */
-    private final Integer value;
+    private final double value;
 
-    public Score(Long timestamp, Integer value)
+    public Score(long timestamp, double value)
     {
         this.timestamp = timestamp;
         this.value = value;
@@ -65,7 +65,7 @@ public final class Score
      * @return the current score
      */
     public static int compute(double frequency,
-                              int previousScore,
+                              double previousScore,
                               int checkmarkValue)
     {
         double multiplier = Math.pow(0.5, 1.0 / (14.0 / frequency - 1));
@@ -85,12 +85,12 @@ public final class Score
         return Long.signum(this.getTimestamp() - other.getTimestamp());
     }
 
-    public Long getTimestamp()
+    public long getTimestamp()
     {
         return timestamp;
     }
 
-    public Integer getValue()
+    public double getValue()
     {
         return value;
     }

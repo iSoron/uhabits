@@ -46,7 +46,7 @@ public class ScoreListTest extends BaseUnitTest
     {
         toggleRepetitions(0, 20);
 
-        int expectedValues[] = {
+        double expectedValues[] = {
             12629351,
             12266245,
             11883254,
@@ -69,7 +69,7 @@ public class ScoreListTest extends BaseUnitTest
             1000000
         };
 
-        int actualValues[] = new int[expectedValues.length];
+        double actualValues[] = new double[expectedValues.length];
 
         int i = 0;
         for (Score s : habit.getScores())
@@ -82,7 +82,7 @@ public class ScoreListTest extends BaseUnitTest
     public void test_getTodayValue()
     {
         toggleRepetitions(0, 20);
-        assertThat(habit.getScores().getTodayValue(), equalTo(12629351));
+        assertThat(habit.getScores().getTodayValue(), equalTo(12629351.0));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ScoreListTest extends BaseUnitTest
     {
         toggleRepetitions(0, 20);
 
-        int expectedValues[] = {
+        double expectedValues[] = {
             12629351,
             12266245,
             11883254,
@@ -118,7 +118,7 @@ public class ScoreListTest extends BaseUnitTest
 
         ScoreList scores = habit.getScores();
         long current = DateUtils.getStartOfToday();
-        for (int expectedValue : expectedValues)
+        for (double expectedValue : expectedValues)
         {
             assertThat(scores.getValue(current), equalTo(expectedValue));
             current -= DateUtils.millisecondsInOneDay;
@@ -133,23 +133,23 @@ public class ScoreListTest extends BaseUnitTest
             habit.getScores().groupBy(DateUtils.TruncateField.MONTH);
 
         assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), equalTo(14634077));
-        assertThat(list.get(1).getValue(), equalTo(12969133));
-        assertThat(list.get(2).getValue(), equalTo(10595391));
+        assertThat(list.get(0).getValue(), equalTo(14634077.0));
+        assertThat(list.get(1).getValue(), equalTo(12969133.0));
+        assertThat(list.get(2).getValue(), equalTo(10595391.0));
     }
 
     @Test
     public void test_invalidateNewerThan()
     {
-        assertThat(habit.getScores().getTodayValue(), equalTo(0));
+        assertThat(habit.getScores().getTodayValue(), equalTo(0.0));
 
         toggleRepetitions(0, 2);
-        assertThat(habit.getScores().getTodayValue(), equalTo(1948077));
+        assertThat(habit.getScores().getTodayValue(), equalTo(1948077.0));
 
         habit.setFrequency(new Frequency(1, 2));
         habit.getScores().invalidateNewerThan(0);
 
-        assertThat(habit.getScores().getTodayValue(), equalTo(1974654));
+        assertThat(habit.getScores().getTodayValue(), equalTo(1974654.0));
     }
 
     @Test
@@ -185,13 +185,13 @@ public class ScoreListTest extends BaseUnitTest
         long from = today - 4 * day;
         long to = today - 2 * day;
 
-        int[] expected = {
+        double[] expected = {
                 11883254,
                 11479288,
                 11053198,
         };
 
-        int[] actual = habit.getScores().getValues(from, to);
+        double[] actual = habit.getScores().getValues(from, to);
         assertThat(actual, equalTo(expected));
     }
 

@@ -162,9 +162,9 @@ public class MemoryHabitList extends HabitList
         };
 
         Comparator<Habit> scoreComparator = (h1, h2) -> {
-            int s1 = h1.getScores().getTodayValue();
-            int s2 = h2.getScores().getTodayValue();
-            return Integer.compare(s2, s1);
+            double s1 = h1.getScores().getTodayValue();
+            double s2 = h2.getScores().getTodayValue();
+            return Double.compare(s2, s1);
         };
 
         if (order == BY_POSITION) return null;

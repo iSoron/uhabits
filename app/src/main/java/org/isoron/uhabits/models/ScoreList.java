@@ -67,7 +67,7 @@ public abstract class ScoreList implements Iterable<Score>
      *
      * @return value of today's score
      */
-    public int getTodayValue()
+    public double getTodayValue()
     {
         return getValue(DateUtils.getStartOfToday());
     }
@@ -81,7 +81,7 @@ public abstract class ScoreList implements Iterable<Score>
      * @param timestamp the timestamp of a day
      * @return score value for that day
      */
-    public final int getValue(long timestamp)
+    public final double getValue(long timestamp)
     {
         compute(timestamp, timestamp);
         Score s = getComputedByTimestamp(timestamp);
@@ -118,10 +118,10 @@ public abstract class ScoreList implements Iterable<Score>
      * @param to   timestamp for the newest score
      * @return values for the scores inside the given interval
      */
-    public final int[] getValues(long from, long to)
+    public final double[] getValues(long from, long to)
     {
         List<Score> scores = getByInterval(from, to);
-        int[] values = new int[scores.size()];
+        double[] values = new double[scores.size()];
 
         for(int i = 0; i < values.length; i++)
             values[i] = scores.get(i).getValue();
@@ -263,7 +263,7 @@ public abstract class ScoreList implements Iterable<Score>
      * @param previousValue value of the score on the day immediately before the
      *                      interval begins
      */
-    private void forceRecompute(long from, long to, int previousValue)
+    private void forceRecompute(long from, long to, double previousValue)
     {
         if(from > to) return;
 

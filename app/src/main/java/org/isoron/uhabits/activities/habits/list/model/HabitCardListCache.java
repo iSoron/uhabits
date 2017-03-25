@@ -112,7 +112,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         return filteredHabits.getOrder();
     }
 
-    public int getScore(long habitId)
+    public double getScore(long habitId)
     {
         return data.scores.get(habitId);
     }
@@ -221,7 +221,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         public HashMap<Long, int[]> checkmarks;
 
         @NonNull
-        public HashMap<Long, Integer> scores;
+        public HashMap<Long, Double> scores;
 
         /**
          * Creates a new CacheData without any content.
@@ -252,7 +252,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             {
                 if (oldData.scores.containsKey(id))
                     scores.put(id, oldData.scores.get(id));
-                else scores.put(id, 0);
+                else scores.put(id, 0.0);
             }
         }
 
@@ -365,14 +365,14 @@ public class HabitCardListCache implements CommandRunner.Listener
 
         private void performUpdate(Long id, int position)
         {
-            Integer oldScore = data.scores.get(id);
+            double oldScore = data.scores.get(id);
             int[] oldCheckmarks = data.checkmarks.get(id);
 
-            Integer newScore = newData.scores.get(id);
+            double newScore = newData.scores.get(id);
             int[] newCheckmarks = newData.checkmarks.get(id);
 
             boolean unchanged = true;
-            if (!oldScore.equals(newScore)) unchanged = false;
+            if (oldScore != newScore) unchanged = false;
             if (!Arrays.equals(oldCheckmarks, newCheckmarks)) unchanged = false;
             if (unchanged) return;
 
