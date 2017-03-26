@@ -157,8 +157,12 @@ public class HabitCardView extends FrameLayout
 
     public void setValues(int values[])
     {
+        double dvalues[] = new double[values.length];
+        for(int i = 0; i < values.length; i++)
+            dvalues[i] = (double) values[i] / 1000;
+
         checkmarkPanel.setValues(values);
-        numberPanel.setValues(values);
+        numberPanel.setValues(dvalues);
         numberPanel.setThreshold(10);
         postInvalidate();
     }

@@ -47,7 +47,7 @@ public class NumberPanelView extends LinearLayout
     @Nullable
     private Preferences prefs;
 
-    private int values[];
+    private double values[];
 
     private double threshold;
 
@@ -95,20 +95,16 @@ public class NumberPanelView extends LinearLayout
 
     public void initEditMode()
     {
-        int values[] = new int[nButtons];
-
+        double values[] = new double[nButtons];
         for(int i = 0; i < nButtons; i++)
-            values[i] = new Random().nextInt((int)(threshold * 3));
-
+            values[i] = new Random().nextDouble() * (threshold * 3);
         setValues(values);
     }
 
     public NumberButtonView indexToButton(int i)
     {
         int position = i;
-
         if (getCheckmarkOrder() == RIGHT_TO_LEFT) position = nButtons - i - 1;
-
         return (NumberButtonView) getChildAt(position);
     }
 
@@ -159,7 +155,7 @@ public class NumberPanelView extends LinearLayout
         setupButtons();
     }
 
-    public void setValues(int[] values)
+    public void setValues(double[] values)
     {
         this.values = values;
         setupButtons();
@@ -218,7 +214,7 @@ public class NumberPanelView extends LinearLayout
         }
 
         setWillNotDraw(false);
-        values = new int[0];
+        values = new double[0];
     }
 
     private void setupButtonControllers(long timestamp,

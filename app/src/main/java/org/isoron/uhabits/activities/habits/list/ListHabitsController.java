@@ -165,10 +165,13 @@ public class ListHabitsController
     @Override
     public void onEdit(@NonNull Habit habit, long timestamp)
     {
-        int oldValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
-        screen.showNumberPicker(oldValue, newValue -> {
+        CheckmarkList checkmarks = habit.getCheckmarks();
+        double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+
+        screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue -> {
+            newValue = Math.round(newValue * 1000);
             commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, newValue),
+                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
                 habit.getId());
         });
     }

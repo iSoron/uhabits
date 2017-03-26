@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
+import android.icu.text.*;
 import android.support.annotation.*;
 import android.text.*;
 import android.util.*;
@@ -44,7 +45,7 @@ public class NumberButtonView extends View
 
     private int color;
 
-    private int value;
+    private double value;
 
     private double threshold;
 
@@ -93,17 +94,16 @@ public class NumberButtonView extends View
      * @param v
      * @return
      */
-    private static String formatValue(int v)
+    private static String formatValue(double v)
     {
-        double fv = (double) v;
-        if (v >= 1e9) return String.format("%.1fG", fv / 1e9);
-        if (v >= 1e8) return String.format("%.0fM", fv / 1e6);
-        if (v >= 1e7) return String.format("%.1fM", fv / 1e6);
-        if (v >= 1e6) return String.format("%.1fM", fv / 1e6);
-        if (v >= 1e5) return String.format("%.0fk", fv / 1e3);
-        if (v >= 1e4) return String.format("%.1fk", fv / 1e3);
-        if (v >= 1e3) return String.format("%.1fk", fv / 1e3);
-        return String.format("%d", v);
+        if (v >= 1e9) return String.format("%.1fG", v / 1e9);
+        if (v >= 1e8) return String.format("%.0fM", v / 1e6);
+        if (v >= 1e7) return String.format("%.1fM", v / 1e6);
+        if (v >= 1e6) return String.format("%.1fM", v / 1e6);
+        if (v >= 1e5) return String.format("%.0fk", v / 1e3);
+        if (v >= 1e4) return String.format("%.1fk", v / 1e3);
+        if (v >= 1e3) return String.format("%.1fk", v / 1e3);
+        return new DecimalFormat("#.##").format(v);
     }
 
     public void setColor(int color)
@@ -130,7 +130,7 @@ public class NumberButtonView extends View
         postInvalidate();
     }
 
-    public void setValue(int value)
+    public void setValue(double value)
     {
         this.value = value;
         postInvalidate();

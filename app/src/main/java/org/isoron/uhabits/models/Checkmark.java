@@ -51,6 +51,15 @@ public final class Checkmark
 
     private final long timestamp;
 
+    /**
+     * The value of the checkmark.
+     *
+     * For boolean habits, this equals either UNCHECKED, CHECKED_EXPLICITLY,
+     * or CHECKED_IMPLICITLY.
+     *
+     * For numerical habits, this number is stored in thousandths. That
+     * is, if the user enters value 1.50 on the app, it is stored as 1500.
+     */
     private final int value;
 
     public Checkmark(long timestamp, int value)

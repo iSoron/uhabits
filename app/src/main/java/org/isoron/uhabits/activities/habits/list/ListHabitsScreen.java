@@ -24,6 +24,7 @@ import android.content.*;
 import android.net.*;
 import android.support.annotation.*;
 import android.support.v7.app.AlertDialog;
+import android.text.*;
 import android.view.*;
 import android.widget.*;
 
@@ -39,6 +40,7 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
+import java.lang.reflect.*;
 
 import javax.inject.*;
 
@@ -46,7 +48,6 @@ import static android.content.DialogInterface.*;
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 import static android.view.inputmethod.EditorInfo.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 @ActivityScope
 public class ListHabitsScreen extends BaseScreen
@@ -287,19 +288,35 @@ public class ListHabitsScreen extends BaseScreen
         activity.startActivity(intent);
     }
 
-    public void showNumberPicker(int initialValue,
+    public void showNumberPicker(double value,
+                                 @NonNull String unit,
                                  @NonNull NumberPickerCallback callback)
     {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.number_picker_dialog, null);
 
-        final NumberPicker picker =
-            (NumberPicker) view.findViewById(R.id.picker);
+        final NumberPicker picker;
+        final NumberPicker picker2;
+        final TextView tvUnit;
+
+        picker = (NumberPicker) view.findViewById(R.id.picker);
+        picker2 = (NumberPicker) view.findViewById(R.id.picker2);
+        tvUnit = (TextView) view.findViewById(R.id.tvUnit);
+
+        int intValue = (int) Math.round(value * 100);
 
         picker.setMinValue(0);
-        picker.setMaxValue(Integer.MAX_VALUE);
-        picker.setValue(initialValue);
+        picker.setMaxValue(Integer.MAX_VALUE / 100);
+        picker.setValue(intValue / 100);
         picker.setWrapSelectorWheel(false);
+
+        picker2.setMinValue(0);
+        picker2.setMaxValue(19);
+        picker2.setFormatter(v -> String.format("%02d", 5 * v));
+        picker2.setValue((intValue % 100) / 5);
+        refreshInitialValue(picker2);
+
+        tvUnit.setText(unit);
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
             .setView(view)
@@ -307,7 +324,8 @@ public class ListHabitsScreen extends BaseScreen
             .setPositiveButton(android.R.string.ok, (d, which) ->
             {
                 picker.clearFocus();
-                callback.onNumberPicked(picker.getValue());
+                double v = picker.getValue() + 0.05 * picker2.getValue();
+                callback.onNumberPicked(v);
             })
             .create();
 
@@ -319,13 +337,22 @@ public class ListHabitsScreen extends BaseScreen
         });
 
         dialog.show();
+    }
 
-        Window window = dialog.getWindow();
-        if (window != null)
+    private void refreshInitialValue(NumberPicker picker2)
+    {
+        // Workaround for a bug on Android:
+        // https://code.google.com/p/android/issues/detail?id=35482
+        try
         {
-            int width = (int) dpToPixels(activity, 200);
-            int height = (int) dpToPixels(activity, 275);
-            window.setLayout(width, height);
+            Field f = NumberPicker.class.getDeclaredField("mInputText");
+            f.setAccessible(true);
+            EditText inputText = (EditText) f.get(picker2);
+            inputText.setFilters(new InputFilter[0]);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
@@ -395,6 +422,6 @@ public class ListHabitsScreen extends BaseScreen
 
     public interface NumberPickerCallback
     {
-        void onNumberPicked(int newValue);
+        void onNumberPicked(double newValue);
     }
 }

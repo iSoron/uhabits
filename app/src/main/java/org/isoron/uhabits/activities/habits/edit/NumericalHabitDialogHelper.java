@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
+import android.icu.text.*;
 import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
@@ -32,6 +33,8 @@ import butterknife.*;
 public class NumericalHabitDialogHelper
 {
     private DialogFragment frag;
+
+    private DecimalFormat valueFormatter = new DecimalFormat("#.##");
 
     @BindView(R.id.tvName)
     TextView tvName;
@@ -81,7 +84,7 @@ public class NumericalHabitDialogHelper
             tvUnit.setText(habit.getUnit());
 
         tvTargetType.setSelection(habit.getTargetType());
-        tvTargetValue.setText(String.format("%.0f", habit.getTargetValue()));
+        tvTargetValue.setText(valueFormatter.format(habit.getTargetValue()));
         populateColor(habit.getColor());
     }
 
