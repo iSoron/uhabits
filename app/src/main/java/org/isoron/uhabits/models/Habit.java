@@ -28,6 +28,8 @@ import java.util.*;
 
 import javax.inject.*;
 
+import static org.isoron.uhabits.models.Checkmark.*;
+
 /**
  * The thing that the user wants to track.
  */
@@ -161,6 +163,13 @@ public class Habit
     public Integer getColor()
     {
         return color;
+    }
+
+    public boolean isCompletedToday()
+    {
+        int todayCheckmark = getCheckmarks().getTodayValue();
+        if (isNumerical()) return todayCheckmark >= targetValue;
+        else return (todayCheckmark != UNCHECKED);
     }
 
     public void setColor(@NonNull Integer color)
