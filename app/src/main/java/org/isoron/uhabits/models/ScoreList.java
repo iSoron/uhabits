@@ -276,8 +276,16 @@ public abstract class ScoreList implements Iterable<Score>
 
         for (int i = 0; i < checkmarkValues.length; i++)
         {
-            int value = checkmarkValues[checkmarkValues.length - i - 1];
-            if(!habit.isNumerical() && value > 0) value = 1;
+            double value = checkmarkValues[checkmarkValues.length - i - 1];
+
+            if(habit.isNumerical())
+            {
+                value /= habit.getTargetValue();
+                value = Math.min(1, value);
+            }
+
+            if(!habit.isNumerical() && value > 0)
+                value = 1;
 
             previousValue = Score.compute(freq, previousValue, value);
             scores.add(new Score(from + day * i, previousValue));

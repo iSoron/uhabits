@@ -102,7 +102,7 @@ public class Habit
         this.name = "";
         this.description = "";
         this.targetType = AT_LEAST;
-        this.targetValue = 0;
+        this.targetValue = 1;
         this.unit = "";
 
         checkmarks = factory.buildCheckmarkList(this);

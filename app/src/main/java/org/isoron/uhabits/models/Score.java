@@ -60,7 +60,7 @@ public final class Score
      */
     public static double compute(double frequency,
                                  double previousScore,
-                                 int checkmarkValue)
+                                 double checkmarkValue)
     {
         double multiplier = pow(0.5, frequency / 13.0);
 
