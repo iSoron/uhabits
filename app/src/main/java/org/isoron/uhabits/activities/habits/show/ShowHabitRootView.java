@@ -59,6 +59,9 @@ public class ShowHabitRootView extends BaseRootView
     @BindView(R.id.historyCard)
     HistoryCard historyCard;
 
+    @BindView(R.id.barCard)
+    BarCard barCard;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -149,6 +152,11 @@ public class ShowHabitRootView extends BaseRootView
         historyCard.setHabit(habit);
         streakCard.setHabit(habit);
         frequencyCard.setHabit(habit);
+
+        if(habit.isNumerical())
+            barCard.setHabit(habit);
+        else
+            barCard.setVisibility(GONE);
     }
 
     public interface Controller extends HistoryCard.Controller

@@ -40,7 +40,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="@string/habit_strength"/>
+            android:text="@string/score"/>
 
         <org.isoron.uhabits.activities.common.views.ScoreChart
             android:id="@+id/scoreView"

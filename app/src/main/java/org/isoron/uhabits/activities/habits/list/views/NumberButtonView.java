@@ -94,7 +94,7 @@ public class NumberButtonView extends View
      * @param v
      * @return
      */
-    private static String formatValue(double v)
+    public static String formatValue(double v)
     {
         if (v >= 1e9) return String.format("%.1fG", v / 1e9);
         if (v >= 1e8) return String.format("%.0fM", v / 1e6);
