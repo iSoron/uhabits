@@ -326,7 +326,7 @@ public class HistoryChart extends ScrollableChart
         else
         {
             int checkmark = checkmarks[checkmarkOffset];
-            pSquareBg.setColor(colors[Integer.min(2, checkmark)]);
+            pSquareBg.setColor(colors[Math.min(2, checkmark)]);
         }
 
         pSquareFg.setColor(reverseTextColor);

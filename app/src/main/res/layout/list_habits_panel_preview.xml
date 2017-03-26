@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         app:button_count="8"
         app:color="6"
-        app:threshold="10"
+        app:threshold="2"
         app:unit="min"
         />
 

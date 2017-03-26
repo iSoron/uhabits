@@ -58,9 +58,11 @@ public class NumberButtonView extends View
 
     private TextPaint pBold;
 
-    private int grey;
+    private int lightGrey;
 
     private float em;
+
+    private int darkGrey;
 
     public NumberButtonView(@Nullable Context context)
     {
@@ -137,16 +139,12 @@ public class NumberButtonView extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
-        if(value < threshold)
-        {
-            pRegular.setColor(grey);
-            pBold.setColor(grey);
-        }
-        else
-        {
-            pRegular.setColor(color);
-            pBold.setColor(color);
-        }
+        int activeColor = lightGrey;
+        if(value > 0 && value < threshold) activeColor = darkGrey;
+        if(value >= threshold) activeColor = color;
+
+        pRegular.setColor(activeColor);
+        pBold.setColor(activeColor);
 
         String fv = formatValue(value);
 
@@ -184,6 +182,7 @@ public class NumberButtonView extends View
         pBold.setTextAlign(Paint.Align.CENTER);
 
         em = pBold.measureText("m");
-        grey = sr.getColor(R.attr.lowContrastTextColor);
+        lightGrey = sr.getColor(R.attr.lowContrastTextColor);
+        darkGrey = sr.getColor(R.attr.mediumContrastTextColor);
     }
 }
