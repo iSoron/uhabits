@@ -22,7 +22,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.habits.edit.BooleanHabitDialog"
-    tools:ignore="MergeRootFrame">
+    tools:ignore="MergeRootFrame"
+    xmlns:app="http://isoron.org/android">
 
     <LinearLayout
         android:id="@+id/formPanel"
@@ -60,14 +61,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <org.isoron.uhabits.activities.habits.edit.ExampleEditText
                 android:id="@+id/tvDescription"
                 style="@style/dialogFormInputMultiline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Question"
-                android:text="e.g. How many steps did you walk today?"
-                android:textColor="?attr/mediumContrastTextColor"/>
+                app:example="e.g. How many steps did you walk today?"/>
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout style="@style/dialogFormRow">
@@ -89,9 +89,9 @@
                     style="@style/dialogFormInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Count"
+                    android:hint="@string/count"
                     android:inputType="numberDecimal"
-                    android:text="100"
+                    android:text="@string/default_count"
                     />
             </android.support.design.widget.TextInputLayout>
 
@@ -100,14 +100,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2">
 
-                <EditText
+                <org.isoron.uhabits.activities.habits.edit.ExampleEditText
                     android:id="@+id/tvUnit"
                     style="@style/dialogFormInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Unit"
-                    android:text="e.g. steps"
-                    android:textColor="?attr/mediumContrastTextColor"
+                    android:hint="@string/unit"
+                    app:example="e.g. steps"
                     android:inputType="text"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>

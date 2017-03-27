@@ -208,4 +208,6 @@
         value</string>
     <string name="change_value">Change value</string>
     <string name="calendar">Calendar</string>
+    <string name="unit">Unit</string>
+    <string name="count">Count</string>
 </resources>

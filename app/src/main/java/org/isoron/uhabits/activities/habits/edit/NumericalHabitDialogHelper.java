@@ -40,10 +40,10 @@ public class NumericalHabitDialogHelper
     TextView tvName;
 
     @BindView(R.id.tvDescription)
-    TextView tvDescription;
+    ExampleEditText tvDescription;
 
     @BindView(R.id.tvUnit)
-    TextView tvUnit;
+    ExampleEditText tvUnit;
 
     @BindView(R.id.tvTargetCount)
     TextView tvTargetValue;
@@ -59,12 +59,14 @@ public class NumericalHabitDialogHelper
 
     public void parseForm(Habit habit)
     {
+        tvUnit.clearFocus();
+        tvDescription.clearFocus();
         habit.setName(tvName.getText().toString().trim());
-        habit.setDescription(tvDescription.getText().toString().trim());
+        habit.setDescription(tvDescription.getRealText().trim());
         habit.setTargetType(tvTargetType.getSelectedItemPosition());
         habit.setTargetValue(
             Double.parseDouble(tvTargetValue.getText().toString()));
-        habit.setUnit(tvUnit.getText().toString().trim());
+        habit.setUnit(tvUnit.getRealText().trim());
     }
 
     public void populateColor(int paletteColor)
@@ -78,10 +80,10 @@ public class NumericalHabitDialogHelper
         tvName.setText(habit.getName());
 
         if(!habit.getDescription().isEmpty())
-            tvDescription.setText(habit.getDescription());
+            tvDescription.setRealText(habit.getDescription());
 
         if(!habit.getUnit().isEmpty())
-            tvUnit.setText(habit.getUnit());
+            tvUnit.setRealText(habit.getUnit());
 
         tvTargetType.setSelection(habit.getTargetType());
         tvTargetValue.setText(valueFormatter.format(habit.getTargetValue()));

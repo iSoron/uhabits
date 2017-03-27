@@ -23,7 +23,6 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
@@ -32,11 +31,8 @@ import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
-
-import static org.isoron.uhabits.R.id.*;
 
 public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 {
@@ -59,10 +55,6 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
     private NumericalHabitDialogHelper helper;
-
-    private boolean tvDescriptionInitialized = false;
-
-    private boolean tvUnitInitialized = false;
 
     @Override
     public int getTheme()
@@ -130,29 +122,6 @@ public abstract class NumericalHabitDialog extends AppCompatDialogFragment
 
     protected abstract void saveHabit();
 
-    @OnFocusChange(tvDescription)
-    void clearDefaultDescription(boolean focused)
-    {
-        if (!focused || tvDescriptionInitialized) return;
-        tvDescriptionInitialized = true;
-        clearDefaultText(helper.tvDescription);
-    }
-
-    private void clearDefaultText(TextView textView)
-    {
-        StyledResources sr = new StyledResources(getContext());
-        int color = sr.getColor(R.attr.highContrastTextColor);
-        textView.setText("");
-        textView.setTextColor(color);
-    }
-
-    @OnFocusChange(tvUnit)
-    void clearDefaultUnit(boolean focused)
-    {
-        if (!focused || tvUnitInitialized) return;
-        tvUnitInitialized = true;
-        clearDefaultText(helper.tvUnit);
-    }
 
     @OnClick(R.id.buttonDiscard)
     void onButtonDiscardClick()

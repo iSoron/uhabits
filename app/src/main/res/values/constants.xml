@@ -94,4 +94,5 @@
     </string-array>
 
     <string name="snooze_interval_default" translatable="false">15</string>
+    <string name="default_count" translatable="false">100</string>
 </resources>
