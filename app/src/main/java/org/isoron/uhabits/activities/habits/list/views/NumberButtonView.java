@@ -103,6 +103,7 @@ public class NumberButtonView extends View
         if (v >= 1e5) return String.format("%.0fk", v / 1e3);
         if (v >= 1e4) return String.format("%.1fk", v / 1e3);
         if (v >= 1e3) return String.format("%.1fk", v / 1e3);
+        if (v >= 1e1) return new DecimalFormat("#.#").format(v);
         return new DecimalFormat("#.##").format(v);
     }
 
