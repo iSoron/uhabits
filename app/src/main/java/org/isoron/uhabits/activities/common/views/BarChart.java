@@ -270,22 +270,17 @@ public class BarChart extends ScrollableChart
     private void drawBar(Canvas canvas, RectF rect, double value)
     {
         float margin = baseSize * 0.225f;
-        float round = (baseSize * 0.12f);
-        round = Math.min(round, (rect.bottom - rect.top) / 2);
 
         int color = textColor;
         if (value / 1000 >= target) color = primaryColor;
 
         rect.inset(-margin, 0);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
-        canvas.drawRoundRect(rect, round, round, pGraph);
+        canvas.drawRect(rect, pGraph);
 
         rect.inset(margin, 0);
         setModeOrColor(pGraph, XFERMODE_SRC, color);
-        canvas.drawRoundRect(rect.left, rect.top, rect.right,
-            Math.min(rect.bottom, rect.top + 2 * round), round, round, pGraph);
-        canvas.drawRect(rect.left, rect.top + round, rect.right, rect.bottom,
-            pGraph);
+        canvas.drawRect(rect, pGraph);
 
         if (isTransparencyEnabled) pGraph.setXfermode(XFERMODE_SRC);
     }
@@ -297,6 +292,7 @@ public class BarChart extends ScrollableChart
         String dayText = dfDay.format(currentDate);
 
         GregorianCalendar calendar = DateUtils.getCalendar(currentDate);
+        pText.setColor(textColor);
 
         String text;
         int year = calendar.get(Calendar.YEAR);
@@ -317,9 +313,7 @@ public class BarChart extends ScrollableChart
             previousMonthText = "";
 
             pText.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(yearText, rect.centerX(), rect.bottom + em * 2.2f,
-                pText);
-
+            canvas.drawText(yearText, rect.centerX(), rect.bottom + em * 2.2f, pText);
             skipYear = 1;
         }
 
@@ -360,12 +354,30 @@ public class BarChart extends ScrollableChart
 
     private void drawValue(Canvas canvas, RectF rect, double value)
     {
-        if(value == 0) return;
-        if (value / 1000 >= target) pText.setColor(primaryColor);
+        if (value == 0) return;
+
+        int activeColor = textColor;
+        if (value / 1000 >= target)
+            activeColor = primaryColor;
+
         String label = NumberButtonView.formatValue(value / 1000);
+        Rect rText = new Rect();
+        pText.getTextBounds(label, 0, label.length(), rText);
+
         float offset = 0.5f * em;
-        canvas.drawText(label, rect.centerX(), rect.top - offset, pText);
-        pText.setColor(textColor);
+        float x = rect.centerX();
+        float y = rect.top - offset;
+        int cap = (int) (-0.1f * em);
+
+        rText.offset((int) x, (int) y);
+        rText.offset(-rText.width() / 2, 0);
+        rText.inset(3 * cap, cap);
+
+        setModeOrColor(pText, XFERMODE_CLEAR, backgroundColor);
+        canvas.drawRect(rText, pText);
+
+        setModeOrColor(pText, XFERMODE_SRC, activeColor);
+        canvas.drawText(label, x, y, pText);
     }
 
     private float getMaxDayWidth()
