@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <org.isoron.uhabits.activities.habits.edit.ExampleEditText
+            <org.isoron.uhabits.activities.habits.edit.views.ExampleEditText
                 android:id="@+id/tvDescription"
                 style="@style/dialogFormInputMultiline"
                 android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2">
 
-                <org.isoron.uhabits.activities.habits.edit.ExampleEditText
+                <org.isoron.uhabits.activities.habits.edit.views.ExampleEditText
                     android:id="@+id/tvUnit"
                     style="@style/dialogFormInput"
                     android:layout_width="match_parent"

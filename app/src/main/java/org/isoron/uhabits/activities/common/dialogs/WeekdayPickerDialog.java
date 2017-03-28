@@ -26,6 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 /**
@@ -35,7 +36,6 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
                                                                  DialogInterface.OnMultiChoiceClickListener,
                                                                  DialogInterface.OnClickListener
 {
-
     private boolean[] selectedDays;
 
     private OnWeekdaysPickedListener listener;
@@ -49,7 +49,8 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
     @Override
     public void onClick(DialogInterface dialog, int which)
     {
-        if (listener != null) listener.onWeekdaysPicked(selectedDays);
+        if (listener != null)
+            listener.onWeekdaysSet(new WeekdayList(selectedDays));
     }
 
     @Override
@@ -73,13 +74,13 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
         this.listener = listener;
     }
 
-    public void setSelectedDays(boolean[] selectedDays)
+    public void setSelectedDays(WeekdayList days)
     {
-        this.selectedDays = selectedDays;
+        this.selectedDays = days.toArray();
     }
 
     public interface OnWeekdaysPickedListener
     {
-        void onWeekdaysPicked(boolean[] selectedDays);
+        void onWeekdaysSet(WeekdayList days);
     }
 }

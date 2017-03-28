@@ -182,7 +182,7 @@ public class MainActivityActions
 
         try
         {
-            onView(allOf(withId(R.id.sFrequency),
+            onView(allOf(withId(R.id.spinner),
                 withEffectiveVisibility(VISIBLE))).perform(click());
             onData(allOf(instanceOf(String.class), startsWith("Custom")))
                 .inRoot(isPlatformPopup())
@@ -193,7 +193,7 @@ public class MainActivityActions
             // ignored
         }
 
-        onView(withId(R.id.tvFreqNum)).perform(replaceText(num));
-        onView(withId(R.id.tvFreqDen)).perform(replaceText(den));
+        onView(withId(R.id.numerator)).perform(replaceText(num));
+        onView(withId(R.id.denominator)).perform(replaceText(den));
     }
 }

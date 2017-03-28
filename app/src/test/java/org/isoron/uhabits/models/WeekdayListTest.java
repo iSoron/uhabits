@@ -22,6 +22,7 @@ package org.isoron.uhabits.models;
 import org.isoron.uhabits.*;
 import org.junit.*;
 
+import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 
@@ -48,6 +49,8 @@ public class WeekdayListTest extends BaseUnitTest
     public void testEmpty()
     {
         WeekdayList list = new WeekdayList(0);
-        assertThat(list.toArray(), equalTo(WeekdayList.EVERY_DAY.toArray()));
+        assertTrue(list.isEmpty());
+
+        assertFalse(WeekdayList.EVERY_DAY.isEmpty());
     }
 }

@@ -210,4 +210,5 @@
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
     <string name="count">Count</string>
+    <string name="validation_show_not_be_blank">This field should not be blank</string>
 </resources>

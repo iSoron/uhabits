@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.edit;
+package org.isoron.uhabits.activities.habits.edit.views;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -31,6 +31,10 @@ import org.isoron.uhabits.utils.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 
+/**
+ * An EditText that shows an example usage when there is no text
+ * currently set. The example disappears when the widget gains focus.
+ */
 public class ExampleEditText extends EditText
     implements View.OnFocusChangeListener
 {

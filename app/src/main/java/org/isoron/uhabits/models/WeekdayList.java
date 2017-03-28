@@ -23,13 +23,12 @@ import java.util.*;
 
 public class WeekdayList
 {
-    public static WeekdayList EVERY_DAY = new WeekdayList(127);
+    public static final WeekdayList EVERY_DAY = new WeekdayList(127);
 
     private final boolean[] weekdays;
 
     public WeekdayList(int packedList)
     {
-        if(packedList == 0) packedList = 127;
         weekdays = new boolean[7];
 
         int current = 1;
@@ -42,16 +41,18 @@ public class WeekdayList
 
     public WeekdayList(boolean weekdays[])
     {
-        boolean isEmpty = true;
-        for(boolean b : weekdays) if(b) isEmpty = false;
-        if(isEmpty) throw new IllegalArgumentException("empty list");
-
         this.weekdays = Arrays.copyOf(weekdays, 7);
+    }
+
+    public boolean isEmpty()
+    {
+        for (boolean d : weekdays) if (d) return false;
+        return true;
     }
 
     public boolean[] toArray()
     {
-        return weekdays;
+        return Arrays.copyOf(weekdays, 7);
     }
 
     public int toInteger()

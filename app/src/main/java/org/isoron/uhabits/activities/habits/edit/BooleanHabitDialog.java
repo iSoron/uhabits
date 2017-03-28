@@ -31,24 +31,20 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
+import org.isoron.uhabits.activities.habits.edit.views.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
-
-import java.util.*;
 
 import butterknife.*;
 
 public abstract class BooleanHabitDialog extends AppCompatDialogFragment
 {
-    @Nullable
     protected Habit originalHabit;
 
-    @Nullable
     protected Habit modifiedHabit;
 
-    @Nullable
-    protected BaseDialogHelper helper;
+    protected BooleanHabitDialogHelper helper;
 
     protected Preferences prefs;
 
@@ -83,7 +79,8 @@ public abstract class BooleanHabitDialog extends AppCompatDialogFragment
                              ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.edit_boolean_habit, container, false);
+        View view =
+            inflater.inflate(R.layout.edit_boolean_habit, container, false);
 
         HabitsApplication app =
             (HabitsApplication) getContext().getApplicationContext();
@@ -96,23 +93,40 @@ public abstract class BooleanHabitDialog extends AppCompatDialogFragment
 
         ButterKnife.bind(this, view);
 
-        helper = new BaseDialogHelper(this, view);
+        helper = new BooleanHabitDialogHelper(this, view);
         getDialog().setTitle(getTitle());
         initializeHabits();
         restoreSavedInstance(savedInstanceState);
         helper.populateForm(modifiedHabit);
-        return view;
-    }
 
-    @OnItemSelected(R.id.sFrequency)
-    public void onFrequencySelected(int position)
-    {
-        if (position < 0 || position > 4) throw new IllegalArgumentException();
-        int freqNums[] = { 1, 1, 2, 5, 3 };
-        int freqDens[] = { 1, 7, 7, 7, 7 };
-        modifiedHabit.setFrequency(
-            new Frequency(freqNums[position], freqDens[position]));
-        helper.populateFrequencyFields(modifiedHabit);
+        helper.frequencyPanel.setFrequency(modifiedHabit.getFrequency());
+
+        if (modifiedHabit.hasReminder())
+            helper.reminderPanel.setReminder(modifiedHabit.getReminder());
+
+        helper.reminderPanel.setController(new ReminderPanel.Controller()
+        {
+            @Override
+            public void onTimeClicked(int currentHour, int currentMin)
+            {
+                TimePickerDialog timePicker;
+                boolean is24HourMode = DateFormat.is24HourFormat(getContext());
+                timePicker = TimePickerDialog.newInstance(helper.reminderPanel,
+                    currentHour, currentMin, is24HourMode);
+                timePicker.show(getFragmentManager(), "timePicker");
+            }
+
+            @Override
+            public void onWeekdayClicked(WeekdayList currentDays)
+            {
+                WeekdayPickerDialog dialog = new WeekdayPickerDialog();
+                dialog.setListener(helper.reminderPanel);
+                dialog.setSelectedDays(currentDays);
+                dialog.show(getFragmentManager(), "weekdayPicker");
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -121,13 +135,6 @@ public abstract class BooleanHabitDialog extends AppCompatDialogFragment
     {
         super.onSaveInstanceState(outState);
         outState.putInt("color", modifiedHabit.getColor());
-        if (modifiedHabit.hasReminder())
-        {
-            Reminder reminder = modifiedHabit.getReminder();
-            outState.putInt("reminderMin", reminder.getMinute());
-            outState.putInt("reminderHour", reminder.getHour());
-            outState.putInt("reminderDays", reminder.getDays().toInteger());
-        }
     }
 
     protected abstract int getTitle();
@@ -139,19 +146,6 @@ public abstract class BooleanHabitDialog extends AppCompatDialogFragment
         if (bundle == null) return;
         modifiedHabit.setColor(
             bundle.getInt("color", modifiedHabit.getColor()));
-
-        modifiedHabit.setReminder(null);
-
-        int hour = (bundle.getInt("reminderHour", -1));
-        int minute = (bundle.getInt("reminderMin", -1));
-        int days = (bundle.getInt("reminderDays", -1));
-
-        if (hour >= 0 && minute >= 0)
-        {
-            Reminder reminder =
-                new Reminder(hour, minute, new WeekdayList(days));
-            modifiedHabit.setReminder(reminder);
-        }
     }
 
     protected abstract void saveHabit();
@@ -162,43 +156,18 @@ public abstract class BooleanHabitDialog extends AppCompatDialogFragment
         dismiss();
     }
 
-    @OnClick(R.id.tvReminderTime)
-    @SuppressWarnings("ConstantConditions")
-    void onDateSpinnerClick()
-    {
-        int defaultHour = 8;
-        int defaultMin = 0;
-
-        if (modifiedHabit.hasReminder())
-        {
-            Reminder reminder = modifiedHabit.getReminder();
-            defaultHour = reminder.getHour();
-            defaultMin = reminder.getMinute();
-        }
-
-        showTimePicker(defaultHour, defaultMin);
-    }
-
     @OnClick(R.id.buttonSave)
     void onSaveButtonClick()
     {
         helper.parseFormIntoHabit(modifiedHabit);
+        modifiedHabit.setReminder(helper.reminderPanel.getReminder());
+        modifiedHabit.setFrequency(helper.frequencyPanel.getFrequency());
+
+        if (!helper.frequencyPanel.validate()) return;
         if (!helper.validate(modifiedHabit)) return;
+
         saveHabit();
         dismiss();
-    }
-
-    @OnClick(R.id.tvReminderDays)
-    @SuppressWarnings("ConstantConditions")
-    void onWeekdayClick()
-    {
-        if (!modifiedHabit.hasReminder()) return;
-        Reminder reminder = modifiedHabit.getReminder();
-
-        WeekdayPickerDialog dialog = new WeekdayPickerDialog();
-        dialog.setListener(new OnWeekdaysPickedListener());
-        dialog.setSelectedDays(reminder.getDays().toArray());
-        dialog.show(getFragmentManager(), "weekdayPicker");
     }
 
     @OnClick(R.id.buttonPickColor)
@@ -215,56 +184,5 @@ public abstract class BooleanHabitDialog extends AppCompatDialogFragment
         });
 
         picker.show(getFragmentManager(), "picker");
-    }
-
-    private void showTimePicker(int defaultHour, int defaultMin)
-    {
-        boolean is24HourMode = DateFormat.is24HourFormat(getContext());
-        TimePickerDialog timePicker =
-            TimePickerDialog.newInstance(new OnTimeSetListener(), defaultHour,
-                defaultMin, is24HourMode);
-        timePicker.show(getFragmentManager(), "timePicker");
-    }
-
-    private class OnTimeSetListener
-        implements TimePickerDialog.OnTimeSetListener
-    {
-        @Override
-        public void onTimeCleared(RadialPickerLayout view)
-        {
-            modifiedHabit.clearReminder();
-            helper.populateReminderFields(modifiedHabit);
-        }
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hour, int minute)
-        {
-            Reminder reminder =
-                new Reminder(hour, minute, WeekdayList.EVERY_DAY);
-            modifiedHabit.setReminder(reminder);
-            helper.populateReminderFields(modifiedHabit);
-        }
-    }
-
-    private class OnWeekdaysPickedListener
-        implements WeekdayPickerDialog.OnWeekdaysPickedListener
-    {
-        @Override
-        public void onWeekdaysPicked(boolean[] selectedDays)
-        {
-            if (isSelectionEmpty(selectedDays)) Arrays.fill(selectedDays, true);
-
-            Reminder oldReminder = modifiedHabit.getReminder();
-            modifiedHabit.setReminder(
-                new Reminder(oldReminder.getHour(), oldReminder.getMinute(),
-                    new WeekdayList(selectedDays)));
-            helper.populateReminderFields(modifiedHabit);
-        }
-
-        private boolean isSelectionEmpty(boolean[] selectedDays)
-        {
-            for (boolean d : selectedDays) if (d) return false;
-            return true;
-        }
     }
 }
