@@ -61,8 +61,6 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
 
-    private CreateBooleanHabitDialogFactory createHabitDialogFactory;
-
     private FilePickerDialogFactory filePickerDialogFactory;
 
     private IntentFactory intentFactory;
@@ -73,7 +71,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
-    private EditBooleanHabitDialogFactory editHabitDialogFactory;
+    private BooleanHabitDialogFactory dialogFactory;
 
     private ThemeSwitcher themeSwitcher;
 
@@ -96,10 +94,9 @@ public class ListHabitsScreenTest extends BaseUnitTest
         intentFactory = mock(IntentFactory.class);
         themeSwitcher = mock(ThemeSwitcher.class);
         confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
-        createHabitDialogFactory = mock(CreateBooleanHabitDialogFactory.class);
         filePickerDialogFactory = mock(FilePickerDialogFactory.class);
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
-        editHabitDialogFactory = mock(EditBooleanHabitDialogFactory.class);
+        dialogFactory = mock(BooleanHabitDialogFactory.class);
         editNumericalHabitDialogFactory =
             mock(EditNumericalHabitDialogFactory.class);
         createNumericalHabitDialogFactory =
@@ -107,8 +104,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, dirFinder,
             rootView, intentFactory, themeSwitcher, confirmDeleteDialogFactory,
-            createHabitDialogFactory, filePickerDialogFactory,
-            colorPickerDialogFactory, editHabitDialogFactory,
+            filePickerDialogFactory, colorPickerDialogFactory, dialogFactory,
             editNumericalHabitDialogFactory,
             createNumericalHabitDialogFactory));
 
@@ -222,8 +218,8 @@ public class ListHabitsScreenTest extends BaseUnitTest
     @Test
     public void testShowEditHabitScreen()
     {
-        EditBooleanHabitDialog dialog = mock(EditBooleanHabitDialog.class);
-        when(editHabitDialogFactory.create(habit)).thenReturn(dialog);
+        BooleanHabitDialog dialog = mock(BooleanHabitDialog.class);
+        when(dialogFactory.edit(habit)).thenReturn(dialog);
 
         screen.showEditHabitScreen(habit);
         verify(activity).showDialog(eq(dialog), any());

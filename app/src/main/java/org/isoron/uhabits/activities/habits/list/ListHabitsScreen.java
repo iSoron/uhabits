@@ -83,17 +83,13 @@ public class ListHabitsScreen extends BaseScreen
     private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
 
     @NonNull
-    private final CreateBooleanHabitDialogFactory
-        createBooleanHabitDialogFactory;
-
-    @NonNull
     private final FilePickerDialogFactory filePickerDialogFactory;
 
     @NonNull
     private final ColorPickerDialogFactory colorPickerFactory;
 
     @NonNull
-    private final EditBooleanHabitDialogFactory editBooleanHabitDialogFactory;
+    private final BooleanHabitDialogFactory booleanHabitDialogFactory;
 
     @NonNull
     private final ThemeSwitcher themeSwitcher;
@@ -112,10 +108,9 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull CreateBooleanHabitDialogFactory createBooleanHabitDialogFactory,
                             @NonNull FilePickerDialogFactory filePickerDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull EditBooleanHabitDialogFactory editBooleanHabitDialogFactory,
+                            @NonNull BooleanHabitDialogFactory booleanHabitDialogFactory,
                             @NonNull EditNumericalHabitDialogFactory editNumericalHabitDialogFactory,
                             @NonNull CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory)
     {
@@ -125,8 +120,7 @@ public class ListHabitsScreen extends BaseScreen
         this.commandRunner = commandRunner;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         this.createNumericalHabitDialogFactory = createNumericalHabitDialogFactory;
-        this.createBooleanHabitDialogFactory = createBooleanHabitDialogFactory;
-        this.editBooleanHabitDialogFactory = editBooleanHabitDialogFactory;
+        this.booleanHabitDialogFactory = booleanHabitDialogFactory;
         this.editNumericalHabitDialogFactory = editNumericalHabitDialogFactory;
         this.dirFinder = dirFinder;
         this.filePickerDialogFactory = filePickerDialogFactory;
@@ -209,8 +203,8 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showCreateBooleanHabitScreen()
     {
-        CreateBooleanHabitDialog dialog;
-        dialog = createBooleanHabitDialogFactory.create();
+        BooleanHabitDialog dialog;
+        dialog = booleanHabitDialogFactory.create();
         activity.showDialog(dialog, "editHabit");
     }
 
@@ -229,8 +223,8 @@ public class ListHabitsScreen extends BaseScreen
         }
         else
         {
-            EditBooleanHabitDialog dialog;
-            dialog = editBooleanHabitDialogFactory.create(habit);
+            BooleanHabitDialog dialog;
+            dialog = booleanHabitDialogFactory.edit(habit);
             activity.showDialog(dialog, "editHabit");
         }
     }

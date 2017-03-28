@@ -60,8 +60,6 @@ public class NumericalHabitDialogHelper
 
     public void parseForm(Habit habit)
     {
-        tvUnit.clearFocus();
-        tvDescription.clearFocus();
         habit.setName(tvName.getText().toString().trim());
         habit.setDescription(tvDescription.getRealText().trim());
         habit.setTargetType(tvTargetType.getSelectedItemPosition());

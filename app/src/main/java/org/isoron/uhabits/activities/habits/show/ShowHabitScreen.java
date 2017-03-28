@@ -38,18 +38,19 @@ public class ShowHabitScreen extends BaseScreen
     private ShowHabitController controller;
 
     @NonNull
-    private final EditBooleanHabitDialogFactory editBooleanHabitDialogFactory;
+    private final BooleanHabitDialogFactory booleanHabitDialogFactory;
 
     @Inject
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
                            @NonNull ShowHabitRootView view,
                            @NonNull
-                               EditBooleanHabitDialogFactory editBooleanHabitDialogFactory)
+                               BooleanHabitDialogFactory
+                                   booleanHabitDialogFactory)
     {
         super(activity);
         setRootView(view);
-        this.editBooleanHabitDialogFactory = editBooleanHabitDialogFactory;
+        this.booleanHabitDialogFactory = booleanHabitDialogFactory;
         this.habit = habit;
     }
 
@@ -72,8 +73,9 @@ public class ShowHabitScreen extends BaseScreen
 
     public void showEditHabitDialog()
     {
-        EditBooleanHabitDialog dialog = editBooleanHabitDialogFactory.create(habit);
-        activity.showDialog(dialog, "editHabit");
+        activity.showDialog(
+            booleanHabitDialogFactory.edit(habit),
+            "editHabit");
     }
 
     public void showEditHistoryDialog()

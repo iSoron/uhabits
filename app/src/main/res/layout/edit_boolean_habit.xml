@@ -29,29 +29,10 @@
         android:id="@+id/formPanel"
         style="@style/dialogFormPanel">
 
-        <LinearLayout
+        <org.isoron.uhabits.activities.habits.edit.views.NameDescriptionPanel
             android:id="@+id/namePanel"
-            style="@style/dialogFormRow">
-
-            <EditText
-                android:id="@+id/tvName"
-                style="@style/dialogFormInput"
-                android:hint="@string/name">
-
-                <requestFocus/>
-            </EditText>
-
-            <ImageButton
-                android:id="@+id/buttonPickColor"
-                style="@style/dialogFormInputColor"
-                android:contentDescription="@string/color_picker_default_title"
-                android:src="?dialogIconChangeColor"/>
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/tvDescription"
-            style="@style/dialogFormInputMultiline"
-            android:hint="@string/description_hint"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel
             android:id="@+id/frequencyPanel"

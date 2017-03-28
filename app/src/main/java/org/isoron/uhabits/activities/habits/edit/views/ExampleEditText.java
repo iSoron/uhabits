@@ -64,7 +64,8 @@ public class ExampleEditText extends EditText
 
     public String getRealText()
     {
-        return realText;
+        if(hasFocus()) return getText().toString();
+        else return realText;
     }
 
     @Override

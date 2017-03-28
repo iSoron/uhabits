@@ -19,7 +19,6 @@
   -->
 
 <resources>
-
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">Habits</string>
     <string name="action_settings">Settings</string>
@@ -211,4 +210,7 @@
     <string name="unit">Unit</string>
     <string name="count">Count</string>
     <string name="validation_show_not_be_blank">This field should not be blank</string>
+    <string name="example_question_numerical">e.g. How many steps did you walk today?</string>
+    <string name="example_question_boolean">e.g. Did you exercise today?</string>
+    <string name="question">Question</string>
 </resources>
