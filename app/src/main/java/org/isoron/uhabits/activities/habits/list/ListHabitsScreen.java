@@ -89,16 +89,10 @@ public class ListHabitsScreen extends BaseScreen
     private final ColorPickerDialogFactory colorPickerFactory;
 
     @NonNull
-    private final BooleanHabitDialogFactory booleanHabitDialogFactory;
+    private final EditHabitDialogFactory editHabitDialogFactory;
 
     @NonNull
     private final ThemeSwitcher themeSwitcher;
-
-    @NonNull
-    private CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory;
-
-    @NonNull
-    private EditNumericalHabitDialogFactory editNumericalHabitDialogFactory;
 
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
@@ -110,18 +104,14 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull FilePickerDialogFactory filePickerDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull BooleanHabitDialogFactory booleanHabitDialogFactory,
-                            @NonNull EditNumericalHabitDialogFactory editNumericalHabitDialogFactory,
-                            @NonNull CreateNumericalHabitDialogFactory createNumericalHabitDialogFactory)
+                            @NonNull EditHabitDialogFactory editHabitDialogFactory)
     {
         super(activity);
         setRootView(rootView);
         this.colorPickerFactory = colorPickerFactory;
         this.commandRunner = commandRunner;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
-        this.createNumericalHabitDialogFactory = createNumericalHabitDialogFactory;
-        this.booleanHabitDialogFactory = booleanHabitDialogFactory;
-        this.editNumericalHabitDialogFactory = editNumericalHabitDialogFactory;
+        this.editHabitDialogFactory = editHabitDialogFactory;
         this.dirFinder = dirFinder;
         this.filePickerDialogFactory = filePickerDialogFactory;
         this.intentFactory = intentFactory;
@@ -196,15 +186,15 @@ public class ListHabitsScreen extends BaseScreen
 
     private void showCreateNumericalHabitScreen()
     {
-        CreateNumericalHabitDialog dialog;
-        dialog = createNumericalHabitDialogFactory.create();
+        EditHabitDialog dialog;
+        dialog = editHabitDialogFactory.createNumerical();
         activity.showDialog(dialog, "editHabit");
     }
 
     public void showCreateBooleanHabitScreen()
     {
-        BooleanHabitDialog dialog;
-        dialog = booleanHabitDialogFactory.create();
+        EditHabitDialog dialog;
+        dialog = editHabitDialogFactory.createBoolean();
         activity.showDialog(dialog, "editHabit");
     }
 
@@ -215,18 +205,9 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showEditHabitScreen(Habit habit)
     {
-        if(habit.isNumerical())
-        {
-            EditNumericalHabitDialog dialog;
-            dialog = editNumericalHabitDialogFactory.create(habit);
-            activity.showDialog(dialog, "editNumericalHabit");
-        }
-        else
-        {
-            BooleanHabitDialog dialog;
-            dialog = booleanHabitDialogFactory.edit(habit);
-            activity.showDialog(dialog, "editHabit");
-        }
+        EditHabitDialog dialog;
+        dialog = editHabitDialogFactory.edit(habit);
+        activity.showDialog(dialog, "editNumericalHabit");
     }
 
     public void showFAQScreen()

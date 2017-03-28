@@ -22,7 +22,7 @@
     style="@style/dialogForm"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.habits.edit.BooleanHabitDialog"
+    tools:context=".activities.habits.edit.EditHabitDialog"
     tools:ignore="MergeRootFrame">
 
     <LinearLayout
@@ -36,6 +36,11 @@
 
         <org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel
             android:id="@+id/frequencyPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <org.isoron.uhabits.activities.habits.edit.views.TargetPanel
+            android:id="@+id/targetPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

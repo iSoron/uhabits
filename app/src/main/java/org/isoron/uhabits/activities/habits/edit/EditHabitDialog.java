@@ -39,9 +39,13 @@ import org.isoron.uhabits.preferences.*;
 
 import butterknife.*;
 
-public class BooleanHabitDialog extends AppCompatDialogFragment
+import static android.view.View.*;
+
+public class EditHabitDialog extends AppCompatDialogFragment
 {
     public static final String BUNDLE_HABIT_ID = "habitId";
+
+    public static final String BUNDLE_HABIT_TYPE = "habitType";
 
     protected Habit originalHabit;
 
@@ -63,6 +67,9 @@ public class BooleanHabitDialog extends AppCompatDialogFragment
 
     @BindView(R.id.frequencyPanel)
     FrequencyPanel frequencyPanel;
+
+    @BindView(R.id.targetPanel)
+    TargetPanel targetPanel;
 
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
@@ -88,7 +95,7 @@ public class BooleanHabitDialog extends AppCompatDialogFragment
                              Bundle savedInstanceState)
     {
         View view;
-        view = inflater.inflate(R.layout.edit_boolean_habit, container, false);
+        view = inflater.inflate(R.layout.edit_habit, container, false);
 
         initDependencies();
         ButterKnife.bind(this, view);
@@ -124,6 +131,11 @@ public class BooleanHabitDialog extends AppCompatDialogFragment
         }
     }
 
+    private int getTypeFromArguments()
+    {
+        return getArguments().getInt(BUNDLE_HABIT_TYPE);
+    }
+
     private void initDependencies()
     {
         Context appContext = getContext().getApplicationContext();
@@ -145,8 +157,11 @@ public class BooleanHabitDialog extends AppCompatDialogFragment
     @OnClick(R.id.buttonSave)
     void onSaveButtonClick()
     {
+        int type = getTypeFromArguments();
+
         if (!namePanel.validate()) return;
-        if (!frequencyPanel.validate()) return;
+        if (type == Habit.YES_NO_HABIT && !frequencyPanel.validate()) return;
+        if (type == Habit.NUMBER_HABIT && !targetPanel.validate()) return;
 
         Habit habit = modelFactory.buildHabit();
         habit.setName(namePanel.getName());
@@ -154,6 +169,9 @@ public class BooleanHabitDialog extends AppCompatDialogFragment
         habit.setColor(namePanel.getColor());
         habit.setReminder(reminderPanel.getReminder());
         habit.setFrequency(frequencyPanel.getFrequency());
+        habit.setUnit(targetPanel.getUnit());
+        habit.setTargetValue(targetPanel.getTargetValue());
+        habit.setType(type);
 
         saveHabit(habit);
         dismiss();
@@ -179,11 +197,17 @@ public class BooleanHabitDialog extends AppCompatDialogFragment
         Habit habit = modelFactory.buildHabit();
         habit.setFrequency(Frequency.DAILY);
         habit.setColor(prefs.getDefaultHabitColor(habit.getColor()));
+        habit.setType(getTypeFromArguments());
 
         if (originalHabit != null) habit.copyFrom(originalHabit);
 
+        if (habit.isNumerical()) frequencyPanel.setVisibility(GONE);
+        else targetPanel.setVisibility(GONE);
+
         namePanel.populateFrom(habit);
         frequencyPanel.setFrequency(habit.getFrequency());
+        targetPanel.setTargetValue(habit.getTargetValue());
+        targetPanel.setUnit(habit.getUnit());
         if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
     }
 

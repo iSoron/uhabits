@@ -211,6 +211,8 @@
     <string name="count">Count</string>
     <string name="validation_show_not_be_blank">This field should not be blank</string>
     <string name="example_question_numerical">e.g. How many steps did you walk today?</string>
+    <string name="example_units">e.g. steps</string>
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
+    <string name="target">Target</string>
 </resources>

@@ -26,21 +26,42 @@ import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
-public class EditNumericalHabitDialogFactory
+import static org.isoron.uhabits.activities.habits.edit.EditHabitDialog.*;
+
+public class EditHabitDialogFactory
 {
     @Inject
-    public EditNumericalHabitDialogFactory()
+    public EditHabitDialogFactory()
     {
     }
 
-    public EditNumericalHabitDialog create(@NonNull Habit habit)
+    public EditHabitDialog createBoolean()
+    {
+        EditHabitDialog dialog = new EditHabitDialog();
+        Bundle args = new Bundle();
+        args.putInt(BUNDLE_HABIT_TYPE, Habit.YES_NO_HABIT);
+        dialog.setArguments(args);
+        return dialog;
+    }
+
+    public EditHabitDialog createNumerical()
+    {
+        EditHabitDialog dialog = new EditHabitDialog();
+        Bundle args = new Bundle();
+        args.putInt(BUNDLE_HABIT_TYPE, Habit.NUMBER_HABIT);
+        dialog.setArguments(args);
+        return dialog;
+    }
+
+    public EditHabitDialog edit(@NonNull Habit habit)
     {
         if (habit.getId() == null)
             throw new IllegalArgumentException("habit not saved");
 
-        EditNumericalHabitDialog dialog = new EditNumericalHabitDialog();
+        EditHabitDialog dialog = new EditHabitDialog();
         Bundle args = new Bundle();
-        args.putLong("habitId", habit.getId());
+        args.putLong(BUNDLE_HABIT_ID, habit.getId());
+        args.putInt(BUNDLE_HABIT_TYPE, habit.getType());
         dialog.setArguments(args);
         return dialog;
     }
