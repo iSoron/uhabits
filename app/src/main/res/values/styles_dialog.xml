@@ -89,7 +89,6 @@
     <style name="dialogFormRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">12dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:minWidth">300dp</item>
         <item name="android:gravity">start|center_vertical</item>
@@ -104,10 +103,11 @@
     <style name="dialogFormPanel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingLeft">24dp</item>
         <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
 </resources>

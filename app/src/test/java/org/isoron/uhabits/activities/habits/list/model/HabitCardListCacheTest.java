@@ -106,7 +106,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
 
         Habit h = habitList.getByPosition(3);
         assertNotNull(h.getId());
-        int score = h.getScores().getTodayValue();
+        double score = h.getScores().getTodayValue();
 
         assertThat(cache.getHabitByPosition(3), equalTo(h));
         assertThat(cache.getScore(h.getId()), equalTo(score));

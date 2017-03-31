@@ -23,8 +23,6 @@ import android.support.annotation.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.models.Checkmark.*;
-
 public class HabitMatcher
 {
     public static final HabitMatcher WITH_ALARM = new HabitMatcherBuilder()
@@ -75,14 +73,8 @@ public class HabitMatcher
     {
         if (!isArchivedAllowed() && habit.isArchived()) return false;
         if (isReminderRequired() && !habit.hasReminder()) return false;
-
-        if(!isCompletedAllowed())
-        {
-            int todayCheckmark = habit.getCheckmarks().getTodayValue();
-            if (todayCheckmark != UNCHECKED) return false;
-        }
-
-        if(!allowedColors.contains(habit.getColor())) return false;
+        if (!isCompletedAllowed() && habit.isCompletedToday()) return false;
+        if (!allowedColors.contains(habit.getColor())) return false;
         return true;
     }
 }

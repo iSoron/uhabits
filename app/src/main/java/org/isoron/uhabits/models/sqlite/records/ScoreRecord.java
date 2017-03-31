@@ -46,13 +46,13 @@ public class ScoreRecord extends Model implements SQLiteRecord
      * Value of the score.
      */
     @Column(name = "score")
-    public Integer score;
+    public Double score;
 
     @Override
     public void copyFrom(Cursor c)
     {
         timestamp = c.getLong(1);
-        score = c.getInt(2);
+        score = c.getDouble(2);
     }
 
     /**

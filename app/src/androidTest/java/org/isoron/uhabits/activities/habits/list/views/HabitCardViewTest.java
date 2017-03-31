@@ -59,7 +59,7 @@ public class HabitCardViewTest extends BaseViewTest
 
         view = new HabitCardView(targetContext);
         view.setHabit(habit);
-        view.setCheckmarkValues(values);
+        view.setValues(values);
         view.setSelected(false);
         view.setScore(habit.getScores().getTodayValue());
         view.setController(controller);

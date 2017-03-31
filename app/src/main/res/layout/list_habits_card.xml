@@ -46,6 +46,11 @@
             android:id="@+id/checkmarkPanel"
             style="@style/ListHabits.CheckmarkPanel"/>
 
+        <org.isoron.uhabits.activities.habits.list.views.NumberPanelView
+            android:id="@+id/numberPanel"
+            android:visibility="gone"
+            style="@style/ListHabits.CheckmarkPanel"/>
+
     </LinearLayout>
 
 </merge>

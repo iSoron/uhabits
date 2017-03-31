@@ -52,8 +52,8 @@ public class CheckmarkWidget extends BaseWidget
     {
         CheckmarkWidgetView view = (CheckmarkWidgetView) v;
         int color = ColorUtils.getColor(getContext(), habit.getColor());
-        int score = habit.getScores().getTodayValue();
-        float percentage = (float) score / Score.MAX_VALUE;
+        double score = habit.getScores().getTodayValue();
+        float percentage = (float) score;
         int checkmark = habit.getCheckmarks().getTodayValue();
 
         view.setPercentage(percentage);

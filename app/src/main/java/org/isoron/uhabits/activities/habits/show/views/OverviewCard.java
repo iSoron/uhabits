@@ -105,9 +105,9 @@ public class OverviewCard extends HabitCard
     private void initEditMode()
     {
         color = ColorUtils.getAndroidTestColor(1);
-        cache.todayScore = Score.MAX_VALUE * 0.6f;
-        cache.lastMonthScore = Score.MAX_VALUE * 0.42f;
-        cache.lastYearScore = Score.MAX_VALUE * 0.75f;
+        cache.todayScore = 0.6f;
+        cache.lastMonthScore = 0.42f;
+        cache.lastYearScore = 0.75f;
         refreshColors();
         refreshScore();
     }
@@ -121,11 +121,9 @@ public class OverviewCard extends HabitCard
 
     private void refreshScore()
     {
-        float todayPercentage = cache.todayScore / Score.MAX_VALUE;
-        float monthDiff =
-            todayPercentage - (cache.lastMonthScore / Score.MAX_VALUE);
-        float yearDiff =
-            todayPercentage - (cache.lastYearScore / Score.MAX_VALUE);
+        float todayPercentage = cache.todayScore;
+        float monthDiff = todayPercentage - cache.lastMonthScore;
+        float yearDiff = todayPercentage - cache.lastYearScore;
 
         scoreRing.setPercentage(todayPercentage);
         scoreLabel.setText(String.format("%.0f%%", todayPercentage * 100));

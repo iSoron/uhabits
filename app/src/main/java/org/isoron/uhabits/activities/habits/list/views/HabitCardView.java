@@ -56,6 +56,9 @@ public class HabitCardView extends FrameLayout
     @BindView(R.id.checkmarkPanel)
     CheckmarkPanelView checkmarkPanel;
 
+    @BindView(R.id.numberPanel)
+    NumberPanelView numberPanel;
+
     @BindView(R.id.innerFrame)
     LinearLayout innerFrame;
 
@@ -92,28 +95,31 @@ public class HabitCardView extends FrameLayout
         new Handler(Looper.getMainLooper()).post(() -> refresh());
     }
 
-    public void setCheckmarkCount(int checkmarkCount)
+    public void setButtonCount(int buttonCount)
     {
-        checkmarkPanel.setButtonCount(checkmarkCount);
+        checkmarkPanel.setButtonCount(buttonCount);
+        numberPanel.setButtonCount(buttonCount);
     }
 
-    public void setCheckmarkValues(int checkmarks[])
+    public void setThreshold(double threshold)
     {
-        checkmarkPanel.setCheckmarkValues(checkmarks);
-        postInvalidate();
+        numberPanel.setThreshold(threshold);
     }
 
     public void setController(Controller controller)
     {
         checkmarkPanel.setController(null);
+        numberPanel.setController(null);
         if (controller == null) return;
         checkmarkPanel.setController(controller);
+        numberPanel.setController(controller);
     }
 
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
         checkmarkPanel.setDataOffset(dataOffset);
+        numberPanel.setDataOffset(dataOffset);
     }
 
     public void setHabit(@NonNull Habit habit)
@@ -122,15 +128,16 @@ public class HabitCardView extends FrameLayout
 
         this.habit = habit;
         checkmarkPanel.setHabit(habit);
+        numberPanel.setHabit(habit);
         refresh();
 
         attachToHabit();
         postInvalidate();
     }
 
-    public void setScore(int score)
+    public void setScore(double score)
     {
-        float percentage = (float) score / Score.MAX_VALUE;
+        float percentage = (float) score;
         scoreRing.setPercentage(percentage);
         scoreRing.setPrecision(1.0f / 16);
         postInvalidate();
@@ -141,6 +148,23 @@ public class HabitCardView extends FrameLayout
     {
         super.setSelected(isSelected);
         updateBackground(isSelected);
+    }
+
+    public void setUnit(String unit)
+    {
+        numberPanel.setUnit(unit);
+    }
+
+    public void setValues(int values[])
+    {
+        double dvalues[] = new double[values.length];
+        for(int i = 0; i < values.length; i++)
+            dvalues[i] = (double) values[i] / 1000;
+
+        checkmarkPanel.setValues(values);
+        numberPanel.setValues(dvalues);
+        numberPanel.setThreshold(10);
+        postInvalidate();
     }
 
     public void triggerRipple(long timestamp)
@@ -191,7 +215,8 @@ public class HabitCardView extends FrameLayout
         inflate(context, R.layout.list_habits_card, this);
         ButterKnife.bind(this);
 
-        innerFrame.setOnTouchListener((v, event) -> {
+        innerFrame.setOnTouchListener((v, event) ->
+        {
             if (SDK_INT >= LOLLIPOP)
                 v.getBackground().setHotspot(event.getX(), event.getY());
             return false;
@@ -205,15 +230,12 @@ public class HabitCardView extends FrameLayout
     {
         Random rand = new Random();
         int color = ColorUtils.getAndroidTestColor(rand.nextInt(10));
-        int[] values = new int[5];
-        for (int i = 0; i < 5; i++) values[i] = rand.nextInt(3);
-
         label.setText(EDIT_MODE_HABITS[rand.nextInt(EDIT_MODE_HABITS.length)]);
         label.setTextColor(color);
         scoreRing.setColor(color);
         scoreRing.setPercentage(rand.nextFloat());
         checkmarkPanel.setColor(color);
-        checkmarkPanel.setCheckmarkValues(values);
+        numberPanel.setColor(color);
     }
 
     private void refresh()
@@ -223,6 +245,12 @@ public class HabitCardView extends FrameLayout
         label.setTextColor(color);
         scoreRing.setColor(color);
         checkmarkPanel.setColor(color);
+        numberPanel.setColor(color);
+
+        boolean isNumerical = habit.isNumerical();
+        checkmarkPanel.setVisibility(isNumerical ? GONE : VISIBLE);
+        numberPanel.setVisibility(isNumerical ? VISIBLE : GONE);
+
         postInvalidate();
     }
 
@@ -256,5 +284,9 @@ public class HabitCardView extends FrameLayout
         }
     }
 
-    public interface Controller extends CheckmarkPanelView.Controller {}
+    public interface Controller
+        extends CheckmarkPanelView.Controller, NumberPanelView.Controller
+    {
+
+    }
 }

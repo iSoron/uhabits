@@ -86,7 +86,6 @@ public class MemoryRepetitionList extends RepetitionList
                 oldestRep = rep;
                 oldestTime = rep.getTimestamp();
             }
-
         }
 
         return oldestRep;
@@ -106,7 +105,6 @@ public class MemoryRepetitionList extends RepetitionList
                 newestRep = rep;
                 newestTime = rep.getTimestamp();
             }
-
         }
 
         return newestRep;
@@ -119,7 +117,6 @@ public class MemoryRepetitionList extends RepetitionList
         observable.notifyListeners();
     }
 
-    @NonNull
     @Override
     public long getTotalCount()
     {

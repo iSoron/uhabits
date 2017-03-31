@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/title"
         style="@style/CardHeader"
-        android:text="@string/history"/>
+        android:text="@string/calendar"/>
 
     <org.isoron.uhabits.activities.common.views.HistoryChart
         android:id="@+id/historyChart"

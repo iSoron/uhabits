@@ -38,6 +38,8 @@ public class HistoryChart extends ScrollableChart
 {
     private int[] checkmarks;
 
+    private int target;
+
     private Paint pSquareBg, pSquareFg, pTextHeader;
 
     private float squareSpacing;
@@ -84,6 +86,8 @@ public class HistoryChart extends ScrollableChart
     private String previousYear;
 
     private float headerOverflow = 0;
+
+    private boolean isNumerical = false;
 
     @NonNull
     private Controller controller;
@@ -168,6 +172,11 @@ public class HistoryChart extends ScrollableChart
         this.controller = controller;
     }
 
+    public void setNumerical(boolean numerical)
+    {
+        isNumerical = numerical;
+    }
+
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
@@ -177,6 +186,12 @@ public class HistoryChart extends ScrollableChart
     public void setIsEditable(boolean isEditable)
     {
         this.isEditable = isEditable;
+    }
+
+    public void setTarget(int target)
+    {
+        this.target = target;
+        postInvalidate();
     }
 
     protected void initPaints()
@@ -323,7 +338,16 @@ public class HistoryChart extends ScrollableChart
                             int checkmarkOffset)
     {
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
-        else pSquareBg.setColor(colors[checkmarks[checkmarkOffset]]);
+        else
+        {
+            int checkmark = checkmarks[checkmarkOffset];
+            if(checkmark == 0) pSquareBg.setColor(colors[0]);
+            else if(checkmark < target)
+            {
+                pSquareBg.setColor(isNumerical ? textColor : colors[1]);
+            }
+            else pSquareBg.setColor(colors[2]);
+        }
 
         pSquareFg.setColor(reverseTextColor);
         canvas.drawRect(location, pSquareBg);
@@ -347,6 +371,7 @@ public class HistoryChart extends ScrollableChart
         isEditable = false;
         checkmarks = new int[0];
         controller = new Controller() {};
+        target = 2;
 
         initColors();
         initPaints();

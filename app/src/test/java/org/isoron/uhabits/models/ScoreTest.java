@@ -19,15 +19,17 @@
 
 package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.BaseUnitTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.isoron.uhabits.*;
+import org.junit.*;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.number.IsCloseTo.*;
+import static org.isoron.uhabits.models.Score.*;
+import static org.junit.Assert.*;
 
 public class ScoreTest extends BaseUnitTest
 {
+    private static final double E = 1e-6;
+
     @Override
     @Before
     public void setUp()
@@ -38,46 +40,30 @@ public class ScoreTest extends BaseUnitTest
     @Test
     public void test_compute_withDailyHabit()
     {
-        int checkmark = Checkmark.UNCHECKED;
-        assertThat(Score.compute(1, 0, checkmark), equalTo(0));
-        assertThat(Score.compute(1, 5000000, checkmark), equalTo(4740387));
-        assertThat(Score.compute(1, 10000000, checkmark), equalTo(9480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark),
-            equalTo(18259478));
+        int check = 1;
+        double freq = 1.0;
+        assertThat(compute(freq, 0, check), closeTo(0.051922, E));
+        assertThat(compute(freq, 0.5, check), closeTo(0.525961, E));
+        assertThat(compute(freq, 0.75, check), closeTo(0.762981, E));
 
-        checkmark = Checkmark.CHECKED_IMPLICITLY;
-        assertThat(Score.compute(1, 0, checkmark), equalTo(0));
-        assertThat(Score.compute(1, 5000000, checkmark), equalTo(4740387));
-        assertThat(Score.compute(1, 10000000, checkmark), equalTo(9480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark),
-            equalTo(18259478));
-
-        checkmark = Checkmark.CHECKED_EXPLICITLY;
-        assertThat(Score.compute(1, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1, 5000000, checkmark), equalTo(5740387));
-        assertThat(Score.compute(1, 10000000, checkmark), equalTo(10480775));
-        assertThat(Score.compute(1, Score.MAX_VALUE, checkmark),
-            equalTo(Score.MAX_VALUE));
+        check = 0;
+        assertThat(compute(freq, 0, check), closeTo(0, E));
+        assertThat(compute(freq, 0.5, check), closeTo(0.474039, E));
+        assertThat(compute(freq, 0.75, check), closeTo(0.711058, E));
     }
 
     @Test
     public void test_compute_withNonDailyHabit()
     {
-        int checkmark = Checkmark.CHECKED_EXPLICITLY;
-        assertThat(Score.compute(1 / 3.0, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1 / 3.0, 5000000, checkmark),
-            equalTo(5916180));
-        assertThat(Score.compute(1 / 3.0, 10000000, checkmark),
-            equalTo(10832360));
-        assertThat(Score.compute(1 / 3.0, Score.MAX_VALUE, checkmark),
-            equalTo(Score.MAX_VALUE));
+        int check = 1;
+        double freq = 1 / 3.0;
+        assertThat(compute(freq, 0, check), closeTo(0.017616, E));
+        assertThat(compute(freq, 0.5, check), closeTo(0.508808, E));
+        assertThat(compute(freq, 0.75, check), closeTo(0.754404, E));
 
-        assertThat(Score.compute(1 / 7.0, 0, checkmark), equalTo(1000000));
-        assertThat(Score.compute(1 / 7.0, 5000000, checkmark),
-            equalTo(5964398));
-        assertThat(Score.compute(1 / 7.0, 10000000, checkmark),
-            equalTo(10928796));
-        assertThat(Score.compute(1 / 7.0, Score.MAX_VALUE, checkmark),
-            equalTo(Score.MAX_VALUE));
+        check = 0;
+        assertThat(compute(freq, 0, check), closeTo(0.0, E));
+        assertThat(compute(freq, 0.5, check), closeTo(0.491192, E));
+        assertThat(compute(freq, 0.75, check), closeTo(0.736788, E));
     }
 }

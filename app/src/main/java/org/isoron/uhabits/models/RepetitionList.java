@@ -192,13 +192,11 @@ public abstract class RepetitionList
         if (rep != null) remove(rep);
         else
         {
-            rep = new Repetition(timestamp);
+            rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
             add(rep);
         }
 
-        habit.getScores().invalidateNewerThan(timestamp);
-        habit.getCheckmarks().invalidateNewerThan(timestamp);
-        habit.getStreaks().invalidateNewerThan(timestamp);
+        habit.invalidateNewerThan(timestamp);
         return rep;
     }
 

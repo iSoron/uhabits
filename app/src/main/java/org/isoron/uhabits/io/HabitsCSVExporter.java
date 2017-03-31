@@ -178,7 +178,7 @@ public class HabitsCSVExporter
         long newest = DateUtils.getStartOfToday();
 
         List<int[]> checkmarks = new ArrayList<>();
-        List<int[]> scores = new ArrayList<>();
+        List<double[]> scores = new ArrayList<>();
         for (Habit h : selectedHabits)
         {
             checkmarks.add(h.getCheckmarks().getValues(oldest, newest));
@@ -202,7 +202,7 @@ public class HabitsCSVExporter
                 checksWriter.write(String.valueOf(checkmarks.get(j)[i]));
                 checksWriter.write(DELIMITER);
                 String score =
-                        String.format("%.4f", ((float) scores.get(j)[i]) / Score.MAX_VALUE);
+                        String.format("%.4f", ((float) scores.get(j)[i]));
                 scoresWriter.write(score);
                 scoresWriter.write(DELIMITER);
             }

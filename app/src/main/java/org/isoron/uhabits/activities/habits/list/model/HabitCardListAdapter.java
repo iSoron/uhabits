@@ -171,7 +171,7 @@ public class HabitCardListAdapter
         if (listView == null) return;
 
         Habit habit = cache.getHabitByPosition(position);
-        int score = cache.getScore(habit.getId());
+        double score = cache.getScore(habit.getId());
         int checkmarks[] = cache.getCheckmarks(habit.getId());
         boolean selected = this.selected.contains(habit);
 

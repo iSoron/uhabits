@@ -83,8 +83,7 @@ public class ListHabitsController
                                 @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
                                 @NonNull WidgetUpdater widgetUpdater,
-                                @NonNull
-                                ImportDataTaskFactory importTaskFactory,
+                                @NonNull ImportDataTaskFactory importTaskFactory,
                                 @NonNull ExportCSVTaskFactory exportCSVFactory,
                                 @NonNull ExportDBTaskFactory exportDBFactory)
     {
@@ -155,6 +154,26 @@ public class ListHabitsController
 
             finishedListener.onFinish();
         }));
+    }
+
+    @Override
+    public void onInvalidEdit()
+    {
+        screen.showMessage(R.string.long_press_to_edit);
+    }
+
+    @Override
+    public void onEdit(@NonNull Habit habit, long timestamp)
+    {
+        CheckmarkList checkmarks = habit.getCheckmarks();
+        double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+
+        screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue -> {
+            newValue = Math.round(newValue * 1000);
+            commandRunner.execute(
+                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
+                habit.getId());
+        });
     }
 
 

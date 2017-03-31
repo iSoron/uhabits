@@ -31,18 +31,23 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
+import java.util.*;
+
 import static android.view.View.MeasureSpec.*;
+import static org.isoron.uhabits.utils.AttributeSetUtils.*;
+import static org.isoron.uhabits.utils.ColorUtils.*;
 
-public class CheckmarkPanelView extends LinearLayout implements Preferences.Listener
+public class CheckmarkPanelView extends LinearLayout
+    implements Preferences.Listener
 {
-    private static final int CHECKMARK_LEFT_TO_RIGHT = 0;
+    private static final int LEFT_TO_RIGHT = 0;
 
-    private static final int CHECKMARK_RIGHT_TO_LEFT = 1;
+    private static final int RIGHT_TO_LEFT = 1;
 
     @Nullable
     private Preferences prefs;
 
-    private int checkmarkValues[];
+    private int values[];
 
     private int nButtons;
 
@@ -61,61 +66,89 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
         init();
     }
 
-    public CheckmarkPanelView(Context context, AttributeSet attrs)
+    public CheckmarkPanelView(Context ctx, AttributeSet attrs)
     {
-        super(context, attrs);
+        super(ctx, attrs);
         init();
+
+        if (ctx != null && attrs != null)
+        {
+            int paletteColor = getIntAttribute(ctx, attrs, "color", 0);
+            setColor(getAndroidTestColor(paletteColor));
+            setButtonCount(getIntAttribute(ctx, attrs, "button_count", 5));
+        }
+
+        if (isInEditMode()) initEditMode();
     }
 
     public CheckmarkButtonView indexToButton(int i)
     {
         int position = i;
 
-        if (getCheckmarkOrder() == CHECKMARK_RIGHT_TO_LEFT)
-            position = nButtons - i - 1;
+        if (getCheckmarkOrder() == RIGHT_TO_LEFT) position = nButtons - i - 1;
 
         return (CheckmarkButtonView) getChildAt(position);
     }
 
-    public void setButtonCount(int newButtonCount)
+    @Override
+    public void onCheckmarkOrderChanged()
     {
-        if(nButtons != newButtonCount)
-        {
-            nButtons = newButtonCount;
-            addCheckmarkButtons();
-        }
-
-        setupCheckmarkButtons();
+        setupButtons();
     }
 
-    public void setCheckmarkValues(int[] checkmarkValues)
+    public void setButtonCount(int newButtonCount)
     {
-        this.checkmarkValues = checkmarkValues;
-        setupCheckmarkButtons();
+        if (nButtons != newButtonCount)
+        {
+            nButtons = newButtonCount;
+            addButtons();
+        }
+
+        setupButtons();
     }
 
     public void setColor(int color)
     {
         this.color = color;
-        setupCheckmarkButtons();
+        setupButtons();
     }
 
     public void setController(Controller controller)
     {
         this.controller = controller;
-        setupCheckmarkButtons();
+        setupButtons();
     }
 
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
-        setupCheckmarkButtons();
+        setupButtons();
     }
 
     public void setHabit(@NonNull Habit habit)
     {
         this.habit = habit;
-        setupCheckmarkButtons();
+        setupButtons();
+    }
+
+    public void setValues(int[] values)
+    {
+        this.values = values;
+        setupButtons();
+    }
+
+    @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        if (prefs != null) prefs.addListener(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow()
+    {
+        if (prefs != null) prefs.removeListener(this);
+        super.onDetachedFromWindow();
     }
 
     @Override
@@ -133,7 +166,7 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
         super.onMeasure(widthSpec, heightSpec);
     }
 
-    private void addCheckmarkButtons()
+    private void addButtons()
     {
         removeAllViews();
 
@@ -143,21 +176,31 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
 
     private int getCheckmarkOrder()
     {
-        if (prefs == null) return CHECKMARK_LEFT_TO_RIGHT;
-        return prefs.shouldReverseCheckmarks() ? CHECKMARK_RIGHT_TO_LEFT :
-            CHECKMARK_LEFT_TO_RIGHT;
+        if (prefs == null) return LEFT_TO_RIGHT;
+        return prefs.shouldReverseCheckmarks() ? RIGHT_TO_LEFT : LEFT_TO_RIGHT;
     }
 
     private void init()
     {
         Context appContext = getContext().getApplicationContext();
-        if(appContext instanceof HabitsApplication)
+        if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
             prefs = app.getComponent().getPreferences();
         }
 
         setWillNotDraw(false);
+        values = new int[0];
+    }
+
+    private void initEditMode()
+    {
+        int values[] = new int[nButtons];
+
+        for (int i = 0; i < nButtons; i++)
+            values[i] = Math.min(2, new Random().nextInt(4));
+
+        setValues(values);
     }
 
     private void setupButtonControllers(long timestamp,
@@ -178,7 +221,7 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
         buttonView.setController(buttonController);
     }
 
-    private void setupCheckmarkButtons()
+    private void setupButtons()
     {
         long timestamp = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
@@ -187,32 +230,12 @@ public class CheckmarkPanelView extends LinearLayout implements Preferences.List
         for (int i = 0; i < nButtons; i++)
         {
             CheckmarkButtonView buttonView = indexToButton(i);
-            if(i + dataOffset >= checkmarkValues.length) break;
-            buttonView.setValue(checkmarkValues[i + dataOffset]);
+            if (i + dataOffset >= values.length) break;
+            buttonView.setValue(values[i + dataOffset]);
             buttonView.setColor(color);
             setupButtonControllers(timestamp, buttonView);
             timestamp -= day;
         }
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
-        if(prefs != null) prefs.addListener(this);
-    }
-
-    @Override
-    protected void onDetachedFromWindow()
-    {
-        if(prefs != null) prefs.removeListener(this);
-        super.onDetachedFromWindow();
-    }
-
-    @Override
-    public void onCheckmarkOrderChanged()
-    {
-        setupCheckmarkButtons();
     }
 
     public interface Controller extends CheckmarkButtonController.Listener

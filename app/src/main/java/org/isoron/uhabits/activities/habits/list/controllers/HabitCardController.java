@@ -21,8 +21,8 @@ package org.isoron.uhabits.activities.habits.list.controllers;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.models.Habit;
-import org.isoron.uhabits.activities.habits.list.views.HabitCardView;
+import org.isoron.uhabits.activities.habits.list.views.*;
+import org.isoron.uhabits.models.*;
 
 public class HabitCardController implements HabitCardView.Controller
 {
@@ -31,6 +31,18 @@ public class HabitCardController implements HabitCardView.Controller
 
     @Nullable
     private Listener listener;
+
+    @Override
+    public void onEdit(@NonNull Habit habit, long timestamp)
+    {
+        if(listener != null) listener.onEdit(habit, timestamp);
+    }
+
+    @Override
+    public void onInvalidEdit()
+    {
+        if(listener != null) listener.onInvalidEdit();
+    }
 
     @Override
     public void onInvalidToggle()
@@ -55,7 +67,9 @@ public class HabitCardController implements HabitCardView.Controller
         this.view = view;
     }
 
-    public interface Listener extends CheckmarkButtonController.Listener
+    public interface Listener extends CheckmarkButtonController.Listener,
+                                      NumberButtonController.Listener
     {
+
     }
 }

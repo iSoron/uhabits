@@ -42,6 +42,8 @@ public class EditHabitCommand extends Command
 
     private boolean hasFrequencyChanged;
 
+    private final boolean hasTargetChanged;
+
     public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
                             @NonNull HabitList habitList,
                             @NonNull Habit original,
@@ -58,6 +60,9 @@ public class EditHabitCommand extends Command
         Frequency originalFreq = this.original.getFrequency();
         Frequency modifiedFreq = this.modified.getFrequency();
         hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
+        hasTargetChanged =
+            (original.getTargetType() != modified.getTargetType() ||
+             original.getTargetValue() != modified.getTargetValue());
     }
 
     @Override
@@ -97,11 +102,7 @@ public class EditHabitCommand extends Command
 
     private void invalidateIfNeeded(Habit habit)
     {
-        if (hasFrequencyChanged)
-        {
-            habit.getCheckmarks().invalidateNewerThan(0);
-            habit.getStreaks().invalidateNewerThan(0);
-            habit.getScores().invalidateNewerThan(0);
-        }
+        if (hasFrequencyChanged || hasTargetChanged)
+            habit.invalidateNewerThan(0);
     }
 }

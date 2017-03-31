@@ -55,6 +55,11 @@
         <item>@string/custom_frequency</item>
     </string-array>
 
+    <string-array name="habitTypes" translatable="false">
+        <item>Yes or No</item>
+        <item>Number</item>
+    </string-array>
+
     <string-array name="actions" translatable="false">
         <item>@string/check</item>
         <item>@string/uncheck</item>
@@ -77,5 +82,17 @@
         <item>365</item>
     </string-array>
 
+    <string-array name="targetValues" translatable="false">
+        <item>At least</item>
+        <item>At most</item>
+    </string-array>
+
+    <string-array name="targetIntervals" translatable="false">
+        <item>daily</item>
+        <item>weekly</item>
+        <item>montly</item>
+    </string-array>
+
     <string name="snooze_interval_default" translatable="false">15</string>
+    <string name="default_count" translatable="false">100</string>
 </resources>

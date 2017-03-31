@@ -59,7 +59,7 @@ public class CheckmarkPanelViewTest extends BaseViewTest
 
         view = new CheckmarkPanelView(targetContext);
         view.setHabit(habit);
-        view.setCheckmarkValues(checkmarks);
+        view.setValues(checkmarks);
         view.setButtonCount(4);
         view.setColor(ColorUtils.getAndroidTestColor(7));
 

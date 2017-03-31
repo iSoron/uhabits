@@ -126,6 +126,11 @@ public class HistoryCard extends HabitCard
             int color = ColorUtils.getColor(getContext(), habit.getColor());
             title.setTextColor(color);
             chart.setColor(color);
+            if(habit.isNumerical())
+            {
+                chart.setTarget((int) (habit.getTargetValue() * 1000));
+                chart.setNumerical(true);
+            }
         }
     }
 }

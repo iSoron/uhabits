@@ -27,6 +27,9 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import static org.isoron.uhabits.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.isoron.uhabits.models.Checkmark.CHECKED_IMPLICITLY;
+
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
  */
@@ -239,7 +242,7 @@ public abstract class CheckmarkList
         for (Repetition rep : reps)
         {
             int offset = (int) ((rep.getTimestamp() - fromExtended) / day);
-            checks[nDaysExtended - offset - 1] = Checkmark.CHECKED_EXPLICITLY;
+            checks[nDaysExtended - offset - 1] = rep.getValue();
         }
 
         for (int i = 0; i < nDays; i++)
@@ -247,11 +250,11 @@ public abstract class CheckmarkList
             int counter = 0;
 
             for (int j = 0; j < freq.getDenominator(); j++)
-                if (checks[i + j] == 2) counter++;
+                if (checks[i + j] == CHECKED_EXPLICITLY) counter++;
 
             if (counter >= freq.getNumerator())
-                if (checks[i] != Checkmark.CHECKED_EXPLICITLY)
-                    checks[i] = Checkmark.CHECKED_IMPLICITLY;
+                if (checks[i] != CHECKED_EXPLICITLY)
+                    checks[i] = CHECKED_IMPLICITLY;
         }
 
         List<Checkmark> checkmarks = new LinkedList<>();

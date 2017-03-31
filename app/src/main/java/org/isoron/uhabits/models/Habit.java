@@ -28,13 +28,23 @@ import java.util.*;
 
 import javax.inject.*;
 
+import static org.isoron.uhabits.models.Checkmark.*;
+
 /**
  * The thing that the user wants to track.
  */
 public class Habit
 {
+    public static final int AT_LEAST = 0;
+
+    public static final int AT_MOST = 1;
+
     public static final String HABIT_URI_FORMAT =
         "content://org.isoron.uhabits/habit/%d";
+
+    public static final int NUMBER_HABIT = 1;
+
+    public static final int YES_NO_HABIT = 0;
 
     @Nullable
     private Long id;
@@ -48,10 +58,8 @@ public class Habit
     @NonNull
     private Frequency frequency;
 
-    @NonNull
-    private Integer color;
+    private int color;
 
-    @NonNull
     private boolean archived;
 
     @NonNull
@@ -60,11 +68,20 @@ public class Habit
     @NonNull
     private ScoreList scores;
 
+    private int targetType;
+
+    private double targetValue;
+
+    private int type;
+
     @NonNull
     private RepetitionList repetitions;
 
     @NonNull
     private CheckmarkList checkmarks;
+
+    @NonNull
+    private String unit;
 
     @Nullable
     private Reminder reminder;
@@ -83,6 +100,12 @@ public class Habit
         this.color = 5;
         this.archived = false;
         this.frequency = new Frequency(3, 7);
+        this.type = YES_NO_HABIT;
+        this.name = "";
+        this.description = "";
+        this.targetType = AT_LEAST;
+        this.targetValue = 100;
+        this.unit = "";
 
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
@@ -112,6 +135,10 @@ public class Habit
         this.archived = model.isArchived();
         this.frequency = model.frequency;
         this.reminder = model.reminder;
+        this.type = model.type;
+        this.targetValue = model.targetValue;
+        this.targetType = model.targetType;
+        this.unit = model.unit;
         observable.notifyListeners();
     }
 
@@ -136,6 +163,13 @@ public class Habit
     public Integer getColor()
     {
         return color;
+    }
+
+    public boolean isCompletedToday()
+    {
+        int todayCheckmark = getCheckmarks().getTodayValue();
+        if (isNumerical()) return todayCheckmark >= targetValue;
+        else return (todayCheckmark != UNCHECKED);
     }
 
     public void setColor(@NonNull Integer color)
@@ -232,6 +266,53 @@ public class Habit
         return streaks;
     }
 
+    public int getTargetType()
+    {
+        return targetType;
+    }
+
+    public void setTargetType(int targetType)
+    {
+        if (targetType != AT_LEAST && targetType != AT_MOST)
+            throw new IllegalArgumentException();
+        this.targetType = targetType;
+    }
+
+    public double getTargetValue()
+    {
+        return targetValue;
+    }
+
+    public void setTargetValue(double targetValue)
+    {
+        if(targetValue < 0) throw new IllegalArgumentException();
+        this.targetValue = targetValue;
+    }
+
+    public int getType()
+    {
+        return type;
+    }
+
+    public void setType(int type)
+    {
+        if (type != YES_NO_HABIT && type != NUMBER_HABIT)
+            throw new IllegalArgumentException();
+
+        this.type = type;
+    }
+
+    @NonNull
+    public String getUnit()
+    {
+        return unit;
+    }
+
+    public void setUnit(@NonNull String unit)
+    {
+        this.unit = unit;
+    }
+
     /**
      * Returns the public URI that identifies this habit
      *
@@ -253,6 +334,13 @@ public class Habit
         return reminder != null;
     }
 
+    public void invalidateNewerThan(long timestamp)
+    {
+        getScores().invalidateNewerThan(timestamp);
+        getCheckmarks().invalidateNewerThan(timestamp);
+        getStreaks().invalidateNewerThan(timestamp);
+    }
+
     public boolean isArchived()
     {
         return archived;
@@ -261,6 +349,11 @@ public class Habit
     public void setArchived(boolean archived)
     {
         this.archived = archived;
+    }
+
+    public boolean isNumerical()
+    {
+        return type == NUMBER_HABIT;
     }
 
     @Override
@@ -272,6 +365,10 @@ public class Habit
             .append("description", description)
             .append("color", color)
             .append("archived", archived)
+            .append("type", type)
+            .append("targetType", targetType)
+            .append("targetValue", targetValue)
+            .append("unit", unit)
             .toString();
     }
 }

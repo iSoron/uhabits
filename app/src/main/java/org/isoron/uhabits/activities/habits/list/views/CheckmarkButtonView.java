@@ -20,6 +20,8 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
+import android.support.annotation.*;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 
@@ -27,6 +29,9 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
+
+import static org.isoron.uhabits.utils.AttributeSetUtils.*;
+import static org.isoron.uhabits.utils.ColorUtils.*;
 
 public class CheckmarkButtonView extends TextView
 {
@@ -36,16 +41,31 @@ public class CheckmarkButtonView extends TextView
 
     private StyledResources res;
 
-    public CheckmarkButtonView(Context context)
+    public CheckmarkButtonView(@Nullable Context context)
     {
         super(context);
         init();
     }
 
+    public CheckmarkButtonView(@Nullable Context context,
+                               @Nullable AttributeSet attrs)
+    {
+        super(context, attrs);
+        init();
+
+        if (context != null && attrs != null)
+        {
+            int color = getIntAttribute(context, attrs, "color", 0);
+            int value = getIntAttribute(context, attrs, "value", 0);
+            setColor(getAndroidTestColor(color));
+            setValue(value);
+        }
+    }
+
     public void setColor(int color)
     {
         this.color = color;
-        postInvalidate();
+        updateText();
     }
 
     public void setController(final CheckmarkButtonController controller)

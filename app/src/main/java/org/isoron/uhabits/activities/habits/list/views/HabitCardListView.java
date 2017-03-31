@@ -84,17 +84,19 @@ public class HabitCardListView extends RecyclerView
      */
     public View bindCardView(@NonNull HabitCardViewHolder holder,
                              @NonNull Habit habit,
-                             int score,
+                             double score,
                              int[] checkmarks,
                              boolean selected)
     {
         HabitCardView cardView = (HabitCardView) holder.itemView;
         cardView.setHabit(habit);
         cardView.setSelected(selected);
-        cardView.setCheckmarkValues(checkmarks);
-        cardView.setCheckmarkCount(checkmarkCount);
+        cardView.setValues(checkmarks);
+        cardView.setButtonCount(checkmarkCount);
         cardView.setDataOffset(dataOffset);
         cardView.setScore(score);
+        cardView.setUnit(habit.getUnit());
+        cardView.setThreshold(habit.getTargetValue());
         if (controller != null) setupCardViewController(holder);
         return cardView;
     }

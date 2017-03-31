@@ -67,7 +67,7 @@ public abstract class ScoreList implements Iterable<Score>
      *
      * @return value of today's score
      */
-    public int getTodayValue()
+    public double getTodayValue()
     {
         return getValue(DateUtils.getStartOfToday());
     }
@@ -81,7 +81,7 @@ public abstract class ScoreList implements Iterable<Score>
      * @param timestamp the timestamp of a day
      * @return score value for that day
      */
-    public final int getValue(long timestamp)
+    public final double getValue(long timestamp)
     {
         compute(timestamp, timestamp);
         Score s = getComputedByTimestamp(timestamp);
@@ -118,10 +118,10 @@ public abstract class ScoreList implements Iterable<Score>
      * @param to   timestamp for the newest score
      * @return values for the scores inside the given interval
      */
-    public final int[] getValues(long from, long to)
+    public final double[] getValues(long from, long to)
     {
         List<Score> scores = getByInterval(from, to);
-        int[] values = new int[scores.size()];
+        double[] values = new double[scores.size()];
 
         for(int i = 0; i < values.length; i++)
             values[i] = scores.get(i).getValue();
@@ -132,7 +132,7 @@ public abstract class ScoreList implements Iterable<Score>
     public List<Score> groupBy(DateUtils.TruncateField field)
     {
         computeAll();
-        HashMap<Long, ArrayList<Long>> groups = getGroupedValues(field);
+        HashMap<Long, ArrayList<Double>> groups = getGroupedValues(field);
         List<Score> scores = groupsToAvgScores(groups);
         Collections.sort(scores, (s1, s2) -> s2.compareNewer(s1));
         return scores;
@@ -173,7 +173,7 @@ public abstract class ScoreList implements Iterable<Score>
         {
             String timestamp = dateFormat.format(s.getTimestamp());
             String score =
-                String.format("%.4f", ((float) s.getValue()) / Score.MAX_VALUE);
+                String.format("%.4f", s.getValue());
             out.write(String.format("%s,%s\n", timestamp, score));
         }
     }
@@ -263,7 +263,7 @@ public abstract class ScoreList implements Iterable<Score>
      * @param previousValue value of the score on the day immediately before the
      *                      interval begins
      */
-    private void forceRecompute(long from, long to, int previousValue)
+    private void forceRecompute(long from, long to, double previousValue)
     {
         if(from > to) return;
 
@@ -276,7 +276,18 @@ public abstract class ScoreList implements Iterable<Score>
 
         for (int i = 0; i < checkmarkValues.length; i++)
         {
-            int value = checkmarkValues[checkmarkValues.length - i - 1];
+            double value = checkmarkValues[checkmarkValues.length - i - 1];
+
+            if(habit.isNumerical())
+            {
+                value /= 1000;
+                value /= habit.getTargetValue();
+                value = Math.min(1, value);
+            }
+
+            if(!habit.isNumerical() && value > 0)
+                value = 1;
+
             previousValue = Score.compute(freq, previousValue, value);
             scores.add(new Score(from + day * i, previousValue));
         }
@@ -285,9 +296,9 @@ public abstract class ScoreList implements Iterable<Score>
     }
 
     @NonNull
-    private HashMap<Long, ArrayList<Long>> getGroupedValues(DateUtils.TruncateField field)
+    private HashMap<Long, ArrayList<Double>> getGroupedValues(DateUtils.TruncateField field)
     {
-        HashMap<Long, ArrayList<Long>> groups = new HashMap<>();
+        HashMap<Long, ArrayList<Double>> groups = new HashMap<>();
 
         for (Score s : this)
         {
@@ -296,26 +307,26 @@ public abstract class ScoreList implements Iterable<Score>
             if (!groups.containsKey(groupTimestamp))
                 groups.put(groupTimestamp, new ArrayList<>());
 
-            groups.get(groupTimestamp).add((long) s.getValue());
+            groups.get(groupTimestamp).add(s.getValue());
         }
 
         return groups;
     }
 
     @NonNull
-    private List<Score> groupsToAvgScores(HashMap<Long, ArrayList<Long>> groups)
+    private List<Score> groupsToAvgScores(HashMap<Long, ArrayList<Double>> groups)
     {
         List<Score> scores = new LinkedList<>();
 
         for (Long timestamp : groups.keySet())
         {
-            long meanValue = 0L;
-            ArrayList<Long> groupValues = groups.get(timestamp);
+            double meanValue = 0.0;
+            ArrayList<Double> groupValues = groups.get(timestamp);
 
-            for (Long v : groupValues) meanValue += v;
+            for (Double v : groupValues) meanValue += v;
             meanValue /= groupValues.size();
 
-            scores.add(new Score(timestamp, (int) meanValue));
+            scores.add(new Score(timestamp, meanValue));
         }
 
         return scores;

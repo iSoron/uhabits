@@ -72,7 +72,7 @@ public class SQLiteScoreList extends ScoreList
             {
                 statement.bindLong(1, habit.getId());
                 statement.bindLong(2, s.getTimestamp());
-                statement.bindLong(3, s.getValue());
+                statement.bindDouble(3, s.getValue());
                 statement.execute();
             }
 

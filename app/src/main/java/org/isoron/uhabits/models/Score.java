@@ -21,28 +21,25 @@ package org.isoron.uhabits.models;
 
 import org.apache.commons.lang3.builder.*;
 
+import static java.lang.Math.*;
+
 /**
  * Represents how strong a habit is at a certain date.
  */
 public final class Score
 {
     /**
-     * Maximum score value attainable by any habit.
-     */
-    public static final int MAX_VALUE = 19259478;
-
-    /**
      * Timestamp of the day to which this score applies. Time of day should be
      * midnight (UTC).
      */
-    private final Long timestamp;
+    private final long timestamp;
 
     /**
      * Value of the score.
      */
-    private final Integer value;
+    private final double value;
 
-    public Score(Long timestamp, Integer value)
+    public Score(long timestamp, double value)
     {
         this.timestamp = timestamp;
         this.value = value;
@@ -55,27 +52,20 @@ public final class Score
      * The frequency of the habit is the number of repetitions divided by the
      * length of the interval. For example, a habit that should be repeated 3
      * times in 8 days has frequency 3.0 / 8.0 = 0.375.
-     * <p>
-     * The checkmarkValue should be UNCHECKED, CHECKED_IMPLICITLY or
-     * CHECK_EXPLICITLY.
      *
      * @param frequency      the frequency of the habit
      * @param previousScore  the previous score of the habit
      * @param checkmarkValue the value of the current checkmark
      * @return the current score
      */
-    public static int compute(double frequency,
-                              int previousScore,
-                              int checkmarkValue)
+    public static double compute(double frequency,
+                                 double previousScore,
+                                 double checkmarkValue)
     {
-        double multiplier = Math.pow(0.5, 1.0 / (14.0 / frequency - 1));
-        int score = (int) (previousScore * multiplier);
+        double multiplier = pow(0.5, frequency / 13.0);
 
-        if (checkmarkValue == Checkmark.CHECKED_EXPLICITLY)
-        {
-            score += 1000000;
-            score = Math.min(score, Score.MAX_VALUE);
-        }
+        double score = previousScore * multiplier;
+        score += checkmarkValue * (1 - multiplier);
 
         return score;
     }
@@ -85,12 +75,12 @@ public final class Score
         return Long.signum(this.getTimestamp() - other.getTimestamp());
     }
 
-    public Long getTimestamp()
+    public long getTimestamp()
     {
         return timestamp;
     }
 
-    public Integer getValue()
+    public double getValue()
     {
         return value;
     }

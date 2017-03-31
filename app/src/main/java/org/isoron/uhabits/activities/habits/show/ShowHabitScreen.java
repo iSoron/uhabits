@@ -44,7 +44,8 @@ public class ShowHabitScreen extends BaseScreen
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
                            @NonNull ShowHabitRootView view,
-                           @NonNull EditHabitDialogFactory editHabitDialogFactory)
+                           @NonNull
+                               EditHabitDialogFactory editHabitDialogFactory)
     {
         super(activity);
         setRootView(view);
@@ -71,8 +72,9 @@ public class ShowHabitScreen extends BaseScreen
 
     public void showEditHabitDialog()
     {
-        EditHabitDialog dialog = editHabitDialogFactory.create(habit);
-        activity.showDialog(dialog, "editHabit");
+        activity.showDialog(
+            editHabitDialogFactory.edit(habit),
+            "editHabit");
     }
 
     public void showEditHistoryDialog()

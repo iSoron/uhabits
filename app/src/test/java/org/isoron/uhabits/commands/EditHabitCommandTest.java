@@ -58,7 +58,7 @@ public class EditHabitCommandTest extends BaseUnitTest
         command =
             new EditHabitCommand(modelFactory, habitList, habit, modified);
 
-        int originalScore = habit.getScores().getTodayValue();
+        double originalScore = habit.getScores().getTodayValue();
         assertThat(habit.getName(), equalTo("original"));
 
         command.execute();
@@ -81,13 +81,13 @@ public class EditHabitCommandTest extends BaseUnitTest
         command =
             new EditHabitCommand(modelFactory, habitList, habit, modified);
 
-        int originalScore = habit.getScores().getTodayValue();
+        double originalScore = habit.getScores().getTodayValue();
         assertThat(habit.getName(), equalTo("original"));
 
         command.execute();
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(),
-            greaterThan(originalScore));
+            lessThan(originalScore));
 
         command.undo();
         assertThat(habit.getName(), equalTo("original"));
@@ -96,6 +96,6 @@ public class EditHabitCommandTest extends BaseUnitTest
         command.execute();
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(),
-            greaterThan(originalScore));
+            lessThan(originalScore));
     }
 }

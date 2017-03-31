@@ -32,19 +32,21 @@ import dagger.*;
            dependencies = { AppComponent.class })
 public interface ListHabitsComponent
 {
-    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
-
     HabitCardListAdapter getAdapter();
+
+    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
 
     ListHabitsController getController();
 
     ListHabitsMenu getMenu();
+
+    MidnightTimer getMidnightTimer();
+
+    NumberButtonControllerFactory getNumberButtonControllerFactory();
 
     ListHabitsRootView getRootView();
 
     ListHabitsScreen getScreen();
 
     ListHabitsSelectionMenu getSelectionMenu();
-
-    MidnightTimer getMidnightTimer();
 }
