@@ -84,7 +84,7 @@ contribute, even if you are not a software developer.
 
 * **Translate the app into your own language.** If you are not a native English
   speaker, and would like to see the app translated into your own language,
-  please join our [open translation project at POEditor][poedit]. If the translation
+  please join our [open translation project][poedit]. If the translation
   is already completed, you are also very welcome to join and proofread it.
 
 * **Write some code.** If you are an Android developer, you are very welcome to
@@ -121,7 +121,7 @@ contribute, even if you are not a software developer.
 [screen4th]: screenshots/thumbs/uhabits4.png
 [screen5th]: screenshots/thumbs/uhabits5.png
 [screen6th]: screenshots/thumbs/uhabits6.png
-[poedit]: https://poeditor.com/join/project/8DWX5pfjS0
+[poedit]: http://translate.loophabits.org
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
