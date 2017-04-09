@@ -88,6 +88,11 @@
                     android:text="@string/pref_send_feedback"/>
 
                 <TextView
+                    android:id="@+id/tvTranslate"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/help_translate"/>
+
+                <TextView
                     android:id="@+id/tvSource"
                     style="@style/About.Item.Clickable"
                     android:text="@string/pref_view_source_code"/>

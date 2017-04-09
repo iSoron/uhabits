@@ -24,17 +24,8 @@ import android.content.res.*;
 import android.graphics.*;
 import android.util.*;
 
-import java.util.*;
-
 public abstract class InterfaceUtils
 {
-
-    // TODO: Move this to another place, or detect automatically
-    private static String fullyTranslatedLanguages[] = {
-        "ca", "zh", "en", "de", "in", "it", "ko", "pl", "pt", "es", "tk", "uk",
-        "ja", "fr", "hr", "sl"
-    };
-
     private static Typeface fontAwesome;
 
     public static Typeface getFontAwesome(Context context)
@@ -58,15 +49,4 @@ public abstract class InterfaceUtils
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
     }
-
-    public static boolean isLocaleFullyTranslated()
-    {
-        final String currentLanguage = Locale.getDefault().getLanguage();
-
-        for(String lang : fullyTranslatedLanguages)
-            if(currentLanguage.equals(lang)) return true;
-
-        return false;
-    }
-
 }
