@@ -27,6 +27,8 @@ import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -41,7 +43,7 @@ import javax.inject.*;
 @ActivityScope
 public class HabitCardListAdapter
     extends RecyclerView.Adapter<HabitCardViewHolder>
-    implements HabitCardListCache.Listener
+    implements HabitCardListCache.Listener, MidnightTimer.MidnightListener
 {
     @NonNull
     private ModelObservable observable;
@@ -55,17 +57,34 @@ public class HabitCardListAdapter
     @NonNull
     private final HabitCardListCache cache;
 
+    @NonNull
+    private Preferences preferences;
+
+    private final MidnightTimer midnightTimer;
+
     @Inject
-    public HabitCardListAdapter(@NonNull HabitCardListCache cache)
+    public HabitCardListAdapter(@NonNull HabitCardListCache cache,
+                                @NonNull Preferences preferences,
+                                @NonNull MidnightTimer midnightTimer)
     {
+        this.preferences = preferences;
         this.selected = new LinkedList<>();
         this.observable = new ModelObservable();
         this.cache = cache;
 
+        this.midnightTimer = midnightTimer;
+
         cache.setListener(this);
         cache.setCheckmarkCount(ListHabitsRootView.MAX_CHECKMARK_COUNT);
+        cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);
+    }
+
+    @Override
+    public void atMidnight()
+    {
+        cache.refreshAllHabits();
     }
 
     public void cancelRefresh()
@@ -130,12 +149,18 @@ public class HabitCardListAdapter
         return selected.isEmpty();
     }
 
+    public boolean isSortable()
+    {
+        return cache.getOrder() == HabitList.Order.BY_POSITION;
+    }
+
     /**
      * Notify the adapter that it has been attached to a ListView.
      */
     public void onAttached()
     {
         cache.onAttached();
+        midnightTimer.addListener(this);
     }
 
     @Override
@@ -154,6 +179,20 @@ public class HabitCardListAdapter
     }
 
     @Override
+    public void onViewAttachedToWindow(@Nullable HabitCardViewHolder holder)
+    {
+        if (listView == null) return;
+        listView.attachCardView(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@Nullable HabitCardViewHolder holder)
+    {
+        if (listView == null) return;
+        listView.detachCardView(holder);
+    }
+
+    @Override
     public HabitCardViewHolder onCreateViewHolder(ViewGroup parent,
                                                   int viewType)
     {
@@ -168,6 +207,7 @@ public class HabitCardListAdapter
     public void onDetached()
     {
         cache.onDetached();
+        midnightTimer.removeListener(this);
     }
 
     @Override
@@ -258,6 +298,12 @@ public class HabitCardListAdapter
     public void setListView(@Nullable HabitCardListView listView)
     {
         this.listView = listView;
+    }
+
+    public void setOrder(HabitList.Order order)
+    {
+        cache.setOrder(order);
+        preferences.setDefaultOrder(order);
     }
 
     /**

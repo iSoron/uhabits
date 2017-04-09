@@ -61,9 +61,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("bugReport", ListHabitsScreen.RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
-
-        if (InterfaceUtils.isLocaleFullyTranslated())
-            removePreference("translate", "linksCategory");
     }
 
     @Override
@@ -108,14 +105,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
                                           String key)
     {
         BackupManager.dataChanged("org.isoron.uhabits");
-    }
-
-    private void removePreference(String preferenceKey, String categoryKey)
-    {
-        PreferenceCategory cat =
-            (PreferenceCategory) findPreference(categoryKey);
-        Preference pref = findPreference(preferenceKey);
-        cat.removePreference(pref);
     }
 
     private void setResultOnPreferenceClick(String key, final int result)

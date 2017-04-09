@@ -25,7 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.*;
 
 import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.utils.*;
@@ -91,6 +91,13 @@ public class AboutRootView extends BaseRootView
     public void onClickFeedback()
     {
         Intent intent = intents.sendFeedback(getContext());
+        getContext().startActivity(intent);
+    }
+
+    @OnClick(R.id.tvTranslate)
+    public void onClickTranslate()
+    {
+        Intent intent = intents.helpTranslate(getContext());
         getContext().startActivity(intent);
     }
 

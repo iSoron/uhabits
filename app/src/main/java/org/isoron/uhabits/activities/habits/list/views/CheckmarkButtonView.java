@@ -74,7 +74,6 @@ public class CheckmarkButtonView extends TextView
         res = new StyledResources(getContext());
 
         setWillNotDraw(false);
-        setHapticFeedbackEnabled(false);
 
         setMinHeight(
             getResources().getDimensionPixelSize(R.dimen.checkmarkHeight));

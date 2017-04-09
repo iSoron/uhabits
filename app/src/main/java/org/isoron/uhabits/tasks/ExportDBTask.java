@@ -19,22 +19,33 @@
 
 package org.isoron.uhabits.tasks;
 
+import android.content.Context;
 import android.support.annotation.*;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
+
+import org.isoron.uhabits.AppContext;
+import org.isoron.uhabits.activities.ActivityContext;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
+@AutoFactory(allowSubclasses = true)
 public class ExportDBTask implements Task
 {
     private String filename;
 
     @NonNull
+    private Context context;
+
+    @NonNull
     private final Listener listener;
 
-    public ExportDBTask(@NonNull Listener listener)
+    public ExportDBTask(@Provided @AppContext @NonNull Context context, @NonNull Listener listener)
     {
         this.listener = listener;
+        this.context = context;
     }
 
     @Override
@@ -44,10 +55,10 @@ public class ExportDBTask implements Task
 
         try
         {
-            File dir = FileUtils.getFilesDir("Backups");
+            File dir = FileUtils.getFilesDir(context, "Backups");
             if (dir == null) return;
 
-            filename = DatabaseUtils.saveDatabaseCopy(dir);
+            filename = DatabaseUtils.saveDatabaseCopy(context, dir);
         }
         catch (IOException e)
         {

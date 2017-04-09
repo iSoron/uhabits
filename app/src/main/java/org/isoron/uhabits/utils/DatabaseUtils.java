@@ -47,9 +47,8 @@ public abstract class DatabaseUtils
     }
 
     @NonNull
-    public static File getDatabaseFile()
+    public static File getDatabaseFile(Context context)
     {
-        Context context = HabitsApplication.getContext();
         String databaseFilename = getDatabaseFilename();
         String root = context.getFilesDir().getPath();
 
@@ -68,9 +67,8 @@ public abstract class DatabaseUtils
     }
 
     @SuppressWarnings("unchecked")
-    public static void initializeActiveAndroid()
+    public static void initializeActiveAndroid(Context context)
     {
-        Context context = HabitsApplication.getContext();
         Configuration dbConfig = new Configuration.Builder(context)
             .setDatabaseName(getDatabaseFilename())
             .setDatabaseVersion(BuildConfig.databaseVersion)
@@ -82,14 +80,14 @@ public abstract class DatabaseUtils
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static String saveDatabaseCopy(File dir) throws IOException
+    public static String saveDatabaseCopy(Context context, File dir) throws IOException
     {
         SimpleDateFormat dateFormat = DateFormats.getBackupDateFormat();
         String date = dateFormat.format(DateUtils.getLocalTime());
         String format = "%s/Loop Habits Backup %s.db";
         String filename = String.format(format, dir.getAbsolutePath(), date);
 
-        File db = getDatabaseFile();
+        File db = getDatabaseFile(context);
         File dbCopy = new File(filename);
         FileUtils.copy(db, dbCopy);
 

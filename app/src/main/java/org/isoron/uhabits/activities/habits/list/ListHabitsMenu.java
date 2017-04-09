@@ -112,6 +112,22 @@ public class ListHabitsMenu extends BaseMenu
                 invalidate();
                 return true;
 
+            case R.id.actionSortColor:
+                adapter.setOrder(HabitList.Order.BY_COLOR);
+                return true;
+
+            case R.id.actionSortManual:
+                adapter.setOrder(HabitList.Order.BY_POSITION);
+                return true;
+
+            case R.id.actionSortName:
+                adapter.setOrder(HabitList.Order.BY_NAME);
+                return true;
+
+            case R.id.actionSortScore:
+                adapter.setOrder(HabitList.Order.BY_SCORE);
+                return true;
+
             default:
                 return false;
         }

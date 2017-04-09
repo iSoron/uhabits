@@ -30,6 +30,7 @@ import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.isoron.uhabits.models.HabitList.Order.*;
 
 @SuppressWarnings("JavaDoc")
 public class HabitListTest extends BaseUnitTest
@@ -70,7 +71,7 @@ public class HabitListTest extends BaseUnitTest
     }
 
     @Test
-    public void testSize()
+    public void test_size()
     {
         assertThat(habitList.size(), equalTo(10));
     }
@@ -178,5 +179,53 @@ public class HabitListTest extends BaseUnitTest
         list.writeCSV(writer);
 
         MatcherAssert.assertThat(writer.toString(), equalTo(expectedCSV));
+    }
+
+    @Test
+    public void test_ordering()
+    {
+        HabitList list = modelFactory.buildHabitList();
+        Habit h1 = fixtures.createEmptyHabit();
+        h1.setName("A Habit");
+        h1.setColor(2);
+
+        Habit h2 = fixtures.createEmptyHabit();
+        h2.setName("B Habit");
+        h2.setColor(2);
+
+        Habit h3 = fixtures.createEmptyHabit();
+        h3.setName("C Habit");
+        h3.setColor(0);
+
+        Habit h4 = fixtures.createEmptyHabit();
+        h4.setName("D Habit");
+        h4.setColor(1);
+
+        list.add(h3);
+        list.add(h1);
+        list.add(h4);
+        list.add(h2);
+
+        list.setOrder(BY_POSITION);
+        assertThat(list.getByPosition(0), equalTo(h3));
+        assertThat(list.getByPosition(1), equalTo(h1));
+        assertThat(list.getByPosition(2), equalTo(h4));
+        assertThat(list.getByPosition(3), equalTo(h2));
+
+        list.setOrder(BY_NAME);
+        assertThat(list.getByPosition(0), equalTo(h1));
+        assertThat(list.getByPosition(1), equalTo(h2));
+        assertThat(list.getByPosition(2), equalTo(h3));
+        assertThat(list.getByPosition(3), equalTo(h4));
+
+        list.remove(h1);
+        list.add(h1);
+        assertThat(list.getByPosition(0), equalTo(h1));
+
+        list.setOrder(BY_COLOR);
+        assertThat(list.getByPosition(0), equalTo(h3));
+        assertThat(list.getByPosition(1), equalTo(h4));
+        assertThat(list.getByPosition(2), equalTo(h1));
+        assertThat(list.getByPosition(3), equalTo(h2));
     }
 }

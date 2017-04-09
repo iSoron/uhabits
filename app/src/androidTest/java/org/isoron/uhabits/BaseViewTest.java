@@ -225,7 +225,7 @@ public class BaseViewTest extends BaseAndroidTest
         throws IOException
     {
         File dir = FileUtils.getSDCardDir("test-screenshots");
-        if (dir == null) dir = FileUtils.getFilesDir("test-screenshots");
+        if (dir == null) dir = FileUtils.getFilesDir(targetContext,"test-screenshots");
         if (dir == null) throw new RuntimeException(
             "Could not find suitable dir for screenshots");
 

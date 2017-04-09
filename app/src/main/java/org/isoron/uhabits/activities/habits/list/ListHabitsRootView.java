@@ -26,8 +26,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
@@ -43,7 +44,7 @@ import butterknife.*;
 public class ListHabitsRootView extends BaseRootView
     implements ModelObservable.Listener, TaskRunner.Listener
 {
-    public static final int MAX_CHECKMARK_COUNT = 21;
+    public static final int MAX_CHECKMARK_COUNT = 60;
 
     @BindView(R.id.listView)
     HabitCardListView listView;
@@ -132,6 +133,13 @@ public class ListHabitsRootView extends BaseRootView
         listController.setSelectionListener(menu);
         listView.setController(listController);
         menu.setListController(listController);
+        header.setScrollController(new ScrollableChart.ScrollController() {
+            @Override
+            public void onDataOffsetChanged(int newDataOffset)
+            {
+                listView.setDataOffset(newDataOffset);
+            }
+        });
     }
 
     @Override
@@ -156,6 +164,7 @@ public class ListHabitsRootView extends BaseRootView
     {
         int count = getCheckmarkCount();
         header.setButtonCount(count);
+        header.setMaxDataOffset(Math.max(MAX_CHECKMARK_COUNT - count, 0));
         listView.setCheckmarkCount(count);
         super.onSizeChanged(w, h, oldw, oldh);
     }

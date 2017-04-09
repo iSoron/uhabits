@@ -21,8 +21,8 @@
 <manifest
     package="org.isoron.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="25"
-    android:versionName="1.6.2">
+    android:versionCode="27"
+    android:versionName="1.7.0">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -222,6 +222,16 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="org.isoron.uhabits"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 </manifest>

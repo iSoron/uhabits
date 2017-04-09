@@ -40,8 +40,6 @@ import static org.junit.Assert.*;
 @MediumTest
 public class ImportTest extends BaseAndroidTest
 {
-    private File baseDir;
-
     private Context context;
 
     @Override
@@ -50,11 +48,8 @@ public class ImportTest extends BaseAndroidTest
     {
         super.setUp();
         DateUtils.setFixedLocalTime(null);
-
         fixtures.purgeHabits(habitList);
         context = InstrumentationRegistry.getInstrumentation().getContext();
-        baseDir = FileUtils.getFilesDir("Backups");
-        if (baseDir == null) fail("baseDir should not be null");
     }
 
     @Test
@@ -149,8 +144,7 @@ public class ImportTest extends BaseAndroidTest
 
     private void importFromFile(String assetFilename) throws IOException
     {
-        File file =
-            new File(String.format("%s/%s", baseDir.getPath(), assetFilename));
+        File file = File.createTempFile("asset", "");
         copyAssetToFile(assetFilename, file);
         assertTrue(file.exists());
         assertTrue(file.canRead());
@@ -159,5 +153,7 @@ public class ImportTest extends BaseAndroidTest
         assertThat(importer.canHandle(file), is(true));
 
         importer.importHabitsFromFile(file);
+
+        file.delete();
     }
 }

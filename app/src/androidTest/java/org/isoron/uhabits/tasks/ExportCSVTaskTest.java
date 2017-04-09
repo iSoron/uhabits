@@ -56,7 +56,7 @@ public class ExportCSVTaskTest extends BaseAndroidTest
         for (Habit h : habitList) selected.add(h);
 
         taskRunner.execute(
-            new ExportCSVTask(habitList, selected, archiveFilename -> {
+            new ExportCSVTask(targetContext,habitList, selected, archiveFilename -> {
                 assertThat(archiveFilename, is(not(nullValue())));
                 File f = new File(archiveFilename);
                 assertTrue(f.exists());

@@ -26,7 +26,7 @@ info "Building instrumentation APKs..."
 
 info "Installing APK..."
 adb install -r ${OUTPUT_DIR}/apk/app-debug.apk >> $LOG 2>> $LOG || fail
-adb install -r ${OUTPUT_DIR}/apk/app-debug-androidTest-unaligned.apk \
+adb install -r ${OUTPUT_DIR}/apk/app-debug-androidTest.apk \
     >> $LOG 2>> $LOG || fail
 
 info "Granting permissions..."

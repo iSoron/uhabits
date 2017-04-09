@@ -63,6 +63,8 @@ public class BaseAndroidTest
 
     protected AndroidTestComponent component;
 
+    protected ModelFactory modelFactory;
+
     @Before
     public void setUp()
     {
@@ -89,7 +91,7 @@ public class BaseAndroidTest
         taskRunner = component.getTaskRunner();
         logger = component.getHabitsLogger();
 
-        ModelFactory modelFactory = component.getModelFactory();
+        modelFactory = component.getModelFactory();
         fixtures = new HabitFixtures(modelFactory, habitList);
 
         latch = new CountDownLatch(1);

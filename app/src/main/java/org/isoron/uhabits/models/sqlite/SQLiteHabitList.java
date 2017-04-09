@@ -39,9 +39,14 @@ public class SQLiteHabitList extends HabitList
 
     private static SQLiteHabitList instance;
 
+    @NonNull
     private final SQLiteUtils<HabitRecord> sqlite;
 
+    @NonNull
     private final ModelFactory modelFactory;
+
+    @NonNull
+    private Order order;
 
     public SQLiteHabitList(@NonNull ModelFactory modelFactory)
     {
@@ -50,16 +55,19 @@ public class SQLiteHabitList extends HabitList
 
         if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
+        order = Order.BY_POSITION;
     }
 
     protected SQLiteHabitList(@NonNull ModelFactory modelFactory,
-                              @NonNull HabitMatcher filter)
+                              @NonNull HabitMatcher filter,
+                              @NonNull Order order)
     {
         super(filter);
         this.modelFactory = modelFactory;
 
         if (cache == null) cache = new HashMap<>();
         sqlite = new SQLiteUtils<>(HabitRecord.class);
+        this.order = order;
     }
 
     public static SQLiteHabitList getInstance(
@@ -118,7 +126,20 @@ public class SQLiteHabitList extends HabitList
     @Override
     public HabitList getFiltered(HabitMatcher filter)
     {
-        return new SQLiteHabitList(modelFactory, filter);
+        return new SQLiteHabitList(modelFactory, filter, order);
+    }
+
+    @Override
+    @NonNull
+    public Order getOrder()
+    {
+        return order;
+    }
+
+    @Override
+    public void setOrder(@NonNull Order order)
+    {
+        this.order = order;
     }
 
     @Override
@@ -215,6 +236,13 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
+    public void repair()
+    {
+        super.repair();
+        rebuildOrder();
+    }
+
+    @Override
     public int size()
     {
         return toList().size();
@@ -249,12 +277,38 @@ public class SQLiteHabitList extends HabitList
             habits.add(habit);
         }
 
+        if(order == Order.BY_SCORE)
+        {
+            Collections.sort(habits, (lhs, rhs) -> {
+                int s1 = lhs.getScores().getTodayValue();
+                int s2 = rhs.getScores().getTodayValue();
+                return Integer.compare(s2, s1);
+            });
+        }
+
         return habits;
     }
 
     private void appendOrderBy(StringBuilder query)
     {
-        query.append("order by position ");
+        switch (order)
+        {
+            case BY_POSITION:
+                query.append("order by position ");
+                break;
+
+            case BY_NAME:
+            case BY_SCORE:
+                query.append("order by name ");
+                break;
+
+            case BY_COLOR:
+                query.append("order by color, name ");
+                break;
+
+            default:
+                throw new IllegalStateException();
+        }
     }
 
     private void appendSelect(StringBuilder query)
@@ -281,12 +335,5 @@ public class SQLiteHabitList extends HabitList
         appendWhere(query);
         appendOrderBy(query);
         return query.toString();
-    }
-
-    @Override
-    public void repair()
-    {
-        super.repair();
-        rebuildOrder();
     }
 }

@@ -25,6 +25,8 @@ import org.isoron.uhabits.models.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.models.HabitList.Order.*;
+
 /**
  * In-memory implementation of {@link HabitList}.
  */
@@ -33,16 +35,23 @@ public class MemoryHabitList extends HabitList
     @NonNull
     private LinkedList<Habit> list;
 
+    private Comparator<Habit> comparator = null;
+
+    @NonNull
+    private Order order;
+
     public MemoryHabitList()
     {
         super();
         list = new LinkedList<>();
+        order = Order.BY_POSITION;
     }
 
     protected MemoryHabitList(@NonNull HabitMatcher matcher)
     {
         super(matcher);
         list = new LinkedList<>();
+        order = Order.BY_POSITION;
     }
 
     @Override
@@ -57,6 +66,7 @@ public class MemoryHabitList extends HabitList
 
         if (id == null) habit.setId((long) list.size());
         list.addLast(habit);
+        resort();
     }
 
     @Override
@@ -82,8 +92,15 @@ public class MemoryHabitList extends HabitList
     public HabitList getFiltered(HabitMatcher matcher)
     {
         MemoryHabitList habits = new MemoryHabitList(matcher);
-        for(Habit h : this) if (matcher.matches(h)) habits.add(h);
+        habits.comparator = comparator;
+        for (Habit h : this) if (matcher.matches(h)) habits.add(h);
         return habits;
+    }
+
+    @Override
+    public Order getOrder()
+    {
+        return order;
     }
 
     @Override
@@ -113,6 +130,14 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
+    public void setOrder(@NonNull Order order)
+    {
+        this.order = order;
+        this.comparator = getComparatorByOrder(order);
+        resort();
+    }
+
+    @Override
     public int size()
     {
         return list.size();
@@ -122,5 +147,35 @@ public class MemoryHabitList extends HabitList
     public void update(List<Habit> habits)
     {
         // NOP
+    }
+
+    private Comparator<Habit> getComparatorByOrder(Order order)
+    {
+        Comparator<Habit> nameComparator =
+            (h1, h2) -> h1.getName().compareTo(h2.getName());
+
+        Comparator<Habit> colorComparator = (h1, h2) -> {
+            Integer c1 = h1.getColor();
+            Integer c2 = h2.getColor();
+            if (c1.equals(c2)) return nameComparator.compare(h1, h2);
+            else return c1.compareTo(c2);
+        };
+
+        Comparator<Habit> scoreComparator = (h1, h2) -> {
+            int s1 = h1.getScores().getTodayValue();
+            int s2 = h2.getScores().getTodayValue();
+            return Integer.compare(s2, s1);
+        };
+
+        if (order == BY_POSITION) return null;
+        if (order == BY_NAME) return nameComparator;
+        if (order == BY_COLOR) return colorComparator;
+        if (order == BY_SCORE) return scoreComparator;
+        throw new IllegalStateException();
+    }
+
+    private void resort()
+    {
+        if (comparator != null) Collections.sort(list, comparator);
     }
 }

@@ -87,9 +87,8 @@ public abstract class FileUtils
     }
 
     @Nullable
-    public static File getFilesDir(@Nullable String relativePath)
+    public static File getFilesDir(@NonNull Context context, @Nullable String relativePath)
     {
-        Context context = HabitsApplication.getContext();
         File externalFilesDirs[] =
             ContextCompat.getExternalFilesDirs(context, null);
 

@@ -78,6 +78,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         {
             long id = savedInstanceState.getLong("habit", -1);
             if (id > 0) this.habit = habitList.getById(id);
+            historyChart.onRestoreInstanceState(
+                savedInstanceState.getParcelable("historyChart"));
         }
 
         int padding =
@@ -129,6 +131,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public void onSaveInstanceState(Bundle outState)
     {
         outState.putLong("habit", habit.getId());
+        outState.putParcelable("historyChart", historyChart.onSaveInstanceState());
     }
 
     public void setController(@NonNull Controller controller)

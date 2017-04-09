@@ -22,6 +22,11 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/export"
+        android:title="@string/export"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_edit_habit"
         android:icon="?iconEdit"
         android:title="@string/edit"

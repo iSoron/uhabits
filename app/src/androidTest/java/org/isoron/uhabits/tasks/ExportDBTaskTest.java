@@ -46,7 +46,7 @@ public class ExportDBTaskTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws Throwable
     {
-        ExportDBTask task = new ExportDBTask(filename -> {
+        ExportDBTask task = new ExportDBTask(targetContext, filename -> {
             assertThat(filename, is(not(nullValue())));
 
             File f = new File(filename);
