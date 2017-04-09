@@ -73,6 +73,7 @@
   <string name="interval_2_hour">2 hores</string>
   <string name="interval_4_hour">4 hores</string>
   <string name="interval_8_hour">8 hores</string>
+  <string name="interval_24_hour">24 hores</string>
   <string name="pref_toggle_title">Activar/desactivar repeticions prement curt</string>
   <string name="pref_toggle_description">Més adequat, però pot causar activacions accidentals</string>
   <string name="pref_snooze_interval_title">Interval d\'endarreriment en recordatoris</string>
@@ -153,4 +154,8 @@
   <string name="score">Puntuació</string>
   <string name="reminder_sound">So de recordatori</string>
   <string name="none">Cap</string>
+  <string name="filter">Filtre</string>
+  <string name="action">Acció</string>
+  <string name="habit">Hàbit</string>
+  <string name="export">Exportar</string>
 </resources>
