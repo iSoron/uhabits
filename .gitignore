@@ -20,3 +20,4 @@ captures/
 docs/
 gen/
 local.properties
+crowdin.yaml

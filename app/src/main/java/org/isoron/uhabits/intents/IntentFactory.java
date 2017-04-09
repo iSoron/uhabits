@@ -39,6 +39,12 @@ public class IntentFactory
     {
     }
 
+    public Intent helpTranslate(Context context)
+    {
+        String url = context.getString(R.string.translateURL);
+        return buildViewIntent(url);
+    }
+
     public Intent rateApp(Context context)
     {
         String url = context.getString(R.string.playStoreURL);

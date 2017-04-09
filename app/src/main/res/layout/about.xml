@@ -88,6 +88,11 @@
                     android:text="@string/pref_send_feedback"/>
 
                 <TextView
+                    android:id="@+id/tvTranslate"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/help_translate"/>
+
+                <TextView
                     android:id="@+id/tvSource"
                     style="@style/About.Item.Clickable"
                     android:text="@string/pref_view_source_code"/>
@@ -118,6 +123,9 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Nikhil (regularcoder)"/>
+                <TextView
+                    style="@style/About.Item"
+                    android:text="JanetQC"/>
 
             </LinearLayout>
 
@@ -132,7 +140,15 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Mihail Stefanov (Bǎlgarski)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Angga Rifandi (Bahasa Indonesia)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="David Nos (Català)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -140,7 +156,15 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="David Nos (Català)"/>
+                    android:text="Rancher (Cрпски)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Yussuf (Dansk)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Sølv Ræven (Dansk)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -157,6 +181,22 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Ander Raso Vazquez (Español)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Beriain (Euskara)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Andreas Michelakis (Ελληνικά)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Eman (Fārsi)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Saeed Esmaili (Fārsi)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -205,6 +245,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Dmitriy Bogdanov (Русский)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Andrei Pleș (Română)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -273,10 +317,6 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Aman Satnami (हिन्दी)"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="Andreas Michelakis (Ελληνικά)"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

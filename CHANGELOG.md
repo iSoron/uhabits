@@ -1,5 +1,21 @@
 # Changelog
 
+### 1.7.0 (Mar 31, 2017)
+
+* Sort habits automatically
+* Allow swiping the header to see previous days
+* Import backups directly from Google Drive or Dropbox
+* Refresh data automatically at midnight
+* Other minor bug fixes and enhancements
+
+### 1.6.2 (Oct 13, 2016)
+
+* Fix crash on Android 4.1
+
+### 1.6.1 (Oct 10, 2016)
+
+* Fix a crash at startup when database is corrupted
+
 ### 1.6.0 (Oct 10, 2016)
 
 * Add option to make notifications sticky

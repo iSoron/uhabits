@@ -94,6 +94,13 @@ public class AboutRootView extends BaseRootView
         getContext().startActivity(intent);
     }
 
+    @OnClick(R.id.tvTranslate)
+    public void onClickTranslate()
+    {
+        Intent intent = intents.helpTranslate(getContext());
+        getContext().startActivity(intent);
+    }
+
     @OnClick(R.id.tvRate)
     public void onClickRate()
     {
