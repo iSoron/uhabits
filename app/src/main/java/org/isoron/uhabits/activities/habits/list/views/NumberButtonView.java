@@ -22,7 +22,6 @@ package org.isoron.uhabits.activities.habits.list.views;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
-import android.icu.text.*;
 import android.support.annotation.*;
 import android.text.*;
 import android.util.*;
@@ -31,6 +30,8 @@ import android.view.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
+
+import java.text.DecimalFormat;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
