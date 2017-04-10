@@ -21,13 +21,14 @@ package org.isoron.uhabits.activities.habits.edit.views;
 
 import android.content.*;
 import android.content.res.*;
-import android.icu.text.*;
 import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.R;
+
+import java.text.DecimalFormat;
 
 import butterknife.*;
 
