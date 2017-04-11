@@ -256,4 +256,8 @@
     <style name="TimePickerDialog" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="DialogWithTitle" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">false</item>
+    </style>
 </resources>
