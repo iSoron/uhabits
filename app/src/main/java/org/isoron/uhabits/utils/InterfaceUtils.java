@@ -22,7 +22,9 @@ package org.isoron.uhabits.utils;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
+import android.support.v4.view.*;
 import android.util.*;
+import android.view.*;
 
 public abstract class InterfaceUtils
 {
@@ -48,5 +50,11 @@ public abstract class InterfaceUtils
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
+    }
+
+    public static boolean isLayoutRtl(View view)
+    {
+        return ViewCompat.getLayoutDirection(view) ==
+               ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 }

@@ -50,8 +50,6 @@ public class HeaderView extends ScrollableChart
 
     private RectF rect;
 
-    private int maxDataOffset;
-
     public HeaderView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -76,7 +74,6 @@ public class HeaderView extends ScrollableChart
 
         Resources res = context.getResources();
         setScrollerBucketSize((int) res.getDimension(R.dimen.checkmarkWidth));
-        setDirection(shouldReverseCheckmarks() ? 1 : -1);
 
         StyledResources sr = new StyledResources(context);
         paint = new TextPaint();
@@ -99,7 +96,7 @@ public class HeaderView extends ScrollableChart
     @Override
     public void onCheckmarkOrderChanged()
     {
-        setDirection(shouldReverseCheckmarks() ? 1 : -1);
+        updateDirection();
         postInvalidate();
     }
 
@@ -112,9 +109,18 @@ public class HeaderView extends ScrollableChart
     @Override
     protected void onAttachedToWindow()
     {
+        updateDirection();
         super.onAttachedToWindow();
         if (prefs != null) prefs.addListener(this);
         if (midnightTimer != null) midnightTimer.addListener(this);
+    }
+
+    private void updateDirection()
+    {
+        int direction = -1;
+        if (shouldReverseCheckmarks()) direction *= -1;
+        if (InterfaceUtils.isLayoutRtl(this)) direction *= -1;
+        setDirection(direction);
     }
 
     @Override
@@ -145,6 +151,7 @@ public class HeaderView extends ScrollableChart
         float width = res.getDimension(R.dimen.checkmarkWidth);
         float height = res.getDimension(R.dimen.checkmarkHeight);
         boolean reverse = shouldReverseCheckmarks();
+        boolean isRtl = InterfaceUtils.isLayoutRtl(this);
 
         day.add(GregorianCalendar.DAY_OF_MONTH, -getDataOffset());
         float em = paint.measureText("m");
@@ -153,8 +160,12 @@ public class HeaderView extends ScrollableChart
         {
             rect.set(0, 0, width, height);
             rect.offset(canvas.getWidth(), 0);
+
             if(reverse) rect.offset(- (i + 1) * width, 0);
             else rect.offset((i - buttonCount) * width, 0);
+
+            if (isRtl) rect.set(canvas.getWidth() - rect.right, rect.top,
+                canvas.getWidth() - rect.left, rect.bottom);
 
             String text = DateUtils.formatHeaderDate(day).toUpperCase();
             String[] lines = text.split("\n");
