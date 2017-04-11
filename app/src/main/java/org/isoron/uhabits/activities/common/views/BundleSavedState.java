@@ -20,9 +20,8 @@
 package org.isoron.uhabits.activities.common.views;
 
 import android.os.*;
-import android.view.*;
 
-public class BundleSavedState extends View.BaseSavedState
+public class BundleSavedState extends android.support.v4.view.AbsSavedState
 {
     public static final Parcelable.Creator<BundleSavedState> CREATOR =
         new Parcelable.Creator<BundleSavedState>()
@@ -51,7 +50,7 @@ public class BundleSavedState extends View.BaseSavedState
     public BundleSavedState(Parcel source)
     {
         super(source);
-        this.bundle = source.readBundle();
+        this.bundle = source.readBundle(getClass().getClassLoader());
     }
 
     @Override
