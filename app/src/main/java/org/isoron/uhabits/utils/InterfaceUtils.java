@@ -68,6 +68,7 @@ public abstract class InterfaceUtils
             if (child instanceof TextView)
                 ((TextView) child).setOnEditorActionListener(listener);
         }
+    }
 
     public static boolean isLayoutRtl(View view)
     {
