@@ -103,7 +103,9 @@ public class ReminderPanel extends FrameLayout
     @Override
     public void onTimeSet(RadialPickerLayout view, int hour, int minute)
     {
-        setReminder(new Reminder(hour, minute, WeekdayList.EVERY_DAY));
+        WeekdayList days = WeekdayList.EVERY_DAY;
+        if (reminder != null) days = reminder.getDays();
+        setReminder(new Reminder(hour, minute, days));
     }
 
     @Override
