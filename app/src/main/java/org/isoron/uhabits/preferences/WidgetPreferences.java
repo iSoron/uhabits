@@ -23,6 +23,7 @@ import android.content.*;
 import android.preference.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.*;
 
 import javax.inject.*;
 
@@ -48,7 +49,7 @@ public class WidgetPreferences
     public long getHabitIdFromWidgetId(int widgetId)
     {
         Long habitId = prefs.getLong(getHabitIdKey(widgetId), -1);
-        if (habitId < 0) throw new RuntimeException("widget not found");
+        if (habitId < 0) throw new HabitNotFoundException();
 
         return habitId;
     }
