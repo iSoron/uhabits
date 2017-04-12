@@ -19,6 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <string name="app_name">Loop Habit Tracker</string>
   <string name="main_activity_title">Kebiasaan</string>
   <string name="action_settings">Pengaturan</string>
   <string name="edit">Ubah</string>
@@ -73,6 +74,7 @@
   <string name="interval_2_hour">2 jam</string>
   <string name="interval_4_hour">4 jam</string>
   <string name="interval_8_hour">8 jam</string>
+  <string name="interval_24_hour">24 jam</string>
   <string name="pref_toggle_title">Tandai dengan cepat.</string>
   <string name="pref_toggle_description">Lebih nyaman namun memungkinkan kesalahan.</string>
   <string name="pref_snooze_interval_title">Durasi tunda sejenak pada pengingat</string>

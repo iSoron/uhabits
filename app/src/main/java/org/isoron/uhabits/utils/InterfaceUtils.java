@@ -23,6 +23,7 @@ import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
 import android.support.annotation.*;
+import android.support.v4.view.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
@@ -67,5 +68,10 @@ public abstract class InterfaceUtils
             if (child instanceof TextView)
                 ((TextView) child).setOnEditorActionListener(listener);
         }
+
+    public static boolean isLayoutRtl(View view)
+    {
+        return ViewCompat.getLayoutDirection(view) ==
+               ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 }
