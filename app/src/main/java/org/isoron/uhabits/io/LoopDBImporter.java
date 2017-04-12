@@ -19,20 +19,20 @@
 
 package org.isoron.uhabits.io;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
+import android.content.*;
+import android.database.*;
+import android.database.sqlite.*;
+import android.support.annotation.*;
+import android.util.*;
 
-import com.activeandroid.ActiveAndroid;
+import com.activeandroid.*;
 
-import org.isoron.uhabits.AppContext;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
-import org.isoron.uhabits.utils.FileUtils;
+import org.isoron.uhabits.utils.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import javax.inject.*;
 
@@ -45,7 +45,8 @@ public class LoopDBImporter extends AbstractImporter
     private Context context;
 
     @Inject
-    public LoopDBImporter(@NonNull @AppContext Context context, @NonNull HabitList habits)
+    public LoopDBImporter(@NonNull @AppContext Context context,
+                          @NonNull HabitList habits)
     {
         super(habits);
         this.context = context;
@@ -59,15 +60,29 @@ public class LoopDBImporter extends AbstractImporter
         SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
             SQLiteDatabase.OPEN_READONLY);
 
+        boolean canHandle = true;
+
         Cursor c = db.rawQuery(
             "select count(*) from SQLITE_MASTER where name=? or name=?",
-            new String[]{"Checkmarks", "Repetitions"});
+            new String[]{ "Checkmarks", "Repetitions" });
 
-        boolean result = (c.moveToFirst() && c.getInt(0) == 2);
+        if (!c.moveToFirst() || c.getInt(0) != 2)
+        {
+            Log.w("LoopDBImporter", "Cannot handle file: tables not found");
+            canHandle = false;
+        }
+
+        if (db.getVersion() > BuildConfig.databaseVersion)
+        {
+            Log.w("LoopDBImporter", String.format(
+                "Cannot handle file: incompatible version: %d > %d",
+                db.getVersion(), BuildConfig.databaseVersion));
+            canHandle = false;
+        }
 
         c.close();
         db.close();
-        return result;
+        return canHandle;
     }
 
     @Override

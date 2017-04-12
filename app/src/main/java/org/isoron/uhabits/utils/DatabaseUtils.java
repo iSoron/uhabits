@@ -25,6 +25,7 @@ import android.support.annotation.*;
 import com.activeandroid.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 
 import java.io.*;
@@ -76,7 +77,16 @@ public abstract class DatabaseUtils
                 RepetitionRecord.class, ScoreRecord.class, StreakRecord.class)
             .create();
 
-        ActiveAndroid.initialize(dbConfig);
+        try
+        {
+            ActiveAndroid.initialize(dbConfig);
+        }
+        catch (RuntimeException e)
+        {
+            if(e.getMessage().contains("downgrade"))
+                throw new InvalidDatabaseVersionException();
+            else throw e;
+        }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

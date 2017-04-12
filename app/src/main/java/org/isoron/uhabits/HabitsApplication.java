@@ -21,10 +21,10 @@ package org.isoron.uhabits;
 
 import android.app.*;
 import android.content.*;
-import android.support.annotation.*;
 
 import com.activeandroid.*;
 
+import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
@@ -88,7 +88,16 @@ public class HabitsApplication extends Application
             if (db.exists()) db.delete();
         }
 
-        DatabaseUtils.initializeActiveAndroid(context);
+        try
+        {
+            DatabaseUtils.initializeActiveAndroid(context);
+        }
+        catch (InvalidDatabaseVersionException e)
+        {
+            File db = DatabaseUtils.getDatabaseFile(context);
+            db.renameTo(new File(db.getAbsolutePath() + ".invalid"));
+            DatabaseUtils.initializeActiveAndroid(context);
+        }
 
         widgetUpdater = component.getWidgetUpdater();
         widgetUpdater.startListening();
