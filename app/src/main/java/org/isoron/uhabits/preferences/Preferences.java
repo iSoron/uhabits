@@ -77,17 +77,17 @@ public class Preferences
         }
     }
 
+    public void setDefaultOrder(HabitList.Order order)
+    {
+        prefs.edit().putString("pref_default_order", order.name()).apply();
+    }
+
     public int getDefaultScoreSpinnerPosition()
     {
         int defaultScoreInterval = prefs.getInt("pref_score_view_interval", 1);
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
             defaultScoreInterval = 1;
         return defaultScoreInterval;
-    }
-
-    public void setDefaultOrder(HabitList.Order order)
-    {
-        prefs.edit().putString("pref_default_order", order.name()).apply();
     }
 
     public void setDefaultScoreSpinnerPosition(int position)
@@ -161,6 +161,16 @@ public class Preferences
         PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
     }
 
+    public boolean isDeveloper()
+    {
+        return prefs.getBoolean("pref_developer", false);
+    }
+
+    public void setDeveloper(boolean isDeveloper)
+    {
+        prefs.edit().putBoolean("pref_developer", isDeveloper).apply();
+    }
+
     public boolean isFirstRun()
     {
         return prefs.getBoolean("pref_first_run", true);
@@ -188,12 +198,12 @@ public class Preferences
         if (key.equals("pref_checkmark_reverse_order"))
         {
             shouldReverseCheckmarks = null;
-            for(Listener l : listeners) l.onCheckmarkOrderChanged();
+            for (Listener l : listeners) l.onCheckmarkOrderChanged();
         }
 
-        if(key.equals("pref_sticky_notifications"))
+        if (key.equals("pref_sticky_notifications"))
         {
-            for(Listener l : listeners) l.onNotificationsChanged();
+            for (Listener l : listeners) l.onNotificationsChanged();
         }
     }
 
@@ -215,7 +225,12 @@ public class Preferences
             .putBoolean("pref_checkmark_reverse_order", reverse)
             .apply();
 
-        for(Listener l : listeners) l.onCheckmarkOrderChanged();
+        for (Listener l : listeners) l.onCheckmarkOrderChanged();
+    }
+
+    public boolean shouldMakeNotificationsSticky()
+    {
+        return prefs.getBoolean("pref_sticky_notifications", false);
     }
 
     public boolean shouldReverseCheckmarks()
@@ -224,11 +239,6 @@ public class Preferences
             prefs.getBoolean("pref_checkmark_reverse_order", false);
 
         return shouldReverseCheckmarks;
-    }
-
-    public boolean shouldMakeNotificationsSticky()
-    {
-        return prefs.getBoolean("pref_sticky_notifications", false);
     }
 
     public void updateLastAppVersion()

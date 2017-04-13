@@ -25,9 +25,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.*;
 
 import org.isoron.uhabits.BuildConfig;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -49,6 +51,11 @@ public class AboutRootView extends BaseRootView
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    int developerCountdown = 10;
+
+    @Nullable
+    Preferences prefs;
+
     private final IntentFactory intents;
 
     public AboutRootView(Context context, IntentFactory intents)
@@ -62,6 +69,13 @@ public class AboutRootView extends BaseRootView
         tvVersion.setText(
             String.format(getResources().getString(R.string.version_n),
                 BuildConfig.VERSION_NAME));
+
+        if (context.getApplicationContext() instanceof HabitsApplication)
+        {
+            HabitsApplication app =
+                (HabitsApplication) context.getApplicationContext();
+            prefs = app.getComponent().getPreferences();
+        }
     }
 
     @Override
@@ -94,11 +108,17 @@ public class AboutRootView extends BaseRootView
         getContext().startActivity(intent);
     }
 
-    @OnClick(R.id.tvTranslate)
-    public void onClickTranslate()
+    @OnClick(R.id.tvVersion)
+    public void onClickIcon()
     {
-        Intent intent = intents.helpTranslate(getContext());
-        getContext().startActivity(intent);
+        developerCountdown--;
+        if (developerCountdown <= 0)
+        {
+            if (prefs == null) return;
+            prefs.setDeveloper(true);
+            String text = "You are now a developer";
+            Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
+        }
     }
 
     @OnClick(R.id.tvRate)
@@ -112,6 +132,13 @@ public class AboutRootView extends BaseRootView
     public void onClickSource()
     {
         Intent intent = intents.viewSourceCode(getContext());
+        getContext().startActivity(intent);
+    }
+
+    @OnClick(R.id.tvTranslate)
+    public void onClickTranslate()
+    {
+        Intent intent = intents.helpTranslate(getContext());
         getContext().startActivity(intent);
     }
 

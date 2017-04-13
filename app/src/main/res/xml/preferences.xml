@@ -133,4 +133,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="devCategory"
+        android:title="Development">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_developer"
+            android:title="Enable developer mode"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

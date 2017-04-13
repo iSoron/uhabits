@@ -22,18 +22,25 @@ package org.isoron.uhabits.activities.settings;
 import android.app.backup.*;
 import android.content.*;
 import android.os.*;
+import android.support.annotation.*;
 import android.support.v7.preference.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.habits.list.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
+
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static int RINGTONE_REQUEST_CODE = 1;
 
-    private SharedPreferences prefs;
+    private SharedPreferences sharedPrefs;
+
+    @Nullable
+    private Preferences prefs;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -54,13 +61,20 @@ public class SettingsFragment extends PreferenceFragmentCompat
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        setResultOnPreferenceClick("importData", ListHabitsScreen.RESULT_IMPORT_DATA);
-        setResultOnPreferenceClick("exportCSV", ListHabitsScreen.RESULT_EXPORT_CSV);
-        setResultOnPreferenceClick("exportDB", ListHabitsScreen.RESULT_EXPORT_DB);
-        setResultOnPreferenceClick("repairDB", ListHabitsScreen.RESULT_REPAIR_DB);
-        setResultOnPreferenceClick("bugReport", ListHabitsScreen.RESULT_BUG_REPORT);
+        setResultOnPreferenceClick("importData", RESULT_IMPORT_DATA);
+        setResultOnPreferenceClick("exportCSV", RESULT_EXPORT_CSV);
+        setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
+        setResultOnPreferenceClick("repairDB", RESULT_REPAIR_DB);
+        setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
+
+        Context appContext = getContext().getApplicationContext();
+        if(appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
     }
 
     @Override
@@ -72,7 +86,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     @Override
     public void onPause()
     {
-        prefs.unregisterOnSharedPreferenceChangeListener(this);
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
     }
 
@@ -96,8 +110,16 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onResume()
     {
         super.onResume();
-        prefs = getPreferenceManager().getSharedPreferences();
-        prefs.registerOnSharedPreferenceChangeListener(this);
+        sharedPrefs = getPreferenceManager().getSharedPreferences();
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+
+        if(prefs != null && !prefs.isDeveloper())
+        {
+            PreferenceCategory devCategory =
+                (PreferenceCategory) findPreference("devCategory");
+            devCategory.removeAll();
+            devCategory.setVisible(false);
+        }
     }
 
     @Override
@@ -110,7 +132,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void setResultOnPreferenceClick(String key, final int result)
     {
         Preference pref = findPreference(key);
-        pref.setOnPreferenceClickListener(preference -> {
+        pref.setOnPreferenceClickListener(preference ->
+        {
             getActivity().setResult(result);
             getActivity().finish();
             return true;
