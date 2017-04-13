@@ -140,7 +140,7 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Mihail Stefanov (Bǎlgarski)"/>
+                    android:text="Mihail Stefanov (Български)"/>
 
                 <TextView
                     style="@style/About.Item"
