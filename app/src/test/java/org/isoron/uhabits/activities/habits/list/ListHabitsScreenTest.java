@@ -32,6 +32,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.*;
@@ -77,6 +78,8 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private ListHabitsScreen baseScreen;
 
+    private Preferences prefs;
+
     @Before
     @Override
     public void setUp()
@@ -93,10 +96,12 @@ public class ListHabitsScreenTest extends BaseUnitTest
         filePickerDialogFactory = mock(FilePickerDialogFactory.class);
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
         dialogFactory = mock(EditHabitDialogFactory.class);
+        prefs = mock(Preferences.class);
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, dirFinder,
             rootView, intentFactory, themeSwitcher, confirmDeleteDialogFactory,
-            filePickerDialogFactory, colorPickerDialogFactory, dialogFactory));
+            filePickerDialogFactory, colorPickerDialogFactory, dialogFactory,
+            prefs));
 
         doNothing().when(screen).showMessage(anyInt());
 

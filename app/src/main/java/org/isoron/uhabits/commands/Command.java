@@ -19,6 +19,9 @@
 
 package org.isoron.uhabits.commands;
 
+import org.isoron.uhabits.utils.*;
+import org.json.*;
+
 /**
  * A Command represents a desired set of changes that should be performed on the
  * models.
@@ -30,6 +33,18 @@ package org.isoron.uhabits.commands;
  */
 public abstract class Command
 {
+    private final String id;
+
+    public Command()
+    {
+        id = DatabaseUtils.getRandomId();
+    }
+
+    public Command(String id)
+    {
+        this.id = id;
+    }
+
     public abstract void execute();
 
     public Integer getExecuteStringId()
@@ -43,4 +58,25 @@ public abstract class Command
     }
 
     public abstract void undo();
+
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = new JSONObject();
+            JSONObject data = new JSONObject();
+            root.put("id", getId());
+            root.put("data", data);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public String getId()
+    {
+        return id;
+    }
 }

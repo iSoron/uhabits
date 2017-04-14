@@ -23,6 +23,7 @@ import android.net.*;
 import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
+import org.json.*;
 
 import java.util.*;
 
@@ -370,5 +371,65 @@ public class Habit
             .append("targetValue", targetValue)
             .append("unit", unit)
             .toString();
+    }
+
+    @NonNull
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject json = new JSONObject();
+            json.put("name", name);
+            json.put("description", description);
+            json.put("freqNum", frequency.getNumerator());
+            json.put("freqDen", frequency.getDenominator());
+            json.put("color", color);
+            json.put("type", type);
+            json.put("targetType", targetType);
+            json.put("targetValue", targetValue);
+            json.put("unit", unit);
+            json.put("archived", archived);
+
+            if(reminder != null)
+            {
+                json.put("reminderHour", reminder.getHour());
+                json.put("reminderMin", reminder.getMinute());
+                json.put("reminderDays", reminder.getDays().toInteger());
+            }
+
+            return json;
+        }
+        catch(JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @NonNull
+    public static Habit fromJSON(@NonNull JSONObject json,
+                                 @NonNull ModelFactory modelFactory)
+        throws JSONException
+    {
+        Habit habit = modelFactory.buildHabit();
+        habit.name = json.getString("name");
+        habit.description = json.getString("description");
+        int freqNum = json.getInt("freqNum");
+        int freqDen = json.getInt("freqDen");
+        habit.frequency = new Frequency(freqNum, freqDen);
+        habit.color = json.getInt("color");
+        habit.archived = json.getBoolean("archived");
+        habit.targetValue = json.getInt("targetValue");
+        habit.targetType = json.getInt("targetType");
+        habit.unit = json.getString("unit");
+        habit.type = json.getInt("type");
+
+        if(json.has("reminderHour"))
+        {
+            int hour = json.getInt("reminderHour");
+            int min = json.getInt("reminderMin");
+            int days = json.getInt("reminderDays");
+            habit.reminder = new Reminder(hour, min, new WeekdayList(days));
+        }
+        return habit;
     }
 }

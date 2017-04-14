@@ -147,6 +147,11 @@
             android:key="pref_feature_numerical_habits"
             android:title="Enable numerical habits"/>
 
+        <EditTextPreference
+            android:key="pref_sync_key"
+            android:title="Sync: group key"
+            android:summary="%s"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

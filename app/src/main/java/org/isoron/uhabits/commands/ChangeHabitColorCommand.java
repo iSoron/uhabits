@@ -19,10 +19,15 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.*;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.json.*;
 
 import java.util.*;
+
+import static org.isoron.uhabits.commands.CommandParser.*;
 
 /**
  * Command to change the color of a list of habits.
@@ -37,16 +42,35 @@ public class ChangeHabitColorCommand extends Command
 
     Integer newColor;
 
-    public ChangeHabitColorCommand(HabitList habitList,
-                                   List<Habit> selected,
-                                   Integer newColor)
+    public ChangeHabitColorCommand(@NonNull HabitList habitList,
+                                   @NonNull List<Habit> selected,
+                                   @NonNull Integer newColor)
     {
-        this.habitList = habitList;
-        this.selected = selected;
-        this.newColor = newColor;
-        this.originalColors = new ArrayList<>(selected.size());
+        super();
+        init(habitList, selected, newColor);
+    }
 
-        for (Habit h : selected) originalColors.add(h.getColor());
+    public ChangeHabitColorCommand(@NonNull String id,
+                                   @NonNull HabitList habitList,
+                                   @NonNull List<Habit> selected,
+                                   @NonNull Integer newColor)
+    {
+        super(id);
+        init(habitList, selected, newColor);
+    }
+
+    @NonNull
+    public static Command fromJSON(@NonNull JSONObject json,
+                                   @NonNull HabitList habitList)
+        throws JSONException
+    {
+        String id = json.getString("id");
+        JSONObject data = (JSONObject) json.get("data");
+        JSONArray habitIds = data.getJSONArray("ids");
+        int newColor = data.getInt("color");
+
+        LinkedList<Habit> selected = habitListFromJSON(habitList, habitIds);
+        return new ChangeHabitColorCommand(id, habitList, selected, newColor);
     }
 
     @Override
@@ -69,10 +93,41 @@ public class ChangeHabitColorCommand extends Command
     }
 
     @Override
+    @NonNull
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("event", "ChangeHabitColor");
+            data.put("ids", habitListToJSON(selected));
+            data.put("color", newColor);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public void undo()
     {
         int k = 0;
         for (Habit h : selected) h.setColor(originalColors.get(k++));
         habitList.update(selected);
+    }
+
+    private void init(@NonNull HabitList habitList,
+                      @NonNull List<Habit> selected,
+                      @NonNull Integer newColor)
+    {
+        this.habitList = habitList;
+        this.selected = selected;
+        this.newColor = newColor;
+        this.originalColors = new ArrayList<>(selected.size());
+
+        for (Habit h : selected) originalColors.add(h.getColor());
     }
 }

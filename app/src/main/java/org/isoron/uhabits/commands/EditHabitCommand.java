@@ -25,6 +25,7 @@ import com.google.auto.factory.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.json.*;
 
 /**
  * Command to modify a habit.
@@ -42,27 +43,42 @@ public class EditHabitCommand extends Command
 
     private boolean hasFrequencyChanged;
 
-    private final boolean hasTargetChanged;
+    private boolean hasTargetChanged;
 
     public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
                             @NonNull HabitList habitList,
                             @NonNull Habit original,
                             @NonNull Habit modified)
     {
-        this.habitList = habitList;
-        this.savedId = original.getId();
-        this.modified = modelFactory.buildHabit();
-        this.original = modelFactory.buildHabit();
+        super();
+        init(modelFactory, habitList, original, modified);
+    }
 
-        this.modified.copyFrom(modified);
-        this.original.copyFrom(original);
+    public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
+                            @NonNull String id,
+                            @NonNull HabitList habitList,
+                            @NonNull Habit original,
+                            @NonNull Habit modified)
+    {
+        super(id);
+        init(modelFactory, habitList, original, modified);
+    }
 
-        Frequency originalFreq = this.original.getFrequency();
-        Frequency modifiedFreq = this.modified.getFrequency();
-        hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
-        hasTargetChanged =
-            (original.getTargetType() != modified.getTargetType() ||
-             original.getTargetValue() != modified.getTargetValue());
+    @NonNull
+    public static Command fromJSON(@NonNull JSONObject root,
+                                   @NonNull HabitList habitList,
+                                   @NonNull ModelFactory modelFactory)
+        throws JSONException
+    {
+        String commandId = root.getString("id");
+        JSONObject data = (JSONObject) root.get("data");
+        Habit original = habitList.getById(data.getLong("id"));
+        if (original == null) throw new HabitNotFoundException();
+
+        Habit modified =
+            Habit.fromJSON(data.getJSONObject("params"), modelFactory);
+        return new EditHabitCommand(modelFactory, commandId, habitList,
+            original, modified);
     }
 
     @Override
@@ -84,6 +100,24 @@ public class EditHabitCommand extends Command
     }
 
     @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("event", "EditHabit");
+            data.put("id", savedId);
+            data.put("params", modified.toJSON());
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public void undo()
     {
         copyAttributes(this.original);
@@ -98,6 +132,27 @@ public class EditHabitCommand extends Command
         habitList.update(habit);
 
         invalidateIfNeeded(habit);
+    }
+
+    private void init(@NonNull ModelFactory modelFactory,
+                      @NonNull HabitList habitList,
+                      @NonNull Habit original,
+                      @NonNull Habit modified)
+    {
+        this.habitList = habitList;
+        this.savedId = original.getId();
+        this.modified = modelFactory.buildHabit();
+        this.original = modelFactory.buildHabit();
+
+        this.modified.copyFrom(modified);
+        this.original.copyFrom(original);
+
+        Frequency originalFreq = this.original.getFrequency();
+        Frequency modifiedFreq = this.modified.getFrequency();
+        hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
+        hasTargetChanged =
+            (original.getTargetType() != modified.getTargetType() ||
+             original.getTargetValue() != modified.getTargetValue());
     }
 
     private void invalidateIfNeeded(Habit habit)

@@ -25,6 +25,7 @@ import com.google.auto.factory.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.json.*;
 
 /**
  * Command to create a habit.
@@ -36,17 +37,48 @@ public class CreateHabitCommand extends Command
 
     HabitList habitList;
 
+    @NonNull
     private Habit model;
 
+    @Nullable
     private Long savedId;
 
     public CreateHabitCommand(@Provided @NonNull ModelFactory modelFactory,
                               @NonNull HabitList habitList,
                               @NonNull Habit model)
     {
+        super();
         this.modelFactory = modelFactory;
         this.habitList = habitList;
         this.model = model;
+    }
+
+    public CreateHabitCommand(@Provided @NonNull ModelFactory modelFactory,
+                              @NonNull String commandId,
+                              @NonNull HabitList habitList,
+                              @NonNull Habit model,
+                              @Nullable Long savedId)
+    {
+        super(commandId);
+        this.modelFactory = modelFactory;
+        this.habitList = habitList;
+        this.model = model;
+        this.savedId = savedId;
+    }
+
+    @NonNull
+    public static Command fromJSON(@NonNull JSONObject root,
+                                   @NonNull HabitList habitList,
+                                   @NonNull ModelFactory modelFactory)
+        throws JSONException
+    {
+        String commandId = root.getString("id");
+        JSONObject data = (JSONObject) root.get("data");
+        Habit model = Habit.fromJSON(data.getJSONObject("habit"), modelFactory);
+        Long savedId = data.getLong("id");
+
+        return new CreateHabitCommand(modelFactory, commandId, habitList, model,
+            savedId);
     }
 
     @Override
@@ -73,6 +105,24 @@ public class CreateHabitCommand extends Command
     }
 
     @Override
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("event", "CreateHabit");
+            data.put("habit", model.toJSON());
+            data.put("id", savedId);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public void undo()
     {
         Habit habit = habitList.getById(savedId);
@@ -80,5 +130,4 @@ public class CreateHabitCommand extends Command
 
         habitList.remove(habit);
     }
-
 }

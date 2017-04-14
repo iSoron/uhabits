@@ -19,10 +19,15 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.*;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.json.*;
 
 import java.util.*;
+
+import static org.isoron.uhabits.commands.CommandParser.*;
 
 /**
  * Command to unarchive a list of habits.
@@ -33,23 +38,40 @@ public class UnarchiveHabitsCommand extends Command
 
     private List<Habit> habits;
 
-    public UnarchiveHabitsCommand(HabitList habitList, List<Habit> selected)
+    public UnarchiveHabitsCommand(@NonNull HabitList habitList,
+                                  @NonNull List<Habit> selected)
     {
+        super();
         this.habits = selected;
         this.habitList = habitList;
+    }
+
+    public UnarchiveHabitsCommand(@NonNull String id,
+                                  @NonNull HabitList habitList,
+                                  @NonNull List<Habit> selected)
+    {
+        super(id);
+        this.habits = selected;
+        this.habitList = habitList;
+    }
+
+    @NonNull
+    public static Command fromJSON(@NonNull JSONObject json,
+                                   @NonNull HabitList habitList)
+        throws JSONException
+    {
+        String id = json.getString("id");
+        JSONObject data = (JSONObject) json.get("data");
+        JSONArray habitIds = data.getJSONArray("ids");
+
+        LinkedList<Habit> selected = habitListFromJSON(habitList, habitIds);
+        return new UnarchiveHabitsCommand(id, habitList, selected);
     }
 
     @Override
     public void execute()
     {
-        for(Habit h : habits) h.setArchived(false);
-        habitList.update(habits);
-    }
-
-    @Override
-    public void undo()
-    {
-        for(Habit h : habits) h.setArchived(true);
+        for (Habit h : habits) h.setArchived(false);
         habitList.update(habits);
     }
 
@@ -64,4 +86,30 @@ public class UnarchiveHabitsCommand extends Command
     {
         return R.string.toast_habit_archived;
     }
+
+    @Override
+    @NonNull
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("event", "UnarchiveHabits");
+            data.put("ids", habitListToJSON(habits));
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void undo()
+    {
+        for (Habit h : habits) h.setArchived(true);
+        habitList.update(habits);
+    }
+
 }

@@ -27,9 +27,12 @@ import com.activeandroid.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.sync.*;
 
 import java.io.*;
+import java.math.*;
 import java.text.*;
+import java.util.*;
 
 public abstract class DatabaseUtils
 {
@@ -67,6 +70,11 @@ public abstract class DatabaseUtils
         return databaseFilename;
     }
 
+    public static String getRandomId()
+    {
+        return new BigInteger(260, new Random()).toString(32).substring(0, 32);
+    }
+
     @SuppressWarnings("unchecked")
     public static void initializeActiveAndroid(Context context)
     {
@@ -74,7 +82,8 @@ public abstract class DatabaseUtils
             .setDatabaseName(getDatabaseFilename())
             .setDatabaseVersion(BuildConfig.databaseVersion)
             .addModelClasses(CheckmarkRecord.class, HabitRecord.class,
-                RepetitionRecord.class, ScoreRecord.class, StreakRecord.class)
+                RepetitionRecord.class, ScoreRecord.class, StreakRecord.class,
+                Event.class)
             .create();
 
         try

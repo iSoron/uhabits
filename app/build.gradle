@@ -12,7 +12,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
 
-        buildConfigField "Integer", "databaseVersion", "18"
+        buildConfigField "Integer", "databaseVersion", "19"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -79,6 +79,10 @@ dependencies {
     compile 'org.jetbrains:annotations-java5:15.0'
 
     provided 'javax.annotation:jsr250-api:1.0'
+
+    compile ('io.socket:socket.io-client:0.7.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 
     testApt 'com.google.dagger:dagger-compiler:2.2'
 

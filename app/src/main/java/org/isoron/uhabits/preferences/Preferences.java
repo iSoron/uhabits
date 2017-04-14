@@ -77,11 +77,6 @@ public class Preferences
         }
     }
 
-    public boolean isNumericalHabitsFeatureEnabled()
-    {
-        return prefs.getBoolean("pref_feature_numerical_habits", false);
-    }
-
     public void setDefaultOrder(HabitList.Order order)
     {
         prefs.edit().putString("pref_default_order", order.name()).apply();
@@ -120,6 +115,16 @@ public class Preferences
         return prefs.getLong("last_hint_timestamp", -1);
     }
 
+    public long getLastSync()
+    {
+        return prefs.getLong("lastSync", 0);
+    }
+
+    public void setLastSync(long timestamp)
+    {
+        prefs.edit().putLong("last_sync", timestamp).apply();
+    }
+
     public boolean getShowArchived()
     {
         return prefs.getBoolean("pref_show_archived", false);
@@ -143,6 +148,11 @@ public class Preferences
     public long getSnoozeInterval()
     {
         return Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
+    }
+
+    public String getSyncKey()
+    {
+        return prefs.getString("pref_sync_key", "");
     }
 
     public int getTheme()
@@ -184,6 +194,11 @@ public class Preferences
     public void setFirstRun(boolean isFirstRun)
     {
         prefs.edit().putBoolean("pref_first_run", isFirstRun).apply();
+    }
+
+    public boolean isNumericalHabitsFeatureEnabled()
+    {
+        return prefs.getBoolean("pref_feature_numerical_habits", false);
     }
 
     public boolean isPureBlackEnabled()

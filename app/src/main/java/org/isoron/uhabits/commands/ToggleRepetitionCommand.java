@@ -19,36 +19,85 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.*;
+
 import org.isoron.uhabits.models.*;
+import org.json.*;
 
 /**
  * Command to toggle a repetition.
  */
 public class ToggleRepetitionCommand extends Command
 {
-    private Long offset;
+    private Long timestamp;
+
     private Habit habit;
 
-    public ToggleRepetitionCommand(Habit habit, long offset)
+    public ToggleRepetitionCommand(@NonNull Habit habit, long timestamp)
     {
-        this.offset = offset;
+        super();
+        this.timestamp = timestamp;
         this.habit = habit;
+    }
+
+    public ToggleRepetitionCommand(@NonNull String id,
+                                   @NonNull Habit habit,
+                                   long timestamp)
+    {
+        super(id);
+        this.timestamp = timestamp;
+        this.habit = habit;
+    }
+
+    @NonNull
+    public static Command fromJSON(@NonNull JSONObject json,
+                                   @NonNull HabitList habitList)
+        throws JSONException
+    {
+        String id = json.getString("id");
+        JSONObject data = (JSONObject) json.get("data");
+        Long habitId = data.getLong("habit");
+        Long timestamp = data.getLong("timestamp");
+
+        Habit habit = habitList.getById(habitId);
+        if (habit == null) throw new HabitNotFoundException();
+
+        return new ToggleRepetitionCommand(id, habit, timestamp);
     }
 
     @Override
     public void execute()
     {
-        habit.getRepetitions().toggleTimestamp(offset);
+        habit.getRepetitions().toggleTimestamp(timestamp);
+    }
+
+    public Habit getHabit()
+    {
+        return habit;
+    }
+
+    @Override
+    @NonNull
+    public JSONObject toJSON()
+    {
+        try
+        {
+            JSONObject root = super.toJSON();
+            JSONObject data = root.getJSONObject("data");
+            root.put("event", "ToggleRepetition");
+            data.put("habit", habit.getId());
+            data.put("timestamp", timestamp);
+            return root;
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
     public void undo()
     {
         execute();
-    }
-
-    public Habit getHabit()
-    {
-        return habit;
     }
 }
