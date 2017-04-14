@@ -142,6 +142,11 @@
             android:key="pref_developer"
             android:title="Enable developer mode"/>
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_feature_numerical_habits"
+            android:title="Enable numerical habits"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

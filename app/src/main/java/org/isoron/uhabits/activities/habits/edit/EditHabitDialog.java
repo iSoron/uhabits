@@ -100,8 +100,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         initDependencies();
         ButterKnife.bind(this, view);
 
-        getDialog().setTitle(getTitle());
         originalHabit = parseHabitFromArguments();
+        getDialog().setTitle(getTitle());
 
         populateForm();
         setupReminderController();
@@ -112,7 +112,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected int getTitle()
     {
-        if (originalHabit == null) return R.string.edit_habit;
+        if (originalHabit != null) return R.string.edit_habit;
         else return R.string.create_habit;
     }
 

@@ -37,6 +37,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -94,6 +95,9 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private final ThemeSwitcher themeSwitcher;
 
+    @NonNull
+    private Preferences prefs;
+
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull CommandRunner commandRunner,
@@ -104,10 +108,12 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull FilePickerDialogFactory filePickerDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull EditHabitDialogFactory editHabitDialogFactory)
+                            @NonNull EditHabitDialogFactory editHabitDialogFactory,
+                            @NonNull Preferences prefs)
     {
         super(activity);
         setRootView(rootView);
+        this.prefs = prefs;
         this.colorPickerFactory = colorPickerFactory;
         this.commandRunner = commandRunner;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
@@ -173,6 +179,12 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showCreateHabitScreen()
     {
+        if(!prefs.isNumericalHabitsFeatureEnabled())
+        {
+            showCreateBooleanHabitScreen();
+            return;
+        }
+
         Dialog dialog = new AlertDialog.Builder(activity)
             .setTitle("Type of habit")
             .setItems(R.array.habitTypes, (d, which) -> {

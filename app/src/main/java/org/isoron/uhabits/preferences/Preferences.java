@@ -77,6 +77,11 @@ public class Preferences
         }
     }
 
+    public boolean isNumericalHabitsFeatureEnabled()
+    {
+        return prefs.getBoolean("pref_feature_numerical_habits", false);
+    }
+
     public void setDefaultOrder(HabitList.Order order)
     {
         prefs.edit().putString("pref_default_order", order.name()).apply();
