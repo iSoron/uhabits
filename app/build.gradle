@@ -108,7 +108,7 @@ retrolambda {
 }
 
 jacoco {
-    toolVersion = "0.7.4.201502262128"
+    toolVersion = "0.7.5.201505241946"
 }
 
 task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {

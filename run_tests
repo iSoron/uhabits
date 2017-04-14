@@ -14,6 +14,9 @@ fail() {
     exit 1
 }
 
+info "Running adb as root..."
+adb root
+
 info "Cleaning output directory..."
 rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
@@ -53,7 +56,7 @@ adb logcat -d > ${OUTPUT_DIR}/logcat.txt
 
 info "Building coverage report..."
 mkdir -p ${OUTPUT_DIR}/code-coverage/connected/
-adb pull /data/data/${PACKAGE_NAME}/files/coverage.ec \
+adb pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
     ${OUTPUT_DIR}/code-coverage/connected/ >> $LOG 2>> $LOG
 ./gradlew app:createDebugCoverageReport \
     -x app:connectedDebugAndroidTest >> $LOG 2>> $LOG
