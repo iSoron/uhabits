@@ -21,17 +21,21 @@ package org.isoron.uhabits.sync;
 
 import android.app.*;
 import android.content.*;
+import android.net.*;
 import android.os.*;
 import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.receivers.*;
 
 public class SyncService extends Service implements Preferences.Listener
 {
     private SyncManager syncManager;
 
     private Preferences prefs;
+
+    private ConnectivityReceiver connectivityReceiver;
 
     public SyncService()
     {
@@ -59,6 +63,10 @@ public class SyncService extends Service implements Preferences.Listener
 
         startForeground(99999, notification);
 
+        connectivityReceiver = new ConnectivityReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(connectivityReceiver, filter);
+
         HabitsApplication app = (HabitsApplication) getApplicationContext();
         syncManager = app.getComponent().getSyncManager();
         syncManager.startListening();
@@ -76,6 +84,7 @@ public class SyncService extends Service implements Preferences.Listener
     @Override
     public void onDestroy()
     {
+        unregisterReceiver(connectivityReceiver);
         syncManager.stopListening();
     }
 }

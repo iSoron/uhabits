@@ -40,6 +40,7 @@ import io.socket.emitter.*;
 
 import static io.socket.client.Socket.*;
 
+@AppScope
 public class SyncManager implements CommandRunner.Listener
 {
     public static final String EVENT_AUTH = "auth";
@@ -80,15 +81,20 @@ public class SyncManager implements CommandRunner.Listener
     @NonNull
     private CommandParser commandParser;
 
+    private boolean isListening;
+
     @Inject
     public SyncManager(@AppContext @NonNull Context context,
                        @NonNull Preferences prefs,
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
     {
+        Log.i("SyncManager", this.toString());
+
         this.prefs = prefs;
         this.commandRunner = commandRunner;
         this.commandParser = commandParser;
+        this.isListening = false;
 
         pendingConfirmation = new LinkedList<>();
         pendingEmit = new LinkedList<>(Event.getAll());
@@ -118,19 +124,31 @@ public class SyncManager implements CommandRunner.Listener
         if (readyToEmit) emitPending();
     }
 
+    public void onNetworkStatusChanged(boolean isConnected)
+    {
+        if(!isListening) return;
+        if(isConnected) socket.connect();
+        else socket.disconnect();
+    }
+
     public void startListening()
     {
         if (!prefs.isSyncFeatureEnabled()) return;
         if (groupKey.isEmpty()) return;
+        if (isListening) return;
 
+        isListening = true;
         socket.connect();
         commandRunner.addListener(this);
     }
 
     public void stopListening()
     {
+        if(!isListening) return;
+
         commandRunner.removeListener(this);
         socket.close();
+        isListening = false;
     }
 
     private void connect(@AppContext @NonNull Context context, String serverURL)
