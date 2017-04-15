@@ -21,14 +21,13 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
+import com.google.gson.*;
+
 import org.isoron.uhabits.models.*;
 import org.json.*;
 
-import java.util.*;
-
 public class CommandParser
 {
-
     private HabitList habitList;
 
     private ModelFactory modelFactory;
@@ -41,65 +40,43 @@ public class CommandParser
     }
 
     @NonNull
-    public static LinkedList<Habit> habitListFromJSON(
-        @NonNull HabitList habitList, @NonNull JSONArray habitIds)
-        throws JSONException
+    public Command parse(@NonNull JSONObject json) throws JSONException
     {
-        LinkedList<Habit> habits = new LinkedList<>();
+        String event = json.getString("event");
+        Gson gson = new GsonBuilder().create();
 
-        for (int i = 0; i < habitIds.length(); i++)
-        {
-            Long hId = habitIds.getLong(i);
-            Habit h = habitList.getById(hId);
-            if (h == null) continue;
+        if (event.equals("Archive")) return gson
+            .fromJson(json.toString(), ArchiveHabitsCommand.Record.class)
+            .toCommand(habitList);
 
-            habits.add(h);
-        }
+        if (event.equals("ChangeColor")) return gson
+            .fromJson(json.toString(), ChangeHabitColorCommand.Record.class)
+            .toCommand(habitList);
 
-        return habits;
-    }
+        if (event.equals("CreateHabit")) return gson
+            .fromJson(json.toString(), CreateHabitCommand.Record.class)
+            .toCommand(modelFactory, habitList);
 
-    @NonNull
-    protected static JSONArray habitListToJSON(List<Habit> habits)
-    {
-        JSONArray habitIds = new JSONArray();
-        for (Habit h : habits) habitIds.put(h.getId());
-        return habitIds;
-    }
+        if (event.equals("CreateRep")) return gson
+            .fromJson(json.toString(), CreateRepetitionCommand.Record.class)
+            .toCommand(habitList);
 
-    @NonNull
-    public Command fromJSON(@NonNull JSONObject json) throws JSONException
-    {
-        switch (json.getString("event"))
-        {
-            case "ToggleRepetition":
-                return ToggleRepetitionCommand.fromJSON(json, habitList);
+        if (event.equals("DeleteHabit")) return gson
+            .fromJson(json.toString(), DeleteHabitsCommand.Record.class)
+            .toCommand(habitList);
 
-            case "ArchiveHabits":
-                return ArchiveHabitsCommand.fromJSON(json, habitList);
+        if (event.equals("EditHabit")) return gson
+            .fromJson(json.toString(), EditHabitCommand.Record.class)
+            .toCommand(modelFactory, habitList);
 
-            case "UnarchiveHabits":
-                return UnarchiveHabitsCommand.fromJSON(json, habitList);
+        if (event.equals("Toggle")) return gson
+            .fromJson(json.toString(), ToggleRepetitionCommand.Record.class)
+            .toCommand(habitList);
 
-            case "ChangeHabitColor":
-                return ChangeHabitColorCommand.fromJSON(json, habitList);
+        if (event.equals("Unarchive")) return gson
+            .fromJson(json.toString(), UnarchiveHabitsCommand.Record.class)
+            .toCommand(habitList);
 
-            case "CreateHabit":
-                return CreateHabitCommand.fromJSON(json, habitList,
-                    modelFactory);
-
-            case "DeleteHabits":
-                return DeleteHabitsCommand.fromJSON(json, habitList);
-
-            case "EditHabit":
-                return EditHabitCommand.fromJSON(json, habitList, modelFactory);
-
-//            TODO: Implement this
-//            case "ReorderHabit":
-//                return ReorderHabitCommand.fromJSON(json);
-
-        }
-
-        return null;
+        throw new IllegalStateException("Unknown command");
     }
 }

@@ -22,16 +22,16 @@ package org.isoron.uhabits.commands;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
-import org.json.*;
 
 /**
  * Command to toggle a repetition.
  */
 public class ToggleRepetitionCommand extends Command
 {
-    private Long timestamp;
+    final long timestamp;
 
-    private Habit habit;
+    @NonNull
+    final Habit habit;
 
     public ToggleRepetitionCommand(@NonNull Habit habit, long timestamp)
     {
@@ -40,37 +40,13 @@ public class ToggleRepetitionCommand extends Command
         this.habit = habit;
     }
 
-    public ToggleRepetitionCommand(@NonNull String id,
-                                   @NonNull Habit habit,
-                                   long timestamp)
-    {
-        super(id);
-        this.timestamp = timestamp;
-        this.habit = habit;
-    }
-
-    @NonNull
-    public static Command fromJSON(@NonNull JSONObject json,
-                                   @NonNull HabitList habitList)
-        throws JSONException
-    {
-        String id = json.getString("id");
-        JSONObject data = (JSONObject) json.get("data");
-        Long habitId = data.getLong("habit");
-        Long timestamp = data.getLong("timestamp");
-
-        Habit habit = habitList.getById(habitId);
-        if (habit == null) throw new HabitNotFoundException();
-
-        return new ToggleRepetitionCommand(id, habit, timestamp);
-    }
-
     @Override
     public void execute()
     {
         habit.getRepetitions().toggleTimestamp(timestamp);
     }
 
+    @NonNull
     public Habit getHabit()
     {
         return habit;
@@ -78,26 +54,48 @@ public class ToggleRepetitionCommand extends Command
 
     @Override
     @NonNull
-    public JSONObject toJSON()
+    public Record toRecord()
     {
-        try
-        {
-            JSONObject root = super.toJSON();
-            JSONObject data = root.getJSONObject("data");
-            root.put("event", "ToggleRepetition");
-            data.put("habit", habit.getId());
-            data.put("timestamp", timestamp);
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+        return new Record(this);
     }
 
     @Override
     public void undo()
     {
         execute();
+    }
+
+    public static class Record
+    {
+        @NonNull
+        public String id;
+
+        @NonNull
+        public String event = "Toggle";
+
+        public long habitId;
+
+        public long timestamp;
+
+        public Record(@NonNull ToggleRepetitionCommand command)
+        {
+            id = command.getId();
+            Long habitId = command.habit.getId();
+            if(habitId == null) throw new RuntimeException("Habit not saved");
+
+            this.timestamp = command.timestamp;
+            this.habitId = habitId;
+        }
+
+        public ToggleRepetitionCommand toCommand(@NonNull HabitList habitList)
+        {
+            Habit h = habitList.getById(habitId);
+            if(h == null) throw new HabitNotFoundException();
+
+            ToggleRepetitionCommand command;
+            command = new ToggleRepetitionCommand(h, timestamp);
+            command.setId(id);
+            return command;
+        }
     }
 }

@@ -32,6 +32,11 @@ public interface ModelFactory
         return new Habit(this);
     }
 
+    default Habit buildHabit(Habit.HabitData data)
+    {
+        return new Habit(this, data);
+    }
+
     HabitList buildHabitList();
 
     RepetitionList buildRepetitionList(Habit habit);

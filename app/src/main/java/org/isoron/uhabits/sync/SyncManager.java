@@ -141,9 +141,7 @@ public class SyncManager
 
     public void postCommand(Command command)
     {
-        JSONObject msg = command.toJSON();
-        if (msg == null) return;
-
+        JSONObject msg = command.toJson();
         Long now = new Date().getTime();
         Event e = new Event(command.getId(), now, msg.toString());
         e.save();
@@ -293,7 +291,7 @@ public class SyncManager
 
         private void executeCommand(JSONObject root) throws JSONException
         {
-            Command received = commandParser.fromJSON(root);
+            Command received = commandParser.parse(root);
             for (Event e : pendingConfirmation)
             {
                 if (e.serverId.equals(received.getId()))

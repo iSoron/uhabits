@@ -23,56 +23,32 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.json.*;
 
 import java.util.*;
-
-import static org.isoron.uhabits.commands.CommandParser.habitListFromJSON;
-import static org.isoron.uhabits.commands.CommandParser.habitListToJSON;
 
 /**
  * Command to delete a list of habits.
  */
 public class DeleteHabitsCommand extends Command
 {
-    HabitList habitList;
-
-    private List<Habit> habits;
-
-    public DeleteHabitsCommand(@NonNull HabitList habitList,
-                               @NonNull List<Habit> habits)
-    {
-        super();
-        this.habits = habits;
-        this.habitList = habitList;
-    }
-
-    public DeleteHabitsCommand(@NonNull String id,
-                               @NonNull HabitList habitList,
-                               @NonNull List<Habit> habits)
-    {
-        super(id);
-        this.habits = habits;
-        this.habitList = habitList;
-    }
+    @NonNull
+    final HabitList habitList;
 
     @NonNull
-    public static Command fromJSON(@NonNull JSONObject json,
-                                   @NonNull HabitList habitList)
-        throws JSONException
-    {
-        String id = json.getString("id");
-        JSONObject data = (JSONObject) json.get("data");
-        JSONArray habitIds = data.getJSONArray("ids");
+    final List<Habit> selected;
 
-        LinkedList<Habit> habits = habitListFromJSON(habitList, habitIds);
-        return new DeleteHabitsCommand(id, habitList, habits);
+    public DeleteHabitsCommand(@NonNull HabitList habitList,
+                               @NonNull List<Habit> selected)
+    {
+        this.selected = new LinkedList<>(selected);
+        this.habitList = habitList;
     }
+
 
     @Override
     public void execute()
     {
-        for (Habit h : habits)
+        for (Habit h : selected)
             habitList.remove(h);
     }
 
@@ -82,9 +58,9 @@ public class DeleteHabitsCommand extends Command
         return R.string.toast_habit_deleted;
     }
 
-    public List<Habit> getHabits()
+    public List<Habit> getSelected()
     {
-        return new LinkedList<>(habits);
+        return Collections.unmodifiableList(selected);
     }
 
     @Override
@@ -95,25 +71,48 @@ public class DeleteHabitsCommand extends Command
 
     @Override
     @NonNull
-    public JSONObject toJSON()
+    public Record toRecord()
     {
-        try
-        {
-            JSONObject root = super.toJSON();
-            JSONObject data = root.getJSONObject("data");
-            root.put("event", "DeleteHabits");
-            data.put("ids", habitListToJSON(habits));
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+        return new Record(this);
     }
 
     @Override
     public void undo()
     {
         throw new UnsupportedOperationException();
+    }
+
+    public static class Record
+    {
+        @NonNull
+        public String id;
+
+        @NonNull
+        public String event = "DeleteHabit";
+
+        @NonNull
+        public List<Long> habits;
+
+        public Record(DeleteHabitsCommand command)
+        {
+            id = command.getId();
+            habits = new LinkedList<>();
+            for (Habit h : command.selected)
+            {
+                if (!h.hasId()) throw new RuntimeException("Habit not saved");
+                habits.add(h.getId());
+            }
+        }
+
+        public DeleteHabitsCommand toCommand(@NonNull HabitList habitList)
+        {
+            List<Habit> selected = new LinkedList<>();
+            for (Long id : this.habits) selected.add(habitList.getById(id));
+
+            DeleteHabitsCommand command;
+            command = new DeleteHabitsCommand(habitList, selected);
+            command.setId(id);
+            return command;
+        }
     }
 }

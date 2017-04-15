@@ -25,6 +25,8 @@ import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import static junit.framework.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class ToggleRepetitionCommandTest extends BaseUnitTest
 {
@@ -40,6 +42,7 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
         super.setUp();
 
         habit = fixtures.createShortHabit();
+        habitList.add(habit);
 
         today = DateUtils.getStartOfToday();
         command = new ToggleRepetitionCommand(habit, today);
@@ -58,5 +61,16 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
 
         command.execute();
         assertFalse(habit.getRepetitions().containsTimestamp(today));
+    }
+
+    @Test
+    public void testRecord()
+    {
+        ToggleRepetitionCommand.Record rec = command.toRecord();
+        ToggleRepetitionCommand other = rec.toCommand(habitList);
+
+        assertThat(command.getId(), equalTo(other.getId()));
+        assertThat(command.timestamp, equalTo(other.timestamp));
+        assertThat(command.habit, equalTo(other.habit));
     }
 }

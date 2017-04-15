@@ -28,7 +28,6 @@ import static org.hamcrest.Matchers.*;
 
 public class EditHabitCommandTest extends BaseUnitTest
 {
-
     private EditHabitCommand command;
 
     private Habit habit;
@@ -97,5 +96,20 @@ public class EditHabitCommandTest extends BaseUnitTest
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(),
             lessThan(originalScore));
+    }
+
+    @Test
+    public void testRecord()
+    {
+        command =
+            new EditHabitCommand(modelFactory, habitList, habit, modified);
+
+        EditHabitCommand.Record rec = command.toRecord();
+        EditHabitCommand other = rec.toCommand(modelFactory, habitList);
+
+        assertThat(other.getId(), equalTo(command.getId()));
+        assertThat(other.savedId, equalTo(command.savedId));
+        assertThat(other.original.getData(), equalTo(command.original.getData()));
+        assertThat(other.modified.getData(), equalTo(command.modified.getData()));
     }
 }

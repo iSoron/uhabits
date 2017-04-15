@@ -23,54 +23,35 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.json.*;
 
 import java.util.*;
-
-import static org.isoron.uhabits.commands.CommandParser.*;
 
 /**
  * Command to change the color of a list of habits.
  */
 public class ChangeHabitColorCommand extends Command
 {
-    HabitList habitList;
+    @NonNull
+    final HabitList habitList;
 
-    List<Habit> selected;
+    @NonNull
+    final List<Habit> selected;
 
-    List<Integer> originalColors;
+    @NonNull
+    final List<Integer> originalColors;
 
-    Integer newColor;
+    @NonNull
+    final Integer newColor;
 
     public ChangeHabitColorCommand(@NonNull HabitList habitList,
                                    @NonNull List<Habit> selected,
                                    @NonNull Integer newColor)
     {
-        super();
-        init(habitList, selected, newColor);
-    }
-
-    public ChangeHabitColorCommand(@NonNull String id,
-                                   @NonNull HabitList habitList,
-                                   @NonNull List<Habit> selected,
-                                   @NonNull Integer newColor)
-    {
-        super(id);
-        init(habitList, selected, newColor);
-    }
-
-    @NonNull
-    public static Command fromJSON(@NonNull JSONObject json,
-                                   @NonNull HabitList habitList)
-        throws JSONException
-    {
-        String id = json.getString("id");
-        JSONObject data = (JSONObject) json.get("data");
-        JSONArray habitIds = data.getJSONArray("ids");
-        int newColor = data.getInt("color");
-
-        LinkedList<Habit> selected = habitListFromJSON(habitList, habitIds);
-        return new ChangeHabitColorCommand(id, habitList, selected, newColor);
+        this.habitList = habitList;
+        this.selected = selected;
+        this.newColor = newColor;
+        this.originalColors = new ArrayList<>(selected.size());
+        for (Habit h : selected) originalColors.add(h.getColor());
     }
 
     @Override
@@ -92,23 +73,11 @@ public class ChangeHabitColorCommand extends Command
         return R.string.toast_habit_changed;
     }
 
-    @Override
     @NonNull
-    public JSONObject toJSON()
+    @Override
+    public Record toRecord()
     {
-        try
-        {
-            JSONObject root = super.toJSON();
-            JSONObject data = root.getJSONObject("data");
-            root.put("event", "ChangeHabitColor");
-            data.put("ids", habitListToJSON(selected));
-            data.put("color", newColor);
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+        return new Record(this);
     }
 
     @Override
@@ -119,15 +88,41 @@ public class ChangeHabitColorCommand extends Command
         habitList.update(selected);
     }
 
-    private void init(@NonNull HabitList habitList,
-                      @NonNull List<Habit> selected,
-                      @NonNull Integer newColor)
+    public static class Record
     {
-        this.habitList = habitList;
-        this.selected = selected;
-        this.newColor = newColor;
-        this.originalColors = new ArrayList<>(selected.size());
+        @NonNull
+        public String id;
 
-        for (Habit h : selected) originalColors.add(h.getColor());
+        @NonNull
+        public String event = "ChangeColor";
+
+        @NonNull
+        public List<Long> habits;
+
+        @NonNull
+        public Integer color;
+
+        public Record(ChangeHabitColorCommand command)
+        {
+            id = command.getId();
+            color = command.newColor;
+            habits = new LinkedList<>();
+            for (Habit h : command.selected)
+            {
+                if (!h.hasId()) throw new RuntimeException("Habit not saved");
+                habits.add(h.getId());
+            }
+        }
+
+        public ChangeHabitColorCommand toCommand(@NonNull HabitList habitList)
+        {
+            List<Habit> selected = new LinkedList<>();
+            for (Long id : this.habits) selected.add(habitList.getById(id));
+
+            ChangeHabitColorCommand command;
+            command = new ChangeHabitColorCommand(habitList, selected, color);
+            command.setId(id);
+            return command;
+        }
     }
 }

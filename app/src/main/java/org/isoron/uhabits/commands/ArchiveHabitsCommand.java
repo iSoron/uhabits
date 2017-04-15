@@ -23,56 +23,31 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.json.*;
 
 import java.util.*;
-
-import static org.isoron.uhabits.commands.CommandParser.*;
 
 /**
  * Command to archive a list of habits.
  */
 public class ArchiveHabitsCommand extends Command
 {
-    private List<Habit> selectedHabits;
+    final List<Habit> selected;
 
-    private final HabitList habitList;
+    final HabitList habitList;
 
     public ArchiveHabitsCommand(@NonNull HabitList habitList,
-                                @NonNull List<Habit> selectedHabits)
+                                @NonNull List<Habit> selected)
     {
         super();
         this.habitList = habitList;
-        this.selectedHabits = selectedHabits;
-    }
-
-    public ArchiveHabitsCommand(@NonNull String id,
-                                @NonNull HabitList habitList,
-                                @NonNull List<Habit> selectedHabits)
-    {
-        super(id);
-        this.habitList = habitList;
-        this.selectedHabits = selectedHabits;
-    }
-
-    public static Command fromJSON(@NonNull JSONObject json,
-                                   @NonNull HabitList habitList)
-        throws JSONException
-    {
-        String id = json.getString("id");
-        JSONObject data = (JSONObject) json.get("data");
-        JSONArray habitIds = data.getJSONArray("ids");
-
-        LinkedList<Habit> selectedHabits =
-            habitListFromJSON(habitList, habitIds);
-        return new ArchiveHabitsCommand(id, habitList, selectedHabits);
+        this.selected = new LinkedList<>(selected);
     }
 
     @Override
     public void execute()
     {
-        for (Habit h : selectedHabits) h.setArchived(true);
-        habitList.update(selectedHabits);
+        for (Habit h : selected) h.setArchived(true);
+        habitList.update(selected);
     }
 
     @Override
@@ -87,28 +62,51 @@ public class ArchiveHabitsCommand extends Command
         return R.string.toast_habit_unarchived;
     }
 
-    @Nullable
-    @Override
-    public JSONObject toJSON()
-    {
-        try
-        {
-            JSONObject root = super.toJSON();
-            JSONObject data = root.getJSONObject("data");
-            root.put("event", "ArchiveHabits");
-            data.put("ids", habitListToJSON(selectedHabits));
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
     @Override
     public void undo()
     {
-        for (Habit h : selectedHabits) h.setArchived(false);
-        habitList.update(selectedHabits);
+        for (Habit h : selected) h.setArchived(false);
+        habitList.update(selected);
+    }
+
+    @NonNull
+    @Override
+    public Record toRecord()
+    {
+        return new Record(this);
+    }
+
+    public static class Record
+    {
+        @NonNull
+        public final String id;
+
+        @NonNull
+        public final String event = "Archive";
+
+        @NonNull
+        public final List<Long> habits;
+
+        public Record(@NonNull ArchiveHabitsCommand command)
+        {
+            id = command.getId();
+            habits = new LinkedList<>();
+            for (Habit h : command.selected)
+            {
+                habits.add(h.getId());
+            }
+        }
+
+        @NonNull
+        public ArchiveHabitsCommand toCommand(@NonNull HabitList habitList)
+        {
+            List<Habit> selected = new LinkedList<>();
+            for (Long id : this.habits) selected.add(habitList.getById(id));
+
+            ArchiveHabitsCommand command;
+            command = new ArchiveHabitsCommand(habitList, selected);
+            command.setId(id);
+            return command;
+        }
     }
 }

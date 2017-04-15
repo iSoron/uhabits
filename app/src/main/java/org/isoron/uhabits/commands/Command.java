@@ -19,6 +19,10 @@
 
 package org.isoron.uhabits.commands;
 
+import android.support.annotation.*;
+
+import com.google.gson.*;
+
 import org.isoron.uhabits.utils.*;
 import org.json.*;
 
@@ -33,7 +37,7 @@ import org.json.*;
  */
 public abstract class Command
 {
-    private final String id;
+    private String id;
 
     public Command()
     {
@@ -52,31 +56,37 @@ public abstract class Command
         return null;
     }
 
+    public String getId()
+    {
+        return id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
     public Integer getUndoStringId()
     {
         return null;
     }
 
-    public abstract void undo();
-
-    public JSONObject toJSON()
+    @NonNull
+    public JSONObject toJson()
     {
         try
         {
-            JSONObject root = new JSONObject();
-            JSONObject data = new JSONObject();
-            root.put("id", getId());
-            root.put("data", data);
-            return root;
+            String json = new GsonBuilder().create().toJson(toRecord());
+            return new JSONObject(json);
         }
         catch (JSONException e)
         {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public String getId()
-    {
-        return id;
-    }
+    @NonNull
+    public abstract Object toRecord();
+
+    public abstract void undo();
 }

@@ -41,6 +41,7 @@ public class CreateHabitCommandTest extends BaseUnitTest
 
         model = fixtures.createEmptyHabit();
         model.setName("New habit");
+        model.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
 
         command = new CreateHabitCommand(modelFactory, habitList, model);
     }
@@ -70,5 +71,16 @@ public class CreateHabitCommandTest extends BaseUnitTest
         assertThat(habit.getName(), equalTo(model.getName()));
     }
 
+    @Test
+    public void testRecord()
+    {
+        command.execute();
 
+        CreateHabitCommand.Record rec = command.toRecord();
+        CreateHabitCommand other = rec.toCommand(modelFactory, habitList);
+
+        assertThat(other.getId(), equalTo(command.getId()));
+        assertThat(other.savedId, equalTo(command.savedId));
+        assertThat(other.model.getData(), equalTo(command.model.getData()));
+    }
 }

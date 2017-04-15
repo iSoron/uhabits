@@ -29,15 +29,17 @@ import org.isoron.uhabits.models.*;
 public class CreateRepetitionCommand extends Command
 {
     @NonNull
-    private final Habit habit;
+    final Habit habit;
 
-    private final long timestamp;
+    final long timestamp;
 
-    private final int value;
+    final int value;
 
-    private Repetition previousRep;
+    @Nullable
+    Repetition previousRep;
 
-    private Repetition newRep;
+    @Nullable
+    Repetition newRep;
 
     public CreateRepetitionCommand(@NonNull Habit habit,
                                    long timestamp,
@@ -69,10 +71,56 @@ public class CreateRepetitionCommand extends Command
     }
 
     @Override
+    @NonNull
+    public Record toRecord()
+    {
+        return new Record(this);
+    }
+
+    @Override
     public void undo()
     {
+        if(newRep == null) throw new IllegalStateException();
         habit.getRepetitions().remove(newRep);
+
         if (previousRep != null) habit.getRepetitions().add(previousRep);
         habit.invalidateNewerThan(timestamp);
+    }
+
+    public static class Record
+    {
+        @NonNull
+        public String id;
+
+        @NonNull
+        public String event = "CreateRep";
+
+        public long habitId;
+
+        public long timestamp;
+
+        public int value;
+
+        public Record(CreateRepetitionCommand command)
+        {
+            id = command.getId();
+            Long habitId = command.habit.getId();
+            if(habitId == null) throw new RuntimeException("Habit not saved");
+
+            this.habitId = habitId;
+            this.timestamp = command.timestamp;
+            this.value = command.value;
+        }
+
+        public CreateRepetitionCommand toCommand(@NonNull HabitList habitList)
+        {
+            Habit h = habitList.getById(habitId);
+            if(h == null) throw new HabitNotFoundException();
+
+            CreateRepetitionCommand command;
+            command = new CreateRepetitionCommand(h, timestamp, value);
+            command.setId(id);
+            return command;
+        }
     }
 }

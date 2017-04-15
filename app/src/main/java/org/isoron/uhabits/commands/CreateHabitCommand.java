@@ -25,7 +25,6 @@ import com.google.auto.factory.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.json.*;
 
 /**
  * Command to create a habit.
@@ -33,52 +32,23 @@ import org.json.*;
 @AutoFactory
 public class CreateHabitCommand extends Command
 {
-    private ModelFactory modelFactory;
+    ModelFactory modelFactory;
 
     HabitList habitList;
 
     @NonNull
-    private Habit model;
+    Habit model;
 
     @Nullable
-    private Long savedId;
+    Long savedId;
 
     public CreateHabitCommand(@Provided @NonNull ModelFactory modelFactory,
                               @NonNull HabitList habitList,
                               @NonNull Habit model)
     {
-        super();
         this.modelFactory = modelFactory;
         this.habitList = habitList;
         this.model = model;
-    }
-
-    public CreateHabitCommand(@Provided @NonNull ModelFactory modelFactory,
-                              @NonNull String commandId,
-                              @NonNull HabitList habitList,
-                              @NonNull Habit model,
-                              @Nullable Long savedId)
-    {
-        super(commandId);
-        this.modelFactory = modelFactory;
-        this.habitList = habitList;
-        this.model = model;
-        this.savedId = savedId;
-    }
-
-    @NonNull
-    public static Command fromJSON(@NonNull JSONObject root,
-                                   @NonNull HabitList habitList,
-                                   @NonNull ModelFactory modelFactory)
-        throws JSONException
-    {
-        String commandId = root.getString("id");
-        JSONObject data = (JSONObject) root.get("data");
-        Habit model = Habit.fromJSON(data.getJSONObject("habit"), modelFactory);
-        Long savedId = data.getLong("id");
-
-        return new CreateHabitCommand(modelFactory, commandId, habitList, model,
-            savedId);
     }
 
     @Override
@@ -104,30 +74,55 @@ public class CreateHabitCommand extends Command
         return R.string.toast_habit_deleted;
     }
 
+    @NonNull
     @Override
-    public JSONObject toJSON()
+    public Record toRecord()
     {
-        try
-        {
-            JSONObject root = super.toJSON();
-            JSONObject data = root.getJSONObject("data");
-            root.put("event", "CreateHabit");
-            data.put("habit", model.toJSON());
-            data.put("id", savedId);
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+        return new Record(this);
     }
 
     @Override
     public void undo()
     {
+        if (savedId == null) throw new IllegalStateException();
+
         Habit habit = habitList.getById(savedId);
-        if (habit == null) throw new RuntimeException("Habit not found");
+        if (habit == null) throw new HabitNotFoundException();
 
         habitList.remove(habit);
+    }
+
+    public static class Record
+    {
+        @NonNull
+        public String id;
+
+        @NonNull
+        public String event = "CreateHabit";
+
+        @NonNull
+        public Habit.HabitData habit;
+
+        @Nullable
+        public Long savedId;
+
+        public Record(CreateHabitCommand command)
+        {
+            id = command.getId();
+            habit = command.model.getData();
+            savedId = command.savedId;
+        }
+
+        public CreateHabitCommand toCommand(@NonNull ModelFactory modelFactory,
+                                            @NonNull HabitList habitList)
+        {
+            Habit h = modelFactory.buildHabit(habit);
+
+            CreateHabitCommand command;
+            command = new CreateHabitCommand(modelFactory, habitList, h);
+            command.savedId = savedId;
+            command.setId(id);
+            return command;
+        }
     }
 }

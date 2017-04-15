@@ -73,4 +73,13 @@ public class DeleteHabitsCommandTest extends BaseUnitTest
         thrown.expect(UnsupportedOperationException.class);
         command.undo();
     }
+
+    @Test
+    public void testRecord()
+    {
+        DeleteHabitsCommand.Record rec = command.toRecord();
+        DeleteHabitsCommand other = rec.toCommand(habitList);
+        assertThat(other.getId(), equalTo(command.getId()));
+        assertThat(other.selected, equalTo(command.selected));
+    }
 }

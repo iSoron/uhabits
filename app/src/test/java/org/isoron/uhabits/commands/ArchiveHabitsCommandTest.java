@@ -26,11 +26,13 @@ import org.junit.*;
 import java.util.*;
 
 import static junit.framework.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 public class ArchiveHabitsCommandTest extends BaseUnitTest
 {
-
     private ArchiveHabitsCommand command;
+
     private Habit habit;
 
     @Override
@@ -40,8 +42,10 @@ public class ArchiveHabitsCommandTest extends BaseUnitTest
         super.setUp();
 
         habit = fixtures.createShortHabit();
-        command = new ArchiveHabitsCommand(habitList, Collections
-            .singletonList(habit));
+        habitList.add(habit);
+
+        command = new ArchiveHabitsCommand(habitList,
+            Collections.singletonList(habit));
     }
 
     @Test
@@ -57,5 +61,14 @@ public class ArchiveHabitsCommandTest extends BaseUnitTest
 
         command.execute();
         assertTrue(habit.isArchived());
+    }
+
+    @Test
+    public void testRecord()
+    {
+        ArchiveHabitsCommand.Record rec = command.toRecord();
+        ArchiveHabitsCommand other = rec.toCommand(habitList);
+        assertThat(other.selected, equalTo(command.selected));
+        assertThat(other.getId(), equalTo(command.getId()));
     }
 }

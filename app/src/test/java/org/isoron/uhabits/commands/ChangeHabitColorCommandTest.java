@@ -32,7 +32,7 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
 {
     private ChangeHabitColorCommand command;
 
-    private LinkedList<Habit> habits;
+    private LinkedList<Habit> selected;
 
     @Override
     @Before
@@ -40,16 +40,17 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
     {
         super.setUp();
 
-        habits = new LinkedList<>();
+        selected = new LinkedList<>();
 
         for (int i = 0; i < 3; i++)
         {
             Habit habit = fixtures.createShortHabit();
             habit.setColor(i + 1);
-            habits.add(habit);
+            selected.add(habit);
+            habitList.add(habit);
         }
 
-        command = new ChangeHabitColorCommand(habitList, habits, 0);
+        command = new ChangeHabitColorCommand(habitList, selected, 0);
     }
 
     @Test
@@ -67,16 +68,26 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
         checkNewColors();
     }
 
+    @Test
+    public void testRecord()
+    {
+        ChangeHabitColorCommand.Record rec = command.toRecord();
+        ChangeHabitColorCommand other = rec.toCommand(habitList);
+        assertThat(other.getId(), equalTo(command.getId()));
+        assertThat(other.newColor, equalTo(command.newColor));
+        assertThat(other.selected, equalTo(command.selected));
+    }
+
     private void checkNewColors()
     {
-        for (Habit h : habits)
+        for (Habit h : selected)
             assertThat(h.getColor(), equalTo(0));
     }
 
     private void checkOriginalColors()
     {
         int k = 0;
-        for (Habit h : habits)
+        for (Habit h : selected)
             assertThat(h.getColor(), equalTo(++k));
     }
 }

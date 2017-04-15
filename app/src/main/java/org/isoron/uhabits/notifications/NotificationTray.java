@@ -102,7 +102,7 @@ public class NotificationTray
         if (command instanceof DeleteHabitsCommand)
         {
             DeleteHabitsCommand deleteCommand = (DeleteHabitsCommand) command;
-            List<Habit> deleted = deleteCommand.getHabits();
+            List<Habit> deleted = deleteCommand.getSelected();
             for (Habit habit : deleted)
                 cancel(habit);
         }

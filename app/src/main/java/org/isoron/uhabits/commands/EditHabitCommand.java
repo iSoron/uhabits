@@ -25,7 +25,6 @@ import com.google.auto.factory.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.json.*;
 
 /**
  * Command to modify a habit.
@@ -33,52 +32,43 @@ import org.json.*;
 @AutoFactory
 public class EditHabitCommand extends Command
 {
-    HabitList habitList;
-
-    private Habit original;
-
-    private Habit modified;
-
-    private long savedId;
-
-    private boolean hasFrequencyChanged;
-
-    private boolean hasTargetChanged;
-
-    public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
-                            @NonNull HabitList habitList,
-                            @NonNull Habit original,
-                            @NonNull Habit modified)
-    {
-        super();
-        init(modelFactory, habitList, original, modified);
-    }
-
-    public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
-                            @NonNull String id,
-                            @NonNull HabitList habitList,
-                            @NonNull Habit original,
-                            @NonNull Habit modified)
-    {
-        super(id);
-        init(modelFactory, habitList, original, modified);
-    }
+    @NonNull
+    final HabitList habitList;
 
     @NonNull
-    public static Command fromJSON(@NonNull JSONObject root,
-                                   @NonNull HabitList habitList,
-                                   @NonNull ModelFactory modelFactory)
-        throws JSONException
-    {
-        String commandId = root.getString("id");
-        JSONObject data = (JSONObject) root.get("data");
-        Habit original = habitList.getById(data.getLong("id"));
-        if (original == null) throw new HabitNotFoundException();
+    final Habit original;
 
-        Habit modified =
-            Habit.fromJSON(data.getJSONObject("params"), modelFactory);
-        return new EditHabitCommand(modelFactory, commandId, habitList,
-            original, modified);
+    @NonNull
+    final Habit modified;
+
+    final long savedId;
+
+    final boolean hasFrequencyChanged;
+
+    final boolean hasTargetChanged;
+
+    public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
+                            @NonNull HabitList habitList,
+                            @NonNull Habit original,
+                            @NonNull Habit modified)
+    {
+        Long habitId = original.getId();
+        if (habitId == null) throw new RuntimeException("Habit not saved");
+
+        this.savedId = habitId;
+        this.habitList = habitList;
+        this.modified = modelFactory.buildHabit();
+        this.original = modelFactory.buildHabit();
+
+        this.modified.copyFrom(modified);
+        this.original.copyFrom(original);
+
+        Frequency originalFreq = this.original.getFrequency();
+        Frequency modifiedFreq = this.modified.getFrequency();
+        hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
+        hasTargetChanged =
+            (original.getTargetType() != modified.getTargetType() ||
+             original.getTargetValue() != modified.getTargetValue());
     }
 
     @Override
@@ -99,22 +89,11 @@ public class EditHabitCommand extends Command
         return R.string.toast_habit_changed_back;
     }
 
+    @NonNull
     @Override
-    public JSONObject toJSON()
+    public Record toRecord()
     {
-        try
-        {
-            JSONObject root = super.toJSON();
-            JSONObject data = root.getJSONObject("data");
-            root.put("event", "EditHabit");
-            data.put("id", savedId);
-            data.put("params", modified.toJSON());
-            return root;
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+        return new Record(this);
     }
 
     @Override
@@ -131,33 +110,44 @@ public class EditHabitCommand extends Command
         habit.copyFrom(model);
         habitList.update(habit);
 
-        invalidateIfNeeded(habit);
-    }
-
-    private void init(@NonNull ModelFactory modelFactory,
-                      @NonNull HabitList habitList,
-                      @NonNull Habit original,
-                      @NonNull Habit modified)
-    {
-        this.habitList = habitList;
-        this.savedId = original.getId();
-        this.modified = modelFactory.buildHabit();
-        this.original = modelFactory.buildHabit();
-
-        this.modified.copyFrom(modified);
-        this.original.copyFrom(original);
-
-        Frequency originalFreq = this.original.getFrequency();
-        Frequency modifiedFreq = this.modified.getFrequency();
-        hasFrequencyChanged = (!originalFreq.equals(modifiedFreq));
-        hasTargetChanged =
-            (original.getTargetType() != modified.getTargetType() ||
-             original.getTargetValue() != modified.getTargetValue());
-    }
-
-    private void invalidateIfNeeded(Habit habit)
-    {
         if (hasFrequencyChanged || hasTargetChanged)
             habit.invalidateNewerThan(0);
+    }
+
+    public static class Record
+    {
+        @NonNull
+        public String id;
+
+        @NonNull
+        public String event = "EditHabit";
+
+        @NonNull
+        public Habit.HabitData habit;
+
+        public long habitId;
+
+        public Record(EditHabitCommand command)
+        {
+            id = command.getId();
+            this.habitId = command.savedId;
+            this.habit = command.modified.getData();
+        }
+
+        @NonNull
+        public EditHabitCommand toCommand(@NonNull ModelFactory modelFactory,
+                                          @NonNull HabitList habitList)
+        {
+            Habit original = habitList.getById(habitId);
+            if(original == null) throw new HabitNotFoundException();
+
+            Habit modified = modelFactory.buildHabit(habit);
+
+            EditHabitCommand command;
+            command = new EditHabitCommand(modelFactory, habitList, original,
+                modified);
+            command.setId(id);
+            return command;
+        }
     }
 }

@@ -23,12 +23,12 @@ import android.net.*;
 import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
-import org.json.*;
 
 import java.util.*;
 
 import javax.inject.*;
 
+import static android.R.attr.*;
 import static org.isoron.uhabits.models.Checkmark.*;
 
 /**
@@ -48,20 +48,10 @@ public class Habit
     public static final int YES_NO_HABIT = 0;
 
     @Nullable
-    private Long id;
+    public Long id;
 
     @NonNull
-    private String name;
-
-    @NonNull
-    private String description;
-
-    @NonNull
-    private Frequency frequency;
-
-    private int color;
-
-    private boolean archived;
+    private HabitData data;
 
     @NonNull
     private StreakList streaks;
@@ -69,28 +59,16 @@ public class Habit
     @NonNull
     private ScoreList scores;
 
-    private int targetType;
-
-    private double targetValue;
-
-    private int type;
-
     @NonNull
     private RepetitionList repetitions;
 
     @NonNull
     private CheckmarkList checkmarks;
 
-    @NonNull
-    private String unit;
-
-    @Nullable
-    private Reminder reminder;
-
     private ModelObservable observable = new ModelObservable();
 
     /**
-     * Constructs a habit with default attributes.
+     * Constructs a habit with default data.
      * <p>
      * The habit is not archived, not highlighted, has no reminders and is
      * placed in the last position of the list of habits.
@@ -98,16 +76,16 @@ public class Habit
     @Inject
     Habit(@NonNull ModelFactory factory)
     {
-        this.color = 5;
-        this.archived = false;
-        this.frequency = new Frequency(3, 7);
-        this.type = YES_NO_HABIT;
-        this.name = "";
-        this.description = "";
-        this.targetType = AT_LEAST;
-        this.targetValue = 100;
-        this.unit = "";
+        this.data = new HabitData();
+        checkmarks = factory.buildCheckmarkList(this);
+        streaks = factory.buildStreakList(this);
+        scores = factory.buildScoreList(this);
+        repetitions = factory.buildRepetitionList(this);
+    }
 
+    Habit(@NonNull ModelFactory factory, @NonNull HabitData data)
+    {
+        this.data = new HabitData(data);
         checkmarks = factory.buildCheckmarkList(this);
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
@@ -119,7 +97,7 @@ public class Habit
      */
     public void clearReminder()
     {
-        reminder = null;
+        data.reminder = null;
         observable.notifyListeners();
     }
 
@@ -130,16 +108,7 @@ public class Habit
      */
     public void copyFrom(@NonNull Habit model)
     {
-        this.name = model.getName();
-        this.description = model.getDescription();
-        this.color = model.getColor();
-        this.archived = model.isArchived();
-        this.frequency = model.frequency;
-        this.reminder = model.reminder;
-        this.type = model.type;
-        this.targetValue = model.targetValue;
-        this.targetType = model.targetType;
-        this.unit = model.unit;
+        this.data = new HabitData(model.data);
         observable.notifyListeners();
     }
 
@@ -163,41 +132,34 @@ public class Habit
     @NonNull
     public Integer getColor()
     {
-        return color;
-    }
-
-    public boolean isCompletedToday()
-    {
-        int todayCheckmark = getCheckmarks().getTodayValue();
-        if (isNumerical()) return todayCheckmark >= targetValue;
-        else return (todayCheckmark != UNCHECKED);
+        return data.color;
     }
 
     public void setColor(@NonNull Integer color)
     {
-        this.color = color;
+        data.color = color;
     }
 
     @NonNull
     public String getDescription()
     {
-        return description;
+        return data.description;
     }
 
     public void setDescription(@NonNull String description)
     {
-        this.description = description;
+        data.description = description;
     }
 
     @NonNull
     public Frequency getFrequency()
     {
-        return frequency;
+        return data.frequency;
     }
 
     public void setFrequency(@NonNull Frequency frequency)
     {
-        this.frequency = frequency;
+        data.frequency = frequency;
     }
 
     @Nullable
@@ -214,12 +176,12 @@ public class Habit
     @NonNull
     public String getName()
     {
-        return name;
+        return data.name;
     }
 
     public void setName(@NonNull String name)
     {
-        this.name = name;
+        data.name = name;
     }
 
     public ModelObservable getObservable()
@@ -240,13 +202,13 @@ public class Habit
     @NonNull
     public Reminder getReminder()
     {
-        if (reminder == null) throw new IllegalStateException();
-        return reminder;
+        if (data.reminder == null) throw new IllegalStateException();
+        return data.reminder;
     }
 
     public void setReminder(@Nullable Reminder reminder)
     {
-        this.reminder = reminder;
+        data.reminder = reminder;
     }
 
     @NonNull
@@ -269,30 +231,30 @@ public class Habit
 
     public int getTargetType()
     {
-        return targetType;
+        return data.targetType;
     }
 
     public void setTargetType(int targetType)
     {
         if (targetType != AT_LEAST && targetType != AT_MOST)
             throw new IllegalArgumentException();
-        this.targetType = targetType;
+        data.targetType = targetType;
     }
 
     public double getTargetValue()
     {
-        return targetValue;
+        return data.targetValue;
     }
 
     public void setTargetValue(double targetValue)
     {
-        if(targetValue < 0) throw new IllegalArgumentException();
-        this.targetValue = targetValue;
+        if (targetValue < 0) throw new IllegalArgumentException();
+        data.targetValue = targetValue;
     }
 
     public int getType()
     {
-        return type;
+        return data.type;
     }
 
     public void setType(int type)
@@ -300,18 +262,18 @@ public class Habit
         if (type != YES_NO_HABIT && type != NUMBER_HABIT)
             throw new IllegalArgumentException();
 
-        this.type = type;
+        data.type = type;
     }
 
     @NonNull
     public String getUnit()
     {
-        return unit;
+        return data.unit;
     }
 
     public void setUnit(@NonNull String unit)
     {
-        this.unit = unit;
+        data.unit = unit;
     }
 
     /**
@@ -325,6 +287,11 @@ public class Habit
         return Uri.parse(s);
     }
 
+    public boolean hasId()
+    {
+        return getId() != null;
+    }
+
     /**
      * Returns whether the habit has a reminder.
      *
@@ -332,7 +299,7 @@ public class Habit
      */
     public boolean hasReminder()
     {
-        return reminder != null;
+        return data.reminder != null;
     }
 
     public void invalidateNewerThan(long timestamp)
@@ -344,12 +311,19 @@ public class Habit
 
     public boolean isArchived()
     {
-        return archived;
+        return data.archived;
     }
 
     public void setArchived(boolean archived)
     {
-        this.archived = archived;
+        data.archived = archived;
+    }
+
+    public boolean isCompletedToday()
+    {
+        int todayCheckmark = getCheckmarks().getTodayValue();
+        if (isNumerical()) return todayCheckmark >= data.targetValue;
+        else return (todayCheckmark != UNCHECKED);
     }
 
     public boolean isNumerical()
@@ -357,79 +331,120 @@ public class Habit
         return type == NUMBER_HABIT;
     }
 
-    @Override
-    public String toString()
+    public HabitData getData()
     {
-        return new ToStringBuilder(this)
-            .append("id", id)
-            .append("name", name)
-            .append("description", description)
-            .append("color", color)
-            .append("archived", archived)
-            .append("type", type)
-            .append("targetType", targetType)
-            .append("targetValue", targetValue)
-            .append("unit", unit)
-            .toString();
+        return new HabitData(data);
     }
 
-    @NonNull
-    public JSONObject toJSON()
+    public static class HabitData
     {
-        try
+        @NonNull
+        public String name;
+
+        @NonNull
+        public String description;
+
+        @NonNull
+        public Frequency frequency;
+
+        public int color;
+
+        public boolean archived;
+
+        public int targetType;
+
+        public double targetValue;
+
+        public int type;
+
+        @NonNull
+        public String unit;
+
+        @Nullable
+        public Reminder reminder;
+
+        public HabitData()
         {
-            JSONObject json = new JSONObject();
-            json.put("name", name);
-            json.put("description", description);
-            json.put("freqNum", frequency.getNumerator());
-            json.put("freqDen", frequency.getDenominator());
-            json.put("color", color);
-            json.put("type", type);
-            json.put("targetType", targetType);
-            json.put("targetValue", targetValue);
-            json.put("unit", unit);
-            json.put("archived", archived);
-
-            if(reminder != null)
-            {
-                json.put("reminderHour", reminder.getHour());
-                json.put("reminderMin", reminder.getMinute());
-                json.put("reminderDays", reminder.getDays().toInteger());
-            }
-
-            return json;
+            this.color = 5;
+            this.archived = false;
+            this.frequency = new Frequency(3, 7);
+            this.type = YES_NO_HABIT;
+            this.name = "";
+            this.description = "";
+            this.targetType = AT_LEAST;
+            this.targetValue = 100;
+            this.unit = "";
         }
-        catch(JSONException e)
+
+        public HabitData(@NonNull HabitData model)
         {
-            throw new RuntimeException(e.getMessage());
+            this.name = model.name;
+            this.description = model.description;
+            this.frequency = model.frequency;
+            this.color = model.color;
+            this.archived = model.archived;
+            this.targetType = model.targetType;
+            this.targetValue = model.targetValue;
+            this.type = model.type;
+            this.unit = model.unit;
+            this.reminder = model.reminder;
         }
-    }
 
-    @NonNull
-    public static Habit fromJSON(@NonNull JSONObject json,
-                                 @NonNull ModelFactory modelFactory)
-        throws JSONException
-    {
-        Habit habit = modelFactory.buildHabit();
-        habit.name = json.getString("name");
-        habit.description = json.getString("description");
-        int freqNum = json.getInt("freqNum");
-        int freqDen = json.getInt("freqDen");
-        habit.frequency = new Frequency(freqNum, freqDen);
-        habit.color = json.getInt("color");
-        habit.archived = json.getBoolean("archived");
-        habit.targetValue = json.getInt("targetValue");
-        habit.targetType = json.getInt("targetType");
-        habit.unit = json.getString("unit");
-        habit.type = json.getInt("type");
-
-        if(json.has("reminderHour"))
+        @Override
+        public String toString()
         {
-            int hour = json.getInt("reminderHour");
-            int min = json.getInt("reminderMin");
-            int days = json.getInt("reminderDays");
-            habit.reminder = new Reminder(hour, min, new WeekdayList(days));
+            return new ToStringBuilder(this)
+                .append("name", name)
+                .append("description", description)
+                .append("frequency", frequency)
+                .append("color", color)
+                .append("archived", archived)
+                .append("targetType", targetType)
+                .append("targetValue", targetValue)
+                .append("type", type)
+                .append("unit", unit)
+                .append("reminder", reminder)
+                .toString();
         }
-        return habit;
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o) return true;
+
+            if (o == null || getClass() != o.getClass()) return false;
+
+            HabitData habitData = (HabitData) o;
+
+            return new EqualsBuilder()
+                .append(color, habitData.color)
+                .append(archived, habitData.archived)
+                .append(targetType, habitData.targetType)
+                .append(targetValue, habitData.targetValue)
+                .append(type, habitData.type)
+                .append(name, habitData.name)
+                .append(description, habitData.description)
+                .append(frequency, habitData.frequency)
+                .append(unit, habitData.unit)
+                .append(reminder, habitData.reminder)
+                .isEquals();
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return new HashCodeBuilder(17, 37)
+                .append(name)
+                .append(description)
+                .append(frequency)
+                .append(color)
+                .append(archived)
+                .append(targetType)
+                .append(targetValue)
+                .append(type)
+                .append(unit)
+                .append(reminder)
+                .toHashCode();
+        }
     }
 }
