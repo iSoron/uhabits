@@ -95,9 +95,9 @@ public class CreateRepetitionCommand extends Command
         @NonNull
         public String event = "CreateRep";
 
-        public long habitId;
+        public long habit;
 
-        public long timestamp;
+        public long repTimestamp;
 
         public int value;
 
@@ -107,18 +107,18 @@ public class CreateRepetitionCommand extends Command
             Long habitId = command.habit.getId();
             if(habitId == null) throw new RuntimeException("Habit not saved");
 
-            this.habitId = habitId;
-            this.timestamp = command.timestamp;
+            this.habit = habitId;
+            this.repTimestamp = command.timestamp;
             this.value = command.value;
         }
 
         public CreateRepetitionCommand toCommand(@NonNull HabitList habitList)
         {
-            Habit h = habitList.getById(habitId);
+            Habit h = habitList.getById(habit);
             if(h == null) throw new HabitNotFoundException();
 
             CreateRepetitionCommand command;
-            command = new CreateRepetitionCommand(h, timestamp, value);
+            command = new CreateRepetitionCommand(h, repTimestamp, value);
             command.setId(id);
             return command;
         }

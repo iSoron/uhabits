@@ -61,6 +61,13 @@ public class SettingsFragment extends PreferenceFragmentCompat
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
+        Context appContext = getContext().getApplicationContext();
+        if(appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
+
         setResultOnPreferenceClick("importData", RESULT_IMPORT_DATA);
         setResultOnPreferenceClick("exportCSV", RESULT_EXPORT_CSV);
         setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
@@ -68,13 +75,21 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
+        updateSync();
+    }
 
-        Context appContext = getContext().getApplicationContext();
-        if(appContext instanceof HabitsApplication)
-        {
-            HabitsApplication app = (HabitsApplication) appContext;
-            prefs = app.getComponent().getPreferences();
-        }
+    private void updateSync()
+    {
+        if(prefs == null) return;
+        boolean enabled = prefs.isSyncFeatureEnabled();
+
+        Preference syncKey = findPreference("pref_sync_key");
+        syncKey.setSummary(prefs.getSyncKey());
+        syncKey.setVisible(enabled);
+
+        Preference syncAddress = findPreference("pref_sync_address");
+        syncAddress.setSummary(prefs.getSyncAddress());
+        syncAddress.setVisible(enabled);
     }
 
     @Override
@@ -127,6 +142,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
                                           String key)
     {
         BackupManager.dataChanged("org.isoron.uhabits");
+        updateSync();
     }
 
     private void setResultOnPreferenceClick(String key, final int result)

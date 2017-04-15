@@ -147,10 +147,18 @@
             android:key="pref_feature_numerical_habits"
             android:title="Enable numerical habits"/>
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_feature_sync"
+            android:title="Enable cloud sync"/>
+
+        <EditTextPreference
+            android:key="pref_sync_address"
+            android:title="Sync server address"/>
+
         <EditTextPreference
             android:key="pref_sync_key"
-            android:title="Sync: group key"
-            android:summary="%s"/>
+            android:title="Sync key"/>
 
     </PreferenceCategory>
 

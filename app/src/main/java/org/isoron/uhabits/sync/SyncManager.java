@@ -26,7 +26,6 @@ import android.util.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.utils.*;
 import org.json.*;
 
 import java.io.*;
@@ -36,6 +35,7 @@ import java.security.cert.Certificate;
 import java.security.cert.*;
 import java.util.*;
 
+import javax.inject.*;
 import javax.net.ssl.*;
 
 import io.socket.client.*;
@@ -44,7 +44,7 @@ import io.socket.emitter.*;
 
 import static io.socket.client.Socket.*;
 
-public class SyncManager
+public class SyncManager implements CommandRunner.Listener
 {
     public static final String EVENT_AUTH = "auth";
 
@@ -58,12 +58,9 @@ public class SyncManager
 
     public static final String EVENT_POST_EVENT = "postEvent";
 
-    public static final String SYNC_SERVER_URL =
-        "https://sync.loophabits.org:4000";
+    private String clientId;
 
-    private static String CLIENT_ID;
-
-    private static String GROUP_KEY;
+    private String groupKey;
 
     @NonNull
     private Socket socket;
@@ -84,7 +81,8 @@ public class SyncManager
 
     private CommandParser commandParser;
 
-    public SyncManager(@NonNull Context context,
+    @Inject
+    public SyncManager(@AppContext @NonNull Context context,
                        @NonNull Preferences prefs,
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
@@ -97,15 +95,16 @@ public class SyncManager
         pendingConfirmation = new LinkedList<>();
         pendingEmit = Event.getAll();
 
-        GROUP_KEY = prefs.getSyncKey();
-        CLIENT_ID = DatabaseUtils.getRandomId();
+        groupKey = prefs.getSyncKey();
+        clientId = prefs.getSyncClientId();
+        String serverURL = prefs.getSyncAddress();
 
-        Log.d("SyncManager", CLIENT_ID);
+        Log.d("SyncManager", clientId);
 
         try
         {
             IO.setDefaultSSLContext(getCACertSSLContext());
-            socket = IO.socket(SYNC_SERVER_URL);
+            socket = IO.socket(serverURL);
             logSocketEvent(socket, EVENT_CONNECT, "Connected");
             logSocketEvent(socket, EVENT_CONNECT_TIMEOUT, "Connect timeout");
             logSocketEvent(socket, EVENT_CONNECTING, "Connecting...");
@@ -124,8 +123,6 @@ public class SyncManager
             socket.on(EVENT_EXECUTE_EVENT, new OnExecuteCommandListener());
             socket.on(EVENT_AUTH_OK, new OnAuthOKListener());
             socket.on(EVENT_FETCH_OK, new OnFetchOKListener());
-
-            socket.connect();
         }
         catch (URISyntaxException e)
         {
@@ -133,14 +130,12 @@ public class SyncManager
         }
     }
 
-    public void close()
+    @Override
+    public void onCommandExecuted(@NonNull Command command,
+                                  @Nullable Long refreshKey)
     {
-        socket.off();
-        socket.close();
-    }
+        if(command.isRemote()) return;
 
-    public void postCommand(Command command)
-    {
         JSONObject msg = command.toJson();
         Long now = new Date().getTime();
         Event e = new Event(command.getId(), now, msg.toString());
@@ -150,6 +145,21 @@ public class SyncManager
 
         pendingEmit.add(e);
         if (readyToEmit) emitPending();
+    }
+
+    public void startListening()
+    {
+        if(!prefs.isSyncFeatureEnabled()) return;
+        if(groupKey.isEmpty()) return;
+
+        socket.connect();
+        commandRunner.addListener(this);
+    }
+
+    public void stopListening()
+    {
+        commandRunner.removeListener(this);
+        socket.close();
     }
 
     private void emitPending()
@@ -200,7 +210,13 @@ public class SyncManager
 
     private void logSocketEvent(Socket socket, String event, final String msg)
     {
-        socket.on(event, args -> Log.i("SyncManager", msg));
+        socket.on(event, args ->
+        {
+            Log.i("SyncManager", msg);
+            for (Object o : args)
+                if (o instanceof SocketIOException)
+                    ((SocketIOException) o).printStackTrace();
+        });
     }
 
     private void updateLastSync(Long timestamp)
@@ -249,8 +265,8 @@ public class SyncManager
             try
             {
                 JSONObject json = new JSONObject();
-                json.put("groupKey", GROUP_KEY);
-                json.put("clientId", CLIENT_ID);
+                json.put("groupKey", groupKey);
+                json.put("clientId", clientId);
                 json.put("version", BuildConfig.VERSION_NAME);
                 return json;
             }
@@ -292,6 +308,8 @@ public class SyncManager
         private void executeCommand(JSONObject root) throws JSONException
         {
             Command received = commandParser.parse(root);
+            received.setRemote(true);
+
             for (Event e : pendingConfirmation)
             {
                 if (e.serverId.equals(received.getId()))

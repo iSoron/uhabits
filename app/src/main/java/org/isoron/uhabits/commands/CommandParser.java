@@ -26,12 +26,15 @@ import com.google.gson.*;
 import org.isoron.uhabits.models.*;
 import org.json.*;
 
+import javax.inject.*;
+
 public class CommandParser
 {
     private HabitList habitList;
 
     private ModelFactory modelFactory;
 
+    @Inject
     public CommandParser(@NonNull HabitList habitList,
                          @NonNull ModelFactory modelFactory)
     {

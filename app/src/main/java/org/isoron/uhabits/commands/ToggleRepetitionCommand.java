@@ -73,9 +73,9 @@ public class ToggleRepetitionCommand extends Command
         @NonNull
         public String event = "Toggle";
 
-        public long habitId;
+        public long habit;
 
-        public long timestamp;
+        public long repTimestamp;
 
         public Record(@NonNull ToggleRepetitionCommand command)
         {
@@ -83,17 +83,17 @@ public class ToggleRepetitionCommand extends Command
             Long habitId = command.habit.getId();
             if(habitId == null) throw new RuntimeException("Habit not saved");
 
-            this.timestamp = command.timestamp;
-            this.habitId = habitId;
+            this.repTimestamp = command.timestamp;
+            this.habit = habitId;
         }
 
         public ToggleRepetitionCommand toCommand(@NonNull HabitList habitList)
         {
-            Habit h = habitList.getById(habitId);
+            Habit h = habitList.getById(habit);
             if(h == null) throw new HabitNotFoundException();
 
             ToggleRepetitionCommand command;
-            command = new ToggleRepetitionCommand(h, timestamp);
+            command = new ToggleRepetitionCommand(h, repTimestamp);
             command.setId(id);
             return command;
         }

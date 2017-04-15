@@ -133,6 +133,7 @@ public class ListHabitsScreen extends BaseScreen
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
+        if(command.isRemote()) return;
         showMessage(command.getExecuteStringId());
     }
 

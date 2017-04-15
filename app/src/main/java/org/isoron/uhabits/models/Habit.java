@@ -28,7 +28,6 @@ import java.util.*;
 
 import javax.inject.*;
 
-import static android.R.attr.*;
 import static org.isoron.uhabits.models.Checkmark.*;
 
 /**
@@ -328,7 +327,7 @@ public class Habit
 
     public boolean isNumerical()
     {
-        return type == NUMBER_HABIT;
+        return data.type == NUMBER_HABIT;
     }
 
     public HabitData getData()

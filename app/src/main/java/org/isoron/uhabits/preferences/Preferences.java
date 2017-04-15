@@ -77,6 +77,26 @@ public class Preferences
         }
     }
 
+    public String getSyncAddress()
+    {
+        return prefs.getString("pref_sync_address", "https://sync.loophabits.org:4000");
+    }
+
+    public String getSyncClientId()
+    {
+        String id = prefs.getString("pref_sync_client_id", "");
+        if(!id.isEmpty()) return id;
+
+        id = UUID.randomUUID().toString();
+        prefs.edit().putString("pref_sync_client_id", id).apply();
+        return id;
+    }
+
+    public boolean isSyncFeatureEnabled()
+    {
+        return prefs.getBoolean("pref_feature_sync", false);
+    }
+
     public void setDefaultOrder(HabitList.Order order)
     {
         prefs.edit().putString("pref_default_order", order.name()).apply();
@@ -117,7 +137,7 @@ public class Preferences
 
     public long getLastSync()
     {
-        return prefs.getLong("lastSync", 0);
+        return prefs.getLong("last_sync", 0);
     }
 
     public void setLastSync(long timestamp)
