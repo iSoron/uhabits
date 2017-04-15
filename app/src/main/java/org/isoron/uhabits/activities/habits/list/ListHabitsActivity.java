@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
+import android.content.*;
 import android.os.*;
 
 import org.isoron.uhabits.*;
@@ -46,8 +47,6 @@ public class ListHabitsActivity extends BaseActivity
     private Preferences prefs;
 
     private MidnightTimer midnightTimer;
-
-    private SyncManager syncManager;
 
     public ListHabitsComponent getListHabitsComponent()
     {
@@ -84,7 +83,9 @@ public class ListHabitsActivity extends BaseActivity
         rootView.setController(controller, selectionMenu);
 
         midnightTimer = component.getMidnightTimer();
-        syncManager = app.getComponent().getSyncManager();
+
+        if(prefs.isSyncFeatureEnabled())
+            startService(new Intent(this, SyncService.class));
 
         setScreen(screen);
         controller.onStartup();
@@ -93,7 +94,6 @@ public class ListHabitsActivity extends BaseActivity
     @Override
     protected void onPause()
     {
-        syncManager.stopListening();
         midnightTimer.onPause();
         screen.onDettached();
         adapter.cancelRefresh();
@@ -107,7 +107,6 @@ public class ListHabitsActivity extends BaseActivity
         screen.onAttached();
         rootView.postInvalidate();
         midnightTimer.onResume();
-        syncManager.startListening();
 
         if (prefs.getTheme() == ThemeSwitcher.THEME_DARK &&
             prefs.isPureBlackEnabled() != pureBlack)

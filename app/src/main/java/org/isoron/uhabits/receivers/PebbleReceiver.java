@@ -30,6 +30,8 @@ import com.getpebble.android.kit.util.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -51,6 +53,8 @@ public class PebbleReceiver extends PebbleDataReceiver
 
     private HabitList filteredHabits;
 
+    private Preferences prefs;
+
     public PebbleReceiver()
     {
         super(WATCHAPP_UUID);
@@ -69,9 +73,14 @@ public class PebbleReceiver extends PebbleDataReceiver
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
 
-        commandRunner = app.getComponent().getCommandRunner();
-        taskRunner = app.getComponent().getTaskRunner();
-        allHabits = app.getComponent().getHabitList();
+        AppComponent component = app.getComponent();
+        commandRunner = component.getCommandRunner();
+        taskRunner = component.getTaskRunner();
+        allHabits = component.getHabitList();
+        prefs = component.getPreferences();
+
+        if(prefs.isSyncFeatureEnabled())
+            context.startService(new Intent(context, SyncService.class));
 
         HabitMatcher build = new HabitMatcherBuilder()
             .setArchivedAllowed(false)

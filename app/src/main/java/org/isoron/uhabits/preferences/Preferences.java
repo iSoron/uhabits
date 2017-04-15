@@ -242,9 +242,10 @@ public class Preferences
         }
 
         if (key.equals("pref_sticky_notifications"))
-        {
             for (Listener l : listeners) l.onNotificationsChanged();
-        }
+
+        if (key.equals("pref_feature_sync"))
+            for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
     public void removeListener(Listener listener)
@@ -306,5 +307,7 @@ public class Preferences
         default void onCheckmarkOrderChanged() {}
 
         default void onNotificationsChanged() {}
+
+        default void onSyncFeatureChanged() {}
     }
 }

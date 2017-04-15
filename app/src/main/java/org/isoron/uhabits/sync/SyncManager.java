@@ -26,17 +26,13 @@ import android.util.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.utils.*;
 import org.json.*;
 
-import java.io.*;
 import java.net.*;
-import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.*;
 import java.util.*;
 
 import javax.inject.*;
-import javax.net.ssl.*;
 
 import io.socket.client.*;
 import io.socket.client.Socket;
@@ -58,8 +54,10 @@ public class SyncManager implements CommandRunner.Listener
 
     public static final String EVENT_POST_EVENT = "postEvent";
 
+    @NonNull
     private String clientId;
 
+    @NonNull
     private String groupKey;
 
     @NonNull
@@ -69,16 +67,17 @@ public class SyncManager implements CommandRunner.Listener
     private LinkedList<Event> pendingConfirmation;
 
     @NonNull
-    private List<Event> pendingEmit;
+    private LinkedList<Event> pendingEmit;
 
     private boolean readyToEmit = false;
 
-    private Context context;
-
+    @NonNull
     private final Preferences prefs;
 
+    @NonNull
     private CommandRunner commandRunner;
 
+    @NonNull
     private CommandParser commandParser;
 
     @Inject
@@ -87,24 +86,60 @@ public class SyncManager implements CommandRunner.Listener
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
     {
-        this.context = context;
         this.prefs = prefs;
         this.commandRunner = commandRunner;
         this.commandParser = commandParser;
 
         pendingConfirmation = new LinkedList<>();
-        pendingEmit = Event.getAll();
+        pendingEmit = new LinkedList<>(Event.getAll());
 
         groupKey = prefs.getSyncKey();
         clientId = prefs.getSyncClientId();
         String serverURL = prefs.getSyncAddress();
 
         Log.d("SyncManager", clientId);
+        connect(context, serverURL);
+    }
 
+    @Override
+    public void onCommandExecuted(@NonNull Command command,
+                                  @Nullable Long refreshKey)
+    {
+        if (command.isRemote()) return;
+
+        JSONObject msg = command.toJson();
+        Long now = new Date().getTime();
+        Event e = new Event(command.getId(), now, msg.toString());
+        e.save();
+
+        Log.i("SyncManager", "Adding to outbox: " + msg.toString());
+
+        pendingEmit.add(e);
+        if (readyToEmit) emitPending();
+    }
+
+    public void startListening()
+    {
+        if (!prefs.isSyncFeatureEnabled()) return;
+        if (groupKey.isEmpty()) return;
+
+        socket.connect();
+        commandRunner.addListener(this);
+    }
+
+    public void stopListening()
+    {
+        commandRunner.removeListener(this);
+        socket.close();
+    }
+
+    private void connect(@AppContext @NonNull Context context, String serverURL)
+    {
         try
         {
-            IO.setDefaultSSLContext(getCACertSSLContext());
+            IO.setDefaultSSLContext(SSLUtils.getCACertSSLContext(context));
             socket = IO.socket(serverURL);
+
             logSocketEvent(socket, EVENT_CONNECT, "Connected");
             logSocketEvent(socket, EVENT_CONNECT_TIMEOUT, "Connect timeout");
             logSocketEvent(socket, EVENT_CONNECTING, "Connecting...");
@@ -130,38 +165,6 @@ public class SyncManager implements CommandRunner.Listener
         }
     }
 
-    @Override
-    public void onCommandExecuted(@NonNull Command command,
-                                  @Nullable Long refreshKey)
-    {
-        if(command.isRemote()) return;
-
-        JSONObject msg = command.toJson();
-        Long now = new Date().getTime();
-        Event e = new Event(command.getId(), now, msg.toString());
-        e.save();
-
-        Log.i("SyncManager", "Adding to outbox: " + msg.toString());
-
-        pendingEmit.add(e);
-        if (readyToEmit) emitPending();
-    }
-
-    public void startListening()
-    {
-        if(!prefs.isSyncFeatureEnabled()) return;
-        if(groupKey.isEmpty()) return;
-
-        socket.connect();
-        commandRunner.addListener(this);
-    }
-
-    public void stopListening()
-    {
-        commandRunner.removeListener(this);
-        socket.close();
-    }
-
     private void emitPending()
     {
         try
@@ -176,33 +179,6 @@ public class SyncManager implements CommandRunner.Listener
             pendingEmit.clear();
         }
         catch (JSONException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private SSLContext getCACertSSLContext()
-    {
-        try
-        {
-            CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            InputStream caInput = context.getAssets().open("cacert.pem");
-            Certificate ca = cf.generateCertificate(caInput);
-
-            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            ks.load(null, null);
-            ks.setCertificateEntry("ca", ca);
-
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(
-                TrustManagerFactory.getDefaultAlgorithm());
-            tmf.init(ks);
-
-            SSLContext ctx = SSLContext.getInstance("TLS");
-            ctx.init(null, tmf.getTrustManagers(), null);
-
-            return ctx;
-        }
-        catch (Exception e)
         {
             throw new RuntimeException(e);
         }
@@ -283,6 +259,8 @@ public class SyncManager implements CommandRunner.Listener
         public void call(Object... args)
         {
             readyToEmit = false;
+            for(Event e : pendingConfirmation) pendingEmit.add(e);
+            pendingConfirmation.clear();
         }
     }
 

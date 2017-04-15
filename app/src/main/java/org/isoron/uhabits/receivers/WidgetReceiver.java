@@ -24,6 +24,8 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.sync.*;
 
 import dagger.*;
 
@@ -59,6 +61,10 @@ public class WidgetReceiver extends BroadcastReceiver
 
         IntentParser parser = app.getComponent().getIntentParser();
         WidgetController controller = component.getWidgetController();
+        Preferences prefs = app.getComponent().getPreferences();
+
+        if(prefs.isSyncFeatureEnabled())
+            context.startService(new Intent(context, SyncService.class));
 
         try
         {
