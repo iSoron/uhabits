@@ -20,26 +20,34 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
 import android.support.annotation.*;
+import android.text.*;
 import android.util.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
+import static android.view.View.MeasureSpec.*;
+import static org.isoron.uhabits.models.Checkmark.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
-import static org.isoron.uhabits.utils.ColorUtils.*;
 
-public class CheckmarkButtonView extends TextView
+public class CheckmarkButtonView extends View
 {
     private int color;
 
     private int value;
 
-    private StyledResources res;
+    private StyledResources styledRes;
+
+    private TextPaint paint;
+
+    private int lowContrastColor;
+
+    private RectF rect;
 
     public CheckmarkButtonView(@Nullable Context context)
     {
@@ -47,25 +55,25 @@ public class CheckmarkButtonView extends TextView
         init();
     }
 
-    public CheckmarkButtonView(@Nullable Context context,
-                               @Nullable AttributeSet attrs)
+    public CheckmarkButtonView(@Nullable Context ctx, @Nullable AttributeSet attrs)
     {
-        super(context, attrs);
+        super(ctx, attrs);
         init();
 
-        if (context != null && attrs != null)
-        {
-            int color = getIntAttribute(context, attrs, "color", 0);
-            int value = getIntAttribute(context, attrs, "value", 0);
-            setColor(getAndroidTestColor(color));
-            setValue(value);
-        }
+        if(ctx == null) throw new IllegalStateException();
+        if(attrs == null) throw new IllegalStateException();
+
+        int paletteColor = getIntAttribute(ctx, attrs, "color", 0);
+        setColor(ColorUtils.getAndroidTestColor(paletteColor));
+
+        int value = getIntAttribute(ctx, attrs, "value", 0);
+        setValue(value);
     }
 
     public void setColor(int color)
     {
         this.color = color;
-        updateText();
+        postInvalidate();
     }
 
     public void setController(final CheckmarkButtonController controller)
@@ -77,54 +85,60 @@ public class CheckmarkButtonView extends TextView
     public void setValue(int value)
     {
         this.value = value;
-        updateText();
+        postInvalidate();
     }
 
     public void toggle()
     {
-        value = (value == Checkmark.CHECKED_EXPLICITLY ? Checkmark.UNCHECKED :
-                     Checkmark.CHECKED_EXPLICITLY);
-
+        value = (value == CHECKED_EXPLICITLY ? UNCHECKED : CHECKED_EXPLICITLY);
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-        updateText();
+        postInvalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        super.onDraw(canvas);
+        Resources resources = getResources();
+
+        paint.setColor(value == CHECKED_EXPLICITLY ? color : lowContrastColor);
+        int id = (value == UNCHECKED ? R.string.fa_times : R.string.fa_check);
+        String label = resources.getString(id);
+        float em = paint.measureText("m");
+
+        rect.set(0, 0, getWidth(), getHeight());
+        rect.offset(0, 0.4f * em);
+        canvas.drawText(label, rect.centerX(), rect.centerY(), paint);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        Resources res = getResources();
+        int height = res.getDimensionPixelSize(R.dimen.checkmarkHeight);
+        int width = res.getDimensionPixelSize(R.dimen.checkmarkWidth);
+
+        widthMeasureSpec = makeMeasureSpec(width, EXACTLY);
+        heightMeasureSpec = makeMeasureSpec(height, EXACTLY);
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     private void init()
     {
-        res = new StyledResources(getContext());
-
-        setWillNotDraw(false);
-
-        setMinHeight(
-            getResources().getDimensionPixelSize(R.dimen.checkmarkHeight));
-        setMinWidth(
-            getResources().getDimensionPixelSize(R.dimen.checkmarkWidth));
-
         setFocusable(false);
-        setGravity(Gravity.CENTER);
-        setTypeface(InterfaceUtils.getFontAwesome(getContext()));
-    }
 
-    private void updateText()
-    {
-        int lowContrastColor = res.getColor(R.attr.lowContrastTextColor);
+        Resources res = getResources();
+        styledRes = new StyledResources(getContext());
 
-        if (value == Checkmark.CHECKED_EXPLICITLY)
-        {
-            setText(R.string.fa_check);
-            setTextColor(color);
-        }
+        paint = new TextPaint();
+        paint.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+        paint.setAntiAlias(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(res.getDimension(R.dimen.regularTextSize));
 
-        if (value == Checkmark.CHECKED_IMPLICITLY)
-        {
-            setText(R.string.fa_check);
-            setTextColor(lowContrastColor);
-        }
-
-        if (value == Checkmark.UNCHECKED)
-        {
-            setText(R.string.fa_times);
-            setTextColor(lowContrastColor);
-        }
+        rect = new RectF();
+        color = ColorUtils.getAndroidTestColor(0);
+        lowContrastColor = styledRes.getColor(R.attr.lowContrastTextColor);
     }
 }

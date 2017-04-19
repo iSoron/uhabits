@@ -236,6 +236,7 @@ public class HabitCardView extends FrameLayout
         scoreRing.setPercentage(rand.nextFloat());
         checkmarkPanel.setColor(color);
         numberPanel.setColor(color);
+        checkmarkPanel.setButtonCount(5);
     }
 
     private void refresh()
