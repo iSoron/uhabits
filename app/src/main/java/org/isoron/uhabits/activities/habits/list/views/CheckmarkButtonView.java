@@ -135,7 +135,7 @@ public class CheckmarkButtonView extends View
         paint.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
         paint.setAntiAlias(true);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(res.getDimension(R.dimen.regularTextSize));
+        paint.setTextSize(res.getDimension(R.dimen.smallTextSize));
 
         rect = new RectF();
         color = Color.BLACK;

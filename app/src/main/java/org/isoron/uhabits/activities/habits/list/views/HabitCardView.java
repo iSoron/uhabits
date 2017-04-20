@@ -24,20 +24,22 @@ import android.content.*;
 import android.graphics.drawable.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.text.*;
 import android.util.*;
+import android.view.*;
 import android.widget.*;
 
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import butterknife.*;
-
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
+import static android.view.ViewGroup.LayoutParams.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HabitCardView extends FrameLayout
     implements ModelObservable.Listener
@@ -53,19 +55,14 @@ public class HabitCardView extends FrameLayout
         "Get a haircut"
     };
 
-    @BindView(R.id.checkmarkPanel)
     CheckmarkPanelView checkmarkPanel;
 
-    @BindView(R.id.numberPanel)
     NumberPanelView numberPanel;
 
-    @BindView(R.id.innerFrame)
     LinearLayout innerFrame;
 
-    @BindView(R.id.label)
     TextView label;
 
-    @BindView(R.id.scoreRing)
     RingView scoreRing;
 
     private final Context context = getContext();
@@ -99,11 +96,6 @@ public class HabitCardView extends FrameLayout
     {
         checkmarkPanel.setButtonCount(buttonCount);
         numberPanel.setButtonCount(buttonCount);
-    }
-
-    public void setThreshold(double threshold)
-    {
-        numberPanel.setThreshold(threshold);
     }
 
     public void setController(Controller controller)
@@ -150,6 +142,11 @@ public class HabitCardView extends FrameLayout
         updateBackground(isSelected);
     }
 
+    public void setThreshold(double threshold)
+    {
+        numberPanel.setThreshold(threshold);
+    }
+
     public void setUnit(String unit)
     {
         numberPanel.setUnit(unit);
@@ -158,7 +155,7 @@ public class HabitCardView extends FrameLayout
     public void setValues(int values[])
     {
         double dvalues[] = new double[values.length];
-        for(int i = 0; i < values.length; i++)
+        for (int i = 0; i < values.length; i++)
             dvalues[i] = (double) values[i] / 1000;
 
         checkmarkPanel.setValues(values);
@@ -207,13 +204,26 @@ public class HabitCardView extends FrameLayout
 
     private void init()
     {
-        setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT));
-
         res = new StyledResources(getContext());
+        setLayoutParams(new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+        setClipToPadding(false);
 
-        inflate(context, R.layout.list_habits_card, this);
-        ButterKnife.bind(this);
+        int margin = (int) dpToPixels(context, 3);
+        setPadding(margin, 0, margin, margin);
+
+        initInnerFrame();
+        initScoreRing();
+        initLabel();
+
+        checkmarkPanel = new CheckmarkPanelView(context);
+        numberPanel = new NumberPanelView(context);
+        numberPanel.setVisibility(GONE);
+
+        innerFrame.addView(scoreRing);
+        innerFrame.addView(label);
+        innerFrame.addView(checkmarkPanel);
+        innerFrame.addView(numberPanel);
+        addView(innerFrame);
 
         innerFrame.setOnTouchListener((v, event) ->
         {
@@ -237,6 +247,50 @@ public class HabitCardView extends FrameLayout
         checkmarkPanel.setColor(color);
         numberPanel.setColor(color);
         checkmarkPanel.setButtonCount(5);
+    }
+
+    private void initInnerFrame()
+    {
+        LinearLayout.LayoutParams params;
+        params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+
+        innerFrame = new LinearLayout(context);
+        innerFrame.setLayoutParams(params);
+        innerFrame.setOrientation(LinearLayout.HORIZONTAL);
+        innerFrame.setGravity(Gravity.CENTER_VERTICAL);
+
+        if (SDK_INT >= LOLLIPOP)
+            innerFrame.setElevation(dpToPixels(context, 1));
+    }
+
+    private void initLabel()
+    {
+        LinearLayout.LayoutParams params;
+        params = new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1);
+
+        label = new TextView(context);
+        label.setLayoutParams(params);
+        label.setMaxLines(2);
+        label.setEllipsize(TextUtils.TruncateAt.END);
+
+        if (SDK_INT >= M)
+            label.setBreakStrategy(Layout.BREAK_STRATEGY_BALANCED);
+    }
+
+    private void initScoreRing()
+    {
+        scoreRing = new RingView(context);
+        int ringSize = (int) dpToPixels(context, 15);
+        int margin = (int) dpToPixels(context, 8);
+        float thickness = dpToPixels(context, 3);
+
+        LinearLayout.LayoutParams params;
+        params = new LinearLayout.LayoutParams(ringSize, ringSize);
+        params.setMargins(margin, 0, margin, 0);
+        params.gravity = Gravity.CENTER;
+
+        scoreRing.setLayoutParams(params);
+        scoreRing.setThickness(thickness);
     }
 
     private void refresh()
@@ -276,11 +330,9 @@ public class HabitCardView extends FrameLayout
         else
         {
             Drawable background;
-
             if (isSelected)
                 background = res.getDrawable(R.attr.selectedBackground);
             else background = res.getDrawable(R.attr.cardBackground);
-
             innerFrame.setBackgroundDrawable(background);
         }
     }
