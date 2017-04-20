@@ -95,8 +95,11 @@ public class NotificationTray
                 (ToggleRepetitionCommand) command;
 
             Habit habit = toggleCmd.getHabit();
-            if (habit.getCheckmarks().getTodayValue() != Checkmark.UNCHECKED)
-                cancel(habit);
+            taskRunner.execute(() ->
+            {
+                if (habit.getCheckmarks().getTodayValue() !=
+                    Checkmark.UNCHECKED) cancel(habit);
+            });
         }
 
         if (command instanceof DeleteHabitsCommand)

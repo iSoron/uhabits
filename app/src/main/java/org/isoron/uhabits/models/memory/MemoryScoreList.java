@@ -77,6 +77,8 @@ public class MemoryScoreList extends ScoreList
             if (s.getTimestamp() >= timestamp) discard.add(s);
 
         list.removeAll(discard);
+
+        todayValue = null;
         getObservable().notifyListeners();
     }
 

@@ -132,6 +132,7 @@ public class SQLiteScoreList extends ScoreList
             .and("timestamp >= ?", timestamp)
             .execute();
 
+        todayValue = null;
         getObservable().notifyListeners();
     }
 

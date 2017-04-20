@@ -33,6 +33,8 @@ public abstract class ScoreList implements Iterable<Score>
 
     protected ModelObservable observable;
 
+    protected Double todayValue = null;
+
     /**
      * Creates a new ScoreList for the given habit.
      * <p>
@@ -69,7 +71,8 @@ public abstract class ScoreList implements Iterable<Score>
      */
     public double getTodayValue()
     {
-        return getValue(DateUtils.getStartOfToday());
+        if(todayValue == null) todayValue = getValue(DateUtils.getStartOfToday());
+        return todayValue;
     }
 
     /**

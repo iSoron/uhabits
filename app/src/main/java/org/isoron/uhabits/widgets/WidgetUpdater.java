@@ -25,6 +25,7 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.tasks.*;
 
 import javax.inject.*;
 
@@ -40,15 +41,19 @@ public class WidgetUpdater implements CommandRunner.Listener
     @NonNull
     private final CommandRunner commandRunner;
 
+    private TaskRunner taskRunner;
+
     @NonNull
     private final Context context;
 
     @Inject
     public WidgetUpdater(@NonNull @AppContext Context context,
-                         @NonNull CommandRunner commandRunner)
+                         @NonNull CommandRunner commandRunner,
+                         @NonNull TaskRunner taskRunner)
     {
         this.context = context;
         this.commandRunner = commandRunner;
+        this.taskRunner = taskRunner;
     }
 
     @Override
@@ -79,11 +84,14 @@ public class WidgetUpdater implements CommandRunner.Listener
 
     public void updateWidgets()
     {
-        updateWidgets(CheckmarkWidgetProvider.class);
-        updateWidgets(HistoryWidgetProvider.class);
-        updateWidgets(ScoreWidgetProvider.class);
-        updateWidgets(StreakWidgetProvider.class);
-        updateWidgets(FrequencyWidgetProvider.class);
+        taskRunner.execute(() ->
+        {
+            updateWidgets(CheckmarkWidgetProvider.class);
+            updateWidgets(HistoryWidgetProvider.class);
+            updateWidgets(ScoreWidgetProvider.class);
+            updateWidgets(StreakWidgetProvider.class);
+            updateWidgets(FrequencyWidgetProvider.class);
+        });
     }
 
     public void updateWidgets(Class providerClass)

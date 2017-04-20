@@ -138,7 +138,7 @@ public class CheckmarkButtonView extends View
         paint.setTextSize(res.getDimension(R.dimen.regularTextSize));
 
         rect = new RectF();
-        color = ColorUtils.getAndroidTestColor(0);
+        color = Color.BLACK;
         lowContrastColor = styledRes.getColor(R.attr.lowContrastTextColor);
     }
 }

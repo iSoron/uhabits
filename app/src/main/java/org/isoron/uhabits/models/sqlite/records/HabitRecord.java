@@ -52,16 +52,16 @@ public class HabitRecord extends Model implements SQLiteRecord
     public String description;
 
     @Column(name = "freq_num")
-    public Integer freqNum;
+    public int freqNum;
 
     @Column(name = "freq_den")
-    public Integer freqDen;
+    public int freqDen;
 
     @Column(name = "color")
-    public Integer color;
+    public int color;
 
     @Column(name = "position")
-    public Integer position;
+    public int position;
 
     @Nullable
     @Column(name = "reminder_hour")
@@ -71,24 +71,23 @@ public class HabitRecord extends Model implements SQLiteRecord
     @Column(name = "reminder_min")
     public Integer reminderMin;
 
-    @NonNull
     @Column(name = "reminder_days")
-    public Integer reminderDays;
+    public int reminderDays;
 
     @Column(name = "highlight")
-    public Integer highlight;
+    public int highlight;
 
     @Column(name = "archived")
-    public Integer archived;
+    public int archived;
 
     @Column(name = "type")
-    public Integer type;
+    public int type;
 
     @Column(name = "target_value")
-    public Double targetValue;
+    public double targetValue;
 
     @Column(name = "target_type")
-    public Integer targetType;
+    public int targetType;
 
     @Column(name = "unit")
     public String unit;
