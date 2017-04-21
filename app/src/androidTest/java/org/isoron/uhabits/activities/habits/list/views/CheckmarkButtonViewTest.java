@@ -29,15 +29,12 @@ import org.junit.*;
 import org.junit.runner.*;
 
 import java.io.*;
-import java.util.concurrent.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class CheckmarkButtonViewTest extends BaseViewTest
 {
     public static final String PATH = "habits/list/CheckmarkButtonView/";
-
-    private CountDownLatch latch;
 
     private CheckmarkButtonView view;
 
@@ -48,12 +45,11 @@ public class CheckmarkButtonViewTest extends BaseViewTest
         super.setUp();
         setSimilarityCutoff(0.015f);
 
-        latch = new CountDownLatch(1);
         view = new CheckmarkButtonView(targetContext);
         view.setValue(Checkmark.UNCHECKED);
         view.setColor(ColorUtils.getAndroidTestColor(5));
 
-        measureView(view, dpToPixels(40), dpToPixels(40));
+        measureView(view, dpToPixels(48), dpToPixels(48));
     }
 
     @Test
