@@ -120,6 +120,7 @@ task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
     reports {
         html.enabled = true
+        xml.enabled = true
     }
 
     def excludes = [
