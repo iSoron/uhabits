@@ -21,6 +21,8 @@ package org.isoron.uhabits.models;
 
 import org.apache.commons.lang3.builder.*;
 
+import javax.annotation.concurrent.*;
+
 /**
  * A Checkmark represents the completion status of the habit for a given day.
  * <p>
@@ -30,6 +32,7 @@ import org.apache.commons.lang3.builder.*;
  * <p>
  * Checkmarks are computed automatically from the list of repetitions.
  */
+@ThreadSafe
 public final class Checkmark
 {
     /**

@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.*;
 
 import java.util.*;
 
+import javax.annotation.concurrent.*;
 import javax.inject.*;
 
 import static org.isoron.uhabits.models.Checkmark.*;
@@ -33,6 +34,7 @@ import static org.isoron.uhabits.models.Checkmark.*;
 /**
  * The thing that the user wants to track.
  */
+@ThreadSafe
 public class Habit
 {
     public static final int AT_LEAST = 0;
@@ -89,12 +91,13 @@ public class Habit
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
+        observable = new ModelObservable();
     }
 
     /**
      * Clears the reminder for a habit.
      */
-    public void clearReminder()
+    public synchronized void clearReminder()
     {
         data.reminder = null;
         observable.notifyListeners();
@@ -105,7 +108,7 @@ public class Habit
      *
      * @param model the model whose attributes should be copied from
      */
-    public void copyFrom(@NonNull Habit model)
+    public synchronized void copyFrom(@NonNull Habit model)
     {
         this.data = new HabitData(model.data);
         observable.notifyListeners();
@@ -115,7 +118,7 @@ public class Habit
      * List of checkmarks belonging to this habit.
      */
     @NonNull
-    public CheckmarkList getCheckmarks()
+    public synchronized CheckmarkList getCheckmarks()
     {
         return checkmarks;
     }
@@ -129,56 +132,56 @@ public class Habit
      * habit.color).
      */
     @NonNull
-    public Integer getColor()
+    public synchronized Integer getColor()
     {
         return data.color;
     }
 
-    public void setColor(@NonNull Integer color)
+    public synchronized void setColor(@NonNull Integer color)
     {
         data.color = color;
     }
 
     @NonNull
-    public String getDescription()
+    public synchronized String getDescription()
     {
         return data.description;
     }
 
-    public void setDescription(@NonNull String description)
+    public synchronized void setDescription(@NonNull String description)
     {
         data.description = description;
     }
 
     @NonNull
-    public Frequency getFrequency()
+    public synchronized Frequency getFrequency()
     {
         return data.frequency;
     }
 
-    public void setFrequency(@NonNull Frequency frequency)
+    public synchronized void setFrequency(@NonNull Frequency frequency)
     {
         data.frequency = frequency;
     }
 
     @Nullable
-    public Long getId()
+    public synchronized Long getId()
     {
         return id;
     }
 
-    public void setId(@Nullable Long id)
+    public synchronized void setId(@Nullable Long id)
     {
         this.id = id;
     }
 
     @NonNull
-    public String getName()
+    public synchronized String getName()
     {
         return data.name;
     }
 
-    public void setName(@NonNull String name)
+    public synchronized void setName(@NonNull String name)
     {
         data.name = name;
     }
@@ -199,13 +202,13 @@ public class Habit
      * @throws IllegalStateException if habit has no reminder
      */
     @NonNull
-    public Reminder getReminder()
+    public synchronized Reminder getReminder()
     {
         if (data.reminder == null) throw new IllegalStateException();
         return data.reminder;
     }
 
-    public void setReminder(@Nullable Reminder reminder)
+    public synchronized void setReminder(@Nullable Reminder reminder)
     {
         data.reminder = reminder;
     }
@@ -228,35 +231,35 @@ public class Habit
         return streaks;
     }
 
-    public int getTargetType()
+    public synchronized int getTargetType()
     {
         return data.targetType;
     }
 
-    public void setTargetType(int targetType)
+    public synchronized void setTargetType(int targetType)
     {
         if (targetType != AT_LEAST && targetType != AT_MOST)
             throw new IllegalArgumentException();
         data.targetType = targetType;
     }
 
-    public double getTargetValue()
+    public synchronized double getTargetValue()
     {
         return data.targetValue;
     }
 
-    public void setTargetValue(double targetValue)
+    public synchronized void setTargetValue(double targetValue)
     {
         if (targetValue < 0) throw new IllegalArgumentException();
         data.targetValue = targetValue;
     }
 
-    public int getType()
+    public synchronized int getType()
     {
         return data.type;
     }
 
-    public void setType(int type)
+    public synchronized void setType(int type)
     {
         if (type != YES_NO_HABIT && type != NUMBER_HABIT)
             throw new IllegalArgumentException();
@@ -265,12 +268,12 @@ public class Habit
     }
 
     @NonNull
-    public String getUnit()
+    public synchronized String getUnit()
     {
         return data.unit;
     }
 
-    public void setUnit(@NonNull String unit)
+    public synchronized void setUnit(@NonNull String unit)
     {
         data.unit = unit;
     }
@@ -286,7 +289,7 @@ public class Habit
         return Uri.parse(s);
     }
 
-    public boolean hasId()
+    public synchronized boolean hasId()
     {
         return getId() != null;
     }
@@ -296,7 +299,7 @@ public class Habit
      *
      * @return true if habit has reminder, false otherwise
      */
-    public boolean hasReminder()
+    public synchronized boolean hasReminder()
     {
         return data.reminder != null;
     }
@@ -308,24 +311,24 @@ public class Habit
         getStreaks().invalidateNewerThan(timestamp);
     }
 
-    public boolean isArchived()
+    public synchronized boolean isArchived()
     {
         return data.archived;
     }
 
-    public void setArchived(boolean archived)
+    public synchronized void setArchived(boolean archived)
     {
         data.archived = archived;
     }
 
-    public boolean isCompletedToday()
+    public synchronized boolean isCompletedToday()
     {
         int todayCheckmark = getCheckmarks().getTodayValue();
         if (isNumerical()) return todayCheckmark >= data.targetValue;
         else return (todayCheckmark != UNCHECKED);
     }
 
-    public boolean isNumerical()
+    public synchronized boolean isNumerical()
     {
         return data.type == NUMBER_HABIT;
     }

@@ -21,9 +21,12 @@ package org.isoron.uhabits.models;
 
 import org.apache.commons.lang3.builder.*;
 
+import javax.annotation.concurrent.*;
+
 /**
  * Represents how often is the habit repeated.
  */
+@ThreadSafe
 public class Frequency
 {
     public static final Frequency DAILY = new Frequency(1, 1);

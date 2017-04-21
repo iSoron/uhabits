@@ -21,10 +21,13 @@ package org.isoron.uhabits.models;
 
 import java.util.*;
 
+import javax.annotation.concurrent.*;
+
 /**
  * A ModelObservable allows objects to subscribe themselves to it and receive
  * notifications whenever the model is changed.
  */
+@ThreadSafe
 public class ModelObservable
 {
     private List<Listener> listeners;
@@ -43,7 +46,7 @@ public class ModelObservable
      *
      * @param l the listener to be added.
      */
-    public void addListener(Listener l)
+    public synchronized void addListener(Listener l)
     {
         listeners.add(l);
     }
@@ -53,7 +56,7 @@ public class ModelObservable
      * <p>
      * Only models should call this method.
      */
-    public void notifyListeners()
+    public synchronized void notifyListeners()
     {
         for (Listener l : listeners) l.onModelChange();
     }
@@ -66,7 +69,7 @@ public class ModelObservable
      *
      * @param l the listener to be removed
      */
-    public void removeListener(Listener l)
+    public synchronized void removeListener(Listener l)
     {
         listeners.remove(l);
     }

@@ -78,6 +78,7 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'org.jetbrains:annotations-java5:15.0'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.code.findbugs:jsr305:2.0.1'
 
     provided 'javax.annotation:jsr250-api:1.0'
 
