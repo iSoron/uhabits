@@ -25,7 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
-            testCoverageEnabled = false
+            testCoverageEnabled = true
         }
     }
 
