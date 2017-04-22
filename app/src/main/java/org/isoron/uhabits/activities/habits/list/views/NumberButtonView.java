@@ -31,7 +31,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
 
-import java.text.DecimalFormat;
+import java.text.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
@@ -91,7 +91,6 @@ public class NumberButtonView extends View
     }
 
     /**
-     *
      * @param v
      * @return
      */
@@ -104,6 +103,7 @@ public class NumberButtonView extends View
         if (v >= 1e5) return String.format("%.0fk", v / 1e3);
         if (v >= 1e4) return String.format("%.1fk", v / 1e3);
         if (v >= 1e3) return String.format("%.1fk", v / 1e3);
+        if (v >= 1e2) return new DecimalFormat("#").format(v);
         if (v >= 1e1) return new DecimalFormat("#.#").format(v);
         return new DecimalFormat("#.##").format(v);
     }
@@ -117,7 +117,11 @@ public class NumberButtonView extends View
     public void setController(final NumberButtonController controller)
     {
         setOnClickListener(v -> controller.onClick());
-        setOnLongClickListener(v -> controller.onLongClick());
+        setOnLongClickListener(v ->
+        {
+            controller.onLongClick();
+            return true;
+        });
     }
 
     public void setThreshold(double threshold)
@@ -142,8 +146,8 @@ public class NumberButtonView extends View
     protected void onDraw(Canvas canvas)
     {
         int activeColor = lightGrey;
-        if(value > 0 && value < threshold) activeColor = darkGrey;
-        if(value >= threshold) activeColor = color;
+        if (value > 0 && value < threshold) activeColor = darkGrey;
+        if (value >= threshold) activeColor = color;
 
         pRegular.setColor(activeColor);
         pBold.setColor(activeColor);

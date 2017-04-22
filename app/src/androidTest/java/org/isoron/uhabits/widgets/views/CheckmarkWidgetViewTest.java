@@ -38,8 +38,6 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
 
     private CheckmarkWidgetView view;
 
-    private Habit habit;
-
     @Override
     @Before
     public void setUp()
@@ -47,13 +45,12 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         super.setUp();
         setTheme(R.style.TransparentWidgetTheme);
 
-        habit = fixtures.createShortHabit();
+        Habit habit = fixtures.createShortHabit();
         view = new CheckmarkWidgetView(targetContext);
-        int color = ColorUtils.getAndroidTestColor(habit.getColor());
         double score = habit.getScores().getTodayValue();
         float percentage = (float) score;
 
-        view.setActiveColor(color);
+        view.setActiveColor(ColorUtils.getAndroidTestColor(0));
         view.setCheckmarkValue(habit.getCheckmarks().getTodayValue());
         view.setPercentage(percentage);
         view.setName(habit.getName());

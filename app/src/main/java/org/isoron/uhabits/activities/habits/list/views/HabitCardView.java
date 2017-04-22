@@ -116,14 +116,14 @@ public class HabitCardView extends FrameLayout
 
     public void setHabit(@NonNull Habit habit)
     {
-        if (this.habit != null) detachFromHabit();
+        if (isAttachedToWindow()) stopListening();
 
         this.habit = habit;
         checkmarkPanel.setHabit(habit);
         numberPanel.setHabit(habit);
-        refresh();
 
-        attachToHabit();
+        refresh();
+        if (isAttachedToWindow()) startListening();
         postInvalidate();
     }
 
@@ -177,20 +177,17 @@ public class HabitCardView extends FrameLayout
     }
 
     @Override
+    protected void onAttachedToWindow()
+    {
+        super.onAttachedToWindow();
+        stopListening();
+    }
+
+    @Override
     protected void onDetachedFromWindow()
     {
-        if (habit != null) detachFromHabit();
+        startListening();
         super.onDetachedFromWindow();
-    }
-
-    private void attachToHabit()
-    {
-        if (habit != null) habit.getObservable().addListener(this);
-    }
-
-    private void detachFromHabit()
-    {
-        if (habit != null) habit.getObservable().removeListener(this);
     }
 
     private int getActiveColor(Habit habit)
@@ -307,6 +304,16 @@ public class HabitCardView extends FrameLayout
         numberPanel.setVisibility(isNumerical ? VISIBLE : GONE);
 
         postInvalidate();
+    }
+
+    private void startListening()
+    {
+        if (habit != null) habit.getObservable().removeListener(this);
+    }
+
+    private void stopListening()
+    {
+        if (habit != null) habit.getObservable().addListener(this);
     }
 
     private void triggerRipple(final float x, final float y)

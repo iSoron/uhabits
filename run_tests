@@ -49,6 +49,9 @@ mkdir -p ${OUTPUT_DIR}/failed
 adb pull /mnt/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
 adb pull /storage/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
 adb pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
+
+adb shell rm -r /mnt/sdcard/test-screenshots/ >> $LOG 2>> $LOG
+adb shell rm -r /storage/sdcard/test-screenshots/ >> $LOG 2>> $LOG
 adb shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ >> $LOG 2>> $LOG
 
 info "Fetching logcat..."

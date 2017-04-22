@@ -25,7 +25,6 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.widgets.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -37,7 +36,7 @@ import static org.isoron.uhabits.models.Checkmark.*;
 @MediumTest
 public class CheckmarkWidgetTest extends BaseViewTest
 {
-    private static final String PATH = "widgets/CheckmarkWidgetView/";
+    private static final String PATH = "widgets/CheckmarkWidget/";
 
     private Habit habit;
 
@@ -49,6 +48,8 @@ public class CheckmarkWidgetTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
+        setTheme(R.style.TransparentWidgetTheme);
+
         habit = fixtures.createShortHabit();
         checkmarks = habit.getCheckmarks();
         CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
@@ -80,6 +81,6 @@ public class CheckmarkWidgetTest extends BaseViewTest
     @Test
     public void testRender() throws Exception
     {
-        assertRenders(view, PATH + "checked.png");
+        assertRenders(view, PATH + "render.png");
     }
 }

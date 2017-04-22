@@ -63,6 +63,7 @@ public class HabitCardViewTest extends BaseViewTest
         view.setSelected(false);
         view.setScore(habit.getScores().getTodayValue());
         view.setController(controller);
+        view.setButtonCount(6);
         measureView(view, dpToPixels(400), dpToPixels(50));
     }
 
@@ -86,6 +87,7 @@ public class HabitCardViewTest extends BaseViewTest
         habit.setName("Wake up early");
         habit.setColor(2);
         habit.getObservable().notifyListeners();
+        Thread.sleep(500);
         assertRenders(view, PATH + "render_changed.png");
     }
 }

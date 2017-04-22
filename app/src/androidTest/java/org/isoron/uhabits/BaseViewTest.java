@@ -29,15 +29,14 @@ import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
 import java.io.*;
+import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
 import static junit.framework.Assert.*;
 
 public class BaseViewTest extends BaseAndroidTest
 {
-    protected static final double DEFAULT_SIMILARITY_CUTOFF = 0.09;
-
-    public static final int HISTOGRAM_BIN_SIZE = 8;
+    protected static final double DEFAULT_SIMILARITY_CUTOFF = 0.001;
 
     private double similarityCutoff;
 
@@ -67,11 +66,10 @@ public class BaseViewTest extends BaseAndroidTest
         Bitmap scaledExpected =
             Bitmap.createScaledBitmap(expected, width, height, true);
 
-        double distance;
         boolean similarEnough = true;
+        double distance = distance(actual, scaledExpected);
 
-        if ((distance = compareHistograms(getHistogram(actual),
-            getHistogram(scaledExpected))) > similarityCutoff)
+        if (distance > similarityCutoff)
         {
             similarEnough = false;
             errorMessage.append(String.format(
@@ -144,58 +142,47 @@ public class BaseViewTest extends BaseAndroidTest
         e.recycle();
     }
 
-    private double compareHistograms(int[][] actualHistogram,
-                                     int[][] expectedHistogram)
-    {
-        long diff = 0;
-        long total = 0;
-
-        for (int i = 0; i < 256 / HISTOGRAM_BIN_SIZE; i++)
-        {
-            diff += Math.abs(actualHistogram[0][i] - expectedHistogram[0][i]);
-            diff += Math.abs(actualHistogram[1][i] - expectedHistogram[1][i]);
-            diff += Math.abs(actualHistogram[2][i] - expectedHistogram[2][i]);
-            diff += Math.abs(actualHistogram[3][i] - expectedHistogram[3][i]);
-
-            total += actualHistogram[0][i];
-            total += actualHistogram[1][i];
-            total += actualHistogram[2][i];
-            total += actualHistogram[3][i];
-        }
-
-        return (double) diff / total / 2;
-    }
-
     private Bitmap getBitmapFromAssets(String path) throws IOException
     {
         InputStream stream = testContext.getAssets().open(path);
         return BitmapFactory.decodeStream(stream);
     }
 
-    private int[][] getHistogram(Bitmap bitmap)
+    private double distance(Bitmap b1, Bitmap b2)
     {
-        int histogram[][] = new int[4][256 / HISTOGRAM_BIN_SIZE];
+        if(b1.getWidth() != b2.getWidth()) return 1.0;
+        if(b1.getHeight() != b2.getHeight()) return 1.0;
 
-        for (int x = 0; x < bitmap.getWidth(); x++)
+        Random random = new Random();
+
+        double distance = 0.0;
+        for (int x = 0; x < b1.getWidth(); x++)
         {
-            for (int y = 0; y < bitmap.getHeight(); y++)
+            for (int y = 0; y < b1.getHeight(); y++)
             {
-                int color = bitmap.getPixel(x, y);
-                int[] argb = new int[]{
-                    (color >> 24) & 0xff, //alpha
-                    (color >> 16) & 0xff, //red
-                    (color >> 8) & 0xff, //green
-                    (color) & 0xff  //blue
-                };
+                if(random.nextInt(4) != 0) continue;
 
-                histogram[0][argb[0] / HISTOGRAM_BIN_SIZE]++;
-                histogram[1][argb[1] / HISTOGRAM_BIN_SIZE]++;
-                histogram[2][argb[2] / HISTOGRAM_BIN_SIZE]++;
-                histogram[3][argb[3] / HISTOGRAM_BIN_SIZE]++;
+                int[] argb1 = colorToArgb(b1.getPixel(x, y));
+                int[] argb2 = colorToArgb(b2.getPixel(x, y));
+                distance += Math.abs(argb1[0] - argb2[0]);
+                distance += Math.abs(argb1[1] - argb2[1]);
+                distance += Math.abs(argb1[2] - argb2[2]);
+                distance += Math.abs(argb1[3] - argb2[3]);
             }
         }
 
-        return histogram;
+        distance /= (0xff * 16) * b1.getWidth() * b1.getHeight();
+        return distance;
+    }
+
+    private int[] colorToArgb(int c1)
+    {
+        return new int[]{
+            (c1 >> 24) & 0xff, //alpha
+            (c1 >> 16) & 0xff, //red
+            (c1 >> 8) & 0xff, //green
+            (c1) & 0xff  //blue
+        };
     }
 
     private String getVersionedViewAssetPath(String path)

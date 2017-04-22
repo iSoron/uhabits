@@ -46,18 +46,23 @@ public class HeaderView extends ScrollableChart
     @Nullable
     private MidnightTimer midnightTimer;
 
-    private final TextPaint paint;
+    private TextPaint paint;
 
     private RectF rect;
 
-    public HeaderView(Context context, AttributeSet attrs)
+    public HeaderView(@NonNull Context context,
+                      @NonNull Preferences prefs,
+                      @NonNull MidnightTimer midnightTimer)
+    {
+        super(context);
+        this.prefs = prefs;
+        this.midnightTimer = midnightTimer;
+        init();
+    }
+
+    public HeaderView(Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
-
-        if (isInEditMode())
-        {
-            setButtonCount(5);
-        }
 
         Context appContext = context.getApplicationContext();
         if (appContext instanceof HabitsApplication)
@@ -68,23 +73,12 @@ public class HeaderView extends ScrollableChart
 
         if (context instanceof ListHabitsActivity)
         {
-            ListHabitsActivity activity = (ListHabitsActivity) context;
-            midnightTimer = activity.getListHabitsComponent().getMidnightTimer();
+            ListHabitsComponent component =
+                ((ListHabitsActivity) context).getListHabitsComponent();
+            midnightTimer = component.getMidnightTimer();
         }
 
-        Resources res = context.getResources();
-        setScrollerBucketSize((int) res.getDimension(R.dimen.checkmarkWidth));
-
-        StyledResources sr = new StyledResources(context);
-        paint = new TextPaint();
-        paint.setColor(Color.BLACK);
-        paint.setAntiAlias(true);
-        paint.setTextSize(getResources().getDimension(R.dimen.tinyTextSize));
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setColor(sr.getColor(R.attr.mediumContrastTextColor));
-
-        rect = new RectF();
+        init();
     }
 
     @Override
@@ -115,30 +109,12 @@ public class HeaderView extends ScrollableChart
         if (midnightTimer != null) midnightTimer.addListener(this);
     }
 
-    private void updateDirection()
-    {
-        int direction = -1;
-        if (shouldReverseCheckmarks()) direction *= -1;
-        if (InterfaceUtils.isLayoutRtl(this)) direction *= -1;
-        setDirection(direction);
-    }
-
     @Override
     protected void onDetachedFromWindow()
     {
         if (midnightTimer != null) midnightTimer.removeListener(this);
         if (prefs != null) prefs.removeListener(this);
         super.onDetachedFromWindow();
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = (int) getContext()
-            .getResources()
-            .getDimension(R.dimen.checkmarkHeight);
-        setMeasuredDimension(width, height);
     }
 
     @Override
@@ -161,7 +137,7 @@ public class HeaderView extends ScrollableChart
             rect.set(0, 0, width, height);
             rect.offset(canvas.getWidth(), 0);
 
-            if(reverse) rect.offset(- (i + 1) * width, 0);
+            if (reverse) rect.offset(-(i + 1) * width, 0);
             else rect.offset((i - buttonCount) * width, 0);
 
             if (isRtl) rect.set(canvas.getWidth() - rect.right, rect.top,
@@ -170,8 +146,8 @@ public class HeaderView extends ScrollableChart
             String text = DateUtils.formatHeaderDate(day).toUpperCase();
             String[] lines = text.split("\n");
 
-            int y1 = (int)(rect.centerY() - 0.25 * em);
-            int y2 = (int)(rect.centerY() + 1.25 * em);
+            int y1 = (int) (rect.centerY() - 0.25 * em);
+            int y2 = (int) (rect.centerY() + 1.25 * em);
 
             canvas.drawText(lines[0], rect.centerX(), y1, paint);
             canvas.drawText(lines[1], rect.centerX(), y2, paint);
@@ -179,9 +155,46 @@ public class HeaderView extends ScrollableChart
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = (int) getContext()
+            .getResources()
+            .getDimension(R.dimen.checkmarkHeight);
+        setMeasuredDimension(width, height);
+    }
+
+    private void init()
+    {
+        Resources res = getContext().getResources();
+        setScrollerBucketSize((int) res.getDimension(R.dimen.checkmarkWidth));
+
+        StyledResources sr = new StyledResources(getContext());
+        paint = new TextPaint();
+        paint.setColor(Color.BLACK);
+        paint.setAntiAlias(true);
+        paint.setTextSize(getResources().getDimension(R.dimen.tinyTextSize));
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setColor(sr.getColor(R.attr.mediumContrastTextColor));
+
+        rect = new RectF();
+
+        if (isInEditMode()) setButtonCount(5);
+    }
+
     private boolean shouldReverseCheckmarks()
     {
         if (prefs == null) return false;
         return prefs.shouldReverseCheckmarks();
+    }
+
+    private void updateDirection()
+    {
+        int direction = -1;
+        if (shouldReverseCheckmarks()) direction *= -1;
+        if (InterfaceUtils.isLayoutRtl(this)) direction *= -1;
+        setDirection(direction);
     }
 }
