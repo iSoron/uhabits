@@ -20,7 +20,6 @@
 package org.isoron.uhabits;
 
 import android.graphics.*;
-import android.os.*;
 import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
@@ -31,33 +30,32 @@ import org.isoron.uhabits.widgets.*;
 import java.io.*;
 import java.util.*;
 
+import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.*;
 import static android.view.View.MeasureSpec.*;
 import static junit.framework.Assert.*;
 
 public class BaseViewTest extends BaseAndroidTest
 {
-    protected static final double DEFAULT_SIMILARITY_CUTOFF = 0.001;
-
-    private double similarityCutoff;
+    double similarityCutoff = 0.00150;
 
     @Override
     public void setUp()
     {
         super.setUp();
-        similarityCutoff = DEFAULT_SIMILARITY_CUTOFF;
+        if (SDK_INT < LOLLIPOP) similarityCutoff = 0.00175;
     }
 
     protected void assertRenders(View view, String expectedImagePath)
         throws IOException
     {
-        StringBuilder errorMessage = new StringBuilder();
-        expectedImagePath = getVersionedViewAssetPath(expectedImagePath);
+        expectedImagePath = "views/" + expectedImagePath;
 
         if (view.isLayoutRequested()) measureView(view, view.getMeasuredWidth(),
             view.getMeasuredHeight());
-
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
+
         Bitmap actual = view.getDrawingCache();
         Bitmap expected = getBitmapFromAssets(expectedImagePath);
 
@@ -66,24 +64,14 @@ public class BaseViewTest extends BaseAndroidTest
         Bitmap scaledExpected =
             Bitmap.createScaledBitmap(expected, width, height, true);
 
-        boolean similarEnough = true;
         double distance = distance(actual, scaledExpected);
-
         if (distance > similarityCutoff)
-        {
-            similarEnough = false;
-            errorMessage.append(String.format(
-                "Rendered image has wrong histogram (distance=%f). ",
-                distance));
-        }
-
-        if (!similarEnough)
         {
             saveBitmap(expectedImagePath, ".expected", scaledExpected);
             String path = saveBitmap(expectedImagePath, "", actual);
-            errorMessage.append(
-                String.format("Actual rendered image saved to %s", path));
-            fail(errorMessage.toString());
+            fail(String.format("Image differs from expected " +
+                               "(distance=%f). Actual rendered " +
+                               "image saved to %s", distance, path));
         }
 
         expected.recycle();
@@ -119,11 +107,6 @@ public class BaseViewTest extends BaseAndroidTest
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
     }
 
-    protected void setSimilarityCutoff(double similarityCutoff)
-    {
-        this.similarityCutoff = similarityCutoff;
-    }
-
     protected void skipAnimation(View view)
     {
         ViewPropertyAnimator animator = view.animate();
@@ -131,27 +114,20 @@ public class BaseViewTest extends BaseAndroidTest
         animator.start();
     }
 
-    protected void tap(GestureDetector.OnGestureListener view, int x, int y)
-        throws InterruptedException
+    private int[] colorToArgb(int c1)
     {
-        long now = SystemClock.uptimeMillis();
-        MotionEvent e =
-            MotionEvent.obtain(now, now, MotionEvent.ACTION_UP, dpToPixels(x),
-                dpToPixels(y), 0);
-        view.onSingleTapUp(e);
-        e.recycle();
-    }
-
-    private Bitmap getBitmapFromAssets(String path) throws IOException
-    {
-        InputStream stream = testContext.getAssets().open(path);
-        return BitmapFactory.decodeStream(stream);
+        return new int[]{
+            (c1 >> 24) & 0xff, //alpha
+            (c1 >> 16) & 0xff, //red
+            (c1 >> 8) & 0xff, //green
+            (c1) & 0xff  //blue
+        };
     }
 
     private double distance(Bitmap b1, Bitmap b2)
     {
-        if(b1.getWidth() != b2.getWidth()) return 1.0;
-        if(b1.getHeight() != b2.getHeight()) return 1.0;
+        if (b1.getWidth() != b2.getWidth()) return 1.0;
+        if (b1.getHeight() != b2.getHeight()) return 1.0;
 
         Random random = new Random();
 
@@ -160,7 +136,7 @@ public class BaseViewTest extends BaseAndroidTest
         {
             for (int y = 0; y < b1.getHeight(); y++)
             {
-                if(random.nextInt(4) != 0) continue;
+                if (random.nextInt(4) != 0) continue;
 
                 int[] argb1 = colorToArgb(b1.getPixel(x, y));
                 int[] argb2 = colorToArgb(b2.getPixel(x, y));
@@ -175,44 +151,18 @@ public class BaseViewTest extends BaseAndroidTest
         return distance;
     }
 
-    private int[] colorToArgb(int c1)
+    private Bitmap getBitmapFromAssets(String path) throws IOException
     {
-        return new int[]{
-            (c1 >> 24) & 0xff, //alpha
-            (c1 >> 16) & 0xff, //red
-            (c1 >> 8) & 0xff, //green
-            (c1) & 0xff  //blue
-        };
-    }
-
-    private String getVersionedViewAssetPath(String path)
-    {
-        String result = null;
-
-        if (android.os.Build.VERSION.SDK_INT >= 21)
-        {
-            try
-            {
-                String vpath = "views-v21/" + path;
-                testContext.getAssets().open(vpath);
-                result = vpath;
-            }
-            catch (IOException e)
-            {
-                // ignored
-            }
-        }
-
-        if (result == null) result = "views/" + path;
-
-        return result;
+        InputStream stream = testContext.getAssets().open(path);
+        return BitmapFactory.decodeStream(stream);
     }
 
     private String saveBitmap(String filename, String suffix, Bitmap bitmap)
         throws IOException
     {
         File dir = FileUtils.getSDCardDir("test-screenshots");
-        if (dir == null) dir = FileUtils.getFilesDir(targetContext,"test-screenshots");
+        if (dir == null)
+            dir = FileUtils.getFilesDir(targetContext, "test-screenshots");
         if (dir == null) throw new RuntimeException(
             "Could not find suitable dir for screenshots");
 

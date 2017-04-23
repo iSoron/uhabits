@@ -43,12 +43,9 @@ public class CheckmarkButtonViewTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setSimilarityCutoff(0.015f);
-
         view = new CheckmarkButtonView(targetContext);
         view.setValue(Checkmark.UNCHECKED);
         view.setColor(ColorUtils.getAndroidTestColor(5));
-
         measureView(view, dpToPixels(48), dpToPixels(48));
     }
 

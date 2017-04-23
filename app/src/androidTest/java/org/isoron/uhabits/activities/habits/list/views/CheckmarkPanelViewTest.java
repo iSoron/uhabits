@@ -47,7 +47,6 @@ public class CheckmarkPanelViewTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setSimilarityCutoff(0.03f);
         prefs.setShouldReverseCheckmarks(false);
 
         Habit habit = fixtures.createEmptyHabit();

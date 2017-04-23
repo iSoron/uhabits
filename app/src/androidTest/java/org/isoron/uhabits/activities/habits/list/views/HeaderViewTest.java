@@ -50,8 +50,6 @@ public class HeaderViewTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setSimilarityCutoff(0);
-
         prefs = mock(Preferences.class);
         midnightTimer = mock(MidnightTimer.class);
         view = new HeaderView(targetContext, prefs, midnightTimer);

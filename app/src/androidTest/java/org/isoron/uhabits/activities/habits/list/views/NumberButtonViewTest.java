@@ -47,10 +47,8 @@ public class NumberButtonViewTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setSimilarityCutoff(0.015f);
 
         view = new NumberButtonView(targetContext);
-
         view.setUnit("steps");
         view.setThreshold(100.0);
         view.setColor(ColorUtils.getAndroidTestColor(5));

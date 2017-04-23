@@ -21,6 +21,7 @@ package org.isoron.uhabits;
 
 import android.appwidget.*;
 import android.content.*;
+import android.content.res.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.test.*;
@@ -79,6 +80,7 @@ public class BaseAndroidTest
 
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
         setTheme(R.style.AppBaseTheme);
+        setLocale("en", "US");
 
         component = DaggerAndroidTestComponent
             .builder()
@@ -113,6 +115,15 @@ public class BaseAndroidTest
     protected void awaitLatch() throws InterruptedException
     {
         assertTrue(latch.await(60, TimeUnit.SECONDS));
+    }
+
+    protected void setLocale(@NonNull String language, @NonNull String country)
+    {
+        Locale locale = new Locale(language, country);
+        Locale.setDefault(locale);
+        Resources res = targetContext.getResources();
+        Configuration config = res.getConfiguration();
+        config.setLocale(locale);
     }
 
     protected void setTheme(@StyleRes int themeId)
