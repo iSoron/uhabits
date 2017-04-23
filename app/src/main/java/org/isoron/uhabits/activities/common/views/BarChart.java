@@ -155,8 +155,7 @@ public class BarChart extends ScrollableChart
     public void setIsTransparencyEnabled(boolean enabled)
     {
         this.isTransparencyEnabled = enabled;
-        initColors();
-        requestLayout();
+        postInvalidate();
     }
 
     public void setTarget(double target)

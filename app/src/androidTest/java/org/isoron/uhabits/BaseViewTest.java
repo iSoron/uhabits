@@ -31,33 +31,41 @@ import java.io.*;
 import java.util.*;
 
 import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
 import static android.view.View.MeasureSpec.*;
 import static junit.framework.Assert.*;
 
 public class BaseViewTest extends BaseAndroidTest
 {
-    double similarityCutoff = 0.00150;
+    double similarityCutoff = 0.0005;
 
     @Override
     public void setUp()
     {
         super.setUp();
-        if (SDK_INT < LOLLIPOP) similarityCutoff = 0.00175;
     }
 
     protected void assertRenders(View view, String expectedImagePath)
         throws IOException
     {
-        expectedImagePath = "views/" + expectedImagePath;
+        expectedImagePath = getVersionedPath(expectedImagePath);
 
         if (view.isLayoutRequested()) measureView(view, view.getMeasuredWidth(),
             view.getMeasuredHeight());
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
 
+        Bitmap expected = null;
         Bitmap actual = view.getDrawingCache();
-        Bitmap expected = getBitmapFromAssets(expectedImagePath);
+        try
+        {
+            expected = getBitmapFromAssets(expectedImagePath);
+        }
+        catch (Exception e)
+        {
+            String path = saveBitmap(expectedImagePath, "", actual);
+            fail(String.format("Could not open expected image. Actual " +
+                               "rendered image saved to %s", path));
+        }
 
         int width = actual.getWidth();
         int height = actual.getHeight();
@@ -155,6 +163,15 @@ public class BaseViewTest extends BaseAndroidTest
     {
         InputStream stream = testContext.getAssets().open(path);
         return BitmapFactory.decodeStream(stream);
+    }
+
+    private String getVersionedPath(String path)
+    {
+        int version = SDK_INT;
+        if (version >= 21) version = 21;
+        else if (version >= 15) version = 15;
+
+        return String.format("views-v%d/%s", version, path);
     }
 
     private String saveBitmap(String filename, String suffix, Bitmap bitmap)

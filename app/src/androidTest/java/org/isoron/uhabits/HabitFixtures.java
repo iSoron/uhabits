@@ -24,8 +24,13 @@ import org.isoron.uhabits.utils.DateUtils;
 
 public class HabitFixtures
 {
-    public boolean NON_DAILY_HABIT_CHECKS[] = {
+    public boolean LONG_HABIT_CHECKS[] = {
         true, false, false, true, true, true, false, false, true, true
+    };
+
+    public int LONG_NUMERICAL_HABIT_CHECKS[] = {
+        200000, 0, 150000, 137000, 0, 0, 500000, 30000, 100000, 0, 300000,
+        100000, 0, 100000
     };
 
     private ModelFactory modelFactory;
@@ -73,6 +78,25 @@ public class HabitFixtures
         return habit;
     }
 
+    public Habit createLongNumericalHabit()
+    {
+        Habit habit = modelFactory.buildHabit();
+        habit.setName("Take a walk");
+        habit.setDescription("How many steps did you walk today?");
+        habit.setType(Habit.NUMBER_HABIT);
+        habitList.add(habit);
+
+        long timestamp = DateUtils.getStartOfToday();
+        for (int value : LONG_NUMERICAL_HABIT_CHECKS)
+        {
+            Repetition r = new Repetition(timestamp, value);
+            habit.getRepetitions().add(r);
+            timestamp -= DateUtils.millisecondsInOneDay;
+        }
+
+        return habit;
+    }
+
     public Habit createShortHabit()
     {
         Habit habit = modelFactory.buildHabit();
@@ -82,7 +106,7 @@ public class HabitFixtures
         habitList.add(habit);
 
         long timestamp = DateUtils.getStartOfToday();
-        for (boolean c : NON_DAILY_HABIT_CHECKS)
+        for (boolean c : LONG_HABIT_CHECKS)
         {
             if (c) habit.getRepetitions().toggleTimestamp(timestamp);
             timestamp -= DateUtils.millisecondsInOneDay;

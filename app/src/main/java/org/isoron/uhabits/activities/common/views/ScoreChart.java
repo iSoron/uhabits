@@ -133,8 +133,7 @@ public class ScoreChart extends ScrollableChart
     public void setIsTransparencyEnabled(boolean enabled)
     {
         this.isTransparencyEnabled = enabled;
-        initColors();
-        requestLayout();
+        postInvalidate();
     }
 
     public void setColor(int primaryColor)
