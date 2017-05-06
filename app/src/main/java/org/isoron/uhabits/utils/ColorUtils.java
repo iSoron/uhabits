@@ -27,18 +27,21 @@ public abstract class ColorUtils
 {
     public static String CSV_PALETTE[] = {
         "#D32F2F", //  0 red
-        "#E64A19", //  1 orange
-        "#F9A825", //  2 yellow
-        "#AFB42B", //  3 light green
-        "#388E3C", //  4 dark green
-        "#00897B", //  5 teal
-        "#00ACC1", //  6 cyan
-        "#039BE5", //  7 blue
-        "#5E35B1", //  8 deep purple
-        "#8E24AA", //  9 purple
-        "#D81B60", // 10 pink
-        "#303030", // 11 dark grey
-        "#aaaaaa"  // 12 light grey
+        "#E64A19", //  1 deep orange
+        "#F57C00", //  2 orange
+        "#F9A825", //  3 yellow
+        "#AFB42B", //  4 light green
+        "#388E3C", //  5 dark green
+        "#00897B", //  6 teal
+        "#00ACC1", //  7 cyan
+        "#039BE5", //  8 blue
+        "#5E35B1", //  9 deep purple
+        "#8E24AA", // 10 purple
+        "#D81B60", // 11 pink
+        "#5D4037", // 12 brown
+        "#303030", // 13 dark grey
+        "#757575", // 14 grey
+        "#aaaaaa"  // 15 light grey
     };
 
     public static int colorToPaletteIndex(Context context, int color)
@@ -56,18 +59,21 @@ public abstract class ColorUtils
     {
         int palette[] = {
             Color.parseColor("#D32F2F"), //  0 red
-            Color.parseColor("#E64A19"), //  1 orange
-            Color.parseColor("#F9A825"), //  2 yellow
-            Color.parseColor("#AFB42B"), //  3 light green
-            Color.parseColor("#388E3C"), //  4 dark green
-            Color.parseColor("#00897B"), //  5 teal
-            Color.parseColor("#00ACC1"), //  6 cyan
-            Color.parseColor("#039BE5"), //  7 blue
-            Color.parseColor("#5E35B1"), //  8 deep purple
-            Color.parseColor("#8E24AA"), //  9 purple
-            Color.parseColor("#D81B60"), // 10 pink
-            Color.parseColor("#303030"), // 11 dark grey
-            Color.parseColor("#aaaaaa")  // 12 light grey
+            Color.parseColor("#E64A19"), //  1 deep orange
+            Color.parseColor("#F57C00"), //  2 orange
+            Color.parseColor("#F9A825"), //  3 yellow
+            Color.parseColor("#AFB42B"), //  4 light green
+            Color.parseColor("#388E3C"), //  5 dark green
+            Color.parseColor("#00897B"), //  6 teal
+            Color.parseColor("#00ACC1"), //  7 cyan
+            Color.parseColor("#039BE5"), //  8 blue
+            Color.parseColor("#5E35B1"), //  9 deep purple
+            Color.parseColor("#8E24AA"), // 10 purple
+            Color.parseColor("#D81B60"), // 11 pink
+            Color.parseColor("#5D4037"), // 12 brown
+            Color.parseColor("#303030"), // 13 dark grey
+            Color.parseColor("#757575"), // 14 grey
+            Color.parseColor("#aaaaaa")  // 15 light grey
         };
 
         return palette[index];
