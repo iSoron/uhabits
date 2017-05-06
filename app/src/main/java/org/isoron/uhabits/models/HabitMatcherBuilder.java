@@ -36,7 +36,7 @@ public class HabitMatcherBuilder
     private static List<Integer> allColors()
     {
         List<Integer> colors = new ArrayList<>();
-        for(int i = 0; i < ColorUtils.StaticColor.values().length; i++)
+        for(int i = 0; i < ColorUtils.CSV_PALETTE.length; i++)
             colors.add(i);
         return colors;
     }

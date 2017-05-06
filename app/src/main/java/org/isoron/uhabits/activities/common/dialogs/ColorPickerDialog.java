@@ -30,7 +30,6 @@ public class ColorPickerDialog extends com.android.colorpicker.ColorPickerDialog
     {
         super.setOnColorSelectedListener(c -> {
             c = ColorUtils.colorToPaletteIndex(getContext(), c);
-            c = ColorUtils.StaticColor.getColorByXmlIndex(c).dbIndex;
             listener.onColorSelected(c);
         });
     }
