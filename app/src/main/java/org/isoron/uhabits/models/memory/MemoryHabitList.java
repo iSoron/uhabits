@@ -22,6 +22,7 @@ package org.isoron.uhabits.models.memory;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.ColorUtils;
 
 import java.util.*;
 
@@ -155,8 +156,8 @@ public class MemoryHabitList extends HabitList
             (h1, h2) -> h1.getName().compareTo(h2.getName());
 
         Comparator<Habit> colorComparator = (h1, h2) -> {
-            Integer c1 = h1.getColor();
-            Integer c2 = h2.getColor();
+            Integer c1 = ColorUtils.StaticColor.getColorByDbIndex(h1.getColor()).xmlIndex;
+            Integer c2 = ColorUtils.StaticColor.getColorByDbIndex(h2.getColor()).xmlIndex;
             if (c1.equals(c2)) return nameComparator.compare(h1, h2);
             else return c1.compareTo(c2);
         };

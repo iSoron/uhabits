@@ -25,21 +25,55 @@ import android.util.*;
 
 public abstract class ColorUtils
 {
-    public static String CSV_PALETTE[] = {
-        "#D32F2F", //  0 red
-        "#E64A19", //  1 orange
-        "#F9A825", //  2 yellow
-        "#AFB42B", //  3 light green
-        "#388E3C", //  4 dark green
-        "#00897B", //  5 teal
-        "#00ACC1", //  6 cyan
-        "#039BE5", //  7 blue
-        "#5E35B1", //  8 deep purple
-        "#8E24AA", //  9 purple
-        "#D81B60", // 10 pink
-        "#303030", // 11 dark grey
-        "#aaaaaa"  // 12 light grey
-    };
+
+    public enum StaticColor
+    {
+        RED         ( 0, 0),
+        DEEP_ORANGE ( 1, 1),
+        ORANGE      ( 2,13),
+        YELLOW      ( 3, 2),
+        LIGHT_GREEN ( 4, 3),
+        DARK_GREEN  ( 5, 4),
+        TEAL        ( 6, 5),
+        CYAN        ( 7, 6),
+        BLUE        ( 8, 7),
+        DEEP_PURPLE ( 9, 8),
+        PURPLE      (10, 9),
+        PINK        (11,10),
+        BROWN       (12,14),
+        DARK_GREY   (13,11),
+        GREY        (14,15),
+        LIGHT_GREY  (15,12);
+
+        public final int xmlIndex;
+        public final int dbIndex;
+
+        StaticColor(int xmlIndex, int dbIndex)
+        {
+            this.xmlIndex = xmlIndex;
+            this.dbIndex = dbIndex;
+        }
+
+        public static StaticColor getColorByDbIndex(int dbIndex)
+        {
+            for(StaticColor c : StaticColor.values())
+                if (c.dbIndex == dbIndex) return c;
+
+            Log.w("ColorHelper",
+                    String.format("Invalid color db index: %d. Returning default.", dbIndex));
+            return RED;
+        }
+
+        public static StaticColor getColorByXmlIndex(int xmlIndex)
+        {
+            for(StaticColor c : StaticColor.values())
+                if (c.xmlIndex == xmlIndex) return c;
+
+            Log.w("ColorHelper",
+                    String.format("Invalid color xml index: %d. Returning default.", xmlIndex));
+            return RED;
+        }
+    }
 
     public static int colorToPaletteIndex(Context context, int color)
     {
@@ -77,6 +111,8 @@ public abstract class ColorUtils
     {
         if (context == null)
             throw new IllegalArgumentException("Context is null");
+
+        paletteColor = ColorUtils.StaticColor.getColorByDbIndex(paletteColor).xmlIndex;
 
         StyledResources res = new StyledResources(context);
         int palette[] = res.getPalette();

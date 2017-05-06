@@ -19,6 +19,7 @@
     <array name="lightPalette">
         <item>@color/red_700</item>
         <item>@color/deep_orange_700</item>
+        <item>@color/orange_700</item>
         <item>@color/yellow_800</item>
         <item>@color/lime_700</item>
         <item>@color/green_700</item>
@@ -28,13 +29,16 @@
         <item>@color/deep_purple_600</item>
         <item>@color/purple_600</item>
         <item>@color/pink_600</item>
+        <item>@color/brown_700</item>
         <item>@color/grey_800</item>
+        <item>@color/grey_600</item>
         <item>@color/grey_500</item>
     </array>
 
     <array name="darkPalette">
         <item>@color/red_200</item>
         <item>@color/deep_orange_200</item>
+        <item>@color/orange_200</item>
         <item>@color/yellow_200</item>
         <item>@color/lime_200</item>
         <item>@color/green_A200</item>
@@ -44,13 +48,16 @@
         <item>@color/deep_purple_200</item>
         <item>@color/purple_200</item>
         <item>@color/pink_200</item>
+        <item>@color/brown_200</item>
         <item>@color/grey_100</item>
+        <item>@color/grey_300</item>
         <item>@color/grey_500</item>
     </array>
 
     <array name="transparentWidgetPalette">
         <item>@color/red_800</item>
         <item>@color/deep_orange_800</item>
+        <item>@color/orange_800</item>
         <item>@color/yellow_800</item>
         <item>@color/lime_800</item>
         <item>@color/green_700</item>
@@ -60,6 +67,8 @@
         <item>@color/deep_purple_700</item>
         <item>@color/purple_700</item>
         <item>@color/pink_700</item>
+        <item>@color/brown_800</item>
+        <item>@color/black_aa</item>
         <item>@color/black_aa</item>
         <item>@color/black_aa</item>
     </array>
