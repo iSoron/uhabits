@@ -32,6 +32,14 @@ public abstract class InterfaceUtils
 {
     private static Typeface fontAwesome;
 
+    @Nullable
+    private static Float fixedResolution = null;
+
+    public static void setFixedResolution(@Nullable Float f)
+    {
+        fixedResolution = f;
+    }
+
     public static Typeface getFontAwesome(Context context)
     {
         if(fontAwesome == null) fontAwesome =
@@ -43,6 +51,8 @@ public abstract class InterfaceUtils
 
     public static float dpToPixels(Context context, float dp)
     {
+        if(fixedResolution != null) return dp * fixedResolution;
+
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics);
@@ -50,6 +60,8 @@ public abstract class InterfaceUtils
 
     public static float spToPixels(Context context, float sp)
     {
+        if(fixedResolution != null) return sp * fixedResolution;
+
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);

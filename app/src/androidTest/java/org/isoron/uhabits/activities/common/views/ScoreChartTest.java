@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
-import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
@@ -58,8 +57,6 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender() throws Throwable
     {
-        Log.d("HabitScoreViewTest",
-            String.format("height=%d", dpToPixels(100)));
         assertRenders(view, BASE_PATH + "render.png");
     }
 

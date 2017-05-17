@@ -100,17 +100,18 @@ public class BaseViewTest extends BaseAndroidTest
         return view;
     }
 
-    protected int dpToPixels(int dp)
+    protected float dpToPixels(int dp)
     {
-        return (int) InterfaceUtils.dpToPixels(targetContext, dp);
+        return InterfaceUtils.dpToPixels(targetContext, dp);
     }
 
-    protected void measureView(View view, int width, int height)
+    protected void measureView(View view, float width, float height)
     {
-        int specWidth = makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-        int specHeight = makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+        int specWidth = makeMeasureSpec((int) width, View.MeasureSpec.EXACTLY);
+        int specHeight = makeMeasureSpec((int) height, View.MeasureSpec.EXACTLY);
 
-        view.setLayoutParams(new ViewGroup.LayoutParams(width, height));
+        view.setLayoutParams(
+            new ViewGroup.LayoutParams((int) width, (int) height));
         view.measure(specWidth, specHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
     }

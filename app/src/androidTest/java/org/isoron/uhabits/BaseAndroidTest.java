@@ -78,6 +78,7 @@ public class BaseAndroidTest
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();
 
+        InterfaceUtils.setFixedResolution(2.0f);
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
         setTheme(R.style.AppBaseTheme);
         setLocale("en", "US");
