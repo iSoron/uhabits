@@ -229,7 +229,7 @@ public class ScoreChart extends ScrollableChart
     {
         if (height < 9) height = 200;
 
-        float maxTextSize = getResources().getDimension(R.dimen.tinyTextSize);
+        float maxTextSize = getDimension(getContext(), R.dimen.tinyTextSize);
         float textSize = height * 0.06f;
         pText.setTextSize(Math.min(textSize, maxTextSize));
         em = pText.getFontSpacing();

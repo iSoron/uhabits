@@ -36,7 +36,7 @@ import static junit.framework.Assert.*;
 
 public class BaseViewTest extends BaseAndroidTest
 {
-    double similarityCutoff = 0.0005;
+    double similarityCutoff = 0.00075;
 
     @Override
     public void setUp()
@@ -48,42 +48,31 @@ public class BaseViewTest extends BaseAndroidTest
         throws IOException
     {
         expectedImagePath = getVersionedPath(expectedImagePath);
+        Bitmap actual = renderView(view);
+        if(actual == null) throw new IllegalStateException("actual is null");
 
-        if (view.isLayoutRequested()) measureView(view, view.getMeasuredWidth(),
-            view.getMeasuredHeight());
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-
-        Bitmap expected = null;
-        Bitmap actual = view.getDrawingCache();
         try
         {
-            expected = getBitmapFromAssets(expectedImagePath);
+            Bitmap expected = getBitmapFromAssets(expectedImagePath);
+            double distance = distance(actual, expected);
+            if (distance > similarityCutoff)
+            {
+                saveBitmap(expectedImagePath, ".expected", expected);
+                String path = saveBitmap(expectedImagePath, "", actual);
+                fail(String.format("Image differs from expected " +
+                                   "(distance=%f). Actual rendered " +
+                                   "image saved to %s", distance, path));
+            }
+
+            expected.recycle();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
             String path = saveBitmap(expectedImagePath, "", actual);
             fail(String.format("Could not open expected image. Actual " +
                                "rendered image saved to %s", path));
+            throw e;
         }
-
-        int width = actual.getWidth();
-        int height = actual.getHeight();
-        Bitmap scaledExpected =
-            Bitmap.createScaledBitmap(expected, width, height, true);
-
-        double distance = distance(actual, scaledExpected);
-        if (distance > similarityCutoff)
-        {
-            saveBitmap(expectedImagePath, ".expected", scaledExpected);
-            String path = saveBitmap(expectedImagePath, "", actual);
-            fail(String.format("Image differs from expected " +
-                               "(distance=%f). Actual rendered " +
-                               "image saved to %s", distance, path));
-        }
-
-        expected.recycle();
-        scaledExpected.recycle();
     }
 
     @NonNull
@@ -110,8 +99,7 @@ public class BaseViewTest extends BaseAndroidTest
         int specWidth = makeMeasureSpec((int) width, View.MeasureSpec.EXACTLY);
         int specHeight = makeMeasureSpec((int) height, View.MeasureSpec.EXACTLY);
 
-        view.setLayoutParams(
-            new ViewGroup.LayoutParams((int) width, (int) height));
+        view.setLayoutParams(new ViewGroup.LayoutParams((int) width, (int) height));
         view.measure(specWidth, specHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
     }
@@ -197,5 +185,18 @@ public class BaseViewTest extends BaseAndroidTest
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 
         return absolutePath;
+    }
+
+    public Bitmap renderView(View view)
+    {
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
+        if(view.isLayoutRequested())
+            measureView(view, width, height);
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
     }
 }

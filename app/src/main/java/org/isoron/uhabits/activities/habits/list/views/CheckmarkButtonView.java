@@ -34,6 +34,8 @@ import org.isoron.uhabits.utils.*;
 import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.models.Checkmark.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
+import static org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome;
 
 public class CheckmarkButtonView extends View
 {
@@ -128,14 +130,13 @@ public class CheckmarkButtonView extends View
     {
         setFocusable(false);
 
-        Resources res = getResources();
         styledRes = new StyledResources(getContext());
 
         paint = new TextPaint();
-        paint.setTypeface(InterfaceUtils.getFontAwesome(getContext()));
+        paint.setTypeface(getFontAwesome(getContext()));
         paint.setAntiAlias(true);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(res.getDimension(R.dimen.smallTextSize));
+        paint.setTextSize(getDimension(getContext(), R.dimen.smallTextSize));
 
         rect = new RectF();
         color = Color.BLACK;

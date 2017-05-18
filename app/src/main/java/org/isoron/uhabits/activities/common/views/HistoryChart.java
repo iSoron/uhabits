@@ -33,6 +33,7 @@ import java.text.*;
 import java.util.*;
 
 import static org.isoron.uhabits.models.Checkmark.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HistoryChart extends ScrollableChart
 {
@@ -251,9 +252,8 @@ public class HistoryChart extends ScrollableChart
         float baseSize = height / 8.0f;
         setScrollerBucketSize((int) baseSize);
 
-        squareSpacing = InterfaceUtils.dpToPixels(getContext(), 1.0f);
-        float maxTextSize =
-            getResources().getDimension(R.dimen.regularTextSize);
+        squareSpacing = dpToPixels(getContext(), 1.0f);
+        float maxTextSize = getDimension(getContext(), R.dimen.regularTextSize);
         float textSize = height * 0.06f;
         textSize = Math.min(textSize, maxTextSize);
 

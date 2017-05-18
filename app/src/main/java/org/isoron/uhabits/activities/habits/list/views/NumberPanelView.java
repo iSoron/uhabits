@@ -36,6 +36,7 @@ import java.util.*;
 import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class NumberPanelView extends LinearLayout
     implements Preferences.Listener
@@ -178,9 +179,9 @@ public class NumberPanelView extends LinearLayout
     @Override
     protected void onMeasure(int widthSpec, int heightSpec)
     {
-        float buttonWidth = getResources().getDimension(R.dimen.checkmarkWidth);
-        float buttonHeight =
-            getResources().getDimension(R.dimen.checkmarkHeight);
+        Context context = getContext();
+        float buttonWidth = getDimension(context, R.dimen.checkmarkWidth);
+        float buttonHeight = getDimension(context, R.dimen.checkmarkHeight);
 
         float width = buttonWidth * nButtons;
 

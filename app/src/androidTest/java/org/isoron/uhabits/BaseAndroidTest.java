@@ -25,6 +25,7 @@ import android.content.res.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.test.*;
+import android.util.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
@@ -78,8 +79,8 @@ public class BaseAndroidTest
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();
 
-        InterfaceUtils.setFixedResolution(2.0f);
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
+        setResolution(2.0f);
         setTheme(R.style.AppBaseTheme);
         setLocale("en", "US");
 
@@ -125,6 +126,14 @@ public class BaseAndroidTest
         Resources res = targetContext.getResources();
         Configuration config = res.getConfiguration();
         config.setLocale(locale);
+    }
+
+    protected void setResolution(float r)
+    {
+        DisplayMetrics dm = targetContext.getResources().getDisplayMetrics();
+        dm.density = r;
+        dm.scaledDensity = r;
+        InterfaceUtils.setFixedResolution(r);
     }
 
     protected void setTheme(@StyleRes int themeId)

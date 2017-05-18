@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
-import android.content.res.*;
 import android.graphics.*;
 import android.support.annotation.*;
 import android.text.*;
@@ -33,6 +32,8 @@ import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
+
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HeaderView extends ScrollableChart
     implements Preferences.Listener, MidnightTimer.MidnightListener
@@ -123,9 +124,8 @@ public class HeaderView extends ScrollableChart
         super.onDraw(canvas);
 
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
-        Resources res = getContext().getResources();
-        float width = res.getDimension(R.dimen.checkmarkWidth);
-        float height = res.getDimension(R.dimen.checkmarkHeight);
+        float width = getDimension(getContext(), R.dimen.checkmarkWidth);
+        float height = getDimension(getContext(), R.dimen.checkmarkHeight);
         boolean reverse = shouldReverseCheckmarks();
         boolean isRtl = InterfaceUtils.isLayoutRtl(this);
 
@@ -159,22 +159,20 @@ public class HeaderView extends ScrollableChart
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = (int) getContext()
-            .getResources()
-            .getDimension(R.dimen.checkmarkHeight);
+        int height = (int) getDimension(getContext(), R.dimen.checkmarkHeight);
         setMeasuredDimension(width, height);
     }
 
     private void init()
     {
-        Resources res = getContext().getResources();
-        setScrollerBucketSize((int) res.getDimension(R.dimen.checkmarkWidth));
+        setScrollerBucketSize(
+            (int) getDimension(getContext(), R.dimen.checkmarkWidth));
 
         StyledResources sr = new StyledResources(getContext());
         paint = new TextPaint();
         paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
-        paint.setTextSize(getResources().getDimension(R.dimen.tinyTextSize));
+        paint.setTextSize(getDimension(getContext(), R.dimen.tinyTextSize));
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
         paint.setColor(sr.getColor(R.attr.mediumContrastTextColor));

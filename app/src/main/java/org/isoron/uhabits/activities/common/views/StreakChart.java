@@ -33,6 +33,7 @@ import java.text.*;
 import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
 
 public class StreakChart extends View
 {
@@ -170,9 +171,9 @@ public class StreakChart extends View
     {
         this.width = width;
 
-        float minTextSize = getResources().getDimension(R.dimen.tinyTextSize);
-        float maxTextSize =
-            getResources().getDimension(R.dimen.regularTextSize);
+        Context context = getContext();
+        float minTextSize = getDimension(context, R.dimen.tinyTextSize);
+        float maxTextSize = getDimension(context, R.dimen.regularTextSize);
         float textSize = baseSize * 0.5f;
 
         paint.setTextSize(

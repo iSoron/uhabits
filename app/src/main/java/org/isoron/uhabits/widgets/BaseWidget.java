@@ -149,14 +149,13 @@ public abstract class BaseWidget
     private Bitmap getBitmapFromView(View view)
     {
         view.invalidate();
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache(true);
-        Bitmap drawingCache = view.getDrawingCache();
+        int width = view.getMeasuredWidth();
+        int height = view.getMeasuredHeight();
 
-        if(drawingCache == null)
-            throw new IllegalStateException("bitmap is null");
-
-        return drawingCache;
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
     }
 
     @NonNull

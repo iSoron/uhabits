@@ -35,7 +35,7 @@ public abstract class InterfaceUtils
     @Nullable
     private static Float fixedResolution = null;
 
-    public static void setFixedResolution(@Nullable Float f)
+    public static void setFixedResolution(@NonNull Float f)
     {
         fixedResolution = f;
     }
@@ -65,6 +65,18 @@ public abstract class InterfaceUtils
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics);
+    }
+
+    public static float getDimension(Context context, int id)
+    {
+        float dim = context.getResources().getDimension(id);
+        if (fixedResolution == null) return dim;
+        else
+        {
+            DisplayMetrics dm = context.getResources().getDisplayMetrics();
+            float actualDensity = dm.density;
+            return dim / actualDensity * fixedResolution;
+        }
     }
 
     public static void setupEditorAction(@NonNull ViewGroup parent,

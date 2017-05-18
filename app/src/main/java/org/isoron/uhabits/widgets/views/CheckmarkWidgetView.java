@@ -29,6 +29,8 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
+import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
+
 public class CheckmarkWidgetView extends HabitWidgetView
 {
     private int activeColor;
@@ -154,9 +156,10 @@ public class CheckmarkWidgetView extends HabitWidgetView
         w *= scale;
         h *= scale;
 
-        if (h < getResources().getDimension(
-            R.dimen.checkmarkWidget_heightBreakpoint)) ring.setVisibility(GONE);
-        else ring.setVisibility(VISIBLE);
+        if (h < getDimension(getContext(), R.dimen.checkmarkWidget_heightBreakpoint))
+            ring.setVisibility(GONE);
+        else
+            ring.setVisibility(VISIBLE);
 
         widthMeasureSpec =
             MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
@@ -164,8 +167,7 @@ public class CheckmarkWidgetView extends HabitWidgetView
             MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
 
         float textSize = 0.15f * h;
-        float maxTextSize =
-            getResources().getDimension(R.dimen.smallerTextSize);
+        float maxTextSize = getDimension(getContext(), R.dimen.smallerTextSize);
         textSize = Math.min(textSize, maxTextSize);
 
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);

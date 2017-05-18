@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list;
 
 import android.content.*;
-import android.content.res.*;
 import android.support.annotation.*;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
@@ -39,6 +38,8 @@ import org.isoron.uhabits.utils.*;
 import javax.inject.*;
 
 import butterknife.*;
+
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 @ActivityScope
 public class ListHabitsRootView extends BaseRootView
@@ -171,9 +172,9 @@ public class ListHabitsRootView extends BaseRootView
 
     private int getCheckmarkCount()
     {
-        Resources res = getResources();
-        float labelWidth = Math.max(getMeasuredWidth() / 3, res.getDimension(R.dimen.habitNameWidth));
-        float buttonWidth = res.getDimension(R.dimen.checkmarkWidth);
+        float nameWidth = getDimension(getContext(), R.dimen.habitNameWidth);
+        float labelWidth = Math.max(getMeasuredWidth() / 3, nameWidth);
+        float buttonWidth = getDimension(getContext(), R.dimen.checkmarkWidth);
         return Math.min(MAX_CHECKMARK_COUNT, Math.max(0,
             (int) ((getMeasuredWidth() - labelWidth) / buttonWidth)));
     }

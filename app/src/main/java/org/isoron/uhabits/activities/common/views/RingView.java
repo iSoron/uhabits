@@ -79,7 +79,7 @@ public class RingView extends View
         color = ColorUtils.getAndroidTestColor(0);
         thickness = dpToPixels(getContext(), 2);
         text = "";
-        textSize = context.getResources().getDimension(R.dimen.smallTextSize);
+        textSize = getDimension(context, R.dimen.smallTextSize);
 
         init();
     }
@@ -98,14 +98,13 @@ public class RingView extends View
         thickness = getFloatAttribute(ctx, attrs, "thickness", 0);
         thickness = dpToPixels(ctx, thickness);
 
-        float defaultTextSize =
-            ctx.getResources().getDimension(R.dimen.smallTextSize);
+        float defaultTextSize = getDimension(ctx, R.dimen.smallTextSize);
         textSize = getFloatAttribute(ctx, attrs, "textSize", defaultTextSize);
         textSize = spToPixels(ctx, textSize);
-        text = AttributeSetUtils.getAttribute(ctx, attrs, "text", "");
+        text = getAttribute(ctx, attrs, "text", "");
 
-        enableFontAwesome = AttributeSetUtils.getBooleanAttribute(ctx, attrs,
-            "enableFontAwesome", false);
+        enableFontAwesome =
+            getBooleanAttribute(ctx, attrs, "enableFontAwesome", false);
 
         init();
     }

@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list.views;
 
 import android.content.*;
-import android.content.res.*;
 import android.graphics.*;
 import android.support.annotation.*;
 import android.text.*;
@@ -35,6 +34,7 @@ import java.text.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class NumberButtonView extends View
 {
@@ -55,8 +55,6 @@ public class NumberButtonView extends View
     private RectF rect;
 
     private TextPaint pRegular;
-
-    private Resources res;
 
     private TextPaint pBold;
 
@@ -164,25 +162,25 @@ public class NumberButtonView extends View
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
-        int width = (int) res.getDimension(R.dimen.checkmarkWidth);
-        int height = (int) res.getDimension(R.dimen.checkmarkHeight);
+        int width = (int) getDimension(getContext(), R.dimen.checkmarkWidth);
+        int height = (int) getDimension(getContext(), R.dimen.checkmarkHeight);
         setMeasuredDimension(width, height);
     }
 
     private void init()
     {
         StyledResources sr = new StyledResources(getContext());
-        res = getContext().getResources();
 
         rect = new RectF();
         pRegular = new TextPaint();
-        pRegular.setTextSize(res.getDimension(R.dimen.smallerTextSize));
+        pRegular.setTextSize(
+            getDimension(getContext(), R.dimen.smallerTextSize));
         pRegular.setTypeface(NORMAL_TYPEFACE);
         pRegular.setAntiAlias(true);
         pRegular.setTextAlign(Paint.Align.CENTER);
 
         pBold = new TextPaint();
-        pBold.setTextSize(res.getDimension(R.dimen.smallTextSize));
+        pBold.setTextSize(getDimension(getContext(), R.dimen.smallTextSize));
         pBold.setTypeface(BOLD_TYPEFACE);
         pBold.setAntiAlias(true);
         pBold.setTextAlign(Paint.Align.CENTER);

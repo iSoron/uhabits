@@ -33,6 +33,8 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
+
 public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener, ModelObservable.Listener
 {
@@ -83,7 +85,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         }
 
         int padding =
-            (int) getResources().getDimension(R.dimen.history_editor_padding);
+            (int) getDimension(getContext(), R.dimen.history_editor_padding);
 
         historyChart.setPadding(padding, 0, padding, 0);
         historyChart.setIsEditable(true);

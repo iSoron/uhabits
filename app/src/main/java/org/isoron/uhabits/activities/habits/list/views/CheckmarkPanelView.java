@@ -36,6 +36,7 @@ import java.util.*;
 import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
 
 public class CheckmarkPanelView extends LinearLayout
     implements Preferences.Listener
@@ -154,9 +155,8 @@ public class CheckmarkPanelView extends LinearLayout
     @Override
     protected void onMeasure(int widthSpec, int heightSpec)
     {
-        float buttonWidth = getResources().getDimension(R.dimen.checkmarkWidth);
-        float buttonHeight =
-            getResources().getDimension(R.dimen.checkmarkHeight);
+        float buttonWidth = getDimension(getContext(), R.dimen.checkmarkWidth);
+        float buttonHeight = getDimension(getContext(), R.dimen.checkmarkHeight);
 
         float width = buttonWidth * nButtons;
 
