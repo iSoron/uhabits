@@ -42,17 +42,16 @@ import static android.os.Build.VERSION_CODES.*;
  */
 public abstract class BaseRootView extends FrameLayout
 {
+    @NonNull
     private final Context context;
-
-    private final BaseActivity activity;
 
     private final ThemeSwitcher themeSwitcher;
 
-    public BaseRootView(Context context)
+    public BaseRootView(@NonNull Context context)
     {
         super(context);
         this.context = context;
-        activity = (BaseActivity) context;
+        BaseActivity activity = (BaseActivity) context;
         themeSwitcher = activity.getComponent().getThemeSwitcher();
     }
 

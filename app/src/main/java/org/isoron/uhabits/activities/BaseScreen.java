@@ -61,7 +61,7 @@ public class BaseScreen
     @Nullable
     private BaseSelectionMenu selectionMenu;
 
-    private Snackbar snackbar;
+    protected Snackbar snackbar;
 
     public BaseScreen(@NonNull BaseActivity activity)
     {

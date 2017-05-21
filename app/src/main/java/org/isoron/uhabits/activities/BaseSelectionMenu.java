@@ -59,16 +59,16 @@ public abstract class BaseSelectionMenu
     /**
      * Called when the menu is first displayed.
      * <p>
-     * This method cannot be overridden. The application should override the
-     * methods onCreate(Menu) and getMenuResourceId instead.
+     * This method should not be overridden. The application should override
+     * the methods onCreate(Menu) and getMenuResourceId instead.
      *
      * @param inflater a menu inflater, for creating the menu
      * @param mode     the action mode associated with this menu.
      * @param menu     the menu that is being created.
      */
-    public final void onCreate(@NonNull MenuInflater inflater,
-                               @NonNull ActionMode mode,
-                               @NonNull Menu menu)
+    public void onCreate(@NonNull MenuInflater inflater,
+                         @NonNull ActionMode mode,
+                         @NonNull Menu menu)
     {
         this.actionMode = mode;
         inflater.inflate(getResourceId(), menu);
