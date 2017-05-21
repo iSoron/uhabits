@@ -45,6 +45,9 @@ android {
                 outputs.upToDateWhen { false }
                 showStandardStreams = true
             }
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 }
@@ -60,6 +63,7 @@ dependencies {
     androidTestCompile "com.google.dexmaker:dexmaker:1.2"
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'com.google.guava:guava:20.0'
 
     apt 'com.google.dagger:dagger-compiler:2.2'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
@@ -79,6 +83,7 @@ dependencies {
     compile 'org.jetbrains:annotations-java5:15.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.google.code.findbugs:jsr305:2.0.1'
+    compile 'com.google.guava:guava:20.0'
 
     provided 'javax.annotation:jsr250-api:1.0'
 
@@ -87,23 +92,13 @@ dependencies {
     }
 
     testApt 'com.google.dagger:dagger-compiler:2.2'
+    testApt 'com.google.guava:guava:20.0'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'org.json:json:20160810'
-
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
-        exclude group: 'com.android.support'
-    }
-
-    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1') {
-        exclude group: 'com.android.support'
-    }
-
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
-        exclude group: 'com.android.support'
-    }
+    testCompile 'org.robolectric:robolectric:3.3.2'
 }
 
 retrolambda {
@@ -111,7 +106,7 @@ retrolambda {
 }
 
 jacoco {
-    toolVersion = "0.7.5.201505241946"
+    toolVersion = "0.7.6.201602180812"
 }
 
 task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
@@ -133,6 +128,7 @@ task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             '**/*$ViewBinder*',
             '**/*MembersInjector*',
             '**/*_Provide*',
+            '**/*Module_*',
             '**/com/android/**/*',
             'android/**/*',
             '**/*Dagger*',

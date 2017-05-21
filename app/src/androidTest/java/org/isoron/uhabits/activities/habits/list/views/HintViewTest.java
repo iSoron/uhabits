@@ -28,7 +28,7 @@ import org.junit.*;
 import org.junit.runner.*;
 
 import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(AndroidJUnit4.class)

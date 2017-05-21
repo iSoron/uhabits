@@ -38,7 +38,7 @@ import java.util.concurrent.*;
 
 import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class BaseAndroidTest
 {

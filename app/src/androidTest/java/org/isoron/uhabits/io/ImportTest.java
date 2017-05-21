@@ -33,7 +33,7 @@ import org.junit.runner.*;
 import java.io.*;
 import java.util.*;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)

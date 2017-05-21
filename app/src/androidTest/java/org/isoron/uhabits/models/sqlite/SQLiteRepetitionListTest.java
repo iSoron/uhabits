@@ -35,7 +35,7 @@ import org.junit.runner.*;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.core.IsNot.not;
 import static org.isoron.uhabits.models.Checkmark.*;
 

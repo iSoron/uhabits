@@ -34,7 +34,7 @@ import org.junit.runner.*;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
