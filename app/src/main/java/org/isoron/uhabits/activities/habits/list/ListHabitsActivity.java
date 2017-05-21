@@ -111,7 +111,7 @@ public class ListHabitsActivity extends BaseActivity
         if (prefs.getTheme() == ThemeSwitcher.THEME_DARK &&
             prefs.isPureBlackEnabled() != pureBlack)
         {
-            restartWithFade();
+            restartWithFade(ListHabitsActivity.class);
         }
 
         super.onResume();

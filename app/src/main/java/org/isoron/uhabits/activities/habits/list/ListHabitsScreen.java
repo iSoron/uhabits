@@ -353,7 +353,7 @@ public class ListHabitsScreen extends BaseScreen
     public void toggleNightMode()
     {
         themeSwitcher.toggleNightMode();
-        activity.restartWithFade();
+        activity.restartWithFade(ListHabitsActivity.class);
     }
 
     private void onOpenDocumentResult(int resultCode, Intent data)

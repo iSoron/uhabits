@@ -26,11 +26,9 @@ import android.support.v7.app.*;
 import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.list.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 
-import static android.R.anim.*;
+import static android.R.anim.fade_in;
+import static android.R.anim.fade_out;
 
 /**
  * Base class for all activities in the application.
@@ -41,17 +39,15 @@ import static android.R.anim.*;
  * {@link BaseScreen}.
  * <p>
  * A BaseActivity also installs an {@link java.lang.Thread.UncaughtExceptionHandler}
- * to the main thread that logs the exception to the disk before the application
- * crashes.
+ * to the main thread. By default, this handler is an instance of
+ * BaseExceptionHandler, which logs the exception to the disk before the application
+ * crashes. To the default handler, you should override the method
+ * getExceptionHandler.
  */
 abstract public class BaseActivity extends AppCompatActivity
-    implements Thread.UncaughtExceptionHandler
 {
     @Nullable
     private BaseMenu baseMenu;
-
-    @Nullable
-    private Thread.UncaughtExceptionHandler androidExceptionHandler;
 
     @Nullable
     private BaseScreen screen;
@@ -80,13 +76,13 @@ abstract public class BaseActivity extends AppCompatActivity
         return baseMenu.onItemSelected(item);
     }
 
-    public void restartWithFade()
+    public void restartWithFade(Class<?> cls)
     {
-        new Handler().postDelayed(() -> {
-            Intent intent = new Intent(this, ListHabitsActivity.class);
+        new Handler().postDelayed(() ->
+        {
             finish();
             overridePendingTransition(fade_in, fade_out);
-            startActivity(intent);
+            startActivity(new Intent(this, cls));
 
         }, 500); // HACK: Let the menu disappear first
     }
@@ -112,35 +108,6 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void uncaughtException(@Nullable Thread thread,
-                                  @Nullable Throwable ex)
-    {
-        if (ex == null) return;
-
-        try
-        {
-            ex.printStackTrace();
-            new BaseSystem(this).dumpBugReportToFile();
-        }
-        catch (Exception e)
-        {
-            // ignored
-        }
-
-        if (ex.getCause() instanceof InconsistentDatabaseException)
-        {
-            HabitsApplication app = (HabitsApplication) getApplication();
-            HabitList habits = app.getComponent().getHabitList();
-            habits.repair();
-            System.exit(0);
-        }
-
-        if (androidExceptionHandler != null)
-            androidExceptionHandler.uncaughtException(thread, ex);
-        else System.exit(1);
-    }
-
-    @Override
     protected void onActivityResult(int request, int result, Intent data)
     {
         if (screen == null) super.onActivityResult(request, result, data);
@@ -151,9 +118,7 @@ abstract public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        androidExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-        Thread.setDefaultUncaughtExceptionHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(getExceptionHandler());
 
         HabitsApplication app = (HabitsApplication) getApplicationContext();
 
@@ -164,5 +129,10 @@ abstract public class BaseActivity extends AppCompatActivity
             .build();
 
         component.getThemeSwitcher().apply();
+    }
+
+    protected Thread.UncaughtExceptionHandler getExceptionHandler()
+    {
+        return new BaseExceptionHandler(this);
     }
 }

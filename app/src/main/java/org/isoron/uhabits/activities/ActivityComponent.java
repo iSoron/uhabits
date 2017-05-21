@@ -29,6 +29,8 @@ import dagger.*;
            dependencies = { AppComponent.class })
 public interface ActivityComponent
 {
+    BaseActivity getActivity();
+
     ColorPickerDialogFactory getColorPickerDialogFactory();
 
     ThemeSwitcher getThemeSwitcher();

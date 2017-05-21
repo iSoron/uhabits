@@ -282,6 +282,6 @@ public class ListHabitsScreenTest extends BaseUnitTest
     {
         screen.toggleNightMode();
         verify(themeSwitcher).toggleNightMode();
-        verify(activity).restartWithFade();
+        verify(activity).restartWithFade(ListHabitsActivity.class);
     }
 }
