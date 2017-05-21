@@ -19,6 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <string name="app_name">Loop Gewoonte tracker</string>
   <string name="main_activity_title">Gewoontes</string>
   <string name="action_settings">Instellingen</string>
   <string name="edit">Wijzig</string>
@@ -58,6 +59,7 @@
   <string name="create_habit">Maak gewoonte aan</string>
   <string name="edit_habit">Wijzig gewoonte</string>
   <string name="check">Voltooid</string>
+  <string name="snooze">Later</string>
   <!-- App introduction -->
   <string name="intro_title_1">Welkom</string>
   <string name="intro_description_1">Loop Habit Tracker helpt je om goede gewoontes te creëren en te onderhouden.</string>
@@ -73,6 +75,7 @@
   <string name="interval_2_hour">2 uur</string>
   <string name="interval_4_hour">4 uur</string>
   <string name="interval_8_hour">8 uur</string>
+  <string name="interval_24_hour">24 uur</string>
   <string name="pref_toggle_title">Wijzig herhalingen door kort indrukken</string>
   <string name="pref_toggle_description">Handiger, maar kan onbedoelde wijzigingen veroorzaken.</string>
   <string name="pref_snooze_interval_title">Snooze interval voor herinneringen</string>
@@ -80,14 +83,17 @@
   <string name="pref_send_feedback">Stuur feedback aan de ontwikkelaar</string>
   <string name="pref_view_source_code">Bekijk de broncode op GitHub</string>
   <string name="pref_view_app_introduction">Bekijk de app introductie</string>
+  <string name="links">Links</string>
   <string name="behavior">Gedrag</string>
   <string name="name">Naam</string>
   <string name="settings">Instellingen</string>
+  <string name="snooze_interval">Later interval</string>
   <string name="hint_title">Wist je dat?</string>
   <string name="hint_drag">Om de rijen te ordenen houdt de gewoonte ingedrukt en sleep het naar de gewenste plek.</string>
   <string name="hint_landscape">Je kunt meer dagen zien door de telefoon in landschapmodus te zetten.</string>
   <string name="delete_habits">Verwijder gewoontes</string>
   <string name="delete_habits_message">De gewoontes zullen permanent verwijderd worden. Deze actie kan niet ongedaan gemaakt worden.</string>
+  <string name="habit_not_found">Gewoonte verwijderd / niet gevonden</string>
   <string name="weekends">In het weekend</string>
   <string name="any_weekday">Maandag tot vrijdag</string>
   <string name="any_day">Elke dag van de week</string>
@@ -139,14 +145,35 @@
   <string name="reverse_days">Omgekeerde volgorde van dagen</string>
   <string name="reverse_days_description">Toon dagen in omgekeerde volgorde op het hoofdscherm</string>
   <string name="day">Dag</string>
+  <string name="week">Week</string>
   <string name="month">Maand</string>
   <string name="quarter">Kwartaal</string>
   <string name="year">Jaar</string>
+  <string name="total">Totaal</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">keer per</string>
   <string name="every_x_days">Iedere %d dagen</string>
   <string name="every_x_weeks">Iedere %d weken</string>
   <string name="every_x_months">Iedere %d maanden</string>
+  <string name="score">Score</string>
   <string name="reminder_sound">Herinneringsgeluid</string>
   <string name="none">Stil</string>
+  <string name="filter">Filteren</string>
+  <string name="hide_completed">Verberg voltooide</string>
+  <string name="hide_archived">Verberg gearchiveerde</string>
+  <string name="sticky_notifications">Maak meldingen persistent</string>
+  <string name="sticky_notifications_description">Voorkom dat meldingen weggehaald kunnen worden.</string>
+  <string name="repair_database">Database repareren</string>
+  <string name="database_repaired">Database gerepareerd.</string>
+  <string name="uncheck">Deselecteren</string>
+  <string name="toggle">Omkeren</string>
+  <string name="action">Actie</string>
+  <string name="habit">Gewoonte</string>
+  <string name="sort">Sorteren</string>
+  <string name="manually">Handmatig</string>
+  <string name="by_name">Bij naam</string>
+  <string name="by_color">Bij kleur</string>
+  <string name="by_score">Bij score</string>
+  <string name="download">Downloaden</string>
+  <string name="export">Exporteren</string>
 </resources>

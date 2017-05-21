@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">Sledování zvyků</string>
+  <string name="app_name">Loop Habit Tracker</string>
   <string name="main_activity_title">Zvyky</string>
   <string name="action_settings">Nastavení</string>
   <string name="edit">Upravit</string>
@@ -45,11 +45,11 @@
   <string name="repeat">Opakovat</string>
   <string name="times_every">krát za</string>
   <string name="days">dní</string>
-  <string name="reminder">Připomenout</string>
+  <string name="reminder">Připomenutí</string>
   <string name="discard">Zrušit</string>
   <string name="save">Uložit</string>
   <string name="streaks">Serie</string>
-  <string name="no_habits_found">Nemáš žádné aktivní zvyky</string>
+  <string name="no_habits_found">Nemáte žádné nedokončené zvyky</string>
   <string name="long_press_to_toggle">Stiskni a drž pro označení</string>
   <string name="reminder_off">Vyp.</string>
   <string name="validation_name_should_not_be_blank">Jméno musíte vyplnit.</string>
@@ -91,13 +91,13 @@
   <string name="hint_drag">Přeřazení záznamů proveď stisknutím a podržením názvu zvyku a poté přesunutím na správné místo.</string>
   <string name="hint_landscape">Můžeš vidět více dnů otočením telefonu na šířku.</string>
   <string name="delete_habits">Smazat zvyky</string>
-  <string name="delete_habits_message">Zvyky budou navždy odstraněny. Toto nelze vzít zpět.</string>
+  <string name="delete_habits_message">Označené zvyky budou navždy odstraněny. Toto nelze vzít zpět.</string>
   <string name="habit_not_found">Zvyk smazán / nenalezen</string>
   <string name="weekends">Víkendy</string>
   <string name="any_weekday">Pondělí až pátek</string>
   <string name="any_day">Jakýkoliv den v týdnu</string>
   <string name="select_weekdays">Vyber dny</string>
-  <string name="export_to_csv">Exportuj CSV</string>
+  <string name="export_to_csv">Exportovat CSV</string>
   <string name="done_label">Hotovo</string>
   <string name="clear_label">Smazat</string>
   <string name="select_hours">Vyber hodiny</string>
@@ -169,7 +169,7 @@
   <string name="action">Akce</string>
   <string name="habit">Zvyk</string>
   <string name="sort">Řadit</string>
-  <string name="manually">Manuálně</string>
+  <string name="manually">Ručně</string>
   <string name="by_name">Abecedně</string>
   <string name="by_color">Podle barvy</string>
   <string name="by_score">Podle skóre</string>
