@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.7.1 (May 21, 2017)
+
+* Fix crash (BadParcelableException)
+* Fix layout for RTL languages such as Arabic
+* Automatically detect and reject invalid database files
+* Add Hebrew translation
+
 ### 1.7.0 (Mar 31, 2017)
 
 * Sort habits automatically

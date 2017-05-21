@@ -25,6 +25,8 @@ import android.os.*;
 import android.support.annotation.*;
 import android.widget.*;
 
+import com.activeandroid.util.*;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
@@ -76,8 +78,15 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
         for (int id : ids)
         {
-            BaseWidget widget = getWidgetFromId(context, id);
-            widget.delete();
+            try
+            {
+                BaseWidget widget = getWidgetFromId(context, id);
+                widget.delete();
+            }
+            catch (HabitNotFoundException e)
+            {
+                Log.e("BaseWidgetProvider", e);
+            }
         }
     }
 

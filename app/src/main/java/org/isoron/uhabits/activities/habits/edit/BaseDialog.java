@@ -63,6 +63,12 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     private ColorPickerDialogFactory colorPickerDialogFactory;
 
     @Override
+    public int getTheme()
+    {
+        return R.style.DialogWithTitle;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);

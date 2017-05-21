@@ -19,7 +19,8 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="main_activity_title">Habits</string>
+  <string name="app_name">Loop Szokásrögzítő</string>
+  <string name="main_activity_title">Szokások</string>
   <string name="action_settings">Beállítások</string>
   <string name="edit">Szerkesztés</string>
   <string name="delete">Törlés</string>
@@ -31,7 +32,7 @@
   <string name="toast_habit_deleted">Szokás törölve</string>
   <string name="toast_habit_restored">Szokás visszaállítva</string>
   <string name="toast_nothing_to_undo">Nincs mit visszavonni</string>
-  <string name="toast_nothing_to_redo">\"Mégis\" nem lehetséges</string>
+  <string name="toast_nothing_to_redo">Nincs mit újraalkalmazni</string>
   <string name="toast_habit_changed">Szokás módosítva</string>
   <string name="toast_habit_changed_back">Szokás visszaállítva</string>
   <string name="toast_habit_archived">Szokás archiválva</string>

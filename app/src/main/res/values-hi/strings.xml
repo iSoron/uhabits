@@ -91,6 +91,7 @@
   <string name="interval_2_hour">2 घंटा</string>
   <string name="interval_4_hour">4 घंटा</string>
   <string name="interval_8_hour">8 घंटा</string>
+  <string name="interval_24_hour">24 घंटे</string>
   <string name="pref_toggle_title">टॉगल पुनरावृत्ति  हल्का दबाने से</string>
   <string name="pref_toggle_description">\"
 अधिक सुविधाजनक है, लेकिन आकस्मिक टॉगल  हो सकता है ।\"</string>
@@ -179,7 +180,7 @@ repetitions की संख्या\"</string>
  इस फ़ाइल में वापस आयात नहीं किया जा सकता है।\"</string>
   <string name="export_full_backup_summary">ऐसी फाइल्स उत्पन्न करता है जिसमे आपका सारा डेटा रहता है इस फ़ाइल को वापस आयात किया जा सकता है।</string>
   <string name="bug_report_failed">बग रिपोर्ट जनरेट करने मे असफल</string>
-  <string name="generate_bug_report">बग रिपोर्ट जनरेट करने मे सफल</string>
+  <string name="generate_bug_report">बग रिपोर्ट जनरेट करें</string>
   <string name="troubleshooting">\"
 समस्या निवारण\"</string>
   <string name="help_translate">\"
@@ -198,15 +199,26 @@ repetitions की संख्या\"</string>
   <string name="quarter">तिमाही</string>
   <string name="year">साल</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
-  <string name="time_every">समय शुरू</string>
+  <string name="time_every">समय में</string>
   <string name="every_x_days">\"
 हर %d दिन\"</string>
   <string name="every_x_weeks">\"
 हर %d हफ्ते\"</string>
   <string name="every_x_months">\"
-हर %d साल\"</string>
+हर %d महीने\"</string>
   <string name="score">स्कोर</string>
   <string name="reminder_sound">अनुस्मारक ध्वनि</string>
   <string name="none">\"
 कोई आवाज नहीं\"</string>
+  <string name="filter">फिल्टर</string>
+  <string name="repair_database">डेटाबेस को रिपेयर करें</string>
+  <string name="database_repaired">डेटाबेस रिपेयर सफल</string>
+  <string name="habit">आदत</string>
+  <string name="sort">सॉर्ट करें</string>
+  <string name="manually">मैन्यूअली</string>
+  <string name="by_name">नाम द्वारा</string>
+  <string name="by_color">रंग द्वारा</string>
+  <string name="by_score">स्कोर से</string>
+  <string name="download">डाउनलोड</string>
+  <string name="export">एक्सपोर्ट करे</string>
 </resources>
