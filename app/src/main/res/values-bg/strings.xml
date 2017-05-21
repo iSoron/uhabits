@@ -57,7 +57,7 @@
   <string name="validation_at_most_one_rep_per_day">Позволено е до едно повторение на ден.</string>
   <string name="create_habit">Създаване на навик</string>
   <string name="edit_habit">Редактиране на навик</string>
-  <string name="check">Потвърди</string>
+  <string name="check">Поставяне на отметка</string>
   <string name="snooze">По-късно</string>
   <!-- App introduction -->
   <string name="intro_title_1">Добре дошли</string>
@@ -74,6 +74,7 @@
   <string name="interval_2_hour">2 часа</string>
   <string name="interval_4_hour">4 часа</string>
   <string name="interval_8_hour">8 часа</string>
+  <string name="interval_24_hour">24 часа</string>
   <string name="pref_toggle_title">Маркиране с кратко натискане</string>
   <string name="pref_toggle_description">Поставяне на отметки с кратко натискане вместо с натискане и задържане. По-удобно, но може да доведе до неволно маркиране.</string>
   <string name="pref_snooze_interval_title">Интервал на напомняне след отлагане</string>
@@ -91,6 +92,7 @@
   <string name="hint_landscape">Може да виждате повече дни като обърнете телефона си в хоризонтално положение.</string>
   <string name="delete_habits">Изтриване на навици</string>
   <string name="delete_habits_message">Навиците ще се изтрият перманентно. Това действие не може да бъде отменено.</string>
+  <string name="habit_not_found">Навикът е изтрит / не е намерен</string>
   <string name="weekends">Събота и неделя</string>
   <string name="any_weekday">От понеделник до петък</string>
   <string name="any_day">Всеки ден от седмицата</string>
@@ -100,7 +102,7 @@
   <string name="clear_label">Изчистване</string>
   <string name="select_hours">Избиране на час</string>
   <string name="select_minutes">Избиране на минута</string>
-  <string name="about">Информация</string>
+  <string name="about">За приложението</string>
   <string name="translators">Преводачи</string>
   <string name="developers">Разработчици</string>
   <string name="version_n">Версия %s</string>
@@ -146,6 +148,7 @@
   <string name="month">Месец</string>
   <string name="quarter">Тримесечие</string>
   <string name="year">Година</string>
+  <string name="total">Общо</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">път в период от</string>
   <string name="every_x_days">На всеки %d дни</string>
@@ -154,4 +157,22 @@
   <string name="score">Сила</string>
   <string name="reminder_sound">Звук за напомняне</string>
   <string name="none">Няма</string>
+  <string name="filter">Филтър</string>
+  <string name="hide_completed">Скриване на завършените</string>
+  <string name="hide_archived">Скриване на архивираните</string>
+  <string name="sticky_notifications">Направи нотификациите постоянни</string>
+  <string name="sticky_notifications_description">Предотвратява изчистването на нотификацията с плъзване настрани.</string>
+  <string name="repair_database">Поправка на базата данни</string>
+  <string name="database_repaired">Базата данни е поправена.</string>
+  <string name="uncheck">Премахване на отметка</string>
+  <string name="toggle">Смяна</string>
+  <string name="action">Действие</string>
+  <string name="habit">Навик</string>
+  <string name="sort">Сортиране</string>
+  <string name="manually">Ръчно</string>
+  <string name="by_name">По име</string>
+  <string name="by_color">По цвят</string>
+  <string name="by_score">По сила</string>
+  <string name="download">Изтегляне</string>
+  <string name="export">Експортиране</string>
 </resources>

@@ -321,6 +321,11 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Niraj Yadav (हिन्दी)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Yoav Argov (עברית‎)"/>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
