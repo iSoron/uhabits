@@ -1,7 +1,7 @@
 # Loop Habit Tracker
 
-<a href="https://gemini.isoron.org:8111/?guest=1">
-  <img src="http://gemini.isoron.org:8111/app/rest/builds/buildType(id:LooppHabitTracker_Build)/statusIcon">
+<a href="http://build.loophabits.org:8111/?guest=1">
+  <img src="http://build.loophabits.org:8111/app/rest/builds/buildType(id:LooppHabitTracker_BuildNougat)/statusIcon">
 </a>
 <a href="https://codecov.io/github/iSoron/uhabits?branch=dev">
   <img src="https://img.shields.io/codecov/c/github/iSoron/uhabits.svg" alt="Coverage via Codecov" />
@@ -13,8 +13,8 @@ show you how your habits improved over time. It is completely ad-free and open
 source.
 
 <p align="center">
-<a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
-<a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Git if on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
+  <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
+  <a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Git if on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
 </p>
 
 ## Screenshots

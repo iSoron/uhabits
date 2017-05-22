@@ -1,69 +1,90 @@
 #!/bin/bash
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUT_DIR=app/build/outputs
-LOG=${OUTPUT_DIR}/test.log
+
+AVD_NAME=$1
+AVD_SERIAL=$2
+
+GRADLE="./gradlew --no-daemon --stacktrace"
+ADB="adb -s emulator-${AVD_SERIAL}"
 
 info() {
     local COLOR='\033[1;32m'
     local NC='\033[0m'
-    echo -e " $COLOR*$NC $1"
+    #echo -e " $COLOR*$NC $1"
+    echo "###teamcity[progressMessage '$1']"
 }
 
 fail() {
-    cat $LOG
+    $ADB shell reboot -p
     exit 1
 }
 
-info "Running adb as root..."
-adb root
+#--------------------------------------------------------------------------------
+info "Starting emulator"
+$ANDROID_HOME/tools/emulator \
+    -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
+$ADB wait-for-device
+sleep 10
 
-info "Cleaning output directory..."
+#--------------------------------------------------------------------------------
+info "Running adb as root"
+$ADB root
+
+#--------------------------------------------------------------------------------
+info "Cleaning output directory"
 rm -rf ${OUTPUT_DIR}
 mkdir -p ${OUTPUT_DIR}
 
-info "Running JVM tests..."
-./gradlew :app:testDebugUnitTest >> $LOG 2>> $LOG || fail
+#--------------------------------------------------------------------------------
+info "Building instrumentation APKs"
+$GRADLE --no-daemon assembleDebug assembleAndroidTest  || fail
 
-info "Building instrumentation APKs..."
-./gradlew assembleDebug assembleAndroidTest >> $LOG 2>> $LOG || fail
+#--------------------------------------------------------------------------------
+info "Installing APK"
+$ADB install -r ${OUTPUT_DIR}/apk/app-debug.apk  || fail
+$ADB install -r ${OUTPUT_DIR}/apk/app-debug-androidTest.apk || fail
 
-info "Installing APK..."
-adb install -r ${OUTPUT_DIR}/apk/app-debug.apk >> $LOG 2>> $LOG || fail
-adb install -r ${OUTPUT_DIR}/apk/app-debug-androidTest.apk \
-    >> $LOG 2>> $LOG || fail
+#--------------------------------------------------------------------------------
+info "Granting permissions"
+$ADB shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE || fail
 
-info "Granting permissions..."
-adb shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE \
-    >> $LOG 2>> $LOG || fail
-
-info "Running instrumentation tests..."
-adb shell am instrument \
+#--------------------------------------------------------------------------------
+info "Running instrumentation tests"
+$ADB shell am instrument \
     -e coverage true -e size medium \
     -w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
-    | tee ${OUTPUT_DIR}/runner.txt \
-    | tee -a $LOG
+    | tee ${OUTPUT_DIR}/runner.txt || fail
 grep -q "Error" ${OUTPUT_DIR}/runner.txt && failed=1
 
-info "Fetching failed generated files..."
+#--------------------------------------------------------------------------------
+info "Fetching failed generated files"
 mkdir -p ${OUTPUT_DIR}/failed
-adb pull /mnt/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
-adb pull /storage/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
-adb pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUT_DIR}/failed >> $LOG 2>> $LOG
+$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed 
+$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed 
+$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUT_DIR}/failed 
 
-adb shell rm -r /mnt/sdcard/test-screenshots/ >> $LOG 2>> $LOG
-adb shell rm -r /storage/sdcard/test-screenshots/ >> $LOG 2>> $LOG
-adb shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ >> $LOG 2>> $LOG
+$ADB shell rm -r /mnt/sdcard/test-screenshots/ 
+$ADB shell rm -r /storage/sdcard/test-screenshots/ 
+$ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
 
-info "Fetching logcat..."
-adb logcat -d > ${OUTPUT_DIR}/logcat.txt
+#--------------------------------------------------------------------------------
+info "Fetching logcat"
+$ADB logcat -d > ${OUTPUT_DIR}/logcat.txt
 
-info "Building coverage report..."
+#--------------------------------------------------------------------------------
+info "Building coverage report"
 mkdir -p ${OUTPUT_DIR}/code-coverage/connected/
-adb pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
-    ${OUTPUT_DIR}/code-coverage/connected/ >> $LOG 2>> $LOG
-./gradlew coverageReport >> $LOG 2>> $LOG
+$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
+    ${OUTPUT_DIR}/code-coverage/connected/ 
+$GRADLE --no-daemon coverageReport  || fail
 
-info "Uninstalling test APK..."
-adb uninstall ${PACKAGE_NAME}.test >> $LOG 2>> $LOG
+#--------------------------------------------------------------------------------
+info "Uninstalling test APK"
+$ADB uninstall ${PACKAGE_NAME}.test || fail
+
+#--------------------------------------------------------------------------------
+info "Stopping emulator"
+$ADB shell reboot -p
 
 exit $failed
