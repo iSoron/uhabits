@@ -1,7 +1,7 @@
 # Loop Habit Tracker
 
-<a href="http://build.loophabits.org:8111/?guest=1">
-  <img src="http://build.loophabits.org:8111/app/rest/builds/buildType(id:LooppHabitTracker_BuildNougat)/statusIcon">
+<a href="http://build.loophabits.org:26213/project.html?projectId=LoopHabitTracker&tab=projectOverview&guest=1">
+  <img src="http://build.loophabits.org:26213/app/rest/builds/buildType(id:LooppHabitTracker_BuildNougat)/statusIcon">
 </a>
 <a href="https://codecov.io/github/iSoron/uhabits?branch=dev">
   <img src="https://img.shields.io/codecov/c/github/iSoron/uhabits.svg" alt="Coverage via Codecov" />
