@@ -5,8 +5,9 @@ OUTPUT_DIR=app/build/outputs
 AVD_NAME=$1
 AVD_SERIAL=$2
 
+ADB="${ANDROID_HOME}/platform-tools/adb -s emulator-${AVD_SERIAL}"
+EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --no-daemon --stacktrace"
-ADB="adb -s emulator-${AVD_SERIAL}"
 
 info() {
     local COLOR='\033[1;32m'
@@ -22,9 +23,8 @@ fail() {
 
 #--------------------------------------------------------------------------------
 info "Starting emulator"
-$ANDROID_HOME/tools/emulator \
-    -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
-$ADB wait-for-device
+$EMULATOR -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
+$ADB wait-for-device || fail
 sleep 10
 
 #--------------------------------------------------------------------------------
