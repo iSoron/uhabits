@@ -50,6 +50,7 @@ public class WidgetControllerTest extends BaseUnitTest
 
         today = DateUtils.getStartOfToday();
         habit = fixtures.createEmptyHabit();
+        habitList.add(habit);
         commandRunner = mock(CommandRunner.class);
         notificationTray = mock(NotificationTray.class);
         controller = new WidgetController(commandRunner, notificationTray);

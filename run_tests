@@ -36,7 +36,7 @@ info() {
 }
 
 fail() {
-    $ADB shell reboot -p
+    $ADB emu kill
     exit 1
 }
 
@@ -92,7 +92,7 @@ info "Fetching logcat"
 $ADB logcat -d > ${OUTPUTS_DIR}/logcat.txt
 
 #--------------------------------------------------------------------------------
-info "Building coverage report"
+info "Running JVM tests"
 mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
 $ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
     ${OUTPUTS_DIR}/code-coverage/connected/
