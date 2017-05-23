@@ -42,7 +42,7 @@ import static org.robolectric.Robolectric.*;
 import static org.robolectric.Shadows.*;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(sdk = BuildConfig.roboSdk, constants = BuildConfig.class)
 public class BaseActivityTest
 {
     private static boolean hasCrashed = false;

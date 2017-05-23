@@ -42,7 +42,7 @@ import static org.mockito.Mockito.*;
 import static org.robolectric.Robolectric.*;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(sdk = BuildConfig.roboSdk, constants = BuildConfig.class)
 public class BaseScreenTest
 {
     @Test
