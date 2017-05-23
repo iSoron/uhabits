@@ -1,19 +1,38 @@
 #!/bin/bash
-PACKAGE_NAME=org.isoron.uhabits
-OUTPUT_DIR=app/build/outputs
+
+if [ -z $2 ]; then
+cat <<END
+Usage: $0 AVD_NAME AVD_SERIAL
+Runs all tests (JVM and instrumented) with coverage report
+
+Parameters:
+    AVD_NAME        the name of the Android Virtual Device
+    AVD_SERIAL      the port number to use (e.g. 5560)
+END
+    exit 1
+fi
+
+if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
+    echo "Error: ANDROID_HOME is not set correctly"
+    exit 1
+fi
 
 AVD_NAME=$1
 AVD_SERIAL=$2
-
 ADB="${ANDROID_HOME}/platform-tools/adb -s emulator-${AVD_SERIAL}"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --no-daemon --stacktrace"
+PACKAGE_NAME=org.isoron.uhabits
+OUTPUTS_DIR=app/build/outputs
 
 info() {
-    local COLOR='\033[1;32m'
-    local NC='\033[0m'
-    #echo -e " $COLOR*$NC $1"
-    echo "###teamcity[progressMessage '$1']"
+    if [ ! -z "$TEAMCITY_VERSION" ]; then
+        echo "###teamcity[progressMessage '$1']"
+    else
+        local COLOR='\033[1;32m'
+        local NC='\033[0m'
+        echo -e " $COLOR*$NC $1"
+    fi
 }
 
 fail() {
@@ -29,21 +48,21 @@ sleep 10
 
 #--------------------------------------------------------------------------------
 info "Running adb as root"
-$ADB root
+$ADB root || fail
 
 #--------------------------------------------------------------------------------
 info "Cleaning output directory"
-rm -rf ${OUTPUT_DIR}
-mkdir -p ${OUTPUT_DIR}
+rm -rf ${OUTPUTS_DIR}
+mkdir -p ${OUTPUTS_DIR}
 
 #--------------------------------------------------------------------------------
 info "Building instrumentation APKs"
-$GRADLE --no-daemon assembleDebug assembleAndroidTest  || fail
+$GRADLE assembleDebug assembleAndroidTest  || fail
 
 #--------------------------------------------------------------------------------
-info "Installing APK"
-$ADB install -r ${OUTPUT_DIR}/apk/app-debug.apk  || fail
-$ADB install -r ${OUTPUT_DIR}/apk/app-debug-androidTest.apk || fail
+info "Installing APKs"
+$ADB install -r ${OUTPUTS_DIR}/apk/app-debug.apk  || fail
+$ADB install -r ${OUTPUTS_DIR}/apk/app-debug-androidTest.apk || fail
 
 #--------------------------------------------------------------------------------
 info "Granting permissions"
@@ -51,18 +70,18 @@ $ADB shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE ||
 
 #--------------------------------------------------------------------------------
 info "Running instrumentation tests"
-$ADB shell am instrument \
-    -e coverage true -e size medium \
+$ADB shell am instrument -r -e coverage true -e size medium \
     -w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
-    | tee ${OUTPUT_DIR}/runner.txt || fail
-grep -q "Error" ${OUTPUT_DIR}/runner.txt && failed=1
+    > ${OUTPUTS_DIR}/instrument.txt
+
+java -jar tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
 
 #--------------------------------------------------------------------------------
-info "Fetching failed generated files"
-mkdir -p ${OUTPUT_DIR}/failed
-$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed 
-$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUT_DIR}/failed 
-$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUT_DIR}/failed 
+info "Fetching generated artifacts"
+mkdir -p ${OUTPUTS_DIR}/failed
+$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
+$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
+$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUTS_DIR}/failed
 
 $ADB shell rm -r /mnt/sdcard/test-screenshots/ 
 $ADB shell rm -r /storage/sdcard/test-screenshots/ 
@@ -70,13 +89,13 @@ $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/
 
 #--------------------------------------------------------------------------------
 info "Fetching logcat"
-$ADB logcat -d > ${OUTPUT_DIR}/logcat.txt
+$ADB logcat -d > ${OUTPUTS_DIR}/logcat.txt
 
 #--------------------------------------------------------------------------------
 info "Building coverage report"
-mkdir -p ${OUTPUT_DIR}/code-coverage/connected/
+mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
 $ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
-    ${OUTPUT_DIR}/code-coverage/connected/ 
+    ${OUTPUTS_DIR}/code-coverage/connected/
 $GRADLE --no-daemon coverageReport  || fail
 
 #--------------------------------------------------------------------------------
