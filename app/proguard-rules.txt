@@ -1,3 +1,43 @@
--dontwarn java.beans.**
--dontwarn java.lang.**
+-dontwarn java.**
+-dontwarn javax.**
+-dontwarn com.google.auto.**
+-dontwarn com.google.errorprone.annotations.**
+-dontwarn com.google.j2objc.annotations.**
+-dontwarn okio.**
+-dontwarn okhttp3.**
+-dontwarn sun.misc.**
+-dontwarn org.codehaus.mojo.**
+-dontwarn com.google.gson.internal.*
+-dontwarn com.google.common.util.concurrent.*
+-dontwarn com.google.auto.common.*
+-dontwarn org.apache.commons.beanutils.*
+-dontwarn org.isoron.uhabits.HabitsApplication
+
 -dontobfuscate
+
+-keep class sun.misc.Unsafe { *; }
+-keep class org.isoron.** { *; }
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.preference.Preference
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+-keepclassmembers class * extends android.content.Context {
+    public void *(android.view.View);
+    public void *(android.view.MenuItem);
+}
+-keep public class * extends android.app.Activity
+-dontskipnonpubliclibraryclassmembers

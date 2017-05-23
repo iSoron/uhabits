@@ -19,11 +19,17 @@ fi
 
 AVD_NAME=$1
 AVD_SERIAL=$2
+
 ADB="${ANDROID_HOME}/platform-tools/adb -s emulator-${AVD_SERIAL}"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
-GRADLE="./gradlew --no-daemon --stacktrace"
+GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUTS_DIR=app/build/outputs
+
+KEYFILE="TestKeystore.jks"
+KEY_ALIAS="default"
+KEY_PASSWORD="qwe123" 
+STORE_PASSWORD="qwe123"
 
 info() {
     if [ ! -z "$TEAMCITY_VERSION" ]; then
@@ -35,8 +41,12 @@ info() {
     fi
 }
 
-fail() {
+cleanup() {
     $ADB emu kill
+    $GRADLE --stop
+}
+
+fail() {
     exit 1
 }
 
@@ -56,24 +66,36 @@ rm -rf ${OUTPUTS_DIR}
 mkdir -p ${OUTPUTS_DIR}
 
 #--------------------------------------------------------------------------------
-info "Building instrumentation APKs"
-$GRADLE assembleDebug assembleAndroidTest  || fail
+info "Building release APK"
+./gradlew assembleRelease \
+    -Pandroid.injected.signing.store.file=$KEYFILE \
+    -Pandroid.injected.signing.store.password=$STORE_PASSWORD \
+    -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+    -Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
+
+#--------------------------------------------------------------------------------
+info "Building instrumentation APK"
+$GRADLE assembleAndroidTest  \
+    -Pandroid.injected.signing.store.file=$KEYFILE \
+    -Pandroid.injected.signing.store.password=$STORE_PASSWORD \
+    -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+    -Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
 
 #--------------------------------------------------------------------------------
 info "Installing APKs"
-$ADB install -r ${OUTPUTS_DIR}/apk/app-debug.apk  || fail
+$ADB uninstall ${PACKAGE_NAME}
+$ADB install -r ${OUTPUTS_DIR}/apk/app-release.apk  || fail
 $ADB install -r ${OUTPUTS_DIR}/apk/app-debug-androidTest.apk || fail
 
 #--------------------------------------------------------------------------------
-info "Granting permissions"
-$ADB shell pm grant org.isoron.uhabits android.permission.SET_ANIMATION_SCALE || fail
-
-#--------------------------------------------------------------------------------
 info "Running instrumentation tests"
-$ADB shell am instrument -r -e coverage true -e size medium \
+$ADB shell am instrument \
+    -r -e coverage true -e size medium \
     -w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
     > ${OUTPUTS_DIR}/instrument.txt
 
+#--------------------------------------------------------------------------------
+info "Parsing test results"
 java -jar tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
 
 #--------------------------------------------------------------------------------
@@ -103,7 +125,7 @@ info "Uninstalling test APK"
 $ADB uninstall ${PACKAGE_NAME}.test || fail
 
 #--------------------------------------------------------------------------------
-info "Stopping emulator"
-$ADB emu kill
+info "Stopping emulator and cleaning up"
+cleanup
 
 exit $failed
