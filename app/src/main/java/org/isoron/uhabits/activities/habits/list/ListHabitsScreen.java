@@ -35,7 +35,6 @@ import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
@@ -46,8 +45,6 @@ import java.lang.reflect.*;
 import javax.inject.*;
 
 import static android.content.DialogInterface.*;
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
 import static android.view.inputmethod.EditorInfo.*;
 
 @ActivityScope
@@ -75,16 +72,10 @@ public class ListHabitsScreen extends BaseScreen
     private final IntentFactory intentFactory;
 
     @NonNull
-    private final DirFinder dirFinder;
-
-    @NonNull
     private final CommandRunner commandRunner;
 
     @NonNull
     private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
-
-    @NonNull
-    private final FilePickerDialogFactory filePickerDialogFactory;
 
     @NonNull
     private final ColorPickerDialogFactory colorPickerFactory;
@@ -101,12 +92,10 @@ public class ListHabitsScreen extends BaseScreen
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull CommandRunner commandRunner,
-                            @NonNull DirFinder dirFinder,
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull FilePickerDialogFactory filePickerDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
                             @NonNull EditHabitDialogFactory editHabitDialogFactory,
                             @NonNull Preferences prefs)
@@ -118,8 +107,6 @@ public class ListHabitsScreen extends BaseScreen
         this.commandRunner = commandRunner;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         this.editHabitDialogFactory = editHabitDialogFactory;
-        this.dirFinder = dirFinder;
-        this.filePickerDialogFactory = filePickerDialogFactory;
         this.intentFactory = intentFactory;
         this.themeSwitcher = themeSwitcher;
     }
@@ -237,37 +224,8 @@ public class ListHabitsScreen extends BaseScreen
 
     public void showImportScreen()
     {
-        if (SDK_INT < KITKAT)
-        {
-            showImportScreenPreKitKat();
-            return;
-        }
-
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
-
+        Intent intent = intentFactory.openDocument();
         activity.startActivityForResult(intent, REQUEST_OPEN_DOCUMENT);
-    }
-
-    public void showImportScreenPreKitKat()
-    {
-        File dir = dirFinder.findStorageDir(null);
-
-        if (dir == null)
-        {
-            showMessage(R.string.could_not_import);
-            return;
-        }
-
-        FilePickerDialog picker = filePickerDialogFactory.create(dir);
-
-        if (controller != null)
-            picker.setListener(file -> controller.onImportData(file, () ->
-            {
-            }));
-
-        activity.showDialog(picker.getDialog());
     }
 
     public void showIntroScreen()

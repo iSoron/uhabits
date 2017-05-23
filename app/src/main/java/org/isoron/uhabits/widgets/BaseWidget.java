@@ -30,8 +30,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.preferences.*;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
 import static android.view.View.MeasureSpec.*;
 
 public abstract class BaseWidget
@@ -126,8 +124,7 @@ public abstract class BaseWidget
         Bitmap bitmap = getBitmapFromView(view);
         remoteViews.setImageViewBitmap(R.id.imageView, bitmap);
 
-        if (SDK_INT >= JELLY_BEAN)
-            adjustRemoteViewsPadding(remoteViews, view, width, height);
+        adjustRemoteViewsPadding(remoteViews, view, width, height);
 
         PendingIntent onClickIntent = getOnClickPendingIntent(context);
         if (onClickIntent != null)

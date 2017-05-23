@@ -31,8 +31,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
 import static org.isoron.uhabits.utils.WidgetUtils.*;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
@@ -144,13 +142,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         try
         {
             BaseWidget widget = getWidgetFromId(context, widgetId);
-
-            if (SDK_INT > JELLY_BEAN)
-            {
-                Bundle options = manager.getAppWidgetOptions(widgetId);
-                widget.setDimensions(
-                    getDimensionsFromOptions(context, options));
-            }
+            Bundle options = manager.getAppWidgetOptions(widgetId);
+            widget.setDimensions(
+                getDimensionsFromOptions(context, options));
 
             updateAppWidget(manager, widget);
         }

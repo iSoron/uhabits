@@ -24,8 +24,6 @@ import android.support.annotation.*;
 import java.text.*;
 import java.util.*;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
 import static android.text.format.DateFormat.*;
 
 public class DateFormats
@@ -43,10 +41,7 @@ public class DateFormats
     public static SimpleDateFormat fromSkeleton(@NonNull String skeleton)
     {
         Locale locale = Locale.getDefault();
-
-        if (SDK_INT >= JELLY_BEAN_MR2)
-            skeleton = getBestDateTimePattern(locale, skeleton);
-
+        skeleton = getBestDateTimePattern(locale, skeleton);
         return fromSkeleton(skeleton, locale);
     }
 

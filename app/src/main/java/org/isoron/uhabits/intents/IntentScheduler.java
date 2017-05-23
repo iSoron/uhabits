@@ -30,6 +30,7 @@ import javax.inject.*;
 
 import static android.app.AlarmManager.*;
 import static android.content.Context.*;
+import static android.os.Build.VERSION_CODES.M;
 
 @AppScope
 public class IntentScheduler
@@ -44,18 +45,9 @@ public class IntentScheduler
 
     public void schedule(@NonNull Long timestamp, PendingIntent intent)
     {
-        if (Build.VERSION.SDK_INT >= 23)
-        {
+        if (Build.VERSION.SDK_INT >= M)
             manager.setExactAndAllowWhileIdle(RTC_WAKEUP, timestamp, intent);
-            return;
-        }
-
-        if (Build.VERSION.SDK_INT >= 19)
-        {
+        else
             manager.setExact(RTC_WAKEUP, timestamp, intent);
-            return;
-        }
-
-        manager.set(RTC_WAKEUP, timestamp, intent);
     }
 }

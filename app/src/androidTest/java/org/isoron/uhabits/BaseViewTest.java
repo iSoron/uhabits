@@ -31,6 +31,8 @@ import java.io.*;
 import java.util.*;
 
 import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.KITKAT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.view.View.MeasureSpec.*;
 import static junit.framework.Assert.*;
 
@@ -157,8 +159,8 @@ public class BaseViewTest extends BaseAndroidTest
     private String getVersionedPath(String path)
     {
         int version = SDK_INT;
-        if (version >= 21) version = 21;
-        else if (version >= 15) version = 15;
+        if (version >= LOLLIPOP) version = LOLLIPOP;
+        else if (version >= KITKAT) version = KITKAT;
 
         return String.format("views-v%d/%s", version, path);
     }

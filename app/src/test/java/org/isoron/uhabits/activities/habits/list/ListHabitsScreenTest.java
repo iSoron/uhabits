@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list;
 
 
 import android.content.*;
-import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
@@ -30,14 +29,11 @@ import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.*;
-
-import java.io.*;
 
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 import static org.mockito.Matchers.any;
@@ -62,11 +58,7 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
 
-    private FilePickerDialogFactory filePickerDialogFactory;
-
     private IntentFactory intentFactory;
-
-    private DirFinder dirFinder;
 
     private CommandRunner commandRunner;
 
@@ -75,8 +67,6 @@ public class ListHabitsScreenTest extends BaseUnitTest
     private EditHabitDialogFactory dialogFactory;
 
     private ThemeSwitcher themeSwitcher;
-
-    private ListHabitsScreen baseScreen;
 
     private Preferences prefs;
 
@@ -88,20 +78,17 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
         activity = mock(BaseActivity.class);
         commandRunner = mock(CommandRunner.class);
-        dirFinder = mock(DirFinder.class);
         rootView = mock(ListHabitsRootView.class);
         intentFactory = mock(IntentFactory.class);
         themeSwitcher = mock(ThemeSwitcher.class);
         confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
-        filePickerDialogFactory = mock(FilePickerDialogFactory.class);
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
         dialogFactory = mock(EditHabitDialogFactory.class);
         prefs = mock(Preferences.class);
 
-        screen = spy(new ListHabitsScreen(activity, commandRunner, dirFinder,
-            rootView, intentFactory, themeSwitcher, confirmDeleteDialogFactory,
-            filePickerDialogFactory, colorPickerDialogFactory, dialogFactory,
-            prefs));
+        screen = spy(new ListHabitsScreen(activity, commandRunner, rootView,
+            intentFactory, themeSwitcher, confirmDeleteDialogFactory,
+            colorPickerDialogFactory, dialogFactory, prefs));
 
         doNothing().when(screen).showMessage(anyInt());
 
@@ -240,25 +227,9 @@ public class ListHabitsScreenTest extends BaseUnitTest
     @Test
     public void testShowImportScreen()
     {
-        File dir = mock(File.class);
-        when(dirFinder.findStorageDir(any())).thenReturn(dir);
-
-        FilePickerDialog picker = mock(FilePickerDialog.class);
-        AppCompatDialog dialog = mock(AppCompatDialog.class);
-        when(picker.getDialog()).thenReturn(dialog);
-        when(filePickerDialogFactory.create(dir)).thenReturn(picker);
-
+        when(intentFactory.openDocument()).thenReturn(intent);
         screen.showImportScreen();
-
-        verify(activity).showDialog(dialog);
-    }
-
-    @Test
-    public void testShowImportScreen_withInvalidPath()
-    {
-        when(dirFinder.findStorageDir(any())).thenReturn(null);
-        screen.showImportScreen();
-        verify(screen).showMessage(R.string.could_not_import);
+        verify(activity).startActivityForResult(intent, REQUEST_OPEN_DOCUMENT);
     }
 
     @Test

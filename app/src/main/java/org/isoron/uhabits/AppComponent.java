@@ -49,8 +49,6 @@ public interface AppComponent
 
     CreateHabitCommandFactory getCreateHabitCommandFactory();
 
-    DirFinder getDirFinder();
-
     EditHabitCommandFactory getEditHabitCommandFactory();
 
     GenericImporter getGenericImporter();

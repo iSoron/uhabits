@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits;
 
-import android.os.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
@@ -29,8 +28,8 @@ import org.junit.runner.*;
 
 import java.io.*;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -39,9 +38,6 @@ public class HabitsApplicationTest extends BaseAndroidTest
     @Test
     public void test_getLogcat() throws IOException
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-            return;
-
         String msg = "LOGCAT TEST";
         new RuntimeException(msg).printStackTrace();
 

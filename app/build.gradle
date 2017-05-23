@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "org.isoron.uhabits"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
 
         buildConfigField "Integer", "databaseVersion", "19"

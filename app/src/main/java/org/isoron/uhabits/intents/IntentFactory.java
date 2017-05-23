@@ -45,6 +45,14 @@ public class IntentFactory
         return buildViewIntent(url);
     }
 
+    public Intent openDocument()
+    {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        return intent;
+    }
+
     public Intent rateApp(Context context)
     {
         String url = context.getString(R.string.playStoreURL);
