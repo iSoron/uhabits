@@ -104,6 +104,6 @@ $ADB uninstall ${PACKAGE_NAME}.test || fail
 
 #--------------------------------------------------------------------------------
 info "Stopping emulator"
-$ADB shell reboot -p
+$ADB emu kill
 
 exit $failed
