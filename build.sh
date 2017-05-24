@@ -156,6 +156,11 @@ parse_instrumentation_results() {
 	java -jar tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
 }
 
+generate_coverage_badge() {
+	log_info "Generating code coverage badge"
+	python tools/coverage-badge/badge.py -i app/build/reports/jacoco/coverageReport/coverageReport.xml -o ${OUTPUTS_DIR}/coverage-badge
+}
+
 fetch_artifacts() {
 	log_info "Fetching generated artifacts"
 	mkdir -p ${OUTPUTS_DIR}/failed
@@ -195,6 +200,7 @@ run_local_tests() {
 	fetch_artifacts
 	fetch_logcat
 	run_jvm_tests
+	generate_coverage_badge
 	uninstall_test_apk
 }
 
