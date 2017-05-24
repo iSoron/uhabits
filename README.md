@@ -4,7 +4,7 @@
   <img src="http://build.loophabits.org:26213/app/rest/builds/buildType(id:LoopHabitTracker_Nougat)/statusIcon">
 </a>
 <a href="http://build.loophabits.org:26213/project.html?projectId=LoopHabitTracker&tab=preport_project1_Code_Coverage&branch_LoopHabitTracker=__all_branches__&guest=1">
-  <img src="http://build.loophabits.org:26213/app/rest/builds/buildType(id:LoopHabitTracker_Nougat)/artifacts/content/app/build/outputs/coverage-badge.svg" />
+  <img src="http://build.loophabits.org:26213/app/rest/builds/buildType(id:LoopHabitTracker_Nougat)/artifacts/content/app/build/outputs/coverage-badge.svg?guest=1" />
 </a>
 
 Loop is a simple Android app that helps you create and maintain good habits,

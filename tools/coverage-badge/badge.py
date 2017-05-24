@@ -46,10 +46,9 @@ class Devnull(object):
 def get_total(report):
     doc = BeautifulSoup(file(report), 'xml')
     tag = doc.select("report > counter[type^INST]")[0]
-    missed = int(tag['missed'])
-    covered = int(tag['covered'])
-    total = int((covered * 10000 / (missed + covered)) / 100)
-    return str(total)
+    missed = float(tag['missed'])
+    covered = float(tag['covered'])
+    return str(int(round(100 * covered / (missed + covered))))
 
 def get_color(total):
     """
