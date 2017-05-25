@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -37,13 +37,10 @@ import org.junit.runner.*;
 import org.junit.runners.*;
 
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.eq;
 
 @RunWith(JUnit4.class)
-public class ListHabitsScreenTest extends BaseUnitTest
+public class ListHabitsScreenTest extends BaseAndroidTest
 {
     private BaseActivity activity;
 

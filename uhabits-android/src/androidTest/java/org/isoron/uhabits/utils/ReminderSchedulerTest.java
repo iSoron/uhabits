@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -31,8 +31,7 @@ import java.util.*;
 
 import static org.mockito.Mockito.*;
 
-@SuppressWarnings("JavaDoc")
-public class ReminderSchedulerTest extends BaseUnitTest
+public class ReminderSchedulerTest extends BaseAndroidTest
 {
     private Habit habit;
 

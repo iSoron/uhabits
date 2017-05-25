@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -33,9 +33,8 @@ import org.junit.*;
 
 import static org.mockito.Mockito.*;
 
-public class ListHabitsControllerTest extends BaseUnitTest
+public class ListHabitsControllerTest extends BaseAndroidTest
 {
-
     private ListHabitsController controller;
 
     private ImportDataTaskFactory importTaskFactory;

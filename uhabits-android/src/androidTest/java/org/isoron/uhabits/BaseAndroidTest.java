@@ -154,4 +154,11 @@ public class BaseAndroidTest extends TestCase
             fail();
         }
     }
+
+    public long timestamp(int year, int month, int day)
+    {
+        GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
+        cal.set(year, month, day);
+        return cal.getTimeInMillis();
+    }
 }

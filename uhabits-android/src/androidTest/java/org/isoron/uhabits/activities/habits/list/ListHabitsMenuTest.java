@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -30,10 +30,9 @@ import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 import org.mockito.*;
 
-import static junit.framework.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class ListHabitsMenuTest extends BaseUnitTest
+public class ListHabitsMenuTest extends BaseAndroidTest
 {
     private BaseActivity activity;
 

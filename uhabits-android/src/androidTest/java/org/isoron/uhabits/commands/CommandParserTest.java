@@ -21,6 +21,7 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
+import org.hamcrest.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.json.*;
@@ -28,11 +29,9 @@ import org.junit.*;
 
 import java.util.*;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 
-
-public class CommandParserTest extends BaseUnitTest
+public class CommandParserTest extends BaseAndroidTest
 {
     @NonNull
     private CommandParser parser;
@@ -59,8 +58,8 @@ public class CommandParserTest extends BaseUnitTest
         original = new ArchiveHabitsCommand(habitList, selected);
         decoded = (ArchiveHabitsCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.selected, equalTo(original.selected));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.selected, equalTo(original.selected));
     }
 
     @Test
@@ -70,9 +69,9 @@ public class CommandParserTest extends BaseUnitTest
         original = new ChangeHabitColorCommand(habitList, selected, 20);
         decoded = (ChangeHabitColorCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.newColor, equalTo(original.newColor));
-        assertThat(decoded.selected, equalTo(original.selected));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.newColor, equalTo(original.newColor));
+        MatcherAssert.assertThat(decoded.selected, equalTo(original.selected));
     }
 
     @Test
@@ -87,9 +86,10 @@ public class CommandParserTest extends BaseUnitTest
 
         decoded = (CreateHabitCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.savedId, equalTo(original.savedId));
-        assertThat(decoded.model.getData(), equalTo(model.getData()));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.savedId, equalTo(original.savedId));
+        MatcherAssert.assertThat(decoded.model.getData(), equalTo(model
+            .getData()));
     }
 
     @Test
@@ -99,10 +99,11 @@ public class CommandParserTest extends BaseUnitTest
         original = new CreateRepetitionCommand(habit, 1000, 5);
         decoded = (CreateRepetitionCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.timestamp, equalTo(original.timestamp));
-        assertThat(decoded.value, equalTo(original.value));
-        assertThat(decoded.habit, equalTo(original.habit));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.timestamp, equalTo(original
+            .timestamp));
+        MatcherAssert.assertThat(decoded.value, equalTo(original.value));
+        MatcherAssert.assertThat(decoded.habit, equalTo(original.habit));
     }
 
     @Test
@@ -112,8 +113,8 @@ public class CommandParserTest extends BaseUnitTest
         original = new DeleteHabitsCommand(habitList, selected);
         decoded = (DeleteHabitsCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.selected, equalTo(original.selected));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.selected, equalTo(original.selected));
     }
 
     @Test
@@ -129,9 +130,10 @@ public class CommandParserTest extends BaseUnitTest
 
         decoded = (EditHabitCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.savedId, equalTo(original.savedId));
-        assertThat(decoded.modified.getData(), equalTo(modified.getData()));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.savedId, equalTo(original.savedId));
+        MatcherAssert.assertThat(decoded.modified.getData(), equalTo(modified
+            .getData()));
     }
 
     @Test
@@ -141,9 +143,10 @@ public class CommandParserTest extends BaseUnitTest
         original = new ToggleRepetitionCommand(habit, 1000);
         decoded = (ToggleRepetitionCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.timestamp, equalTo(original.timestamp));
-        assertThat(decoded.habit, equalTo(original.habit));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.timestamp, equalTo(original
+            .timestamp));
+        MatcherAssert.assertThat(decoded.habit, equalTo(original.habit));
     }
 
     @Test
@@ -153,7 +156,7 @@ public class CommandParserTest extends BaseUnitTest
         original = new UnarchiveHabitsCommand(habitList, selected);
         decoded = (UnarchiveHabitsCommand) parser.parse(original.toJson());
 
-        assertThat(decoded.getId(), equalTo(original.getId()));
-        assertThat(decoded.selected, equalTo(original.selected));
+        MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
+        MatcherAssert.assertThat(decoded.selected, equalTo(original.selected));
     }
 }

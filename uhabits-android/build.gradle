@@ -86,8 +86,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:0.5'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation "com.google.dexmaker:dexmaker:1.2"
-    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestImplementation 'org.mockito:mockito-core:1.10.19'
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestImplementation 'org.mockito:mockito-core:2.8.9'
     androidTestImplementation 'com.google.guava:guava:20.0'
     androidTestCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
     androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'

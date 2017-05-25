@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -28,12 +28,11 @@ import org.junit.*;
 
 import java.util.*;
 
-import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.mockito.Mockito.*;
 
-public class HabitCardListCacheTest extends BaseUnitTest
+public class HabitCardListCacheTest extends BaseAndroidTest
 {
     private HabitCardListCache cache;
 
@@ -45,11 +44,12 @@ public class HabitCardListCacheTest extends BaseUnitTest
     public void setUp()
     {
         super.setUp();
+        habitList.removeAll();
 
         for (int i = 0; i < 10; i++)
         {
-            if (i == 3) habitList.add(fixtures.createLongHabit());
-            else habitList.add(fixtures.createShortHabit());
+            if (i == 3) fixtures.createLongHabit();
+            else fixtures.createShortHabit();
         }
 
         SingleThreadTaskRunner taskRunner = new SingleThreadTaskRunner();
@@ -68,7 +68,6 @@ public class HabitCardListCacheTest extends BaseUnitTest
     public void tearDown()
     {
         cache.onDetached();
-        super.tearDown();
     }
 
     @Test

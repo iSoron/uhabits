@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -31,7 +31,7 @@ import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.models.Checkmark.*;
 import static org.mockito.Mockito.*;
 
-public class WidgetControllerTest extends BaseUnitTest
+public class WidgetControllerTest extends BaseAndroidTest
 {
     private WidgetController controller;
 
