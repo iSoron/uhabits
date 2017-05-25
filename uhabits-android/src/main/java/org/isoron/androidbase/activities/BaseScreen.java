@@ -24,8 +24,10 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.net.*;
 import android.os.*;
+import android.provider.*;
 import android.support.annotation.*;
 import android.support.design.widget.*;
+import android.support.v4.app.*;
 import android.support.v4.content.res.*;
 import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
@@ -34,10 +36,18 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
+import static android.media.RingtoneManager.ACTION_RINGTONE_PICKER;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_TYPE;
+import static android.media.RingtoneManager.TYPE_NOTIFICATION;
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 import static android.support.v4.content.FileProvider.*;
@@ -115,6 +125,21 @@ public class BaseScreen
             StyledResources res = new StyledResources(context);
             return res.getColor(R.attr.colorPrimary);
         }
+    }
+
+    public static void showRingtonePicker(Fragment fragment,
+                                          int requestCode)
+    {
+        Uri existingRingtoneUri = RingtoneManager.getRingtoneUri(fragment.getContext());
+        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
+
+        Intent intent = new Intent(ACTION_RINGTONE_PICKER);
+        intent.putExtra(EXTRA_RINGTONE_TYPE, TYPE_NOTIFICATION);
+        intent.putExtra(EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        intent.putExtra(EXTRA_RINGTONE_SHOW_SILENT, true);
+        intent.putExtra(EXTRA_RINGTONE_DEFAULT_URI, defaultRingtoneUri);
+        intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, existingRingtoneUri);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     /**

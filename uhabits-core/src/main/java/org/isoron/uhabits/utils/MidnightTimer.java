@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.utils;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.*;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -29,7 +29,7 @@ import javax.inject.*;
 /**
  * A class that emits events when a new day starts.
  */
-@ActivityScope
+@AppScope
 public class MidnightTimer
 {
     private final List<MidnightListener> listeners;

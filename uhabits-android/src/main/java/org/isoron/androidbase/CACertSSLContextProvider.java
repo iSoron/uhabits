@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,10 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.androidbase;
 
 import android.content.*;
-import android.support.annotation.*;
 
 import java.io.*;
 import java.security.*;
@@ -29,14 +28,14 @@ import java.security.cert.*;
 
 import javax.net.ssl.*;
 
-public abstract class SSLUtils
+public interface CACertSSLContextProvider
 {
-    public static SSLContext getCACertSSLContext(@NonNull Context context)
+    default SSLContext getCACertSSLContext()
     {
         try
         {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            InputStream caInput = context.getAssets().open("cacert.pem");
+            InputStream caInput = getContext().getAssets().open("cacert.pem");
             Certificate ca = cf.generateCertificate(caInput);
 
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -58,4 +57,5 @@ public abstract class SSLUtils
         }
     }
 
+    Context getContext();
 }

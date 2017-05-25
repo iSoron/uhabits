@@ -26,12 +26,21 @@ import org.isoron.uhabits.tasks.*;
 
 import dagger.*;
 
+@Module
+class SingleThreadModule
+{
+    @Provides
+    @AppScope
+    public static TaskRunner provideTaskRunner()
+    {
+        return new SingleThreadTaskRunner();
+    }
+}
+
 @AppScope
 @Component(modules = {
-    AppModule.class, SingleThreadTaskRunner.class, SQLModelFactory.class
+    AppModule.class, SingleThreadModule.class, SQLModelFactory.class
 })
 public interface AndroidTestComponent extends AppComponent
 {
-
-
 }

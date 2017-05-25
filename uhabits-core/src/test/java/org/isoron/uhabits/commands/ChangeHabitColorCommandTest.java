@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -25,15 +25,14 @@ import org.junit.*;
 
 import java.util.*;
 
-import static junit.framework.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 
-public class ArchiveHabitsCommandTest extends BaseUnitTest
+public class ChangeHabitColorCommandTest extends BaseUnitTest
 {
-    private ArchiveHabitsCommand command;
+    private ChangeHabitColorCommand command;
 
-    private Habit habit;
+    private LinkedList<Habit> selected;
 
     @Override
     @Before
@@ -41,34 +40,54 @@ public class ArchiveHabitsCommandTest extends BaseUnitTest
     {
         super.setUp();
 
-        habit = fixtures.createShortHabit();
-        habitList.add(habit);
+        selected = new LinkedList<>();
 
-        command = new ArchiveHabitsCommand(habitList,
-            Collections.singletonList(habit));
+        for (int i = 0; i < 3; i++)
+        {
+            Habit habit = fixtures.createShortHabit();
+            habit.setColor(i + 1);
+            selected.add(habit);
+            habitList.add(habit);
+        }
+
+        command = new ChangeHabitColorCommand(habitList, selected, 0);
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertFalse(habit.isArchived());
+        checkOriginalColors();
 
         command.execute();
-        assertTrue(habit.isArchived());
+        checkNewColors();
 
         command.undo();
-        assertFalse(habit.isArchived());
+        checkOriginalColors();
 
         command.execute();
-        assertTrue(habit.isArchived());
+        checkNewColors();
     }
 
     @Test
     public void testRecord()
     {
-        ArchiveHabitsCommand.Record rec = command.toRecord();
-        ArchiveHabitsCommand other = rec.toCommand(habitList);
-        assertThat(other.selected, equalTo(command.selected));
+        ChangeHabitColorCommand.Record rec = command.toRecord();
+        ChangeHabitColorCommand other = rec.toCommand(habitList);
         assertThat(other.getId(), equalTo(command.getId()));
+        assertThat(other.newColor, equalTo(command.newColor));
+        assertThat(other.selected, equalTo(command.selected));
+    }
+
+    private void checkNewColors()
+    {
+        for (Habit h : selected)
+            assertThat(h.getColor(), equalTo(0));
+    }
+
+    private void checkOriginalColors()
+    {
+        int k = 0;
+        for (Habit h : selected)
+            assertThat(h.getColor(), equalTo(++k));
     }
 }

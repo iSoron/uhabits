@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -21,18 +21,21 @@ package org.isoron.uhabits.commands;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
-
-import java.util.*;
 
 import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.isoron.uhabits.models.Checkmark.CHECKED_EXPLICITLY;
 
-public class UnarchiveHabitsCommandTest extends BaseUnitTest
+public class CreateRepetitionCommandTest extends BaseUnitTest
 {
-    private UnarchiveHabitsCommand command;
+    private CreateRepetitionCommand command;
+
     private Habit habit;
+
+    private long today;
 
     @Override
     @Before
@@ -41,35 +44,41 @@ public class UnarchiveHabitsCommandTest extends BaseUnitTest
         super.setUp();
 
         habit = fixtures.createShortHabit();
-        habit.setArchived(true);
         habitList.add(habit);
 
-        command = new UnarchiveHabitsCommand(habitList, Collections
-            .singletonList
-            (habit));
+        today = DateUtils.getStartOfToday();
+        command = new CreateRepetitionCommand(habit, today, 100);
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertTrue(habit.isArchived());
+        RepetitionList reps = habit.getRepetitions();
+
+        Repetition rep = reps.getByTimestamp(today);
+        assertNotNull(rep);
+        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
 
         command.execute();
-        assertFalse(habit.isArchived());
+        rep = reps.getByTimestamp(today);
+        assertNotNull(rep);
+        assertEquals(100, rep.getValue());
 
         command.undo();
-        assertTrue(habit.isArchived());
-
-        command.execute();
-        assertFalse(habit.isArchived());
+        rep = reps.getByTimestamp(today);
+        assertNotNull(rep);
+        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
     }
 
     @Test
     public void testRecord()
     {
-        UnarchiveHabitsCommand.Record rec = command.toRecord();
-        UnarchiveHabitsCommand other = rec.toCommand(habitList);
-        assertThat(other.selected, equalTo(command.selected));
-        assertThat(other.getId(), equalTo(command.getId()));
+        CreateRepetitionCommand.Record rec = command.toRecord();
+        CreateRepetitionCommand other = rec.toCommand(habitList);
+
+        assertThat(command.getId(), equalTo(other.getId()));
+        assertThat(command.timestamp, equalTo(other.timestamp));
+        assertThat(command.value, equalTo(other.value));
+        assertThat(command.habit, equalTo(other.habit));
     }
 }

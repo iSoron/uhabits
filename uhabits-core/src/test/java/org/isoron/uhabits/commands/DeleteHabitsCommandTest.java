@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -22,72 +22,64 @@ package org.isoron.uhabits.commands;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.junit.*;
+import org.junit.rules.*;
 
 import java.util.*;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ChangeHabitColorCommandTest extends BaseUnitTest
+public class DeleteHabitsCommandTest extends BaseUnitTest
 {
-    private ChangeHabitColorCommand command;
+    private DeleteHabitsCommand command;
 
     private LinkedList<Habit> selected;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Override
     @Before
     public void setUp()
     {
         super.setUp();
-
         selected = new LinkedList<>();
 
+        // Habits that should be deleted
         for (int i = 0; i < 3; i++)
         {
             Habit habit = fixtures.createShortHabit();
-            habit.setColor(i + 1);
-            selected.add(habit);
             habitList.add(habit);
+            selected.add(habit);
         }
 
-        command = new ChangeHabitColorCommand(habitList, selected, 0);
+        // Extra habit that should not be deleted
+        Habit extraHabit = fixtures.createShortHabit();
+        extraHabit.setName("extra");
+        habitList.add(extraHabit);
+
+        command = new DeleteHabitsCommand(habitList, selected);
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        checkOriginalColors();
+        assertThat(habitList.size(), equalTo(4));
 
         command.execute();
-        checkNewColors();
+        assertThat(habitList.size(), equalTo(1));
+        assertThat(habitList.getByPosition(0).getName(), equalTo("extra"));
 
+        thrown.expect(UnsupportedOperationException.class);
         command.undo();
-        checkOriginalColors();
-
-        command.execute();
-        checkNewColors();
     }
 
     @Test
     public void testRecord()
     {
-        ChangeHabitColorCommand.Record rec = command.toRecord();
-        ChangeHabitColorCommand other = rec.toCommand(habitList);
+        DeleteHabitsCommand.Record rec = command.toRecord();
+        DeleteHabitsCommand other = rec.toCommand(habitList);
         assertThat(other.getId(), equalTo(command.getId()));
-        assertThat(other.newColor, equalTo(command.newColor));
         assertThat(other.selected, equalTo(command.selected));
-    }
-
-    private void checkNewColors()
-    {
-        for (Habit h : selected)
-            assertThat(h.getColor(), equalTo(0));
-    }
-
-    private void checkOriginalColors()
-    {
-        int k = 0;
-        for (Habit h : selected)
-            assertThat(h.getColor(), equalTo(++k));
     }
 }

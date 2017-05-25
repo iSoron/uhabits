@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.models;
 
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.utils.*;
 
 public class HabitFixtures
 {

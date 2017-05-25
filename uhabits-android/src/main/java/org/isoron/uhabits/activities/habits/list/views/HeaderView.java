@@ -70,13 +70,7 @@ public class HeaderView extends ScrollableChart
         {
             HabitsApplication app = (HabitsApplication) appContext;
             prefs = app.getComponent().getPreferences();
-        }
-
-        if (context instanceof ListHabitsActivity)
-        {
-            ListHabitsComponent component =
-                ((ListHabitsActivity) context).getListHabitsComponent();
-            midnightTimer = component.getMidnightTimer();
+            midnightTimer = app.getComponent().getMidnightTimer();
         }
 
         init();

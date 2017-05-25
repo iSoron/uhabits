@@ -60,6 +60,7 @@ public class ListHabitsActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
         HabitsApplication app = (HabitsApplication) getApplicationContext();
+        midnightTimer = app.getComponent().getMidnightTimer();
 
         component = DaggerListHabitsComponent
             .builder()
@@ -82,8 +83,6 @@ public class ListHabitsActivity extends BaseActivity
         screen.setController(controller);
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
-
-        midnightTimer = component.getMidnightTimer();
 
         if(prefs.isSyncFeatureEnabled())
             startService(new Intent(this, SyncService.class));

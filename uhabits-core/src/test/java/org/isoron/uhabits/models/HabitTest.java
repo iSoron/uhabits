@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -23,7 +23,6 @@ import org.isoron.uhabits.*;
 import org.junit.*;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class HabitTest extends BaseUnitTest
@@ -41,10 +40,10 @@ public class HabitTest extends BaseUnitTest
         assertFalse(habit.isArchived());
 
         assertThat(habit.hasReminder(), is(false));
-        assertThat(habit.getStreaks(), is(not(nullValue())));
-        assertThat(habit.getScores(), is(not(nullValue())));
-        assertThat(habit.getRepetitions(), is(not(nullValue())));
-        assertThat(habit.getCheckmarks(), is(not(nullValue())));
+        assertNotNull(habit.getStreaks());
+        assertNotNull(habit.getScores());
+        assertNotNull(habit.getRepetitions());
+        assertNotNull(habit.getCheckmarks());
     }
 
     @Test

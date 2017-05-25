@@ -40,7 +40,7 @@ import java.util.*;
 import javax.inject.*;
 
 import static android.graphics.BitmapFactory.*;
-import static org.isoron.uhabits.utils.RingtoneUtils.*;
+import static org.isoron.uhabits.notifications.RingtoneManager.*;
 
 @AppScope
 public class NotificationTray

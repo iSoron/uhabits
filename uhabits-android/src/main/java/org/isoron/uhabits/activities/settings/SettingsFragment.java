@@ -25,10 +25,11 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.preference.*;
 
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.utils.*;
 
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 
@@ -47,7 +48,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         if (requestCode == RINGTONE_REQUEST_CODE)
         {
-            RingtoneUtils.parseRingtoneData(getContext(), data);
+            RingtoneManager.parseRingtoneData(getContext(), data);
             updateRingtoneDescription();
             return;
         }
@@ -113,7 +114,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         if (key.equals("reminderSound"))
         {
-            RingtoneUtils.startRingtonePickerActivity(this,
+            BaseScreen.showRingtonePicker(this,
                 RINGTONE_REQUEST_CODE);
             return true;
         }
@@ -158,7 +159,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void updateRingtoneDescription()
     {
-        String ringtoneName = RingtoneUtils.getRingtoneName(getContext());
+        String ringtoneName = RingtoneManager.getRingtoneName(getContext());
         if (ringtoneName == null) return;
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);

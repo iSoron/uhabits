@@ -31,13 +31,39 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 
-import static org.isoron.uhabits.utils.WidgetUtils.*;
+import static android.appwidget.AppWidgetManager.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
     private HabitList habits;
 
     private WidgetPreferences widgetPrefs;
+
+    public static void updateAppWidget(@NonNull AppWidgetManager manager,
+                                       @NonNull BaseWidget widget)
+    {
+        RemoteViews landscape = widget.getLandscapeRemoteViews();
+        RemoteViews portrait = widget.getPortraitRemoteViews();
+        RemoteViews views = new RemoteViews(landscape, portrait);
+        manager.updateAppWidget(widget.getId(), views);
+    }
+
+    @NonNull
+    public WidgetDimensions getDimensionsFromOptions(@NonNull Context ctx,
+                                                     @NonNull Bundle options)
+    {
+        int maxWidth =
+            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MAX_WIDTH));
+        int maxHeight =
+            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MAX_HEIGHT));
+        int minWidth =
+            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MIN_WIDTH));
+        int minHeight =
+            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MIN_HEIGHT));
+
+        return new WidgetDimensions(minWidth, maxHeight, maxWidth, minHeight);
+    }
 
     @Override
     public void onAppWidgetOptionsChanged(@Nullable Context context,
@@ -100,7 +126,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
         updateDependencies(context);
 
-        new Thread(() -> {
+        new Thread(() ->
+        {
             Looper.prepare();
             for (int id : widgetIds)
                 update(context, manager, id);
@@ -128,8 +155,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         RemoteViews errorView =
             new RemoteViews(context.getPackageName(), R.layout.widget_error);
 
-        if(e instanceof HabitNotFoundException) {
-            errorView.setCharSequence(R.id.label, "setText", context.getString(R.string.habit_not_found));
+        if (e instanceof HabitNotFoundException)
+        {
+            errorView.setCharSequence(R.id.label, "setText",
+                context.getString(R.string.habit_not_found));
         }
 
         manager.updateAppWidget(widgetId, errorView);
@@ -143,8 +172,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         {
             BaseWidget widget = getWidgetFromId(context, widgetId);
             Bundle options = manager.getAppWidgetOptions(widgetId);
-            widget.setDimensions(
-                getDimensionsFromOptions(context, options));
+            widget.setDimensions(getDimensionsFromOptions(context, options));
 
             updateAppWidget(manager, widget);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -21,19 +21,18 @@ package org.isoron.uhabits.commands;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
+
+import java.util.*;
 
 import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class ToggleRepetitionCommandTest extends BaseUnitTest
+public class UnarchiveHabitsCommandTest extends BaseUnitTest
 {
-
-    private ToggleRepetitionCommand command;
+    private UnarchiveHabitsCommand command;
     private Habit habit;
-    private long today;
 
     @Override
     @Before
@@ -42,35 +41,35 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
         super.setUp();
 
         habit = fixtures.createShortHabit();
+        habit.setArchived(true);
         habitList.add(habit);
 
-        today = DateUtils.getStartOfToday();
-        command = new ToggleRepetitionCommand(habit, today);
+        command = new UnarchiveHabitsCommand(habitList, Collections
+            .singletonList
+            (habit));
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        assertTrue(habit.getRepetitions().containsTimestamp(today));
+        assertTrue(habit.isArchived());
 
         command.execute();
-        assertFalse(habit.getRepetitions().containsTimestamp(today));
+        assertFalse(habit.isArchived());
 
         command.undo();
-        assertTrue(habit.getRepetitions().containsTimestamp(today));
+        assertTrue(habit.isArchived());
 
         command.execute();
-        assertFalse(habit.getRepetitions().containsTimestamp(today));
+        assertFalse(habit.isArchived());
     }
 
     @Test
     public void testRecord()
     {
-        ToggleRepetitionCommand.Record rec = command.toRecord();
-        ToggleRepetitionCommand other = rec.toCommand(habitList);
-
-        assertThat(command.getId(), equalTo(other.getId()));
-        assertThat(command.timestamp, equalTo(other.timestamp));
-        assertThat(command.habit, equalTo(other.habit));
+        UnarchiveHabitsCommand.Record rec = command.toRecord();
+        UnarchiveHabitsCommand other = rec.toCommand(habitList);
+        assertThat(other.selected, equalTo(command.selected));
+        assertThat(other.getId(), equalTo(command.getId()));
     }
 }

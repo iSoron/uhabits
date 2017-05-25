@@ -40,8 +40,6 @@ public interface ListHabitsComponent
 
     ListHabitsMenu getMenu();
 
-    MidnightTimer getMidnightTimer();
-
     NumberButtonControllerFactory getNumberButtonControllerFactory();
 
     ListHabitsRootView getRootView();

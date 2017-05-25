@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -27,14 +27,12 @@ import org.junit.*;
 import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.isoron.uhabits.models.Checkmark.CHECKED_EXPLICITLY;
 
-public class CreateRepetitionCommandTest extends BaseUnitTest
+public class ToggleRepetitionCommandTest extends BaseUnitTest
 {
-    private CreateRepetitionCommand command;
 
+    private ToggleRepetitionCommand command;
     private Habit habit;
-
     private long today;
 
     @Override
@@ -47,38 +45,32 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         habitList.add(habit);
 
         today = DateUtils.getStartOfToday();
-        command = new CreateRepetitionCommand(habit, today, 100);
+        command = new ToggleRepetitionCommand(habit, today);
     }
 
     @Test
     public void testExecuteUndoRedo()
     {
-        RepetitionList reps = habit.getRepetitions();
-
-        Repetition rep = reps.getByTimestamp(today);
-        assertNotNull(rep);
-        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
+        assertTrue(habit.getRepetitions().containsTimestamp(today));
 
         command.execute();
-        rep = reps.getByTimestamp(today);
-        assertNotNull(rep);
-        assertEquals(100, rep.getValue());
+        assertFalse(habit.getRepetitions().containsTimestamp(today));
 
         command.undo();
-        rep = reps.getByTimestamp(today);
-        assertNotNull(rep);
-        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
+        assertTrue(habit.getRepetitions().containsTimestamp(today));
+
+        command.execute();
+        assertFalse(habit.getRepetitions().containsTimestamp(today));
     }
 
     @Test
     public void testRecord()
     {
-        CreateRepetitionCommand.Record rec = command.toRecord();
-        CreateRepetitionCommand other = rec.toCommand(habitList);
+        ToggleRepetitionCommand.Record rec = command.toRecord();
+        ToggleRepetitionCommand other = rec.toCommand(habitList);
 
         assertThat(command.getId(), equalTo(other.getId()));
         assertThat(command.timestamp, equalTo(other.timestamp));
-        assertThat(command.value, equalTo(other.value));
         assertThat(command.habit, equalTo(other.habit));
     }
 }

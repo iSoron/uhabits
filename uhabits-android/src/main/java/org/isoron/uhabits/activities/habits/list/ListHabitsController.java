@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list;
 
 import android.support.annotation.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;

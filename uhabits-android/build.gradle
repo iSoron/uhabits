@@ -12,19 +12,15 @@ android {
 
         buildConfigField "Integer", "databaseVersion", "19"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
-        buildConfigField "int", "roboSdk", (System.getenv("ROBO_SDK")?: "25")
+        buildConfigField "int", "roboSdk", (System.getenv("ROBO_SDK") ?: "25")
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArgument "size", "medium"
     }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-        debug {
-            testCoverageEnabled = true
         }
     }
 
@@ -53,7 +49,6 @@ android {
 
 dependencies {
     implementation project(":uhabits-core")
-
     implementation 'com.android.support:appcompat-v7:25.3.1'
     implementation 'com.android.support:design:25.3.1'
     implementation 'com.android.support:preference-v14:25.3.1'
@@ -68,14 +63,25 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'com.google.guava:guava:20.0'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
 
+    testImplementation project(":uhabits-core")
     testImplementation 'junit:junit:5.0-SNAPSHOT'
     testImplementation 'org.hamcrest:hamcrest-library:1.4-atlassian-1'
     testImplementation 'org.mockito:mockito-core:2.8.9'
     testImplementation 'org.json:json:20160810'
-
     testImplementation 'org.robolectric:robolectric:3.4-rc2'
+    testCompileOnly 'javax.annotation:jsr250-api:1.0'
+    testCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
+    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
 
+    androidTestImplementation project(":uhabits-core")
     androidTestImplementation 'com.android.support:support-annotations:25.3.1'
     androidTestImplementation 'com.android.support.test:rules:0.5'
     androidTestImplementation 'com.android.support.test:runner:0.5'
@@ -83,67 +89,15 @@ dependencies {
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestImplementation 'org.mockito:mockito-core:1.10.19'
     androidTestImplementation 'com.google.guava:guava:20.0'
-
-    compileOnly 'javax.annotation:jsr250-api:1.0'
-    compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
-
     androidTestCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
-
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
-    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
-    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
-
     androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
     androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
     androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
     implementation('com.opencsv:opencsv:3.9') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
     implementation('io.socket:socket.io-client:+') {
         exclude group: 'org.json', module: 'json'
     }
-}
-
-jacoco {
-    toolVersion = "0.7.4.201502262128"
-}
-
-task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-
-    jacocoClasspath = configurations['androidJacocoAnt']
-
-    reports {
-        html.enabled = true
-        xml.enabled = true
-    }
-
-    def excludes = [
-            '**/R.class',
-            '**/R$*.class',
-            '**/BuildConfig.*',
-            '**/Manifest*',
-            '**/*Test*.*',
-            '**/*$Lambda$*',
-            '**/*$ViewBinder*',
-            '**/*MembersInjector*',
-            '**/*_Provide*',
-            '**/*Module_*',
-            '**/com/android/**/*',
-            'android/**/*',
-            '**/*Dagger*',
-            '**/*_Factory*'
-    ]
-
-    def srcDir = "${project.projectDir}/src/main/java"
-    def classDir = "${buildDir}/intermediates/classes/debug"
-    def jvmExecData = "${buildDir}/jacoco/testDebugUnitTest.exec"
-    def connectedExecData = "${buildDir}/outputs/code-coverage/connected/coverage.ec"
-
-    sourceDirectories = files(srcDir)
-    classDirectories = files(fileTree(dir: classDir, excludes: excludes))
-    executionData = files(jvmExecData, connectedExecData)
 }

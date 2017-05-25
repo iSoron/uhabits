@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.androidbase.activities;
+package org.isoron.androidbase;
 
 import android.content.*;
 import android.os.*;
@@ -44,13 +44,19 @@ import javax.inject.*;
  * a bug report, obtaining device information, or requesting runtime
  * permissions.
  */
-@ActivityScope
-public class BaseSystem
+@AppScope
+public class BaseSystem implements CACertSSLContextProvider
 {
     private Context context;
 
+    @Override
+    public Context getContext()
+    {
+        return context;
+    }
+
     @Inject
-    public BaseSystem(@ActivityContext Context context)
+    public BaseSystem(@AppContext Context context)
     {
         this.context = context;
     }

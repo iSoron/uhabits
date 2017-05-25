@@ -27,8 +27,9 @@ import android.support.annotation.*;
 import android.support.test.*;
 import android.util.*;
 
+import junit.framework.*;
+
 import org.isoron.androidbase.*;
-import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
@@ -38,16 +39,13 @@ import org.junit.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static junit.framework.Assert.*;
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
-public class BaseAndroidTest
+public class BaseAndroidTest extends TestCase
 {
     // 8:00am, January 25th, 2015 (UTC)
     public static final long FIXED_LOCAL_TIME = 1422172800000L;
-
-    private static boolean isLooperPrepared;
 
     protected Context testContext;
 
@@ -71,14 +69,11 @@ public class BaseAndroidTest
 
     protected BaseSystem baseSystem;
 
+    @Override
     @Before
     public void setUp()
     {
-        if (!isLooperPrepared)
-        {
-            Looper.prepare();
-            isLooperPrepared = true;
-        }
+        if (Looper.myLooper() == null) Looper.prepare();
 
         targetContext = InstrumentationRegistry.getTargetContext();
         testContext = InstrumentationRegistry.getContext();

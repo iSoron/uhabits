@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.sync;
 
-import android.content.*;
 import android.support.annotation.*;
 import android.util.*;
 
@@ -27,7 +26,6 @@ import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.utils.*;
 import org.json.*;
 
 import java.net.*;
@@ -84,12 +82,15 @@ public class SyncManager implements CommandRunner.Listener
 
     private boolean isListening;
 
+    private BaseSystem system;
+
     @Inject
-    public SyncManager(@AppContext @NonNull Context context,
+    public SyncManager(@NonNull BaseSystem system,
                        @NonNull Preferences prefs,
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
     {
+        this.system = system;
         Log.i("SyncManager", this.toString());
 
         this.prefs = prefs;
@@ -105,7 +106,7 @@ public class SyncManager implements CommandRunner.Listener
         String serverURL = prefs.getSyncAddress();
 
         Log.d("SyncManager", clientId);
-        connect(context, serverURL);
+        connect(serverURL);
     }
 
     private JSONObject toJSONObject(String json)
@@ -164,11 +165,11 @@ public class SyncManager implements CommandRunner.Listener
         isListening = false;
     }
 
-    private void connect(@AppContext @NonNull Context context, String serverURL)
+    private void connect(String serverURL)
     {
         try
         {
-            IO.setDefaultSSLContext(SSLUtils.getCACertSSLContext(context));
+            IO.setDefaultSSLContext(system.getCACertSSLContext());
             socket = IO.socket(serverURL);
 
             logSocketEvent(socket, EVENT_CONNECT, "Connected");

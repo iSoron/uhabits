@@ -22,7 +22,7 @@ package org.isoron.uhabits;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.*;
 import org.junit.*;
 import org.junit.runner.*;
 

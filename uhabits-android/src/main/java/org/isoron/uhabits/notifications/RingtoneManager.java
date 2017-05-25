@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.uhabits.notifications;
 
 import android.content.*;
 import android.media.*;
@@ -25,14 +25,25 @@ import android.net.*;
 import android.preference.*;
 import android.provider.*;
 import android.support.annotation.*;
-import android.support.v4.app.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
+
+import javax.inject.*;
 
 import static android.media.RingtoneManager.*;
 
-public abstract class RingtoneUtils
+@AppScope
+public class RingtoneManager
 {
+    private Context context;
+
+    @Inject
+    public RingtoneManager(@AppContext @NonNull Context context)
+    {
+        this.context = context;
+    }
+
     @Nullable
     public static String getRingtoneName(Context context)
     {
@@ -101,18 +112,4 @@ public abstract class RingtoneUtils
         }
     }
 
-    public static void startRingtonePickerActivity(Fragment fragment,
-                                                   int requestCode)
-    {
-        Uri existingRingtoneUri = getRingtoneUri(fragment.getContext());
-        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
-
-        Intent intent = new Intent(ACTION_RINGTONE_PICKER);
-        intent.putExtra(EXTRA_RINGTONE_TYPE, TYPE_NOTIFICATION);
-        intent.putExtra(EXTRA_RINGTONE_SHOW_DEFAULT, true);
-        intent.putExtra(EXTRA_RINGTONE_SHOW_SILENT, true);
-        intent.putExtra(EXTRA_RINGTONE_DEFAULT_URI, defaultRingtoneUri);
-        intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, existingRingtoneUri);
-        fragment.startActivityForResult(intent, requestCode);
-    }
 }

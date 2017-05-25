@@ -19,13 +19,14 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.tasks.android.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 import org.junit.*;

@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.view.*;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;

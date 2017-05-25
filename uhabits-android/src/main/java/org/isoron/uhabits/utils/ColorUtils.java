@@ -25,7 +25,6 @@ import android.util.*;
 
 public abstract class ColorUtils
 {
-
     public static int colorToPaletteIndex(Context context, int color)
     {
         StyledResources res = new StyledResources(context);

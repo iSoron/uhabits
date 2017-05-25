@@ -19,20 +19,8 @@
 
 package org.isoron.uhabits.tasks;
 
-import org.isoron.uhabits.*;
-
-import dagger.*;
-
-@Module
 public class SingleThreadTaskRunner implements TaskRunner
 {
-    @Provides
-    @AppScope
-    public static TaskRunner provideTaskRunner()
-    {
-        return new SingleThreadTaskRunner();
-    }
-
     @Override
     public void addListener(Listener listener)
     {

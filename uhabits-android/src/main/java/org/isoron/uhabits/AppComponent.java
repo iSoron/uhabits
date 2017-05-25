@@ -44,6 +44,8 @@ import dagger.*;
 })
 public interface AppComponent
 {
+    BaseSystem getBaseSystem();
+
     CommandRunner getCommandRunner();
 
     @AppContext
@@ -75,6 +77,8 @@ public interface AppComponent
 
     ReminderScheduler getReminderScheduler();
 
+    RingtoneManager getRingtoneManager();
+
     SyncManager getSyncManager();
 
     TaskRunner getTaskRunner();
@@ -82,4 +86,6 @@ public interface AppComponent
     WidgetPreferences getWidgetPreferences();
 
     WidgetUpdater getWidgetUpdater();
+
+    MidnightTimer getMidnightTimer();
 }
