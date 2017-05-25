@@ -21,9 +21,10 @@ apply plugin: 'java'
 
 dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
+    compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
+
     implementation 'com.google.dagger:dagger:2.11-rc2'
     implementation 'com.android.support:support-annotations:25.3.1'
-    implementation 'com.google.auto.factory:auto-factory:1.0-beta3'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.apache.commons:commons-lang3:3.5'
     implementation 'com.google.code.gson:gson:2.7'

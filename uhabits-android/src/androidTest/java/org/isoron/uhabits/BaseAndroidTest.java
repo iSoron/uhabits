@@ -28,6 +28,7 @@ import android.support.test.*;
 import android.util.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
@@ -68,6 +69,8 @@ public class BaseAndroidTest
 
     protected ModelFactory modelFactory;
 
+    protected BaseSystem baseSystem;
+
     @Before
     public void setUp()
     {
@@ -89,6 +92,8 @@ public class BaseAndroidTest
             .builder()
             .appModule(new AppModule(targetContext.getApplicationContext()))
             .build();
+
+        baseSystem = new BaseSystem(targetContext);
 
         HabitsApplication.setComponent(component);
         prefs = component.getPreferences();

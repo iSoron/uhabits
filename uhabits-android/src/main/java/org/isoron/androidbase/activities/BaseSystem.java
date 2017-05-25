@@ -22,8 +22,11 @@ package org.isoron.androidbase.activities;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.support.v4.content.*;
+import android.util.*;
 import android.view.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
@@ -52,6 +55,19 @@ public class BaseSystem
         this.context = context;
     }
 
+    @Nullable
+    public File getFilesDir(@Nullable String relativePath)
+    {
+        File externalFilesDirs[] = ContextCompat.getExternalFilesDirs(context, null);
+        if (externalFilesDirs == null)
+        {
+            Log.e("BaseSystem", "getFilesDir: getExternalFilesDirs returned null");
+            return null;
+        }
+
+        return FileUtils.getDir(externalFilesDirs, relativePath);
+    }
+
     /**
      * Captures a bug report and saves it to a file in the SD card.
      * <p>
@@ -70,7 +86,7 @@ public class BaseSystem
 
         if (context == null) throw new RuntimeException(
             "application context should not be null");
-        File dir = FileUtils.getFilesDir(context, "Logs");
+        File dir = getFilesDir("Logs");
         if (dir == null) throw new IOException("log dir should not be null");
 
         File logFile =

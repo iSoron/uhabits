@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,12 +17,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.androidbase.utils;
 
-import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
-import android.support.v4.content.*;
 import android.util.*;
 
 import java.io.*;
@@ -52,8 +50,8 @@ public abstract class FileUtils
     }
 
     @Nullable
-    private static File getDir(@NonNull File potentialParentDirs[],
-                               @Nullable String relativePath)
+    public static File getDir(@NonNull File potentialParentDirs[],
+                              @Nullable String relativePath)
     {
         if (relativePath == null) relativePath = "";
 
@@ -67,7 +65,7 @@ public abstract class FileUtils
 
         if (chosenDir == null)
         {
-            Log.e("DatabaseHelper",
+            Log.e("FileUtils",
                 "getDir: all potential parents are null or non-writable");
             return null;
         }
@@ -76,28 +74,12 @@ public abstract class FileUtils
             String.format("%s/%s/", chosenDir.getAbsolutePath(), relativePath));
         if (!dir.exists() && !dir.mkdirs())
         {
-            Log.e("DatabaseHelper",
+            Log.e("FileUtils",
                 "getDir: chosen dir does not exist and cannot be created");
             return null;
         }
 
         return dir;
-    }
-
-    @Nullable
-    public static File getFilesDir(@NonNull Context context, @Nullable String relativePath)
-    {
-        File externalFilesDirs[] =
-            ContextCompat.getExternalFilesDirs(context, null);
-
-        if (externalFilesDirs == null)
-        {
-            Log.e("DatabaseHelper",
-                "getFilesDir: getExternalFilesDirs returned null");
-            return null;
-        }
-
-        return getDir(externalFilesDirs, relativePath);
     }
 
     @Nullable

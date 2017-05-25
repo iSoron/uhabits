@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,50 +17,63 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.tasks;
+package org.isoron.uhabits.tasks.android;
 
-import android.content.Context;
 import android.support.annotation.*;
 
-import com.google.auto.factory.AutoFactory;
-import com.google.auto.factory.Provided;
+import com.google.auto.factory.*;
 
-import org.isoron.androidbase.AppContext;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.tasks.*;
 
 import java.io.*;
 
 @AutoFactory(allowSubclasses = true)
-public class ExportDBTask implements Task
+public class ImportDataTask implements Task
 {
-    private String filename;
+    public static final int FAILED = 3;
+
+    public static final int NOT_RECOGNIZED = 2;
+
+    public static final int SUCCESS = 1;
+
+    int result;
 
     @NonNull
-    private Context context;
+    private final File file;
+
+    private GenericImporter importer;
 
     @NonNull
     private final Listener listener;
 
-    public ExportDBTask(@Provided @AppContext @NonNull Context context, @NonNull Listener listener)
+    public ImportDataTask(@Provided @NonNull GenericImporter importer,
+                          @NonNull File file,
+                          @NonNull Listener listener)
     {
+        this.importer = importer;
         this.listener = listener;
-        this.context = context;
+        this.file = file;
     }
 
     @Override
     public void doInBackground()
     {
-        filename = null;
-
         try
         {
-            File dir = FileUtils.getFilesDir(context, "Backups");
-            if (dir == null) return;
-
-            filename = DatabaseUtils.saveDatabaseCopy(context, dir);
+            if (importer.canHandle(file))
+            {
+                importer.importHabitsFromFile(file);
+                result = SUCCESS;
+            }
+            else
+            {
+                result = NOT_RECOGNIZED;
+            }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
+            result = FAILED;
             e.printStackTrace();
         }
     }
@@ -68,11 +81,11 @@ public class ExportDBTask implements Task
     @Override
     public void onPostExecute()
     {
-        listener.onExportDBFinished(filename);
+        listener.onImportDataFinished(result);
     }
 
     public interface Listener
     {
-        void onExportDBFinished(@Nullable String filename);
+        void onImportDataFinished(int result);
     }
 }

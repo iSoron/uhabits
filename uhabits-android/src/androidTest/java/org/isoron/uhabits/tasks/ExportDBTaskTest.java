@@ -23,20 +23,19 @@ import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.tasks.android.*;
 import org.junit.*;
 import org.junit.runner.*;
 
 import java.io.*;
 
 import static junit.framework.Assert.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class ExportDBTaskTest extends BaseAndroidTest
 {
+    @Override
     @Before
     public void setUp()
     {
@@ -46,13 +45,13 @@ public class ExportDBTaskTest extends BaseAndroidTest
     @Test
     public void testExportCSV() throws Throwable
     {
-        ExportDBTask task = new ExportDBTask(targetContext, filename -> {
-            assertThat(filename, is(not(nullValue())));
-
-            File f = new File(filename);
-            assertTrue(f.exists());
-            assertTrue(f.canRead());
-        });
+        ExportDBTask task =
+            new ExportDBTask(targetContext, baseSystem, filename -> {
+                assertNotNull(filename);
+                File f = new File(filename);
+                assertTrue(f.exists());
+                assertTrue(f.canRead());
+            });
 
         taskRunner.execute(task);
     }

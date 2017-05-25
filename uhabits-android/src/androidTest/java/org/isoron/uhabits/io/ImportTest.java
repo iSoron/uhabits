@@ -24,6 +24,7 @@ import android.support.test.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.*;

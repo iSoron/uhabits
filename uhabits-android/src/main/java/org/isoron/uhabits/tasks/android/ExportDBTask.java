@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,60 +17,53 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.tasks;
+package org.isoron.uhabits.tasks.android;
 
-import android.content.Context;
+import android.content.*;
 import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
-import org.isoron.androidbase.AppContext;
-import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.androidbase.*;
+import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
-import java.util.*;
 
 @AutoFactory(allowSubclasses = true)
-public class ExportCSVTask implements Task
+public class ExportDBTask implements Task
 {
-    private String archiveFilename;
+    private String filename;
 
     @NonNull
-    private final Context context;
+    private Context context;
+
+    private BaseSystem system;
 
     @NonNull
-    private final List<Habit> selectedHabits;
+    private final Listener listener;
 
-    @NonNull
-    private final ExportCSVTask.Listener listener;
-
-    @NonNull
-    private final HabitList habitList;
-
-    public ExportCSVTask(@Provided @AppContext @NonNull Context context,
-                         @Provided @NonNull HabitList habitList,
-                         @NonNull List<Habit> selectedHabits,
-                         @NonNull Listener listener)
+    public ExportDBTask(@Provided @AppContext @NonNull Context context,
+                        @Provided @NonNull BaseSystem system,
+                        @NonNull Listener listener)
     {
-        this.context = context;
+        this.system = system;
         this.listener = listener;
-        this.habitList = habitList;
-        this.selectedHabits = selectedHabits;
+        this.context = context;
     }
 
     @Override
     public void doInBackground()
     {
+        filename = null;
+
         try
         {
-            File dir = FileUtils.getFilesDir(context, "CSV");
+            File dir = system.getFilesDir("Backups");
             if (dir == null) return;
 
-            HabitsCSVExporter exporter;
-            exporter = new HabitsCSVExporter(habitList, selectedHabits, dir);
-            archiveFilename = exporter.writeArchive();
+            filename = DatabaseUtils.saveDatabaseCopy(context, dir);
         }
         catch (IOException e)
         {
@@ -81,11 +74,11 @@ public class ExportCSVTask implements Task
     @Override
     public void onPostExecute()
     {
-        listener.onExportCSVFinished(archiveFilename);
+        listener.onExportDBFinished(filename);
     }
 
     public interface Listener
     {
-        void onExportCSVFinished(@Nullable String archiveFilename);
+        void onExportDBFinished(@Nullable String filename);
     }
 }

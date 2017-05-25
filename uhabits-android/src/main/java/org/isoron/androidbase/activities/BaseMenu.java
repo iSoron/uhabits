@@ -41,6 +41,12 @@ public abstract class BaseMenu
         this.activity = activity;
     }
 
+    @NonNull
+    public BaseActivity getActivity()
+    {
+        return activity;
+    }
+
     /**
      * Declare that the menu has changed, and should be recreated.
      */

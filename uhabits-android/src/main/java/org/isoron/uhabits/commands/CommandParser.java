@@ -68,41 +68,41 @@ public class CommandParser
     }
 
     @NonNull
-    public Command parse(@NonNull JSONObject json) throws JSONException
+    public Command parse(@NonNull String json) throws JSONException
     {
-        String event = json.getString("event");
+        String event = new JSONObject(json).getString("event");
         Gson gson = new GsonBuilder().create();
 
         if (event.equals("Archive")) return gson
-            .fromJson(json.toString(), ArchiveHabitsCommand.Record.class)
+            .fromJson(json, ArchiveHabitsCommand.Record.class)
             .toCommand(habitList);
 
         if (event.equals("ChangeColor")) return gson
-            .fromJson(json.toString(), ChangeHabitColorCommand.Record.class)
+            .fromJson(json, ChangeHabitColorCommand.Record.class)
             .toCommand(habitList);
 
         if (event.equals("CreateHabit")) return gson
-            .fromJson(json.toString(), CreateHabitCommand.Record.class)
+            .fromJson(json, CreateHabitCommand.Record.class)
             .toCommand(modelFactory, habitList);
 
         if (event.equals("CreateRep")) return gson
-            .fromJson(json.toString(), CreateRepetitionCommand.Record.class)
+            .fromJson(json, CreateRepetitionCommand.Record.class)
             .toCommand(habitList);
 
         if (event.equals("DeleteHabit")) return gson
-            .fromJson(json.toString(), DeleteHabitsCommand.Record.class)
+            .fromJson(json, DeleteHabitsCommand.Record.class)
             .toCommand(habitList);
 
         if (event.equals("EditHabit")) return gson
-            .fromJson(json.toString(), EditHabitCommand.Record.class)
+            .fromJson(json, EditHabitCommand.Record.class)
             .toCommand(modelFactory, habitList);
 
         if (event.equals("Toggle")) return gson
-            .fromJson(json.toString(), ToggleRepetitionCommand.Record.class)
+            .fromJson(json, ToggleRepetitionCommand.Record.class)
             .toCommand(habitList);
 
         if (event.equals("Unarchive")) return gson
-            .fromJson(json.toString(), UnarchiveHabitsCommand.Record.class)
+            .fromJson(json, UnarchiveHabitsCommand.Record.class)
             .toCommand(habitList);
 
         throw new IllegalStateException("Unknown command");

@@ -32,6 +32,7 @@ import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.tasks.android.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 

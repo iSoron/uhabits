@@ -27,6 +27,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 
+import java.io.*;
 import java.util.*;
 
 import javax.inject.*;
@@ -34,6 +35,9 @@ import javax.inject.*;
 @ActivityScope
 public class ShowHabitsMenu extends BaseMenu
 {
+    @NonNull
+    private final BaseSystem system;
+
     @NonNull
     private final ShowHabitScreen screen;
 
@@ -48,12 +52,14 @@ public class ShowHabitsMenu extends BaseMenu
 
     @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
+                          @NonNull BaseSystem system,
                           @NonNull ShowHabitScreen screen,
                           @NonNull Habit habit,
                           @NonNull ExportCSVTaskFactory exportCSVFactory,
                           @NonNull TaskRunner taskRunner)
     {
         super(activity);
+        this.system = system;
         this.screen = screen;
         this.habit = habit;
         this.taskRunner = taskRunner;
@@ -64,7 +70,9 @@ public class ShowHabitsMenu extends BaseMenu
     {
         List<Habit> selected = new LinkedList<>();
         selected.add(habit);
-        ExportCSVTask task = exportCSVFactory.create(selected, filename -> {
+        File outputDir = system.getFilesDir("CSV");
+        ExportCSVTask task = exportCSVFactory.create(selected,
+            outputDir, filename -> {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         });

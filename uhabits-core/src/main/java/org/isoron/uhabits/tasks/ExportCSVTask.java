@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -24,35 +24,36 @@ import android.support.annotation.*;
 import com.google.auto.factory.*;
 
 import org.isoron.uhabits.io.*;
+import org.isoron.uhabits.models.*;
 
 import java.io.*;
+import java.util.*;
 
 @AutoFactory(allowSubclasses = true)
-public class ImportDataTask implements Task
+public class ExportCSVTask implements Task
 {
-    public static final int FAILED = 3;
-
-    public static final int NOT_RECOGNIZED = 2;
-
-    public static final int SUCCESS = 1;
-
-    int result;
+    private String archiveFilename;
 
     @NonNull
-    private final File file;
+    private final List<Habit> selectedHabits;
 
-    private GenericImporter importer;
+    private File outputDir;
 
     @NonNull
-    private final Listener listener;
+    private final ExportCSVTask.Listener listener;
 
-    public ImportDataTask(@Provided @NonNull GenericImporter importer,
-                          @NonNull File file,
-                          @NonNull Listener listener)
+    @NonNull
+    private final HabitList habitList;
+
+    public ExportCSVTask(@Provided @NonNull HabitList habitList,
+                         @NonNull List<Habit> selectedHabits,
+                         @NonNull File outputDir,
+                         @NonNull Listener listener)
     {
-        this.importer = importer;
         this.listener = listener;
-        this.file = file;
+        this.habitList = habitList;
+        this.selectedHabits = selectedHabits;
+        this.outputDir = outputDir;
     }
 
     @Override
@@ -60,19 +61,12 @@ public class ImportDataTask implements Task
     {
         try
         {
-            if (importer.canHandle(file))
-            {
-                importer.importHabitsFromFile(file);
-                result = SUCCESS;
-            }
-            else
-            {
-                result = NOT_RECOGNIZED;
-            }
+            HabitsCSVExporter exporter;
+            exporter = new HabitsCSVExporter(habitList, selectedHabits, outputDir);
+            archiveFilename = exporter.writeArchive();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            result = FAILED;
             e.printStackTrace();
         }
     }
@@ -80,11 +74,11 @@ public class ImportDataTask implements Task
     @Override
     public void onPostExecute()
     {
-        listener.onImportDataFinished(result);
+        listener.onExportCSVFinished(archiveFilename);
     }
 
     public interface Listener
     {
-        void onImportDataFinished(int result);
+        void onExportCSVFinished(@Nullable String archiveFilename);
     }
 }

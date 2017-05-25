@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.view.*;
 
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
@@ -43,19 +44,20 @@ public class ShowHabitsMenuTest extends BaseUnitTest
 
     private TaskRunner taskRunner;
 
-    private ExportCSVTask task;
+    private BaseSystem system;
 
     @Override
     public void setUp()
     {
         super.setUp();
         activity = mock(ShowHabitActivity.class);
+        system = mock(BaseSystem.class);
         screen = mock(ShowHabitScreen.class);
         habit = mock(Habit.class);
         exportCSVFactory = mock(ExportCSVTaskFactory.class);
         taskRunner = mock(TaskRunner.class);
-        menu = new ShowHabitsMenu(activity, screen, habit, exportCSVFactory,
-            taskRunner);
+        menu = new ShowHabitsMenu(activity, system, screen, habit,
+            exportCSVFactory, taskRunner);
     }
 
     @Test

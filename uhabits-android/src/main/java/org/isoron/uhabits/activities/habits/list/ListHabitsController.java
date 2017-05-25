@@ -29,6 +29,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.tasks.android.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -105,11 +106,13 @@ public class ListHabitsController
     {
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
+        File outputDir = system.getFilesDir("CSV");
 
-        taskRunner.execute(exportCSVFactory.create(selected, filename -> {
-            if (filename != null) screen.showSendFileScreen(filename);
-            else screen.showMessage(R.string.could_not_export);
-        }));
+        taskRunner.execute(
+            exportCSVFactory.create(selected, outputDir, filename -> {
+                if (filename != null) screen.showSendFileScreen(filename);
+                else screen.showMessage(R.string.could_not_export);
+            }));
     }
 
     public void onExportDB()

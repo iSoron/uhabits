@@ -316,7 +316,7 @@ public class SyncManager implements CommandRunner.Listener
 
         private void executeCommand(JSONObject root) throws JSONException
         {
-            Command received = commandParser.parse(root);
+            Command received = commandParser.parse(root.toString());
             received.setRemote(true);
 
             for (Event e : pendingConfirmation)

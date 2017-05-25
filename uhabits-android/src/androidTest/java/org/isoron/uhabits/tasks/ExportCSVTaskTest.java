@@ -54,9 +54,11 @@ public class ExportCSVTaskTest extends BaseAndroidTest
 
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
+        File outputDir = baseSystem.getFilesDir("CSV");
+        assertNotNull(outputDir);
 
         taskRunner.execute(
-            new ExportCSVTask(targetContext,habitList, selected, archiveFilename -> {
+            new ExportCSVTask(habitList, selected, outputDir, archiveFilename -> {
                 assertThat(archiveFilename, is(not(nullValue())));
                 File f = new File(archiveFilename);
                 assertTrue(f.exists());

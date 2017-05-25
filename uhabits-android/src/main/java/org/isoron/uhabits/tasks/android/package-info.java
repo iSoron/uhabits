@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -21,4 +21,4 @@
  * Provides async tasks for useful operations such as {@link
  * org.isoron.uhabits.tasks.ExportCSVTask}.
  */
-package org.isoron.uhabits.tasks;
+package org.isoron.uhabits.tasks.android;
