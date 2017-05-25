@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
 
 android {
@@ -55,59 +53,62 @@ android {
 
 dependencies {
 
-    androidTestApt 'com.google.dagger:dagger-compiler:2.11-rc2'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:preference-v14:25.3.1'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.getpebble:pebblekit:3.0.0'
+    implementation 'com.github.paolorotolo:appintro:3.4.0'
+    implementation 'com.google.auto.factory:auto-factory:1.0-beta3'
+    implementation 'com.google.dagger:dagger:2.11-rc2'
+    implementation 'com.jakewharton:butterknife:8.6.1-SNAPSHOT'
+    implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    implementation 'org.apmem.tools:layouts:1.10'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.guava:guava:20.0'
 
-    androidTestCompile 'com.android.support:support-annotations:25.3.1'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.google.auto.factory:auto-factory:1.0-beta3'
-    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'com.google.guava:guava:20.0'
+    testImplementation 'junit:junit:5.0-SNAPSHOT'
+    testImplementation 'org.hamcrest:hamcrest-library:1.4-atlassian-1'
+    testImplementation 'org.mockito:mockito-core:2.8.9'
+    testImplementation 'org.json:json:20160810'
+    testImplementation 'org.robolectric:robolectric:3.4-rc2'
 
-    apt 'com.google.dagger:dagger-compiler:2.11-rc2'
-    apt 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    androidTestImplementation 'com.android.support:support-annotations:25.3.1'
+    androidTestImplementation 'com.android.support.test:rules:0.5'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.google.auto.factory:auto-factory:1.0-beta3'
+    androidTestImplementation "com.google.dexmaker:dexmaker:1.2"
+    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestImplementation 'org.mockito:mockito-core:1.10.19'
+    androidTestImplementation 'com.google.guava:guava:20.0'
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:preference-v14:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.getpebble:pebblekit:3.0.0'
-    compile 'com.github.paolorotolo:appintro:3.4.0'
-    compile 'com.google.auto.factory:auto-factory:1.0-beta3'
-    compile 'com.google.dagger:dagger:2.11-rc2'
-    compile 'com.jakewharton:butterknife:8.6.1-SNAPSHOT'
-    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
-    compile 'com.opencsv:opencsv:3.9'
-    compile 'org.apmem.tools:layouts:1.10'
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.google.code.findbugs:jsr305:3.0.2'
-    compile 'com.google.guava:guava:20.0'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    provided 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
 
-    compile ('io.socket:socket.io-client:+') {
-        exclude group: 'org.json', module: 'json'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
+    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
+    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
+    androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
+    implementation ('com.opencsv:opencsv:3.9') {
+        exclude group: 'commons-logging', module: 'commons-logging'
     }
 
-    testApt 'com.google.dagger:dagger-compiler:2.11-rc2'
-    testApt 'com.google.guava:guava:20.0'
-
-    testCompile 'junit:junit:5.0-SNAPSHOT'
-    testCompile 'org.hamcrest:hamcrest-library:1.4-atlassian-1'
-    testCompile 'org.mockito:mockito-core:2.8.9'
-    testCompile 'org.json:json:20160810'
-    testCompile 'org.robolectric:robolectric:3.4-rc2'
-}
-
-retrolambda {
-    defaultMethods true
+    implementation ('io.socket:socket.io-client:+') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
 
 jacoco {
-    toolVersion = "0.7.6.201602180812"
+    toolVersion = "0.7.4.201502262128"
 }
 
 task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {

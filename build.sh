@@ -128,14 +128,14 @@ install_apk() {
 	log_info "Installing APK"
 
 	if [ ! -z $RELEASE ]; then
-		$ADB install -r ${OUTPUTS_DIR}/apk/app-release.apk	|| fail
+		$ADB install -r ${OUTPUTS_DIR}/apk/release/app-release.apk || fail
 	else
-		$ADB install -r ${OUTPUTS_DIR}/apk/app-debug.apk	|| fail
+		$ADB install -r ${OUTPUTS_DIR}/apk/debug/app-debug.apk || fail
 	fi
 }
 
 install_test_apk() {
-	$ADB install -r ${OUTPUTS_DIR}/apk/app-debug-androidTest.apk || fail
+	$ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/app-debug-androidTest.apk || fail
 }
 
 run_instrumented_tests() {
