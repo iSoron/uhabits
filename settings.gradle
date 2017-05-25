@@ -1,1 +1,1 @@
-include ':uhabits-android'
+include ':uhabits-android', ':uhabits-core'
