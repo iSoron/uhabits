@@ -23,6 +23,7 @@ import android.content.*;
 import android.support.annotation.*;
 import android.util.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.preferences.*;

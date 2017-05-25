@@ -25,8 +25,6 @@ import android.support.annotation.*;
 import android.support.v4.content.*;
 import android.util.*;
 
-import org.isoron.uhabits.*;
-
 import java.io.*;
 
 public abstract class FileUtils

@@ -17,15 +17,32 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.androidbase.activities;
 
-import java.lang.annotation.*;
+import android.content.*;
 
-import javax.inject.*;
+import dagger.*;
 
-@Qualifier
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AppContext
+@Module
+public class ActivityModule
 {
+    private BaseActivity activity;
+
+    public ActivityModule(BaseActivity activity)
+    {
+        this.activity = activity;
+    }
+
+    @Provides
+    public BaseActivity getActivity()
+    {
+        return activity;
+    }
+
+    @Provides
+    @ActivityContext
+    public Context getContext()
+    {
+        return activity;
+    }
 }

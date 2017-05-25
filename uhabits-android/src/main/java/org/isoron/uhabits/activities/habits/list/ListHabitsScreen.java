@@ -28,6 +28,7 @@ import android.text.*;
 import android.view.*;
 import android.widget.*;
 
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;

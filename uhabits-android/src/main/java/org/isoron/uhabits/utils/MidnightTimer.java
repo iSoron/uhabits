@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.utils;
 
-import org.isoron.uhabits.activities.*;
+import org.isoron.androidbase.activities.*;
 
 import java.util.*;
 import java.util.concurrent.*;

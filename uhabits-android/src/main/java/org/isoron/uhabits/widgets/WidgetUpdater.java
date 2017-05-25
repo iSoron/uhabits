@@ -23,7 +23,7 @@ import android.appwidget.*;
 import android.content.*;
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.tasks.*;
 

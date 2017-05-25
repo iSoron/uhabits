@@ -27,6 +27,7 @@ import android.support.annotation.*;
 import android.support.test.*;
 import android.util.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;

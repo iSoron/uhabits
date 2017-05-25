@@ -23,7 +23,7 @@ import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.view.*;
 
-import org.isoron.uhabits.activities.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;

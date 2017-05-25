@@ -21,6 +21,7 @@ package org.isoron.uhabits;
 
 import android.content.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;

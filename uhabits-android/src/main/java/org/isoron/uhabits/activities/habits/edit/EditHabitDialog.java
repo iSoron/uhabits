@@ -28,9 +28,9 @@ import android.view.*;
 
 import com.android.datetimepicker.time.*;
 
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.views.*;
 import org.isoron.uhabits.commands.*;

@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.about;
 
 import android.os.*;
 
-import org.isoron.uhabits.activities.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.intents.*;
 
 /**

@@ -25,8 +25,7 @@ import android.support.annotation.*;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 
-import org.isoron.uhabits.AppContext;
-import org.isoron.uhabits.activities.ActivityContext;
+import org.isoron.androidbase.AppContext;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;

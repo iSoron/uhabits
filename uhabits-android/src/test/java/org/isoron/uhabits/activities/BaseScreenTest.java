@@ -25,6 +25,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.*;
 import android.view.*;
 
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.junit.*;
 import org.junit.runner.*;

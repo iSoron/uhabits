@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
+package org.isoron.androidbase.activities;
 
 import android.support.annotation.*;
 import android.view.*;

@@ -20,6 +20,7 @@
 package org.isoron.uhabits;
 
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.tasks.*;
 

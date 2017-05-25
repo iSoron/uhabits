@@ -24,6 +24,7 @@ import android.content.*;
 
 import com.activeandroid.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;

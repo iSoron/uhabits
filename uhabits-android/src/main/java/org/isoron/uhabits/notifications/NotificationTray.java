@@ -26,6 +26,7 @@ import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.support.v4.app.NotificationCompat.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;

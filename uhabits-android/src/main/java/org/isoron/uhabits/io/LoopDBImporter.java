@@ -27,6 +27,7 @@ import android.util.*;
 
 import com.activeandroid.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;

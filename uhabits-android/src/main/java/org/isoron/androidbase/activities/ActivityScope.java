@@ -17,15 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
-
-import java.lang.annotation.*;
+package org.isoron.androidbase.activities;
 
 import javax.inject.*;
 
-@Qualifier
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ActivityContext
-{
-}
+/**
+ * Scope used by objects that live as long as the activity is alive.
+ */
+@Scope
+public @interface ActivityScope { }

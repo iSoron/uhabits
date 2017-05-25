@@ -24,6 +24,7 @@ import android.content.*;
 import android.net.*;
 import android.support.annotation.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.receivers.*;

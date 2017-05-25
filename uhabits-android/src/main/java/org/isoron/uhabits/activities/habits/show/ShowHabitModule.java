@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.show;
 
-import org.isoron.uhabits.activities.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.models.*;
 
 import dagger.*;
