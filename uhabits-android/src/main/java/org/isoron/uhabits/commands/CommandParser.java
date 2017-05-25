@@ -23,6 +23,7 @@ import android.support.annotation.*;
 
 import com.google.gson.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.json.*;
 
@@ -40,6 +41,30 @@ public class CommandParser
     {
         this.habitList = habitList;
         this.modelFactory = modelFactory;
+    }
+
+    @StringRes
+    public Integer getExecuteString(@NonNull Command command)
+    {
+        if(command instanceof ArchiveHabitsCommand)
+            return R.string.toast_habit_archived;
+
+        if(command instanceof ChangeHabitColorCommand)
+            return R.string.toast_habit_changed;
+
+        if(command instanceof CreateHabitCommand)
+            return R.string.toast_habit_created;
+
+        if(command instanceof DeleteHabitsCommand)
+            return R.string.toast_habit_deleted;
+
+        if(command instanceof EditHabitCommand)
+            return R.string.toast_habit_changed;
+
+        if(command instanceof UnarchiveHabitsCommand)
+            return R.string.toast_habit_unarchived;
+
+        return null;
     }
 
     @NonNull

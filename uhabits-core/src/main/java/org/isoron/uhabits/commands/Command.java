@@ -24,7 +24,6 @@ import android.support.annotation.*;
 import com.google.gson.*;
 
 import org.isoron.uhabits.utils.*;
-import org.json.*;
 
 /**
  * A Command represents a desired set of changes that should be performed on the
@@ -43,7 +42,7 @@ public abstract class Command
 
     public Command()
     {
-        id = DatabaseUtils.getRandomId();
+        id = StringUtils.getRandomId();
         isRemote = false;
     }
 
@@ -55,11 +54,6 @@ public abstract class Command
 
     public abstract void execute();
 
-    public Integer getExecuteStringId()
-    {
-        return null;
-    }
-
     public String getId()
     {
         return id;
@@ -68,11 +62,6 @@ public abstract class Command
     public void setId(String id)
     {
         this.id = id;
-    }
-
-    public Integer getUndoStringId()
-    {
-        return null;
     }
 
     public boolean isRemote()
@@ -86,17 +75,9 @@ public abstract class Command
     }
 
     @NonNull
-    public JSONObject toJson()
+    public String toJson()
     {
-        try
-        {
-            String json = new GsonBuilder().create().toJson(toRecord());
-            return new JSONObject(json);
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e);
-        }
+        return new GsonBuilder().create().toJson(toRecord());
     }
 
     @NonNull

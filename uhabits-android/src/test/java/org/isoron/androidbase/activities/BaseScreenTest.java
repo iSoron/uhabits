@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
+package org.isoron.androidbase.activities;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -25,7 +25,6 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.*;
 import android.view.*;
 
-import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -38,6 +37,7 @@ import static android.view.View.*;
 import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.core.IsEqual.*;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 import static org.robolectric.Robolectric.*;

@@ -21,7 +21,6 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 import java.util.*;
@@ -49,18 +48,6 @@ public class UnarchiveHabitsCommand extends Command
     {
         for (Habit h : selected) h.setArchived(false);
         habitList.update(selected);
-    }
-
-    @Override
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_unarchived;
-    }
-
-    @Override
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_archived;
     }
 
     @Override

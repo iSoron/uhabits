@@ -108,13 +108,25 @@ public class SyncManager implements CommandRunner.Listener
         connect(context, serverURL);
     }
 
+    private JSONObject toJSONObject(String json)
+    {
+        try
+        {
+            return new JSONObject(json);
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
         if (command.isRemote()) return;
 
-        JSONObject msg = command.toJson();
+        JSONObject msg = toJSONObject(command.toJson());
         Long now = new Date().getTime();
         Event e = new Event(command.getId(), now, msg.toString());
         e.save();

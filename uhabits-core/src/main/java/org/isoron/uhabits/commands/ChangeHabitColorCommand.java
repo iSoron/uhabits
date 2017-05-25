@@ -21,15 +21,14 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 import java.util.*;
 
 /**
- * Command to delete a list of habits.
+ * Command to change the color of a list of habits.
  */
-public class DeleteHabitsCommand extends Command
+public class ChangeHabitColorCommand extends Command
 {
     @NonNull
     final HabitList habitList;
@@ -37,40 +36,32 @@ public class DeleteHabitsCommand extends Command
     @NonNull
     final List<Habit> selected;
 
-    public DeleteHabitsCommand(@NonNull HabitList habitList,
-                               @NonNull List<Habit> selected)
-    {
-        this.selected = new LinkedList<>(selected);
-        this.habitList = habitList;
-    }
+    @NonNull
+    final List<Integer> originalColors;
 
+    @NonNull
+    final Integer newColor;
+
+    public ChangeHabitColorCommand(@NonNull HabitList habitList,
+                                   @NonNull List<Habit> selected,
+                                   @NonNull Integer newColor)
+    {
+        this.habitList = habitList;
+        this.selected = selected;
+        this.newColor = newColor;
+        this.originalColors = new ArrayList<>(selected.size());
+        for (Habit h : selected) originalColors.add(h.getColor());
+    }
 
     @Override
     public void execute()
     {
-        for (Habit h : selected)
-            habitList.remove(h);
+        for (Habit h : selected) h.setColor(newColor);
+        habitList.update(selected);
     }
 
-    @Override
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_deleted;
-    }
-
-    public List<Habit> getSelected()
-    {
-        return Collections.unmodifiableList(selected);
-    }
-
-    @Override
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_restored;
-    }
-
-    @Override
     @NonNull
+    @Override
     public Record toRecord()
     {
         return new Record(this);
@@ -79,7 +70,9 @@ public class DeleteHabitsCommand extends Command
     @Override
     public void undo()
     {
-        throw new UnsupportedOperationException();
+        int k = 0;
+        for (Habit h : selected) h.setColor(originalColors.get(k++));
+        habitList.update(selected);
     }
 
     public static class Record
@@ -88,14 +81,18 @@ public class DeleteHabitsCommand extends Command
         public String id;
 
         @NonNull
-        public String event = "DeleteHabit";
+        public String event = "ChangeColor";
 
         @NonNull
         public List<Long> habits;
 
-        public Record(DeleteHabitsCommand command)
+        @NonNull
+        public Integer color;
+
+        public Record(ChangeHabitColorCommand command)
         {
             id = command.getId();
+            color = command.newColor;
             habits = new LinkedList<>();
             for (Habit h : command.selected)
             {
@@ -104,13 +101,13 @@ public class DeleteHabitsCommand extends Command
             }
         }
 
-        public DeleteHabitsCommand toCommand(@NonNull HabitList habitList)
+        public ChangeHabitColorCommand toCommand(@NonNull HabitList habitList)
         {
             List<Habit> selected = new LinkedList<>();
             for (Long id : this.habits) selected.add(habitList.getById(id));
 
-            DeleteHabitsCommand command;
-            command = new DeleteHabitsCommand(habitList, selected);
+            ChangeHabitColorCommand command;
+            command = new ChangeHabitColorCommand(habitList, selected, color);
             command.setId(id);
             return command;
         }

@@ -30,9 +30,7 @@ import org.isoron.uhabits.models.sqlite.records.*;
 import org.isoron.uhabits.sync.*;
 
 import java.io.*;
-import java.math.*;
 import java.text.*;
-import java.util.*;
 
 public abstract class DatabaseUtils
 {
@@ -68,11 +66,6 @@ public abstract class DatabaseUtils
         String databaseFilename = BuildConfig.databaseFilename;
         if (HabitsApplication.isTestMode()) databaseFilename = "test.db";
         return databaseFilename;
-    }
-
-    public static String getRandomId()
-    {
-        return new BigInteger(260, new Random()).toString(32).substring(0, 32);
     }
 
     @SuppressWarnings("unchecked")

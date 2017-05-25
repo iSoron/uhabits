@@ -17,21 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply plugin: 'java'
+package org.isoron.uhabits.utils;
 
-dependencies {
-    compileOnly 'javax.annotation:jsr250-api:1.0'
-    implementation 'com.google.dagger:dagger:2.11-rc2'
-    implementation 'com.android.support:support-annotations:25.3.1'
-    implementation 'com.google.auto.factory:auto-factory:1.0-beta3'
-    implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    implementation 'org.apache.commons:commons-lang3:3.5'
-    implementation 'com.google.code.gson:gson:2.7'
+import java.math.*;
+import java.util.*;
 
-    implementation ('com.opencsv:opencsv:3.9') {
-        exclude group: 'commons-logging', module: 'commons-logging'
+public class StringUtils
+{
+    public static String getRandomId()
+    {
+        return new BigInteger(260, new Random()).toString(32).substring(0, 32);
     }
 }
-
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"

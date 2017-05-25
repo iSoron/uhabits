@@ -23,7 +23,6 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 /**
@@ -60,18 +59,6 @@ public class CreateHabitCommand extends Command
 
         habitList.add(savedHabit);
         savedId = savedHabit.getId();
-    }
-
-    @Override
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_created;
-    }
-
-    @Override
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_deleted;
     }
 
     @NonNull

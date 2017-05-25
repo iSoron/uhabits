@@ -23,7 +23,6 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 /**
@@ -75,18 +74,6 @@ public class EditHabitCommand extends Command
     public void execute()
     {
         copyAttributes(this.modified);
-    }
-
-    @Override
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_changed;
-    }
-
-    @Override
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_changed_back;
     }
 
     @NonNull

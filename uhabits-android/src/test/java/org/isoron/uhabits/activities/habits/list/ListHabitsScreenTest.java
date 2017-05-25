@@ -71,6 +71,8 @@ public class ListHabitsScreenTest extends BaseUnitTest
 
     private Preferences prefs;
 
+    private CommandParser commandParser;
+
     @Before
     @Override
     public void setUp()
@@ -86,10 +88,11 @@ public class ListHabitsScreenTest extends BaseUnitTest
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
         dialogFactory = mock(EditHabitDialogFactory.class);
         prefs = mock(Preferences.class);
+        commandParser = mock(CommandParser.class);
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, rootView,
             intentFactory, themeSwitcher, confirmDeleteDialogFactory,
-            colorPickerDialogFactory, dialogFactory, prefs));
+            colorPickerDialogFactory, dialogFactory, prefs, commandParser));
 
         doNothing().when(screen).showMessage(anyInt());
 
@@ -122,7 +125,8 @@ public class ListHabitsScreenTest extends BaseUnitTest
     public void testOnCommand()
     {
         Command c = mock(Command.class);
-        when(c.getExecuteStringId()).thenReturn(R.string.toast_habit_deleted);
+        when(commandParser.getExecuteString(c)).thenReturn(
+            R.string.toast_habit_deleted);
         screen.onCommandExecuted(c, null);
         verify(screen).showMessage(R.string.toast_habit_deleted);
     }

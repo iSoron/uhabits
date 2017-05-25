@@ -90,6 +90,9 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private Preferences prefs;
 
+    @NonNull
+    private final CommandParser commandParser;
+
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull CommandRunner commandRunner,
@@ -99,9 +102,11 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
                             @NonNull EditHabitDialogFactory editHabitDialogFactory,
-                            @NonNull Preferences prefs)
+                            @NonNull Preferences prefs,
+                            @NonNull CommandParser commandParser)
     {
         super(activity);
+        this.commandParser = commandParser;
         setRootView(rootView);
         this.prefs = prefs;
         this.colorPickerFactory = colorPickerFactory;
@@ -122,7 +127,7 @@ public class ListHabitsScreen extends BaseScreen
                                   @Nullable Long refreshKey)
     {
         if(command.isRemote()) return;
-        showMessage(command.getExecuteStringId());
+        showMessage(commandParser.getExecuteString(command));
     }
 
     public void onDettached()

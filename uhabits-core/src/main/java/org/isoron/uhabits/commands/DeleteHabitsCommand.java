@@ -21,15 +21,14 @@ package org.isoron.uhabits.commands;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 
 import java.util.*;
 
 /**
- * Command to change the color of a list of habits.
+ * Command to delete a list of habits.
  */
-public class ChangeHabitColorCommand extends Command
+public class DeleteHabitsCommand extends Command
 {
     @NonNull
     final HabitList habitList;
@@ -37,44 +36,28 @@ public class ChangeHabitColorCommand extends Command
     @NonNull
     final List<Habit> selected;
 
-    @NonNull
-    final List<Integer> originalColors;
-
-    @NonNull
-    final Integer newColor;
-
-    public ChangeHabitColorCommand(@NonNull HabitList habitList,
-                                   @NonNull List<Habit> selected,
-                                   @NonNull Integer newColor)
+    public DeleteHabitsCommand(@NonNull HabitList habitList,
+                               @NonNull List<Habit> selected)
     {
+        this.selected = new LinkedList<>(selected);
         this.habitList = habitList;
-        this.selected = selected;
-        this.newColor = newColor;
-        this.originalColors = new ArrayList<>(selected.size());
-        for (Habit h : selected) originalColors.add(h.getColor());
     }
+
 
     @Override
     public void execute()
     {
-        for (Habit h : selected) h.setColor(newColor);
-        habitList.update(selected);
+        for (Habit h : selected)
+            habitList.remove(h);
+    }
+
+    public List<Habit> getSelected()
+    {
+        return Collections.unmodifiableList(selected);
     }
 
     @Override
-    public Integer getExecuteStringId()
-    {
-        return R.string.toast_habit_changed;
-    }
-
-    @Override
-    public Integer getUndoStringId()
-    {
-        return R.string.toast_habit_changed;
-    }
-
     @NonNull
-    @Override
     public Record toRecord()
     {
         return new Record(this);
@@ -83,9 +66,7 @@ public class ChangeHabitColorCommand extends Command
     @Override
     public void undo()
     {
-        int k = 0;
-        for (Habit h : selected) h.setColor(originalColors.get(k++));
-        habitList.update(selected);
+        throw new UnsupportedOperationException();
     }
 
     public static class Record
@@ -94,18 +75,14 @@ public class ChangeHabitColorCommand extends Command
         public String id;
 
         @NonNull
-        public String event = "ChangeColor";
+        public String event = "DeleteHabit";
 
         @NonNull
         public List<Long> habits;
 
-        @NonNull
-        public Integer color;
-
-        public Record(ChangeHabitColorCommand command)
+        public Record(DeleteHabitsCommand command)
         {
             id = command.getId();
-            color = command.newColor;
             habits = new LinkedList<>();
             for (Habit h : command.selected)
             {
@@ -114,13 +91,13 @@ public class ChangeHabitColorCommand extends Command
             }
         }
 
-        public ChangeHabitColorCommand toCommand(@NonNull HabitList habitList)
+        public DeleteHabitsCommand toCommand(@NonNull HabitList habitList)
         {
             List<Habit> selected = new LinkedList<>();
             for (Long id : this.habits) selected.add(habitList.getById(id));
 
-            ChangeHabitColorCommand command;
-            command = new ChangeHabitColorCommand(habitList, selected, color);
+            DeleteHabitsCommand command;
+            command = new DeleteHabitsCommand(habitList, selected);
             command.setId(id);
             return command;
         }
