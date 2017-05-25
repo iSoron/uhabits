@@ -230,7 +230,7 @@ public abstract class HabitList implements Iterable<Habit>
                 habit.getDescription(),
                 Integer.toString(freq.getNumerator()),
                 Integer.toString(freq.getDenominator()),
-                ColorUtils.CSV_PALETTE[habit.getColor()]
+                ColorConstants.CSV_PALETTE[habit.getColor()]
             };
 
             csv.writeNext(cols, false);

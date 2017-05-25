@@ -410,9 +410,9 @@ public class ScoreChart extends ScrollableChart
 
     private void initDateFormats()
     {
-        dfYear = DateFormats.fromSkeleton("yyyy");
-        dfMonth = DateFormats.fromSkeleton("MMM");
-        dfDay = DateFormats.fromSkeleton("d");
+        dfYear = AndroidDateFormats.fromSkeleton("yyyy");
+        dfMonth = AndroidDateFormats.fromSkeleton("MMM");
+        dfDay = AndroidDateFormats.fromSkeleton("d");
     }
 
     private void initPaints()

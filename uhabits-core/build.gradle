@@ -26,6 +26,10 @@ dependencies {
     implementation 'com.google.auto.factory:auto-factory:1.0-beta3'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.apache.commons:commons-lang3:3.5'
+
+    implementation ('com.opencsv:opencsv:3.9') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
 }
 
 sourceCompatibility = "1.8"

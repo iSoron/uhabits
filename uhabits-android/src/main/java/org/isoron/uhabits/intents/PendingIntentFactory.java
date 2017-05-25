@@ -51,7 +51,7 @@ public class PendingIntentFactory
                                       @Nullable Long timestamp)
     {
         Intent checkIntent = new Intent(context, WidgetReceiver.class);
-        checkIntent.setData(habit.getUri());
+        checkIntent.setData(Uri.parse(habit.getUriString()));
         checkIntent.setAction(WidgetReceiver.ACTION_ADD_REPETITION);
         if (timestamp != null) checkIntent.putExtra("timestamp", timestamp);
         return PendingIntent.getBroadcast(context, 1, checkIntent,
@@ -62,7 +62,7 @@ public class PendingIntentFactory
     {
         Intent deleteIntent = new Intent(context, ReminderReceiver.class);
         deleteIntent.setAction(WidgetReceiver.ACTION_DISMISS_REMINDER);
-        deleteIntent.setData(habit.getUri());
+        deleteIntent.setData(Uri.parse(habit.getUriString()));
         return PendingIntent.getBroadcast(context, 0, deleteIntent,
             FLAG_UPDATE_CURRENT);
     }
@@ -81,7 +81,7 @@ public class PendingIntentFactory
                                       @Nullable Long reminderTime,
                                       long timestamp)
     {
-        Uri uri = habit.getUri();
+        Uri uri = Uri.parse(habit.getUriString());
 
         Intent intent = new Intent(context, ReminderReceiver.class);
         intent.setAction(ReminderReceiver.ACTION_SHOW_REMINDER);
@@ -95,7 +95,7 @@ public class PendingIntentFactory
 
     public PendingIntent snoozeNotification(@NonNull Habit habit)
     {
-        Uri data = habit.getUri();
+        Uri data = Uri.parse(habit.getUriString());
         Intent snoozeIntent = new Intent(context, ReminderReceiver.class);
         snoozeIntent.setData(data);
         snoozeIntent.setAction(ReminderReceiver.ACTION_SNOOZE_REMINDER);
@@ -106,7 +106,7 @@ public class PendingIntentFactory
     public PendingIntent toggleCheckmark(@NonNull Habit habit,
                                          @Nullable Long timestamp)
     {
-        Uri data = habit.getUri();
+        Uri data = Uri.parse(habit.getUriString());
         Intent checkIntent = new Intent(context, WidgetReceiver.class);
         checkIntent.setData(data);
         checkIntent.setAction(WidgetReceiver.ACTION_TOGGLE_REPETITION);

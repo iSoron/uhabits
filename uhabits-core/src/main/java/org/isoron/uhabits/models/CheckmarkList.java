@@ -27,9 +27,9 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
-import static org.isoron.uhabits.models.Checkmark.CHECKED_EXPLICITLY;
-import static org.isoron.uhabits.models.Checkmark.CHECKED_IMPLICITLY;
 import javax.annotation.concurrent.*;
+
+import static org.isoron.uhabits.models.Checkmark.*;
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
  */

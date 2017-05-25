@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.models;
 
-import android.net.*;
 import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
@@ -281,12 +280,11 @@ public class Habit
     /**
      * Returns the public URI that identifies this habit
      *
-     * @return the uri
+     * @return the URI
      */
-    public Uri getUri()
+    public String getUriString()
     {
-        String s = String.format(Locale.US, HABIT_URI_FORMAT, getId());
-        return Uri.parse(s);
+        return String.format(Locale.US, HABIT_URI_FORMAT, getId());
     }
 
     public synchronized boolean hasId()

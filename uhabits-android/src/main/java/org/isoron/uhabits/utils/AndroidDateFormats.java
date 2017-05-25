@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.isoron.uhabits.utils;
 
 import android.support.annotation.*;
@@ -24,34 +23,15 @@ import android.support.annotation.*;
 import java.text.*;
 import java.util.*;
 
-import static android.text.format.DateFormat.*;
+import static android.text.format.DateFormat.getBestDateTimePattern;
 
-public class DateFormats
+public class AndroidDateFormats
 {
-    @NonNull
-    private static SimpleDateFormat fromSkeleton(@NonNull String skeleton,
-                                                 @NonNull Locale locale)
-    {
-        SimpleDateFormat df = new SimpleDateFormat(skeleton, locale);
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return df;
-    }
-
     @NonNull
     public static SimpleDateFormat fromSkeleton(@NonNull String skeleton)
     {
         Locale locale = Locale.getDefault();
         skeleton = getBestDateTimePattern(locale, skeleton);
-        return fromSkeleton(skeleton, locale);
-    }
-
-    public static SimpleDateFormat getBackupDateFormat()
-    {
-        return fromSkeleton("yyyy-MM-dd HHmmss", Locale.US);
-    }
-
-    public static SimpleDateFormat getCSVDateFormat()
-    {
-        return fromSkeleton("yyyy-MM-dd", Locale.US);
+        return DateFormats.fromSkeleton(skeleton, locale);
     }
 }

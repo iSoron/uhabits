@@ -108,7 +108,7 @@ public class SubtitleCard extends HabitCard
     private void updateReminderText(Reminder reminder)
     {
         reminderLabel.setText(
-            DateUtils.formatTime(getContext(), reminder.getHour(),
+            AndroidDateUtils.formatTime(getContext(), reminder.getHour(),
                 reminder.getMinute()));
     }
 }

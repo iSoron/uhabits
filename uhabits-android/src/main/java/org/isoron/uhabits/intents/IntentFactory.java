@@ -83,7 +83,7 @@ public class IntentFactory
     public Intent startShowHabitActivity(Context context, Habit habit)
     {
         Intent intent = new Intent(context, ShowHabitActivity.class);
-        intent.setData(habit.getUri());
+        intent.setData(Uri.parse(habit.getUriString()));
         return intent;
     }
 

@@ -413,8 +413,8 @@ public class HistoryChart extends ScrollableChart
 
     private void initDateFormats()
     {
-        dfMonth = DateFormats.fromSkeleton("MMM");
-        dfYear = DateFormats.fromSkeleton("yyyy");
+        dfMonth = AndroidDateFormats.fromSkeleton("MMM");
+        dfYear = AndroidDateFormats.fromSkeleton("yyyy");
     }
 
     private void initRects()

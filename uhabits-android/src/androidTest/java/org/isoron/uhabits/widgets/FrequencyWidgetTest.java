@@ -25,7 +25,6 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.widgets.*;
 import org.junit.*;
 import org.junit.runner.*;
 

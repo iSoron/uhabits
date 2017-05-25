@@ -32,10 +32,9 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
-
-import static org.isoron.uhabits.utils.DateUtils.*;
 
 public class ReminderPanel extends FrameLayout
     implements TimePickerDialog.OnTimeSetListener,
@@ -86,12 +85,12 @@ public class ReminderPanel extends FrameLayout
         }
 
         Context ctx = getContext();
-        String time = formatTime(ctx, reminder.getHour(), reminder.getMinute());
+        String time = AndroidDateUtils.formatTime(ctx, reminder.getHour(), reminder.getMinute());
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
         boolean weekdays[] = reminder.getDays().toArray();
-        tvReminderDays.setText(formatWeekdayList(ctx, weekdays));
+        tvReminderDays.setText(AndroidDateUtils.formatWeekdayList(ctx, weekdays));
     }
 
     @Override
