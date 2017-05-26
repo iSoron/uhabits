@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'jacoco'
 
 dependencies {
 
@@ -21,6 +22,15 @@ dependencies {
     }
     compile 'junit:junit:4.12'
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
