@@ -22,14 +22,9 @@ package org.isoron.uhabits.activities.habits.show;
 import android.support.annotation.*;
 import android.view.*;
 
-import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
-
-import java.io.*;
-import java.util.*;
+import org.isoron.uhabits.ui.habits.show.*;
 
 import javax.inject.*;
 
@@ -37,47 +32,14 @@ import javax.inject.*;
 public class ShowHabitsMenu extends BaseMenu
 {
     @NonNull
-    private final BaseSystem system;
-
-    @NonNull
-    private final ShowHabitScreen screen;
-
-    @NonNull
-    private final Habit habit;
-
-    @NonNull
-    private final TaskRunner taskRunner;
-
-    @NonNull
-    private ExportCSVTaskFactory exportCSVFactory;
+    ShowHabitMenuBehavior behavior;
 
     @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull BaseSystem system,
-                          @NonNull ShowHabitScreen screen,
-                          @NonNull Habit habit,
-                          @NonNull ExportCSVTaskFactory exportCSVFactory,
-                          @NonNull TaskRunner taskRunner)
+                          @NonNull ShowHabitMenuBehavior behavior)
     {
         super(activity);
-        this.system = system;
-        this.screen = screen;
-        this.habit = habit;
-        this.taskRunner = taskRunner;
-        this.exportCSVFactory = exportCSVFactory;
-    }
-
-    public void exportHabit()
-    {
-        List<Habit> selected = new LinkedList<>();
-        selected.add(habit);
-        File outputDir = system.getFilesDir("CSV");
-        ExportCSVTask task = exportCSVFactory.create(selected,
-            outputDir, filename -> {
-            if (filename != null) screen.showSendFileScreen(filename);
-            else screen.showMessage(R.string.could_not_export);
-        });
-        taskRunner.execute(task);
+        this.behavior = behavior;
     }
 
     @Override
@@ -86,11 +48,11 @@ public class ShowHabitsMenu extends BaseMenu
         switch (item.getItemId())
         {
             case R.id.action_edit_habit:
-                screen.showEditHabitDialog();
+                behavior.onEditHabit();
                 return true;
 
             case R.id.export:
-                this.exportHabit();
+                behavior.onExportCSV();
                 return true;
 
             default:

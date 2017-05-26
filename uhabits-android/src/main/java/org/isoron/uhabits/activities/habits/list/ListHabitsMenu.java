@@ -43,7 +43,7 @@ public class ListHabitsMenu extends BaseMenu
 
     private boolean showCompleted;
 
-    private final Preferences preferences;
+    private final AndroidPreferences preferences;
 
     private ThemeSwitcher themeSwitcher;
 
@@ -51,7 +51,7 @@ public class ListHabitsMenu extends BaseMenu
     public ListHabitsMenu(@NonNull BaseActivity activity,
                           @NonNull ListHabitsScreen screen,
                           @NonNull HabitCardListAdapter adapter,
-                          @NonNull Preferences preferences,
+                          @NonNull AndroidPreferences preferences,
                           @NonNull ThemeSwitcher themeSwitcher)
     {
         super(activity);

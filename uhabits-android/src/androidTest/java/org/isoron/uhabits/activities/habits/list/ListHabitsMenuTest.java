@@ -40,7 +40,7 @@ public class ListHabitsMenuTest extends BaseAndroidTest
 
     private HabitCardListAdapter adapter;
 
-    private Preferences preferences;
+    private AndroidPreferences preferences;
 
     private ThemeSwitcher themeSwitcher;
 
@@ -56,7 +56,7 @@ public class ListHabitsMenuTest extends BaseAndroidTest
         activity = mock(BaseActivity.class);
         screen = mock(ListHabitsScreen.class);
         adapter = mock(HabitCardListAdapter.class);
-        preferences = mock(Preferences.class);
+        preferences = mock(AndroidPreferences.class);
         themeSwitcher = mock(ThemeSwitcher.class);
 
         when(preferences.getShowArchived()).thenReturn(false);

@@ -48,6 +48,8 @@ public abstract class BaseRootView extends FrameLayout
 
     private final ThemeSwitcher themeSwitcher;
 
+    boolean shouldDisplayHomeAsUp = false;
+
     public BaseRootView(@NonNull Context context)
     {
         super(context);
@@ -58,11 +60,23 @@ public abstract class BaseRootView extends FrameLayout
 
     public boolean getDisplayHomeAsUp()
     {
-        return false;
+        return shouldDisplayHomeAsUp;
+    }
+
+    public void setDisplayHomeAsUp(boolean b)
+    {
+        shouldDisplayHomeAsUp = b;
     }
 
     @NonNull
-    public abstract Toolbar getToolbar();
+    public Toolbar getToolbar()
+    {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar == null) throw new RuntimeException(
+            "Your BaseRootView should have a " +
+            "toolbar with id R.id.toolbar");
+        return toolbar;
+    }
 
     public int getToolbarColor()
     {
@@ -86,7 +100,7 @@ public abstract class BaseRootView extends FrameLayout
             if (view != null) view.setVisibility(GONE);
 
             view = findViewById(R.id.headerShadow);
-            if(view != null) view.setVisibility(GONE);
+            if (view != null) view.setVisibility(GONE);
         }
     }
 }

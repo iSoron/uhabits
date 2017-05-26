@@ -37,12 +37,12 @@ public class ReminderController
     @NonNull
     private final NotificationTray notificationTray;
 
-    private Preferences preferences;
+    private AndroidPreferences preferences;
 
     @Inject
     public ReminderController(@NonNull ReminderScheduler reminderScheduler,
                               @NonNull NotificationTray notificationTray,
-                              @NonNull Preferences preferences)
+                              @NonNull AndroidPreferences preferences)
     {
         this.reminderScheduler = reminderScheduler;
         this.notificationTray = notificationTray;

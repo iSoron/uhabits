@@ -41,7 +41,7 @@ public class HeaderViewTest extends BaseViewTest
 
     private HeaderView view;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     private MidnightTimer midnightTimer;
 
@@ -50,7 +50,7 @@ public class HeaderViewTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        prefs = mock(Preferences.class);
+        prefs = mock(AndroidPreferences.class);
         midnightTimer = mock(MidnightTimer.class);
         view = new HeaderView(targetContext, prefs, midnightTimer);
         view.setButtonCount(5);

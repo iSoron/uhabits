@@ -21,6 +21,7 @@ package org.isoron.uhabits;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.memory.*;
+import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -34,6 +35,8 @@ public class BaseUnitTest
 
     protected MemoryModelFactory modelFactory;
 
+    protected SingleThreadTaskRunner taskRunner;
+
     @Before
     public void setUp()
     {
@@ -44,6 +47,7 @@ public class BaseUnitTest
         modelFactory = new MemoryModelFactory();
         habitList = modelFactory.buildHabitList();
         fixtures = new HabitFixtures(modelFactory);
+        taskRunner = new SingleThreadTaskRunner();
     }
 
     @After

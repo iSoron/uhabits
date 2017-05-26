@@ -37,7 +37,7 @@ public class ReminderControllerTest extends BaseAndroidTest
 
     private NotificationTray notificationTray;
 
-    private Preferences preferences;
+    private AndroidPreferences preferences;
 
     @Override
     public void setUp()
@@ -46,7 +46,7 @@ public class ReminderControllerTest extends BaseAndroidTest
 
         reminderScheduler = mock(ReminderScheduler.class);
         notificationTray = mock(NotificationTray.class);
-        preferences = mock(Preferences.class);
+        preferences = mock(AndroidPreferences.class);
 
         controller = new ReminderController(reminderScheduler,
             notificationTray, preferences);

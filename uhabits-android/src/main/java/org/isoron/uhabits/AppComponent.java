@@ -73,7 +73,7 @@ public interface AppComponent
 
     PendingIntentFactory getPendingIntentFactory();
 
-    Preferences getPreferences();
+    AndroidPreferences getPreferences();
 
     ReminderScheduler getReminderScheduler();
 

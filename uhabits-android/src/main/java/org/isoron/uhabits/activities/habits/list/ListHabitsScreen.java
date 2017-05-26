@@ -89,7 +89,7 @@ public class ListHabitsScreen extends BaseScreen
     private final ThemeSwitcher themeSwitcher;
 
     @NonNull
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     @NonNull
     private final CommandParser commandParser;
@@ -103,7 +103,7 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
                             @NonNull EditHabitDialogFactory editHabitDialogFactory,
-                            @NonNull Preferences prefs,
+                            @NonNull AndroidPreferences prefs,
                             @NonNull CommandParser commandParser)
     {
         super(activity);

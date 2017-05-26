@@ -58,13 +58,13 @@ public class HabitCardListAdapter
     private final HabitCardListCache cache;
 
     @NonNull
-    private Preferences preferences;
+    private AndroidPreferences preferences;
 
     private final MidnightTimer midnightTimer;
 
     @Inject
     public HabitCardListAdapter(@NonNull HabitCardListCache cache,
-                                @NonNull Preferences preferences,
+                                @NonNull AndroidPreferences preferences,
                                 @NonNull MidnightTimer midnightTimer)
     {
         this.preferences = preferences;

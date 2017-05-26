@@ -39,7 +39,7 @@ public class CheckmarkButtonControllerTest extends BaseAndroidTest
 
     private int timestamp;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     @Override
     @Before
@@ -49,7 +49,7 @@ public class CheckmarkButtonControllerTest extends BaseAndroidTest
 
         timestamp = 0;
         habit = mock(Habit.class);
-        prefs = mock(Preferences.class);
+        prefs = mock(AndroidPreferences.class);
 
         this.view = mock(CheckmarkButtonView.class);
         this.listener = mock(CheckmarkButtonController.Listener.class);

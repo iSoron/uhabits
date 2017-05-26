@@ -22,14 +22,17 @@ package org.isoron.uhabits.activities.habits.show;
 import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.habits.show.*;
 
 import javax.inject.*;
 
 @ActivityScope
 public class ShowHabitScreen extends BaseScreen
+    implements ShowHabitMenuBehavior.Screen, ShowHabitBehavior.Screen
 {
     @NonNull
     private final Habit habit;
@@ -44,8 +47,7 @@ public class ShowHabitScreen extends BaseScreen
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
                            @NonNull ShowHabitRootView view,
-                           @NonNull
-                               EditHabitDialogFactory editHabitDialogFactory)
+                           @NonNull EditHabitDialogFactory editHabitDialogFactory)
     {
         super(activity);
         setRootView(view);
@@ -53,37 +55,46 @@ public class ShowHabitScreen extends BaseScreen
         this.habit = habit;
     }
 
-    public void setController(@NonNull ShowHabitController controller)
-    {
-        this.controller = controller;
-    }
-
     public void reattachDialogs()
     {
-        if(controller == null) throw new IllegalStateException();
+        if (controller == null) throw new IllegalStateException();
 
         HistoryEditorDialog historyEditor = (HistoryEditorDialog) activity
             .getSupportFragmentManager()
             .findFragmentByTag("historyEditor");
 
-        if (historyEditor != null)
-            historyEditor.setController(controller);
+        if (historyEditor != null) historyEditor.setController(controller);
     }
 
-    public void showEditHabitDialog()
+    public void setController(@NonNull ShowHabitController controller)
     {
-        activity.showDialog(
-            editHabitDialogFactory.edit(habit),
-            "editHabit");
+        this.controller = controller;
     }
 
-    public void showEditHistoryDialog()
+    @Override
+    public void showEditHabitScreen(@NonNull Habit habit)
     {
-        if(controller == null) throw new IllegalStateException();
+        activity.showDialog(editHabitDialogFactory.edit(habit), "editHabit");
+    }
+
+    @Override
+    public void showEditHistoryScreen()
+    {
+        if (controller == null) throw new IllegalStateException();
 
         HistoryEditorDialog dialog = new HistoryEditorDialog();
         dialog.setHabit(habit);
         dialog.setController(controller);
         dialog.show(activity.getSupportFragmentManager(), "historyEditor");
+    }
+
+    @Override
+    public void showMessage(ShowHabitMenuBehavior.Message m)
+    {
+        switch (m)
+        {
+            case COULD_NOT_EXPORT:
+                showMessage(R.string.could_not_export);
+        }
     }
 }

@@ -109,7 +109,7 @@ public class HabitsApplication extends Application
         notificationTray = component.getNotificationTray();
         notificationTray.startListening();
 
-        Preferences prefs = component.getPreferences();
+        AndroidPreferences prefs = component.getPreferences();
         prefs.initialize();
         prefs.updateLastAppVersion();
 

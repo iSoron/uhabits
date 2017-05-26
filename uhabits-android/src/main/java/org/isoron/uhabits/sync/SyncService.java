@@ -29,11 +29,11 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.receivers.*;
 
-public class SyncService extends Service implements Preferences.Listener
+public class SyncService extends Service implements AndroidPreferences.Listener
 {
     private SyncManager syncManager;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     private ConnectivityReceiver connectivityReceiver;
 

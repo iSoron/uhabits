@@ -37,14 +37,14 @@ public class NumberButtonController
     private Listener listener;
 
     @NonNull
-    private final Preferences prefs;
+    private final AndroidPreferences prefs;
 
     @NonNull
     private Habit habit;
 
     private long timestamp;
 
-    public NumberButtonController(@Provided @NonNull Preferences prefs,
+    public NumberButtonController(@Provided @NonNull AndroidPreferences prefs,
                                   @NonNull Habit habit,
                                   long timestamp)
     {

@@ -39,14 +39,14 @@ import static org.isoron.uhabits.utils.ColorUtils.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class NumberPanelView extends LinearLayout
-    implements Preferences.Listener
+    implements AndroidPreferences.Listener
 {
     private static final int LEFT_TO_RIGHT = 0;
 
     private static final int RIGHT_TO_LEFT = 1;
 
     @Nullable
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     private double values[];
 

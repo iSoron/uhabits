@@ -51,7 +51,7 @@ public class BaseAndroidTest extends TestCase
 
     protected Context targetContext;
 
-    protected Preferences prefs;
+    protected AndroidPreferences prefs;
 
     protected HabitList habitList;
 

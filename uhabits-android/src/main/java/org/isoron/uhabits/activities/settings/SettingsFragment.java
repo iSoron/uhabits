@@ -41,7 +41,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private SharedPreferences sharedPrefs;
 
     @Nullable
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)

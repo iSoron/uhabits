@@ -33,7 +33,7 @@ import org.isoron.uhabits.utils.*;
 @AutoFactory
 public class HintList
 {
-    private final Preferences prefs;
+    private final AndroidPreferences prefs;
 
     @NonNull
     private final String[] hints;
@@ -43,7 +43,7 @@ public class HintList
      *
      * @param hints initial list of hints
      */
-    public HintList(@Provided @NonNull Preferences prefs,
+    public HintList(@Provided @NonNull AndroidPreferences prefs,
                     @NonNull String hints[])
     {
         this.prefs = prefs;

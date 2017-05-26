@@ -17,48 +17,49 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show;
+package org.isoron.uhabits.ui.habits.show;
 
 import android.support.annotation.*;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.habits.show.*;
 
-import dagger.*;
+import javax.inject.*;
 
-@Module
-public class ShowHabitModule extends ActivityModule
+public class ShowHabitBehavior
 {
-    private Habit habit;
+    @NonNull
+    private final Habit habit;
 
-    public ShowHabitModule(@NonNull BaseActivity activity, @NonNull Habit habit)
+    @NonNull
+    private final CommandRunner commandRunner;
+
+    @NonNull
+    private Screen screen;
+
+    @Inject
+    public ShowHabitBehavior(@NonNull CommandRunner commandRunner,
+                             @NonNull Habit habit,
+                             @NonNull Screen screen)
     {
-        super(activity);
         this.habit = habit;
+        this.commandRunner = commandRunner;
+        this.screen = screen;
     }
 
-    @Provides
-    public Habit getHabit()
+    public void onEditHistory()
     {
-        return habit;
+        screen.showEditHistoryScreen();
     }
 
-    @Provides
-    public ShowHabitBehavior.Screen getScreen(ShowHabitScreen screen)
+    public void onToggleCheckmark(long timestamp)
     {
-        return screen;
+        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
+            null);
     }
 
-    @Provides
-    public ShowHabitMenuBehavior.Screen getMenuScreen(ShowHabitScreen screen)
+    public interface Screen
     {
-        return screen;
-    }
-
-    @Provides
-    public ShowHabitMenuBehavior.System getSystem(BaseActivity activity)
-    {
-        return (ShowHabitActivity) activity;
+        void showEditHistoryScreen();
     }
 }

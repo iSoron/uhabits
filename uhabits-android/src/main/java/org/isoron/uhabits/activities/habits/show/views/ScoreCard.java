@@ -55,7 +55,7 @@ public class ScoreCard extends HabitCard
     private TaskRunner taskRunner;
 
     @Nullable
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     public ScoreCard(Context context)
     {

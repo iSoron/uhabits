@@ -61,7 +61,7 @@ public class WidgetReceiver extends BroadcastReceiver
 
         IntentParser parser = app.getComponent().getIntentParser();
         WidgetController controller = component.getWidgetController();
-        Preferences prefs = app.getComponent().getPreferences();
+        AndroidPreferences prefs = app.getComponent().getPreferences();
 
         if(prefs.isSyncFeatureEnabled())
             context.startService(new Intent(context, SyncService.class));

@@ -49,7 +49,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected Habit originalHabit;
 
-    protected Preferences prefs;
+    protected AndroidPreferences prefs;
 
     protected CommandRunner commandRunner;
 

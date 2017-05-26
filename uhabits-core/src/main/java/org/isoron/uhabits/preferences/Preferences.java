@@ -17,29 +17,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show;
+package org.isoron.uhabits.preferences;
 
-import android.support.annotation.*;
-
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
-
-import dagger.*;
-
-@ActivityScope
-@Component(modules = { ShowHabitModule.class },
-           dependencies = { AppComponent.class })
-public interface ShowHabitComponent
+public interface Preferences
 {
-    @NonNull
-    ShowHabitController getController();
 
-    @NonNull
-    ShowHabitsMenu getMenu();
-
-    @NonNull
-    ShowHabitRootView getRootView();
-
-    @NonNull
-    ShowHabitScreen getScreen();
+    void setDeveloper(boolean isDeveloper);
 }

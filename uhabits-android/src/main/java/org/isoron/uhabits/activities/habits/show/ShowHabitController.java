@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -21,50 +21,39 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.support.annotation.*;
 
-import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.activities.habits.show.views.*;
+import org.isoron.uhabits.ui.habits.show.*;
 
 import javax.inject.*;
 
-@ActivityScope
 public class ShowHabitController
-    implements ShowHabitRootView.Controller, HistoryEditorDialog.Controller
+    implements HistoryCard.Controller, HistoryEditorDialog.Controller
 {
-    @NonNull
-    private final ShowHabitScreen screen;
+    private ShowHabitBehavior behavior;
 
-    @NonNull
-    private final Habit habit;
-
-    @NonNull
-    private final CommandRunner commandRunner;
+    private ShowHabitScreen screen;
 
     @Inject
-    public ShowHabitController(@NonNull ShowHabitScreen screen,
-                               @NonNull CommandRunner commandRunner,
-                               @NonNull Habit habit)
+    public ShowHabitController(@NonNull ShowHabitBehavior behavior,
+                               @NonNull ShowHabitScreen screen)
     {
+        this.behavior = behavior;
         this.screen = screen;
-        this.habit = habit;
-        this.commandRunner = commandRunner;
     }
 
     @Override
     public void onEditHistoryButtonClick()
     {
-        screen.showEditHistoryDialog();
+        behavior.onEditHistory();
     }
 
     @Override
     public void onToggleCheckmark(long timestamp)
     {
-        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
-            null);
+        behavior.onToggleCheckmark(timestamp);
     }
 
-    @Override
     public void onToolbarChanged()
     {
         screen.invalidateToolbar();

@@ -21,15 +21,12 @@ package org.isoron.uhabits.activities.about;
 
 import android.content.*;
 import android.support.annotation.*;
-import android.support.v7.widget.Toolbar;
 import android.widget.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.BuildConfig;
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.about.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -48,47 +45,22 @@ public class AboutRootView extends BaseRootView
     @BindView(R.id.tvSource)
     TextView tvSource;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @NonNull
+    private final AboutBehavior behavior;
 
-    int developerCountdown = 10;
-
-    @Nullable
-    Preferences prefs;
-
-    private final IntentFactory intents;
-
-    public AboutRootView(Context context, IntentFactory intents)
+    public AboutRootView(@NonNull Context context,
+                         @NonNull AboutBehavior behavior)
     {
         super(context);
-        this.intents = intents;
+        this.behavior = behavior;
 
         addView(inflate(getContext(), R.layout.about, null));
         ButterKnife.bind(this);
 
-        tvVersion.setText(
-            String.format(getResources().getString(R.string.version_n),
-                BuildConfig.VERSION_NAME));
+        String version = getResources().getString(R.string.version_n);
+        tvVersion.setText(String.format(version, BuildConfig.VERSION_NAME));
 
-        if (context.getApplicationContext() instanceof HabitsApplication)
-        {
-            HabitsApplication app =
-                (HabitsApplication) context.getApplicationContext();
-            prefs = app.getComponent().getPreferences();
-        }
-    }
-
-    @Override
-    public boolean getDisplayHomeAsUp()
-    {
-        return true;
-    }
-
-    @NonNull
-    @Override
-    public Toolbar getToolbar()
-    {
-        return toolbar;
+        setDisplayHomeAsUp(true);
     }
 
     @Override
@@ -104,48 +76,37 @@ public class AboutRootView extends BaseRootView
     @OnClick(R.id.tvFeedback)
     public void onClickFeedback()
     {
-        Intent intent = intents.sendFeedback(getContext());
-        getContext().startActivity(intent);
+        behavior.onSendFeedback();
     }
 
     @OnClick(R.id.tvVersion)
     public void onClickIcon()
     {
-        developerCountdown--;
-        if (developerCountdown <= 0)
-        {
-            if (prefs == null) return;
-            prefs.setDeveloper(true);
-            String text = "You are now a developer";
-            Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
-        }
+        behavior.onPressDeveloperCountdown();
     }
 
     @OnClick(R.id.tvRate)
     public void onClickRate()
     {
-        Intent intent = intents.rateApp(getContext());
-        getContext().startActivity(intent);
+        behavior.onRateApp();
     }
 
     @OnClick(R.id.tvSource)
     public void onClickSource()
     {
-        Intent intent = intents.viewSourceCode(getContext());
-        getContext().startActivity(intent);
+        behavior.onViewSourceCode();
     }
 
     @OnClick(R.id.tvTranslate)
     public void onClickTranslate()
     {
-        Intent intent = intents.helpTranslate(getContext());
-        getContext().startActivity(intent);
+        behavior.onTranslateApp();
     }
 
     @Override
     protected void initToolbar()
     {
         super.initToolbar();
-        toolbar.setTitle(getResources().getString(R.string.about));
+        getToolbar().setTitle(getResources().getString(R.string.about));
     }
 }

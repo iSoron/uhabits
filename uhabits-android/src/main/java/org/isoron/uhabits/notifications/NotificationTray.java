@@ -44,7 +44,7 @@ import static org.isoron.uhabits.notifications.RingtoneManager.*;
 
 @AppScope
 public class NotificationTray
-    implements CommandRunner.Listener, Preferences.Listener
+    implements CommandRunner.Listener, AndroidPreferences.Listener
 {
     @NonNull
     private final Context context;
@@ -59,7 +59,7 @@ public class NotificationTray
     private final CommandRunner commandRunner;
 
     @NonNull
-    private final Preferences preferences;
+    private final AndroidPreferences preferences;
 
     @NonNull
     private final HashMap<Habit, NotificationData> active;
@@ -69,7 +69,7 @@ public class NotificationTray
                             @NonNull TaskRunner taskRunner,
                             @NonNull PendingIntentFactory pendingIntents,
                             @NonNull CommandRunner commandRunner,
-                            @NonNull Preferences preferences)
+                            @NonNull AndroidPreferences preferences)
     {
         this.context = context;
         this.taskRunner = taskRunner;

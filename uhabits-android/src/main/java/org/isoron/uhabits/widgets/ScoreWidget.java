@@ -39,7 +39,7 @@ public class ScoreWidget extends BaseWidget
     @NonNull
     private Habit habit;
 
-    private final Preferences prefs;
+    private final AndroidPreferences prefs;
 
     public ScoreWidget(@NonNull Context context, int id, @NonNull Habit habit)
     {

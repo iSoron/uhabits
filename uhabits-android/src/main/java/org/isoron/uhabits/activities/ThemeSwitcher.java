@@ -37,11 +37,11 @@ public class ThemeSwitcher
     @NonNull
     private final BaseActivity activity;
 
-    private Preferences preferences;
+    private AndroidPreferences preferences;
 
     @Inject
     public ThemeSwitcher(@NonNull BaseActivity activity,
-                         @NonNull Preferences preferences)
+                         @NonNull AndroidPreferences preferences)
     {
         this.activity = activity;
         this.preferences = preferences;

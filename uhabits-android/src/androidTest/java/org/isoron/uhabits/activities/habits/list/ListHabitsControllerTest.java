@@ -47,7 +47,7 @@ public class ListHabitsControllerTest extends BaseAndroidTest
 
     private ListHabitsScreen screen;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     private ReminderScheduler reminderScheduler;
 
@@ -69,7 +69,7 @@ public class ListHabitsControllerTest extends BaseAndroidTest
         commandRunner = mock(CommandRunner.class);
         adapter = mock(HabitCardListAdapter.class);
         screen = mock(ListHabitsScreen.class);
-        prefs = mock(Preferences.class);
+        prefs = mock(AndroidPreferences.class);
         reminderScheduler = mock(ReminderScheduler.class);
         taskRunner = new SingleThreadTaskRunner();
         widgetUpdater = mock(WidgetUpdater.class);

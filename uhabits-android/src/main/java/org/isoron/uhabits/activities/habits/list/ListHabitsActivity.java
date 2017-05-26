@@ -45,7 +45,7 @@ public class ListHabitsActivity extends BaseActivity
 
     private boolean pureBlack;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     private MidnightTimer midnightTimer;
 

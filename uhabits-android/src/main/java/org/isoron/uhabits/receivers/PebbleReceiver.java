@@ -53,7 +53,7 @@ public class PebbleReceiver extends PebbleDataReceiver
 
     private HabitList filteredHabits;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     public PebbleReceiver()
     {

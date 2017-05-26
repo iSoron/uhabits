@@ -72,7 +72,7 @@ public class SyncManager implements CommandRunner.Listener
     private boolean readyToEmit = false;
 
     @NonNull
-    private final Preferences prefs;
+    private final AndroidPreferences prefs;
 
     @NonNull
     private CommandRunner commandRunner;
@@ -86,7 +86,7 @@ public class SyncManager implements CommandRunner.Listener
 
     @Inject
     public SyncManager(@NonNull BaseSystem system,
-                       @NonNull Preferences prefs,
+                       @NonNull AndroidPreferences prefs,
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
     {

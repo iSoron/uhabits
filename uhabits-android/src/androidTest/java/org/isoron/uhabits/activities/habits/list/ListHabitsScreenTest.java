@@ -66,7 +66,7 @@ public class ListHabitsScreenTest extends BaseAndroidTest
 
     private ThemeSwitcher themeSwitcher;
 
-    private Preferences prefs;
+    private AndroidPreferences prefs;
 
     private CommandParser commandParser;
 
@@ -84,7 +84,7 @@ public class ListHabitsScreenTest extends BaseAndroidTest
         confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
         dialogFactory = mock(EditHabitDialogFactory.class);
-        prefs = mock(Preferences.class);
+        prefs = mock(AndroidPreferences.class);
         commandParser = mock(CommandParser.class);
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, rootView,

@@ -32,8 +32,8 @@ import java.util.*;
 import javax.inject.*;
 
 @AppScope
-public class Preferences
-    implements SharedPreferences.OnSharedPreferenceChangeListener
+public class AndroidPreferences
+    implements SharedPreferences.OnSharedPreferenceChangeListener, Preferences
 {
     private final Context context;
 
@@ -44,7 +44,7 @@ public class Preferences
     private LinkedList<Listener> listeners;
 
     @Inject
-    public Preferences(@AppContext Context context)
+    public AndroidPreferences(@AppContext Context context)
     {
         this.context = context;
         listeners = new LinkedList<>();
@@ -76,26 +76,6 @@ public class Preferences
             setDefaultOrder(HabitList.Order.BY_POSITION);
             return HabitList.Order.BY_POSITION;
         }
-    }
-
-    public String getSyncAddress()
-    {
-        return prefs.getString("pref_sync_address", "https://sync.loophabits.org:4000");
-    }
-
-    public String getSyncClientId()
-    {
-        String id = prefs.getString("pref_sync_client_id", "");
-        if(!id.isEmpty()) return id;
-
-        id = UUID.randomUUID().toString();
-        prefs.edit().putString("pref_sync_client_id", id).apply();
-        return id;
-    }
-
-    public boolean isSyncFeatureEnabled()
-    {
-        return prefs.getBoolean("pref_feature_sync", false);
     }
 
     public void setDefaultOrder(HabitList.Order order)
@@ -171,6 +151,22 @@ public class Preferences
         return Long.parseLong(prefs.getString("pref_snooze_interval", "15"));
     }
 
+    public String getSyncAddress()
+    {
+        return prefs.getString("pref_sync_address",
+            "https://sync.loophabits.org:4000");
+    }
+
+    public String getSyncClientId()
+    {
+        String id = prefs.getString("pref_sync_client_id", "");
+        if (!id.isEmpty()) return id;
+
+        id = UUID.randomUUID().toString();
+        prefs.edit().putString("pref_sync_client_id", id).apply();
+        return id;
+    }
+
     public String getSyncKey()
     {
         return prefs.getString("pref_sync_key", "");
@@ -230,6 +226,11 @@ public class Preferences
     public boolean isShortToggleEnabled()
     {
         return prefs.getBoolean("pref_short_toggle", false);
+    }
+
+    public boolean isSyncFeatureEnabled()
+    {
+        return prefs.getBoolean("pref_feature_sync", false);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class ListHabitsController
     private final HabitCardListAdapter adapter;
 
     @NonNull
-    private final Preferences prefs;
+    private final AndroidPreferences prefs;
 
     @NonNull
     private final CommandRunner commandRunner;
@@ -81,7 +81,7 @@ public class ListHabitsController
                                 @NonNull HabitList habitList,
                                 @NonNull HabitCardListAdapter adapter,
                                 @NonNull ListHabitsScreen screen,
-                                @NonNull Preferences prefs,
+                                @NonNull AndroidPreferences prefs,
                                 @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
                                 @NonNull WidgetUpdater widgetUpdater,

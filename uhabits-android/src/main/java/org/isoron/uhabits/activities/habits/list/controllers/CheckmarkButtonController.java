@@ -37,14 +37,14 @@ public class CheckmarkButtonController
     private Listener listener;
 
     @NonNull
-    private final Preferences prefs;
+    private final AndroidPreferences prefs;
 
     @NonNull
     private Habit habit;
 
     private long timestamp;
 
-    public CheckmarkButtonController(@Provided @NonNull Preferences prefs,
+    public CheckmarkButtonController(@Provided @NonNull AndroidPreferences prefs,
                                      @NonNull Habit habit,
                                      long timestamp)
     {
