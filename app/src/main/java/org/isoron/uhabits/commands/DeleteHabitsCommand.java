@@ -55,7 +55,11 @@ public class DeleteHabitsCommand extends Command
     @Override
     public Integer getExecuteStringId()
     {
-        return R.string.toast_habit_deleted;
+        if(this.habits.size() == 1){
+            return R.string.toast_habit_deleted;
+        }
+
+        return R.string.toast_habits_deleted;
     }
 
     public List<Habit> getSelected()
@@ -66,7 +70,11 @@ public class DeleteHabitsCommand extends Command
     @Override
     public Integer getUndoStringId()
     {
-        return R.string.toast_habit_restored;
+        if(this.habits.size() == 1){
+            return R.string.toast_habit_restored;
+        }
+
+        return R.string.toast_habits_restored;
     }
 
     @Override

@@ -53,13 +53,21 @@ public class ArchiveHabitsCommand extends Command
     @Override
     public Integer getExecuteStringId()
     {
-        return R.string.toast_habit_archived;
+        if(selectedHabits.size() == 1){
+            return R.string.toast_habit_archived;
+        }
+
+        return R.string.toast_habits_archived;
     }
 
     @Override
     public Integer getUndoStringId()
     {
-        return R.string.toast_habit_unarchived;
+        if(selectedHabits.size() == 1){
+            return R.string.toast_habit_unarchived;
+        }
+
+        return R.string.toast_habits_unarchived;
     }
 
     @Override
