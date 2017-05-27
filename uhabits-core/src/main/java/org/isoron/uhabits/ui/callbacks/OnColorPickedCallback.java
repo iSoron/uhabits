@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,7 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Provides models that are specific for {@link org.isoron.uhabits.activities.habits.list.ListHabitsActivity}.
- */
-package org.isoron.uhabits.activities.habits.list.model;
+package org.isoron.uhabits.ui.callbacks;
+
+public interface OnColorPickedCallback
+{
+    void onColorPicked(int color);
+}

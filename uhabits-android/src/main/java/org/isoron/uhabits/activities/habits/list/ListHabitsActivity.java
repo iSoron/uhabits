@@ -24,10 +24,10 @@ import android.os.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.utils.*;
 
 /**
@@ -81,6 +81,7 @@ public class ListHabitsActivity extends BaseActivity
 
         screen.setMenu(menu);
         screen.setController(controller);
+        screen.setListController(component.getListController());
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 

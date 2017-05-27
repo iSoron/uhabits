@@ -29,7 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.habits.list.model.HintList;
+import org.isoron.uhabits.ui.screens.habits.list.HintList;
 
 import java.util.Random;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,18 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.receivers;
+package org.isoron.uhabits.ui.widgets;
 
 import android.support.annotation.*;
 
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.ui.*;
 
 import javax.inject.*;
 
-@ReceiverScope
-public class WidgetController
+public class WidgetBehavior
 {
     @NonNull
     private final CommandRunner commandRunner;
@@ -36,8 +35,8 @@ public class WidgetController
     private NotificationTray notificationTray;
 
     @Inject
-    public WidgetController(@NonNull CommandRunner commandRunner,
-                            @NonNull NotificationTray notificationTray)
+    public WidgetBehavior(@NonNull CommandRunner commandRunner,
+                          @NonNull NotificationTray notificationTray)
     {
         this.commandRunner = commandRunner;
         this.notificationTray = notificationTray;

@@ -21,6 +21,9 @@ package org.isoron.androidbase.activities;
 
 import android.content.*;
 
+import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.ui.*;
+
 import dagger.*;
 
 @Module
@@ -44,5 +47,12 @@ public class ActivityModule
     public Context getContext()
     {
         return activity;
+    }
+
+    @Provides
+    @ActivityScope
+    public static ThemeSwitcher getThemeSwitcher(AndroidThemeSwitcher t)
+    {
+        return t;
     }
 }

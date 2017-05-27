@@ -17,30 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui;
 
-import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.models.*;
 
-import dagger.*;
-
-@Module
-public class HabitsModule
+public interface NotificationTray
 {
-    @Provides
-    @AppScope
-    public static Preferences getPreferences(AndroidPreferences preferences)
-    {
-        return preferences;
-    }
-
-
-    @Provides
-    @AppScope
-    public static NotificationTray getTray(AndroidNotificationTray tray)
-    {
-        return tray;
-    }
+    void cancel(Habit habit);
 }
-

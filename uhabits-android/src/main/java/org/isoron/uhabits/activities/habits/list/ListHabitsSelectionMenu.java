@@ -24,12 +24,10 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-
-import java.util.*;
+import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 
 import javax.inject.*;
 
@@ -43,25 +41,24 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @NonNull
     CommandRunner commandRunner;
 
+    private ListHabitsSelectionMenuBehavior behavior;
+
     @NonNull
     private final HabitCardListAdapter listAdapter;
 
     @Nullable
     private HabitCardListController listController;
 
-    @NonNull
-    private final HabitList habitList;
-
     @Inject
-    public ListHabitsSelectionMenu(@NonNull HabitList habitList,
-                                   @NonNull ListHabitsScreen screen,
+    public ListHabitsSelectionMenu(@NonNull ListHabitsScreen screen,
                                    @NonNull HabitCardListAdapter listAdapter,
-                                   @NonNull CommandRunner commandRunner)
+                                   @NonNull CommandRunner commandRunner,
+                                   @NonNull ListHabitsSelectionMenuBehavior behavior)
     {
-        this.habitList = habitList;
         this.screen = screen;
         this.listAdapter = listAdapter;
         this.commandRunner = commandRunner;
+        this.behavior = behavior;
     }
 
     @Override
@@ -74,34 +71,26 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Override
     public boolean onItemClicked(@NonNull MenuItem item)
     {
-        List<Habit> selected = listAdapter.getSelected();
-        if (selected.isEmpty()) return false;
-
-        Habit firstHabit = selected.get(0);
-
         switch (item.getItemId())
         {
             case R.id.action_edit_habit:
-                showEditScreen(firstHabit);
-                finish();
+                behavior.onEditHabits();
                 return true;
 
             case R.id.action_archive_habit:
-                performArchive(selected);
-                finish();
+                behavior.onArchiveHabits();
                 return true;
 
             case R.id.action_unarchive_habit:
-                performUnarchive(selected);
-                finish();
+                behavior.onUnarchiveHabits();
                 return true;
 
             case R.id.action_delete:
-                performDelete(selected);
+                behavior.onDeleteHabits();
                 return true;
 
             case R.id.action_color:
-                showColorPicker(selected, firstHabit);
+                behavior.onChangeColor();
                 return true;
 
             default:
@@ -112,28 +101,16 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     @Override
     public boolean onPrepare(@NonNull Menu menu)
     {
-        List<Habit> selected = listAdapter.getSelected();
-
-        boolean showEdit = (selected.size() == 1);
-        boolean showArchive = true;
-        boolean showUnarchive = true;
-        for (Habit h : selected)
-        {
-            if (h.isArchived()) showArchive = false;
-            else showUnarchive = false;
-        }
-
         MenuItem itemEdit = menu.findItem(R.id.action_edit_habit);
         MenuItem itemColor = menu.findItem(R.id.action_color);
         MenuItem itemArchive = menu.findItem(R.id.action_archive_habit);
         MenuItem itemUnarchive = menu.findItem(R.id.action_unarchive_habit);
 
         itemColor.setVisible(true);
-        itemEdit.setVisible(showEdit);
-        itemArchive.setVisible(showArchive);
-        itemUnarchive.setVisible(showUnarchive);
-
-        setTitle(Integer.toString(selected.size()));
+        itemEdit.setVisible(behavior.canEdit());
+        itemArchive.setVisible(behavior.canArchive());
+        itemUnarchive.setVisible(behavior.canUnarchive());
+        setTitle(Integer.toString(listAdapter.getSelected().size()));
 
         return true;
     }
@@ -165,42 +142,5 @@ public class ListHabitsSelectionMenu extends BaseSelectionMenu
     protected int getResourceId()
     {
         return R.menu.list_habits_selection;
-    }
-
-    private void performArchive(@NonNull List<Habit> selected)
-    {
-        commandRunner.execute(new ArchiveHabitsCommand(habitList, selected),
-            null);
-    }
-
-    private void performDelete(@NonNull List<Habit> selected)
-    {
-        screen.showDeleteConfirmationScreen(() -> {
-            listAdapter.performRemove(selected);
-            commandRunner.execute(new DeleteHabitsCommand(habitList, selected),
-                null);
-            finish();
-        });
-    }
-
-    private void performUnarchive(@NonNull List<Habit> selected)
-    {
-        commandRunner.execute(new UnarchiveHabitsCommand(habitList, selected),
-            null);
-    }
-
-    private void showColorPicker(@NonNull List<Habit> selected,
-                                 @NonNull Habit firstHabit)
-    {
-        screen.showColorPicker(firstHabit, color -> {
-            commandRunner.execute(
-                new ChangeHabitColorCommand(habitList, selected, color), null);
-            finish();
-        });
-    }
-
-    private void showEditScreen(@NonNull Habit firstHabit)
-    {
-        screen.showEditHabitScreen(firstHabit);
     }
 }

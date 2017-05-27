@@ -20,8 +20,8 @@
 package org.isoron.uhabits.activities.habits.list.controllers;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.junit.*;
 

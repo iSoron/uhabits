@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -35,13 +35,13 @@ public class ReminderController
     private final ReminderScheduler reminderScheduler;
 
     @NonNull
-    private final NotificationTray notificationTray;
+    private final AndroidNotificationTray notificationTray;
 
     private AndroidPreferences preferences;
 
     @Inject
     public ReminderController(@NonNull ReminderScheduler reminderScheduler,
-                              @NonNull NotificationTray notificationTray,
+                              @NonNull AndroidNotificationTray notificationTray,
                               @NonNull AndroidPreferences preferences)
     {
         this.reminderScheduler = reminderScheduler;

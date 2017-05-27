@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.list;
+package org.isoron.uhabits.ui.screens.habits.list;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
@@ -30,7 +30,7 @@ import org.mockito.junit.*;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.*;
-import static org.isoron.uhabits.ui.habits.list.ListHabitsBehavior.Message.*;
+import static org.isoron.uhabits.ui.screens.habits.list.ListHabitsBehavior.Message.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

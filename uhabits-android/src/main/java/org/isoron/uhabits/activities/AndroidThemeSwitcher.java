@@ -17,52 +17,47 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show;
+package org.isoron.uhabits.activities;
 
 import android.support.annotation.*;
-import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.ui.screens.habits.show.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.*;
 
 import javax.inject.*;
 
 @ActivityScope
-public class ShowHabitsMenu extends BaseMenu
+public class AndroidThemeSwitcher extends ThemeSwitcher
 {
     @NonNull
-    ShowHabitMenuBehavior behavior;
+    private final BaseActivity activity;
 
     @Inject
-    public ShowHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull ShowHabitMenuBehavior behavior)
+    public AndroidThemeSwitcher(@NonNull BaseActivity activity,
+                                @NonNull Preferences preferences)
     {
-        super(activity);
-        this.behavior = behavior;
+        super(preferences);
+        this.activity = activity;
     }
 
     @Override
-    public boolean onItemSelected(@NonNull MenuItem item)
+    public void applyDarkTheme()
     {
-        switch (item.getItemId())
-        {
-            case R.id.action_edit_habit:
-                behavior.onEditHabit();
-                return true;
-
-            case R.id.export:
-                behavior.onExportCSV();
-                return true;
-
-            default:
-                return false;
-        }
+        activity.setTheme(R.style.AppBaseThemeDark);
     }
 
     @Override
-    protected int getMenuResourceId()
+    public void applyLightTheme()
     {
-        return R.menu.show_habit;
+        activity.setTheme(R.style.AppBaseTheme);
+    }
+
+    @Override
+    public void applyPureBlackTheme()
+    {
+        activity.setTheme(R.style.AppBaseThemeDark_PureBlack);
+
     }
 }

@@ -23,7 +23,7 @@ import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.junit.*;
 import org.junit.runner.*;
 

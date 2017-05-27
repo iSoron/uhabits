@@ -33,6 +33,7 @@ import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -43,8 +44,9 @@ import static android.graphics.BitmapFactory.*;
 import static org.isoron.uhabits.notifications.RingtoneManager.*;
 
 @AppScope
-public class NotificationTray
-    implements CommandRunner.Listener, AndroidPreferences.Listener
+public class AndroidNotificationTray
+    implements CommandRunner.Listener, AndroidPreferences.Listener,
+               NotificationTray
 {
     @NonNull
     private final Context context;
@@ -65,11 +67,11 @@ public class NotificationTray
     private final HashMap<Habit, NotificationData> active;
 
     @Inject
-    public NotificationTray(@AppContext @NonNull Context context,
-                            @NonNull TaskRunner taskRunner,
-                            @NonNull PendingIntentFactory pendingIntents,
-                            @NonNull CommandRunner commandRunner,
-                            @NonNull AndroidPreferences preferences)
+    public AndroidNotificationTray(@AppContext @NonNull Context context,
+                                   @NonNull TaskRunner taskRunner,
+                                   @NonNull PendingIntentFactory pendingIntents,
+                                   @NonNull CommandRunner commandRunner,
+                                   @NonNull AndroidPreferences preferences)
     {
         this.context = context;
         this.taskRunner = taskRunner;
@@ -79,6 +81,7 @@ public class NotificationTray
         this.active = new HashMap<>();
     }
 
+    @Override
     public void cancel(@NonNull Habit habit)
     {
         int notificationId = getNotificationId(habit);

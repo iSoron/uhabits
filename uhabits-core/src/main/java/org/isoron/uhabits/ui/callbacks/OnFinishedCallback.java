@@ -17,30 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.ui.callbacks;
 
-import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.*;
-
-import dagger.*;
-
-@Module
-public class HabitsModule
+public interface OnFinishedCallback
 {
-    @Provides
-    @AppScope
-    public static Preferences getPreferences(AndroidPreferences preferences)
-    {
-        return preferences;
-    }
-
-
-    @Provides
-    @AppScope
-    public static NotificationTray getTray(AndroidNotificationTray tray)
-    {
-        return tray;
-    }
+    void onFinish();
 }
-

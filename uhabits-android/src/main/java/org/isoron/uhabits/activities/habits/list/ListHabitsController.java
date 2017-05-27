@@ -28,7 +28,7 @@ import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.tasks.android.*;
-import org.isoron.uhabits.ui.habits.list.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 
 import java.io.*;
 

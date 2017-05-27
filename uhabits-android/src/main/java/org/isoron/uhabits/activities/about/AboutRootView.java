@@ -26,7 +26,7 @@ import android.widget.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ui.about.*;
+import org.isoron.uhabits.ui.screens.about.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -35,15 +35,6 @@ public class AboutRootView extends BaseRootView
 {
     @BindView(R.id.tvVersion)
     TextView tvVersion;
-
-    @BindView(R.id.tvRate)
-    TextView tvRate;
-
-    @BindView(R.id.tvFeedback)
-    TextView tvFeedback;
-
-    @BindView(R.id.tvSource)
-    TextView tvSource;
 
     @NonNull
     private final AboutBehavior behavior;

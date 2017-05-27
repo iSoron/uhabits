@@ -25,6 +25,7 @@ import android.os.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.receivers.*;
+import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 
 import dagger.*;
@@ -63,7 +64,7 @@ public class FireSettingReceiver extends BroadcastReceiver
         if (args == null) return;
 
         long timestamp = DateUtils.getStartOfToday();
-        WidgetController controller = component.getWidgetController();
+        WidgetBehavior controller = component.getWidgetController();
 
         switch (args.action)
         {
@@ -102,7 +103,7 @@ public class FireSettingReceiver extends BroadcastReceiver
     @Component(dependencies = HabitsComponent.class)
     interface ReceiverComponent
     {
-        WidgetController getWidgetController();
+        WidgetBehavior getWidgetController();
     }
 
     private class Arguments

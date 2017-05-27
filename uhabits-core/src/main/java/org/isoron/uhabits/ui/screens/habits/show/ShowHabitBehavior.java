@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.show;
+package org.isoron.uhabits.ui.screens.habits.show;
 
 import android.support.annotation.*;
 

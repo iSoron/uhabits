@@ -22,7 +22,8 @@ package org.isoron.uhabits.activities.habits.list;
 
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.ui.habits.list.*;
+import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 
 import dagger.*;
 
@@ -35,7 +36,32 @@ public class ListHabitsModule extends ActivityModule
     }
 
     @Provides
+    ListHabitsMenuBehavior.Adapter getAdapter(HabitCardListAdapter adapter)
+    {
+        return adapter;
+    }
+
+    @Provides
+    ListHabitsMenuBehavior.Screen getMenuScreen(ListHabitsScreen screen)
+    {
+        return screen;
+    }
+
+    @Provides
     ListHabitsBehavior.Screen getScreen(ListHabitsScreen screen)
+    {
+        return screen;
+    }
+
+    @Provides
+    ListHabitsSelectionMenuBehavior.Adapter getSelMenuAdapter(
+        HabitCardListAdapter adapter)
+    {
+        return adapter;
+    }
+
+    @Provides
+    ListHabitsSelectionMenuBehavior.Screen getSelMenuScreen(ListHabitsScreen screen)
     {
         return screen;
     }

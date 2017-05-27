@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.list.model;
+package org.isoron.uhabits.ui.screens.habits.list;
 
 import android.support.annotation.*;
 
@@ -33,7 +33,7 @@ import org.isoron.uhabits.utils.*;
 @AutoFactory
 public class HintList
 {
-    private final AndroidPreferences prefs;
+    private final Preferences prefs;
 
     @NonNull
     private final String[] hints;
@@ -43,7 +43,7 @@ public class HintList
      *
      * @param hints initial list of hints
      */
-    public HintList(@Provided @NonNull AndroidPreferences prefs,
+    public HintList(@Provided @NonNull Preferences prefs,
                     @NonNull String hints[])
     {
         this.prefs = prefs;

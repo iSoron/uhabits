@@ -31,19 +31,21 @@ import android.widget.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
+import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.habits.list.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.callbacks.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 import java.lang.reflect.*;
+import java.util.*;
 
 import javax.inject.*;
 
@@ -52,7 +54,9 @@ import static android.view.inputmethod.EditorInfo.*;
 
 @ActivityScope
 public class ListHabitsScreen extends BaseScreen
-    implements CommandRunner.Listener, ListHabitsBehavior.Screen
+    implements CommandRunner.Listener, ListHabitsBehavior.Screen,
+               ListHabitsMenuBehavior.Screen,
+               ListHabitsSelectionMenuBehavior.Screen
 {
     public static final int REQUEST_OPEN_DOCUMENT = 6;
 
@@ -92,8 +96,10 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private AndroidPreferences prefs;
 
-    @NonNull
-    private final CommandParser commandParser;
+    @Nullable
+    private HabitCardListController listController;
+
+    private final ListHabitsRootView rootView;
 
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
@@ -101,18 +107,14 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
-                            @NonNull
-                                ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull
-                                ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull
-                                EditHabitDialogFactory editHabitDialogFactory,
-                            @NonNull AndroidPreferences prefs,
-                            @NonNull CommandParser commandParser)
+                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                            @NonNull ColorPickerDialogFactory colorPickerFactory,
+                            @NonNull EditHabitDialogFactory editHabitDialogFactory,
+                            @NonNull AndroidPreferences prefs)
     {
         super(activity);
-        this.commandParser = commandParser;
         setRootView(rootView);
+        this.rootView = rootView;
         this.prefs = prefs;
         this.colorPickerFactory = colorPickerFactory;
         this.commandRunner = commandRunner;
@@ -120,6 +122,35 @@ public class ListHabitsScreen extends BaseScreen
         this.editHabitDialogFactory = editHabitDialogFactory;
         this.intentFactory = intentFactory;
         this.themeSwitcher = themeSwitcher;
+    }
+
+    public void setListController(HabitCardListController listController)
+    {
+        this.listController = listController;
+    }
+
+    @StringRes
+    private Integer getExecuteString(@NonNull Command command)
+    {
+        if(command instanceof ArchiveHabitsCommand)
+            return R.string.toast_habit_archived;
+
+        if(command instanceof ChangeHabitColorCommand)
+            return R.string.toast_habit_changed;
+
+        if(command instanceof CreateHabitCommand)
+            return R.string.toast_habit_created;
+
+        if(command instanceof DeleteHabitsCommand)
+            return R.string.toast_habit_deleted;
+
+        if(command instanceof EditHabitCommand)
+            return R.string.toast_habit_changed;
+
+        if(command instanceof UnarchiveHabitsCommand)
+            return R.string.toast_habit_unarchived;
+
+        return null;
     }
 
     public void onAttached()
@@ -132,7 +163,7 @@ public class ListHabitsScreen extends BaseScreen
                                   @Nullable Long refreshKey)
     {
         if (command.isRemote()) return;
-        showMessage(commandParser.getExecuteString(command));
+        showMessage(getExecuteString(command));
     }
 
     public void onDettached()
@@ -154,24 +185,24 @@ public class ListHabitsScreen extends BaseScreen
         this.controller = controller;
     }
 
+    @Override
+    public void applyTheme()
+    {
+        themeSwitcher.apply();
+        activity.restartWithFade(ListHabitsActivity.class);
+    }
+
+    @Override
     public void showAboutScreen()
     {
         Intent intent = intentFactory.startAboutActivity(activity);
         activity.startActivity(intent);
     }
 
-    /**
-     * Displays a {@link ColorPickerDialog} to the user.
-     * <p>
-     * The selected color on the dialog is the color of the given habit.
-     *
-     * @param habit    the habit
-     * @param callback
-     */
-    public void showColorPicker(@NonNull Habit habit,
-                                @NonNull OnColorSelectedListener callback)
-    {
-        ColorPickerDialog picker = colorPickerFactory.create(habit.getColor());
+    @Override
+    public void showColorPicker(int defaultColor,
+                                @NonNull OnColorPickedCallback callback) {
+        ColorPickerDialog picker = colorPickerFactory.create(defaultColor);
         picker.setListener(callback);
         activity.showDialog(picker, "picker");
     }
@@ -183,6 +214,7 @@ public class ListHabitsScreen extends BaseScreen
         activity.showDialog(dialog, "editHabit");
     }
 
+    @Override
     public void showCreateHabitScreen()
     {
         if (!prefs.isNumericalHabitsFeatureEnabled())
@@ -203,18 +235,22 @@ public class ListHabitsScreen extends BaseScreen
         dialog.show();
     }
 
-    public void showDeleteConfirmationScreen(ConfirmDeleteDialog.Callback callback)
+    @Override
+    public void showDeleteConfirmationScreen(
+        @NonNull OnConfirmedCallback callback)
     {
         activity.showDialog(confirmDeleteDialogFactory.create(callback));
     }
 
-    public void showEditHabitScreen(Habit habit)
+    @Override
+    public void showEditHabitsScreen(List<Habit> habits)
     {
         EditHabitDialog dialog;
-        dialog = editHabitDialogFactory.edit(habit);
+        dialog = editHabitDialogFactory.edit(habits.get(0));
         activity.showDialog(dialog, "editNumericalHabit");
     }
 
+    @Override
     public void showFAQScreen()
     {
         Intent intent = intentFactory.viewFAQ(activity);
@@ -275,7 +311,8 @@ public class ListHabitsScreen extends BaseScreen
     @Override
     public void showNumberPicker(double value,
                                  @NonNull String unit,
-                                 @NonNull ListHabitsBehavior.NumberPickerCallback callback)
+                                 @NonNull
+                                     ListHabitsBehavior.NumberPickerCallback callback)
     {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.number_picker_dialog, null);
@@ -332,16 +369,11 @@ public class ListHabitsScreen extends BaseScreen
         showSendEmailScreen(to, subject, log);
     }
 
+    @Override
     public void showSettingsScreen()
     {
         Intent intent = intentFactory.startSettingsActivity(activity);
         activity.startActivityForResult(intent, REQUEST_SETTINGS);
-    }
-
-    public void toggleNightMode()
-    {
-        themeSwitcher.toggleNightMode();
-        activity.restartWithFade(ListHabitsActivity.class);
     }
 
     private void onOpenDocumentResult(int resultCode, Intent data)

@@ -26,6 +26,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
+import org.isoron.uhabits.ui.widgets.*;
 
 import dagger.*;
 
@@ -60,7 +61,7 @@ public class WidgetReceiver extends BroadcastReceiver
             .build();
 
         IntentParser parser = app.getComponent().getIntentParser();
-        WidgetController controller = component.getWidgetController();
+        WidgetBehavior controller = component.getWidgetController();
         AndroidPreferences prefs = app.getComponent().getPreferences();
 
         if(prefs.isSyncFeatureEnabled())
@@ -96,6 +97,6 @@ public class WidgetReceiver extends BroadcastReceiver
     @Component(dependencies = HabitsComponent.class)
     interface WidgetComponent
     {
-        WidgetController getWidgetController();
+        WidgetBehavior getWidgetController();
     }
 }

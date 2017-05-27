@@ -24,7 +24,6 @@ import android.content.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
@@ -32,6 +31,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.*;
@@ -89,7 +89,7 @@ public class ListHabitsScreenTest extends BaseAndroidTest
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, rootView,
             intentFactory, themeSwitcher, confirmDeleteDialogFactory,
-            colorPickerDialogFactory, dialogFactory, prefs, commandParser));
+            colorPickerDialogFactory, dialogFactory, prefs));
 
         doNothing().when(screen).showMessage(anyInt());
 
@@ -122,7 +122,7 @@ public class ListHabitsScreenTest extends BaseAndroidTest
     public void testOnCommand()
     {
         Command c = mock(Command.class);
-        when(commandParser.getExecuteString(c)).thenReturn(
+        when(getExecuteString(c)).thenReturn(
             R.string.toast_habit_deleted);
         screen.onCommandExecuted(c, null);
         verify(screen).showMessage(R.string.toast_habit_deleted);
@@ -251,10 +251,9 @@ public class ListHabitsScreenTest extends BaseAndroidTest
     }
 
     @Test
-    public void testToggleNightMode()
+    public void testApplyTheme()
     {
-        screen.toggleNightMode();
-        verify(themeSwitcher).toggleNightMode();
+        screen.applyTheme();
         verify(activity).restartWithFade(ListHabitsActivity.class);
     }
 }

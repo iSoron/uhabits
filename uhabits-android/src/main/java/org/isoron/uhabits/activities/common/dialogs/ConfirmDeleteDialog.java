@@ -20,12 +20,14 @@
 package org.isoron.uhabits.activities.common.dialogs;
 
 import android.content.*;
+import android.support.annotation.*;
 import android.support.v7.app.*;
 
 import com.google.auto.factory.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.ui.callbacks.*;
 
 import butterknife.*;
 
@@ -45,19 +47,14 @@ public class ConfirmDeleteDialog extends AlertDialog
     protected String no;
 
     protected ConfirmDeleteDialog(@Provided @ActivityContext Context context,
-                                  Callback callback)
+                                  @NonNull OnConfirmedCallback callback)
     {
         super(context);
         ButterKnife.bind(this);
 
         setTitle(R.string.delete_habits);
         setMessage(question);
-        setButton(BUTTON_POSITIVE, yes, (dialog, which) -> callback.run());
+        setButton(BUTTON_POSITIVE, yes, (dialog, which) -> callback.onConfirmed());
         setButton(BUTTON_NEGATIVE, no, (dialog, which) -> {});
-    }
-
-    public interface Callback
-    {
-        void run();
     }
 }

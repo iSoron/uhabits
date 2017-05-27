@@ -24,58 +24,44 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 
 import javax.inject.*;
 
 @ActivityScope
 public class ListHabitsMenu extends BaseMenu
 {
+
     @NonNull
-    private final ListHabitsScreen screen;
+    private final ListHabitsMenuBehavior behavior;
 
-    private final HabitCardListAdapter adapter;
-
-    private boolean showArchived;
-
-    private boolean showCompleted;
-
-    private final AndroidPreferences preferences;
+    private final Preferences preferences;
 
     private ThemeSwitcher themeSwitcher;
 
     @Inject
     public ListHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull ListHabitsScreen screen,
-                          @NonNull HabitCardListAdapter adapter,
-                          @NonNull AndroidPreferences preferences,
-                          @NonNull ThemeSwitcher themeSwitcher)
+                          @NonNull Preferences preferences,
+                          @NonNull ThemeSwitcher themeSwitcher,
+                          @NonNull ListHabitsMenuBehavior behavior)
     {
         super(activity);
-        this.screen = screen;
-        this.adapter = adapter;
         this.preferences = preferences;
         this.themeSwitcher = themeSwitcher;
-
-        showCompleted = preferences.getShowCompleted();
-        showArchived = preferences.getShowArchived();
-        updateAdapterFilter();
+        this.behavior = behavior;
     }
 
     @Override
     public void onCreate(@NonNull Menu menu)
     {
         MenuItem nightModeItem = menu.findItem(R.id.actionToggleNightMode);
-        nightModeItem.setChecked(themeSwitcher.isNightMode());
-
         MenuItem hideArchivedItem = menu.findItem(R.id.actionHideArchived);
-        hideArchivedItem.setChecked(!showArchived);
-
         MenuItem hideCompletedItem = menu.findItem(R.id.actionHideCompleted);
-        hideCompletedItem.setChecked(!showCompleted);
+        nightModeItem.setChecked(themeSwitcher.isNightMode());
+        hideArchivedItem.setChecked(!preferences.getShowArchived());
+        hideCompletedItem.setChecked(!preferences.getShowCompleted());
     }
 
     @Override
@@ -84,49 +70,49 @@ public class ListHabitsMenu extends BaseMenu
         switch (item.getItemId())
         {
             case R.id.actionToggleNightMode:
-                screen.toggleNightMode();
+                behavior.onToggleNightMode();
                 return true;
 
             case R.id.actionAdd:
-                screen.showCreateHabitScreen();
+                behavior.onCreateHabit();
                 return true;
 
             case R.id.actionFAQ:
-                screen.showFAQScreen();
+                behavior.onViewFAQ();
                 return true;
 
             case R.id.actionAbout:
-                screen.showAboutScreen();
+                behavior.onViewAbout();
                 return true;
 
             case R.id.actionSettings:
-                screen.showSettingsScreen();
+                behavior.onViewSettings();
                 return true;
 
             case R.id.actionHideArchived:
-                toggleShowArchived();
+                behavior.onToggleShowArchived();
                 invalidate();
                 return true;
 
             case R.id.actionHideCompleted:
-                toggleShowCompleted();
+                behavior.onToggleShowCompleted();
                 invalidate();
                 return true;
 
             case R.id.actionSortColor:
-                adapter.setOrder(HabitList.Order.BY_COLOR);
+                behavior.onSortByColor();
                 return true;
 
             case R.id.actionSortManual:
-                adapter.setOrder(HabitList.Order.BY_POSITION);
+                behavior.onSortByManually();
                 return true;
 
             case R.id.actionSortName:
-                adapter.setOrder(HabitList.Order.BY_NAME);
+                behavior.onSortByName();
                 return true;
 
             case R.id.actionSortScore:
-                adapter.setOrder(HabitList.Order.BY_SCORE);
+                behavior.onSortByScore();
                 return true;
 
             default:
@@ -140,26 +126,4 @@ public class ListHabitsMenu extends BaseMenu
         return R.menu.list_habits;
     }
 
-    private void toggleShowArchived()
-    {
-        showArchived = !showArchived;
-        preferences.setShowArchived(showArchived);
-        updateAdapterFilter();
-    }
-
-    private void toggleShowCompleted()
-    {
-        showCompleted = !showCompleted;
-        preferences.setShowCompleted(showCompleted);
-        updateAdapterFilter();
-    }
-
-    private void updateAdapterFilter()
-    {
-        adapter.setFilter(new HabitMatcherBuilder()
-            .setArchivedAllowed(showArchived)
-            .setCompletedAllowed(showCompleted)
-            .build());
-        adapter.refresh();
-    }
 }

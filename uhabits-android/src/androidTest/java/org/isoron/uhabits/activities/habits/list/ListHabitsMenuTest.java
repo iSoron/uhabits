@@ -23,10 +23,10 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.*;
 import org.junit.*;
 import org.mockito.*;
 
@@ -63,7 +63,7 @@ public class ListHabitsMenuTest extends BaseAndroidTest
         when(preferences.getShowCompleted()).thenReturn(false);
         when(themeSwitcher.isNightMode()).thenReturn(false);
 
-        menu = new ListHabitsMenu(activity, screen, adapter, preferences,
+        menu = new ListHabitsMenu(activity, preferences,
             themeSwitcher);
 
         matcherCaptor = ArgumentCaptor.forClass(HabitMatcher.class);

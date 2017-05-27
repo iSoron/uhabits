@@ -23,6 +23,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.ui.widgets.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -33,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 public class WidgetControllerTest extends BaseAndroidTest
 {
-    private WidgetController controller;
+    private WidgetBehavior controller;
 
     private CommandRunner commandRunner;
 
@@ -41,7 +42,7 @@ public class WidgetControllerTest extends BaseAndroidTest
 
     private long today;
 
-    private NotificationTray notificationTray;
+    private AndroidNotificationTray notificationTray;
 
     @Override
     public void setUp()
@@ -52,8 +53,8 @@ public class WidgetControllerTest extends BaseAndroidTest
         habit = fixtures.createEmptyHabit();
         habitList.add(habit);
         commandRunner = mock(CommandRunner.class);
-        notificationTray = mock(NotificationTray.class);
-        controller = new WidgetController(commandRunner, notificationTray);
+        notificationTray = mock(AndroidNotificationTray.class);
+        controller = new WidgetBehavior(commandRunner, notificationTray);
     }
 
     @Test

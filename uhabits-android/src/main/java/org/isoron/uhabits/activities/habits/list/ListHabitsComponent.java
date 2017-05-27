@@ -37,6 +37,8 @@ public interface ListHabitsComponent
 
     ListHabitsController getController();
 
+    HabitCardListController getListController();
+
     ListHabitsMenu getMenu();
 
     NumberButtonControllerFactory getNumberButtonControllerFactory();

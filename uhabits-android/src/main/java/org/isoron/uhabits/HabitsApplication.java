@@ -47,7 +47,7 @@ public class HabitsApplication extends Application
 
     private ReminderScheduler reminderScheduler;
 
-    private NotificationTray notificationTray;
+    private AndroidNotificationTray notificationTray;
 
     public HabitsComponent getComponent()
     {
@@ -106,7 +106,7 @@ public class HabitsApplication extends Application
         reminderScheduler = component.getReminderScheduler();
         reminderScheduler.startListening();
 
-        notificationTray = component.getNotificationTray();
+        notificationTray = component.getAndroidNotificationTray();
         notificationTray.startListening();
 
         AndroidPreferences prefs = component.getPreferences();

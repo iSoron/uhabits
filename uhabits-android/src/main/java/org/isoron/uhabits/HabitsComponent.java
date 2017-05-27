@@ -22,7 +22,6 @@ package org.isoron.uhabits;
 import android.content.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
@@ -33,6 +32,8 @@ import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.tasks.android.*;
+import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -47,14 +48,14 @@ import dagger.*;
 })
 public interface HabitsComponent
 {
-    AndroidPreferences getPreferences();
-
     BaseSystem getBaseSystem();
 
     CommandRunner getCommandRunner();
 
     @AppContext
     Context getContext();
+
+    Preferences getCorePreferences();
 
     CreateHabitCommandFactory getCreateHabitCommandFactory();
 
@@ -80,7 +81,9 @@ public interface HabitsComponent
 
     PendingIntentFactory getPendingIntentFactory();
 
-    Preferences getCorePreferences();
+    AndroidPreferences getPreferences();
+
+    AndroidNotificationTray getAndroidNotificationTray();
 
     ReminderScheduler getReminderScheduler();
 

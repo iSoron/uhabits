@@ -33,6 +33,7 @@ import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
@@ -134,7 +135,8 @@ public class ListHabitsRootView extends BaseRootView
         listController.setSelectionListener(menu);
         listView.setController(listController);
         menu.setListController(listController);
-        header.setScrollController(new ScrollableChart.ScrollController() {
+        header.setScrollController(new ScrollableChart.ScrollController()
+        {
             @Override
             public void onDataOffsetChanged(int newDataOffset)
             {
@@ -187,7 +189,8 @@ public class ListHabitsRootView extends BaseRootView
 
     private void updateProgressBar()
     {
-        postDelayed(() -> {
+        postDelayed(() ->
+        {
             int activeTaskCount = runner.getActiveTaskCount();
             int newVisibility = activeTaskCount > 0 ? VISIBLE : GONE;
             if (progressBar.getVisibility() != newVisibility)

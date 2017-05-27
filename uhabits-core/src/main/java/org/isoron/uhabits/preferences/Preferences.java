@@ -21,14 +21,31 @@ package org.isoron.uhabits.preferences;
 
 public interface Preferences
 {
+    int getLastHintNumber();
+
+    long getLastHintTimestamp();
+
+    boolean getShowArchived();
+
+    boolean getShowCompleted();
+
+    int getTheme();
 
     void incrementLaunchCount();
 
     boolean isFirstRun();
 
+    boolean isPureBlackEnabled();
+
     void setDeveloper(boolean isDeveloper);
 
     void setFirstRun(boolean b);
+
+    void setShowArchived(boolean showArchived);
+
+    void setShowCompleted(boolean showCompleted);
+
+    void setTheme(int theme);
 
     void updateLastHint(int i, long startOfToday);
 }

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.ui.habits.list;
+package org.isoron.uhabits.ui.screens.habits.list;
 
 import android.support.annotation.*;
 
@@ -185,11 +185,6 @@ public class ListHabitsBehavior
     public interface NumberPickerCallback
     {
         void onNumberPicked(double newValue);
-    }
-
-    public interface OnFinishedListener
-    {
-        void onFinish();
     }
 
     public interface Screen

@@ -24,14 +24,12 @@ import android.preference.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.ui.*;
 
 import java.util.*;
 
 import javax.inject.*;
-
-import dagger.*;
 
 @AppScope
 public class AndroidPreferences
@@ -103,6 +101,7 @@ public class AndroidPreferences
      *
      * @return number of last hint shown
      */
+    @Override
     public int getLastHintNumber()
     {
         return prefs.getInt("last_hint_number", -1);
@@ -113,6 +112,7 @@ public class AndroidPreferences
      *
      * @return timestamp of the day the last hint was shown
      */
+    @Override
     public long getLastHintTimestamp()
     {
         return prefs.getLong("last_hint_timestamp", -1);
@@ -128,21 +128,25 @@ public class AndroidPreferences
         prefs.edit().putLong("last_sync", timestamp).apply();
     }
 
+    @Override
     public boolean getShowArchived()
     {
         return prefs.getBoolean("pref_show_archived", false);
     }
 
+    @Override
     public void setShowArchived(boolean showArchived)
     {
         prefs.edit().putBoolean("pref_show_archived", showArchived).apply();
     }
 
+    @Override
     public boolean getShowCompleted()
     {
         return prefs.getBoolean("pref_show_completed", true);
     }
 
+    @Override
     public void setShowCompleted(boolean showCompleted)
     {
         prefs.edit().putBoolean("pref_show_completed", showCompleted).apply();
@@ -155,8 +159,7 @@ public class AndroidPreferences
 
     public String getSyncAddress()
     {
-        return prefs.getString("pref_sync_address",
-            "https://sync.loophabits.org:4000");
+        return prefs.getString("pref_sync_address", "https://sync.loophabits.org:4000");
     }
 
     public String getSyncClientId()
@@ -174,16 +177,19 @@ public class AndroidPreferences
         return prefs.getString("pref_sync_key", "");
     }
 
+    @Override
     public int getTheme()
     {
         return prefs.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
     }
 
+    @Override
     public void setTheme(int theme)
     {
         prefs.edit().putInt("pref_theme", theme).apply();
     }
 
+    @Override
     public void incrementLaunchCount()
     {
         int count = prefs.getInt("launch_count", 0);
@@ -200,16 +206,19 @@ public class AndroidPreferences
         return prefs.getBoolean("pref_developer", false);
     }
 
+    @Override
     public void setDeveloper(boolean isDeveloper)
     {
         prefs.edit().putBoolean("pref_developer", isDeveloper).apply();
     }
 
+    @Override
     public boolean isFirstRun()
     {
         return prefs.getBoolean("pref_first_run", true);
     }
 
+    @Override
     public void setFirstRun(boolean isFirstRun)
     {
         prefs.edit().putBoolean("pref_first_run", isFirstRun).apply();
@@ -220,6 +229,7 @@ public class AndroidPreferences
         return prefs.getBoolean("pref_feature_numerical_habits", false);
     }
 
+    @Override
     public boolean isPureBlackEnabled()
     {
         return prefs.getBoolean("pref_pure_black", false);
@@ -297,6 +307,7 @@ public class AndroidPreferences
      * @param number    number of the last hint shown
      * @param timestamp timestamp for the day the last hint was shown
      */
+    @Override
     public void updateLastHint(int number, long timestamp)
     {
         prefs

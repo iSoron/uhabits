@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -28,6 +28,7 @@ import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -42,8 +43,11 @@ import javax.inject.*;
  */
 @ActivityScope
 public class HabitCardListAdapter
-    extends RecyclerView.Adapter<HabitCardViewHolder>
-    implements HabitCardListCache.Listener, MidnightTimer.MidnightListener
+    extends RecyclerView.Adapter<HabitCardViewHolder> implements
+                                                      HabitCardListCache.Listener,
+                                                      MidnightTimer.MidnightListener,
+                                                      ListHabitsMenuBehavior.Adapter,
+                                                      ListHabitsSelectionMenuBehavior.Adapter
 {
     @NonNull
     private ModelObservable observable;
@@ -95,10 +99,12 @@ public class HabitCardListAdapter
     /**
      * Sets all items as not selected.
      */
+    @Override
     public void clearSelection()
     {
         selected.clear();
         notifyDataSetChanged();
+        observable.notifyListeners();
     }
 
     /**
@@ -133,6 +139,7 @@ public class HabitCardListAdapter
         return observable;
     }
 
+    @Override
     @NonNull
     public List<Habit> getSelected()
     {
@@ -255,6 +262,7 @@ public class HabitCardListAdapter
      *
      * @param habits list of habits to be removed
      */
+    @Override
     public void performRemove(List<Habit> habits)
     {
         for (Habit h : habits)
@@ -278,11 +286,13 @@ public class HabitCardListAdapter
         cache.reorder(from, to);
     }
 
+    @Override
     public void refresh()
     {
         cache.refreshAllHabits();
     }
 
+    @Override
     public void setFilter(HabitMatcher matcher)
     {
         cache.setFilter(matcher);
@@ -300,6 +310,7 @@ public class HabitCardListAdapter
         this.listView = listView;
     }
 
+    @Override
     public void setOrder(HabitList.Order order)
     {
         cache.setOrder(order);

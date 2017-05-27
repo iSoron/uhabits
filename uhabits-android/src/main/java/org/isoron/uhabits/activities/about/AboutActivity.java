@@ -23,7 +23,7 @@ import android.os.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.ui.about.*;
+import org.isoron.uhabits.ui.screens.about.*;
 
 /**
  * Activity that allows the user to see information about the app itself.
