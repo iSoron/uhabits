@@ -62,24 +62,11 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    implementation 'com.google.guava:guava:20.0'
     compileOnly 'javax.annotation:jsr250-api:1.0'
     compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
     annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-
-    testImplementation project(":uhabits-core")
-    testImplementation 'junit:junit:5.0-SNAPSHOT'
-    testImplementation 'org.hamcrest:hamcrest-library:1.4-atlassian-1'
-    testImplementation 'org.mockito:mockito-core:2.8.9'
-    testImplementation 'org.json:json:20160810'
-    testImplementation 'org.robolectric:robolectric:3.4-rc2'
-    testCompileOnly 'javax.annotation:jsr250-api:1.0'
-    testCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
-    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
 
     androidTestImplementation project(":uhabits-core")
     androidTestImplementation 'com.android.support:support-annotations:25.3.1'
@@ -100,4 +87,7 @@ dependencies {
     implementation('io.socket:socket.io-client:+') {
         exclude group: 'org.json', module: 'json'
     }
+}
+repositories {
+    mavenCentral()
 }
