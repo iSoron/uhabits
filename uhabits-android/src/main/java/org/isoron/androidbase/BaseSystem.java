@@ -28,6 +28,8 @@ import android.view.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.ui.habits.list.*;
+import org.isoron.uhabits.ui.habits.show.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -45,7 +47,9 @@ import javax.inject.*;
  * permissions.
  */
 @AppScope
-public class BaseSystem implements CACertSSLContextProvider
+public class BaseSystem implements CACertSSLContextProvider,
+                                   ListHabitsBehavior.System,
+                                   ShowHabitMenuBehavior.System
 {
     private Context context;
 
@@ -84,24 +88,32 @@ public class BaseSystem implements CACertSSLContextProvider
      * @return the generated file.
      * @throws IOException when I/O errors occur.
      */
+    @Override
     @NonNull
-    public File dumpBugReportToFile() throws IOException
+    public void dumpBugReportToFile()
     {
-        String date =
-            DateFormats.getBackupDateFormat().format(DateUtils.getLocalTime());
+        try
+        {
+            String date = DateFormats
+                .getBackupDateFormat()
+                .format(DateUtils.getLocalTime());
 
-        if (context == null) throw new RuntimeException(
-            "application context should not be null");
-        File dir = getFilesDir("Logs");
-        if (dir == null) throw new IOException("log dir should not be null");
+            if (context == null) throw new IllegalStateException();
 
-        File logFile =
-            new File(String.format("%s/Log %s.txt", dir.getPath(), date));
-        FileWriter output = new FileWriter(logFile);
-        output.write(getBugReport());
-        output.close();
+            File dir = getFilesDir("Logs");
+            if (dir == null)
+                throw new IOException("log dir should not be null");
 
-        return logFile;
+            File logFile =
+                new File(String.format("%s/Log %s.txt", dir.getPath(), date));
+            FileWriter output = new FileWriter(logFile);
+            output.write(getBugReport());
+            output.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -112,6 +124,7 @@ public class BaseSystem implements CACertSSLContextProvider
      * @return a String containing the bug report.
      * @throws IOException when any I/O error occur.
      */
+    @Override
     @NonNull
     public String getBugReport() throws IOException
     {
@@ -123,6 +136,12 @@ public class BaseSystem implements CACertSSLContextProvider
         log += "---------- BUG REPORT ENDS ------------\n";
 
         return log;
+    }
+
+    @Override
+    public File getCSVOutputDir()
+    {
+        return getFilesDir("CSV");
     }
 
     public String getLogcat() throws IOException

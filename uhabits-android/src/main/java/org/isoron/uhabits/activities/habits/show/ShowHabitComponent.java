@@ -28,7 +28,7 @@ import dagger.*;
 
 @ActivityScope
 @Component(modules = { ShowHabitModule.class },
-           dependencies = { AppComponent.class })
+           dependencies = { HabitsComponent.class })
 public interface ShowHabitComponent
 {
     @NonNull

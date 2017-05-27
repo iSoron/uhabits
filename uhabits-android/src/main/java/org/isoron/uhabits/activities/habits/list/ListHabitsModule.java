@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,34 +17,32 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.activities.habits.list;
 
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.tasks.*;
+import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.ui.habits.list.*;
 
 import dagger.*;
 
-@AppScope
-@Component(modules = {
-    AppModule.class,
-    HabitsModule.class,
-    SingleThreadModule.class,
-    SQLModelFactory.class
-})
-public interface AndroidTestComponent extends HabitsComponent
-{
-
-}
-
 @Module
-class SingleThreadModule
+public class ListHabitsModule extends ActivityModule
 {
-    @Provides
-    @AppScope
-    public static TaskRunner provideTaskRunner()
+    public ListHabitsModule(BaseActivity activity)
     {
-        return new SingleThreadTaskRunner();
+        super(activity);
+    }
+
+    @Provides
+    ListHabitsBehavior.Screen getScreen(ListHabitsScreen screen)
+    {
+        return screen;
+    }
+
+    @Provides
+    ListHabitsBehavior.System getSystem(BaseSystem system)
+    {
+        return system;
     }
 }

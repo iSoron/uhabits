@@ -73,7 +73,7 @@ public class PebbleReceiver extends PebbleDataReceiver
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
 
-        AppComponent component = app.getComponent();
+        HabitsComponent component = app.getComponent();
         commandRunner = component.getCommandRunner();
         taskRunner = component.getTaskRunner();
         allHabits = component.getHabitList();

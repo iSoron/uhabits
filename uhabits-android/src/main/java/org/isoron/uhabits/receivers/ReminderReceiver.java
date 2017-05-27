@@ -56,7 +56,7 @@ public class ReminderReceiver extends BroadcastReceiver
 
         ReminderComponent component = DaggerReminderReceiver_ReminderComponent
             .builder()
-            .appComponent(app.getComponent())
+            .habitsComponent(app.getComponent())
             .build();
 
         HabitList habits = app.getComponent().getHabitList();
@@ -105,7 +105,7 @@ public class ReminderReceiver extends BroadcastReceiver
     }
 
     @ReceiverScope
-    @Component(dependencies = AppComponent.class)
+    @Component(dependencies = HabitsComponent.class)
     interface ReminderComponent
     {
         ReminderController getReminderController();

@@ -22,5 +22,13 @@ package org.isoron.uhabits.preferences;
 public interface Preferences
 {
 
+    void incrementLaunchCount();
+
+    boolean isFirstRun();
+
     void setDeveloper(boolean isDeveloper);
+
+    void setFirstRun(boolean b);
+
+    void updateLastHint(int i, long startOfToday);
 }

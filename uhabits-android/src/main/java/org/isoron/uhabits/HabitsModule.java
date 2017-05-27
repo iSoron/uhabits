@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,22 +17,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities;
+package org.isoron.uhabits;
 
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
+import org.isoron.uhabits.preferences.*;
 
 import dagger.*;
 
-@ActivityScope
-@Component(modules = { ActivityModule.class },
-           dependencies = { AppComponent.class })
-public interface ActivityComponent
+@Module
+public class HabitsModule
 {
-    BaseActivity getActivity();
-
-    ColorPickerDialogFactory getColorPickerDialogFactory();
-
-    ThemeSwitcher getThemeSwitcher();
+    @Provides
+    @AppScope
+    public static Preferences getPreferences(AndroidPreferences preferences)
+    {
+        return preferences;
+    }
 }

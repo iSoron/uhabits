@@ -64,8 +64,8 @@ public class ListHabitsActivity extends BaseActivity
 
         component = DaggerListHabitsComponent
             .builder()
-            .appComponent(app.getComponent())
-            .activityModule(new ActivityModule(this))
+            .habitsComponent(app.getComponent())
+            .listHabitsModule(new ListHabitsModule(this))
             .build();
 
         ListHabitsMenu menu = component.getMenu();

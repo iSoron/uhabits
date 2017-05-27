@@ -21,21 +21,16 @@ package org.isoron.uhabits.activities.habits.list;
 
 import android.support.annotation.*;
 
-import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.tasks.android.*;
-import org.isoron.uhabits.utils.*;
-import org.isoron.uhabits.widgets.*;
+import org.isoron.uhabits.ui.habits.list.*;
 
 import java.io.*;
-import java.util.*;
 
 import javax.inject.*;
 
@@ -43,82 +38,53 @@ import javax.inject.*;
 public class ListHabitsController
     implements HabitCardListController.HabitListener
 {
+    @NonNull
+    private final ListHabitsBehavior behavior;
 
     @NonNull
     private final ListHabitsScreen screen;
 
     @NonNull
-    private final BaseSystem system;
-
-    @NonNull
-    private final HabitList habitList;
-
-    @NonNull
     private final HabitCardListAdapter adapter;
-
-    @NonNull
-    private final AndroidPreferences prefs;
-
-    @NonNull
-    private final CommandRunner commandRunner;
 
     @NonNull
     private final TaskRunner taskRunner;
 
-    private ReminderScheduler reminderScheduler;
-
-    private WidgetUpdater widgetUpdater;
-
     private ImportDataTaskFactory importTaskFactory;
-
-    private ExportCSVTaskFactory exportCSVFactory;
 
     private ExportDBTaskFactory exportDBFactory;
 
     @Inject
-    public ListHabitsController(@NonNull BaseSystem system,
-                                @NonNull CommandRunner commandRunner,
-                                @NonNull HabitList habitList,
+    public ListHabitsController(@NonNull ListHabitsBehavior behavior,
                                 @NonNull HabitCardListAdapter adapter,
                                 @NonNull ListHabitsScreen screen,
-                                @NonNull AndroidPreferences prefs,
-                                @NonNull ReminderScheduler reminderScheduler,
                                 @NonNull TaskRunner taskRunner,
-                                @NonNull WidgetUpdater widgetUpdater,
                                 @NonNull ImportDataTaskFactory importTaskFactory,
-                                @NonNull ExportCSVTaskFactory exportCSVFactory,
                                 @NonNull ExportDBTaskFactory exportDBFactory)
     {
+        this.behavior = behavior;
         this.adapter = adapter;
-        this.commandRunner = commandRunner;
-        this.habitList = habitList;
-        this.prefs = prefs;
         this.screen = screen;
-        this.system = system;
         this.taskRunner = taskRunner;
-        this.reminderScheduler = reminderScheduler;
-        this.widgetUpdater = widgetUpdater;
         this.importTaskFactory = importTaskFactory;
-        this.exportCSVFactory = exportCSVFactory;
         this.exportDBFactory = exportDBFactory;
+    }
+
+    @Override
+    public void onEdit(@NonNull Habit habit, long timestamp)
+    {
+        behavior.onEdit(habit, timestamp);
     }
 
     public void onExportCSV()
     {
-        List<Habit> selected = new LinkedList<>();
-        for (Habit h : habitList) selected.add(h);
-        File outputDir = system.getFilesDir("CSV");
-
-        taskRunner.execute(
-            exportCSVFactory.create(selected, outputDir, filename -> {
-                if (filename != null) screen.showSendFileScreen(filename);
-                else screen.showMessage(R.string.could_not_export);
-            }));
+        behavior.onExportCSV();
     }
 
     public void onExportDB()
     {
-        taskRunner.execute(exportDBFactory.create(filename -> {
+        taskRunner.execute(exportDBFactory.create(filename ->
+        {
             if (filename != null) screen.showSendFileScreen(filename);
             else screen.showMessage(R.string.could_not_export);
         }));
@@ -127,19 +93,20 @@ public class ListHabitsController
     @Override
     public void onHabitClick(@NonNull Habit h)
     {
-        screen.showHabitScreen(h);
+        behavior.onClickHabit(h);
     }
 
     @Override
     public void onHabitReorder(@NonNull Habit from, @NonNull Habit to)
     {
-        taskRunner.execute(() -> habitList.reorder(from, to));
+        behavior.onReorderHabit(from, to);
     }
 
     public void onImportData(@NonNull File file,
                              @NonNull OnFinishedListener finishedListener)
     {
-        taskRunner.execute(importTaskFactory.create(file, result -> {
+        taskRunner.execute(importTaskFactory.create(file, result ->
+        {
             switch (result)
             {
                 case ImportDataTask.SUCCESS:
@@ -167,21 +134,6 @@ public class ListHabitsController
     }
 
     @Override
-    public void onEdit(@NonNull Habit habit, long timestamp)
-    {
-        CheckmarkList checkmarks = habit.getCheckmarks();
-        double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
-
-        screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue -> {
-            newValue = Math.round(newValue * 1000);
-            commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
-                habit.getId());
-        });
-    }
-
-
-    @Override
     public void onInvalidToggle()
     {
         screen.showMessage(R.string.long_press_to_toggle);
@@ -189,55 +141,23 @@ public class ListHabitsController
 
     public void onRepairDB()
     {
-        taskRunner.execute(() -> {
-            habitList.repair();
-            screen.showMessage(R.string.database_repaired);
-        });
+        behavior.onRepairDB();
     }
 
     public void onSendBugReport()
     {
-        try
-        {
-            system.dumpBugReportToFile();
-        }
-        catch (IOException e)
-        {
-            // ignored
-        }
-
-        try
-        {
-            String log = system.getBugReport();
-            int to = R.string.bugReportTo;
-            int subject = R.string.bugReportSubject;
-            screen.showSendEmailScreen(to, subject, log);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-            screen.showMessage(R.string.bug_report_failed);
-        }
+        behavior.onSendBugReport();
     }
 
     public void onStartup()
     {
-        prefs.incrementLaunchCount();
-        if (prefs.isFirstRun()) onFirstRun();
+        behavior.onStartup();
     }
 
     @Override
     public void onToggle(@NonNull Habit habit, long timestamp)
     {
-        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
-            habit.getId());
-    }
-
-    private void onFirstRun()
-    {
-        prefs.setFirstRun(false);
-        prefs.updateLastHint(-1, DateUtils.getStartOfToday());
-        screen.showIntroScreen();
+        behavior.onToggle(habit, timestamp);
     }
 
     public interface OnFinishedListener

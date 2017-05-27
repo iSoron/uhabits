@@ -40,10 +40,15 @@ import dagger.*;
 
 @AppScope
 @Component(modules = {
-    AppModule.class, AndroidTaskRunner.class, SQLModelFactory.class
+    AppModule.class,
+    HabitsModule.class,
+    AndroidTaskRunner.class,
+    SQLModelFactory.class
 })
-public interface AppComponent
+public interface HabitsComponent
 {
+    AndroidPreferences getPreferences();
+
     BaseSystem getBaseSystem();
 
     CommandRunner getCommandRunner();
@@ -67,13 +72,15 @@ public interface AppComponent
 
     IntentParser getIntentParser();
 
+    MidnightTimer getMidnightTimer();
+
     ModelFactory getModelFactory();
 
     NotificationTray getNotificationTray();
 
     PendingIntentFactory getPendingIntentFactory();
 
-    AndroidPreferences getPreferences();
+    Preferences getCorePreferences();
 
     ReminderScheduler getReminderScheduler();
 
@@ -86,6 +93,4 @@ public interface AppComponent
     WidgetPreferences getWidgetPreferences();
 
     WidgetUpdater getWidgetUpdater();
-
-    MidnightTimer getMidnightTimer();
 }

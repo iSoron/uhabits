@@ -54,7 +54,7 @@ public class FireSettingReceiver extends BroadcastReceiver
         ReceiverComponent component =
             DaggerFireSettingReceiver_ReceiverComponent
                 .builder()
-                .appComponent(app.getComponent())
+                .habitsComponent(app.getComponent())
                 .build();
 
         allHabits = app.getComponent().getHabitList();
@@ -99,7 +99,7 @@ public class FireSettingReceiver extends BroadcastReceiver
     }
 
     @ReceiverScope
-    @Component(dependencies = AppComponent.class)
+    @Component(dependencies = HabitsComponent.class)
     interface ReceiverComponent
     {
         WidgetController getWidgetController();

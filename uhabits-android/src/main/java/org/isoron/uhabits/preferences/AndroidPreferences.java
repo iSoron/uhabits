@@ -31,6 +31,8 @@ import java.util.*;
 
 import javax.inject.*;
 
+import dagger.*;
+
 @AppScope
 public class AndroidPreferences
     implements SharedPreferences.OnSharedPreferenceChangeListener, Preferences

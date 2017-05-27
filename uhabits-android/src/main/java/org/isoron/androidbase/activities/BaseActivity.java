@@ -126,7 +126,7 @@ abstract public class BaseActivity extends AppCompatActivity
         component = DaggerActivityComponent
             .builder()
             .activityModule(new ActivityModule(this))
-            .appComponent(app.getComponent())
+            .habitsComponent(app.getComponent())
             .build();
 
         component.getThemeSwitcher().apply();

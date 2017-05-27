@@ -55,7 +55,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected HabitList habitList;
 
-    protected AppComponent component;
+    protected HabitsComponent component;
 
     protected ModelFactory modelFactory;
 

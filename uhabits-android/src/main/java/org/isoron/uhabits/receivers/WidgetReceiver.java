@@ -56,7 +56,7 @@ public class WidgetReceiver extends BroadcastReceiver
 
         WidgetComponent component = DaggerWidgetReceiver_WidgetComponent
             .builder()
-            .appComponent(app.getComponent())
+            .habitsComponent(app.getComponent())
             .build();
 
         IntentParser parser = app.getComponent().getIntentParser();
@@ -93,7 +93,7 @@ public class WidgetReceiver extends BroadcastReceiver
     }
 
     @ReceiverScope
-    @Component(dependencies = AppComponent.class)
+    @Component(dependencies = HabitsComponent.class)
     interface WidgetComponent
     {
         WidgetController getWidgetController();

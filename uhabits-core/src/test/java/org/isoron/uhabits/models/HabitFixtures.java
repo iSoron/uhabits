@@ -62,6 +62,31 @@ public class HabitFixtures
         return habit;
     }
 
+    public Habit createNumericalHabit()
+    {
+        Habit habit = modelFactory.buildHabit();
+        habit.setType(Habit.NUMBER_HABIT);
+        habit.setName("Run");
+        habit.setDescription("How many miles did you run today?");
+        habit.setUnit("miles");
+        habit.setTargetType(Habit.AT_LEAST);
+        habit.setTargetValue(2.0);
+        habit.setColor(1);
+
+        long day = DateUtils.millisecondsInOneDay;
+        long today = DateUtils.getStartOfToday();
+        int times[] = { 0, 1, 3, 5, 7, 8, 9, 10 };
+        int values[] = { 100, 200, 300, 400, 500, 600, 700, 800 };
+
+        for(int i = 0; i < times.length; i++)
+        {
+            long timestamp = today - times[i] * day;
+            habit.getRepetitions().add(new Repetition(timestamp, values[i]));
+        }
+
+        return habit;
+    }
+
     public Habit createShortHabit()
     {
         Habit habit = modelFactory.buildHabit();

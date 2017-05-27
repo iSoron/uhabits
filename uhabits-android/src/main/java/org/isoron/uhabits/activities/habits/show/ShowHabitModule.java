@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.support.annotation.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.ui.habits.show.*;
@@ -57,8 +58,8 @@ public class ShowHabitModule extends ActivityModule
     }
 
     @Provides
-    public ShowHabitMenuBehavior.System getSystem(BaseActivity activity)
+    public ShowHabitMenuBehavior.System getSystem(BaseSystem system)
     {
-        return (ShowHabitActivity) activity;
+        return system;
     }
 }

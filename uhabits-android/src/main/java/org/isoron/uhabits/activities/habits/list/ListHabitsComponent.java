@@ -23,13 +23,12 @@ import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.utils.*;
 
 import dagger.*;
 
 @ActivityScope
-@Component(modules = { ActivityModule.class },
-           dependencies = { AppComponent.class })
+@Component(modules = { ListHabitsModule.class },
+           dependencies = { HabitsComponent.class })
 public interface ListHabitsComponent
 {
     HabitCardListAdapter getAdapter();

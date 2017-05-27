@@ -39,6 +39,7 @@ import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.ui.habits.list.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -51,7 +52,7 @@ import static android.view.inputmethod.EditorInfo.*;
 
 @ActivityScope
 public class ListHabitsScreen extends BaseScreen
-    implements CommandRunner.Listener
+    implements CommandRunner.Listener, ListHabitsBehavior.Screen
 {
     public static final int REQUEST_OPEN_DOCUMENT = 6;
 
@@ -100,9 +101,12 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ListHabitsRootView rootView,
                             @NonNull IntentFactory intentFactory,
                             @NonNull ThemeSwitcher themeSwitcher,
-                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
-                            @NonNull ColorPickerDialogFactory colorPickerFactory,
-                            @NonNull EditHabitDialogFactory editHabitDialogFactory,
+                            @NonNull
+                                ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                            @NonNull
+                                ColorPickerDialogFactory colorPickerFactory,
+                            @NonNull
+                                EditHabitDialogFactory editHabitDialogFactory,
                             @NonNull AndroidPreferences prefs,
                             @NonNull CommandParser commandParser)
     {
@@ -127,7 +131,7 @@ public class ListHabitsScreen extends BaseScreen
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        if(command.isRemote()) return;
+        if (command.isRemote()) return;
         showMessage(commandParser.getExecuteString(command));
     }
 
@@ -172,9 +176,16 @@ public class ListHabitsScreen extends BaseScreen
         activity.showDialog(picker, "picker");
     }
 
+    public void showCreateBooleanHabitScreen()
+    {
+        EditHabitDialog dialog;
+        dialog = editHabitDialogFactory.createBoolean();
+        activity.showDialog(dialog, "editHabit");
+    }
+
     public void showCreateHabitScreen()
     {
-        if(!prefs.isNumericalHabitsFeatureEnabled())
+        if (!prefs.isNumericalHabitsFeatureEnabled())
         {
             showCreateBooleanHabitScreen();
             return;
@@ -182,27 +193,14 @@ public class ListHabitsScreen extends BaseScreen
 
         Dialog dialog = new AlertDialog.Builder(activity)
             .setTitle("Type of habit")
-            .setItems(R.array.habitTypes, (d, which) -> {
-                if(which == 0) showCreateBooleanHabitScreen();
+            .setItems(R.array.habitTypes, (d, which) ->
+            {
+                if (which == 0) showCreateBooleanHabitScreen();
                 else showCreateNumericalHabitScreen();
             })
             .create();
 
         dialog.show();
-    }
-
-    private void showCreateNumericalHabitScreen()
-    {
-        EditHabitDialog dialog;
-        dialog = editHabitDialogFactory.createNumerical();
-        activity.showDialog(dialog, "editHabit");
-    }
-
-    public void showCreateBooleanHabitScreen()
-    {
-        EditHabitDialog dialog;
-        dialog = editHabitDialogFactory.createBoolean();
-        activity.showDialog(dialog, "editHabit");
     }
 
     public void showDeleteConfirmationScreen(ConfirmDeleteDialog.Callback callback)
@@ -223,6 +221,7 @@ public class ListHabitsScreen extends BaseScreen
         activity.startActivity(intent);
     }
 
+    @Override
     public void showHabitScreen(@NonNull Habit habit)
     {
         Intent intent = intentFactory.startShowHabitActivity(activity, habit);
@@ -235,15 +234,48 @@ public class ListHabitsScreen extends BaseScreen
         activity.startActivityForResult(intent, REQUEST_OPEN_DOCUMENT);
     }
 
+    @Override
     public void showIntroScreen()
     {
         Intent intent = intentFactory.startIntroActivity(activity);
         activity.startActivity(intent);
     }
 
+    @Override
+    public void showMessage(@NonNull ListHabitsBehavior.Message m)
+    {
+        switch (m)
+        {
+            case COULD_NOT_EXPORT:
+                showMessage(R.string.could_not_export);
+                break;
+
+            case IMPORT_SUCCESSFUL:
+                showMessage(R.string.habits_imported);
+                break;
+
+            case IMPORT_FAILED:
+                showMessage(R.string.could_not_import);
+                break;
+
+            case DATABASE_REPAIRED:
+                showMessage(R.string.database_repaired);
+                break;
+
+            case COULD_NOT_GENERATE_BUG_REPORT:
+                showMessage(R.string.bug_report_failed);
+                break;
+
+            case FILE_NOT_RECOGNIZED:
+                showMessage(R.string.file_not_recognized);
+                break;
+        }
+    }
+
+    @Override
     public void showNumberPicker(double value,
                                  @NonNull String unit,
-                                 @NonNull NumberPickerCallback callback)
+                                 @NonNull ListHabitsBehavior.NumberPickerCallback callback)
     {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.number_picker_dialog, null);
@@ -292,21 +324,12 @@ public class ListHabitsScreen extends BaseScreen
         dialog.show();
     }
 
-    private void refreshInitialValue(NumberPicker picker2)
+    @Override
+    public void showSendBugReportToDeveloperScreen(String log)
     {
-        // Workaround for a bug on Android:
-        // https://code.google.com/p/android/issues/detail?id=35482
-        try
-        {
-            Field f = NumberPicker.class.getDeclaredField("mInputText");
-            f.setAccessible(true);
-            EditText inputText = (EditText) f.get(picker2);
-            inputText.setFilters(new InputFilter[0]);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+        int to = R.string.bugReportTo;
+        int subject = R.string.bugReportSubject;
+        showSendEmailScreen(to, subject, log);
     }
 
     public void showSettingsScreen()
@@ -373,8 +396,27 @@ public class ListHabitsScreen extends BaseScreen
         }
     }
 
-    public interface NumberPickerCallback
+    private void refreshInitialValue(NumberPicker picker2)
     {
-        void onNumberPicked(double newValue);
+        // Workaround for a bug on Android:
+        // https://code.google.com/p/android/issues/detail?id=35482
+        try
+        {
+            Field f = NumberPicker.class.getDeclaredField("mInputText");
+            f.setAccessible(true);
+            EditText inputText = (EditText) f.get(picker2);
+            inputText.setFilters(new InputFilter[0]);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void showCreateNumericalHabitScreen()
+    {
+        EditHabitDialog dialog;
+        dialog = editHabitDialogFactory.createNumerical();
+        activity.showDialog(dialog, "editHabit");
     }
 }

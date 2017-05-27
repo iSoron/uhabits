@@ -27,9 +27,6 @@ import android.support.annotation.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.habits.show.*;
-
-import java.io.*;
 
 /**
  * Activity that allows the user to see more information about a single habit.
@@ -37,24 +34,15 @@ import java.io.*;
  * Shows all the metadata for the habit, in addition to several charts.
  */
 public class ShowHabitActivity extends BaseActivity
-    implements ShowHabitMenuBehavior.System
 {
     @Nullable
     private HabitList habitList;
 
     @Nullable
-    private AppComponent appComponent;
+    private HabitsComponent appComponent;
 
     @Nullable
     private ShowHabitScreen screen;
-
-    @Override
-    public File getCSVOutputDir()
-    {
-        if(appComponent == null) throw new IllegalStateException();
-
-        return appComponent.getBaseSystem().getFilesDir("CSV");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,7 +56,7 @@ public class ShowHabitActivity extends BaseActivity
 
         ShowHabitComponent component = DaggerShowHabitComponent
             .builder()
-            .appComponent(app.getComponent())
+            .habitsComponent(app.getComponent())
             .showHabitModule(new ShowHabitModule(this, habit))
             .build();
 

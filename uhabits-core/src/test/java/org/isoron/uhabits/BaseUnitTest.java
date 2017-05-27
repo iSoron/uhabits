@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits;
 
+import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.memory.*;
 import org.isoron.uhabits.tasks.*;
@@ -26,6 +27,8 @@ import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import java.util.*;
+
+import static org.mockito.Mockito.*;
 
 public class BaseUnitTest
 {
@@ -37,6 +40,8 @@ public class BaseUnitTest
 
     protected SingleThreadTaskRunner taskRunner;
 
+    protected CommandRunner commandRunner;
+
     @Before
     public void setUp()
     {
@@ -45,9 +50,10 @@ public class BaseUnitTest
         DateUtils.setFixedLocalTime(fixed_local_time);
 
         modelFactory = new MemoryModelFactory();
-        habitList = modelFactory.buildHabitList();
+        habitList = spy(modelFactory.buildHabitList());
         fixtures = new HabitFixtures(modelFactory);
         taskRunner = new SingleThreadTaskRunner();
+        commandRunner = new CommandRunner(taskRunner);
     }
 
     @After

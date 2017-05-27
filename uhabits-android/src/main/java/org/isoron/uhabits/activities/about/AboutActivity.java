@@ -36,7 +36,7 @@ public class AboutActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         HabitsApplication app = (HabitsApplication) getApplication();
-        AppComponent cmp = app.getComponent();
+        HabitsComponent cmp = app.getComponent();
         AboutScreen screen = new AboutScreen(this, cmp.getIntentFactory());
         AboutBehavior behavior = new AboutBehavior(cmp.getPreferences(), screen);
         AboutRootView rootView = new AboutRootView(this, behavior);
