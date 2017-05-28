@@ -39,6 +39,8 @@ import java.util.*;
 
 import butterknife.*;
 
+import static org.isoron.uhabits.activities.ThemeSwitcher.*;
+
 public abstract class BaseDialog extends AppCompatDialogFragment
 {
     @Nullable
@@ -65,7 +67,13 @@ public abstract class BaseDialog extends AppCompatDialogFragment
     @Override
     public int getTheme()
     {
-        return R.style.DialogWithTitle;
+        AppComponent component =
+            ((HabitsApplication) getContext().getApplicationContext()).getComponent();
+
+        if(component.getPreferences().getTheme() == THEME_LIGHT)
+            return R.style.DialogWithTitle;
+        else
+            return R.style.DarkDialogWithTitle;
     }
 
     @Override
