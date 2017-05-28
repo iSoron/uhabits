@@ -17,48 +17,52 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show.views;
+package org.isoron.uhabits.tasks;
 
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
-import android.view.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
 import org.junit.*;
 import org.junit.runner.*;
 
+import java.io.*;
+import java.util.*;
+
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.core.IsNot.not;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class FrequencyCardTest extends BaseViewTest
+public class ExportCSVTaskTest extends BaseAndroidTest
 {
-    public static final String PATH = "habits/show/FrequencyCard/";
-
-    private FrequencyCard view;
-
-    private Habit habit;
-
     @Before
     @Override
     public void setUp()
     {
         super.setUp();
-           habit = fixtures.createLongHabit();
-
-        view = (FrequencyCard) LayoutInflater
-            .from(targetContext)
-            .inflate(R.layout.show_habit, null)
-            .findViewById(R.id.frequencyCard);
-
-        view.setHabit(habit);
-        view.refreshData();
-
-        measureView(view, 800, 600);
     }
 
     @Test
-    public void testRender() throws Exception
+    public void testExportCSV() throws Throwable
     {
-        assertRenders(view, PATH + "render.png");
+        fixtures.purgeHabits(habitList);
+        fixtures.createShortHabit();
+
+        List<Habit> selected = new LinkedList<>();
+        for (Habit h : habitList) selected.add(h);
+        File outputDir = baseSystem.getFilesDir("CSV");
+        assertNotNull(outputDir);
+
+        taskRunner.execute(
+            new ExportCSVTask(habitList, selected, outputDir, archiveFilename -> {
+                assertThat(archiveFilename, is(not(nullValue())));
+                File f = new File(archiveFilename);
+                assertTrue(f.exists());
+                assertTrue(f.canRead());
+            }));
     }
 }

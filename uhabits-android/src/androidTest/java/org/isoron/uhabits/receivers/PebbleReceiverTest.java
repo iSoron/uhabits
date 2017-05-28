@@ -42,7 +42,6 @@ import static org.hamcrest.core.IsEqual.*;
 @MediumTest
 public class PebbleReceiverTest extends BaseAndroidTest
 {
-
     private Habit habit1;
 
     private Habit habit2;

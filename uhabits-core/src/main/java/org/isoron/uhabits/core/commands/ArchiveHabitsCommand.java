@@ -49,18 +49,18 @@ public class ArchiveHabitsCommand extends Command
         habitList.update(selected);
     }
 
-    @Override
-    public void undo()
-    {
-        for (Habit h : selected) h.setArchived(false);
-        habitList.update(selected);
-    }
-
     @NonNull
     @Override
     public Record toRecord()
     {
         return new Record(this);
+    }
+
+    @Override
+    public void undo()
+    {
+        for (Habit h : selected) h.setArchived(false);
+        habitList.update(selected);
     }
 
     public static class Record

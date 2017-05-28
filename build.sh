@@ -19,7 +19,7 @@ ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=org.isoron.uhabits
-OUTPUTS_DIR=app/build/outputs
+OUTPUTS_DIR=uhabits-android/build/outputs
 
 KEYFILE="TestKeystore.jks"
 KEY_ALIAS="default"
@@ -128,14 +128,14 @@ install_apk() {
 	log_info "Installing APK"
 
 	if [ ! -z $RELEASE ]; then
-		$ADB install -r ${OUTPUTS_DIR}/apk/release/app-release.apk || fail
+		$ADB install -r ${OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || fail
 	else
-		$ADB install -r ${OUTPUTS_DIR}/apk/debug/app-debug.apk || fail
+		$ADB install -r ${OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
 	fi
 }
 
 install_test_apk() {
-	$ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/app-debug-androidTest.apk || fail
+	$ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || fail
 }
 
 run_instrumented_tests() {
@@ -158,7 +158,7 @@ parse_instrumentation_results() {
 
 generate_coverage_badge() {
 	log_info "Generating code coverage badge"
-	python tools/coverage-badge/badge.py -i app/build/reports/jacoco/coverageReport/coverageReport.xml -o ${OUTPUTS_DIR}/coverage-badge
+	python tools/coverage-badge/badge.py -i uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml -o ${OUTPUTS_DIR}/coverage-badge
 }
 
 fetch_artifacts() {
@@ -199,8 +199,8 @@ run_local_tests() {
 	parse_instrumentation_results
 	fetch_artifacts
 	fetch_logcat
-	run_jvm_tests
-	generate_coverage_badge
+	#run_jvm_tests
+	#generate_coverage_badge
 	uninstall_test_apk
 }
 

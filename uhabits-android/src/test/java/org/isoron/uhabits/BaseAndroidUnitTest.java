@@ -34,7 +34,7 @@ import java.util.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BaseUnitTest
+public class BaseAndroidUnitTest
 {
     protected HabitList habitList;
 
@@ -49,7 +49,6 @@ public class BaseUnitTest
     @Before
     public void setUp()
     {
-        // 8:00am, January 25th, 2015 (UTC)
         long fixed_local_time = 1422172800000L;
         DateUtils.setFixedLocalTime(fixed_local_time);
 

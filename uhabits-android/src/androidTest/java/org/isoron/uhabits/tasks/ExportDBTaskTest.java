@@ -17,48 +17,39 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show.views;
+package org.isoron.uhabits.tasks;
 
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
-import android.view.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 
+import java.io.*;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class FrequencyCardTest extends BaseViewTest
+public class ExportDBTaskTest extends BaseAndroidTest
 {
-    public static final String PATH = "habits/show/FrequencyCard/";
-
-    private FrequencyCard view;
-
-    private Habit habit;
-
-    @Before
     @Override
+    @Before
     public void setUp()
     {
         super.setUp();
-           habit = fixtures.createLongHabit();
-
-        view = (FrequencyCard) LayoutInflater
-            .from(targetContext)
-            .inflate(R.layout.show_habit, null)
-            .findViewById(R.id.frequencyCard);
-
-        view.setHabit(habit);
-        view.refreshData();
-
-        measureView(view, 800, 600);
     }
 
     @Test
-    public void testRender() throws Exception
+    public void testExportCSV() throws Throwable
     {
-        assertRenders(view, PATH + "render.png");
+        ExportDBTask task =
+            new ExportDBTask(targetContext, baseSystem, filename -> {
+                assertNotNull(filename);
+                File f = new File(filename);
+                assertTrue(f.exists());
+                assertTrue(f.canRead());
+            });
+
+        taskRunner.execute(task);
     }
 }
