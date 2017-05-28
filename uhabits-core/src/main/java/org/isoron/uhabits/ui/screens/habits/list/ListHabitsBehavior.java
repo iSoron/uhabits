@@ -67,14 +67,6 @@ public class ListHabitsBehavior
         screen.showHabitScreen(h);
     }
 
-//    public void onExportDB()
-//    {
-//        taskRunner.execute(exportDBFactory.create(filename -> {
-//            if (filename != null) screen.showSendFileScreen(filename);
-//            else screen.showMessage(R.string.could_not_export);
-//        }));
-//    }
-
     public void onEdit(@NonNull Habit habit, long timestamp)
     {
         CheckmarkList checkmarks = habit.getCheckmarks();
@@ -102,30 +94,6 @@ public class ListHabitsBehavior
                 else screen.showMessage(Message.COULD_NOT_EXPORT);
             }));
     }
-
-//    public void onImportData(@NonNull File file,
-//                             @NonNull OnFinishedListener finishedListener)
-//    {
-//        taskRunner.execute(importTaskFactory.create(file, result -> {
-//            switch (result)
-//            {
-//                case ImportDataTask.SUCCESS:
-//                    adapter.refresh();
-//                    screen.showMessage(R.string.habits_imported);
-//                    break;
-//
-//                case ImportDataTask.NOT_RECOGNIZED:
-//                    screen.showMessage(R.string.file_not_recognized);
-//                    break;
-//
-//                default:
-//                    screen.showMessage(R.string.could_not_import);
-//                    break;
-//            }
-//
-//            finishedListener.onFinish();
-//        }));
-//    }
 
     public void onReorderHabit(@NonNull Habit from, @NonNull Habit to)
     {

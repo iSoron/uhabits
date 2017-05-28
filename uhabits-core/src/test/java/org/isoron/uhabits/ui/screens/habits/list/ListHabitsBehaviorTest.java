@@ -26,11 +26,16 @@ import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.mockito.*;
 
+import java.io.*;
+
+import static java.nio.file.Files.*;
 import static junit.framework.TestCase.assertTrue;
+import static org.apache.commons.io.FileUtils.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.isoron.uhabits.ui.screens.habits.list.ListHabitsBehavior.Message.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
 public class ListHabitsBehaviorTest extends BaseUnitTest
@@ -49,7 +54,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     private Habit habit1, habit2;
 
     @Captor
-    ArgumentCaptor<ListHabitsBehavior.NumberPickerCallback> captor;
+    ArgumentCaptor<ListHabitsBehavior.NumberPickerCallback> picker;
 
     @Override
     @Before
@@ -70,9 +75,30 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     public void testOnEdit()
     {
         behavior.onEdit(habit2, DateUtils.getStartOfToday());
-        verify(screen).showNumberPicker(eq(0.1), eq("miles"), captor.capture());
-        captor.getValue().onNumberPicked(100);
+        verify(screen).showNumberPicker(eq(0.1), eq("miles"), picker.capture());
+        picker.getValue().onNumberPicked(100);
         assertThat(habit2.getCheckmarks().getTodayValue(), equalTo(100000));
+    }
+
+    @Test
+    public void testOnExportCSV() throws Exception
+    {
+        File outputDir = createTempDirectory("CSV").toFile();
+        when(system.getCSVOutputDir()).thenReturn(outputDir);
+        behavior.onExportCSV();
+        verify(screen).showSendFileScreen(any());
+        assertThat(listFiles(outputDir, null, false).size(), equalTo(1));
+        deleteDirectory(outputDir);
+    }
+
+    @Test
+    public void testOnExportCSV_fail() throws Exception
+    {
+        File outputDir = createTempDirectory("CSV").toFile();
+        outputDir.setWritable(false);
+        when(system.getCSVOutputDir()).thenReturn(outputDir);
+        behavior.onExportCSV();
+        verify(screen).showMessage(COULD_NOT_EXPORT);
     }
 
     @Test
@@ -126,4 +152,18 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         behavior.onToggle(habit1, DateUtils.getStartOfToday());
         assertFalse(habit1.isCompletedToday());
     }
+
+    @Test
+    public void testOnSendBugReport() throws IOException
+    {
+        when(system.getBugReport()).thenReturn("hello");
+        behavior.onSendBugReport();
+        verify(screen).showSendBugReportToDeveloperScreen("hello");
+
+        when(system.getBugReport()).thenThrow(new IOException());
+        behavior.onSendBugReport();
+        verify(screen).showMessage(COULD_NOT_GENERATE_BUG_REPORT);
+
+    }
+
 }

@@ -17,15 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.list.model;
+package org.isoron.uhabits.ui.screens.habits.list;
+
+import junit.framework.Assert;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
-import org.junit.*;
+import org.junit.Test;
 
 import java.util.*;
 
@@ -33,13 +33,11 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.mockito.Mockito.*;
 
-public class HabitCardListCacheTest extends BaseAndroidTest
+public class HabitCardListCacheTest extends BaseUnitTest
 {
     private HabitCardListCache cache;
 
     private HabitCardListCache.Listener listener;
-
-    private CommandRunner commandRunner;
 
     @Override
     public void setUp()
@@ -49,12 +47,9 @@ public class HabitCardListCacheTest extends BaseAndroidTest
 
         for (int i = 0; i < 10; i++)
         {
-            if (i == 3) fixtures.createLongHabit();
-            else fixtures.createShortHabit();
+            if (i == 3) habitList.add(fixtures.createLongHabit());
+            else habitList.add(fixtures.createShortHabit());
         }
-
-        SingleThreadTaskRunner taskRunner = new SingleThreadTaskRunner();
-        commandRunner = new CommandRunner(taskRunner);
 
         cache = new HabitCardListCache(habitList, commandRunner, taskRunner);
         cache.setCheckmarkCount(10);
@@ -105,7 +100,7 @@ public class HabitCardListCacheTest extends BaseAndroidTest
         assertThat(cache.getHabitCount(), equalTo(10));
 
         Habit h = habitList.getByPosition(3);
-        assertNotNull(h.getId());
+        junit.framework.Assert.assertNotNull(h.getId());
         double score = h.getScores().getTodayValue();
 
         assertThat(cache.getHabitByPosition(3), equalTo(h));
@@ -188,7 +183,7 @@ public class HabitCardListCacheTest extends BaseAndroidTest
     protected void removeHabitAt(int position)
     {
         Habit h = habitList.getByPosition(position);
-        assertNotNull(h);
+        Assert.assertNotNull(h);
         habitList.remove(h);
     }
 
