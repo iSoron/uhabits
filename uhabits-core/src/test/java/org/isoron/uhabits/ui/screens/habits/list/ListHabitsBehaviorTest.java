@@ -24,9 +24,7 @@ import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
-import org.junit.runner.*;
 import org.mockito.*;
-import org.mockito.junit.*;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.*;
@@ -35,7 +33,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ListHabitsBehaviorTest extends BaseUnitTest
 {
     @Mock

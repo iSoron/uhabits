@@ -25,11 +25,14 @@ import org.isoron.uhabits.models.memory.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
+import org.junit.runner.*;
+import org.mockito.junit.*;
 
 import java.util.*;
 
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BaseUnitTest
 {
     protected HabitList habitList;
@@ -67,5 +70,11 @@ public class BaseUnitTest
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day);
         return cal.getTimeInMillis();
+    }
+
+    @Test
+    public void nothing()
+    {
+
     }
 }

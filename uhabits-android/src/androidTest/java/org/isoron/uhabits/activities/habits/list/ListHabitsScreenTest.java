@@ -25,16 +25,18 @@ import android.content.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.commands.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.callbacks.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.*;
+
+import java.util.*;
 
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 import static org.mockito.Mockito.*;
@@ -122,8 +124,6 @@ public class ListHabitsScreenTest extends BaseAndroidTest
     public void testOnCommand()
     {
         Command c = mock(Command.class);
-        when(getExecuteString(c)).thenReturn(
-            R.string.toast_habit_deleted);
         screen.onCommandExecuted(c, null);
         verify(screen).showMessage(R.string.toast_habit_deleted);
     }
@@ -174,12 +174,11 @@ public class ListHabitsScreenTest extends BaseAndroidTest
     @Test
     public void testShowColorPicker()
     {
-        habit.setColor(999);
         ColorPickerDialog picker = mock(ColorPickerDialog.class);
         when(colorPickerDialogFactory.create(999)).thenReturn(picker);
-        OnColorSelectedListener callback = mock(OnColorSelectedListener.class);
+        OnColorPickedCallback callback = mock(OnColorPickedCallback.class);
 
-        screen.showColorPicker(habit, callback);
+        screen.showColorPicker(999, callback);
 
         verify(activity).showDialog(eq(picker), any());
         verify(picker).setListener(callback);
@@ -188,9 +187,7 @@ public class ListHabitsScreenTest extends BaseAndroidTest
     @Test
     public void testShowDeleteConfirmationScreen()
     {
-        ConfirmDeleteDialog.Callback callback;
-        callback = mock(ConfirmDeleteDialog.Callback.class);
-
+        OnConfirmedCallback callback = mock(OnConfirmedCallback.class);
         ConfirmDeleteDialog dialog = mock(ConfirmDeleteDialog.class);
         when(confirmDeleteDialogFactory.create(callback)).thenReturn(dialog);
 
@@ -204,8 +201,7 @@ public class ListHabitsScreenTest extends BaseAndroidTest
     {
         EditHabitDialog dialog = mock(EditHabitDialog.class);
         when(dialogFactory.edit(habit)).thenReturn(dialog);
-
-        screen.showEditHabitScreen(habit);
+        screen.showEditHabitsScreen(Collections.singletonList(habit));
         verify(activity).showDialog(eq(dialog), any());
     }
 

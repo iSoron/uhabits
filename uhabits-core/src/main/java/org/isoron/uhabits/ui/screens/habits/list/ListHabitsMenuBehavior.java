@@ -121,20 +121,6 @@ public class ListHabitsMenuBehavior
         screen.applyTheme();
     }
 
-    private void toggleShowArchived()
-    {
-        showArchived = !showArchived;
-        preferences.setShowArchived(showArchived);
-        updateAdapterFilter();
-    }
-
-    private void toggleShowCompleted()
-    {
-        showCompleted = !showCompleted;
-        preferences.setShowCompleted(showCompleted);
-        updateAdapterFilter();
-    }
-
     private void updateAdapterFilter()
     {
         adapter.setFilter(new HabitMatcherBuilder()

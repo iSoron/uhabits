@@ -27,6 +27,7 @@ import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.junit.*;
 import org.mockito.*;
 
@@ -48,6 +49,8 @@ public class ListHabitsMenuTest extends BaseAndroidTest
 
     private ArgumentCaptor<HabitMatcher> matcherCaptor;
 
+    private ListHabitsMenuBehavior behavior;
+
     @Override
     public void setUp()
     {
@@ -58,13 +61,14 @@ public class ListHabitsMenuTest extends BaseAndroidTest
         adapter = mock(HabitCardListAdapter.class);
         preferences = mock(AndroidPreferences.class);
         themeSwitcher = mock(ThemeSwitcher.class);
+        behavior = mock(ListHabitsMenuBehavior.class);
 
         when(preferences.getShowArchived()).thenReturn(false);
         when(preferences.getShowCompleted()).thenReturn(false);
         when(themeSwitcher.isNightMode()).thenReturn(false);
 
         menu = new ListHabitsMenu(activity, preferences,
-            themeSwitcher);
+            themeSwitcher, behavior);
 
         matcherCaptor = ArgumentCaptor.forClass(HabitMatcher.class);
 
@@ -121,7 +125,7 @@ public class ListHabitsMenuTest extends BaseAndroidTest
     public void testOnSelected_nightMode()
     {
         onItemSelected(R.id.actionToggleNightMode);
-        verify(screen).toggleNightMode();
+        verify(screen).applyTheme();
     }
 
     @Test
