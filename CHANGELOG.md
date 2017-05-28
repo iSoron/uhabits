@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.2 (May 27, 2017)
+
+* Fix crash at startup
+
 ### 1.7.1 (May 21, 2017)
 
 * Fix crash (BadParcelableException)

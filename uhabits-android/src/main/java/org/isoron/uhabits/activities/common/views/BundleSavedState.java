@@ -29,7 +29,7 @@ public class BundleSavedState extends android.support.v4.view.AbsSavedState
             @Override
             public BundleSavedState createFromParcel(Parcel source)
             {
-                return new BundleSavedState(source);
+                return new BundleSavedState(source, getClass().getClassLoader());
             }
 
             @Override
@@ -47,9 +47,9 @@ public class BundleSavedState extends android.support.v4.view.AbsSavedState
         this.bundle = bundle;
     }
 
-    public BundleSavedState(Parcel source)
+    public BundleSavedState(Parcel source, ClassLoader loader)
     {
-        super(source);
+        super(source, loader);
         this.bundle = source.readBundle(getClass().getClassLoader());
     }
 
