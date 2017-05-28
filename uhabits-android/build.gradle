@@ -1,3 +1,4 @@
+apply plugin: 'idea'
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 
@@ -80,6 +81,10 @@ dependencies {
     androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
     androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
     androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc2'
+    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
 
     implementation('com.opencsv:opencsv:3.9') {
         exclude group: 'commons-logging', module: 'commons-logging'
