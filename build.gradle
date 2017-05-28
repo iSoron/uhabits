@@ -9,6 +9,7 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'org.jacoco:org.jacoco.core:+'
     }
 }
 

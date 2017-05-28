@@ -157,8 +157,12 @@ parse_instrumentation_results() {
 }
 
 generate_coverage_badge() {
-	log_info "Generating code coverage badge"
-	python tools/coverage-badge/badge.py -i uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml -o ${OUTPUTS_DIR}/coverage-badge
+	log_info "Generating code coverage report and badge"
+	$GRADLE coverageReport	|| fail
+
+	ANDROID_REPORT=uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml
+	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
+	python tools/coverage-badge/badge.py -i $ANDROID_REPORT:$CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
 }
 
 fetch_artifacts() {
@@ -180,7 +184,7 @@ fetch_logcat() {
 
 run_jvm_tests() {
 	log_info "Running JVM tests"
-	$GRADLE --no-daemon coverageReport	|| fail
+	$GRADLE testDebugUnitTest :uhabits-core:check || fail
 }
 
 uninstall_test_apk() {
@@ -199,8 +203,8 @@ run_local_tests() {
 	parse_instrumentation_results
 	fetch_artifacts
 	fetch_logcat
-	#run_jvm_tests
-	#generate_coverage_badge
+	run_jvm_tests
+	generate_coverage_badge
 	uninstall_test_apk
 }
 
