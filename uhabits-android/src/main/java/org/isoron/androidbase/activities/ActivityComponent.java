@@ -21,7 +21,7 @@ package org.isoron.androidbase.activities;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.core.ui.*;
 
 import dagger.*;
 

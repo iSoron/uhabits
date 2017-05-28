@@ -23,8 +23,8 @@ import android.support.annotation.*;
 
 import com.google.gson.*;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
 import org.json.*;
 
 import javax.inject.*;

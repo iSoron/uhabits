@@ -24,10 +24,10 @@ import android.view.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.junit.*;
 import org.mockito.*;
 

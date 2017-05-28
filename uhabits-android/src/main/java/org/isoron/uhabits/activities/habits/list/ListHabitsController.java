@@ -25,10 +25,10 @@ import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.tasks.android.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
 
 import java.io.*;
 

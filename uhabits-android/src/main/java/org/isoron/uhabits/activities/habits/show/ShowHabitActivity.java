@@ -26,7 +26,7 @@ import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 /**
  * Activity that allows the user to see more information about a single habit.

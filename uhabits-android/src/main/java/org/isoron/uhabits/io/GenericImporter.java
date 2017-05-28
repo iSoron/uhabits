@@ -21,7 +21,7 @@ package org.isoron.uhabits.io;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 import java.io.*;
 import java.util.*;

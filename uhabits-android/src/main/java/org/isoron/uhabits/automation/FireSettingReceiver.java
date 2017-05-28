@@ -23,10 +23,10 @@ import android.content.*;
 import android.os.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.receivers.*;
-import org.isoron.uhabits.ui.widgets.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.ui.widgets.*;
+import org.isoron.uhabits.core.utils.*;
 
 import dagger.*;
 

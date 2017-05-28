@@ -23,15 +23,17 @@ import android.app.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.utils.DateUtils.*;
+import static org.isoron.uhabits.core.utils.DateUtils.*;
 
 @AppScope
 public class ReminderScheduler implements CommandRunner.Listener

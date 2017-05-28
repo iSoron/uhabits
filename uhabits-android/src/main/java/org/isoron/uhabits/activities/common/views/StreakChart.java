@@ -26,7 +26,8 @@ import android.view.*;
 import android.view.ViewGroup.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;

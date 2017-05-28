@@ -28,7 +28,7 @@ import com.activeandroid.annotation.*;
 import com.activeandroid.query.*;
 import com.activeandroid.util.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 
 import java.lang.reflect.*;

@@ -23,7 +23,7 @@ import android.os.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 public class EditSettingActivity extends BaseActivity
 {

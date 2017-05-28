@@ -25,7 +25,7 @@ import com.activeandroid.query.*;
 import com.activeandroid.util.*;
 
 import org.apache.commons.lang3.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 
 import java.util.*;
@@ -261,7 +261,7 @@ public class SQLiteHabitList extends HabitList
         }
     }
 
-    protected synchronized List<Habit> toList()
+    public synchronized List<Habit> toList()
     {
         String query = buildSelectQuery();
         List<HabitRecord> recordList = sqlite.query(query, null);

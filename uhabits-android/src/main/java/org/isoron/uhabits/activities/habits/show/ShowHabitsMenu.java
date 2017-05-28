@@ -24,7 +24,7 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.ui.screens.habits.show.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import javax.inject.*;
 

@@ -27,7 +27,7 @@ import com.google.auto.factory.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.ui.callbacks.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 
 import butterknife.*;
 

@@ -33,14 +33,14 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.views.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.preferences.*;
 
 import butterknife.*;
 
 import static android.view.View.*;
-import static org.isoron.uhabits.activities.ThemeSwitcher.THEME_LIGHT;
+import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
@@ -77,7 +77,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
     @Override
     public int getTheme()
     {
-        AppComponent component =
+        HabitsComponent component =
             ((HabitsApplication) getContext().getApplicationContext()).getComponent();
 
         if(component.getPreferences().getTheme() == THEME_LIGHT)

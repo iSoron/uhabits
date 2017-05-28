@@ -28,7 +28,7 @@ import android.widget.*;
 import com.activeandroid.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.preferences.*;
 
 import static android.appwidget.AppWidgetManager.*;

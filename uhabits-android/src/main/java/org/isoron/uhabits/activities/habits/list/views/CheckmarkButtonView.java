@@ -32,7 +32,7 @@ import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
 
 import static android.view.View.MeasureSpec.*;
-import static org.isoron.uhabits.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
 import static org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome;

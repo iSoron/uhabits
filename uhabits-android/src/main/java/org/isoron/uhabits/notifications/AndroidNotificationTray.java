@@ -28,13 +28,14 @@ import android.support.v4.app.NotificationCompat.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.ui.*;
-import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 

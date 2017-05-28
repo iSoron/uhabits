@@ -24,8 +24,8 @@ import android.content.*;
 import android.support.annotation.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.tasks.*;
 
 import javax.inject.*;
 

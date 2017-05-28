@@ -24,7 +24,7 @@ import android.widget.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.ui.screens.about.*;
+import org.isoron.uhabits.core.ui.screens.about.*;
 
 import javax.inject.*;
 

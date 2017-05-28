@@ -20,16 +20,16 @@
 package org.isoron.uhabits.receivers;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.ui.widgets.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.ui.widgets.*;
+import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.mockito.Mockito.*;
 
 public class WidgetControllerTest extends BaseAndroidTest

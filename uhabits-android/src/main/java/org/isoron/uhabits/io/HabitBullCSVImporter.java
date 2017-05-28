@@ -24,8 +24,8 @@ import android.support.annotation.*;
 import com.activeandroid.*;
 import com.opencsv.*;
 
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
 import java.util.*;

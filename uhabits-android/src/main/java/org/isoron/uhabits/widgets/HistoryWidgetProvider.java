@@ -21,7 +21,7 @@ package org.isoron.uhabits.widgets;
 import android.content.*;
 import android.support.annotation.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 public class HistoryWidgetProvider extends BaseWidgetProvider
 {

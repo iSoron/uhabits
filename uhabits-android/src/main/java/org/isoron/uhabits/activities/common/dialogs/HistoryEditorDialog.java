@@ -29,8 +29,8 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.uhabits.utils.InterfaceUtils.*;

@@ -22,7 +22,7 @@ package org.isoron.uhabits.activities.habits.edit;
 import android.os.*;
 import android.support.annotation.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 import javax.inject.*;
 

@@ -24,7 +24,7 @@ import android.database.*;
 import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 /**
  * The SQLite database record corresponding to a Score.

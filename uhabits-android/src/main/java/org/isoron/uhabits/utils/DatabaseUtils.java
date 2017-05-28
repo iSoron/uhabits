@@ -26,6 +26,7 @@ import com.activeandroid.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 import org.isoron.uhabits.sync.*;

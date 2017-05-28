@@ -27,8 +27,8 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
-import org.isoron.uhabits.ui.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.utils.*;
 
 /**
  * Activity that allows the user to see and modify the list of habits.

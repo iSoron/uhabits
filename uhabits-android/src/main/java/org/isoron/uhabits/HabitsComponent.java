@@ -22,18 +22,21 @@ package org.isoron.uhabits;
 import android.content.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.tasks.android.*;
-import org.isoron.uhabits.ui.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 

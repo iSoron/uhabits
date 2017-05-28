@@ -24,8 +24,8 @@ import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.memory.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.memory.*;
 
 public abstract class HabitCard extends LinearLayout
     implements ModelObservable.Listener

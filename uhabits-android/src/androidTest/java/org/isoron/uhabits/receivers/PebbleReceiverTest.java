@@ -28,7 +28,7 @@ import com.getpebble.android.kit.*;
 import com.getpebble.android.kit.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.receivers.*;
 import org.json.*;
 import org.junit.*;

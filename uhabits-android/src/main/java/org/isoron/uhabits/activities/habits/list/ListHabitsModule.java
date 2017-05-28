@@ -23,7 +23,7 @@ package org.isoron.uhabits.activities.habits.list;
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 
 import dagger.*;
 

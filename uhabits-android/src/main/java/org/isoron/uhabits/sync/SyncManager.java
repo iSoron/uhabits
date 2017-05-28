@@ -25,6 +25,8 @@ import android.util.*;
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.preferences.*;
 import org.json.*;
 

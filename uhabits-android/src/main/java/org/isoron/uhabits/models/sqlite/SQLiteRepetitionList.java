@@ -19,15 +19,15 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.*;
+import android.database.sqlite.*;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.Cache;
+import com.activeandroid.*;
 import com.activeandroid.query.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 import org.jetbrains.annotations.*;
 

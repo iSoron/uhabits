@@ -27,7 +27,7 @@ import android.support.v7.widget.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.show.views.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;

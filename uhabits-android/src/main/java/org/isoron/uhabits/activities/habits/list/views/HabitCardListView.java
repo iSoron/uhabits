@@ -30,7 +30,7 @@ import android.view.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 

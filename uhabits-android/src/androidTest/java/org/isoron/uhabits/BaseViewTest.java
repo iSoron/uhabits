@@ -24,7 +24,6 @@ import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
 
-import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
@@ -36,7 +35,6 @@ import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.view.View.MeasureSpec.*;
-import static junit.framework.Assert.*;
 
 public class BaseViewTest extends BaseAndroidTest
 {

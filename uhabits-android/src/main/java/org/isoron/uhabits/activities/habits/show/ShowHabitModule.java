@@ -23,8 +23,8 @@ import android.support.annotation.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.ui.screens.habits.show.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import dagger.*;
 

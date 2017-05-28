@@ -30,9 +30,10 @@ import android.util.*;
 import junit.framework.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 

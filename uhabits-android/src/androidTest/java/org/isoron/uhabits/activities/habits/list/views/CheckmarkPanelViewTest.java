@@ -22,8 +22,8 @@ package org.isoron.uhabits.activities.habits.list.views;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.*;
 
-import org.isoron.uhabits.models.Checkmark;
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.core.models.Checkmark;
+import org.isoron.uhabits.core.models.Habit;
 import org.isoron.uhabits.BaseViewTest;
 import org.isoron.uhabits.utils.ColorUtils;
 import org.junit.Before;

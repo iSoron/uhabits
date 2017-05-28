@@ -20,6 +20,8 @@ package org.isoron.uhabits.utils;
 
 import android.support.annotation.*;
 
+import org.isoron.uhabits.core.utils.*;
+
 import java.text.*;
 import java.util.*;
 

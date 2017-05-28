@@ -34,13 +34,13 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.commands.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.*;
-import org.isoron.uhabits.ui.callbacks.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;

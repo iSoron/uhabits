@@ -26,8 +26,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 
 /**
  * Dialog that allows the user to pick one or more days of the week.

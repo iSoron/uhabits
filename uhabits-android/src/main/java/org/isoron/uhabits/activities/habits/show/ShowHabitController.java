@@ -23,7 +23,7 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.show.views.*;
-import org.isoron.uhabits.ui.screens.habits.show.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import javax.inject.*;
 

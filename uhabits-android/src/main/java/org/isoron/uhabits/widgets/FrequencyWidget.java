@@ -25,7 +25,7 @@ import android.support.annotation.*;
 import android.view.*;
 
 import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.views.*;
 

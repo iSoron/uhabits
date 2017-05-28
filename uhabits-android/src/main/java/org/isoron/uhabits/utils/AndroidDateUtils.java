@@ -21,8 +21,10 @@ package org.isoron.uhabits.utils;
 
 import android.content.*;
 import android.text.format.*;
+import android.text.format.DateUtils;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
@@ -41,8 +43,8 @@ public class AndroidDateUtils
 
     public static String formatWeekdayList(Context context, boolean weekday[])
     {
-        String shortDayNames[] = DateUtils.getShortDayNames();
-        String longDayNames[] = DateUtils.getLongDayNames();
+        String shortDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getShortDayNames();
+        String longDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getLongDayNames();
         StringBuilder buffer = new StringBuilder();
 
         int count = 0;

@@ -23,7 +23,7 @@ import android.support.test.filters.*;
 import android.support.test.runner.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;

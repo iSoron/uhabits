@@ -24,7 +24,7 @@ import android.support.annotation.*;
 import com.google.auto.factory.*;
 
 import org.isoron.uhabits.activities.habits.list.views.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.preferences.*;
 
 @AutoFactory

@@ -23,8 +23,8 @@ import android.support.test.filters.*;
 import android.support.test.runner.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 

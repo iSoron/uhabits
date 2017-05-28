@@ -24,7 +24,8 @@ import android.support.annotation.Nullable;
 
 import com.activeandroid.query.*;
 
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;

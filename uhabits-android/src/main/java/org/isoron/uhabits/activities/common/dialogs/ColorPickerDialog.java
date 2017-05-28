@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.activities.common.dialogs;
 
-import org.isoron.uhabits.ui.callbacks.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.utils.*;
 
 /**

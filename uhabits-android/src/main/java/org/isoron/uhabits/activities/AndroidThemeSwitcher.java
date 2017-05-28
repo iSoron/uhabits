@@ -23,8 +23,8 @@ import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.ui.*;
 
 import javax.inject.*;
 

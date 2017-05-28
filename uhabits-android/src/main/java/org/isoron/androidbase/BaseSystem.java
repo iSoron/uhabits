@@ -28,9 +28,10 @@ import android.view.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
-import org.isoron.uhabits.ui.screens.habits.show.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
 import java.lang.Process;

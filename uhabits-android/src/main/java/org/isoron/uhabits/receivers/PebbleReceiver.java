@@ -28,12 +28,12 @@ import com.getpebble.android.kit.PebbleKit.*;
 import com.getpebble.android.kit.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
-import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 

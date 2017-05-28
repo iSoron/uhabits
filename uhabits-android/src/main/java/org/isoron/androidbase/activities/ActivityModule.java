@@ -22,7 +22,7 @@ package org.isoron.androidbase.activities;
 import android.content.*;
 
 import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.ui.*;
+import org.isoron.uhabits.core.ui.*;
 
 import dagger.*;
 

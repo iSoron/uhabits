@@ -23,9 +23,9 @@ import android.content.*;
 import android.net.*;
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 
 import javax.inject.*;
 

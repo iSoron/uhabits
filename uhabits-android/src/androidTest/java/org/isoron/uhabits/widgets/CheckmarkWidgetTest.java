@@ -24,13 +24,13 @@ import android.test.suitebuilder.annotation.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.isoron.uhabits.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest

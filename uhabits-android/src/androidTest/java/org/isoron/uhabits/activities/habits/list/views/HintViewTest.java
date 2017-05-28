@@ -23,12 +23,12 @@ import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.ui.screens.habits.list.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(AndroidJUnit4.class)

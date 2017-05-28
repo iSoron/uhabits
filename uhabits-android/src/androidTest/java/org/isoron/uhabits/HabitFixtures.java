@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.utils.DateUtils;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.DateUtils;
 
 public class HabitFixtures
 {

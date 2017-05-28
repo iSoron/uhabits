@@ -27,6 +27,7 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 

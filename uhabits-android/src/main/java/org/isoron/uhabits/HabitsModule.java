@@ -19,9 +19,11 @@
 
 package org.isoron.uhabits;
 
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.ui.*;
 
 import dagger.*;
 

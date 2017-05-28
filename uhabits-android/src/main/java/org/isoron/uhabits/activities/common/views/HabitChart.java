@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.activities.common.views;
 
-import org.isoron.uhabits.models.Habit;
+import org.isoron.uhabits.core.models.Habit;
 
 public interface HabitChart
 {

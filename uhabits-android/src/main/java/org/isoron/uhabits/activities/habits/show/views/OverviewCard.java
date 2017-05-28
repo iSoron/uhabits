@@ -27,8 +27,9 @@ import android.widget.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.tasks.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;

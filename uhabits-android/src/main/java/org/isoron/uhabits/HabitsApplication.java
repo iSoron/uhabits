@@ -27,8 +27,8 @@ import com.activeandroid.*;
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 

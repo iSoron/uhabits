@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.uhabits.commands.*;
-import org.isoron.uhabits.models.*;
-import org.isoron.uhabits.models.memory.*;
-import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.memory.*;
+import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.mockito.junit.*;

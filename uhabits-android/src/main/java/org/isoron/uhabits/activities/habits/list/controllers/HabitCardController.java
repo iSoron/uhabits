@@ -22,7 +22,7 @@ package org.isoron.uhabits.activities.habits.list.controllers;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.activities.habits.list.views.*;
-import org.isoron.uhabits.models.*;
+import org.isoron.uhabits.core.models.*;
 
 public class HabitCardController implements HabitCardView.Controller
 {

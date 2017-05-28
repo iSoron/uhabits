@@ -26,7 +26,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.sync.*;
-import org.isoron.uhabits.ui.widgets.*;
+import org.isoron.uhabits.core.ui.widgets.*;
 
 import dagger.*;
 
