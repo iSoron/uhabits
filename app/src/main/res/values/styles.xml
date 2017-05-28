@@ -260,4 +260,9 @@
     <style name="DialogWithTitle" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">false</item>
     </style>
+
+    <style name="DarkDialogWithTitle"
+           parent="@style/Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">false</item>
+    </style>
 </resources>

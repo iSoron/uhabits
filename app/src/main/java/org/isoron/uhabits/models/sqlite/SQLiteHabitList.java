@@ -261,7 +261,7 @@ public class SQLiteHabitList extends HabitList
         }
     }
 
-    protected List<Habit> toList()
+    protected synchronized List<Habit> toList()
     {
         String query = buildSelectQuery();
         List<HabitRecord> recordList = sqlite.query(query, null);

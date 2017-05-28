@@ -75,7 +75,7 @@
   <string name="interval_4_hour">4 שעות</string>
   <string name="interval_8_hour">8 שעות</string>
   <string name="interval_24_hour">24 שעות</string>
-  <string name="pref_toggle_title">החלפה להפעלה עם לחיצה קצרה</string>
+  <string name="pref_toggle_title">סימון הרגלים בלחיצה קצרה</string>
   <string name="pref_toggle_description">סמנו יעדים בהקשה קצרה במקום לחיצה ממושכת. נוח יותר, אך יכול להוביל ללחיצות לא מכוונות.</string>
   <string name="pref_snooze_interval_title">מרווח נדנוד לתזכורות</string>
   <string name="pref_rate_this_app">דרג/י אותנו ב- Google Play</string>
@@ -107,7 +107,7 @@
   <string name="developers">מפתחים</string>
   <string name="version_n">גרסה %s</string>
   <string name="frequency">תדירות</string>
-  <string name="checkmark">סימן</string>
+  <string name="checkmark">סימון הרגל</string>
   <string name="strength">חוזק</string>
   <string name="best_streaks">רצף שיא</string>
   <string name="current_streaks">רצף נוכחי</string>

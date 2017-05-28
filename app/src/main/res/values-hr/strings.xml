@@ -158,7 +158,7 @@
   <string name="reminder_sound">Zvuk podsjetnika</string>
   <string name="none">Nijedan</string>
   <string name="filter">Filtar</string>
-  <string name="hide_completed">Skrivanje je uspjelo</string>
+  <string name="hide_completed">Sakrij završeno</string>
   <string name="hide_archived">Sakrij arhivirano</string>
   <string name="sticky_notifications">Učini obavijesti trajnima</string>
   <string name="sticky_notifications_description">Spriječava da se obavijesti zanemare.</string>
