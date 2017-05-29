@@ -120,6 +120,12 @@ uninstall_apk() {
 	$ADB uninstall ${PACKAGE_NAME}
 }
 
+install_test_butler() {
+	log_info "Installing Test Butler"
+	$ADB install tools/test-butler-app-1.3.1.apk
+	$ADB uninstall com.linkedin.android.testbutler
+}
+
 install_apk() {
 	if [ ! -z $UNINSTALL_FIRST ]; then
 		uninstall_apk
@@ -141,7 +147,7 @@ install_test_apk() {
 run_instrumented_tests() {
 	log_info "Running instrumented tests"
 	$ADB shell am instrument \
-		-r -e coverage true -e size medium \
+		-r -e coverage true \
 		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
 		> ${OUTPUTS_DIR}/instrument.txt
 
@@ -197,6 +203,7 @@ run_local_tests() {
 	run_adb_as_root
 	build_apk
 	build_instrumentation_apk
+	install_test_butler
 	install_apk
 	install_test_apk
 	run_instrumented_tests
