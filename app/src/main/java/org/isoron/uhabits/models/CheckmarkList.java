@@ -108,7 +108,7 @@ public abstract class CheckmarkList
      *
      * @return value of today's checkmark
      */
-    public final int getTodayValue()
+    public int getTodayValue()
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();

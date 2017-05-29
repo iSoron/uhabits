@@ -24,7 +24,6 @@ import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.*;
-import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
@@ -38,38 +37,54 @@ import java.util.*;
  */
 public class SQLiteCheckmarkList extends CheckmarkList
 {
+
     @Nullable
     private HabitRecord habitRecord;
 
     @NonNull
     private final SQLiteUtils<CheckmarkRecord> sqlite;
 
+    @Nullable
+    private Integer todayValue;
+
+    @NonNull
+    private final SQLiteStatement invalidateStatement;
+
+    @NonNull
+    private final SQLiteStatement addStatement;
+
+    @NonNull
+    private final SQLiteDatabase db;
+
+    private static final String ADD_QUERY =
+        "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
+
+    private static final String INVALIDATE_QUERY =
+        "delete from Checkmarks where habit = ? and timestamp >= ?";
+
     public SQLiteCheckmarkList(Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(CheckmarkRecord.class);
+
+        db = Cache.openDatabase();
+        addStatement = db.compileStatement(ADD_QUERY);
+        invalidateStatement = db.compileStatement(INVALIDATE_QUERY);
     }
 
     @Override
     public void add(List<Checkmark> checkmarks)
     {
         check(habit.getId());
-
-        String query =
-            "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
-
-        SQLiteDatabase db = Cache.openDatabase();
         db.beginTransaction();
         try
         {
-            SQLiteStatement statement = db.compileStatement(query);
-
             for (Checkmark c : checkmarks)
             {
-                statement.bindLong(1, habit.getId());
-                statement.bindLong(2, c.getTimestamp());
-                statement.bindLong(3, c.getValue());
-                statement.execute();
+                addStatement.bindLong(1, habit.getId());
+                addStatement.bindLong(2, c.getTimestamp());
+                addStatement.bindLong(3, c.getValue());
+                addStatement.execute();
             }
 
             db.setTransactionSuccessful();
@@ -115,12 +130,10 @@ public class SQLiteCheckmarkList extends CheckmarkList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        new Delete()
-            .from(CheckmarkRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp >= ?", timestamp)
-            .execute();
-
+        todayValue = null;
+        invalidateStatement.bindLong(1, habit.getId());
+        invalidateStatement.bindLong(2, timestamp);
+        invalidateStatement.execute();
         observable.notifyListeners();
     }
 
@@ -178,5 +191,12 @@ public class SQLiteCheckmarkList extends CheckmarkList
         List<Checkmark> checkmarks = new LinkedList<>();
         for (CheckmarkRecord r : records) checkmarks.add(r.toCheckmark());
         return checkmarks;
+    }
+
+    @Override
+    public int getTodayValue()
+    {
+        if(todayValue == null) todayValue = super.getTodayValue();
+        return todayValue;
     }
 }
