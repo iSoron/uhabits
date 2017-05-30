@@ -43,7 +43,7 @@ public class ToggleRepetitionCommand extends Command
     @Override
     public void execute()
     {
-        habit.getRepetitions().toggleTimestamp(timestamp);
+        habit.getRepetitions().toggle(timestamp);
     }
 
     @NonNull

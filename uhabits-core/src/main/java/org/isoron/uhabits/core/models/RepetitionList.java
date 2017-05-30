@@ -107,6 +107,7 @@ public abstract class RepetitionList
      */
     @Nullable
     public abstract Repetition getOldest();
+
     @Nullable
     /**
      * Returns the newest repetition in the list.
@@ -184,8 +185,11 @@ public abstract class RepetitionList
      * @return the repetition that has been added or removed.
      */
     @NonNull
-    public Repetition toggleTimestamp(long timestamp)
+    public Repetition toggle(long timestamp)
     {
+        if(habit.isNumerical())
+            throw new IllegalStateException("habit must NOT be numerical");
+
         timestamp = DateUtils.getStartOfDay(timestamp);
         Repetition rep = getByTimestamp(timestamp);
 
@@ -207,4 +211,15 @@ public abstract class RepetitionList
      */
     @NonNull
     public abstract long getTotalCount();
+
+    public void toggle(long timestamp, int value)
+    {
+        if(!habit.isNumerical())
+            throw new IllegalStateException("habit must be numerical");
+
+        Repetition rep = getByTimestamp(timestamp);
+        if(rep != null) remove(rep);
+        add(new Repetition(timestamp, value));
+        habit.invalidateNewerThan(timestamp);
+    }
 }

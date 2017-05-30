@@ -100,7 +100,7 @@ public class TickmateDBImporter extends AbstractImporter
                 GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month, day);
 
-                habit.getRepetitions().toggleTimestamp(cal.getTimeInMillis());
+                habit.getRepetitions().toggle(cal.getTimeInMillis());
             } while (c.moveToNext());
         }
         finally

@@ -59,7 +59,7 @@ public class WidgetControllerTest extends BaseAndroidUnitTest
     @Test
     public void testOnAddRepetition_whenChecked() throws Exception
     {
-        habit.getRepetitions().toggleTimestamp(today);
+        habit.getRepetitions().toggle(today);
         int todayValue = habit.getCheckmarks().getTodayValue();
         assertThat(todayValue, equalTo(CHECKED_EXPLICITLY));
         controller.onAddRepetition(habit, today);
@@ -79,7 +79,7 @@ public class WidgetControllerTest extends BaseAndroidUnitTest
     @Test
     public void testOnRemoveRepetition_whenChecked() throws Exception
     {
-        habit.getRepetitions().toggleTimestamp(today);
+        habit.getRepetitions().toggle(today);
         int todayValue = habit.getCheckmarks().getTodayValue();
         assertThat(todayValue, equalTo(CHECKED_EXPLICITLY));
         controller.onRemoveRepetition(habit, today);

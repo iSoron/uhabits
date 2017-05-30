@@ -322,7 +322,13 @@ public class Habit
     public synchronized boolean isCompletedToday()
     {
         int todayCheckmark = getCheckmarks().getTodayValue();
-        if (isNumerical()) return todayCheckmark >= data.targetValue;
+        if (isNumerical())
+        {
+            if(getTargetType() == AT_LEAST)
+                return todayCheckmark >= data.targetValue;
+            else
+                return todayCheckmark <= data.targetValue;
+        }
         else return (todayCheckmark != UNCHECKED);
     }
 

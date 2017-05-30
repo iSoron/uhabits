@@ -27,9 +27,12 @@ import org.junit.*;
 
 import java.util.*;
 
-import static org.hamcrest.MatcherAssert.*;
+import static junit.framework.TestCase.assertFalse;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.*;
 import static org.hamcrest.core.IsEqual.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class RepetitionListTest extends BaseUnitTest
@@ -58,14 +61,15 @@ public class RepetitionListTest extends BaseUnitTest
         today = DateUtils.getStartOfToday();
         day = DateUtils.millisecondsInOneDay;
 
-        reps.toggleTimestamp(today - 3 * day);
-        reps.toggleTimestamp(today - 2 * day);
-        reps.toggleTimestamp(today);
-        reps.toggleTimestamp(today - 7 * day);
-        reps.toggleTimestamp(today - 5 * day);
+        reps.toggle(today - 3 * day);
+        reps.toggle(today - 2 * day);
+        reps.toggle(today);
+        reps.toggle(today - 7 * day);
+        reps.toggle(today - 5 * day);
 
         listener = mock(ModelObservable.Listener.class);
         reps.getObservable().addListener(listener);
+        reset(listener);
     }
 
     @Override
@@ -130,7 +134,7 @@ public class RepetitionListTest extends BaseUnitTest
                         weekdayCount[month][week]++;
                         monthCount[month]++;
                     }
-                    reps.toggleTimestamp(day.getTimeInMillis());
+                    reps.toggle(day.getTimeInMillis());
                 }
             }
 
@@ -155,17 +159,33 @@ public class RepetitionListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_toggleTimestamp()
+    public void test_toggle()
     {
-        assertThat(reps.containsTimestamp(today), equalTo(true));
-        reps.toggleTimestamp(today);
-        assertThat(reps.containsTimestamp(today), equalTo(false));
+        assertTrue(reps.containsTimestamp(today));
+        reps.toggle(today);
+        assertFalse(reps.containsTimestamp(today));
         verify(listener).onModelChange();
         reset(listener);
 
-        assertThat(reps.containsTimestamp(today - day), equalTo(false));
-        reps.toggleTimestamp(today - day);
-        assertThat(reps.containsTimestamp(today - day), equalTo(true));
+        assertFalse(reps.containsTimestamp(today - day));
+        reps.toggle(today - day);
+        assertTrue(reps.containsTimestamp(today - day));
         verify(listener).onModelChange();
+        reset(listener);
+
+        habit.setType(Habit.NUMBER_HABIT);
+        reps.toggle(today, 100);
+        Repetition check = reps.getByTimestamp(today);
+        assertNotNull(check);
+        assertThat(check.getValue(), equalTo(100));
+        verify(listener).onModelChange();
+        reset(listener);
+
+        reps.toggle(today, 500);
+        check = reps.getByTimestamp(today);
+        assertNotNull(check);
+        assertThat(check.getValue(), equalTo(500));
+        verify(listener, times(2)).onModelChange();
+        reset(listener);
     }
 }

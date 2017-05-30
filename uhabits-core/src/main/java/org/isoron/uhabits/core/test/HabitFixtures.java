@@ -58,7 +58,7 @@ public class HabitFixtures
             81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getRepetitions().toggleTimestamp(today - mark * day);
+            habit.getRepetitions().toggle(today - mark * day);
 
         return habit;
     }
@@ -98,7 +98,7 @@ public class HabitFixtures
         long timestamp = DateUtils.getStartOfToday();
         for (boolean c : NON_DAILY_HABIT_CHECKS)
         {
-            if (c) habit.getRepetitions().toggleTimestamp(timestamp);
+            if (c) habit.getRepetitions().toggle(timestamp);
             timestamp -= DateUtils.millisecondsInOneDay;
         }
 

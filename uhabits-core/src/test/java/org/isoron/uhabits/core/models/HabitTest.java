@@ -21,12 +21,17 @@ package org.isoron.uhabits.core.models;
 
 import org.isoron.uhabits.*;
 import org.junit.*;
+import org.junit.rules.*;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.isoron.uhabits.core.utils.DateUtils.*;
 import static org.junit.Assert.*;
 
 public class HabitTest extends BaseUnitTest
 {
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Override
     public void setUp()
     {
@@ -75,5 +80,50 @@ public class HabitTest extends BaseUnitTest
 
         h.clearReminder();
         assertThat(h.hasReminder(), is(false));
+    }
+
+    @Test
+    public void test_isCompleted() throws Exception
+    {
+        Habit h = modelFactory.buildHabit();
+        assertFalse(h.isCompletedToday());
+        h.getRepetitions().toggle(getStartOfToday());
+        assertTrue(h.isCompletedToday());
+    }
+
+    @Test
+    public void test_isCompleted_numerical() throws Exception
+    {
+        Habit h = modelFactory.buildHabit();
+        h.setType(Habit.NUMBER_HABIT);
+        h.setTargetType(Habit.AT_LEAST);
+        h.setTargetValue(100.0);
+        assertFalse(h.isCompletedToday());
+
+        h.getRepetitions().toggle(getStartOfToday(), 200);
+        assertTrue(h.isCompletedToday());
+        h.getRepetitions().toggle(getStartOfToday(), 100);
+        assertTrue(h.isCompletedToday());
+        h.getRepetitions().toggle(getStartOfToday(), 50);
+        assertFalse(h.isCompletedToday());
+
+        h.setTargetType(Habit.AT_MOST);
+        h.getRepetitions().toggle(getStartOfToday(), 200);
+        assertFalse(h.isCompletedToday());
+        h.getRepetitions().toggle(getStartOfToday(), 100);
+        assertTrue(h.isCompletedToday());
+        h.getRepetitions().toggle(getStartOfToday(), 50);
+        assertTrue(h.isCompletedToday());
+    }
+
+    @Test
+    public void testURI() throws Exception
+    {
+        assertTrue(habitList.isEmpty());
+        Habit h = modelFactory.buildHabit();
+        habitList.add(h);
+        assertThat(h.getId(), equalTo(0L));
+        assertThat(h.getUriString(),
+            equalTo("content://org.isoron.uhabits/habit/0"));
     }
 }
