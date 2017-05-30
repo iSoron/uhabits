@@ -113,7 +113,7 @@ public abstract class CheckmarkList
      *
      * @return value of today's checkmark
      */
-    public synchronized final int getTodayValue()
+    public synchronized int getTodayValue()
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();

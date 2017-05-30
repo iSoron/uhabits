@@ -24,7 +24,6 @@ import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
 import com.activeandroid.*;
-import com.activeandroid.query.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
@@ -37,11 +36,29 @@ import java.util.*;
  */
 public class SQLiteScoreList extends ScoreList
 {
+
     @Nullable
     private HabitRecord habitRecord;
 
     @NonNull
     private final SQLiteUtils<ScoreRecord> sqlite;
+
+    @Nullable
+    private Double todayValue;
+
+    @NonNull
+    private final SQLiteStatement invalidateStatement;
+
+    @NonNull
+    private final SQLiteStatement addStatement;
+
+    public static final String ADD_QUERY =
+        "insert into Score(habit, timestamp, score) values (?,?,?)";
+
+    public static final String INVALIDATE_QUERY =
+        "delete from Score where habit = ? " + "and timestamp >= ?";
+
+    private final SQLiteDatabase db;
 
     /**
      * Constructs a new ScoreList associated with the given habit.
@@ -52,28 +69,25 @@ public class SQLiteScoreList extends ScoreList
     {
         super(habit);
         sqlite = new SQLiteUtils<>(ScoreRecord.class);
+
+        db = Cache.openDatabase();
+        addStatement = db.compileStatement(ADD_QUERY);
+        invalidateStatement = db.compileStatement(INVALIDATE_QUERY);
     }
 
     @Override
     public void add(List<Score> scores)
     {
         check(habit.getId());
-        String query =
-            "insert into Score(habit, timestamp, score) values (?,?,?)";
-
-        SQLiteDatabase db = Cache.openDatabase();
         db.beginTransaction();
-
         try
         {
-            SQLiteStatement statement = db.compileStatement(query);
-
             for (Score s : scores)
             {
-                statement.bindLong(1, habit.getId());
-                statement.bindLong(2, s.getTimestamp());
-                statement.bindDouble(3, s.getValue());
-                statement.execute();
+                addStatement.bindLong(1, habit.getId());
+                addStatement.bindLong(2, s.getTimestamp());
+                addStatement.bindDouble(3, s.getValue());
+                addStatement.execute();
             }
 
             db.setTransactionSuccessful();
@@ -126,13 +140,10 @@ public class SQLiteScoreList extends ScoreList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        new Delete()
-            .from(ScoreRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp >= ?", timestamp)
-            .execute();
-
         todayValue = null;
+        invalidateStatement.bindLong(1, habit.getId());
+        invalidateStatement.bindLong(2, timestamp);
+        invalidateStatement.execute();
         getObservable().notifyListeners();
     }
 
@@ -204,5 +215,12 @@ public class SQLiteScoreList extends ScoreList
         List<Score> scores = new LinkedList<>();
         for (ScoreRecord r : records) scores.add(r.toScore());
         return scores;
+    }
+
+    @Override
+    public double getTodayValue()
+    {
+        if (todayValue == null) todayValue = super.getTodayValue();
+        return todayValue;
     }
 }

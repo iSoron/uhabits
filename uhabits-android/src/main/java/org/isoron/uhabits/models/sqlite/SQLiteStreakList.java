@@ -19,10 +19,11 @@
 
 package org.isoron.uhabits.models.sqlite;
 
+import android.database.sqlite.*;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.query.*;
+import com.activeandroid.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
@@ -42,10 +43,17 @@ public class SQLiteStreakList extends StreakList
     @NonNull
     private final SQLiteUtils<StreakRecord> sqlite;
 
+    private final SQLiteStatement invalidateStatement;
+
     public SQLiteStreakList(Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(StreakRecord.class);
+
+        SQLiteDatabase db = Cache.openDatabase();
+        String invalidateQuery = "delete from Streak where habit = ? " +
+                                 "and end >= ?";
+        invalidateStatement = db.compileStatement(invalidateQuery);
     }
 
     @Override
@@ -74,12 +82,9 @@ public class SQLiteStreakList extends StreakList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        new Delete()
-            .from(StreakRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("end >= ?", timestamp - DateUtils.millisecondsInOneDay)
-            .execute();
-
+        invalidateStatement.bindLong(1, habit.getId());
+        invalidateStatement.bindLong(2, timestamp - DateUtils.millisecondsInOneDay);
+        invalidateStatement.execute();
         observable.notifyListeners();
     }
 

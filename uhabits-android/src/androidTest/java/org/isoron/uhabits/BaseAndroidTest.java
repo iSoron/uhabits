@@ -37,6 +37,7 @@ import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -161,5 +162,19 @@ public class BaseAndroidTest extends TestCase
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day);
         return cal.getTimeInMillis();
+    }
+
+    protected void startTracing()
+    {
+        File dir = baseSystem.getFilesDir("Profile");
+        assertNotNull(dir);
+        String tracePath = dir.getAbsolutePath() + "/performance.trace";
+        Log.d("PerformanceTest", String.format("Saving trace file to %s", tracePath));
+        Debug.startMethodTracingSampling(tracePath, 0, 1000);
+    }
+
+    protected void stopTracing()
+    {
+        Debug.stopMethodTracing();
     }
 }
