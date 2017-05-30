@@ -153,6 +153,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
     }
 
     @Override
+    @Nullable
     protected Checkmark getOldestComputed()
     {
         check(habit.getId());

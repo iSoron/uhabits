@@ -24,6 +24,7 @@ import android.support.test.uiautomator.*;
 
 import com.linkedin.android.testbutler.*;
 
+import org.isoron.androidbase.*;
 import org.junit.*;
 
 import static android.support.test.InstrumentationRegistry.*;
@@ -39,8 +40,14 @@ public class BaseUIAutomatorTest
     public void setUp()
     {
         TestButler.setup(getTargetContext());
-        TestButler.verifyAnimationsDisabled(getTargetContext());
         device = getInstance(getInstrumentation());
+
+        HabitsComponent component = DaggerHabitsComponent
+            .builder()
+            .appModule(new AppModule(getTargetContext()))
+            .build();
+
+        HabitsApplication.setComponent(component);
     }
 
     @After

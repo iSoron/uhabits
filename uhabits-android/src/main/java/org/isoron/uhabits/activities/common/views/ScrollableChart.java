@@ -107,6 +107,12 @@ public abstract class ScrollableChart extends View
     @Override
     public void onRestoreInstanceState(Parcelable state)
     {
+        if(!(state instanceof BundleSavedState))
+        {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
         BundleSavedState bss = (BundleSavedState) state;
         int x = bss.bundle.getInt("x");
         int y = bss.bundle.getInt("y");

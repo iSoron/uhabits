@@ -72,6 +72,7 @@ public class MemoryCheckmarkList extends CheckmarkList
     }
 
     @Override
+    @Nullable
     protected Checkmark getOldestComputed()
     {
         if(list.isEmpty()) return null;
@@ -79,6 +80,7 @@ public class MemoryCheckmarkList extends CheckmarkList
     }
 
     @Override
+    @Nullable
     protected Checkmark getNewestComputed()
     {
         if(list.isEmpty()) return null;

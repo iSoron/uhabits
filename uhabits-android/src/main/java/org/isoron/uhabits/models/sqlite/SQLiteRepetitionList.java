@@ -38,6 +38,7 @@ import java.util.*;
  */
 public class SQLiteRepetitionList extends RepetitionList
 {
+
     private final SQLiteUtils<RepetitionRecord> sqlite;
 
     @Nullable
@@ -45,14 +46,17 @@ public class SQLiteRepetitionList extends RepetitionList
 
     private SQLiteStatement addStatement;
 
+    public static final String ADD_QUERY =
+        "insert into repetitions(habit, timestamp, value) " +
+        "values (?,?,?)";
+
     public SQLiteRepetitionList(@NonNull Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(RepetitionRecord.class);
 
         SQLiteDatabase db = Cache.openDatabase();
-        String addQuery = "insert into repetitions(habit, timestamp) values (?,?)";
-        addStatement = db.compileStatement(addQuery);
+        addStatement = db.compileStatement(ADD_QUERY);
     }
 
     /**
@@ -69,6 +73,7 @@ public class SQLiteRepetitionList extends RepetitionList
         check(habit.getId());
         addStatement.bindLong(1, habit.getId());
         addStatement.bindLong(2, rep.getTimestamp());
+        addStatement.bindLong(3, rep.getValue());
         addStatement.execute();
         observable.notifyListeners();
     }
