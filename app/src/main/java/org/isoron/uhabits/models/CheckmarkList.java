@@ -192,7 +192,7 @@ public abstract class CheckmarkList
         Checkmark newest = getNewestComputed();
         Checkmark oldest = getOldestComputed();
 
-        if (newest == null)
+        if (newest == null || oldest == null)
         {
             forceRecompute(from, to);
         }
@@ -208,6 +208,7 @@ public abstract class CheckmarkList
      *
      * @return oldest checkmark already computed
      */
+    @Nullable
     protected abstract Checkmark getOldestComputed();
 
     /**
@@ -285,5 +286,6 @@ public abstract class CheckmarkList
      *
      * @return newest checkmark already computed
      */
+    @Nullable
     protected abstract Checkmark getNewestComputed();
 }
