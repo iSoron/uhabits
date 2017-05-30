@@ -28,6 +28,10 @@ import org.isoron.uhabits.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 
+import java.util.*;
+
+import static org.isoron.uhabits.utils.DateUtils.*;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class HistoryCardTest extends BaseViewTest
@@ -44,6 +48,11 @@ public class HistoryCardTest extends BaseViewTest
     {
         super.setUp();
         habit = fixtures.createLongHabit();
+        List<Repetition> reps = habit
+            .getRepetitions()
+            .getByInterval(getStartOfToday() - 30 * millisecondsInOneDay,
+                getStartOfToday());
+        int[] values = habit.getCheckmarks().getAllValues();
 
         view = (HistoryCard) LayoutInflater
             .from(targetContext)

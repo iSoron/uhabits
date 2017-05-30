@@ -34,9 +34,9 @@ import org.junit.runner.*;
 
 import java.util.*;
 
-import static org.hamcrest.MatcherAssert.*;
+import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.MatcherAssert.*;
 import static org.isoron.uhabits.models.Checkmark.*;
 
 @RunWith(AndroidJUnit4.class)
@@ -66,13 +66,14 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     public void testAdd()
     {
         RepetitionRecord record = getByTimestamp(today + day);
-        assertThat(record, is(nullValue()));
+        assertNull(record);
 
         Repetition rep = new Repetition(today + day, CHECKED_EXPLICITLY);
         habit.getRepetitions().add(rep);
 
         record = getByTimestamp(today + day);
-        assertThat(record, is(not(nullValue())));
+        assertNotNull(record);
+        assertThat(record.value, equalTo(CHECKED_EXPLICITLY));
     }
 
     @Test
@@ -91,18 +92,18 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     public void testGetByTimestamp()
     {
         Repetition rep = repetitions.getByTimestamp(today);
-        assertThat(rep, is(not(nullValue())));
+        assertNotNull(rep);
         assertThat(rep.getTimestamp(), equalTo(today));
 
         rep = repetitions.getByTimestamp(today - 2 * day);
-        assertThat(rep, is(nullValue()));
+        assertNull(rep);
     }
 
     @Test
     public void testGetOldest()
     {
         Repetition rep = repetitions.getOldest();
-        assertThat(rep, is(not(nullValue())));
+        assertNotNull(rep);
         assertThat(rep.getTimestamp(), equalTo(today - 120 * day));
     }
 
@@ -111,20 +112,20 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     {
         Habit empty = fixtures.createEmptyHabit();
         Repetition rep = empty.getRepetitions().getOldest();
-        assertThat(rep, is(nullValue()));
+        assertNull(rep);
     }
 
     @Test
     public void testRemove()
     {
         RepetitionRecord record = getByTimestamp(today);
-        assertThat(record, is(not(nullValue())));
+        assertNotNull(record);
 
         Repetition rep = record.toRepetition();
         repetitions.remove(rep);
 
         record = getByTimestamp(today);
-        assertThat(record, is(nullValue()));
+        assertNull(record);
     }
 
     @Nullable

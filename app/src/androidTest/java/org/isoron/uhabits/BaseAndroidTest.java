@@ -33,6 +33,7 @@ import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -152,5 +153,19 @@ public class BaseAndroidTest
         {
             fail();
         }
+    }
+
+    protected void startTracing()
+    {
+        File dir = FileUtils.getFilesDir(targetContext, "Profile");
+        assertNotNull(dir);
+        String tracePath = dir.getAbsolutePath() + "/performance.trace";
+        Log.d("PerformanceTest", String.format("Saving trace file to %s", tracePath));
+        Debug.startMethodTracingSampling(tracePath, 0, 1000);
+    }
+
+    protected void stopTracing()
+    {
+        Debug.stopMethodTracing();
     }
 }

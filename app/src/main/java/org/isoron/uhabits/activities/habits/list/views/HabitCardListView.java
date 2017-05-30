@@ -155,6 +155,12 @@ public class HabitCardListView extends RecyclerView
     @Override
     protected void onRestoreInstanceState(Parcelable state)
     {
+        if(!(state instanceof BundleSavedState))
+        {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
         BundleSavedState bss = (BundleSavedState) state;
         dataOffset = bss.bundle.getInt("dataOffset");
         super.onRestoreInstanceState(bss.getSuperState());
