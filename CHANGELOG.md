@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.7.3 (May 30, 2017)
+
+* Improve performance of 'sort by score'
+* Other minor bug fixes
+
 ### 1.7.2 (May 27, 2017)
 
 * Fix crash at startup

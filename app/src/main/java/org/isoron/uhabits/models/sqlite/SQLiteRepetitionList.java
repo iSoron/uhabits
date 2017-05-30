@@ -19,12 +19,12 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.*;
+import android.database.sqlite.*;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.Cache;
+import com.activeandroid.*;
 import com.activeandroid.query.*;
 
 import org.isoron.uhabits.models.*;
@@ -43,10 +43,16 @@ public class SQLiteRepetitionList extends RepetitionList
     @Nullable
     private HabitRecord habitRecord;
 
+    private SQLiteStatement addStatement;
+
     public SQLiteRepetitionList(@NonNull Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(RepetitionRecord.class);
+
+        SQLiteDatabase db = Cache.openDatabase();
+        String addQuery = "insert into repetitions(habit, timestamp) values (?,?)";
+        addStatement = db.compileStatement(addQuery);
     }
 
     /**
@@ -61,11 +67,9 @@ public class SQLiteRepetitionList extends RepetitionList
     public void add(Repetition rep)
     {
         check(habit.getId());
-
-        RepetitionRecord record = new RepetitionRecord();
-        record.copyFrom(rep);
-        record.habit = habitRecord;
-        record.save();
+        addStatement.bindLong(1, habit.getId());
+        addStatement.bindLong(2, rep.getTimestamp());
+        addStatement.execute();
         observable.notifyListeners();
     }
 

@@ -20,24 +20,27 @@
 package org.isoron.uhabits.activities.common.views;
 
 import android.os.*;
+import android.support.v4.os.*;
 
 public class BundleSavedState extends android.support.v4.view.AbsSavedState
 {
     public static final Parcelable.Creator<BundleSavedState> CREATOR =
-        new Parcelable.Creator<BundleSavedState>()
-        {
-            @Override
-            public BundleSavedState createFromParcel(Parcel source)
+        ParcelableCompat.newCreator(
+            new ParcelableCompatCreatorCallbacks<BundleSavedState>()
             {
-                return new BundleSavedState(source, getClass().getClassLoader());
-            }
+                @Override
+                public BundleSavedState createFromParcel(Parcel source,
+                                                         ClassLoader loader)
+                {
+                    return new BundleSavedState(source, loader);
+                }
 
-            @Override
-            public BundleSavedState[] newArray(int size)
-            {
-                return new BundleSavedState[size];
-            }
-        };
+                @Override
+                public BundleSavedState[] newArray(int size)
+                {
+                    return new BundleSavedState[size];
+                }
+            });
 
     public final Bundle bundle;
 
@@ -50,7 +53,7 @@ public class BundleSavedState extends android.support.v4.view.AbsSavedState
     public BundleSavedState(Parcel source, ClassLoader loader)
     {
         super(source, loader);
-        this.bundle = source.readBundle(getClass().getClassLoader());
+        this.bundle = source.readBundle(loader);
     }
 
     @Override
