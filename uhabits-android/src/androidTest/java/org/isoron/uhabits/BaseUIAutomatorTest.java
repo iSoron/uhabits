@@ -20,46 +20,66 @@
 package org.isoron.uhabits;
 
 import android.content.*;
+import android.support.test.filters.*;
 import android.support.test.uiautomator.*;
 
 import com.linkedin.android.testbutler.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
+
+import java.io.*;
 
 import static android.support.test.InstrumentationRegistry.*;
 import static android.support.test.uiautomator.UiDevice.*;
 
+@LargeTest
 public class BaseUIAutomatorTest
 {
-    static final String PKG = "org.isoron.uhabits";
+    private static final String PKG = "org.isoron.uhabits";
 
-    protected UiDevice device;
+    public static UiDevice device;
+
+    private HabitsComponent component;
 
     @Before
-    public void setUp()
+    public void setUp() throws IOException
     {
         TestButler.setup(getTargetContext());
+        TestButler.verifyAnimationsDisabled(getTargetContext());
         device = getInstance(getInstrumentation());
 
-        HabitsComponent component = DaggerHabitsComponent
+        component = DaggerHabitsComponent
             .builder()
             .appModule(new AppModule(getTargetContext()))
             .build();
 
+        AndroidPreferences prefs = component.getPreferences();
+        prefs.reset();
+        prefs.setFirstRun(false);
+
         HabitsApplication.setComponent(component);
+
+        FileUtils.copy(getContext().getAssets().open("test.db"),
+            DatabaseUtils.getDatabaseFile(getTargetContext()));
     }
 
     @After
-    public void tearDown()
+    public void tearDown() throws Exception
     {
+        device.pressHome();
+        device.waitForIdle();
         TestButler.teardown(getTargetContext());
     }
 
-    protected void startActivity(Class cls)
+    public static void startActivity(Class cls)
     {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(PKG, cls.getCanonicalName()));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         getContext().startActivity(intent);
     }
 }

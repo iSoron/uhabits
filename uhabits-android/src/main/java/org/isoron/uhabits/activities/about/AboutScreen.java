@@ -23,10 +23,12 @@ import android.support.annotation.*;
 import android.widget.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.core.ui.screens.about.*;
+import org.isoron.uhabits.intents.*;
 
 import javax.inject.*;
+
+import static org.isoron.uhabits.core.ui.screens.about.AboutBehavior.Message.*;
 
 public class AboutScreen extends BaseScreen implements AboutBehavior.Screen
 {
@@ -44,7 +46,9 @@ public class AboutScreen extends BaseScreen implements AboutBehavior.Screen
     @Override
     public void showMessage(AboutBehavior.Message message)
     {
-        Toast.makeText(activity, "OK", Toast.LENGTH_LONG).show();
+        if (message == YOU_ARE_NOW_A_DEVELOPER) Toast
+            .makeText(activity, "You are now a developer", Toast.LENGTH_LONG)
+            .show();
     }
 
     @Override

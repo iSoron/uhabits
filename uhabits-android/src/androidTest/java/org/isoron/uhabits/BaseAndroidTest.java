@@ -25,6 +25,7 @@ import android.content.res.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.test.*;
+import android.support.test.filters.*;
 import android.util.*;
 
 import junit.framework.*;
@@ -44,6 +45,7 @@ import java.util.concurrent.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
+@MediumTest
 public class BaseAndroidTest extends TestCase
 {
     // 8:00am, January 25th, 2015 (UTC)

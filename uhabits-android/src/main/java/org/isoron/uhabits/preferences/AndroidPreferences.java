@@ -80,6 +80,13 @@ public class AndroidPreferences
         }
     }
 
+    public void reset()
+    {
+        if(!HabitsApplication.isTestMode()) throw new IllegalStateException(
+            "this method can only be used while testing");
+        prefs.edit().clear().commit();
+    }
+
     public void setDefaultOrder(HabitList.Order order)
     {
         prefs.edit().putString("pref_default_order", order.name()).apply();

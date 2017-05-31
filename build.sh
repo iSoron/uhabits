@@ -147,9 +147,9 @@ install_test_apk() {
 run_instrumented_tests() {
 	log_info "Running instrumented tests"
 	$ADB shell am instrument \
-		-r -e coverage true \
+		-r -e coverage true -e size medium \
 		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
-		> ${OUTPUTS_DIR}/instrument.txt
+		| tee ${OUTPUTS_DIR}/instrument.txt
 
 	mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
 	$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \

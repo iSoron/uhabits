@@ -17,32 +17,30 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.integration;
-
-import android.support.test.filters.*;
+package org.isoron.uhabits.acceptance;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.about.*;
-import org.isoron.uhabits.activities.habits.list.*;
 import org.junit.*;
 
-import static java.lang.Thread.*;
+import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
+import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*;
+import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 
-@LargeTest
-public class SavedStateTest extends BaseUIAutomatorTest
+public class AboutTest extends BaseUIAutomatorTest
 {
-    /**
-     * Make sure that the main activity can be recreated by using
-     * BundleSavedState after being destroyed. See bug:
-     * https://github.com/iSoron/uhabits/issues/287
-     */
     @Test
-    public void testBundleSavedState() throws Exception
+    public void shouldDisplayAboutScreen()
     {
-        startActivity(ListHabitsActivity.class);
-        device.waitForIdle();
-        startActivity(AboutActivity.class);
-        sleep(1000);
-        device.pressBack();
+        launchApp();
+        clickMenu(ABOUT);
+        verifyDisplaysText("Loop Habit Tracker");
+        verifyDisplaysText("Rate this app on Google Play");
+        verifyDisplaysText("Developers");
+        verifyDisplaysText("Translators");
+
+        launchApp();
+        clickMenu(SETTINGS);
+        clickText("About");
+        verifyDisplaysText("Translators");
     }
 }
