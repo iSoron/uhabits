@@ -20,6 +20,8 @@
 package org.isoron.uhabits.utils;
 
 import android.app.*;
+import android.support.test.runner.*;
+import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.commands.*;
@@ -27,12 +29,15 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
 import org.junit.*;
+import org.junit.runner.*;
 
 import java.util.*;
 
-import static java.util.Arrays.asList;
+import static java.util.Arrays.*;
 import static org.mockito.Mockito.*;
 
+@RunWith(AndroidJUnit4.class)
+@MediumTest
 public class ReminderSchedulerTest extends BaseAndroidTest
 {
     private Habit habit;
@@ -96,6 +101,7 @@ public class ReminderSchedulerTest extends BaseAndroidTest
         long now = timestamp(2015, 1, 26, 13, 0);
         DateUtils.setFixedLocalTime(now);
 
+        fixtures.purgeHabits(habitList);
         Habit h1 = fixtures.createEmptyHabit();
         Habit h2 = fixtures.createEmptyHabit();
         Habit h3 = fixtures.createEmptyHabit();

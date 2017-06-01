@@ -63,7 +63,7 @@ public class HabitsApplication extends Application
     {
         try
         {
-            Class.forName ("org.isoron.uhabits.BaseAndroidTest");
+            Class.forName("org.isoron.uhabits.BaseAndroidTest");
             return true;
         }
         catch (final ClassNotFoundException e)

@@ -19,14 +19,20 @@
 
 package org.isoron.uhabits.acceptance;
 
+import android.support.test.filters.*;
+import android.support.test.runner.*;
+
 import org.isoron.uhabits.*;
 import org.junit.*;
+import org.junit.runner.*;
 
 import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
 import static org.isoron.uhabits.acceptance.steps.EditHabitSteps.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 
+@RunWith(AndroidJUnit4.class)
+@LargeTest
 public class HabitsTest extends BaseUIAutomatorTest
 {
     @Test

@@ -19,15 +19,19 @@
 
 package org.isoron.uhabits.acceptance;
 
+import android.support.test.filters.*;
+import android.support.test.runner.*;
+
 import org.isoron.uhabits.*;
 import org.junit.*;
+import org.junit.runner.*;
 
 import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
+import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
-import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ABOUT;
-import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.HELP;
-import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS;
 
+@RunWith(AndroidJUnit4.class)
+@LargeTest
 public class LinksTest extends BaseUIAutomatorTest
 {
     @Test

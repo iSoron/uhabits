@@ -20,7 +20,6 @@
 package org.isoron.uhabits;
 
 import android.content.*;
-import android.support.test.filters.*;
 import android.support.test.uiautomator.*;
 
 import com.linkedin.android.testbutler.*;
@@ -36,7 +35,6 @@ import java.io.*;
 import static android.support.test.InstrumentationRegistry.*;
 import static android.support.test.uiautomator.UiDevice.*;
 
-@LargeTest
 public class BaseUIAutomatorTest
 {
     private static final String PKG = "org.isoron.uhabits";

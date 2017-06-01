@@ -72,30 +72,28 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
     annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
 
-    androidTestImplementation project(":uhabits-core")
+    androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
+    androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    androidTestImplementation 'com.google.dagger:dagger:2.9'
+    androidTestImplementation 'com.linkedin.testbutler:test-butler-library:1.3.1'
+    androidTestImplementation "org.mockito:mockito-android:2.8.9"
+    androidTestCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
     androidTestImplementation 'com.android.support:support-annotations:25.3.1'
     androidTestImplementation 'com.android.support.test:rules:0.5'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.google.guava:guava:20.0'
-    androidTestCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
-    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
-    androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-    androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    androidTestImplementation project(":uhabits-core")
 
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
-
     testCompile 'com.google.dagger:dagger:2.9'
     testCompile "org.mockito:mockito-core:2.8.9"
     testCompile "org.mockito:mockito-inline:2.8.9"
-    androidTestCompile 'com.google.dagger:dagger:2.9'
-    androidTestCompile "org.mockito:mockito-android:2.8.9"
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
-    androidTestCompile 'com.linkedin.testbutler:test-butler-library:1.3.1'
 
     implementation('com.opencsv:opencsv:3.9') {
         exclude group: 'commons-logging', module: 'commons-logging'

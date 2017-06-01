@@ -36,7 +36,6 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.isoron.uhabits.core.models.HabitList.Order.*;
 
-@SuppressWarnings("JavaDoc")
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class HabitListTest extends BaseAndroidTest

@@ -20,14 +20,17 @@
 package org.isoron.uhabits.integration;
 
 import android.support.test.filters.*;
+import android.support.test.runner.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.about.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.junit.*;
+import org.junit.runner.*;
 
 import static java.lang.Thread.*;
 
+@RunWith(AndroidJUnit4.class)
 @LargeTest
 public class SavedStateTest extends BaseUIAutomatorTest
 {

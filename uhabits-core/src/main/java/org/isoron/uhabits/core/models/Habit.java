@@ -238,7 +238,8 @@ public class Habit
     public synchronized void setTargetType(int targetType)
     {
         if (targetType != AT_LEAST && targetType != AT_MOST)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(
+                String.format("invalid targetType: %d", targetType));
         data.targetType = targetType;
     }
 

@@ -122,8 +122,8 @@ uninstall_apk() {
 
 install_test_butler() {
 	log_info "Installing Test Butler"
-	$ADB install tools/test-butler-app-1.3.1.apk
 	$ADB uninstall com.linkedin.android.testbutler
+	$ADB install tools/test-butler-app-1.3.1.apk
 }
 
 install_apk() {

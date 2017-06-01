@@ -20,12 +20,15 @@
 package org.isoron.uhabits.performance;
 
 import android.support.test.filters.*;
+import android.support.test.runner.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.junit.*;
+import org.junit.runner.*;
 
-@MediumTest
+@RunWith(AndroidJUnit4.class)
+@LargeTest
 public class PerformanceTest extends BaseAndroidTest
 {
     private Habit habit;
