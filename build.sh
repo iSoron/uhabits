@@ -19,7 +19,7 @@ ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=org.isoron.uhabits
-OUTPUTS_DIR=app/build/outputs
+OUTPUTS_DIR=uhabits-android/build/outputs
 
 KEYFILE="TestKeystore.jks"
 KEY_ALIAS="default"
@@ -120,6 +120,12 @@ uninstall_apk() {
 	$ADB uninstall ${PACKAGE_NAME}
 }
 
+install_test_butler() {
+	log_info "Installing Test Butler"
+	$ADB install tools/test-butler-app-1.3.1.apk
+	$ADB uninstall com.linkedin.android.testbutler
+}
+
 install_apk() {
 	if [ ! -z $UNINSTALL_FIRST ]; then
 		uninstall_apk
@@ -128,14 +134,14 @@ install_apk() {
 	log_info "Installing APK"
 
 	if [ ! -z $RELEASE ]; then
-		$ADB install -r ${OUTPUTS_DIR}/apk/app-release.apk	|| fail
+		$ADB install -r ${OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || fail
 	else
-		$ADB install -r ${OUTPUTS_DIR}/apk/app-debug.apk	|| fail
+		$ADB install -r ${OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
 	fi
 }
 
 install_test_apk() {
-	$ADB install -r ${OUTPUTS_DIR}/apk/app-debug-androidTest.apk || fail
+	$ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || fail
 }
 
 run_instrumented_tests() {
@@ -143,7 +149,7 @@ run_instrumented_tests() {
 	$ADB shell am instrument \
 		-r -e coverage true -e size medium \
 		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
-		> ${OUTPUTS_DIR}/instrument.txt
+		| tee ${OUTPUTS_DIR}/instrument.txt
 
 	mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
 	$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
@@ -157,8 +163,12 @@ parse_instrumentation_results() {
 }
 
 generate_coverage_badge() {
-	log_info "Generating code coverage badge"
-	python tools/coverage-badge/badge.py -i app/build/reports/jacoco/coverageReport/coverageReport.xml -o ${OUTPUTS_DIR}/coverage-badge
+	log_info "Generating code coverage report and badge"
+	$GRADLE coverageReport	|| fail
+
+	ANDROID_REPORT=uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml
+	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
+	python tools/coverage-badge/badge.py -i $ANDROID_REPORT:$CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
 }
 
 fetch_artifacts() {
@@ -180,7 +190,7 @@ fetch_logcat() {
 
 run_jvm_tests() {
 	log_info "Running JVM tests"
-	$GRADLE --no-daemon coverageReport	|| fail
+	$GRADLE testDebugUnitTest :uhabits-core:check || fail
 }
 
 uninstall_test_apk() {
@@ -193,6 +203,7 @@ run_local_tests() {
 	run_adb_as_root
 	build_apk
 	build_instrumentation_apk
+	install_test_butler
 	install_apk
 	install_test_apk
 	run_instrumented_tests

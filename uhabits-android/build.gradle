@@ -1,0 +1,145 @@
+apply plugin: 'idea'
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "org.isoron.uhabits"
+        minSdkVersion 19
+        targetSdkVersion 25
+
+        buildConfigField "Integer", "databaseVersion", "19"
+        buildConfigField "String", "databaseFilename", "\"uhabits.db\""
+        buildConfigField "int", "roboSdk", (System.getenv("ROBO_SDK") ?: "25")
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(":uhabits-core")
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:preference-v14:25.3.1'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.getpebble:pebblekit:3.0.0'
+    implementation 'com.github.paolorotolo:appintro:3.4.0'
+    implementation 'com.google.dagger:dagger:2.9'
+    implementation 'com.jakewharton:butterknife:8.6.1-SNAPSHOT'
+    implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    implementation 'org.apmem.tools:layouts:1.10'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+
+    androidTestImplementation project(":uhabits-core")
+    androidTestImplementation 'com.android.support:support-annotations:25.3.1'
+    androidTestImplementation 'com.android.support.test:rules:0.5'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.google.guava:guava:20.0'
+    androidTestCompileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
+    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
+    androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
+    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
+    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+
+    testCompile 'com.google.dagger:dagger:2.9'
+    testCompile "org.mockito:mockito-core:2.8.9"
+    testCompile "org.mockito:mockito-inline:2.8.9"
+    androidTestCompile 'com.google.dagger:dagger:2.9'
+    androidTestCompile "org.mockito:mockito-android:2.8.9"
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    androidTestCompile 'com.linkedin.testbutler:test-butler-library:1.3.1'
+
+    implementation('com.opencsv:opencsv:3.9') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+    implementation('io.socket:socket.io-client:+') {
+        exclude group: 'org.json', module: 'json'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+task coverageReport(type: JacocoReport) {
+
+    jacocoClasspath = configurations['androidJacocoAnt']
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*',
+            '**/*Test*.*',
+            '**/*$Lambda$*',
+            '**/*$ViewBinder*',
+            '**/*MembersInjector*',
+            '**/*_Provide*',
+            '**/*Module_*',
+            '**/com/android/**/*',
+            '**/*Dagger*',
+            '**/*_Factory*'
+    ]
+
+    def androidSrc = "${project.projectDir}/src/main/java"
+    def androidClasses = "${buildDir}/intermediates/classes/debug"
+    def jvmExecData = "${buildDir}/jacoco/testDebugUnitTest.exec"
+    def connectedExecData = "${buildDir}/outputs/code-coverage/connected/coverage.ec"
+
+    sourceDirectories = files(androidSrc)
+    classDirectories = files(fileTree(dir: androidClasses, excludes: excludes))
+    executionData = files(jvmExecData, connectedExecData)
+}
