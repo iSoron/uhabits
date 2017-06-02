@@ -26,6 +26,7 @@ import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
@@ -36,7 +37,6 @@ import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
-import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
 import dagger.*;
@@ -50,8 +50,6 @@ import dagger.*;
 })
 public interface HabitsComponent
 {
-    AndroidNotificationTray getAndroidNotificationTray();
-
     BaseSystem getBaseSystem();
 
     CommandRunner getCommandRunner();

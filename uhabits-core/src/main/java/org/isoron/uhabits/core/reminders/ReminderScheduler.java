@@ -17,17 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.uhabits.core.reminders;
 
-import android.app.*;
 import android.support.annotation.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
@@ -38,28 +35,20 @@ import static org.isoron.uhabits.core.utils.DateUtils.*;
 @AppScope
 public class ReminderScheduler implements CommandRunner.Listener
 {
-    private final PendingIntentFactory pendingIntentFactory;
-
-    private final IntentScheduler intentScheduler;
-
-    private final HabitLogger logger;
-
     private CommandRunner commandRunner;
 
     private HabitList habitList;
 
+    private SystemScheduler sys;
+
     @Inject
-    public ReminderScheduler(@NonNull PendingIntentFactory pendingIntentFactory,
-                             @NonNull IntentScheduler intentScheduler,
-                             @NonNull HabitLogger logger,
-                             @NonNull CommandRunner commandRunner,
-                             @NonNull HabitList habitList)
+    public ReminderScheduler(@NonNull CommandRunner commandRunner,
+                             @NonNull HabitList habitList,
+                             @NonNull SystemScheduler sys)
     {
-        this.pendingIntentFactory = pendingIntentFactory;
-        this.intentScheduler = intentScheduler;
-        this.logger = logger;
         this.commandRunner = commandRunner;
         this.habitList = habitList;
+        this.sys = sys;
     }
 
     @Override
@@ -79,10 +68,7 @@ public class ReminderScheduler implements CommandRunner.Listener
         if (reminderTime == null) reminderTime = getReminderTime(reminder);
         long timestamp = getStartOfDay(removeTimezone(reminderTime));
 
-        PendingIntent intent =
-            pendingIntentFactory.showReminder(habit, reminderTime, timestamp);
-        intentScheduler.schedule(reminderTime, intent);
-        logger.logReminderScheduled(habit, reminderTime);
+        sys.scheduleShowReminder(reminderTime, habit, timestamp);
     }
 
     public void scheduleAll()
@@ -112,8 +98,14 @@ public class ReminderScheduler implements CommandRunner.Listener
         calendar.set(Calendar.SECOND, 0);
         Long time = calendar.getTimeInMillis();
 
-        if (DateUtils.getLocalTime() > time) time += AlarmManager.INTERVAL_DAY;
+        if (DateUtils.getLocalTime() > time)
+            time += DateUtils.millisecondsInOneDay;
 
         return applyTimezone(time);
+    }
+
+    public interface SystemScheduler
+    {
+        void scheduleShowReminder(long reminderTime, Habit habit, long timestamp);
     }
 }

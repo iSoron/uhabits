@@ -63,6 +63,7 @@ public class BaseUnitTest
     @After
     public void tearDown()
     {
+        validateMockitoUsage();
         DateUtils.setFixedLocalTime(null);
     }
 

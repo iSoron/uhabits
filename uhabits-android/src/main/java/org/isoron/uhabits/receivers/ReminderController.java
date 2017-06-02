@@ -23,9 +23,9 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.reminders.*;
+import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
 
@@ -36,13 +36,13 @@ public class ReminderController
     private final ReminderScheduler reminderScheduler;
 
     @NonNull
-    private final AndroidNotificationTray notificationTray;
+    private final NotificationTray notificationTray;
 
     private Preferences preferences;
 
     @Inject
     public ReminderController(@NonNull ReminderScheduler reminderScheduler,
-                              @NonNull AndroidNotificationTray notificationTray,
+                              @NonNull NotificationTray notificationTray,
                               @NonNull Preferences preferences)
     {
         this.reminderScheduler = reminderScheduler;

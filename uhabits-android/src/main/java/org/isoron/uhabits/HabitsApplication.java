@@ -26,9 +26,10 @@ import com.activeandroid.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -47,7 +48,7 @@ public class HabitsApplication extends Application
 
     private ReminderScheduler reminderScheduler;
 
-    private AndroidNotificationTray notificationTray;
+    private NotificationTray notificationTray;
 
     public HabitsComponent getComponent()
     {
@@ -106,7 +107,7 @@ public class HabitsApplication extends Application
         reminderScheduler = component.getReminderScheduler();
         reminderScheduler.startListening();
 
-        notificationTray = component.getAndroidNotificationTray();
+        notificationTray = component.getNotificationTray();
         notificationTray.startListening();
 
         Preferences prefs = component.getPreferences();

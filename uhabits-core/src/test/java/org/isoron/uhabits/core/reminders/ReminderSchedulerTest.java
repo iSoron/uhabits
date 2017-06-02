@@ -17,58 +17,66 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
-
-import android.app.*;
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
+package org.isoron.uhabits.core.reminders;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.intents.*;
 import org.junit.*;
 import org.junit.runner.*;
+import org.mockito.*;
+import org.mockito.junit.*;
 
 import java.util.*;
 
-import static java.util.Arrays.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class ReminderSchedulerTest extends BaseAndroidTest
+@RunWith(MockitoJUnitRunner.class)
+public class ReminderSchedulerTest extends BaseUnitTest
 {
     private Habit habit;
 
     private ReminderScheduler reminderScheduler;
 
-    private HabitLogger logger;
-
-    private PendingIntentFactory pendingIntentFactory;
-
-    private IntentScheduler intentScheduler;
-
-    private CommandRunner commandRunner;
+    @Mock
+    private ReminderScheduler.SystemScheduler sys;
 
     @Before
     @Override
     public void setUp()
     {
         super.setUp();
-        logger = mock(HabitLogger.class);
-        intentScheduler = mock(IntentScheduler.class);
-        commandRunner = mock(CommandRunner.class);
-        pendingIntentFactory =
-            new PendingIntentFactory(targetContext, new IntentFactory());
-
-        reminderScheduler =
-            new ReminderScheduler(pendingIntentFactory, intentScheduler, logger,
-                commandRunner, habitList);
         habit = fixtures.createEmptyHabit();
 
+        reminderScheduler =
+            new ReminderScheduler(commandRunner, habitList, sys);
+
         DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT-4"));
+    }
+
+    @Test
+    public void testScheduleAll()
+    {
+        long now = timestamp(2015, 1, 26, 13, 0);
+        DateUtils.setFixedLocalTime(now);
+
+        Habit h1 = fixtures.createEmptyHabit();
+        Habit h2 = fixtures.createEmptyHabit();
+        Habit h3 = fixtures.createEmptyHabit();
+        h1.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        h2.setReminder(new Reminder(18, 30, WeekdayList.EVERY_DAY));
+        h3.setReminder(null);
+        habitList.add(h1);
+        habitList.add(h2);
+        habitList.add(h3);
+
+        reminderScheduler.scheduleAll();
+
+        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 27, 12, 30)),
+            eq(h1), anyLong());
+        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 26, 22, 30)),
+            eq(h2), anyLong());
+        Mockito.verifyNoMoreInteractions(sys);
     }
 
     @Test
@@ -91,30 +99,7 @@ public class ReminderSchedulerTest extends BaseAndroidTest
         long expectedReminderTime = timestamp(2015, 1, 26, 12, 30);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
-
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
-    }
-
-    @Test
-    public void testScheduleAll()
-    {
-        long now = timestamp(2015, 1, 26, 13, 0);
-        DateUtils.setFixedLocalTime(now);
-
-        fixtures.purgeHabits(habitList);
-        Habit h1 = fixtures.createEmptyHabit();
-        Habit h2 = fixtures.createEmptyHabit();
-        Habit h3 = fixtures.createEmptyHabit();
-        h1.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
-        h2.setReminder(new Reminder(18, 30, WeekdayList.EVERY_DAY));
-        h3.setReminder(null);
-        habitList.update(asList(h1, h2, h3));
-
-        reminderScheduler.scheduleAll();
-
-        verify(intentScheduler).schedule(eq(timestamp(2015, 1, 27, 12, 30)), any());
-        verify(intentScheduler).schedule(eq(timestamp(2015, 1, 26, 22, 30)), any());
-        verifyNoMoreInteractions(intentScheduler);
     }
 
     @Test
@@ -134,7 +119,7 @@ public class ReminderSchedulerTest extends BaseAndroidTest
     public void testSchedule_withoutReminder()
     {
         reminderScheduler.schedule(habit, null);
-        verifyZeroInteractions(intentScheduler);
+        Mockito.verifyZeroInteractions(sys);
     }
 
     public long timestamp(int year, int month, int day, int hour, int minute)
@@ -148,13 +133,8 @@ public class ReminderSchedulerTest extends BaseAndroidTest
                                    long expectedCheckmarkTime,
                                    long expectedReminderTime)
     {
-        PendingIntent intent =
-            pendingIntentFactory.showReminder(habit, expectedReminderTime,
-                expectedCheckmarkTime);
-
         reminderScheduler.schedule(habit, atTime);
-
-        verify(logger).logReminderScheduled(habit, expectedReminderTime);
-        verify(intentScheduler).schedule(expectedReminderTime, intent);
+        verify(sys).scheduleShowReminder(expectedReminderTime, habit,
+            expectedCheckmarkTime);
     }
 }

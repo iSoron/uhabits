@@ -22,7 +22,7 @@ package org.isoron.uhabits.receivers;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.widgets.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
@@ -42,7 +42,7 @@ public class WidgetControllerTest extends BaseAndroidUnitTest
 
     private long today;
 
-    private AndroidNotificationTray notificationTray;
+    private NotificationTray notificationTray;
 
     @Override
     public void setUp()
@@ -52,7 +52,7 @@ public class WidgetControllerTest extends BaseAndroidUnitTest
         today = DateUtils.getStartOfToday();
         habit = fixtures.createEmptyHabit();
         commandRunner = mock(CommandRunner.class);
-        notificationTray = mock(AndroidNotificationTray.class);
+        notificationTray = mock(NotificationTray.class);
         controller = new WidgetBehavior(commandRunner, notificationTray);
     }
 

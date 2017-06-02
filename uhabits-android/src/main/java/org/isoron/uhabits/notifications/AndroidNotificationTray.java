@@ -29,15 +29,10 @@ import android.support.v4.app.NotificationCompat.*;
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
-import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
-import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
-
-import java.util.*;
 
 import javax.inject.*;
 
@@ -45,212 +40,76 @@ import static android.graphics.BitmapFactory.*;
 import static org.isoron.uhabits.notifications.RingtoneManager.*;
 
 @AppScope
-public class AndroidNotificationTray
-    implements CommandRunner.Listener, Preferences.Listener,
-               NotificationTray
+public class AndroidNotificationTray implements NotificationTray.SystemTray
 {
     @NonNull
     private final Context context;
 
     @NonNull
-    private final TaskRunner taskRunner;
-
-    @NonNull
     private final PendingIntentFactory pendingIntents;
-
-    @NonNull
-    private final CommandRunner commandRunner;
 
     @NonNull
     private final Preferences preferences;
 
-    @NonNull
-    private final HashMap<Habit, NotificationData> active;
-
     @Inject
     public AndroidNotificationTray(@AppContext @NonNull Context context,
-                                   @NonNull TaskRunner taskRunner,
                                    @NonNull PendingIntentFactory pendingIntents,
-                                   @NonNull CommandRunner commandRunner,
                                    @NonNull Preferences preferences)
     {
         this.context = context;
-        this.taskRunner = taskRunner;
         this.pendingIntents = pendingIntents;
-        this.commandRunner = commandRunner;
         this.preferences = preferences;
-        this.active = new HashMap<>();
     }
 
     @Override
-    public void cancel(@NonNull Habit habit)
+    public void removeNotification(int id)
     {
-        int notificationId = getNotificationId(habit);
-        NotificationManagerCompat.from(context).cancel(notificationId);
-        active.remove(habit);
+        NotificationManagerCompat.from(context).cancel(id);
     }
 
-    @Override
-    public void onCommandExecuted(@NonNull Command command,
-                                  @Nullable Long refreshKey)
+    public void showNotification(@NonNull Habit habit,
+                                 int notificationId,
+                                 long timestamp,
+                                 long reminderTime)
     {
-        if (command instanceof ToggleRepetitionCommand)
-        {
-            ToggleRepetitionCommand toggleCmd =
-                (ToggleRepetitionCommand) command;
+        Action checkAction = new Action(R.drawable.ic_action_check,
+            context.getString(R.string.check),
+            pendingIntents.addCheckmark(habit, timestamp));
 
-            Habit habit = toggleCmd.getHabit();
-            taskRunner.execute(() ->
-            {
-                if (habit.getCheckmarks().getTodayValue() !=
-                    Checkmark.UNCHECKED) cancel(habit);
-            });
-        }
+        Action snoozeAction = new Action(R.drawable.ic_action_snooze,
+            context.getString(R.string.snooze),
+            pendingIntents.snoozeNotification(habit));
 
-        if (command instanceof DeleteHabitsCommand)
-        {
-            DeleteHabitsCommand deleteCommand = (DeleteHabitsCommand) command;
-            List<Habit> deleted = deleteCommand.getSelected();
-            for (Habit habit : deleted)
-                cancel(habit);
-        }
-    }
+        Bitmap wearableBg =
+            decodeResource(context.getResources(), R.drawable.stripe);
 
-    @Override
-    public void onNotificationsChanged()
-    {
-        reshowAll();
-    }
+        // Even though the set of actions is the same on the phone and
+        // on the watch, Pebble requires us to add them to the
+        // WearableExtender.
+        WearableExtender wearableExtender = new WearableExtender()
+            .setBackground(wearableBg)
+            .addAction(checkAction)
+            .addAction(snoozeAction);
 
-    public void show(@NonNull Habit habit, long timestamp, long reminderTime)
-    {
-        NotificationData data = new NotificationData(timestamp, reminderTime);
-        active.put(habit, data);
-        taskRunner.execute(new ShowNotificationTask(habit, data));
-    }
+        Notification notification = new NotificationCompat.Builder(context)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(habit.getName())
+            .setContentText(habit.getDescription())
+            .setContentIntent(pendingIntents.showHabit(habit))
+            .setDeleteIntent(pendingIntents.dismissNotification(habit))
+            .addAction(checkAction)
+            .addAction(snoozeAction)
+            .setSound(getRingtoneUri(context))
+            .extend(wearableExtender)
+            .setWhen(reminderTime)
+            .setShowWhen(true)
+            .setOngoing(preferences.shouldMakeNotificationsSticky())
+            .build();
 
-    public void startListening()
-    {
-        commandRunner.addListener(this);
-        preferences.addListener(this);
-    }
+        NotificationManager notificationManager =
+            (NotificationManager) context.getSystemService(
+                Activity.NOTIFICATION_SERVICE);
 
-    public void stopListening()
-    {
-        commandRunner.removeListener(this);
-        preferences.removeListener(this);
-    }
-
-    private int getNotificationId(Habit habit)
-    {
-        Long id = habit.getId();
-        if (id == null) return 0;
-        return (int) (id % Integer.MAX_VALUE);
-    }
-
-    private void reshowAll()
-    {
-        for (Habit habit : active.keySet())
-        {
-            NotificationData data = active.get(habit);
-            taskRunner.execute(new ShowNotificationTask(habit, data));
-        }
-    }
-
-    class NotificationData
-    {
-        public final long timestamp;
-
-        public final long reminderTime;
-
-        public NotificationData(long timestamp, long reminderTime)
-        {
-            this.timestamp = timestamp;
-            this.reminderTime = reminderTime;
-        }
-    }
-
-    private class ShowNotificationTask implements Task
-    {
-        int todayValue;
-
-        private final Habit habit;
-
-        private final long timestamp;
-
-        private final long reminderTime;
-
-        public ShowNotificationTask(Habit habit, NotificationData data)
-        {
-            this.habit = habit;
-            this.timestamp = data.timestamp;
-            this.reminderTime = data.reminderTime;
-        }
-
-        @Override
-        public void doInBackground()
-        {
-            todayValue = habit.getCheckmarks().getTodayValue();
-        }
-
-        @Override
-        public void onPostExecute()
-        {
-            if (todayValue != Checkmark.UNCHECKED) return;
-            if (!shouldShowReminderToday()) return;
-            if (!habit.hasReminder()) return;
-
-            Action checkAction = new Action(R.drawable.ic_action_check,
-                context.getString(R.string.check),
-                pendingIntents.addCheckmark(habit, timestamp));
-
-            Action snoozeAction = new Action(R.drawable.ic_action_snooze,
-                context.getString(R.string.snooze),
-                pendingIntents.snoozeNotification(habit));
-
-            Bitmap wearableBg =
-                decodeResource(context.getResources(), R.drawable.stripe);
-
-            // Even though the set of actions is the same on the phone and
-            // on the watch, Pebble requires us to add them to the
-            // WearableExtender.
-            WearableExtender wearableExtender = new WearableExtender()
-                .setBackground(wearableBg)
-                .addAction(checkAction)
-                .addAction(snoozeAction);
-
-            Notification notification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(habit.getName())
-                .setContentText(habit.getDescription())
-                .setContentIntent(pendingIntents.showHabit(habit))
-                .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .addAction(checkAction)
-                .addAction(snoozeAction)
-                .setSound(getRingtoneUri(context))
-                .extend(wearableExtender)
-                .setWhen(reminderTime)
-                .setShowWhen(true)
-                .setOngoing(preferences.shouldMakeNotificationsSticky())
-                .build();
-
-            NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(
-                    Activity.NOTIFICATION_SERVICE);
-
-            int notificationId = getNotificationId(habit);
-            notificationManager.notify(notificationId, notification);
-        }
-
-        private boolean shouldShowReminderToday()
-        {
-            if (!habit.hasReminder()) return false;
-            Reminder reminder = habit.getReminder();
-
-            boolean reminderDays[] = reminder.getDays().toArray();
-            int weekday = DateUtils.getWeekday(timestamp);
-
-            return reminderDays[weekday];
-        }
+        notificationManager.notify(notificationId, notification);
     }
 }

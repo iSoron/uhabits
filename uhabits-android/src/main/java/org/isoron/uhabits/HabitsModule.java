@@ -20,8 +20,13 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.reminders.*;
+import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
 
@@ -39,9 +44,22 @@ public class HabitsModule
 
     @Provides
     @AppScope
-    public static NotificationTray getTray(AndroidNotificationTray tray)
+    public static ReminderScheduler getReminderScheduler(IntentScheduler sys,
+                                                         CommandRunner commandRunner,
+                                                         HabitList habitList)
     {
-        return tray;
+        return new ReminderScheduler(commandRunner, habitList, sys);
+    }
+
+    @Provides
+    @AppScope
+    public static NotificationTray getTray(TaskRunner taskRunner,
+                                           CommandRunner commandRunner,
+                                           Preferences preferences,
+                                           AndroidNotificationTray screen)
+    {
+        return new NotificationTray(taskRunner, commandRunner, preferences,
+            screen);
     }
 
     @Provides
