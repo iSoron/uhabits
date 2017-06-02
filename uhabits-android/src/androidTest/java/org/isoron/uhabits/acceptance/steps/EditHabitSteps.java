@@ -26,7 +26,7 @@ import org.isoron.uhabits.*;
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.isoron.uhabits.BaseUIAutomatorTest.device;
+import static org.isoron.uhabits.BaseUserInterfaceTest.device;
 
 public class EditHabitSteps
 {

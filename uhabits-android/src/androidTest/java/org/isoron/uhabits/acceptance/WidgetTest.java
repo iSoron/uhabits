@@ -17,35 +17,37 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.integration;
-
-import android.support.test.filters.*;
-import android.support.test.runner.*;
+package org.isoron.uhabits.acceptance;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.about.*;
-import org.isoron.uhabits.activities.habits.list.*;
 import org.junit.*;
-import org.junit.runner.*;
 
-import static java.lang.Thread.*;
+import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
+import static org.isoron.uhabits.acceptance.steps.WidgetSteps.*;
+import static org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText;
 
-@RunWith(AndroidJUnit4.class)
-@LargeTest
-public class SavedStateTest extends BaseUserInterfaceTest
+public class WidgetTest extends BaseUserInterfaceTest
 {
-    /**
-     * Make sure that the main activity can be recreated by using
-     * BundleSavedState after being destroyed. See bug:
-     * https://github.com/iSoron/uhabits/issues/287
-     */
     @Test
-    public void testBundleSavedState() throws Exception
+    public void shouldCreateAndToggleCheckmarkWidget() throws Exception
     {
-        startActivity(ListHabitsActivity.class);
-        device.waitForIdle();
-        startActivity(AboutActivity.class);
-        sleep(1000);
-        device.pressBack();
+        longPressHomeScreen();
+        clickWidgets();
+        scrollToHabits();
+        dragWidgetToHomescreen();
+        clickText("Wake up early");
+        verifyCheckmarkWidgetIsShown();
+        clickCheckmarkWidget();
+
+        launchApp();
+        clickText("Wake up early");
+        verifyDisplaysText("5%");
+
+        pressHome();
+        clickCheckmarkWidget();
+
+        launchApp();
+        clickText("Wake up early");
+        verifyDisplaysText("0%");
     }
 }

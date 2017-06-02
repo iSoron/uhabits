@@ -34,7 +34,7 @@ import java.io.*;
 import static android.support.test.InstrumentationRegistry.*;
 import static android.support.test.uiautomator.UiDevice.*;
 
-public class BaseUIAutomatorTest
+public class BaseUserInterfaceTest
 {
     private static final String PKG = "org.isoron.uhabits";
 

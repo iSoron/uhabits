@@ -32,7 +32,7 @@ import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class AboutTest extends BaseUIAutomatorTest
+public class AboutTest extends BaseUserInterfaceTest
 {
     @Test
     public void shouldDisplayAboutScreen()

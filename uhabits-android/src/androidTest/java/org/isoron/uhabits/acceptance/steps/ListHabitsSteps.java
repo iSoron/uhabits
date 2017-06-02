@@ -34,7 +34,7 @@ import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.isoron.uhabits.BaseUIAutomatorTest.device;
+import static org.isoron.uhabits.BaseUserInterfaceTest.device;
 import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
 
 public abstract class ListHabitsSteps

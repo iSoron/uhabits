@@ -32,7 +32,7 @@ import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class LinksTest extends BaseUIAutomatorTest
+public class LinksTest extends BaseUserInterfaceTest
 {
     @Test
     public void shouldLinkToSourceCode() throws Exception

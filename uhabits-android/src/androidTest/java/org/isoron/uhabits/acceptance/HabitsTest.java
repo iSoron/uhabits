@@ -35,7 +35,7 @@ import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.EDIT;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class HabitsTest extends BaseUIAutomatorTest
+public class HabitsTest extends BaseUserInterfaceTest
 {
     @Test
     public void shouldCreateHabit() throws Exception

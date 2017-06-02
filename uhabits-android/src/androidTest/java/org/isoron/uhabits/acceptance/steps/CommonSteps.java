@@ -36,7 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
-public class CommonSteps extends BaseUIAutomatorTest
+public class CommonSteps extends BaseUserInterfaceTest
 {
     public static void clickOK()
     {
@@ -71,6 +71,12 @@ public class CommonSteps extends BaseUIAutomatorTest
     {
         scrollToText(text);
         onView(withText(text)).perform(longClick());
+    }
+
+    public static void pressHome()
+    {
+        device.pressHome();
+        device.waitForIdle();
     }
 
     public static void scrollToText(String text)
