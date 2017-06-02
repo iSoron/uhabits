@@ -85,8 +85,8 @@ public class HabitsApplication extends Application
 
         if (isTestMode())
         {
-//            File db = DatabaseUtils.getDatabaseFile(context);
-//            if (db.exists()) db.delete();
+            File db = DatabaseUtils.getDatabaseFile(context);
+            if (db.exists()) db.delete();
         }
 
         try

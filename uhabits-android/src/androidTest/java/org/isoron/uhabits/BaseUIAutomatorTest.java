@@ -24,10 +24,9 @@ import android.support.test.uiautomator.*;
 
 import com.linkedin.android.testbutler.*;
 
-import org.isoron.androidbase.*;
-import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import java.io.*;
@@ -43,6 +42,20 @@ public class BaseUIAutomatorTest
 
     private HabitsComponent component;
 
+    private HabitList habitList;
+
+    private AndroidPreferences prefs;
+
+    private HabitFixtures fixtures;
+
+    public static void startActivity(Class cls)
+    {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(PKG, cls.getCanonicalName()));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        getContext().startActivity(intent);
+    }
+
     @Before
     public void setUp() throws IOException
     {
@@ -50,19 +63,13 @@ public class BaseUIAutomatorTest
         TestButler.verifyAnimationsDisabled(getTargetContext());
         device = getInstance(getInstrumentation());
 
-        component = DaggerHabitsComponent
-            .builder()
-            .appModule(new AppModule(getTargetContext()))
-            .build();
-
-        AndroidPreferences prefs = component.getPreferences();
-        prefs.reset();
-        prefs.setFirstRun(false);
-
-        HabitsApplication.setComponent(component);
-
-        FileUtils.copy(getContext().getAssets().open("test.db"),
-            DatabaseUtils.getDatabaseFile(getTargetContext()));
+        HabitsApplication app =
+            (HabitsApplication) getTargetContext().getApplicationContext();
+        component = app.getComponent();
+        habitList = component.getHabitList();
+        prefs = component.getPreferences();
+        fixtures = new HabitFixtures(component.getModelFactory(), habitList);
+        resetState();
     }
 
     @After
@@ -73,11 +80,35 @@ public class BaseUIAutomatorTest
         TestButler.teardown(getTargetContext());
     }
 
-    public static void startActivity(Class cls)
+    private void resetState()
     {
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName(PKG, cls.getCanonicalName()));
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        getContext().startActivity(intent);
+        prefs.reset();
+        prefs.setFirstRun(false);
+        prefs.updateLastHint(100, DateUtils.getStartOfToday());
+        fixtures.purgeHabits(habitList);
+
+        Habit h1 = fixtures.createEmptyHabit();
+        h1.setName("Wake up early");
+        h1.setDescription("Did you wake up early today?");
+        h1.setColor(5);
+        habitList.update(h1);
+
+        Habit h2 = fixtures.createEmptyHabit();
+        h2.setName("Track time");
+        h2.setDescription("Did you track your time?");
+        h2.setColor(5);
+        habitList.update(h2);
+
+        Habit h3 = fixtures.createLongHabit();
+        h3.setName("Meditate");
+        h3.setDescription("Did meditate today?");
+        h3.setColor(10);
+        habitList.update(h3);
+
+        Habit h4 = fixtures.createEmptyHabit();
+        h4.setName("Read books");
+        h4.setDescription("Did you read books today?");
+        h4.setColor(2);
+        habitList.update(h4);
     }
 }
