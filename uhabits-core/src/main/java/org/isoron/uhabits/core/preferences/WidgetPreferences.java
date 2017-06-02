@@ -17,12 +17,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.preferences;
+package org.isoron.uhabits.core.preferences;
 
-import android.content.*;
-import android.preference.*;
-
-import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
 
@@ -31,25 +27,22 @@ import javax.inject.*;
 @AppScope
 public class WidgetPreferences
 {
-    private final SharedPreferences prefs;
+    private Preferences.Storage storage;
 
     @Inject
-    public WidgetPreferences(@AppContext Context context)
+    public WidgetPreferences(Preferences.Storage storage)
     {
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        this.storage = storage;
     }
 
     public void addWidget(int widgetId, long habitId)
     {
-        prefs
-            .edit()
-            .putLong(getHabitIdKey(widgetId), habitId)
-            .commit();
+        storage.putLong(getHabitIdKey(widgetId), habitId);
     }
 
     public long getHabitIdFromWidgetId(int widgetId)
     {
-        Long habitId = prefs.getLong(getHabitIdKey(widgetId), -1);
+        Long habitId = storage.getLong(getHabitIdKey(widgetId), -1);
         if (habitId < 0) throw new HabitNotFoundException();
 
         return habitId;
@@ -58,7 +51,7 @@ public class WidgetPreferences
     public void removeWidget(int id)
     {
         String habitIdKey = getHabitIdKey(id);
-        prefs.edit().remove(habitIdKey).apply();
+        storage.remove(habitIdKey);
     }
 
     private String getHabitIdKey(int id)

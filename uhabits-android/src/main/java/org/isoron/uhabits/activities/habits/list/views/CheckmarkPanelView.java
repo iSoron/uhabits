@@ -28,25 +28,25 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 
 import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 import static org.isoron.uhabits.utils.ColorUtils.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class CheckmarkPanelView extends LinearLayout
-    implements AndroidPreferences.Listener
+    implements Preferences.Listener
 {
     private static final int LEFT_TO_RIGHT = 0;
 
     private static final int RIGHT_TO_LEFT = 1;
 
     @Nullable
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     private int values[];
 

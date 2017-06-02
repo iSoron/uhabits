@@ -23,15 +23,12 @@ import android.support.test.filters.*;
 import android.support.test.runner.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -41,7 +38,7 @@ public class HeaderViewTest extends BaseViewTest
 
     private HeaderView view;
 
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     private MidnightTimer midnightTimer;
 
@@ -50,7 +47,7 @@ public class HeaderViewTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        prefs = mock(AndroidPreferences.class);
+        prefs = mock(Preferences.class);
         midnightTimer = mock(MidnightTimer.class);
         view = new HeaderView(targetContext, prefs, midnightTimer);
         view.setButtonCount(5);

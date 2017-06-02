@@ -25,7 +25,7 @@ import com.google.auto.factory.*;
 
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 
 @AutoFactory
 public class CheckmarkButtonController
@@ -37,14 +37,14 @@ public class CheckmarkButtonController
     private Listener listener;
 
     @NonNull
-    private final AndroidPreferences prefs;
+    private final Preferences prefs;
 
     @NonNull
     private Habit habit;
 
     private long timestamp;
 
-    public CheckmarkButtonController(@Provided @NonNull AndroidPreferences prefs,
+    public CheckmarkButtonController(@Provided @NonNull Preferences prefs,
                                      @NonNull Habit habit,
                                      long timestamp)
     {

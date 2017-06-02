@@ -30,12 +30,12 @@ import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.intents.*;
 
 import java.util.*;
 
@@ -46,7 +46,7 @@ import static org.isoron.uhabits.notifications.RingtoneManager.*;
 
 @AppScope
 public class AndroidNotificationTray
-    implements CommandRunner.Listener, AndroidPreferences.Listener,
+    implements CommandRunner.Listener, Preferences.Listener,
                NotificationTray
 {
     @NonNull
@@ -62,7 +62,7 @@ public class AndroidNotificationTray
     private final CommandRunner commandRunner;
 
     @NonNull
-    private final AndroidPreferences preferences;
+    private final Preferences preferences;
 
     @NonNull
     private final HashMap<Habit, NotificationData> active;
@@ -72,7 +72,7 @@ public class AndroidNotificationTray
                                    @NonNull TaskRunner taskRunner,
                                    @NonNull PendingIntentFactory pendingIntents,
                                    @NonNull CommandRunner commandRunner,
-                                   @NonNull AndroidPreferences preferences)
+                                   @NonNull Preferences preferences)
     {
         this.context = context;
         this.taskRunner = taskRunner;

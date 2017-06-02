@@ -28,7 +28,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.show.views.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.views.*;
 
@@ -39,7 +39,7 @@ public class ScoreWidget extends BaseWidget
     @NonNull
     private Habit habit;
 
-    private final AndroidPreferences prefs;
+    private final Preferences prefs;
 
     public ScoreWidget(@NonNull Context context, int id, @NonNull Habit habit)
     {

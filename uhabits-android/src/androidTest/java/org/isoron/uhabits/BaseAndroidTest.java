@@ -32,9 +32,9 @@ import junit.framework.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -55,7 +55,7 @@ public class BaseAndroidTest extends TestCase
 
     protected Context targetContext;
 
-    protected AndroidPreferences prefs;
+    protected Preferences prefs;
 
     protected HabitList habitList;
 

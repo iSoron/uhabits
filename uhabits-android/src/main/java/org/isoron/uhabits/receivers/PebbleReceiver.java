@@ -30,10 +30,10 @@ import com.getpebble.android.kit.util.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.sync.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.sync.*;
 
 import java.util.*;
 
@@ -53,7 +53,7 @@ public class PebbleReceiver extends PebbleDataReceiver
 
     private HabitList filteredHabits;
 
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     public PebbleReceiver()
     {
@@ -79,7 +79,7 @@ public class PebbleReceiver extends PebbleDataReceiver
         allHabits = component.getHabitList();
         prefs = component.getPreferences();
 
-        if(prefs.isSyncFeatureEnabled())
+        if(prefs.isSyncEnabled())
             context.startService(new Intent(context, SyncService.class));
 
         HabitMatcher build = new HabitMatcherBuilder()

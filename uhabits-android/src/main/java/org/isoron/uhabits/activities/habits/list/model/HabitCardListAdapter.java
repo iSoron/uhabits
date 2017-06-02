@@ -27,9 +27,9 @@ import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 
 import java.util.*;
 
@@ -62,13 +62,13 @@ public class HabitCardListAdapter
     private final HabitCardListCache cache;
 
     @NonNull
-    private AndroidPreferences preferences;
+    private Preferences preferences;
 
     private final MidnightTimer midnightTimer;
 
     @Inject
     public HabitCardListAdapter(@NonNull HabitCardListCache cache,
-                                @NonNull AndroidPreferences preferences,
+                                @NonNull Preferences preferences,
                                 @NonNull MidnightTimer midnightTimer)
     {
         this.preferences = preferences;

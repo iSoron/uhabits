@@ -23,9 +23,9 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
-import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 
 import static org.mockito.Mockito.*;
@@ -34,7 +34,7 @@ public class ListHabitsMenuTest extends BaseAndroidUnitTest
 {
     private BaseActivity activity;
 
-    private AndroidPreferences preferences;
+    private Preferences preferences;
 
     private ThemeSwitcher themeSwitcher;
 
@@ -47,7 +47,7 @@ public class ListHabitsMenuTest extends BaseAndroidUnitTest
     public void setUp()
     {
         activity = mock(BaseActivity.class);
-        preferences = mock(AndroidPreferences.class);
+        preferences = mock(Preferences.class);
         themeSwitcher = mock(ThemeSwitcher.class);
         behavior = mock(ListHabitsMenuBehavior.class);
 

@@ -25,8 +25,8 @@ import android.support.test.uiautomator.*;
 import com.linkedin.android.testbutler.*;
 
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 
 import java.io.*;
@@ -44,7 +44,7 @@ public class BaseUserInterfaceTest
 
     private HabitList habitList;
 
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     private HabitFixtures fixtures;
 

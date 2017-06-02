@@ -19,33 +19,293 @@
 
 package org.isoron.uhabits.core.preferences;
 
-public interface Preferences
+import android.support.annotation.*;
+
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.*;
+
+import java.util.*;
+
+public class Preferences
 {
-    int getLastHintNumber();
+    @NonNull
+    private final Storage storage;
 
-    long getLastHintTimestamp();
+    @NonNull
+    private List<Listener> listeners;
 
-    boolean getShowArchived();
+    @Nullable
+    private Boolean shouldReverseCheckmarks = null;
 
-    boolean getShowCompleted();
+    public Preferences(@NonNull Storage storage)
+    {
+        this.storage = storage;
+        listeners = new LinkedList<>();
+        storage.onAttached(this);
+    }
 
-    int getTheme();
+    public void addListener(Listener listener)
+    {
+        listeners.add(listener);
+    }
 
-    void incrementLaunchCount();
+    public Integer getDefaultHabitColor(int fallbackColor)
+    {
+        return storage.getInt("pref_default_habit_palette_color",
+            fallbackColor);
+    }
 
-    boolean isFirstRun();
+    public HabitList.Order getDefaultOrder()
+    {
+        String name = storage.getString("pref_default_order", "BY_POSITION");
 
-    boolean isPureBlackEnabled();
+        try
+        {
+            return HabitList.Order.valueOf(name);
+        }
+        catch (IllegalArgumentException e)
+        {
+            setDefaultOrder(HabitList.Order.BY_POSITION);
+            return HabitList.Order.BY_POSITION;
+        }
+    }
 
-    void setDeveloper(boolean isDeveloper);
+    public void setDefaultOrder(HabitList.Order order)
+    {
+        storage.putString("pref_default_order", order.name());
+    }
 
-    void setFirstRun(boolean b);
+    public int getDefaultScoreSpinnerPosition()
+    {
+        int defaultScoreInterval =
+            storage.getInt("pref_score_view_interval", 1);
+        if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
+            defaultScoreInterval = 1;
+        return defaultScoreInterval;
+    }
 
-    void setShowArchived(boolean showArchived);
+    public void setDefaultScoreSpinnerPosition(int position)
+    {
+        storage.putInt("pref_score_view_interval", position);
+    }
 
-    void setShowCompleted(boolean showCompleted);
+    public int getLastHintNumber()
+    {
+        return storage.getInt("last_hint_number", -1);
+    }
 
-    void setTheme(int theme);
+    public long getLastHintTimestamp()
+    {
+        return storage.getLong("last_hint_timestamp", -1);
+    }
 
-    void updateLastHint(int i, long startOfToday);
+    public long getLastSync()
+    {
+        return storage.getLong("last_sync", 0);
+    }
+
+    public void setLastSync(long timestamp)
+    {
+        storage.putLong("last_sync", timestamp);
+    }
+
+    public boolean getShowArchived()
+    {
+        return storage.getBoolean("pref_show_archived", false);
+    }
+
+    public void setShowArchived(boolean showArchived)
+    {
+        storage.putBoolean("pref_show_archived", showArchived);
+    }
+
+    public boolean getShowCompleted()
+    {
+        return storage.getBoolean("pref_show_completed", true);
+    }
+
+    public void setShowCompleted(boolean showCompleted)
+    {
+        storage.putBoolean("pref_show_completed", showCompleted);
+    }
+
+    public long getSnoozeInterval()
+    {
+        return Long.parseLong(storage.getString("pref_snooze_interval", "15"));
+    }
+
+    public String getSyncAddress()
+    {
+        return storage.getString("pref_sync_address",
+            "https://sync.loophabits.org:4000");
+    }
+
+    public void setSyncAddress(String address)
+    {
+        storage.putString("pref_sync_address", address);
+        for (Listener l : listeners) l.onSyncFeatureChanged();
+    }
+
+    public String getSyncClientId()
+    {
+        String id = storage.getString("pref_sync_client_id", "");
+        if (!id.isEmpty()) return id;
+
+        id = UUID.randomUUID().toString();
+        storage.putString("pref_sync_client_id", id);
+        return id;
+    }
+
+    public String getSyncKey()
+    {
+        return storage.getString("pref_sync_key", "");
+    }
+
+    public int getTheme()
+    {
+        return storage.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
+    }
+
+    public void setTheme(int theme)
+    {
+        storage.putInt("pref_theme", theme);
+    }
+
+    public void incrementLaunchCount()
+    {
+        int count = storage.getInt("launch_count", 0);
+        storage.putInt("launch_count", count + 1);
+    }
+
+    public boolean isDeveloper()
+    {
+        return storage.getBoolean("pref_developer", false);
+    }
+
+    public void setDeveloper(boolean isDeveloper)
+    {
+        storage.putBoolean("pref_developer", isDeveloper);
+    }
+
+    public boolean isFirstRun()
+    {
+        return storage.getBoolean("pref_first_run", true);
+    }
+
+    public void setFirstRun(boolean isFirstRun)
+    {
+        storage.putBoolean("pref_first_run", isFirstRun);
+    }
+
+    public boolean isNumericalHabitsFeatureEnabled()
+    {
+        return storage.getBoolean("pref_feature_numerical_habits", false);
+    }
+
+    public boolean isPureBlackEnabled()
+    {
+        return storage.getBoolean("pref_pure_black", false);
+    }
+
+    public boolean isShortToggleEnabled()
+    {
+        return storage.getBoolean("pref_short_toggle", false);
+    }
+
+    public boolean isSyncEnabled()
+    {
+        return storage.getBoolean("pref_feature_sync", false);
+    }
+
+    public void removeListener(Listener listener)
+    {
+        listeners.remove(listener);
+    }
+
+    public void reset()
+    {
+        storage.clear();
+    }
+
+    public void setDefaultHabitColor(int color)
+    {
+        storage.putInt("pref_default_habit_palette_color", color);
+    }
+
+    public void setLastAppVersion(int version)
+    {
+        storage.putInt("last_version", version);
+    }
+
+    public void setNotificationsSticky(boolean sticky)
+    {
+        storage.getBoolean("pref_sticky_notifications", sticky);
+        for (Listener l : listeners) l.onNotificationsChanged();
+    }
+
+    public void setShouldReverseCheckmarks(boolean reverse)
+    {
+        shouldReverseCheckmarks = reverse;
+        storage.putBoolean("pref_checkmark_reverse_order", reverse);
+        for (Listener l : listeners) l.onCheckmarkOrderChanged();
+    }
+
+    public void setSyncEnabled(boolean isEnabled)
+    {
+        storage.putBoolean("pref_feature_sync", isEnabled);
+        for(Listener l : listeners) l.onSyncFeatureChanged();
+    }
+
+    public boolean shouldMakeNotificationsSticky()
+    {
+        return storage.getBoolean("pref_sticky_notifications", false);
+    }
+
+    public boolean shouldReverseCheckmarks()
+    {
+        if (shouldReverseCheckmarks == null) shouldReverseCheckmarks =
+            storage.getBoolean("pref_checkmark_reverse_order", false);
+
+        return shouldReverseCheckmarks;
+    }
+
+    public void updateLastHint(int number, long timestamp)
+    {
+        storage.putInt("last_hint_number", number);
+        storage.putLong("last_hint_timestamp", timestamp);
+    }
+
+    public interface Listener
+    {
+        default void onCheckmarkOrderChanged() {}
+
+        default void onNotificationsChanged() {}
+
+        default void onSyncFeatureChanged() {}
+    }
+
+    public interface Storage
+    {
+        void clear();
+
+        boolean getBoolean(String key, boolean defValue);
+
+        int getInt(String key, int defValue);
+
+        long getLong(String key, int defValue);
+
+        String getString(String key, String defValue);
+
+        void onAttached(Preferences preferences);
+
+        void putBoolean(String key, boolean value);
+
+        void putInt(String key, int value);
+
+        void putLong(String key, long value);
+
+        void putString(String key, String value);
+
+        void remove(String key);
+    }
 }

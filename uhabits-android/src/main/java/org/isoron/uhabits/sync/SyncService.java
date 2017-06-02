@@ -26,14 +26,14 @@ import android.os.*;
 import android.support.v7.app.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.receivers.*;
 
-public class SyncService extends Service implements AndroidPreferences.Listener
+public class SyncService extends Service implements Preferences.Listener
 {
     private SyncManager syncManager;
 
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     private ConnectivityReceiver connectivityReceiver;
 
@@ -78,7 +78,7 @@ public class SyncService extends Service implements AndroidPreferences.Listener
     @Override
     public void onSyncFeatureChanged()
     {
-        if(!prefs.isSyncFeatureEnabled()) stopSelf();
+        if(!prefs.isSyncEnabled()) stopSelf();
     }
 
     @Override

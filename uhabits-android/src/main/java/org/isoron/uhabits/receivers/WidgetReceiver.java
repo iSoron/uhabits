@@ -23,10 +23,10 @@ import android.content.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.sync.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.widgets.*;
+import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.sync.*;
 
 import dagger.*;
 
@@ -62,9 +62,9 @@ public class WidgetReceiver extends BroadcastReceiver
 
         IntentParser parser = app.getComponent().getIntentParser();
         WidgetBehavior controller = component.getWidgetController();
-        AndroidPreferences prefs = app.getComponent().getPreferences();
+        Preferences prefs = app.getComponent().getPreferences();
 
-        if(prefs.isSyncFeatureEnabled())
+        if(prefs.isSyncEnabled())
             context.startService(new Intent(context, SyncService.class));
 
         try

@@ -27,8 +27,8 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -36,13 +36,13 @@ import java.util.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HeaderView extends ScrollableChart
-    implements AndroidPreferences.Listener, MidnightTimer.MidnightListener
+    implements Preferences.Listener, MidnightTimer.MidnightListener
 {
 
     private int buttonCount;
 
     @Nullable
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     @Nullable
     private MidnightTimer midnightTimer;
@@ -52,7 +52,7 @@ public class HeaderView extends ScrollableChart
     private RectF rect;
 
     public HeaderView(@NonNull Context context,
-                      @NonNull AndroidPreferences prefs,
+                      @NonNull Preferences prefs,
                       @NonNull MidnightTimer midnightTimer)
     {
         super(context);

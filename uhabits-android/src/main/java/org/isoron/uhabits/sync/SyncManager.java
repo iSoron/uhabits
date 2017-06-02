@@ -26,7 +26,7 @@ import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.json.*;
 
 import java.net.*;
@@ -73,7 +73,7 @@ public class SyncManager implements CommandRunner.Listener
     private boolean readyToEmit = false;
 
     @NonNull
-    private final AndroidPreferences prefs;
+    private final Preferences prefs;
 
     @NonNull
     private CommandRunner commandRunner;
@@ -87,7 +87,7 @@ public class SyncManager implements CommandRunner.Listener
 
     @Inject
     public SyncManager(@NonNull BaseSystem system,
-                       @NonNull AndroidPreferences prefs,
+                       @NonNull Preferences prefs,
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
     {
@@ -148,7 +148,7 @@ public class SyncManager implements CommandRunner.Listener
 
     public void startListening()
     {
-        if (!prefs.isSyncFeatureEnabled()) return;
+        if (!prefs.isSyncEnabled()) return;
         if (groupKey.isEmpty()) return;
         if (isListening) return;
 

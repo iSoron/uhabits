@@ -28,10 +28,10 @@ import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.preferences.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.mockito.junit.*;
@@ -71,7 +71,7 @@ public class ListHabitsScreenTest
 
     private ThemeSwitcher themeSwitcher;
 
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     private CommandParser commandParser;
 
@@ -86,7 +86,7 @@ public class ListHabitsScreenTest
         confirmDeleteDialogFactory = mock(ConfirmDeleteDialogFactory.class);
         colorPickerDialogFactory = mock(ColorPickerDialogFactory.class);
         dialogFactory = mock(EditHabitDialogFactory.class);
-        prefs = mock(AndroidPreferences.class);
+        prefs = mock(Preferences.class);
         commandParser = mock(CommandParser.class);
 
         screen = spy(new ListHabitsScreen(activity, commandRunner, rootView,

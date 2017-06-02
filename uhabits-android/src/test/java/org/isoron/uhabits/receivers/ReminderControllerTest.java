@@ -21,9 +21,9 @@ package org.isoron.uhabits.receivers;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
@@ -38,7 +38,7 @@ public class ReminderControllerTest extends BaseAndroidUnitTest
 
     private AndroidNotificationTray notificationTray;
 
-    private AndroidPreferences preferences;
+    private Preferences preferences;
 
     @Override
     public void setUp()
@@ -47,7 +47,7 @@ public class ReminderControllerTest extends BaseAndroidUnitTest
 
         reminderScheduler = mock(ReminderScheduler.class);
         notificationTray = mock(AndroidNotificationTray.class);
-        preferences = mock(AndroidPreferences.class);
+        preferences = mock(Preferences.class);
 
         controller = new ReminderController(reminderScheduler,
             notificationTray, preferences);

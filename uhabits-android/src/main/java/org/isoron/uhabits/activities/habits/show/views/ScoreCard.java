@@ -28,9 +28,9 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
@@ -56,7 +56,7 @@ public class ScoreCard extends HabitCard
     private TaskRunner taskRunner;
 
     @Nullable
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     public ScoreCard(Context context)
     {

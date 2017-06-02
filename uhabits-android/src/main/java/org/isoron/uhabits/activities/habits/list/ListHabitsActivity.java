@@ -25,10 +25,10 @@ import android.os.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.preferences.*;
-import org.isoron.uhabits.sync.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.sync.*;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
@@ -45,7 +45,7 @@ public class ListHabitsActivity extends BaseActivity
 
     private boolean pureBlack;
 
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     private MidnightTimer midnightTimer;
 
@@ -85,7 +85,7 @@ public class ListHabitsActivity extends BaseActivity
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 
-        if(prefs.isSyncFeatureEnabled())
+        if(prefs.isSyncEnabled())
             startService(new Intent(this, SyncService.class));
 
         setScreen(screen);

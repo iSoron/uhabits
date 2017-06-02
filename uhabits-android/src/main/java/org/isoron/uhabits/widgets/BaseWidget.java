@@ -27,8 +27,8 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.preferences.*;
 
 import static android.view.View.MeasureSpec.*;
 

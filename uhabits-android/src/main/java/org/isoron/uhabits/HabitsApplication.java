@@ -25,10 +25,10 @@ import android.content.*;
 import com.activeandroid.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.preferences.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -109,9 +109,8 @@ public class HabitsApplication extends Application
         notificationTray = component.getAndroidNotificationTray();
         notificationTray.startListening();
 
-        AndroidPreferences prefs = component.getPreferences();
-        prefs.initialize();
-        prefs.updateLastAppVersion();
+        Preferences prefs = component.getPreferences();
+        prefs.setLastAppVersion(BuildConfig.VERSION_CODE);
 
         TaskRunner taskRunner = component.getTaskRunner();
         taskRunner.execute(() -> {

@@ -35,12 +35,12 @@ import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.views.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 
 import butterknife.*;
 
 import static android.view.View.*;
-import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
+import static org.isoron.uhabits.core.ui.ThemeSwitcher.*;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
@@ -50,7 +50,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected Habit originalHabit;
 
-    protected AndroidPreferences prefs;
+    protected Preferences prefs;
 
     protected CommandRunner commandRunner;
 

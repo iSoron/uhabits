@@ -27,7 +27,7 @@ import android.widget.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 
 import java.util.*;
 

@@ -20,9 +20,9 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
 
 import dagger.*;
@@ -32,17 +32,24 @@ public class HabitsModule
 {
     @Provides
     @AppScope
-    public static Preferences getPreferences(AndroidPreferences preferences)
+    public static Preferences getPreferences(SharedPreferencesStorage storage)
     {
-        return preferences;
+        return new Preferences(storage);
     }
-
 
     @Provides
     @AppScope
     public static NotificationTray getTray(AndroidNotificationTray tray)
     {
         return tray;
+    }
+
+    @Provides
+    @AppScope
+    public static WidgetPreferences getWidgetPreferences(
+        SharedPreferencesStorage storage)
+    {
+        return new WidgetPreferences(storage);
     }
 }
 

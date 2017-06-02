@@ -29,7 +29,7 @@ import com.activeandroid.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.core.preferences.*;
 
 import static android.appwidget.AppWidgetManager.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;

@@ -35,12 +35,12 @@ import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
-import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;
@@ -94,7 +94,7 @@ public class ListHabitsScreen extends BaseScreen
     private final ThemeSwitcher themeSwitcher;
 
     @NonNull
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     @Nullable
     private HabitCardListController listController;
@@ -110,7 +110,7 @@ public class ListHabitsScreen extends BaseScreen
                             @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                             @NonNull ColorPickerDialogFactory colorPickerFactory,
                             @NonNull EditHabitDialogFactory editHabitDialogFactory,
-                            @NonNull AndroidPreferences prefs)
+                            @NonNull Preferences prefs)
     {
         super(activity);
         setRootView(rootView);

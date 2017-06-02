@@ -28,8 +28,8 @@ import android.support.v7.preference.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.preferences.*;
 
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
 
@@ -41,7 +41,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private SharedPreferences sharedPrefs;
 
     @Nullable
-    private AndroidPreferences prefs;
+    private Preferences prefs;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -63,7 +63,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         addPreferencesFromResource(R.xml.preferences);
 
         Context appContext = getContext().getApplicationContext();
-        if(appContext instanceof HabitsApplication)
+        if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
             prefs = app.getComponent().getPreferences();
@@ -77,20 +77,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         updateRingtoneDescription();
         updateSync();
-    }
-
-    private void updateSync()
-    {
-        if(prefs == null) return;
-        boolean enabled = prefs.isSyncFeatureEnabled();
-
-        Preference syncKey = findPreference("pref_sync_key");
-        syncKey.setSummary(prefs.getSyncKey());
-        syncKey.setVisible(enabled);
-
-        Preference syncAddress = findPreference("pref_sync_address");
-        syncAddress.setSummary(prefs.getSyncAddress());
-        syncAddress.setVisible(enabled);
     }
 
     @Override
@@ -114,8 +100,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         if (key.equals("reminderSound"))
         {
-            BaseScreen.showRingtonePicker(this,
-                RINGTONE_REQUEST_CODE);
+            BaseScreen.showRingtonePicker(this, RINGTONE_REQUEST_CODE);
             return true;
         }
 
@@ -129,7 +114,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         sharedPrefs = getPreferenceManager().getSharedPreferences();
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
-        if(prefs != null && !prefs.isDeveloper())
+        if (prefs != null && !prefs.isDeveloper())
         {
             PreferenceCategory devCategory =
                 (PreferenceCategory) findPreference("devCategory");
@@ -163,5 +148,25 @@ public class SettingsFragment extends PreferenceFragmentCompat
         if (ringtoneName == null) return;
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);
+    }
+
+    private void updateSync()
+    {
+        if (prefs == null) return;
+        boolean enabled = prefs.isSyncEnabled();
+
+        Preference syncKey = findPreference("pref_sync_key");
+        if (syncKey != null)
+        {
+            syncKey.setSummary(prefs.getSyncKey());
+            syncKey.setVisible(enabled);
+        }
+
+        Preference syncAddress = findPreference("pref_sync_address");
+        if (syncAddress != null)
+        {
+            syncAddress.setSummary(prefs.getSyncAddress());
+            syncAddress.setVisible(enabled);
+        }
     }
 }
