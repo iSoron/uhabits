@@ -93,7 +93,7 @@ public class BaseUIAutomatorTest
         h1.setColor(5);
         habitList.update(h1);
 
-        Habit h2 = fixtures.createEmptyHabit();
+        Habit h2 = fixtures.createShortHabit();
         h2.setName("Track time");
         h2.setDescription("Did you track your time?");
         h2.setColor(5);

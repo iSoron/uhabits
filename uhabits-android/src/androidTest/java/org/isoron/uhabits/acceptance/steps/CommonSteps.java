@@ -26,6 +26,7 @@ import android.support.test.uiautomator.*;
 import android.support.v7.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
 
 import static android.support.test.espresso.Espresso.*;
@@ -123,5 +124,28 @@ public class CommonSteps extends BaseUIAutomatorTest
             device.wait(Until.hasObject(By.pkg("com.android.chrome")), 5000));
         device.waitForIdle();
         assertTrue(device.findObject(new UiSelector().text(url)).exists());
+    }
+
+    public enum Screen
+    {
+        LIST_HABITS, SHOW_HABIT, EDIT_HABIT
+    }
+
+    public static void verifyShowsScreen(Screen screen)
+    {
+        switch(screen)
+        {
+            case LIST_HABITS:
+                onView(withId(R.id.header)).check(matches(isDisplayed()));
+                break;
+
+            case SHOW_HABIT:
+                onView(withId(R.id.subtitleCard)).check(matches(isDisplayed()));
+                break;
+
+            case EDIT_HABIT:
+                onView(withId(R.id.tvDescription)).check(matches(isDisplayed()));
+                break;
+        }
     }
 }

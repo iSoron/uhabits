@@ -35,7 +35,7 @@ import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.isoron.uhabits.BaseUIAutomatorTest.device;
-import static org.isoron.uhabits.acceptance.steps.CommonSteps.clickText;
+import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
 
 public abstract class ListHabitsSteps
 {
@@ -55,11 +55,11 @@ public abstract class ListHabitsSteps
                 clickTextInsideOverflowMenu(R.string.settings);
                 break;
 
-            case CREATE_HABIT:
+            case ADD:
                 clickViewWithId(R.id.actionAdd);
                 break;
 
-            case EDIT_HABIT:
+            case EDIT:
                 clickViewWithId(R.id.action_edit_habit);
                 break;
 
@@ -75,9 +75,14 @@ public abstract class ListHabitsSteps
                 clickTextInsideOverflowMenu(R.string.unarchive);
                 break;
 
-            case HIDE_ARCHIVED:
+            case TOGGLE_ARCHIVED:
                 clickViewWithId(R.id.action_filter);
                 clickText(R.string.hide_archived);
+                break;
+
+            case TOGGLE_COMPLETED:
+                clickViewWithId(R.id.action_filter);
+                clickText(R.string.hide_completed);
                 break;
         }
     }
@@ -86,10 +91,10 @@ public abstract class ListHabitsSteps
     {
         UiObject toolbar = device.findObject(
             new UiSelector().resourceId("org.isoron.uhabits:id/toolbar"));
-        if(toolbar.exists())
+        if (toolbar.exists())
         {
-            onView(allOf(withContentDescription("More options"), withParent
-                (withParent(withId(R.id.toolbar))))).perform(click());
+            onView(allOf(withContentDescription("More options"),
+                withParent(withParent(withId(R.id.toolbar))))).perform(click());
         }
         else
         {
@@ -104,7 +109,7 @@ public abstract class ListHabitsSteps
         onView(withId(id)).perform(click());
     }
 
-    private static ViewAction longClickEveryDescendantWithClass(Class cls)
+    private static ViewAction longClickDescendantWithClass(Class cls, int count)
     {
         return new ViewAction()
         {
@@ -126,6 +131,7 @@ public abstract class ListHabitsSteps
             {
                 LinkedList<ViewGroup> stack = new LinkedList<>();
                 if (view instanceof ViewGroup) stack.push((ViewGroup) view);
+                int countRemaining = count;
 
                 while (!stack.isEmpty())
                 {
@@ -134,10 +140,11 @@ public abstract class ListHabitsSteps
                     {
                         View v = vg.getChildAt(i);
                         if (v instanceof ViewGroup) stack.push((ViewGroup) v);
-                        if (cls.isInstance(v))
+                        if (cls.isInstance(v) && countRemaining > 0)
                         {
                             v.performLongClick();
                             uiController.loopMainThreadUntilIdle();
+                            countRemaining--;
                         }
                     }
                 }
@@ -145,17 +152,18 @@ public abstract class ListHabitsSteps
         };
     }
 
-    public static void longPressCheckmarks(String habit)
+    public static void longPressCheckmarks(String habit, int count)
     {
         CommonSteps.scrollToText(habit);
         onView(allOf(hasDescendant(withText(habit)),
             withClassName(endsWith("HabitCardView")))).perform(
-            longClickEveryDescendantWithClass(CheckmarkButtonView.class));
+            longClickDescendantWithClass(CheckmarkButtonView.class, count));
+        device.waitForIdle();
     }
 
     public enum MenuItem
     {
-        ABOUT, HELP, SETTINGS, EDIT_HABIT, DELETE, ARCHIVE, HIDE_ARCHIVED,
-        UNARCHIVE, CREATE_HABIT
+        ABOUT, HELP, SETTINGS, EDIT, DELETE, ARCHIVE, TOGGLE_ARCHIVED,
+        UNARCHIVE, TOGGLE_COMPLETED, ADD
     }
 }

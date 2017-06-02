@@ -26,10 +26,12 @@ import org.isoron.uhabits.*;
 import org.junit.*;
 import org.junit.runner.*;
 
+import static org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.*;
 import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
 import static org.isoron.uhabits.acceptance.steps.EditHabitSteps.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
+import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.EDIT;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -39,12 +41,18 @@ public class HabitsTest extends BaseUIAutomatorTest
     public void shouldCreateHabit() throws Exception
     {
         launchApp();
-        clickMenu(CREATE_HABIT);
+
+        verifyShowsScreen(LIST_HABITS);
+        clickMenu(ADD);
+
+        verifyShowsScreen(EDIT_HABIT);
         typeName("Hello world");
         typeQuestion("Did you say hello to the world today?");
         pickFrequency("Every week");
         pickColor(5);
         clickSave();
+
+        verifyShowsScreen(LIST_HABITS);
         verifyDisplaysText("Hello world");
     }
 
@@ -52,7 +60,10 @@ public class HabitsTest extends BaseUIAutomatorTest
     public void shouldShowHabitStatistics() throws Exception
     {
         launchApp();
+        verifyShowsScreen(LIST_HABITS);
         clickText("Track time");
+
+        verifyShowsScreen(SHOW_HABIT);
         verifyDisplayGraphs();
     }
 
@@ -60,6 +71,8 @@ public class HabitsTest extends BaseUIAutomatorTest
     public void shouldDeleteHabit() throws Exception
     {
         launchApp();
+
+        verifyShowsScreen(LIST_HABITS);
         longClickText("Track time");
         clickMenu(DELETE);
         clickOK();
@@ -70,11 +83,17 @@ public class HabitsTest extends BaseUIAutomatorTest
     public void shouldEditHabit() throws Exception
     {
         launchApp();
+
+        verifyShowsScreen(LIST_HABITS);
         longClickText("Track time");
-        clickMenu(EDIT_HABIT);
+        clickMenu(EDIT);
+
+        verifyShowsScreen(EDIT_HABIT);
         typeName("Take a walk");
         typeQuestion("Did you take a walk today?");
         clickSave();
+
+        verifyShowsScreen(LIST_HABITS);
         verifyDisplaysText("Take a walk");
         verifyDoesNotDisplayText("Track time");
     }
@@ -83,14 +102,24 @@ public class HabitsTest extends BaseUIAutomatorTest
     public void shouldEditHabit_fromStatisticsScreen() throws Exception
     {
         launchApp();
+
+        verifyShowsScreen(LIST_HABITS);
         clickText("Track time");
-        clickMenu(EDIT_HABIT);
+
+        verifyShowsScreen(SHOW_HABIT);
+        clickMenu(EDIT);
+
+        verifyShowsScreen(EDIT_HABIT);
         typeName("Take a walk");
         typeQuestion("Did you take a walk today?");
         pickColor(10);
         clickSave();
+
+        verifyShowsScreen(SHOW_HABIT);
         verifyDisplaysText("Take a walk");
         pressBack();
+
+        verifyShowsScreen(LIST_HABITS);
         verifyDisplaysText("Take a walk");
         verifyDoesNotDisplayText("Track time");
     }
@@ -99,15 +128,49 @@ public class HabitsTest extends BaseUIAutomatorTest
     public void shouldArchiveAndUnarchiveHabits() throws Exception
     {
         launchApp();
+
+        verifyShowsScreen(LIST_HABITS);
         longClickText("Track time");
         clickMenu(ARCHIVE);
         verifyDoesNotDisplayText("Track time");
-        clickMenu(HIDE_ARCHIVED);
+        clickMenu(TOGGLE_ARCHIVED);
         verifyDisplaysText("Track time");
 
         longClickText("Track time");
         clickMenu(UNARCHIVE);
-        clickMenu(HIDE_ARCHIVED);
+        clickMenu(TOGGLE_ARCHIVED);
         verifyDisplaysText("Track time");
+    }
+
+    @Test
+    public void shouldToggleCheckmarksAndUpdateScore() throws Exception
+    {
+        launchApp();
+        verifyShowsScreen(LIST_HABITS);
+        longPressCheckmarks("Wake up early", 2);
+        clickText("Wake up early");
+
+        verifyShowsScreen(SHOW_HABIT);
+        verifyDisplaysText("10%");
+    }
+
+    @Test
+    public void shouldHideCompleted() throws Exception
+    {
+        launchApp();
+        verifyShowsScreen(LIST_HABITS);
+        verifyDisplaysText("Track time");
+        verifyDisplaysText("Wake up early");
+
+        clickMenu(TOGGLE_COMPLETED);
+        verifyDoesNotDisplayText("Track time");
+        verifyDisplaysText("Wake up early");
+
+        longPressCheckmarks("Wake up early", 1);
+        verifyDoesNotDisplayText("Wake up early");
+
+        clickMenu(TOGGLE_COMPLETED);
+        verifyDisplaysText("Track time");
+        verifyDisplaysText("Wake up early");
     }
 }

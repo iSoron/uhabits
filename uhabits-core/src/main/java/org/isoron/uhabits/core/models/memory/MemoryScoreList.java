@@ -78,7 +78,6 @@ public class MemoryScoreList extends ScoreList
 
         list.removeAll(discard);
 
-        todayValue = null;
         getObservable().notifyListeners();
     }
 
