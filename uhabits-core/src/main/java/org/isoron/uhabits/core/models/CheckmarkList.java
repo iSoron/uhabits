@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.models;
 
 import android.support.annotation.*;
 
+import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
@@ -29,7 +30,10 @@ import java.util.*;
 
 import javax.annotation.concurrent.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.isoron.uhabits.core.models.Checkmark.CHECKED_IMPLICITLY;
+import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
+
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
  */
@@ -44,6 +48,104 @@ public abstract class CheckmarkList
     {
         this.habit = habit;
         this.observable = new ModelObservable();
+    }
+
+    @NonNull
+    static List<Checkmark> buildCheckmarksFromIntervals(Repetition[] reps,
+                                                        ArrayList<Interval> intervals)
+    {
+        if (reps.length == 0) throw new IllegalArgumentException();
+
+        long day = DateUtils.millisecondsInOneDay;
+        long today = DateUtils.getStartOfToday();
+
+        long begin = reps[0].getTimestamp();
+        if (intervals.size() > 0)
+            begin = Long.min(begin, intervals.get(0).begin);
+
+        int nDays = (int) ((today - begin) / day) + 1;
+
+        List<Checkmark> checkmarks = new ArrayList<>(nDays);
+        for (int i = 0; i < nDays; i++)
+            checkmarks.add(new Checkmark(today - day * i, UNCHECKED));
+
+        for (Interval interval : intervals)
+        {
+            for (long date = interval.begin; date <= interval.end; date += day)
+            {
+                if (date > today) continue;
+                int offset = (int) ((today - date) / day);
+                checkmarks.set(offset, new Checkmark(date, CHECKED_IMPLICITLY));
+            }
+        }
+
+        for (Repetition rep : reps)
+        {
+            long date = rep.getTimestamp();
+            int offset = (int) ((today - date) / day);
+            checkmarks.set(offset, new Checkmark(date, CHECKED_EXPLICITLY));
+        }
+
+        return checkmarks;
+    }
+
+    /**
+     * For non-daily habits, some groups of repetitions generate many
+     * checkmarks. For example, for weekly habits, each repetition generates
+     * seven checkmarks. For twice-a-week habits, two repetitions that are close
+     * enough together also generate seven checkmarks.
+     * <p>
+     * This group of generated checkmarks, for a given set of repetition, is
+     * represented by an interval. This function computes the list of intervals
+     * for a given list of repetitions. It tries to build the intervals as far
+     * away in the future as possible.
+     */
+    @NonNull
+    static ArrayList<Interval> buildIntervals(@NonNull Frequency freq,
+                                              @NonNull Repetition[] reps)
+    {
+        long day = DateUtils.millisecondsInOneDay;
+        int num = freq.getNumerator();
+        int den = freq.getDenominator();
+
+        ArrayList<Interval> intervals = new ArrayList<>();
+        for (int i = 0; i < reps.length - num + 1; i++)
+        {
+            Repetition first = reps[i];
+            Repetition last = reps[i + num - 1];
+
+            long distance = (last.getTimestamp() - first.getTimestamp()) / day;
+            if (distance >= den) continue;
+
+            long begin = first.getTimestamp();
+            long center = last.getTimestamp();
+            long end = begin + (den - 1) * day;
+            intervals.add(new Interval(begin, center, end));
+        }
+
+        return intervals;
+    }
+
+    /**
+     * Starting from the oldest interval, this function tries to slide the
+     * intervals backwards into the past, so that gaps are eliminated and
+     * streaks are maximized. When it detects that sliding an interval
+     * would not help fixing any gap, it leaves the interval unchanged.
+     */
+    static void snapIntervalsTogether(@NonNull ArrayList<Interval> intervals)
+    {
+        long day = DateUtils.millisecondsInOneDay;
+
+        for (int i = 1; i < intervals.size(); i++)
+        {
+            Interval curr = intervals.get(i);
+            Interval prev = intervals.get(i - 1);
+
+            long distance = curr.begin - prev.end - day;
+            if (distance <= 0 || curr.end - distance < curr.center) continue;
+            intervals.set(i, new Interval(curr.begin - distance, curr.center,
+                curr.end - distance));
+        }
     }
 
     /**
@@ -104,8 +206,9 @@ public abstract class CheckmarkList
     @Nullable
     public synchronized final Checkmark getToday()
     {
-        computeAll();
-        return getNewestComputed();
+        compute();
+        long today = DateUtils.getStartOfToday();
+        return getByInterval(today, today).get(0);
     }
 
     /**
@@ -117,7 +220,7 @@ public abstract class CheckmarkList
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();
-        else return Checkmark.UNCHECKED;
+        else return UNCHECKED;
     }
 
     /**
@@ -135,7 +238,7 @@ public abstract class CheckmarkList
      */
     public final int[] getValues(long from, long to)
     {
-        if(from > to) return new int[0];
+        if (from > to) return new int[0];
 
         List<Checkmark> checkmarks = getByInterval(from, to);
         int values[] = new int[checkmarks.size()];
@@ -168,7 +271,7 @@ public abstract class CheckmarkList
 
         synchronized (this)
         {
-            computeAll();
+            compute();
             values = getAllValues();
         }
 
@@ -184,111 +287,28 @@ public abstract class CheckmarkList
     }
 
     /**
-     * Computes and stores one checkmark for each day that falls inside the
-     * specified interval of time. Days that already have a corresponding
-     * checkmark are skipped.
-     *
-     * This method assumes the list of computed checkmarks has no holes. That
-     * is, if there is a checkmark computed at time t1 and another at time t2,
-     * then every checkmark between t1 and t2 is also computed.
-     *
-     * @param from timestamp for the beginning of the interval
-     * @param to   timestamp for the end of the interval
+     * Computes and stores one checkmark for each day, from the first habit
+     * repetition to today. If this list is already computed, does nothing.
      */
-    protected final synchronized void compute(long from, long to)
+    protected final synchronized void compute()
     {
-        final long day = DateUtils.millisecondsInOneDay;
+        final long today = DateUtils.getStartOfToday();
 
         Checkmark newest = getNewestComputed();
-        Checkmark oldest = getOldestComputed();
+        if(newest != null && newest.getTimestamp() == today) return;
+        invalidateNewerThan(0);
 
-        if (newest == null || oldest == null)
-        {
-            forceRecompute(from, to);
-        }
-        else
-        {
-            forceRecompute(from, oldest.getTimestamp() - day);
-            forceRecompute(newest.getTimestamp() + day, to);
-        }
-    }
+        Repetition oldestRep = habit.getRepetitions().getOldest();
+        if (oldestRep == null) return;
+        final long from = oldestRep.getTimestamp();
 
-    /**
-     * Returns oldest checkmark that has already been computed.
-     *
-     * @return oldest checkmark already computed
-     */
-    @Nullable
-    protected abstract Checkmark getOldestComputed();
+        Repetition reps[] = habit
+            .getRepetitions()
+            .getByInterval(from, today)
+            .toArray(new Repetition[0]);
 
-    /**
-     * Computes and stores one checkmark for each day that falls inside the
-     * specified interval of time.
-     *
-     * This method does not check if the checkmarks have already been
-     * computed or not. If they have, then duplicate checkmarks will
-     * be stored, which is a bad thing.
-     *
-     * @param from timestamp for the beginning of the interval
-     * @param to   timestamp for the end of the interval
-     */
-    private synchronized void forceRecompute(long from, long to)
-    {
-        if (from > to) return;
-
-        final long day = DateUtils.millisecondsInOneDay;
-        Frequency freq = habit.getFrequency();
-
-        long fromExtended = from - (long) (freq.getDenominator()) * day;
-        List<Repetition> reps =
-            habit.getRepetitions().getByInterval(fromExtended, to);
-
-        final int nDays = (int) ((to - from) / day) + 1;
-        int nDaysExtended = (int) ((to - fromExtended) / day) + 1;
-        final int checks[] = new int[nDaysExtended];
-
-        for (Repetition rep : reps)
-        {
-            int offset = (int) ((rep.getTimestamp() - fromExtended) / day);
-            checks[nDaysExtended - offset - 1] = rep.getValue();
-        }
-
-        for (int i = 0; i < nDays; i++)
-        {
-            int counter = 0;
-
-            for (int j = 0; j < freq.getDenominator(); j++)
-                if (checks[i + j] == CHECKED_EXPLICITLY) counter++;
-
-            if (counter >= freq.getNumerator())
-                if (checks[i] != CHECKED_EXPLICITLY)
-                    checks[i] = CHECKED_IMPLICITLY;
-        }
-
-        List<Checkmark> checkmarks = new LinkedList<>();
-
-        for (int i = 0; i < nDays; i++)
-        {
-            int value = checks[i];
-            long timestamp = to - i * day;
-            checkmarks.add(new Checkmark(timestamp, value));
-        }
-
-        add(checkmarks);
-    }
-
-    /**
-     * Computes and stores one checkmark for each day, since the first
-     * repetition of the habit until today. Days that already have a
-     * corresponding checkmark are skipped.
-     */
-    private synchronized void computeAll()
-    {
-        Repetition oldest = habit.getRepetitions().getOldest();
-        if (oldest == null) return;
-
-        Long today = DateUtils.getStartOfToday();
-        compute(oldest.getTimestamp(), today);
+        if (habit.isNumerical()) computeNumerical(reps);
+        else computeYesNo(reps);
     }
 
     /**
@@ -298,4 +318,95 @@ public abstract class CheckmarkList
      */
     @Nullable
     protected abstract Checkmark getNewestComputed();
+
+    /**
+     * Returns oldest checkmark that has already been computed.
+     *
+     * @return oldest checkmark already computed
+     */
+    @Nullable
+    protected abstract Checkmark getOldestComputed();
+
+    private void computeNumerical(Repetition[] reps)
+    {
+        if (reps.length == 0) throw new IllegalArgumentException();
+
+        long day = DateUtils.millisecondsInOneDay;
+        long today = DateUtils.getStartOfToday();
+        long begin = reps[0].getTimestamp();
+
+        int nDays = (int) ((today - begin) / day) + 1;
+        List<Checkmark> checkmarks = new ArrayList<>(nDays);
+        for (int i = 0; i < nDays; i++)
+            checkmarks.add(new Checkmark(today - day * i, 0));
+
+        for (Repetition rep : reps)
+        {
+            long date = rep.getTimestamp();
+            int offset = (int) ((today - date) / day);
+            checkmarks.set(offset, new Checkmark(date, rep.getValue()));
+        }
+
+        add(checkmarks);
+    }
+
+    private void computeYesNo(Repetition[] reps)
+    {
+        ArrayList<Interval> intervals;
+        intervals = buildIntervals(habit.getFrequency(), reps);
+        snapIntervalsTogether(intervals);
+        add(buildCheckmarksFromIntervals(reps, intervals));
+    }
+
+    static class Interval
+    {
+        final long begin;
+
+        final long center;
+
+        final long end;
+
+        Interval(long begin, long center, long end)
+        {
+            this.begin = begin;
+            this.center = center;
+            this.end = end;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o) return true;
+
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Interval interval = (Interval) o;
+
+            return new EqualsBuilder()
+                .append(begin, interval.begin)
+                .append(center, interval.center)
+                .append(end, interval.end)
+                .isEquals();
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return new HashCodeBuilder(17, 37)
+                .append(begin)
+                .append(center)
+                .append(end)
+                .toHashCode();
+        }
+
+        @Override
+        public String toString()
+        {
+            return new ToStringBuilder(this)
+                .append("begin", begin)
+                .append("center", center)
+                .append("end", end)
+                .toString();
+        }
+    }
 }

@@ -188,9 +188,6 @@ public class SQLiteHabitList extends HabitList
     @Override
     public void removeAll()
     {
-        sqlite.query("delete from checkmarks", null);
-        sqlite.query("delete from score", null);
-        sqlite.query("delete from streak", null);
         sqlite.query("delete from repetitions", null);
         sqlite.query("delete from habits", null);
     }

@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
-import android.content.*;
 import android.os.*;
 
 import org.isoron.androidbase.activities.*;
@@ -28,7 +27,6 @@ import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.sync.*;
 
 /**
  * Activity that allows the user to see and modify the list of habits.
@@ -85,8 +83,8 @@ public class ListHabitsActivity extends BaseActivity
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 
-        if(prefs.isSyncEnabled())
-            startService(new Intent(this, SyncService.class));
+//        if(prefs.isSyncEnabled())
+//            startService(new Intent(this, SyncService.class));
 
         setScreen(screen);
         controller.onStartup();

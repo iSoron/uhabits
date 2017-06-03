@@ -1,3 +1,3 @@
 #!/bin/bash
-find app/build/outputs/failed/test-screenshots -name '*.expected*' -delete
-rsync -av app/build/outputs/failed/test-screenshots/ app/src/androidTest/assets/
+find uhabits-android/build/outputs/failed/test-screenshots -name '*.expected*' -delete
+rsync -av uhabits-android/build/outputs/failed/test-screenshots/ uhabits-android/src/androidTest/assets/

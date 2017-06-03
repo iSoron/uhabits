@@ -77,7 +77,6 @@ public abstract class RepetitionList
      * @param toTimestamp   timestamp of the end of the interval
      * @return list of repetitions within given time interval
      */
-    // TODO: Change order timestamp desc
     public abstract List<Repetition> getByInterval(long fromTimestamp,
                                                    long toTimestamp);
 

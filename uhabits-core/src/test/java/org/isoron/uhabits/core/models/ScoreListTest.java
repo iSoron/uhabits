@@ -126,6 +126,28 @@ public class ScoreListTest extends BaseUnitTest
     }
 
     @Test
+    public void test_getValues()
+    {
+        toggleRepetitions(0, 20);
+
+        long today = DateUtils.getStartOfToday();
+        long day = DateUtils.millisecondsInOneDay;
+
+        long from = today - 4 * day;
+        long to = today - 2 * day;
+
+        double[] expected = {
+            0.617008, 0.596033, 0.573909,
+        };
+
+        double[] actual = habit.getScores().getValues(from, to);
+        assertThat(actual.length, equalTo(expected.length));
+
+        for (int i = 0; i < actual.length; i++)
+            assertThat(actual[i], closeTo(expected[i], E));
+    }
+
+    @Test
     public void test_groupBy()
     {
         Habit habit = fixtures.createLongHabit();
@@ -133,9 +155,9 @@ public class ScoreListTest extends BaseUnitTest
             habit.getScores().groupBy(DateUtils.TruncateField.MONTH);
 
         assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), closeTo(0.549096, E));
-        assertThat(list.get(1).getValue(), closeTo(0.480098, E));
-        assertThat(list.get(2).getValue(), closeTo(0.377885, E));
+        assertThat(list.get(0).getValue(), closeTo(0.653659, E));
+        assertThat(list.get(1).getValue(), closeTo(0.622715, E));
+        assertThat(list.get(2).getValue(), closeTo(0.520997, E));
     }
 
     @Test
@@ -157,45 +179,16 @@ public class ScoreListTest extends BaseUnitTest
     {
         Habit habit = fixtures.createShortHabit();
 
-        String expectedCSV = "2015-01-25,0.2372\n" +
-                             "2015-01-24,0.2096\n" +
-                             "2015-01-23,0.2172\n" +
-                             "2015-01-22,0.1889\n" +
-                             "2015-01-21,0.1595\n" +
-                             "2015-01-20,0.1291\n" +
-                             "2015-01-19,0.0976\n" +
-                             "2015-01-18,0.1011\n" +
-                             "2015-01-17,0.0686\n" +
-                             "2015-01-16,0.0349\n";
+        String expectedCSV = "2015-01-25,0.2654\n2015-01-24,0.2389\n" +
+                             "2015-01-23,0.2475\n2015-01-22,0.2203\n" +
+                             "2015-01-21,0.1921\n2015-01-20,0.1628\n" +
+                             "2015-01-19,0.1325\n2015-01-18,0.1011\n" +
+                             "2015-01-17,0.0686\n2015-01-16,0.0349\n";
 
         StringWriter writer = new StringWriter();
         habit.getScores().writeCSV(writer);
 
         assertThat(writer.toString(), equalTo(expectedCSV));
-    }
-
-    @Test
-    public void test_getValues()
-    {
-        toggleRepetitions(0, 20);
-
-        long today = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
-
-        long from = today - 4 * day;
-        long to = today - 2 * day;
-
-        double[] expected = {
-                0.617008,
-                0.596033,
-                0.573909,
-        };
-
-        double[] actual = habit.getScores().getValues(from, to);
-        assertThat(actual.length, equalTo(expected.length));
-
-        for(int i = 0; i < actual.length; i++)
-            assertThat(actual[i], closeTo(expected[i], E));
     }
 
     private void toggleRepetitions(final int from, final int to)

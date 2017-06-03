@@ -96,9 +96,10 @@ dependencies {
     testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
     testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
-    testCompile 'com.google.dagger:dagger:2.9'
-    testCompile "org.mockito:mockito-core:2.8.9"
-    testCompile "org.mockito:mockito-inline:2.8.9"
+    testImplementation 'com.google.dagger:dagger:2.9'
+    testImplementation "org.mockito:mockito-core:2.8.9"
+    testImplementation "org.mockito:mockito-inline:2.8.9"
+    testImplementation 'junit:junit:4+'
 
     implementation('com.opencsv:opencsv:3.9') {
         exclude group: 'commons-logging', module: 'commons-logging'

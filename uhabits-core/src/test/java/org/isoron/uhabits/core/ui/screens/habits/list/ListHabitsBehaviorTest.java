@@ -99,6 +99,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         when(system.getCSVOutputDir()).thenReturn(outputDir);
         behavior.onExportCSV();
         verify(screen).showMessage(COULD_NOT_EXPORT);
+        assertTrue(outputDir.delete());
     }
 
     @Test

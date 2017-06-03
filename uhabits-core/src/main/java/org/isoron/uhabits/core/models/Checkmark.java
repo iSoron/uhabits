@@ -56,10 +56,10 @@ public final class Checkmark
 
     /**
      * The value of the checkmark.
-     *
+     * <p>
      * For boolean habits, this equals either UNCHECKED, CHECKED_EXPLICITLY,
      * or CHECKED_IMPLICITLY.
-     *
+     * <p>
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is stored as 1500.
      */
@@ -76,6 +76,21 @@ public final class Checkmark
         return Long.signum(this.getTimestamp() - other.getTimestamp());
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Checkmark checkmark = (Checkmark) o;
+
+        return new EqualsBuilder()
+            .append(timestamp, checkmark.timestamp)
+            .append(value, checkmark.value)
+            .isEquals();
+    }
+
     public long getTimestamp()
     {
         return timestamp;
@@ -84,6 +99,15 @@ public final class Checkmark
     public int getValue()
     {
         return value;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+            .append(timestamp)
+            .append(value)
+            .toHashCode();
     }
 
     @Override

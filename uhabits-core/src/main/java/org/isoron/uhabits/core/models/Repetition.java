@@ -33,11 +33,9 @@ public final class Repetition
     /**
      * The value of the repetition.
      *
-     * For boolean habits, this equals either Checkmark.UNCHECKED,
-     * Checkmark.CHECKED_EXPLICITLY, or Checkmark.CHECKED_IMPLICITLY.
-     *
+     * For boolean habits, this always equals Checkmark.CHECKED_EXPLICITLY.
      * For numerical habits, this number is stored in thousandths. That
-     * is, if the user enters value 1.50 on the app, it is stored as 1500.
+     * is, if the user enters value 1.50 on the app, it is here stored as 1500.
      */
     private final int value;
 

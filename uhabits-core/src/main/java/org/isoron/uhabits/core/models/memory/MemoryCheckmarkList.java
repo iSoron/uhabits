@@ -25,17 +25,19 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.core.utils.DateUtils.*;
+
 /**
  * In-memory implementation of {@link CheckmarkList}.
  */
 public class MemoryCheckmarkList extends CheckmarkList
 {
-    LinkedList<Checkmark> list;
+    ArrayList<Checkmark> list;
 
     public MemoryCheckmarkList(Habit habit)
     {
         super(habit);
-        list = new LinkedList<>();
+        list = new ArrayList<>();
     }
 
     @Override
@@ -49,13 +51,27 @@ public class MemoryCheckmarkList extends CheckmarkList
     @Override
     public List<Checkmark> getByInterval(long fromTimestamp, long toTimestamp)
     {
-        compute(fromTimestamp, toTimestamp);
+        compute();
+
+        long newestTimestamp = Long.MIN_VALUE;
+        long oldestTimestamp = Long.MAX_VALUE;
+
+        Checkmark newest = getNewestComputed();
+        Checkmark oldest = getOldestComputed();
+        if(newest != null) newestTimestamp = newest.getTimestamp();
+        if(oldest != null) oldestTimestamp = oldest.getTimestamp();
 
         List<Checkmark> filtered = new LinkedList<>();
-
-        for (Checkmark c : list)
-            if (c.getTimestamp() >= fromTimestamp &&
-                c.getTimestamp() <= toTimestamp) filtered.add(c);
+        for(long time = toTimestamp; time >= fromTimestamp; time -= millisecondsInOneDay)
+        {
+            if(time > newestTimestamp || time < oldestTimestamp)
+                filtered.add(new Checkmark(time, Checkmark.UNCHECKED));
+            else
+            {
+                int offset = (int) ((newestTimestamp - time) / millisecondsInOneDay);
+                filtered.add(list.get(offset));
+            }
+        }
 
         return filtered;
     }
@@ -63,12 +79,8 @@ public class MemoryCheckmarkList extends CheckmarkList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        LinkedList<Checkmark> invalid = new LinkedList<>();
-
-        for (Checkmark c : list)
-            if (c.getTimestamp() >= timestamp) invalid.add(c);
-
-        list.removeAll(invalid);
+        list.clear();
+        observable.notifyListeners();
     }
 
     @Override
@@ -76,7 +88,7 @@ public class MemoryCheckmarkList extends CheckmarkList
     protected Checkmark getOldestComputed()
     {
         if(list.isEmpty()) return null;
-        return list.getLast();
+        return list.get(list.size()-1);
     }
 
     @Override
@@ -84,7 +96,7 @@ public class MemoryCheckmarkList extends CheckmarkList
     protected Checkmark getNewestComputed()
     {
         if(list.isEmpty()) return null;
-        return list.getFirst();
+        return list.get(0);
     }
 
 }
