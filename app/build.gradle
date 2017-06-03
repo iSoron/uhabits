@@ -12,7 +12,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
 
-        buildConfigField "Integer", "databaseVersion", "19"
+        buildConfigField "Integer", "databaseVersion", "20"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

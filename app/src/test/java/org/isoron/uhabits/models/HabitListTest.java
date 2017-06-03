@@ -172,8 +172,8 @@ public class HabitListTest extends BaseUnitTest
 
         String expectedCSV =
             "Position,Name,Description,NumRepetitions,Interval,Color\n" +
-            "001,Meditate,Did you meditate this morning?,1,1,#F9A825\n" +
-            "002,Wake up early,Did you wake up before 6am?,2,3,#388E3C\n";
+            "001,Meditate,Did you meditate this morning?,1,1,#FF8F00\n" +
+            "002,Wake up early,Did you wake up before 6am?,2,3,#AFB42B\n";
 
         StringWriter writer = new StringWriter();
         list.writeCSV(writer);

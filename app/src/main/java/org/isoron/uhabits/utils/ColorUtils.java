@@ -29,19 +29,23 @@ public abstract class ColorUtils
         "#D32F2F", //  0 red
         "#E64A19", //  1 deep orange
         "#F57C00", //  2 orange
-        "#F9A825", //  3 yellow
-        "#AFB42B", //  4 light green
-        "#388E3C", //  5 dark green
-        "#00897B", //  6 teal
-        "#00ACC1", //  7 cyan
-        "#039BE5", //  8 blue
-        "#5E35B1", //  9 deep purple
-        "#8E24AA", // 10 purple
-        "#D81B60", // 11 pink
-        "#5D4037", // 12 brown
-        "#303030", // 13 dark grey
-        "#757575", // 14 grey
-        "#aaaaaa"  // 15 light grey
+        "#FF8F00", //  3 amber
+        "#F9A825", //  4 yellow
+        "#AFB42B", //  5 lime
+        "#7CB342", //  6 light green
+        "#388E3C", //  7 green
+        "#00897B", //  8 teal
+        "#00ACC1", //  9 cyan
+        "#039BE5", // 10 light blue
+        "#1976D2", // 11 blue
+        "#303F9F", // 12 indigo
+        "#5E35B1", // 13 deep purple
+        "#8E24AA", // 14 purple
+        "#D81B60", // 15 pink
+        "#5D4037", // 16 brown
+        "#303030", // 17 dark grey
+        "#757575", // 18 grey
+        "#aaaaaa"  // 19 light grey
     };
 
     public static int colorToPaletteIndex(Context context, int color)
@@ -61,19 +65,23 @@ public abstract class ColorUtils
             Color.parseColor("#D32F2F"), //  0 red
             Color.parseColor("#E64A19"), //  1 deep orange
             Color.parseColor("#F57C00"), //  2 orange
-            Color.parseColor("#F9A825"), //  3 yellow
-            Color.parseColor("#AFB42B"), //  4 light green
-            Color.parseColor("#388E3C"), //  5 dark green
-            Color.parseColor("#00897B"), //  6 teal
-            Color.parseColor("#00ACC1"), //  7 cyan
-            Color.parseColor("#039BE5"), //  8 blue
-            Color.parseColor("#5E35B1"), //  9 deep purple
-            Color.parseColor("#8E24AA"), // 10 purple
-            Color.parseColor("#D81B60"), // 11 pink
-            Color.parseColor("#5D4037"), // 12 brown
-            Color.parseColor("#303030"), // 13 dark grey
-            Color.parseColor("#757575"), // 14 grey
-            Color.parseColor("#aaaaaa")  // 15 light grey
+            Color.parseColor("#FF8F00"), //  3 amber
+            Color.parseColor("#F9A825"), //  4 yellow
+            Color.parseColor("#AFB42B"), //  5 lime
+            Color.parseColor("#7CB342"), //  6 light green
+            Color.parseColor("#388E3C"), //  7 green
+            Color.parseColor("#00897B"), //  8 teal
+            Color.parseColor("#00ACC1"), //  9 cyan
+            Color.parseColor("#039BE5"), // 10 light blue
+            Color.parseColor("#1976D2"), // 11 blue
+            Color.parseColor("#303F9F"), // 12 indigo
+            Color.parseColor("#5E35B1"), // 13 deep purple
+            Color.parseColor("#8E24AA"), // 14 purple
+            Color.parseColor("#D81B60"), // 15 pink
+            Color.parseColor("#5D4037"), // 16 brown
+            Color.parseColor("#303030"), // 17 dark grey
+            Color.parseColor("#757575"), // 18 grey
+            Color.parseColor("#aaaaaa")  // 19 light grey
         };
 
         return palette[index];
