@@ -21,6 +21,7 @@ package org.isoron.uhabits.models.sqlite;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.memory.*;
 
 import dagger.*;
 
@@ -46,7 +47,7 @@ public class SQLModelFactory implements ModelFactory
     @Override
     public CheckmarkList buildCheckmarkList(Habit habit)
     {
-        return new SQLiteCheckmarkList(habit);
+        return new MemoryCheckmarkList(habit);
     }
 
     @Override
@@ -64,12 +65,12 @@ public class SQLModelFactory implements ModelFactory
     @Override
     public ScoreList buildScoreList(Habit habit)
     {
-        return new SQLiteScoreList(habit);
+        return new MemoryScoreList(habit);
     }
 
     @Override
     public StreakList buildStreakList(Habit habit)
     {
-        return new SQLiteStreakList(habit);
+        return new MemoryStreakList(habit);
     }
 }

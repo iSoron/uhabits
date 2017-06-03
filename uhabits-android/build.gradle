@@ -11,7 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
 
-        buildConfigField "Integer", "databaseVersion", "19"
+        buildConfigField "Integer", "databaseVersion", "20"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
         buildConfigField "int", "roboSdk", (System.getenv("ROBO_SDK") ?: "25")
 
@@ -146,3 +146,4 @@ task coverageReport(type: JacocoReport) {
     classDirectories = files(fileTree(dir: androidClasses, excludes: excludes))
     executionData = files(jvmExecData, connectedExecData)
 }
+

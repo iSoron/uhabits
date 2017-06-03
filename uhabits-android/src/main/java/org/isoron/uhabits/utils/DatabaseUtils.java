@@ -76,10 +76,8 @@ public abstract class DatabaseUtils
         Configuration dbConfig = new Configuration.Builder(context)
             .setDatabaseName(getDatabaseFilename())
             .setDatabaseVersion(BuildConfig.databaseVersion)
-            .addModelClasses(CheckmarkRecord.class, HabitRecord.class,
-                RepetitionRecord.class, ScoreRecord.class, StreakRecord.class,
-                Event.class)
-            .create();
+            .addModelClasses(HabitRecord.class, RepetitionRecord.class,
+                Event.class).create();
 
         try
         {

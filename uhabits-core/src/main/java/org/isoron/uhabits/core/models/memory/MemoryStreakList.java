@@ -26,12 +26,12 @@ import java.util.*;
 
 public class MemoryStreakList extends StreakList
 {
-    LinkedList<Streak> list;
+    ArrayList<Streak> list;
 
     public MemoryStreakList(Habit habit)
     {
         super(habit);
-        list = new LinkedList<>();
+        list = new ArrayList<>();
     }
 
     @Override

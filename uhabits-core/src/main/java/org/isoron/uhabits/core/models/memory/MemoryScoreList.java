@@ -27,12 +27,12 @@ import java.util.*;
 
 public class MemoryScoreList extends ScoreList
 {
-    LinkedList<Score> list;
+    ArrayList<Score> list;
 
     public MemoryScoreList(Habit habit)
     {
         super(habit);
-        list = new LinkedList<>();
+        list = new ArrayList<>();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MemoryScoreList extends ScoreList
 
         for (Score s : list)
             if (s.getTimestamp() >= fromTimestamp &&
-                    s.getTimestamp() <= toTimestamp) filtered.add(s);
+                s.getTimestamp() <= toTimestamp) filtered.add(s);
 
         return filtered;
     }
@@ -94,7 +94,7 @@ public class MemoryScoreList extends ScoreList
     protected Score getNewestComputed()
     {
         if (list.isEmpty()) return null;
-        return list.getFirst();
+        return list.get(0);
     }
 
     @Nullable
@@ -102,6 +102,6 @@ public class MemoryScoreList extends ScoreList
     protected Score getOldestComputed()
     {
         if (list.isEmpty()) return null;
-        return list.getLast();
+        return list.get(list.size() - 1);
     }
 }

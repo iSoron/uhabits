@@ -126,25 +126,9 @@ public class HabitRecord extends Model implements SQLiteRecord
 
         DatabaseUtils.executeAsTransaction(() -> {
             new Delete()
-                .from(CheckmarkRecord.class)
-                .where("habit = ?", id)
-                .execute();
-
-            new Delete()
                 .from(RepetitionRecord.class)
                 .where("habit = ?", id)
                 .execute();
-
-            new Delete()
-                .from(ScoreRecord.class)
-                .where("habit = ?", id)
-                .execute();
-
-            new Delete()
-                .from(StreakRecord.class)
-                .where("habit = ?", id)
-                .execute();
-
             delete();
         });
     }

@@ -36,6 +36,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class BaseUnitTest
 {
+
     protected HabitList habitList;
 
     protected HabitFixtures fixtures;
@@ -46,12 +47,13 @@ public class BaseUnitTest
 
     protected CommandRunner commandRunner;
 
+    // 8:00am, January 25th, 2015 (UTC)
+    protected static final long FIXED_LOCAL_TIME = 1422172800000L;
+
     @Before
     public void setUp()
     {
-        // 8:00am, January 25th, 2015 (UTC)
-        long fixed_local_time = 1422172800000L;
-        DateUtils.setFixedLocalTime(fixed_local_time);
+        DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
 
         modelFactory = new MemoryModelFactory();
         habitList = spy(modelFactory.buildHabitList());
