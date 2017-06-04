@@ -53,7 +53,7 @@ public class HabitFixtures
         Habit habit = modelFactory.buildHabit();
         habit.setName("Meditate");
         habit.setDescription("Did you meditate this morning?");
-        habit.setColor(3);
+        habit.setColor(5);
         habit.setFrequency(Frequency.DAILY);
         habit.setId(id);
         habitList.add(habit);
@@ -64,7 +64,7 @@ public class HabitFixtures
     {
         Habit habit = createEmptyHabit();
         habit.setFrequency(new Frequency(3, 7));
-        habit.setColor(4);
+        habit.setColor(7);
 
         long day = DateUtils.millisecondsInOneDay;
         long today = DateUtils.getStartOfToday();

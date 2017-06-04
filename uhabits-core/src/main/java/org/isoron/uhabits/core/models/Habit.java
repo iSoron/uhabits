@@ -372,7 +372,7 @@ public class Habit
 
         public HabitData()
         {
-            this.color = 5;
+            this.color = 8;
             this.archived = false;
             this.frequency = new Frequency(3, 7);
             this.type = YES_NO_HABIT;
