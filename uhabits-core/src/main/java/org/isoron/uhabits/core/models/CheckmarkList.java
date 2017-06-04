@@ -30,6 +30,7 @@ import java.util.*;
 
 import javax.annotation.concurrent.*;
 
+import static java.lang.Math.min;
 import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
 import static org.isoron.uhabits.core.models.Checkmark.CHECKED_IMPLICITLY;
 import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
@@ -60,8 +61,7 @@ public abstract class CheckmarkList
         long today = DateUtils.getStartOfToday();
 
         long begin = reps[0].getTimestamp();
-        if (intervals.size() > 0)
-            begin = Long.min(begin, intervals.get(0).begin);
+        if (intervals.size() > 0) begin = min(begin, intervals.get(0).begin);
 
         int nDays = (int) ((today - begin) / day) + 1;
 
@@ -295,7 +295,7 @@ public abstract class CheckmarkList
         final long today = DateUtils.getStartOfToday();
 
         Checkmark newest = getNewestComputed();
-        if(newest != null && newest.getTimestamp() == today) return;
+        if (newest != null && newest.getTimestamp() == today) return;
         invalidateNewerThan(0);
 
         Repetition oldestRep = habit.getRepetitions().getOldest();

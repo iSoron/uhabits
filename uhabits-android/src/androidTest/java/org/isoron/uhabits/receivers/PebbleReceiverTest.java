@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.pebble;
+package org.isoron.uhabits.receivers;
 
 import android.content.*;
 import android.support.annotation.*;
@@ -29,12 +29,11 @@ import com.getpebble.android.kit.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.receivers.*;
 import org.json.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static com.getpebble.android.kit.Constants.*;
+import static com.getpebble.android.kit.Constants.MSG_DATA;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 
