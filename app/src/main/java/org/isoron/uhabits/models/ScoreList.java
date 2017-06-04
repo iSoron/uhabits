@@ -81,7 +81,7 @@ public abstract class ScoreList implements Iterable<Score>
      * @param timestamp the timestamp of a day
      * @return score value for that day
      */
-    public final int getValue(long timestamp)
+    public final synchronized int getValue(long timestamp)
     {
         compute(timestamp, timestamp);
         Score s = getComputedByTimestamp(timestamp);

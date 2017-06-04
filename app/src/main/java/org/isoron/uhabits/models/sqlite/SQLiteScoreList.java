@@ -27,6 +27,7 @@ import com.activeandroid.*;
 
 import org.isoron.uhabits.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -36,6 +37,11 @@ import java.util.*;
  */
 public class SQLiteScoreList extends ScoreList
 {
+    public static final String ADD_QUERY =
+        "insert into Score(habit, timestamp, score) values (?,?,?)";
+
+    public static final String INVALIDATE_QUERY =
+        "delete from Score where habit = ? and timestamp >= ?";
 
     @Nullable
     private HabitRecord habitRecord;
@@ -43,22 +49,16 @@ public class SQLiteScoreList extends ScoreList
     @NonNull
     private final SQLiteUtils<ScoreRecord> sqlite;
 
-    @Nullable
-    private Integer todayValue;
-
     @NonNull
     private final SQLiteStatement invalidateStatement;
 
     @NonNull
     private final SQLiteStatement addStatement;
 
-    public static final String ADD_QUERY =
-        "insert into Score(habit, timestamp, score) values (?,?,?)";
-
-    public static final String INVALIDATE_QUERY =
-        "delete from Score where habit = ? " + "and timestamp >= ?";
-
     private final SQLiteDatabase db;
+
+    @Nullable
+    private CachedData cache = null;
 
     /**
      * Constructs a new ScoreList associated with the given habit.
@@ -105,15 +105,14 @@ public class SQLiteScoreList extends ScoreList
         check(habit.getId());
         compute(fromTimestamp, toTimestamp);
 
-        String query = "select habit, timestamp, score " +
-                "from Score " +
-                "where habit = ? and timestamp >= ? and timestamp <= ? " +
-                "order by timestamp desc";
+        String query = "select habit, timestamp, score from Score " +
+                       "where habit = ? and timestamp >= ? and timestamp <= ? " +
+                       "order by timestamp desc";
 
         String params[] = {
-                Long.toString(habit.getId()),
-                Long.toString(fromTimestamp),
-                Long.toString(toTimestamp)
+            Long.toString(habit.getId()),
+            Long.toString(fromTimestamp),
+            Long.toString(toTimestamp)
         };
 
         List<ScoreRecord> records = sqlite.query(query, params);
@@ -138,9 +137,18 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
+    public int getTodayValue()
+    {
+        if (cache == null || cache.expired())
+            cache = new CachedData(super.getTodayValue());
+
+        return cache.todayValue;
+    }
+
+    @Override
     public void invalidateNewerThan(long timestamp)
     {
-        todayValue = null;
+        cache = null;
         invalidateStatement.bindLong(1, habit.getId());
         invalidateStatement.bindLong(2, timestamp);
         invalidateStatement.execute();
@@ -171,8 +179,7 @@ public class SQLiteScoreList extends ScoreList
     {
         check(habit.getId());
         String query = "select habit, timestamp, score from Score " +
-                       "where habit = ? order by timestamp desc " +
-                       "limit 1";
+                       "where habit = ? order by timestamp desc limit 1";
 
         String params[] = { Long.toString(habit.getId()) };
         return getScoreFromQuery(query, params);
@@ -184,8 +191,7 @@ public class SQLiteScoreList extends ScoreList
     {
         check(habit.getId());
         String query = "select habit, timestamp, score from Score " +
-                       "where habit = ? order by timestamp asc " +
-                       "limit 1";
+                       "where habit = ? order by timestamp asc limit 1";
 
         String params[] = { Long.toString(habit.getId()) };
         return getScoreFromQuery(query, params);
@@ -217,10 +223,21 @@ public class SQLiteScoreList extends ScoreList
         return scores;
     }
 
-    @Override
-    public int getTodayValue()
+    private static class CachedData
     {
-        if (todayValue == null) todayValue = super.getTodayValue();
-        return todayValue;
+        int todayValue;
+
+        private long today;
+
+        CachedData(int todayValue)
+        {
+            this.todayValue = todayValue;
+            this.today = DateUtils.getStartOfToday();
+        }
+
+        boolean expired()
+        {
+            return today != DateUtils.getStartOfToday();
+        }
     }
 }

@@ -38,6 +38,12 @@ import java.util.*;
 public class SQLiteCheckmarkList extends CheckmarkList
 {
 
+    private static final String ADD_QUERY =
+        "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
+
+    private static final String INVALIDATE_QUERY =
+        "delete from Checkmarks where habit = ? and timestamp >= ?";
+
     @Nullable
     private HabitRecord habitRecord;
 
@@ -45,7 +51,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
     private final SQLiteUtils<CheckmarkRecord> sqlite;
 
     @Nullable
-    private Integer todayValue;
+    private CachedData cache;
 
     @NonNull
     private final SQLiteStatement invalidateStatement;
@@ -55,12 +61,6 @@ public class SQLiteCheckmarkList extends CheckmarkList
 
     @NonNull
     private final SQLiteDatabase db;
-
-    private static final String ADD_QUERY =
-        "insert into Checkmarks(habit, timestamp, value) values (?,?,?)";
-
-    private static final String INVALIDATE_QUERY =
-        "delete from Checkmarks where habit = ? and timestamp >= ?";
 
     public SQLiteCheckmarkList(Habit habit)
     {
@@ -102,8 +102,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
         check(habit.getId());
         compute(fromTimestamp, toTimestamp);
 
-        String query = "select habit, timestamp, value " +
-                       "from checkmarks " +
+        String query = "select habit, timestamp, value from checkmarks " +
                        "where habit = ? and timestamp >= ? and timestamp <= ? " +
                        "order by timestamp desc";
 
@@ -128,9 +127,18 @@ public class SQLiteCheckmarkList extends CheckmarkList
     }
 
     @Override
+    public int getTodayValue()
+    {
+        if (cache == null || cache.expired())
+            cache = new CachedData(super.getTodayValue());
+
+        return cache.todayValue;
+    }
+
+    @Override
     public void invalidateNewerThan(long timestamp)
     {
-        todayValue = null;
+        cache = null;
         invalidateStatement.bindLong(1, habit.getId());
         invalidateStatement.bindLong(2, timestamp);
         invalidateStatement.execute();
@@ -142,10 +150,8 @@ public class SQLiteCheckmarkList extends CheckmarkList
     protected Checkmark getNewestComputed()
     {
         check(habit.getId());
-        String query = "select habit, timestamp, value " +
-                       "from checkmarks " +
-                       "where habit = ? " +
-                       "order by timestamp desc " +
+        String query = "select habit, timestamp, value from checkmarks " +
+                       "where habit = ? " + "order by timestamp desc " +
                        "limit 1";
 
         String params[] = { Long.toString(habit.getId()) };
@@ -157,10 +163,8 @@ public class SQLiteCheckmarkList extends CheckmarkList
     protected Checkmark getOldestComputed()
     {
         check(habit.getId());
-        String query = "select habit, timestamp, value " +
-                       "from checkmarks " +
-                       "where habit = ? " +
-                       "order by timestamp asc " +
+        String query = "select habit, timestamp, value from checkmarks " +
+                       "where habit = ? " + "order by timestamp asc " +
                        "limit 1";
 
         String params[] = { Long.toString(habit.getId()) };
@@ -194,10 +198,21 @@ public class SQLiteCheckmarkList extends CheckmarkList
         return checkmarks;
     }
 
-    @Override
-    public int getTodayValue()
+    private static class CachedData
     {
-        if(todayValue == null) todayValue = super.getTodayValue();
-        return todayValue;
+        int todayValue;
+
+        private long today;
+
+        CachedData(int todayValue)
+        {
+            this.todayValue = todayValue;
+            this.today = DateUtils.getStartOfToday();
+        }
+
+        boolean expired()
+        {
+            return today != DateUtils.getStartOfToday();
+        }
     }
 }

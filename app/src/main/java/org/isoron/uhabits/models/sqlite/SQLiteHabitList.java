@@ -270,9 +270,7 @@ public class SQLiteHabitList extends HabitList
         for (HabitRecord record : recordList)
         {
             Habit habit = getById(record.getId());
-            if (habit == null)
-                throw new RuntimeException("habit not in database");
-
+            if (habit == null) continue;
             if (!filter.matches(habit)) continue;
             habits.add(habit);
         }
