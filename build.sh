@@ -205,6 +205,7 @@ run_local_tests() {
 	build_instrumentation_apk
 	install_test_butler
 	install_apk
+    uninstall_test_apk
 	install_test_apk
 	run_instrumented_tests
 	parse_instrumentation_results
