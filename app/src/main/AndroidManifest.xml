@@ -21,8 +21,8 @@
 <manifest
     package="org.isoron.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="30"
-    android:versionName="1.7.3">
+    android:versionCode="31"
+    android:versionName="1.7.4">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
