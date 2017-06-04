@@ -121,7 +121,7 @@ public class BaseAndroidTest extends TestCase
 
     protected void awaitLatch() throws InterruptedException
     {
-        assertTrue(latch.await(60, TimeUnit.SECONDS));
+        assertTrue(latch.await(5, TimeUnit.SECONDS));
     }
 
     protected void setLocale(@NonNull String language, @NonNull String country)

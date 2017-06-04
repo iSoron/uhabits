@@ -33,6 +33,8 @@ import org.json.*;
 import org.junit.*;
 import org.junit.runner.*;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.KITKAT;
 import static com.getpebble.android.kit.Constants.MSG_DATA;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
@@ -62,6 +64,8 @@ public class PebbleReceiverTest extends BaseAndroidTest
     @Test
     public void testCount() throws Exception
     {
+        if(SDK_INT <= KITKAT) return;
+
         onPebbleReceived((dict) -> {
             assertThat(dict.getString(0), equalTo("COUNT"));
             assertThat(dict.getInteger(1), equalTo(2L));
@@ -75,6 +79,8 @@ public class PebbleReceiverTest extends BaseAndroidTest
     @Test
     public void testFetch() throws Exception
     {
+        if(SDK_INT <= KITKAT) return;
+
         onPebbleReceived((dict) -> {
             assertThat(dict.getString(0), equalTo("HABIT"));
             assertThat(dict.getInteger(1), equalTo(habit2.getId()));
