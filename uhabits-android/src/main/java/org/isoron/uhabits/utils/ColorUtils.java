@@ -26,7 +26,7 @@ import android.util.*;
 public abstract class ColorUtils
 {
     public static int colorToPaletteIndex(Context context, int color)
-    {
+     {
         StyledResources res = new StyledResources(context);
         int[] palette = res.getPalette();
 
@@ -40,18 +40,25 @@ public abstract class ColorUtils
     {
         int palette[] = {
             Color.parseColor("#D32F2F"), //  0 red
-            Color.parseColor("#E64A19"), //  1 orange
-            Color.parseColor("#F9A825"), //  2 yellow
-            Color.parseColor("#AFB42B"), //  3 light green
-            Color.parseColor("#388E3C"), //  4 dark green
-            Color.parseColor("#00897B"), //  5 teal
-            Color.parseColor("#00ACC1"), //  6 cyan
-            Color.parseColor("#039BE5"), //  7 blue
-            Color.parseColor("#5E35B1"), //  8 deep purple
-            Color.parseColor("#8E24AA"), //  9 purple
-            Color.parseColor("#D81B60"), // 10 pink
-            Color.parseColor("#303030"), // 11 dark grey
-            Color.parseColor("#aaaaaa")  // 12 light grey
+            Color.parseColor("#E64A19"), //  1 deep orange
+            Color.parseColor("#F57C00"), //  2 orange
+            Color.parseColor("#FF8F00"), //  3 amber
+            Color.parseColor("#F9A825"), //  4 yellow
+            Color.parseColor("#AFB42B"), //  5 lime
+            Color.parseColor("#7CB342"), //  6 light green
+            Color.parseColor("#388E3C"), //  7 green
+            Color.parseColor("#00897B"), //  8 teal
+            Color.parseColor("#00ACC1"), //  9 cyan
+            Color.parseColor("#039BE5"), // 10 light blue
+            Color.parseColor("#1976D2"), // 11 blue
+            Color.parseColor("#303F9F"), // 12 indigo
+            Color.parseColor("#5E35B1"), // 13 deep purple
+            Color.parseColor("#8E24AA"), // 14 purple
+            Color.parseColor("#D81B60"), // 15 pink
+            Color.parseColor("#5D4037"), // 16 brown
+            Color.parseColor("#303030"), // 17 dark grey
+            Color.parseColor("#757575"), // 18 grey
+            Color.parseColor("#aaaaaa")  // 19 light grey
         };
 
         return palette[index];

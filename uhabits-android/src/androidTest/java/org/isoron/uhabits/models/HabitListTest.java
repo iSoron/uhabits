@@ -180,8 +180,8 @@ public class HabitListTest extends BaseAndroidTest
 
         String expectedCSV =
             "Position,Name,Description,NumRepetitions,Interval,Color\n" +
-            "001,Meditate,Did you meditate this morning?,1,1,#AFB42B\n" +
-            "002,Wake up early,Did you wake up before 6am?,2,3,#00897B\n";
+            "001,Meditate,Did you meditate this morning?,1,1,#F9A825\n" +
+            "002,Wake up early,Did you wake up before 6am?,2,3,#388E3C\n";
 
         StringWriter writer = new StringWriter();
         habitList.writeCSV(writer);

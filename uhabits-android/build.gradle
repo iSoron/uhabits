@@ -11,7 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
 
-        buildConfigField "Integer", "databaseVersion", "20"
+        buildConfigField "Integer", "databaseVersion", "21"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
         buildConfigField "int", "roboSdk", (System.getenv("ROBO_SDK") ?: "25")
 
