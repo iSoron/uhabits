@@ -22,6 +22,7 @@ package org.isoron.uhabits.tasks;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -43,12 +44,14 @@ public class ExportDBTaskTest extends BaseAndroidTest
     public void testExportCSV() throws Throwable
     {
         ExportDBTask task =
-            new ExportDBTask(targetContext, baseSystem, filename -> {
-                assertNotNull(filename);
-                File f = new File(filename);
-                assertTrue(f.exists());
-                assertTrue(f.canRead());
-            });
+            new ExportDBTask(targetContext, new AndroidDirFinder(targetContext),
+                filename ->
+                {
+                    assertNotNull(filename);
+                    File f = new File(filename);
+                    assertTrue(f.exists());
+                    assertTrue(f.canRead());
+                });
 
         taskRunner.execute(task);
     }

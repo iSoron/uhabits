@@ -41,8 +41,7 @@ public class HabitsApplicationTest extends BaseAndroidTest
         String msg = "LOGCAT TEST";
         new RuntimeException(msg).printStackTrace();
 
-        BaseSystem system = new BaseSystem(targetContext);
-        String log = system.getLogcat();
+        String log = new AndroidBugReporter(targetContext).getLogcat();
         assertThat(log, containsString(msg));
     }
 }

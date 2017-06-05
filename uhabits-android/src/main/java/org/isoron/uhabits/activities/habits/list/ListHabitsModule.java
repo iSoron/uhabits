@@ -19,56 +19,51 @@
 
 package org.isoron.uhabits.activities.habits.list;
 
+import android.content.*;
+import android.support.annotation.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
 
+import javax.inject.*;
+
 import dagger.*;
 
-@Module
-public class ListHabitsModule extends ActivityModule
+class BugReporterProxy extends AndroidBugReporter
+    implements ListHabitsBehavior.BugReporter
 {
-    public ListHabitsModule(BaseActivity activity)
+    @Inject
+    public BugReporterProxy(@AppContext @NonNull Context context)
     {
-        super(activity);
+        super(context);
     }
+}
 
-    @Provides
-    ListHabitsMenuBehavior.Adapter getAdapter(HabitCardListAdapter adapter)
-    {
-        return adapter;
-    }
+@Module
+public abstract class ListHabitsModule
+{
+    @Binds
+    abstract ListHabitsMenuBehavior.Adapter getAdapter(HabitCardListAdapter adapter);
 
-    @Provides
-    ListHabitsMenuBehavior.Screen getMenuScreen(ListHabitsScreen screen)
-    {
-        return screen;
-    }
+    @Binds
+    abstract ListHabitsBehavior.BugReporter getBugReporter(BugReporterProxy proxy);
 
-    @Provides
-    ListHabitsBehavior.Screen getScreen(ListHabitsScreen screen)
-    {
-        return screen;
-    }
+    @Binds
+    abstract ListHabitsMenuBehavior.Screen getMenuScreen(ListHabitsScreen screen);
 
-    @Provides
-    ListHabitsSelectionMenuBehavior.Adapter getSelMenuAdapter(
-        HabitCardListAdapter adapter)
-    {
-        return adapter;
-    }
+    @Binds
+    abstract ListHabitsBehavior.Screen getScreen(ListHabitsScreen screen);
 
-    @Provides
-    ListHabitsSelectionMenuBehavior.Screen getSelMenuScreen(ListHabitsScreen screen)
-    {
-        return screen;
-    }
+    @Binds
+    abstract ListHabitsSelectionMenuBehavior.Adapter getSelMenuAdapter(
+        HabitCardListAdapter adapter);
 
-    @Provides
-    ListHabitsBehavior.System getSystem(BaseSystem system)
-    {
-        return system;
-    }
+    @Binds
+    abstract ListHabitsSelectionMenuBehavior.Screen getSelMenuScreen(
+        ListHabitsScreen screen);
+
+    @Binds
+    abstract ListHabitsBehavior.DirFinder getSystem(HabitsDirFinder system);
 }

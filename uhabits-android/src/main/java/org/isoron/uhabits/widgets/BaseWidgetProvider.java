@@ -32,7 +32,7 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 
 import static android.appwidget.AppWidgetManager.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {

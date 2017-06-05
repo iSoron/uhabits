@@ -48,7 +48,7 @@ public class BarChartTest extends BaseViewTest
         long day = DateUtils.millisecondsInOneDay;
         CheckmarkList checkmarks = habit.getCheckmarks();
         view.setCheckmarks(checkmarks.getByInterval(today - 20 * day, today));
-        view.setColor(ColorUtils.getColor(targetContext, habit.getColor()));
+        view.setColor(PaletteUtils.getColor(targetContext, habit.getColor()));
         view.setTarget(200.0);
         measureView(view, dpToPixels(300), dpToPixels(200));
     }

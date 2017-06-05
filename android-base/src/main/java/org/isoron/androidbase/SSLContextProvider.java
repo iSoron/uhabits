@@ -20,22 +20,34 @@
 package org.isoron.androidbase;
 
 import android.content.*;
+import android.support.annotation.*;
+
+import org.isoron.androidbase.*;
 
 import java.io.*;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.*;
 
+import javax.inject.*;
 import javax.net.ssl.*;
 
-public interface CACertSSLContextProvider
+public class SSLContextProvider
 {
-    default SSLContext getCACertSSLContext()
+    private Context context;
+
+    @Inject
+    public SSLContextProvider(@NonNull @AppContext Context context)
+    {
+        this.context = context;
+    }
+
+    public SSLContext getCACertSSLContext()
     {
         try
         {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            InputStream caInput = getContext().getAssets().open("cacert.pem");
+            InputStream caInput = context.getAssets().open("cacert.pem");
             Certificate ca = cf.generateCertificate(caInput);
 
             KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -56,6 +68,4 @@ public interface CACertSSLContextProvider
             throw new RuntimeException(e);
         }
     }
-
-    Context getContext();
 }

@@ -72,7 +72,7 @@ public class ScoreWidget extends BaseWidget
         if (size == 1) scores = scoreList.toList();
         else scores = scoreList.groupBy(ScoreCard.getTruncateField(size));
 
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
+        int color = PaletteUtils.getColor(getContext(), habit.getColor());
 
         chart.setIsTransparencyEnabled(true);
         chart.setBucketSize(size);

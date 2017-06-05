@@ -18,6 +18,6 @@
  */
 
 /**
- * Provides various utilities classes, such as {@link org.isoron.uhabits.utils.ColorUtils}.
+ * Provides various utilities classes, such as {@link org.isoron.androidbase.utils.ColorUtils}.
  */
 package org.isoron.uhabits.utils;

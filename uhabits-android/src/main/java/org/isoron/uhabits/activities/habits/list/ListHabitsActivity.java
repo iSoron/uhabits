@@ -21,8 +21,7 @@ package org.isoron.uhabits.activities.habits.list;
 
 import android.os.*;
 
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
@@ -31,7 +30,7 @@ import org.isoron.uhabits.core.utils.*;
 /**
  * Activity that allows the user to see and modify the list of habits.
  */
-public class ListHabitsActivity extends BaseActivity
+public class ListHabitsActivity extends HabitsActivity
 {
     private HabitCardListAdapter adapter;
 
@@ -39,47 +38,33 @@ public class ListHabitsActivity extends BaseActivity
 
     private ListHabitsScreen screen;
 
-    private ListHabitsComponent component;
-
     private boolean pureBlack;
 
     private Preferences prefs;
 
     private MidnightTimer midnightTimer;
 
-    public ListHabitsComponent getListHabitsComponent()
-    {
-        return component;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        midnightTimer = getAppComponent().getMidnightTimer();
+        HabitsActivityComponent component = getActivityComponent();
 
-        HabitsApplication app = (HabitsApplication) getApplicationContext();
-        midnightTimer = app.getComponent().getMidnightTimer();
+        ListHabitsMenu menu = component.getListHabitsMenu();
+        ListHabitsSelectionMenu selectionMenu = component.getListHabitsSelectionMenu();
+        ListHabitsController controller = component.getListHabitsController();
 
-        component = DaggerListHabitsComponent
-            .builder()
-            .habitsComponent(app.getComponent())
-            .listHabitsModule(new ListHabitsModule(this))
-            .build();
+        adapter = component.getHabitCardListAdapter();
+        rootView = component.getListHabitsRootView();
+        screen = component.getListHabitsScreen();
 
-        ListHabitsMenu menu = component.getMenu();
-        ListHabitsSelectionMenu selectionMenu = component.getSelectionMenu();
-        ListHabitsController controller = component.getController();
-
-        adapter = component.getAdapter();
-        rootView = component.getRootView();
-        screen = component.getScreen();
-
-        prefs = app.getComponent().getPreferences();
+        prefs = getAppComponent().getPreferences();
         pureBlack = prefs.isPureBlackEnabled();
 
         screen.setMenu(menu);
         screen.setController(controller);
-        screen.setListController(component.getListController());
+        screen.setListController(component.getHabitCardListController());
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 

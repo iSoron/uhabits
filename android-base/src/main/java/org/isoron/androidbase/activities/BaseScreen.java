@@ -24,10 +24,8 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.net.*;
 import android.os.*;
-import android.provider.*;
 import android.support.annotation.*;
 import android.support.design.widget.*;
-import android.support.v4.app.*;
 import android.support.v4.content.res.*;
 import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
@@ -35,22 +33,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.notifications.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.androidbase.*;
+import org.isoron.androidbase.utils.*;
 
 import java.io.*;
 
-import static android.media.RingtoneManager.ACTION_RINGTONE_PICKER;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT;
-import static android.media.RingtoneManager.EXTRA_RINGTONE_TYPE;
-import static android.media.RingtoneManager.TYPE_NOTIFICATION;
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
-import static android.support.v4.content.FileProvider.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.support.v4.content.FileProvider.getUriForFile;
 
 /**
  * Base class for all screens in the application.
@@ -61,8 +51,6 @@ import static android.support.v4.content.FileProvider.*;
  */
 public class BaseScreen
 {
-    public static final int REQUEST_CREATE_DOCUMENT = 1;
-
     protected BaseActivity activity;
 
     @Nullable
@@ -79,6 +67,21 @@ public class BaseScreen
     }
 
     @Deprecated
+    public static int getDefaultActionBarColor(Context context)
+    {
+        if (SDK_INT < LOLLIPOP)
+        {
+            return ResourcesCompat.getColor(context.getResources(),
+                R.color.grey_900, context.getTheme());
+        }
+        else
+        {
+            StyledResources res = new StyledResources(context);
+            return res.getColor(R.attr.colorPrimary);
+        }
+    }
+
+    @Deprecated
     public static void setupActionBarColor(@NonNull AppCompatActivity activity,
                                            int color)
     {
@@ -92,7 +95,6 @@ public class BaseScreen
         if (actionBar == null) return;
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-
 
         ColorDrawable drawable = new ColorDrawable(color);
         actionBar.setBackgroundDrawable(drawable);
@@ -112,36 +114,6 @@ public class BaseScreen
         }
     }
 
-    @Deprecated
-    public static int getDefaultActionBarColor(Context context)
-    {
-        if (SDK_INT < LOLLIPOP)
-        {
-            return ResourcesCompat.getColor(context.getResources(),
-                R.color.grey_900, context.getTheme());
-        }
-        else
-        {
-            StyledResources res = new StyledResources(context);
-            return res.getColor(R.attr.colorPrimary);
-        }
-    }
-
-    public static void showRingtonePicker(Fragment fragment,
-                                          int requestCode)
-    {
-        Uri existingRingtoneUri = RingtoneManager.getRingtoneUri(fragment.getContext());
-        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
-
-        Intent intent = new Intent(ACTION_RINGTONE_PICKER);
-        intent.putExtra(EXTRA_RINGTONE_TYPE, TYPE_NOTIFICATION);
-        intent.putExtra(EXTRA_RINGTONE_SHOW_DEFAULT, true);
-        intent.putExtra(EXTRA_RINGTONE_SHOW_SILENT, true);
-        intent.putExtra(EXTRA_RINGTONE_DEFAULT_URI, defaultRingtoneUri);
-        intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, existingRingtoneUri);
-        fragment.startActivityForResult(intent, requestCode);
-    }
-
     /**
      * Notifies the screen that its contents should be updated.
      */
@@ -155,7 +127,8 @@ public class BaseScreen
     {
         if (rootView == null) return;
 
-        activity.runOnUiThread(() -> {
+        activity.runOnUiThread(() ->
+        {
             Toolbar toolbar = rootView.getToolbar();
             activity.setSupportActionBar(toolbar);
             ActionBar actionBar = activity.getSupportActionBar();

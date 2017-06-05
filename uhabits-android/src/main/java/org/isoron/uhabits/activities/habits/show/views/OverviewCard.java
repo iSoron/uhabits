@@ -24,6 +24,7 @@ import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
@@ -105,7 +106,7 @@ public class OverviewCard extends HabitCard
 
     private void initEditMode()
     {
-        color = ColorUtils.getAndroidTestColor(1);
+        color = PaletteUtils.getAndroidTestColor(1);
         cache.todayScore = 0.6f;
         cache.lastMonthScore = 0.42f;
         cache.lastYearScore = 0.75f;
@@ -182,7 +183,7 @@ public class OverviewCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            color = ColorUtils.getColor(getContext(), getHabit().getColor());
+            color = PaletteUtils.getColor(getContext(), getHabit().getColor());
             refreshColors();
         }
     }

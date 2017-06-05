@@ -24,7 +24,7 @@ import android.preference.*;
 import android.support.annotation.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.preferences.*;
 

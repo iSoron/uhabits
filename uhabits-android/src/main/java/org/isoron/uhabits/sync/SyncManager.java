@@ -23,7 +23,7 @@ import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -38,7 +38,17 @@ import io.socket.client.*;
 import io.socket.client.Socket;
 import io.socket.emitter.*;
 
-import static io.socket.client.Socket.*;
+import static io.socket.client.Socket.EVENT_CONNECT;
+import static io.socket.client.Socket.EVENT_CONNECTING;
+import static io.socket.client.Socket.EVENT_CONNECT_ERROR;
+import static io.socket.client.Socket.EVENT_CONNECT_TIMEOUT;
+import static io.socket.client.Socket.EVENT_DISCONNECT;
+import static io.socket.client.Socket.EVENT_PING;
+import static io.socket.client.Socket.EVENT_PONG;
+import static io.socket.client.Socket.EVENT_RECONNECT;
+import static io.socket.client.Socket.EVENT_RECONNECT_ATTEMPT;
+import static io.socket.client.Socket.EVENT_RECONNECT_ERROR;
+import static io.socket.client.Socket.EVENT_RECONNECT_FAILED;
 
 @AppScope
 public class SyncManager implements CommandRunner.Listener
@@ -83,17 +93,17 @@ public class SyncManager implements CommandRunner.Listener
 
     private boolean isListening;
 
-    private BaseSystem system;
+    private SSLContextProvider sslProvider;
 
     @Inject
-    public SyncManager(@NonNull BaseSystem system,
+    public SyncManager(@NonNull SSLContextProvider sslProvider,
                        @NonNull Preferences prefs,
                        @NonNull CommandRunner commandRunner,
                        @NonNull CommandParser commandParser)
     {
-        this.system = system;
         Log.i("SyncManager", this.toString());
 
+        this.sslProvider = sslProvider;
         this.prefs = prefs;
         this.commandRunner = commandRunner;
         this.commandParser = commandParser;
@@ -108,18 +118,6 @@ public class SyncManager implements CommandRunner.Listener
 
         Log.d("SyncManager", clientId);
         connect(serverURL);
-    }
-
-    private JSONObject toJSONObject(String json)
-    {
-        try
-        {
-            return new JSONObject(json);
-        }
-        catch (JSONException e)
-        {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -141,8 +139,8 @@ public class SyncManager implements CommandRunner.Listener
 
     public void onNetworkStatusChanged(boolean isConnected)
     {
-        if(!isListening) return;
-        if(isConnected) socket.connect();
+        if (!isListening) return;
+        if (isConnected) socket.connect();
         else socket.disconnect();
     }
 
@@ -159,7 +157,7 @@ public class SyncManager implements CommandRunner.Listener
 
     public void stopListening()
     {
-        if(!isListening) return;
+        if (!isListening) return;
 
         commandRunner.removeListener(this);
         socket.close();
@@ -170,7 +168,7 @@ public class SyncManager implements CommandRunner.Listener
     {
         try
         {
-            IO.setDefaultSSLContext(system.getCACertSSLContext());
+            IO.setDefaultSSLContext(sslProvider.getCACertSSLContext());
             socket = IO.socket(serverURL);
 
             logSocketEvent(socket, EVENT_CONNECT, "Connected");
@@ -226,6 +224,18 @@ public class SyncManager implements CommandRunner.Listener
                 if (o instanceof SocketIOException)
                     ((SocketIOException) o).printStackTrace();
         });
+    }
+
+    private JSONObject toJSONObject(String json)
+    {
+        try
+        {
+            return new JSONObject(json);
+        }
+        catch (JSONException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     private void updateLastSync(Long timestamp)
@@ -292,7 +302,7 @@ public class SyncManager implements CommandRunner.Listener
         public void call(Object... args)
         {
             readyToEmit = false;
-            for(Event e : pendingConfirmation) pendingEmit.add(e);
+            for (Event e : pendingConfirmation) pendingEmit.add(e);
             pendingConfirmation.clear();
         }
     }

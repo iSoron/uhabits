@@ -21,17 +21,29 @@ package org.isoron.uhabits.activities.settings;
 
 import android.app.backup.*;
 import android.content.*;
+import android.net.*;
 import android.os.*;
+import android.provider.*;
 import android.support.annotation.*;
 import android.support.v7.preference.*;
 
-import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.notifications.*;
 
-import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.*;
+import static android.media.RingtoneManager.ACTION_RINGTONE_PICKER;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_TYPE;
+import static android.media.RingtoneManager.TYPE_NOTIFICATION;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_BUG_REPORT;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_EXPORT_CSV;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_EXPORT_DB;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_IMPORT_DATA;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_REPAIR_DB;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -100,7 +112,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         if (key.equals("reminderSound"))
         {
-            BaseScreen.showRingtonePicker(this, RINGTONE_REQUEST_CODE);
+            showRingtonePicker();
             return true;
         }
 
@@ -140,6 +152,20 @@ public class SettingsFragment extends PreferenceFragmentCompat
             getActivity().finish();
             return true;
         });
+    }
+
+    private void showRingtonePicker()
+    {
+        Uri existingRingtoneUri = RingtoneManager.getRingtoneUri(getContext());
+        Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
+
+        Intent intent = new Intent(ACTION_RINGTONE_PICKER);
+        intent.putExtra(EXTRA_RINGTONE_TYPE, TYPE_NOTIFICATION);
+        intent.putExtra(EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        intent.putExtra(EXTRA_RINGTONE_SHOW_SILENT, true);
+        intent.putExtra(EXTRA_RINGTONE_DEFAULT_URI, defaultRingtoneUri);
+        intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, existingRingtoneUri);
+        startActivityForResult(intent, RINGTONE_REQUEST_CODE);
     }
 
     private void updateRingtoneDescription()

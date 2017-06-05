@@ -83,7 +83,7 @@ public class BarCard extends HabitCard
 
     private void initEditMode()
     {
-        int color = ColorUtils.getAndroidTestColor(1);
+        int color = PaletteUtils.getAndroidTestColor(1);
         title.setTextColor(color);
         chart.setColor(color);
         chart.populateWithRandomData();
@@ -107,7 +107,7 @@ public class BarCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            int color = ColorUtils.getColor(getContext(), habit.getColor());
+            int color = PaletteUtils.getColor(getContext(), habit.getColor());
             title.setTextColor(color);
             chart.setColor(color);
             chart.setTarget(habit.getTargetValue());

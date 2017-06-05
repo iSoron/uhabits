@@ -54,8 +54,7 @@ public class HabitLoggerTest extends BaseAndroidTest
 
     protected void assertLogcatContains(String expectedMsg) throws IOException
     {
-        BaseSystem system = new BaseSystem(targetContext);
-        String logcat = system.getLogcat();
+        String logcat = new AndroidBugReporter(targetContext).getLogcat();
         assertThat(logcat, containsString(expectedMsg));
     }
 

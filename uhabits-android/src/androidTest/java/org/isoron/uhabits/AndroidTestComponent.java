@@ -29,12 +29,12 @@ import dagger.*;
 
 @AppScope
 @Component(modules = {
-    AppModule.class,
+    AppContextModule.class,
     HabitsModule.class,
     SingleThreadModule.class,
     SQLModelFactory.class
 })
-public interface AndroidTestComponent extends HabitsComponent
+public interface AndroidTestComponent extends HabitsApplicationComponent
 {
 
 }

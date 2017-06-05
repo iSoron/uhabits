@@ -127,8 +127,8 @@ public class ScoreCard extends HabitCard
         if (isInEditMode())
         {
             spinner.setVisibility(GONE);
-            title.setTextColor(ColorUtils.getAndroidTestColor(1));
-            chart.setColor(ColorUtils.getAndroidTestColor(1));
+            title.setTextColor(PaletteUtils.getAndroidTestColor(1));
+            chart.setColor(PaletteUtils.getAndroidTestColor(1));
             chart.populateWithRandomData();
         }
     }
@@ -159,7 +159,7 @@ public class ScoreCard extends HabitCard
         public void onPreExecute()
         {
             int color =
-                ColorUtils.getColor(getContext(), getHabit().getColor());
+                PaletteUtils.getColor(getContext(), getHabit().getColor());
             title.setTextColor(color);
             chart.setColor(color);
         }

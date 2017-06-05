@@ -82,7 +82,7 @@ public class FrequencyCard extends HabitCard
 
     private void initEditMode()
     {
-        int color = ColorUtils.getAndroidTestColor(1);
+        int color = PaletteUtils.getAndroidTestColor(1);
         title.setTextColor(color);
         chart.setColor(color);
         chart.populateWithRandomData();
@@ -102,7 +102,7 @@ public class FrequencyCard extends HabitCard
         public void onPreExecute()
         {
             int paletteColor = getHabit().getColor();
-            int color = ColorUtils.getColor(getContext(), paletteColor);
+            int color = PaletteUtils.getColor(getContext(), paletteColor);
             title.setTextColor(color);
             chart.setColor(color);
         }

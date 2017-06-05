@@ -52,7 +52,7 @@ public class SubtitleCard extends HabitCard
     protected void refreshData()
     {
         Habit habit = getHabit();
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
+        int color = PaletteUtils.getColor(getContext(), habit.getColor());
 
         reminderLabel.setText(getResources().getString(R.string.reminder_off));
         questionLabel.setVisibility(VISIBLE);
@@ -79,7 +79,7 @@ public class SubtitleCard extends HabitCard
     @SuppressLint("SetTextI18n")
     private void initEditMode()
     {
-        questionLabel.setTextColor(ColorUtils.getAndroidTestColor(1));
+        questionLabel.setTextColor(PaletteUtils.getAndroidTestColor(1));
         questionLabel.setText("Have you meditated today?");
         reminderLabel.setText("08:00");
     }

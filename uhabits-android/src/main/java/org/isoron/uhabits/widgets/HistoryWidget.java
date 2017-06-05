@@ -52,7 +52,7 @@ public class HistoryWidget extends BaseWidget
         GraphWidgetView widgetView = (GraphWidgetView) view;
         HistoryChart chart = (HistoryChart) widgetView.getDataView();
 
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
+        int color = PaletteUtils.getColor(getContext(), habit.getColor());
         int[] values = habit.getCheckmarks().getAllValues();
 
         chart.setColor(color);

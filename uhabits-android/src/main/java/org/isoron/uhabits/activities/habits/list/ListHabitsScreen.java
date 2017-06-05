@@ -30,7 +30,7 @@ import android.widget.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
@@ -41,7 +41,6 @@ import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 import java.lang.reflect.*;

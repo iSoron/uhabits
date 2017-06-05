@@ -22,7 +22,7 @@ package org.isoron.uhabits.activities.habits.show;
 import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.models.*;

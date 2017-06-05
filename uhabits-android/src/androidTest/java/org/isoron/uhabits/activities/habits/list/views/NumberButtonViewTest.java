@@ -51,7 +51,7 @@ public class NumberButtonViewTest extends BaseViewTest
         view = new NumberButtonView(targetContext);
         view.setUnit("steps");
         view.setThreshold(100.0);
-        view.setColor(ColorUtils.getAndroidTestColor(8));
+        view.setColor(PaletteUtils.getAndroidTestColor(8));
 
         measureView(view, dpToPixels(48), dpToPixels(48));
 

@@ -19,27 +19,18 @@
 
 package org.isoron.uhabits.activities.habits.show;
 
-import android.content.*;
-import android.net.*;
 import android.os.*;
 import android.support.annotation.*;
 
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.activities.*;
 
 /**
  * Activity that allows the user to see more information about a single habit.
  * <p>
  * Shows all the metadata for the habit, in addition to several charts.
  */
-public class ShowHabitActivity extends BaseActivity
+public class ShowHabitActivity extends HabitsActivity
 {
-    @Nullable
-    private HabitList habitList;
-
-    @Nullable
-    private HabitsComponent appComponent;
 
     @Nullable
     private ShowHabitScreen screen;
@@ -49,42 +40,21 @@ public class ShowHabitActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
 
-        HabitsApplication app = (HabitsApplication) getApplicationContext();
-        appComponent = app.getComponent();
-        habitList = appComponent.getHabitList();
-        Habit habit = getHabitFromIntent();
-
-        ShowHabitComponent component = DaggerShowHabitComponent
-            .builder()
-            .habitsComponent(app.getComponent())
-            .showHabitModule(new ShowHabitModule(this, habit))
-            .build();
-
-        screen = component.getScreen();
-        screen.setMenu(component.getMenu());
-        screen.setController(component.getController());
-
-        component.getRootView().setController(component.getController());
+        HabitsActivityComponent component = getActivityComponent();
+        screen = component.getShowHabitScreen();
+        screen.setMenu(component.getShowHabitMenu());
+        screen.setController(component.getShowHabitController());
+        component
+            .getShowHabitRootView()
+            .setController(component.getShowHabitController());
         setScreen(screen);
     }
 
     @Override
     protected void onResume()
     {
-        if(screen == null) throw new IllegalStateException();
-
+        if (screen == null) throw new IllegalStateException();
         super.onResume();
         screen.reattachDialogs();
-    }
-
-    @NonNull
-    private Habit getHabitFromIntent()
-    {
-        if(habitList == null) throw new IllegalStateException();
-
-        Uri data = getIntent().getData();
-        Habit habit = habitList.getById(ContentUris.parseId(data));
-        if (habit == null) throw new RuntimeException("habit not found");
-        return habit;
     }
 }

@@ -25,15 +25,15 @@ import android.support.annotation.*;
 import android.text.*;
 import android.util.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public class HeaderView extends ScrollableChart
     implements Preferences.Listener, MidnightTimer.MidnightListener

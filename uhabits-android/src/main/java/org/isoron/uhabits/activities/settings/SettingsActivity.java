@@ -22,8 +22,8 @@ package org.isoron.uhabits.activities.settings;
 import android.os.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.R;
 
 /**
  * Activity that allows the user to view and modify the app settings.

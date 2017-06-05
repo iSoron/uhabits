@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,43 +16,32 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.activities;
 
-package org.isoron.androidbase.activities;
+import android.support.annotation.*;
 
-import android.content.*;
+import org.isoron.androidbase.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.core.ui.*;
+import java.io.*;
 
-import dagger.*;
+import javax.inject.*;
 
-@Module
-public class ActivityModule
+public class HabitsDirFinder
+    implements ShowHabitMenuBehavior.System, ListHabitsBehavior.DirFinder
 {
-    private BaseActivity activity;
+    private AndroidDirFinder androidDirFinder;
 
-    public ActivityModule(BaseActivity activity)
+    @Inject
+    public HabitsDirFinder(@NonNull AndroidDirFinder androidDirFinder)
     {
-        this.activity = activity;
+        this.androidDirFinder = androidDirFinder;
     }
 
-    @Provides
-    public BaseActivity getActivity()
+    @Override
+    public File getCSVOutputDir()
     {
-        return activity;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return activity;
-    }
-
-    @Provides
-    @ActivityScope
-    public static ThemeSwitcher getThemeSwitcher(AndroidThemeSwitcher t)
-    {
-        return t;
+        return androidDirFinder.getFilesDir("CSV");
     }
 }

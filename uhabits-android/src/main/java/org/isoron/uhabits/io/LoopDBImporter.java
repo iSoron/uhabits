@@ -29,7 +29,7 @@ import com.activeandroid.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.utils.DatabaseUtils;
 

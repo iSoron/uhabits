@@ -40,7 +40,7 @@ public class BaseUserInterfaceTest
 
     public static UiDevice device;
 
-    private HabitsComponent component;
+    private HabitsApplicationComponent component;
 
     private HabitList habitList;
 

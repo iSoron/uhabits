@@ -50,7 +50,7 @@ public class ScoreChartTest extends BaseViewTest
 
         view = new ScoreChart(targetContext);
         view.setScores(habit.getScores().toList());
-        view.setColor(ColorUtils.getColor(targetContext, habit.getColor()));
+        view.setColor(PaletteUtils.getColor(targetContext, habit.getColor()));
         view.setBucketSize(7);
         measureView(view, dpToPixels(300), dpToPixels(200));
     }

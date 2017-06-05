@@ -36,7 +36,7 @@ public class ConnectivityReceiver extends BroadcastReceiver
         if (context == null) return;
         if (intent == null) return;
 
-        HabitsComponent component =
+        HabitsApplicationComponent component =
             ((HabitsApplication) context.getApplicationContext()).getComponent();
 
         NetworkInfo networkInfo =

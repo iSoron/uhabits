@@ -84,7 +84,7 @@ public class StreakCard extends HabitCard
 
     private void initEditMode()
     {
-        int color = ColorUtils.getAndroidTestColor(1);
+        int color = PaletteUtils.getAndroidTestColor(1);
         title.setTextColor(color);
         streakChart.setColor(color);
         streakChart.populateWithRandomData();
@@ -111,7 +111,7 @@ public class StreakCard extends HabitCard
         public void onPreExecute()
         {
             int color =
-                ColorUtils.getColor(getContext(), getHabit().getColor());
+                PaletteUtils.getColor(getContext(), getHabit().getColor());
             title.setTextColor(color);
             streakChart.setColor(color);
         }

@@ -25,7 +25,7 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.list.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -33,10 +33,12 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
-import static android.view.View.MeasureSpec.*;
-import static org.isoron.uhabits.utils.AttributeSetUtils.*;
-import static org.isoron.uhabits.utils.ColorUtils.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static android.view.View.MeasureSpec.EXACTLY;
+import static android.view.View.MeasureSpec.makeMeasureSpec;
+import static org.isoron.uhabits.utils.AttributeSetUtils.getAttribute;
+import static org.isoron.uhabits.utils.AttributeSetUtils.getIntAttribute;
+import static org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor;
+import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
 public class NumberPanelView extends LinearLayout
     implements Preferences.Listener
@@ -222,11 +224,11 @@ public class NumberPanelView extends LinearLayout
                                         NumberButtonView buttonView)
     {
         if (controller == null) return;
-        if (!(getContext() instanceof ListHabitsActivity)) return;
+        if (!(getContext() instanceof HabitsActivity)) return;
 
-        ListHabitsActivity activity = (ListHabitsActivity) getContext();
+        HabitsActivity activity = (HabitsActivity) getContext();
         NumberButtonControllerFactory buttonControllerFactory = activity
-            .getListHabitsComponent()
+            .getActivityComponent()
             .getNumberButtonControllerFactory();
 
         NumberButtonController buttonController =

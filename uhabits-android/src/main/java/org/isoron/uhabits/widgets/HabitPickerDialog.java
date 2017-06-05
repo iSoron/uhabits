@@ -69,7 +69,7 @@ public class HabitPickerDialog extends Activity
         setContentView(R.layout.widget_configure_activity);
 
         HabitsApplication app = (HabitsApplication) getApplicationContext();
-        HabitsComponent component = app.getComponent();
+        HabitsApplicationComponent component = app.getComponent();
         habitList = component.getHabitList();
         preferences = component.getWidgetPreferences();
 

@@ -22,8 +22,6 @@ package org.isoron.androidbase.activities;
 import android.support.annotation.*;
 import android.view.*;
 
-import javax.annotation.*;
-
 /**
  * Base class for all the menus in the application.
  * <p>
@@ -76,8 +74,7 @@ public abstract class BaseMenu
      * @param inflater a menu inflater, for creating the menu
      * @param menu     the menu that is being created.
      */
-    public void onCreate(@NonNull MenuInflater inflater,
-                         @NonNull Menu menu)
+    public void onCreate(@NonNull MenuInflater inflater, @NonNull Menu menu)
     {
         menu.clear();
         inflater.inflate(getMenuResourceId(), menu);
@@ -100,6 +97,6 @@ public abstract class BaseMenu
      *
      * @return id of the menu resource.
      */
-    @Resource
+    @MenuRes
     protected abstract int getMenuResourceId();
 }

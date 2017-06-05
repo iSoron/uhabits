@@ -31,11 +31,11 @@ import android.util.*;
 import junit.framework.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import java.io.*;
@@ -71,8 +71,6 @@ public class BaseAndroidTest extends TestCase
 
     protected ModelFactory modelFactory;
 
-    protected BaseSystem baseSystem;
-
     @Override
     @Before
     public void setUp()
@@ -89,10 +87,8 @@ public class BaseAndroidTest extends TestCase
 
         component = DaggerAndroidTestComponent
             .builder()
-            .appModule(new AppModule(targetContext.getApplicationContext()))
+            .appContextModule(new AppContextModule(targetContext.getApplicationContext()))
             .build();
-
-        baseSystem = new BaseSystem(targetContext);
 
         HabitsApplication.setComponent(component);
         prefs = component.getPreferences();
@@ -168,7 +164,7 @@ public class BaseAndroidTest extends TestCase
 
     protected void startTracing()
     {
-        File dir = baseSystem.getFilesDir("Profile");
+        File dir = new AndroidDirFinder(targetContext).getFilesDir("Profile");
         assertNotNull(dir);
         String tracePath = dir.getAbsolutePath() + "/performance.trace";
         Log.d("PerformanceTest", String.format("Saving trace file to %s", tracePath));

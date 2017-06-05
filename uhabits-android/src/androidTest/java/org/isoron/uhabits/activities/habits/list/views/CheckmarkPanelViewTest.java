@@ -25,7 +25,7 @@ import android.test.suitebuilder.annotation.*;
 import org.isoron.uhabits.core.models.Checkmark;
 import org.isoron.uhabits.core.models.Habit;
 import org.isoron.uhabits.BaseViewTest;
-import org.isoron.uhabits.utils.ColorUtils;
+import org.isoron.uhabits.utils.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +60,7 @@ public class CheckmarkPanelViewTest extends BaseViewTest
         view.setHabit(habit);
         view.setValues(checkmarks);
         view.setButtonCount(4);
-        view.setColor(ColorUtils.getAndroidTestColor(7));
+        view.setColor(PaletteUtils.getAndroidTestColor(7));
 
         measureView(view, dpToPixels(200), dpToPixels(200));
     }

@@ -22,7 +22,7 @@ package org.isoron.uhabits.activities;
 import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 

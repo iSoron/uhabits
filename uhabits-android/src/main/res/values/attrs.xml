@@ -24,7 +24,6 @@
     <attr name="headerBackgroundColor" format="reference"/>
     <attr name="highlightedBackgroundColor" format="reference"/>
     <attr name="useHabitColorAsPrimary" format="boolean"/>
-    <attr name="palette" format="reference"/>
     <attr name="aboutScreenColor" format="reference"/>
 
     <attr name="highContrastTextColor" format="reference"/>

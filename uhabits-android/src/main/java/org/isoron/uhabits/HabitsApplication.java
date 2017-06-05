@@ -42,7 +42,7 @@ public class HabitsApplication extends Application
 {
     private Context context;
 
-    private static HabitsComponent component;
+    private static HabitsApplicationComponent component;
 
     private WidgetUpdater widgetUpdater;
 
@@ -50,12 +50,12 @@ public class HabitsApplication extends Application
 
     private NotificationTray notificationTray;
 
-    public HabitsComponent getComponent()
+    public HabitsApplicationComponent getComponent()
     {
         return component;
     }
 
-    public static void setComponent(HabitsComponent component)
+    public static void setComponent(HabitsApplicationComponent component)
     {
         HabitsApplication.component = component;
     }
@@ -79,9 +79,9 @@ public class HabitsApplication extends Application
         super.onCreate();
         context = this;
 
-        component = DaggerHabitsComponent
+        component = DaggerHabitsApplicationComponent
             .builder()
-            .appModule(new AppModule(context))
+            .appContextModule(new AppContextModule(context))
             .build();
 
         if (isTestMode())

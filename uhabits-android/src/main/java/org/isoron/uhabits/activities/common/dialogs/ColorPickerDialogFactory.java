@@ -22,7 +22,8 @@ package org.isoron.uhabits.activities.common.dialogs;
 import android.content.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
@@ -42,7 +43,7 @@ public class ColorPickerDialogFactory
     {
         ColorPickerDialog dialog = new ColorPickerDialog();
         StyledResources res = new StyledResources(context);
-        int color = ColorUtils.getColor(context, paletteColor);
+        int color = PaletteUtils.getColor(context, paletteColor);
 
         dialog.initialize(R.string.color_picker_default_title, res.getPalette(),
             color, 4, com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);

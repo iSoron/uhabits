@@ -26,6 +26,7 @@ import android.view.*;
 import android.widget.*;
 
 import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
@@ -34,13 +35,12 @@ import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
-import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
 
 import butterknife.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 @ActivityScope
 public class ListHabitsRootView extends BaseRootView

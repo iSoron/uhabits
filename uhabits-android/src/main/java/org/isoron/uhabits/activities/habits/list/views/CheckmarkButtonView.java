@@ -27,6 +27,7 @@ import android.text.*;
 import android.util.*;
 import android.view.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
@@ -34,8 +35,8 @@ import org.isoron.uhabits.utils.*;
 import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
-import static org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome;
+import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome;
 
 public class CheckmarkButtonView extends View
 {
@@ -66,7 +67,7 @@ public class CheckmarkButtonView extends View
         if(attrs == null) throw new IllegalStateException();
 
         int paletteColor = getIntAttribute(ctx, attrs, "color", 0);
-        setColor(ColorUtils.getAndroidTestColor(paletteColor));
+        setColor(PaletteUtils.getAndroidTestColor(paletteColor));
 
         int value = getIntAttribute(ctx, attrs, "value", 0);
         setValue(value);

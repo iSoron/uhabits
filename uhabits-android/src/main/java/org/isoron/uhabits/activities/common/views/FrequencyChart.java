@@ -24,6 +24,7 @@ import android.graphics.*;
 import android.support.annotation.*;
 import android.util.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;

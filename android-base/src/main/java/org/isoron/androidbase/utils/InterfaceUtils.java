@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils;
+package org.isoron.androidbase.utils;
 
 import android.content.*;
 import android.content.res.*;

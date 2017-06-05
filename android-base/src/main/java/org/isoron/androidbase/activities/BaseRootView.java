@@ -21,17 +21,15 @@ package org.isoron.androidbase.activities;
 
 import android.content.*;
 import android.support.annotation.*;
-import android.support.v4.content.res.*;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.ui.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.androidbase.*;
+import org.isoron.androidbase.utils.*;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * Base class for all root views in the application.
@@ -46,16 +44,12 @@ public abstract class BaseRootView extends FrameLayout
     @NonNull
     private final Context context;
 
-    private final ThemeSwitcher themeSwitcher;
-
-    boolean shouldDisplayHomeAsUp = false;
+    protected boolean shouldDisplayHomeAsUp = false;
 
     public BaseRootView(@NonNull Context context)
     {
         super(context);
         this.context = context;
-        BaseActivity activity = (BaseActivity) context;
-        themeSwitcher = activity.getComponent().getThemeSwitcher();
     }
 
     public boolean getDisplayHomeAsUp()
@@ -80,12 +74,6 @@ public abstract class BaseRootView extends FrameLayout
 
     public int getToolbarColor()
     {
-        if (SDK_INT < LOLLIPOP && !themeSwitcher.isNightMode())
-        {
-            return ResourcesCompat.getColor(context.getResources(),
-                R.color.grey_900, context.getTheme());
-        }
-
         StyledResources res = new StyledResources(context);
         return res.getColor(R.attr.colorPrimary);
     }

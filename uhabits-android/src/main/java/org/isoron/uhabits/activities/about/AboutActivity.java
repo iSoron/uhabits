@@ -21,22 +21,21 @@ package org.isoron.uhabits.activities.about;
 
 import android.os.*;
 
-import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.core.ui.screens.about.*;
 
 /**
  * Activity that allows the user to see information about the app itself.
  * Display current version, link to Google Play and list of contributors.
  */
-public class AboutActivity extends BaseActivity
+public class AboutActivity extends HabitsActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        HabitsApplication app = (HabitsApplication) getApplication();
-        HabitsComponent cmp = app.getComponent();
+        HabitsApplicationComponent cmp = getAppComponent();
         AboutScreen screen = new AboutScreen(this, cmp.getIntentFactory());
         AboutBehavior behavior = new AboutBehavior(cmp.getPreferences(), screen);
         AboutRootView rootView = new AboutRootView(this, behavior);

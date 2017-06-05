@@ -24,8 +24,8 @@ import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
 
+import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
 import java.io.*;
@@ -170,7 +170,7 @@ public class BaseViewTest extends BaseAndroidTest
     {
         File dir = FileUtils.getSDCardDir("test-screenshots");
         if (dir == null)
-            dir = baseSystem.getFilesDir("test-screenshots");
+            dir = new AndroidDirFinder(targetContext).getFilesDir("test-screenshots");
         if (dir == null) throw new RuntimeException(
             "Could not find suitable dir for screenshots");
 

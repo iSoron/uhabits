@@ -29,6 +29,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
@@ -40,7 +41,7 @@ import java.util.*;
 import static android.os.Build.VERSION.*;
 import static android.os.Build.VERSION_CODES.*;
 import static android.view.ViewGroup.LayoutParams.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public class HabitCardView extends FrameLayout
     implements ModelObservable.Listener
@@ -194,7 +195,7 @@ public class HabitCardView extends FrameLayout
     private int getActiveColor(Habit habit)
     {
         int mediumContrastColor = res.getColor(R.attr.mediumContrastTextColor);
-        int activeColor = ColorUtils.getColor(context, habit.getColor());
+        int activeColor = PaletteUtils.getColor(context, habit.getColor());
         if (habit.isArchived()) activeColor = mediumContrastColor;
 
         return activeColor;
@@ -237,7 +238,7 @@ public class HabitCardView extends FrameLayout
     private void initEditMode()
     {
         Random rand = new Random();
-        int color = ColorUtils.getAndroidTestColor(rand.nextInt(10));
+        int color = PaletteUtils.getAndroidTestColor(rand.nextInt(10));
         label.setText(EDIT_MODE_HABITS[rand.nextInt(EDIT_MODE_HABITS.length)]);
         label.setTextColor(color);
         scoreRing.setColor(color);

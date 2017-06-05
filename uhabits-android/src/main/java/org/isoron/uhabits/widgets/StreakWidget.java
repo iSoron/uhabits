@@ -57,7 +57,7 @@ public class StreakWidget extends BaseWidget
         GraphWidgetView widgetView = (GraphWidgetView) view;
         StreakChart chart = (StreakChart) widgetView.getDataView();
 
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
+        int color = PaletteUtils.getColor(getContext(), habit.getColor());
 
         int count = chart.getMaxStreakCount();
         List<Streak> streaks = habit.getStreaks().getBest(count);

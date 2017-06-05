@@ -28,9 +28,9 @@ import android.view.*;
 
 import com.android.datetimepicker.time.*;
 
-import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.views.*;
 import org.isoron.uhabits.core.commands.*;
@@ -39,8 +39,8 @@ import org.isoron.uhabits.core.preferences.*;
 
 import butterknife.*;
 
-import static android.view.View.*;
-import static org.isoron.uhabits.core.ui.ThemeSwitcher.*;
+import static android.view.View.GONE;
+import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
@@ -56,7 +56,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected HabitList habitList;
 
-    protected HabitsComponent component;
+    protected HabitsApplicationComponent component;
 
     protected ModelFactory modelFactory;
 
@@ -77,7 +77,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
     @Override
     public int getTheme()
     {
-        HabitsComponent component =
+        HabitsApplicationComponent component =
             ((HabitsApplication) getContext().getApplicationContext()).getComponent();
 
         if(component.getPreferences().getTheme() == THEME_LIGHT)
@@ -91,9 +91,9 @@ public class EditHabitDialog extends AppCompatDialogFragment
     {
         super.onActivityCreated(savedInstanceState);
 
-        BaseActivity activity = (BaseActivity) getActivity();
+        HabitsActivity activity = (HabitsActivity) getActivity();
         colorPickerDialogFactory =
-            activity.getComponent().getColorPickerDialogFactory();
+            activity.getActivityComponent().getColorPickerDialogFactory();
     }
 
     @Override

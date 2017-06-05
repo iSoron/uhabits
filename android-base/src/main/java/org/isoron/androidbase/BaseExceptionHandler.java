@@ -17,14 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.androidbase.activities;
+package org.isoron.androidbase;
 
 import android.support.annotation.*;
 
-import org.isoron.androidbase.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.androidbase.activities.*;
 
 public class BaseExceptionHandler implements Thread.UncaughtExceptionHandler
 {
@@ -49,20 +46,20 @@ public class BaseExceptionHandler implements Thread.UncaughtExceptionHandler
         try
         {
             ex.printStackTrace();
-            new BaseSystem(activity).dumpBugReportToFile();
+            new AndroidBugReporter(activity).dumpBugReportToFile();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        if (ex.getCause() instanceof InconsistentDatabaseException)
-        {
-            HabitsApplication app = (HabitsApplication) activity.getApplication();
-            HabitList habits = app.getComponent().getHabitList();
-            habits.repair();
-            System.exit(0);
-        }
+//        if (ex.getCause() instanceof InconsistentDatabaseException)
+//        {
+//            HabitsApplication app = (HabitsApplication) activity.getApplication();
+//            HabitList habits = app.getComponent().getHabitList();
+//            habits.repair();
+//            System.exit(0);
+//        }
 
         if (originalHandler != null)
             originalHandler.uncaughtException(thread, ex);

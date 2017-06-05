@@ -34,32 +34,43 @@ import javax.inject.*;
 
 public class ListHabitsBehavior
 {
-    private HabitList habitList;
+    @NonNull
+    private final HabitList habitList;
 
-    private System system;
+    @NonNull
+    private final DirFinder dirFinder;
 
-    private TaskRunner taskRunner;
+    @NonNull
+    private final TaskRunner taskRunner;
 
-    private Screen screen;
+    @NonNull
+    private final Screen screen;
 
-    private CommandRunner commandRunner;
+    @NonNull
+    private final CommandRunner commandRunner;
 
-    private Preferences prefs;
+    @NonNull
+    private final Preferences prefs;
+
+    @NonNull
+    private final BugReporter bugReporter;
 
     @Inject
     public ListHabitsBehavior(@NonNull HabitList habitList,
-                              @NonNull System system,
+                              @NonNull DirFinder dirFinder,
                               @NonNull TaskRunner taskRunner,
                               @NonNull Screen screen,
                               @NonNull CommandRunner commandRunner,
-                              @NonNull Preferences prefs)
+                              @NonNull Preferences prefs,
+                              @NonNull BugReporter bugReporter)
     {
         this.habitList = habitList;
-        this.system = system;
+        this.dirFinder = dirFinder;
         this.taskRunner = taskRunner;
         this.screen = screen;
         this.commandRunner = commandRunner;
         this.prefs = prefs;
+        this.bugReporter = bugReporter;
     }
 
     public void onClickHabit(@NonNull Habit h)
@@ -85,7 +96,7 @@ public class ListHabitsBehavior
     {
         List<Habit> selected = new LinkedList<>();
         for (Habit h : habitList) selected.add(h);
-        File outputDir = system.getCSVOutputDir();
+        File outputDir = dirFinder.getCSVOutputDir();
 
         taskRunner.execute(
             new ExportCSVTask(habitList, selected, outputDir, filename ->
@@ -93,6 +104,13 @@ public class ListHabitsBehavior
                 if (filename != null) screen.showSendFileScreen(filename);
                 else screen.showMessage(Message.COULD_NOT_EXPORT);
             }));
+    }
+
+    public void onFirstRun()
+    {
+        prefs.setFirstRun(false);
+        prefs.updateLastHint(-1, DateUtils.getStartOfToday());
+        screen.showIntroScreen();
     }
 
     public void onReorderHabit(@NonNull Habit from, @NonNull Habit to)
@@ -111,11 +129,11 @@ public class ListHabitsBehavior
 
     public void onSendBugReport()
     {
-        system.dumpBugReportToFile();
+        bugReporter.dumpBugReportToFile();
 
         try
         {
-            String log = system.getBugReport();
+            String log = bugReporter.getBugReport();
             screen.showSendBugReportToDeveloperScreen(log);
         }
         catch (IOException e)
@@ -137,17 +155,17 @@ public class ListHabitsBehavior
             habit.getId());
     }
 
-    public void onFirstRun()
-    {
-        prefs.setFirstRun(false);
-        prefs.updateLastHint(-1, DateUtils.getStartOfToday());
-        screen.showIntroScreen();
-    }
-
     public enum Message
     {
         COULD_NOT_EXPORT, IMPORT_SUCCESSFUL, IMPORT_FAILED, DATABASE_REPAIRED,
         COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED
+    }
+
+    public interface BugReporter
+    {
+        void dumpBugReportToFile();
+
+        String getBugReport() throws IOException;
     }
 
     public interface NumberPickerCallback
@@ -172,12 +190,8 @@ public class ListHabitsBehavior
         void showSendFileScreen(@NonNull String filename);
     }
 
-    public interface System
+    public interface DirFinder
     {
-        void dumpBugReportToFile();
-
-        String getBugReport() throws IOException;
-
         File getCSVOutputDir();
     }
 }

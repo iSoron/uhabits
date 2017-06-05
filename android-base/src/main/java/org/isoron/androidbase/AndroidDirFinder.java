@@ -17,29 +17,42 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show;
+package org.isoron.androidbase;
 
+import android.content.*;
 import android.support.annotation.*;
+import android.support.v4.content.*;
+import android.util.*;
 
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.androidbase.utils.*;
 
-import dagger.*;
+import java.io.*;
 
-@ActivityScope
-@Component(modules = { ShowHabitModule.class },
-           dependencies = { HabitsComponent.class })
-public interface ShowHabitComponent
+import javax.inject.*;
+
+public class AndroidDirFinder
 {
     @NonNull
-    ShowHabitController getController();
+    private Context context;
 
-    @NonNull
-    ShowHabitsMenu getMenu();
+    @Inject
+    public AndroidDirFinder(@NonNull @AppContext Context context)
+    {
+        this.context = context;
+    }
 
-    @NonNull
-    ShowHabitRootView getRootView();
+    @Nullable
+    public File getFilesDir(@Nullable String relativePath)
+    {
+        File externalFilesDirs[] =
+            ContextCompat.getExternalFilesDirs(context, null);
+        if (externalFilesDirs == null)
+        {
+            Log.e("BaseSystem",
+                "getFilesDir: getExternalFilesDirs returned null");
+            return null;
+        }
 
-    @NonNull
-    ShowHabitScreen getScreen();
+        return FileUtils.getDir(externalFilesDirs, relativePath);
+    }
 }

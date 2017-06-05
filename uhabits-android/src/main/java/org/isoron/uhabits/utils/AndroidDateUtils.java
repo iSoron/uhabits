@@ -21,10 +21,8 @@ package org.isoron.uhabits.utils;
 
 import android.content.*;
 import android.text.format.*;
-import android.text.format.DateUtils;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 

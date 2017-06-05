@@ -26,8 +26,8 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.utils.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
 

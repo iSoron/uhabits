@@ -23,7 +23,7 @@ import android.support.annotation.*;
 import android.view.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;

@@ -38,13 +38,13 @@ public class ExportDBTask implements Task
     @NonNull
     private Context context;
 
-    private BaseSystem system;
+    private AndroidDirFinder system;
 
     @NonNull
     private final Listener listener;
 
     public ExportDBTask(@Provided @AppContext @NonNull Context context,
-                        @Provided @NonNull BaseSystem system,
+                        @Provided @NonNull AndroidDirFinder system,
                         @NonNull Listener listener)
     {
         this.system = system;

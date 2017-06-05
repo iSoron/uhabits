@@ -26,23 +26,20 @@ import android.preference.*;
 import android.provider.*;
 import android.support.annotation.*;
 
-import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.*;
 
 import javax.inject.*;
 
-import static android.media.RingtoneManager.*;
+import static android.media.RingtoneManager.EXTRA_RINGTONE_PICKED_URI;
+import static android.media.RingtoneManager.getRingtone;
 
 @AppScope
 public class RingtoneManager
 {
-    private Context context;
-
     @Inject
-    public RingtoneManager(@AppContext @NonNull Context context)
+    public RingtoneManager()
     {
-        this.context = context;
     }
 
     @Nullable
@@ -106,7 +103,6 @@ public class RingtoneManager
         }
         else
         {
-            String off = context.getResources().getString(R.string.none);
             SharedPreferences prefs =
                 PreferenceManager.getDefaultSharedPreferences(context);
             prefs.edit().putString("pref_ringtone_uri", "").apply();

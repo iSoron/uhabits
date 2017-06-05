@@ -25,8 +25,7 @@ import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.view.*;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
+import org.isoron.androidbase.*;
 
 import static android.R.anim.fade_in;
 import static android.R.anim.fade_out;
@@ -52,13 +51,6 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Nullable
     private BaseScreen screen;
-
-    private ActivityComponent component;
-
-    public ActivityComponent getComponent()
-    {
-        return component;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(@Nullable Menu menu)
@@ -120,16 +112,6 @@ abstract public class BaseActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(getExceptionHandler());
-
-        HabitsApplication app = (HabitsApplication) getApplicationContext();
-
-        component = DaggerActivityComponent
-            .builder()
-            .activityModule(new ActivityModule(this))
-            .habitsComponent(app.getComponent())
-            .build();
-
-        component.getThemeSwitcher().apply();
     }
 
     protected Thread.UncaughtExceptionHandler getExceptionHandler()

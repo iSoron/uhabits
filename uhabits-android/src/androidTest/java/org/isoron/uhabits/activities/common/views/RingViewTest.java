@@ -47,7 +47,7 @@ public class RingViewTest extends BaseViewTest
         view = new RingView(targetContext);
         view.setPercentage(0.6f);
         view.setText("60%");
-        view.setColor(ColorUtils.getAndroidTestColor(0));
+        view.setColor(PaletteUtils.getAndroidTestColor(0));
         view.setBackgroundColor(Color.WHITE);
         view.setThickness(dpToPixels(3));
     }
@@ -63,7 +63,7 @@ public class RingViewTest extends BaseViewTest
     public void testRender_withDifferentParams() throws IOException
     {
         view.setPercentage(0.25f);
-        view.setColor(ColorUtils.getAndroidTestColor(5));
+        view.setColor(PaletteUtils.getAndroidTestColor(5));
 
         measureView(view, dpToPixels(200), dpToPixels(200));
         assertRenders(view, BASE_PATH + "renderDifferentParams.png");

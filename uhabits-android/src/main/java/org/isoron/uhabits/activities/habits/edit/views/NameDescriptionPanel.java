@@ -68,7 +68,7 @@ public class NameDescriptionPanel extends FrameLayout
     public void setColor(int color)
     {
         this.color = color;
-        tvName.setTextColor(ColorUtils.getColor(getContext(), color));
+        tvName.setTextColor(PaletteUtils.getColor(getContext(), color));
     }
 
     @NonNull

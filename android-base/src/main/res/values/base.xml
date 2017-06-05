@@ -1,0 +1,6 @@
+<resources>
+    <item name="toolbar" type="id" />
+    <item name="toolbarShadow" type="id" />
+    <item name="headerShadow" type="id" />
+    <attr name="palette" format="reference"/>
+</resources>

@@ -43,15 +43,10 @@ import dagger.*;
 
 @AppScope
 @Component(modules = {
-    AppModule.class,
-    HabitsModule.class,
-    AndroidTaskRunner.class,
-    SQLModelFactory.class
+    AppContextModule.class, HabitsModule.class, AndroidTaskRunner.class, SQLModelFactory.class
 })
-public interface HabitsComponent
+public interface HabitsApplicationComponent
 {
-    BaseSystem getBaseSystem();
-
     CommandRunner getCommandRunner();
 
     @AppContext

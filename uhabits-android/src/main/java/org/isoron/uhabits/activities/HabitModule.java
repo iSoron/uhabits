@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,26 +17,25 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.androidbase;
+package org.isoron.uhabits.activities;
 
-import android.content.*;
+import org.isoron.uhabits.core.models.*;
 
 import dagger.*;
 
 @Module
-public class AppModule
+public class HabitModule
 {
-    private final Context context;
+    private final Habit habit;
 
-    public AppModule(@AppContext Context context)
+    public HabitModule(Habit habit)
     {
-        this.context = context;
+        this.habit = habit;
     }
 
     @Provides
-    @AppContext
-    Context getContext()
+    public Habit getHabit()
     {
-        return context;
+        return habit;
     }
 }

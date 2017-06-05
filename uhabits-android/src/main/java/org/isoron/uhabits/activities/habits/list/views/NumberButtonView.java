@@ -26,6 +26,7 @@ import android.text.*;
 import android.util.*;
 import android.view.*;
 
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
@@ -33,8 +34,7 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
-import static org.isoron.uhabits.utils.ColorUtils.*;
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public class NumberButtonView extends View
 {
@@ -81,7 +81,7 @@ public class NumberButtonView extends View
             int value = getIntAttribute(ctx, attrs, "value", 0);
             int threshold = getIntAttribute(ctx, attrs, "threshold", 1);
             String unit = getAttribute(ctx, attrs, "unit", "min");
-            setColor(getAndroidTestColor(color));
+            setColor(PaletteUtils.getAndroidTestColor(color));
             setThreshold(threshold);
             setValue(value);
             setUnit(unit);

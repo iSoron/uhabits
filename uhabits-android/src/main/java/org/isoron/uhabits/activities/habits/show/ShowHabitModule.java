@@ -19,47 +19,20 @@
 
 package org.isoron.uhabits.activities.habits.show;
 
-import android.support.annotation.*;
-
-import org.isoron.androidbase.*;
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.activities.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import dagger.*;
 
 @Module
-public class ShowHabitModule extends ActivityModule
+public abstract class ShowHabitModule
 {
-    private Habit habit;
+    @Binds
+    abstract ShowHabitBehavior.Screen getScreen(ShowHabitScreen screen);
 
-    public ShowHabitModule(@NonNull BaseActivity activity, @NonNull Habit habit)
-    {
-        super(activity);
-        this.habit = habit;
-    }
+    @Binds
+    abstract ShowHabitMenuBehavior.Screen getMenuScreen(ShowHabitScreen screen);
 
-    @Provides
-    public Habit getHabit()
-    {
-        return habit;
-    }
-
-    @Provides
-    public ShowHabitBehavior.Screen getScreen(ShowHabitScreen screen)
-    {
-        return screen;
-    }
-
-    @Provides
-    public ShowHabitMenuBehavior.Screen getMenuScreen(ShowHabitScreen screen)
-    {
-        return screen;
-    }
-
-    @Provides
-    public ShowHabitMenuBehavior.System getSystem(BaseSystem system)
-    {
-        return system;
-    }
+    @Binds
+    abstract ShowHabitMenuBehavior.System getSystem(HabitsDirFinder system);
 }

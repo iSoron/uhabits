@@ -17,22 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.androidbase.activities;
+package org.isoron.uhabits.activities;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.core.ui.*;
 
 import dagger.*;
 
-@ActivityScope
-@Component(modules = { ActivityModule.class },
-           dependencies = { HabitsComponent.class })
-public interface ActivityComponent
+@Module
+public abstract class HabitsActivityModule
 {
-    BaseActivity getActivity();
-
-    ColorPickerDialogFactory getColorPickerDialogFactory();
-
-    ThemeSwitcher getThemeSwitcher();
+    @Binds
+    @ActivityScope
+    abstract ThemeSwitcher getThemeSwitcher(AndroidThemeSwitcher t);
 }

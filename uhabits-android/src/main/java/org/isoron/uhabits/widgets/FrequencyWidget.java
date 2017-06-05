@@ -56,7 +56,7 @@ public class FrequencyWidget extends BaseWidget
 
         widgetView.setTitle(habit.getName());
 
-        int color = ColorUtils.getColor(getContext(), habit.getColor());
+        int color = PaletteUtils.getColor(getContext(), habit.getColor());
 
         chart.setColor(color);
         chart.setFrequency(habit.getRepetitions().getWeekdayFrequency());

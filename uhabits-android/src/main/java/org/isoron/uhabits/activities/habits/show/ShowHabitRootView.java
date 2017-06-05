@@ -25,6 +25,7 @@ import android.support.annotation.*;
 import android.support.v7.widget.*;
 
 import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.show.views.*;
 import org.isoron.uhabits.core.models.*;
@@ -90,7 +91,7 @@ public class ShowHabitRootView extends BaseRootView
         if (!res.getBoolean(R.attr.useHabitColorAsPrimary))
             return super.getToolbarColor();
 
-        return ColorUtils.getColor(getContext(), habit.getColor());
+        return PaletteUtils.getColor(getContext(), habit.getColor());
     }
 
     @Override

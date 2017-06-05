@@ -28,20 +28,26 @@ import org.mockito.*;
 
 import java.io.*;
 
-import static java.nio.file.Files.*;
-import static junit.framework.TestCase.assertTrue;
-import static org.apache.commons.io.FileUtils.*;
+import static java.nio.file.Files.createTempDirectory;
+import static org.apache.commons.io.FileUtils.deleteDirectory;
+import static org.apache.commons.io.FileUtils.listFiles;
 import static org.hamcrest.CoreMatchers.*;
-import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.COULD_NOT_EXPORT;
+import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.COULD_NOT_GENERATE_BUG_REPORT;
+import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.DATABASE_REPAIRED;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ListHabitsBehaviorTest extends BaseUnitTest
 {
     @Mock
-    private ListHabitsBehavior.System system;
+    private ListHabitsBehavior.DirFinder dirFinder;
 
     @Mock
     private Preferences prefs;
@@ -56,6 +62,9 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     @Captor
     ArgumentCaptor<ListHabitsBehavior.NumberPickerCallback> picker;
 
+    @Mock
+    private ListHabitsBehavior.BugReporter bugReporter;
+
     @Override
     @Before
     public void setUp()
@@ -67,8 +76,8 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         habitList.add(habit2);
         clearInvocations(habitList);
 
-        behavior = new ListHabitsBehavior(habitList, system, taskRunner, screen,
-            commandRunner, prefs);
+        behavior = new ListHabitsBehavior(habitList, dirFinder, taskRunner, screen,
+            commandRunner, prefs, bugReporter);
     }
 
     @Test
@@ -84,7 +93,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     public void testOnExportCSV() throws Exception
     {
         File outputDir = createTempDirectory("CSV").toFile();
-        when(system.getCSVOutputDir()).thenReturn(outputDir);
+        when(dirFinder.getCSVOutputDir()).thenReturn(outputDir);
         behavior.onExportCSV();
         verify(screen).showSendFileScreen(any());
         assertThat(listFiles(outputDir, null, false).size(), equalTo(1));
@@ -96,7 +105,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     {
         File outputDir = createTempDirectory("CSV").toFile();
         outputDir.setWritable(false);
-        when(system.getCSVOutputDir()).thenReturn(outputDir);
+        when(dirFinder.getCSVOutputDir()).thenReturn(outputDir);
         behavior.onExportCSV();
         verify(screen).showMessage(COULD_NOT_EXPORT);
         assertTrue(outputDir.delete());
@@ -127,6 +136,20 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     }
 
     @Test
+    public void testOnSendBugReport() throws IOException
+    {
+        when(bugReporter.getBugReport()).thenReturn("hello");
+        behavior.onSendBugReport();
+        verify(bugReporter).dumpBugReportToFile();
+        verify(screen).showSendBugReportToDeveloperScreen("hello");
+
+        when(bugReporter.getBugReport()).thenThrow(new IOException());
+        behavior.onSendBugReport();
+        verify(screen).showMessage(COULD_NOT_GENERATE_BUG_REPORT);
+
+    }
+
+    @Test
     public void testOnStartup_firstLaunch()
     {
         long today = DateUtils.getStartOfToday();
@@ -152,19 +175,6 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         assertTrue(habit1.isCompletedToday());
         behavior.onToggle(habit1, DateUtils.getStartOfToday());
         assertFalse(habit1.isCompletedToday());
-    }
-
-    @Test
-    public void testOnSendBugReport() throws IOException
-    {
-        when(system.getBugReport()).thenReturn("hello");
-        behavior.onSendBugReport();
-        verify(screen).showSendBugReportToDeveloperScreen("hello");
-
-        when(system.getBugReport()).thenThrow(new IOException());
-        behavior.onSendBugReport();
-        verify(screen).showMessage(COULD_NOT_GENERATE_BUG_REPORT);
-
     }
 
 }

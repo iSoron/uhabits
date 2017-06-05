@@ -47,7 +47,7 @@ public class HistoryChartTest extends BaseViewTest
 
         chart = new HistoryChart(targetContext);
         chart.setCheckmarks(habit.getCheckmarks().getAllValues());
-        chart.setColor(ColorUtils.getAndroidTestColor(habit.getColor()));
+        chart.setColor(PaletteUtils.getAndroidTestColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));
     }
 

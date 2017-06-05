@@ -33,7 +33,7 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener, ModelObservable.Listener
@@ -171,7 +171,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             if (getContext() == null || habit == null || historyChart == null)
                 return;
 
-            int color = ColorUtils.getColor(getContext(), habit.getColor());
+            int color = PaletteUtils.getColor(getContext(), habit.getColor());
             historyChart.setColor(color);
             historyChart.setCheckmarks(checkmarks);
         }
