@@ -234,7 +234,6 @@ public class NumberPanelView extends LinearLayout
         NumberButtonController buttonController =
             buttonControllerFactory.create(habit, timestamp);
         buttonController.setListener(controller);
-        buttonController.setView(buttonView);
         buttonView.setController(buttonController);
     }
 
@@ -259,6 +258,5 @@ public class NumberPanelView extends LinearLayout
 
     public interface Controller extends NumberButtonController.Listener
     {
-
     }
 }

@@ -23,16 +23,12 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
-import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 
 @AutoFactory
 public class NumberButtonController
 {
-    @Nullable
-    private NumberButtonView view;
-
     @Nullable
     private Listener listener;
 
@@ -78,11 +74,6 @@ public class NumberButtonController
     public void setListener(@Nullable Listener listener)
     {
         this.listener = listener;
-    }
-
-    public void setView(@Nullable NumberButtonView view)
-    {
-        this.view = view;
     }
 
     public interface Listener

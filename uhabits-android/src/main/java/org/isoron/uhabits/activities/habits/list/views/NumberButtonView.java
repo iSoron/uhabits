@@ -112,7 +112,7 @@ public class NumberButtonView extends View
         postInvalidate();
     }
 
-    public void setController(final NumberButtonController controller)
+    public void setController(@NonNull NumberButtonController controller)
     {
         setOnClickListener(v -> controller.onClick());
         setOnLongClickListener(v ->
