@@ -16,14 +16,14 @@
 
 package com.android.datetimepicker.time;
 
-import org.isoron.uhabits.R;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.Log;
-import android.view.View;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.util.*;
+import android.view.*;
+
+import com.android.*;
 
 /**
  * Draws a simple white circle on which the numbers will be drawn.

@@ -16,18 +16,15 @@
 
 package com.android.colorpicker;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.os.Bundle;
+import android.app.*;
+import android.os.*;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.support.v7.app.*;
+import android.view.*;
+import android.widget.*;
 
-import com.android.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
-
-import org.isoron.uhabits.R;
+import com.android.*;
+import com.android.colorpicker.ColorPickerSwatch.*;
 
 /**
  * A dialog which takes in as input an array of palette and creates a palette allowing the user to

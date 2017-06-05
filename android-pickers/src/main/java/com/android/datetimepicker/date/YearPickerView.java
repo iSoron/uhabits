@@ -16,24 +16,18 @@
 
 package com.android.datetimepicker.date;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.drawable.*;
+import android.view.*;
+import android.view.accessibility.*;
+import android.widget.*;
+import android.widget.AdapterView.*;
 
-import org.isoron.uhabits.R;
+import com.android.*;
+import com.android.datetimepicker.date.DatePickerDialog.*;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.StateListDrawable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.android.datetimepicker.date.DatePickerDialog.OnDateChangedListener;
+import java.util.*;
 
 /**
  * Displays a selectable list of years.

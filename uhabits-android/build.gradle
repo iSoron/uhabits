@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation project(":uhabits-core")
     implementation project(":android-base")
+    implementation project(":android-pickers")
 
     implementation 'com.android.support:appcompat-v7:25.3.1'
     implementation 'com.android.support:design:25.3.1'

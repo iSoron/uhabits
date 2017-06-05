@@ -16,20 +16,17 @@
 
 package com.android.datetimepicker.time;
 
-import java.text.DateFormatSymbols;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.graphics.Paint.*;
+import android.util.*;
+import android.view.*;
 
-import org.isoron.uhabits.R;
+import com.android.*;
+import com.android.datetimepicker.*;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Typeface;
-import android.util.Log;
-import android.view.View;
-
-import com.android.datetimepicker.Utils;
+import java.text.*;
 
 /**
  * Draw the two smaller AM and PM circles next to where the larger circle will be.

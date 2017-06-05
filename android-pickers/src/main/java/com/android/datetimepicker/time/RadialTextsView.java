@@ -16,21 +16,16 @@
 
 package com.android.datetimepicker.time;
 
-import org.isoron.uhabits.R;
+import android.animation.*;
+import android.animation.ValueAnimator.*;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.graphics.Paint.*;
+import android.util.*;
+import android.view.*;
 
-import android.animation.Keyframe;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Typeface;
-import android.util.Log;
-import android.view.View;
+import com.android.*;
 
 /**
  * A view to show a series of numbers in a circular pattern.

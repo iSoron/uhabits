@@ -16,36 +16,23 @@
 
 package com.android.datetimepicker.date;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
+import android.animation.*;
+import android.app.*;
+import android.content.res.*;
+import android.os.*;
+import android.text.format.*;
+import android.util.*;
+import android.view.*;
+import android.view.View.*;
+import android.view.animation.*;
+import android.widget.*;
 
-import org.isoron.uhabits.R;
+import com.android.*;
+import com.android.datetimepicker.*;
+import com.android.datetimepicker.date.MonthAdapter.*;
 
-import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.android.datetimepicker.HapticFeedbackController;
-import com.android.datetimepicker.Utils;
-import com.android.datetimepicker.date.MonthAdapter.CalendarDay;
+import java.text.*;
+import java.util.*;
 
 /**
  * Dialog allowing users to select a date.

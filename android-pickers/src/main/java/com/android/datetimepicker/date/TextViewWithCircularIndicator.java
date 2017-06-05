@@ -16,16 +16,14 @@
 
 package com.android.datetimepicker.date;
 
-import org.isoron.uhabits.R;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.graphics.Paint.*;
+import android.util.*;
+import android.widget.*;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
-import android.util.AttributeSet;
-import android.widget.TextView;
+import com.android.*;
 
 /**
  * A text view which, when pressed or activated, displays a blue circle around the text.

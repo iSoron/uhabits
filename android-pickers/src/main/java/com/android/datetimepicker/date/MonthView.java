@@ -16,37 +16,25 @@
 
 package com.android.datetimepicker.date;
 
-import java.security.InvalidParameterException;
-import java.util.Calendar;
+import android.content.*;
+import android.content.res.*;
+import android.graphics.*;
+import android.graphics.Paint.*;
+import android.os.*;
+import android.support.v4.view.*;
+import android.support.v4.view.accessibility.*;
+import android.support.v4.widget.*;
+import android.text.format.*;
+import android.view.*;
+import android.view.accessibility.*;
+
+import com.android.*;
+import com.android.datetimepicker.*;
+import com.android.datetimepicker.date.MonthAdapter.*;
+
+import java.security.*;
+import java.util.*;
 import java.util.Formatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import org.isoron.uhabits.R;
-
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
-import android.support.v4.widget.ExploreByTouchHelper;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
-import android.text.format.Time;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
-
-import com.android.datetimepicker.Utils;
-import com.android.datetimepicker.date.MonthAdapter.CalendarDay;
 
 /**
  * A calendar-like view displaying a specified month and the appropriate selectable day numbers

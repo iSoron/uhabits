@@ -16,30 +16,20 @@
 
 package com.android.datetimepicker.time;
 
-import org.isoron.uhabits.R;
+import android.animation.*;
+import android.annotation.*;
+import android.content.*;
+import android.content.res.*;
+import android.os.*;
+import android.text.format.*;
+import android.util.*;
+import android.view.*;
+import android.view.View.*;
+import android.view.accessibility.*;
+import android.widget.*;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.format.DateUtils;
-import android.text.format.Time;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.FrameLayout;
-
-import com.android.datetimepicker.HapticFeedbackController;
+import com.android.*;
+import com.android.datetimepicker.*;
 
 /**
  * The primary layout to hold the circular picker, and the am/pm buttons. This view well measure

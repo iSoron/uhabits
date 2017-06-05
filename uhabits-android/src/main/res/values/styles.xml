@@ -154,18 +154,6 @@
         <item name="widgetBackgroundAlpha">0.25</item>
     </style>
 
-    <style name="time_label">
-        <item name="android:textSize">@dimen/time_label_size</item>
-        <item name="android:textColor">@color/numbers_text_color</item>
-    </style>
-
-    <style name="ampm_label">
-        <item name="android:textSize">@dimen/ampm_label_size</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/ampm_text_color</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="day_of_week_label_condensed"/>
 
     <style name="CardList">
@@ -251,10 +239,6 @@
         <item name="android:layout_height">2dp</item>
         <item name="android:background">@drawable/toolbar_shadow</item>
         <item name="android:alpha">0.2</item>
-    </style>
-
-    <style name="TimePickerDialog" parent="@style/Theme.AppCompat.Light.Dialog">
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="DialogWithTitle" parent="@style/Theme.AppCompat.Light.Dialog">

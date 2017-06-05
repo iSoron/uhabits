@@ -16,37 +16,25 @@
 
 package com.android.datetimepicker.time;
 
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import org.isoron.uhabits.R;
-
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
+import android.animation.*;
+import android.annotation.*;
+import android.app.ActionBar.*;
 import android.app.*;
-import android.app.ActionBar;
-import android.app.ActionBar.LayoutParams;
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.os.Bundle;
+import android.content.*;
+import android.content.res.*;
+import android.os.*;
 import android.support.v7.app.*;
-import android.util.Log;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.util.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
-import com.android.datetimepicker.HapticFeedbackController;
-import com.android.datetimepicker.Utils;
-import com.android.datetimepicker.time.RadialPickerLayout.OnValueSelectedListener;
+import com.android.*;
+import com.android.datetimepicker.*;
+import com.android.datetimepicker.time.RadialPickerLayout.*;
+
+import java.text.*;
+import java.util.*;
 
 /**
  * Dialog to set a time.

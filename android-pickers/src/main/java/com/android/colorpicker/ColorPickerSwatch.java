@@ -16,14 +16,12 @@
 
 package com.android.colorpicker;
 
-import org.isoron.uhabits.R;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.view.*;
+import android.widget.*;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import com.android.*;
 
 /**
  * Creates a circular swatch of a specified color.  Adds a checkmark if marked as checked.
