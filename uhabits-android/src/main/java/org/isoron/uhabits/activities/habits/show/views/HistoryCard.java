@@ -68,7 +68,6 @@ public class HistoryCard extends HabitCard
     public void setController(@NonNull Controller controller)
     {
         this.controller = controller;
-        chart.setController(controller);
     }
 
     @Override
@@ -102,7 +101,7 @@ public class HistoryCard extends HabitCard
         chart.populateWithRandomData();
     }
 
-    public interface Controller extends HistoryChart.Controller
+    public interface Controller
     {
         default void onEditHistoryButtonClick() {}
     }

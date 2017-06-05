@@ -46,6 +46,9 @@ public abstract class BaseRootView extends FrameLayout
 
     protected boolean shouldDisplayHomeAsUp = false;
 
+    @Nullable
+    private BaseScreen screen;
+
     public BaseRootView(@NonNull Context context)
     {
         super(context);
@@ -90,5 +93,16 @@ public abstract class BaseRootView extends FrameLayout
             view = findViewById(R.id.headerShadow);
             if (view != null) view.setVisibility(GONE);
         }
+    }
+
+    public void onAttachedToScreen(BaseScreen screen)
+    {
+        this.screen = screen;
+    }
+
+    @Nullable
+    public BaseScreen getScreen()
+    {
+        return screen;
     }
 }

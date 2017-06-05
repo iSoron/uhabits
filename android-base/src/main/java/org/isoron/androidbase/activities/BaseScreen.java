@@ -157,6 +157,15 @@ public class BaseScreen
     {
     }
 
+
+    /**
+     * Called after activity has been recreated, and the dialogs should be
+     * reattached to their controllers.
+     */
+    public void reattachDialogs()
+    {
+    }
+
     /**
      * Sets the menu to be shown by this screen.
      * <p>
@@ -180,7 +189,7 @@ public class BaseScreen
         this.rootView = rootView;
         activity.setContentView(rootView);
         if (rootView == null) return;
-
+        rootView.onAttachedToScreen(this);
         invalidateToolbar();
     }
 

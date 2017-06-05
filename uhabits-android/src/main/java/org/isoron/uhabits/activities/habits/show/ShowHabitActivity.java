@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.show;
 
 import android.os.*;
-import android.support.annotation.*;
 
 import org.isoron.uhabits.activities.*;
 
@@ -31,30 +30,10 @@ import org.isoron.uhabits.activities.*;
  */
 public class ShowHabitActivity extends HabitsActivity
 {
-
-    @Nullable
-    private ShowHabitScreen screen;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        HabitsActivityComponent component = getActivityComponent();
-        screen = component.getShowHabitScreen();
-        screen.setMenu(component.getShowHabitMenu());
-        screen.setController(component.getShowHabitController());
-        component
-            .getShowHabitRootView()
-            .setController(component.getShowHabitController());
-        setScreen(screen);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        if (screen == null) throw new IllegalStateException();
-        super.onResume();
-        screen.reattachDialogs();
+        setScreen(getActivityComponent().getShowHabitScreen());
     }
 }

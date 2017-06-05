@@ -64,7 +64,6 @@ public class ListHabitsActivity extends HabitsActivity
 
         screen.setMenu(menu);
         screen.setController(controller);
-        screen.setListController(component.getHabitCardListController());
         screen.setSelectionMenu(selectionMenu);
         rootView.setController(controller, selectionMenu);
 

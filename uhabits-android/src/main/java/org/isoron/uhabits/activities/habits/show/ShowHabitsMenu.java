@@ -23,20 +23,22 @@ import android.support.annotation.*;
 import android.view.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import javax.inject.*;
+
+import dagger.*;
 
 @ActivityScope
 public class ShowHabitsMenu extends BaseMenu
 {
     @NonNull
-    ShowHabitMenuBehavior behavior;
+    private Lazy<ShowHabitMenuBehavior> behavior;
 
     @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull ShowHabitMenuBehavior behavior)
+                          @NonNull Lazy<ShowHabitMenuBehavior> behavior)
     {
         super(activity);
         this.behavior = behavior;
@@ -48,11 +50,11 @@ public class ShowHabitsMenu extends BaseMenu
         switch (item.getItemId())
         {
             case R.id.action_edit_habit:
-                behavior.onEditHabit();
+                behavior.get().onEditHabit();
                 return true;
 
             case R.id.export:
-                behavior.onExportCSV();
+                behavior.get().onExportCSV();
                 return true;
 
             default:

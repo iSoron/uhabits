@@ -118,4 +118,11 @@ abstract public class BaseActivity extends AppCompatActivity
     {
         return new BaseExceptionHandler(this);
     }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if(screen != null) screen.reattachDialogs();
+    }
 }

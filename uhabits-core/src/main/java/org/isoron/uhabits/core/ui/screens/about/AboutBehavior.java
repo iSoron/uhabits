@@ -23,6 +23,8 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.core.preferences.*;
 
+import javax.inject.*;
+
 public class AboutBehavior
 {
     private int developerCountdown = 5;
@@ -33,6 +35,7 @@ public class AboutBehavior
     @NonNull
     private Screen screen;
 
+    @Inject
     public AboutBehavior(@NonNull Preferences prefs, @NonNull Screen screen)
     {
         this.prefs = prefs;

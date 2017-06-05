@@ -30,10 +30,9 @@ import android.widget.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -48,8 +47,8 @@ import java.util.*;
 
 import javax.inject.*;
 
-import static android.content.DialogInterface.*;
-import static android.view.inputmethod.EditorInfo.*;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 @ActivityScope
 public class ListHabitsScreen extends BaseScreen
@@ -95,11 +94,6 @@ public class ListHabitsScreen extends BaseScreen
     @NonNull
     private Preferences prefs;
 
-    @Nullable
-    private HabitCardListController listController;
-
-    private final ListHabitsRootView rootView;
-
     @Inject
     public ListHabitsScreen(@NonNull BaseActivity activity,
                             @NonNull CommandRunner commandRunner,
@@ -113,7 +107,6 @@ public class ListHabitsScreen extends BaseScreen
     {
         super(activity);
         setRootView(rootView);
-        this.rootView = rootView;
         this.prefs = prefs;
         this.colorPickerFactory = colorPickerFactory;
         this.commandRunner = commandRunner;
@@ -121,11 +114,6 @@ public class ListHabitsScreen extends BaseScreen
         this.editHabitDialogFactory = editHabitDialogFactory;
         this.intentFactory = intentFactory;
         this.themeSwitcher = themeSwitcher;
-    }
-
-    public void setListController(HabitCardListController listController)
-    {
-        this.listController = listController;
     }
 
     @StringRes

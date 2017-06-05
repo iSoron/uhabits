@@ -29,6 +29,8 @@ import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.ui.screens.about.*;
 
+import javax.inject.*;
+
 import butterknife.*;
 
 public class AboutRootView extends BaseRootView
@@ -39,7 +41,8 @@ public class AboutRootView extends BaseRootView
     @NonNull
     private final AboutBehavior behavior;
 
-    public AboutRootView(@NonNull Context context,
+    @Inject
+    public AboutRootView(@NonNull @ActivityContext Context context,
                          @NonNull AboutBehavior behavior)
     {
         super(context);

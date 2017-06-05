@@ -66,8 +66,8 @@ public class ShowHabitRootView extends BaseRootView
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @Nullable
-    private ShowHabitController controller;
+    @NonNull
+    private Controller controller;
 
     @Inject
     public ShowHabitRootView(@NonNull @ActivityContext Context context,
@@ -79,6 +79,7 @@ public class ShowHabitRootView extends BaseRootView
         addView(inflate(getContext(), R.layout.show_habit, null));
         ButterKnife.bind(this);
 
+        controller = new Controller() {};
         setDisplayHomeAsUp(true);
         initCards();
         initToolbar();
@@ -101,10 +102,10 @@ public class ShowHabitRootView extends BaseRootView
             toolbar.setTitle(habit.getName());
         });
 
-        if(controller != null) controller.onToolbarChanged();
+        controller.onToolbarChanged();
     }
 
-    public void setController(@NonNull ShowHabitController controller)
+    public void setController(@NonNull Controller controller)
     {
         this.controller = controller;
         historyCard.setController(controller);
@@ -144,5 +145,10 @@ public class ShowHabitRootView extends BaseRootView
             barCard.setHabit(habit);
         else
             barCard.setVisibility(GONE);
+    }
+
+    public interface Controller extends HistoryCard.Controller
+    {
+        default void onToolbarChanged() {}
     }
 }

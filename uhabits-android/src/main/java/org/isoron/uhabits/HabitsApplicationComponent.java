@@ -34,7 +34,6 @@ import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
 import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.widgets.*;
@@ -79,8 +78,6 @@ public interface HabitsApplicationComponent
     Preferences getPreferences();
 
     ReminderScheduler getReminderScheduler();
-
-    RingtoneManager getRingtoneManager();
 
     SyncManager getSyncManager();
 

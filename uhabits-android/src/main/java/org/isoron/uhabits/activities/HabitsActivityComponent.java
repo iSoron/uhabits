@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.about.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.activities.habits.list.controllers.*;
@@ -33,6 +34,7 @@ import dagger.*;
 @ActivityScope
 @Component(modules = {
     ActivityModule.class,
+    AboutModule.class,
     HabitsActivityModule.class,
     ListHabitsModule.class,
     ShowHabitModule.class,
@@ -40,6 +42,10 @@ import dagger.*;
 }, dependencies = { HabitsApplicationComponent.class })
 public interface HabitsActivityComponent
 {
+    AboutRootView getAboutRootView();
+
+    AboutScreen getAboutScreen();
+
     BaseActivity getActivity();
 
     CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
@@ -47,8 +53,6 @@ public interface HabitsActivityComponent
     ColorPickerDialogFactory getColorPickerDialogFactory();
 
     HabitCardListAdapter getHabitCardListAdapter();
-
-    HabitCardListController getHabitCardListController();
 
     ListHabitsController getListHabitsController();
 
@@ -61,12 +65,6 @@ public interface HabitsActivityComponent
     ListHabitsSelectionMenu getListHabitsSelectionMenu();
 
     NumberButtonControllerFactory getNumberButtonControllerFactory();
-
-    ShowHabitController getShowHabitController();
-
-    ShowHabitsMenu getShowHabitMenu();
-
-    ShowHabitRootView getShowHabitRootView();
 
     ShowHabitScreen getShowHabitScreen();
 
