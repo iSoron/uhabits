@@ -29,14 +29,17 @@ import android.view.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
+import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.utils.*;
 
-import static android.view.View.MeasureSpec.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
-import static org.isoron.uhabits.utils.AttributeSetUtils.*;
+import static android.view.View.MeasureSpec.EXACTLY;
+import static android.view.View.MeasureSpec.makeMeasureSpec;
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 import static org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome;
+import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
+import static org.isoron.uhabits.utils.AttributeSetUtils.getIntAttribute;
 
 public class CheckmarkButtonView extends View
 {
@@ -51,6 +54,15 @@ public class CheckmarkButtonView extends View
     private int lowContrastColor;
 
     private RectF rect;
+
+    @Nullable
+    private Preferences prefs;
+
+    @NonNull
+    private OnToggleListener onToggleListener;
+
+    @NonNull
+    private OnInvalidToggleListener onInvalidToggleListener;
 
     public CheckmarkButtonView(@Nullable Context context)
     {
@@ -68,7 +80,6 @@ public class CheckmarkButtonView extends View
 
         int paletteColor = getIntAttribute(ctx, attrs, "color", 0);
         setColor(PaletteUtils.getAndroidTestColor(paletteColor));
-
         int value = getIntAttribute(ctx, attrs, "value", 0);
         setValue(value);
     }
@@ -79,20 +90,15 @@ public class CheckmarkButtonView extends View
         postInvalidate();
     }
 
-    public void setController(final CheckmarkButtonController controller)
-    {
-        setOnClickListener(v -> controller.onClick());
-        setOnLongClickListener(v -> controller.onLongClick());
-    }
-
     public void setValue(int value)
     {
         this.value = value;
         postInvalidate();
     }
 
-    public void toggle()
+    public void performToggle()
     {
+        onToggleListener.onToggle();
         value = (value == CHECKED_EXPLICITLY ? UNCHECKED : CHECKED_EXPLICITLY);
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         postInvalidate();
@@ -142,5 +148,47 @@ public class CheckmarkButtonView extends View
         rect = new RectF();
         color = Color.BLACK;
         lowContrastColor = styledRes.getColor(R.attr.lowContrastTextColor);
+
+        onToggleListener = () -> {};
+        onInvalidToggleListener = () -> {};
+
+        if (getContext() instanceof HabitsActivity)
+        {
+            HabitsApplicationComponent component =
+                ((HabitsActivity) getContext()).getAppComponent();
+            prefs = component.getPreferences();
+        }
+
+        setOnClickListener((v) -> {
+            if (prefs == null) return;
+            if (prefs.isShortToggleEnabled()) performToggle();
+            else onInvalidToggleListener.onInvalidToggle();
+        });
+
+        setOnLongClickListener(v -> {
+            performToggle();
+            return true;
+        });
+    }
+
+    public void setOnInvalidToggleListener(
+        @NonNull OnInvalidToggleListener onInvalidToggleListener)
+    {
+        this.onInvalidToggleListener = onInvalidToggleListener;
+    }
+
+    public void setOnToggleListener(@NonNull OnToggleListener onToggleListener)
+    {
+        this.onToggleListener = onToggleListener;
+    }
+
+    public interface OnInvalidToggleListener
+    {
+        void onInvalidToggle();
+    }
+
+    public interface OnToggleListener
+    {
+        void onToggle();
     }
 }

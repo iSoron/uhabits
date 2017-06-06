@@ -25,9 +25,6 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
 
@@ -35,9 +32,9 @@ import java.util.*;
 
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.makeMeasureSpec;
+import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 import static org.isoron.uhabits.utils.AttributeSetUtils.getIntAttribute;
 import static org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor;
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
 public class CheckmarkPanelView extends LinearLayout
     implements Preferences.Listener
@@ -55,12 +52,13 @@ public class CheckmarkPanelView extends LinearLayout
 
     private int color;
 
-    private Controller controller;
+    private int dataOffset;
 
     @NonNull
-    private Habit habit;
+    private OnInvalidToggleListener onInvalidToggleListener;
 
-    private int dataOffset;
+    @NonNull
+    private OnToggleListener onToggleLister;
 
     public CheckmarkPanelView(Context context)
     {
@@ -115,22 +113,21 @@ public class CheckmarkPanelView extends LinearLayout
         setupButtons();
     }
 
-    public void setController(Controller controller)
-    {
-        this.controller = controller;
-        setupButtons();
-    }
-
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
         setupButtons();
     }
 
-    public void setHabit(@NonNull Habit habit)
+    public void setOnInvalidToggleListener(
+        @NonNull OnInvalidToggleListener onInvalidToggleListener)
     {
-        this.habit = habit;
-        setupButtons();
+        this.onInvalidToggleListener = onInvalidToggleListener;
+    }
+
+    public void setOnToggleLister(@NonNull OnToggleListener onToggleLister)
+    {
+        this.onToggleLister = onToggleLister;
     }
 
     public void setValues(int[] values)
@@ -157,7 +154,8 @@ public class CheckmarkPanelView extends LinearLayout
     protected void onMeasure(int widthSpec, int heightSpec)
     {
         float buttonWidth = getDimension(getContext(), R.dimen.checkmarkWidth);
-        float buttonHeight = getDimension(getContext(), R.dimen.checkmarkHeight);
+        float buttonHeight =
+            getDimension(getContext(), R.dimen.checkmarkHeight);
 
         float width = buttonWidth * nButtons;
 
@@ -190,6 +188,9 @@ public class CheckmarkPanelView extends LinearLayout
             prefs = app.getComponent().getPreferences();
         }
 
+        onInvalidToggleListener = () -> {};
+        onToggleLister = (t) -> {};
+
         setWillNotDraw(false);
         values = new int[0];
     }
@@ -207,19 +208,10 @@ public class CheckmarkPanelView extends LinearLayout
     private void setupButtonControllers(long timestamp,
                                         CheckmarkButtonView buttonView)
     {
-        if (controller == null) return;
-        if (!(getContext() instanceof HabitsActivity)) return;
-
-        HabitsActivity activity = (HabitsActivity) getContext();
-        CheckmarkButtonControllerFactory buttonControllerFactory = activity
-            .getActivityComponent()
-            .getCheckmarkButtonControllerFactory();
-
-        CheckmarkButtonController buttonController =
-            buttonControllerFactory.create(habit, timestamp);
-        buttonController.setListener(controller);
-        buttonController.setView(buttonView);
-        buttonView.setController(buttonController);
+        buttonView.setOnInvalidToggleListener(
+            () -> onInvalidToggleListener.onInvalidToggle());
+        buttonView.setOnToggleListener(
+            () -> onToggleLister.onToggle(timestamp));
     }
 
     private void setupButtons()
@@ -239,8 +231,13 @@ public class CheckmarkPanelView extends LinearLayout
         }
     }
 
-    public interface Controller extends CheckmarkButtonController.Listener
+    public interface OnInvalidToggleListener
     {
+        void onInvalidToggle();
+    }
 
+    public interface OnToggleListener
+    {
+        void onToggle(long timestamp);
     }
 }

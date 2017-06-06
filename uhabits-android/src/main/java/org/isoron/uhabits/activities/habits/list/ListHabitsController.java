@@ -23,8 +23,7 @@ import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
@@ -70,7 +69,6 @@ public class ListHabitsController
         this.exportDBFactory = exportDBFactory;
     }
 
-    @Override
     public void onEdit(@NonNull Habit habit, long timestamp)
     {
         behavior.onEdit(habit, timestamp);
@@ -127,7 +125,6 @@ public class ListHabitsController
         }));
     }
 
-    @Override
     public void onInvalidEdit()
     {
         screen.showMessage(R.string.long_press_to_edit);

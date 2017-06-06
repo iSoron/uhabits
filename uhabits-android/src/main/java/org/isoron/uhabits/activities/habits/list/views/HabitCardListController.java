@@ -17,13 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.list.controllers;
+package org.isoron.uhabits.activities.habits.list.views;
 
 import android.support.annotation.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
-import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 
 import javax.inject.*;
@@ -200,9 +198,10 @@ public class HabitCardListController implements HabitCardListView.Controller,
         if (selectionListener != null) selectionListener.onSelectionFinish();
     }
 
-    public interface HabitListener extends CheckmarkButtonController.Listener,
-                                           NumberButtonController.Listener
+    public interface HabitListener
     {
+        void onEdit(Habit habit, long timestamp);
+
         /**
          * Called when the user clicks a habit.
          *
@@ -218,6 +217,12 @@ public class HabitCardListController implements HabitCardListView.Controller,
          * @param to   habit that currently occupies the desired position
          */
         void onHabitReorder(@NonNull Habit from, @NonNull Habit to);
+
+        void onInvalidEdit();
+
+        void onInvalidToggle();
+
+        void onToggle(Habit habit, long timestamp);
     }
 
     /**

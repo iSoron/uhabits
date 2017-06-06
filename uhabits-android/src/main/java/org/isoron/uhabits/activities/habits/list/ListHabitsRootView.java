@@ -29,8 +29,6 @@ import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;

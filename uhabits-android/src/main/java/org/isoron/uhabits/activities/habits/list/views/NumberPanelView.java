@@ -25,9 +25,6 @@ import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
 
@@ -35,10 +32,10 @@ import java.util.*;
 
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.makeMeasureSpec;
+import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 import static org.isoron.uhabits.utils.AttributeSetUtils.getAttribute;
 import static org.isoron.uhabits.utils.AttributeSetUtils.getIntAttribute;
 import static org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor;
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
 public class NumberPanelView extends LinearLayout
     implements Preferences.Listener
@@ -58,14 +55,14 @@ public class NumberPanelView extends LinearLayout
 
     private int color;
 
-    private Controller controller;
-
     private String unit;
 
-    @NonNull
-    private Habit habit;
-
     private int dataOffset;
+
+    @NonNull
+    private OnInvalidEditListener onInvalidEditListener;
+
+    private OnEditListener onEditListener;
 
     public NumberPanelView(Context context)
     {
@@ -87,21 +84,7 @@ public class NumberPanelView extends LinearLayout
             setUnit(getAttribute(ctx, attrs, "unit", "min"));
         }
 
-        if(isInEditMode()) initEditMode();
-    }
-
-    public void setUnit(String unit)
-    {
-        this.unit = unit;
-        setupButtons();
-    }
-
-    public void initEditMode()
-    {
-        double values[] = new double[nButtons];
-        for(int i = 0; i < nButtons; i++)
-            values[i] = new Random().nextDouble() * (threshold * 3);
-        setValues(values);
+        if (isInEditMode()) initEditMode();
     }
 
     public NumberButtonView indexToButton(int i)
@@ -109,6 +92,14 @@ public class NumberPanelView extends LinearLayout
         int position = i;
         if (getCheckmarkOrder() == RIGHT_TO_LEFT) position = nButtons - i - 1;
         return (NumberButtonView) getChildAt(position);
+    }
+
+    public void initEditMode()
+    {
+        double values[] = new double[nButtons];
+        for (int i = 0; i < nButtons; i++)
+            values[i] = new Random().nextDouble() * (threshold * 3);
+        setValues(values);
     }
 
     @Override
@@ -134,27 +125,32 @@ public class NumberPanelView extends LinearLayout
         setupButtons();
     }
 
-    public void setController(Controller controller)
-    {
-        this.controller = controller;
-        setupButtons();
-    }
-
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
         setupButtons();
     }
 
-    public void setHabit(@NonNull Habit habit)
+    public void setOnInvalidEditListener(
+        @NonNull OnInvalidEditListener onInvalidEditListener)
     {
-        this.habit = habit;
-        setupButtons();
+        this.onInvalidEditListener = onInvalidEditListener;
+    }
+
+    public void setOnEditListener(OnEditListener onEditListener)
+    {
+        this.onEditListener = onEditListener;
     }
 
     public void setThreshold(double threshold)
     {
         this.threshold = threshold;
+        setupButtons();
+    }
+
+    public void setUnit(String unit)
+    {
+        this.unit = unit;
         setupButtons();
     }
 
@@ -196,7 +192,6 @@ public class NumberPanelView extends LinearLayout
     private void addButtons()
     {
         removeAllViews();
-
         for (int i = 0; i < nButtons; i++)
             addView(new NumberButtonView(getContext()));
     }
@@ -218,23 +213,19 @@ public class NumberPanelView extends LinearLayout
 
         setWillNotDraw(false);
         values = new double[0];
+
+        onInvalidEditListener = () -> {};
+        onEditListener = (t) -> {};
     }
 
     private void setupButtonControllers(long timestamp,
                                         NumberButtonView buttonView)
     {
-        if (controller == null) return;
-        if (!(getContext() instanceof HabitsActivity)) return;
+        buttonView.setOnEditListener(
+            () -> onEditListener.onEdit(timestamp));
 
-        HabitsActivity activity = (HabitsActivity) getContext();
-        NumberButtonControllerFactory buttonControllerFactory = activity
-            .getActivityComponent()
-            .getNumberButtonControllerFactory();
-
-        NumberButtonController buttonController =
-            buttonControllerFactory.create(habit, timestamp);
-        buttonController.setListener(controller);
-        buttonView.setController(buttonController);
+        buttonView.setOnInvalidEditListener(
+            () -> onInvalidEditListener.onInvalidEdit());
     }
 
     private void setupButtons()
@@ -256,7 +247,13 @@ public class NumberPanelView extends LinearLayout
         }
     }
 
-    public interface Controller extends NumberButtonController.Listener
+    public interface OnInvalidEditListener
     {
+        void onInvalidEdit();
+    }
+
+    public interface OnEditListener
+    {
+        void onEdit(long timestamp);
     }
 }

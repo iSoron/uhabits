@@ -22,7 +22,7 @@ package org.isoron.uhabits.activities.habits.list;
 import android.os.*;
 
 import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;

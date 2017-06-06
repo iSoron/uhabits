@@ -28,8 +28,6 @@ import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.mockito.Mockito.mock;
-
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class HabitCardViewTest extends BaseViewTest
@@ -37,8 +35,6 @@ public class HabitCardViewTest extends BaseViewTest
     private HabitCardView view;
 
     public static final String PATH = "habits/list/HabitCardView/";
-
-    private HabitCardView.Controller controller;
 
     private Habit habit;
 
@@ -55,14 +51,11 @@ public class HabitCardViewTest extends BaseViewTest
         long day = DateUtils.millisecondsInOneDay;
         int[] values = checkmarks.getValues(today - 5 * day, today);
 
-        controller = mock(HabitCardView.Controller.class);
-
         view = new HabitCardView(targetContext);
         view.setHabit(habit);
         view.setValues(values);
         view.setSelected(false);
         view.setScore(habit.getScores().getTodayValue());
-        view.setController(controller);
         view.setButtonCount(6);
         measureView(view, dpToPixels(400), dpToPixels(50));
     }

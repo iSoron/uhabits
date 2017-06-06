@@ -23,14 +23,12 @@ import android.support.test.filters.*;
 import android.support.test.runner.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -40,7 +38,6 @@ public class NumberButtonViewTest extends BaseViewTest
 
     private NumberButtonView view;
 
-    private NumberButtonController controller;
 
     @Override
     @Before
@@ -54,9 +51,6 @@ public class NumberButtonViewTest extends BaseViewTest
         view.setColor(PaletteUtils.getAndroidTestColor(8));
 
         measureView(view, dpToPixels(48), dpToPixels(48));
-
-        controller = mock(NumberButtonController.class);
-        view.setController(controller);
     }
 
     @Test
@@ -97,15 +91,5 @@ public class NumberButtonViewTest extends BaseViewTest
     {
         view.setValue(0);
         assertRenders(view, PATH + "render_zero.png");
-    }
-
-    @Test
-    public void test_click()
-    {
-        view.performClick();
-        verify(controller).onClick();
-
-        view.performLongClick();
-        verify(controller).onLongClick();
     }
 }

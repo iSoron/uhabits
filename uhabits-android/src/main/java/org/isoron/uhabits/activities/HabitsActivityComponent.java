@@ -24,10 +24,10 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.about.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.list.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
+import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.activities.habits.show.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 
 import dagger.*;
 
@@ -46,13 +46,11 @@ public interface HabitsActivityComponent
 
     AboutScreen getAboutScreen();
 
-    BaseActivity getActivity();
-
-    CheckmarkButtonControllerFactory getCheckmarkButtonControllerFactory();
-
     ColorPickerDialogFactory getColorPickerDialogFactory();
 
     HabitCardListAdapter getHabitCardListAdapter();
+
+    ListHabitsBehavior getListHabitsBehavior();
 
     ListHabitsController getListHabitsController();
 
@@ -63,8 +61,6 @@ public interface HabitsActivityComponent
     ListHabitsScreen getListHabitsScreen();
 
     ListHabitsSelectionMenu getListHabitsSelectionMenu();
-
-    NumberButtonControllerFactory getNumberButtonControllerFactory();
 
     ShowHabitScreen getShowHabitScreen();
 

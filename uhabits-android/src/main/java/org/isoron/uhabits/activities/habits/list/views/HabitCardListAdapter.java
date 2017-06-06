@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.list.model;
+package org.isoron.uhabits.activities.habits.list.views;
 
 import android.support.annotation.*;
 import android.support.v7.widget.*;
@@ -25,7 +25,6 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.activities.habits.list.*;
-import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;

@@ -57,7 +57,6 @@ public class CheckmarkPanelViewTest extends BaseViewTest
                 Checkmark.CHECKED_IMPLICITLY, Checkmark.CHECKED_EXPLICITLY};
 
         view = new CheckmarkPanelView(targetContext);
-        view.setHabit(habit);
         view.setValues(checkmarks);
         view.setButtonCount(4);
         view.setColor(PaletteUtils.getAndroidTestColor(7));

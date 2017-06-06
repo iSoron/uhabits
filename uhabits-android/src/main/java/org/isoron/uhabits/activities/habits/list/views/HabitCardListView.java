@@ -28,8 +28,6 @@ import android.util.*;
 import android.view.*;
 
 import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
-import org.isoron.uhabits.activities.habits.list.model.*;
 import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
@@ -39,7 +37,7 @@ public class HabitCardListView extends RecyclerView
     @Nullable
     private HabitCardListAdapter adapter;
 
-    @Nullable
+    @NonNull
     private Controller controller;
 
     private final ItemTouchHelper touchHelper;
@@ -62,6 +60,7 @@ public class HabitCardListView extends RecyclerView
         touchHelper.attachToRecyclerView(this);
 
         attachedHolders = new LinkedList<>();
+        controller = new Controller() {};
     }
 
     public void attachCardView(HabitCardViewHolder holder)
@@ -97,7 +96,7 @@ public class HabitCardListView extends RecyclerView
         cardView.setScore(score);
         cardView.setUnit(habit.getUnit());
         cardView.setThreshold(habit.getTargetValue());
-        if (controller != null) setupCardViewController(holder);
+        setupCardViewListeners(holder);
         return cardView;
     }
 
@@ -123,7 +122,7 @@ public class HabitCardListView extends RecyclerView
         this.checkmarkCount = checkmarkCount;
     }
 
-    public void setController(@Nullable Controller controller)
+    public void setController(@NonNull Controller controller)
     {
         this.controller = controller;
     }
@@ -175,13 +174,15 @@ public class HabitCardListView extends RecyclerView
         return new BundleSavedState(superState, bundle);
     }
 
-    protected void setupCardViewController(@NonNull HabitCardViewHolder holder)
+    protected void setupCardViewListeners(@NonNull HabitCardViewHolder holder)
     {
         HabitCardView cardView = (HabitCardView) holder.itemView;
-        HabitCardController cardController = new HabitCardController();
-        cardController.setListener(controller);
-        cardView.setController(cardController);
-        cardController.setView(cardView);
+        cardView.setOnInvalidEditListener(() -> controller.onInvalidEdit());
+        cardView.setOnInvalidToggleListener(() -> controller.onInvalidToggle());
+        cardView.setOnToggleListener(
+            (habit, timestamp) -> controller.onToggle(habit, timestamp));
+        cardView.setOnEditListener(
+            (habit, timestamp) -> controller.onEdit(habit, timestamp));
 
         GestureDetector detector = new GestureDetector(getContext(),
             new CardViewGestureDetector(holder));
@@ -193,15 +194,22 @@ public class HabitCardListView extends RecyclerView
     }
 
     public interface Controller
-        extends CheckmarkButtonController.Listener, HabitCardController.Listener
     {
-        void drop(int from, int to);
+        default void drop(int from, int to) {}
 
-        void onItemClick(int pos);
+        default void onItemClick(int pos) {}
 
-        void onItemLongClick(int pos);
+        default void onItemLongClick(int pos) {}
 
-        void startDrag(int position);
+        default void startDrag(int position) {}
+
+        default void onInvalidToggle() {}
+
+        default void onInvalidEdit() {}
+
+        default void onToggle(@NonNull Habit habit, long timestamp) {}
+
+        default void onEdit(@NonNull Habit habit, long timestamp) {}
     }
 
     private class CardViewGestureDetector

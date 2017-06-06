@@ -38,15 +38,16 @@ import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
-import static android.view.ViewGroup.LayoutParams.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION_CODES.M;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
 
 public class HabitCardView extends FrameLayout
     implements ModelObservable.Listener
 {
-
     private static final String EDIT_MODE_HABITS[] = {
         "Wake up early",
         "Wash dishes",
@@ -76,6 +77,18 @@ public class HabitCardView extends FrameLayout
 
     private int dataOffset;
 
+    @NonNull
+    OnInvalidEditListener onInvalidEditListener;
+
+    @NonNull
+    OnEditListener onEditListener;
+
+    @NonNull
+    private OnToggleListener onToggleListener;
+
+    @NonNull
+    private OnInvalidToggleListener onInvalidToggleListener;
+
     public HabitCardView(Context context)
     {
         super(context);
@@ -100,15 +113,6 @@ public class HabitCardView extends FrameLayout
         numberPanel.setButtonCount(buttonCount);
     }
 
-    public void setController(Controller controller)
-    {
-        checkmarkPanel.setController(null);
-        numberPanel.setController(null);
-        if (controller == null) return;
-        checkmarkPanel.setController(controller);
-        numberPanel.setController(controller);
-    }
-
     public void setDataOffset(int dataOffset)
     {
         this.dataOffset = dataOffset;
@@ -119,11 +123,7 @@ public class HabitCardView extends FrameLayout
     public void setHabit(@NonNull Habit habit)
     {
         if (isAttachedToWindow()) stopListening();
-
         this.habit = habit;
-        checkmarkPanel.setHabit(habit);
-        numberPanel.setHabit(habit);
-
         refresh();
         if (isAttachedToWindow()) startListening();
         postInvalidate();
@@ -214,9 +214,25 @@ public class HabitCardView extends FrameLayout
         initScoreRing();
         initLabel();
 
+        onInvalidEditListener = () -> {};
+        onInvalidToggleListener = () -> {};
+        onEditListener = ((h, t) -> {});
+        onToggleListener = ((h,t) -> {});
+
         checkmarkPanel = new CheckmarkPanelView(context);
+        checkmarkPanel.setOnToggleLister(
+            (t) -> onToggleListener.onToggle(habit, t));
+        checkmarkPanel.setOnInvalidToggleListener(
+            () -> onInvalidToggleListener.onInvalidToggle());
+
         numberPanel = new NumberPanelView(context);
         numberPanel.setVisibility(GONE);
+        numberPanel.setOnInvalidEditListener(() ->
+            onInvalidEditListener.onInvalidEdit());
+        numberPanel.setOnEditListener(((t) -> {
+             triggerRipple(t);
+             onEditListener.onEdit(habit, t);
+         }));
 
         innerFrame.addView(scoreRing);
         innerFrame.addView(label);
@@ -346,9 +362,45 @@ public class HabitCardView extends FrameLayout
         }
     }
 
-    public interface Controller
-        extends CheckmarkPanelView.Controller, NumberPanelView.Controller
+    public void setOnEditListener(@NonNull OnEditListener onEditListener)
     {
+        this.onEditListener = onEditListener;
+    }
 
+    public void setOnInvalidEditListener(
+        @NonNull OnInvalidEditListener onInvalidEditListener)
+    {
+        this.onInvalidEditListener = onInvalidEditListener;
+    }
+
+    public void setOnToggleListener(@NonNull OnToggleListener onToggleListener)
+    {
+        this.onToggleListener = onToggleListener;
+    }
+
+    public void setOnInvalidToggleListener(
+        @NonNull OnInvalidToggleListener onInvalidToggleListener)
+    {
+        this.onInvalidToggleListener = onInvalidToggleListener;
+    }
+
+    public interface OnEditListener
+    {
+        void onEdit(@NonNull Habit habit, long timestamp);
+    }
+
+    public interface OnInvalidEditListener
+    {
+        void onInvalidEdit();
+    }
+
+    public interface OnInvalidToggleListener
+    {
+        void onInvalidToggle();
+    }
+
+    public interface OnToggleListener
+    {
+        void onToggle(@NonNull Habit habit, long timestamp);
     }
 }

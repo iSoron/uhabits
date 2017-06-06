@@ -28,15 +28,18 @@ import android.view.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.list.controllers.*;
+import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 
-import static org.isoron.uhabits.utils.AttributeSetUtils.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.uhabits.utils.AttributeSetUtils.getAttribute;
+import static org.isoron.uhabits.utils.AttributeSetUtils.getIntAttribute;
 
-public class NumberButtonView extends View
+public class NumberButtonView extends View implements View.OnClickListener,
+                                                      View.OnLongClickListener
 {
     private static Typeface BOLD_TYPEFACE =
         Typeface.create("sans-serif-condensed", Typeface.BOLD);
@@ -64,6 +67,15 @@ public class NumberButtonView extends View
 
     private int darkGrey;
 
+    @NonNull
+    private OnEditListener onEditListener;
+
+    @NonNull
+    private OnInvalidEditListener onInvalidEditListener;
+
+    @Nullable
+    private Preferences prefs;
+
     public NumberButtonView(@Nullable Context context)
     {
         super(context);
@@ -88,10 +100,6 @@ public class NumberButtonView extends View
         }
     }
 
-    /**
-     * @param v
-     * @return
-     */
     public static String formatValue(double v)
     {
         if (v >= 1e9) return String.format("%.1fG", v / 1e9);
@@ -106,20 +114,25 @@ public class NumberButtonView extends View
         return new DecimalFormat("#.##").format(v);
     }
 
+    @Override
+    public void onClick(View v)
+    {
+        if(prefs == null) return;
+        if (prefs.isShortToggleEnabled()) onEditListener.onEdit();
+        else onInvalidEditListener.onInvalidEdit();
+    }
+
+    @Override
+    public boolean onLongClick(View v)
+    {
+        onEditListener.onEdit();
+        return true;
+    }
+
     public void setColor(int color)
     {
         this.color = color;
         postInvalidate();
-    }
-
-    public void setController(@NonNull NumberButtonController controller)
-    {
-        setOnClickListener(v -> controller.onClick());
-        setOnLongClickListener(v ->
-        {
-            controller.onLongClick();
-            return true;
-        });
     }
 
     public void setThreshold(double threshold)
@@ -138,6 +151,17 @@ public class NumberButtonView extends View
     {
         this.value = value;
         postInvalidate();
+    }
+
+    public void setOnEditListener(@NonNull OnEditListener onEditListener)
+    {
+        this.onEditListener = onEditListener;
+    }
+
+    public void setOnInvalidEditListener(
+        @NonNull OnInvalidEditListener onInvalidEditListener)
+    {
+        this.onInvalidEditListener = onInvalidEditListener;
     }
 
     @Override
@@ -188,5 +212,28 @@ public class NumberButtonView extends View
         em = pBold.measureText("m");
         lightGrey = sr.getColor(R.attr.lowContrastTextColor);
         darkGrey = sr.getColor(R.attr.mediumContrastTextColor);
+
+        onEditListener = () -> {};
+        onInvalidEditListener = () -> {};
+
+        setOnClickListener(this);
+        setOnLongClickListener(this);
+
+        if(getContext() instanceof HabitsActivity)
+        {
+            HabitsApplicationComponent component =
+                ((HabitsActivity) getContext()).getAppComponent();
+            prefs = component.getPreferences();
+        }
+    }
+
+    public interface OnEditListener
+    {
+        void onEdit();
+    }
+
+    public interface OnInvalidEditListener
+    {
+        void onInvalidEdit();
     }
 }
