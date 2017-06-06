@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Vios teisės saugomos (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ Ši byla yra Loop Habit Tracker dalis.
+  ~
+  ~ Loop Habit Tracker yra nemokam programa: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">Loop Habit Tracker</string>
+    <string name="main_activity_title">Įpročiai</string>
+    <string name="action_settings">Nustatymai</string>
+    <string name="edit">Redaguoti</string>
+    <string name="delete">Ištrinti</string>
+    <string name="archive">Archyvas</string>
+    <string name="unarchive">Išarchyvuoti</string>
+    <string name="add_habit">Pridėti įprotį</string>
+    <string name="color_picker_default_title">Pakeisti spalvą</string>
+
+    <string name="toast_habit_created">Įprotis sukurtas.</string>
+    <string name="toast_habit_deleted">Įpročiai ištrinti.</string>
+    <string name="toast_habit_restored">Įpročiai įrašyti.</string>
+    <string name="toast_nothing_to_undo">Nieko neanuliuoti.</string>
+    <string name="toast_nothing_to_redo">Nieko neperdaryti.</string>
+    <string name="toast_habit_changed">Įprotis pasikeitė.</string>
+    <string name="toast_habit_changed_back">Įprotis grįžo atgal.</string>
+    <string name="toast_habit_archived">Įpročiai suarchyvuoti.</string>
+    <string name="toast_habit_unarchived">Įpročiai išarchyvuoti.</string>
+
+    <string name="title_activity_show_habit" translatable="false"/>
+    <string name="overview">apžvalga</string>
+    <string name="habit_strength">Įpročio stiprumas</string>
+    <string name="history">Istorija</string>
+    <string name="clear">Išvalyti</string>
+    <string name="description_hint">Klausimas (Ar tu … šiandien?)</string>
+    <string name="repeat">Pakartoti</string>
+    <string name="times_every">Kartus per</string>
+    <string name="days">dienos</string>
+    <string name="reminder">Priminimas</string>
+    <string name="discard">Išmesti</string>
+    <string name="save">Išsaugoti</string>
+    <string name="streaks">laikotarpiai</string>
+    <string name="no_habits_found">Jūs neturite aktyvių įpročių</string>
+    <string name="long_press_to_toggle">Spauskite ir laikykite, kad pažymėti arba atžymėti</string>
+    <string name="reminder_off">Išjungta</string>
+    <string name="validation_name_should_not_be_blank">Pavadinimas negali būti tuščias.</string>
+    <string name="validation_number_should_be_positive">Skaičius turi būti tegiamas.</string>
+    <string name="validation_at_most_one_rep_per_day">Galite turėti daugiausiai vieną pakartojimą per dieną</string>
+    <string name="create_habit">Sukurti įprotį</string>
+    <string name="edit_habit">Redaguoti įprotį</string>
+    <string name="check">Pažymėti</string>
+    <string name="snooze">Vėliau</string>
+
+    <!-- App introduction -->
+    <string name="intro_title_1">Sveiki</string>
+    <string name="intro_description_1">Loop Habit Tracker padeda Jums sukurti ir palaikyti gerus įpročius.</string>
+
+    <string name="intro_title_2">Sukurkite naujų įpročių</string>
+    <string name="intro_description_2">kiekvieną dieną, Po įpročio atlikimo, uždėkite varnelę programoje.</string>
+
+    <string name="intro_title_3">Darykite tai ir toliau</string>
+    <string name="intro_description_3">Įpročiai atliekaminuosekliai ilgą laiką uždirbs pilną žvaigždę programoje.</string>
+
+    <string name="intro_title_4">Sekite savo progresą</string>
+    <string name="intro_description_4">Detalūs grafikai rodo Jums kaip keitėsi Jūsų įpročiai.</string>
+
+    <string name="interval_15_minutes">15 minučių</string>
+    <string name="interval_30_minutes">30 minučių</string>
+    <string name="interval_1_hour">1 valanda</string>
+    <string name="interval_2_hour">2 valandos</string>
+    <string name="interval_4_hour">4 valandos</string>
+    <string name="interval_8_hour">8 valandos</string>
+    <string name="pref_toggle_title">Pasirinkite trumpu paspaudimu</string>
+    <string name="pref_toggle_description">Uždėkite varneles vienu spustelėjimu vietoj pasaudimo ir palaikymo. Labiau patogu, bet gali būti netyčinių paspaudimų.</string>
+    <string name="pref_snooze_interval_title">Snaudimo intervalai per priminimus</string>
+    <string name="pref_rate_this_app">Įvertinkite šią programą Google Play parduotuvėje</string>
+    <string name="pref_send_feedback">Nusiųskite atgalinį ryšį programuotojui</string>
+    <string name="pref_view_source_code">Peržiūrėkite išeities kodą GitHub puslapyje</string>
+    <string name="pref_view_app_introduction">Peržiūrėti programos pristatymą</string>
+    <string name="links">Nuorodos</string>
+    <string name="behavior">Veiksena</string>
+    <string name="name">vardas</string>
+    <string name="show_archived">Peržiūrėti suarcgyvuotus</string>
+    <string name="settings">Nustatymai</string>
+    <string name="snooze_interval">Snaudimo intervalas</string>
+
+    <string name="hint_title">Ar žinojote kad?</string>
+    <string name="hint_drag">Kad pertvarkyti įrašus, Paspauskite ir laikykite ant įpročio pavadinimo, tada tempkite į norimą vietą.</string>
+    <string name="hint_landscape">Jūs galite pamatyti daugiau dienų paversdami savo telefoną į horizontalią padėtį.</string>
+    <string name="delete_habits">Ištrinti įrašus</string>
+    <string name="delete_habits_message">Įpročiai bus negrįžtamai ištrinti. Šis veiksmas nesugražinamas atgal.</string>
+    <string name="weekends">Savaitgaliai</string>
+    <string name="any_weekday">Nuo pirmadienio iki penktadienio</string>
+    <string name="any_day">Bet kuri savaitės diena</string>
+    <string name="select_weekdays">Pasirinkite dienas</string>
+    <string name="export_to_csv">Eksportuoti kaip CSV</string>
+
+    <string name="done_label">Atlikta</string>
+    <string name="clear_label">Švaru</string>
+    <string name="select_hours">Pasirinkite valandas</string>
+    <string name="select_minutes">Pasirinkite minutes</string>
+
+    <string-array name="hints">
+        <item>@string/hint_drag</item>
+        <item>@string/hint_landscape</item>
+    </string-array>
+
+    <string name="about">Apie</string>
+    <string name="translators">Vertėjai</string>
+    <string name="developers">Programuotojai</string>
+    <string name="version_n">Versija %s</string>
+    <string name="frequency">Dažnumas</string>
+    <string name="checkmark">varnelė</string>
+
+    <string name="strength">Stiprumas</string>
+    <string name="best_streaks">Geriausi laikotarpiai</string>
+    <string name="current_streaks">Dabartinis laikotarpis</string>
+
+    <string name="number_of_repetitions">Repeticijų skaičius</string>
+    <string name="last_x_days">Paskutines %d dienas</string>
+    <string name="last_x_weeks">Paskutines %d savaites</string>
+    <string name="last_x_months">Paskutinius %d mėnesius</string>
+    <string name="last_x_years">Paskutinius %d metus</string>
+    <string name="all_time">Visą laiką</string>
+
+    <string name="every_day">Kiekvieną dieną</string>
+    <string name="every_week">kiekvieną savaitę</string>
+    <string name="two_times_per_week">2 kartus per savaitę</string>
+    <string name="five_times_per_week">5 kartus per savaitę</string>
+
+    <string name="custom_frequency">Tinkinta …</string>
+    <string name="help">Help &amp; DUK</string>
+    <string name="could_not_export">Nepavyko eksportuoti duomenų.</string>
+    <string name="could_not_import">Nepavyko importuoti duomenų.</string>
+    <string name="file_not_recognized">Byla neatpažinta.</string>
+    <string name="habits_imported">Įpročiai importuoti sėkmingai.</string>
+    <string name="full_backup_success">Pilna atsarginė kopija sėkmingai eksportuota.</string>
+    <string name="import_data">Importuoti duomenis</string>
+    <string name="export_full_backup">Eksportuoti pilną atsarginę kopiją</string>
+    <string name="import_data_summary">Palaiko pilnas atsargines kopijas eksportuotas šia programa, aip pat bylas sugeneruotas su Tickmate, HabitBull ar Rewire. Daugiau informacijos DUK skiltyje.</string>
+    <string name="export_as_csv_summary">Sugeneruoja failus, kurie gali būti atidaryti su skaičiuoklių programomis, pavyzdžiui Microsoft Excel ar OpenOffice Calc. Ši byla negali būti importuota atgal į programą.</string>
+    <string name="export_full_backup_summary">Sugeneruoja bylą, kurioje laikoma visa informacija. Ši byla gali būti importuota atgal.</string>
+    <string name="bug_report_failed">Nepavyko sugeneruoti klaidos raporto.</string>
+    <string name="generate_bug_report">Sugeneruoti klaidos raportą</string>
+    <string name="troubleshooting">Trikčių diagnostika ir šalinimas</string>
+    <string name="help_translate">Padėkite išversti šią programą</string>
+    <string name="night_mode">Naktinis rėžimas</string>
+    <string name="use_pure_black">Gryna juoda naktiniam rėžimui</string>
+    <string name="pure_black_description">Naudokite gryną juodą vietoj pilko fono naktiniame rėžime. Sumažina baterijos sąnaudas telefonuose su AMOLED ekranais.</string>
+    <string name="interface_preferences">Interface</string>
+
+    <string name="day">Diena</string>
+    <string name="week">Savaitė</string>
