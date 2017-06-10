@@ -25,11 +25,11 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.ui.*;
-import org.isoron.uhabits.core.utils.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.utils.DateUtils.*;
+import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
+import static org.isoron.uhabits.core.utils.DateUtils.getLocalTime;
 
 @ReceiverScope
 public class ReminderController

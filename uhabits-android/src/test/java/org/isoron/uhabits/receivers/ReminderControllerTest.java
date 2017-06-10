@@ -66,12 +66,13 @@ public class ReminderControllerTest extends BaseAndroidUnitTest
     {
         Habit habit = mock(Habit.class);
         long now = timestamp(2015, 1, 1);
+        long nowTz = DateUtils.applyTimezone(now);
         DateUtils.setFixedLocalTime(now);
         when(preferences.getSnoozeInterval()).thenReturn(15L);
 
         controller.onSnooze(habit);
 
-        verify(reminderScheduler).schedule(habit, now + 900000);
+        verify(reminderScheduler).schedule(habit, nowTz + 900000);
         verify(notificationTray).cancel(habit);
     }
 
