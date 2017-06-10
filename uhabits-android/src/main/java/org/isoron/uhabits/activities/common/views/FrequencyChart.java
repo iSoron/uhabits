@@ -258,7 +258,7 @@ public class FrequencyChart extends ScrollableChart
         float scale = 1.0f/maxFreq * value;
         float radius = maxRadius * scale;
 
-        int colorIndex = Math.round((colors.length-1) * scale);
+        int colorIndex = Math.min(colors.length - 1, Math.round((colors.length - 1) * scale));
         pGraph.setColor(colors[colorIndex]);
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph);
     }

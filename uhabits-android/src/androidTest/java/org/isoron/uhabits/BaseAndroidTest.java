@@ -71,7 +71,8 @@ public class BaseAndroidTest extends TestCase
 
     protected ModelFactory modelFactory;
 
-    @Override
+    private boolean isDone = false;
+
     @Before
     public void setUp()
     {
@@ -135,6 +136,25 @@ public class BaseAndroidTest extends TestCase
         dm.density = r;
         dm.scaledDensity = r;
         InterfaceUtils.setFixedResolution(r);
+    }
+
+    protected void runConcurrently(Runnable... runnableList) throws Exception
+    {
+        isDone = false;
+        ExecutorService executor = Executors.newFixedThreadPool(100);
+        List<Future> futures = new LinkedList<>();
+        for (Runnable r : runnableList)
+            futures.add(executor.submit(() ->
+            {
+                while (!isDone) r.run();
+                return null;
+            }));
+
+        Thread.sleep(3000);
+        isDone = true;
+        executor.shutdown();
+        for(Future f : futures) f.get();
+        while (!executor.isTerminated()) Thread.sleep(50);
     }
 
     protected void setTheme(@StyleRes int themeId)
