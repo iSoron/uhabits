@@ -28,6 +28,8 @@ import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
 
+import static org.isoron.uhabits.utils.DateUtils.*;
+
 @ReceiverScope
 public class ReminderController
 {
@@ -66,7 +68,7 @@ public class ReminderController
     {
         long snoozeInterval = preferences.getSnoozeInterval();
 
-        long now = DateUtils.getLocalTime();
+        long now = applyTimezone(getLocalTime());
         long reminderTime = now + snoozeInterval * 60 * 1000;
 
         reminderScheduler.schedule(habit, reminderTime);
