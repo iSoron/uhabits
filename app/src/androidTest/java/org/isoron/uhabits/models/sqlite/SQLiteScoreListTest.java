@@ -62,29 +62,6 @@ public class SQLiteScoreListTest extends BaseAndroidTest
     }
 
     @Test
-    public void testGetAll()
-    {
-        List<Score> list = scores.toList();
-        assertThat(list.size(), equalTo(121));
-        assertThat(list.get(0).getTimestamp(), equalTo(today));
-        assertThat(list.get(10).getTimestamp(), equalTo(today - 10 * day));
-    }
-
-    @Test
-    public void testInvalidateNewerThan()
-    {
-        scores.getTodayValue(); // force recompute
-        List<ScoreRecord> records = getAllRecords();
-        assertThat(records.size(), equalTo(121));
-
-        scores.invalidateNewerThan(today - 10 * day);
-
-        records = getAllRecords();
-        assertThat(records.size(), equalTo(110));
-        assertThat(records.get(0).timestamp, equalTo(today - 11 * day));
-    }
-
-    @Test
     public void testAdd()
     {
         new Delete().from(ScoreRecord.class).execute();
@@ -102,6 +79,15 @@ public class SQLiteScoreListTest extends BaseAndroidTest
     }
 
     @Test
+    public void testGetAll()
+    {
+        List<Score> list = scores.toList();
+        assertThat(list.size(), equalTo(121));
+        assertThat(list.get(0).getTimestamp(), equalTo(today));
+        assertThat(list.get(10).getTimestamp(), equalTo(today - 10 * day));
+    }
+
+    @Test
     public void testGetByInterval()
     {
         long from = today - 10 * day;
@@ -116,6 +102,16 @@ public class SQLiteScoreListTest extends BaseAndroidTest
     }
 
     @Test
+    public void testGetByInterval_concurrent() throws Exception
+    {
+        Runnable block1 = () -> scores.invalidateNewerThan(0);
+        Runnable block2 =
+            () -> assertThat(scores.getByInterval(today, today).size(),
+                equalTo(1));
+        runConcurrently(block1, block2);
+    }
+
+    @Test
     public void testGetByInterval_withLongInterval()
     {
         long from = today - 200 * day;
@@ -123,6 +119,30 @@ public class SQLiteScoreListTest extends BaseAndroidTest
 
         List<Score> list = scores.getByInterval(from, to);
         assertThat(list.size(), equalTo(201));
+    }
+
+    @Test
+    public void testGetTodayValue_concurrent() throws Exception
+    {
+        Runnable block1 = () -> scores.invalidateNewerThan(0);
+        Runnable block2 =
+            () -> assertThat(scores.getTodayValue(), equalTo(18407827));
+
+        runConcurrently(block1, block2);
+    }
+
+    @Test
+    public void testInvalidateNewerThan()
+    {
+        scores.getTodayValue(); // force recompute
+        List<ScoreRecord> records = getAllRecords();
+        assertThat(records.size(), equalTo(121));
+
+        scores.invalidateNewerThan(today - 10 * day);
+
+        records = getAllRecords();
+        assertThat(records.size(), equalTo(110));
+        assertThat(records.get(0).timestamp, equalTo(today - 11 * day));
     }
 
     private List<ScoreRecord> getAllRecords()

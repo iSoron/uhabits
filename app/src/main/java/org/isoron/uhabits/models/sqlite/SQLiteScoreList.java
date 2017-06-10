@@ -100,7 +100,8 @@ public class SQLiteScoreList extends ScoreList
 
     @NonNull
     @Override
-    public List<Score> getByInterval(long fromTimestamp, long toTimestamp)
+    public synchronized List<Score> getByInterval(long fromTimestamp,
+                                                  long toTimestamp)
     {
         check(habit.getId());
         compute(fromTimestamp, toTimestamp);
@@ -137,7 +138,7 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
-    public int getTodayValue()
+    public synchronized int getTodayValue()
     {
         if (cache == null || cache.expired())
             cache = new CachedData(super.getTodayValue());
@@ -146,7 +147,7 @@ public class SQLiteScoreList extends ScoreList
     }
 
     @Override
-    public void invalidateNewerThan(long timestamp)
+    public synchronized void invalidateNewerThan(long timestamp)
     {
         cache = null;
         invalidateStatement.bindLong(1, habit.getId());
