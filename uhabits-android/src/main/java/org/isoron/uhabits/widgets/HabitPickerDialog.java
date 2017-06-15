@@ -86,6 +86,7 @@ public class HabitPickerDialog extends Activity
 
         for (Habit h : habitList)
         {
+            if (h.isArchived()) continue;
             habitIds.add(h.getId());
             habitNames.add(h.getName());
         }
