@@ -39,9 +39,9 @@ public class SQLModelFactory implements ModelFactory
 
     @Provides
     @AppScope
-    public static HabitList provideHabitList()
+    public static HabitList provideHabitList(ModelFactory modelFactory)
     {
-        return SQLiteHabitList.getInstance(provideModelFactory());
+        return new SQLiteHabitList(modelFactory);
     }
 
     @Override

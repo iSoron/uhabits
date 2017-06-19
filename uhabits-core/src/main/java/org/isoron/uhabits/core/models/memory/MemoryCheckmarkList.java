@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.models.memory;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
@@ -60,8 +61,10 @@ public class MemoryCheckmarkList extends CheckmarkList
         Checkmark oldest = getOldestComputed();
         if(newest != null) newestTimestamp = newest.getTimestamp();
         if(oldest != null) oldestTimestamp = oldest.getTimestamp();
+        long days = (newestTimestamp - oldestTimestamp) /
+                   DateUtils.millisecondsInOneDay;
 
-        List<Checkmark> filtered = new LinkedList<>();
+        List<Checkmark> filtered = new ArrayList<>((int) days);
         for(long time = toTimestamp; time >= fromTimestamp; time -= millisecondsInOneDay)
         {
             if(time > newestTimestamp || time < oldestTimestamp)

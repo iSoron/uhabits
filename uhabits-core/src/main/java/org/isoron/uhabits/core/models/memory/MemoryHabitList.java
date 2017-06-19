@@ -25,7 +25,10 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.core.models.HabitList.Order.*;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_COLOR;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_NAME;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_POSITION;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_SCORE;
 
 /**
  * In-memory implementation of {@link HabitList}.
@@ -55,7 +58,8 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public void add(@NonNull Habit habit) throws IllegalArgumentException
+    public synchronized void add(@NonNull Habit habit)
+        throws IllegalArgumentException
     {
         if (list.contains(habit))
             throw new IllegalArgumentException("habit already added");
@@ -70,7 +74,7 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public Habit getById(long id)
+    public synchronized Habit getById(long id)
     {
         for (Habit h : list)
         {
@@ -82,14 +86,14 @@ public class MemoryHabitList extends HabitList
 
     @NonNull
     @Override
-    public Habit getByPosition(int position)
+    public synchronized Habit getByPosition(int position)
     {
         return list.get(position);
     }
 
     @NonNull
     @Override
-    public HabitList getFiltered(HabitMatcher matcher)
+    public synchronized HabitList getFiltered(HabitMatcher matcher)
     {
         MemoryHabitList habits = new MemoryHabitList(matcher);
         habits.comparator = comparator;
@@ -98,9 +102,17 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public Order getOrder()
+    public synchronized Order getOrder()
     {
         return order;
+    }
+
+    @Override
+    public synchronized void setOrder(@NonNull Order order)
+    {
+        this.order = order;
+        this.comparator = getComparatorByOrder(order);
+        resort();
     }
 
     @Override
@@ -116,25 +128,17 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public void remove(@NonNull Habit habit)
+    public synchronized void remove(@NonNull Habit habit)
     {
         list.remove(habit);
     }
 
     @Override
-    public void reorder(Habit from, Habit to)
+    public synchronized void reorder(Habit from, Habit to)
     {
         int toPos = indexOf(to);
         list.remove(from);
         list.add(toPos, from);
-    }
-
-    @Override
-    public void setOrder(@NonNull Order order)
-    {
-        this.order = order;
-        this.comparator = getComparatorByOrder(order);
-        resort();
     }
 
     @Override
@@ -154,14 +158,16 @@ public class MemoryHabitList extends HabitList
         Comparator<Habit> nameComparator =
             (h1, h2) -> h1.getName().compareTo(h2.getName());
 
-        Comparator<Habit> colorComparator = (h1, h2) -> {
+        Comparator<Habit> colorComparator = (h1, h2) ->
+        {
             Integer c1 = h1.getColor();
             Integer c2 = h2.getColor();
             if (c1.equals(c2)) return nameComparator.compare(h1, h2);
             else return c1.compareTo(c2);
         };
 
-        Comparator<Habit> scoreComparator = (h1, h2) -> {
+        Comparator<Habit> scoreComparator = (h1, h2) ->
+        {
             double s1 = h1.getScores().getTodayValue();
             double s2 = h2.getScores().getTodayValue();
             return Double.compare(s2, s1);
@@ -174,7 +180,7 @@ public class MemoryHabitList extends HabitList
         throw new IllegalStateException();
     }
 
-    private void resort()
+    private synchronized void resort()
     {
         if (comparator != null) Collections.sort(list, comparator);
     }

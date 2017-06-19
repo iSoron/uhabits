@@ -30,12 +30,12 @@ import java.util.*;
  */
 public class MemoryRepetitionList extends RepetitionList
 {
-    LinkedList<Repetition> list;
+    ArrayList<Repetition> list;
 
     public MemoryRepetitionList(Habit habit)
     {
         super(habit);
-        list = new LinkedList<>();
+        list = new ArrayList<>();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MemoryRepetitionList extends RepetitionList
     @Override
     public List<Repetition> getByInterval(long fromTimestamp, long toTimestamp)
     {
-        LinkedList<Repetition> filtered = new LinkedList<>();
+        ArrayList<Repetition> filtered = new ArrayList<>();
 
         for (Repetition r : list)
         {
@@ -57,7 +57,7 @@ public class MemoryRepetitionList extends RepetitionList
         }
 
         Collections.sort(filtered,
-            (r1, r2) -> (int) (r1.getTimestamp() - r2.getTimestamp()));
+            (r1, r2) -> Long.compare(r1.getTimestamp(), r2.getTimestamp()));
 
         return filtered;
     }
@@ -121,5 +121,11 @@ public class MemoryRepetitionList extends RepetitionList
     public long getTotalCount()
     {
         return list.size();
+    }
+
+    @Override
+    public void removeAll()
+    {
+        list.clear();
     }
 }

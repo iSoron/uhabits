@@ -22,11 +22,12 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.query.*;
+import com.activeandroid.*;
+import com.google.common.collect.*;
 
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.models.sqlite.records.*;
 import org.junit.*;
 import org.junit.rules.*;
@@ -49,6 +50,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
     private ModelFactory modelFactory;
 
+    private SQLiteRepository<HabitRecord> repository;
+
     @Override
     public void setUp()
     {
@@ -57,6 +60,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         fixtures.purgeHabits(habitList);
 
         modelFactory = component.getModelFactory();
+        repository =
+            new SQLiteRepository<>(HabitRecord.class, Cache.openDatabase());
 
         for (int i = 0; i < 10; i++)
         {
@@ -68,8 +73,10 @@ public class SQLiteHabitListTest extends BaseAndroidTest
             HabitRecord record = new HabitRecord();
             record.copyFrom(h);
             record.position = i;
-            record.save(i);
+            repository.save(record);
         }
+
+        habitList.reload();
     }
 
     @Test
@@ -91,7 +98,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         habitList.add(habit);
         assertThat(habit.getId(), equalTo(12300L));
 
-        HabitRecord record = getRecord(12300L);
+        HabitRecord record = repository.find(12300L);
         assertNotNull(record);
         assertThat(record.name, equalTo(habit.getName()));
     }
@@ -106,7 +113,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         habitList.add(habit);
         assertNotNull(habit.getId());
 
-        HabitRecord record = getRecord(habit.getId());
+        HabitRecord record = repository.find(habit.getId());
         assertNotNull(record);
         assertThat(record.name, equalTo(habit.getName()));
     }
@@ -120,7 +127,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     @Test
     public void testGetAll_withArchived()
     {
-        List<Habit> habits = habitList.toList();
+        List<Habit> habits = Lists.newArrayList(habitList.iterator());
         assertThat(habits.size(), equalTo(10));
         assertThat(habits.get(3).getName(), equalTo("habit 3"));
     }
@@ -165,13 +172,5 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
         h2.setId(1000L);
         assertThat(habitList.indexOf(h2), equalTo(-1));
-    }
-
-    private HabitRecord getRecord(long id)
-    {
-        return new Select()
-            .from(HabitRecord.class)
-            .where("id = ?", id)
-            .executeSingle();
     }
 }

@@ -115,9 +115,8 @@ public class HabitFixtures
         return habit;
     }
 
-    public void purgeHabits(HabitList habitList)
+    public synchronized void purgeHabits(HabitList habitList)
     {
-        for (Habit h : habitList)
-            habitList.remove(h);
+        habitList.removeAll();
     }
 }
