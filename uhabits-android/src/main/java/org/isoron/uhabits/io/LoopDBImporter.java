@@ -25,8 +25,6 @@ import android.database.sqlite.*;
 import android.support.annotation.*;
 import android.util.*;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.BuildConfig;
@@ -89,9 +87,9 @@ public class LoopDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        ActiveAndroid.dispose();
+        DatabaseUtils.dispose();
         File originalDB = DatabaseUtils.getDatabaseFile(context);
         FileUtils.copy(file, originalDB);
-        DatabaseUtils.initializeActiveAndroid(context);
+        DatabaseUtils.initializeDatabase(context);
     }
 }

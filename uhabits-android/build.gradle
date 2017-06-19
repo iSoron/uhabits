@@ -64,7 +64,6 @@ dependencies {
     implementation 'com.github.paolorotolo:appintro:3.4.0'
     implementation 'com.google.dagger:dagger:2.9'
     implementation 'com.jakewharton:butterknife:8.6.1-SNAPSHOT'
-    implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     implementation 'org.apmem.tools:layouts:1.10'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.code.gson:gson:2.7'

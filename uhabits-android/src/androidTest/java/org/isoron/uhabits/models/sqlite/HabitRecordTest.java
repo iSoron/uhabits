@@ -22,12 +22,11 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -41,7 +40,7 @@ public class HabitRecordTest extends BaseAndroidTest
     private Habit habit;
 
     private SQLiteRepository<HabitRecord> sqlite =
-        new SQLiteRepository<>(HabitRecord.class, Cache.openDatabase());
+        new SQLiteRepository<>(HabitRecord.class, DatabaseUtils.openDatabase());
 
     @Before
     @Override

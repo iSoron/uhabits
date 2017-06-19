@@ -23,13 +23,12 @@ import android.support.annotation.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -63,7 +62,7 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
         today = DateUtils.getStartOfToday();
         day = DateUtils.millisecondsInOneDay;
         sqlite = new SQLiteRepository<>(RepetitionRecord.class,
-            Cache.openDatabase());
+            DatabaseUtils.openDatabase());
     }
 
     @Test

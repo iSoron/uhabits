@@ -22,12 +22,11 @@ package org.isoron.uhabits.models.sqlite;
 import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -58,7 +57,7 @@ public class SQLiteHabitList extends HabitList
         this.list = new MemoryHabitList();
 
         repository =
-            new SQLiteRepository<>(HabitRecord.class, Cache.openDatabase());
+            new SQLiteRepository<>(HabitRecord.class, DatabaseUtils.openDatabase());
     }
 
     private void loadRecords()
@@ -185,7 +184,7 @@ public class SQLiteHabitList extends HabitList
     {
         loadRecords();
         list.removeAll();
-        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteDatabase db = DatabaseUtils.openDatabase();
         db.execSQL("delete from habits");
         db.execSQL("delete from repetitions");
     }
@@ -206,7 +205,7 @@ public class SQLiteHabitList extends HabitList
 
         Integer fromPos = fromRecord.position;
         Integer toPos = toRecord.position;
-        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteDatabase db = DatabaseUtils.openDatabase();
         if (toPos < fromPos)
         {
             db.execSQL("update habits set position = position + 1 " +

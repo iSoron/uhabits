@@ -22,12 +22,11 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -47,7 +46,7 @@ public class SQLiteRepetitionList extends RepetitionList
     {
         super(habit);
         repository = new SQLiteRepository<>(RepetitionRecord.class,
-            Cache.openDatabase());
+            DatabaseUtils.openDatabase());
         list = new MemoryRepetitionList(habit);
     }
 

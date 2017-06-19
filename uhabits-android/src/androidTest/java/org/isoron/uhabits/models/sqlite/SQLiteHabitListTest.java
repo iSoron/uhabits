@@ -22,13 +22,13 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.*;
 import com.google.common.collect.*;
 
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.rules.*;
 import org.junit.runner.*;
@@ -61,7 +61,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
         modelFactory = component.getModelFactory();
         repository =
-            new SQLiteRepository<>(HabitRecord.class, Cache.openDatabase());
+            new SQLiteRepository<>(HabitRecord.class,
+                DatabaseUtils.openDatabase());
 
         for (int i = 0; i < 10; i++)
         {

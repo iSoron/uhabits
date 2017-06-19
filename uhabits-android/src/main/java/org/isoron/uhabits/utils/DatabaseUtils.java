@@ -20,33 +20,41 @@
 package org.isoron.uhabits.utils;
 
 import android.content.*;
+import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import com.activeandroid.*;
-
+import org.isoron.androidbase.storage.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.models.sqlite.*;
-import org.isoron.uhabits.models.sqlite.records.*;
-import org.isoron.uhabits.sync.*;
 
 import java.io.*;
 import java.text.*;
 
 public abstract class DatabaseUtils
 {
+    @Nullable
+    private static BaseSQLiteOpenHelper helper = null;
+
     public static void executeAsTransaction(Callback callback)
     {
-        ActiveAndroid.beginTransaction();
-        try
+        try (SQLiteDatabase db = openDatabase())
         {
-            callback.execute();
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally
-        {
-            ActiveAndroid.endTransaction();
+            db.beginTransaction();
+            try
+            {
+                callback.execute();
+                db.setTransactionSuccessful();
+            }
+            catch (Exception e)
+            {
+                throw new RuntimeException(e);
+            }
+            finally
+            {
+                db.endTransaction();
+            }
         }
     }
 
@@ -71,28 +79,24 @@ public abstract class DatabaseUtils
     }
 
     @SuppressWarnings("unchecked")
-    public static void initializeActiveAndroid(Context context)
+    public static void initializeDatabase(Context context)
     {
-        Configuration dbConfig = new Configuration.Builder(context)
-            .setDatabaseName(getDatabaseFilename())
-            .setDatabaseVersion(BuildConfig.databaseVersion)
-            .addModelClasses(HabitRecord.class, RepetitionRecord.class,
-                Event.class).create();
-
         try
         {
-            ActiveAndroid.initialize(dbConfig);
+            helper = new BaseSQLiteOpenHelper(context, getDatabaseFilename(),
+                BuildConfig.databaseVersion);
         }
         catch (RuntimeException e)
         {
-            if(e.getMessage().contains("downgrade"))
+            if (e.getMessage().contains("downgrade"))
                 throw new InvalidDatabaseVersionException();
             else throw e;
         }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static String saveDatabaseCopy(Context context, File dir) throws IOException
+    public static String saveDatabaseCopy(Context context, File dir)
+        throws IOException
     {
         SimpleDateFormat dateFormat = DateFormats.getBackupDateFormat();
         String date = dateFormat.format(DateUtils.getLocalTime());
@@ -106,8 +110,20 @@ public abstract class DatabaseUtils
         return dbCopy.getAbsolutePath();
     }
 
+    @NonNull
+    public static SQLiteDatabase openDatabase()
+    {
+        if(helper == null) throw new IllegalStateException();
+        return helper.getWritableDatabase();
+    }
+
+    public static void dispose()
+    {
+        helper = null;
+    }
+
     public interface Callback
     {
-        void execute();
+        void execute() throws Exception;
     }
 }

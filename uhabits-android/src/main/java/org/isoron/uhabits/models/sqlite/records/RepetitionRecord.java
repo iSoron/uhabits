@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
 
@@ -28,21 +26,17 @@ import org.isoron.uhabits.core.models.*;
  * The SQLite database record corresponding to a {@link Repetition}.
  */
 @Table(name = "Repetitions")
-@com.activeandroid.annotation.Table(name = "Repetitions")
-public class RepetitionRecord extends Model
+public class RepetitionRecord
 {
-    @com.activeandroid.annotation.Column(name = "habit")
     public HabitRecord habit;
 
     @Column(name = "habit")
     public Long habit_id;
 
     @Column
-    @com.activeandroid.annotation.Column(name = "timestamp")
     public Long timestamp;
 
     @Column
-    @com.activeandroid.annotation.Column(name = "value")
     public Integer value;
 
     @Column

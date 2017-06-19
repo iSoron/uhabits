@@ -23,11 +23,10 @@ import android.database.sqlite.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.*;
-
 import org.apache.commons.lang3.builder.*;
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -47,10 +46,9 @@ public class SQLiteRepositoryTest extends BaseAndroidTest
     public void setUp()
     {
         super.setUp();
-        repository =
-            new SQLiteRepository<>(ThingRecord.class, Cache.openDatabase());
+        this.db = DatabaseUtils.openDatabase();
+        repository = new SQLiteRepository<>(ThingRecord.class, db);
 
-        db = Cache.openDatabase();
         db.execSQL("drop table if exists tests");
         db.execSQL("create table tests(" +
                    "id integer not null primary key autoincrement, " +

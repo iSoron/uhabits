@@ -22,8 +22,6 @@ package org.isoron.uhabits;
 import android.app.*;
 import android.content.*;
 
-import com.activeandroid.*;
-
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
@@ -92,13 +90,13 @@ public class HabitsApplication extends Application
 
         try
         {
-            DatabaseUtils.initializeActiveAndroid(context);
+            DatabaseUtils.initializeDatabase(context);
         }
         catch (InvalidDatabaseVersionException e)
         {
             File db = DatabaseUtils.getDatabaseFile(context);
             db.renameTo(new File(db.getAbsolutePath() + ".invalid"));
-            DatabaseUtils.initializeActiveAndroid(context);
+            DatabaseUtils.initializeDatabase(context);
         }
 
         widgetUpdater = component.getWidgetUpdater();
@@ -124,8 +122,6 @@ public class HabitsApplication extends Application
     public void onTerminate()
     {
         context = null;
-        ActiveAndroid.dispose();
-
         reminderScheduler.stopListening();
         widgetUpdater.stopListening();
         notificationTray.stopListening();

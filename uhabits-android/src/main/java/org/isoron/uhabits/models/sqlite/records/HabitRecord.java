@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
-import com.activeandroid.*;
-
 import org.apache.commons.lang3.builder.*;
 import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
@@ -29,67 +27,51 @@ import org.isoron.uhabits.core.models.*;
  * The SQLite database record corresponding to a {@link Habit}.
  */
 @Table(name = "habits")
-@com.activeandroid.annotation.Table(name = "Habits")
-public class HabitRecord extends Model
+public class HabitRecord
 {
     @Column
-    @com.activeandroid.annotation.Column
     public String description;
 
     @Column
-    @com.activeandroid.annotation.Column
     public String name;
 
     @Column(name = "freq_num")
-    @com.activeandroid.annotation.Column(name = "freq_num")
     public Integer freqNum;
 
     @Column(name = "freq_den")
-    @com.activeandroid.annotation.Column(name = "freq_den")
     public Integer freqDen;
 
     @Column
-    @com.activeandroid.annotation.Column
     public Integer color;
 
     @Column
-    @com.activeandroid.annotation.Column
     public Integer position;
 
     @Column(name = "reminder_hour")
-    @com.activeandroid.annotation.Column(name = "reminder_hour")
     public Integer reminderHour;
 
     @Column(name = "reminder_min")
-    @com.activeandroid.annotation.Column(name = "reminder_min")
     public Integer reminderMin;
 
     @Column(name = "reminder_days")
-    @com.activeandroid.annotation.Column(name = "reminder_days")
     public Integer reminderDays;
 
     @Column
-    @com.activeandroid.annotation.Column
     public Integer highlight;
 
     @Column
-    @com.activeandroid.annotation.Column
     public Integer archived;
 
     @Column
-    @com.activeandroid.annotation.Column
     public Integer type;
 
     @Column(name = "target_value")
-    @com.activeandroid.annotation.Column(name = "target_value")
     public Double targetValue;
 
     @Column(name = "target_type")
-    @com.activeandroid.annotation.Column(name = "target_type")
     public Integer targetType;
 
     @Column
-    @com.activeandroid.annotation.Column
     public String unit;
 
     @Column

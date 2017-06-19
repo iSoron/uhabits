@@ -25,14 +25,15 @@ import android.os.*;
 import android.support.annotation.*;
 import android.widget.*;
 
-import com.activeandroid.util.*;
-
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 
-import static android.appwidget.AppWidgetManager.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
+import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
+import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
+import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
+import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
@@ -109,7 +110,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             }
             catch (HabitNotFoundException e)
             {
-                Log.e("BaseWidgetProvider", e);
+                e.printStackTrace();
             }
         }
     }
