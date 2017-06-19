@@ -23,7 +23,6 @@ import android.content.*;
 import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import org.isoron.androidbase.storage.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.*;
@@ -35,7 +34,7 @@ import java.text.*;
 public abstract class DatabaseUtils
 {
     @Nullable
-    private static BaseSQLiteOpenHelper helper = null;
+    private static HabitsDatabaseOpener opener = null;
 
     public static void executeAsTransaction(Callback callback)
     {
@@ -83,7 +82,7 @@ public abstract class DatabaseUtils
     {
         try
         {
-            helper = new BaseSQLiteOpenHelper(context, getDatabaseFilename(),
+            opener = new HabitsDatabaseOpener(context, getDatabaseFilename(),
                 BuildConfig.databaseVersion);
         }
         catch (RuntimeException e)
@@ -113,13 +112,13 @@ public abstract class DatabaseUtils
     @NonNull
     public static SQLiteDatabase openDatabase()
     {
-        if(helper == null) throw new IllegalStateException();
-        return helper.getWritableDatabase();
+        if(opener == null) throw new IllegalStateException();
+        return opener.getWritableDatabase();
     }
 
     public static void dispose()
     {
-        helper = null;
+        opener = null;
     }
 
     public interface Callback

@@ -76,4 +76,10 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
+        throw new UnsupportedDatabaseVersionException();
+    }
 }
