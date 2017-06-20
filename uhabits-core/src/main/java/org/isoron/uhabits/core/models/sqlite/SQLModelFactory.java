@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,33 +15,30 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.core.models.sqlite;
 
-import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
 
-import dagger.*;
+import javax.inject.*;
 
 /**
  * Factory that provides models backed by an SQLite database.
  */
-@Module
 public class SQLModelFactory implements ModelFactory
 {
-    @Provides
-    public static ModelFactory provideModelFactory()
-    {
-        return new SQLModelFactory();
-    }
+    private final Database db;
 
-    @Provides
-    @AppScope
-    public static HabitList provideHabitList(ModelFactory modelFactory)
+    @Inject
+    public SQLModelFactory(Database db)
     {
-        return new SQLiteHabitList(modelFactory);
+        this.db = db;
     }
 
     @Override
@@ -53,13 +50,13 @@ public class SQLModelFactory implements ModelFactory
     @Override
     public HabitList buildHabitList()
     {
-        return SQLiteHabitList.getInstance(provideModelFactory());
+        return new SQLiteHabitList(this);
     }
 
     @Override
     public RepetitionList buildRepetitionList(Habit habit)
     {
-        return new SQLiteRepetitionList(habit);
+        return new SQLiteRepetitionList(habit, this);
     }
 
     @Override
@@ -72,5 +69,17 @@ public class SQLModelFactory implements ModelFactory
     public StreakList buildStreakList(Habit habit)
     {
         return new MemoryStreakList(habit);
+    }
+
+    @Override
+    public Repository<HabitRecord> buildHabitListRepository()
+    {
+        return new Repository<>(HabitRecord.class, db);
+    }
+
+    @Override
+    public Repository<RepetitionRecord> buildRepetitionListRepository()
+    {
+        return new Repository<>(RepetitionRecord.class, db);
     }
 }

@@ -21,7 +21,7 @@ package org.isoron.uhabits.sync;
 
 import android.support.annotation.*;
 
-import org.isoron.androidbase.storage.*;
+import org.isoron.uhabits.core.db.*;
 
 @Table(name = "Events")
 public class Event

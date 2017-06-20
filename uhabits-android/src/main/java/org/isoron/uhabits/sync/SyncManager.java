@@ -23,11 +23,12 @@ import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
 import org.json.*;
 
@@ -97,7 +98,7 @@ public class SyncManager implements CommandRunner.Listener
 
     private SSLContextProvider sslProvider;
 
-    private final SQLiteRepository<Event> repository;
+    private final Repository<Event> repository;
 
     @Inject
     public SyncManager(@NonNull SSLContextProvider sslProvider,
@@ -113,8 +114,8 @@ public class SyncManager implements CommandRunner.Listener
         this.commandParser = commandParser;
         this.isListening = false;
 
-        repository =
-            new SQLiteRepository<>(Event.class, DatabaseUtils.openDatabase());
+        repository = new Repository<>(Event.class,
+            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
         pendingConfirmation = new LinkedList<>();
         pendingEmit = new LinkedList<>(repository.findAll("order by timestamp"));
 

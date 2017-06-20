@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,22 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.core.models.sqlite;
 
-import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import org.isoron.androidbase.storage.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
-import org.isoron.uhabits.models.sqlite.records.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.utils.DatabaseUtils.executeAsTransaction;
+import javax.inject.*;
 
 /**
  * Implementation of a {@link HabitList} that is backed by SQLite.
@@ -40,7 +40,7 @@ public class SQLiteHabitList extends HabitList
     private static SQLiteHabitList instance;
 
     @NonNull
-    private final SQLiteRepository<HabitRecord> repository;
+    private final Repository<HabitRecord> repository;
 
     @NonNull
     private final ModelFactory modelFactory;
@@ -50,19 +50,18 @@ public class SQLiteHabitList extends HabitList
 
     private boolean loaded = false;
 
+    @Inject
     public SQLiteHabitList(@NonNull ModelFactory modelFactory)
     {
         super();
         this.modelFactory = modelFactory;
         this.list = new MemoryHabitList();
-
-        repository =
-            new SQLiteRepository<>(HabitRecord.class, DatabaseUtils.openDatabase());
+        this.repository = modelFactory.buildHabitListRepository();
     }
 
     private void loadRecords()
     {
-        if(loaded) return;
+        if (loaded) return;
         loaded = true;
 
         list.removeAll();
@@ -173,7 +172,7 @@ public class SQLiteHabitList extends HabitList
 
         HabitRecord record = repository.find(habit.getId());
         if (record == null) throw new RuntimeException("habit not in database");
-        executeAsTransaction(() ->
+        repository.executeAsTransaction(() ->
         {
             ((SQLiteRepetitionList) habit.getRepetitions()).removeAll();
             repository.remove(record);
@@ -186,9 +185,8 @@ public class SQLiteHabitList extends HabitList
     public synchronized void removeAll()
     {
         list.removeAll();
-        SQLiteDatabase db = DatabaseUtils.openDatabase();
-        db.execSQL("delete from habits");
-        db.execSQL("delete from repetitions");
+        repository.execSQL("delete from habits");
+        repository.execSQL("delete from repetitions");
         getObservable().notifyListeners();
     }
 
@@ -208,18 +206,17 @@ public class SQLiteHabitList extends HabitList
 
         Integer fromPos = fromRecord.position;
         Integer toPos = toRecord.position;
-        SQLiteDatabase db = DatabaseUtils.openDatabase();
         if (toPos < fromPos)
         {
-            db.execSQL("update habits set position = position + 1 " +
-                       "where position >= ? and position < ?",
-                new String[]{ toPos.toString(), fromPos.toString() });
+            repository.execSQL("update habits set position = position + 1 " +
+                               "where position >= ? and position < ?",
+                                toPos, fromPos);
         }
         else
         {
-            db.execSQL("update habits set position = position - 1 " +
-                       "where position > ? and position <= ?",
-                new String[]{ fromPos.toString(), toPos.toString() });
+            repository.execSQL("update habits set position = position - 1 " +
+                               "where position > ? and position <= ?",
+                fromPos, toPos);
         }
 
         fromRecord.position = toPos;

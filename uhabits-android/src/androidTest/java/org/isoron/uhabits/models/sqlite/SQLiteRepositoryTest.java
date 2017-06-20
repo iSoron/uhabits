@@ -19,13 +19,14 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
-import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -37,7 +38,7 @@ import static org.junit.Assert.assertThat;
 @MediumTest
 public class SQLiteRepositoryTest extends BaseAndroidTest
 {
-    private SQLiteRepository<ThingRecord> repository;
+    private Repository<ThingRecord> repository;
 
     private SQLiteDatabase db;
 
@@ -47,7 +48,8 @@ public class SQLiteRepositoryTest extends BaseAndroidTest
     {
         super.setUp();
         this.db = DatabaseUtils.openDatabase();
-        repository = new SQLiteRepository<>(ThingRecord.class, db);
+        repository = new Repository<>(ThingRecord.class,
+            new AndroidSQLiteDatabase((db)));
 
         db.execSQL("drop table if exists tests");
         db.execSQL("create table tests(" +

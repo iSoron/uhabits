@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,18 +15,19 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.core.models.sqlite;
 
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import org.isoron.androidbase.storage.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
-import org.isoron.uhabits.models.sqlite.records.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -36,17 +37,17 @@ import java.util.*;
  */
 public class SQLiteRepetitionList extends RepetitionList
 {
-    private final SQLiteRepository<RepetitionRecord> repository;
+    private final Repository<RepetitionRecord> repository;
 
     private final MemoryRepetitionList list;
 
     private boolean loaded = false;
 
-    public SQLiteRepetitionList(@NonNull Habit habit)
+    public SQLiteRepetitionList(@NonNull Habit habit,
+                                @NonNull ModelFactory modelFactory)
     {
         super(habit);
-        repository = new SQLiteRepository<>(RepetitionRecord.class,
-            DatabaseUtils.openDatabase());
+        repository = modelFactory.buildRepetitionListRepository();
         list = new MemoryRepetitionList(habit);
     }
 

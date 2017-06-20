@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,11 +15,13 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite.records;
+package org.isoron.uhabits.core.models.sqlite.records;
 
-import org.isoron.androidbase.storage.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
 
 /**

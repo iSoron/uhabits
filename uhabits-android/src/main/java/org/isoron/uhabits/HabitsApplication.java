@@ -27,7 +27,7 @@ import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
-import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 

@@ -26,7 +26,7 @@ import android.support.annotation.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.models.sqlite.*;
+import org.isoron.uhabits.database.*;
 
 import java.io.*;
 import java.text.*;
@@ -36,6 +36,7 @@ public abstract class DatabaseUtils
     @Nullable
     private static HabitsDatabaseOpener opener = null;
 
+    @Deprecated
     public static void executeAsTransaction(Callback callback)
     {
         try (SQLiteDatabase db = openDatabase())

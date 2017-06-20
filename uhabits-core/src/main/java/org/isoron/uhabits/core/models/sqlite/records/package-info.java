@@ -19,8 +19,7 @@
  *
  */
 
-package org.isoron.androidbase.storage;
-
-public class UnsupportedDatabaseVersionException extends RuntimeException
-{
-}
+/**
+ * Provides classes that represent rows in the SQLite database.
+ */
+package org.isoron.uhabits.core.models.sqlite.records;

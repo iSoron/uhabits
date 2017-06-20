@@ -24,10 +24,12 @@ import android.test.suitebuilder.annotation.*;
 
 import com.google.common.collect.*;
 
-import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.core.models.sqlite.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
+import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.rules.*;
@@ -52,7 +54,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
     private ModelFactory modelFactory;
 
-    private SQLiteRepository<HabitRecord> repository;
+    private Repository<HabitRecord> repository;
 
     private ModelObservable.Listener listener;
 
@@ -64,9 +66,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         fixtures.purgeHabits(habitList);
 
         modelFactory = component.getModelFactory();
-        repository =
-            new SQLiteRepository<>(HabitRecord.class,
-                DatabaseUtils.openDatabase());
+        repository = new Repository<>(HabitRecord.class,
+            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
 
         for (int i = 0; i < 10; i++)
         {

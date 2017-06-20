@@ -22,13 +22,16 @@ package org.isoron.uhabits;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.sqlite.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.preferences.*;
+import org.isoron.uhabits.utils.*;
 
 import dagger.*;
 
@@ -68,6 +71,20 @@ public class HabitsModule
         SharedPreferencesStorage storage)
     {
         return new WidgetPreferences(storage);
+    }
+
+    @Provides
+    public ModelFactory getModelFactory()
+    {
+        return new SQLModelFactory(
+            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
+    }
+
+    @Provides
+    @AppScope
+    public HabitList getHabitList(SQLiteHabitList list)
+    {
+        return list;
     }
 }
 

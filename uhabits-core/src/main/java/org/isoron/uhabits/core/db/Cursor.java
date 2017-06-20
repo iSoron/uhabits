@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,9 +15,24 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-/**
- * Provides SQLite implementations of the core models.
- */
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.core.db;
+
+public interface Cursor extends AutoCloseable
+{
+    @Override
+    void close();
+
+    boolean moveToNext();
+
+    Integer getInt(int index);
+
+    Long getLong(int index);
+
+    Double getDouble(int index);
+
+    String getString(int index);
+}

@@ -19,34 +19,35 @@
  *
  */
 
-package org.isoron.androidbase.storage;
+package org.isoron.uhabits.core.db;
 
-import android.content.*;
-import android.database.*;
-import android.database.sqlite.*;
 import android.support.annotation.*;
-import android.util.*;
 
 import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.tuple.*;
 
 import java.lang.annotation.*;
 import java.lang.reflect.*;
 import java.util.*;
 
-public class SQLiteRepository<T>
+public class Repository<T>
 {
     @NonNull
     private final Class klass;
 
     @NonNull
-    private final SQLiteDatabase db;
+    private final Database db;
 
-    public SQLiteRepository(@NonNull Class<T> klass, @NonNull SQLiteDatabase db)
+    public Repository(@NonNull Class<T> klass, @NonNull Database db)
     {
         this.klass = klass;
         this.db = db;
     }
 
+    /**
+     * Returns the record that has the id provided.
+     * If no record is found, returns null.
+     */
     @Nullable
     public T find(@NonNull Long id)
     {
@@ -54,30 +55,85 @@ public class SQLiteRepository<T>
             id.toString());
     }
 
+    /**
+     * Returns all records matching the given SQL query.
+     *
+     * The query should only contain the "where" part of the SQL query, and
+     * optinally the "order by" part. "Group by" is not allowed. If no matching
+     * records are found, returns an empty list.
+     */
     @NonNull
-    public List<T> findAll(String query, String... params)
+    public List<T> findAll(@NonNull String query, @NonNull String... params)
     {
-        try (Cursor c = db.rawQuery(buildSelectQuery() + query, params))
+        try (Cursor c = db.select(buildSelectQuery() + query, params))
         {
             return cursorToMultipleRecords(c);
         }
     }
 
+    /**
+     * Returns the first record matching the given SQL query.
+     * See findAll for more details about the parameters.
+     */
     @Nullable
     public T findFirst(String query, String... params)
     {
-        try (Cursor c = db.rawQuery(buildSelectQuery() + query, params))
+        try (Cursor c = db.select(buildSelectQuery() + query, params))
         {
             if (!c.moveToNext()) return null;
             return cursorToSingleRecord(c);
         }
     }
 
+    /**
+     * Executes the given SQL query on the repository.
+     *
+     * The query can be of any kind. For example, complex deletes and updates
+     * are allowed. The repository does not perform any checks to guarantee
+     * that the query is valid, however the underlying database might.
+     */
     public void execSQL(String query, Object... params)
     {
         db.execSQL(query, params);
     }
 
+    /**
+     * Executes the given callback inside a database transaction.
+     *
+     * If the callback terminates without throwing any exceptions, the
+     * transaction is considered successful. If any exceptions are thrown,
+     * the transaction is aborted. Nesting transactions is not allowed.
+     */
+    public void executeAsTransaction(Runnable callback)
+    {
+        db.beginTransaction();
+        try
+        {
+            callback.run();
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+        finally
+        {
+            db.endTransaction();
+        }
+    }
+
+    /**
+     * Saves the record on the database.
+     *
+     * If the id of the given record is null, it is assumed that the record has
+     * not been inserted in the repository yet. The record will be inserted, a
+     * new id will be automatically generated, and the id of the given record
+     * will be updated.
+     *
+     * If the given record has a non-null id, then an update will be performed
+     * instead. That is, the previous record will be overwritten by the one
+     * provided.
+     */
     public void save(T record)
     {
         try
@@ -85,9 +141,9 @@ public class SQLiteRepository<T>
             Field fields[] = getFields();
             String columns[] = getColumnNames();
 
-            ContentValues values = new ContentValues();
+            Map<String, Object> values = new HashMap<>();
             for (int i = 0; i < fields.length; i++)
-                fieldToContentValue(values, columns[i], fields[i], record);
+                values.put(columns[i], fields[i].get(record));
 
             Long id = (Long) getIdField().get(record);
             int affectedRows = 0;
@@ -98,7 +154,7 @@ public class SQLiteRepository<T>
 
             if (id == null || affectedRows == 0)
             {
-                id = db.insertOrThrow(getTableName(), null, values);
+                id = db.insert(getTableName(), values);
                 getIdField().set(record, id);
             }
 
@@ -109,6 +165,10 @@ public class SQLiteRepository<T>
         }
     }
 
+    /**
+     * Removes the given record from the repository.
+     * The id of the given record is also set to null.
+     */
     public void remove(T record)
     {
         try
@@ -170,30 +230,6 @@ public class SQLiteRepository<T>
                 field.getName());
     }
 
-    private void fieldToContentValue(ContentValues values,
-                                     String columnName,
-                                     Field field,
-                                     T record)
-    {
-        try
-        {
-            if (field.getType().isAssignableFrom(Integer.class))
-                values.put(columnName, (Integer) field.get(record));
-            else if (field.getType().isAssignableFrom(Long.class))
-                values.put(columnName, (Long) field.get(record));
-            else if (field.getType().isAssignableFrom(Double.class))
-                values.put(columnName, (Double) field.get(record));
-            else if (field.getType().isAssignableFrom(String.class))
-                values.put(columnName, (String) field.get(record));
-            else throw new RuntimeException(
-                    "Type not supported: " + field.getName());
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
     private String buildSelectQuery()
     {
         return String.format("select %s from %s ",
@@ -208,7 +244,7 @@ public class SQLiteRepository<T>
             {
                 if (!(annotation instanceof Column)) continue;
                 Column column = (Column) annotation;
-                fields.add(new Pair<>(field, column));
+                fields.add(new ImmutablePair<>(field, column));
             }
         return fields;
     }
@@ -218,7 +254,7 @@ public class SQLiteRepository<T>
     {
         List<Field> fields = new ArrayList<>();
         List<Pair<Field, Column>> columns = getFieldColumnPairs();
-        for (Pair<Field, Column> pair : columns) fields.add(pair.first);
+        for (Pair<Field, Column> pair : columns) fields.add(pair.getLeft());
         return fields.toArray(new Field[]{});
     }
 
@@ -229,8 +265,8 @@ public class SQLiteRepository<T>
         List<Pair<Field, Column>> columns = getFieldColumnPairs();
         for (Pair<Field, Column> pair : columns)
         {
-            String cname = pair.second.name();
-            if (cname.isEmpty()) cname = pair.first.getName();
+            String cname = pair.getRight().name();
+            if (cname.isEmpty()) cname = pair.getLeft().getName();
             if (names.contains(cname))
                 throw new RuntimeException("duplicated column : " + cname);
             names.add(cname);

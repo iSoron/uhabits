@@ -19,7 +19,7 @@
  *
  */
 
-package org.isoron.androidbase.storage;
+package org.isoron.uhabits.core.db;
 
 import java.lang.annotation.*;
 

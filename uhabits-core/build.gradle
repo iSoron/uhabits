@@ -9,6 +9,7 @@ dependencies {
     apt 'com.google.auto.factory:auto-factory:1.0-beta3'
     apt 'com.google.dagger:dagger:2.11-rc2'
     compileOnly 'javax.annotation:jsr250-api:1.0'
+    compileOnly 'org.jetbrains:annotations-java5:15.0'
     compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
     compileOnly 'com.google.dagger:dagger:2.11-rc2'
     implementation 'com.android.support:support-annotations:25.3.1'

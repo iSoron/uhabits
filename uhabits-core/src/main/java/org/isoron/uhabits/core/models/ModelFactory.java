@@ -19,6 +19,9 @@
 
 package org.isoron.uhabits.core.models;
 
+import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
+
 /**
  * Interface implemented by factories that provide concrete implementations of
  * the core model classes.
@@ -44,4 +47,8 @@ public interface ModelFactory
     ScoreList buildScoreList(Habit habit);
 
     StreakList buildStreakList(Habit habit);
+
+    Repository<HabitRecord> buildHabitListRepository();
+
+    Repository<RepetitionRecord> buildRepetitionListRepository();
 }

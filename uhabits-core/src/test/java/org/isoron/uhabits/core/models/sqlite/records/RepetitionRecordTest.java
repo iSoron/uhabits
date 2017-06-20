@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,10 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.core.models.sqlite.records;
 
-public class InvalidDatabaseVersionException extends RuntimeException
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
+import org.junit.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
+public class RepetitionRecordTest extends BaseUnitTest
 {
+    @Test
+    public void testRecord() throws Exception
+    {
+        Repetition rep = new Repetition(2000L, 50);
+        RepetitionRecord record = new RepetitionRecord();
+        record.copyFrom(rep);
+        assertThat(rep, equalTo(record.toRepetition()));
+    }
 }

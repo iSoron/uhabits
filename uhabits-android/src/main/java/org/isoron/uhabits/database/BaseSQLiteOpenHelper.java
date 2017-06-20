@@ -19,7 +19,7 @@
  *
  */
 
-package org.isoron.androidbase.storage;
+package org.isoron.uhabits.database;
 
 import android.content.*;
 import android.database.sqlite.*;

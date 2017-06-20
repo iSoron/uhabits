@@ -19,36 +19,52 @@
  *
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.database;
 
-import android.content.*;
-import android.database.sqlite.*;
+import org.isoron.uhabits.core.db.*;
 
-import org.isoron.uhabits.database.*;
-
-
-public class HabitsDatabaseOpener extends BaseSQLiteOpenHelper
+public class AndroidCursor implements Cursor
 {
-    private final int version;
+    private android.database.Cursor cursor;
 
-    public HabitsDatabaseOpener(Context context,
-                                String databaseFilename,
-                                int version)
+    public AndroidCursor(android.database.Cursor cursor)
     {
-        super(context, databaseFilename, version);
-        this.version = version;
+        this.cursor = cursor;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db)
+    public void close()
     {
-        onUpgrade(db, 8, version);
+        cursor.close();
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    public boolean moveToNext()
     {
-        if(oldVersion < 8) throw new UnsupportedDatabaseVersionException();
-        super.onUpgrade(db, oldVersion, newVersion);
+        return cursor.moveToNext();
+    }
+
+    @Override
+    public Integer getInt(int index)
+    {
+        return cursor.getInt(index);
+    }
+
+    @Override
+    public Long getLong(int index)
+    {
+        return cursor.getLong(index);
+    }
+
+    @Override
+    public Double getDouble(int index)
+    {
+        return cursor.getDouble(index);
+    }
+
+    @Override
+    public String getString(int index)
+    {
+        return cursor.getString(index);
     }
 }

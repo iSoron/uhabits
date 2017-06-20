@@ -19,28 +19,12 @@
 
 package org.isoron.uhabits.core.models.memory;
 
-import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
 
-import dagger.*;
-
-@Module
 public class MemoryModelFactory implements ModelFactory
 {
-    @Provides
-    @AppScope
-    public static HabitList provideHabitList()
-    {
-        return new MemoryHabitList();
-    }
-
-    @Provides
-    @AppScope
-    public static ModelFactory provideModelFactory()
-    {
-        return new MemoryModelFactory();
-    }
-
     @Override
     public CheckmarkList buildCheckmarkList(Habit habit)
     {
@@ -69,5 +53,17 @@ public class MemoryModelFactory implements ModelFactory
     public StreakList buildStreakList(Habit habit)
     {
         return new MemoryStreakList(habit);
+    }
+
+    @Override
+    public Repository<HabitRecord> buildHabitListRepository()
+    {
+        throw new IllegalStateException();
+    }
+
+    @Override
+    public Repository<RepetitionRecord> buildRepetitionListRepository()
+    {
+        throw new IllegalStateException();
     }
 }

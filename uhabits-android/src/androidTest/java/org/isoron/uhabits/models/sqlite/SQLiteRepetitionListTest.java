@@ -23,11 +23,12 @@ import android.support.annotation.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.sqlite.records.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -50,7 +51,7 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
 
     private long day;
 
-    private SQLiteRepository<RepetitionRecord> sqlite;
+    private Repository<RepetitionRecord> sqlite;
 
     @Override
     public void setUp()
@@ -61,8 +62,8 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
         repetitions = habit.getRepetitions();
         today = DateUtils.getStartOfToday();
         day = DateUtils.millisecondsInOneDay;
-        sqlite = new SQLiteRepository<>(RepetitionRecord.class,
-            DatabaseUtils.openDatabase());
+        sqlite = new Repository<>(RepetitionRecord.class,
+            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
     }
 
     @Test

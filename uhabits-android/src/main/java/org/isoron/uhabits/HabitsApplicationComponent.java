@@ -33,7 +33,6 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.io.*;
-import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.widgets.*;
@@ -42,7 +41,9 @@ import dagger.*;
 
 @AppScope
 @Component(modules = {
-    AppContextModule.class, HabitsModule.class, AndroidTaskRunner.class, SQLModelFactory.class
+    AppContextModule.class,
+    HabitsModule.class,
+    AndroidTaskRunner.class,
 })
 public interface HabitsApplicationComponent
 {
