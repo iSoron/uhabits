@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,13 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite.records;
+package org.isoron.androidbase.storage;
 
-import android.database.*;
-
-public interface SQLiteRecord
+public class UnsupportedDatabaseVersionException extends RuntimeException
 {
-    void copyFrom(Cursor c);
 }

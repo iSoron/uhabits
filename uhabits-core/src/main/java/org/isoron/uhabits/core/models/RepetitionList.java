@@ -221,4 +221,6 @@ public abstract class RepetitionList
         add(new Repetition(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }
+
+    public abstract void removeAll();
 }

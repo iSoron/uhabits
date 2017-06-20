@@ -22,9 +22,11 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -35,25 +37,18 @@ import static org.hamcrest.core.IsEqual.*;
 @MediumTest
 public class HabitRecordTest extends BaseAndroidTest
 {
+    private Habit habit;
+
+    private SQLiteRepository<HabitRecord> sqlite =
+        new SQLiteRepository<>(HabitRecord.class, DatabaseUtils.openDatabase());
+
+    @Before
     @Override
     public void setUp()
     {
         super.setUp();
 
-        Habit h = component.getModelFactory().buildHabit();
-        h.setName("Hello world");
-        h.setId(1000L);
-
-        HabitRecord record = new HabitRecord();
-        record.copyFrom(h);
-        record.position = 0;
-        record.save(1000L);
-    }
-
-    @Test
-    public void testCopyFrom()
-    {
-        Habit habit = component.getModelFactory().buildHabit();
+        habit = component.getModelFactory().buildHabit();
         habit.setName("Hello world");
         habit.setDescription("Did you greet the world today?");
         habit.setColor(1);
@@ -61,7 +56,11 @@ public class HabitRecordTest extends BaseAndroidTest
         habit.setFrequency(Frequency.THREE_TIMES_PER_WEEK);
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         habit.setId(1000L);
+    }
 
+    @Test
+    public void testCopyFrom()
+    {
         HabitRecord rec = new HabitRecord();
         rec.copyFrom(habit);
 

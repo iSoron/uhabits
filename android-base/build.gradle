@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -32,6 +31,7 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.9'
     implementation 'com.android.support:design:25.3.1'
     implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'org.apache.commons:commons-lang3:3.5'
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
     androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'

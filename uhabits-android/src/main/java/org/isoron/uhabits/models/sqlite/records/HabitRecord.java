@@ -19,122 +19,67 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
-import android.annotation.*;
-import android.database.*;
-import android.support.annotation.*;
-
-import com.activeandroid.*;
-import com.activeandroid.annotation.*;
-import com.activeandroid.query.*;
-import com.activeandroid.util.*;
-
+import org.apache.commons.lang3.builder.*;
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.utils.DatabaseUtils;
-
-import java.lang.reflect.*;
 
 /**
  * The SQLite database record corresponding to a {@link Habit}.
  */
-@Table(name = "Habits")
-public class HabitRecord extends Model implements SQLiteRecord
+@Table(name = "habits")
+public class HabitRecord
 {
-    public static String SELECT =
-        "select id, color, description, freq_den, freq_num, " +
-        "name, position, reminder_hour, reminder_min, " +
-        "highlight, archived, reminder_days, type, target_type, " +
-        "target_value, unit from habits ";
-
-    @Column(name = "name")
-    public String name;
-
-    @Column(name = "description")
+    @Column
     public String description;
 
+    @Column
+    public String name;
+
     @Column(name = "freq_num")
-    public int freqNum;
+    public Integer freqNum;
 
     @Column(name = "freq_den")
-    public int freqDen;
+    public Integer freqDen;
 
-    @Column(name = "color")
-    public int color;
+    @Column
+    public Integer color;
 
-    @Column(name = "position")
-    public int position;
+    @Column
+    public Integer position;
 
-    @Nullable
     @Column(name = "reminder_hour")
     public Integer reminderHour;
 
-    @Nullable
     @Column(name = "reminder_min")
     public Integer reminderMin;
 
     @Column(name = "reminder_days")
-    public int reminderDays;
+    public Integer reminderDays;
 
-    @Column(name = "highlight")
-    public int highlight;
+    @Column
+    public Integer highlight;
 
-    @Column(name = "archived")
-    public int archived;
+    @Column
+    public Integer archived;
 
-    @Column(name = "type")
-    public int type;
+    @Column
+    public Integer type;
 
     @Column(name = "target_value")
-    public double targetValue;
+    public Double targetValue;
 
     @Column(name = "target_type")
-    public int targetType;
+    public Integer targetType;
 
-    @Column(name = "unit")
+    @Column
     public String unit;
 
-    public HabitRecord()
-    {
-    }
-
-    @Nullable
-    public static HabitRecord get(long id)
-    {
-        return HabitRecord.load(HabitRecord.class, id);
-    }
-
-    /**
-     * Changes the id of a habit on the database.
-     *
-     * @param oldId the original id
-     * @param newId the new id
-     */
-    @SuppressLint("DefaultLocale")
-    public static void updateId(long oldId, long newId)
-    {
-        SQLiteUtils.execSql(
-            String.format("update Habits set Id = %d where Id = %d", newId,
-                oldId));
-    }
-
-    /**
-     * Deletes the habit and all data associated to it, including checkmarks,
-     * repetitions and scores.
-     */
-    public void cascadeDelete()
-    {
-        Long id = getId();
-
-        DatabaseUtils.executeAsTransaction(() -> {
-            new Delete()
-                .from(RepetitionRecord.class)
-                .where("habit = ?", id)
-                .execute();
-            delete();
-        });
-    }
+    @Column
+    public Long id;
 
     public void copyFrom(Habit model)
     {
+        this.id = model.getId();
         this.name = model.getName();
         this.description = model.getDescription();
         this.highlight = 0;
@@ -161,35 +106,14 @@ public class HabitRecord extends Model implements SQLiteRecord
         }
     }
 
-    @Override
-    public void copyFrom(Cursor c)
-    {
-        setId(c.getLong(0));
-        color = c.getInt(1);
-        description = c.getString(2);
-        freqDen = c.getInt(3);
-        freqNum = c.getInt(4);
-        name = c.getString(5);
-        position = c.getInt(6);
-        reminderHour = c.getInt(7);
-        reminderMin = c.getInt(8);
-        highlight = c.getInt(9);
-        archived = c.getInt(10);
-        reminderDays = c.getInt(11);
-        type = c.getInt(12);
-        targetType = c.getInt(13);
-        targetValue = c.getDouble(14);
-        unit = c.getString(15);
-    }
-
     public void copyTo(Habit habit)
     {
+        habit.setId(this.id);
         habit.setName(this.name);
         habit.setDescription(this.description);
         habit.setFrequency(new Frequency(this.freqNum, this.freqDen));
         habit.setColor(this.color);
         habit.setArchived(this.archived != 0);
-        habit.setId(this.getId());
         habit.setType(this.type);
         habit.setTargetType(this.targetType);
         habit.setTargetValue(this.targetValue);
@@ -202,28 +126,77 @@ public class HabitRecord extends Model implements SQLiteRecord
         }
     }
 
-    /**
-     * Saves the habit on the database, and assigns the specified id to it.
-     *
-     * @param id the id that the habit should receive
-     */
-    public void save(long id)
+    @Override
+    public boolean equals(Object o)
     {
-        save();
-        updateId(getId(), id);
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HabitRecord that = (HabitRecord) o;
+
+        return new EqualsBuilder()
+            .appendSuper(super.equals(o))
+            .append(freqNum, that.freqNum)
+            .append(freqDen, that.freqDen)
+            .append(color, that.color)
+            .append(position, that.position)
+            .append(reminderDays, that.reminderDays)
+            .append(highlight, that.highlight)
+            .append(archived, that.archived)
+            .append(type, that.type)
+            .append(targetValue, that.targetValue)
+            .append(targetType, that.targetType)
+            .append(name, that.name)
+            .append(description, that.description)
+            .append(reminderHour, that.reminderHour)
+            .append(reminderMin, that.reminderMin)
+            .append(unit, that.unit)
+            .isEquals();
     }
 
-    private void setId(Long id)
+    @Override
+    public int hashCode()
     {
-        try
-        {
-            Field f = (Model.class).getDeclaredField("mId");
-            f.setAccessible(true);
-            f.set(this, id);
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+        return new HashCodeBuilder(17, 37)
+            .appendSuper(super.hashCode())
+            .append(name)
+            .append(description)
+            .append(freqNum)
+            .append(freqDen)
+            .append(color)
+            .append(position)
+            .append(reminderHour)
+            .append(reminderMin)
+            .append(reminderDays)
+            .append(highlight)
+            .append(archived)
+            .append(type)
+            .append(targetValue)
+            .append(targetType)
+            .append(unit)
+            .toHashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("name", name)
+            .append("description", description)
+            .append("freqNum", freqNum)
+            .append("freqDen", freqDen)
+            .append("color", color)
+            .append("position", position)
+            .append("reminderHour", reminderHour)
+            .append("reminderMin", reminderMin)
+            .append("reminderDays", reminderDays)
+            .append("highlight", highlight)
+            .append("archived", archived)
+            .append("type", type)
+            .append("targetValue", targetValue)
+            .append("targetType", targetType)
+            .append("unit", unit)
+            .toString();
     }
 }

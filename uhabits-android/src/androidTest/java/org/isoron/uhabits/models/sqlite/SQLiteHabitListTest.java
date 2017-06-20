@@ -22,12 +22,13 @@ package org.isoron.uhabits.models.sqlite;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.query.*;
+import com.google.common.collect.*;
 
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.models.sqlite.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.rules.*;
 import org.junit.runner.*;
@@ -36,6 +37,8 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("JavaDoc")
 @RunWith(AndroidJUnit4.class)
@@ -49,6 +52,10 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
     private ModelFactory modelFactory;
 
+    private SQLiteRepository<HabitRecord> repository;
+
+    private ModelObservable.Listener listener;
+
     @Override
     public void setUp()
     {
@@ -57,6 +64,9 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         fixtures.purgeHabits(habitList);
 
         modelFactory = component.getModelFactory();
+        repository =
+            new SQLiteRepository<>(HabitRecord.class,
+                DatabaseUtils.openDatabase());
 
         for (int i = 0; i < 10; i++)
         {
@@ -68,8 +78,20 @@ public class SQLiteHabitListTest extends BaseAndroidTest
             HabitRecord record = new HabitRecord();
             record.copyFrom(h);
             record.position = i;
-            record.save(i);
+            repository.save(record);
         }
+
+        habitList.reload();
+
+        listener = mock(ModelObservable.Listener.class);
+        habitList.getObservable().addListener(listener);
+    }
+
+    @Override
+    protected void tearDown() throws Exception
+    {
+        habitList.getObservable().removeListener(listener);
+        super.tearDown();
     }
 
     @Test
@@ -77,6 +99,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     {
         Habit habit = modelFactory.buildHabit();
         habitList.add(habit);
+        verify(listener).onModelChange();
+
         exception.expect(IllegalArgumentException.class);
         habitList.add(habit);
     }
@@ -91,7 +115,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         habitList.add(habit);
         assertThat(habit.getId(), equalTo(12300L));
 
-        HabitRecord record = getRecord(12300L);
+        HabitRecord record = repository.find(12300L);
         assertNotNull(record);
         assertThat(record.name, equalTo(habit.getName()));
     }
@@ -106,7 +130,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         habitList.add(habit);
         assertNotNull(habit.getId());
 
-        HabitRecord record = getRecord(habit.getId());
+        HabitRecord record = repository.find(habit.getId());
         assertNotNull(record);
         assertThat(record.name, equalTo(habit.getName()));
     }
@@ -120,7 +144,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     @Test
     public void testGetAll_withArchived()
     {
-        List<Habit> habits = habitList.toList();
+        List<Habit> habits = Lists.newArrayList(habitList.iterator());
         assertThat(habits.size(), equalTo(10));
         assertThat(habits.get(3).getName(), equalTo("habit 3"));
     }
@@ -165,13 +189,5 @@ public class SQLiteHabitListTest extends BaseAndroidTest
 
         h2.setId(1000L);
         assertThat(habitList.indexOf(h2), equalTo(-1));
-    }
-
-    private HabitRecord getRecord(long id)
-    {
-        return new Select()
-            .from(HabitRecord.class)
-            .where("id = ?", id)
-            .executeSingle();
     }
 }

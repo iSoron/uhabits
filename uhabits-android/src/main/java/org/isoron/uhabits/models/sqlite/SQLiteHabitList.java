@@ -19,55 +19,60 @@
 
 package org.isoron.uhabits.models.sqlite;
 
+import android.database.sqlite.*;
 import android.support.annotation.*;
 
-import com.activeandroid.query.*;
-import com.activeandroid.util.*;
-
-import org.apache.commons.lang3.*;
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
+
+import static org.isoron.uhabits.utils.DatabaseUtils.executeAsTransaction;
 
 /**
  * Implementation of a {@link HabitList} that is backed by SQLite.
  */
 public class SQLiteHabitList extends HabitList
 {
-    private static HashMap<Long, Habit> cache;
-
     private static SQLiteHabitList instance;
 
     @NonNull
-    private final SQLiteUtils<HabitRecord> sqlite;
+    private final SQLiteRepository<HabitRecord> repository;
 
     @NonNull
     private final ModelFactory modelFactory;
 
     @NonNull
-    private Order order;
+    private final MemoryHabitList list;
+
+    private boolean loaded = false;
 
     public SQLiteHabitList(@NonNull ModelFactory modelFactory)
     {
         super();
         this.modelFactory = modelFactory;
+        this.list = new MemoryHabitList();
 
-        if (cache == null) cache = new HashMap<>();
-        sqlite = new SQLiteUtils<>(HabitRecord.class);
-        order = Order.BY_POSITION;
+        repository =
+            new SQLiteRepository<>(HabitRecord.class, DatabaseUtils.openDatabase());
     }
 
-    protected SQLiteHabitList(@NonNull ModelFactory modelFactory,
-                              @NonNull HabitMatcher filter,
-                              @NonNull Order order)
+    private void loadRecords()
     {
-        super(filter);
-        this.modelFactory = modelFactory;
+        if(loaded) return;
+        loaded = true;
 
-        if (cache == null) cache = new HashMap<>();
-        sqlite = new SQLiteUtils<>(HabitRecord.class);
-        this.order = order;
+        list.removeAll();
+        List<HabitRecord> records = repository.findAll("order by position");
+        for (HabitRecord rec : records)
+        {
+            Habit h = modelFactory.buildHabit();
+            rec.copyTo(h);
+            list.add(h);
+        }
     }
 
     public static SQLiteHabitList getInstance(
@@ -78,127 +83,123 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public void add(@NonNull Habit habit)
+    public synchronized void add(@NonNull Habit habit)
     {
-        if (cache.containsValue(habit))
-            throw new IllegalArgumentException("habit already added");
+        loadRecords();
+        list.add(habit);
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
-        record.position = size();
+        record.position = list.indexOf(habit);
+        repository.save(record);
 
-        Long id = habit.getId();
-        if (id == null) id = record.save();
-        else record.save(id);
-
-        if (id < 0)
-            throw new IllegalArgumentException("habit could not be saved");
-
-        habit.setId(id);
-        cache.put(id, habit);
+        getObservable().notifyListeners();
     }
 
     @Override
     @Nullable
     public Habit getById(long id)
     {
-        if (!cache.containsKey(id))
-        {
-            HabitRecord record = HabitRecord.get(id);
-            if (record == null) return null;
-
-            Habit habit = modelFactory.buildHabit();
-            record.copyTo(habit);
-            cache.put(id, habit);
-        }
-
-        return cache.get(id);
+        loadRecords();
+        return list.getById(id);
     }
 
     @Override
     @NonNull
     public Habit getByPosition(int position)
     {
-        return toList().get(position);
+        loadRecords();
+        return list.getByPosition(position);
     }
 
     @NonNull
     @Override
     public HabitList getFiltered(HabitMatcher filter)
     {
-        return new SQLiteHabitList(modelFactory, filter, order);
+        loadRecords();
+        return list.getFiltered(filter);
     }
 
     @Override
     @NonNull
     public Order getOrder()
     {
-        return order;
+        return list.getOrder();
     }
 
     @Override
     public void setOrder(@NonNull Order order)
     {
-        this.order = order;
+        list.setOrder(order);
     }
 
     @Override
     public int indexOf(@NonNull Habit h)
     {
-        return toList().indexOf(h);
+        loadRecords();
+        return list.indexOf(h);
     }
 
     @Override
     public Iterator<Habit> iterator()
     {
-        return Collections.unmodifiableCollection(toList()).iterator();
+        loadRecords();
+        return list.iterator();
     }
 
-    public void rebuildOrder()
+    private void rebuildOrder()
     {
-        List<Habit> habits = toList();
-
-        int i = 0;
-        for (Habit h : habits)
-        {
-            HabitRecord record = HabitRecord.get(h.getId());
-            if (record == null)
-                throw new RuntimeException("habit not in database");
-
-            record.position = i++;
-            record.save();
-        }
-
-        update(habits);
+//        List<Habit> habits = toList();
+//
+//        int i = 0;
+//        for (Habit h : habits)
+//        {
+//            HabitRecord record = repository.find(h.getId());
+//            if (record == null)
+//                throw new RuntimeException("habit not in database");
+//
+//            record.position = i++;
+//            repository.save(record);
+//        }
+//
+//        update(habits);
     }
 
     @Override
-    public void remove(@NonNull Habit habit)
+    public synchronized void remove(@NonNull Habit habit)
     {
-        if (!cache.containsKey(habit.getId()))
-            throw new RuntimeException("habit not in cache");
+        loadRecords();
+        list.remove(habit);
 
-        cache.remove(habit.getId());
-        HabitRecord record = HabitRecord.get(habit.getId());
+        HabitRecord record = repository.find(habit.getId());
         if (record == null) throw new RuntimeException("habit not in database");
-        record.cascadeDelete();
+        executeAsTransaction(() ->
+        {
+            ((SQLiteRepetitionList) habit.getRepetitions()).removeAll();
+            repository.remove(record);
+        });
         rebuildOrder();
+        getObservable().notifyListeners();
     }
 
     @Override
-    public void removeAll()
+    public synchronized void removeAll()
     {
-        sqlite.query("delete from repetitions", null);
-        sqlite.query("delete from habits", null);
+        list.removeAll();
+        SQLiteDatabase db = DatabaseUtils.openDatabase();
+        db.execSQL("delete from habits");
+        db.execSQL("delete from repetitions");
+        getObservable().notifyListeners();
     }
 
     @Override
-    public synchronized void reorder(Habit from, Habit to)
+    public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
     {
-        if (from == to) return;
+        loadRecords();
+        list.reorder(from, to);
 
-        HabitRecord fromRecord = HabitRecord.get(from.getId());
-        HabitRecord toRecord = HabitRecord.get(to.getId());
+        HabitRecord fromRecord = repository.find(from.getId());
+        HabitRecord toRecord = repository.find(to.getId());
 
         if (fromRecord == null)
             throw new RuntimeException("habit not in database");
@@ -207,128 +208,59 @@ public class SQLiteHabitList extends HabitList
 
         Integer fromPos = fromRecord.position;
         Integer toPos = toRecord.position;
-
-        Log.d("SQLiteHabitList",
-            String.format("reorder: %d %d", fromPos, toPos));
-
+        SQLiteDatabase db = DatabaseUtils.openDatabase();
         if (toPos < fromPos)
         {
-            new Update(HabitRecord.class)
-                .set("position = position + 1")
-                .where("position >= ? and position < ?", toPos, fromPos)
-                .execute();
+            db.execSQL("update habits set position = position + 1 " +
+                       "where position >= ? and position < ?",
+                new String[]{ toPos.toString(), fromPos.toString() });
         }
         else
         {
-            new Update(HabitRecord.class)
-                .set("position = position - 1")
-                .where("position > ? and position <= ?", fromPos, toPos)
-                .execute();
+            db.execSQL("update habits set position = position - 1 " +
+                       "where position > ? and position <= ?",
+                new String[]{ fromPos.toString(), toPos.toString() });
         }
 
         fromRecord.position = toPos;
-        fromRecord.save();
+        repository.save(fromRecord);
         update(from);
+
         getObservable().notifyListeners();
     }
 
     @Override
     public void repair()
     {
-        super.repair();
+        loadRecords();
         rebuildOrder();
     }
 
     @Override
     public int size()
     {
-        return toList().size();
+        loadRecords();
+        return list.size();
     }
 
     @Override
-    public void update(List<Habit> habits)
+    public synchronized void update(List<Habit> habits)
     {
+        loadRecords();
         for (Habit h : habits)
         {
-            HabitRecord record = HabitRecord.get(h.getId());
+            HabitRecord record = repository.find(h.getId());
             if (record == null)
                 throw new RuntimeException("habit not in database");
             record.copyFrom(h);
-            record.save();
-        }
-    }
-
-    public synchronized List<Habit> toList()
-    {
-        String query = buildSelectQuery();
-        List<HabitRecord> recordList = sqlite.query(query, null);
-
-        List<Habit> habits = new LinkedList<>();
-        for (HabitRecord record : recordList)
-        {
-            Habit habit = getById(record.getId());
-            if (habit == null) continue;
-            if (!filter.matches(habit)) continue;
-            habits.add(habit);
+            repository.save(record);
         }
 
-        if(order == Order.BY_SCORE)
-        {
-            Collections.sort(habits, (lhs, rhs) -> {
-                double s1 = lhs.getScores().getTodayValue();
-                double s2 = rhs.getScores().getTodayValue();
-                return Double.compare(s2, s1);
-            });
-        }
-
-        return habits;
+        getObservable().notifyListeners();
     }
 
-    private void appendOrderBy(StringBuilder query)
+    public void reload()
     {
-        switch (order)
-        {
-            case BY_POSITION:
-                query.append("order by position ");
-                break;
-
-            case BY_NAME:
-            case BY_SCORE:
-                query.append("order by name ");
-                break;
-
-            case BY_COLOR:
-                query.append("order by color, name ");
-                break;
-
-            default:
-                throw new IllegalStateException();
-        }
-    }
-
-    private void appendSelect(StringBuilder query)
-    {
-        query.append(HabitRecord.SELECT);
-    }
-
-    private void appendWhere(StringBuilder query)
-    {
-        ArrayList<Object> where = new ArrayList<>();
-        if (filter.isReminderRequired()) where.add("reminder_hour is not null");
-        if (!filter.isArchivedAllowed()) where.add("archived = 0");
-
-        if (where.isEmpty()) return;
-        query.append("where ");
-        query.append(StringUtils.join(where, " and "));
-        query.append(" ");
-    }
-
-    private String buildSelectQuery()
-    {
-        StringBuilder query = new StringBuilder();
-        appendSelect(query);
-        appendWhere(query);
-        appendOrderBy(query);
-        return query.toString();
+        loaded = false;
     }
 }

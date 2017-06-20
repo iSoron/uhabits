@@ -19,16 +19,14 @@
 
 package org.isoron.uhabits.models.sqlite;
 
-import android.database.*;
-import android.database.sqlite.*;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import com.activeandroid.*;
-import com.activeandroid.query.*;
-
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -38,165 +36,112 @@ import java.util.*;
  */
 public class SQLiteRepetitionList extends RepetitionList
 {
+    private final SQLiteRepository<RepetitionRecord> repository;
 
-    private final SQLiteUtils<RepetitionRecord> sqlite;
+    private final MemoryRepetitionList list;
 
-    @Nullable
-    private HabitRecord habitRecord;
-
-    private SQLiteStatement addStatement;
-
-    public static final String ADD_QUERY =
-        "insert into repetitions(habit, timestamp, value) " +
-        "values (?,?,?)";
+    private boolean loaded = false;
 
     public SQLiteRepetitionList(@NonNull Habit habit)
     {
         super(habit);
-        sqlite = new SQLiteUtils<>(RepetitionRecord.class);
-
-        SQLiteDatabase db = Cache.openDatabase();
-        addStatement = db.compileStatement(ADD_QUERY);
+        repository = new SQLiteRepository<>(RepetitionRecord.class,
+            DatabaseUtils.openDatabase());
+        list = new MemoryRepetitionList(habit);
     }
 
-    /**
-     * Adds a repetition to the global SQLite database.
-     * <p>
-     * Given a repetition, this creates and saves the corresponding
-     * RepetitionRecord to the database.
-     *
-     * @param rep the repetition to be added
-     */
+    private void loadRecords()
+    {
+        if (loaded) return;
+        loaded = true;
+
+        check(habit.getId());
+        List<RepetitionRecord> records =
+            repository.findAll("where habit = ? order by timestamp",
+                habit.getId().toString());
+
+        for (RepetitionRecord rec : records)
+            list.add(rec.toRepetition());
+    }
+
     @Override
     public void add(Repetition rep)
     {
+        loadRecords();
+        list.add(rep);
         check(habit.getId());
-        addStatement.bindLong(1, habit.getId());
-        addStatement.bindLong(2, rep.getTimestamp());
-        addStatement.bindLong(3, rep.getValue());
-        addStatement.execute();
+        RepetitionRecord record = new RepetitionRecord();
+        record.habit_id = habit.getId();
+        record.copyFrom(rep);
+        repository.save(record);
         observable.notifyListeners();
     }
 
     @Override
     public List<Repetition> getByInterval(long timeFrom, long timeTo)
     {
-        check(habit.getId());
-        String query = "select habit, timestamp, value " +
-                       "from Repetitions " +
-                       "where habit = ? and timestamp >= ? and timestamp <= ? " +
-                       "order by timestamp";
-
-        String params[] = {
-            Long.toString(habit.getId()),
-            Long.toString(timeFrom),
-            Long.toString(timeTo)
-        };
-
-        List<RepetitionRecord> records = sqlite.query(query, params);
-        return toRepetitions(records);
+        loadRecords();
+        return list.getByInterval(timeFrom, timeTo);
     }
 
     @Override
     @Nullable
     public Repetition getByTimestamp(long timestamp)
     {
-        check(habit.getId());
-        String query = "select habit, timestamp, value " +
-                       "from Repetitions " +
-                       "where habit = ? and timestamp = ? " +
-                       "limit 1";
-
-        String params[] =
-            { Long.toString(habit.getId()), Long.toString(timestamp) };
-
-        RepetitionRecord record = sqlite.querySingle(query, params);
-        if (record == null) return null;
-        record.habit = habitRecord;
-        return record.toRepetition();
+        loadRecords();
+        return list.getByTimestamp(timestamp);
     }
 
     @Override
     public Repetition getOldest()
     {
-        check(habit.getId());
-        String query = "select habit, timestamp, value " +
-                       "from Repetitions " +
-                       "where habit = ? " +
-                       "order by timestamp asc " +
-                       "limit 1";
-
-        String params[] = { Long.toString(habit.getId()) };
-
-        RepetitionRecord record = sqlite.querySingle(query, params);
-        if (record == null) return null;
-        record.habit = habitRecord;
-        return record.toRepetition();
+        loadRecords();
+        return list.getOldest();
     }
 
     @Override
     public Repetition getNewest()
     {
-        check(habit.getId());
-        String query = "select habit, timestamp, value " +
-                "from Repetitions " +
-                "where habit = ? " +
-                "order by timestamp desc " +
-                "limit 1";
-
-        String params[] = { Long.toString(habit.getId()) };
-
-        RepetitionRecord record = sqlite.querySingle(query, params);
-        if (record == null) return null;
-        record.habit = habitRecord;
-        return record.toRepetition();
+        loadRecords();
+        return list.getNewest();
     }
 
     @Override
     public void remove(@NonNull Repetition repetition)
     {
-        new Delete()
-            .from(RepetitionRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp = ?", repetition.getTimestamp())
-            .execute();
-
+        loadRecords();
+        list.remove(repetition);
+        check(habit.getId());
+        repository.execSQL(
+            "delete from repetitions where habit = ? and timestamp = ?",
+            habit.getId());
         observable.notifyListeners();
     }
 
-    @Contract("null -> fail")
-    private void check(Long id)
+    public void removeAll()
     {
-        if (id == null) throw new RuntimeException("habit is not saved");
-
-        if (habitRecord != null) return;
-
-        habitRecord = HabitRecord.get(id);
-        if (habitRecord == null) throw new RuntimeException("habit not found");
-    }
-
-    @NonNull
-    private List<Repetition> toRepetitions(
-        @NonNull List<RepetitionRecord> records)
-    {
+        loadRecords();
+        list.removeAll();
         check(habit.getId());
-
-        List<Repetition> reps = new LinkedList<>();
-        for (RepetitionRecord record : records)
-        {
-            record.habit = habitRecord;
-            reps.add(record.toRepetition());
-        }
-
-        return reps;
+        repository.execSQL("delete from repetitions where habit = ?",
+            habit.getId());
     }
 
     @Override
     public long getTotalCount()
     {
-        SQLiteDatabase db = Cache.openDatabase();
+        loadRecords();
+        return list.getTotalCount();
+    }
 
-        return DatabaseUtils.queryNumEntries(db, "Repetitions",
-                "habit=?", new String[] { Long.toString(habit.getId()) });
+    public void reload()
+    {
+        loaded = false;
+    }
+
+    @Contract("null -> fail")
+    private void check(Long value)
+    {
+        if (value == null) throw new RuntimeException("null check failed");
     }
 }

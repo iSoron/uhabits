@@ -23,19 +23,19 @@ import android.support.annotation.*;
 import android.support.test.runner.*;
 import android.test.suitebuilder.annotation.*;
 
-import com.activeandroid.query.*;
-
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.models.sqlite.records.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
 import java.util.*;
 
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
 
 @RunWith(AndroidJUnit4.class)
@@ -50,6 +50,8 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
 
     private long day;
 
+    private SQLiteRepository<RepetitionRecord> sqlite;
+
     @Override
     public void setUp()
     {
@@ -59,6 +61,8 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
         repetitions = habit.getRepetitions();
         today = DateUtils.getStartOfToday();
         day = DateUtils.millisecondsInOneDay;
+        sqlite = new SQLiteRepository<>(RepetitionRecord.class,
+            DatabaseUtils.openDatabase());
     }
 
     @Test
@@ -130,15 +134,13 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     @Nullable
     private RepetitionRecord getByTimestamp(long timestamp)
     {
-        return selectByTimestamp(timestamp).executeSingle();
-    }
+        String query = "where habit = ? and timestamp = ?";
 
-    @NonNull
-    private From selectByTimestamp(long timestamp)
-    {
-        return new Select()
-            .from(RepetitionRecord.class)
-            .where("habit = ?", habit.getId())
-            .and("timestamp = ?", timestamp);
+        String params[] = {
+            Long.toString(habit.getId()),
+            Long.toString(timestamp)
+        };
+
+        return sqlite.findFirst(query, params);
     }
 }

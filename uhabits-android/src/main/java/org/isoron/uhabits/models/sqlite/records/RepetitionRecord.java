@@ -19,44 +19,33 @@
 
 package org.isoron.uhabits.models.sqlite.records;
 
-import android.database.*;
-
-import com.activeandroid.*;
-import com.activeandroid.annotation.*;
-
+import org.isoron.androidbase.storage.*;
 import org.isoron.uhabits.core.models.*;
 
 /**
  * The SQLite database record corresponding to a {@link Repetition}.
  */
 @Table(name = "Repetitions")
-public class RepetitionRecord extends Model implements SQLiteRecord
+public class RepetitionRecord
 {
-    @Column(name = "habit")
     public HabitRecord habit;
 
-    @Column(name = "timestamp")
+    @Column(name = "habit")
+    public Long habit_id;
+
+    @Column
     public Long timestamp;
 
-    @Column(name = "value")
-    public int value;
+    @Column
+    public Integer value;
 
-    public static RepetitionRecord get(Long id)
-    {
-        return RepetitionRecord.load(RepetitionRecord.class, id);
-    }
+    @Column
+    public Long id;
 
     public void copyFrom(Repetition repetition)
     {
         timestamp = repetition.getTimestamp();
         value = repetition.getValue();
-    }
-
-    @Override
-    public void copyFrom(Cursor c)
-    {
-        timestamp = c.getLong(1);
-        value = c.getInt(2);
     }
 
     public Repetition toRepetition()

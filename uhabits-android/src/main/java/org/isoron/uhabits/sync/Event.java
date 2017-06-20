@@ -19,18 +19,17 @@
 
 package org.isoron.uhabits.sync;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
-
-import java.util.List;
+import org.isoron.androidbase.storage.*;
 
 @Table(name = "Events")
-public class Event extends Model
+public class Event
 {
+    @Nullable
+    @Column
+    public Long id;
+
     @NonNull
     @Column(name = "timestamp")
     public Long timestamp;
@@ -55,11 +54,5 @@ public class Event extends Model
         this.serverId = serverId;
         this.timestamp = timestamp;
         this.message = message;
-    }
-
-    @NonNull
-    public static List<Event> getAll()
-    {
-        return new Select().from(Event.class).orderBy("timestamp").execute();
     }
 }
