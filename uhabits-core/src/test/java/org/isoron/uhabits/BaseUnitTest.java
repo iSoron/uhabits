@@ -20,6 +20,7 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.core.tasks.*;
@@ -29,9 +30,11 @@ import org.junit.*;
 import org.junit.runner.*;
 import org.mockito.junit.*;
 
+import java.sql.*;
 import java.util.*;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.validateMockitoUsage;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseUnitTest
@@ -51,7 +54,7 @@ public class BaseUnitTest
     protected static final long FIXED_LOCAL_TIME = 1422172800000L;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
 
@@ -80,5 +83,17 @@ public class BaseUnitTest
     public void nothing()
     {
 
+    }
+
+    protected Database buildMemoryDatabase()
+    {
+        try
+        {
+            return new JdbcDatabase(DriverManager.getConnection("jdbc:sqlite::memory:"));
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

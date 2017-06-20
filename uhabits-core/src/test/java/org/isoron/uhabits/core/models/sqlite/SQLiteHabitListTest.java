@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -15,59 +15,44 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
  */
 
-package org.isoron.uhabits.models.sqlite;
-
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
-
-import com.google.common.collect.*;
+package org.isoron.uhabits.core.models.sqlite;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.models.sqlite.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
-import org.isoron.uhabits.database.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.rules.*;
-import org.junit.runner.*;
-
-import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-@SuppressWarnings("JavaDoc")
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class SQLiteHabitListTest extends BaseAndroidTest
+public class SQLiteHabitListTest extends BaseUnitTest
 {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
     private SQLiteHabitList habitList;
 
-    private ModelFactory modelFactory;
-
     private Repository<HabitRecord> repository;
 
     private ModelObservable.Listener listener;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
-        this.habitList = (SQLiteHabitList) super.habitList;
-        fixtures.purgeHabits(habitList);
-
-        modelFactory = component.getModelFactory();
-        repository = new Repository<>(HabitRecord.class,
-            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
+        Database db = buildMemoryDatabase();
+        repository = new Repository<>(HabitRecord.class, db);
+        habitList = new SQLiteHabitList(new SQLModelFactory(db));
 
         for (int i = 0; i < 10; i++)
         {
@@ -89,7 +74,7 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     }
 
     @Override
-    protected void tearDown() throws Exception
+    public void tearDown()
     {
         habitList.getObservable().removeListener(listener);
         super.tearDown();
@@ -140,14 +125,6 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     public void testSize()
     {
         assertThat(habitList.size(), equalTo(10));
-    }
-
-    @Test
-    public void testGetAll_withArchived()
-    {
-        List<Habit> habits = Lists.newArrayList(habitList.iterator());
-        assertThat(habits.size(), equalTo(10));
-        assertThat(habits.get(3).getName(), equalTo("habit 3"));
     }
 
     @Test

@@ -45,7 +45,7 @@ public class CheckmarkListTest extends BaseUnitTest
     private Habit numericalHabit;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

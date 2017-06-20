@@ -42,7 +42,7 @@ public class CommandParserTest extends BaseUnitTest
 
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         parser = new CommandParser(habitList, modelFactory);

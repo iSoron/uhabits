@@ -42,7 +42,7 @@ public class StreakListTest extends BaseUnitTest
     private ModelObservable.Listener listener;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         habit = fixtures.createLongHabit();

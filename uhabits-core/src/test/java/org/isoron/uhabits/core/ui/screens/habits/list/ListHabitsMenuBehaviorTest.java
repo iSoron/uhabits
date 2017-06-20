@@ -55,7 +55,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     private ArgumentCaptor<HabitList.Order> orderCaptor;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         behavior =

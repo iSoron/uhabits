@@ -44,7 +44,7 @@ public class AndroidSQLiteDatabase implements Database
     }
 
     @Override
-    public void execSQL(String query, Object... params)
+    public void execute(String query, Object... params)
     {
         db.execSQL(query, params);
     }

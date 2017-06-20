@@ -42,7 +42,7 @@ public class ShowHabitMenuBehaviorTest extends BaseUnitTest
     private ShowHabitMenuBehavior menu;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         system = mock(ShowHabitMenuBehavior.System.class);

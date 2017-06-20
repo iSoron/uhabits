@@ -43,7 +43,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         habit = fixtures.createEmptyHabit();

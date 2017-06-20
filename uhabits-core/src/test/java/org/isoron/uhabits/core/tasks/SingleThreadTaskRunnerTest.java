@@ -35,7 +35,7 @@ public class SingleThreadTaskRunnerTest extends BaseUnitTest
     private Task task;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         runner = new SingleThreadTaskRunner();

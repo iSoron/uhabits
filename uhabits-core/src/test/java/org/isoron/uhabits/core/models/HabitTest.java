@@ -33,7 +33,7 @@ public class HabitTest extends BaseUnitTest
     public final ExpectedException exception = ExpectedException.none();
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
     }

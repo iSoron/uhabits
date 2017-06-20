@@ -15,8 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- *
  */
 
 package org.isoron.uhabits.core.db;
@@ -36,7 +34,7 @@ public interface Database
 
     void delete(String tableName, String where, String... params);
 
-    void execSQL(String query, Object... params);
+    void execute(String query, Object... params);
 
     void beginTransaction();
 

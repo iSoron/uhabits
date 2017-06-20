@@ -25,12 +25,13 @@ import android.content.*;
 import android.database.sqlite.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.uhabits.core.db.*;
 
 import java.io.*;
-import java.util.*;
 
 
 public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
+    implements MigrationHelper.FileOpener
 {
     private final Context context;
 
@@ -48,38 +49,35 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        executeMigrations(db, -1, version);
+        MigrationHelper helper =
+            new MigrationHelper(this, new AndroidSQLiteDatabase(db));
+        helper.executeMigrations(-1, version);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        executeMigrations(db, oldVersion, newVersion);
-    }
-
-    private void executeMigrations(SQLiteDatabase db,
-                                   int oldVersion,
-                                   int newVersion)
-    {
-        try
-        {
-            for (int v = oldVersion + 1; v <= newVersion; v++)
-            {
-                String fname = String.format(Locale.US, "migrations/%d.sql", v);
-                InputStream stream = context.getAssets().open(fname);
-                for (String command : SQLParser.parse(stream))
-                    db.execSQL(command);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
+        MigrationHelper helper =
+            new MigrationHelper(this, new AndroidSQLiteDatabase(db));
+        helper.executeMigrations(oldVersion, newVersion);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         throw new UnsupportedDatabaseVersionException();
+    }
+
+    @Override
+    public InputStream open(String filename)
+    {
+        try
+        {
+            return context.getAssets().open(filename);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

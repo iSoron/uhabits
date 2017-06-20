@@ -15,8 +15,6 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- *
  */
 
 package org.isoron.uhabits.core.db;
@@ -57,7 +55,7 @@ public class Repository<T>
 
     /**
      * Returns all records matching the given SQL query.
-     *
+     * <p>
      * The query should only contain the "where" part of the SQL query, and
      * optinally the "order by" part. "Group by" is not allowed. If no matching
      * records are found, returns an empty list.
@@ -87,19 +85,19 @@ public class Repository<T>
 
     /**
      * Executes the given SQL query on the repository.
-     *
+     * <p>
      * The query can be of any kind. For example, complex deletes and updates
      * are allowed. The repository does not perform any checks to guarantee
      * that the query is valid, however the underlying database might.
      */
     public void execSQL(String query, Object... params)
     {
-        db.execSQL(query, params);
+        db.execute(query, params);
     }
 
     /**
      * Executes the given callback inside a database transaction.
-     *
+     * <p>
      * If the callback terminates without throwing any exceptions, the
      * transaction is considered successful. If any exceptions are thrown,
      * the transaction is aborted. Nesting transactions is not allowed.
@@ -124,12 +122,12 @@ public class Repository<T>
 
     /**
      * Saves the record on the database.
-     *
+     * <p>
      * If the id of the given record is null, it is assumed that the record has
      * not been inserted in the repository yet. The record will be inserted, a
      * new id will be automatically generated, and the id of the given record
      * will be updated.
-     *
+     * <p>
      * If the given record has a non-null id, then an update will be performed
      * instead. That is, the previous record will be overwritten by the one
      * provided.
@@ -150,7 +148,7 @@ public class Repository<T>
 
             if (id != null) affectedRows =
                 db.update(getTableName(), values, getIdName() + "=?",
-                    new String[]{ id.toString() });
+                    id.toString());
 
             if (id == null || affectedRows == 0)
             {
@@ -176,8 +174,7 @@ public class Repository<T>
             Long id = (Long) getIdField().get(record);
             if (id == null) return;
 
-            db.delete(getTableName(), getIdName() + "=?",
-                new String[]{ id.toString() });
+            db.delete(getTableName(), getIdName() + "=?", id.toString());
             getIdField().set(record, null);
         }
         catch (Exception e)

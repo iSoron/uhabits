@@ -39,8 +39,9 @@ public class AboutBehaviorTest extends BaseUnitTest
     private AboutBehavior.Screen screen;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
+        super.setUp();
         behavior = new AboutBehavior(prefs, screen);
     }
 

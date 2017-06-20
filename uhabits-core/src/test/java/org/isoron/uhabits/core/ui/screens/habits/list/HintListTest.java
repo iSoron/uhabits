@@ -46,7 +46,7 @@ public class HintListTest extends BaseUnitTest
     private long yesterday;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         today = DateUtils.getStartOfToday();

@@ -49,7 +49,7 @@ public class HabitListTest extends BaseUnitTest
     private HabitList reminderHabits;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         habitsArray = new ArrayList<>();

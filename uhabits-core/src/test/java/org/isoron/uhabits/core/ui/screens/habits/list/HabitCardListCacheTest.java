@@ -40,7 +40,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
     private HabitCardListCache.Listener listener;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         habitList.removeAll();

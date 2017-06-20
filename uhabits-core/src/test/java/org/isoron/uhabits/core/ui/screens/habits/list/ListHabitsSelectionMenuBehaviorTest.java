@@ -139,7 +139,7 @@ public class ListHabitsSelectionMenuBehaviorTest extends BaseUnitTest
     }
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

@@ -23,7 +23,6 @@ package org.isoron.uhabits.core.models.sqlite.records;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.models.sqlite.records.*;
 import org.junit.*;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -35,7 +34,7 @@ public class HabitRecordTest extends BaseUnitTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 
