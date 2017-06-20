@@ -19,20 +19,29 @@
 
 package org.isoron.uhabits.core.models;
 
-import org.hamcrest.*;
 import org.isoron.uhabits.*;
 import org.junit.*;
+import org.junit.rules.*;
 
 import java.io.*;
 import java.util.*;
 
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.*;
-import static org.isoron.uhabits.core.models.HabitList.Order.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_COLOR;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_NAME;
+import static org.isoron.uhabits.core.models.HabitList.Order.BY_POSITION;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @SuppressWarnings("JavaDoc")
 public class HabitListTest extends BaseUnitTest
 {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     private ArrayList<Habit> habitsArray;
 
     private HabitList activeHabits;
@@ -69,37 +78,27 @@ public class HabitListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_countActive()
+    public void testSize()
     {
+        assertThat(habitList.size(), equalTo(10));
         assertThat(activeHabits.size(), equalTo(6));
+        assertThat(reminderHabits.size(), equalTo(4));
     }
 
     @Test
-    public void test_getByPosition()
+    public void testGetByPosition()
     {
         assertThat(habitList.getByPosition(0), equalTo(habitsArray.get(0)));
         assertThat(habitList.getByPosition(3), equalTo(habitsArray.get(3)));
         assertThat(habitList.getByPosition(9), equalTo(habitsArray.get(9)));
 
         assertThat(activeHabits.getByPosition(0), equalTo(habitsArray.get(2)));
-    }
-
-    @Test
-    public void test_getHabitsWithReminder()
-    {
-        assertThat(reminderHabits.size(), equalTo(4));
         assertThat(reminderHabits.getByPosition(1),
             equalTo(habitsArray.get(3)));
     }
 
     @Test
-    public void test_get_withInvalidId()
-    {
-        assertThat(habitList.getById(100L), is(nullValue()));
-    }
-
-    @Test
-    public void test_get_withValidId()
+    public void testGetById()
     {
         Habit habit1 = habitsArray.get(0);
         Habit habit2 = habitList.getById(habit1.getId());
@@ -107,7 +106,13 @@ public class HabitListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_ordering()
+    public void testGetById_withInvalidId()
+    {
+        assertNull(habitList.getById(100L));
+    }
+
+    @Test
+    public void testOrdering()
     {
         HabitList list = modelFactory.buildHabitList();
         Habit h1 = fixtures.createEmptyHabit();
@@ -155,7 +160,7 @@ public class HabitListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_reorder()
+    public void testReorder()
     {
         int operations[][] = {
             { 5, 2 }, { 3, 7 }, { 4, 4 }, { 3, 2 }
@@ -191,13 +196,16 @@ public class HabitListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_size()
+    public void testReorder_withInvalidArguments() throws Exception
     {
-        assertThat(habitList.size(), equalTo(10));
+        Habit h1 = habitsArray.get(0);
+        Habit h2 = fixtures.createEmptyHabit();
+        thrown.expect(IllegalArgumentException.class);
+        habitList.reorder(h1, h2);
     }
 
     @Test
-    public void test_writeCSV() throws IOException
+    public void testWriteCSV() throws IOException
     {
         HabitList list = modelFactory.buildHabitList();
 
@@ -224,6 +232,43 @@ public class HabitListTest extends BaseUnitTest
         StringWriter writer = new StringWriter();
         list.writeCSV(writer);
 
-        MatcherAssert.assertThat(writer.toString(), equalTo(expectedCSV));
+        assertThat(writer.toString(), equalTo(expectedCSV));
+    }
+
+    @Test
+    public void testAdd() throws Exception
+    {
+        Habit h1 = fixtures.createEmptyHabit();
+        assertFalse(h1.isArchived());
+        assertNull(h1.getId());
+        assertThat(habitList.indexOf(h1), equalTo(-1));
+
+        habitList.add(h1);
+        assertNotNull(h1.getId());
+        assertThat(habitList.indexOf(h1), not(equalTo(-1)));
+        assertThat(activeHabits.indexOf(h1), not(equalTo(-1)));
+    }
+
+    @Test
+    public void testAdd_withFilteredList() throws Exception
+    {
+        thrown.expect(IllegalStateException.class);
+        activeHabits.add(fixtures.createEmptyHabit());
+    }
+
+    @Test
+    public void testRemove_onFilteredList() throws Exception
+    {
+        thrown.expect(IllegalStateException.class);
+        activeHabits.remove(fixtures.createEmptyHabit());
+    }
+
+    @Test
+    public void testReorder_onFilteredList() throws Exception
+    {
+        Habit h1 = fixtures.createEmptyHabit();
+        Habit h2 = fixtures.createEmptyHabit();
+        thrown.expect(IllegalStateException.class);
+        activeHabits.reorder(h1, h2);
     }
 }

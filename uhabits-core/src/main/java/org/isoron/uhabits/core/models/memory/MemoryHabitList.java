@@ -36,31 +36,37 @@ import static org.isoron.uhabits.core.models.HabitList.Order.BY_SCORE;
 public class MemoryHabitList extends HabitList
 {
     @NonNull
-    private LinkedList<Habit> list;
+    private LinkedList<Habit> list = new LinkedList<>();
 
     private Comparator<Habit> comparator = null;
 
     @NonNull
-    private Order order;
+    private Order order = Order.BY_POSITION;
+
+    @Nullable
+    private MemoryHabitList parent = null;
 
     public MemoryHabitList()
     {
         super();
-        list = new LinkedList<>();
-        order = Order.BY_POSITION;
     }
 
-    protected MemoryHabitList(@NonNull HabitMatcher matcher)
+    protected MemoryHabitList(@NonNull HabitMatcher matcher,
+                              Comparator<Habit> comparator,
+                              @NonNull MemoryHabitList parent)
     {
         super(matcher);
-        list = new LinkedList<>();
-        order = Order.BY_POSITION;
+        this.parent = parent;
+        this.comparator = comparator;
+        parent.getObservable().addListener(this::loadFromParent);
+        loadFromParent();
     }
 
     @Override
     public synchronized void add(@NonNull Habit habit)
         throws IllegalArgumentException
     {
+        throwIfHasParent();
         if (list.contains(habit))
             throw new IllegalArgumentException("habit already added");
 
@@ -71,6 +77,8 @@ public class MemoryHabitList extends HabitList
         if (id == null) habit.setId((long) list.size());
         list.addLast(habit);
         resort();
+
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -78,7 +86,7 @@ public class MemoryHabitList extends HabitList
     {
         for (Habit h : list)
         {
-            if (h.getId() == null) continue;
+            if (h.getId() == null) throw new IllegalStateException();
             if (h.getId() == id) return h;
         }
         return null;
@@ -95,10 +103,7 @@ public class MemoryHabitList extends HabitList
     @Override
     public synchronized HabitList getFiltered(HabitMatcher matcher)
     {
-        MemoryHabitList habits = new MemoryHabitList(matcher);
-        habits.comparator = comparator;
-        for (Habit h : this) if (matcher.matches(h)) habits.add(h);
-        return habits;
+        return new MemoryHabitList(matcher, comparator, this);
     }
 
     @Override
@@ -113,44 +118,6 @@ public class MemoryHabitList extends HabitList
         this.order = order;
         this.comparator = getComparatorByOrder(order);
         resort();
-    }
-
-    @Override
-    public int indexOf(@NonNull Habit h)
-    {
-        return list.indexOf(h);
-    }
-
-    @Override
-    public Iterator<Habit> iterator()
-    {
-        return Collections.unmodifiableCollection(list).iterator();
-    }
-
-    @Override
-    public synchronized void remove(@NonNull Habit habit)
-    {
-        list.remove(habit);
-    }
-
-    @Override
-    public synchronized void reorder(Habit from, Habit to)
-    {
-        int toPos = indexOf(to);
-        list.remove(from);
-        list.add(toPos, from);
-    }
-
-    @Override
-    public int size()
-    {
-        return list.size();
-    }
-
-    @Override
-    public void update(List<Habit> habits)
-    {
-        // NOP
     }
 
     private Comparator<Habit> getComparatorByOrder(Order order)
@@ -178,6 +145,71 @@ public class MemoryHabitList extends HabitList
         if (order == BY_COLOR) return colorComparator;
         if (order == BY_SCORE) return scoreComparator;
         throw new IllegalStateException();
+    }
+
+    @Override
+    public int indexOf(@NonNull Habit h)
+    {
+        return list.indexOf(h);
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Habit> iterator()
+    {
+        return Collections.unmodifiableCollection(list).iterator();
+    }
+
+    @Override
+    public synchronized void remove(@NonNull Habit habit)
+    {
+        throwIfHasParent();
+        list.remove(habit);
+    }
+
+    @Override
+    public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
+    {
+        throwIfHasParent();
+        if (indexOf(from) < 0)
+            throw new IllegalArgumentException(
+                "list does not contain (from) habit");
+
+        int toPos = indexOf(to);
+        if (toPos < 0)
+            throw new IllegalArgumentException(
+                "list does not contain (to) habit");
+
+        list.remove(from);
+        list.add(toPos, from);
+    }
+
+    @Override
+    public int size()
+    {
+        return list.size();
+    }
+
+    @Override
+    public void update(List<Habit> habits)
+    {
+        // NOP
+    }
+
+    private void throwIfHasParent()
+    {
+        if (parent != null) throw new IllegalStateException(
+            "Filtered lists cannot be modified directly. " +
+            "You should modify the parent list instead.");
+    }
+
+    private synchronized void loadFromParent()
+    {
+        if (parent == null) throw new IllegalStateException();
+
+        list.clear();
+        for (Habit h : parent) if (filter.matches(h)) list.add(h);
+        resort();
     }
 
     private synchronized void resort()

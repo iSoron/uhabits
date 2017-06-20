@@ -92,6 +92,8 @@ public class SQLiteHabitList extends HabitList
         record.copyFrom(habit);
         record.position = list.indexOf(habit);
         repository.save(record);
+
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -177,20 +179,21 @@ public class SQLiteHabitList extends HabitList
             repository.remove(record);
         });
         rebuildOrder();
+        getObservable().notifyListeners();
     }
 
     @Override
     public synchronized void removeAll()
     {
-        loadRecords();
         list.removeAll();
         SQLiteDatabase db = DatabaseUtils.openDatabase();
         db.execSQL("delete from habits");
         db.execSQL("delete from repetitions");
+        getObservable().notifyListeners();
     }
 
     @Override
-    public synchronized void reorder(Habit from, Habit to)
+    public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
     {
         loadRecords();
         list.reorder(from, to);
@@ -222,6 +225,7 @@ public class SQLiteHabitList extends HabitList
         fromRecord.position = toPos;
         repository.save(fromRecord);
         update(from);
+
         getObservable().notifyListeners();
     }
 
@@ -251,6 +255,8 @@ public class SQLiteHabitList extends HabitList
             record.copyFrom(h);
             repository.save(record);
         }
+
+        getObservable().notifyListeners();
     }
 
     public void reload()

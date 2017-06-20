@@ -41,7 +41,7 @@ public class SQLiteRepository<T>
     @NonNull
     private final SQLiteDatabase db;
 
-    public SQLiteRepository(@NonNull Class klass, @NonNull SQLiteDatabase db)
+    public SQLiteRepository(@NonNull Class<T> klass, @NonNull SQLiteDatabase db)
     {
         this.klass = klass;
         this.db = db;

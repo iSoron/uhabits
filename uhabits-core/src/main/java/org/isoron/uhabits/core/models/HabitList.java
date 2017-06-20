@@ -155,7 +155,7 @@ public abstract class HabitList implements Iterable<Habit>
      * @param from the habit that should be moved
      * @param to   the habit that currently occupies the desired position
      */
-    public abstract void reorder(Habit from, Habit to);
+    public abstract void reorder(@NonNull Habit from, @NonNull Habit to);
 
     public void repair()
     {

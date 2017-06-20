@@ -37,6 +37,8 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("JavaDoc")
 @RunWith(AndroidJUnit4.class)
@@ -51,6 +53,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     private ModelFactory modelFactory;
 
     private SQLiteRepository<HabitRecord> repository;
+
+    private ModelObservable.Listener listener;
 
     @Override
     public void setUp()
@@ -78,6 +82,16 @@ public class SQLiteHabitListTest extends BaseAndroidTest
         }
 
         habitList.reload();
+
+        listener = mock(ModelObservable.Listener.class);
+        habitList.getObservable().addListener(listener);
+    }
+
+    @Override
+    protected void tearDown() throws Exception
+    {
+        habitList.getObservable().removeListener(listener);
+        super.tearDown();
     }
 
     @Test
@@ -85,6 +99,8 @@ public class SQLiteHabitListTest extends BaseAndroidTest
     {
         Habit habit = modelFactory.buildHabit();
         habitList.add(habit);
+        verify(listener).onModelChange();
+
         exception.expect(IllegalArgumentException.class);
         habitList.add(habit);
     }
