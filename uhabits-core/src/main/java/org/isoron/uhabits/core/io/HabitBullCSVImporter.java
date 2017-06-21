@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.io;
+package org.isoron.uhabits.core.io;
 
 import android.support.annotation.*;
 
@@ -31,7 +31,6 @@ import java.util.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.utils.DatabaseUtils.executeAsTransaction;
 
 /**
  * Class that imports data from HabitBull CSV files.
@@ -53,25 +52,20 @@ public class HabitBullCSVImporter extends AbstractImporter
     {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = reader.readLine();
-
         return line.startsWith("HabitName,HabitDescription,HabitCategory");
     }
 
     @Override
-    public void importHabitsFromFile(@NonNull final File file) throws IOException
-    {
-        executeAsTransaction(() -> parseFile(file));
-    }
-
-    private void parseFile(@NonNull File file) throws IOException
+    public void importHabitsFromFile(@NonNull final File file)
+        throws IOException
     {
         CSVReader reader = new CSVReader(new FileReader(file));
         HashMap<String, Habit> map = new HashMap<>();
 
-        for(String line[] : reader)
+        for (String line[] : reader)
         {
             String name = line[0];
-            if(name.equals("HabitName")) continue;
+            if (name.equals("HabitName")) continue;
 
             String description = line[1];
             String dateString[] = line[3].split("-");
@@ -85,11 +79,11 @@ public class HabitBullCSVImporter extends AbstractImporter
             long timestamp = date.getTimeInMillis();
 
             int value = Integer.parseInt(line[4]);
-            if(value != 1) continue;
+            if (value != 1) continue;
 
             Habit h = map.get(name);
 
-            if(h == null)
+            if (h == null)
             {
                 h = modelFactory.buildHabit();
                 h.setName(name);
@@ -99,7 +93,7 @@ public class HabitBullCSVImporter extends AbstractImporter
                 map.put(name, h);
             }
 
-            if(!h.getRepetitions().containsTimestamp(timestamp))
+            if (!h.getRepetitions().containsTimestamp(timestamp))
                 h.getRepetitions().toggle(timestamp);
         }
     }

@@ -17,32 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.core.database;
-
-import java.util.*;
-
-public interface Database
-{
-    Cursor select(String query, String... params);
-
-    int update(String tableName,
-               Map<String, Object> values,
-               String where,
-               String... params);
-
-    Long insert(String tableName, Map<String, Object> values);
-
-    void delete(String tableName, String where, String... params);
-
-    void execute(String query, Object... params);
-
-    void beginTransaction();
-
-    void setTransactionSuccessful();
-
-    void endTransaction();
-
-    void close();
-
-    int getVersion();
-}
+/**
+ * Provides classes that deal with importing from and exporting to files.
+ */
+package org.isoron.uhabits.core.io;

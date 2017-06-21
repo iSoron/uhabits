@@ -74,7 +74,7 @@ public class SQLiteHabitListTest extends BaseUnitTest
     }
 
     @Override
-    public void tearDown()
+    public void tearDown() throws Exception
     {
         habitList.getObservable().removeListener(listener);
         super.tearDown();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,14 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.io;
+package org.isoron.uhabits.core.io;
 
-import android.database.*;
-import android.database.sqlite.*;
 import android.support.annotation.*;
 
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
@@ -39,12 +37,17 @@ public class TickmateDBImporter extends AbstractImporter
 {
     private ModelFactory modelFactory;
 
+    @NonNull
+    private final DatabaseOpener opener;
+
     @Inject
     public TickmateDBImporter(@NonNull HabitList habits,
-                              @NonNull ModelFactory modelFactory)
+                              @NonNull ModelFactory modelFactory,
+                              @NonNull DatabaseOpener opener)
     {
         super(habits);
         this.modelFactory = modelFactory;
+        this.opener = opener;
     }
 
     @Override
@@ -52,14 +55,11 @@ public class TickmateDBImporter extends AbstractImporter
     {
         if (!isSQLite3File(file)) return false;
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
-            SQLiteDatabase.OPEN_READONLY);
+        Database db = opener.open(file);
+        Cursor c = db.select("select count(*) from SQLITE_MASTER " +
+                             "where name='tracks' or name='track2groups'");
 
-        Cursor c = db.rawQuery(
-            "select count(*) from SQLITE_MASTER where name=? or name=?",
-            new String[]{"tracks", "track2groups"});
-
-        boolean result = (c.moveToFirst() && c.getInt(0) == 2);
+        boolean result = (c.moveToNext() && c.getInt(0) == 2);
 
         c.close();
         db.close();
@@ -69,15 +69,15 @@ public class TickmateDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        final SQLiteDatabase db =
-            SQLiteDatabase.openDatabase(file.getPath(), null,
-                SQLiteDatabase.OPEN_READONLY);
-
-        DatabaseUtils.executeAsTransaction(() -> createHabits(db));
+        final Database db = opener.open(file);
+        db.beginTransaction();
+        createHabits(db);
+        db.setTransactionSuccessful();
+        db.endTransaction();
         db.close();
     }
 
-    private void createCheckmarks(@NonNull SQLiteDatabase db,
+    private void createCheckmarks(@NonNull Database db,
                                   @NonNull Habit habit,
                                   int tickmateTrackId)
     {
@@ -86,10 +86,10 @@ public class TickmateDBImporter extends AbstractImporter
         try
         {
             String[] params = {Integer.toString(tickmateTrackId)};
-            c = db.rawQuery(
+            c = db.select(
                 "select distinct year, month, day from ticks where _track_id=?",
                 params);
-            if (!c.moveToFirst()) return;
+            if (!c.moveToNext()) return;
 
             do
             {
@@ -109,15 +109,15 @@ public class TickmateDBImporter extends AbstractImporter
         }
     }
 
-    private void createHabits(SQLiteDatabase db)
+    private void createHabits(Database db)
     {
         Cursor c = null;
 
         try
         {
-            c = db.rawQuery("select _id, name, description from tracks",
+            c = db.select("select _id, name, description from tracks",
                 new String[0]);
-            if (!c.moveToFirst()) return;
+            if (!c.moveToNext()) return;
 
             do
             {

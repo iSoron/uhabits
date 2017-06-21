@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,40 +17,37 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.io;
+package org.isoron.uhabits.core.io;
 
-import android.content.*;
-import android.support.test.*;
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
+import android.support.annotation.*;
 
-import org.isoron.androidbase.utils.*;
+import org.apache.commons.io.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
-import org.junit.runner.*;
 
 import java.io.*;
+import java.sql.*;
 import java.util.*;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import sun.reflect.generics.reflectiveObjects.*;
 
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class ImportTest extends BaseAndroidTest
+import static junit.framework.TestCase.assertFalse;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.core.IsEqual.*;
+import static org.isoron.uhabits.core.models.Frequency.THREE_TIMES_PER_WEEK;
+import static org.junit.Assert.assertTrue;
+
+public class ImportTest extends BaseUnitTest
 {
-    private Context context;
-
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         DateUtils.setFixedLocalTime(null);
-        fixtures.purgeHabits(habitList);
-        context = InstrumentationRegistry.getInstrumentation().getContext();
     }
 
     @Test
@@ -78,8 +75,7 @@ public class ImportTest extends BaseAndroidTest
 
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFrequency(),
-            equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
         assertTrue(containsRepetition(habit, 2016, 3, 14));
         assertTrue(containsRepetition(habit, 2016, 3, 16));
         assertFalse(containsRepetition(habit, 2016, 3, 17));
@@ -94,8 +90,7 @@ public class ImportTest extends BaseAndroidTest
 
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
-        assertThat(habit.getFrequency(),
-            equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
         assertFalse(habit.hasReminder());
         assertFalse(containsRepetition(habit, 2015, 12, 31));
         assertTrue(containsRepetition(habit, 2016, 1, 18));
@@ -104,8 +99,7 @@ public class ImportTest extends BaseAndroidTest
 
         habit = habitList.getByPosition(1);
         assertThat(habit.getName(), equalTo("brush teeth"));
-        assertThat(habit.getFrequency(),
-            equalTo(Frequency.THREE_TIMES_PER_WEEK));
+        assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
         assertThat(habit.hasReminder(), equalTo(true));
 
         Reminder reminder = habit.getReminder();
@@ -139,8 +133,13 @@ public class ImportTest extends BaseAndroidTest
 
     private void copyAssetToFile(String assetPath, File dst) throws IOException
     {
-        InputStream in = context.getAssets().open(assetPath);
-        FileUtils.copy(in, dst);
+        InputStream in = getClass().getResourceAsStream(assetPath);
+        if(in == null) {
+            File file = new File("uhabits-core/src/test/resources/" + assetPath);
+            if(file.exists()) in = new FileInputStream(file);
+        }
+
+        IOUtils.copy(in, new FileOutputStream(dst));
     }
 
     private void importFromFile(String assetFilename) throws IOException
@@ -150,9 +149,34 @@ public class ImportTest extends BaseAndroidTest
         assertTrue(file.exists());
         assertTrue(file.canRead());
 
-        GenericImporter importer = component.getGenericImporter();
-        assertThat(importer.canHandle(file), is(true));
+        DatabaseOpener opener = new DatabaseOpener() {
+            @Override
+            public Database open(@NonNull File file)
+            {
+                try
+                {
+                    return new JdbcDatabase(DriverManager.getConnection(
+                        String.format("jdbc:sqlite:%s", file.getAbsolutePath())));
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
 
+            @Override
+            public File getProductionDatabaseFile()
+            {
+                throw new NotImplementedException();
+            }
+        };
+        GenericImporter importer = new GenericImporter(habitList,
+            new LoopDBImporter(habitList, opener),
+            new RewireDBImporter(habitList, modelFactory, opener),
+            new TickmateDBImporter(habitList, modelFactory, opener),
+            new HabitBullCSVImporter(habitList, modelFactory));
+
+        assertTrue(importer.canHandle(file));
         importer.importHabitsFromFile(file);
 
         file.delete();

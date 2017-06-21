@@ -23,8 +23,8 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
+import org.isoron.uhabits.core.io.*;
 import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.io.*;
 
 import java.io.*;
 

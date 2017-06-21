@@ -66,7 +66,7 @@ public class BaseUnitTest
     }
 
     @After
-    public void tearDown()
+    public void tearDown() throws Exception
     {
         validateMockitoUsage();
         DateUtils.setFixedLocalTime(null);

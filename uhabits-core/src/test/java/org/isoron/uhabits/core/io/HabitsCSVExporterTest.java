@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,41 +17,40 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.io;
+package org.isoron.uhabits.core.io;
 
-import android.content.*;
-import android.support.test.*;
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
-
-import org.isoron.androidbase.utils.*;
+import org.apache.commons.io.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.io.*;
 import org.isoron.uhabits.core.models.*;
 import org.junit.*;
-import org.junit.runner.*;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import java.util.zip.*;
 
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class HabitsCSVExporterTest extends BaseAndroidTest
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class HabitsCSVExporterTest extends BaseUnitTest
 {
     private File baseDir;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
+        habitList.add(fixtures.createShortHabit());
+        habitList.add(fixtures.createEmptyHabit());
+        baseDir = Files.createTempDirectory("csv").toFile();
+        assertNotNull(baseDir);
+    }
 
-        fixtures.purgeHabits(habitList);
-        fixtures.createShortHabit();
-        fixtures.createEmptyHabit();
-
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        baseDir = targetContext.getCacheDir();
+    @Override
+    public void tearDown() throws Exception
+    {
+        FileUtils.deleteDirectory(baseDir);
+        super.tearDown();
     }
 
     @Test
@@ -78,20 +77,6 @@ public class HabitsCSVExporterTest extends BaseAndroidTest
         assertPathExists("Scores.csv");
     }
 
-    private void assertAbsolutePathExists(String s)
-    {
-        File file = new File(s);
-        assertTrue(
-            String.format("File %s should exist", file.getAbsolutePath()),
-            file.exists());
-    }
-
-    private void assertPathExists(String s)
-    {
-        assertAbsolutePathExists(
-            String.format("%s/%s", baseDir.getAbsolutePath(), s));
-    }
-
     private void unzip(File file) throws IOException
     {
         ZipFile zip = new ZipFile(file);
@@ -105,14 +90,27 @@ public class HabitsCSVExporterTest extends BaseAndroidTest
             String outputFilename =
                 String.format("%s/%s", baseDir.getAbsolutePath(),
                     entry.getName());
-            File outputFile = new File(outputFilename);
-
-            File parent = outputFile.getParentFile();
+            File out = new File(outputFilename);
+            File parent = out.getParentFile();
             if (parent != null) parent.mkdirs();
 
-            FileUtils.copy(stream, outputFile);
+            IOUtils.copy(stream, new FileOutputStream(out));
         }
 
         zip.close();
+    }
+
+    private void assertPathExists(String s)
+    {
+        assertAbsolutePathExists(
+            String.format("%s/%s", baseDir.getAbsolutePath(), s));
+    }
+
+    private void assertAbsolutePathExists(String s)
+    {
+        File file = new File(s);
+        assertTrue(
+            String.format("File %s should exist", file.getAbsolutePath()),
+            file.exists());
     }
 }

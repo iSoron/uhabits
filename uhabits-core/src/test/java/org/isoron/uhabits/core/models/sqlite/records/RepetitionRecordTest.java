@@ -23,7 +23,6 @@ package org.isoron.uhabits.core.models.sqlite.records;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.models.sqlite.records.*;
 import org.junit.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;

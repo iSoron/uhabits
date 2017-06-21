@@ -68,6 +68,18 @@ public class AndroidDatabase implements Database
     }
 
     @Override
+    public void close()
+    {
+        db.close();
+    }
+
+    @Override
+    public int getVersion()
+    {
+        return db.getVersion();
+    }
+
+    @Override
     public int update(String tableName,
                       Map<String, Object> map,
                       String where,

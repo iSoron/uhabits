@@ -19,30 +19,13 @@
 
 package org.isoron.uhabits.core.database;
 
-import java.util.*;
+import android.support.annotation.*;
 
-public interface Database
+import java.io.*;
+
+public interface DatabaseOpener
 {
-    Cursor select(String query, String... params);
+    Database open(@NonNull File file);
 
-    int update(String tableName,
-               Map<String, Object> values,
-               String where,
-               String... params);
-
-    Long insert(String tableName, Map<String, Object> values);
-
-    void delete(String tableName, String where, String... params);
-
-    void execute(String query, Object... params);
-
-    void beginTransaction();
-
-    void setTransactionSuccessful();
-
-    void endTransaction();
-
-    void close();
-
-    int getVersion();
+    File getProductionDatabaseFile();
 }

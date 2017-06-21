@@ -10,11 +10,6 @@ android {
         applicationId "org.isoron.uhabits"
         minSdkVersion 19
         targetSdkVersion 25
-
-        buildConfigField "Integer", "databaseVersion", "21"
-        buildConfigField "String", "databaseFilename", "\"uhabits.db\""
-        buildConfigField "int", "roboSdk", (System.getenv("ROBO_SDK") ?: "25")
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

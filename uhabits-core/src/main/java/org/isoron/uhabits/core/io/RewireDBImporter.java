@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,22 +17,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.io;
+package org.isoron.uhabits.core.io;
 
-import android.database.*;
-import android.database.sqlite.*;
 import android.support.annotation.*;
 
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.utils.DatabaseUtils;
 import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
 import java.util.*;
 
 import javax.inject.*;
-
-import static android.database.sqlite.SQLiteDatabase.*;
 
 /**
  * Class that imports database files exported by Rewire.
@@ -41,12 +37,17 @@ public class RewireDBImporter extends AbstractImporter
 {
     private ModelFactory modelFactory;
 
+    @NonNull
+    private final DatabaseOpener opener;
+
     @Inject
     public RewireDBImporter(@NonNull HabitList habits,
-                            @NonNull ModelFactory modelFactory)
+                            @NonNull ModelFactory modelFactory,
+                            @NonNull DatabaseOpener opener)
     {
         super(habits);
         this.modelFactory = modelFactory;
+        this.opener = opener;
     }
 
     @Override
@@ -54,13 +55,11 @@ public class RewireDBImporter extends AbstractImporter
     {
         if (!isSQLite3File(file)) return false;
 
-        SQLiteDatabase db = openDatabase(file.getPath(), null, OPEN_READONLY);
+        Database db = opener.open(file);
+        Cursor c = db.select("select count(*) from SQLITE_MASTER " +
+                             "where name='CHECKINS' or name='UNIT'");
 
-        Cursor c = db.rawQuery(
-            "select count(*) from SQLITE_MASTER where name=? or name=?",
-            new String[]{ "CHECKINS", "UNIT" });
-
-        boolean result = (c.moveToFirst() && c.getInt(0) == 2);
+        boolean result = (c.moveToNext() && c.getInt(0) == 2);
 
         c.close();
         db.close();
@@ -70,56 +69,24 @@ public class RewireDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        String path = file.getPath();
-        final SQLiteDatabase db = openDatabase(path, null, OPEN_READONLY);
-
-        DatabaseUtils.executeAsTransaction(() -> createHabits(db));
+        Database db = opener.open(file);
+        db.beginTransaction();
+        createHabits(db);
+        db.setTransactionSuccessful();
+        db.endTransaction();
         db.close();
     }
 
-    private void createCheckmarks(@NonNull SQLiteDatabase db,
-                                  @NonNull Habit habit,
-                                  int rewireHabitId)
+    private void createHabits(Database db)
     {
         Cursor c = null;
 
         try
         {
-            String[] params = { Integer.toString(rewireHabitId) };
-            c = db.rawQuery(
-                "select distinct date from checkins where habit_id=? and type=2",
-                params);
-            if (!c.moveToFirst()) return;
-
-            do
-            {
-                String date = c.getString(0);
-                int year = Integer.parseInt(date.substring(0, 4));
-                int month = Integer.parseInt(date.substring(4, 6));
-                int day = Integer.parseInt(date.substring(6, 8));
-
-                GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
-                cal.set(year, month - 1, day);
-
-                habit.getRepetitions().toggle(cal.getTimeInMillis());
-            } while (c.moveToNext());
-        }
-        finally
-        {
-            if (c != null) c.close();
-        }
-    }
-
-    private void createHabits(SQLiteDatabase db)
-    {
-        Cursor c = null;
-
-        try
-        {
-            c = db.rawQuery(
-                "select _id, name, description, schedule, active_days, " +
-                "repeating_count, days, period from habits", new String[0]);
-            if (!c.moveToFirst()) return;
+            c = db.select("select _id, name, description, schedule, " +
+                          "active_days, repeating_count, days, period " +
+                          "from habits");
+            if (!c.moveToNext()) return;
 
             do
             {
@@ -174,20 +141,51 @@ public class RewireDBImporter extends AbstractImporter
         }
     }
 
-    private void createReminder(SQLiteDatabase db,
-                                Habit habit,
-                                int rewireHabitId)
+    private void createCheckmarks(@NonNull Database db,
+                                  @NonNull Habit habit,
+                                  int rewireHabitId)
+    {
+        Cursor c = null;
+
+        try
+        {
+            String[] params = { Integer.toString(rewireHabitId) };
+            c = db.select(
+                "select distinct date from checkins where habit_id=? and type=2",
+                params);
+            if (!c.moveToNext()) return;
+
+            do
+            {
+                String date = c.getString(0);
+                int year = Integer.parseInt(date.substring(0, 4));
+                int month = Integer.parseInt(date.substring(4, 6));
+                int day = Integer.parseInt(date.substring(6, 8));
+
+                GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
+                cal.set(year, month - 1, day);
+
+                habit.getRepetitions().toggle(cal.getTimeInMillis());
+            } while (c.moveToNext());
+        }
+        finally
+        {
+            if (c != null) c.close();
+        }
+    }
+
+    private void createReminder(Database db, Habit habit, int rewireHabitId)
     {
         String[] params = { Integer.toString(rewireHabitId) };
         Cursor c = null;
 
         try
         {
-            c = db.rawQuery(
+            c = db.select(
                 "select time, active_days from reminders where habit_id=? limit 1",
                 params);
 
-            if (!c.moveToFirst()) return;
+            if (!c.moveToNext()) return;
             int rewireReminder = Integer.parseInt(c.getString(0));
             if (rewireReminder <= 0 || rewireReminder >= 1440) return;
 

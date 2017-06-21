@@ -25,10 +25,13 @@ import android.support.annotation.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
 import java.text.*;
+
+import static org.isoron.uhabits.core.Config.DATABASE_VERSION;
 
 public abstract class DatabaseUtils
 {
@@ -72,7 +75,7 @@ public abstract class DatabaseUtils
     @NonNull
     public static String getDatabaseFilename()
     {
-        String databaseFilename = BuildConfig.databaseFilename;
+        String databaseFilename = Config.DATABASE_FILENAME;
         if (HabitsApplication.isTestMode()) databaseFilename = "test.db";
         return databaseFilename;
     }
@@ -81,7 +84,7 @@ public abstract class DatabaseUtils
     public static void initializeDatabase(Context context)
     {
         opener = new HabitsDatabaseOpener(context, getDatabaseFilename(),
-            BuildConfig.databaseVersion);
+            DATABASE_VERSION);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

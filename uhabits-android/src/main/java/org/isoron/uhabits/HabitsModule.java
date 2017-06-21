@@ -21,6 +21,7 @@ package org.isoron.uhabits;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -85,6 +86,13 @@ public class HabitsModule
     public HabitList getHabitList(SQLiteHabitList list)
     {
         return list;
+    }
+
+    @Provides
+    @AppScope
+    public DatabaseOpener getDatabaseOpener(AndroidDatabaseOpener opener)
+    {
+        return opener;
     }
 }
 

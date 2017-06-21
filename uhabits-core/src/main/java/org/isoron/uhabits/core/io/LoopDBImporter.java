@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,23 +17,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.io;
+package org.isoron.uhabits.core.io;
 
-import android.content.*;
-import android.database.*;
-import android.database.sqlite.*;
 import android.support.annotation.*;
-import android.util.*;
 
-import org.isoron.androidbase.*;
-import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.BuildConfig;
+import org.apache.commons.io.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.utils.DatabaseUtils;
 
 import java.io.*;
 
 import javax.inject.*;
+
+import static org.isoron.uhabits.core.Config.DATABASE_VERSION;
 
 /**
  * Class that imports data from database files exported by Loop Habit Tracker.
@@ -41,14 +37,14 @@ import javax.inject.*;
 public class LoopDBImporter extends AbstractImporter
 {
     @NonNull
-    private Context context;
+    private final DatabaseOpener opener;
 
     @Inject
-    public LoopDBImporter(@NonNull @AppContext Context context,
-                          @NonNull HabitList habits)
+    public LoopDBImporter(@NonNull HabitList habits,
+                          @NonNull DatabaseOpener opener)
     {
         super(habits);
-        this.context = context;
+        this.opener = opener;
     }
 
     @Override
@@ -56,26 +52,23 @@ public class LoopDBImporter extends AbstractImporter
     {
         if (!isSQLite3File(file)) return false;
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(file.getPath(), null,
-            SQLiteDatabase.OPEN_READONLY);
-
+        Database db = opener.open(file);
         boolean canHandle = true;
 
-        Cursor c = db.rawQuery(
-            "select count(*) from SQLITE_MASTER where name=? or name=?",
-            new String[]{ "Checkmarks", "Repetitions" });
+        Cursor c = db.select("select count(*) from SQLITE_MASTER " +
+                             "where name='Checkmarks' or name='Repetitions'");
 
-        if (!c.moveToFirst() || c.getInt(0) != 2)
+        if (!c.moveToNext() || c.getInt(0) != 2)
         {
-            Log.w("LoopDBImporter", "Cannot handle file: tables not found");
+//            Log.w("LoopDBImporter", "Cannot handle file: tables not found");
             canHandle = false;
         }
 
-        if (db.getVersion() > BuildConfig.databaseVersion)
+        if (db.getVersion() > DATABASE_VERSION)
         {
-            Log.w("LoopDBImporter", String.format(
-                "Cannot handle file: incompatible version: %d > %d",
-                db.getVersion(), BuildConfig.databaseVersion));
+//            Log.w("LoopDBImporter", String.format(
+//                "Cannot handle file: incompatible version: %d > %d",
+//                db.getVersion(), DATABASE_VERSION));
             canHandle = false;
         }
 
@@ -87,9 +80,9 @@ public class LoopDBImporter extends AbstractImporter
     @Override
     public void importHabitsFromFile(@NonNull File file) throws IOException
     {
-        DatabaseUtils.dispose();
-        File originalDB = DatabaseUtils.getDatabaseFile(context);
-        FileUtils.copy(file, originalDB);
-        DatabaseUtils.initializeDatabase(context);
+//        DatabaseUtils.dispose();
+        File originalDB = opener.getProductionDatabaseFile();
+        FileUtils.copyFile(file, originalDB);
+//        DatabaseUtils.initializeDatabase(context);
     }
 }

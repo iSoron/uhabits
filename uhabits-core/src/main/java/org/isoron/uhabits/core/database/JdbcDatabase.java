@@ -180,4 +180,27 @@ public class JdbcDatabase implements Database
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void close()
+    {
+        try
+        {
+            connection.close();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getVersion()
+    {
+        try (Cursor c = select("PRAGMA user_version"))
+        {
+            c.moveToNext();
+            return c.getInt(0);
+        }
+    }
 }
