@@ -24,18 +24,21 @@ package org.isoron.uhabits;
 import android.content.*;
 import android.database.sqlite.*;
 
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.database.*;
 
 
-public class HabitsDatabaseOpener extends BaseSQLiteOpenHelper
+public class HabitsDatabaseOpener extends SQLiteOpenHelper
 {
     private final int version;
+
+    private MigrationHelper helper;
 
     public HabitsDatabaseOpener(Context context,
                                 String databaseFilename,
                                 int version)
     {
-        super(context, databaseFilename, version);
+        super(context, databaseFilename, null, version);
         this.version = version;
     }
 
@@ -49,6 +52,13 @@ public class HabitsDatabaseOpener extends BaseSQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         if(oldVersion < 8) throw new UnsupportedDatabaseVersionException();
-        super.onUpgrade(db, oldVersion, newVersion);
+        helper = new MigrationHelper(new AndroidDatabase(db));
+        helper.executeMigrations(oldVersion, newVersion);
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
+        throw new UnsupportedDatabaseVersionException();
     }
 }

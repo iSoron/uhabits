@@ -20,7 +20,7 @@
 package org.isoron.uhabits;
 
 import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.core.tasks.*;

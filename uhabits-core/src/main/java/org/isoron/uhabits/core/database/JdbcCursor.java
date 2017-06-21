@@ -19,7 +19,7 @@
  *
  */
 
-package org.isoron.uhabits.core.db;
+package org.isoron.uhabits.core.database;
 
 import java.sql.*;
 

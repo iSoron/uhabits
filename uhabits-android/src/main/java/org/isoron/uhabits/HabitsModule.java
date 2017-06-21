@@ -77,7 +77,7 @@ public class HabitsModule
     public ModelFactory getModelFactory()
     {
         return new SQLModelFactory(
-            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
+            new AndroidDatabase(DatabaseUtils.openDatabase()));
     }
 
     @Provides

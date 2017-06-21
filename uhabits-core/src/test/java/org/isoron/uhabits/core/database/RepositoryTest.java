@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.core.db;
+package org.isoron.uhabits.core.database;
 
 import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.*;

@@ -15,12 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- *
  */
 
-package org.isoron.uhabits.database;
+package org.isoron.uhabits.core.database;
 
-public class InvalidDatabaseVersionException extends RuntimeException
+public interface Cursor extends AutoCloseable
 {
+    @Override
+    void close();
+
+    boolean moveToNext();
+
+    Integer getInt(int index);
+
+    Long getLong(int index);
+
+    Double getDouble(int index);
+
+    String getString(int index);
 }

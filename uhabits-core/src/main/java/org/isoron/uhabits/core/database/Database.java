@@ -15,16 +15,30 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- *
  */
 
-package org.isoron.uhabits.database;
+package org.isoron.uhabits.core.database;
 
-public class InconsistentDatabaseException extends RuntimeException
+import java.util.*;
+
+public interface Database
 {
-    public InconsistentDatabaseException(String message)
-    {
-        super(message);
-    }
+    Cursor select(String query, String... params);
+
+    int update(String tableName,
+               Map<String, Object> values,
+               String where,
+               String... params);
+
+    Long insert(String tableName, Map<String, Object> values);
+
+    void delete(String tableName, String where, String... params);
+
+    void execute(String query, Object... params);
+
+    void beginTransaction();
+
+    void setTransactionSuccessful();
+
+    void endTransaction();
 }

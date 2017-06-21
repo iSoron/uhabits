@@ -21,7 +21,7 @@
 
 package org.isoron.uhabits.database;
 
-import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.core.database.*;
 
 public class AndroidCursor implements Cursor
 {

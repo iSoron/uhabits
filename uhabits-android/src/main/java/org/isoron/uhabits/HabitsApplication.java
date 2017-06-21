@@ -23,11 +23,11 @@ import android.app.*;
 import android.content.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
-import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -92,7 +92,7 @@ public class HabitsApplication extends Application
         {
             DatabaseUtils.initializeDatabase(context);
         }
-        catch (InvalidDatabaseVersionException e)
+        catch (UnsupportedDatabaseVersionException e)
         {
             File db = DatabaseUtils.getDatabaseFile(context);
             db.renameTo(new File(db.getAbsolutePath() + ".invalid"));

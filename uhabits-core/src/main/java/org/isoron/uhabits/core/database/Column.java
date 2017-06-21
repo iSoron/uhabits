@@ -17,14 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.core.db;
+package org.isoron.uhabits.core.database;
 
 import java.lang.annotation.*;
 
-@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Table
+public @interface Column
 {
-    String name();
-    String id() default "id";
+    String name() default "";
 }

@@ -24,7 +24,7 @@ package org.isoron.uhabits.core.models.sqlite;
 import android.support.annotation.*;
 import android.support.annotation.Nullable;
 
-import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;

@@ -24,15 +24,15 @@ package org.isoron.uhabits.database;
 import android.content.*;
 import android.database.sqlite.*;
 
-import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.core.database.*;
 
 import java.util.*;
 
-public class AndroidSQLiteDatabase implements Database
+public class AndroidDatabase implements Database
 {
     private final SQLiteDatabase db;
 
-    public AndroidSQLiteDatabase(SQLiteDatabase db)
+    public AndroidDatabase(SQLiteDatabase db)
     {
         this.db = db;
     }

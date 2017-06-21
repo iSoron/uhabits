@@ -26,7 +26,6 @@ import android.support.annotation.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.database.*;
 
 import java.io.*;
 import java.text.*;
@@ -81,17 +80,8 @@ public abstract class DatabaseUtils
     @SuppressWarnings("unchecked")
     public static void initializeDatabase(Context context)
     {
-        try
-        {
-            opener = new HabitsDatabaseOpener(context, getDatabaseFilename(),
-                BuildConfig.databaseVersion);
-        }
-        catch (RuntimeException e)
-        {
-            if (e.getMessage().contains("downgrade"))
-                throw new InvalidDatabaseVersionException();
-            else throw e;
-        }
+        opener = new HabitsDatabaseOpener(context, getDatabaseFilename(),
+            BuildConfig.databaseVersion);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -113,7 +103,7 @@ public abstract class DatabaseUtils
     @NonNull
     public static SQLiteDatabase openDatabase()
     {
-        if(opener == null) throw new IllegalStateException();
+        if (opener == null) throw new IllegalStateException();
         return opener.getWritableDatabase();
     }
 

@@ -26,7 +26,7 @@ import org.isoron.androidbase.*;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.core.db.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.database.*;
 import org.isoron.uhabits.utils.*;
@@ -115,7 +115,7 @@ public class SyncManager implements CommandRunner.Listener
         this.isListening = false;
 
         repository = new Repository<>(Event.class,
-            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
+            new AndroidDatabase(DatabaseUtils.openDatabase()));
         pendingConfirmation = new LinkedList<>();
         pendingEmit = new LinkedList<>(repository.findAll("order by timestamp"));
 

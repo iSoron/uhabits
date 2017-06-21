@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.isoron.uhabits.core.db;
+package org.isoron.uhabits.core.database;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
