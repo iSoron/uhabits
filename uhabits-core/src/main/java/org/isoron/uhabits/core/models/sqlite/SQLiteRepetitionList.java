@@ -115,7 +115,7 @@ public class SQLiteRepetitionList extends RepetitionList
         check(habit.getId());
         repository.execSQL(
             "delete from repetitions where habit = ? and timestamp = ?",
-            habit.getId());
+            habit.getId(), repetition.getTimestamp());
         observable.notifyListeners();
     }
 

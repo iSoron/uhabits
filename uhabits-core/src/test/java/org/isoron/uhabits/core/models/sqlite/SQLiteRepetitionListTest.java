@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,31 +17,27 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models.sqlite;
+package org.isoron.uhabits.core.models.sqlite;
 
 import android.support.annotation.*;
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.db.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
+import org.isoron.uhabits.core.test.*;
 import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.database.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
-import org.junit.runner.*;
 
 import java.util.*;
 
-import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
 
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class SQLiteRepetitionListTest extends BaseAndroidTest
+public class SQLiteRepetitionListTest extends BaseUnitTest
 {
     private Habit habit;
 
@@ -51,19 +47,23 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
 
     private long day;
 
-    private Repository<RepetitionRecord> sqlite;
+    private Repository<RepetitionRecord> repository;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 
+        Database db = buildMemoryDatabase();
+        modelFactory = new SQLModelFactory(db);
+        fixtures = new HabitFixtures(modelFactory);
+        habitList = modelFactory.buildHabitList();
+        repository = new Repository<>(RepetitionRecord.class, db);
         habit = fixtures.createLongHabit();
+
         repetitions = habit.getRepetitions();
         today = DateUtils.getStartOfToday();
         day = DateUtils.millisecondsInOneDay;
-        sqlite = new Repository<>(RepetitionRecord.class,
-            new AndroidSQLiteDatabase(DatabaseUtils.openDatabase()));
     }
 
     @Test
@@ -136,12 +136,10 @@ public class SQLiteRepetitionListTest extends BaseAndroidTest
     private RepetitionRecord getByTimestamp(long timestamp)
     {
         String query = "where habit = ? and timestamp = ?";
-
         String params[] = {
-            Long.toString(habit.getId()),
-            Long.toString(timestamp)
+            Long.toString(habit.getId()), Long.toString(timestamp)
         };
 
-        return sqlite.findFirst(query, params);
+        return repository.findFirst(query, params);
     }
 }

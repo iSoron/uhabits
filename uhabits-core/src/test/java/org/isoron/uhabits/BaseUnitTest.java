@@ -47,7 +47,7 @@ public class BaseUnitTest
 
     protected HabitFixtures fixtures;
 
-    protected MemoryModelFactory modelFactory;
+    protected ModelFactory modelFactory;
 
     protected SingleThreadTaskRunner taskRunner;
 

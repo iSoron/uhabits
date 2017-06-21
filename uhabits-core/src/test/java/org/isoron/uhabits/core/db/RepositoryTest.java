@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,42 +17,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models.sqlite;
-
-import android.database.sqlite.SQLiteDatabase;
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
+package org.isoron.uhabits.core.db;
 
 import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.db.*;
-import org.isoron.uhabits.database.*;
-import org.isoron.uhabits.utils.*;
 import org.junit.*;
-import org.junit.runner.*;
 
-import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-@RunWith(AndroidJUnit4.class)
-@MediumTest
-public class SQLiteRepositoryTest extends BaseAndroidTest
+
+public class RepositoryTest extends BaseUnitTest
 {
     private Repository<ThingRecord> repository;
 
-    private SQLiteDatabase db;
+    private Database db;
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
-        this.db = DatabaseUtils.openDatabase();
-        repository = new Repository<>(ThingRecord.class,
-            new AndroidSQLiteDatabase((db)));
+        this.db = buildMemoryDatabase();
+        repository = new Repository<>(ThingRecord.class, db);
 
-        db.execSQL("drop table if exists tests");
-        db.execSQL("create table tests(" +
+        db.execute("drop table if exists tests");
+        db.execute("create table tests(" +
                    "id integer not null primary key autoincrement, " +
                    "color_number integer not null, score float not null, " +
                    "name string not null)");
@@ -61,7 +53,7 @@ public class SQLiteRepositoryTest extends BaseAndroidTest
     @Test
     public void testFind() throws Exception
     {
-        db.execSQL("insert into tests(id, color_number, name, score) " +
+        db.execute("insert into tests(id, color_number, name, score) " +
                    "values (10, 20, 'hello', 8.0)");
 
         ThingRecord record = repository.find(10L);

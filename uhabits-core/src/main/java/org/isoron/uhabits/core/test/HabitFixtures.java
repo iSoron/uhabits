@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.test;
 
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.sqlite.*;
 import org.isoron.uhabits.core.utils.*;
 
 public class HabitFixtures
@@ -42,6 +43,8 @@ public class HabitFixtures
         habit.setDescription("Did you meditate this morning?");
         habit.setColor(3);
         habit.setFrequency(Frequency.DAILY);
+        saveIfSQLite(habit);
+
         return habit;
     }
 
@@ -73,6 +76,7 @@ public class HabitFixtures
         habit.setTargetType(Habit.AT_LEAST);
         habit.setTargetValue(2.0);
         habit.setColor(1);
+        saveIfSQLite(habit);
 
         long day = DateUtils.millisecondsInOneDay;
         long today = DateUtils.getStartOfToday();
@@ -94,6 +98,7 @@ public class HabitFixtures
         habit.setName("Wake up early");
         habit.setDescription("Did you wake up before 6am?");
         habit.setFrequency(new Frequency(2, 3));
+        saveIfSQLite(habit);
 
         long timestamp = DateUtils.getStartOfToday();
         for (boolean c : NON_DAILY_HABIT_CHECKS)
@@ -103,5 +108,11 @@ public class HabitFixtures
         }
 
         return habit;
+    }
+
+    private void saveIfSQLite(Habit habit)
+    {
+        if (!(habit.getRepetitions() instanceof SQLiteRepetitionList)) return;
+        new SQLiteHabitList(modelFactory).add(habit);
     }
 }
