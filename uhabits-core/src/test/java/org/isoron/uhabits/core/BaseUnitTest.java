@@ -19,6 +19,9 @@
 
 package org.isoron.uhabits.core;
 
+import android.support.annotation.*;
+
+import org.apache.commons.io.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
@@ -30,11 +33,13 @@ import org.junit.*;
 import org.junit.runner.*;
 import org.mockito.junit.*;
 
+import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.validateMockitoUsage;
+import sun.reflect.generics.reflectiveObjects.*;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseUnitTest
@@ -52,6 +57,29 @@ public class BaseUnitTest
     protected SingleThreadTaskRunner taskRunner;
 
     protected CommandRunner commandRunner;
+
+    protected DatabaseOpener databaseOpener = new DatabaseOpener()
+    {
+        @Override
+        public Database open(@NonNull File file)
+        {
+            try
+            {
+                return new JdbcDatabase(DriverManager.getConnection(
+                    String.format("jdbc:sqlite:%s", file.getAbsolutePath())));
+            }
+            catch (SQLException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override
+        public File getProductionDatabaseFile()
+        {
+            throw new NotImplementedException();
+        }
+    };
 
     @Before
     public void setUp() throws Exception
@@ -91,13 +119,43 @@ public class BaseUnitTest
         {
             Database db = new JdbcDatabase(
                 DriverManager.getConnection("jdbc:sqlite::memory:"));
+            db.execute("pragma user_version=8;");
             MigrationHelper helper = new MigrationHelper(db);
-            helper.executeMigrations(8, 21);
+            helper.migrateTo(21);
             return db;
         }
         catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
+    }
+
+    protected void copyAssetToFile(String assetPath, File dst)
+        throws IOException
+    {
+        IOUtils.copy(openAsset(assetPath), new FileOutputStream(dst));
+    }
+
+    @NonNull
+    protected InputStream openAsset(String assetPath) throws IOException
+    {
+        InputStream in = getClass().getResourceAsStream(assetPath);
+        if (in != null) return in;
+
+        String basePath = "uhabits-core/src/test/resources/";
+        File file = new File(basePath + assetPath);
+        if (file.exists() && file.canRead()) in = new FileInputStream(file);
+        if (in != null) return in;
+
+        throw new IllegalStateException("asset not found: " + assetPath);
+    }
+
+    protected Database openDatabaseResource(String path) throws IOException
+    {
+        InputStream original = openAsset(path);
+        File tmpDbFile = File.createTempFile("database", ".db");
+        tmpDbFile.deleteOnExit();
+        IOUtils.copy(original, new FileOutputStream(tmpDbFile));
+        return databaseOpener.open(tmpDbFile);
     }
 }

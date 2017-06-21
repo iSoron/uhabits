@@ -29,7 +29,7 @@ import java.io.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.Config.DATABASE_VERSION;
+import static org.isoron.uhabits.core.Config.*;
 
 /**
  * Class that imports data from database files exported by Loop Habit Tracker.
@@ -55,8 +55,8 @@ public class LoopDBImporter extends AbstractImporter
         Database db = opener.open(file);
         boolean canHandle = true;
 
-        Cursor c = db.select("select count(*) from SQLITE_MASTER " +
-                             "where name='Checkmarks' or name='Repetitions'");
+        Cursor c = db.query("select count(*) from SQLITE_MASTER " +
+                            "where name='Checkmarks' or name='Repetitions'");
 
         if (!c.moveToNext() || c.getInt(0) != 2)
         {

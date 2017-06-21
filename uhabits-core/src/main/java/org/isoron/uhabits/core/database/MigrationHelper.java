@@ -37,11 +37,11 @@ public class MigrationHelper
         this.db = db;
     }
 
-    public void executeMigrations(int oldVersion, int newVersion)
+    public void migrateTo(int newVersion)
     {
         try
         {
-            for (int v = oldVersion + 1; v <= newVersion; v++)
+            for (int v = db.getVersion() + 1; v <= newVersion; v++)
             {
                 String fname = String.format(Locale.US, "/migrations/%02d.sql", v);
                 for (String command : SQLParser.parse(open(fname)))

@@ -23,7 +23,15 @@ import java.util.*;
 
 public interface Database
 {
-    Cursor select(String query, String... params);
+    Cursor query(String query, String... params);
+
+    default void query(String query, ProcessCallback callback)
+    {
+        try (Cursor c = query(query)) {
+            c.moveToNext();
+            callback.process(c);
+        }
+    }
 
     int update(String tableName,
                Map<String, Object> values,
@@ -45,4 +53,9 @@ public interface Database
     void close();
 
     int getVersion();
+
+    interface ProcessCallback
+    {
+        void process(Cursor cursor);
+    }
 }

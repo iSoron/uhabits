@@ -63,7 +63,7 @@ public class Repository<T>
     @NonNull
     public List<T> findAll(@NonNull String query, @NonNull String... params)
     {
-        try (Cursor c = db.select(buildSelectQuery() + query, params))
+        try (Cursor c = db.query(buildSelectQuery() + query, params))
         {
             return cursorToMultipleRecords(c);
         }
@@ -76,7 +76,7 @@ public class Repository<T>
     @Nullable
     public T findFirst(String query, String... params)
     {
-        try (Cursor c = db.select(buildSelectQuery() + query, params))
+        try (Cursor c = db.query(buildSelectQuery() + query, params))
         {
             if (!c.moveToNext()) return null;
             return cursorToSingleRecord(c);

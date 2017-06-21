@@ -21,6 +21,8 @@ package org.isoron.uhabits.core.models;
 
 import android.support.annotation.*;
 
+import org.apache.commons.lang3.builder.*;
+
 public final class Reminder
 {
     private final int hour;
@@ -50,5 +52,41 @@ public final class Reminder
     public int getMinute()
     {
         return minute;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Reminder reminder = (Reminder) o;
+
+        return new EqualsBuilder()
+            .append(hour, reminder.hour)
+            .append(minute, reminder.minute)
+            .append(days, reminder.days)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+            .append(hour)
+            .append(minute)
+            .append(days)
+            .toHashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("hour", hour)
+            .append("minute", minute)
+            .append("days", days)
+            .toString();
     }
 }

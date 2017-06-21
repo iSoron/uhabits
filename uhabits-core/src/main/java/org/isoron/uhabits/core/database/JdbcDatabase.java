@@ -36,7 +36,7 @@ public class JdbcDatabase implements Database
     }
 
     @Override
-    public Cursor select(String query, String... params)
+    public Cursor query(String query, String... params)
     {
         try
         {
@@ -197,7 +197,7 @@ public class JdbcDatabase implements Database
     @Override
     public int getVersion()
     {
-        try (Cursor c = select("PRAGMA user_version"))
+        try (Cursor c = query("PRAGMA user_version"))
         {
             c.moveToNext();
             return c.getInt(0);

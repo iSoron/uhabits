@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.core.models;
 
+import org.apache.commons.lang3.builder.*;
+
 import java.util.*;
 
 public class WeekdayList
@@ -67,5 +69,31 @@ public class WeekdayList
         }
 
         return packedList;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WeekdayList that = (WeekdayList) o;
+
+        return new EqualsBuilder().append(weekdays, that.weekdays).isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37).append(weekdays).toHashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("weekdays", weekdays)
+            .toString();
     }
 }

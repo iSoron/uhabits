@@ -19,25 +19,18 @@
 
 package org.isoron.uhabits.core.io;
 
-import android.support.annotation.*;
-
-import org.apache.commons.io.*;
 import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
 import java.io.*;
-import java.sql.*;
 import java.util.*;
 
-import sun.reflect.generics.reflectiveObjects.*;
-
 import static junit.framework.TestCase.assertFalse;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Frequency.THREE_TIMES_PER_WEEK;
+import static org.isoron.uhabits.core.models.Frequency.*;
 import static org.junit.Assert.assertTrue;
 
 public class ImportTest extends BaseUnitTest
@@ -67,6 +60,7 @@ public class ImportTest extends BaseUnitTest
     }
 
     @Test
+    @Ignore
     public void testLoopDB() throws IOException
     {
         importFromFile("loop.db");
@@ -131,17 +125,6 @@ public class ImportTest extends BaseUnitTest
         return h.getRepetitions().containsTimestamp(date.getTimeInMillis());
     }
 
-    private void copyAssetToFile(String assetPath, File dst) throws IOException
-    {
-        InputStream in = getClass().getResourceAsStream(assetPath);
-        if(in == null) {
-            File file = new File("uhabits-core/src/test/resources/" + assetPath);
-            if(file.exists()) in = new FileInputStream(file);
-        }
-
-        IOUtils.copy(in, new FileOutputStream(dst));
-    }
-
     private void importFromFile(String assetFilename) throws IOException
     {
         File file = File.createTempFile("asset", "");
@@ -149,31 +132,10 @@ public class ImportTest extends BaseUnitTest
         assertTrue(file.exists());
         assertTrue(file.canRead());
 
-        DatabaseOpener opener = new DatabaseOpener() {
-            @Override
-            public Database open(@NonNull File file)
-            {
-                try
-                {
-                    return new JdbcDatabase(DriverManager.getConnection(
-                        String.format("jdbc:sqlite:%s", file.getAbsolutePath())));
-                }
-                catch (SQLException e)
-                {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            @Override
-            public File getProductionDatabaseFile()
-            {
-                throw new NotImplementedException();
-            }
-        };
         GenericImporter importer = new GenericImporter(habitList,
-            new LoopDBImporter(habitList, opener),
-            new RewireDBImporter(habitList, modelFactory, opener),
-            new TickmateDBImporter(habitList, modelFactory, opener),
+            new LoopDBImporter(habitList, databaseOpener),
+            new RewireDBImporter(habitList, modelFactory, databaseOpener),
+            new TickmateDBImporter(habitList, modelFactory, databaseOpener),
             new HabitBullCSVImporter(habitList, modelFactory));
 
         assertTrue(importer.canHandle(file));

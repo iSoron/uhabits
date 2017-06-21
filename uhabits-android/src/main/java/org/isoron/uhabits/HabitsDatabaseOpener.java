@@ -45,15 +45,16 @@ public class HabitsDatabaseOpener extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        onUpgrade(db, 8, version);
+        db.setVersion(8);
+        onUpgrade(db, -1, version);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        if(oldVersion < 8) throw new UnsupportedDatabaseVersionException();
+        if(db.getVersion() < 8) throw new UnsupportedDatabaseVersionException();
         helper = new MigrationHelper(new AndroidDatabase(db));
-        helper.executeMigrations(oldVersion, newVersion);
+        helper.migrateTo(newVersion);
     }
 
     @Override

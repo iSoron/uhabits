@@ -38,7 +38,7 @@ public class AndroidDatabase implements Database
     }
 
     @Override
-    public Cursor select(String query, String... params)
+    public Cursor query(String query, String... params)
     {
         return new AndroidCursor(db.rawQuery(query, params));
     }

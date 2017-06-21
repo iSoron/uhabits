@@ -56,8 +56,8 @@ public class RewireDBImporter extends AbstractImporter
         if (!isSQLite3File(file)) return false;
 
         Database db = opener.open(file);
-        Cursor c = db.select("select count(*) from SQLITE_MASTER " +
-                             "where name='CHECKINS' or name='UNIT'");
+        Cursor c = db.query("select count(*) from SQLITE_MASTER " +
+                            "where name='CHECKINS' or name='UNIT'");
 
         boolean result = (c.moveToNext() && c.getInt(0) == 2);
 
@@ -83,9 +83,9 @@ public class RewireDBImporter extends AbstractImporter
 
         try
         {
-            c = db.select("select _id, name, description, schedule, " +
-                          "active_days, repeating_count, days, period " +
-                          "from habits");
+            c = db.query("select _id, name, description, schedule, " +
+                         "active_days, repeating_count, days, period " +
+                         "from habits");
             if (!c.moveToNext()) return;
 
             do
@@ -150,7 +150,7 @@ public class RewireDBImporter extends AbstractImporter
         try
         {
             String[] params = { Integer.toString(rewireHabitId) };
-            c = db.select(
+            c = db.query(
                 "select distinct date from checkins where habit_id=? and type=2",
                 params);
             if (!c.moveToNext()) return;
@@ -181,7 +181,7 @@ public class RewireDBImporter extends AbstractImporter
 
         try
         {
-            c = db.select(
+            c = db.query(
                 "select time, active_days from reminders where habit_id=? limit 1",
                 params);
 

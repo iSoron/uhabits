@@ -56,8 +56,8 @@ public class TickmateDBImporter extends AbstractImporter
         if (!isSQLite3File(file)) return false;
 
         Database db = opener.open(file);
-        Cursor c = db.select("select count(*) from SQLITE_MASTER " +
-                             "where name='tracks' or name='track2groups'");
+        Cursor c = db.query("select count(*) from SQLITE_MASTER " +
+                            "where name='tracks' or name='track2groups'");
 
         boolean result = (c.moveToNext() && c.getInt(0) == 2);
 
@@ -86,7 +86,7 @@ public class TickmateDBImporter extends AbstractImporter
         try
         {
             String[] params = {Integer.toString(tickmateTrackId)};
-            c = db.select(
+            c = db.query(
                 "select distinct year, month, day from ticks where _track_id=?",
                 params);
             if (!c.moveToNext()) return;
@@ -115,7 +115,7 @@ public class TickmateDBImporter extends AbstractImporter
 
         try
         {
-            c = db.select("select _id, name, description from tracks",
+            c = db.query("select _id, name, description from tracks",
                 new String[0]);
             if (!c.moveToNext()) return;
 
