@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.utils;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.junit.*;
 
 import java.util.*;

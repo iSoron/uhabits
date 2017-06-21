@@ -20,7 +20,7 @@
 package org.isoron.uhabits.core.database;
 
 import org.apache.commons.lang3.builder.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.junit.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;

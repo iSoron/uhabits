@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;

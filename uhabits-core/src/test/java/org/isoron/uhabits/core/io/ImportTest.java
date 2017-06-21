@@ -22,7 +22,7 @@ package org.isoron.uhabits.core.io;
 import android.support.annotation.*;
 
 import org.apache.commons.io.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;

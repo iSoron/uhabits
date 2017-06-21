@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.about;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.junit.*;
 import org.mockito.*;

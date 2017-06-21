@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.core;
 
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.database.*;

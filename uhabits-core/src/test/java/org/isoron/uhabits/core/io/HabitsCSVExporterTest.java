@@ -20,7 +20,7 @@
 package org.isoron.uhabits.core.io;
 
 import org.apache.commons.io.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 

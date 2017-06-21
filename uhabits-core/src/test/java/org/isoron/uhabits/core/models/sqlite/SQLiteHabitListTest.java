@@ -21,7 +21,7 @@
 
 package org.isoron.uhabits.core.models.sqlite;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;

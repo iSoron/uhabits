@@ -22,7 +22,7 @@ package org.isoron.uhabits.core.commands;
 import android.support.annotation.*;
 
 import org.hamcrest.*;
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
 import org.json.*;
 import org.junit.*;

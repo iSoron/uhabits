@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.tasks;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.*;
 import org.junit.*;
 import org.junit.runner.*;
 import org.junit.runners.*;
