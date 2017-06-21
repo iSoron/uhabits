@@ -27,11 +27,8 @@ import android.database.sqlite.*;
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.db.*;
 
-import java.io.*;
-
 
 public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
-    implements MigrationHelper.FileOpener
 {
     private final Context context;
 
@@ -50,7 +47,7 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         MigrationHelper helper =
-            new MigrationHelper(this, new AndroidSQLiteDatabase(db));
+            new MigrationHelper(new AndroidSQLiteDatabase(db));
         helper.executeMigrations(-1, version);
     }
 
@@ -58,7 +55,7 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         MigrationHelper helper =
-            new MigrationHelper(this, new AndroidSQLiteDatabase(db));
+            new MigrationHelper(new AndroidSQLiteDatabase(db));
         helper.executeMigrations(oldVersion, newVersion);
     }
 
@@ -66,18 +63,5 @@ public class BaseSQLiteOpenHelper extends SQLiteOpenHelper
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         throw new UnsupportedDatabaseVersionException();
-    }
-
-    @Override
-    public InputStream open(String filename)
-    {
-        try
-        {
-            return context.getAssets().open(filename);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
     }
 }

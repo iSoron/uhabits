@@ -49,6 +49,10 @@ android {
             }
         }
     }
+
+    sourceSets {
+        main.assets.srcDirs += '../uhabits-core/src/main/resources/'
+    }
 }
 
 dependencies {

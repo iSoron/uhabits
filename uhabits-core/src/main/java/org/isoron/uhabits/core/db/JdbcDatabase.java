@@ -70,7 +70,6 @@ public class JdbcDatabase implements Database
 
             String query = String.format("update %s set %s where %s", tableName,
                 StringUtils.join(fields, ", "), where);
-            System.out.println(query);
 
             PreparedStatement st = buildStatement(query, values.toArray());
             return st.executeUpdate();

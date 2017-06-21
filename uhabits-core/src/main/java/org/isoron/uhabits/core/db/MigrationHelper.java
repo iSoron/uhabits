@@ -23,16 +23,17 @@ import android.support.annotation.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 
 public class MigrationHelper
 {
-    private final FileOpener opener;
+    private static final Logger LOGGER =
+        Logger.getLogger(MigrationHelper.class.getName());
 
     private final Database db;
 
-    public MigrationHelper(@NonNull FileOpener opener, @NonNull Database db)
+    public MigrationHelper(@NonNull Database db)
     {
-        this.opener = opener;
         this.db = db;
     }
 
@@ -42,9 +43,8 @@ public class MigrationHelper
         {
             for (int v = oldVersion + 1; v <= newVersion; v++)
             {
-                String fname = String.format(Locale.US, "migrations/%d.sql", v);
-                InputStream stream = opener.open(fname);
-                for (String command : SQLParser.parse(stream))
+                String fname = String.format(Locale.US, "/migrations/%02d.sql", v);
+                for (String command : SQLParser.parse(open(fname)))
                     db.execute(command);
             }
         }
@@ -54,8 +54,18 @@ public class MigrationHelper
         }
     }
 
-    public interface FileOpener
+    @NonNull
+    private InputStream open(String fname) throws IOException
     {
-        InputStream open(String filename);
+        InputStream resource = getClass().getResourceAsStream(fname);
+        if(resource != null) return resource;
+
+        // Workaround for bug in Android Studio / IntelliJ. Removing this
+        // causes unit tests to fail when run from within the IDE, although
+        // everything works fine from the command line.
+        File file = new File("uhabits-core/src/main/resources/" + fname);
+        if(file.exists()) return new FileInputStream(file);
+
+        throw new RuntimeException("resource not found: " + fname);
     }
 }

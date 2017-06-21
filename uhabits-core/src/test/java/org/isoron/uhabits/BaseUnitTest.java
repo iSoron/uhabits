@@ -40,6 +40,9 @@ import static org.mockito.Mockito.validateMockitoUsage;
 public class BaseUnitTest
 {
 
+    // 8:00am, January 25th, 2015 (UTC)
+    protected static final long FIXED_LOCAL_TIME = 1422172800000L;
+
     protected HabitList habitList;
 
     protected HabitFixtures fixtures;
@@ -49,9 +52,6 @@ public class BaseUnitTest
     protected SingleThreadTaskRunner taskRunner;
 
     protected CommandRunner commandRunner;
-
-    // 8:00am, January 25th, 2015 (UTC)
-    protected static final long FIXED_LOCAL_TIME = 1422172800000L;
 
     @Before
     public void setUp() throws Exception
@@ -89,7 +89,11 @@ public class BaseUnitTest
     {
         try
         {
-            return new JdbcDatabase(DriverManager.getConnection("jdbc:sqlite::memory:"));
+            Database db = new JdbcDatabase(
+                DriverManager.getConnection("jdbc:sqlite::memory:"));
+            MigrationHelper helper = new MigrationHelper(db);
+            helper.executeMigrations(8, 21);
+            return db;
         }
         catch (SQLException e)
         {
