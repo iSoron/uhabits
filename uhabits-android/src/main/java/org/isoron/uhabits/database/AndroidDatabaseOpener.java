@@ -25,7 +25,6 @@ import android.support.annotation.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.database.*;
-import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
@@ -47,11 +46,5 @@ public class AndroidDatabaseOpener implements DatabaseOpener
         return new AndroidDatabase(
             SQLiteDatabase.openDatabase(file.getAbsolutePath(), null,
                 SQLiteDatabase.OPEN_READWRITE));
-    }
-
-    @Override
-    public File getProductionDatabaseFile()
-    {
-        return DatabaseUtils.getDatabaseFile(context);
     }
 }

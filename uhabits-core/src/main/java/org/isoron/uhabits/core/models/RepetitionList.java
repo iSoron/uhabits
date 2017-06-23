@@ -213,9 +213,6 @@ public abstract class RepetitionList
 
     public void toggle(long timestamp, int value)
     {
-        if(!habit.isNumerical())
-            throw new IllegalStateException("habit must be numerical");
-
         Repetition rep = getByTimestamp(timestamp);
         if(rep != null) remove(rep);
         add(new Repetition(timestamp, value));

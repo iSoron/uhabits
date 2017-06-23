@@ -32,11 +32,11 @@ import java.util.*;
  */
 public abstract class AbstractImporter
 {
-    protected final HabitList habits;
+    protected final HabitList habitList;
 
-    public AbstractImporter(HabitList habits)
+    public AbstractImporter(HabitList habitList)
     {
-        this.habits = habits;
+        this.habitList = habitList;
     }
 
     public abstract boolean canHandle(@NonNull File file) throws IOException;

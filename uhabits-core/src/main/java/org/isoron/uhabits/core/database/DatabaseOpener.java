@@ -26,6 +26,4 @@ import java.io.*;
 public interface DatabaseOpener
 {
     Database open(@NonNull File file);
-
-    File getProductionDatabaseFile();
 }

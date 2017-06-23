@@ -37,8 +37,6 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-import sun.reflect.generics.reflectiveObjects.*;
-
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -72,12 +70,6 @@ public class BaseUnitTest
             {
                 throw new RuntimeException(e);
             }
-        }
-
-        @Override
-        public File getProductionDatabaseFile()
-        {
-            throw new NotImplementedException();
         }
     };
 

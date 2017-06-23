@@ -60,7 +60,6 @@ public class ImportTest extends BaseUnitTest
     }
 
     @Test
-    @Ignore
     public void testLoopDB() throws IOException
     {
         importFromFile("loop.db");
@@ -133,7 +132,7 @@ public class ImportTest extends BaseUnitTest
         assertTrue(file.canRead());
 
         GenericImporter importer = new GenericImporter(habitList,
-            new LoopDBImporter(habitList, databaseOpener),
+            new LoopDBImporter(habitList, modelFactory, databaseOpener),
             new RewireDBImporter(habitList, modelFactory, databaseOpener),
             new TickmateDBImporter(habitList, modelFactory, databaseOpener),
             new HabitBullCSVImporter(habitList, modelFactory));

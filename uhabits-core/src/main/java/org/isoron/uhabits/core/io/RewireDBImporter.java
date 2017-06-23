@@ -128,7 +128,7 @@ public class RewireDBImporter extends AbstractImporter
                 }
 
                 habit.setFrequency(new Frequency(numerator, denominator));
-                habits.add(habit);
+                habitList.add(habit);
 
                 createReminder(db, habit, id);
                 createCheckmarks(db, habit, id);
@@ -204,7 +204,7 @@ public class RewireDBImporter extends AbstractImporter
 
             Reminder reminder = new Reminder(hour, minute, days);
             habit.setReminder(reminder);
-            habits.update(habit);
+            habitList.update(habit);
         }
         finally
         {
