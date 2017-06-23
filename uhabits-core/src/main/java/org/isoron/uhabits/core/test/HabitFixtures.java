@@ -31,9 +31,12 @@ public class HabitFixtures
 
     private final ModelFactory modelFactory;
 
-    public HabitFixtures(ModelFactory modelFactory)
+    private HabitList habitList;
+
+    public HabitFixtures(ModelFactory modelFactory, HabitList habitList)
     {
         this.modelFactory = modelFactory;
+        this.habitList = habitList;
     }
 
     public Habit createEmptyHabit()
@@ -113,6 +116,6 @@ public class HabitFixtures
     private void saveIfSQLite(Habit habit)
     {
         if (!(habit.getRepetitions() instanceof SQLiteRepetitionList)) return;
-        new SQLiteHabitList(modelFactory).add(habit);
+        habitList.add(habit);
     }
 }

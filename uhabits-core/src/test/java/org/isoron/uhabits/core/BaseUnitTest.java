@@ -80,7 +80,7 @@ public class BaseUnitTest
 
         modelFactory = new MemoryModelFactory();
         habitList = spy(modelFactory.buildHabitList());
-        fixtures = new HabitFixtures(modelFactory);
+        fixtures = new HabitFixtures(modelFactory, habitList);
         taskRunner = new SingleThreadTaskRunner();
         commandRunner = new CommandRunner(taskRunner);
     }

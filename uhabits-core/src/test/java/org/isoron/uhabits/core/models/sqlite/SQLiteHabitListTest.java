@@ -25,8 +25,11 @@ import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
+import org.isoron.uhabits.core.test.*;
 import org.junit.*;
 import org.junit.rules.*;
+
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,28 +47,46 @@ public class SQLiteHabitListTest extends BaseUnitTest
 
     private ModelObservable.Listener listener;
 
+    private ArrayList<Habit> habitsArray;
+
+    private HabitList activeHabits;
+
+    private HabitList reminderHabits;
+
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
         Database db = buildMemoryDatabase();
+        modelFactory = new SQLModelFactory(db);
+        habitList = new SQLiteHabitList(modelFactory);
+        fixtures = new HabitFixtures(modelFactory, habitList);
         repository = new Repository<>(HabitRecord.class, db);
-        habitList = new SQLiteHabitList(new SQLModelFactory(db));
+        habitsArray = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
-            Habit h = modelFactory.buildHabit();
-            h.setName("habit " + i);
-            h.setId((long) i);
-            if (i % 2 == 0) h.setArchived(true);
+            Habit habit = fixtures.createEmptyHabit();
+            habit.setName("habit " + i);
+            habitList.update(habit);
+            habitsArray.add(habit);
 
-            HabitRecord record = new HabitRecord();
-            record.copyFrom(h);
-            record.position = i;
-            repository.save(record);
+            if (i % 3 == 0)
+                habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         }
 
-        habitList.reload();
+        habitsArray.get(0).setArchived(true);
+        habitsArray.get(1).setArchived(true);
+        habitsArray.get(4).setArchived(true);
+        habitsArray.get(7).setArchived(true);
+        habitList.update(habitsArray);
+
+        activeHabits = habitList.getFiltered(new HabitMatcherBuilder().build());
+
+        reminderHabits = habitList.getFiltered(new HabitMatcherBuilder()
+            .setArchivedAllowed(true)
+            .setReminderRequired(true)
+            .build());
 
         listener = mock(ModelObservable.Listener.class);
         habitList.getObservable().addListener(listener);
@@ -185,38 +206,20 @@ public class SQLiteHabitListTest extends BaseUnitTest
     @Test
     public void testReorder()
     {
-        // Same as HabitListTest#testReorder
-        int operations[][] = {
-            { 5, 2 }, { 3, 7 }, { 4, 4 }, { 3, 2 }
-        };
+        Habit habit3 = habitList.getById(3);
+        Habit habit4 = habitList.getById(4);
+        assertNotNull(habit3);
+        assertNotNull(habit4);
+        habitList.reorder(habit4, habit3);
 
-        int expectedPosition[][] = {
-            { 0, 1, 3, 4, 5, 2, 6, 7, 8, 9 },
-            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
-            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
-            { 0, 1, 7, 2, 4, 3, 5, 6, 8, 9 },
-        };
+        HabitRecord record3 = repository.find(3L);
+        assertNotNull(record3);
+        assertThat(record3.position, equalTo(4));
 
-        for (int i = 0; i < operations.length; i++)
-        {
-            int from = operations[i][0];
-            int to = operations[i][1];
-
-            Habit fromHabit = habitList.getByPosition(from);
-            Habit toHabit = habitList.getByPosition(to);
-            habitList.reorder(fromHabit, toHabit);
-            habitList.reload();
-
-            int actualPositions[] = new int[10];
-
-            for (int j = 0; j < 10; j++)
-            {
-                Habit h = habitList.getById(j);
-                assertNotNull(h);
-                actualPositions[j] = habitList.indexOf(h);
-            }
-
-            assertThat(actualPositions, equalTo(expectedPosition[i]));
-        }
+        HabitRecord record4 = repository.find(4L);
+        assertNotNull(record4);
+        assertThat(record4.position, equalTo(3));
     }
+
+
 }

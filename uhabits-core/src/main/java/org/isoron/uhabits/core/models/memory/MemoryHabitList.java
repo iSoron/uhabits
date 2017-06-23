@@ -25,10 +25,7 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_COLOR;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_NAME;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_POSITION;
-import static org.isoron.uhabits.core.models.HabitList.Order.BY_SCORE;
+import static org.isoron.uhabits.core.models.HabitList.Order.*;
 
 /**
  * In-memory implementation of {@link HabitList}.
@@ -182,17 +179,23 @@ public class MemoryHabitList extends HabitList
     public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
     {
         throwIfHasParent();
-        if (indexOf(from) < 0)
-            throw new IllegalArgumentException(
-                "list does not contain (from) habit");
+        if (order != BY_POSITION) throw new IllegalStateException(
+            "cannot reorder automatically sorted list");
+
+        if (indexOf(from) < 0) throw new IllegalArgumentException(
+            "list does not contain (from) habit");
 
         int toPos = indexOf(to);
-        if (toPos < 0)
-            throw new IllegalArgumentException(
-                "list does not contain (to) habit");
+        if (toPos < 0) throw new IllegalArgumentException(
+            "list does not contain (to) habit");
 
         list.remove(from);
         list.add(toPos, from);
+
+        int position = 0;
+        for(Habit h : list)
+            h.setPosition(position++);
+
         getObservable().notifyListeners();
     }
 

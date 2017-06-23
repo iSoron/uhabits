@@ -56,8 +56,8 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
 
         Database db = buildMemoryDatabase();
         modelFactory = new SQLModelFactory(db);
-        fixtures = new HabitFixtures(modelFactory);
         habitList = modelFactory.buildHabitList();
+        fixtures = new HabitFixtures(modelFactory, habitList);
         repository = new Repository<>(RepetitionRecord.class, db);
         habit = fixtures.createLongHabit();
 

@@ -48,7 +48,7 @@ public class Version22Test extends BaseUnitTest
         helper = new MigrationHelper(db);
         modelFactory = new SQLModelFactory(db);
         habitList = modelFactory.buildHabitList();
-        fixtures = new HabitFixtures(modelFactory);
+        fixtures = new HabitFixtures(modelFactory, habitList);
     }
 
     @Test
