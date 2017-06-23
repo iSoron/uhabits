@@ -388,10 +388,17 @@ public class HabitCardListCache implements CommandRunner.Listener
 
             int prevPosition = data.habits.indexOf(habit);
 
-            if (prevPosition < 0) performInsert(habit, currentPosition);
-            else if (prevPosition == currentPosition)
+            if (prevPosition < 0)
+            {
+                performInsert(habit, currentPosition);
+            }
+            else
+            {
+                if (prevPosition != currentPosition)
+                    performMove(habit, prevPosition, currentPosition);
+
                 performUpdate(id, currentPosition);
-            else performMove(habit, prevPosition, currentPosition);
+            }
         }
 
         private void processRemovedHabits()
