@@ -32,7 +32,7 @@ public class HabitRecordTest extends BaseUnitTest
 {
 
     @Test
-    public void testCopyFrom()
+    public void testCopyRestore1()
     {
         Habit original = modelFactory.buildHabit();
         original.setName("Hello world");
@@ -43,6 +43,32 @@ public class HabitRecordTest extends BaseUnitTest
         original.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         original.setId(1000L);
         original.setPosition(20);
+
+        HabitRecord record = new HabitRecord();
+        record.copyFrom(original);
+
+        Habit duplicate = modelFactory.buildHabit();
+        record.copyTo(duplicate);
+
+        assertThat(original.getData(), equalTo(duplicate.getData()));
+    }
+
+    @Test
+    public void testCopyRestore2()
+    {
+        Habit original = modelFactory.buildHabit();
+        original.setName("Hello world");
+        original.setDescription("Did you greet the world today?");
+        original.setColor(5);
+        original.setArchived(false);
+        original.setFrequency(Frequency.DAILY);
+        original.setReminder(null);
+        original.setId(1L);
+        original.setPosition(15);
+        original.setType(Habit.NUMBER_HABIT);
+        original.setTargetValue(100);
+        original.setTargetType(Habit.AT_LEAST);
+        original.setUnit("miles");
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(original);

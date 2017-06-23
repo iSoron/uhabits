@@ -47,7 +47,7 @@ public class RepositoryTest extends BaseUnitTest
         db.execute("create table tests(" +
                    "id integer not null primary key autoincrement, " +
                    "color_number integer not null, score float not null, " +
-                   "name string not null)");
+                   "name string)");
     }
 
     @Test
@@ -80,6 +80,21 @@ public class RepositoryTest extends BaseUnitTest
         record.score = 128.0;
         repository.save(record);
         assertThat(record, equalTo(repository.find(50L)));
+    }
+
+    @Test
+    public void testSave_withNull() throws Exception
+    {
+        ThingRecord record = new ThingRecord();
+        record.color = 50;
+        record.name = null;
+        record.score = 12.0;
+        repository.save(record);
+
+        ThingRecord retrieved = repository.find(record.id);
+        assertNotNull(retrieved);
+        assertNull(retrieved.name);
+        assertThat(record, equalTo(retrieved));
     }
 
     @Test

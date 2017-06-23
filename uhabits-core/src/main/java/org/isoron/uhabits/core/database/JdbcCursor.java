@@ -63,7 +63,9 @@ public class JdbcCursor implements Cursor
     {
         try
         {
-            return resultSet.getInt(index + 1);
+            Integer value = resultSet.getInt(index + 1);
+            if(resultSet.wasNull()) return null;
+            else return value;
         }
         catch (SQLException e)
         {
@@ -76,7 +78,9 @@ public class JdbcCursor implements Cursor
     {
         try
         {
-            return resultSet.getLong(index + 1);
+            Long value = resultSet.getLong(index + 1);
+            if(resultSet.wasNull()) return null;
+            else return value;
         }
         catch (SQLException e)
         {
@@ -89,7 +93,9 @@ public class JdbcCursor implements Cursor
     {
         try
         {
-            return resultSet.getDouble(index + 1);
+            Double value = resultSet.getDouble(index + 1);
+            if(resultSet.wasNull()) return null;
+            else return value;
         }
         catch (SQLException e)
         {
@@ -102,7 +108,9 @@ public class JdbcCursor implements Cursor
     {
         try
         {
-            return resultSet.getString(index + 1);
+            String value = resultSet.getString(index + 1);
+            if(resultSet.wasNull()) return null;
+            else return value;
         }
         catch (SQLException e)
         {

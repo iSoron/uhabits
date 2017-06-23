@@ -21,6 +21,8 @@
 
 package org.isoron.uhabits.database;
 
+import android.support.annotation.*;
+
 import org.isoron.uhabits.core.database.*;
 
 public class AndroidCursor implements Cursor
@@ -45,26 +47,34 @@ public class AndroidCursor implements Cursor
     }
 
     @Override
+    @Nullable
     public Integer getInt(int index)
     {
-        return cursor.getInt(index);
+        if(cursor.isNull(index)) return null;
+        else return cursor.getInt(index);
     }
 
     @Override
+    @Nullable
     public Long getLong(int index)
     {
-        return cursor.getLong(index);
+        if(cursor.isNull(index)) return null;
+        else return cursor.getLong(index);
     }
 
     @Override
+    @Nullable
     public Double getDouble(int index)
     {
-        return cursor.getDouble(index);
+        if(cursor.isNull(index)) return null;
+        else return cursor.getDouble(index);
     }
 
     @Override
+    @Nullable
     public String getString(int index)
     {
-        return cursor.getString(index);
+        if(cursor.isNull(index)) return null;
+        else return cursor.getString(index);
     }
 }

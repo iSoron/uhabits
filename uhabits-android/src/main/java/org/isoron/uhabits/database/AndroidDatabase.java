@@ -107,8 +107,9 @@ public class AndroidDatabase implements Database
         ContentValues values = new ContentValues();
         for (Map.Entry<String, Object> entry : map.entrySet())
         {
-            if (entry.getValue() == null) continue;
-            if (entry.getValue() instanceof Integer)
+            if (entry.getValue() == null)
+                values.putNull(entry.getKey());
+            else if (entry.getValue() instanceof Integer)
                 values.put(entry.getKey(), (Integer) entry.getValue());
             else if (entry.getValue() instanceof Long)
                 values.put(entry.getKey(), (Long) entry.getValue());
