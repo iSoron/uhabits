@@ -139,6 +139,11 @@ public class BaseUnitTest
         if (file.exists() && file.canRead()) in = new FileInputStream(file);
         if (in != null) return in;
 
+        basePath = "src/test/resources/";
+        file = new File(basePath + assetPath);
+        if (file.exists() && file.canRead()) in = new FileInputStream(file);
+        if (in != null) return in;
+
         throw new IllegalStateException("asset not found: " + assetPath);
     }
 
