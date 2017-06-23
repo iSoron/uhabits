@@ -45,7 +45,7 @@ public class PebbleReceiver extends PebbleDataReceiver
     @NonNull
     private Context context;
 
-    private HabitList allHabits;
+    private HabitList habitList;
 
     private CommandRunner commandRunner;
 
@@ -76,10 +76,10 @@ public class PebbleReceiver extends PebbleDataReceiver
         HabitsApplicationComponent component = app.getComponent();
         commandRunner = component.getCommandRunner();
         taskRunner = component.getTaskRunner();
-        allHabits = component.getHabitList();
+        habitList = component.getHabitList();
         prefs = component.getPreferences();
 
-        if(prefs.isSyncEnabled())
+        if (prefs.isSyncEnabled())
             context.startService(new Intent(context, SyncService.class));
 
         HabitMatcher build = new HabitMatcherBuilder()
@@ -87,7 +87,7 @@ public class PebbleReceiver extends PebbleDataReceiver
             .setCompletedAllowed(false)
             .build();
 
-        filteredHabits = allHabits.getFiltered(build);
+        filteredHabits = habitList.getFiltered(build);
 
         PebbleKit.sendAckToPebble(context, transactionId);
         Log.d("PebbleReceiver", "<-- " + data.getString(0));
@@ -117,8 +117,6 @@ public class PebbleReceiver extends PebbleDataReceiver
         if (position < 0 || position >= filteredHabits.size()) return;
 
         Habit habit = filteredHabits.getByPosition(position.intValue());
-        if (habit == null) return;
-
         sendHabit(habit);
     }
 
@@ -127,12 +125,12 @@ public class PebbleReceiver extends PebbleDataReceiver
         Long habitId = dict.getInteger(1);
         if (habitId == null) return;
 
-        Habit habit = allHabits.getById(habitId);
+        Habit habit = habitList.getById(habitId);
         if (habit == null) return;
 
         long today = DateUtils.getStartOfToday();
-        commandRunner.execute(new ToggleRepetitionCommand(habit, today),
-            habitId);
+        commandRunner.execute(
+            new ToggleRepetitionCommand(habitList, habit, today), habitId);
 
         sendOK();
     }
@@ -150,8 +148,7 @@ public class PebbleReceiver extends PebbleDataReceiver
 
     private void sendDict(@NonNull PebbleDictionary dict)
     {
-        PebbleKit.sendDataToPebble(context,
-            PebbleReceiver.WATCHAPP_UUID, dict);
+        PebbleKit.sendDataToPebble(context, PebbleReceiver.WATCHAPP_UUID, dict);
     }
 
     private void sendHabit(@NonNull Habit habit)

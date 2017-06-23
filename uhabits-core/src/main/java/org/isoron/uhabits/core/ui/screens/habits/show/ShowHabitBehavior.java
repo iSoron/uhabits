@@ -28,6 +28,8 @@ import javax.inject.*;
 
 public class ShowHabitBehavior
 {
+    private HabitList habitList;
+
     @NonNull
     private final Habit habit;
 
@@ -38,10 +40,12 @@ public class ShowHabitBehavior
     private Screen screen;
 
     @Inject
-    public ShowHabitBehavior(@NonNull CommandRunner commandRunner,
+    public ShowHabitBehavior(@NonNull HabitList habitList,
+                             @NonNull CommandRunner commandRunner,
                              @NonNull Habit habit,
                              @NonNull Screen screen)
     {
+        this.habitList = habitList;
         this.habit = habit;
         this.commandRunner = commandRunner;
         this.screen = screen;
@@ -54,8 +58,8 @@ public class ShowHabitBehavior
 
     public void onToggleCheckmark(long timestamp)
     {
-        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
-            null);
+        commandRunner.execute(
+            new ToggleRepetitionCommand(habitList, habit, timestamp), null);
     }
 
     public interface Screen

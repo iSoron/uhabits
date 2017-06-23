@@ -168,4 +168,19 @@ public class SQLiteHabitListTest extends BaseUnitTest
         h2.setId(1000L);
         assertThat(habitList.indexOf(h2), equalTo(-1));
     }
+
+    @Test
+    public void testRemove() throws Exception
+    {
+        Habit h = habitList.getByPosition(2);
+        habitList.remove(h);
+        assertThat(habitList.indexOf(h), equalTo(-1));
+
+        HabitRecord rec = repository.find(2L);
+        assertNull(rec);
+
+        rec = repository.find(3L);
+        assertNotNull(rec);
+        assertThat(rec.position, equalTo(2));
+    }
 }

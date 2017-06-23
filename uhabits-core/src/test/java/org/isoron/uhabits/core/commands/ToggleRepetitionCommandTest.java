@@ -45,7 +45,7 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
         habitList.add(habit);
 
         today = DateUtils.getStartOfToday();
-        command = new ToggleRepetitionCommand(habit, today);
+        command = new ToggleRepetitionCommand(habitList, habit, today);
     }
 
     @Test

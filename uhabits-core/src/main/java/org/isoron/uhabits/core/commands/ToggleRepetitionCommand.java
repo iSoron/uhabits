@@ -28,14 +28,20 @@ import org.isoron.uhabits.core.models.*;
  */
 public class ToggleRepetitionCommand extends Command
 {
+    @NonNull
+    private HabitList list;
+
     final long timestamp;
 
     @NonNull
     final Habit habit;
 
-    public ToggleRepetitionCommand(@NonNull Habit habit, long timestamp)
+    public ToggleRepetitionCommand(@NonNull HabitList list,
+                                   @NonNull Habit habit,
+                                   long timestamp)
     {
         super();
+        this.list = list;
         this.timestamp = timestamp;
         this.habit = habit;
     }
@@ -44,6 +50,7 @@ public class ToggleRepetitionCommand extends Command
     public void execute()
     {
         habit.getRepetitions().toggle(timestamp);
+        list.update(habit);
     }
 
     @NonNull
@@ -81,7 +88,7 @@ public class ToggleRepetitionCommand extends Command
         {
             id = command.getId();
             Long habitId = command.habit.getId();
-            if(habitId == null) throw new RuntimeException("Habit not saved");
+            if (habitId == null) throw new RuntimeException("Habit not saved");
 
             this.repTimestamp = command.timestamp;
             this.habit = habitId;
@@ -90,10 +97,10 @@ public class ToggleRepetitionCommand extends Command
         public ToggleRepetitionCommand toCommand(@NonNull HabitList habitList)
         {
             Habit h = habitList.getById(habit);
-            if(h == null) throw new HabitNotFoundException();
+            if (h == null) throw new HabitNotFoundException();
 
             ToggleRepetitionCommand command;
-            command = new ToggleRepetitionCommand(h, repTimestamp);
+            command = new ToggleRepetitionCommand(habitList, h, repTimestamp);
             command.setId(id);
             return command;
         }

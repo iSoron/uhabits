@@ -89,8 +89,9 @@ public class SQLiteHabitList extends HabitList
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
-        record.position = list.indexOf(habit);
+        record.position = size();
         repository.save(record);
+        rebuildOrder();
 
         getObservable().notifyListeners();
     }
@@ -130,6 +131,7 @@ public class SQLiteHabitList extends HabitList
     public void setOrder(@NonNull Order order)
     {
         list.setOrder(order);
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -146,22 +148,16 @@ public class SQLiteHabitList extends HabitList
         return list.iterator();
     }
 
-    private void rebuildOrder()
+    private synchronized void rebuildOrder()
     {
-//        List<Habit> habits = toList();
-//
-//        int i = 0;
-//        for (Habit h : habits)
-//        {
-//            HabitRecord record = repository.find(h.getId());
-//            if (record == null)
-//                throw new RuntimeException("habit not in database");
-//
-//            record.position = i++;
-//            repository.save(record);
-//        }
-//
-//        update(habits);
+        List<HabitRecord> records = repository.findAll("order by position");
+        repository.executeAsTransaction(() -> {
+            int pos = 0;
+            for (HabitRecord r : records) {
+                r.position = pos++;
+                repository.save(r);
+            }
+        });
     }
 
     @Override
@@ -178,6 +174,7 @@ public class SQLiteHabitList extends HabitList
             repository.remove(record);
         });
         rebuildOrder();
+
         getObservable().notifyListeners();
     }
 
@@ -231,6 +228,7 @@ public class SQLiteHabitList extends HabitList
     {
         loadRecords();
         rebuildOrder();
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -244,11 +242,12 @@ public class SQLiteHabitList extends HabitList
     public synchronized void update(List<Habit> habits)
     {
         loadRecords();
+        list.update(habits);
+
         for (Habit h : habits)
         {
             HabitRecord record = repository.find(h.getId());
-            if (record == null)
-                throw new RuntimeException("habit not in database");
+            if (record == null) continue;
             record.copyFrom(h);
             repository.save(record);
         }

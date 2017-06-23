@@ -41,6 +41,7 @@ public class MemoryScoreList extends ScoreList
         list.addAll(scores);
         Collections.sort(list,
             (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
+        getObservable().notifyListeners();
     }
 
     @NonNull
@@ -71,13 +72,7 @@ public class MemoryScoreList extends ScoreList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        List<Score> discard = new LinkedList<>();
-
-        for (Score s : list)
-            if (s.getTimestamp() >= timestamp) discard.add(s);
-
-        list.removeAll(discard);
-
+        list.clear();
         getObservable().notifyListeners();
     }
 

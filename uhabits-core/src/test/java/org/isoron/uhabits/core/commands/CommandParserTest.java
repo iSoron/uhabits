@@ -140,7 +140,7 @@ public class CommandParserTest extends BaseUnitTest
     public void testDecodeToggleCommand() throws JSONException
     {
         ToggleRepetitionCommand original, decoded;
-        original = new ToggleRepetitionCommand(habit, 1000);
+        original = new ToggleRepetitionCommand(habitList, habit, 1000);
         decoded = (ToggleRepetitionCommand) parser.parse(original.toJson());
 
         MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));

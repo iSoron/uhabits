@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.core.models.memory;
 
+import android.support.annotation.*;
+
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
@@ -48,21 +49,16 @@ public class MemoryStreakList extends StreakList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        LinkedList<Streak> discard = new LinkedList<>();
-
-        for (Streak s : list)
-            if (s.getEnd() >= timestamp - DateUtils.millisecondsInOneDay)
-                discard.add(s);
-
-        list.removeAll(discard);
+        list.clear();
         observable.notifyListeners();
     }
 
     @Override
-    protected void add(List<Streak> streaks)
+    protected void add(@NonNull List<Streak> streaks)
     {
         list.addAll(streaks);
         Collections.sort(list, (s1, s2) -> s2.compareNewer(s1));
+        observable.notifyListeners();
     }
 
     @Override

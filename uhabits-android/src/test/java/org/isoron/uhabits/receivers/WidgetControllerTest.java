@@ -53,7 +53,8 @@ public class WidgetControllerTest extends BaseAndroidUnitTest
         habit = fixtures.createEmptyHabit();
         commandRunner = mock(CommandRunner.class);
         notificationTray = mock(NotificationTray.class);
-        controller = new WidgetBehavior(commandRunner, notificationTray);
+        controller =
+            new WidgetBehavior(habitList, commandRunner, notificationTray);
     }
 
     @Test

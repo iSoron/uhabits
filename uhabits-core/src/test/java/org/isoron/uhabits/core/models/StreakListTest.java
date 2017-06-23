@@ -25,6 +25,7 @@ import org.junit.*;
 
 import java.util.*;
 
+import static junit.framework.TestCase.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.mockito.Mockito.*;
@@ -70,11 +71,6 @@ public class StreakListTest extends BaseUnitTest
     public void testFindBeginning_withLongHistory()
     {
         streaks.rebuild();
-        assertThat(streaks.findBeginning(), equalTo(today - day));
-
-        streaks.invalidateNewerThan(today - 20 * day);
-        assertThat(streaks.findBeginning(), equalTo(today - 28 * day));
-
         streaks.invalidateNewerThan(0);
         assertThat(streaks.findBeginning(), equalTo(today - 120 * day));
     }
@@ -112,20 +108,6 @@ public class StreakListTest extends BaseUnitTest
     }
 
     @Test
-    public void testGetNewestComputed() throws Exception
-    {
-        Streak s = streaks.getNewestComputed();
-        assertThat(s.getEnd(), equalTo(today));
-        assertThat(s.getStart(), equalTo(today - day));
-
-        streaks.invalidateNewerThan(today - 8 * day);
-
-        s = streaks.getNewestComputed();
-        assertThat(s.getEnd(), equalTo(today - 12 * day));
-        assertThat(s.getStart(), equalTo(today - 12 * day));
-    }
-
-    @Test
     public void testInvalidateNewer()
     {
         Streak s = streaks.getNewestComputed();
@@ -135,6 +117,6 @@ public class StreakListTest extends BaseUnitTest
         verify(listener).onModelChange();
 
         s = streaks.getNewestComputed();
-        assertThat(s.getEnd(), equalTo(today - 12 * day));
+        assertNull(s);
     }
 }

@@ -118,6 +118,7 @@ public class MemoryHabitList extends HabitList
         this.order = order;
         this.comparator = getComparatorByOrder(order);
         resort();
+        getObservable().notifyListeners();
     }
 
     private Comparator<Habit> getComparatorByOrder(Order order)
@@ -135,9 +136,10 @@ public class MemoryHabitList extends HabitList
 
         Comparator<Habit> scoreComparator = (h1, h2) ->
         {
-            double s1 = h1.getScores().getTodayValue();
-            double s2 = h2.getScores().getTodayValue();
-            return Double.compare(s2, s1);
+            Double s1 = h1.getScores().getTodayValue();
+            Double s2 = h2.getScores().getTodayValue();
+            if (s1.equals(s2)) return nameComparator.compare(h1, h2);
+            return s2.compareTo(s1);
         };
 
         if (order == BY_POSITION) return null;
@@ -165,6 +167,7 @@ public class MemoryHabitList extends HabitList
     {
         throwIfHasParent();
         list.remove(habit);
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -182,6 +185,7 @@ public class MemoryHabitList extends HabitList
 
         list.remove(from);
         list.add(toPos, from);
+        getObservable().notifyListeners();
     }
 
     @Override
@@ -193,7 +197,8 @@ public class MemoryHabitList extends HabitList
     @Override
     public void update(List<Habit> habits)
     {
-        // NOP
+        resort();
+        getObservable().notifyListeners();
     }
 
     private void throwIfHasParent()

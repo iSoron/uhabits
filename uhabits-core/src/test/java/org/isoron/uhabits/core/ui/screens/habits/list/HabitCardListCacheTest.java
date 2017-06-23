@@ -86,7 +86,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
     {
         Habit h2 = habitList.getByPosition(2);
         long today = DateUtils.getStartOfToday();
-        commandRunner.execute(new ToggleRepetitionCommand(h2, today),
+        commandRunner.execute(new ToggleRepetitionCommand(habitList, h2, today),
             h2.getId());
 
         verify(listener).onItemChanged(2);

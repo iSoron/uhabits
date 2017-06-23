@@ -127,5 +127,6 @@ public class MemoryRepetitionList extends RepetitionList
     public void removeAll()
     {
         list.clear();
+        getObservable().notifyListeners();
     }
 }

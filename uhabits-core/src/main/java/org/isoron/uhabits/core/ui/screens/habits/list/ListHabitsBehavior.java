@@ -151,7 +151,8 @@ public class ListHabitsBehavior
 
     public void onToggle(@NonNull Habit habit, long timestamp)
     {
-        commandRunner.execute(new ToggleRepetitionCommand(habit, timestamp),
+        commandRunner.execute(
+            new ToggleRepetitionCommand(habitList, habit, timestamp),
             habit.getId());
     }
 
@@ -166,6 +167,11 @@ public class ListHabitsBehavior
         void dumpBugReportToFile();
 
         String getBugReport() throws IOException;
+    }
+
+    public interface DirFinder
+    {
+        File getCSVOutputDir();
     }
 
     public interface NumberPickerCallback
@@ -188,10 +194,5 @@ public class ListHabitsBehavior
         void showSendBugReportToDeveloperScreen(String log);
 
         void showSendFileScreen(@NonNull String filename);
-    }
-
-    public interface DirFinder
-    {
-        File getCSVOutputDir();
     }
 }
