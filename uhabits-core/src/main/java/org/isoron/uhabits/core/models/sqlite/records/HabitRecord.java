@@ -91,6 +91,7 @@ public class HabitRecord
         this.targetType = model.getTargetType();
         this.targetValue = model.getTargetValue();
         this.unit = model.getUnit();
+        this.position = model.getPosition();
 
         Frequency freq = model.getFrequency();
         this.freqNum = freq.getNumerator();
@@ -120,6 +121,7 @@ public class HabitRecord
         habit.setTargetType(this.targetType);
         habit.setTargetValue(this.targetValue);
         habit.setUnit(this.unit);
+        habit.setPosition(this.position);
 
         if (reminderHour != null && reminderMin != null)
         {

@@ -343,6 +343,16 @@ public class Habit
         return new HabitData(data);
     }
 
+    public Integer getPosition()
+    {
+        return data.position;
+    }
+
+    public void setPosition(int newPosition)
+    {
+        data.position = newPosition;
+    }
+
     public static class HabitData
     {
         @NonNull
@@ -370,6 +380,8 @@ public class Habit
         @Nullable
         public Reminder reminder;
 
+        public int position;
+
         public HabitData()
         {
             this.color = 8;
@@ -381,6 +393,7 @@ public class Habit
             this.targetType = AT_LEAST;
             this.targetValue = 100;
             this.unit = "";
+            this.position = 0;
         }
 
         public HabitData(@NonNull HabitData model)
@@ -395,6 +408,7 @@ public class Habit
             this.type = model.type;
             this.unit = model.unit;
             this.reminder = model.reminder;
+            this.position = model.position;
         }
 
         @Override
@@ -411,6 +425,7 @@ public class Habit
                 .append("type", type)
                 .append("unit", unit)
                 .append("reminder", reminder)
+                .append("position", position)
                 .toString();
         }
 
@@ -434,6 +449,7 @@ public class Habit
                 .append(frequency, habitData.frequency)
                 .append(unit, habitData.unit)
                 .append(reminder, habitData.reminder)
+                .append(position, habitData.position)
                 .isEquals();
         }
 
@@ -451,6 +467,7 @@ public class Habit
                 .append(type)
                 .append(unit)
                 .append(reminder)
+                .append(position)
                 .toHashCode();
         }
     }

@@ -139,10 +139,18 @@ public class MemoryHabitList extends HabitList
             Double s1 = h1.getScores().getTodayValue();
             Double s2 = h2.getScores().getTodayValue();
             if (s1.equals(s2)) return nameComparator.compare(h1, h2);
-            return s2.compareTo(s1);
+            else return s2.compareTo(s1);
         };
 
-        if (order == BY_POSITION) return null;
+        Comparator<Habit> positionComparator = (h1, h2) ->
+        {
+            Integer p1 = h1.getPosition();
+            Integer p2 = h2.getPosition();
+            if (p1.equals(p2)) return nameComparator.compare(h1, h2);
+            else return p1.compareTo(p2);
+        };
+
+        if (order == BY_POSITION) return positionComparator;
         if (order == BY_NAME) return nameComparator;
         if (order == BY_COLOR) return colorComparator;
         if (order == BY_SCORE) return scoreComparator;

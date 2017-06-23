@@ -30,47 +30,26 @@ import static org.hamcrest.core.IsEqual.*;
 
 public class HabitRecordTest extends BaseUnitTest
 {
-    private Habit habit;
-
-    @Before
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-
-        habit = modelFactory.buildHabit();
-        habit.setName("Hello world");
-        habit.setDescription("Did you greet the world today?");
-        habit.setColor(1);
-        habit.setArchived(true);
-        habit.setFrequency(Frequency.THREE_TIMES_PER_WEEK);
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
-        habit.setId(1000L);
-    }
 
     @Test
     public void testCopyFrom()
     {
-        HabitRecord rec = new HabitRecord();
-        rec.copyFrom(habit);
+        Habit original = modelFactory.buildHabit();
+        original.setName("Hello world");
+        original.setDescription("Did you greet the world today?");
+        original.setColor(1);
+        original.setArchived(true);
+        original.setFrequency(Frequency.THREE_TIMES_PER_WEEK);
+        original.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        original.setId(1000L);
+        original.setPosition(20);
 
-        assertThat(rec.name, equalTo(habit.getName()));
-        assertThat(rec.description, equalTo(habit.getDescription()));
-        assertThat(rec.color, equalTo(habit.getColor()));
-        assertThat(rec.archived, equalTo(1));
-        assertThat(rec.freqDen, equalTo(7));
-        assertThat(rec.freqNum, equalTo(3));
+        HabitRecord record = new HabitRecord();
+        record.copyFrom(original);
 
-        Reminder reminder = habit.getReminder();
-        assertThat(rec.reminderDays, equalTo(reminder.getDays().toInteger()));
-        assertThat(rec.reminderHour, equalTo(reminder.getHour()));
-        assertThat(rec.reminderMin, equalTo(reminder.getMinute()));
+        Habit duplicate = modelFactory.buildHabit();
+        record.copyTo(duplicate);
 
-        habit.setReminder(null);
-        rec.copyFrom(habit);
-
-        assertThat(rec.reminderMin, equalTo(null));
-        assertThat(rec.reminderHour, equalTo(null));
-        assertThat(rec.reminderDays, equalTo(0));
+        assertThat(original.getData(), equalTo(duplicate.getData()));
     }
 }

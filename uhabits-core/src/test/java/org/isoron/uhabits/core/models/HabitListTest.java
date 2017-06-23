@@ -118,18 +118,22 @@ public class HabitListTest extends BaseUnitTest
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("A Habit");
         h1.setColor(2);
+        h1.setPosition(1);
 
         Habit h2 = fixtures.createEmptyHabit();
         h2.setName("B Habit");
         h2.setColor(2);
+        h2.setPosition(3);
 
         Habit h3 = fixtures.createEmptyHabit();
         h3.setName("C Habit");
         h3.setColor(0);
+        h3.setPosition(0);
 
         Habit h4 = fixtures.createEmptyHabit();
         h4.setName("D Habit");
         h4.setColor(1);
+        h4.setPosition(2);
 
         list.add(h3);
         list.add(h1);
@@ -156,6 +160,12 @@ public class HabitListTest extends BaseUnitTest
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h4));
         assertThat(list.getByPosition(2), equalTo(h1));
+        assertThat(list.getByPosition(3), equalTo(h2));
+
+        list.setOrder(BY_POSITION);
+        assertThat(list.getByPosition(0), equalTo(h3));
+        assertThat(list.getByPosition(1), equalTo(h1));
+        assertThat(list.getByPosition(2), equalTo(h4));
         assertThat(list.getByPosition(3), equalTo(h2));
     }
 

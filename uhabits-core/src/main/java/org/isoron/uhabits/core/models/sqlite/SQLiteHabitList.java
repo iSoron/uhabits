@@ -85,11 +85,11 @@ public class SQLiteHabitList extends HabitList
     public synchronized void add(@NonNull Habit habit)
     {
         loadRecords();
+        habit.setPosition(size());
         list.add(habit);
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
-        record.position = size();
         repository.save(record);
         rebuildOrder();
 
@@ -173,8 +173,8 @@ public class SQLiteHabitList extends HabitList
             ((SQLiteRepetitionList) habit.getRepetitions()).removeAll();
             repository.remove(record);
         });
-        rebuildOrder();
 
+        rebuildOrder();
         getObservable().notifyListeners();
     }
 
@@ -213,7 +213,7 @@ public class SQLiteHabitList extends HabitList
         {
             repository.execSQL("update habits set position = position - 1 " +
                                "where position > ? and position <= ?",
-                fromPos, toPos);
+                               fromPos, toPos);
         }
 
         fromRecord.position = toPos;
