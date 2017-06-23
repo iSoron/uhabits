@@ -28,12 +28,10 @@ import org.isoron.uhabits.core.models.sqlite.records.*;
 import org.junit.*;
 import org.junit.rules.*;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class SQLiteHabitListTest extends BaseUnitTest
 {
@@ -182,5 +180,43 @@ public class SQLiteHabitListTest extends BaseUnitTest
         rec = repository.find(3L);
         assertNotNull(rec);
         assertThat(rec.position, equalTo(2));
+    }
+
+    @Test
+    public void testReorder()
+    {
+        // Same as HabitListTest#testReorder
+        int operations[][] = {
+            { 5, 2 }, { 3, 7 }, { 4, 4 }, { 3, 2 }
+        };
+
+        int expectedPosition[][] = {
+            { 0, 1, 3, 4, 5, 2, 6, 7, 8, 9 },
+            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
+            { 0, 1, 7, 3, 4, 2, 5, 6, 8, 9 },
+            { 0, 1, 7, 2, 4, 3, 5, 6, 8, 9 },
+        };
+
+        for (int i = 0; i < operations.length; i++)
+        {
+            int from = operations[i][0];
+            int to = operations[i][1];
+
+            Habit fromHabit = habitList.getByPosition(from);
+            Habit toHabit = habitList.getByPosition(to);
+            habitList.reorder(fromHabit, toHabit);
+            habitList.reload();
+
+            int actualPositions[] = new int[10];
+
+            for (int j = 0; j < 10; j++)
+            {
+                Habit h = habitList.getById(j);
+                assertNotNull(h);
+                actualPositions[j] = habitList.indexOf(h);
+            }
+
+            assertThat(actualPositions, equalTo(expectedPosition[i]));
+        }
     }
 }

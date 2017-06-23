@@ -201,24 +201,21 @@ public class SQLiteHabitList extends HabitList
         if (toRecord == null)
             throw new RuntimeException("habit not in database");
 
-        Integer fromPos = fromRecord.position;
-        Integer toPos = toRecord.position;
-        if (toPos < fromPos)
+        if (toRecord.position < fromRecord.position)
         {
             repository.execSQL("update habits set position = position + 1 " +
                                "where position >= ? and position < ?",
-                                toPos, fromPos);
+                                toRecord.position, fromRecord.position);
         }
         else
         {
             repository.execSQL("update habits set position = position - 1 " +
                                "where position > ? and position <= ?",
-                               fromPos, toPos);
+                               fromRecord.position, toRecord.position);
         }
 
-        fromRecord.position = toPos;
+        fromRecord.position = toRecord.position;
         repository.save(fromRecord);
-        update(from);
 
         getObservable().notifyListeners();
     }
