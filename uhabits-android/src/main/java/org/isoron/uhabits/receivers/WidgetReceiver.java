@@ -75,15 +75,18 @@ public class WidgetReceiver extends BroadcastReceiver
             switch (intent.getAction())
             {
                 case ACTION_ADD_REPETITION:
-                    controller.onAddRepetition(data.habit, data.timestamp);
+                    controller.onAddRepetition(data.getHabit(),
+                        data.getTimestamp());
                     break;
 
                 case ACTION_TOGGLE_REPETITION:
-                    controller.onToggleRepetition(data.habit, data.timestamp);
+                    controller.onToggleRepetition(data.getHabit(),
+                        data.getTimestamp());
                     break;
 
                 case ACTION_REMOVE_REPETITION:
-                    controller.onRemoveRepetition(data.habit, data.timestamp);
+                    controller.onRemoveRepetition(data.getHabit(),
+                        data.getTimestamp());
                     break;
             }
         }
