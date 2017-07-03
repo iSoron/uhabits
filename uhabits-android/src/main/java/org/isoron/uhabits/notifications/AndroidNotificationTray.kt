@@ -31,15 +31,15 @@ import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.notifications.RingtoneManager.*
 import javax.inject.*
 
 @AppScope
 class AndroidNotificationTray
 @Inject constructor(
-        @param:AppContext private val context: Context,
+        @AppContext private val context: Context,
         private val pendingIntents: PendingIntentFactory,
-        private val preferences: Preferences
+        private val preferences: Preferences,
+        private val ringtoneManager: RingtoneManager
 ) : NotificationTray.SystemTray {
 
     override fun removeNotification(id: Int) {
@@ -79,7 +79,7 @@ class AndroidNotificationTray
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .addAction(checkAction)
                 .addAction(snoozeAction)
-                .setSound(getRingtoneUri(context))
+                .setSound(ringtoneManager.getURI())
                 .extend(wearableExtender)
                 .setWhen(reminderTime)
                 .setShowWhen(true)

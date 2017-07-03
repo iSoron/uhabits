@@ -52,6 +52,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private SharedPreferences sharedPrefs;
 
+    private RingtoneManager ringtoneManager;
+
     @Nullable
     private Preferences prefs;
 
@@ -60,7 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     {
         if (requestCode == RINGTONE_REQUEST_CODE)
         {
-            RingtoneManager.parseRingtoneData(getContext(), data);
+            ringtoneManager.update(data);
             updateRingtoneDescription();
             return;
         }
@@ -86,9 +88,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
         setResultOnPreferenceClick("repairDB", RESULT_REPAIR_DB);
         setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
-
-        updateRingtoneDescription();
-        updateSync();
     }
 
     @Override
@@ -123,6 +122,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onResume()
     {
         super.onResume();
+        this.ringtoneManager = new RingtoneManager(getActivity());
+
         sharedPrefs = getPreferenceManager().getSharedPreferences();
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -133,6 +134,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
             devCategory.removeAll();
             devCategory.setVisible(false);
         }
+
+        updateRingtoneDescription();
+        updateSync();
     }
 
     @Override
@@ -156,7 +160,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void showRingtonePicker()
     {
-        Uri existingRingtoneUri = RingtoneManager.getRingtoneUri(getContext());
+        Uri existingRingtoneUri = ringtoneManager.getURI();
         Uri defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI;
 
         Intent intent = new Intent(ACTION_RINGTONE_PICKER);
@@ -170,7 +174,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void updateRingtoneDescription()
     {
-        String ringtoneName = RingtoneManager.getRingtoneName(getContext());
+        String ringtoneName = ringtoneManager.getName();
         if (ringtoneName == null) return;
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);
