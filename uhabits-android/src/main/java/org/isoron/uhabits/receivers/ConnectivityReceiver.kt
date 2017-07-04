@@ -17,23 +17,22 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits.receivers
 
-import android.app.backup.BackupAgentHelper;
-import android.app.backup.FileBackupHelper;
-import android.app.backup.SharedPreferencesBackupHelper;
+import android.content.*
+import android.content.Context.*
+import android.net.*
+import org.isoron.uhabits.*
 
-/**
- * An Android BackupAgentHelper customized for this application.
- */
-public class HabitsBackupAgent extends BackupAgentHelper
-{
-    @Override
-    public void onCreate()
-    {
-        addHelper("preferences",
-                new SharedPreferencesBackupHelper(this, "preferences"));
-        addHelper("database",
-                new FileBackupHelper(this, "../databases/uhabits.db"));
+class ConnectivityReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if (context == null || intent == null) return
+        val app = context.applicationContext as HabitsApplication
+        val networkInfo = (context.getSystemService(CONNECTIVITY_SERVICE)
+                as ConnectivityManager).activeNetworkInfo
+        val isConnected = (networkInfo != null) &&
+                          networkInfo.isConnectedOrConnecting
+        val syncManager = app.component.syncManager
+        syncManager.onNetworkStatusChanged(isConnected)
     }
 }

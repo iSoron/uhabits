@@ -97,7 +97,7 @@ public class BaseAndroidTest extends TestCase
             .appContextModule(new AppContextModule(targetContext.getApplicationContext()))
             .build();
 
-        HabitsApplication.setComponent(appComponent);
+        HabitsApplication.Companion.setComponent(appComponent);
         prefs = appComponent.getPreferences();
         habitList = appComponent.getHabitList();
         taskRunner = appComponent.getTaskRunner();

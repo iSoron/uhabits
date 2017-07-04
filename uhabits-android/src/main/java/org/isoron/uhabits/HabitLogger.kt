@@ -17,39 +17,25 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits;
+package org.isoron.uhabits
 
-import android.support.annotation.*;
-import android.util.*;
-
-import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
-
-import java.text.*;
-import java.util.*;
-
-import javax.inject.*;
+import android.util.*
+import org.isoron.uhabits.core.*
+import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
+import java.util.*
+import javax.inject.*
 
 @AppScope
-public class HabitLogger
-{
-    @Inject
-    public HabitLogger()
-    {
+class HabitLogger
+@Inject constructor() {
 
-    }
-
-    public void logReminderScheduled(@NonNull Habit habit,
-                                     @NonNull Long reminderTime)
-    {
-        int min = Math.min(3, habit.getName().length());
-        String name = habit.getName().substring(0, min);
-
-        DateFormat df = DateFormats.getBackupDateFormat();
-        String time = df.format(new Date(reminderTime));
-
+    fun logReminderScheduled(habit: Habit, reminderTime: Long) {
+        val min = Math.min(3, habit.name.length)
+        val name = habit.name.substring(0, min)
+        val df = DateFormats.getBackupDateFormat()
+        val time = df.format(Date(reminderTime))
         Log.i("ReminderHelper",
-                String.format("Setting alarm (%s): %s", time, name));
+              String.format("Setting alarm (%s): %s", time, name))
     }
 }
