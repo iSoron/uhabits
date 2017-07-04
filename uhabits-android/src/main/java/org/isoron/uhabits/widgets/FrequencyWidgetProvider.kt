@@ -16,20 +16,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.widgets;
 
-import android.content.*;
-import android.support.annotation.*;
+package org.isoron.uhabits.widgets
 
-import org.isoron.uhabits.core.models.*;
+import android.content.*
 
-public class HistoryWidgetProvider extends BaseWidgetProvider
-{
-    @NonNull
-    @Override
-    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
-    {
-        Habit habit = getHabitFromWidgetId(id);
-        return new HistoryWidget(context, id, habit);
+class FrequencyWidgetProvider : BaseWidgetProvider() {
+    override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
+        val habit = getHabitFromWidgetId(id)
+        return FrequencyWidget(context, id, habit)
     }
 }

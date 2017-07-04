@@ -17,20 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.widgets;
+package org.isoron.uhabits.widgets
 
-import android.content.*;
-import android.support.annotation.*;
-
-import org.isoron.uhabits.core.models.*;
-
-public class FrequencyWidgetProvider extends BaseWidgetProvider
-{
-    @NonNull
-    @Override
-    protected BaseWidget getWidgetFromId(@NonNull Context context, int id)
-    {
-        Habit habit = getHabitFromWidgetId(id);
-        return new FrequencyWidget(context, id, habit);
-    }
-}
+class WidgetDimensions(val portraitWidth: Int,
+                       val portraitHeight: Int,
+                       val landscapeWidth: Int,
+                       val landscapeHeight: Int)

@@ -16,20 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.widgets;
+package org.isoron.uhabits.widgets
 
-import android.content.*;
-import android.support.annotation.*;
+import android.content.*
 
-import org.isoron.uhabits.core.models.*;
-
-public class CheckmarkWidgetProvider extends BaseWidgetProvider
-{
-    @NonNull
-    @Override
-    protected CheckmarkWidget getWidgetFromId(@NonNull Context context, int id)
-    {
-        Habit habit = getHabitFromWidgetId(id);
-        return new CheckmarkWidget(context, id, habit);
+class CheckmarkWidgetProvider : BaseWidgetProvider() {
+    override fun getWidgetFromId(context: Context, id: Int): CheckmarkWidget {
+        val habit = getHabitFromWidgetId(id)
+        return CheckmarkWidget(context, id, habit)
     }
 }

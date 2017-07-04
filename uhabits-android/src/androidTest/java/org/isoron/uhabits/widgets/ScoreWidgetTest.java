@@ -45,7 +45,7 @@ public class ScoreWidgetTest extends BaseViewTest
         setTheme(R.style.TransparentWidgetTheme);
 
         habit = fixtures.createLongHabit();
-        ScoreWidget widget = new ScoreWidget(targetContext, 0, habit);
+        ScoreWidget widget = new ScoreWidget(targetContext, 0, habit, prefs);
         view = convertToView(widget, 400, 400);
     }
 
