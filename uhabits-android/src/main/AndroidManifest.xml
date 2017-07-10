@@ -45,6 +45,7 @@
 
         <activity
             android:name=".activities.habits.list.ListHabitsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true"
             android:label="@string/main_activity_title"
             android:launchMode="singleTop"/>
