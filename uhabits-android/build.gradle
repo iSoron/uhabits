@@ -105,7 +105,7 @@ dependencies {
     implementation('com.opencsv:opencsv:3.9') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
-    implementation('io.socket:socket.io-client:+') {
+    implementation('io.socket:socket.io-client:0.8.3') {
         exclude group: 'org.json', module: 'json'
     }
 }
