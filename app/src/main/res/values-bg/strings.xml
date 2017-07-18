@@ -37,7 +37,7 @@
   <string name="toast_habit_changed_back">Промяната на навика е отменена.</string>
   <string name="toast_habit_archived">Навиците са архивирани</string>
   <string name="toast_habit_unarchived">Навиците са разархивирани</string>
-  <string name="overview">Обобщение</string>
+  <string name="overview">Обзор</string>
   <string name="habit_strength">Сила на навика</string>
   <string name="history">История</string>
   <string name="clear">Изчистване</string>
@@ -65,8 +65,8 @@
   <string name="intro_title_2">Създайте нови навици</string>
   <string name="intro_description_2">Всеки ден, след изпълнението на навика, поставете отметка в приложението.</string>
   <string name="intro_title_3">Продължавайте да го изпълнявате</string>
-  <string name="intro_description_3">Навици изпълнявани редовно за дълго време ще получат пълна звезда.</string>
-  <string name="intro_title_4">Следете прогреса си</string>
+  <string name="intro_description_3">Навици изпълнявани редовно за дълго време ще ви спечелят пълна звезда.</string>
+  <string name="intro_title_4">Следете напредъка си</string>
   <string name="intro_description_4">Подробни диаграми ви показват как вашите навици са се подобрили с времето.</string>
   <string name="interval_15_minutes">15 минути</string>
   <string name="interval_30_minutes">30 минути</string>

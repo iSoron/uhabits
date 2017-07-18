@@ -25,7 +25,7 @@
   <string name="edit">Змінити</string>
   <string name="delete">Вилучити</string>
   <string name="archive">Архівувати</string>
-  <string name="unarchive">Повернути з архіву</string>
+  <string name="unarchive">Розархівувати</string>
   <string name="add_habit">Додати звичку</string>
   <string name="color_picker_default_title">Змінити колір</string>
   <string name="toast_habit_created">Звичку створено</string>
