@@ -148,6 +148,14 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="raden20 (Bahasa Indonesia)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="azzamsa (Bahasa Indonesia)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="David Nos (Català)"/>
 
                 <TextView
@@ -232,6 +240,10 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="nitovf9292 (Norsk)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Adam Jurkiewicz (Polski)"/>
 
                 <TextView
@@ -256,7 +268,7 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Dalecarlian (Svenska)"/>
+                    android:text="Alexander Jansson (Svenska)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -277,6 +289,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Rystard (Українська)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Oglaigh Rystard (Українська)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -316,6 +332,10 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Seoyul (한국어 )"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Aman Satnami (हिन्दी)"/>
 
                 <TextView
@@ -325,6 +345,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Yoav Argov (עברית‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Mahdi Nasiri (فارسی‎)"/>
 
             </LinearLayout>
         </LinearLayout>

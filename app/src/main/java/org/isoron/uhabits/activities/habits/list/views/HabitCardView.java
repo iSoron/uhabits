@@ -143,12 +143,13 @@ public class HabitCardView extends FrameLayout
         updateBackground(isSelected);
     }
 
-    public void triggerRipple(long timestamp)
+    public synchronized void triggerRipple(long timestamp)
     {
         long today = DateUtils.getStartOfToday();
         long day = DateUtils.millisecondsInOneDay;
         int offset = (int) ((today - timestamp) / day) - dataOffset;
         CheckmarkButtonView button = checkmarkPanel.indexToButton(offset);
+        if (button == null) return;
 
         float y = button.getHeight() / 2.0f;
         float x = checkmarkPanel.getX() + button.getX() + button.getWidth() / 2;

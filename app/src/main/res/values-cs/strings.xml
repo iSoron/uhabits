@@ -57,7 +57,7 @@
   <string name="validation_at_most_one_rep_per_day">Můžete mít maximálně jedno označení denně.</string>
   <string name="create_habit">Vytvořit zvyk</string>
   <string name="edit_habit">Upravit zvyk</string>
-  <string name="check">Označeno</string>
+  <string name="check">Hotovo</string>
   <string name="snooze">Odložit</string>
   <!-- App introduction -->
   <string name="intro_title_1">Vítejte</string>

@@ -53,38 +53,27 @@ public class SQLiteCheckmarkList extends CheckmarkList
     @Nullable
     private CachedData cache;
 
-    @NonNull
-    private final SQLiteStatement invalidateStatement;
-
-    @NonNull
-    private final SQLiteStatement addStatement;
-
-    @NonNull
-    private final SQLiteDatabase db;
-
     public SQLiteCheckmarkList(Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(CheckmarkRecord.class);
-
-        db = Cache.openDatabase();
-        addStatement = db.compileStatement(ADD_QUERY);
-        invalidateStatement = db.compileStatement(INVALIDATE_QUERY);
     }
 
     @Override
     public void add(List<Checkmark> checkmarks)
     {
         check(habit.getId());
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(ADD_QUERY);
         db.beginTransaction();
         try
         {
             for (Checkmark c : checkmarks)
             {
-                addStatement.bindLong(1, habit.getId());
-                addStatement.bindLong(2, c.getTimestamp());
-                addStatement.bindLong(3, c.getValue());
-                addStatement.execute();
+                statement.bindLong(1, habit.getId());
+                statement.bindLong(2, c.getTimestamp());
+                statement.bindLong(3, c.getValue());
+                statement.execute();
             }
 
             db.setTransactionSuccessful();
@@ -115,14 +104,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
         List<CheckmarkRecord> records = sqlite.query(query, params);
         for (CheckmarkRecord record : records) record.habit = habitRecord;
 
-        int nDays = DateUtils.getDaysBetween(fromTimestamp, toTimestamp) + 1;
-        if (records.size() != nDays)
-        {
-            throw new InconsistentDatabaseException(
-                String.format("habit=%s, %d expected, %d found",
-                    habit.getName(), nDays, records.size()));
-        }
-
+        records = fixRecords(records, habitRecord, fromTimestamp, toTimestamp);
         return toCheckmarks(records);
     }
 
@@ -139,9 +121,11 @@ public class SQLiteCheckmarkList extends CheckmarkList
     public void invalidateNewerThan(long timestamp)
     {
         cache = null;
-        invalidateStatement.bindLong(1, habit.getId());
-        invalidateStatement.bindLong(2, timestamp);
-        invalidateStatement.execute();
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(INVALIDATE_QUERY);
+        statement.bindLong(1, habit.getId());
+        statement.bindLong(2, timestamp);
+        statement.execute();
         observable.notifyListeners();
     }
 
@@ -196,6 +180,28 @@ public class SQLiteCheckmarkList extends CheckmarkList
         List<Checkmark> checkmarks = new LinkedList<>();
         for (CheckmarkRecord r : records) checkmarks.add(r.toCheckmark());
         return checkmarks;
+    }
+
+    public static List<CheckmarkRecord> fixRecords(List<CheckmarkRecord> original,
+                                                   HabitRecord habit,
+                                                   long fromTimestamp,
+                                                   long toTimestamp)
+    {
+        long day = DateUtils.millisecondsInOneDay;
+        ArrayList<CheckmarkRecord> records = new ArrayList<>();
+
+        for (long t = toTimestamp; t >= fromTimestamp; t -= day)
+            records.add(new CheckmarkRecord(habit, t, Checkmark.UNCHECKED));
+
+        for (CheckmarkRecord record : original)
+        {
+            if ((toTimestamp - record.timestamp) % day != 0) continue;
+            int offset = (int) ((toTimestamp - record.timestamp) / day);
+            if (offset < 0 || offset >= records.size()) continue;
+            records.set(offset, record);
+        }
+
+        return records;
     }
 
     private static class CachedData

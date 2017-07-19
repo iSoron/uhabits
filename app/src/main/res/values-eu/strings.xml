@@ -19,6 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <string name="app_name">Ohitura Tracker Loop</string>
   <string name="main_activity_title">Ohiturak</string>
   <string name="action_settings">Ezarpenak</string>
   <string name="edit">Editatu</string>
@@ -149,6 +150,7 @@
   <string name="year">Urtea</string>
   <string name="total">Guztira</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
+  <string name="time_every">denbora</string>
   <string name="every_x_days">%d egunero</string>
   <string name="every_x_weeks">%d astero</string>
   <string name="every_x_months">%d hilabetero</string>

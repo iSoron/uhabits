@@ -24,6 +24,7 @@ import android.database.*;
 import com.activeandroid.*;
 import com.activeandroid.annotation.*;
 
+import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.models.*;
 
 /**
@@ -53,6 +54,17 @@ public class CheckmarkRecord extends Model implements SQLiteRecord
     @Column(name = "value")
     public Integer value;
 
+    public CheckmarkRecord()
+    {
+    }
+
+    public CheckmarkRecord(HabitRecord habit, Long timestamp, Integer value)
+    {
+        this.habit = habit;
+        this.timestamp = timestamp;
+        this.value = value;
+    }
+
     @Override
     public void copyFrom(Cursor c)
     {
@@ -63,5 +75,41 @@ public class CheckmarkRecord extends Model implements SQLiteRecord
     public Checkmark toCheckmark()
     {
         return new Checkmark(timestamp, value);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CheckmarkRecord that = (CheckmarkRecord) o;
+
+        return new EqualsBuilder()
+            .append(habit, that.habit)
+            .append(timestamp, that.timestamp)
+            .append(value, that.value)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+            .append(habit)
+            .append(timestamp)
+            .append(value)
+            .toHashCode();
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("habit", habit)
+            .append("timestamp", timestamp)
+            .append("value", value)
+            .toString();
     }
 }

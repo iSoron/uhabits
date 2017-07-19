@@ -115,6 +115,41 @@ public class SQLiteCheckmarkListTest extends BaseAndroidTest
         assertThat(records.get(0).timestamp, equalTo(today - 21 * day));
     }
 
+    @Test
+    public void testFixRecords() throws Exception
+    {
+        long day = DateUtils.millisecondsInOneDay;
+        long from = DateUtils.getStartOfToday();
+        long to = from + 5 * day;
+
+        List<CheckmarkRecord> original, actual, expected;
+        HabitRecord habit = new HabitRecord();
+
+        original = new ArrayList<>();
+        original.add(new CheckmarkRecord(habit, from + 8*day, 2));
+        original.add(new CheckmarkRecord(habit, from + 5*day, 0));
+        original.add(new CheckmarkRecord(habit, from + 4*day, 0));
+        original.add(new CheckmarkRecord(habit, from + 4*day, 2));
+        original.add(new CheckmarkRecord(habit, from + 3*day, 2));
+        original.add(new CheckmarkRecord(habit, from + 2*day, 1));
+        original.add(new CheckmarkRecord(habit, from + 2*day + 100, 1));
+        original.add(new CheckmarkRecord(habit, from, 0));
+        original.add(new CheckmarkRecord(habit, from, 2));
+        original.add(new CheckmarkRecord(habit, from - day, 2));
+
+        actual = SQLiteCheckmarkList.fixRecords(original, habit, from, to);
+
+        expected = new ArrayList<>();
+        expected.add(new CheckmarkRecord(habit, from + 5*day, 0));
+        expected.add(new CheckmarkRecord(habit, from + 4*day, 2));
+        expected.add(new CheckmarkRecord(habit, from + 3*day, 2));
+        expected.add(new CheckmarkRecord(habit, from + 2*day, 1));
+        expected.add(new CheckmarkRecord(habit, from + day, 0));
+        expected.add(new CheckmarkRecord(habit, from, 2));
+
+        assertThat(actual, equalTo(expected));
+    }
+
     private List<CheckmarkRecord> getAllRecords()
     {
         return new Select()

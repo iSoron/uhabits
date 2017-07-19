@@ -37,22 +37,19 @@ import java.util.*;
  */
 public class SQLiteStreakList extends StreakList
 {
+
+    private static final String INVALIDATE_QUERY =
+        "delete from Streak where habit = ? and end >= ?";
+
     private HabitRecord habitRecord;
 
     @NonNull
     private final SQLiteUtils<StreakRecord> sqlite;
 
-    private final SQLiteStatement invalidateStatement;
-
     public SQLiteStreakList(Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(StreakRecord.class);
-
-        SQLiteDatabase db = Cache.openDatabase();
-        String invalidateQuery = "delete from Streak where habit = ? " +
-                                 "and end >= ?";
-        invalidateStatement = db.compileStatement(invalidateQuery);
     }
 
     @Override
@@ -81,9 +78,11 @@ public class SQLiteStreakList extends StreakList
     @Override
     public void invalidateNewerThan(long timestamp)
     {
-        invalidateStatement.bindLong(1, habit.getId());
-        invalidateStatement.bindLong(2, timestamp - DateUtils.millisecondsInOneDay);
-        invalidateStatement.execute();
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(INVALIDATE_QUERY);
+        statement.bindLong(1, habit.getId());
+        statement.bindLong(2, timestamp - DateUtils.millisecondsInOneDay);
+        statement.execute();
         observable.notifyListeners();
     }
 

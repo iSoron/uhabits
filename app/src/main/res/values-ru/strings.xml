@@ -43,7 +43,7 @@
   <string name="clear">Очистить</string>
   <string name="description_hint">Вопрос (пример: \"Делали ли вы сегодня зарядку?\")</string>
   <string name="repeat">Повторять</string>
-  <string name="times_every">раза за</string>
+  <string name="times_every">раз в</string>
   <string name="days">дней</string>
   <string name="reminder">Напоминание</string>
   <string name="discard">Отменить</string>

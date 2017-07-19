@@ -171,13 +171,13 @@ public class MainTest
         clickMenuItem(R.string.archive);
         assertHabitsDontExist(names);
 
-        clickMenuItem(R.string.show_archived);
+        clickMenuItem(R.string.hide_archived);
 
         assertHabitsExist(names);
         selectHabits(names);
         clickMenuItem(R.string.unarchive);
 
-        clickMenuItem(R.string.show_archived);
+        clickMenuItem(R.string.hide_archived);
 
         assertHabitsExist(names);
         deleteHabits(names);
