@@ -115,14 +115,7 @@ public class SQLiteCheckmarkList extends CheckmarkList
         List<CheckmarkRecord> records = sqlite.query(query, params);
         for (CheckmarkRecord record : records) record.habit = habitRecord;
 
-        int nDays = DateUtils.getDaysBetween(fromTimestamp, toTimestamp) + 1;
-        if (records.size() != nDays)
-        {
-            throw new InconsistentDatabaseException(
-                String.format("habit=%s, %d expected, %d found",
-                    habit.getName(), nDays, records.size()));
-        }
-
+        records = fixRecords(records, habitRecord, fromTimestamp, toTimestamp);
         return toCheckmarks(records);
     }
 
@@ -196,6 +189,28 @@ public class SQLiteCheckmarkList extends CheckmarkList
         List<Checkmark> checkmarks = new LinkedList<>();
         for (CheckmarkRecord r : records) checkmarks.add(r.toCheckmark());
         return checkmarks;
+    }
+
+    public static List<CheckmarkRecord> fixRecords(List<CheckmarkRecord> original,
+                                                   HabitRecord habit,
+                                                   long fromTimestamp,
+                                                   long toTimestamp)
+    {
+        long day = DateUtils.millisecondsInOneDay;
+        ArrayList<CheckmarkRecord> records = new ArrayList<>();
+
+        for (long t = toTimestamp; t >= fromTimestamp; t -= day)
+            records.add(new CheckmarkRecord(habit, t, Checkmark.UNCHECKED));
+
+        for (CheckmarkRecord record : original)
+        {
+            if ((toTimestamp - record.timestamp) % day != 0) continue;
+            int offset = (int) ((toTimestamp - record.timestamp) / day);
+            if (offset < 0 || offset >= records.size()) continue;
+            records.set(offset, record);
+        }
+
+        return records;
     }
 
     private static class CachedData
