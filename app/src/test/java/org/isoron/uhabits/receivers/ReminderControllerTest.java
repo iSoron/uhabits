@@ -65,7 +65,7 @@ public class ReminderControllerTest extends BaseUnitTest
     {
         Habit habit = mock(Habit.class);
         long now = timestamp(2015, 1, 1);
-        DateUtils.setFixedLocalTime(now);
+        DateUtils.setFixedLocalTime(DateUtils.removeTimezone(now));
         when(preferences.getSnoozeInterval()).thenReturn(15L);
 
         controller.onSnooze(habit);
