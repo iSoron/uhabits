@@ -32,7 +32,8 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
-import static org.isoron.uhabits.models.Checkmark.*;
+import static org.isoron.uhabits.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.isoron.uhabits.models.Checkmark.UNCHECKED;
 
 public class HistoryChart extends ScrollableChart
 {
@@ -112,10 +113,21 @@ public class HistoryChart extends ScrollableChart
         if (!isEditable) return false;
 
         performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+        float x, y;
 
-        int pointerId = e.getPointerId(0);
-        float x = e.getX(pointerId);
-        float y = e.getY(pointerId);
+        try
+        {
+            int pointerId = e.getPointerId(0);
+            x = e.getX(pointerId);
+            y = e.getY(pointerId);
+        }
+        catch (RuntimeException ex)
+        {
+            // Android often throws IllegalArgumentException here. Apparently,
+            // the pointer id may become invalid shortly after calling
+            // e.getPointerId.
+            return false;
+        }
 
         final Long timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
