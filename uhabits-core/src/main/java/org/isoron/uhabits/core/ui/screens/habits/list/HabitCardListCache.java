@@ -93,12 +93,12 @@ public class HabitCardListCache implements CommandRunner.Listener
      * Returns the habits that occupies a certain position on the list.
      *
      * @param position the position of the habit
-     * @return the habit at given position
-     * @throws IndexOutOfBoundsException if position is not valid
+     * @return the habit at given position or null if position is invalid
      */
-    @NonNull
-    public Habit getHabitByPosition(int position)
+    @Nullable
+    public synchronized Habit getHabitByPosition(int position)
     {
+        if(position < 0 || position >= data.habits.size()) return null;
         return data.habits.get(position);
     }
 
