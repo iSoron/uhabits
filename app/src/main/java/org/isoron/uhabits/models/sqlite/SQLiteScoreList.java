@@ -49,14 +49,6 @@ public class SQLiteScoreList extends ScoreList
     @NonNull
     private final SQLiteUtils<ScoreRecord> sqlite;
 
-    @NonNull
-    private final SQLiteStatement invalidateStatement;
-
-    @NonNull
-    private final SQLiteStatement addStatement;
-
-    private final SQLiteDatabase db;
-
     @Nullable
     private CachedData cache = null;
 
@@ -69,25 +61,23 @@ public class SQLiteScoreList extends ScoreList
     {
         super(habit);
         sqlite = new SQLiteUtils<>(ScoreRecord.class);
-
-        db = Cache.openDatabase();
-        addStatement = db.compileStatement(ADD_QUERY);
-        invalidateStatement = db.compileStatement(INVALIDATE_QUERY);
     }
 
     @Override
     public void add(List<Score> scores)
     {
         check(habit.getId());
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(ADD_QUERY);
         db.beginTransaction();
         try
         {
             for (Score s : scores)
             {
-                addStatement.bindLong(1, habit.getId());
-                addStatement.bindLong(2, s.getTimestamp());
-                addStatement.bindLong(3, s.getValue());
-                addStatement.execute();
+                statement.bindLong(1, habit.getId());
+                statement.bindLong(2, s.getTimestamp());
+                statement.bindLong(3, s.getValue());
+                statement.execute();
             }
 
             db.setTransactionSuccessful();
@@ -150,9 +140,11 @@ public class SQLiteScoreList extends ScoreList
     public synchronized void invalidateNewerThan(long timestamp)
     {
         cache = null;
-        invalidateStatement.bindLong(1, habit.getId());
-        invalidateStatement.bindLong(2, timestamp);
-        invalidateStatement.execute();
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(INVALIDATE_QUERY);
+        statement.bindLong(1, habit.getId());
+        statement.bindLong(2, timestamp);
+        statement.execute();
         getObservable().notifyListeners();
     }
 

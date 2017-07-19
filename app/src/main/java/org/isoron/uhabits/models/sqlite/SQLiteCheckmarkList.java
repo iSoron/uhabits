@@ -53,38 +53,27 @@ public class SQLiteCheckmarkList extends CheckmarkList
     @Nullable
     private CachedData cache;
 
-    @NonNull
-    private final SQLiteStatement invalidateStatement;
-
-    @NonNull
-    private final SQLiteStatement addStatement;
-
-    @NonNull
-    private final SQLiteDatabase db;
-
     public SQLiteCheckmarkList(Habit habit)
     {
         super(habit);
         sqlite = new SQLiteUtils<>(CheckmarkRecord.class);
-
-        db = Cache.openDatabase();
-        addStatement = db.compileStatement(ADD_QUERY);
-        invalidateStatement = db.compileStatement(INVALIDATE_QUERY);
     }
 
     @Override
     public void add(List<Checkmark> checkmarks)
     {
         check(habit.getId());
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(ADD_QUERY);
         db.beginTransaction();
         try
         {
             for (Checkmark c : checkmarks)
             {
-                addStatement.bindLong(1, habit.getId());
-                addStatement.bindLong(2, c.getTimestamp());
-                addStatement.bindLong(3, c.getValue());
-                addStatement.execute();
+                statement.bindLong(1, habit.getId());
+                statement.bindLong(2, c.getTimestamp());
+                statement.bindLong(3, c.getValue());
+                statement.execute();
             }
 
             db.setTransactionSuccessful();
@@ -132,9 +121,11 @@ public class SQLiteCheckmarkList extends CheckmarkList
     public void invalidateNewerThan(long timestamp)
     {
         cache = null;
-        invalidateStatement.bindLong(1, habit.getId());
-        invalidateStatement.bindLong(2, timestamp);
-        invalidateStatement.execute();
+        SQLiteDatabase db = Cache.openDatabase();
+        SQLiteStatement statement = db.compileStatement(INVALIDATE_QUERY);
+        statement.bindLong(1, habit.getId());
+        statement.bindLong(2, timestamp);
+        statement.execute();
         observable.notifyListeners();
     }
 
