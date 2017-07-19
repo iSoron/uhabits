@@ -3,6 +3,7 @@
 ### 1.7.6 (July 18, 2017)
 
 * Fix bug that caused widgets not to render sometimes
+* Fix other minor bugs
 * Update translations
 
 ### 1.7.3 (May 30, 2017)
