@@ -39,7 +39,7 @@ import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 public class BaseViewTest extends BaseAndroidTest
 {
-    public double similarityCutoff = 0.00015;
+    public double similarityCutoff = 0.00018;
 
     @Override
     public void setUp()
