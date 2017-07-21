@@ -142,7 +142,8 @@ public class CommonSteps extends BaseUserInterfaceTest
         switch(screen)
         {
             case LIST_HABITS:
-                onView(withId(R.id.header)).check(matches(isDisplayed()));
+                onView(withClassName(endsWith("ListHabitsRootView")))
+                    .check(matches(isDisplayed()));
                 break;
 
             case SHOW_HABIT:

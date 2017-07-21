@@ -212,6 +212,11 @@ public class Preferences
         return storage.getBoolean("pref_short_toggle", false);
     }
 
+    public void setShortToggleEnabled(boolean enabled)
+    {
+        storage.putBoolean("pref_short_toggle", enabled);
+    }
+
     public boolean isSyncEnabled()
     {
         return storage.getBoolean("pref_feature_sync", false);
@@ -243,11 +248,11 @@ public class Preferences
         for (Listener l : listeners) l.onNotificationsChanged();
     }
 
-    public void setShouldReverseCheckmarks(boolean reverse)
+    public void setCheckmarkSequenceReversed(boolean reverse)
     {
         shouldReverseCheckmarks = reverse;
         storage.putBoolean("pref_checkmark_reverse_order", reverse);
-        for (Listener l : listeners) l.onCheckmarkOrderChanged();
+        for (Listener l : listeners) l.onCheckmarkSequenceChanged();
     }
 
     public void setSyncEnabled(boolean isEnabled)
@@ -261,7 +266,7 @@ public class Preferences
         return storage.getBoolean("pref_sticky_notifications", false);
     }
 
-    public boolean shouldReverseCheckmarks()
+    public boolean isCheckmarkSequenceReversed()
     {
         if (shouldReverseCheckmarks == null) shouldReverseCheckmarks =
             storage.getBoolean("pref_checkmark_reverse_order", false);
@@ -277,7 +282,7 @@ public class Preferences
 
     public interface Listener
     {
-        default void onCheckmarkOrderChanged() {}
+        default void onCheckmarkSequenceChanged() {}
 
         default void onNotificationsChanged() {}
 

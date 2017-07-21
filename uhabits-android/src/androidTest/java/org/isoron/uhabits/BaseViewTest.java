@@ -21,6 +21,7 @@ package org.isoron.uhabits;
 
 import android.graphics.*;
 import android.support.annotation.*;
+import android.support.test.*;
 import android.view.*;
 import android.widget.*;
 
@@ -31,14 +32,14 @@ import org.isoron.uhabits.widgets.*;
 import java.io.*;
 import java.util.*;
 
-import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static android.view.View.MeasureSpec.*;
+import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 public class BaseViewTest extends BaseAndroidTest
 {
-    double similarityCutoff = 0.00075;
+    public double similarityCutoff = 0.00015;
 
     @Override
     public void setUp()
@@ -49,6 +50,7 @@ public class BaseViewTest extends BaseAndroidTest
     protected void assertRenders(View view, String expectedImagePath)
         throws IOException
     {
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         expectedImagePath = getVersionedPath(expectedImagePath);
         Bitmap actual = renderView(view);
         if(actual == null) throw new IllegalStateException("actual is null");
@@ -198,6 +200,7 @@ public class BaseViewTest extends BaseAndroidTest
 
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
+        view.invalidate();
         view.draw(canvas);
         return bitmap;
     }

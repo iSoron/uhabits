@@ -78,7 +78,8 @@ public class HabitCardListAdapter
         this.midnightTimer = midnightTimer;
 
         cache.setListener(this);
-        cache.setCheckmarkCount(ListHabitsRootView.MAX_CHECKMARK_COUNT);
+        cache.setCheckmarkCount(
+            ListHabitsRootViewKt.MAX_CHECKMARK_COUNT);
         cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);
@@ -202,7 +203,7 @@ public class HabitCardListAdapter
                                                   int viewType)
     {
         if (listView == null) return null;
-        View view = listView.createCardView();
+        View view = listView.createHabitCardView();
         return new HabitCardViewHolder(view);
     }
 

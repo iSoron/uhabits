@@ -20,7 +20,6 @@
 package org.isoron.uhabits.acceptance.steps;
 
 import android.support.test.espresso.*;
-import android.support.test.uiautomator.*;
 import android.view.*;
 
 import org.hamcrest.*;
@@ -29,13 +28,18 @@ import org.isoron.uhabits.activities.habits.list.views.*;
 
 import java.util.*;
 
-import static android.support.test.InstrumentationRegistry.*;
-import static android.support.test.espresso.Espresso.*;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.*;
 import static org.isoron.uhabits.BaseUserInterfaceTest.device;
-import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
+import static org.isoron.uhabits.acceptance.steps.CommonSteps.clickText;
 
 public abstract class ListHabitsSteps
 {
@@ -89,17 +93,8 @@ public abstract class ListHabitsSteps
 
     private static void clickTextInsideOverflowMenu(int id)
     {
-        UiObject toolbar = device.findObject(
-            new UiSelector().resourceId("org.isoron.uhabits:id/toolbar"));
-        if (toolbar.exists())
-        {
-            onView(allOf(withContentDescription("More options"),
-                withParent(withParent(withId(R.id.toolbar))))).perform(click());
-        }
-        else
-        {
-            openActionBarOverflowOrOptionsMenu(getTargetContext());
-        }
+        onView(allOf(withContentDescription("More options"), withParent(
+            withParent(withClassName(endsWith("Toolbar")))))).perform(click());
 
         onView(withText(id)).perform(click());
     }

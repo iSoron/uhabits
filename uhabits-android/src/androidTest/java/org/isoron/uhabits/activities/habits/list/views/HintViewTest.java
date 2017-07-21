@@ -47,9 +47,8 @@ public class HintViewTest extends BaseViewTest
     {
         super.setUp();
 
-        view = new HintView(targetContext);
         list = mock(HintList.class);
-        view.setHints(list);
+        view = new HintView(targetContext, list);
         measureView(view, 400, 200);
 
         String text =

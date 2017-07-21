@@ -177,7 +177,7 @@ public abstract class ScrollableChart extends View
         return detector.onTouchEvent(event);
     }
 
-    public void setDirection(int direction)
+    public void setScrollDirection(int direction)
     {
         if (direction != 1 && direction != -1)
             throw new IllegalArgumentException();

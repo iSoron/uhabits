@@ -361,7 +361,7 @@ public class BarChart extends ScrollableChart
         if (value / 1000 >= target)
             activeColor = primaryColor;
 
-        String label = NumberButtonView.formatValue(value / 1000);
+        String label = NumberButtonViewKt.toShortString(value / 1000);
         Rect rText = new Rect();
         pText.getTextBounds(label, 0, label.length(), rText);
 

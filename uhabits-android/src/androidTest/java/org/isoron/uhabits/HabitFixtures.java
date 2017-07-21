@@ -84,6 +84,9 @@ public class HabitFixtures
         habit.setName("Take a walk");
         habit.setDescription("How many steps did you walk today?");
         habit.setType(Habit.NUMBER_HABIT);
+        habit.setTargetType(Habit.AT_LEAST);
+        habit.setTargetValue(200.0);
+        habit.setUnit("steps");
         habitList.add(habit);
 
         long timestamp = DateUtils.getStartOfToday();

@@ -1,5 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 
 android {
@@ -11,6 +13,13 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "size", "medium"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
     buildTypes {
@@ -64,18 +73,16 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.9'
     implementation 'com.jakewharton:butterknife:8.6.1-SNAPSHOT'
     implementation 'org.apmem.tools:layouts:1.10'
-    implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     compileOnly 'javax.annotation:jsr250-api:1.0'
     compileOnly 'com.google.auto.factory:auto-factory:1.0-beta3'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
-    annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
+    kapt 'com.google.dagger:dagger-compiler:2.9'
+    kapt 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
+    kapt 'com.google.auto.factory:auto-factory:1.0-beta3'
 
-    androidTestAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
-    androidTestAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
@@ -87,6 +94,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.google.guava:guava:20.0'
     androidTestImplementation project(":uhabits-core")
+    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.9'
 
     // mockito-android 2+ includes net.bytebuddy, which causes tests to fail.
     // Excluding the package net.bytebuddy on AndroidManifest.xml breaks some
@@ -94,9 +102,6 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-core:1+"
     androidTestImplementation "com.google.dexmaker:dexmaker-mockito:+"
 
-    testAnnotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta3'
-    testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.9'
-    testAnnotationProcessor 'com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT'
     testImplementation 'com.google.dagger:dagger:2.9'
     testImplementation "org.mockito:mockito-core:2.8.9"
     testImplementation "org.mockito:mockito-inline:2.8.9"
@@ -112,6 +117,10 @@ dependencies {
 
 repositories {
     mavenCentral()
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 task coverageReport(type: JacocoReport) {

@@ -19,21 +19,27 @@
 
 package org.isoron.uhabits.core.tasks;
 
+import java.util.*;
+
 public class SingleThreadTaskRunner implements TaskRunner
 {
+    private List<Listener> listeners = new LinkedList<>();
+
     @Override
     public void addListener(Listener listener)
     {
-        throw new UnsupportedOperationException();
+        listeners.add(listener);
     }
 
     @Override
     public void execute(Task task)
     {
+        for(Listener l : listeners) l.onTaskStarted(task);
         task.onAttached(this);
         task.onPreExecute();
         task.doInBackground();
         task.onPostExecute();
+        for(Listener l : listeners) l.onTaskFinished(task);
     }
 
     @Override
@@ -51,6 +57,6 @@ public class SingleThreadTaskRunner implements TaskRunner
     @Override
     public void removeListener(Listener listener)
     {
-        throw new UnsupportedOperationException();
+        listeners.remove(listener);
     }
 }

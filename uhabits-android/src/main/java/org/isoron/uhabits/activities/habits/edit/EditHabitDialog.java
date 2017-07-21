@@ -93,7 +93,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
         HabitsActivity activity = (HabitsActivity) getActivity();
         colorPickerDialogFactory =
-            activity.getActivityComponent().getColorPickerDialogFactory();
+            activity.getComponent().getColorPickerDialogFactory();
     }
 
     @Override

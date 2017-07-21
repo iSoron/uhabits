@@ -33,8 +33,8 @@ public class AboutActivity extends HabitsActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        AboutScreen screen = getActivityComponent().getAboutScreen();
-        screen.setRootView(getActivityComponent().getAboutRootView());
+        AboutScreen screen = getComponent().getAboutScreen();
+        screen.setRootView(getComponent().getAboutRootView());
         setScreen(screen);
     }
 }

@@ -32,7 +32,7 @@ import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.mockito.Mockito.*;
 
-public class WidgetControllerTest extends BaseAndroidUnitTest
+public class WidgetControllerTest extends BaseAndroidJVMTest
 {
     private WidgetBehavior controller;
 

@@ -31,6 +31,7 @@ import android.util.*;
 import junit.framework.*;
 
 import org.isoron.androidbase.*;
+import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -67,12 +68,15 @@ public class BaseAndroidTest extends TestCase
 
     protected CountDownLatch latch;
 
-    protected AndroidTestComponent component;
+    protected HabitsApplicationTestComponent appComponent;
 
     protected ModelFactory modelFactory;
 
+    protected HabitsActivityTestComponent component;
+
     private boolean isDone = false;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -86,21 +90,31 @@ public class BaseAndroidTest extends TestCase
         setTheme(R.style.AppBaseTheme);
         setLocale("en", "US");
 
-        component = DaggerAndroidTestComponent
+        latch = new CountDownLatch(1);
+
+        appComponent = DaggerHabitsApplicationTestComponent
             .builder()
             .appContextModule(new AppContextModule(targetContext.getApplicationContext()))
             .build();
 
-        HabitsApplication.setComponent(component);
-        prefs = component.getPreferences();
-        habitList = component.getHabitList();
-        taskRunner = component.getTaskRunner();
-        logger = component.getHabitsLogger();
+        HabitsApplication.setComponent(appComponent);
+        prefs = appComponent.getPreferences();
+        habitList = appComponent.getHabitList();
+        taskRunner = appComponent.getTaskRunner();
+        logger = appComponent.getHabitsLogger();
+        modelFactory = appComponent.getModelFactory();
 
-        modelFactory = component.getModelFactory();
+        prefs.reset();
+
         fixtures = new HabitFixtures(modelFactory, habitList);
+        fixtures.purgeHabits(appComponent.getHabitList());
+        Habit habit = fixtures.createEmptyHabit();
 
-        latch = new CountDownLatch(1);
+        component = DaggerHabitsActivityTestComponent
+            .builder()
+            .activityContextModule(new ActivityContextModule(targetContext))
+            .habitsApplicationComponent(appComponent)
+            .build();
     }
 
     protected void assertWidgetProviderIsInstalled(Class componentClass)
@@ -118,7 +132,7 @@ public class BaseAndroidTest extends TestCase
 
     protected void awaitLatch() throws InterruptedException
     {
-        assertTrue(latch.await(5, TimeUnit.SECONDS));
+        assertTrue(latch.await(1, TimeUnit.SECONDS));
     }
 
     protected void setLocale(@NonNull String language, @NonNull String country)
@@ -194,5 +208,11 @@ public class BaseAndroidTest extends TestCase
     protected void stopTracing()
     {
         Debug.stopMethodTracing();
+    }
+
+    protected Long day(int offset)
+    {
+        return DateUtils.getStartOfToday() -
+               offset * DateUtils.millisecondsInOneDay;
     }
 }

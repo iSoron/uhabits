@@ -57,22 +57,22 @@ public class HeaderViewTest extends BaseViewTest
     @Test
     public void testRender() throws Exception
     {
-        when(prefs.shouldReverseCheckmarks()).thenReturn(false);
+        when(prefs.isCheckmarkSequenceReversed()).thenReturn(false);
 
         assertRenders(view, PATH + "render.png");
 
-        verify(prefs).shouldReverseCheckmarks();
+        verify(prefs).isCheckmarkSequenceReversed();
         verifyNoMoreInteractions(prefs);
     }
 
     @Test
     public void testRender_reverse() throws Exception
     {
-        when(prefs.shouldReverseCheckmarks()).thenReturn(true);
+        when(prefs.isCheckmarkSequenceReversed()).thenReturn(true);
 
         assertRenders(view, PATH + "render_reverse.png");
 
-        verify(prefs).shouldReverseCheckmarks();
+        verify(prefs).isCheckmarkSequenceReversed();
         verifyNoMoreInteractions(prefs);
     }
 }

@@ -39,11 +39,11 @@ import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT;
 import static android.media.RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT;
 import static android.media.RingtoneManager.EXTRA_RINGTONE_TYPE;
 import static android.media.RingtoneManager.TYPE_NOTIFICATION;
-import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_BUG_REPORT;
-import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_EXPORT_CSV;
-import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_EXPORT_DB;
-import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_IMPORT_DATA;
-import static org.isoron.uhabits.activities.habits.list.ListHabitsScreen.RESULT_REPAIR_DB;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.RESULT_BUG_REPORT;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.RESULT_EXPORT_CSV;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.RESULT_EXPORT_DB;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.RESULT_IMPORT_DATA;
+import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.RESULT_REPAIR_DB;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener

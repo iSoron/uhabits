@@ -114,13 +114,18 @@ public class RingView extends View
     public void setBackgroundColor(int backgroundColor)
     {
         this.backgroundColor = backgroundColor;
-        postInvalidate();
+        invalidate();
     }
 
     public void setColor(int color)
     {
         this.color = color;
-        postInvalidate();
+        invalidate();
+    }
+
+    public int getColor()
+    {
+        return color;
     }
 
     public void setIsTransparencyEnabled(boolean isTransparencyEnabled)
@@ -131,19 +136,19 @@ public class RingView extends View
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
-        postInvalidate();
+        invalidate();
     }
 
     public void setPrecision(float precision)
     {
         this.precision = precision;
-        postInvalidate();
+        invalidate();
     }
 
     public void setText(String text)
     {
         this.text = text;
-        postInvalidate();
+        invalidate();
     }
 
     public void setTextSize(float textSize)
@@ -154,7 +159,7 @@ public class RingView extends View
     public void setThickness(float thickness)
     {
         this.thickness = thickness;
-        postInvalidate();
+        invalidate();
     }
 
     @Override
@@ -253,5 +258,15 @@ public class RingView extends View
         drawingCache =
             Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888);
         cacheCanvas = new Canvas(drawingCache);
+    }
+
+    public float getPercentage()
+    {
+        return percentage;
+    }
+
+    public float getPrecision()
+    {
+        return precision;
     }
 }

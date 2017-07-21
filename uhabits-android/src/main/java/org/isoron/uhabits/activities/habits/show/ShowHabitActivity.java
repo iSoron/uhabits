@@ -34,6 +34,6 @@ public class ShowHabitActivity extends HabitsActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setScreen(getActivityComponent().getShowHabitScreen());
+        setScreen(getComponent().getShowHabitScreen());
     }
 }

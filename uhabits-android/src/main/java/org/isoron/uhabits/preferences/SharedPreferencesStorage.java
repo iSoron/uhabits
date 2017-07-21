@@ -93,7 +93,7 @@ public class SharedPreferencesStorage
         switch (key)
         {
             case "pref_checkmark_reverse_order":
-                preferences.setShouldReverseCheckmarks(getBoolean(key, false));
+                preferences.setCheckmarkSequenceReversed(getBoolean(key, false));
                 break;
 
             case "pref_sticky_notifications":

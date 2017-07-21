@@ -237,7 +237,7 @@
     <style name="ToolbarShadow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
-        <item name="android:background">@drawable/toolbar_shadow</item>
+        <item name="android:background">@drawable/shadow</item>
         <item name="android:alpha">0.2</item>
     </style>
 

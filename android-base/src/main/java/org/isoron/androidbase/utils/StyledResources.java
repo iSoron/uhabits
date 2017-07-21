@@ -51,6 +51,15 @@ public class StyledResources
         return bool;
     }
 
+    public int getDimension(@AttrRes int attrId)
+    {
+        TypedArray ta = getTypedArray(attrId);
+        int dim = ta.getDimensionPixelSize(0, 0);
+        ta.recycle();
+
+        return dim;
+    }
+
     public int getColor(@AttrRes int attrId)
     {
         TypedArray ta = getTypedArray(attrId);
@@ -80,13 +89,13 @@ public class StyledResources
 
     public int[] getPalette()
     {
-        int resourceId = getStyleResource(R.attr.palette);
+        int resourceId = getResource(R.attr.palette);
         if (resourceId < 0) throw new RuntimeException("resource not found");
 
         return context.getResources().getIntArray(resourceId);
     }
 
-    int getStyleResource(@AttrRes int attrId)
+    public int getResource(@AttrRes int attrId)
     {
         TypedArray ta = getTypedArray(attrId);
         int resourceId = ta.getResourceId(0, -1);

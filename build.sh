@@ -198,6 +198,18 @@ uninstall_test_apk() {
 	$ADB uninstall ${PACKAGE_NAME}.test || fail
 }
 
+fetch_images() {
+    rm -rf tmp/test-screenshots > /dev/null
+    mkdir -p tmp/
+    adb pull /sdcard/Android/data/org.isoron.uhabits/files/test-screenshots tmp/
+    adb shell rm -rf /sdcard/Android/data/org.isoron.uhabits/files/test-screenshots
+}
+
+accept_images() {
+    find tmp/test-screenshots -name '*.expected*' -delete
+    rsync -av tmp/test-screenshots/ uhabits-android/src/androidTest/assets/
+}
+
 run_local_tests() {
 	clean_output_dir
 	run_adb_as_root
@@ -263,6 +275,14 @@ case "$1" in
 		run_local_tests
 		;;
 
+    fetch-images)
+        fetch_images
+        ;;
+
+    accept-images)
+        accept_images
+        ;;
+
 	install)
 		shift; parse_opts $*
 		build_apk
@@ -278,6 +298,8 @@ case "$1" in
 			    ci-tests            Start emulator silently, run tests then kill emulator
 			    local-tests         Run all tests on connected device
 			    install             Install app on connected device
+                fetch-images        Fetches failed view test images from device
+                accept-images       Copies fetched images to corresponding assets folder
 
 			Options:
 			    -u  --uninstall-first   Uninstall existing APK first

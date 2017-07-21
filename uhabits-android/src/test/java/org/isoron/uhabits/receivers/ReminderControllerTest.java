@@ -29,7 +29,7 @@ import org.junit.*;
 
 import static org.mockito.Mockito.*;
 
-public class ReminderControllerTest extends BaseAndroidUnitTest
+public class ReminderControllerTest extends BaseAndroidJVMTest
 {
 
     private ReminderController controller;
