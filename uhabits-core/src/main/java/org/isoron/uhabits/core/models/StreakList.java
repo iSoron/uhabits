@@ -63,14 +63,13 @@ public abstract class StreakList
         return observable;
     }
 
-    public abstract void invalidateNewerThan(long timestamp);
+    public abstract void invalidateNewerThan(Timestamp timestamp);
 
     public synchronized void rebuild()
     {
-        long today = DateUtils.getStartOfToday();
-
-        Long beginning = findBeginning();
-        if (beginning == null || beginning > today) return;
+        Timestamp today = DateUtils.getToday();
+        Timestamp beginning = findBeginning();
+        if (beginning == null || beginning.isNewerThan(today)) return;
 
         int checks[] = habit.getCheckmarks().getValues(beginning, today);
         List<Streak> streaks = checkmarksToStreaks(beginning, checks);
@@ -88,15 +87,15 @@ public abstract class StreakList
      * @return the list of streaks.
      */
     @NonNull
-    protected List<Streak> checkmarksToStreaks(long beginning, int[] checks)
+    protected List<Streak> checkmarksToStreaks(Timestamp beginning, int[] checks)
     {
-        ArrayList<Long> transitions = getTransitions(beginning, checks);
+        ArrayList<Timestamp> transitions = getTransitions(beginning, checks);
 
         List<Streak> streaks = new LinkedList<>();
         for (int i = 0; i < transitions.size(); i += 2)
         {
-            long start = transitions.get(i);
-            long end = transitions.get(i + 1);
+            Timestamp start = transitions.get(i);
+            Timestamp end = transitions.get(i + 1);
             streaks.add(new Streak(start, end));
         }
 
@@ -109,14 +108,13 @@ public abstract class StreakList
      * @return
      */
     @Nullable
-    protected Long findBeginning()
+    protected Timestamp findBeginning()
     {
         Streak newestStreak = getNewestComputed();
         if (newestStreak != null) return newestStreak.getStart();
 
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep != null) return oldestRep.getTimestamp();
-
         return null;
     }
 
@@ -129,21 +127,19 @@ public abstract class StreakList
      * @return the list of transitions
      */
     @NonNull
-    protected ArrayList<Long> getTransitions(long beginning, int[] checks)
+    protected ArrayList<Timestamp> getTransitions(Timestamp beginning, int[] checks)
     {
-        long day = DateUtils.millisecondsInOneDay;
-        long current = beginning;
-
-        ArrayList<Long> list = new ArrayList<>();
+        ArrayList<Timestamp> list = new ArrayList<>();
+        Timestamp current = beginning;
         list.add(current);
 
         for (int i = 1; i < checks.length; i++)
         {
-            current += day;
+            current = current.plus(1);
             int j = checks.length - i - 1;
 
             if ((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
-            if ((checks[j + 1] > 0 && checks[j] == 0)) list.add(current - day);
+            if ((checks[j + 1] > 0 && checks[j] == 0)) list.add(current.minus(1));
         }
 
         if (list.size() % 2 == 1) list.add(current);

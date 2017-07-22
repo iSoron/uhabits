@@ -102,7 +102,7 @@ public class NotificationTray
         reshowAll();
     }
 
-    public void show(@NonNull Habit habit, long timestamp, long reminderTime)
+    public void show(@NonNull Habit habit, Timestamp timestamp, long reminderTime)
     {
         NotificationData data = new NotificationData(timestamp, reminderTime);
         active.put(habit, data);
@@ -143,17 +143,17 @@ public class NotificationTray
 
         void showNotification(Habit habit,
                               int notificationId,
-                              long timestamp,
+                              Timestamp timestamp,
                               long reminderTime);
     }
 
     class NotificationData
     {
-        public final long timestamp;
+        public final Timestamp timestamp;
 
         public final long reminderTime;
 
-        public NotificationData(long timestamp, long reminderTime)
+        public NotificationData(Timestamp timestamp, long reminderTime)
         {
             this.timestamp = timestamp;
             this.reminderTime = reminderTime;
@@ -166,7 +166,7 @@ public class NotificationTray
 
         private final Habit habit;
 
-        private final long timestamp;
+        private final Timestamp timestamp;
 
         private final long reminderTime;
 
@@ -200,7 +200,7 @@ public class NotificationTray
             Reminder reminder = habit.getReminder();
 
             boolean reminderDays[] = reminder.getDays().toArray();
-            int weekday = DateUtils.getWeekday(timestamp);
+            int weekday = timestamp.getWeekday();
 
             return reminderDays[weekday];
         }

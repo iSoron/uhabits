@@ -31,17 +31,16 @@ import org.junit.*;
 
 import java.util.*;
 
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 
 public class SQLiteRepetitionListTest extends BaseUnitTest
 {
     private Habit habit;
 
-    private long today;
+    private Timestamp today;
 
     private RepetitionList repetitions;
 
@@ -62,20 +61,19 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         habit = fixtures.createLongHabit();
 
         repetitions = habit.getRepetitions();
-        today = DateUtils.getStartOfToday();
-        day = DateUtils.millisecondsInOneDay;
+        today = DateUtils.getToday();
     }
 
     @Test
     public void testAdd()
     {
-        RepetitionRecord record = getByTimestamp(today + day);
+        RepetitionRecord record = getByTimestamp(today.plus(1));
         assertNull(record);
 
-        Repetition rep = new Repetition(today + day, CHECKED_EXPLICITLY);
+        Repetition rep = new Repetition(today.plus(1), CHECKED_EXPLICITLY);
         habit.getRepetitions().add(rep);
 
-        record = getByTimestamp(today + day);
+        record = getByTimestamp(today.plus(1));
         assertNotNull(record);
         assertThat(record.value, equalTo(CHECKED_EXPLICITLY));
     }
@@ -84,12 +82,12 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     public void testGetByInterval()
     {
         List<Repetition> reps =
-            repetitions.getByInterval(today - 10 * day, today);
+            repetitions.getByInterval(today.minus(10), today);
 
         assertThat(reps.size(), equalTo(8));
-        assertThat(reps.get(0).getTimestamp(), equalTo(today - 10 * day));
-        assertThat(reps.get(4).getTimestamp(), equalTo(today - 5 * day));
-        assertThat(reps.get(5).getTimestamp(), equalTo(today - 3 * day));
+        assertThat(reps.get(0).getTimestamp(), equalTo(today.minus(10)));
+        assertThat(reps.get(4).getTimestamp(), equalTo(today.minus(5)));
+        assertThat(reps.get(5).getTimestamp(), equalTo(today.minus(3)));
     }
 
     @Test
@@ -99,7 +97,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         assertNotNull(rep);
         assertThat(rep.getTimestamp(), equalTo(today));
 
-        rep = repetitions.getByTimestamp(today - 2 * day);
+        rep = repetitions.getByTimestamp(today.minus(2));
         assertNull(rep);
     }
 
@@ -108,7 +106,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     {
         Repetition rep = repetitions.getOldest();
         assertNotNull(rep);
-        assertThat(rep.getTimestamp(), equalTo(today - 120 * day));
+        assertThat(rep.getTimestamp(), equalTo(today.minus(120)));
     }
 
     @Test
@@ -133,11 +131,11 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     }
 
     @Nullable
-    private RepetitionRecord getByTimestamp(long timestamp)
+    private RepetitionRecord getByTimestamp(Timestamp timestamp)
     {
         String query = "where habit = ? and timestamp = ?";
         String params[] = {
-            Long.toString(habit.getId()), Long.toString(timestamp)
+            Long.toString(habit.getId()), Long.toString(timestamp.getUnixTime())
         };
 
         return repository.findFirst(query, params);

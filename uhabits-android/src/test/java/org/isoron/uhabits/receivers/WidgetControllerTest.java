@@ -40,7 +40,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
 
     private Habit habit;
 
-    private long today;
+    private Timestamp today;
 
     private NotificationTray notificationTray;
 
@@ -49,7 +49,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     {
         super.setUp();
 
-        today = DateUtils.getStartOfToday();
+        today = DateUtils.getToday();
         habit = fixtures.createEmptyHabit();
         commandRunner = mock(CommandRunner.class);
         notificationTray = mock(NotificationTray.class);

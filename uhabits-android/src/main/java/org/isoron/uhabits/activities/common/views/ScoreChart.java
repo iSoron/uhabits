@@ -111,17 +111,15 @@ public class ScoreChart extends ScrollableChart
         scores = new LinkedList<>();
 
         double previous = 0.5f;
-        long timestamp = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
+        Timestamp timestamp = DateUtils.getToday();
 
         for (int i = 1; i < 100; i++)
         {
             double step = 0.1f;
             double current = previous + random.nextDouble() * step * 2 - step;
             current = Math.max(0, Math.min(1.0f, current));
-            scores.add(new Score(timestamp, current));
+            scores.add(new Score(timestamp.minus(i), current));
             previous = current;
-            timestamp -= day;
         }
     }
 
@@ -189,7 +187,7 @@ public class ScoreChart extends ScrollableChart
             if (offset >= scores.size()) continue;
 
             double score = scores.get(offset).getValue();
-            long timestamp = scores.get(offset).getTimestamp();
+            Timestamp timestamp = scores.get(offset).getTimestamp();
 
             int height = (int) (columnHeight * score);
 
@@ -258,13 +256,13 @@ public class ScoreChart extends ScrollableChart
         if (isTransparencyEnabled) initCache(width, height);
     }
 
-    private void drawFooter(Canvas canvas, RectF rect, long currentDate)
+    private void drawFooter(Canvas canvas, RectF rect, Timestamp currentDate)
     {
-        String yearText = dfYear.format(currentDate);
-        String monthText = dfMonth.format(currentDate);
-        String dayText = dfDay.format(currentDate);
+        String yearText = dfYear.format(currentDate.toJavaDate());
+        String monthText = dfMonth.format(currentDate.toJavaDate());
+        String dayText = dfDay.format(currentDate.toJavaDate());
 
-        GregorianCalendar calendar = DateUtils.getCalendar(currentDate);
+        GregorianCalendar calendar = currentDate.toCalendar();
 
         String text;
         int year = calendar.get(Calendar.YEAR);

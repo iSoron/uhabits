@@ -128,7 +128,7 @@ public class PebbleReceiver extends PebbleDataReceiver
         Habit habit = habitList.getById(habitId);
         if (habit == null) return;
 
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
         commandRunner.execute(
             new ToggleRepetitionCommand(habitList, habit, today), habitId);
 

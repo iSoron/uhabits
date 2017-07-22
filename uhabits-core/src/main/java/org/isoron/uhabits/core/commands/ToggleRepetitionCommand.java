@@ -31,14 +31,14 @@ public class ToggleRepetitionCommand extends Command
     @NonNull
     private HabitList list;
 
-    final long timestamp;
+    final Timestamp timestamp;
 
     @NonNull
     final Habit habit;
 
     public ToggleRepetitionCommand(@NonNull HabitList list,
                                    @NonNull Habit habit,
-                                   long timestamp)
+                                   Timestamp timestamp)
     {
         super();
         this.list = list;
@@ -90,7 +90,7 @@ public class ToggleRepetitionCommand extends Command
             Long habitId = command.habit.getId();
             if (habitId == null) throw new RuntimeException("Habit not saved");
 
-            this.repTimestamp = command.timestamp;
+            this.repTimestamp = command.timestamp.getUnixTime();
             this.habit = habitId;
         }
 
@@ -100,7 +100,8 @@ public class ToggleRepetitionCommand extends Command
             if (h == null) throw new HabitNotFoundException();
 
             ToggleRepetitionCommand command;
-            command = new ToggleRepetitionCommand(habitList, h, repTimestamp);
+            command = new ToggleRepetitionCommand(
+                habitList, h, new Timestamp(repTimestamp));
             command.setId(id);
             return command;
         }

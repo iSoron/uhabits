@@ -52,7 +52,7 @@ public final class Checkmark
      */
     public static final int UNCHECKED = 0;
 
-    private final long timestamp;
+    private final Timestamp timestamp;
 
     /**
      * The value of the checkmark.
@@ -65,15 +65,10 @@ public final class Checkmark
      */
     private final int value;
 
-    public Checkmark(long timestamp, int value)
+    public Checkmark(Timestamp timestamp, int value)
     {
         this.timestamp = timestamp;
         this.value = value;
-    }
-
-    public int compareNewer(Checkmark other)
-    {
-        return Long.signum(this.getTimestamp() - other.getTimestamp());
     }
 
     @Override
@@ -91,7 +86,7 @@ public final class Checkmark
             .isEquals();
     }
 
-    public long getTimestamp()
+    public Timestamp getTimestamp()
     {
         return timestamp;
     }

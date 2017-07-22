@@ -304,9 +304,9 @@ public class HabitCardListCache implements CommandRunner.Listener
             newData.copyScoresFrom(data);
             newData.copyCheckmarksFrom(data);
 
-            long day = DateUtils.millisecondsInOneDay;
-            long dateTo = DateUtils.getStartOfDay(DateUtils.getLocalTime());
-            long dateFrom = dateTo - (checkmarkCount - 1) * day;
+            Timestamp dateTo = new Timestamp(
+                DateUtils.getStartOfDay(DateUtils.getLocalTime()));
+            Timestamp dateFrom = dateTo.minus(checkmarkCount - 1);
 
             runner.publishProgress(this, -1);
 
@@ -319,8 +319,9 @@ public class HabitCardListCache implements CommandRunner.Listener
                 if (targetId != null && !targetId.equals(id)) continue;
 
                 newData.scores.put(id, habit.getScores().getTodayValue());
-                newData.checkmarks.put(id,
-                    habit.getCheckmarks().getValues(dateFrom, dateTo));
+                newData.checkmarks.put(id, habit
+                    .getCheckmarks()
+                    .getValues(dateFrom, dateTo));
 
                 runner.publishProgress(this, position);
             }

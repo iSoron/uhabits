@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
@@ -45,7 +46,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    var onToggle: (Long) -> Unit = {}
+    var onToggle: (Timestamp) -> Unit = {}
         set(value) {
             field = value
             setupButtons()
@@ -55,11 +56,10 @@ class CheckmarkPanelView(
 
     @Synchronized
     override fun setupButtons() {
-        val today = DateUtils.getStartOfToday()
-        val day = DateUtils.millisecondsInOneDay
+        val today = DateUtils.getToday()
 
         buttons.forEachIndexed { index, button ->
-            val timestamp = today - (index + dataOffset) * day
+            val timestamp = today.minus(index + dataOffset)
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> UNCHECKED

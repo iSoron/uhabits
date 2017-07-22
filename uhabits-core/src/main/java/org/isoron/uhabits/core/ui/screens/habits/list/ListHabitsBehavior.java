@@ -78,7 +78,7 @@ public class ListHabitsBehavior
         screen.showHabitScreen(h);
     }
 
-    public void onEdit(@NonNull Habit habit, long timestamp)
+    public void onEdit(@NonNull Habit habit, Timestamp timestamp)
     {
         CheckmarkList checkmarks = habit.getCheckmarks();
         double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
@@ -109,7 +109,7 @@ public class ListHabitsBehavior
     public void onFirstRun()
     {
         prefs.setFirstRun(false);
-        prefs.updateLastHint(-1, DateUtils.getStartOfToday());
+        prefs.updateLastHint(-1, DateUtils.getToday());
         screen.showIntroScreen();
     }
 
@@ -149,7 +149,7 @@ public class ListHabitsBehavior
         if (prefs.isFirstRun()) onFirstRun();
     }
 
-    public void onToggle(@NonNull Habit habit, long timestamp)
+    public void onToggle(@NonNull Habit habit, Timestamp timestamp)
     {
         commandRunner.execute(
             new ToggleRepetitionCommand(habitList, habit, timestamp),

@@ -303,7 +303,7 @@ public class Habit
         return data.reminder != null;
     }
 
-    public void invalidateNewerThan(long timestamp)
+    public void invalidateNewerThan(Timestamp timestamp)
     {
         getScores().invalidateNewerThan(timestamp);
         getCheckmarks().invalidateNewerThan(timestamp);

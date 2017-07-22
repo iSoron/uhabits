@@ -32,14 +32,14 @@ public final class Score
      * Timestamp of the day to which this score applies. Time of day should be
      * midnight (UTC).
      */
-    private final long timestamp;
+    private final Timestamp timestamp;
 
     /**
      * Value of the score.
      */
     private final double value;
 
-    public Score(long timestamp, double value)
+    public Score(Timestamp timestamp, double value)
     {
         this.timestamp = timestamp;
         this.value = value;
@@ -72,10 +72,10 @@ public final class Score
 
     public int compareNewer(Score other)
     {
-        return Long.signum(this.getTimestamp() - other.getTimestamp());
+        return getTimestamp().compare(other.getTimestamp());
     }
 
-    public long getTimestamp()
+    public Timestamp getTimestamp()
     {
         return timestamp;
     }

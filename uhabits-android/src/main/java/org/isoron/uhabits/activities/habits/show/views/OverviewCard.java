@@ -164,9 +164,9 @@ public class OverviewCard extends HabitCard
 
             ScoreList scores = habit.getScores();
 
-            long today = DateUtils.getStartOfToday();
-            long lastMonth = today - 30 * DateUtils.millisecondsInOneDay;
-            long lastYear = today - 365 * DateUtils.millisecondsInOneDay;
+            Timestamp today = DateUtils.getToday();
+            Timestamp lastMonth = today.minus(30);
+            Timestamp lastYear = today.minus(365);
 
             cache.todayScore = (float) scores.getTodayValue();
             cache.lastMonthScore = (float) scores.getValue(lastMonth);

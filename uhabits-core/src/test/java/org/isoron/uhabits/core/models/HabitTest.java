@@ -87,7 +87,7 @@ public class HabitTest extends BaseUnitTest
     {
         Habit h = modelFactory.buildHabit();
         assertFalse(h.isCompletedToday());
-        h.getRepetitions().toggle(getStartOfToday());
+        h.getRepetitions().toggle(getToday());
         assertTrue(h.isCompletedToday());
     }
 
@@ -100,19 +100,19 @@ public class HabitTest extends BaseUnitTest
         h.setTargetValue(100.0);
         assertFalse(h.isCompletedToday());
 
-        h.getRepetitions().toggle(getStartOfToday(), 200);
+        h.getRepetitions().toggle(getToday(), 200);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getStartOfToday(), 100);
+        h.getRepetitions().toggle(getToday(), 100);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getStartOfToday(), 50);
+        h.getRepetitions().toggle(getToday(), 50);
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
-        h.getRepetitions().toggle(getStartOfToday(), 200);
+        h.getRepetitions().toggle(getToday(), 200);
         assertFalse(h.isCompletedToday());
-        h.getRepetitions().toggle(getStartOfToday(), 100);
+        h.getRepetitions().toggle(getToday(), 100);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getStartOfToday(), 50);
+        h.getRepetitions().toggle(getToday(), 50);
         assertTrue(h.isCompletedToday());
     }
 

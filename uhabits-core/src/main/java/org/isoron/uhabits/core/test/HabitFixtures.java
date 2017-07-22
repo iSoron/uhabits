@@ -57,14 +57,13 @@ public class HabitFixtures
         habit.setFrequency(new Frequency(3, 7));
         habit.setColor(4);
 
-        long day = DateUtils.millisecondsInOneDay;
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
         int marks[] = { 0, 1, 3, 5, 7, 8, 9, 10, 12, 14, 15, 17, 19, 20, 26, 27,
             28, 50, 51, 52, 53, 54, 58, 60, 63, 65, 70, 71, 72, 73, 74, 75, 80,
             81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getRepetitions().toggle(today - mark * day);
+            habit.getRepetitions().toggle(today.minus(mark));
 
         return habit;
     }
@@ -81,14 +80,13 @@ public class HabitFixtures
         habit.setColor(1);
         saveIfSQLite(habit);
 
-        long day = DateUtils.millisecondsInOneDay;
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
         int times[] = { 0, 1, 3, 5, 7, 8, 9, 10 };
         int values[] = { 100, 200, 300, 400, 500, 600, 700, 800 };
 
         for(int i = 0; i < times.length; i++)
         {
-            long timestamp = today - times[i] * day;
+            Timestamp timestamp = today.minus(times[i]);
             habit.getRepetitions().add(new Repetition(timestamp, values[i]));
         }
 
@@ -103,11 +101,11 @@ public class HabitFixtures
         habit.setFrequency(new Frequency(2, 3));
         saveIfSQLite(habit);
 
-        long timestamp = DateUtils.getStartOfToday();
+        Timestamp timestamp = DateUtils.getToday();
         for (boolean c : NON_DAILY_HABIT_CHECKS)
         {
             if (c) habit.getRepetitions().toggle(timestamp);
-            timestamp -= DateUtils.millisecondsInOneDay;
+            timestamp = timestamp.minus(1);
         }
 
         return habit;

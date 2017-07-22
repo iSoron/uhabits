@@ -30,10 +30,7 @@ import java.util.*;
 
 import javax.annotation.concurrent.*;
 
-import static java.lang.Math.min;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_IMPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
@@ -57,32 +54,30 @@ public abstract class CheckmarkList
     {
         if (reps.length == 0) throw new IllegalArgumentException();
 
-        long day = DateUtils.millisecondsInOneDay;
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
+        Timestamp begin = reps[0].getTimestamp();
+        if (intervals.size() > 0) begin = Timestamp.oldest(begin, intervals.get(0).begin);
 
-        long begin = reps[0].getTimestamp();
-        if (intervals.size() > 0) begin = min(begin, intervals.get(0).begin);
-
-        int nDays = (int) ((today - begin) / day) + 1;
-
+        int nDays = begin.daysUntil(today) + 1;
         List<Checkmark> checkmarks = new ArrayList<>(nDays);
         for (int i = 0; i < nDays; i++)
-            checkmarks.add(new Checkmark(today - day * i, UNCHECKED));
+            checkmarks.add(new Checkmark(today.minus(i), UNCHECKED));
 
         for (Interval interval : intervals)
         {
-            for (long date = interval.begin; date <= interval.end; date += day)
+            for (int i = 0; i < interval.length(); i++)
             {
-                if (date > today) continue;
-                int offset = (int) ((today - date) / day);
+                Timestamp date = interval.begin.plus(i);
+                int offset = date.daysUntil(today);
+                if (offset < 0) continue;
                 checkmarks.set(offset, new Checkmark(date, CHECKED_IMPLICITLY));
             }
         }
 
         for (Repetition rep : reps)
         {
-            long date = rep.getTimestamp();
-            int offset = (int) ((today - date) / day);
+            Timestamp date = rep.getTimestamp();
+            int offset = date.daysUntil(today);
             checkmarks.set(offset, new Checkmark(date, CHECKED_EXPLICITLY));
         }
 
@@ -104,7 +99,6 @@ public abstract class CheckmarkList
     static ArrayList<Interval> buildIntervals(@NonNull Frequency freq,
                                               @NonNull Repetition[] reps)
     {
-        long day = DateUtils.millisecondsInOneDay;
         int num = freq.getNumerator();
         int den = freq.getDenominator();
 
@@ -114,12 +108,12 @@ public abstract class CheckmarkList
             Repetition first = reps[i];
             Repetition last = reps[i + num - 1];
 
-            long distance = (last.getTimestamp() - first.getTimestamp()) / day;
+            long distance = first.getTimestamp().daysUntil(last.getTimestamp());
             if (distance >= den) continue;
 
-            long begin = first.getTimestamp();
-            long center = last.getTimestamp();
-            long end = begin + (den - 1) * day;
+            Timestamp begin = first.getTimestamp();
+            Timestamp center = last.getTimestamp();
+            Timestamp end = begin.plus(den - 1);
             intervals.add(new Interval(begin, center, end));
         }
 
@@ -134,17 +128,15 @@ public abstract class CheckmarkList
      */
     static void snapIntervalsTogether(@NonNull ArrayList<Interval> intervals)
     {
-        long day = DateUtils.millisecondsInOneDay;
-
         for (int i = 1; i < intervals.size(); i++)
         {
             Interval curr = intervals.get(i);
             Interval prev = intervals.get(i - 1);
 
-            long distance = curr.begin - prev.end - day;
-            if (distance <= 0 || curr.end - distance < curr.center) continue;
-            intervals.set(i, new Interval(curr.begin - distance, curr.center,
-                curr.end - distance));
+            int gap = prev.end.daysUntil(curr.begin) - 1;
+            if (gap <= 0 || curr.end.minus(gap).isOlderThan(curr.center)) continue;
+            intervals.set(i, new Interval(curr.begin.minus(gap), curr.center,
+                curr.end.minus(gap)));
         }
     }
 
@@ -176,8 +168,8 @@ public abstract class CheckmarkList
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep == null) return new int[0];
 
-        Long fromTimestamp = oldestRep.getTimestamp();
-        Long toTimestamp = DateUtils.getStartOfToday();
+        Timestamp fromTimestamp = oldestRep.getTimestamp();
+        Timestamp toTimestamp = DateUtils.getToday();
 
         return getValues(fromTimestamp, toTimestamp);
     }
@@ -195,8 +187,8 @@ public abstract class CheckmarkList
      * @return the list of checkmarks within the interval.
      */
     @NonNull
-    public abstract List<Checkmark> getByInterval(long fromTimestamp,
-                                                  long toTimestamp);
+    public abstract List<Checkmark> getByInterval(Timestamp fromTimestamp,
+                                                  Timestamp toTimestamp);
 
     /**
      * Returns the checkmark for today.
@@ -207,7 +199,7 @@ public abstract class CheckmarkList
     public synchronized final Checkmark getToday()
     {
         compute();
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
         return getByInterval(today, today).get(0);
     }
 
@@ -236,9 +228,9 @@ public abstract class CheckmarkList
      * @param to   timestamp for the newest checkmark
      * @return values for the checkmarks inside the given interval
      */
-    public final int[] getValues(long from, long to)
+    public final int[] getValues(Timestamp from, Timestamp to)
     {
-        if (from > to) return new int[0];
+        if (from.isNewerThan(to)) return new int[0];
 
         List<Checkmark> checkmarks = getByInterval(from, to);
         int values[] = new int[checkmarks.size()];
@@ -257,7 +249,7 @@ public abstract class CheckmarkList
      *
      * @param timestamp the timestamp
      */
-    public abstract void invalidateNewerThan(long timestamp);
+    public abstract void invalidateNewerThan(Timestamp timestamp);
 
     /**
      * Writes the entire list of checkmarks to the given writer, in CSV format.
@@ -275,14 +267,14 @@ public abstract class CheckmarkList
             values = getAllValues();
         }
 
-        long timestamp = DateUtils.getStartOfToday();
+        Timestamp timestamp = DateUtils.getToday();
         SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
 
         for (int value : values)
         {
-            String date = dateFormat.format(new Date(timestamp));
+            String date = dateFormat.format(timestamp.toJavaDate());
             out.write(String.format("%s,%d\n", date, value));
-            timestamp -= DateUtils.millisecondsInOneDay;
+            timestamp = timestamp.minus(1);
         }
     }
 
@@ -292,15 +284,15 @@ public abstract class CheckmarkList
      */
     protected final synchronized void compute()
     {
-        final long today = DateUtils.getStartOfToday();
+        final Timestamp today = DateUtils.getToday();
 
         Checkmark newest = getNewestComputed();
-        if (newest != null && newest.getTimestamp() == today) return;
-        invalidateNewerThan(0);
+        if (newest != null && newest.getTimestamp().equals(today)) return;
+        invalidateNewerThan(Timestamp.ZERO);
 
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep == null) return;
-        final long from = oldestRep.getTimestamp();
+        final Timestamp from = oldestRep.getTimestamp();
 
         Repetition reps[] = habit
             .getRepetitions()
@@ -331,20 +323,18 @@ public abstract class CheckmarkList
     {
         if (reps.length == 0) throw new IllegalArgumentException();
 
-        long day = DateUtils.millisecondsInOneDay;
-        long today = DateUtils.getStartOfToday();
-        long begin = reps[0].getTimestamp();
+        Timestamp today = DateUtils.getToday();
+        Timestamp begin = reps[0].getTimestamp();
 
-        int nDays = (int) ((today - begin) / day) + 1;
+        int nDays = begin.daysUntil(today) + 1;
         List<Checkmark> checkmarks = new ArrayList<>(nDays);
         for (int i = 0; i < nDays; i++)
-            checkmarks.add(new Checkmark(today - day * i, 0));
+            checkmarks.add(new Checkmark(today.minus(i), 0));
 
         for (Repetition rep : reps)
         {
-            long date = rep.getTimestamp();
-            int offset = (int) ((today - date) / day);
-            checkmarks.set(offset, new Checkmark(date, rep.getValue()));
+            int offset = rep.getTimestamp().daysUntil(today);
+            checkmarks.set(offset, new Checkmark(rep.getTimestamp(), rep.getValue()));
         }
 
         add(checkmarks);
@@ -360,17 +350,21 @@ public abstract class CheckmarkList
 
     static class Interval
     {
-        final long begin;
+        final Timestamp begin;
 
-        final long center;
+        final Timestamp center;
 
-        final long end;
+        final Timestamp end;
 
-        Interval(long begin, long center, long end)
+        Interval(Timestamp begin, Timestamp center, Timestamp end)
         {
             this.begin = begin;
             this.center = center;
             this.end = end;
+        }
+
+        public int length() {
+            return begin.daysUntil(end) + 1;
         }
 
         @Override

@@ -35,7 +35,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
 
     private Habit habit;
 
-    private long today;
+    private Timestamp today;
 
     @Override
     @Before
@@ -46,7 +46,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         habit = fixtures.createShortHabit();
         habitList.add(habit);
 
-        today = DateUtils.getStartOfToday();
+        today = DateUtils.getToday();
         command = new CreateRepetitionCommand(habit, today, 100);
     }
 

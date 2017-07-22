@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
@@ -41,16 +42,16 @@ public class HintListTest extends BaseUnitTest
     @Mock
     private Preferences prefs;
 
-    private long today;
+    private Timestamp today;
 
-    private long yesterday;
+    private Timestamp yesterday;
 
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
-        today = DateUtils.getStartOfToday();
-        yesterday = today - DateUtils.millisecondsInOneDay;
+        today = DateUtils.getToday();
+        yesterday = today.minus(1);
 
         hints = new String[]{ "hint1", "hint2", "hint3" };
         hintList = new HintList(prefs, hints);

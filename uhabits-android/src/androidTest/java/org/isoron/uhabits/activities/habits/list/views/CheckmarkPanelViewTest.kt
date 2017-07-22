@@ -24,6 +24,7 @@ import android.support.test.runner.*
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.utils.*
 import org.junit.*
@@ -89,7 +90,7 @@ class CheckmarkPanelViewTest : BaseViewTest() {
 
     @Test
     fun testToggle() {
-        var timestamps = mutableListOf<Long>()
+        var timestamps = mutableListOf<Timestamp>()
         view.onToggle = { timestamps.add(it) }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()
@@ -99,12 +100,12 @@ class CheckmarkPanelViewTest : BaseViewTest() {
 
     @Test
     fun testToggle_withOffset() {
-        var timestamps = LongArray(0)
+        val timestamps = mutableListOf<Timestamp>()
         view.dataOffset = 3
         view.onToggle = { timestamps += it }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()
         view.buttons[3].performLongClick()
-        assertThat(timestamps, equalTo(longArrayOf(day(3), day(5), day(6))))
+        assertThat(timestamps, equalTo(listOf(day(3), day(5), day(6))))
     }
 }

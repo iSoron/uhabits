@@ -46,28 +46,29 @@ public class MemoryRepetitionList extends RepetitionList
     }
 
     @Override
-    public List<Repetition> getByInterval(long fromTimestamp, long toTimestamp)
+    public List<Repetition> getByInterval(Timestamp fromTimestamp, Timestamp toTimestamp)
     {
         ArrayList<Repetition> filtered = new ArrayList<>();
 
         for (Repetition r : list)
         {
-            long t = r.getTimestamp();
-            if (t >= fromTimestamp && t <= toTimestamp) filtered.add(r);
+            Timestamp t = r.getTimestamp();
+            if (t.isOlderThan(fromTimestamp) || t.isNewerThan(toTimestamp)) continue;
+            filtered.add(r);
         }
 
         Collections.sort(filtered,
-            (r1, r2) -> Long.compare(r1.getTimestamp(), r2.getTimestamp()));
+            (r1, r2) -> r1.getTimestamp().compare(r2.getTimestamp()));
 
         return filtered;
     }
 
     @Nullable
     @Override
-    public Repetition getByTimestamp(long timestamp)
+    public Repetition getByTimestamp(Timestamp timestamp)
     {
         for (Repetition r : list)
-            if (r.getTimestamp() == timestamp) return r;
+            if (r.getTimestamp().equals(timestamp)) return r;
 
         return null;
     }
@@ -76,15 +77,15 @@ public class MemoryRepetitionList extends RepetitionList
     @Override
     public Repetition getOldest()
     {
-        long oldestTime = Long.MAX_VALUE;
+        Timestamp oldestTimestamp = Timestamp.ZERO.plus(1000000);
         Repetition oldestRep = null;
 
         for (Repetition rep : list)
         {
-            if (rep.getTimestamp() < oldestTime)
+            if (rep.getTimestamp().isOlderThan(oldestTimestamp))
             {
                 oldestRep = rep;
-                oldestTime = rep.getTimestamp();
+                oldestTimestamp = rep.getTimestamp();
             }
         }
 
@@ -95,15 +96,15 @@ public class MemoryRepetitionList extends RepetitionList
     @Override
     public Repetition getNewest()
     {
-        long newestTime = -1;
+        Timestamp newestTimestamp = Timestamp.ZERO;
         Repetition newestRep = null;
 
         for (Repetition rep : list)
         {
-            if (rep.getTimestamp() > newestTime)
+            if (rep.getTimestamp().isNewerThan(newestTimestamp))
             {
                 newestRep = rep;
-                newestTime = rep.getTimestamp();
+                newestTimestamp = rep.getTimestamp();
             }
         }
 

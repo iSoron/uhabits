@@ -31,7 +31,7 @@ public class CreateRepetitionCommand extends Command
     @NonNull
     final Habit habit;
 
-    final long timestamp;
+    final Timestamp timestamp;
 
     final int value;
 
@@ -42,7 +42,7 @@ public class CreateRepetitionCommand extends Command
     Repetition newRep;
 
     public CreateRepetitionCommand(@NonNull Habit habit,
-                                   long timestamp,
+                                   Timestamp timestamp,
                                    int value)
     {
         this.timestamp = timestamp;
@@ -108,7 +108,7 @@ public class CreateRepetitionCommand extends Command
             if(habitId == null) throw new RuntimeException("Habit not saved");
 
             this.habit = habitId;
-            this.repTimestamp = command.timestamp;
+            this.repTimestamp = command.timestamp.getUnixTime();
             this.value = command.value;
         }
 
@@ -118,7 +118,8 @@ public class CreateRepetitionCommand extends Command
             if(h == null) throw new HabitNotFoundException();
 
             CreateRepetitionCommand command;
-            command = new CreateRepetitionCommand(h, repTimestamp, value);
+            command = new CreateRepetitionCommand(
+                h, new Timestamp(repTimestamp), value);
             command.setId(id);
             return command;
         }

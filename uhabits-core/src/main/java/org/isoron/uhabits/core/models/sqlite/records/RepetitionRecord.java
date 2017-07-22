@@ -46,12 +46,12 @@ public class RepetitionRecord
 
     public void copyFrom(Repetition repetition)
     {
-        timestamp = repetition.getTimestamp();
+        timestamp = repetition.getTimestamp().getUnixTime();
         value = repetition.getValue();
     }
 
     public Repetition toRepetition()
     {
-        return new Repetition(timestamp, value);
+        return new Repetition(new Timestamp(timestamp), value);
     }
 }

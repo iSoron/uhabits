@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 
@@ -56,7 +57,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    var onEdit: (Long) -> Unit = {}
+    var onEdit: (Timestamp) -> Unit = {}
         set(value) {
             field = value
             setupButtons()
@@ -66,11 +67,10 @@ class NumberPanelView(
 
     @Synchronized
     override fun setupButtons() {
-        val day = DateUtils.millisecondsInOneDay
-        val today = DateUtils.getStartOfToday()
+        val today = DateUtils.getToday()
 
         buttons.forEachIndexed { index, button ->
-            val timestamp = today - (index + dataOffset) * day
+            val timestamp = today.minus(index + dataOffset)
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> 0.0

@@ -86,7 +86,7 @@ public class BaseUserInterfaceTest
     {
         prefs.reset();
         prefs.setFirstRun(false);
-        prefs.updateLastHint(100, DateUtils.getStartOfToday());
+        prefs.updateLastHint(100, DateUtils.getToday());
         habitList.removeAll();
         cache.refreshAllHabits();
         Thread.sleep(1000);

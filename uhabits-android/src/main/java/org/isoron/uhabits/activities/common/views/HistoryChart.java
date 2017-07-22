@@ -28,14 +28,15 @@ import android.view.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 
 public class HistoryChart extends ScrollableChart
 {
@@ -135,10 +136,11 @@ public class HistoryChart extends ScrollableChart
             return false;
         }
 
-        final Long timestamp = positionToTimestamp(x, y);
+        final Timestamp timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
-        int offset = timestampToOffset(timestamp);
+        Timestamp today = DateUtils.getToday();
+        int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
             boolean isChecked = checkmarks[offset] == CHECKED_EXPLICITLY;
@@ -435,7 +437,8 @@ public class HistoryChart extends ScrollableChart
         baseLocation = new RectF();
     }
 
-    private Long positionToTimestamp(float x, float y)
+    @Nullable
+    private Timestamp positionToTimestamp(float x, float y)
     {
         int col = (int) (x / columnWidth);
         int row = (int) (y / columnWidth);
@@ -450,15 +453,7 @@ public class HistoryChart extends ScrollableChart
         if (DateUtils.getStartOfDay(date.getTimeInMillis()) >
             DateUtils.getStartOfToday()) return null;
 
-        return date.getTimeInMillis();
-    }
-
-    private int timestampToOffset(Long timestamp)
-    {
-        Long day = DateUtils.millisecondsInOneDay;
-        Long today = DateUtils.getStartOfToday();
-
-        return (int) ((today - timestamp) / day);
+        return new Timestamp(date.getTimeInMillis());
     }
 
     private void updateDate()
@@ -478,6 +473,6 @@ public class HistoryChart extends ScrollableChart
 
     public interface Controller
     {
-        default void onToggleCheckmark(long timestamp) {}
+        default void onToggleCheckmark(Timestamp timestamp) {}
     }
 }

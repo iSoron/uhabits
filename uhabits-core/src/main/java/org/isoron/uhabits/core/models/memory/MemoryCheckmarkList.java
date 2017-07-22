@@ -22,11 +22,8 @@ package org.isoron.uhabits.core.models.memory;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
-
-import static org.isoron.uhabits.core.utils.DateUtils.*;
 
 /**
  * In-memory implementation of {@link CheckmarkList}.
@@ -45,42 +42,42 @@ public class MemoryCheckmarkList extends CheckmarkList
     public void add(List<Checkmark> checkmarks)
     {
         list.addAll(checkmarks);
-        Collections.sort(list, (c1, c2) -> c2.compareNewer(c1));
+        Collections.sort(list,
+            (c1, c2) -> c2.getTimestamp().compare(c1.getTimestamp()));
     }
 
     @NonNull
     @Override
-    public List<Checkmark> getByInterval(long fromTimestamp, long toTimestamp)
+    public synchronized List<Checkmark> getByInterval(Timestamp from,
+                                                      Timestamp to)
     {
         compute();
 
-        long newestTimestamp = Long.MIN_VALUE;
-        long oldestTimestamp = Long.MAX_VALUE;
+        Timestamp newestComputed = new Timestamp(0);
+        Timestamp oldestComputed = new Timestamp(0).plus(1000000);
 
         Checkmark newest = getNewestComputed();
         Checkmark oldest = getOldestComputed();
-        if(newest != null) newestTimestamp = newest.getTimestamp();
-        if(oldest != null) oldestTimestamp = oldest.getTimestamp();
-        long days = (newestTimestamp - oldestTimestamp) /
-                   DateUtils.millisecondsInOneDay;
+        if(newest != null) newestComputed = newest.getTimestamp();
+        if(oldest != null) oldestComputed = oldest.getTimestamp();
 
-        List<Checkmark> filtered = new ArrayList<>((int) days);
-        for(long time = toTimestamp; time >= fromTimestamp; time -= millisecondsInOneDay)
+        List<Checkmark> filtered = new ArrayList<>(
+            Math.max(0, oldestComputed.daysUntil(newestComputed) + 1));
+
+        for(int i = 0; i <= from.daysUntil(to); i++)
         {
-            if(time > newestTimestamp || time < oldestTimestamp)
-                filtered.add(new Checkmark(time, Checkmark.UNCHECKED));
+            Timestamp t = to.minus(i);
+            if(t.isNewerThan(newestComputed) || t.isOlderThan(oldestComputed))
+                filtered.add(new Checkmark(t, Checkmark.UNCHECKED));
             else
-            {
-                int offset = (int) ((newestTimestamp - time) / millisecondsInOneDay);
-                filtered.add(list.get(offset));
-            }
+                filtered.add(list.get(t.daysUntil(newestComputed)));
         }
 
         return filtered;
     }
 
     @Override
-    public void invalidateNewerThan(long timestamp)
+    public void invalidateNewerThan(Timestamp timestamp)
     {
         list.clear();
         observable.notifyListeners();

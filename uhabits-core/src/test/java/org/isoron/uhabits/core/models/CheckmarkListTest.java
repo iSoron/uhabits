@@ -28,9 +28,7 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_IMPLICITLY;
-import static org.isoron.uhabits.core.models.Checkmark.UNCHECKED;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 
 public class CheckmarkListTest extends BaseUnitTest
 {
@@ -48,9 +46,6 @@ public class CheckmarkListTest extends BaseUnitTest
     public void setUp() throws Exception
     {
         super.setUp();
-
-        dayLength = DateUtils.millisecondsInOneDay;
-        today = DateUtils.getStartOfToday();
 
         nonDailyHabit = fixtures.createShortHabit();
         habitList.add(nonDailyHabit);
@@ -281,7 +276,9 @@ public class CheckmarkListTest extends BaseUnitTest
     @Test
     public void test_getValues_withInvalidInterval()
     {
-        int values[] = nonDailyHabit.getCheckmarks().getValues(100L, -100L);
+        int values[] = nonDailyHabit
+            .getCheckmarks()
+            .getValues(new Timestamp(0L).plus(100), new Timestamp(0L));
         assertThat(values, equalTo(new int[0]));
     }
 
@@ -305,7 +302,9 @@ public class CheckmarkListTest extends BaseUnitTest
             UNCHECKED
         };
 
-        int[] actualValues = nonDailyHabit.getCheckmarks().getValues(from, to);
+        int[] actualValues = nonDailyHabit
+            .getCheckmarks()
+            .getValues(new Timestamp(from), new Timestamp(to));
 
         assertThat(actualValues, equalTo(expectedValues));
     }
@@ -344,15 +343,14 @@ public class CheckmarkListTest extends BaseUnitTest
         assertThat(writer.toString(), equalTo(expectedCSV));
     }
 
-    private long day(int offset)
+    private Timestamp day(int offset)
     {
-        return DateUtils.getStartOfToday() -
-               offset * DateUtils.millisecondsInOneDay;
+        return DateUtils.getToday().minus(offset);
     }
 
     private void travelInTime(int days)
     {
         DateUtils.setFixedLocalTime(
-            FIXED_LOCAL_TIME + days * DateUtils.millisecondsInOneDay);
+            FIXED_LOCAL_TIME + days * Timestamp.DAY_LENGTH);
     }
 }

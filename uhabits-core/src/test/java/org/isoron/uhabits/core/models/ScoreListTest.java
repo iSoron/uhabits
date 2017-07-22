@@ -117,11 +117,11 @@ public class ScoreListTest extends BaseUnitTest
         };
 
         ScoreList scores = habit.getScores();
-        long current = DateUtils.getStartOfToday();
+        Timestamp current = DateUtils.getToday();
         for (double expectedValue : expectedValues)
         {
             assertThat(scores.getValue(current), closeTo(expectedValue, E));
-            current -= DateUtils.millisecondsInOneDay;
+            current = current.minus(1);
         }
     }
 
@@ -130,11 +130,9 @@ public class ScoreListTest extends BaseUnitTest
     {
         toggleRepetitions(0, 20);
 
-        long today = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
-
-        long from = today - 4 * day;
-        long to = today - 2 * day;
+        Timestamp today = DateUtils.getToday();
+        Timestamp from = today.minus(4);
+        Timestamp to = today.minus(2);
 
         double[] expected = {
             0.617008, 0.596033, 0.573909,
@@ -169,7 +167,7 @@ public class ScoreListTest extends BaseUnitTest
         assertThat(habit.getScores().getTodayValue(), closeTo(0.101149, E));
 
         habit.setFrequency(new Frequency(1, 2));
-        habit.getScores().invalidateNewerThan(0);
+        habit.getScores().invalidateNewerThan(new Timestamp(0));
 
         assertThat(habit.getScores().getTodayValue(), closeTo(0.051922, E));
     }
@@ -194,10 +192,9 @@ public class ScoreListTest extends BaseUnitTest
     private void toggleRepetitions(final int from, final int to)
     {
         RepetitionList reps = habit.getRepetitions();
-        long today = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
+        Timestamp today = DateUtils.getToday();
 
         for (int i = from; i < to; i++)
-            reps.toggle(today - i * day);
+            reps.toggle(today.minus(i));
     }
 }

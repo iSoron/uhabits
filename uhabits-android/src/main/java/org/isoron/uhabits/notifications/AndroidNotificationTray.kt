@@ -48,7 +48,7 @@ class AndroidNotificationTray
 
     override fun showNotification(habit: Habit,
                                   notificationId: Int,
-                                  timestamp: Long,
+                                  timestamp: Timestamp,
                                   reminderTime: Long) {
 
         val checkAction = Action(

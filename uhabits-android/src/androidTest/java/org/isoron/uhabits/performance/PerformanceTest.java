@@ -28,7 +28,7 @@ import org.junit.*;
 import org.junit.runner.*;
 
 @RunWith(AndroidJUnit4.class)
-@LargeTest
+@MediumTest
 public class PerformanceTest extends BaseAndroidTest
 {
     private Habit habit;

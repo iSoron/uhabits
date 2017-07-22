@@ -38,7 +38,7 @@ public class StreakListTest extends BaseUnitTest
 
     private long day;
 
-    private long today;
+    private Timestamp today;
 
     private ModelObservable.Listener listener;
 
@@ -54,25 +54,23 @@ public class StreakListTest extends BaseUnitTest
 
         listener = mock(ModelObservable.Listener.class);
         streaks.getObservable().addListener(listener);
-
-        today = DateUtils.getStartOfToday();
-        day = DateUtils.millisecondsInOneDay;
+        today = DateUtils.getToday();
     }
 
     @Test
     public void testFindBeginning_withEmptyHistory()
     {
         Habit habit2 = fixtures.createEmptyHabit();
-        Long beginning = habit2.getStreaks().findBeginning();
-        assertThat(beginning, is(nullValue()));
+        Timestamp beginning = habit2.getStreaks().findBeginning();
+        assertNull(beginning);
     }
 
     @Test
     public void testFindBeginning_withLongHistory()
     {
         streaks.rebuild();
-        streaks.invalidateNewerThan(0);
-        assertThat(streaks.findBeginning(), equalTo(today - 120 * day));
+        streaks.invalidateNewerThan(new Timestamp(0));
+        assertThat(streaks.findBeginning(), equalTo(today.minus(120)));
     }
 
     @Test
@@ -82,11 +80,11 @@ public class StreakListTest extends BaseUnitTest
 
         assertThat(all.size(), equalTo(22));
 
-        assertThat(all.get(3).getEnd(), equalTo(today - 7 * day));
-        assertThat(all.get(3).getStart(), equalTo(today - 10 * day));
+        assertThat(all.get(3).getEnd(), equalTo(today.minus(7)));
+        assertThat(all.get(3).getStart(), equalTo(today.minus(10)));
 
-        assertThat(all.get(17).getEnd(), equalTo(today - 89 * day));
-        assertThat(all.get(17).getStart(), equalTo(today - 91 * day));
+        assertThat(all.get(17).getEnd(), equalTo(today.minus(89)));
+        assertThat(all.get(17).getStart(), equalTo(today.minus(91)));
     }
 
     @Test
@@ -95,16 +93,16 @@ public class StreakListTest extends BaseUnitTest
         List<Streak> best = streaks.getBest(4);
         assertThat(best.size(), equalTo(4));
 
-        assertThat(best.get(0).getLength(), equalTo(4L));
-        assertThat(best.get(1).getLength(), equalTo(3L));
-        assertThat(best.get(2).getLength(), equalTo(5L));
-        assertThat(best.get(3).getLength(), equalTo(6L));
+        assertThat(best.get(0).getLength(), equalTo(4));
+        assertThat(best.get(1).getLength(), equalTo(3));
+        assertThat(best.get(2).getLength(), equalTo(5));
+        assertThat(best.get(3).getLength(), equalTo(6));
 
         best = streaks.getBest(2);
         assertThat(best.size(), equalTo(2));
 
-        assertThat(best.get(0).getLength(), equalTo(5L));
-        assertThat(best.get(1).getLength(), equalTo(6L));
+        assertThat(best.get(0).getLength(), equalTo(5));
+        assertThat(best.get(1).getLength(), equalTo(6));
     }
 
     @Test
@@ -113,7 +111,7 @@ public class StreakListTest extends BaseUnitTest
         Streak s = streaks.getNewestComputed();
         assertThat(s.getEnd(), equalTo(today));
 
-        streaks.invalidateNewerThan(today - 8 * day);
+        streaks.invalidateNewerThan(today.minus(8));
         verify(listener).onModelChange();
 
         s = streaks.getNewestComputed();

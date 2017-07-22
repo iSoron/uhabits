@@ -115,14 +115,12 @@ public class BarChart extends ScrollableChart
         Random random = new Random();
         List<Checkmark> checkmarks = new LinkedList<>();
 
-        long timestamp = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
+        Timestamp today = DateUtils.getToday();
 
         for (int i = 1; i < 100; i++)
         {
             int value = random.nextInt(1000);
-            checkmarks.add(new Checkmark(timestamp, value));
-            timestamp -= day;
+            checkmarks.add(new Checkmark(today.minus(i), value));
         }
 
         setCheckmarks(checkmarks);
@@ -205,7 +203,7 @@ public class BarChart extends ScrollableChart
             if (offset >= checkmarks.size()) continue;
 
             double value = checkmarks.get(offset).getValue();
-            long timestamp = checkmarks.get(offset).getTimestamp();
+            Timestamp timestamp = checkmarks.get(offset).getTimestamp();
             int height = (int) (columnHeight * value / maxValue);
 
             rect.set(0, 0, baseSize, height);
@@ -286,13 +284,13 @@ public class BarChart extends ScrollableChart
         if (isTransparencyEnabled) pGraph.setXfermode(XFERMODE_SRC);
     }
 
-    private void drawFooter(Canvas canvas, RectF rect, long currentDate)
+    private void drawFooter(Canvas canvas, RectF rect, Timestamp currentDate)
     {
-        String yearText = dfYear.format(currentDate);
-        String monthText = dfMonth.format(currentDate);
-        String dayText = dfDay.format(currentDate);
+        String yearText = dfYear.format(currentDate.toJavaDate());
+        String monthText = dfMonth.format(currentDate.toJavaDate());
+        String dayText = dfDay.format(currentDate.toJavaDate());
 
-        GregorianCalendar calendar = DateUtils.getCalendar(currentDate);
+        GregorianCalendar calendar = currentDate.toCalendar();
         pText.setColor(textColor);
 
         String text;

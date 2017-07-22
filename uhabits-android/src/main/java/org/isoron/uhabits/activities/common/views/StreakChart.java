@@ -97,16 +97,15 @@ public class StreakChart extends View
 
     public void populateWithRandomData()
     {
-        long day = DateUtils.millisecondsInOneDay;
-        long start = DateUtils.getStartOfToday();
+        Timestamp start = DateUtils.getToday();
         LinkedList<Streak> streaks = new LinkedList<>();
 
         for (int i = 0; i < 10; i++)
         {
             int length = new Random().nextInt(100);
-            long end = start + length * day;
+            Timestamp end = start.plus(length);
             streaks.add(new Streak(start, end));
-            start = end + day;
+            start = end.plus(1);
         }
 
         setStreaks(streaks);
@@ -215,8 +214,8 @@ public class StreakChart extends View
 
         if (shouldShowLabels)
         {
-            String startLabel = dateFormat.format(new Date(streak.getStart()));
-            String endLabel = dateFormat.format(new Date(streak.getEnd()));
+            String startLabel = dateFormat.format(streak.getStart().toJavaDate());
+            String endLabel = dateFormat.format(streak.getEnd().toJavaDate());
 
             paint.setColor(textColor);
             paint.setTextAlign(Paint.Align.RIGHT);
@@ -284,9 +283,9 @@ public class StreakChart extends View
             minLength = Math.min(minLength, s.getLength());
 
             float lw1 =
-                paint.measureText(dateFormat.format(new Date(s.getStart())));
+                paint.measureText(dateFormat.format(s.getStart().toJavaDate()));
             float lw2 =
-                paint.measureText(dateFormat.format(new Date(s.getEnd())));
+                paint.measureText(dateFormat.format(s.getEnd().toJavaDate()));
             maxLabelWidth = Math.max(maxLabelWidth, Math.max(lw1, lw2));
         }
 

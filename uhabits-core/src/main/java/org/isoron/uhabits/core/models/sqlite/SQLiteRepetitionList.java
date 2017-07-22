@@ -79,7 +79,7 @@ public class SQLiteRepetitionList extends RepetitionList
     }
 
     @Override
-    public List<Repetition> getByInterval(long timeFrom, long timeTo)
+    public List<Repetition> getByInterval(Timestamp timeFrom, Timestamp timeTo)
     {
         loadRecords();
         return list.getByInterval(timeFrom, timeTo);
@@ -87,7 +87,7 @@ public class SQLiteRepetitionList extends RepetitionList
 
     @Override
     @Nullable
-    public Repetition getByTimestamp(long timestamp)
+    public Repetition getByTimestamp(Timestamp timestamp)
     {
         loadRecords();
         return list.getByTimestamp(timestamp);
@@ -115,7 +115,7 @@ public class SQLiteRepetitionList extends RepetitionList
         check(habit.getId());
         repository.execSQL(
             "delete from repetitions where habit = ? and timestamp = ?",
-            habit.getId(), repetition.getTimestamp());
+            habit.getId(), repetition.getTimestamp().getUnixTime());
         observable.notifyListeners();
     }
 

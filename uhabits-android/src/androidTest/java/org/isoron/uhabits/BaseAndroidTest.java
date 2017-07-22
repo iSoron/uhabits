@@ -210,9 +210,8 @@ public class BaseAndroidTest extends TestCase
         Debug.stopMethodTracing();
     }
 
-    protected Long day(int offset)
+    protected Timestamp day(int offset)
     {
-        return DateUtils.getStartOfToday() -
-               offset * DateUtils.millisecondsInOneDay;
+        return DateUtils.getToday().minus(offset);
     }
 }

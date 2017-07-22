@@ -71,7 +71,7 @@ public class ReminderScheduler implements CommandRunner.Listener
         sys.scheduleShowReminder(reminderTime, habit, timestamp);
     }
 
-    public void scheduleAll()
+    public synchronized void scheduleAll()
     {
         HabitList reminderHabits =
             habitList.getFiltered(HabitMatcher.WITH_ALARM);
@@ -99,7 +99,7 @@ public class ReminderScheduler implements CommandRunner.Listener
         Long time = calendar.getTimeInMillis();
 
         if (DateUtils.getLocalTime() > time)
-            time += DateUtils.millisecondsInOneDay;
+            time += DateUtils.DAY_LENGTH;
 
         return applyTimezone(time);
     }

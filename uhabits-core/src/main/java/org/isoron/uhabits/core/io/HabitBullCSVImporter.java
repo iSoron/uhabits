@@ -76,7 +76,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             Calendar date = DateUtils.getStartOfTodayCalendar();
             date.set(year, month - 1, day);
 
-            long timestamp = date.getTimeInMillis();
+            Timestamp timestamp = new Timestamp(date.getTimeInMillis());
 
             int value = Integer.parseInt(line[4]);
             if (value != 1) continue;

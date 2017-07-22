@@ -33,7 +33,7 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
 
     private ToggleRepetitionCommand command;
     private Habit habit;
-    private long today;
+    private Timestamp today;
 
     @Override
     @Before
@@ -44,7 +44,7 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
         habit = fixtures.createShortHabit();
         habitList.add(habit);
 
-        today = DateUtils.getStartOfToday();
+        today = DateUtils.getToday();
         command = new ToggleRepetitionCommand(habitList, habit, today);
     }
 

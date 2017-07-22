@@ -79,8 +79,8 @@ public class ReminderReceiver extends BroadcastReceiver
             {
                 case ACTION_SHOW_REMINDER:
                     if (habit == null) return;
-                    reminderController.onShowReminder(habit, timestamp,
-                        reminderTime);
+                    reminderController.onShowReminder(habit,
+                        new Timestamp(timestamp), reminderTime);
                     break;
 
                 case ACTION_DISMISS_REMINDER:

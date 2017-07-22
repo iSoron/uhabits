@@ -35,13 +35,13 @@ class PendingIntentFactory
         @AppContext private val context: Context,
         private val intentFactory: IntentFactory) {
 
-    fun addCheckmark(habit: Habit, timestamp: Long?): PendingIntent =
+    fun addCheckmark(habit: Habit, timestamp: Timestamp?): PendingIntent =
             PendingIntent.getBroadcast(
                     context, 1,
                     Intent(context, WidgetReceiver::class.java).apply {
                         data = Uri.parse(habit.uriString)
                         action = WidgetReceiver.ACTION_ADD_REPETITION
-                        if (timestamp != null) putExtra("timestamp", timestamp)
+                        if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
                     },
                     FLAG_UPDATE_CURRENT)
 

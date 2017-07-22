@@ -98,7 +98,7 @@ public class EditHabitCommand extends Command
         habitList.update(habit);
 
         if (hasFrequencyChanged || hasTargetChanged)
-            habit.invalidateNewerThan(0);
+            habit.invalidateNewerThan(Timestamp.ZERO);
     }
 
     public static class Record

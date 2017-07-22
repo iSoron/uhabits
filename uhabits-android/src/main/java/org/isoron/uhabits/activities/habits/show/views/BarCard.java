@@ -98,9 +98,9 @@ public class BarCard extends HabitCard
         @Override
         public void doInBackground()
         {
-            long today = DateUtils.getStartOfToday();
+            Timestamp today = DateUtils.getToday();
             List<Checkmark> checkmarks =
-                habit.getCheckmarks().getByInterval(0, today);
+                habit.getCheckmarks().getByInterval(Timestamp.ZERO, today);
             chart.setCheckmarks(checkmarks);
         }
 

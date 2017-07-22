@@ -28,7 +28,7 @@ import org.apache.commons.lang3.builder.*;
 public final class Repetition
 {
 
-    private final long timestamp;
+    private final Timestamp timestamp;
 
     /**
      * The value of the repetition.
@@ -47,7 +47,7 @@ public final class Repetition
      *
      * @param timestamp the time this repetition occurred.
      */
-    public Repetition(long timestamp, int value)
+    public Repetition(Timestamp timestamp, int value)
     {
         this.timestamp = timestamp;
         this.value = value;
@@ -67,7 +67,7 @@ public final class Repetition
             .isEquals();
     }
 
-    public long getTimestamp()
+    public Timestamp getTimestamp()
     {
         return timestamp;
     }

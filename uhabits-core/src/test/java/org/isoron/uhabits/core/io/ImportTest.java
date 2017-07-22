@@ -121,7 +121,7 @@ public class ImportTest extends BaseUnitTest
     {
         GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(year, month - 1, day);
-        return h.getRepetitions().containsTimestamp(date.getTimeInMillis());
+        return h.getRepetitions().containsTimestamp(new Timestamp(date));
     }
 
     private void importFromFile(String assetFilename) throws IOException

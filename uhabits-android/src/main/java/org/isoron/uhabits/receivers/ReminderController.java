@@ -58,7 +58,7 @@ public class ReminderController
     }
 
     public void onShowReminder(@NonNull Habit habit,
-                               long timestamp,
+                               Timestamp timestamp,
                                long reminderTime)
     {
         notificationTray.show(habit, timestamp, reminderTime);

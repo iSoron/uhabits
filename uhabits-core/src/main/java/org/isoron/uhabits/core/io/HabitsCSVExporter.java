@@ -173,9 +173,9 @@ public class HabitsCSVExporter
         writeMultipleHabitsHeader(scoresWriter);
         writeMultipleHabitsHeader(checksWriter);
 
-        long[] timeframe = getTimeframe();
-        long oldest = timeframe[0];
-        long newest = DateUtils.getStartOfToday();
+        Timestamp[] timeframe = getTimeframe();
+        Timestamp oldest = timeframe[0];
+        Timestamp newest = DateUtils.getToday();
 
         List<int[]> checkmarks = new ArrayList<>();
         List<double[]> scores = new ArrayList<>();
@@ -185,11 +185,11 @@ public class HabitsCSVExporter
             scores.add(h.getScores().getValues(oldest, newest));
         }
 
-        int days = DateUtils.getDaysBetween(oldest, newest);
+        int days = oldest.daysUntil(newest);
         SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
         for (int i = 0; i <= days; i++)
         {
-            Date day = new Date(newest - i * DateUtils.millisecondsInOneDay);
+            Date day = newest.minus(i).toJavaDate();
 
             String date = dateFormat.format(day);
             StringBuilder sb = new StringBuilder();
@@ -238,20 +238,20 @@ public class HabitsCSVExporter
      *
      * @return the timeframe containing the oldest timestamp and the newest timestamp
      */
-    private long[] getTimeframe()
+    private Timestamp[] getTimeframe()
     {
-        long oldest = Long.MAX_VALUE;
-        long newest = -1;
+        Timestamp oldest = Timestamp.ZERO.plus(1000000);
+        Timestamp newest = Timestamp.ZERO;
         for (Habit h : selectedHabits)
         {
             if(h.getRepetitions().getOldest() == null || h.getRepetitions().getNewest() == null)
                 continue;
-            long currOld = h.getRepetitions().getOldest().getTimestamp();
-            long currNew = h.getRepetitions().getNewest().getTimestamp();
-            oldest = currOld > oldest ? oldest : currOld;
-            newest = currNew < newest ? newest : currNew;
+            Timestamp currOld = h.getRepetitions().getOldest().getTimestamp();
+            Timestamp currNew = h.getRepetitions().getNewest().getTimestamp();
+            oldest = currOld.isOlderThan(oldest) ? oldest : currOld;
+            newest = currNew.isNewerThan(newest) ? newest : currNew;
         }
-        return new long[]{oldest, newest};
+        return new Timestamp[]{oldest, newest};
     }
 
     private String writeZipFile() throws IOException

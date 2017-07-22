@@ -94,7 +94,7 @@ public class FrequencyCard extends HabitCard
         public void doInBackground()
         {
             RepetitionList reps = getHabit().getRepetitions();
-            HashMap<Long, Integer[]> frequency = reps.getWeekdayFrequency();
+            HashMap<Timestamp, Integer[]> frequency = reps.getWeekdayFrequency();
             chart.setFrequency(frequency);
         }
 

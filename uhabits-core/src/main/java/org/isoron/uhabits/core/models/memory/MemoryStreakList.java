@@ -41,13 +41,14 @@ public class MemoryStreakList extends StreakList
         Streak newest = null;
 
         for (Streak s : list)
-            if (newest == null || s.getEnd() > newest.getEnd()) newest = s;
+            if (newest == null || s.getEnd().isNewerThan(newest.getEnd()))
+                newest = s;
 
         return newest;
     }
 
     @Override
-    public void invalidateNewerThan(long timestamp)
+    public void invalidateNewerThan(Timestamp timestamp)
     {
         list.clear();
         observable.notifyListeners();

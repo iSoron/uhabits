@@ -26,6 +26,7 @@ import android.util.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
@@ -67,7 +68,7 @@ public class FrequencyChart extends ScrollableChart
     private boolean isBackgroundTransparent;
 
     @NonNull
-    private HashMap<Long, Integer[]> frequency;
+    private HashMap<Timestamp, Integer[]> frequency;
     private int maxFreq;
 
     public FrequencyChart(Context context)
@@ -90,23 +91,21 @@ public class FrequencyChart extends ScrollableChart
         postInvalidate();
     }
 
-    public void setFrequency(HashMap<Long, Integer[]> frequency)
+    public void setFrequency(HashMap<Timestamp, Integer[]> frequency)
     {
         this.frequency = frequency;
         maxFreq = getMaxFreq(frequency);
         postInvalidate();
     }
 
-    private int getMaxFreq(HashMap<Long, Integer[]> frequency)
+    private int getMaxFreq(HashMap<Timestamp, Integer[]> frequency)
     {
         int maxValue = 1;
+
         for (Integer[] values : frequency.values())
-        {
             for (Integer value : values)
-            {
                 maxValue = Math.max(value, maxValue);
-            }
-        }
+
         return maxValue;
     }
 
@@ -194,7 +193,7 @@ public class FrequencyChart extends ScrollableChart
 
     private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date)
     {
-        Integer values[] = frequency.get(date.getTimeInMillis());
+        Integer values[] = frequency.get(new Timestamp(date));
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
@@ -324,7 +323,7 @@ public class FrequencyChart extends ScrollableChart
             for (int j = 0; j < 7; j++)
                 values[j] = rand.nextInt(5);
 
-            frequency.put(date.getTimeInMillis(), values);
+            frequency.put(new Timestamp(date), values);
             date.add(Calendar.MONTH, -1);
         }
     }

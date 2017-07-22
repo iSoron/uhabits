@@ -40,37 +40,41 @@ public class MemoryScoreList extends ScoreList
     {
         list.addAll(scores);
         Collections.sort(list,
-            (s1, s2) -> Long.signum(s2.getTimestamp() - s1.getTimestamp()));
+            (s1, s2) -> s2.getTimestamp().compare(s1.getTimestamp()));
         getObservable().notifyListeners();
     }
 
     @NonNull
     @Override
-    public List<Score> getByInterval(long fromTimestamp, long toTimestamp)
+    public List<Score> getByInterval(@NonNull Timestamp fromTimestamp,
+                                     @NonNull Timestamp toTimestamp)
     {
         compute(fromTimestamp, toTimestamp);
 
         List<Score> filtered = new LinkedList<>();
 
         for (Score s : list)
-            if (s.getTimestamp() >= fromTimestamp &&
-                s.getTimestamp() <= toTimestamp) filtered.add(s);
+        {
+            if (s.getTimestamp().isNewerThan(toTimestamp) ||
+                s.getTimestamp().isOlderThan(fromTimestamp)) continue;
+            filtered.add(s);
+        }
 
         return filtered;
     }
 
     @Nullable
     @Override
-    public Score getComputedByTimestamp(long timestamp)
+    public Score getComputedByTimestamp(Timestamp timestamp)
     {
         for (Score s : list)
-            if (s.getTimestamp() == timestamp) return s;
+            if (s.getTimestamp().equals(timestamp)) return s;
 
         return null;
     }
 
     @Override
-    public void invalidateNewerThan(long timestamp)
+    public void invalidateNewerThan(Timestamp timestamp)
     {
         list.clear();
         getObservable().notifyListeners();

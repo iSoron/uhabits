@@ -85,7 +85,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
     public void testCommandListener_single()
     {
         Habit h2 = habitList.getByPosition(2);
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
         commandRunner.execute(new ToggleRepetitionCommand(habitList, h2, today),
             h2.getId());
 
@@ -106,12 +106,10 @@ public class HabitCardListCacheTest extends BaseUnitTest
         assertThat(cache.getHabitByPosition(3), equalTo(h));
         assertThat(cache.getScore(h.getId()), equalTo(score));
 
-        long today = DateUtils.getStartOfToday();
-        long day = DateUtils.millisecondsInOneDay;
-
+        Timestamp today = DateUtils.getToday();
         int[] actualCheckmarks = cache.getCheckmarks(h.getId());
         int[] expectedCheckmarks =
-            h.getCheckmarks().getValues(today - 9 * day, today);
+            h.getCheckmarks().getValues(today.minus(9), today);
 
         assertThat(actualCheckmarks, equalTo(expectedCheckmarks));
     }

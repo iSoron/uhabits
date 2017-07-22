@@ -80,8 +80,8 @@ public class ReminderControllerTest extends BaseAndroidJVMTest
     public void testOnShowReminder() throws Exception
     {
         Habit habit = mock(Habit.class);
-        controller.onShowReminder(habit, 123, 456);
-        verify(notificationTray).show(habit, 123, 456);
+        controller.onShowReminder(habit, Timestamp.ZERO.plus(100), 456);
+        verify(notificationTray).show(habit, Timestamp.ZERO.plus(100), 456);
         verify(reminderScheduler).scheduleAll();
     }
 

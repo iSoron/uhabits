@@ -23,6 +23,7 @@ import android.support.annotation.*;
 
 import com.google.auto.factory.*;
 
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
 
@@ -64,7 +65,7 @@ public class HintList
         int next = prefs.getLastHintNumber() + 1;
         if (next >= hints.length) return null;
 
-        prefs.updateLastHint(next, DateUtils.getStartOfToday());
+        prefs.updateLastHint(next, DateUtils.getToday());
         return hints[next];
     }
 
@@ -75,7 +76,8 @@ public class HintList
      */
     public boolean shouldShow()
     {
-        long lastHintTimestamp = prefs.getLastHintTimestamp();
-        return (DateUtils.getStartOfToday() > lastHintTimestamp);
+        Timestamp today = DateUtils.getToday();
+        Timestamp lastHintTimestamp = prefs.getLastHintTimestamp();
+        return (lastHintTimestamp.isOlderThan(today));
     }
 }

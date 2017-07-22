@@ -94,9 +94,11 @@ public class Preferences
         return storage.getInt("last_hint_number", -1);
     }
 
-    public long getLastHintTimestamp()
+    public Timestamp getLastHintTimestamp()
     {
-        return storage.getLong("last_hint_timestamp", -1);
+        long unixTime = storage.getLong("last_hint_timestamp", -1);
+        if (unixTime < 0) return null;
+        else return new Timestamp(unixTime);
     }
 
     public long getLastSync()
@@ -274,10 +276,10 @@ public class Preferences
         return shouldReverseCheckmarks;
     }
 
-    public void updateLastHint(int number, long timestamp)
+    public void updateLastHint(int number, Timestamp timestamp)
     {
         storage.putInt("last_hint_number", number);
-        storage.putLong("last_hint_timestamp", timestamp);
+        storage.putLong("last_hint_timestamp", timestamp.getUnixTime());
     }
 
     public interface Listener

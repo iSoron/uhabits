@@ -57,7 +57,7 @@ public class MidnightTimer
         executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(() -> notifyListeners(),
             DateUtils.millisecondsUntilTomorrow() + 1000,
-            DateUtils.millisecondsInOneDay, TimeUnit.MILLISECONDS);
+            DateUtils.DAY_LENGTH, TimeUnit.MILLISECONDS);
     }
 
     public synchronized void removeListener(MidnightListener listener)

@@ -60,7 +60,7 @@ public abstract class RepetitionList
      * @return true if list contains repetition with given timestamp, false
      * otherwise.
      */
-    public boolean containsTimestamp(long timestamp)
+    public boolean containsTimestamp(Timestamp timestamp)
     {
         return (getByTimestamp(timestamp) != null);
     }
@@ -77,8 +77,8 @@ public abstract class RepetitionList
      * @param toTimestamp   timestamp of the end of the interval
      * @return list of repetitions within given time interval
      */
-    public abstract List<Repetition> getByInterval(long fromTimestamp,
-                                                   long toTimestamp);
+    public abstract List<Repetition> getByInterval(Timestamp fromTimestamp,
+                                                   Timestamp toTimestamp);
 
     /**
      * Returns the repetition that has the given timestamp, or null if none
@@ -88,7 +88,7 @@ public abstract class RepetitionList
      * @return the repetition that has the given timestamp.
      */
     @Nullable
-    public abstract Repetition getByTimestamp(long timestamp);
+    public abstract Repetition getByTimestamp(Timestamp timestamp);
 
     @NonNull
     public ModelObservable getObservable()
@@ -132,18 +132,19 @@ public abstract class RepetitionList
      * @return total number of repetitions by month versus day of week
      */
     @NonNull
-    public HashMap<Long, Integer[]> getWeekdayFrequency()
+    public HashMap<Timestamp, Integer[]> getWeekdayFrequency()
     {
-        List<Repetition> reps = getByInterval(0, DateUtils.getStartOfToday());
-        HashMap<Long, Integer[]> map = new HashMap<>();
+        List<Repetition> reps =
+            getByInterval(Timestamp.ZERO, DateUtils.getToday());
+        HashMap<Timestamp, Integer[]> map = new HashMap<>();
 
         for (Repetition r : reps)
         {
-            Calendar date = DateUtils.getCalendar(r.getTimestamp());
-            int weekday = DateUtils.getWeekday(r.getTimestamp());
+            Calendar date = r.getTimestamp().toCalendar();
+            int weekday = r.getTimestamp().getWeekday();
             date.set(Calendar.DAY_OF_MONTH, 1);
 
-            long timestamp = date.getTimeInMillis();
+            Timestamp timestamp = new Timestamp(date.getTimeInMillis());
             Integer[] list = map.get(timestamp);
 
             if (list == null)
@@ -184,14 +185,12 @@ public abstract class RepetitionList
      * @return the repetition that has been added or removed.
      */
     @NonNull
-    public Repetition toggle(long timestamp)
+    public synchronized Repetition toggle(Timestamp timestamp)
     {
         if(habit.isNumerical())
             throw new IllegalStateException("habit must NOT be numerical");
 
-        timestamp = DateUtils.getStartOfDay(timestamp);
         Repetition rep = getByTimestamp(timestamp);
-
         if (rep != null) remove(rep);
         else
         {
@@ -211,7 +210,7 @@ public abstract class RepetitionList
     @NonNull
     public abstract long getTotalCount();
 
-    public void toggle(long timestamp, int value)
+    public void toggle(Timestamp timestamp, int value)
     {
         Repetition rep = getByTimestamp(timestamp);
         if(rep != null) remove(rep);

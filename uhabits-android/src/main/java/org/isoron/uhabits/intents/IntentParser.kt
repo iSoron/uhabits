@@ -42,16 +42,16 @@ class IntentParser
         return habit
     }
 
-    private fun parseTimestamp(intent: Intent): Long {
-        val today = DateUtils.getStartOfToday()
+    private fun parseTimestamp(intent: Intent): Timestamp {
+        val today = DateUtils.getToday().unixTime
         var timestamp = intent.getLongExtra("timestamp", today)
         timestamp = DateUtils.getStartOfDay(timestamp)
 
         if (timestamp < 0 || timestamp > today)
             throw IllegalArgumentException("timestamp is not valid")
 
-        return timestamp
+        return Timestamp(timestamp)
     }
 
-    class CheckmarkIntentData(var habit: Habit, var timestamp: Long)
+    class CheckmarkIntentData(var habit: Habit, var timestamp: Timestamp)
 }
