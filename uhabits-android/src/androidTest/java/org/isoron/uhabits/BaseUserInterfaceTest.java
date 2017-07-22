@@ -26,10 +26,9 @@ import com.linkedin.android.testbutler.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
-
-import java.io.*;
 
 import static android.support.test.InstrumentationRegistry.*;
 import static android.support.test.uiautomator.UiDevice.*;
@@ -48,6 +47,8 @@ public class BaseUserInterfaceTest
 
     private HabitFixtures fixtures;
 
+    private HabitCardListCache cache;
+
     public static void startActivity(Class cls)
     {
         Intent intent = new Intent();
@@ -57,7 +58,7 @@ public class BaseUserInterfaceTest
     }
 
     @Before
-    public void setUp() throws IOException
+    public void setUp() throws Exception
     {
         TestButler.setup(getTargetContext());
         TestButler.verifyAnimationsDisabled(getTargetContext());
@@ -68,6 +69,7 @@ public class BaseUserInterfaceTest
         component = app.getComponent();
         habitList = component.getHabitList();
         prefs = component.getPreferences();
+        cache = component.getHabitCardListCache();
         fixtures = new HabitFixtures(component.getModelFactory(), habitList);
         resetState();
     }
@@ -80,12 +82,14 @@ public class BaseUserInterfaceTest
         TestButler.teardown(getTargetContext());
     }
 
-    private void resetState()
+    private void resetState() throws Exception
     {
         prefs.reset();
         prefs.setFirstRun(false);
         prefs.updateLastHint(100, DateUtils.getStartOfToday());
-        fixtures.purgeHabits(habitList);
+        habitList.removeAll();
+        cache.refreshAllHabits();
+        Thread.sleep(1000);
 
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("Wake up early");

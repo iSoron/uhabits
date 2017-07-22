@@ -13,7 +13,6 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArgument "size", "medium"
 
         javaCompileOptions {
             annotationProcessorOptions {

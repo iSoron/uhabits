@@ -25,8 +25,9 @@ import org.isoron.uhabits.*;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.isoron.uhabits.BaseUserInterfaceTest.device;
+import static org.isoron.uhabits.BaseUserInterfaceTest.*;
 
 public class EditHabitSteps
 {
@@ -59,6 +60,6 @@ public class EditHabitSteps
 
     private static void typeTextWithId(int id, String name)
     {
-        onView(withId(id)).perform(clearText(), typeText(name));
+        onView(withId(id)).perform(clearText(), typeText(name), closeSoftKeyboard());
     }
 }

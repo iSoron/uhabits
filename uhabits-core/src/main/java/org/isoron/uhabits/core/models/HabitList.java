@@ -147,6 +147,7 @@ public abstract class HabitList implements Iterable<Habit>
         List<Habit> copy = new LinkedList<>();
         for (Habit h : this) copy.add(h);
         for (Habit h : copy) remove(h);
+        observable.notifyListeners();
     }
 
     /**
