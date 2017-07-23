@@ -61,10 +61,9 @@ fail() {
 }
 
 start_emulator() {
-	log_info "Starting emulator"
+	log_info "Starting emulator ($AVD_NAME)"
 	$EMULATOR -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
-	$ADB wait-for-device || fail
-	sleep 10
+	$ADB wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
 }
 
 stop_emulator() {
@@ -167,12 +166,10 @@ parse_instrumentation_results() {
 }
 
 generate_coverage_badge() {
-	log_info "Generating code coverage report and badge"
-	$GRADLE coverageReport	|| fail
-
-	ANDROID_REPORT=uhabits-android/build/reports/jacoco/coverageReport/coverageReport.xml
+	log_info "Generating code coverage badge"
 	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
-	python tools/coverage-badge/badge.py -i $ANDROID_REPORT:$CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
+	rm -f ${OUTPUTS_DIR}/coverage-badge.svg
+	python tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
 }
 
 fetch_artifacts() {
@@ -220,10 +217,8 @@ accept_images() {
 }
 
 run_local_tests() {
-	clean_output_dir
+	#clean_output_dir
 	run_adb_as_root
-	build_apk
-	build_instrumentation_apk
 	install_test_butler
 	install_apk
 	install_test_apk
@@ -231,8 +226,6 @@ run_local_tests() {
 	parse_instrumentation_results
 	fetch_artifacts
 	fetch_logcat
-	run_jvm_tests
-	generate_coverage_badge
 	uninstall_test_apk
 }
 
@@ -251,6 +244,13 @@ parse_opts() {
 }
 
 case "$1" in
+	build)
+		build_apk
+		build_instrumentation_apk
+		run_jvm_tests
+		generate_coverage_badge
+		;;
+
 	ci-tests)
 		if [ -z $3 ]; then
 			cat <<- END
