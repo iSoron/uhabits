@@ -1,19 +1,17 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
-
+    compileSdkVersion COMPILE_SDK_VERSION as Integer
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 25
+        minSdkVersion MIN_SDK_VERSION as Integer
+        targetSdkVersion TARGET_SDK_VERSION as Integer
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,5 +21,5 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
 }
