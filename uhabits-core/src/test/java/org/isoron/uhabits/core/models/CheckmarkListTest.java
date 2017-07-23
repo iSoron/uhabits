@@ -34,7 +34,7 @@ public class CheckmarkListTest extends BaseUnitTest
 {
     private long dayLength;
 
-    private long today;
+    private Timestamp today;
 
     private Habit nonDailyHabit;
 
@@ -55,6 +55,7 @@ public class CheckmarkListTest extends BaseUnitTest
 
         numericalHabit = fixtures.createNumericalHabit();
         habitList.add(numericalHabit);
+        today = DateUtils.getToday();
     }
 
     @Test
@@ -285,8 +286,8 @@ public class CheckmarkListTest extends BaseUnitTest
     @Test
     public void test_getValues_withValidInterval()
     {
-        long from = today - 15 * dayLength;
-        long to = today - 5 * dayLength;
+        Timestamp from = today.minus(15);
+        Timestamp to = today.minus(5);
 
         int[] expectedValues = {
             CHECKED_EXPLICITLY,
@@ -302,10 +303,7 @@ public class CheckmarkListTest extends BaseUnitTest
             UNCHECKED
         };
 
-        int[] actualValues = nonDailyHabit
-            .getCheckmarks()
-            .getValues(new Timestamp(from), new Timestamp(to));
-
+        int[] actualValues = nonDailyHabit.getCheckmarks().getValues(from, to);
         assertThat(actualValues, equalTo(expectedValues));
     }
 

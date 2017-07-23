@@ -152,7 +152,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     @Test
     public void testOnStartup_firstLaunch()
     {
-        long today = DateUtils.getStartOfToday();
+        Timestamp today = DateUtils.getToday();
 
         when(prefs.isFirstRun()).thenReturn(true);
         behavior.onStartup();

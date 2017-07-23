@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.utils;
 
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 
 import java.util.*;
@@ -34,7 +35,7 @@ public class DateUtilsTest extends BaseUnitTest
     public void testFormatHeaderDate()
     {
         long timestamp = timestamp(2015, DECEMBER, 31);
-        GregorianCalendar date = DateUtils.getCalendar(timestamp);
+        GregorianCalendar date = new Timestamp(timestamp).toCalendar();
         String formatted = DateUtils.formatHeaderDate(date);
         assertThat(formatted, equalTo("Thu\n31"));
     }

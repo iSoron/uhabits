@@ -203,7 +203,7 @@ public class FrequencyChart extends ScrollableChart
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(prevRect.left, prevRect.top + baseSize * j);
 
-            int i = DateUtils.javaWeekdayToLoopWeekday(localeWeekdayList[j]);
+            int i = localeWeekdayList[j] % 7;
             if (values != null) drawMarker(canvas, rect, values[i]);
 
             rect.offset(0, rowHeight);
