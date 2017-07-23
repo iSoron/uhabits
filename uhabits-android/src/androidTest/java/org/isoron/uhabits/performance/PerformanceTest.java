@@ -40,7 +40,7 @@ public class PerformanceTest extends BaseAndroidTest
         habit = fixtures.createLongHabit();
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 4000)
     public void testRepeatedGetTodayValue()
     {
         for (int i = 0; i < 100000; i++)
