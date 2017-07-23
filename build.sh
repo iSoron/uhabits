@@ -141,6 +141,10 @@ install_apk() {
 }
 
 install_test_apk() {
+	log_info "Uninstalling existing test APK"
+	$ADB uninstall ${PACKAGE_NAME}.test
+
+	log_info "Installing test APK"
 	$ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || fail
 }
 
@@ -195,7 +199,7 @@ run_jvm_tests() {
 
 uninstall_test_apk() {
 	log_info "Uninstalling test APK"
-	$ADB uninstall ${PACKAGE_NAME}.test || fail
+	$ADB uninstall ${PACKAGE_NAME}.test
 }
 
 fetch_images() {
@@ -222,7 +226,6 @@ run_local_tests() {
 	build_instrumentation_apk
 	install_test_butler
 	install_apk
-	uninstall_test_apk
 	install_test_apk
 	run_instrumented_tests
 	parse_instrumentation_results
