@@ -1,10 +1,10 @@
 # Loop Habit Tracker
 
 <a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=projectOverview&guest=1">
-  <img src="https://build.loophabits.org/app/rest/builds/buildType(id:LoopHabitTracker_Nougat)/statusIcon">
+  <img src="https://build.loophabits.org/app/rest/builds/buildType(id:release)/statusIcon">
 </a>
-<a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=preport_project1_Code_Coverage&branch_LoopHabitTracker=__all_branches__&guest=1">
-  <img src="https://build.loophabits.org/app/rest/builds/buildType(id:LoopHabitTracker_Nougat)/artifacts/content/coverage-badge.svg?guest=1" />
+<a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=preport_project1_Coverage__core_&guest=1">
+  <img src="https://build.loophabits.org/app/rest/builds/buildType(id:release)/artifacts/content/coverage-badge.svg?guest=1" />
 </a>
 
 Loop is a simple Android app that helps you create and maintain good habits,
