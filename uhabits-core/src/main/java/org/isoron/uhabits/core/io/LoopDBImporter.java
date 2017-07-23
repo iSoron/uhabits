@@ -62,7 +62,7 @@ public class LoopDBImporter extends AbstractImporter
         boolean canHandle = true;
 
         Cursor c = db.query("select count(*) from SQLITE_MASTER " +
-                            "where name='Checkmarks' or name='Repetitions'");
+                            "where name='Habits' or name='Repetitions'");
 
         if (!c.moveToNext() || c.getInt(0) != 2)
         {
