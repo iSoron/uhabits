@@ -51,8 +51,8 @@ class SharedPreferencesStorage
     override fun getInt(key: String, defValue: Int) =
             sharedPrefs.getInt(key, defValue)
 
-    override fun getLong(key: String, defValue: Int) =
-            sharedPrefs.getLong(key, defValue.toLong())
+    override fun getLong(key: String, defValue: Long) =
+            sharedPrefs.getLong(key, defValue)
 
     override fun getString(key: String, defValue: String): String =
             sharedPrefs.getString(key, defValue)
