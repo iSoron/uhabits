@@ -104,7 +104,7 @@ public class BaseAndroidTest extends TestCase
         logger = appComponent.getHabitsLogger();
         modelFactory = appComponent.getModelFactory();
 
-        prefs.reset();
+        prefs.clear();
 
         fixtures = new HabitFixtures(modelFactory, habitList);
         fixtures.purgeHabits(appComponent.getHabitList());

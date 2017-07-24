@@ -84,7 +84,7 @@ public class BaseUserInterfaceTest
 
     private void resetState() throws Exception
     {
-        prefs.reset();
+        prefs.clear();
         prefs.setFirstRun(false);
         prefs.updateLastHint(100, DateUtils.getToday());
         habitList.removeAll();

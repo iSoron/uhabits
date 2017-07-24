@@ -23,6 +23,7 @@ import android.support.annotation.*;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.*;
 import org.junit.*;
 import org.mockito.*;
 
@@ -30,6 +31,8 @@ import java.io.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class PreferencesTest extends BaseUnitTest
 {
@@ -51,6 +54,14 @@ public class PreferencesTest extends BaseUnitTest
         storage = new PropertiesStorage(file);
         prefs = new Preferences(storage);
         prefs.addListener(listener);
+    }
+
+    @Test
+    public void testClear() throws Exception
+    {
+        prefs.setDefaultHabitColor(99);
+        prefs.clear();
+        assertThat(prefs.getDefaultHabitColor(0), equalTo(0));
     }
 
     @Test
@@ -85,5 +96,128 @@ public class PreferencesTest extends BaseUnitTest
         storage.putInt("pref_score_view_interval", 9000);
         assertThat(prefs.getDefaultScoreSpinnerPosition(), equalTo(1));
         assertThat(storage.getInt("pref_score_view_interval", 0), equalTo(1));
+    }
+
+    @Test
+    public void testLastHint() throws Exception
+    {
+        assertThat(prefs.getLastHintNumber(), equalTo(-1));
+        assertNull(prefs.getLastHintTimestamp());
+
+        prefs.updateLastHint(34, Timestamp.ZERO.plus(100));
+        assertThat(prefs.getLastHintNumber(), equalTo(34));
+        assertThat(prefs.getLastHintTimestamp(), equalTo(Timestamp.ZERO.plus(100)));
+    }
+
+    @Test
+    public void testSync() throws Exception
+    {
+        assertThat(prefs.getLastSync(), equalTo(0L));
+        prefs.setLastSync(100);
+        assertThat(prefs.getLastSync(), equalTo(100L));
+
+        assertThat(prefs.getSyncAddress(),
+            equalTo(Preferences.DEFAULT_SYNC_SERVER));
+        prefs.setSyncAddress("example");
+        assertThat(prefs.getSyncAddress(), equalTo("example"));
+        verify(listener).onSyncFeatureChanged();
+        reset(listener);
+
+        assertThat(prefs.getSyncKey(), equalTo(""));
+        prefs.setSyncKey("123");
+        assertThat(prefs.getSyncKey(), equalTo("123"));
+        verify(listener).onSyncFeatureChanged();
+        reset(listener);
+
+        assertFalse(prefs.isSyncEnabled());
+        prefs.setSyncEnabled(true);
+        assertTrue(prefs.isSyncEnabled());
+        verify(listener).onSyncFeatureChanged();
+        reset(listener);
+
+        String id = prefs.getSyncClientId();
+        assertFalse(id.isEmpty());
+        assertThat(prefs.getSyncClientId(), equalTo(id));
+    }
+
+    @Test
+    public void testTheme() throws Exception
+    {
+        assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_LIGHT));
+        prefs.setTheme(ThemeSwitcher.THEME_DARK);
+        assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_DARK));
+
+        assertFalse(prefs.isPureBlackEnabled());
+        prefs.setPureBlackEnabled(true);
+        assertTrue(prefs.isPureBlackEnabled());
+    }
+
+    @Test
+    public void testNotifications() throws Exception
+    {
+        assertFalse(prefs.shouldMakeNotificationsSticky());
+        prefs.setNotificationsSticky(true);
+        assertTrue(prefs.shouldMakeNotificationsSticky());
+
+        assertThat(prefs.getSnoozeInterval(), equalTo(15L));
+        prefs.setSnoozeInterval(30);
+        assertThat(prefs.getSnoozeInterval(), equalTo(30L));
+    }
+
+    @Test
+    public void testAppVersionAndLaunch() throws Exception
+    {
+        assertThat(prefs.getLastAppVersion(), equalTo(0));
+        prefs.setLastAppVersion(23);
+        assertThat(prefs.getLastAppVersion(), equalTo(23));
+
+        assertTrue(prefs.isFirstRun());
+        prefs.setFirstRun(false);
+        assertFalse(prefs.isFirstRun());
+
+        assertThat(prefs.getLaunchCount(), equalTo(0));
+        prefs.incrementLaunchCount();
+        assertThat(prefs.getLaunchCount(), equalTo(1));
+    }
+
+    @Test
+    public void testCheckmarks() throws Exception
+    {
+        assertFalse(prefs.isCheckmarkSequenceReversed());
+        prefs.setCheckmarkSequenceReversed(true);
+        assertTrue(prefs.isCheckmarkSequenceReversed());
+
+        assertFalse(prefs.isShortToggleEnabled());
+        prefs.setShortToggleEnabled(true);
+        assertTrue(prefs.isShortToggleEnabled());
+    }
+
+    @Test
+    public void testNumericalHabits() throws Exception
+    {
+        assertFalse(prefs.isNumericalHabitsFeatureEnabled());
+        prefs.setNumericalHabitsFeatureEnabled(true);
+        assertTrue(prefs.isNumericalHabitsFeatureEnabled());
+    }
+
+    @Test
+    public void testDeveloper() throws Exception
+    {
+        assertFalse(prefs.isDeveloper());
+        prefs.setDeveloper(true);
+        assertTrue(prefs.isDeveloper());
+    }
+
+    @Test
+    public void testFiltering() throws Exception
+    {
+        assertFalse(prefs.getShowArchived());
+        assertTrue(prefs.getShowCompleted());
+
+        prefs.setShowArchived(true);
+        prefs.setShowCompleted(false);
+
+        assertTrue(prefs.getShowArchived());
+        assertFalse(prefs.getShowCompleted());
     }
 }

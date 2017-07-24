@@ -28,6 +28,10 @@ import java.util.*;
 
 public class Preferences
 {
+
+    public static final String DEFAULT_SYNC_SERVER =
+        "https://sync.loophabits.org";
+
     @NonNull
     private final Storage storage;
 
@@ -138,13 +142,12 @@ public class Preferences
 
     public long getSnoozeInterval()
     {
-        return Long.parseLong(storage.getString("pref_snooze_interval", "15"));
+        return storage.getLong("pref_snooze_interval", 15L);
     }
 
     public String getSyncAddress()
     {
-        return storage.getString("pref_sync_address",
-            "https://sync.loophabits.org");
+        return storage.getString("pref_sync_address", DEFAULT_SYNC_SERVER);
     }
 
     public void setSyncAddress(String address)
@@ -160,6 +163,7 @@ public class Preferences
 
         id = UUID.randomUUID().toString();
         storage.putString("pref_sync_client_id", id);
+
         return id;
     }
 
@@ -180,8 +184,12 @@ public class Preferences
 
     public void incrementLaunchCount()
     {
-        int count = storage.getInt("launch_count", 0);
-        storage.putInt("launch_count", count + 1);
+        storage.putInt("launch_count", getLaunchCount() + 1);
+    }
+
+    public int getLaunchCount()
+    {
+        return storage.getInt("launch_count", 0);
     }
 
     public boolean isDeveloper()
@@ -234,7 +242,7 @@ public class Preferences
         listeners.remove(listener);
     }
 
-    public void reset()
+    public void clear()
     {
         storage.clear();
     }
@@ -251,7 +259,7 @@ public class Preferences
 
     public void setNotificationsSticky(boolean sticky)
     {
-        storage.getBoolean("pref_sticky_notifications", sticky);
+        storage.putBoolean("pref_sticky_notifications", sticky);
         for (Listener l : listeners) l.onNotificationsChanged();
     }
 
@@ -285,6 +293,32 @@ public class Preferences
     {
         storage.putInt("last_hint_number", number);
         storage.putLong("last_hint_timestamp", timestamp.getUnixTime());
+    }
+
+    public void setSyncKey(String key)
+    {
+        storage.putString("pref_sync_key", key);
+        for(Listener l : listeners) l.onSyncFeatureChanged();
+    }
+
+    public void setPureBlackEnabled(boolean enabled)
+    {
+        storage.putBoolean("pref_pure_black", enabled);
+    }
+
+    public int getLastAppVersion()
+    {
+        return storage.getInt("last_version", 0);
+    }
+
+    public void setSnoozeInterval(int interval)
+    {
+        storage.putLong("pref_snooze_interval", interval);
+    }
+
+    public void setNumericalHabitsFeatureEnabled(boolean enabled)
+    {
+        storage.putBoolean("pref_feature_numerical_habits", enabled);
     }
 
     public interface Listener
