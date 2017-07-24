@@ -1,7 +1,7 @@
 # Loop Habit Tracker
 
 <a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=projectOverview&guest=1">
-  <img src="https://build.loophabits.org/app/rest/builds/buildType(id:release)/statusIcon">
+  <img src="https://img.shields.io/teamcity/https/build.loophabits.org/s/release.svg">
 </a>
 <a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=preport_project1_Coverage__core_&guest=1">
   <img src="https://build.loophabits.org/app/rest/builds/buildType(id:release)/artifacts/content/coverage-badge.svg?guest=1" />
