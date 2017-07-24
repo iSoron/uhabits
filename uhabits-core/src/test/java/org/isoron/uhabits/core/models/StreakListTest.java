@@ -26,8 +26,9 @@ import org.junit.*;
 import java.util.*;
 
 import static junit.framework.TestCase.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.core.IsEqual.*;
+import static org.isoron.uhabits.core.utils.StringUtils.*;
 import static org.mockito.Mockito.*;
 
 public class StreakListTest extends BaseUnitTest
@@ -116,5 +117,17 @@ public class StreakListTest extends BaseUnitTest
 
         s = streaks.getNewestComputed();
         assertNull(s);
+    }
+
+    @Test
+    public void testToString() throws Exception
+    {
+        Timestamp time = Timestamp.ZERO.plus(100);
+        Streak streak = new Streak(time, time.plus(10));
+        String string = removePointers(streak.toString());
+        assertThat(string, equalTo(
+            "org.isoron.uhabits.core.models.Streak@00000000[" +
+            "start=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8640000000]," +
+            "end=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=9504000000]]"));
     }
 }

@@ -22,9 +22,12 @@ package org.isoron.uhabits.core.models;
 import org.isoron.uhabits.core.*;
 import org.junit.*;
 
-import static org.hamcrest.number.IsCloseTo.*;
-import static org.isoron.uhabits.core.models.Score.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.isoron.uhabits.core.models.Score.compute;
+import static org.isoron.uhabits.core.utils.StringUtils.removePointers;
+
 
 public class ScoreTest extends BaseUnitTest
 {
@@ -65,5 +68,17 @@ public class ScoreTest extends BaseUnitTest
         assertThat(compute(freq, 0, check), closeTo(0.0, E));
         assertThat(compute(freq, 0.5, check), closeTo(0.491192, E));
         assertThat(compute(freq, 0.75, check), closeTo(0.736788, E));
+    }
+
+
+    @Test
+    public void testToString() throws Exception
+    {
+        Score score = new Score(Timestamp.ZERO.plus(100), 150.0);
+        String string = removePointers(score.toString());
+        assertThat(string, equalTo(
+            "org.isoron.uhabits.core.models.Score@00000000[" +
+            "timestamp=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8640000000]," +
+            "value=150.0]"));
     }
 }

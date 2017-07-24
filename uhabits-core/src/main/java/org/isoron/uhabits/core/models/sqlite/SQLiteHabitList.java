@@ -74,13 +74,6 @@ public class SQLiteHabitList extends HabitList
         }
     }
 
-    public static SQLiteHabitList getInstance(
-        @NonNull ModelFactory modelFactory)
-    {
-        if (instance == null) instance = new SQLiteHabitList(modelFactory);
-        return instance;
-    }
-
     @Override
     public synchronized void add(@NonNull Habit habit)
     {

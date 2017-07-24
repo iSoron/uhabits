@@ -348,7 +348,7 @@ public abstract class CheckmarkList
         add(buildCheckmarksFromIntervals(reps, intervals));
     }
 
-    static class Interval
+    static final class Interval
     {
         final Timestamp begin;
 

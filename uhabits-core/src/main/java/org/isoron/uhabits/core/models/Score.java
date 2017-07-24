@@ -93,4 +93,28 @@ public final class Score
             .append("value", value)
             .toString();
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Score score = (Score) o;
+
+        return new EqualsBuilder()
+            .append(value, score.value)
+            .append(timestamp, score.timestamp)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+            .append(timestamp)
+            .append(value)
+            .toHashCode();
+    }
 }

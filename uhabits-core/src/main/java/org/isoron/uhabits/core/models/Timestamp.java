@@ -25,7 +25,7 @@ import java.util.*;
 
 import static java.util.Calendar.DAY_OF_WEEK;
 
-public class Timestamp
+public final class Timestamp
 {
 
     public static final long DAY_LENGTH = 86400000;

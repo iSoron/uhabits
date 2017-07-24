@@ -69,4 +69,28 @@ public final class Streak
             .append("end", end)
             .toString();
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Streak streak = (Streak) o;
+
+        return new EqualsBuilder()
+            .append(start, streak.start)
+            .append(end, streak.end)
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(17, 37)
+            .append(start)
+            .append(end)
+            .toHashCode();
+    }
 }

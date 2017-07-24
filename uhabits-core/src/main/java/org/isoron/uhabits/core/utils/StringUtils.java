@@ -28,4 +28,9 @@ public class StringUtils
     {
         return new BigInteger(260, new Random()).toString(32).substring(0, 32);
     }
+
+    public static String removePointers(String original)
+    {
+        return original.replaceAll("@[0-9a-f]*", "@00000000");
+    }
 }

@@ -19,10 +19,6 @@
 
 package org.isoron.uhabits.core.models;
 
-import android.support.annotation.*;
-
-import java.util.*;
-
 public class HabitMatcher
 {
     public static final HabitMatcher WITH_ALARM = new HabitMatcherBuilder()
@@ -36,22 +32,13 @@ public class HabitMatcher
 
     private final boolean completedAllowed;
 
-    private final List<Integer> allowedColors;
-
     public HabitMatcher(boolean allowArchived,
                         boolean reminderRequired,
-                        boolean completedAllowed,
-                        @NonNull List<Integer> allowedColors)
+                        boolean completedAllowed)
     {
         this.archivedAllowed = allowArchived;
         this.reminderRequired = reminderRequired;
         this.completedAllowed = completedAllowed;
-        this.allowedColors = allowedColors;
-    }
-
-    public List<Integer> getAllowedColors()
-    {
-        return allowedColors;
     }
 
     public boolean isArchivedAllowed()
@@ -74,7 +61,6 @@ public class HabitMatcher
         if (!isArchivedAllowed() && habit.isArchived()) return false;
         if (isReminderRequired() && !habit.hasReminder()) return false;
         if (!isCompletedAllowed() && habit.isCompletedToday()) return false;
-        if (!allowedColors.contains(habit.getColor())) return false;
         return true;
     }
 }

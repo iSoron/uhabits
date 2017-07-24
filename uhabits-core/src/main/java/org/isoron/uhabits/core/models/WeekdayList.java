@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.*;
 
 import java.util.*;
 
-public class WeekdayList
+public final class WeekdayList
 {
     public static final WeekdayList EVERY_DAY = new WeekdayList(127);
 

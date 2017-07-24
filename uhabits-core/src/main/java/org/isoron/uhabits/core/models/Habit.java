@@ -353,7 +353,7 @@ public class Habit
         data.position = newPosition;
     }
 
-    public static class HabitData
+    public static final class HabitData
     {
         @NonNull
         public String name;
@@ -470,5 +470,14 @@ public class Habit
                 .append(position)
                 .toHashCode();
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return new ToStringBuilder(this)
+            .append("id", id)
+            .append("data", data)
+            .toString();
     }
 }

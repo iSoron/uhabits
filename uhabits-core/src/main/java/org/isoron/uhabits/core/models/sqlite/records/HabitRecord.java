@@ -21,7 +21,6 @@
 
 package org.isoron.uhabits.core.models.sqlite.records;
 
-import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 
@@ -128,79 +127,5 @@ public class HabitRecord
             habit.setReminder(new Reminder(reminderHour, reminderMin,
                 new WeekdayList(reminderDays)));
         }
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        HabitRecord that = (HabitRecord) o;
-
-        return new EqualsBuilder()
-            .appendSuper(super.equals(o))
-            .append(freqNum, that.freqNum)
-            .append(freqDen, that.freqDen)
-            .append(color, that.color)
-            .append(position, that.position)
-            .append(reminderDays, that.reminderDays)
-            .append(highlight, that.highlight)
-            .append(archived, that.archived)
-            .append(type, that.type)
-            .append(targetValue, that.targetValue)
-            .append(targetType, that.targetType)
-            .append(name, that.name)
-            .append(description, that.description)
-            .append(reminderHour, that.reminderHour)
-            .append(reminderMin, that.reminderMin)
-            .append(unit, that.unit)
-            .isEquals();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return new HashCodeBuilder(17, 37)
-            .appendSuper(super.hashCode())
-            .append(name)
-            .append(description)
-            .append(freqNum)
-            .append(freqDen)
-            .append(color)
-            .append(position)
-            .append(reminderHour)
-            .append(reminderMin)
-            .append(reminderDays)
-            .append(highlight)
-            .append(archived)
-            .append(type)
-            .append(targetValue)
-            .append(targetType)
-            .append(unit)
-            .toHashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return new ToStringBuilder(this)
-            .append("name", name)
-            .append("description", description)
-            .append("freqNum", freqNum)
-            .append("freqDen", freqDen)
-            .append("color", color)
-            .append("position", position)
-            .append("reminderHour", reminderHour)
-            .append("reminderMin", reminderMin)
-            .append("reminderDays", reminderDays)
-            .append("highlight", highlight)
-            .append("archived", archived)
-            .append("type", type)
-            .append("targetValue", targetValue)
-            .append("targetType", targetType)
-            .append("unit", unit)
-            .toString();
     }
 }

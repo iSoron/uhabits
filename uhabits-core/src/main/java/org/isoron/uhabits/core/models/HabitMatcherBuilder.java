@@ -19,10 +19,6 @@
 
 package org.isoron.uhabits.core.models;
 
-import org.isoron.uhabits.core.utils.*;
-
-import java.util.*;
-
 public class HabitMatcherBuilder
 {
     private boolean archivedAllowed = false;
@@ -31,31 +27,15 @@ public class HabitMatcherBuilder
 
     private boolean completedAllowed = true;
 
-    private List<Integer> allowedColors = allColors();
-
-    private static List<Integer> allColors()
-    {
-        List<Integer> colors = new ArrayList<>();
-        for(int i = 0; i < ColorConstants.CSV_PALETTE.length; i++)
-            colors.add(i);
-        return colors;
-    }
-
     public HabitMatcher build()
     {
         return new HabitMatcher(archivedAllowed, reminderRequired,
-            completedAllowed, allowedColors);
+            completedAllowed);
     }
 
     public HabitMatcherBuilder setArchivedAllowed(boolean archivedAllowed)
     {
         this.archivedAllowed = archivedAllowed;
-        return this;
-    }
-
-    public HabitMatcherBuilder setAllowedColors(List<Integer> allowedColors)
-    {
-        this.allowedColors = allowedColors;
         return this;
     }
 

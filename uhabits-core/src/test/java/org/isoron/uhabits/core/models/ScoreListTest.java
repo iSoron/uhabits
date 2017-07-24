@@ -26,8 +26,8 @@ import org.junit.*;
 import java.io.*;
 import java.util.*;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.core.IsEqual.*;
 import static org.hamcrest.number.IsCloseTo.*;
 
 public class ScoreListTest extends BaseUnitTest

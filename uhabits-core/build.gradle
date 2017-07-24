@@ -25,6 +25,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:2.8.9'
     testImplementation 'org.json:json:20160810'
     testImplementation 'org.xerial:sqlite-jdbc:3.18.0'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.3.1'
 
     implementation('com.opencsv:opencsv:3.9') {
         exclude group: 'commons-logging', module: 'commons-logging'
