@@ -3,15 +3,25 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
+import org.ajoberstar.grgit.Grgit
+
+ext {
+    git = Grgit.open(currentDir: projectDir)
+    GIT_COMMIT = git.head().id.substring(0, 8)
+    GIT_BRANCH = git.branch.current.name
+}
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "org.isoron.uhabits"
+        versionCode VERSION_CODE as Integer
+        versionName "$VERSION_NAME ($GIT_BRANCH $GIT_COMMIT)"
         minSdkVersion MIN_SDK_VERSION as Integer
         targetSdkVersion TARGET_SDK_VERSION as Integer
+
+        applicationId "org.isoron.uhabits"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
