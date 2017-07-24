@@ -21,11 +21,6 @@ GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUTS_DIR=uhabits-android/build/outputs
 
-KEYFILE="TestKeystore.jks"
-KEY_ALIAS="default"
-KEY_PASSWORD="qwe123" 
-STORE_PASSWORD="qwe123"
-
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
 	echo "Error: ANDROID_HOME is not set correctly"
 	exit 1
@@ -83,9 +78,13 @@ run_adb_as_root() {
 
 build_apk() {
 	if [ ! -z $RELEASE ]; then
+		if [ -z "$KEY_FILE" -o -z "$STORE_PASSWORD" -o -z "$KEY_ALIAS" -o -z "$KEY_PASSWORD" ]; then
+			log_error "Environment variables KEY_FILE, KEY_ALIAS, KEY_PASSWORD and STORE_PASSWORD must be defined"
+			exit 1
+		fi
 		log_info "Building release APK"
 		./gradlew assembleRelease \
-			-Pandroid.injected.signing.store.file=$KEYFILE \
+			-Pandroid.injected.signing.store.file=$KEY_FILE \
 			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
 			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
 			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
@@ -99,7 +98,7 @@ build_instrumentation_apk() {
 	log_info "Building instrumentation APK"
 	if [ ! -z $RELEASE ]; then
 		$GRADLE assembleAndroidTest  \
-			-Pandroid.injected.signing.store.file=$KEYFILE \
+			-Pandroid.injected.signing.store.file=$KEY_FILE \
 			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
 			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
 			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
@@ -191,7 +190,11 @@ fetch_logcat() {
 
 run_jvm_tests() {
 	log_info "Running JVM tests"
-	$GRADLE testDebugUnitTest :uhabits-core:check || fail
+	if [ ! -z $RELEASE ]; then
+		$GRADLE testReleaseUnitTest :uhabits-core:check || fail
+	else
+		$GRADLE testDebugUnitTest :uhabits-core:check || fail
+	fi
 }
 
 uninstall_test_apk() {
@@ -245,6 +248,8 @@ parse_opts() {
 
 case "$1" in
 	build)
+		shift; parse_opts $*
+
 		build_apk
 		build_instrumentation_apk
 		run_jvm_tests
