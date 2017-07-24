@@ -79,8 +79,13 @@ public class Preferences
     {
         int defaultScoreInterval =
             storage.getInt("pref_score_view_interval", 1);
+
         if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
+        {
             defaultScoreInterval = 1;
+            storage.putInt("pref_score_view_interval", 1);
+        }
+
         return defaultScoreInterval;
     }
 
@@ -139,7 +144,7 @@ public class Preferences
     public String getSyncAddress()
     {
         return storage.getString("pref_sync_address",
-            "https://sync.loophabits.org:4000");
+            "https://sync.loophabits.org");
     }
 
     public void setSyncAddress(String address)
@@ -299,7 +304,7 @@ public class Preferences
 
         int getInt(String key, int defValue);
 
-        long getLong(String key, int defValue);
+        long getLong(String key, long defValue);
 
         String getString(String key, String defValue);
 
