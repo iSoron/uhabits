@@ -27,7 +27,6 @@ import nl.jqno.equalsverifier.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.isoron.uhabits.core.utils.DateUtils.*;
-import static org.isoron.uhabits.core.utils.StringUtils.removePointers;
 import static org.junit.Assert.*;
 
 public class HabitTest extends BaseUnitTest
@@ -150,22 +149,14 @@ public class HabitTest extends BaseUnitTest
     {
         Habit h = modelFactory.buildHabit();
         h.setReminder(new Reminder(22, 30, WeekdayList.EVERY_DAY));
+        String expected = "{id: <null>, data: {name: , description: ," +
+                          " frequency: {numerator: 3, denominator: 7}," +
+                          " color: 8, archived: false, targetType: 0," +
+                          " targetValue: 100.0, type: 0, unit: ," +
+                          " reminder: {hour: 22, minute: 30," +
+                          " days: {weekdays: [true,true,true,true,true,true,true]}}," +
+                          " position: 0}}";
 
-        String s = removePointers(h.toString());
-
-        String expected =
-            "org.isoron.uhabits.core.models.Habit@00000000[" +
-                "id=<null>," +
-                "data=org.isoron.uhabits.core.models.Habit$HabitData@00000000[" +
-                    "name=,description=," +
-                    "frequency=org.isoron.uhabits.core.models.Frequency@00000000[numerator=3,denominator=7]," +
-                    "color=8,archived=false,targetType=0,targetValue=100.0,type=0,unit=," +
-                    "reminder=org.isoron.uhabits.core.models.Reminder@00000000[" +
-                        "hour=22,minute=30," +
-                        "days=org.isoron.uhabits.core.models.WeekdayList@00000000[" +
-                            "weekdays={true,true,true,true,true,true,true}]]," +
-                    "position=0]]";
-
-        assertThat(s, equalTo(expected));
+        assertThat(h.toString(), equalTo(expected));
     }
 }

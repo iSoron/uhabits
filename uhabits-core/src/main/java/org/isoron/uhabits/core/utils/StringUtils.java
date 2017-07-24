@@ -19,18 +19,35 @@
 
 package org.isoron.uhabits.core.utils;
 
+import org.apache.commons.lang3.builder.*;
+
 import java.math.*;
 import java.util.*;
 
 public class StringUtils
 {
+    private static StandardToStringStyle toStringStyle = null;
+
     public static String getRandomId()
     {
         return new BigInteger(260, new Random()).toString(32).substring(0, 32);
     }
 
-    public static String removePointers(String original)
+    public static ToStringStyle defaultToStringStyle()
     {
-        return original.replaceAll("@[0-9a-f]*", "@00000000");
+        if (toStringStyle == null)
+        {
+            toStringStyle = new StandardToStringStyle();
+            toStringStyle.setFieldSeparator(", ");
+            toStringStyle.setUseClassName(false);
+            toStringStyle.setUseIdentityHashCode(false);
+            toStringStyle.setContentStart("{");
+            toStringStyle.setContentEnd("}");
+            toStringStyle.setFieldNameValueSeparator(": ");
+            toStringStyle.setArrayStart("[");
+            toStringStyle.setArrayEnd("]");
+        }
+
+        return toStringStyle;
     }
 }

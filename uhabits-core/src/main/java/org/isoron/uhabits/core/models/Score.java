@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.models;
 import org.apache.commons.lang3.builder.*;
 
 import static java.lang.Math.*;
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
  * Represents how strong a habit is at a certain date.
@@ -88,7 +89,7 @@ public final class Score
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("timestamp", timestamp)
             .append("value", value)
             .toString();

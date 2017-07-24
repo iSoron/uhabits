@@ -31,7 +31,6 @@ import nl.jqno.equalsverifier.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
-import static org.isoron.uhabits.core.utils.StringUtils.removePointers;
 
 public class CheckmarkListTest extends BaseUnitTest
 {
@@ -360,21 +359,14 @@ public class CheckmarkListTest extends BaseUnitTest
     {
         Timestamp t = Timestamp.ZERO.plus(100);
         Checkmark checkmark = new Checkmark(t, 2);
-        String s = removePointers(checkmark.toString());
-        assertThat(s, equalTo(
-            "org.isoron.uhabits.core.models.Checkmark@00000000[" +
-            "timestamp=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8640000000]," +
-            "value=2]"));
-
+        assertThat(checkmark.toString(),
+            equalTo("{timestamp: {unixTime: 8640000000}, value: 2}"));
 
         CheckmarkList.Interval interval =
             new CheckmarkList.Interval(t, t.plus(1), t.plus(2));
-        s = removePointers(interval.toString());
-        assertThat(s, equalTo(
-            "org.isoron.uhabits.core.models.CheckmarkList$Interval@00000000[" +
-                "begin=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8640000000]," +
-                "center=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8726400000]," +
-                "end=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8812800000]]"));
+        assertThat(interval.toString(), equalTo(
+            "{begin: {unixTime: 8640000000}, center: {unixTime: 8726400000}," +
+            " end: {unixTime: 8812800000}}"));
     }
 
     @Test

@@ -21,6 +21,8 @@ package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
 
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 /**
  * Represents a record that the user has performed a certain habit at a certain
  * date.
@@ -89,7 +91,7 @@ public final class Repetition
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("timestamp", timestamp)
             .append("value", value)
             .toString();

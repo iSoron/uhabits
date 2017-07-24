@@ -23,6 +23,8 @@ import org.apache.commons.lang3.builder.*;
 
 import javax.annotation.concurrent.*;
 
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 /**
  * A Checkmark represents the completion status of the habit for a given day.
  * <p>
@@ -108,7 +110,7 @@ public final class Checkmark
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("timestamp", timestamp)
             .append("value", value)
             .toString();

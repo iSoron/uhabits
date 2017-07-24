@@ -23,6 +23,8 @@ import org.apache.commons.lang3.builder.*;
 
 import javax.annotation.concurrent.*;
 
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 /**
  * Represents how often is the habit repeated.
  */
@@ -92,7 +94,7 @@ public class Frequency
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("numerator", numerator)
             .append("denominator", denominator)
             .toString();

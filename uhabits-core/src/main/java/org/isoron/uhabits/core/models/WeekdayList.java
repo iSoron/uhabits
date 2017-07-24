@@ -23,6 +23,8 @@ import org.apache.commons.lang3.builder.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 public final class WeekdayList
 {
     public static final WeekdayList EVERY_DAY = new WeekdayList(127);
@@ -92,7 +94,7 @@ public final class WeekdayList
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("weekdays", weekdays)
             .toString();
     }

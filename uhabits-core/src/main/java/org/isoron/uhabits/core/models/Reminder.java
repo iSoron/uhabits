@@ -23,6 +23,8 @@ import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
 
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 public final class Reminder
 {
     private final int hour;
@@ -83,7 +85,7 @@ public final class Reminder
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("hour", hour)
             .append("minute", minute)
             .append("days", days)

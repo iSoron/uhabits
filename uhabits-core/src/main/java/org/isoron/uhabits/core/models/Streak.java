@@ -21,6 +21,8 @@ package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
 
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 public final class Streak
 {
     private final Timestamp start;
@@ -64,7 +66,7 @@ public final class Streak
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("start", start)
             .append("end", end)
             .toString();

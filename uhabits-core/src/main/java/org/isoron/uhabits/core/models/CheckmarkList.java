@@ -31,6 +31,7 @@ import java.util.*;
 import javax.annotation.concurrent.*;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
  * The collection of {@link Checkmark}s belonging to a habit.
@@ -396,7 +397,7 @@ public abstract class CheckmarkList
         @Override
         public String toString()
         {
-            return new ToStringBuilder(this)
+            return new ToStringBuilder(this, defaultToStringStyle())
                 .append("begin", begin)
                 .append("center", center)
                 .append("end", end)

@@ -30,7 +30,6 @@ import java.util.*;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.utils.StringUtils.removePointers;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -192,10 +191,6 @@ public class RepetitionListTest extends BaseUnitTest
     public void testToString() throws Exception
     {
         Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 20);
-        String s = removePointers(rep.toString());
-        assertThat(s, equalTo(
-            "org.isoron.uhabits.core.models.Repetition@00000000[" +
-                "timestamp=org.isoron.uhabits.core.models.Timestamp@00000000[unixTime=8640000000]," +
-                "value=20]"));
+        assertThat(rep.toString(), equalTo("{timestamp: {unixTime: 8640000000}, value: 20}"));
     }
 }

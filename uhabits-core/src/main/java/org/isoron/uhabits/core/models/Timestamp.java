@@ -24,6 +24,7 @@ import org.apache.commons.lang3.builder.*;
 import java.util.*;
 
 import static java.util.Calendar.DAY_OF_WEEK;
+import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 public final class Timestamp
 {
@@ -137,7 +138,7 @@ public final class Timestamp
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this)
+        return new ToStringBuilder(this, defaultToStringStyle())
             .append("unixTime", unixTime)
             .toString();
     }
