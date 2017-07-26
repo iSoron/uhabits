@@ -2,10 +2,27 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
+    signingConfigs {
+        release {
+            storeFile file(LOOP_STORE_FILE)
+            storePassword LOOP_STORE_PASSWORD
+            keyAlias LOOP_KEY_ALIAS
+            keyPassword LOOP_KEY_PASSWORD
+        }
+    }
+
+    playAccountConfigs {
+        defaultAccountConfig {
+            jsonFile = file('../secret/playstore.json')
+        }
+    }
+
 
     defaultConfig {
         applicationId "org.isoron.uhabits"
@@ -17,12 +34,15 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArgument "size", "medium"
+
+        playAccountConfig = playAccountConfigs.defaultAccountConfig
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
         debug {
             testCoverageEnabled = false
@@ -139,4 +159,8 @@ task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     sourceDirectories = files(srcDir)
     classDirectories = files(fileTree(dir: classDir, excludes: excludes))
     executionData = files(jvmExecData, connectedExecData)
+}
+
+play {
+    track = 'alpha'
 }
