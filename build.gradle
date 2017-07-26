@@ -12,6 +12,7 @@ buildscript {
         classpath 'org.jacoco:org.jacoco.core:+'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
         classpath 'org.ajoberstar:grgit:1.5.0'
+        classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
     }
 }
 
