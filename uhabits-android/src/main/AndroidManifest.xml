@@ -182,13 +182,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Pebble -->
-        <receiver android:name=".receivers.PebbleReceiver">
-            <intent-filter>
-                <action android:name="com.getpebble.action.app.RECEIVE"/>
-            </intent-filter>
-        </receiver>
-
         <!-- Locale/Tasker -->
         <activity
             android:name=".automation.EditSettingActivity"
