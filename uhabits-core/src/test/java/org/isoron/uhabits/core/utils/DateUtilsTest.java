@@ -135,4 +135,15 @@ public class DateUtilsTest extends BaseUnitTest
         assertThat(DateUtils.truncate(field, t1), equalTo(expected));
         assertThat(DateUtils.truncate(field, t2), equalTo(expected));
     }
+
+    @Test
+    public void testMillisecondsUntilTomorrow() throws Exception
+    {
+        DateUtils.setFixedLocalTime(timestamp(2017, JANUARY, 1, 2, 59));
+        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(60000L));
+
+        DateUtils.setFixedLocalTime(timestamp(2017, JANUARY, 1, 23, 0));
+        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(14400000L));
+
+    }
 }

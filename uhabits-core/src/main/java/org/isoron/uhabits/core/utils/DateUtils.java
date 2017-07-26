@@ -29,14 +29,25 @@ import static java.util.Calendar.*;
 
 public abstract class DateUtils
 {
+
     private static Long fixedLocalTime = null;
 
     private static TimeZone fixedTimeZone = null;
 
     /**
+     * Time of the day when the new day starts.
+     */
+    public static final int NEW_DAY_OFFSET = 3;
+
+    /**
      * Number of milliseconds in one day.
      */
-    public static long DAY_LENGTH = 24 * 60 * 60 * 1000;
+    public static final long DAY_LENGTH = 24 * 60 * 60 * 1000;
+
+    /**
+     * Number of milliseconds in one hour.
+     */
+    public static final long HOUR_LENGTH = 60 * 60 * 1000;
 
     public static long applyTimezone(long localTimestamp)
     {
@@ -147,12 +158,13 @@ public abstract class DateUtils
 
     public static long getStartOfToday()
     {
-        return getStartOfDay(DateUtils.getLocalTime());
+        return getStartOfDay(getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
     }
 
     public static long millisecondsUntilTomorrow()
     {
-        return getStartOfToday() + DAY_LENGTH - getLocalTime();
+        return getStartOfToday() + DAY_LENGTH -
+               (getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
     }
 
     public static GregorianCalendar getStartOfTodayCalendar()

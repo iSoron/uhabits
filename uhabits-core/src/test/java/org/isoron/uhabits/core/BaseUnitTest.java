@@ -95,7 +95,14 @@ public class BaseUnitTest
     public long timestamp(int year, int month, int day)
     {
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
-        cal.set(year, month, day);
+        cal.set(year, month, day, 0, 0, 0);
+        return cal.getTimeInMillis();
+    }
+
+    public long timestamp(int year, int month, int day, int hour, int minute)
+    {
+        GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
+        cal.set(year, month, day, hour, minute);
         return cal.getTimeInMillis();
     }
 

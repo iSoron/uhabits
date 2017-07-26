@@ -304,8 +304,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             newData.copyScoresFrom(data);
             newData.copyCheckmarksFrom(data);
 
-            Timestamp dateTo = new Timestamp(
-                DateUtils.getStartOfDay(DateUtils.getLocalTime()));
+            Timestamp dateTo = DateUtils.getToday();
             Timestamp dateFrom = dateTo.minus(checkmarkCount - 1);
 
             runner.publishProgress(this, -1);

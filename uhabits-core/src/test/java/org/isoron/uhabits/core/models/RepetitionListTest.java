@@ -27,6 +27,7 @@ import org.junit.*;
 
 import java.util.*;
 
+import static java.util.Calendar.*;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
@@ -101,23 +102,20 @@ public class RepetitionListTest extends BaseUnitTest
         habit = fixtures.createEmptyHabit();
         reps = habit.getRepetitions();
 
-        Random random = new Random();
+        Random random = new Random(123L);
         Integer weekdayCount[][] = new Integer[12][7];
         Integer monthCount[] = new Integer[12];
 
         Arrays.fill(monthCount, 0);
-        for (Integer row[] : weekdayCount)
-            Arrays.fill(row, 0);
-
+        for (Integer row[] : weekdayCount) Arrays.fill(row, 0);
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
         // Sets the current date to the end of November
-        day.set(2015, 10, 30);
+        day.set(2015, NOVEMBER, 30, 12, 0, 0);
         DateUtils.setFixedLocalTime(day.getTimeInMillis());
 
         // Add repetitions randomly from January to December
-        // Leaves the month of March empty, to check that it returns null
-        day.set(2015, 0, 1);
+        day.set(2015, JANUARY, 1, 0, 0, 0);
         for (int i = 0; i < 365; i++)
         {
             if (random.nextBoolean())
@@ -125,34 +123,34 @@ public class RepetitionListTest extends BaseUnitTest
                 int month = day.get(Calendar.MONTH);
                 int week = day.get(Calendar.DAY_OF_WEEK) % 7;
 
-                if (month != 2)
-                {
-                    if (month <= 10)
-                    {
-                        weekdayCount[month][week]++;
-                        monthCount[month]++;
-                    }
-                    reps.toggle(new Timestamp(day));
-                }
+                // Leave the month of March empty, to check that it returns null
+                if (month == MARCH) continue;
+
+                reps.toggle(new Timestamp(day));
+
+                // Repetitions in December should not be counted
+                if (month == DECEMBER) continue;
+
+                weekdayCount[month][week]++;
+                monthCount[month]++;
             }
 
             day.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        HashMap<Timestamp, Integer[]> freq =
-            reps.getWeekdayFrequency();
+        HashMap<Timestamp, Integer[]> freq = reps.getWeekdayFrequency();
 
         // Repetitions until November should be counted correctly
         for (int month = 0; month < 11; month++)
         {
-            day.set(2015, month, 1);
+            day.set(2015, month, 1, 0, 0, 0);
             Integer actualCount[] = freq.get(new Timestamp(day));
             if (monthCount[month] == 0) assertThat(actualCount, equalTo(null));
             else assertThat(actualCount, equalTo(weekdayCount[month]));
         }
 
         // Repetitions in December should be discarded
-        day.set(2015, 11, 1);
+        day.set(2015, DECEMBER, 1, 0, 0, 0);
         assertThat(freq.get(new Timestamp(day)), equalTo(null));
     }
 

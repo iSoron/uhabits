@@ -23,8 +23,8 @@ import org.apache.commons.lang3.builder.*;
 
 import java.util.*;
 
-import static java.util.Calendar.DAY_OF_WEEK;
-import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+import static java.util.Calendar.*;
+import static org.isoron.uhabits.core.utils.StringUtils.*;
 
 public final class Timestamp
 {
