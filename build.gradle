@@ -3,9 +3,15 @@ buildscript {
     repositories {
         jcenter()
     }
+    android {
+      lintOptions {
+          abortOnError false
+      }
+  }
+}
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.2'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
