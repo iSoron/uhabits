@@ -3,8 +3,11 @@ buildscript {
     repositories {
         jcenter()
     }
-
-
+    android {
+      lintOptions {
+          abortOnError false
+      }
+  }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -20,9 +23,3 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 }
-
-android {
-      lintOptions {
-          abortOnError false
-      }
-  }
