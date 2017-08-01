@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_hours"/>
+    <string name="select_minutes"/>
+    <string name="color_picker_default_title"/>
+    <string name="clear"/>
+    <string name="clear_label"/>
+    <string name="done_label"/>
+</resources>

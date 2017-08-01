@@ -1,0 +1,34 @@
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <dimen name="baseSize">20dp</dimen>
+    <dimen name="checkmarkWidth">48dp</dimen>
+    <dimen name="checkmarkHeight">48dp</dimen>
+    <dimen name="history_editor_max_height">450dp</dimen>
+    <dimen name="history_editor_padding">8dp</dimen>
+    <dimen name="history_max_font_size">@dimen/regularTextSize</dimen>
+    <dimen name="regularTextSize">16sp</dimen>
+    <dimen name="smallTextSize">14sp</dimen>
+    <dimen name="smallerTextSize">12sp</dimen>
+    <dimen name="tinyTextSize">10sp</dimen>
+    <dimen name="habitNameWidth">160dp</dimen>
+    <dimen name="progressbarOffset">-6dp</dimen>
+    <dimen name="checkmarkWidget_heightBreakpoint">55dp</dimen>
+</resources>

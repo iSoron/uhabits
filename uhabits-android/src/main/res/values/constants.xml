@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <string name="helpURL">http://loophabits.org/faq.html</string>
+    <string name="playStoreURL">market://details?id=org.isoron.uhabits</string>
+    <string name="feedbackURL" formatted="false">mailto:dev@loophabits.org?subject=Feedback%20about%20Loop%20Habit%20Tracker</string>
+    <string name="bugReportURL" formatted="false">mailto:dev@loophabits.org?subject=Bug%20Report%20-%20Loop%20Habit%20Tracker</string>
+    <string name="sourceCodeURL">https://github.com/iSoron/uhabits</string>
+    <string name="translateURL">http://translate.loophabits.org/</string>
+    <string name="bugReportTo">dev@loophabits.org</string>
+    <string name="bugReportSubject">Bug Report - Loop Habit Tracker</string>
+
+    <string-array name="snooze_interval_names">
+        <item>@string/interval_15_minutes</item>
+        <item>@string/interval_30_minutes</item>
+        <item>@string/interval_1_hour</item>
+        <item>@string/interval_2_hour</item>
+        <item>@string/interval_4_hour</item>
+        <item>@string/interval_8_hour</item>
+        <item>@string/interval_24_hour</item>
+    </string-array>
+
+    <string-array name="snooze_interval_values" translatable="false">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>480</item>
+        <item>1440</item>
+    </string-array>
+
+    <string-array name="frequencyQuickSelect" translatable="false">
+        <item>@string/every_day</item>
+        <item>@string/every_week</item>
+        <item>@string/two_times_per_week</item>
+        <item>@string/five_times_per_week</item>
+        <item>@string/custom_frequency</item>
+    </string-array>
+
+    <string-array name="habitTypes" translatable="false">
+        <item>Yes or No</item>
+        <item>Number</item>
+    </string-array>
+
+    <string-array name="actions" translatable="false">
+        <item>@string/check</item>
+        <item>@string/uncheck</item>
+        <item>@string/toggle</item>
+    </string-array>
+
+    <string-array name="strengthIntervalNames" translatable="false">
+        <item>@string/day</item>
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/quarter</item>
+        <item>@string/year</item>
+    </string-array>
+
+    <string-array name="strenghtIntervalValues" translatable="false">
+        <item>1</item>
+        <item>7</item>
+        <item>31</item>
+        <item>92</item>
+        <item>365</item>
+    </string-array>
+
+    <string-array name="targetValues" translatable="false">
+        <item>At least</item>
+        <item>At most</item>
+    </string-array>
+
+    <string-array name="targetIntervals" translatable="false">
+        <item>daily</item>
+        <item>weekly</item>
+        <item>montly</item>
+    </string-array>
+
+    <string name="snooze_interval_default" translatable="false">15</string>
+    <string name="default_count" translatable="false">100</string>
+</resources>

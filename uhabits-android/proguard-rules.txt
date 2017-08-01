@@ -1,0 +1,31 @@
+-dontobfuscate
+
+-dontwarn java.**
+-dontwarn javax.**
+-dontwarn org.apache.commons.beanutils.*
+-dontwarn org.codehaus.mojo.**
+
+-dontnote com.android.**
+-dontnote com.google.gson.internal.**
+-dontnote dagger.*
+-dontnote dalvik.system.**
+-dontnote javax.inject.**
+-dontnote org.apache.harmony.xnet.**
+-dontnote org.isoron.**
+-dontnote sun.misc.**
+-dontnote sun.security.**
+
+-keep class com.getpebble.** { *; }
+-keep class com.github.paolorotolo.** { *; }
+-keep class io.socket.** { *; }
+-keep class okhttp3.** { *; }
+-keep class okio.** { *; }
+-keep class org.isoron.** { *; }
+-keep class sun.misc.Unsafe { *; }
+-keep class android.support.test.** { *; }
+-keep class org.mockito.** { *; }
+-keep class org.junit.** { *; }
+-keep class kotlin.** { *; }
+
+
+-dontskipnonpubliclibraryclassmembers

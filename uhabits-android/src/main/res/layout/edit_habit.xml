@@ -1,0 +1,78 @@
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+    android:id="@+id/container"
+    style="@style/dialogForm"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.habits.edit.EditHabitDialog"
+    tools:ignore="MergeRootFrame">
+
+    <LinearLayout
+        android:id="@+id/formPanel"
+        style="@style/dialogFormPanel">
+
+        <org.isoron.uhabits.activities.habits.edit.views.NameDescriptionPanel
+            android:id="@+id/namePanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel
+            android:id="@+id/frequencyPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <org.isoron.uhabits.activities.habits.edit.views.TargetPanel
+            android:id="@+id/targetPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <org.isoron.uhabits.activities.habits.edit.views.ReminderPanel
+            android:id="@+id/reminderPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="16dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="16dp"
+        android:paddingStart="0dp">
+
+        <Button
+            android:id="@+id/buttonDiscard"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discard"/>
+
+        <Button
+            android:id="@+id/buttonSave"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"/>
+    </LinearLayout>
+</LinearLayout>

@@ -3,6 +3,7 @@
 *.class
 *.dex
 *.iml
+*.local
 *.local.*
 *.swp
 *.trace
@@ -22,3 +23,5 @@ gen/
 local.properties
 crowdin.yaml
 local
+tmp/
+secret/

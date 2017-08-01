@@ -1,1 +1,0 @@
-alter table habits add column highlight integer not null default 0;
