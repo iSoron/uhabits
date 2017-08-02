@@ -16,13 +16,16 @@ android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
     buildToolsVersion BUILD_TOOLS_VERSION
 
-    signingConfigs {
-        release {
-            storeFile file(LOOP_STORE_FILE)
-            storePassword LOOP_STORE_PASSWORD
-            keyAlias LOOP_KEY_ALIAS
-            keyPassword LOOP_KEY_PASSWORD
+    if(project.hasProperty("LOOP_STORE_FILE")) {
+        signingConfigs {
+            release {
+                storeFile file(LOOP_STORE_FILE)
+                storePassword LOOP_STORE_PASSWORD
+                keyAlias LOOP_KEY_ALIAS
+                keyPassword LOOP_KEY_PASSWORD
+            }
         }
+        buildTypes.release.signingConfig signingConfigs.release
     }
 
     playAccountConfigs {
@@ -53,7 +56,6 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
         }
 
         debug {
