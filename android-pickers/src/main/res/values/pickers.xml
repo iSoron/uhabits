@@ -75,14 +75,14 @@
     <dimen name="month_day_label_text_size">10sp</dimen>
     <dimen name="day_number_select_circle_radius">16dp</dimen>
     <dimen name="month_select_circle_radius">45dp</dimen>
-    <dimen name="selected_date_year_size">30dp</dimen>
-    <dimen name="selected_date_day_size">75dp</dimen>
-    <dimen name="selected_date_month_size">30dp</dimen>
-    <dimen name="date_picker_header_text_size">14dp</dimen>
+    <dimen name="selected_date_year_size">30sp</dimen>
+    <dimen name="selected_date_day_size">75sp</dimen>
+    <dimen name="selected_date_month_size">30sp</dimen>
+    <dimen name="date_picker_header_text_size">14sp</dimen>
     <dimen name="month_label_size">16sp</dimen>
     <dimen name="day_number_size">16sp</dimen>
     <dimen name="year_label_height">64dp</dimen>
-    <dimen name="year_label_text_size">22dp</dimen>
+    <dimen name="year_label_text_size">22sp</dimen>
 
     <string name="color_swatch_description" translatable="false">Color <xliff:g example="14" id="color_index">%1$d</xliff:g></string>
     <string name="color_swatch_description_selected" translatable="false">Color <xliff:g example="14" id="color_index">%1$d</xliff:g> selected</string>

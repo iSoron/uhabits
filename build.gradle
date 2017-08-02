@@ -3,8 +3,9 @@ buildscript {
         jcenter()
         maven { url 'https://maven.google.com' }
     }
-
+    
     dependencies {
+
         classpath 'com.android.tools.build:gradle:3.0.0-alpha8'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4'

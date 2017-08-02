@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'jacoco'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "org.isoron.uhabits"
+        minSdkVersion 15
+        targetSdkVersion 25
+
+        buildConfigField "Integer", "databaseVersion", "15"
+        buildConfigField "String", "databaseFilename", "\"uhabits.db\""
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "size", "medium"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            testCoverageEnabled = false
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
+}
+
+dependencies {
+
+    androidTestApt 'com.google.dagger:dagger-compiler:2.2'
+
+    androidTestCompile 'com.android.support:support-annotations:25.3.0'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.google.auto.factory:auto-factory:1.0-beta3'
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:preference-v14:25.3.0'
+    compile 'com.android.support:support-v4:25.3.0'
+    compile 'com.getpebble:pebblekit:3.0.0'
+    compile 'com.github.paolorotolo:appintro:3.4.0'
+    compile 'com.google.auto.factory:auto-factory:1.0-beta3'
+    compile 'com.google.dagger:dagger:2.2'
+    compile 'com.jakewharton:butterknife:8.0.1'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'com.opencsv:opencsv:3.7'
+    compile 'org.apmem.tools:layouts:1.10@aar'
+    compile 'org.jetbrains:annotations-java5:15.0'
+
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    testApt 'com.google.dagger:dagger-compiler:2.2'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
+        exclude group: 'com.android.support'
+    }
+
+    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1') {
+        exclude group: 'com.android.support'
+    }
+
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+        exclude group: 'com.android.support'
+    }
+}
+
+retrolambda {
+    defaultMethods true
+}
+
+jacoco {
+    toolVersion = "0.7.4.201502262128"
+}
+
+task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+
+    jacocoClasspath = configurations['androidJacocoAnt']
+
+    reports {
+        html.enabled = true
+    }
+
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*',
+            '**/*Test*.*',
+            '**/*$Lambda$*',
+            '**/*$ViewBinder*',
+            '**/*MembersInjector*',
+            '**/*_Provide*',
+            '**/com/android/**/*',
+            'android/**/*',
+            '**/*Dagger*',
+            '**/*_Factory*'
+    ]
+
+    def srcDir = "${project.projectDir}/src/main/java"
+    def classDir = "${buildDir}/intermediates/classes/debug"
+    def jvmExecData = "${buildDir}/jacoco/testDebugUnitTest.exec"
+    def connectedExecData = "${buildDir}/outputs/code-coverage/connected/coverage.ec"
+
+    sourceDirectories = files(srcDir)
+    classDirectories = files(fileTree(dir: classDir, excludes: excludes))
+    executionData = files(jvmExecData, connectedExecData)
+}
