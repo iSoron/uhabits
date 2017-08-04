@@ -61,6 +61,12 @@ public class WidgetBehavior
         performToggle(habit, timestamp);
     }
 
+    public void onCancelRepetition(@NonNull Habit habit, Timestamp timestamp)
+    {
+        onRemoveRepetition(habit, timestamp);
+        notificationTray.cancel(habit);
+    }
+
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
         performToggle(habit, timestamp);
