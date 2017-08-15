@@ -22,6 +22,7 @@ package org.isoron.uhabits.notifications
 import android.app.*
 import android.content.*
 import android.graphics.BitmapFactory.*
+import android.support.annotation.NonNull
 import android.support.v4.app.*
 import android.support.v4.app.NotificationCompat.*
 import org.isoron.androidbase.*
@@ -40,16 +41,44 @@ class AndroidNotificationTray
         private val pendingIntents: PendingIntentFactory,
         private val preferences: Preferences,
         private val ringtoneManager: RingtoneManager
+
 ) : NotificationTray.SystemTray {
 
-    override fun removeNotification(id: Int) {
+    val generalLoopNotificationGroup = "generalLoopHabitsNotificationGroup"
+
+    var summaryShown = false
+
+    override fun removeNotification(id: Int)
+    {
         NotificationManagerCompat.from(context).cancel(id)
     }
 
     override fun showNotification(habit: Habit,
                                   notificationId: Int,
                                   timestamp: Timestamp,
-                                  reminderTime: Long) {
+                                  reminderTime: Long)
+    {
+        val notificationManager = NotificationManagerCompat.from(context)
+
+        if(! summaryShown)
+        {
+            val summary = buildSummary(reminderTime)
+
+            notificationManager.notify(Int.MAX_VALUE, summary)
+
+            summaryShown = true
+        }
+
+        val notification = buildNotification(habit, reminderTime, timestamp)
+
+        notificationManager.notify(notificationId, notification)
+    }
+
+    @NonNull
+    fun buildNotification(@NonNull habit: Habit,
+                          @NonNull reminderTime: Long,
+                          @NonNull timestamp: Timestamp) : Notification
+    {
 
         val checkAction = Action(
                 R.drawable.ic_action_check,
@@ -71,7 +100,7 @@ class AndroidNotificationTray
                 .addAction(checkAction)
                 .addAction(snoozeAction)
 
-        val notification = NotificationCompat.Builder(context)
+        return NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
                 .setContentText(habit.description)
@@ -84,11 +113,20 @@ class AndroidNotificationTray
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
+                .setGroup(generalLoopNotificationGroup)
                 .build()
+    }
 
-        val notificationManager = context.getSystemService(
-                Activity.NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationManager.notify(notificationId, notification)
+    @NonNull
+    fun buildSummary(@NonNull reminderTime: Long) : Notification
+    {
+        return NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setWhen(reminderTime)
+                .setShowWhen(true)
+                .setGroup(generalLoopNotificationGroup)
+                .setGroupSummary(true)
+                .build()
     }
 }
