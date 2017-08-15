@@ -44,9 +44,9 @@ class AndroidNotificationTray
 
 ) : NotificationTray.SystemTray {
 
-    val generalLoopNotificationGroup = "generalLoopHabitsNotificationGroup"
+    private val generalLoopNotificationGroup = "generalLoopHabitsNotificationGroup"
 
-    var summaryShown = false
+    private var summaryShown = false
 
     override fun removeNotification(id: Int)
     {
