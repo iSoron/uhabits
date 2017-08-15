@@ -46,8 +46,6 @@ class AndroidNotificationTray
 
     private val generalLoopNotificationGroup = "generalLoopHabitsNotificationGroup"
 
-    private var summaryShown = false
-
     override fun removeNotification(id: Int)
     {
         NotificationManagerCompat.from(context).cancel(id)
@@ -60,14 +58,9 @@ class AndroidNotificationTray
     {
         val notificationManager = NotificationManagerCompat.from(context)
 
-        if(! summaryShown)
-        {
-            val summary = buildSummary(reminderTime)
+        val summary = buildSummary(reminderTime)
 
-            notificationManager.notify(Int.MAX_VALUE, summary)
-
-            summaryShown = true
-        }
+        notificationManager.notify(Int.MAX_VALUE, summary)
 
         val notification = buildNotification(habit, reminderTime, timestamp)
 
