@@ -30,7 +30,7 @@
     <string name="color_picker_default_title">Change color</string>
 
     <string name="toast_habit_created">Habit created</string>
-    <string name="toast_habit_deleted">Habits deleted</string>
+    <string name="toast_habit_deleted">Habit deleted</string>
     <string name="toast_habit_restored">Habits restored</string>
     <string name="toast_nothing_to_undo">Nothing to undo</string>
     <string name="toast_nothing_to_redo">Nothing to redo</string>
@@ -99,8 +99,8 @@
     <string name="hint_title">Did you know?</string>
     <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
-    <string name="delete_habits">Delete Habits</string>
-    <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
+    <string name="delete_habit">Delete Habit</string>
+    <string name="delete_habits_message">The habit will be permanently deleted. This action cannot be undone.</string>
     <string name="habit_not_found">Habit deleted / not found</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Monday to Friday</string>
