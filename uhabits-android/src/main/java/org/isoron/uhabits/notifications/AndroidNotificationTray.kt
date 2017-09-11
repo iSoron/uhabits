@@ -22,6 +22,7 @@ package org.isoron.uhabits.notifications
 import android.app.*
 import android.content.*
 import android.graphics.BitmapFactory.*
+import android.graphics.Color
 import android.support.v4.app.*
 import android.support.v4.app.NotificationCompat.*
 import org.isoron.androidbase.*
@@ -84,6 +85,7 @@ class AndroidNotificationTray
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
+                .setLights(Color.RED, 1000, 1000)
                 .build()
 
         val notificationManager = context.getSystemService(
