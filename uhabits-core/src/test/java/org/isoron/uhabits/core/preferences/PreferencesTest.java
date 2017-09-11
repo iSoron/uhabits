@@ -159,6 +159,10 @@ public class PreferencesTest extends BaseUnitTest
         prefs.setNotificationsSticky(true);
         assertTrue(prefs.shouldMakeNotificationsSticky());
 
+        assertFalse(prefs.shouldMakeNotificationsLed());
+        prefs.setNotificationsLed(true);
+        assertTrue(prefs.shouldMakeNotificationsLed());
+
         assertThat(prefs.getSnoozeInterval(), equalTo(15L));
         prefs.setSnoozeInterval(30);
         assertThat(prefs.getSnoozeInterval(), equalTo(30L));

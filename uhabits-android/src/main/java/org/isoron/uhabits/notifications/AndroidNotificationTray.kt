@@ -72,7 +72,7 @@ class AndroidNotificationTray
                 .addAction(checkAction)
                 .addAction(snoozeAction)
 
-        val notification = NotificationCompat.Builder(context)
+        val builder = NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
                 .setContentText(habit.description)
@@ -85,8 +85,9 @@ class AndroidNotificationTray
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
-                .setLights(Color.RED, 1000, 1000)
-                .build()
+        if (preferences.shouldMakeNotificationsLed())
+                builder.setLights(Color.RED, 1000, 1000)
+        val notification = builder.build()
 
         val notificationManager = context.getSystemService(
                 Activity.NOTIFICATION_SERVICE) as NotificationManager
