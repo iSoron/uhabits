@@ -68,6 +68,12 @@
             android:title="@string/sticky_notifications"
             android:summary="@string/sticky_notifications_description"/>
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_led_notifications"
+            android:title="@string/led_notifications"
+            android:summary="@string/led_notifications_description"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

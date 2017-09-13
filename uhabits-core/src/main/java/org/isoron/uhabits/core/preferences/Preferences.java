@@ -263,6 +263,12 @@ public class Preferences
         for (Listener l : listeners) l.onNotificationsChanged();
     }
 
+    public void setNotificationsLed(boolean enabled)
+    {
+        storage.putBoolean("pref_led_notifications", enabled);
+        for (Listener l : listeners) l.onNotificationsChanged();
+    }
+
     public void setCheckmarkSequenceReversed(boolean reverse)
     {
         shouldReverseCheckmarks = reverse;
@@ -279,6 +285,11 @@ public class Preferences
     public boolean shouldMakeNotificationsSticky()
     {
         return storage.getBoolean("pref_sticky_notifications", false);
+    }
+
+    public boolean shouldMakeNotificationsLed()
+    {
+        return storage.getBoolean("pref_led_notifications", false);
     }
 
     public boolean isCheckmarkSequenceReversed()
