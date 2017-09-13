@@ -19,12 +19,15 @@
 
 package org.isoron.uhabits.receivers;
 
+import android.content.*;
+import android.net.*;
 import android.support.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.notifications.*;
 
 import javax.inject.*;
 
@@ -65,13 +68,32 @@ public class ReminderController
         reminderScheduler.scheduleAll();
     }
 
-    public void onSnooze(@NonNull Habit habit)
+    public void onSnooze(@NonNull Habit habit, final Context context)
     {
         long snoozeInterval = preferences.getSnoozeInterval();
 
+        if (snoozeInterval < 0)
+        {
+            context.sendBroadcast( new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+            Intent intent = new Intent( SnoozeDelayActivity.ACTION_ASK_SNOOZE, Uri.parse( habit.getUriString()),
+                    context, SnoozeDelayActivity.class );
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+            return;
+        }
+
+        snoozeNotificationAddDelay(habit, snoozeInterval);
+    }
+
+    public void snoozeNotificationAddDelay(@NonNull Habit habit, long snoozeInterval)
+    {
         long now = applyTimezone(getLocalTime());
         long reminderTime = now + snoozeInterval * 60 * 1000;
+        snoozeNotificationSetReminderTime(habit, reminderTime);
+    }
 
+    public void snoozeNotificationSetReminderTime(@NonNull Habit habit, long reminderTime)
+    {
         reminderScheduler.schedule(habit, reminderTime);
         notificationTray.cancel(habit);
     }
