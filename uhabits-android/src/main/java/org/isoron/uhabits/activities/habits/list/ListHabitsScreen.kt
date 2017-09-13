@@ -230,6 +230,7 @@ class ListHabitsScreen
             is ChangeHabitColorCommand -> return R.string.toast_habit_changed
             is CreateHabitCommand -> return R.string.toast_habit_created
             is DeleteHabitsCommand -> return R.string.toast_habit_deleted
+            is DuplicateHabitCommand -> return R.string.toast_habit_duplicated
             is EditHabitCommand -> return R.string.toast_habit_changed
             is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
             else -> return null

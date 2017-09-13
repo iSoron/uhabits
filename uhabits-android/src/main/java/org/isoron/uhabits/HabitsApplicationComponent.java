@@ -54,6 +54,8 @@ public interface HabitsApplicationComponent
 
     CreateHabitCommandFactory getCreateHabitCommandFactory();
 
+    DuplicateHabitCommandFactory getDuplicateHabitCommandFactory();
+
     EditHabitCommandFactory getEditHabitCommandFactory();
 
     GenericImporter getGenericImporter();

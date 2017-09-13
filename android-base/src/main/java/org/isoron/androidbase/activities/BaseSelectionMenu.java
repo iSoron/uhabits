@@ -40,6 +40,8 @@ public abstract class BaseSelectionMenu
     @Nullable
     private ActionMode actionMode;
 
+    public static boolean duplicateIsSelected = false;
+
     /**
      * Finishes the selection operation.
      */

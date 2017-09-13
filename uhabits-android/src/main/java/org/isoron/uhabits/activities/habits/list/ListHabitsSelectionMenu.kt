@@ -64,6 +64,12 @@ class ListHabitsSelectionMenu @Inject constructor(
                 return true
             }
 
+            R.id.action_duplicate -> {
+                duplicateIsSelected = true
+                behavior.onDuplicateHabits()
+                return true
+            }
+
             R.id.action_color -> {
                 behavior.onChangeColor()
                 return true

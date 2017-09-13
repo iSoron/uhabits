@@ -40,6 +40,7 @@ import org.isoron.uhabits.core.preferences.*;
 import butterknife.*;
 
 import static android.view.View.GONE;
+import static org.isoron.androidbase.activities.BaseSelectionMenu.duplicateIsSelected;
 import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
@@ -119,23 +120,29 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected int getTitle()
     {
-        if (originalHabit != null) return R.string.edit_habit;
+        if (originalHabit != null) {
+            if(duplicateIsSelected){
+                return R.string.duplicate_habit;
+            }else{
+            return R.string.edit_habit;}
+        }
         else return R.string.create_habit;
     }
 
     protected void saveHabit(@NonNull Habit habit)
     {
         if (originalHabit == null)
-        {
             commandRunner.execute(component
-                .getCreateHabitCommandFactory()
-                .create(habitList, habit), null);
-        }
+                    .getCreateHabitCommandFactory()
+                    .create(habitList, habit), null);
         else
-        {
+            if (duplicateIsSelected){
+                commandRunner.execute(component
+                        .getDuplicateHabitCommandFactory()
+                        .create(habitList, habit), null);
+            }else {
             commandRunner.execute(component.getEditHabitCommandFactory().
-                create(habitList, originalHabit, habit), originalHabit.getId());
-        }
+                    create(habitList, originalHabit, habit), originalHabit.getId());}
     }
 
     private int getTypeFromArguments()

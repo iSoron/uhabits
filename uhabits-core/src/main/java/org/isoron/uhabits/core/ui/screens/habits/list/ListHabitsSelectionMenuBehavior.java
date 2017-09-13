@@ -109,6 +109,11 @@ public class ListHabitsSelectionMenuBehavior
         });
     }
 
+    public void onDuplicateHabits()
+    {
+        screen.showEditHabitsScreen(adapter.getSelected());
+    }
+
     public void onEditHabits()
     {
         screen.showEditHabitsScreen(adapter.getSelected());

@@ -22,6 +22,7 @@
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">Habits</string>
     <string name="action_settings">Settings</string>
+    <string name="duplicate">Duplicate</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="archive">Archive</string>
@@ -31,6 +32,7 @@
 
     <string name="toast_habit_created">Habit created</string>
     <string name="toast_habit_deleted">Habit deleted</string>
+    <string name="toast_habit_duplicated">Habit duplicated</string>
     <string name="toast_habit_restored">Habits restored</string>
     <string name="toast_nothing_to_undo">Nothing to undo</string>
     <string name="toast_nothing_to_redo">Nothing to redo</string>
@@ -60,6 +62,7 @@
     <string name="validation_at_most_one_rep_per_day">You can have at most one repetition per day</string>
     <string name="create_habit">Create habit</string>
     <string name="edit_habit">Edit habit</string>
+    <string name="duplicate_habit">Duplicate habit</string>
     <string name="check">Check</string>
     <string name="snooze">Later</string>
 
@@ -100,6 +103,7 @@
     <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
     <string name="delete_habit">Delete Habit</string>
+    <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habit will be permanently deleted. This action cannot be undone.</string>
     <string name="habit_not_found">Habit deleted / not found</string>
     <string name="weekends">Weekends</string>

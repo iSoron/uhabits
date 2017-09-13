@@ -46,4 +46,9 @@
         android:title="@string/delete"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_duplicate"
+        android:title="@string/duplicate"
+        app:showAsAction="never"/>
+
 </menu>
