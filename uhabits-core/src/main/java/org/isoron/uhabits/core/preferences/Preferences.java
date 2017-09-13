@@ -142,7 +142,7 @@ public class Preferences
 
     public long getSnoozeInterval()
     {
-        return storage.getLong("pref_snooze_interval", 15L);
+        return Long.parseLong(storage.getString("pref_snooze_interval", "15"));
     }
 
     public String getSyncAddress()
@@ -324,7 +324,7 @@ public class Preferences
 
     public void setSnoozeInterval(int interval)
     {
-        storage.putLong("pref_snooze_interval", interval);
+        storage.putString("pref_snooze_interval", String.valueOf(interval));
     }
 
     public void setNumericalHabitsFeatureEnabled(boolean enabled)
