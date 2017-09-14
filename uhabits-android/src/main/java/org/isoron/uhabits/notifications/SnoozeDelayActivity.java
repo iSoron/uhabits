@@ -18,7 +18,7 @@ import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_DARK;
 import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
 
 public class SnoozeDelayActivity extends FragmentActivity implements
-        TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener {
 
     public static final String ACTION_ASK_SNOOZE = "org.isoron.uhabits.ACTION_ASK_SNOOZE";
 
@@ -54,6 +54,7 @@ public class SnoozeDelayActivity extends FragmentActivity implements
                 hour, minute, DateFormat.is24HourFormat(this));
         HabitsApplicationComponent component = ((HabitsApplication) getApplicationContext()).getComponent();
         dialog.setThemeDark(component.getPreferences().getTheme() == THEME_DARK);
+        dialog.setDismissListener(this);
         dialog.show(getSupportFragmentManager(),"timePicker");
     }
 
@@ -73,8 +74,6 @@ public class SnoozeDelayActivity extends FragmentActivity implements
                 this, ReminderReceiver.class );
         intent.putExtra("reminderTime", time);
         sendBroadcast(intent);
-
-        finish();
     }
 
     @Override
@@ -83,7 +82,11 @@ public class SnoozeDelayActivity extends FragmentActivity implements
         Intent intent = new Intent( ReminderReceiver.ACTION_DISMISS_REMINDER, getIntent().getData(),
                 this, ReminderReceiver.class );
         sendBroadcast(intent);
+    }
 
+    @Override
+    public void onDismiss(DialogInterface dialogInterface)
+    {
         finish();
     }
 }
