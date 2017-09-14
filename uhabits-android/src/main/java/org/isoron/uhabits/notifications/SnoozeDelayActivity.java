@@ -8,11 +8,13 @@ import android.util.*;
 
 import com.android.datetimepicker.time.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.DateUtils;
 import org.isoron.uhabits.receivers.*;
 
 import java.util.*;
 
+import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_DARK;
 import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
 
 public class SnoozeDelayActivity extends FragmentActivity implements
@@ -50,6 +52,8 @@ public class SnoozeDelayActivity extends FragmentActivity implements
         TimePickerDialog dialog;
         dialog = TimePickerDialog.newInstance(this,
                 hour, minute, DateFormat.is24HourFormat(this));
+        HabitsApplicationComponent component = ((HabitsApplication) getApplicationContext()).getComponent();
+        dialog.setThemeDark(component.getPreferences().getTheme() == THEME_DARK);
         dialog.show(getSupportFragmentManager(),"timePicker");
     }
 
