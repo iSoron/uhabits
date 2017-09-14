@@ -63,6 +63,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
     private static final int PULSE_ANIMATOR_DELAY = 300;
 
     private OnTimeSetListener mCallback;
+    private DialogInterface.OnDismissListener dismissListener;
 
     private HapticFeedbackController mHapticFeedbackController;
 
@@ -997,5 +998,16 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
             }
             return false;
         }
+    }
+
+    public void setDismissListener( DialogInterface.OnDismissListener listener ) {
+        dismissListener = listener;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if( dismissListener != null )
+            dismissListener.onDismiss(dialog);
     }
 }
