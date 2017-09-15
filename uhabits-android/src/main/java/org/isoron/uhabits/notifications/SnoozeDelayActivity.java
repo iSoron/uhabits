@@ -1,5 +1,6 @@
 package org.isoron.uhabits.notifications;
 
+import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.v4.app.*;
@@ -7,6 +8,7 @@ import android.text.format.*;
 import android.util.*;
 
 import com.android.datetimepicker.time.*;
+import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.utils.DateUtils;
@@ -18,11 +20,13 @@ import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_DARK;
 import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
 
 public class SnoozeDelayActivity extends FragmentActivity implements
-        TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener {
+        TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener, DialogInterface.OnClickListener {
 
     public static final String ACTION_ASK_SNOOZE = "org.isoron.uhabits.ACTION_ASK_SNOOZE";
 
     private static final String TAG = "SnoozeDelayActivity";
+
+    private AlertDialog activeDelayDialog;
 
     @Override
     protected void onCreate(Bundle bundle)
@@ -45,6 +49,34 @@ public class SnoozeDelayActivity extends FragmentActivity implements
     }
 
     private void AskSnooze()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.select_snooze_delay)
+                .setItems(R.array.snooze_interval_names_reminder, this);
+        AlertDialog dialog = builder.create();
+        dialog.setOnDismissListener(this);
+        activeDelayDialog = dialog;
+        dialog.show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i)
+    {
+        int[] snoozeDelay = getResources().getIntArray(R.array.snooze_interval_values_reminder);
+        assert (i >= 0 && i <= snoozeDelay.length);
+        if( snoozeDelay[ i ] < 0 )
+        {
+            activeDelayDialog.setOnDismissListener(null);
+            AskCustomSnooze();
+            return;
+        }
+        Intent intent = new Intent( ReminderReceiver.ACTION_SNOOZE_REMINDER_DELAY, getIntent().getData(),
+                this, ReminderReceiver.class );
+        intent.putExtra("snoozeDelay", snoozeDelay[ i ]);
+        sendBroadcast(intent);
+    }
+
+    private void AskCustomSnooze()
     {
         final Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
