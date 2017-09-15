@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.v4.app.*;
+import android.support.v7.view.*;
 import android.text.format.*;
 import android.util.*;
 
@@ -50,7 +51,10 @@ public class SnoozeDelayActivity extends FragmentActivity implements
 
     private void AskSnooze()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        HabitsApplicationComponent component = ((HabitsApplication) getApplicationContext()).getComponent();
+        int theme = component.getPreferences().getTheme() == THEME_DARK
+                ? R.style.Theme_AppCompat_Dialog_Alert : R.style.Theme_AppCompat_Light_Dialog_Alert;
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, theme));
         builder.setTitle(R.string.select_snooze_delay)
                 .setItems(R.array.snooze_interval_names_reminder, this);
         AlertDialog dialog = builder.create();
