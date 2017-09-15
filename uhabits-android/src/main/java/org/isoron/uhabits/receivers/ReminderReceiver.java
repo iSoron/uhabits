@@ -49,6 +49,9 @@ public class ReminderReceiver extends BroadcastReceiver
     public static final String ACTION_SNOOZE_REMINDER_SET =
             "org.isoron.uhabits.ACTION_SNOOZE_REMINDER_SET";
 
+    public static final String ACTION_SNOOZE_REMINDER_DELAY =
+            "org.isoron.uhabits.ACTION_SNOOZE_REMINDER_DELAY";
+
     private static final String TAG = "ReminderReceiver";
 
     @Override
@@ -99,6 +102,12 @@ public class ReminderReceiver extends BroadcastReceiver
                 case ACTION_SNOOZE_REMINDER_SET:
                     if (habit == null) return;
                     reminderController.snoozeNotificationSetReminderTime(habit, reminderTime);
+                    break;
+
+                case ACTION_SNOOZE_REMINDER_DELAY:
+                    if (habit == null) return;
+                    long snoozeDelay = intent.getIntExtra("snoozeDelay", 0);
+                    reminderController.snoozeNotificationAddDelay(habit, snoozeDelay);
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:

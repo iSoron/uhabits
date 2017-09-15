@@ -84,6 +84,7 @@
     <string name="interval_8_hour">8 hours</string>
     <string name="interval_24_hour">24 hours</string>
     <string name="interval_always_ask">Always ask</string>
+    <string name="interval_custom">Custom...</string>
     <string name="pref_toggle_title">Toggle with short press</string>
     <string name="pref_toggle_description">Put checkmarks with a single tap instead of press-and-hold. More convenient, but might cause accidental toggles.</string>
     <string name="pref_snooze_interval_title">Snooze interval on reminders</string>
@@ -96,6 +97,7 @@
     <string name="name">Name</string>
     <string name="settings">Settings</string>
     <string name="snooze_interval">Snooze interval</string>
+    <string name="select_snooze_delay">Select snooze delay</string>
 
     <string name="hint_title">Did you know?</string>
     <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>
