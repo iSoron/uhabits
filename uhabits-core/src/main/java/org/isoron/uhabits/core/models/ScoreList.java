@@ -172,7 +172,7 @@ public abstract class ScoreList implements Iterable<Score>
         for (Score s : this)
         {
             String timestamp = dateFormat.format(s.getTimestamp().getUnixTime());
-            String score = String.format("%.4f", s.getValue());
+            String score = String.format((Locale)null, "%.4f", s.getValue());
             out.write(String.format("%s,%s\n", timestamp, score));
         }
     }
