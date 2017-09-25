@@ -65,7 +65,7 @@ public class ReminderController
                                long reminderTime)
     {
         notificationTray.show(habit, timestamp, reminderTime);
-        reminderScheduler.scheduleAll();
+        reminderScheduler.scheduleHabitAtReminder(habit);
     }
 
     public void onSnooze(@NonNull Habit habit, final Context context)

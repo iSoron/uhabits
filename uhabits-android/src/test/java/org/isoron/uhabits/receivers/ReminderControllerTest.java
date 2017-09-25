@@ -82,7 +82,7 @@ public class ReminderControllerTest extends BaseAndroidJVMTest
         Habit habit = mock(Habit.class);
         controller.onShowReminder(habit, Timestamp.ZERO.plus(100), 456);
         verify(notificationTray).show(habit, Timestamp.ZERO.plus(100), 456);
-        verify(reminderScheduler).scheduleAll();
+        verify(reminderScheduler).scheduleHabitAtReminder(habit);
     }
 
     @Test
