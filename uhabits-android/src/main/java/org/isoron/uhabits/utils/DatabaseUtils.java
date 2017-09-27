@@ -92,7 +92,7 @@ public abstract class DatabaseUtils
         throws IOException
     {
         SimpleDateFormat dateFormat = DateFormats.getBackupDateFormat();
-        String date = dateFormat.format(DateUtils.getStartOfToday());
+        String date = dateFormat.format(DateUtils.getLocalTime());
         String format = "%s/Loop Habits Backup %s.db";
         String filename = String.format(format, dir.getAbsolutePath(), date);
 
