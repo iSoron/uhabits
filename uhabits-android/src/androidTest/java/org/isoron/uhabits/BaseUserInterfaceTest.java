@@ -60,9 +60,9 @@ public class BaseUserInterfaceTest
     @Before
     public void setUp() throws Exception
     {
+        device = getInstance(getInstrumentation());
         TestButler.setup(getTargetContext());
         TestButler.verifyAnimationsDisabled(getTargetContext());
-        device = getInstance(getInstrumentation());
 
         HabitsApplication app =
             (HabitsApplication) getTargetContext().getApplicationContext();
