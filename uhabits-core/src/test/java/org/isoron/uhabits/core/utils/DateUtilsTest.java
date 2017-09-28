@@ -31,6 +31,14 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class DateUtilsTest extends BaseUnitTest
 {
+    @Before
+    @Override
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        DateUtils.setFixedLocale(Locale.US);
+    }
+
     @Test
     public void testFormatHeaderDate()
     {

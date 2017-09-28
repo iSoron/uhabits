@@ -31,6 +31,7 @@ import org.isoron.uhabits.activities.habits.list.*;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.assertion.PositionAssertions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static junit.framework.Assert.*;
@@ -112,6 +113,15 @@ public class CommonSteps extends BaseUserInterfaceTest
     {
         scrollToText(text);
         onView(withText(text)).check(matches(isEnabled()));
+    }
+
+    public static void verifyDisplaysTextInSequence(String... text)
+    {
+        verifyDisplaysText(text[0]);
+        for(int i = 1; i < text.length; i++) {
+            verifyDisplaysText(text[i]);
+            onView(withText(text[i])).check(isBelow(withText(text[i-1])));
+        }
     }
 
     private static void verifyDisplaysView(String className)

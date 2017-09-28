@@ -13,7 +13,7 @@ begin transaction;
         habit integer not null references habits(id),
         timestamp integer not null,
         value integer not null);
-    drop index idx_repetitions_habit_timestamp;
+    drop index if exists idx_repetitions_habit_timestamp;
     create unique index idx_repetitions_habit_timestamp on Repetitions(
         habit, timestamp);
     insert into Repetitions select * from RepetitionsBak;

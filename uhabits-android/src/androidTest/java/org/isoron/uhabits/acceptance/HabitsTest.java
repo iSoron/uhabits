@@ -31,7 +31,6 @@ import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
 import static org.isoron.uhabits.acceptance.steps.EditHabitSteps.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*;
 import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
-import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.EDIT;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -94,7 +93,7 @@ public class HabitsTest extends BaseUserInterfaceTest
         clickSave();
 
         verifyShowsScreen(LIST_HABITS);
-        verifyDisplaysText("Take a walk");
+        verifyDisplaysTextInSequence("Wake up early", "Take a walk", "Meditate");
         verifyDoesNotDisplayText("Track time");
     }
 
