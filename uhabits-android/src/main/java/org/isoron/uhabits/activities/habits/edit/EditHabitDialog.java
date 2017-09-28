@@ -171,6 +171,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         if (type == Habit.NUMBER_HABIT && !targetPanel.validate()) return;
 
         Habit habit = modelFactory.buildHabit();
+        if( originalHabit != null )
+            habit.copyFrom(originalHabit);
         habit.setName(namePanel.getName());
         habit.setDescription(namePanel.getDescription());
         habit.setColor(namePanel.getColor());
