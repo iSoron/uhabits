@@ -8,14 +8,14 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
-    signingConfigs {
-        release {
-            storeFile file(LOOP_STORE_FILE)
-            storePassword LOOP_STORE_PASSWORD
-            keyAlias LOOP_KEY_ALIAS
-            keyPassword LOOP_KEY_PASSWORD
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file(LOOP_STORE_FILE)
+//            storePassword LOOP_STORE_PASSWORD
+//            keyAlias LOOP_KEY_ALIAS
+//            keyPassword LOOP_KEY_PASSWORD
+//        }
+//    }
 
     playAccountConfigs {
         defaultAccountConfig {
@@ -35,14 +35,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArgument "size", "medium"
 
-        playAccountConfig = playAccountConfigs.defaultAccountConfig
+//        playAccountConfig = playAccountConfigs.defaultAccountConfig
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
         debug {
             testCoverageEnabled = false
@@ -161,6 +161,6 @@ task coverageReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     executionData = files(jvmExecData, connectedExecData)
 }
 
-play {
-    track = 'alpha'
-}
+//play {
+//    track = 'alpha'
+//}
