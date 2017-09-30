@@ -26,8 +26,11 @@ import org.junit.*;
 import java.util.*;
 
 import static java.util.Calendar.*;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
+import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
+import static org.isoron.uhabits.core.utils.DateUtils.removeTimezone;
 
 public class DateUtilsTest extends BaseUnitTest
 {
@@ -153,5 +156,87 @@ public class DateUtilsTest extends BaseUnitTest
         DateUtils.setFixedLocalTime(timestamp(2017, JANUARY, 1, 23, 0));
         assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(14400000L));
 
+    }
+
+    @Test
+    public void test_applyTimezone()
+    {
+        DateUtils.setFixedTimeZone(TimeZone.getTimeZone("Australia/Sydney"));
+        assertEquals(applyTimezone(timestamp(2017, JULY, 30, 18, 0)), (timestamp(2017, JULY, 30, 8, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30,  0, 0)), (timestamp(2017, SEPTEMBER, 29, 14, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30, 10, 0)), (timestamp(2017, SEPTEMBER, 30,  0, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30, 11, 0)), (timestamp(2017, SEPTEMBER, 30,  1, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30, 12, 0)), (timestamp(2017, SEPTEMBER, 30,  2, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30, 13, 0)), (timestamp(2017, SEPTEMBER, 30,  3, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30, 22, 0)), (timestamp(2017, SEPTEMBER, 30, 12, 0)));
+        assertEquals(applyTimezone(timestamp(2017, SEPTEMBER, 30, 23, 0)), (timestamp(2017, SEPTEMBER, 30, 13, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1,  0,  0)), (timestamp(2017, SEPTEMBER, 30, 14,  0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1,  1,  0)), (timestamp(2017, SEPTEMBER, 30, 15,  0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1,  1, 59)), (timestamp(2017, SEPTEMBER, 30, 15, 59)));
+        // DST begins
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1,  3,  0)), (timestamp(2017, SEPTEMBER, 30, 16,  0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1,  4,  0)), (timestamp(2017, SEPTEMBER, 30, 17,  0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1,  5,  0)), (timestamp(2017, SEPTEMBER, 30, 18,  0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1, 11,  0)), (timestamp(2017, OCTOBER, 1, 0, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1, 12,  0)), (timestamp(2017, OCTOBER, 1, 1, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1, 13,  0)), (timestamp(2017, OCTOBER, 1, 2, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1, 14,  0)), (timestamp(2017, OCTOBER, 1, 3, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1, 15,  0)), (timestamp(2017, OCTOBER, 1, 4, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 1, 19,  0)), (timestamp(2017, OCTOBER, 1, 8, 0)));
+        assertEquals(applyTimezone(timestamp(2017, OCTOBER, 2, 19, 0)), (timestamp(2017, OCTOBER, 2, 8, 0)));
+        assertEquals(applyTimezone(timestamp(2017, NOVEMBER, 30, 19, 0)), (timestamp(2017, NOVEMBER, 30, 8, 0)));
+        assertEquals(applyTimezone(timestamp(2018, MARCH, 31,  0,  0)), (timestamp(2018, MARCH, 30, 13,  0)));
+        assertEquals(applyTimezone(timestamp(2018, MARCH, 31, 12,  0)), (timestamp(2018, MARCH, 31,  1,  0)));
+        assertEquals(applyTimezone(timestamp(2018, MARCH, 31, 18,  0)), (timestamp(2018, MARCH, 31,  7,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1,  0,  0)), (timestamp(2018, MARCH, 31, 13,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1,  1,  0)), (timestamp(2018, MARCH, 31, 14,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1,  1, 59)), (timestamp(2018, MARCH, 31, 14, 59)));
+        // DST ends
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1,  2,  0)), (timestamp(2018, MARCH, 31, 16,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1,  3,  0)), (timestamp(2018, MARCH, 31, 17,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1,  4,  0)), (timestamp(2018, MARCH, 31, 18,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1, 10,  0)), (timestamp(2018, APRIL,  1,  0,  0)));
+        assertEquals(applyTimezone(timestamp(2018, APRIL,  1, 18,  0)), (timestamp(2018, APRIL,  1,  8,  0)));
+    }
+
+    @Test
+    public void test_removeTimezone()
+    {
+        DateUtils.setFixedTimeZone(TimeZone.getTimeZone("Australia/Sydney"));
+        assertEquals(removeTimezone(timestamp(2017, JULY, 30, 8, 0)), (timestamp(2017, JULY, 30, 18, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 29, 14, 0)), (timestamp(2017, SEPTEMBER, 30,  0, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30,  0, 0)), (timestamp(2017, SEPTEMBER, 30, 10, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30,  1, 0)), (timestamp(2017, SEPTEMBER, 30, 11, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30,  2, 0)), (timestamp(2017, SEPTEMBER, 30, 12, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30,  3, 0)), (timestamp(2017, SEPTEMBER, 30, 13, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 12, 0)), (timestamp(2017, SEPTEMBER, 30, 22, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 13, 0)), (timestamp(2017, SEPTEMBER, 30, 23, 0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 14,  0)), (timestamp(2017, OCTOBER, 1,  0,  0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 15,  0)), (timestamp(2017, OCTOBER, 1,  1,  0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 15, 59)), (timestamp(2017, OCTOBER, 1,  1, 59)));
+        // DST begins
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 16,  0)), (timestamp(2017, OCTOBER, 1,  3,  0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 17,  0)), (timestamp(2017, OCTOBER, 1,  4,  0)));
+        assertEquals(removeTimezone(timestamp(2017, SEPTEMBER, 30, 18,  0)), (timestamp(2017, OCTOBER, 1,  5,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 1, 0, 0)), (timestamp(2017, OCTOBER, 1, 11,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 1, 1, 0)), (timestamp(2017, OCTOBER, 1, 12,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 1, 2, 0)), (timestamp(2017, OCTOBER, 1, 13,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 1, 3, 0)), (timestamp(2017, OCTOBER, 1, 14,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 1, 4, 0)), (timestamp(2017, OCTOBER, 1, 15,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 1, 8, 0)), (timestamp(2017, OCTOBER, 1, 19,  0)));
+        assertEquals(removeTimezone(timestamp(2017, OCTOBER, 2, 8, 0)), (timestamp(2017, OCTOBER, 2, 19, 0)));
+        assertEquals(removeTimezone(timestamp(2017, NOVEMBER, 30, 8, 0)), (timestamp(2017, NOVEMBER, 30, 19, 0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 30, 13,  0)), (timestamp(2018, MARCH, 31,  0,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31,  1,  0)), (timestamp(2018, MARCH, 31, 12,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31,  7,  0)), (timestamp(2018, MARCH, 31, 18,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31, 13,  0)), (timestamp(2018, APRIL,  1,  0,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31, 14,  0)), (timestamp(2018, APRIL,  1,  1,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31, 14, 59)), (timestamp(2018, APRIL,  1,  1, 59)));
+        // DST ends
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31, 16,  0)), (timestamp(2018, APRIL,  1,  2,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31, 17,  0)), (timestamp(2018, APRIL,  1,  3,  0)));
+        assertEquals(removeTimezone(timestamp(2018, MARCH, 31, 18,  0)), (timestamp(2018, APRIL,  1,  4,  0)));
+        assertEquals(removeTimezone(timestamp(2018, APRIL,  1,  0,  0)), (timestamp(2018, APRIL,  1, 10,  0)));
+        assertEquals(removeTimezone(timestamp(2018, APRIL,  1,  8,  0)), (timestamp(2018, APRIL,  1, 18,  0)));
     }
 }

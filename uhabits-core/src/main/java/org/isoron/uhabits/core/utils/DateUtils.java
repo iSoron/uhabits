@@ -54,8 +54,7 @@ public abstract class DateUtils
     public static long applyTimezone(long localTimestamp)
     {
         TimeZone tz = getTimezone();
-        long now = new Date(localTimestamp).getTime();
-        return now - tz.getOffset(now);
+        return localTimestamp - tz.getOffset(localTimestamp - tz.getOffset(localTimestamp));
     }
 
     public static String formatHeaderDate(GregorianCalendar day)
@@ -188,8 +187,7 @@ public abstract class DateUtils
     public static long removeTimezone(long timestamp)
     {
         TimeZone tz = getTimezone();
-        long now = new Date(timestamp).getTime();
-        return now + tz.getOffset(now);
+        return timestamp + tz.getOffset(timestamp);
     }
 
     public static void setFixedLocalTime(Long timestamp)
