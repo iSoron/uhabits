@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.7 (September 30, 2017)
+
+* Fix bug that caused reminders to show repeatedly on DST changes
+
 ### 1.7.6 (July 18, 2017)
 
 * Fix bug that caused widgets not to render sometimes
