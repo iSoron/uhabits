@@ -69,6 +69,14 @@ public class DeleteHabitsCommand extends Command
         throw new UnsupportedOperationException();
     }
 
+    public List<Long> getHabitIds()
+    {
+        List<Long> list = new LinkedList<Long>();
+        for( Habit habit: selected)
+            list.add(habit.getId());
+        return list;
+    }
+
     public static class Record
     {
         @NonNull

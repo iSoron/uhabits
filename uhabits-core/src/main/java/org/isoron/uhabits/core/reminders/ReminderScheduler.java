@@ -41,6 +41,8 @@ public class ReminderScheduler implements CommandRunner.Listener
 
     private SystemScheduler sys;
 
+    private Map< Long, Long > customReminders; // Habit id, Timestamp
+
     @Inject
     public ReminderScheduler(@NonNull CommandRunner commandRunner,
                              @NonNull HabitList habitList,
@@ -49,6 +51,7 @@ public class ReminderScheduler implements CommandRunner.Listener
         this.commandRunner = commandRunner;
         this.habitList = habitList;
         this.sys = sys;
+        customReminders = new HashMap< Long, Long >();
     }
 
     @Override
@@ -57,10 +60,45 @@ public class ReminderScheduler implements CommandRunner.Listener
     {
         if(command instanceof ToggleRepetitionCommand) return;
         if(command instanceof ChangeHabitColorCommand) return;
+        if(command instanceof EditHabitCommand)
+        {
+            Long habitId = ((EditHabitCommand)command).getHabitId();
+            Habit habit = habitList.getById( habitId );
+            customReminders.remove( habitId );
+            scheduleHabit( habit );
+            return;
+        }
+        if(command instanceof DeleteHabitsCommand)
+        {
+            List<Long> habitIds = ((DeleteHabitsCommand)command).getHabitIds();
+            for(Long id : habitIds)
+                customReminders.remove( id );
+            return;
+        }
         scheduleAll();
     }
 
-    public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)
+    public void scheduleHabit(@NonNull Habit habit)
+    {
+        Long reminderTime = null;
+        if( customReminders.containsKey( habit.getId()))
+            reminderTime = customReminders.get( habit.getId());
+        scheduleInternal(habit, reminderTime);
+    }
+
+    public void scheduleHabitAtReminder(@NonNull Habit habit)
+    {
+        customReminders.remove( habit.getId());
+        scheduleInternal( habit, null );
+    }
+
+    public void scheduleHabitAtCustom(@NonNull Habit habit, @NonNull Long reminderTime)
+    {
+        customReminders.put( habit.getId(), reminderTime );
+        scheduleInternal(habit, reminderTime);
+    }
+
+    private void scheduleInternal(@NonNull Habit habit, @Nullable Long reminderTime)
     {
         if (!habit.hasReminder()) return;
         if (habit.isArchived()) return;
@@ -76,7 +114,7 @@ public class ReminderScheduler implements CommandRunner.Listener
         HabitList reminderHabits =
             habitList.getFiltered(HabitMatcher.WITH_ALARM);
         for (Habit habit : reminderHabits)
-            schedule(habit, null);
+            scheduleHabit(habit);
     }
 
     public void startListening()

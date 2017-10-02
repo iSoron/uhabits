@@ -137,4 +137,6 @@ public class EditHabitCommand extends Command
             return command;
         }
     }
+
+    public Long getHabitId() { return  savedId; }
 }

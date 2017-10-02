@@ -94,7 +94,7 @@ public class ReminderController
 
     public void snoozeNotificationSetReminderTime(@NonNull Habit habit, long reminderTime)
     {
-        reminderScheduler.schedule(habit, reminderTime);
+        reminderScheduler.scheduleHabitAtCustom(habit, reminderTime);
         notificationTray.cancel(habit);
     }
 

@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.reminders;
 
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
@@ -118,8 +119,67 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_withoutReminder()
     {
-        reminderScheduler.schedule(habit, null);
+        reminderScheduler.scheduleHabit(habit);
         Mockito.verifyZeroInteractions(sys);
+    }
+
+    @Test
+    public void testOnCommand() throws Exception
+    {
+        long now = timestamp(2015, 1, 26, 8, 0);
+        DateUtils.setFixedLocalTime(now);
+
+        Habit h1 = fixtures.createEmptyHabit();
+        h1.setReminder(new Reminder(14, 30, WeekdayList.EVERY_DAY));
+        habitList.add(h1);
+        reminderScheduler.scheduleAll();
+
+        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 26, 18, 30)),
+                eq(h1), anyLong());
+
+        reset(sys);
+
+        reminderScheduler.scheduleHabitAtCustom(h1,
+                DateUtils.applyTimezone( timestamp( 2015, 1, 26, 15, 15)));
+
+        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 26, 19, 15)),
+                eq(h1), anyLong());
+
+        Habit h2Model = fixtures.createEmptyHabit();
+        h2Model.setReminder(new Reminder(15,30, WeekdayList.EVERY_DAY));
+        CreateHabitCommand createCommand = new CreateHabitCommand(modelFactory,habitList,h2Model);
+        createCommand.execute();
+        reminderScheduler.onCommandExecuted(createCommand, null);
+        Habit h2 = habitList.getByPosition(1);
+
+        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 26, 19, 30)),
+                eq(h2), anyLong());
+        verify(sys, never()).scheduleShowReminder(eq(timestamp(2015, 1, 26, 18, 30)),
+                eq(h1), anyLong());
+        verify(sys,never()).scheduleShowReminder(eq(timestamp(2015, 1, 26, 19, 30)),
+                eq(h1), anyLong());
+
+        Habit h1New = fixtures.createEmptyHabit();
+        h1New.copyFrom(h1);
+        h1New.setReminder(new Reminder(17,30, WeekdayList.EVERY_DAY));
+        EditHabitCommand editCommand = new EditHabitCommand(modelFactory,habitList,h1,h1New);
+        editCommand.execute();
+        reminderScheduler.onCommandExecuted(editCommand, null);
+
+        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 26, 21, 30)),
+                eq(h1), anyLong());
+        verify(sys,never()).scheduleShowReminder(eq(timestamp(2015, 1, 26, 21, 30)),
+                eq(h2), anyLong());
+
+        h1.setReminder(new Reminder( 18, 30, WeekdayList.EVERY_DAY));
+        reminderScheduler.scheduleHabitAtCustom(h1,
+                DateUtils.applyTimezone( timestamp( 2015, 1, 26,18, 45)));
+        reminderScheduler.scheduleAll();
+
+        verify(sys, atLeastOnce()).scheduleShowReminder(eq(timestamp(2015, 1, 26, 22, 45)),
+                eq(h1), anyLong());
+        verify(sys, never()).scheduleShowReminder(eq(timestamp(2015, 1, 26, 22, 30)),
+                eq(h1), anyLong());
     }
 
     public long timestamp(int year, int month, int day, int hour, int minute)
@@ -133,7 +193,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
                                    long expectedCheckmarkTime,
                                    long expectedReminderTime)
     {
-        reminderScheduler.schedule(habit, atTime);
+        reminderScheduler.scheduleHabitAtCustom(habit, atTime);
         verify(sys).scheduleShowReminder(expectedReminderTime, habit,
             expectedCheckmarkTime);
     }
