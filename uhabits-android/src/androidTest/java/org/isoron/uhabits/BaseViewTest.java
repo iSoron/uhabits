@@ -161,7 +161,8 @@ public class BaseViewTest extends BaseAndroidTest
     private String getVersionedPath(String path)
     {
         int version = SDK_INT;
-        if (version >= LOLLIPOP) version = LOLLIPOP;
+        if (version >= 26) version = 26;
+        else if (version >= LOLLIPOP) version = LOLLIPOP;
         else if (version >= KITKAT) version = KITKAT;
 
         return String.format("views-v%d/%s", version, path);
