@@ -24,9 +24,6 @@ import android.support.annotation.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
-
-import java.util.*;
 
 import javax.inject.*;
 
@@ -60,14 +57,17 @@ public class ReminderScheduler implements CommandRunner.Listener
         scheduleAll();
     }
 
-    public void schedule(@NonNull Habit habit, @Nullable Long reminderTime)
+    public void schedule(@NonNull Habit habit)
+    {
+        Long reminderTime = habit.getReminder().getTimeInMillis();
+        scheduleAtTime(habit, reminderTime);
+    }
+
+    public void scheduleAtTime(@NonNull Habit habit, @NonNull Long reminderTime)
     {
         if (!habit.hasReminder()) return;
         if (habit.isArchived()) return;
-        Reminder reminder = habit.getReminder();
-        if (reminderTime == null) reminderTime = getReminderTime(reminder);
         long timestamp = getStartOfDay(removeTimezone(reminderTime));
-
         sys.scheduleShowReminder(reminderTime, habit, timestamp);
     }
 
@@ -76,7 +76,7 @@ public class ReminderScheduler implements CommandRunner.Listener
         HabitList reminderHabits =
             habitList.getFiltered(HabitMatcher.WITH_ALARM);
         for (Habit habit : reminderHabits)
-            schedule(habit, null);
+            schedule(habit);
     }
 
     public void startListening()
@@ -89,19 +89,11 @@ public class ReminderScheduler implements CommandRunner.Listener
         commandRunner.removeListener(this);
     }
 
-    @NonNull
-    private Long getReminderTime(@NonNull Reminder reminder)
+    public void scheduleMinutesFromNow(Habit habit, long minutes)
     {
-        Calendar calendar = DateUtils.getStartOfTodayCalendar();
-        calendar.set(Calendar.HOUR_OF_DAY, reminder.getHour());
-        calendar.set(Calendar.MINUTE, reminder.getMinute());
-        calendar.set(Calendar.SECOND, 0);
-        Long time = calendar.getTimeInMillis();
-
-        if (DateUtils.getLocalTime() > time)
-            time += DateUtils.DAY_LENGTH;
-
-        return applyTimezone(time);
+        long now = applyTimezone(getLocalTime());
+        long reminderTime = now + minutes * 60 * 1000;
+        scheduleAtTime(habit, reminderTime);
     }
 
     public interface SystemScheduler

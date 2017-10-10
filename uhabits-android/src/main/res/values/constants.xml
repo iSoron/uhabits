@@ -49,7 +49,7 @@
         <item>-1</item>
     </string-array>
 
-    <string-array name="snooze_interval_names_reminder">
+    <string-array name="snooze_picker_names">
         <item>@string/interval_15_minutes</item>
         <item>@string/interval_30_minutes</item>
         <item>@string/interval_1_hour</item>
@@ -60,7 +60,7 @@
         <item>@string/interval_custom</item>
     </string-array>
 
-    <integer-array name="snooze_interval_values_reminder" translatable="false">
+    <integer-array name="snooze_picker_values" translatable="false">
         <item>15</item>
         <item>30</item>
         <item>60</item>

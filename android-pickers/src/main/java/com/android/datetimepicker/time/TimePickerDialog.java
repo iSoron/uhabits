@@ -117,7 +117,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
          */
         void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute);
         
-        void onTimeCleared(RadialPickerLayout view);
+        default void onTimeCleared(RadialPickerLayout view) {}
     }
 
     public TimePickerDialog() {

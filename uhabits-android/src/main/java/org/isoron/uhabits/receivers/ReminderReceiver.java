@@ -20,13 +20,12 @@
 package org.isoron.uhabits.receivers;
 
 import android.content.*;
+import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
-
-import dagger.*;
 
 import static android.content.ContentUris.*;
 
@@ -38,36 +37,26 @@ import static android.content.ContentUris.*;
 public class ReminderReceiver extends BroadcastReceiver
 {
     public static final String ACTION_DISMISS_REMINDER =
-        "org.isoron.uhabits.ACTION_DISMISS_REMINDER";
+            "org.isoron.uhabits.ACTION_DISMISS_REMINDER";
 
     public static final String ACTION_SHOW_REMINDER =
-        "org.isoron.uhabits.ACTION_SHOW_REMINDER";
+            "org.isoron.uhabits.ACTION_SHOW_REMINDER";
 
     public static final String ACTION_SNOOZE_REMINDER =
-        "org.isoron.uhabits.ACTION_SNOOZE_REMINDER";
-
-    public static final String ACTION_SNOOZE_REMINDER_SET =
-            "org.isoron.uhabits.ACTION_SNOOZE_REMINDER_SET";
-
-    public static final String ACTION_SNOOZE_REMINDER_DELAY =
-            "org.isoron.uhabits.ACTION_SNOOZE_REMINDER_DELAY";
+            "org.isoron.uhabits.ACTION_SNOOZE_REMINDER";
 
     private static final String TAG = "ReminderReceiver";
 
     @Override
-    public void onReceive(final Context context, Intent intent)
+    public void onReceive(@Nullable final Context context, @Nullable Intent intent)
     {
-        HabitsApplication app =
-            (HabitsApplication) context.getApplicationContext();
+        if (context == null || intent == null) return;
+        if (intent.getAction() == null) return;
 
-        ReminderComponent component = DaggerReminderReceiver_ReminderComponent
-            .builder()
-            .habitsApplicationComponent(app.getComponent())
-            .build();
-
-        HabitList habits = app.getComponent().getHabitList();
-        ReminderController reminderController =
-            component.getReminderController();
+        HabitsApplication app = (HabitsApplication) context.getApplicationContext();
+        HabitsApplicationComponent appComponent = app.getComponent();
+        HabitList habits = appComponent.getHabitList();
+        ReminderController reminderController = appComponent.getReminderController();
 
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
 
@@ -86,7 +75,7 @@ public class ReminderReceiver extends BroadcastReceiver
                 case ACTION_SHOW_REMINDER:
                     if (habit == null) return;
                     reminderController.onShowReminder(habit,
-                        new Timestamp(timestamp), reminderTime);
+                            new Timestamp(timestamp), reminderTime);
                     break;
 
                 case ACTION_DISMISS_REMINDER:
@@ -96,18 +85,7 @@ public class ReminderReceiver extends BroadcastReceiver
 
                 case ACTION_SNOOZE_REMINDER:
                     if (habit == null) return;
-                    reminderController.onSnooze(habit,context);
-                    break;
-
-                case ACTION_SNOOZE_REMINDER_SET:
-                    if (habit == null) return;
-                    reminderController.snoozeNotificationSetReminderTime(habit, reminderTime);
-                    break;
-
-                case ACTION_SNOOZE_REMINDER_DELAY:
-                    if (habit == null) return;
-                    long snoozeDelay = intent.getIntExtra("snoozeDelay", 0);
-                    reminderController.snoozeNotificationAddDelay(habit, snoozeDelay);
+                    reminderController.onSnoozePressed(habit, context);
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:
@@ -119,12 +97,5 @@ public class ReminderReceiver extends BroadcastReceiver
         {
             Log.e(TAG, "could not process intent", e);
         }
-    }
-
-    @ReceiverScope
-    @Component(dependencies = HabitsApplicationComponent.class)
-    interface ReminderComponent
-    {
-        ReminderController getReminderController();
     }
 }

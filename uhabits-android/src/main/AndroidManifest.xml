@@ -91,7 +91,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity"/>
         </activity>
-        <activity android:name=".notifications.SnoozeDelayActivity"
+        <activity android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
