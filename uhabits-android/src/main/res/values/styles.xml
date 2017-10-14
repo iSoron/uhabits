@@ -154,6 +154,10 @@
         <item name="widgetBackgroundAlpha">0.25</item>
     </style>
 
+    <style name="OpaqueWidgetTheme" parent="TransparentWidgetTheme">
+        <item name="widgetBackgroundAlpha">1</item>
+    </style>
+
     <style name="day_of_week_label_condensed"/>
 
     <style name="CardList">

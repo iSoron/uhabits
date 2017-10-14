@@ -61,6 +61,7 @@ class WidgetUpdater
     fun updateWidgets() {
         taskRunner.execute {
             updateWidgets(CheckmarkWidgetProvider::class.java)
+            updateWidgets(StackWidgetProvider::class.java)
             updateWidgets(HistoryWidgetProvider::class.java)
             updateWidgets(ScoreWidgetProvider::class.java)
             updateWidgets(StreakWidgetProvider::class.java)

@@ -124,6 +124,7 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
+    <string name="stacked_checkmark">Stacked Checkmark</string>
 
     <string name="strength">Strength</string>
     <string name="best_streaks">Best streaks</string>

@@ -19,15 +19,21 @@
 
 package org.isoron.uhabits.widgets;
 
-import android.appwidget.*;
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
-import android.widget.*;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.widget.RemoteViews;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.core.models.HabitList;
+import org.isoron.uhabits.core.models.HabitNotFoundException;
+import org.isoron.uhabits.core.preferences.WidgetPreferences;
 
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
@@ -77,7 +83,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (context == null) throw new RuntimeException("context is null");
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
-            context.setTheme(R.style.TransparentWidgetTheme);
+            context.setTheme(R.style.OpaqueWidgetTheme);
 
             updateDependencies(context);
 
@@ -123,7 +129,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
-        context.setTheme(R.style.TransparentWidgetTheme);
+        context.setTheme(R.style.OpaqueWidgetTheme);
 
         updateDependencies(context);
 

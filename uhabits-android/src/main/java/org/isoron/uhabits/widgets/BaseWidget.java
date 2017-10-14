@@ -156,7 +156,7 @@ public abstract class BaseWidget
     }
 
     @NonNull
-    private RemoteViews getRemoteViews(int width, int height)
+    protected RemoteViews getRemoteViews(int width, int height)
     {
         View view = buildView();
         measureView(view, width, height);
