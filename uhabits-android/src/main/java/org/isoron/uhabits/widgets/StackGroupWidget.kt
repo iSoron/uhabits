@@ -25,11 +25,11 @@ import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
 import org.isoron.uhabits.R
-import org.isoron.uhabits.widgets.views.CheckmarkWidgetView
 
 class StackGroupWidget(
         context: Context,
-        widgetId: Int
+        widgetId: Int,
+        private val habitIds: List<Long>
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context) = null
@@ -42,8 +42,7 @@ class StackGroupWidget(
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_stackview)
         val serviceIntent = Intent(context, StackWidgetService::class.java)
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
-        // TODO this commented line is taken from official examples, but adding it seems to make the widget not update immediately when completing the habit
-        // serviceIntent.data = Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)) // embed extras so they don't get ignored
+        serviceIntent.putExtra(StackWidgetService.HABIT_IDS_SELECTED, habitIds.toLongArray())
         remoteViews.setRemoteAdapter(R.id.stackWidgetView, serviceIntent)
         AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(id, R.id.stackWidgetView)
         // TODO what should the empty view look like?

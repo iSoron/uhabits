@@ -12,18 +12,18 @@ import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.core.models.Habit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
 import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
-
-/**
- * Created by victoryu on 9/30/17.
- */
+import static org.isoron.uhabits.widgets.StackWidgetService.HABIT_IDS_SELECTED;
 
 public class StackWidgetService extends RemoteViewsService {
+
+    public static final String HABIT_IDS_SELECTED = "HABIT_IDS_SELECTED";
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -35,10 +35,15 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
     private int mAppWidgetId;
     private ArrayList<Habit> mHabitList;
+    private List<Long> mHabitsSelected;
 
     public StackRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        mHabitsSelected = new ArrayList<>();
+        for (long id : intent.getLongArrayExtra(HABIT_IDS_SELECTED)) {
+            mHabitsSelected.add(id);
+        }
     }
 
     public void onCreate() {
@@ -104,7 +109,9 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         mHabitList = new ArrayList<>();
         HabitsApplication app = (HabitsApplication) mContext.getApplicationContext();
         for (Habit h : app.getComponent().getHabitList()) {
-            mHabitList.add(h);
+            if (mHabitsSelected.contains(h.getId())) {
+                mHabitList.add(h);
+            }
         }
     }
 }

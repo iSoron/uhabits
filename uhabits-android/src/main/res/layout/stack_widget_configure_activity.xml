@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,16 +17,24 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<!-- TODO need to change preview image here -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minHeight="40dp"
-    android:minWidth="40dp"
-    android:initialLayout="@layout/widget_wrapper"
-    android:previewImage="@drawable/widget_preview_checkmark"
-    android:resizeMode="none"
-    android:updatePeriodMillis="3600000"
-    android:configure="org.isoron.uhabits.widgets.HabitGroupPickerDialog"
-    android:widgetCategory="home_screen">
+    <ListView
+        android:id="@+id/stackWidgetListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1" >
 
-</appwidget-provider>
+    </ListView>
+
+    <Button
+        android:id="@+id/doneConfigureButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/done_label" />
+
+</LinearLayout>

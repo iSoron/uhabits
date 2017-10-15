@@ -1,17 +1,19 @@
 package org.isoron.uhabits.widgets
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
-import android.util.Log
-import org.isoron.uhabits.R
-
-/**
- * Created by victoryu on 9/30/17.
- */
+import org.isoron.uhabits.HabitsApplication
 
 class StackWidgetProvider : BaseWidgetProvider() {
+
     override fun getWidgetFromId(context: Context, id: Int): StackGroupWidget {
-        return StackGroupWidget(context, id)
+        val habitIds = getHabitGroupFromWidget(context, id)
+        return StackGroupWidget(context, id, habitIds)
+    }
+
+    private fun getHabitGroupFromWidget(context: Context, widgetId: Int) : List<Long> {
+        val app = context.getApplicationContext() as HabitsApplication
+        val widgetPrefs = app.component.widgetPreferences
+        val habitIds = widgetPrefs.getHabitIdsGroupFromWidgetId(widgetId)
+        return habitIds
     }
 }

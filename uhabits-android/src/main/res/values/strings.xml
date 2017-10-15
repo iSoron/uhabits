@@ -112,6 +112,7 @@
     <string name="clear_label">Clear</string>
     <string name="select_hours">Select hours</string>
     <string name="select_minutes">Select minutes</string>
+    <string name="select_habit_requirement_prompt">Please select at least one habit</string>
 
     <string-array name="hints">
         <item>@string/hint_drag</item>

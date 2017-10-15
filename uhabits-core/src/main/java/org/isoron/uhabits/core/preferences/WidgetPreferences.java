@@ -19,43 +19,66 @@
 
 package org.isoron.uhabits.core.preferences;
 
-import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.AppScope;
+import org.isoron.uhabits.core.models.HabitNotFoundException;
+import org.jetbrains.annotations.NotNull;
 
-import javax.inject.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
 
 @AppScope
-public class WidgetPreferences
-{
+public class WidgetPreferences {
     private Preferences.Storage storage;
 
     @Inject
-    public WidgetPreferences(Preferences.Storage storage)
-    {
+    public WidgetPreferences(Preferences.Storage storage) {
         this.storage = storage;
     }
 
-    public void addWidget(int widgetId, long habitId)
-    {
+    public void addWidget(int widgetId, long habitId) {
         storage.putLong(getHabitIdKey(widgetId), habitId);
     }
 
-    public long getHabitIdFromWidgetId(int widgetId)
-    {
+    /**
+     * @param habitIds the string should be in the format: [habitId1, habitId2, habitId3...]
+     */
+    public void addWidget(int widgetId, String habitIds) {
+        storage.putString(getHabitIdKey(widgetId), habitIds);
+    }
+
+    public long getHabitIdFromWidgetId(int widgetId) {
         Long habitId = storage.getLong(getHabitIdKey(widgetId), -1);
         if (habitId < 0) throw new HabitNotFoundException();
 
         return habitId;
     }
 
-    public void removeWidget(int id)
-    {
+    public List<Long> getHabitIdsGroupFromWidgetId(int widgetId) {
+        String habitIdsGroup = storage.getString(getHabitIdKey(widgetId), "");
+        if (habitIdsGroup.isEmpty()) throw new HabitNotFoundException();
+
+        ArrayList<Long> habitIdList = new ArrayList<>();
+        for (String s : parseStringToList(habitIdsGroup)) {
+            habitIdList.add(Long.parseLong(s.trim()));
+        }
+
+        return habitIdList;
+    }
+
+    public void removeWidget(int id) {
         String habitIdKey = getHabitIdKey(id);
         storage.remove(habitIdKey);
     }
 
-    private String getHabitIdKey(int id)
-    {
+    private String getHabitIdKey(int id) {
         return String.format("widget-%06d-habit", id);
+    }
+
+    private List<String> parseStringToList(@NotNull String str) {
+        return Arrays.asList(str.replace("[", "")
+                .replace("]", "").split(","));
     }
 }
