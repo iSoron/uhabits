@@ -71,7 +71,14 @@ class HabitGroupPickerDialog : Activity(), AdapterView.OnItemClickListener {
         }
         with(findViewById(R.id.doneConfigureButton) as Button) {
             setOnClickListener {
-                if (!habitIdsSelected.isEmpty()) {
+                if (habitIdsSelected.size == 1) {
+                    preferences.addWidget(widgetId, habitIdsSelected.first())
+                    widgetUpdater.updateWidgets()
+                    setResult(Activity.RESULT_OK, Intent().apply {
+                        putExtra(EXTRA_APPWIDGET_ID, widgetId)
+                    })
+                    finish()
+                } else if (!habitIdsSelected.isEmpty()) {
                     preferences.addWidget(widgetId, habitIdsSelected.toString())
                     widgetUpdater.updateWidgets()
                     setResult(Activity.RESULT_OK, Intent().apply {

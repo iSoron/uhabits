@@ -26,7 +26,7 @@ import android.view.View
 import android.widget.RemoteViews
 import org.isoron.uhabits.R
 
-class StackGroupWidget(
+class CheckmarkStackWidget(
         context: Context,
         widgetId: Int,
         private val habitIds: List<Long>
@@ -39,10 +39,10 @@ class StackGroupWidget(
     }
 
     override fun getRemoteViews(width: Int, height: Int): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_stackview)
-        val serviceIntent = Intent(context, StackWidgetService::class.java)
+        val remoteViews = RemoteViews(context.packageName, R.layout.stackview_widget)
+        val serviceIntent = Intent(context, CheckmarkStackWidgetService::class.java)
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
-        serviceIntent.putExtra(StackWidgetService.HABIT_IDS_SELECTED, habitIds.toLongArray())
+        serviceIntent.putExtra(CheckmarkStackWidgetService.HABIT_IDS_SELECTED, habitIds.toLongArray())
         remoteViews.setRemoteAdapter(R.id.stackWidgetView, serviceIntent)
         AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(id, R.id.stackWidgetView)
         // TODO what should the empty view look like?

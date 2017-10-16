@@ -3,11 +3,11 @@ package org.isoron.uhabits.widgets
 import android.content.Context
 import org.isoron.uhabits.HabitsApplication
 
-class StackWidgetProvider : BaseWidgetProvider() {
+class CheckmarkStackWidgetProvider : BaseWidgetProvider() {
 
-    override fun getWidgetFromId(context: Context, id: Int): StackGroupWidget {
+    override fun getWidgetFromId(context: Context, id: Int): CheckmarkStackWidget {
         val habitIds = getHabitGroupFromWidget(context, id)
-        return StackGroupWidget(context, id, habitIds)
+        return CheckmarkStackWidget(context, id, habitIds)
     }
 
     private fun getHabitGroupFromWidget(context: Context, widgetId: Int) : List<Long> {

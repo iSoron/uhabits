@@ -19,25 +19,25 @@ import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
 import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
-import static org.isoron.uhabits.widgets.StackWidgetService.HABIT_IDS_SELECTED;
+import static org.isoron.uhabits.widgets.CheckmarkStackWidgetService.HABIT_IDS_SELECTED;
 
-public class StackWidgetService extends RemoteViewsService {
+public class CheckmarkStackWidgetService extends RemoteViewsService {
 
     public static final String HABIT_IDS_SELECTED = "HABIT_IDS_SELECTED";
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
+        return new CheckmarkStackRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 }
 
-class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class CheckmarkStackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
     private int mAppWidgetId;
     private ArrayList<Habit> mHabitList;
     private List<Long> mHabitsSelected;
 
-    public StackRemoteViewsFactory(Context context, Intent intent) {
+    public CheckmarkStackRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         mHabitsSelected = new ArrayList<>();
