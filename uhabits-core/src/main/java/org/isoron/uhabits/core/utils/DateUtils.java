@@ -38,7 +38,7 @@ public abstract class DateUtils {
     /**
      * Time of the day when the new day starts.
      */
-    public static final int NEW_DAY_OFFSET = 3;
+    public static final int NEW_DAY_OFFSET = -9;
 
     /**
      * Number of milliseconds in one day.
