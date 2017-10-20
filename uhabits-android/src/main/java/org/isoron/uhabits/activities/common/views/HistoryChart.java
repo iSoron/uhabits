@@ -39,8 +39,7 @@ import java.util.*;
 import static org.isoron.androidbase.utils.InterfaceUtils.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
 
-public class HistoryChart extends ScrollableChart
-{
+public class HistoryChart extends ScrollableChart {
     private int[] checkmarks;
 
     private int target;
@@ -97,42 +96,35 @@ public class HistoryChart extends ScrollableChart
     @NonNull
     private Controller controller;
 
-    private int weekFirstDay;
+    private int firstWeekDay;
 
-    public HistoryChart(Context context)
-    {
+    public HistoryChart(Context context) {
         super(context);
         init();
     }
 
-    public HistoryChart(Context context, AttributeSet attrs)
-    {
+    public HistoryChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     @Override
-    public void onLongPress(MotionEvent e)
-    {
+    public void onLongPress(MotionEvent e) {
         onSingleTapUp(e);
     }
 
     @Override
-    public boolean onSingleTapUp(MotionEvent e)
-    {
+    public boolean onSingleTapUp(MotionEvent e) {
         if (!isEditable) return false;
 
         performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         float x, y;
 
-        try
-        {
+        try {
             int pointerId = e.getPointerId(0);
             x = e.getX(pointerId);
             y = e.getY(pointerId);
-        }
-        catch (RuntimeException ex)
-        {
+        } catch (RuntimeException ex) {
             // Android often throws IllegalArgumentException here. Apparently,
             // the pointer id may become invalid shortly after calling
             // e.getPointerId.
@@ -144,8 +136,7 @@ public class HistoryChart extends ScrollableChart
 
         Timestamp today = DateUtils.getToday();
         int offset = timestamp.daysUntil(today);
-        if (offset < checkmarks.length)
-        {
+        if (offset < checkmarks.length) {
             boolean isChecked = checkmarks[offset] == CHECKED_EXPLICITLY;
             checkmarks[offset] = (isChecked ? UNCHECKED : CHECKED_EXPLICITLY);
         }
@@ -155,16 +146,14 @@ public class HistoryChart extends ScrollableChart
         return true;
     }
 
-    public void populateWithRandomData()
-    {
+    public void populateWithRandomData() {
         Random random = new Random();
         checkmarks = new int[100];
 
         for (int i = 0; i < 100; i++)
             if (random.nextFloat() < 0.3) checkmarks[i] = 2;
 
-        for (int i = 0; i < 100 - 7; i++)
-        {
+        for (int i = 0; i < 100 - 7; i++) {
             int count = 0;
             for (int j = 0; j < 7; j++)
                 if (checkmarks[i + j] != 0) count++;
@@ -173,48 +162,40 @@ public class HistoryChart extends ScrollableChart
         }
     }
 
-    public void setCheckmarks(int[] checkmarks)
-    {
+    public void setCheckmarks(int[] checkmarks) {
         this.checkmarks = checkmarks;
         postInvalidate();
     }
 
-    public void setColor(int color)
-    {
+    public void setColor(int color) {
         this.primaryColor = color;
         initColors();
         postInvalidate();
     }
 
-    public void setController(@NonNull Controller controller)
-    {
+    public void setController(@NonNull Controller controller) {
         this.controller = controller;
     }
 
-    public void setNumerical(boolean numerical)
-    {
+    public void setNumerical(boolean numerical) {
         isNumerical = numerical;
     }
 
-    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
-    {
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent) {
         this.isBackgroundTransparent = isBackgroundTransparent;
         initColors();
     }
 
-    public void setIsEditable(boolean isEditable)
-    {
+    public void setIsEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }
 
-    public void setTarget(int target)
-    {
+    public void setTarget(int target) {
         this.target = target;
         postInvalidate();
     }
 
-    protected void initPaints()
-    {
+    protected void initPaints() {
         pTextHeader = new Paint();
         pTextHeader.setTextAlign(Align.LEFT);
         pTextHeader.setAntiAlias(true);
@@ -227,12 +208,11 @@ public class HistoryChart extends ScrollableChart
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         baseLocation.set(0, 0, columnWidth - squareSpacing,
-            columnWidth - squareSpacing);
+                columnWidth - squareSpacing);
         baseLocation.offset(getPaddingLeft(), getPaddingTop());
 
         headerOverflow = 0;
@@ -243,8 +223,7 @@ public class HistoryChart extends ScrollableChart
         updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
 
-        for (int column = 0; column < nColumns - 1; column++)
-        {
+        for (int column = 0; column < nColumns - 1; column++) {
             drawColumn(canvas, baseLocation, currentDate, column);
             baseLocation.offset(columnWidth, -columnHeight);
         }
@@ -253,8 +232,7 @@ public class HistoryChart extends ScrollableChart
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         setMeasuredDimension(width, height);
@@ -264,8 +242,7 @@ public class HistoryChart extends ScrollableChart
     protected void onSizeChanged(int width,
                                  int height,
                                  int oldWidth,
-                                 int oldHeight)
-    {
+                                 int oldHeight) {
         if (height < 8) height = 200;
         float baseSize = height / 8.0f;
         setScrollerBucketSize((int) baseSize);
@@ -286,40 +263,35 @@ public class HistoryChart extends ScrollableChart
         columnWidth = baseSize;
         columnHeight = 8 * baseSize;
         nColumns =
-            (int) ((width - rightLabelWidth - horizontalPadding) / baseSize) +
-            1;
+                (int) ((width - rightLabelWidth - horizontalPadding) / baseSize) +
+                        1;
 
         updateDate();
     }
 
-    private void drawAxis(Canvas canvas, RectF location)
-    {
+    private void drawAxis(Canvas canvas, RectF location) {
         float verticalOffset = pTextHeader.getFontSpacing() * 0.4f;
 
-        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT))
-        {
+        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT, firstWeekDay)) {
             location.offset(0, columnWidth);
             canvas.drawText(day, location.left + headerTextOffset,
-                location.centerY() + verticalOffset, pTextHeader);
+                    location.centerY() + verticalOffset, pTextHeader);
         }
     }
 
     private void drawColumn(Canvas canvas,
                             RectF location,
                             GregorianCalendar date,
-                            int column)
-    {
+                            int column) {
         drawColumnHeader(canvas, location, date);
         location.offset(0, columnWidth);
 
-        for (int j = 0; j < 7; j++)
-        {
+        for (int j = 0; j < 7; j++) {
             if (!(column == nColumns - 2 && getDataOffset() == 0 &&
-                  j > todayPositionInColumn))
-            {
+                    j > todayPositionInColumn)) {
                 int checkmarkOffset =
-                    getDataOffset() * 7 + nDays - 7 * (column + 1) +
-                    todayPositionInColumn - j;
+                        getDataOffset() * 7 + nDays - 7 * (column + 1) +
+                                todayPositionInColumn - j;
                 drawSquare(canvas, location, date, checkmarkOffset);
             }
 
@@ -330,8 +302,7 @@ public class HistoryChart extends ScrollableChart
 
     private void drawColumnHeader(Canvas canvas,
                                   RectF location,
-                                  GregorianCalendar date)
-    {
+                                  GregorianCalendar date) {
         String month = dfMonth.format(date.getTime());
         String year = dfYear.format(date.getTime());
 
@@ -339,12 +310,11 @@ public class HistoryChart extends ScrollableChart
         if (!month.equals(previousMonth)) text = previousMonth = month;
         else if (!year.equals(previousYear)) text = previousYear = year;
 
-        if (text != null)
-        {
+        if (text != null) {
             canvas.drawText(text, location.left + headerOverflow,
-                location.bottom - headerTextOffset, pTextHeader);
+                    location.bottom - headerTextOffset, pTextHeader);
             headerOverflow +=
-                pTextHeader.measureText(text) + columnWidth * 0.2f;
+                    pTextHeader.measureText(text) + columnWidth * 0.2f;
         }
 
         headerOverflow = Math.max(0, headerOverflow - columnWidth);
@@ -353,60 +323,54 @@ public class HistoryChart extends ScrollableChart
     private void drawSquare(Canvas canvas,
                             RectF location,
                             GregorianCalendar date,
-                            int checkmarkOffset)
-    {
+                            int checkmarkOffset) {
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
-        else
-        {
+        else {
             int checkmark = checkmarks[checkmarkOffset];
-            if(checkmark == 0) pSquareBg.setColor(colors[0]);
-            else if(checkmark < target)
-            {
+            if (checkmark == 0) pSquareBg.setColor(colors[0]);
+            else if (checkmark < target) {
                 pSquareBg.setColor(isNumerical ? textColor : colors[1]);
-            }
-            else pSquareBg.setColor(colors[2]);
+            } else pSquareBg.setColor(colors[2]);
         }
 
         pSquareFg.setColor(reverseTextColor);
         canvas.drawRect(location, pSquareBg);
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
-            location.centerY() + squareTextOffset, pSquareFg);
+                location.centerY() + squareTextOffset, pSquareFg);
     }
 
-    private float getWeekdayLabelWidth()
-    {
+    private float getWeekdayLabelWidth() {
         float width = 0;
 
-        for (String w : DateUtils.getLocaleDayNames(Calendar.SHORT))
+        for (String w : DateUtils.getLocaleDayNames(Calendar.SHORT, firstWeekDay))
             width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
     }
 
-    private void init()
-    {
+    private void init() {
         isEditable = false;
         checkmarks = new int[0];
-        controller = new Controller() {};
+        controller = new Controller() {
+        };
         target = 2;
 
         initColors();
         initPaints();
         initDateFormats();
         initRects();
-        initWeekFirstDay();
+        initFirstWeekDay();
 
     }
 
-    private void initWeekFirstDay() {
+    private void initFirstWeekDay() {
         HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
         Preferences prefs = app.getComponent().getPreferences();
-        weekFirstDay = prefs.getWeekFirstDay();
+        firstWeekDay = prefs.getFirstWeekDay();
     }
 
-    private void initColors()
-    {
+    private void initColors() {
         StyledResources res = new StyledResources(getContext());
 
         if (isBackgroundTransparent)
@@ -416,41 +380,35 @@ public class HistoryChart extends ScrollableChart
         int green = Color.green(primaryColor);
         int blue = Color.blue(primaryColor);
 
-        if (isBackgroundTransparent)
-        {
+        if (isBackgroundTransparent) {
             colors = new int[3];
             colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
             textColor = Color.WHITE;
             reverseTextColor = Color.WHITE;
-        }
-        else
-        {
+        } else {
             colors = new int[3];
             colors[0] = res.getColor(R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
             textColor = res.getColor(R.attr.mediumContrastTextColor);
             reverseTextColor =
-                res.getColor(R.attr.highContrastReverseTextColor);
+                    res.getColor(R.attr.highContrastReverseTextColor);
         }
     }
 
-    private void initDateFormats()
-    {
+    private void initDateFormats() {
         dfMonth = AndroidDateFormats.fromSkeleton("MMM");
         dfYear = AndroidDateFormats.fromSkeleton("yyyy");
     }
 
-    private void initRects()
-    {
+    private void initRects() {
         baseLocation = new RectF();
     }
 
     @Nullable
-    private Timestamp positionToTimestamp(float x, float y)
-    {
+    private Timestamp positionToTimestamp(float x, float y) {
         int col = (int) (x / columnWidth);
         int row = (int) (y / columnWidth);
 
@@ -462,31 +420,30 @@ public class HistoryChart extends ScrollableChart
         date.add(Calendar.DAY_OF_YEAR, offset);
 
         if (DateUtils.getStartOfDay(date.getTimeInMillis()) >
-            DateUtils.getStartOfToday()) return null;
+                DateUtils.getStartOfToday()) return null;
 
         return new Timestamp(date.getTimeInMillis());
     }
 
-    private void updateDate()
-    {
+    private void updateDate() {
 
 
         baseDate = DateUtils.getStartOfTodayCalendar();
-        baseDate.setFirstDayOfWeek(weekFirstDay);
+        baseDate.setFirstDayOfWeek(firstWeekDay);
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
         int realWeekday =
-            DateUtils.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
+                DateUtils.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK);
         todayPositionInColumn =
-            (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
+                (7 + realWeekday - baseDate.getFirstDayOfWeek()) % 7;
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayPositionInColumn);
     }
 
-    public interface Controller
-    {
-        default void onToggleCheckmark(Timestamp timestamp) {}
+    public interface Controller {
+        default void onToggleCheckmark(Timestamp timestamp) {
+        }
     }
 }

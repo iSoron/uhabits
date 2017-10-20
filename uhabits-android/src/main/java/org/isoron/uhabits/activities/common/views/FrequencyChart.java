@@ -27,14 +27,14 @@ import android.util.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.Preferences;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
-public class FrequencyChart extends ScrollableChart
-{
+public class FrequencyChart extends ScrollableChart {
     private Paint pGrid;
 
     private float em;
@@ -67,39 +67,36 @@ public class FrequencyChart extends ScrollableChart
 
     private boolean isBackgroundTransparent;
 
+    private int firstWeekDay;
+
     @NonNull
     private HashMap<Timestamp, Integer[]> frequency;
     private int maxFreq;
 
-    public FrequencyChart(Context context)
-    {
+    public FrequencyChart(Context context) {
         super(context);
         init();
     }
 
-    public FrequencyChart(Context context, AttributeSet attrs)
-    {
+    public FrequencyChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.frequency = new HashMap<>();
         init();
     }
 
-    public void setColor(int color)
-    {
+    public void setColor(int color) {
         this.primaryColor = color;
         initColors();
         postInvalidate();
     }
 
-    public void setFrequency(HashMap<Timestamp, Integer[]> frequency)
-    {
+    public void setFrequency(HashMap<Timestamp, Integer[]> frequency) {
         this.frequency = frequency;
         maxFreq = getMaxFreq(frequency);
         postInvalidate();
     }
 
-    private int getMaxFreq(HashMap<Timestamp, Integer[]> frequency)
-    {
+    private int getMaxFreq(HashMap<Timestamp, Integer[]> frequency) {
         int maxValue = 1;
 
         for (Integer[] values : frequency.values())
@@ -109,14 +106,12 @@ public class FrequencyChart extends ScrollableChart
         return maxValue;
     }
 
-    public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
-    {
+    public void setIsBackgroundTransparent(boolean isBackgroundTransparent) {
         this.isBackgroundTransparent = isBackgroundTransparent;
         initColors();
     }
 
-    protected void initPaints()
-    {
+    protected void initPaints() {
         pText = new Paint();
         pText.setAntiAlias(true);
 
@@ -129,8 +124,7 @@ public class FrequencyChart extends ScrollableChart
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
@@ -148,8 +142,7 @@ public class FrequencyChart extends ScrollableChart
         currentDate.set(Calendar.DAY_OF_MONTH, 1);
         currentDate.add(Calendar.MONTH, -nColumns + 2 - getDataOffset());
 
-        for (int i = 0; i < nColumns - 1; i++)
-        {
+        for (int i = 0; i < nColumns - 1; i++) {
             rect.set(0, 0, columnWidth, columnHeight);
             rect.offset(i * columnWidth, 0);
 
@@ -159,8 +152,7 @@ public class FrequencyChart extends ScrollableChart
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         setMeasuredDimension(width, height);
@@ -170,8 +162,7 @@ public class FrequencyChart extends ScrollableChart
     protected void onSizeChanged(int width,
                                  int height,
                                  int oldWidth,
-                                 int oldHeight)
-    {
+                                 int oldHeight) {
         if (height < 9) height = 200;
 
         baseSize = height / 8;
@@ -191,15 +182,14 @@ public class FrequencyChart extends ScrollableChart
         paddingTop = 0;
     }
 
-    private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date)
-    {
+    private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date) {
         Integer values[] = frequency.get(new Timestamp(date));
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
         Integer[] localeWeekdayList = DateUtils.getLocaleWeekdayList();
-        for (int j = 0; j < localeWeekdayList.length; j++)
-        {
+
+        for (int j = 0; j < localeWeekdayList.length; j++) {
             rect.set(0, 0, baseSize, baseSize);
             rect.offset(prevRect.left, prevRect.top + baseSize * j);
 
@@ -212,20 +202,18 @@ public class FrequencyChart extends ScrollableChart
         drawFooter(canvas, rect, date);
     }
 
-    private void drawFooter(Canvas canvas, RectF rect, GregorianCalendar date)
-    {
+    private void drawFooter(Canvas canvas, RectF rect, GregorianCalendar date) {
         Date time = date.getTime();
 
         canvas.drawText(dfMonth.format(time), rect.centerX(),
-            rect.centerY() - 0.1f * em, pText);
+                rect.centerY() - 0.1f * em, pText);
 
         if (date.get(Calendar.MONTH) == 1)
             canvas.drawText(dfYear.format(time), rect.centerX(),
-                rect.centerY() + 0.9f * em, pText);
+                    rect.centerY() + 0.9f * em, pText);
     }
 
-    private void drawGrid(Canvas canvas, RectF rGrid)
-    {
+    private void drawGrid(Canvas canvas, RectF rGrid) {
         int nRows = 7;
         float rowHeight = rGrid.height() / (nRows + 1);
 
@@ -233,14 +221,13 @@ public class FrequencyChart extends ScrollableChart
         pText.setColor(textColor);
         pGrid.setColor(gridColor);
 
-        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT))
-        {
+        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT, firstWeekDay)) {
             canvas.drawText(day, rGrid.right - columnWidth,
-                rGrid.top + rowHeight / 2 + 0.25f * em, pText);
+                    rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
             pGrid.setStrokeWidth(1f);
             canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top,
-                pGrid);
+                    pGrid);
 
             rGrid.offset(0, rowHeight);
         }
@@ -248,13 +235,12 @@ public class FrequencyChart extends ScrollableChart
         canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid);
     }
 
-    private void drawMarker(Canvas canvas, RectF rect, Integer value)
-    {
+    private void drawMarker(Canvas canvas, RectF rect, Integer value) {
         float padding = rect.height() * 0.2f;
         // maximal allowed mark radius
         float maxRadius = (rect.height() - 2 * padding) / 2.0f;
         // the real mark radius is scaled down by a factor depending on the maximal frequency
-        float scale = 1.0f/maxFreq * value;
+        float scale = 1.0f / maxFreq * value;
         float radius = maxRadius * scale;
 
         int colorIndex = Math.min(colors.length - 1, Math.round((colors.length - 1) * scale));
@@ -262,13 +248,11 @@ public class FrequencyChart extends ScrollableChart
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph);
     }
 
-    private float getMaxMonthWidth()
-    {
+    private float getMaxMonthWidth() {
         float maxMonthWidth = 0;
         GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
 
-        for (int i = 0; i < 12; i++)
-        {
+        for (int i = 0; i < 12; i++) {
             day.set(Calendar.MONTH, i);
             float monthWidth = pText.measureText(dfMonth.format(day.getTime()));
             maxMonthWidth = Math.max(maxMonthWidth, monthWidth);
@@ -277,16 +261,22 @@ public class FrequencyChart extends ScrollableChart
         return maxMonthWidth;
     }
 
-    private void init()
-    {
+    private void init() {
         initPaints();
         initColors();
         initDateFormats();
         initRects();
+        initFirstWeekDay();
+
     }
 
-    private void initColors()
-    {
+    private void initFirstWeekDay() {
+        HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
+        Preferences prefs = app.getComponent().getPreferences();
+        firstWeekDay = prefs.getFirstWeekDay();
+    }
+
+    private void initColors() {
         StyledResources res = new StyledResources(getContext());
         textColor = res.getColor(R.attr.mediumContrastTextColor);
         gridColor = res.getColor(R.attr.lowContrastTextColor);
@@ -298,27 +288,23 @@ public class FrequencyChart extends ScrollableChart
         colors[2] = ColorUtils.mixColors(colors[0], colors[3], 0.33f);
     }
 
-    private void initDateFormats()
-    {
+    private void initDateFormats() {
         dfMonth = AndroidDateFormats.fromSkeleton("MMM");
         dfYear = AndroidDateFormats.fromSkeleton("yyyy");
     }
 
-    private void initRects()
-    {
+    private void initRects() {
         rect = new RectF();
         prevRect = new RectF();
     }
 
-    public void populateWithRandomData()
-    {
+    public void populateWithRandomData() {
         GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(Calendar.DAY_OF_MONTH, 1);
         Random rand = new Random();
         frequency.clear();
 
-        for (int i = 0; i < 40; i++)
-        {
+        for (int i = 0; i < 40; i++) {
             Integer values[] = new Integer[7];
             for (int j = 0; j < 7; j++)
                 values[j] = rand.nextInt(5);

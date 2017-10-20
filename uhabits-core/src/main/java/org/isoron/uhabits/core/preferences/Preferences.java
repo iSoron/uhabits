@@ -26,11 +26,10 @@ import org.isoron.uhabits.core.ui.*;
 
 import java.util.*;
 
-public class Preferences
-{
+public class Preferences {
 
     public static final String DEFAULT_SYNC_SERVER =
-        "https://sync.loophabits.org";
+            "https://sync.loophabits.org";
 
     @NonNull
     private final Storage storage;
@@ -41,51 +40,41 @@ public class Preferences
     @Nullable
     private Boolean shouldReverseCheckmarks = null;
 
-    public Preferences(@NonNull Storage storage)
-    {
+    public Preferences(@NonNull Storage storage) {
         this.storage = storage;
         listeners = new LinkedList<>();
         storage.onAttached(this);
     }
 
-    public void addListener(Listener listener)
-    {
+    public void addListener(Listener listener) {
         listeners.add(listener);
     }
 
-    public Integer getDefaultHabitColor(int fallbackColor)
-    {
+    public Integer getDefaultHabitColor(int fallbackColor) {
         return storage.getInt("pref_default_habit_palette_color",
-            fallbackColor);
+                fallbackColor);
     }
 
-    public HabitList.Order getDefaultOrder()
-    {
+    public HabitList.Order getDefaultOrder() {
         String name = storage.getString("pref_default_order", "BY_POSITION");
 
-        try
-        {
+        try {
             return HabitList.Order.valueOf(name);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             setDefaultOrder(HabitList.Order.BY_POSITION);
             return HabitList.Order.BY_POSITION;
         }
     }
 
-    public void setDefaultOrder(HabitList.Order order)
-    {
+    public void setDefaultOrder(HabitList.Order order) {
         storage.putString("pref_default_order", order.name());
     }
 
-    public int getDefaultScoreSpinnerPosition()
-    {
+    public int getDefaultScoreSpinnerPosition() {
         int defaultScoreInterval =
-            storage.getInt("pref_score_view_interval", 1);
+                storage.getInt("pref_score_view_interval", 1);
 
-        if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
-        {
+        if (defaultScoreInterval > 5 || defaultScoreInterval < 0) {
             defaultScoreInterval = 1;
             storage.putInt("pref_score_view_interval", 1);
         }
@@ -93,76 +82,62 @@ public class Preferences
         return defaultScoreInterval;
     }
 
-    public void setDefaultScoreSpinnerPosition(int position)
-    {
+    public void setDefaultScoreSpinnerPosition(int position) {
         storage.putInt("pref_score_view_interval", position);
     }
 
-    public int getLastHintNumber()
-    {
+    public int getLastHintNumber() {
         return storage.getInt("last_hint_number", -1);
     }
 
-    public Timestamp getLastHintTimestamp()
-    {
+    public Timestamp getLastHintTimestamp() {
         long unixTime = storage.getLong("last_hint_timestamp", -1);
         if (unixTime < 0) return null;
         else return new Timestamp(unixTime);
     }
 
-    public long getLastSync()
-    {
+    public long getLastSync() {
         return storage.getLong("last_sync", 0);
     }
 
-    public void setLastSync(long timestamp)
-    {
+    public void setLastSync(long timestamp) {
         storage.putLong("last_sync", timestamp);
     }
 
-    public boolean getShowArchived()
-    {
+    public boolean getShowArchived() {
         return storage.getBoolean("pref_show_archived", false);
     }
 
-    public void setShowArchived(boolean showArchived)
-    {
+    public void setShowArchived(boolean showArchived) {
         storage.putBoolean("pref_show_archived", showArchived);
     }
 
-    public boolean getShowCompleted()
-    {
+    public boolean getShowCompleted() {
         return storage.getBoolean("pref_show_completed", true);
     }
 
-    public void setShowCompleted(boolean showCompleted)
-    {
+    public void setShowCompleted(boolean showCompleted) {
         storage.putBoolean("pref_show_completed", showCompleted);
     }
 
-    public long getSnoozeInterval()
-    {
+    public long getSnoozeInterval() {
         return Long.parseLong(storage.getString("pref_snooze_interval", "15"));
     }
 
-    public int getWeekFirstDay()
-    {
+    public int getFirstWeekDay() {
         return Integer.parseInt(storage.getString("pref_week_start", "7"));
     }
 
-    public String getSyncAddress()
-    {
+    public String getSyncAddress() {
         return storage.getString("pref_sync_address", DEFAULT_SYNC_SERVER);
     }
 
-    public void setSyncAddress(String address)
-    {
+    public void setSyncAddress(String address) {
         storage.putString("pref_sync_address", address);
         for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
-    public String getSyncClientId()
-    {
+    public String getSyncClientId() {
         String id = storage.getString("pref_sync_client_id", "");
         if (!id.isEmpty()) return id;
 
@@ -172,182 +147,152 @@ public class Preferences
         return id;
     }
 
-    public String getSyncKey()
-    {
+    public String getSyncKey() {
         return storage.getString("pref_sync_key", "");
     }
 
-    public int getTheme()
-    {
+    public int getTheme() {
         return storage.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
     }
 
-    public void setTheme(int theme)
-    {
+    public void setTheme(int theme) {
         storage.putInt("pref_theme", theme);
     }
 
-    public void incrementLaunchCount()
-    {
+    public void incrementLaunchCount() {
         storage.putInt("launch_count", getLaunchCount() + 1);
     }
 
-    public int getLaunchCount()
-    {
+    public int getLaunchCount() {
         return storage.getInt("launch_count", 0);
     }
 
-    public boolean isDeveloper()
-    {
+    public boolean isDeveloper() {
         return storage.getBoolean("pref_developer", false);
     }
 
-    public void setDeveloper(boolean isDeveloper)
-    {
+    public void setDeveloper(boolean isDeveloper) {
         storage.putBoolean("pref_developer", isDeveloper);
     }
 
-    public boolean isFirstRun()
-    {
+    public boolean isFirstRun() {
         return storage.getBoolean("pref_first_run", true);
     }
 
-    public void setFirstRun(boolean isFirstRun)
-    {
+    public void setFirstRun(boolean isFirstRun) {
         storage.putBoolean("pref_first_run", isFirstRun);
     }
 
-    public boolean isNumericalHabitsFeatureEnabled()
-    {
+    public boolean isNumericalHabitsFeatureEnabled() {
         return storage.getBoolean("pref_feature_numerical_habits", false);
     }
 
-    public boolean isPureBlackEnabled()
-    {
+    public boolean isPureBlackEnabled() {
         return storage.getBoolean("pref_pure_black", false);
     }
 
-    public boolean isShortToggleEnabled()
-    {
+    public boolean isShortToggleEnabled() {
         return storage.getBoolean("pref_short_toggle", false);
     }
 
-    public void setShortToggleEnabled(boolean enabled)
-    {
+    public void setShortToggleEnabled(boolean enabled) {
         storage.putBoolean("pref_short_toggle", enabled);
     }
 
-    public boolean isSyncEnabled()
-    {
+    public boolean isSyncEnabled() {
         return storage.getBoolean("pref_feature_sync", false);
     }
 
-    public void removeListener(Listener listener)
-    {
+    public void removeListener(Listener listener) {
         listeners.remove(listener);
     }
 
-    public void clear()
-    {
+    public void clear() {
         storage.clear();
     }
 
-    public void setDefaultHabitColor(int color)
-    {
+    public void setDefaultHabitColor(int color) {
         storage.putInt("pref_default_habit_palette_color", color);
     }
 
-    public void setLastAppVersion(int version)
-    {
+    public void setLastAppVersion(int version) {
         storage.putInt("last_version", version);
     }
 
-    public void setNotificationsSticky(boolean sticky)
-    {
+    public void setNotificationsSticky(boolean sticky) {
         storage.putBoolean("pref_sticky_notifications", sticky);
         for (Listener l : listeners) l.onNotificationsChanged();
     }
 
-    public void setNotificationsLed(boolean enabled)
-    {
+    public void setNotificationsLed(boolean enabled) {
         storage.putBoolean("pref_led_notifications", enabled);
         for (Listener l : listeners) l.onNotificationsChanged();
     }
 
-    public void setCheckmarkSequenceReversed(boolean reverse)
-    {
+    public void setCheckmarkSequenceReversed(boolean reverse) {
         shouldReverseCheckmarks = reverse;
         storage.putBoolean("pref_checkmark_reverse_order", reverse);
         for (Listener l : listeners) l.onCheckmarkSequenceChanged();
     }
 
-    public void setSyncEnabled(boolean isEnabled)
-    {
+    public void setSyncEnabled(boolean isEnabled) {
         storage.putBoolean("pref_feature_sync", isEnabled);
-        for(Listener l : listeners) l.onSyncFeatureChanged();
+        for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
-    public boolean shouldMakeNotificationsSticky()
-    {
+    public boolean shouldMakeNotificationsSticky() {
         return storage.getBoolean("pref_sticky_notifications", false);
     }
 
-    public boolean shouldMakeNotificationsLed()
-    {
+    public boolean shouldMakeNotificationsLed() {
         return storage.getBoolean("pref_led_notifications", false);
     }
 
-    public boolean isCheckmarkSequenceReversed()
-    {
+    public boolean isCheckmarkSequenceReversed() {
         if (shouldReverseCheckmarks == null) shouldReverseCheckmarks =
-            storage.getBoolean("pref_checkmark_reverse_order", false);
+                storage.getBoolean("pref_checkmark_reverse_order", false);
 
         return shouldReverseCheckmarks;
     }
 
-    public void updateLastHint(int number, Timestamp timestamp)
-    {
+    public void updateLastHint(int number, Timestamp timestamp) {
         storage.putInt("last_hint_number", number);
         storage.putLong("last_hint_timestamp", timestamp.getUnixTime());
     }
 
-    public void setSyncKey(String key)
-    {
+    public void setSyncKey(String key) {
         storage.putString("pref_sync_key", key);
-        for(Listener l : listeners) l.onSyncFeatureChanged();
+        for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
-    public void setPureBlackEnabled(boolean enabled)
-    {
+    public void setPureBlackEnabled(boolean enabled) {
         storage.putBoolean("pref_pure_black", enabled);
     }
 
-    public int getLastAppVersion()
-    {
+    public int getLastAppVersion() {
         return storage.getInt("last_version", 0);
     }
 
-    public void setSnoozeInterval(int interval)
-    {
+    public void setSnoozeInterval(int interval) {
         storage.putString("pref_snooze_interval", String.valueOf(interval));
     }
 
-    public void setNumericalHabitsFeatureEnabled(boolean enabled)
-    {
+    public void setNumericalHabitsFeatureEnabled(boolean enabled) {
         storage.putBoolean("pref_feature_numerical_habits", enabled);
     }
 
-    public interface Listener
-    {
-        default void onCheckmarkSequenceChanged() {}
+    public interface Listener {
+        default void onCheckmarkSequenceChanged() {
+        }
 
-        default void onNotificationsChanged() {}
+        default void onNotificationsChanged() {
+        }
 
-        default void onSyncFeatureChanged() {}
+        default void onSyncFeatureChanged() {
+        }
     }
 
-    public interface Storage
-    {
+    public interface Storage {
         void clear();
 
         boolean getBoolean(String key, boolean defValue);
