@@ -145,6 +145,11 @@ public class Preferences
         return Long.parseLong(storage.getString("pref_snooze_interval", "15"));
     }
 
+    public int getWeekFirstDay()
+    {
+        return Integer.parseInt(storage.getString("pref_week_start", "7"));
+    }
+
     public String getSyncAddress()
     {
         return storage.getString("pref_sync_address", DEFAULT_SYNC_SERVER);

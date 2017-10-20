@@ -101,6 +101,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="Custom Settings">
+
+        <ListPreference
+            android:defaultValue="@string/week_start_default"
+            android:dialogTitle="@string/week_start"
+            android:entries="@array/days_names"
+            android:entryValues="@array/days_values"
+            android:key="pref_week_start"
+            android:summary="%s"
+            android:title="@string/pref_week_start_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="pref_key_debug"
         android:title="@string/troubleshooting">
 

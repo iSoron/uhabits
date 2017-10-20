@@ -86,6 +86,7 @@
     <string name="pref_toggle_title">Toggle with short press</string>
     <string name="pref_toggle_description">Put checkmarks with a single tap instead of press-and-hold. More convenient, but might cause accidental toggles.</string>
     <string name="pref_snooze_interval_title">Snooze interval on reminders</string>
+    <string name="pref_week_start_title">First day of week</string>
     <string name="pref_rate_this_app">Rate this app on Google Play</string>
     <string name="pref_send_feedback">Send feedback to developer</string>
     <string name="pref_view_source_code">View source code at GitHub</string>
@@ -95,6 +96,7 @@
     <string name="name">Name</string>
     <string name="settings">Settings</string>
     <string name="snooze_interval">Snooze interval</string>
+    <string name="week_start">First day of week</string>
 
     <string name="hint_title">Did you know?</string>
     <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>

@@ -47,6 +47,26 @@
         <item>1440</item>
     </string-array>
 
+    <string-array name="days_names">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string-array name="days_values" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
     <string-array name="frequencyQuickSelect" translatable="false">
         <item>@string/every_day</item>
         <item>@string/every_week</item>
@@ -94,5 +114,6 @@
     </string-array>
 
     <string name="snooze_interval_default" translatable="false">15</string>
+    <string name="week_start_default" translatable="false">7</string>
     <string name="default_count" translatable="false">100</string>
 </resources>

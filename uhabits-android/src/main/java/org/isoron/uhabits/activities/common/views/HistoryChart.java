@@ -29,6 +29,7 @@ import android.view.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.Preferences;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
@@ -95,6 +96,8 @@ public class HistoryChart extends ScrollableChart
 
     @NonNull
     private Controller controller;
+
+    private int weekFirstDay;
 
     public HistoryChart(Context context)
     {
@@ -392,6 +395,14 @@ public class HistoryChart extends ScrollableChart
         initPaints();
         initDateFormats();
         initRects();
+        initWeekFirstDay();
+
+    }
+
+    private void initWeekFirstDay() {
+        HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
+        Preferences prefs = app.getComponent().getPreferences();
+        weekFirstDay = prefs.getWeekFirstDay();
     }
 
     private void initColors()
@@ -458,8 +469,10 @@ public class HistoryChart extends ScrollableChart
 
     private void updateDate()
     {
+
+
         baseDate = DateUtils.getStartOfTodayCalendar();
-        baseDate.setFirstDayOfWeek(Calendar.SATURDAY);
+        baseDate.setFirstDayOfWeek(weekFirstDay);
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
