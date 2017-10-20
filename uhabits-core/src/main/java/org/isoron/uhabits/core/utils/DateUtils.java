@@ -108,6 +108,7 @@ public abstract class DateUtils
         String[] days = new String[7];
 
         Calendar calendar = new GregorianCalendar();
+        calendar.setFirstDayOfWeek(SATURDAY);
         calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         for (int i = 0; i < days.length; i++)
         {
@@ -127,6 +128,7 @@ public abstract class DateUtils
     {
         Integer[] dayNumbers = new Integer[7];
         Calendar calendar = new GregorianCalendar();
+        calendar.setFirstDayOfWeek(SATURDAY);
         calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         for (int i = 0; i < dayNumbers.length; i++)
         {

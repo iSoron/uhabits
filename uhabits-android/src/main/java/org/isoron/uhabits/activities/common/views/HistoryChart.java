@@ -459,6 +459,7 @@ public class HistoryChart extends ScrollableChart
     private void updateDate()
     {
         baseDate = DateUtils.getStartOfTodayCalendar();
+        baseDate.setFirstDayOfWeek(Calendar.SATURDAY);
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;
