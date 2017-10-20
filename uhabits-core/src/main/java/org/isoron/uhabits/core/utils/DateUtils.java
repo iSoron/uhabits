@@ -39,7 +39,7 @@ public abstract class DateUtils
     /**
      * Time of the day when the new day starts.
      */
-    public static final int NEW_DAY_OFFSET = 3;
+    public static final int NEW_DAY_OFFSET = -9;
 
     /**
      * Number of milliseconds in one day.
@@ -68,7 +68,7 @@ public abstract class DateUtils
     private static GregorianCalendar getCalendar(long timestamp)
     {
         GregorianCalendar day =
-            new GregorianCalendar(TimeZone.getTimeZone("GMT"), getLocale());
+                new GregorianCalendar(TimeZone.getTimeZone("GMT"), getLocale());
         day.setTimeInMillis(timestamp);
         return day;
     }
@@ -83,7 +83,7 @@ public abstract class DateUtils
         for (int i = 0; i < wdays.length; i++)
         {
             wdays[i] =
-                day.getDisplayName(DAY_OF_WEEK, format, getLocale());
+                    day.getDisplayName(DAY_OF_WEEK, format, getLocale());
             day.add(DAY_OF_MONTH, 1);
         }
 
@@ -112,7 +112,7 @@ public abstract class DateUtils
         for (int i = 0; i < days.length; i++)
         {
             days[i] = calendar.getDisplayName(DAY_OF_WEEK, format,
-                getLocale());
+                    getLocale());
             calendar.add(DAY_OF_MONTH, 1);
         }
 
@@ -165,7 +165,7 @@ public abstract class DateUtils
     public static long millisecondsUntilTomorrow()
     {
         return getStartOfToday() + DAY_LENGTH -
-               (getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
+                (getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
     }
 
     public static GregorianCalendar getStartOfTodayCalendar()
