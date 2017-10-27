@@ -155,14 +155,14 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public int indexOf(@NonNull Habit h)
+    public synchronized int indexOf(@NonNull Habit h)
     {
         return list.indexOf(h);
     }
 
     @NonNull
     @Override
-    public Iterator<Habit> iterator()
+    public synchronized Iterator<Habit> iterator()
     {
         return Collections.unmodifiableCollection(list).iterator();
     }
@@ -200,13 +200,13 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public int size()
+    public synchronized int size()
     {
         return list.size();
     }
 
     @Override
-    public void update(List<Habit> habits)
+    public synchronized void update(List<Habit> habits)
     {
         resort();
         getObservable().notifyListeners();
