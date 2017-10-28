@@ -46,6 +46,11 @@ class ListHabitsActivity : HabitsActivity() {
 
         setScreen(screen)
         component.listHabitsBehavior.onStartup()
+
+        // added
+        DateUtils.setFirstWeekDay(prefs.firstWeekDay)
+        DateUtils.setFirstWeekDay(4)
+
     }
 
     override fun onPause() {

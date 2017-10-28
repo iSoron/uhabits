@@ -96,7 +96,6 @@ public class HistoryChart extends ScrollableChart {
     @NonNull
     private Controller controller;
 
-    private int firstWeekDay;
 
     public HistoryChart(Context context) {
         super(context);
@@ -272,7 +271,7 @@ public class HistoryChart extends ScrollableChart {
     private void drawAxis(Canvas canvas, RectF location) {
         float verticalOffset = pTextHeader.getFontSpacing() * 0.4f;
 
-        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT, firstWeekDay)) {
+        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT)) {
             location.offset(0, columnWidth);
             canvas.drawText(day, location.left + headerTextOffset,
                     location.centerY() + verticalOffset, pTextHeader);
@@ -343,7 +342,7 @@ public class HistoryChart extends ScrollableChart {
     private float getWeekdayLabelWidth() {
         float width = 0;
 
-        for (String w : DateUtils.getLocaleDayNames(Calendar.SHORT, firstWeekDay))
+        for (String w : DateUtils.getLocaleDayNames(Calendar.SHORT))
             width = Math.max(width, pSquareFg.measureText(w));
 
         return width;
@@ -360,15 +359,9 @@ public class HistoryChart extends ScrollableChart {
         initPaints();
         initDateFormats();
         initRects();
-        initFirstWeekDay();
 
     }
 
-    private void initFirstWeekDay() {
-        HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
-        Preferences prefs = app.getComponent().getPreferences();
-        firstWeekDay = prefs.getFirstWeekDay();
-    }
 
     private void initColors() {
         StyledResources res = new StyledResources(getContext());
@@ -429,7 +422,6 @@ public class HistoryChart extends ScrollableChart {
 
 
         baseDate = DateUtils.getStartOfTodayCalendar();
-        baseDate.setFirstDayOfWeek(firstWeekDay);
         baseDate.add(Calendar.DAY_OF_YEAR, -(getDataOffset() - 1) * 7);
 
         nDays = (nColumns - 1) * 7;

@@ -67,7 +67,6 @@ public class FrequencyChart extends ScrollableChart {
 
     private boolean isBackgroundTransparent;
 
-    private int firstWeekDay;
 
     @NonNull
     private HashMap<Timestamp, Integer[]> frequency;
@@ -221,7 +220,7 @@ public class FrequencyChart extends ScrollableChart {
         pText.setColor(textColor);
         pGrid.setColor(gridColor);
 
-        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT, firstWeekDay)) {
+        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT)) {
             canvas.drawText(day, rGrid.right - columnWidth,
                     rGrid.top + rowHeight / 2 + 0.25f * em, pText);
 
@@ -266,14 +265,12 @@ public class FrequencyChart extends ScrollableChart {
         initColors();
         initDateFormats();
         initRects();
-        initFirstWeekDay();
 
     }
 
     private void initFirstWeekDay() {
         HabitsApplication app = (HabitsApplication) getContext().getApplicationContext();
         Preferences prefs = app.getComponent().getPreferences();
-        firstWeekDay = prefs.getFirstWeekDay();
     }
 
     private void initColors() {

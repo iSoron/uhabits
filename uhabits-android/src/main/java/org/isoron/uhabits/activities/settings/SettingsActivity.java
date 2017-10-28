@@ -19,27 +19,35 @@
 
 package org.isoron.uhabits.activities.settings;
 
+import android.content.SharedPreferences;
 import android.os.*;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.utils.DateUtils;
 
 /**
  * Activity that allows the user to view and modify the app settings.
  */
-public class SettingsActivity extends BaseActivity
-{
+public class SettingsActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private SharedPreferences prefs;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         setupActionBarColor();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
+
     }
 
-    private void setupActionBarColor()
-    {
+    private void setupActionBarColor() {
         StyledResources res = new StyledResources(this);
         int color = BaseScreen.getDefaultActionBarColor(this);
 
@@ -47,5 +55,35 @@ public class SettingsActivity extends BaseActivity
             color = res.getColor(R.attr.aboutScreenColor);
 
         BaseScreen.setupActionBarColor(this, color);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPref, String key) {
+        SharedPreferences.Editor editor = sharedPref.edit();
+        if (key.equalsIgnoreCase("hours_offset")) {
+
+            int hourOffset = 0;
+            try {
+                hourOffset = Integer.parseInt(sharedPref.getString(key, "0"));
+                editor.putString(key, String.valueOf(hourOffset));
+                DateUtils.setNewDayOffset(hourOffset);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+        } else if (key.equalsIgnoreCase("pref_first_week_day")){
+
+            int firstWeekDay = 0;
+            try {
+                firstWeekDay = Integer.parseInt(sharedPref.getString(key, "0"));
+                editor.putString(key, String.valueOf(firstWeekDay));
+                DateUtils.setFirstWeekDay(firstWeekDay);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Log.d("debugging", "hello, key is: " + key+", value: "+ sharedPref.getString(key, "0"));
+        editor.commit();
     }
 }

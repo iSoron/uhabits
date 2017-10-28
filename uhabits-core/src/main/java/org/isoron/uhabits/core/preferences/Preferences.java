@@ -126,7 +126,7 @@ public class Preferences {
 
     public int getFirstWeekDay() {
         Calendar calendar = new GregorianCalendar();
-        return Integer.parseInt(storage.getString("pref_week_start", String.valueOf(calendar.getFirstDayOfWeek())));
+        return Integer.parseInt(storage.getString("pref_first_week_day", String.valueOf(calendar.getFirstDayOfWeek())));
     }
 
     public String getSyncAddress() {

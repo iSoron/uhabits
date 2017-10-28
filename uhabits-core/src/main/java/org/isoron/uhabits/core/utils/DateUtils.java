@@ -27,7 +27,8 @@ import java.util.*;
 
 import static java.util.Calendar.*;
 
-public abstract class DateUtils {
+public abstract class DateUtils
+{
 
     private static Long fixedLocalTime = null;
 
@@ -38,7 +39,8 @@ public abstract class DateUtils {
     /**
      * Time of the day when the new day starts.
      */
-    public static final int NEW_DAY_OFFSET = -9;
+    public static /*final*/ int NEW_DAY_OFFSET = 3;
+    public static /*final*/ int FIRST_WEEK_DAY = 7;
 
     /**
      * Number of milliseconds in one day.
@@ -50,32 +52,38 @@ public abstract class DateUtils {
      */
     public static final long HOUR_LENGTH = 60 * 60 * 1000;
 
-    public static long applyTimezone(long localTimestamp) {
+    public static long applyTimezone(long localTimestamp)
+    {
         TimeZone tz = getTimezone();
         return localTimestamp - tz.getOffset(localTimestamp - tz.getOffset(localTimestamp));
     }
 
-    public static String formatHeaderDate(GregorianCalendar day) {
+    public static String formatHeaderDate(GregorianCalendar day)
+    {
         Locale locale = getLocale();
         String dayOfMonth = Integer.toString(day.get(DAY_OF_MONTH));
         String dayOfWeek = day.getDisplayName(DAY_OF_WEEK, SHORT, locale);
         return dayOfWeek + "\n" + dayOfMonth;
     }
 
-    private static GregorianCalendar getCalendar(long timestamp) {
+    private static GregorianCalendar getCalendar(long timestamp)
+    {
         GregorianCalendar day =
                 new GregorianCalendar(TimeZone.getTimeZone("GMT"), getLocale());
         day.setTimeInMillis(timestamp);
+        day.setFirstDayOfWeek(FIRST_WEEK_DAY);
         return day;
     }
 
-    private static String[] getDayNames(int format) {
+    private static String[] getDayNames(int format)
+    {
         String[] wdays = new String[7];
 
         Calendar day = new GregorianCalendar();
         day.set(DAY_OF_WEEK, Calendar.SATURDAY);
 
-        for (int i = 0; i < wdays.length; i++) {
+        for (int i = 0; i < wdays.length; i++)
+        {
             wdays[i] =
                     day.getDisplayName(DAY_OF_WEEK, format, getLocale());
             day.add(DAY_OF_MONTH, 1);
@@ -84,7 +92,8 @@ public abstract class DateUtils {
         return wdays;
     }
 
-    public static long getLocalTime() {
+    public static long getLocalTime()
+    {
         if (fixedLocalTime != null) return fixedLocalTime;
 
         TimeZone tz = getTimezone();
@@ -96,12 +105,16 @@ public abstract class DateUtils {
      * @return array with weekday names starting according to locale settings,
      * e.g. [Mo,Di,Mi,Do,Fr,Sa,So] in Germany
      */
-    public static String[] getLocaleDayNames(int format, int firstWeekDay) {
+    public static String[] getLocaleDayNames(int format)
+    {
         String[] days = new String[7];
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(DAY_OF_WEEK, firstWeekDay);
-        for (int i = 0; i < days.length; i++) {
+        calendar.setFirstDayOfWeek(FIRST_WEEK_DAY);
+        calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+
+        for (int i = 0; i < days.length; i++)
+        {
             days[i] = calendar.getDisplayName(DAY_OF_WEEK, format,
                     getLocale());
             calendar.add(DAY_OF_MONTH, 1);
@@ -114,86 +127,104 @@ public abstract class DateUtils {
      * @return array with week days numbers starting according to locale
      * settings, e.g. [2,3,4,5,6,7,1] in Europe
      */
-    public static Integer[] getLocaleWeekdayList() {
+    public static Integer[] getLocaleWeekdayList()
+    {
         Integer[] dayNumbers = new Integer[7];
         Calendar calendar = new GregorianCalendar();
+        calendar.setFirstDayOfWeek(FIRST_WEEK_DAY);
         calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        calendar.set(DAY_OF_WEEK, MONDAY); // NOT RESPONSIBLE
-
-        for (int i = 0; i < dayNumbers.length; i++) {
+        for (int i = 0; i < dayNumbers.length; i++)
+        {
             dayNumbers[i] = calendar.get(DAY_OF_WEEK);
             calendar.add(DAY_OF_MONTH, 1);
         }
         return dayNumbers;
     }
 
-    public static String[] getLongDayNames() {
+    public static String[] getLongDayNames()
+    {
         return getDayNames(GregorianCalendar.LONG);
     }
 
-    public static String[] getShortDayNames() {
+    public static String[] getShortDayNames()
+    {
         return getDayNames(SHORT);
     }
 
     @NonNull
-    public static Timestamp getToday() {
+    public static Timestamp getToday()
+    {
         return new Timestamp(getStartOfToday());
     }
 
-    public static long getStartOfDay(long timestamp) {
+    public static long getStartOfDay(long timestamp)
+    {
         return (timestamp / DAY_LENGTH) * DAY_LENGTH;
     }
 
-    public static long getStartOfToday() {
+    public static long getStartOfToday()
+    {
         return getStartOfDay(getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
     }
 
-    public static long millisecondsUntilTomorrow() {
+    public static long millisecondsUntilTomorrow()
+    {
         return getStartOfToday() + DAY_LENGTH -
                 (getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
     }
 
-    public static GregorianCalendar getStartOfTodayCalendar() {
+    public static GregorianCalendar getStartOfTodayCalendar()
+    {
         return getCalendar(getStartOfToday());
     }
 
-    private static TimeZone getTimezone() {
-        if (fixedTimeZone != null) return fixedTimeZone;
+    private static TimeZone getTimezone()
+    {
+        if(fixedTimeZone != null) return fixedTimeZone;
         return TimeZone.getDefault();
     }
 
-    public static void setFixedTimeZone(TimeZone tz) {
+    public static void setFixedTimeZone(TimeZone tz)
+    {
         fixedTimeZone = tz;
     }
 
-    public static long removeTimezone(long timestamp) {
+    public static long removeTimezone(long timestamp)
+    {
         TimeZone tz = getTimezone();
         return timestamp + tz.getOffset(timestamp);
     }
 
-    public static void setFixedLocalTime(Long timestamp) {
+    public static void setFixedLocalTime(Long timestamp)
+    {
         fixedLocalTime = timestamp;
     }
 
-    public static void setFixedLocale(Locale locale) {
+    public static void setFixedLocale(Locale locale)
+    {
         fixedLocale = locale;
     }
 
-    private static Locale getLocale() {
-        if (fixedLocale != null) return fixedLocale;
+    private static Locale getLocale()
+    {
+        if(fixedLocale != null) return fixedLocale;
         return Locale.getDefault();
     }
 
-    public static Long truncate(TruncateField field, long timestamp) {
+    public static Long truncate(TruncateField field, long timestamp)
+    {
         GregorianCalendar cal = DateUtils.getCalendar(timestamp);
+        cal.setFirstDayOfWeek(FIRST_WEEK_DAY);
 
-        switch (field) {
+        switch (field)
+        {
             case MONTH:
                 cal.set(DAY_OF_MONTH, 1);
                 return cal.getTimeInMillis();
 
             case WEEK_NUMBER:
-                int firstWeekday = cal.getFirstDayOfWeek();
+                int firstDayOfWeek = cal.getFirstDayOfWeek();
+                int firstWeekday = firstDayOfWeek;
                 int weekday = cal.get(DAY_OF_WEEK);
                 int delta = weekday - firstWeekday;
                 if (delta < 0) delta += 7;
@@ -216,7 +247,20 @@ public abstract class DateUtils {
         }
     }
 
-    public enum TruncateField {
+    public enum TruncateField
+    {
         MONTH, WEEK_NUMBER, YEAR, QUARTER
     }
+
+    public static void setNewDayOffset(int offset){
+        NEW_DAY_OFFSET = offset;
+
+    }
+
+    public static void setFirstWeekDay(int firstWeekDay){
+        FIRST_WEEK_DAY = firstWeekDay;
+    }
+
+
 }
+

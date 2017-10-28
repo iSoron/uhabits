@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -28,20 +27,20 @@
             android:defaultValue="false"
             android:key="pref_short_toggle"
             android:summary="@string/pref_toggle_description"
-            android:title="@string/pref_toggle_title"/>
+            android:title="@string/pref_toggle_title" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_checkmark_reverse_order"
             android:summary="@string/reverse_days_description"
-            android:title="@string/reverse_days"/>
+            android:title="@string/reverse_days" />
 
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_pure_black"
             android:summary="@string/pure_black_description"
-            android:title="@string/use_pure_black"/>
+            android:title="@string/use_pure_black" />
 
     </PreferenceCategory>
 
@@ -56,23 +55,23 @@
             android:entryValues="@array/snooze_interval_values"
             android:key="pref_snooze_interval"
             android:summary="%s"
-            android:title="@string/pref_snooze_interval_title"/>
+            android:title="@string/pref_snooze_interval_title" />
 
         <Preference
             android:key="reminderSound"
-            android:title="@string/reminder_sound"/>
+            android:title="@string/reminder_sound" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_sticky_notifications"
-            android:title="@string/sticky_notifications"
-            android:summary="@string/sticky_notifications_description"/>
+            android:summary="@string/sticky_notifications_description"
+            android:title="@string/sticky_notifications" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_led_notifications"
-            android:title="@string/led_notifications"
-            android:summary="@string/led_notifications_description"/>
+            android:summary="@string/led_notifications_description"
+            android:title="@string/led_notifications" />
 
     </PreferenceCategory>
 
@@ -83,34 +82,42 @@
         <Preference
             android:key="exportDB"
             android:summary="@string/export_full_backup_summary"
-            android:title="@string/export_full_backup">
-        </Preference>
+            android:title="@string/export_full_backup"></Preference>
 
         <Preference
             android:key="exportCSV"
             android:summary="@string/export_as_csv_summary"
-            android:title="@string/export_to_csv">
-        </Preference>
+            android:title="@string/export_to_csv"></Preference>
 
         <Preference
             android:key="importData"
             android:summary="@string/import_data_summary"
-            android:title="@string/import_data">
-        </Preference>
+            android:title="@string/import_data"></Preference>
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Custom Settings">
+    <PreferenceCategory android:title="Custom Settings">
 
         <ListPreference
             android:defaultValue="@string/week_start_default"
             android:dialogTitle="@string/week_start"
             android:entries="@array/days_names"
             android:entryValues="@array/days_values"
-            android:key="pref_week_start"
+            android:key="pref_first_week_day"
             android:summary="%s"
-            android:title="@string/pref_week_start_title"/>
+            android:title="@string/pref_first_week_day_title" />
+
+        <EditTextPreference
+            android:defaultValue="3"
+            android:dialogTitle="hours_offset"
+            android:inputType="number"
+            android:key="hours_offset"
+            android:selectAllOnFocus="true"
+            android:summary="hours_offset"
+            android:title="hours_offset" />
+        <!--android:maxLength="2"-->
+        <!--android:numeric="integer"-->
+
 
     </PreferenceCategory>
 
@@ -120,11 +127,11 @@
 
         <Preference
             android:key="bugReport"
-            android:title="@string/generate_bug_report"/>
+            android:title="@string/generate_bug_report" />
 
         <Preference
             android:key="repairDB"
-            android:title="@string/repair_database"/>
+            android:title="@string/repair_database" />
 
     </PreferenceCategory>
 
@@ -135,20 +142,20 @@
         <Preference android:title="@string/help">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/helpURL"/>
+                android:data="@string/helpURL" />
         </Preference>
 
         <Preference android:title="@string/pref_rate_this_app">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/playStoreURL"/>
+                android:data="@string/playStoreURL" />
         </Preference>
 
         <Preference android:title="@string/about">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetClass="org.isoron.uhabits.activities.about.AboutActivity"
-                android:targetPackage="org.isoron.uhabits"/>
+                android:targetPackage="org.isoron.uhabits" />
         </Preference>
 
     </PreferenceCategory>
@@ -160,25 +167,25 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_developer"
-            android:title="Enable developer mode"/>
+            android:title="Enable developer mode" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_feature_numerical_habits"
-            android:title="Enable numerical habits"/>
+            android:title="Enable numerical habits" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_feature_sync"
-            android:title="Enable cloud sync"/>
+            android:title="Enable cloud sync" />
 
         <EditTextPreference
             android:key="pref_sync_address"
-            android:title="Sync server address"/>
+            android:title="Sync server address" />
 
         <EditTextPreference
             android:key="pref_sync_key"
-            android:title="Sync key"/>
+            android:title="Sync key" />
 
     </PreferenceCategory>
 
