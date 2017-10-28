@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -65,6 +64,60 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+    </string-array>
+
+    <string-array name="hours_names">
+        <item>00</item>
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09 (previous day)</item>
+        <item>10 (previous day)</item>
+        <item>11 (previous day)</item>
+        <item>12 (previous day)</item>
+        <item>13 (previous day)</item>
+        <item>14 (previous day)</item>
+        <item>15 (previous day)</item>
+        <item>16 (previous day)</item>
+        <item>17 (previous day)</item>
+        <item>18 (previous day)</item>
+        <item>19 (previous day)</item>
+        <item>20 (previous day)</item>
+        <item>21 (previous day)</item>
+        <item>22 (previous day)</item>
+        <item>23 (previous day)</item>
+    </string-array>
+
+    <string-array name="hours_values" translatable="false">
+        <item>+00</item>
+        <item>+01</item>
+        <item>+02</item>
+        <item>+03</item>
+        <item>+04</item>
+        <item>+05</item>
+        <item>+06</item>
+        <item>+07</item>
+        <item>+08</item>
+        <item>-15</item>
+        <item>-14</item>
+        <item>-13</item>
+        <item>-12</item>
+        <item>-11</item>
+        <item>-10</item>
+        <item>-09</item>
+        <item>-08</item>
+        <item>-07</item>
+        <item>-06</item>
+        <item>-05</item>
+        <item>-04</item>
+        <item>-03</item>
+        <item>-02</item>
+        <item>-01</item>
     </string-array>
 
     <string-array name="frequencyQuickSelect" translatable="false">

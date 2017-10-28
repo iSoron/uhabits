@@ -107,16 +107,29 @@
             android:summary="%s"
             android:title="@string/pref_first_week_day_title" />
 
-        <EditTextPreference
-            android:defaultValue="3"
-            android:dialogTitle="hours_offset"
-            android:inputType="number"
-            android:key="hours_offset"
-            android:selectAllOnFocus="true"
-            android:summary="hours_offset"
-            android:title="hours_offset" />
-        <!--android:maxLength="2"-->
-        <!--android:numeric="integer"-->
+        <ListPreference
+            android:defaultValue="@string/day_hour_offset_default"
+            android:dialogTitle="@string/day_hour_offset"
+            android:entries="@array/hours_names"
+            android:entryValues="@array/hours_values"
+            android:key="pref_day_hour_offset"
+            android:summary="%s"
+            android:title="@string/pref_day_hour_offset_title" />
+
+
+
+
+        <!--<EditTextPreference-->
+            <!--android:defaultValue="3"-->
+            <!--android:dialogTitle="hours_offset"-->
+            <!--android:inputType="phone"-->
+            <!--android:key="hours_offset"-->
+            <!--android:digits="0123456789"-->
+            <!--android:selectAllOnFocus="true"-->
+            <!--android:summary="hours_offset"-->
+            <!--android:title="hours_offset" />-->
+        <!--&lt;!&ndash;android:maxLength="2"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:numeric="integer"&ndash;&gt;-->
 
 
     </PreferenceCategory>

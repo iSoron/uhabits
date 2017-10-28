@@ -49,7 +49,7 @@ class ListHabitsActivity : HabitsActivity() {
 
         // added
         DateUtils.setFirstWeekDay(prefs.firstWeekDay)
-        DateUtils.setFirstWeekDay(4)
+        DateUtils.setNewDayOffset(prefs.dayHourOffset)
 
     }
 

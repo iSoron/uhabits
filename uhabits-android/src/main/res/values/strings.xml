@@ -219,4 +219,7 @@
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
     <string name="target">Target</string>
+    <string name="day_hour_offset_default">15</string>
+    <string name="day_hour_offset">Day starting hour</string>
+    <string name="pref_day_hour_offset_title">Day starting hour</string>
 </resources>

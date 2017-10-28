@@ -128,6 +128,9 @@ public class Preferences {
         Calendar calendar = new GregorianCalendar();
         return Integer.parseInt(storage.getString("pref_first_week_day", String.valueOf(calendar.getFirstDayOfWeek())));
     }
+    public int getDayHourOffset() {
+        return Integer.parseInt(storage.getString("pref_day_hour_offset", "-15"));
+    }
 
     public String getSyncAddress() {
         return storage.getString("pref_sync_address", DEFAULT_SYNC_SERVER);

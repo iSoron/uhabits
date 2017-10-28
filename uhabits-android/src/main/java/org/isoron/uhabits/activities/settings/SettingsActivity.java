@@ -60,13 +60,12 @@ public class SettingsActivity extends BaseActivity implements SharedPreferences.
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPref, String key) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        if (key.equalsIgnoreCase("hours_offset")) {
+        if (key.equalsIgnoreCase("pref_day_hour_offset")) {
 
-            int hourOffset = 0;
+            int dayHourOffset = 0;
             try {
-                hourOffset = Integer.parseInt(sharedPref.getString(key, "0"));
-                editor.putString(key, String.valueOf(hourOffset));
-                DateUtils.setNewDayOffset(hourOffset);
+                dayHourOffset = Integer.parseInt(sharedPref.getString(key, "0"));
+                DateUtils.setNewDayOffset(dayHourOffset);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -76,14 +75,10 @@ public class SettingsActivity extends BaseActivity implements SharedPreferences.
             int firstWeekDay = 0;
             try {
                 firstWeekDay = Integer.parseInt(sharedPref.getString(key, "0"));
-                editor.putString(key, String.valueOf(firstWeekDay));
                 DateUtils.setFirstWeekDay(firstWeekDay);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
-
-        Log.d("debugging", "hello, key is: " + key+", value: "+ sharedPref.getString(key, "0"));
-        editor.commit();
     }
 }
