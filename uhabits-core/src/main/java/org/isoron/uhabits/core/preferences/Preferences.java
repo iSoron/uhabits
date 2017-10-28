@@ -129,7 +129,7 @@ public class Preferences {
         return Integer.parseInt(storage.getString("pref_first_week_day", String.valueOf(calendar.getFirstDayOfWeek())));
     }
     public int getDayHourOffset() {
-        return Integer.parseInt(storage.getString("pref_day_hour_offset", "-15"));
+        return Integer.parseInt(storage.getString("pref_new_day_offset", "-15"));
     }
 
     public String getSyncAddress() {

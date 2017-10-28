@@ -60,7 +60,7 @@ public class SettingsActivity extends BaseActivity implements SharedPreferences.
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPref, String key) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        if (key.equalsIgnoreCase("pref_day_hour_offset")) {
+        if (key.equalsIgnoreCase("pref_new_day_offset")) {
 
             int dayHourOffset = 0;
             try {
