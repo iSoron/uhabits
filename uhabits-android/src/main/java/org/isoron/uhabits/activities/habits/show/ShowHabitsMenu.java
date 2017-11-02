@@ -57,6 +57,10 @@ public class ShowHabitsMenu extends BaseMenu
                 behavior.get().onExportCSV();
                 return true;
 
+            case R.id.action_delete:
+                behavior.get().onDeleteHabit();
+                return true;
+
             default:
                 return false;
         }
