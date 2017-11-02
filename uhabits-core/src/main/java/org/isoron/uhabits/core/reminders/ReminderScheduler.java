@@ -41,7 +41,7 @@ public class ReminderScheduler implements CommandRunner.Listener
 
     private SystemScheduler sys;
 
-    private Map< Long, Long > customReminders; // Habit id, Timestamp
+    private CustomReminders customReminders;
 
     @Inject
     public ReminderScheduler(@NonNull CommandRunner commandRunner,
@@ -51,7 +51,12 @@ public class ReminderScheduler implements CommandRunner.Listener
         this.commandRunner = commandRunner;
         this.habitList = habitList;
         this.sys = sys;
-        customReminders = new HashMap< Long, Long >();
+        this.customReminders = new CustomReminders();
+    }
+
+    public void setCustomRemindersSaver( CustomReminders.Saver saver )
+    {
+        customReminders.setSaver( saver );
     }
 
     @Override
@@ -81,8 +86,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     public void scheduleHabit(@NonNull Habit habit)
     {
         Long reminderTime = null;
-        if( customReminders.containsKey( habit.getId()))
-            reminderTime = customReminders.get( habit.getId());
+        reminderTime = customReminders.get( habit.getId());
         scheduleInternal(habit, reminderTime);
     }
 
@@ -94,7 +98,7 @@ public class ReminderScheduler implements CommandRunner.Listener
 
     public void scheduleHabitAtCustom(@NonNull Habit habit, @NonNull Long reminderTime)
     {
-        customReminders.put( habit.getId(), reminderTime );
+        customReminders.set( habit.getId(), reminderTime );
         scheduleInternal(habit, reminderTime);
     }
 

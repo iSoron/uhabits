@@ -25,6 +25,7 @@ import org.isoron.androidbase.*
 import org.isoron.uhabits.core.database.*
 import org.isoron.uhabits.core.reminders.*
 import org.isoron.uhabits.core.ui.*
+import org.isoron.uhabits.reminders.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
 import java.io.*
@@ -64,6 +65,7 @@ class HabitsApplication : Application() {
         widgetUpdater.startListening()
 
         reminderScheduler = component.reminderScheduler
+        reminderScheduler.setCustomRemindersSaver( CustomRemindersSaverXml( context ))
         reminderScheduler.startListening()
 
         notificationTray = component.notificationTray
