@@ -125,7 +125,13 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
+    <string name="create_stackview_widget_button">StackView Widget For All Habits</string>
     <string name="checkmark_stack_widget">Checkmark Stack Widget</string>
+    <string name="frequency_stack_widget">Frequency Stack Widget</string>
+    <string name="score_stack_widget">Score Stack Widget</string>
+    <string name="history_stack_widget">History Stack Widget</string>
+    <string name="streaks_stack_widget">Streaks Stack Widget</string>
+
 
     <string name="strength">Strength</string>
     <string name="best_streaks">Best streaks</string>

@@ -18,11 +18,17 @@
  */
 package org.isoron.uhabits.widgets
 
-import android.content.*
+import android.content.Context
 
 class StreakWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
+        // if the habit was null, but did not have a habit id associated with a stack widget,
+        // `getHabitFromWidgetId` will throw a HabitNotFoundException
         val habit = getHabitFromWidgetId(id)
-        return StreakWidget(context, id, habit)
+        if (habit != null) {
+            return StreakWidget(context, id, habit)
+        } else {
+            return StackWidget(context, id, StackWidgetType.STREAKS)
+        }
     }
 }

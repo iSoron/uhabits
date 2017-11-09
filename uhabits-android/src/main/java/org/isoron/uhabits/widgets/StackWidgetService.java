@@ -4,6 +4,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -12,37 +14,36 @@ import org.isoron.uhabits.HabitsApplication;
 import org.isoron.uhabits.core.models.Habit;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
 import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
 import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
-import static org.isoron.uhabits.widgets.CheckmarkStackWidgetService.HABIT_IDS_SELECTED;
+import static org.isoron.uhabits.widgets.StackWidgetService.WIDGET_TYPE;
 
-public class CheckmarkStackWidgetService extends RemoteViewsService {
+public class StackWidgetService extends RemoteViewsService {
 
-    public static final String HABIT_IDS_SELECTED = "HABIT_IDS_SELECTED";
+    public static final String WIDGET_TYPE = "WIDGET_TYPE";
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new CheckmarkStackRemoteViewsFactory(this.getApplicationContext(), intent);
+        return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 }
 
-class CheckmarkStackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
     private int mAppWidgetId;
     private ArrayList<Habit> mHabitList;
-    private List<Long> mHabitsSelected;
+    private StackWidgetType mWidgetType;
 
-    public CheckmarkStackRemoteViewsFactory(Context context, Intent intent) {
+    public StackRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        mHabitsSelected = new ArrayList<>();
-        for (long id : intent.getLongArrayExtra(HABIT_IDS_SELECTED)) {
-            mHabitsSelected.add(id);
+        int widgetTypeValue = intent.getIntExtra(WIDGET_TYPE, -1);
+        if (widgetTypeValue != -1) {
+            mWidgetType = StackWidgetType.getWidgetTypeFromValue(widgetTypeValue);
         }
     }
 
@@ -51,7 +52,7 @@ class CheckmarkStackRemoteViewsFactory implements RemoteViewsService.RemoteViews
     }
 
     public void onDestroy() {
-        mHabitList.clear();
+
     }
 
     public int getCount() {
@@ -75,18 +76,60 @@ class CheckmarkStackRemoteViewsFactory implements RemoteViewsService.RemoteViews
 
     public RemoteViews getViewAt(int position) {
         RemoteViews rv = null;
-
         if (position < getCount()) {
             Habit habit = mHabitList.get(position);
-            CheckmarkWidget checkmarkWidget = new CheckmarkWidget(mContext, mAppWidgetId, habit);
+            BaseWidget widget = initializeWidget(habit);
             Bundle options = AppWidgetManager.getInstance(mContext).getAppWidgetOptions(mAppWidgetId);
-            checkmarkWidget.setDimensions(getDimensionsFromOptions(mContext, options));
-            RemoteViews landscape = checkmarkWidget.getLandscapeRemoteViews();
-            RemoteViews portrait = checkmarkWidget.getPortraitRemoteViews();
-            rv = new RemoteViews(landscape, portrait);
+            widget.setDimensions(getDimensionsFromOptions(mContext, options));
+            final RemoteViews[] landscape = new RemoteViews[1];
+            final RemoteViews[] portrait = new RemoteViews[1];
+
+            Object lock = new Object();
+            final boolean[] flag = {false};
+
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (lock) {
+                        landscape[0] = widget.getLandscapeRemoteViews();
+                        portrait[0] = widget.getPortraitRemoteViews();
+                        flag[0] = true;
+                        lock.notifyAll();
+                    }
+                }
+            });
+
+            synchronized (lock) {
+                while (!flag[0]) {
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+            }
+
+            rv = new RemoteViews(landscape[0], portrait[0]);
         }
 
         return rv;
+    }
+
+    private BaseWidget initializeWidget(Habit habit) {
+        switch (mWidgetType) {
+            case CHECKMARK:
+                return new CheckmarkWidget(mContext, mAppWidgetId, habit);
+            case FREQUENCY:
+                return new FrequencyWidget(mContext, mAppWidgetId, habit);
+            case SCORE:
+                HabitsApplication app = (HabitsApplication) mContext.getApplicationContext();
+                return new ScoreWidget(mContext, mAppWidgetId, habit, app.getComponent().getPreferences());
+            case HISTORY:
+                return new HistoryWidget(mContext, mAppWidgetId, habit);
+            case STREAKS:
+                return new StreakWidget(mContext, mAppWidgetId, habit);
+        }
+        return null;
     }
 
     public RemoteViews getLoadingView() {
@@ -109,9 +152,7 @@ class CheckmarkStackRemoteViewsFactory implements RemoteViewsService.RemoteViews
         mHabitList = new ArrayList<>();
         HabitsApplication app = (HabitsApplication) mContext.getApplicationContext();
         for (Habit h : app.getComponent().getHabitList()) {
-            if (mHabitsSelected.contains(h.getId())) {
-                mHabitList.add(h);
-            }
+            mHabitList.add(h);
         }
     }
 }

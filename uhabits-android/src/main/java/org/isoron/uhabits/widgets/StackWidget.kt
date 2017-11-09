@@ -22,14 +22,14 @@ package org.isoron.uhabits.widgets
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
-import org.isoron.uhabits.R
 
-class CheckmarkStackWidget(
+class StackWidget(
         context: Context,
         widgetId: Int,
-        private val habitIds: List<Long>
+        private val widgetType: StackWidgetType
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context) = null
@@ -39,14 +39,16 @@ class CheckmarkStackWidget(
     }
 
     override fun getRemoteViews(width: Int, height: Int): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.stackview_widget)
-        val serviceIntent = Intent(context, CheckmarkStackWidgetService::class.java)
+        val remoteViews = RemoteViews(context.packageName, StackWidgetType.getStackWidgetLayoutId(widgetType))
+        val serviceIntent = Intent(context, StackWidgetService::class.java)
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
-        serviceIntent.putExtra(CheckmarkStackWidgetService.HABIT_IDS_SELECTED, habitIds.toLongArray())
-        remoteViews.setRemoteAdapter(R.id.stackWidgetView, serviceIntent)
-        AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(id, R.id.stackWidgetView)
+        serviceIntent.putExtra(StackWidgetService.WIDGET_TYPE, widgetType.value)
+        serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)))
+        remoteViews.setRemoteAdapter(StackWidgetType.getStackWidgetAdapterViewId(widgetType), serviceIntent)
+        AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(id, StackWidgetType.getStackWidgetAdapterViewId(widgetType))
         // TODO what should the empty view look like?
-        remoteViews.setEmptyView(R.id.stackWidgetView, R.id.stackWidgetEmptyView)
+        remoteViews.setEmptyView(StackWidgetType.getStackWidgetAdapterViewId(widgetType),
+                StackWidgetType.getStackWidgetEmptyViewId(widgetType))
         return remoteViews
     }
 

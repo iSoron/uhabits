@@ -18,13 +18,19 @@
  */
 package org.isoron.uhabits.widgets
 
-import android.content.*
-import org.isoron.uhabits.*
+import android.content.Context
+import org.isoron.uhabits.HabitsApplication
 
 class ScoreWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
-        val component = (context.applicationContext as HabitsApplication).component
+        // if the habit was null, but did not have a habit id associated with a stack widget,
+        // `getHabitFromWidgetId` will throw a HabitNotFoundException
         val habit = getHabitFromWidgetId(id)
-        return ScoreWidget(context, id, habit, component.preferences)
+        val component = (context.applicationContext as HabitsApplication).component
+        if (habit != null) {
+            return ScoreWidget(context, id, habit, component.preferences)
+        } else {
+            return StackWidget(context, id, StackWidgetType.SCORE)
+        }
     }
 }

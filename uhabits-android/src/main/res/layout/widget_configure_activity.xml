@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,10 +17,23 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ListView android:id="@+id/listView"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</ListView>
+    <Button
+        android:id="@+id/createStackWidgetButton"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/create_stackview_widget_button"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+    </ListView>
+
+</LinearLayout>

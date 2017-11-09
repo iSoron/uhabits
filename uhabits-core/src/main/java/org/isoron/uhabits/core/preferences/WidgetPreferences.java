@@ -21,17 +21,15 @@ package org.isoron.uhabits.core.preferences;
 
 import org.isoron.uhabits.core.AppScope;
 import org.isoron.uhabits.core.models.HabitNotFoundException;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 
 @AppScope
 public class WidgetPreferences {
     private Preferences.Storage storage;
+
+    public static final long STACK_WIDGET_HABITS = -1;
+    public static final long HABIT_NOT_FOUND = -2;
 
     @Inject
     public WidgetPreferences(Preferences.Storage storage) {
@@ -42,30 +40,11 @@ public class WidgetPreferences {
         storage.putLong(getHabitIdKey(widgetId), habitId);
     }
 
-    /**
-     * @param habitIds the string should be in the format: [habitId1, habitId2, habitId3...]
-     */
-    public void addWidget(int widgetId, String habitIds) {
-        storage.putString(getHabitIdKey(widgetId), habitIds);
-    }
-
     public long getHabitIdFromWidgetId(int widgetId) {
-        Long habitId = storage.getLong(getHabitIdKey(widgetId), -1);
-        if (habitId < 0) throw new HabitNotFoundException();
+        Long habitId = storage.getLong(getHabitIdKey(widgetId), HABIT_NOT_FOUND);
+        if (habitId == HABIT_NOT_FOUND) throw new HabitNotFoundException();
 
         return habitId;
-    }
-
-    public List<Long> getHabitIdsGroupFromWidgetId(int widgetId) {
-        String habitIdsGroup = storage.getString(getHabitIdKey(widgetId), "");
-        if (habitIdsGroup.isEmpty()) throw new HabitNotFoundException();
-
-        ArrayList<Long> habitIdList = new ArrayList<>();
-        for (String s : parseStringToList(habitIdsGroup)) {
-            habitIdList.add(Long.parseLong(s.trim()));
-        }
-
-        return habitIdList;
     }
 
     public void removeWidget(int id) {
@@ -75,10 +54,5 @@ public class WidgetPreferences {
 
     private String getHabitIdKey(int id) {
         return String.format("widget-%06d-habit", id);
-    }
-
-    private List<String> parseStringToList(@NotNull String str) {
-        return Arrays.asList(str.replace("[", "")
-                .replace("]", "").split(","));
     }
 }

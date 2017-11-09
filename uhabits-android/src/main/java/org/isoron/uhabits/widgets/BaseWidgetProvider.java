@@ -141,10 +141,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }).start();
     }
 
-    @NonNull
     protected Habit getHabitFromWidgetId(int widgetId)
     {
         long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
+        if (habitId == WidgetPreferences.STACK_WIDGET_HABITS) {
+            return null;
+        }
         Habit habit = habits.getById(habitId);
         if (habit == null) throw new HabitNotFoundException();
         return habit;

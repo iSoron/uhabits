@@ -23,6 +23,7 @@ import android.app.*
 import android.appwidget.AppWidgetManager.*
 import android.content.*
 import android.os.*
+import android.util.Log
 import android.view.*
 import android.widget.*
 import org.isoron.uhabits.*
@@ -60,6 +61,16 @@ class HabitPickerDialog : Activity(), AdapterView.OnItemClickListener {
             adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1,
                                    habitNames)
             onItemClickListener = this@HabitPickerDialog
+        }
+        with(findViewById(R.id.createStackWidgetButton) as Button) {
+            setOnClickListener(View.OnClickListener {
+                preferences.addWidget(widgetId, WidgetPreferences.STACK_WIDGET_HABITS)
+                widgetUpdater.updateWidgets()
+                setResult(Activity.RESULT_OK, Intent().apply {
+                    putExtra(EXTRA_APPWIDGET_ID, widgetId)
+                })
+                finish()
+            })
         }
     }
 

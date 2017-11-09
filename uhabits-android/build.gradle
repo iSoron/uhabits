@@ -89,6 +89,7 @@ android {
     sourceSets {
         main.assets.srcDirs += '../uhabits-core/src/main/resources/'
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {

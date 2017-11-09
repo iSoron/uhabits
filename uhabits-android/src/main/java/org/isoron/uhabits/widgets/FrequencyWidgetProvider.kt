@@ -19,11 +19,17 @@
 
 package org.isoron.uhabits.widgets
 
-import android.content.*
+import android.content.Context
 
 class FrequencyWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
+        // if the habit was null, but did not have a habit id associated with a stack widget,
+        // `getHabitFromWidgetId` will throw a HabitNotFoundException
         val habit = getHabitFromWidgetId(id)
-        return FrequencyWidget(context, id, habit)
+        if (habit != null) {
+            return FrequencyWidget(context, id, habit)
+        } else {
+            return StackWidget(context, id, StackWidgetType.FREQUENCY)
+        }
     }
 }
