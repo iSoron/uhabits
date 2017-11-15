@@ -46,4 +46,9 @@
         android:title="@string/delete"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_notify"
+        android:title="@string/reminder"
+        app:showAsAction="never"/>
+
 </menu>
