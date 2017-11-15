@@ -76,6 +76,12 @@ class AndroidNotificationTray
                 context.getString(R.string.snooze),
                 pendingIntents.snoozeNotification(habit))
 
+        val cancelAction = Action(
+                R.drawable.ic_action_cancel,
+                context.getString(android.R.string.no),
+                pendingIntents.cancelNotification(habit)
+        )
+
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 
         // Even though the set of actions is the same on the phone and
@@ -85,6 +91,7 @@ class AndroidNotificationTray
                 .setBackground(wearableBg)
                 .addAction(checkAction)
                 .addAction(snoozeAction)
+                .addAction(cancelAction)
 
         val builder = NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -94,6 +101,7 @@ class AndroidNotificationTray
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .addAction(checkAction)
                 .addAction(snoozeAction)
+                .addAction(cancelAction)
                 .setSound(ringtoneManager.getURI())
                 .extend(wearableExtender)
                 .setWhen(reminderTime)

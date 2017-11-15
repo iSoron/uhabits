@@ -46,6 +46,9 @@ public class WidgetReceiver extends BroadcastReceiver
     public static final String ACTION_REMOVE_REPETITION =
         "org.isoron.uhabits.ACTION_REMOVE_REPETITION";
 
+    public static final String ACTION_CANCEL_REPETITION =
+            "org.isoron.uhabits.ACTION_CANCEL_REPETITION";
+
     public static final String ACTION_TOGGLE_REPETITION =
         "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
 
@@ -87,6 +90,11 @@ public class WidgetReceiver extends BroadcastReceiver
                 case ACTION_REMOVE_REPETITION:
                     controller.onRemoveRepetition(data.getHabit(),
                         data.getTimestamp());
+                    break;
+
+                case ACTION_CANCEL_REPETITION:
+                    controller.onCancelRepetition(data.getHabit(),
+                            data.getTimestamp());
                     break;
             }
         }
