@@ -91,7 +91,7 @@ public class SQLiteHabitList extends HabitList
 
     @Override
     @Nullable
-    public Habit getById(long id)
+    public synchronized Habit getById(long id)
     {
         loadRecords();
         return list.getById(id);
@@ -99,7 +99,7 @@ public class SQLiteHabitList extends HabitList
 
     @Override
     @NonNull
-    public Habit getByPosition(int position)
+    public synchronized Habit getByPosition(int position)
     {
         loadRecords();
         return list.getByPosition(position);
@@ -107,7 +107,7 @@ public class SQLiteHabitList extends HabitList
 
     @NonNull
     @Override
-    public HabitList getFiltered(HabitMatcher filter)
+    public synchronized HabitList getFiltered(HabitMatcher filter)
     {
         loadRecords();
         return list.getFiltered(filter);
@@ -121,21 +121,21 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public void setOrder(@NonNull Order order)
+    public synchronized void setOrder(@NonNull Order order)
     {
         list.setOrder(order);
         getObservable().notifyListeners();
     }
 
     @Override
-    public int indexOf(@NonNull Habit h)
+    public synchronized int indexOf(@NonNull Habit h)
     {
         loadRecords();
         return list.indexOf(h);
     }
 
     @Override
-    public Iterator<Habit> iterator()
+    public synchronized Iterator<Habit> iterator()
     {
         loadRecords();
         return list.iterator();
@@ -214,7 +214,7 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public void repair()
+    public synchronized void repair()
     {
         loadRecords();
         rebuildOrder();
@@ -222,7 +222,7 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
-    public int size()
+    public synchronized int size()
     {
         loadRecords();
         return list.size();
@@ -245,7 +245,7 @@ public class SQLiteHabitList extends HabitList
         getObservable().notifyListeners();
     }
 
-    public void reload()
+    public synchronized void reload()
     {
         loaded = false;
     }

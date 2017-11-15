@@ -220,4 +220,6 @@
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
     <string name="target">Target</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

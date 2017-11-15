@@ -23,6 +23,7 @@ import android.app.*
 import android.content.*
 import android.graphics.*
 import android.graphics.BitmapFactory.*
+import android.support.annotation.*
 import android.support.v4.app.*
 import android.support.v4.app.NotificationCompat.*
 import org.isoron.androidbase.*
@@ -50,17 +51,36 @@ class AndroidNotificationTray
     override fun showNotification(habit: Habit,
                                   notificationId: Int,
                                   timestamp: Timestamp,
-                                  reminderTime: Long) {
+                                  reminderTime: Long)
+    {
+        val notificationManager = NotificationManagerCompat.from(context)
+        val summary = buildSummary(reminderTime)
+        notificationManager.notify(Int.MAX_VALUE, summary)
+        val notification = buildNotification(habit, reminderTime, timestamp)
+        notificationManager.notify(notificationId, notification)
+    }
 
-        val checkAction = Action(
+    @NonNull
+    fun buildNotification(@NonNull habit: Habit,
+                          @NonNull reminderTime: Long,
+                          @NonNull timestamp: Timestamp) : Notification
+    {
+
+        val addRepetitionAction = Action(
                 R.drawable.ic_action_check,
-                context.getString(R.string.check),
+                context.getString(R.string.yes),
                 pendingIntents.addCheckmark(habit, timestamp))
 
         val snoozeAction = Action(
                 R.drawable.ic_action_snooze,
                 context.getString(R.string.snooze),
                 pendingIntents.snoozeNotification(habit))
+
+        val removeRepetitionAction = Action(
+                R.drawable.ic_action_cancel,
+                context.getString(R.string.no),
+                pendingIntents.removeRepetition(habit)
+        )
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 
@@ -69,7 +89,8 @@ class AndroidNotificationTray
         // WearableExtender.
         val wearableExtender = WearableExtender()
                 .setBackground(wearableBg)
-                .addAction(checkAction)
+                .addAction(addRepetitionAction)
+                .addAction(removeRepetitionAction)
                 .addAction(snoozeAction)
 
         val builder = NotificationCompat.Builder(context)
@@ -78,20 +99,32 @@ class AndroidNotificationTray
                 .setContentText(habit.description)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .addAction(checkAction)
+                .addAction(addRepetitionAction)
+                .addAction(removeRepetitionAction)
                 .addAction(snoozeAction)
                 .setSound(ringtoneManager.getURI())
                 .extend(wearableExtender)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
+		        .setGroup("default")
 
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
 
-        val notificationManager = context.getSystemService(
-                Activity.NOTIFICATION_SERVICE) as NotificationManager
+	return builder.build()
+    }
 
-        notificationManager.notify(notificationId, builder.build())
+    @NonNull
+    private fun buildSummary(@NonNull reminderTime: Long) : Notification
+    {
+        return NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setWhen(reminderTime)
+                .setShowWhen(true)
+                .setGroup("default")
+                .setGroupSummary(true)
+                .build()
     }
 }
