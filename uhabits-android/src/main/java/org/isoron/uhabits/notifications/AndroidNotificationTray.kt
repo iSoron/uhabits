@@ -23,6 +23,7 @@ import android.app.*
 import android.content.*
 import android.graphics.*
 import android.graphics.BitmapFactory.*
+import android.support.annotation.*
 import android.support.v4.app.*
 import android.support.v4.app.NotificationCompat.*
 import org.isoron.androidbase.*
@@ -50,7 +51,20 @@ class AndroidNotificationTray
     override fun showNotification(habit: Habit,
                                   notificationId: Int,
                                   timestamp: Timestamp,
-                                  reminderTime: Long) {
+                                  reminderTime: Long)
+    {
+        val notificationManager = NotificationManagerCompat.from(context)
+        val summary = buildSummary(reminderTime)
+        notificationManager.notify(Int.MAX_VALUE, summary)
+        val notification = buildNotification(habit, reminderTime, timestamp)
+        notificationManager.notify(notificationId, notification)
+    }
+
+    @NonNull
+    fun buildNotification(@NonNull habit: Habit,
+                          @NonNull reminderTime: Long,
+                          @NonNull timestamp: Timestamp) : Notification
+    {
 
         val checkAction = Action(
                 R.drawable.ic_action_check,
@@ -85,13 +99,24 @@ class AndroidNotificationTray
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
+		        .setGroup("default")
 
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
 
-        val notificationManager = context.getSystemService(
-                Activity.NOTIFICATION_SERVICE) as NotificationManager
+	return builder.build()
+    }
 
-        notificationManager.notify(notificationId, builder.build())
+    @NonNull
+    private fun buildSummary(@NonNull reminderTime: Long) : Notification
+    {
+        return NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setWhen(reminderTime)
+                .setShowWhen(true)
+                .setGroup("default")
+                .setGroupSummary(true)
+                .build()
     }
 }
