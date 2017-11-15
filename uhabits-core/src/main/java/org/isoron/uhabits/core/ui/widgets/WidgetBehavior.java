@@ -48,23 +48,18 @@ public class WidgetBehavior
 
     public void onAddRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
+        notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
         performToggle(habit, timestamp);
-        notificationTray.cancel(habit);
     }
 
     public void onRemoveRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
+        notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
         performToggle(habit, timestamp);
-    }
-
-    public void onCancelRepetition(@NonNull Habit habit, Timestamp timestamp)
-    {
-        onRemoveRepetition(habit, timestamp);
-        notificationTray.cancel(habit);
     }
 
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)

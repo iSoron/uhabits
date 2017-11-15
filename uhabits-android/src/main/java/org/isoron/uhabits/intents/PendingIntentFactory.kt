@@ -54,11 +54,11 @@ class PendingIntentFactory
                     },
                     FLAG_UPDATE_CURRENT)
 
-    fun cancelNotification(habit: Habit): PendingIntent =
+    fun removeRepetition(habit: Habit): PendingIntent =
             PendingIntent.getBroadcast(
                     context, 3,
                     Intent(context, WidgetReceiver::class.java).apply {
-                        action = WidgetReceiver.ACTION_CANCEL_REPETITION
+                        action = WidgetReceiver.ACTION_REMOVE_REPETITION
                         data = Uri.parse(habit.uriString)
                     },
                     FLAG_UPDATE_CURRENT)

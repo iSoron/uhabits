@@ -66,9 +66,9 @@ class AndroidNotificationTray
                           @NonNull timestamp: Timestamp) : Notification
     {
 
-        val checkAction = Action(
+        val addRepetitionAction = Action(
                 R.drawable.ic_action_check,
-                context.getString(R.string.check),
+                context.getString(R.string.yes),
                 pendingIntents.addCheckmark(habit, timestamp))
 
         val snoozeAction = Action(
@@ -76,10 +76,10 @@ class AndroidNotificationTray
                 context.getString(R.string.snooze),
                 pendingIntents.snoozeNotification(habit))
 
-        val cancelAction = Action(
+        val removeRepetitionAction = Action(
                 R.drawable.ic_action_cancel,
-                context.getString(android.R.string.no),
-                pendingIntents.cancelNotification(habit)
+                context.getString(R.string.no),
+                pendingIntents.removeRepetition(habit)
         )
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
@@ -89,9 +89,9 @@ class AndroidNotificationTray
         // WearableExtender.
         val wearableExtender = WearableExtender()
                 .setBackground(wearableBg)
-                .addAction(checkAction)
+                .addAction(addRepetitionAction)
+                .addAction(removeRepetitionAction)
                 .addAction(snoozeAction)
-                .addAction(cancelAction)
 
         val builder = NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -99,9 +99,9 @@ class AndroidNotificationTray
                 .setContentText(habit.description)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .addAction(checkAction)
+                .addAction(addRepetitionAction)
+                .addAction(removeRepetitionAction)
                 .addAction(snoozeAction)
-                .addAction(cancelAction)
                 .setSound(ringtoneManager.getURI())
                 .extend(wearableExtender)
                 .setWhen(reminderTime)
