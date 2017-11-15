@@ -50,7 +50,7 @@ public class ShowHabitMenuBehaviorTest extends BaseUnitTest
 
         habit = fixtures.createShortHabit();
         menu = new ShowHabitMenuBehavior(habitList, habit, taskRunner, screen,
-            system);
+            system, commandRunner);
     }
 
     @Test
