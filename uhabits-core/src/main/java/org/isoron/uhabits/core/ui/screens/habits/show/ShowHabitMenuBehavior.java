@@ -21,11 +21,10 @@ package org.isoron.uhabits.core.ui.screens.habits.show;
 
 import android.support.annotation.*;
 
-import org.isoron.uhabits.core.commands.CommandRunner;
-import org.isoron.uhabits.core.commands.DeleteHabitsCommand;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback;
+import org.isoron.uhabits.core.ui.callbacks.*;
 
 import java.io.*;
 import java.util.*;
@@ -92,8 +91,7 @@ public class ShowHabitMenuBehavior
         screen.showDeleteConfirmationScreen(() -> {
             commandRunner.execute(new DeleteHabitsCommand(habitList, selected),
                     null);
-            screen.showMessage(Message.HABIT_DELETED);
-            screen.endActivity();
+            screen.close();
         });
     }
 
@@ -113,7 +111,7 @@ public class ShowHabitMenuBehavior
         void showDeleteConfirmationScreen(
                 @NonNull OnConfirmedCallback callback);
 
-        void endActivity();
+        void close();
     }
 
     public interface System

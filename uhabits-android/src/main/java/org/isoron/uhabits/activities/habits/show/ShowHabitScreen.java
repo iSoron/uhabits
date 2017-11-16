@@ -26,8 +26,8 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
-import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback;
 
 import javax.inject.*;
 
@@ -56,19 +56,18 @@ public class ShowHabitScreen extends BaseScreen
                            @NonNull Habit habit,
                            @NonNull ShowHabitRootView view,
                            @NonNull ShowHabitsMenu menu,
-                           @NonNull
-                                   EditHabitDialogFactory editHabitDialogFactory,
+                           @NonNull EditHabitDialogFactory editHabitDialogFactory,
                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                            @NonNull Lazy<ShowHabitBehavior> behavior)
     {
         super(activity);
-        this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         setMenu(menu);
         setRootView(view);
 
         this.habit = habit;
         this.behavior = behavior;
         this.editHabitDialogFactory = editHabitDialogFactory;
+        this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         view.setController(this);
     }
 
@@ -122,18 +121,19 @@ public class ShowHabitScreen extends BaseScreen
         {
             case COULD_NOT_EXPORT:
                 showMessage(R.string.could_not_export);
+
             case HABIT_DELETED:
                 showMessage(R.string.delete_habits_message);
         }
     }
 
     @Override
-    public void showDeleteConfirmationScreen(OnConfirmedCallback callback) {
+    public void showDeleteConfirmationScreen(@NonNull OnConfirmedCallback callback) {
         activity.showDialog(confirmDeleteDialogFactory.create(callback));
     }
 
     @Override
-    public void endActivity() {
+    public void close() {
         activity.finish();
     }
 }
