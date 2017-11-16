@@ -27,6 +27,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_delete"
+        android:title="@string/delete"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_edit_habit"
         android:icon="?iconEdit"
         android:title="@string/edit"
