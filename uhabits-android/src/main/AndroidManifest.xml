@@ -91,6 +91,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity"/>
         </activity>
+        <activity android:name=".notifications.SnoozeDelayActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
 
         <receiver
             android:name=".widgets.CheckmarkWidgetProvider"
