@@ -52,19 +52,21 @@ public class ReminderScheduler implements CommandRunner.Listener
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        if(command instanceof ToggleRepetitionCommand) return;
-        if(command instanceof ChangeHabitColorCommand) return;
+        if (command instanceof ToggleRepetitionCommand) return;
+        if (command instanceof ChangeHabitColorCommand) return;
         scheduleAll();
     }
 
     public void schedule(@NonNull Habit habit)
     {
+        if (!habit.hasReminder()) return;
         Long reminderTime = habit.getReminder().getTimeInMillis();
         scheduleAtTime(habit, reminderTime);
     }
 
     public void scheduleAtTime(@NonNull Habit habit, @NonNull Long reminderTime)
     {
+        if (reminderTime == null) throw new IllegalArgumentException();
         if (!habit.hasReminder()) return;
         if (habit.isArchived()) return;
         long timestamp = getStartOfDay(removeTimezone(reminderTime));

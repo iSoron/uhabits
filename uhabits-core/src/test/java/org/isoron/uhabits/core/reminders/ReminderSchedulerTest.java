@@ -118,7 +118,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_withoutReminder()
     {
-        reminderScheduler.schedule(habit, null);
+        reminderScheduler.schedule(habit);
         Mockito.verifyZeroInteractions(sys);
     }
 
@@ -133,7 +133,8 @@ public class ReminderSchedulerTest extends BaseUnitTest
                                    long expectedCheckmarkTime,
                                    long expectedReminderTime)
     {
-        reminderScheduler.schedule(habit, atTime);
+        if(atTime == null) reminderScheduler.schedule(habit);
+        else reminderScheduler.scheduleAtTime(habit, atTime);
         verify(sys).scheduleShowReminder(expectedReminderTime, habit,
             expectedCheckmarkTime);
     }

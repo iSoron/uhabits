@@ -72,7 +72,7 @@ public class ReminderControllerTest extends BaseAndroidJVMTest
 
         controller.onSnoozePressed(habit,null);
 
-        verify(reminderScheduler).scheduleAtTime(habit, nowTz + 900000);
+        verify(reminderScheduler).scheduleMinutesFromNow(habit, 15L);
         verify(notificationTray).cancel(habit);
     }
 
