@@ -104,9 +104,8 @@ public class ReminderController
     private void showSnoozeDelayPicker(@NonNull Habit habit, Context context)
     {
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-        Intent intent = new Intent(SnoozeDelayPickerActivity.ACTION_ASK_SNOOZE,
-                Uri.parse(habit.getUriString()),
-                context, SnoozeDelayPickerActivity.class);
+        Intent intent = new Intent(context, SnoozeDelayPickerActivity.class);
+        intent.setData(Uri.parse(habit.getUriString()));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
