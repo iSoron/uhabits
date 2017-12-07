@@ -44,8 +44,15 @@ class AndroidNotificationTray
         private val ringtoneManager: RingtoneManager
 ) : NotificationTray.SystemTray {
 
+    private var active = HashSet<Int>()
+
     override fun removeNotification(id: Int) {
-        NotificationManagerCompat.from(context).cancel(id)
+        val manager = NotificationManagerCompat.from(context)
+        manager.cancel(id)
+        active.remove(id)
+
+        // Clear the group summary notification
+        if(active.isEmpty()) manager.cancelAll()
     }
 
     override fun showNotification(habit: Habit,
@@ -58,6 +65,7 @@ class AndroidNotificationTray
         notificationManager.notify(Int.MAX_VALUE, summary)
         val notification = buildNotification(habit, reminderTime, timestamp)
         notificationManager.notify(notificationId, notification)
+        active.add(notificationId)
     }
 
     @NonNull
@@ -79,8 +87,7 @@ class AndroidNotificationTray
         val removeRepetitionAction = Action(
                 R.drawable.ic_action_cancel,
                 context.getString(R.string.no),
-                pendingIntents.removeRepetition(habit)
-        )
+                pendingIntents.removeRepetition(habit))
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 

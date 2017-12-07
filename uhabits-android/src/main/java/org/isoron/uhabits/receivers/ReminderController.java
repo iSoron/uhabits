@@ -19,19 +19,21 @@
 
 package org.isoron.uhabits.receivers;
 
+import android.content.*;
+import android.net.*;
 import android.support.annotation.*;
 
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.notifications.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
-import static org.isoron.uhabits.core.utils.DateUtils.getLocalTime;
-
-@ReceiverScope
+@AppScope
 public class ReminderController
 {
     @NonNull
@@ -40,6 +42,7 @@ public class ReminderController
     @NonNull
     private final NotificationTray notificationTray;
 
+    @NonNull
     private Preferences preferences;
 
     @Inject
@@ -65,19 +68,45 @@ public class ReminderController
         reminderScheduler.scheduleAll();
     }
 
-    public void onSnooze(@NonNull Habit habit)
+    public void onSnoozePressed(@NonNull Habit habit, final Context context)
     {
-        long snoozeInterval = preferences.getSnoozeInterval();
+        long delay = preferences.getSnoozeInterval();
 
-        long now = applyTimezone(getLocalTime());
-        long reminderTime = now + snoozeInterval * 60 * 1000;
+        if (delay < 0)
+            showSnoozeDelayPicker(habit, context);
+        else
+            scheduleReminderMinutesFromNow(habit, delay);
+    }
 
-        reminderScheduler.schedule(habit, reminderTime);
+    public void onSnoozeDelayPicked(Habit habit, int delay)
+    {
+        scheduleReminderMinutesFromNow(habit, delay);
+    }
+
+    public void onSnoozeTimePicked(Habit habit, int hour, int minute)
+    {
+        Long time = DateUtils.getUpcomingTimeInMillis(hour, minute);
+        reminderScheduler.scheduleAtTime(habit, time);
         notificationTray.cancel(habit);
     }
 
     public void onDismiss(@NonNull Habit habit)
     {
         notificationTray.cancel(habit);
+    }
+
+    private void scheduleReminderMinutesFromNow(Habit habit, long minutes)
+    {
+        reminderScheduler.scheduleMinutesFromNow(habit, minutes);
+        notificationTray.cancel(habit);
+    }
+
+    private void showSnoozeDelayPicker(@NonNull Habit habit, Context context)
+    {
+        context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        Intent intent = new Intent(context, SnoozeDelayPickerActivity.class);
+        intent.setData(Uri.parse(habit.getUriString()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }
