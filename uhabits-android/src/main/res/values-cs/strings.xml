@@ -151,9 +151,6 @@
   <string name="total">Celkem</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">krát za</string>
-  <string name="every_x_days">Každých %d dní</string>
-  <string name="every_x_weeks">Každých %d týdnů</string>
-  <string name="every_x_months">Každých %d měsíců</string>
   <string name="score">Skóre</string>
   <string name="reminder_sound">Zvuk upomínky</string>
   <string name="none">Žádný</string>

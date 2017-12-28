@@ -151,9 +151,6 @@
   <string name="total">Ukupno</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">put svakih</string>
-  <string name="every_x_days">Svaka %d dana</string>
-  <string name="every_x_weeks">Svaka %d tjedna</string>
-  <string name="every_x_months">Svaka %d mjeseca</string>
   <string name="score">Rezultat</string>
   <string name="reminder_sound">Zvuk podsjetnika</string>
   <string name="none">Nijedan</string>

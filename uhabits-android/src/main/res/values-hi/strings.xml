@@ -200,12 +200,6 @@ repetitions की संख्या\"</string>
   <string name="year">साल</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">समय में</string>
-  <string name="every_x_days">\"
-हर %d दिन\"</string>
-  <string name="every_x_weeks">\"
-हर %d हफ्ते\"</string>
-  <string name="every_x_months">\"
-हर %d महीने\"</string>
   <string name="score">स्कोर</string>
   <string name="reminder_sound">अनुस्मारक ध्वनि</string>
   <string name="none">\"

@@ -145,9 +145,6 @@
   <string name="year">År</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">Tid til</string>
-  <string name="every_x_days">Hver %d dage</string>
-  <string name="every_x_weeks">Hver %d uger</string>
-  <string name="every_x_months">Hver %d måneder</string>
   <string name="score">Point</string>
   <string name="reminder_sound">Påmindelse lyd</string>
   <string name="none">Ingen</string>

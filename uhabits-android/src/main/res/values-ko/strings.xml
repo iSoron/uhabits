@@ -151,9 +151,6 @@
   <string name="total">전체</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">번</string>
-  <string name="every_x_days">%d일 마다</string>
-  <string name="every_x_weeks">%d주 마다</string>
-  <string name="every_x_months">%d개월 마다</string>
   <string name="score">점수</string>
   <string name="reminder_sound">알림음</string>
   <string name="none">무음</string>

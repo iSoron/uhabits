@@ -148,9 +148,6 @@
   <string name="year">Χρόνος</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">φορά σε</string>
-  <string name="every_x_days">Κάθε %d ημέρες</string>
-  <string name="every_x_weeks">Κάθε %d εβδομάδες</string>
-  <string name="every_x_months">Κάθε %d μήνες</string>
   <string name="score">Σκόρ</string>
   <string name="reminder_sound">Ήχος υπενθύμισης</string>
   <string name="none">Σιωπηλό</string>

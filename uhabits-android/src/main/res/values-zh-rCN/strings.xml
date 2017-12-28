@@ -152,9 +152,6 @@
   <string name="total">总数</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">次每</string>
-  <string name="every_x_days">每 %d 天</string>
-  <string name="every_x_weeks">每 %d 周</string>
-  <string name="every_x_months">每 %d 月</string>
   <string name="score">成绩</string>
   <string name="reminder_sound">提醒声音</string>
   <string name="none">无</string>

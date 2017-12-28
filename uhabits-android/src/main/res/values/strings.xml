@@ -179,9 +179,6 @@
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">time in</string>
 
-    <string name="every_x_days">Every %d days</string>
-    <string name="every_x_weeks">Every %d weeks</string>
-    <string name="every_x_months">Every %d months</string>
     <string name="score">Score</string>
     <string name="reminder_sound">Reminder sound</string>
     <string name="none">None</string>
@@ -222,4 +219,21 @@
     <string name="target">Target</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <plurals name="times_a_day">
+        <item quantity="one">Every day</item>
+        <item quantity="other">%d times a day</item>
+    </plurals>
+    <plurals name="times_a_week">
+        <item quantity="one">Every week</item>
+        <item quantity="other">%d times a week</item>
+    </plurals>
+    <plurals name="times_a_month">
+        <item quantity="one">Every month</item>
+        <item quantity="other">%d times a month</item>
+    </plurals>
+    <plurals name="times_unknown_interval">
+        <item quantity="one">Every %2$d days</item>
+        <item quantity="other">%1$d times in %2$d days</item>
+    </plurals>
 </resources>

@@ -151,9 +151,6 @@
   <string name="total">Усього</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">раз у</string>
-  <string name="every_x_days">Кожні %d дні(-в)</string>
-  <string name="every_x_weeks">Кожні %d тижні(-в)</string>
-  <string name="every_x_months">Кожні %d місяці (-в)</string>
   <string name="score">Сталість</string>
   <string name="reminder_sound">Звук нагадування</string>
   <string name="none">Немає</string>
