@@ -87,22 +87,18 @@ public class SubtitleCard extends HabitCard
     private String toText(Frequency freq)
     {
         Resources resources = getResources();
-        Integer num = freq.getNumerator();
-        Integer den = freq.getDenominator();
+        int num = freq.getNumerator();
+        int den = freq.getDenominator();
 
-        if (num.equals(den)) return resources.getString(R.string.every_day);
-
-        if (num == 1)
-        {
-            if (den == 7) return resources.getString(R.string.every_week);
-            if (den % 7 == 0)
-                return resources.getString(R.string.every_x_weeks, den / 7);
-            return resources.getString(R.string.every_x_days, den);
+        if (den == 1) {
+            return resources.getQuantityString(R.plurals.times_a_day, num, num);
+        } else if (den == 7) {
+            return resources.getQuantityString(R.plurals.times_a_week, num, num);
+        } else if (den == 28) {
+            return resources.getQuantityString(R.plurals.times_a_month, num, num);
+        } else {
+            return resources.getQuantityString(R.plurals.times_unknown_interval, num, num, den);
         }
-
-        String times_every = resources.getString(R.string.times_every);
-        return String.format("%d %s %d %s", num, times_every, den,
-            resources.getString(R.string.days));
     }
 
     private void updateReminderText(Reminder reminder)

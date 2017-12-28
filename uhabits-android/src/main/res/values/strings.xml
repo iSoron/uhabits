@@ -222,4 +222,21 @@
     <string name="target">Target</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <plurals name="times_a_day">
+        <item quantity="one">Every day</item>
+        <item quantity="other">%d times a day</item>
+    </plurals>
+    <plurals name="times_a_week">
+        <item quantity="one">Every week</item>
+        <item quantity="other">%d times a week</item>
+    </plurals>
+    <plurals name="times_a_month">
+        <item quantity="one">Every month</item>
+        <item quantity="other">%d times a month</item>
+    </plurals>
+    <plurals name="times_unknown_interval">
+        <item quantity="one">Every %2$d days</item>
+        <item quantity="other">%1$d times in %2$d days</item>
+    </plurals>
 </resources>
