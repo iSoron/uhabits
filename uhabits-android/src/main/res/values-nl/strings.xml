@@ -151,9 +151,6 @@
   <string name="total">Totaal</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">keer per</string>
-  <string name="every_x_days">Iedere %d dagen</string>
-  <string name="every_x_weeks">Iedere %d weken</string>
-  <string name="every_x_months">Iedere %d maanden</string>
   <string name="score">Score</string>
   <string name="reminder_sound">Herinneringsgeluid</string>
   <string name="none">Stil</string>

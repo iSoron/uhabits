@@ -151,9 +151,6 @@
   <string name="total">Tümü</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">kez</string>
-  <string name="every_x_days">Her %d gün</string>
-  <string name="every_x_weeks">Her %d hafta</string>
-  <string name="every_x_months">Her %d ay</string>
   <string name="score">Puan</string>
   <string name="reminder_sound">Hatırlatma sesi</string>
   <string name="none">Sessiz</string>

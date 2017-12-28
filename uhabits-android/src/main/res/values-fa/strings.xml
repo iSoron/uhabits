@@ -151,9 +151,6 @@
   <string name="total">مجموع</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">بار در هر</string>
-  <string name="every_x_days">هر %d روز یک‌بار</string>
-  <string name="every_x_weeks">هر %d هفته یک‌بار</string>
-  <string name="every_x_months">هر %d ماه یک‌بار</string>
   <string name="score">امتیاز</string>
   <string name="reminder_sound">صدای یادآور</string>
   <string name="none">هیچ‌کدام</string>

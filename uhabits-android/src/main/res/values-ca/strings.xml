@@ -148,9 +148,6 @@
   <string name="year">Any</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">vegades en</string>
-  <string name="every_x_days">Cada %d dies</string>
-  <string name="every_x_weeks">Cada %d setmanes</string>
-  <string name="every_x_months">Cada %d mesos</string>
   <string name="score">Puntuació</string>
   <string name="reminder_sound">So de recordatori</string>
   <string name="none">Cap</string>

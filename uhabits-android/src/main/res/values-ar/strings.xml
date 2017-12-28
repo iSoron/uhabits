@@ -150,9 +150,6 @@
   <string name="total">المجموع</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">مرات في</string>
-  <string name="every_x_days">كل %d أيام</string>
-  <string name="every_x_weeks">كل %d أسابيع</string>
-  <string name="every_x_months">كل %d أشهر</string>
   <string name="score">النقاط</string>
   <string name="reminder_sound">صوت تذكير</string>
   <string name="none">صامت</string>

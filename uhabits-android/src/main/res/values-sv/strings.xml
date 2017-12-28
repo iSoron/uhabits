@@ -151,9 +151,6 @@
   <string name="total">Totalt</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">gånger var</string>
-  <string name="every_x_days">Var %d:e dag</string>
-  <string name="every_x_weeks">Var %d:e vecka</string>
-  <string name="every_x_months">Var %d:e månad</string>
   <string name="score">Poäng</string>
   <string name="reminder_sound">Påminnelseljud</string>
   <string name="none">Inget</string>

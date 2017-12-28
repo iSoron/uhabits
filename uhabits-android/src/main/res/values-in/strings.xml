@@ -151,9 +151,6 @@
     <string name="total">Total</string>
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">kali dalam</string>
-    <string name="every_x_days">Setiap %d hari</string>
-    <string name="every_x_weeks">Setiap %d minggu</string>
-    <string name="every_x_months">Setiap %d bulan</string>
     <string name="score">Skor</string>
     <string name="reminder_sound">Suara pengingat</string>
     <string name="none">Hening</string>

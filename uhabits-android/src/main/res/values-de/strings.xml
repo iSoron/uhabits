@@ -151,9 +151,6 @@
   <string name="total">Gesamt</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">Mal in</string>
-  <string name="every_x_days">Alle %d Tage</string>
-  <string name="every_x_weeks">Alle %d Wochen</string>
-  <string name="every_x_months">Alle %d Monate</string>
   <string name="score">Wertung</string>
   <string name="reminder_sound">Erinnerungston</string>
   <string name="none">Keiner</string>

@@ -151,9 +151,6 @@
   <string name="total">Общо</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">път в период от</string>
-  <string name="every_x_days">На всеки %d дни</string>
-  <string name="every_x_weeks">На всеки %d седмици</string>
-  <string name="every_x_months">На всеки %d месеца</string>
   <string name="score">Сила</string>
   <string name="reminder_sound">Звук за напомняне</string>
   <string name="none">Няма</string>

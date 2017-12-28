@@ -151,9 +151,6 @@
   <string name="total">Összesen</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">alk. /</string>
-  <string name="every_x_days">%d naponta</string>
-  <string name="every_x_weeks">%d hetente</string>
-  <string name="every_x_months">%d havonta</string>
   <string name="score">Pont</string>
   <string name="reminder_sound">Emlékeztető dallama</string>
   <string name="none">Nem ismétlődik</string>

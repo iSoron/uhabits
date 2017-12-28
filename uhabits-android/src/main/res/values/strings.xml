@@ -179,9 +179,6 @@
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">time in</string>
 
-    <string name="every_x_days">Every %d days</string>
-    <string name="every_x_weeks">Every %d weeks</string>
-    <string name="every_x_months">Every %d months</string>
     <string name="score">Score</string>
     <string name="reminder_sound">Reminder sound</string>
     <string name="none">None</string>

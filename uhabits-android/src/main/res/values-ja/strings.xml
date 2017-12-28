@@ -148,9 +148,6 @@
   <string name="year">年</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">回 /</string>
-  <string name="every_x_days">%d 日ごと</string>
-  <string name="every_x_weeks">%d 週ごと</string>
-  <string name="every_x_months">%d ヶ月ごと</string>
   <string name="score">スコア</string>
   <string name="reminder_sound">リマインダー サウンド</string>
   <string name="none">なし</string>

@@ -151,9 +151,6 @@
   <string name="total">סה\"כ</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">פעמים ב-</string>
-  <string name="every_x_days">כל %d ימים</string>
-  <string name="every_x_weeks">כל %d שבועות</string>
-  <string name="every_x_months">כל %d חודשים</string>
   <string name="score">ציון</string>
   <string name="reminder_sound">צליל תזכורת</string>
   <string name="none">ללא</string>

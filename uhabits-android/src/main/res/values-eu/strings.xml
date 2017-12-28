@@ -151,9 +151,6 @@
   <string name="total">Guztira</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">denbora</string>
-  <string name="every_x_days">%d egunero</string>
-  <string name="every_x_weeks">%d astero</string>
-  <string name="every_x_months">%d hilabetero</string>
   <string name="score">Puntuak</string>
   <string name="reminder_sound">Oroigarriaren soinua</string>
   <string name="none">Bat ere ez</string>
