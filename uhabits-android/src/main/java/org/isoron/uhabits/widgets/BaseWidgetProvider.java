@@ -19,26 +19,19 @@
 
 package org.isoron.uhabits.widgets;
 
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.widget.RemoteViews;
+import android.appwidget.*;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.widget.*;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.R;
-import org.isoron.uhabits.core.models.Habit;
-import org.isoron.uhabits.core.models.HabitList;
-import org.isoron.uhabits.core.models.HabitNotFoundException;
-import org.isoron.uhabits.core.preferences.WidgetPreferences;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
+import java.util.*;
+
+import static android.appwidget.AppWidgetManager.*;
 import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
@@ -141,15 +134,18 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }).start();
     }
 
-    protected Habit getHabitFromWidgetId(int widgetId)
+    protected List<Habit> getHabitsFromWidgetId(int widgetId)
     {
-        long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
-        if (habitId == WidgetPreferences.STACK_WIDGET_HABITS) {
-            return null;
+        long selectedIds[] = widgetPrefs.getHabitIdsFromWidgetId(widgetId);
+        ArrayList<Habit> selectedHabits = new ArrayList<>(selectedIds.length);
+        for (long id : selectedIds)
+        {
+            Habit h = habits.getById(id);
+            if (h == null) throw new HabitNotFoundException();
+            selectedHabits.add(h);
         }
-        Habit habit = habits.getById(habitId);
-        if (habit == null) throw new HabitNotFoundException();
-        return habit;
+
+        return selectedHabits;
     }
 
     @NonNull

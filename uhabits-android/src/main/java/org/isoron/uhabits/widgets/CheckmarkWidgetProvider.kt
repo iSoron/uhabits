@@ -18,17 +18,12 @@
  */
 package org.isoron.uhabits.widgets
 
-import android.content.Context
+import android.content.*
 
 class CheckmarkWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
-        // if the habit was null, but did not have a habit id associated with a stack widget,
-        // `getHabitFromWidgetId` will throw a HabitNotFoundException
-        val habit = getHabitFromWidgetId(id)
-        if (habit != null) {
-            return CheckmarkWidget(context, id, habit)
-        } else {
-            return StackWidget(context, id, StackWidgetType.CHECKMARK)
-        }
+        val habits = getHabitsFromWidgetId(id)
+        if (habits.size == 1) return CheckmarkWidget(context, id, habits[0])
+        else return StackWidget(context, id, StackWidgetType.CHECKMARK, habits)
     }
 }

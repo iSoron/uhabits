@@ -22,12 +22,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/createStackWidgetButton"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/create_stackview_widget_button"/>
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -35,5 +29,11 @@
         android:orientation="vertical"
         android:layout_weight="1">
     </ListView>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/save"/>
 
 </LinearLayout>

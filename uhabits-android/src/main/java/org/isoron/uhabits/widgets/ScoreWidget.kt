@@ -24,15 +24,13 @@ import android.view.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
 class ScoreWidget(
         context: Context,
         id: Int,
-        private val habit: Habit,
-        private val prefs: Preferences
+        private val habit: Habit
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =

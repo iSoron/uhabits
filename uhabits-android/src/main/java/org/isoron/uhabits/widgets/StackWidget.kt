@@ -19,17 +19,19 @@
 
 package org.isoron.uhabits.widgets
 
-import android.appwidget.AppWidgetManager
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.view.View
-import android.widget.RemoteViews
+import android.appwidget.*
+import android.content.*
+import android.net.*
+import android.view.*
+import android.widget.*
+import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 
 class StackWidget(
         context: Context,
         widgetId: Int,
-        private val widgetType: StackWidgetType
+        private val widgetType: StackWidgetType,
+        private val habits: List<Habit>
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context) = null
@@ -39,13 +41,17 @@ class StackWidget(
     }
 
     override fun getRemoteViews(width: Int, height: Int): RemoteViews {
+        val manager = AppWidgetManager.getInstance(context)
         val remoteViews = RemoteViews(context.packageName, StackWidgetType.getStackWidgetLayoutId(widgetType))
         val serviceIntent = Intent(context, StackWidgetService::class.java)
+        val habitIds = StringUtils.joinLongs(habits.map { it.id!! }.toLongArray())
+
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
         serviceIntent.putExtra(StackWidgetService.WIDGET_TYPE, widgetType.value)
-        serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)))
+        serviceIntent.putExtra(StackWidgetService.HABIT_IDS, habitIds)
+        serviceIntent.data = Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))
         remoteViews.setRemoteAdapter(StackWidgetType.getStackWidgetAdapterViewId(widgetType), serviceIntent)
-        AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(id, StackWidgetType.getStackWidgetAdapterViewId(widgetType))
+        manager.notifyAppWidgetViewDataChanged(id, StackWidgetType.getStackWidgetAdapterViewId(widgetType))
         // TODO what should the empty view look like?
         remoteViews.setEmptyView(StackWidgetType.getStackWidgetAdapterViewId(widgetType),
                 StackWidgetType.getStackWidgetEmptyViewId(widgetType))
