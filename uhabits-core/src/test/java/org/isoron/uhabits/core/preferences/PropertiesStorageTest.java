@@ -94,19 +94,19 @@ public class PropertiesStorageTest extends BaseUnitTest
     @Test
     public void testLongArray() throws Exception
     {
-        Long[] expected1 = new Long[]{1L, 2L, 3L, 5L};
-        Long[] expected2 = new Long[]{1L};
-        Long[] expected3 = new Long[]{};
-        Long[] expected4 = new Long[]{};
+        long[] expected1 = new long[]{1L, 2L, 3L, 5L};
+        long[] expected2 = new long[]{1L};
+        long[] expected3 = new long[]{};
+        long[] expected4 = new long[]{};
 
         storage.putLongArray("key1", expected1);
         storage.putLongArray("key2", expected2);
         storage.putLongArray("key3", expected3);
 
-        Long[] actual1 = storage.getLongArray("key1");
-        Long[] actual2 = storage.getLongArray("key2");
-        Long[] actual3 = storage.getLongArray("key3");
-        Long[] actual4 = storage.getLongArray("invalidKey");
+        long[] actual1 = storage.getLongArray("key1");
+        long[] actual2 = storage.getLongArray("key2");
+        long[] actual3 = storage.getLongArray("key3");
+        long[] actual4 = storage.getLongArray("invalidKey");
 
         assertTrue(Arrays.equals(actual1, expected1));
         assertTrue(Arrays.equals(actual2, expected2));

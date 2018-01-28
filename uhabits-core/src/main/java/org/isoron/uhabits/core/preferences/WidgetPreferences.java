@@ -28,23 +28,19 @@ import javax.inject.Inject;
 public class WidgetPreferences {
     private Preferences.Storage storage;
 
-    public static final long STACK_WIDGET_HABITS = -1;
-    public static final long HABIT_NOT_FOUND = -2;
-
     @Inject
     public WidgetPreferences(Preferences.Storage storage) {
         this.storage = storage;
     }
 
-    public void addWidget(int widgetId, long habitId) {
-        storage.putLong(getHabitIdKey(widgetId), habitId);
+    public void addWidget(int widgetId, long habitIds[]) {
+        storage.putLongArray(getHabitIdKey(widgetId), habitIds);
     }
 
-    public long getHabitIdFromWidgetId(int widgetId) {
-        Long habitId = storage.getLong(getHabitIdKey(widgetId), HABIT_NOT_FOUND);
-        if (habitId == HABIT_NOT_FOUND) throw new HabitNotFoundException();
-
-        return habitId;
+    public long[] getHabitIdsFromWidgetId(int widgetId) {
+        long habitIds[] = storage.getLongArray(getHabitIdKey(widgetId));
+        if (habitIds.length == 0) throw new HabitNotFoundException();
+        return habitIds;
     }
 
     public void removeWidget(int id) {
