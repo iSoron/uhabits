@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.preferences;
 
 import android.support.annotation.*;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.*;
 
@@ -364,5 +365,17 @@ public class Preferences
         void putString(String key, String value);
 
         void remove(String key);
+
+        default void putLongArray(String key, Long[] values) {
+            putString(key, StringUtils.join(values, ','));
+        }
+
+        default Long[] getLongArray(String key) {
+            String strNumbers = getString(key, "");
+            String parts[] = StringUtils.split(strNumbers, ',');
+            Long numbers[] = new Long[parts.length];
+            for (int i = 0; i < parts.length; i++) numbers[i] = Long.valueOf(parts[i]);
+            return numbers;
+        }
     }
 }
