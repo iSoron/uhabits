@@ -26,6 +26,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import javax.inject.*;
@@ -45,6 +46,9 @@ public class ShowHabitScreen extends BaseScreen
     @NonNull
     private final EditHabitDialogFactory editHabitDialogFactory;
 
+    @NonNull
+    private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
+
     private final Lazy<ShowHabitBehavior> behavior;
 
     @Inject
@@ -52,8 +56,8 @@ public class ShowHabitScreen extends BaseScreen
                            @NonNull Habit habit,
                            @NonNull ShowHabitRootView view,
                            @NonNull ShowHabitsMenu menu,
-                           @NonNull
-                               EditHabitDialogFactory editHabitDialogFactory,
+                           @NonNull EditHabitDialogFactory editHabitDialogFactory,
+                           @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                            @NonNull Lazy<ShowHabitBehavior> behavior)
     {
         super(activity);
@@ -63,6 +67,7 @@ public class ShowHabitScreen extends BaseScreen
         this.habit = habit;
         this.behavior = behavior;
         this.editHabitDialogFactory = editHabitDialogFactory;
+        this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         view.setController(this);
     }
 
@@ -116,6 +121,19 @@ public class ShowHabitScreen extends BaseScreen
         {
             case COULD_NOT_EXPORT:
                 showMessage(R.string.could_not_export);
+
+            case HABIT_DELETED:
+                showMessage(R.string.delete_habits_message);
         }
+    }
+
+    @Override
+    public void showDeleteConfirmationScreen(@NonNull OnConfirmedCallback callback) {
+        activity.showDialog(confirmDeleteDialogFactory.create(callback));
+    }
+
+    @Override
+    public void close() {
+        activity.finish();
     }
 }

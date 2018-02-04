@@ -54,6 +54,15 @@ class PendingIntentFactory
                     },
                     FLAG_UPDATE_CURRENT)
 
+    fun removeRepetition(habit: Habit): PendingIntent =
+            PendingIntent.getBroadcast(
+                    context, 3,
+                    Intent(context, WidgetReceiver::class.java).apply {
+                        action = WidgetReceiver.ACTION_REMOVE_REPETITION
+                        data = Uri.parse(habit.uriString)
+                    },
+                    FLAG_UPDATE_CURRENT)
+
     fun showHabit(habit: Habit): PendingIntent =
             android.support.v4.app.TaskStackBuilder
                     .create(context)

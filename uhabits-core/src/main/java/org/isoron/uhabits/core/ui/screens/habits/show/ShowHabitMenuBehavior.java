@@ -21,8 +21,10 @@ package org.isoron.uhabits.core.ui.screens.habits.show;
 
 import android.support.annotation.*;
 
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 
 import java.io.*;
 import java.util.*;
@@ -45,18 +47,23 @@ public class ShowHabitMenuBehavior
     @NonNull
     private System system;
 
+    @NonNull
+    private CommandRunner commandRunner;
+
     @Inject
     public ShowHabitMenuBehavior(@NonNull HabitList habitList,
                                  @NonNull Habit habit,
                                  @NonNull TaskRunner taskRunner,
                                  @NonNull Screen screen,
-                                 @NonNull System system)
+                                 @NonNull System system,
+                                 @NonNull CommandRunner commandRunner)
     {
         this.habitList = habitList;
         this.habit = habit;
         this.taskRunner = taskRunner;
         this.screen = screen;
         this.system = system;
+        this.commandRunner = commandRunner;
     }
 
     public void onEditHabit()
@@ -77,9 +84,20 @@ public class ShowHabitMenuBehavior
             }));
     }
 
+    public void onDeleteHabit()
+    {
+        List<Habit> selected = Collections.singletonList(habit);
+
+        screen.showDeleteConfirmationScreen(() -> {
+            commandRunner.execute(new DeleteHabitsCommand(habitList, selected),
+                    null);
+            screen.close();
+        });
+    }
+
     public enum Message
     {
-        COULD_NOT_EXPORT
+        COULD_NOT_EXPORT, HABIT_DELETED
     }
 
     public interface Screen
@@ -89,6 +107,11 @@ public class ShowHabitMenuBehavior
         void showMessage(Message m);
 
         void showSendFileScreen(String filename);
+
+        void showDeleteConfirmationScreen(
+                @NonNull OnConfirmedCallback callback);
+
+        void close();
     }
 
     public interface System

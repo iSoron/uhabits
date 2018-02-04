@@ -70,9 +70,9 @@ public class ReminderControllerTest extends BaseAndroidJVMTest
         DateUtils.setFixedLocalTime(now);
         when(preferences.getSnoozeInterval()).thenReturn(15L);
 
-        controller.onSnooze(habit);
+        controller.onSnoozePressed(habit,null);
 
-        verify(reminderScheduler).schedule(habit, nowTz + 900000);
+        verify(reminderScheduler).scheduleMinutesFromNow(habit, 15L);
         verify(notificationTray).cancel(habit);
     }
 

@@ -164,7 +164,7 @@ public class MemoryHabitList extends HabitList
     @Override
     public synchronized Iterator<Habit> iterator()
     {
-        return Collections.unmodifiableCollection(list).iterator();
+        return new ArrayList<>(list).iterator();
     }
 
     @Override

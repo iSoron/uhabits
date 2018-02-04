@@ -25,7 +25,10 @@ import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.commands.*
+import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.core.utils.*
 import javax.inject.*
 
 @ActivityScope
@@ -33,8 +36,10 @@ class ListHabitsSelectionMenu @Inject constructor(
         private val screen: ListHabitsScreen,
         private val listAdapter: HabitCardListAdapter,
         var commandRunner: CommandRunner,
+        private val prefs: Preferences,
         private val behavior: ListHabitsSelectionMenuBehavior,
-        private val listController: Lazy<HabitCardListController>
+        private val listController: Lazy<HabitCardListController>,
+        private val notificationTray: NotificationTray
 ) : BaseSelectionMenu() {
 
     override fun onFinish() {
@@ -69,6 +74,12 @@ class ListHabitsSelectionMenu @Inject constructor(
                 return true
             }
 
+            R.id.action_notify -> {
+                for(h in listAdapter.selected)
+                    notificationTray.show(h, DateUtils.getToday(), 0)
+                return true
+            }
+
             else -> return false
         }
     }
@@ -78,12 +89,14 @@ class ListHabitsSelectionMenu @Inject constructor(
         val itemColor = menu.findItem(R.id.action_color)
         val itemArchive = menu.findItem(R.id.action_archive_habit)
         val itemUnarchive = menu.findItem(R.id.action_unarchive_habit)
+        val itemNotify = menu.findItem(R.id.action_notify)
 
         itemColor.isVisible = true
         itemEdit.isVisible = behavior.canEdit()
         itemArchive.isVisible = behavior.canArchive()
         itemUnarchive.isVisible = behavior.canUnarchive()
         setTitle(Integer.toString(listAdapter.selected.size))
+        itemNotify.isVisible = prefs.isDeveloper
 
         return true
     }

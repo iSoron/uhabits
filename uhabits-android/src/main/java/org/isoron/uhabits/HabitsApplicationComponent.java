@@ -33,6 +33,7 @@ import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
+import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.widgets.*;
@@ -79,6 +80,8 @@ public interface HabitsApplicationComponent
     Preferences getPreferences();
 
     ReminderScheduler getReminderScheduler();
+
+    ReminderController getReminderController();
 
     SyncManager getSyncManager();
 

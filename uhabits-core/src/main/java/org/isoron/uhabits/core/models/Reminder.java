@@ -22,8 +22,9 @@ package org.isoron.uhabits.core.models;
 import android.support.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.core.utils.*;
 
-import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+import static org.isoron.uhabits.core.utils.StringUtils.*;
 
 public final class Reminder
 {
@@ -56,6 +57,11 @@ public final class Reminder
         return minute;
     }
 
+    public long getTimeInMillis()
+    {
+        return DateUtils.getUpcomingTimeInMillis(hour, minute);
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -66,29 +72,29 @@ public final class Reminder
         Reminder reminder = (Reminder) o;
 
         return new EqualsBuilder()
-            .append(hour, reminder.hour)
-            .append(minute, reminder.minute)
-            .append(days, reminder.days)
-            .isEquals();
+                .append(hour, reminder.hour)
+                .append(minute, reminder.minute)
+                .append(days, reminder.days)
+                .isEquals();
     }
 
     @Override
     public int hashCode()
     {
         return new HashCodeBuilder(17, 37)
-            .append(hour)
-            .append(minute)
-            .append(days)
-            .toHashCode();
+                .append(hour)
+                .append(minute)
+                .append(days)
+                .toHashCode();
     }
 
     @Override
     public String toString()
     {
         return new ToStringBuilder(this, defaultToStringStyle())
-            .append("hour", hour)
-            .append("minute", minute)
-            .append("days", days)
-            .toString();
+                .append("hour", hour)
+                .append("minute", minute)
+                .append("days", days)
+                .toString();
     }
 }
