@@ -138,7 +138,7 @@
     </style>
 
     <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
-        <item name="cardBackgroundColor">@color/black</item>
+        <item name="cardBackgroundColor">@color/grey_850</item>
 
         <item name="highContrastTextColor">@color/white</item>
         <item name="mediumContrastTextColor">@color/white_aa</item>
@@ -156,6 +156,7 @@
 
     <style name="OpaqueWidgetTheme" parent="TransparentWidgetTheme">
         <item name="widgetBackgroundAlpha">1</item>
+        <item name="widgetShadowAlpha">0.25</item>
     </style>
 
     <style name="day_of_week_label_condensed"/>
