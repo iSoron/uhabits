@@ -151,7 +151,7 @@
         <item name="palette">@array/transparentWidgetPalette</item>
 
         <item name="widgetShadowAlpha">0</item>
-        <item name="widgetBackgroundAlpha">0.25</item>
+        <item name="widgetBackgroundAlpha">0.5</item>
     </style>
 
     <style name="day_of_week_label_condensed"/>
