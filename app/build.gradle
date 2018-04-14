@@ -5,7 +5,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.triplet.play'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 27
     buildToolsVersion "25.0.2"
 
 //    signingConfigs {
@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "org.isoron.uhabits"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
 
         buildConfigField "Integer", "databaseVersion", "15"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
@@ -73,7 +73,7 @@ dependencies {
 
     androidTestApt 'com.google.dagger:dagger-compiler:2.2'
 
-    androidTestCompile 'com.android.support:support-annotations:25.3.0'
+    androidTestCompile 'com.android.support:support-annotations:27.1.1'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.google.auto.factory:auto-factory:1.0-beta3'
@@ -84,16 +84,15 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.2'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.android.support:design:25.3.0'
-    compile 'com.android.support:preference-v14:25.3.0'
-    compile 'com.android.support:support-v4:25.3.0'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:design:27.1.1'
+    compile 'com.android.support:preference-v14:27.1.1'
+    compile 'com.android.support:support-v4:27.1.1'
     compile 'com.getpebble:pebblekit:3.0.0'
     compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'com.google.auto.factory:auto-factory:1.0-beta3'
     compile 'com.google.dagger:dagger:2.2'
     compile 'com.jakewharton:butterknife:8.0.1'
-    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.opencsv:opencsv:3.7'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'org.jetbrains:annotations-java5:15.0'
