@@ -6,7 +6,7 @@ apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "27.0.3"
 
 //    signingConfigs {
 //        release {
