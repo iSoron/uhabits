@@ -39,14 +39,14 @@
   <string name="toast_habit_unarchived">Vaner uarkivert</string>
   <string name="overview">Oversikt</string>
   <string name="habit_strength">Vanestyrke</string>
-  <string name="history">Historie</string>
+  <string name="history">Logg</string>
   <string name="clear">Fjern</string>
   <string name="description_hint">Spørsmål (Gjorde du &#8230; i dag?)</string>
   <string name="repeat">Gjenta</string>
   <string name="times_every">ganger på</string>
   <string name="days">dager</string>
   <string name="reminder">Påminnelse</string>
-  <string name="discard">Kast</string>
+  <string name="discard">Forkast</string>
   <string name="save">Lagr</string>
   <string name="streaks">Gjentakelser</string>
   <string name="no_habits_found">Du har ingen aktive vaner</string>
@@ -77,7 +77,7 @@
   <string name="interval_24_hour">1 døgn</string>
   <string name="pref_toggle_title">Veksl med enkelttrykk</string>
   <string name="pref_toggle_description">Sett på haker med et enkelttrykk i stedet for å tykke og holde. Mer praktisk, men kan forårsake utilsiktede vekslinger.</string>
-  <string name="pref_snooze_interval_title">Snooze-intervall på påminnelser</string>
+  <string name="pref_snooze_interval_title">Slumreintervall på påminnelser</string>
   <string name="pref_rate_this_app">Vurdér denne appen på Google Play</string>
   <string name="pref_send_feedback">Send tilbakemelding til utviklerne</string>
   <string name="pref_view_source_code">Vis kildekode på GitHub</string>
@@ -86,7 +86,7 @@
   <string name="behavior">Oppførsel</string>
   <string name="name">Navn</string>
   <string name="settings">Innstillinger</string>
-  <string name="snooze_interval">Snooze-intervall</string>
+  <string name="snooze_interval">Slumreintervall</string>
   <string name="hint_title">Visste du at?</string>
   <string name="hint_drag">For å sortere innleggene, trykk og hold på navnet til vanen, deretter dra den til det korrekte stedet.</string>
   <string name="hint_landscape">Du kan se flere dager ved å sette telefonen din i landskapsmodus.</string>

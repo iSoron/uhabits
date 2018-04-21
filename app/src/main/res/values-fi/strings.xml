@@ -19,6 +19,65 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <string name="app_name">Rutiini - Tracker</string>
+  <string name="main_activity_title">Rutiinit</string>
+  <string name="action_settings">Asetukset</string>
+  <string name="edit">Muokkaa</string>
+  <string name="delete">Poista</string>
+  <string name="archive">Arkistoi</string>
+  <string name="add_habit">Lisää rutiini</string>
+  <string name="color_picker_default_title">Vaihda väriä</string>
+  <string name="toast_habit_created">Rutiini luotu</string>
+  <string name="toast_habit_deleted">Rutiinit poistettu</string>
+  <string name="toast_habit_restored">Rutiinit palautettu</string>
+  <string name="toast_habit_changed">Rutiini muutettu</string>
+  <string name="toast_habit_changed_back">Rutiini muutettu takaisin</string>
+  <string name="overview">Yleiskatsaus</string>
+  <string name="history">Historia</string>
+  <string name="clear">Tyhjennä</string>
+  <string name="description_hint">Kysymys (Teitkö... tänään?)</string>
+  <string name="repeat">Toista</string>
+  <string name="times_every">kertaa</string>
+  <string name="days">päivässä</string>
+  <string name="reminder">Muistutus</string>
+  <string name="discard">Hylkää</string>
+  <string name="save">Tallenna</string>
+  <string name="streaks">Pisimmät toistot</string>
+  <string name="no_habits_found">Ei aktiivisia rutiineja</string>
+  <string name="long_press_to_toggle">Paina pitkään merkitäksesi suoritetuksi tai postaaksesi suorituksen</string>
+  <string name="reminder_off">Pois päältä</string>
+  <string name="validation_name_should_not_be_blank">Nimi ei voi olla tyhjä.</string>
+  <string name="validation_number_should_be_positive">Luvun on oltava positiivinen.</string>
+  <string name="create_habit">Luo rutiini</string>
+  <string name="edit_habit">Muokkaa rutiinia</string>
+  <string name="check">Tehty</string>
+  <string name="snooze">Lykkää</string>
   <!-- App introduction -->
+  <string name="intro_title_1">Tervetuloa</string>
+  <string name="intro_title_2">Merkitse uusia rutiineja</string>
+  <string name="intro_description_2">Joka päivä, suoritettuasi rutiinin, merkitse se sovellukseen.</string>
+  <string name="links">Linkit</string>
+  <string name="behavior">Käyttäytyminen</string>
+  <string name="name">Nimi</string>
+  <string name="settings">Asetukset</string>
+  <string name="hint_title">Tiesitkö?</string>
+  <string name="done_label">Valmis</string>
+  <string name="clear_label">Tyhjennä</string>
+  <string name="translators">Kääntäjät</string>
+  <string name="developers">Kehittäjät</string>
+  <string name="version_n">Versio %s</string>
+  <string name="every_day">Joka päivä</string>
+  <string name="every_week">Joka viikko</string>
+  <string name="two_times_per_week">2 kertaa viikossa</string>
+  <string name="five_times_per_week">5 kertaa viikossa</string>
+  <string name="custom_frequency">Mukautettu&#8230;</string>
+  <string name="night_mode">Yötila</string>
+  <string name="use_pure_black">Käytä puhdasta mustaa yötilassa</string>
+  <string name="day">Päivä</string>
+  <string name="week">Viikko</string>
+  <string name="month">Kuukausi</string>
+  <string name="quarter">Kvartaali</string>
+  <string name="year">Vuosi</string>
+  <string name="total">Yhteensä</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
 </resources>

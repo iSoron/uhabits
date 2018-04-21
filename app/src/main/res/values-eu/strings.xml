@@ -19,24 +19,24 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">Ohitura Tracker Loop</string>
+  <string name="app_name">Loop Habit Tracker</string>
   <string name="main_activity_title">Ohiturak</string>
   <string name="action_settings">Ezarpenak</string>
   <string name="edit">Editatu</string>
   <string name="delete">Ezabatu</string>
   <string name="archive">Artxibatu</string>
-  <string name="unarchive">Ezartxibatu</string>
-  <string name="add_habit">Ohitura gehitu</string>
+  <string name="unarchive">Desartxibatu</string>
+  <string name="add_habit">Gehitu ohitura</string>
   <string name="color_picker_default_title">Kolorea aldatu</string>
-  <string name="toast_habit_created">Ohitura sortu da.</string>
-  <string name="toast_habit_deleted">Ohiturak ezabatu dira.</string>
-  <string name="toast_habit_restored">Ohiturak berrezarri dira.</string>
-  <string name="toast_nothing_to_undo">Ez dago desegiteko ezer.</string>
-  <string name="toast_nothing_to_redo">Ez dago berregiteko ezer.</string>
-  <string name="toast_habit_changed">Ohitura aldatu da.</string>
-  <string name="toast_habit_changed_back">Ohitura lehengoratu da.</string>
-  <string name="toast_habit_archived">Ohiturak artxibatu dira.</string>
-  <string name="toast_habit_unarchived">Ohiturak ezartxibatu dira.</string>
+  <string name="toast_habit_created">Ohitura sortu da</string>
+  <string name="toast_habit_deleted">Ohiturak ezabatu dira</string>
+  <string name="toast_habit_restored">Ohiturak berrezarri dira</string>
+  <string name="toast_nothing_to_undo">Ez dago ezer desegiteko</string>
+  <string name="toast_nothing_to_redo">Ez dago ezer berregiteko</string>
+  <string name="toast_habit_changed">Ohitura aldatu egin da</string>
+  <string name="toast_habit_changed_back">Ohitura berrezarri da</string>
+  <string name="toast_habit_archived">Ohiturak artxibatu dira</string>
+  <string name="toast_habit_unarchived">Ohiturak desartxibatu dira</string>
   <string name="overview">Ikuspegi orokorra</string>
   <string name="habit_strength">Ohituraren indarra</string>
   <string name="history">Historia</string>
@@ -58,10 +58,10 @@
   <string name="create_habit">Ohitura sortu</string>
   <string name="edit_habit">Ohitura editatu</string>
   <string name="check">Markatu</string>
-  <string name="snooze">Beranduago</string>
+  <string name="snooze">Geroago</string>
   <!-- App introduction -->
   <string name="intro_title_1">Ongi etorri</string>
-  <string name="intro_description_1">Loop Habit Trackerek ohitura onak hartzen eta mantentzen laguntzen dizu.</string>
+  <string name="intro_description_1">Loop Habit Tracker-ek ohitura onak hartzen eta mantentzen laguntzen dizu.</string>
   <string name="intro_title_2">Sor itzazu ohitura berri batzuk</string>
   <string name="intro_description_2">Egunero, zure ohitura egin ostean, jarri ezazu egiaztatze marka bat aplikazioan.</string>
   <string name="intro_title_3">Jarrai ezazu ohitura egiten</string>
@@ -77,7 +77,7 @@
   <string name="interval_24_hour">24 ordu</string>
   <string name="pref_toggle_title">Ukitze laburrarekin markatu</string>
   <string name="pref_toggle_description">Ukitze bakar batekin marka jartzen du ukitu eta mantendu egin beharrean. Erosoagoa, baina nahi gabeko markak ekar litzake.</string>
-  <string name="pref_snooze_interval_title">Atzeratze tartea gogorarazpenetan</string>
+  <string name="pref_snooze_interval_title">Atzeratze tartea oroigarrietan</string>
   <string name="pref_rate_this_app">Aplikazio hau Google Playen puntuatu</string>
   <string name="pref_send_feedback">Zure iritzia garatzaileari bidali</string>
   <string name="pref_view_source_code">Iturburu kodea GitHuben ikusi</string>
@@ -158,7 +158,7 @@
   <string name="reminder_sound">Oroigarriaren soinua</string>
   <string name="none">Bat ere ez</string>
   <string name="filter">Iragazkia</string>
-  <string name="hide_completed">Lortutakoak ezkutatu</string>
+  <string name="hide_completed">Ezkutatu lortutakoak</string>
   <string name="hide_archived">Artxibatutakoak ezkutatu</string>
   <string name="sticky_notifications">Jakinarazpenak itsaskorrak bihurtu</string>
   <string name="sticky_notifications_description">Jakinarazpenak keinu batez ezabatzea sahiesten du.</string>
