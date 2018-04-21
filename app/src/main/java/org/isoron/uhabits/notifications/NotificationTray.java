@@ -22,6 +22,7 @@ package org.isoron.uhabits.notifications;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
+import android.os.*;
 import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.support.v4.app.NotificationCompat.*;
@@ -39,12 +40,15 @@ import java.util.*;
 import javax.inject.*;
 
 import static android.graphics.BitmapFactory.*;
+import static android.os.Build.VERSION.*;
 import static org.isoron.uhabits.utils.RingtoneUtils.*;
 
 @AppScope
 public class NotificationTray
     implements CommandRunner.Listener, Preferences.Listener
 {
+    public static final String REMINDERS_CHANNEL_ID = "REMINDERS";
+
     @NonNull
     private final Context context;
 
@@ -196,10 +200,6 @@ public class NotificationTray
                 context.getString(R.string.check),
                 pendingIntents.addCheckmark(habit, timestamp));
 
-            Action snoozeAction = new Action(R.drawable.ic_action_snooze,
-                context.getString(R.string.snooze),
-                pendingIntents.snoozeNotification(habit));
-
             Bitmap wearableBg =
                 decodeResource(context.getResources(), R.drawable.stripe);
 
@@ -208,30 +208,38 @@ public class NotificationTray
             // WearableExtender.
             WearableExtender wearableExtender = new WearableExtender()
                 .setBackground(wearableBg)
-                .addAction(checkAction)
-                .addAction(snoozeAction);
+                .addAction(checkAction);
 
-            Notification notification = new NotificationCompat.Builder(context)
+            Builder builder = new Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.getName())
                 .setContentText(habit.getDescription())
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .addAction(checkAction)
-                .addAction(snoozeAction)
                 .setSound(getRingtoneUri(context))
-                .extend(wearableExtender)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
-                .setOngoing(preferences.shouldMakeNotificationsSticky())
-                .build();
+                .setOngoing(preferences.shouldMakeNotificationsSticky());
+
+            if(SDK_INT < Build.VERSION_CODES.O) {
+                Action snoozeAction = new Action(R.drawable.ic_action_snooze,
+                    context.getString(R.string.snooze),
+                    pendingIntents.snoozeNotification(habit));
+
+                wearableExtender.addAction(snoozeAction);
+                builder.addAction(snoozeAction);
+            }
+
+            builder.extend(wearableExtender);
 
             NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(
                     Activity.NOTIFICATION_SERVICE);
 
+            createAndroidNotificationChannel(context);
             int notificationId = getNotificationId(habit);
-            notificationManager.notify(notificationId, notification);
+            notificationManager.notify(notificationId, builder.build());
         }
 
         private boolean shouldShowReminderToday()
@@ -243,6 +251,21 @@ public class NotificationTray
             int weekday = DateUtils.getWeekday(timestamp);
 
             return reminderDays[weekday];
+        }
+    }
+
+    public static void createAndroidNotificationChannel(Context context) {
+        NotificationManager notificationManager =
+            (NotificationManager) context.getSystemService(
+                Activity.NOTIFICATION_SERVICE);
+
+        if (SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel channel =
+                new NotificationChannel(REMINDERS_CHANNEL_ID,
+                    context.getResources().getString(R.string.reminder),
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

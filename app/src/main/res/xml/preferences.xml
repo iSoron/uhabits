@@ -68,6 +68,11 @@
             android:title="@string/sticky_notifications"
             android:summary="@string/sticky_notifications_description"/>
 
+        <Preference
+            android:key="reminderCustomize"
+            android:summary="@string/customize_notification_summary"
+            android:title="@string/customize_notification"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
