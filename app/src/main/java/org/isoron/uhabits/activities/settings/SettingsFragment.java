@@ -22,11 +22,15 @@ package org.isoron.uhabits.activities.settings;
 import android.app.backup.*;
 import android.content.*;
 import android.os.*;
+import android.provider.*;
 import android.support.v7.preference.*;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
+import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.utils.*;
+
+import static android.os.Build.VERSION.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
     implements SharedPreferences.OnSharedPreferenceChangeListener
@@ -61,6 +65,14 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("bugReport", ListHabitsScreen.RESULT_BUG_REPORT);
 
         updateRingtoneDescription();
+
+        if (SDK_INT < Build.VERSION_CODES.O)
+            findPreference("reminderCustomize").setVisible(false);
+        else
+        {
+            findPreference("reminderSound").setVisible(false);
+            findPreference("pref_snooze_interval").setVisible(false);
+        }
     }
 
     @Override
@@ -86,6 +98,17 @@ public class SettingsFragment extends PreferenceFragmentCompat
         {
             RingtoneUtils.startRingtonePickerActivity(this,
                 RINGTONE_REQUEST_CODE);
+            return true;
+        }
+        else if (key.equals("reminderCustomize"))
+        {
+            if (SDK_INT < Build.VERSION_CODES.O) return true;
+
+            NotificationTray.createAndroidNotificationChannel(getContext());
+            Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID);
+            startActivity(intent);
             return true;
         }
 

@@ -107,7 +107,7 @@
   <string name="developers">Utvecklare</string>
   <string name="version_n">Version %s</string>
   <string name="frequency">Frekvens</string>
-  <string name="checkmark">Avklarat/ej avklarat</string>
+  <string name="checkmark">Kryssruta</string>
   <string name="strength">Styrka</string>
   <string name="best_streaks">Bästa streak</string>
   <string name="current_streaks">Nuvarande streak</string>
