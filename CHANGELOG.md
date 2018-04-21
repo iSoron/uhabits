@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.7.8 (April 21, 2018)
+
+* Add support for adaptive icons (Oreo)
+* Add support for notification channels (Oreo)
+* Update translations
+
 ### 1.7.7 (September 30, 2017)
 
 * Fix bug that caused reminders to show repeatedly on DST changes
