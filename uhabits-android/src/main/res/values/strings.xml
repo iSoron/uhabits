@@ -30,6 +30,10 @@
     <string name="color_picker_default_title">Change color</string>
 
     <string name="toast_habit_created">Habit created</string>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Habit deleted</item>
+        <item quantity="other">Habits deleted</item>
+    </plurals>
     <string name="toast_habit_deleted">Habits deleted</string>
     <string name="toast_habit_restored">Habits restored</string>
     <string name="toast_nothing_to_undo">Nothing to undo</string>

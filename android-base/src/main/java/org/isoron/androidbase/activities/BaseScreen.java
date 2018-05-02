@@ -210,15 +210,23 @@ public class BaseScreen
      */
     public void showMessage(@StringRes Integer stringId)
     {
-        if (stringId == null || rootView == null) return;
+        showMessage(activity.getString(stringId));
+    }
+
+    public void showMessage(@PluralsRes Integer stringId, int quantity){
+        showMessage(activity.getResources().getQuantityString(stringId, quantity));
+    }
+
+    private void showMessage(String message) {
+        if (message == null || rootView == null) return;
         if (snackbar == null)
         {
-            snackbar = Snackbar.make(rootView, stringId, Snackbar.LENGTH_SHORT);
+            snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT);
             int tvId = android.support.design.R.id.snackbar_text;
             TextView tv = (TextView) snackbar.getView().findViewById(tvId);
             tv.setTextColor(Color.WHITE);
         }
-        else snackbar.setText(stringId);
+        else snackbar.setText(message);
         snackbar.show();
     }
 

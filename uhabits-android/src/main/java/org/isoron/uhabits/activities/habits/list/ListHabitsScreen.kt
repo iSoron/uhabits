@@ -19,28 +19,39 @@
 
 package org.isoron.uhabits.activities.habits.list
 
-import android.app.*
-import android.content.*
-import android.support.annotation.*
-import dagger.*
-import org.isoron.androidbase.activities.*
-import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.activities.habits.edit.*
-import org.isoron.uhabits.activities.habits.list.views.*
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
+import android.support.annotation.StringRes
+import dagger.Lazy
+import org.isoron.androidbase.activities.ActivityScope
+import org.isoron.androidbase.activities.BaseActivity
+import org.isoron.androidbase.activities.BaseScreen
+import org.isoron.androidbase.utils.FileUtils
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.habits.edit.EditHabitDialogFactory
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.core.ui.callbacks.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.tasks.TaskRunner
+import org.isoron.uhabits.core.ui.ThemeSwitcher
+import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.*
-import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.tasks.*
-import java.io.*
-import javax.inject.*
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
+import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.tasks.ExportDBTaskFactory
+import org.isoron.uhabits.tasks.ImportDataTask
+import org.isoron.uhabits.tasks.ImportDataTaskFactory
+import java.io.File
+import java.io.IOException
+import javax.inject.Inject
 
 const val RESULT_IMPORT_DATA = 1
 const val RESULT_EXPORT_CSV = 2
@@ -92,7 +103,12 @@ class ListHabitsScreen
 
     override fun onCommandExecuted(command: Command, refreshKey: Long?) {
         if (command.isRemote) return
-        showMessage(getExecuteString(command))
+        if(command is DeleteHabitsCommand){
+            showMessage(R.plurals.toast_habits_deleted, command.quantityAffected)
+        }
+        else{
+            showMessage(getExecuteString(command))
+        }
     }
 
     override fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -225,14 +241,13 @@ class ListHabitsScreen
 
     @StringRes
     private fun getExecuteString(command: Command): Int? {
-        when (command) {
-            is ArchiveHabitsCommand -> return R.string.toast_habit_archived
-            is ChangeHabitColorCommand -> return R.string.toast_habit_changed
-            is CreateHabitCommand -> return R.string.toast_habit_created
-            is DeleteHabitsCommand -> return R.string.toast_habit_deleted
-            is EditHabitCommand -> return R.string.toast_habit_changed
-            is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
-            else -> return null
+        return when (command) {
+            is ArchiveHabitsCommand -> R.string.toast_habit_archived
+            is ChangeHabitColorCommand -> R.string.toast_habit_changed
+            is CreateHabitCommand -> R.string.toast_habit_created
+            is EditHabitCommand -> R.string.toast_habit_changed
+            is UnarchiveHabitsCommand -> R.string.toast_habit_unarchived
+            else -> null
         }
     }
 

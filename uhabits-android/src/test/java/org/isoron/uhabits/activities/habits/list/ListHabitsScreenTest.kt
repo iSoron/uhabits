@@ -109,7 +109,7 @@ class ListHabitsScreenTest : BaseAndroidJVMTest() {
     fun testOnCommand() {
         val c = mock(DeleteHabitsCommand::class.java)
         screen.onCommandExecuted(c, null)
-        verify(screen).showMessage(R.string.toast_habit_deleted)
+        verify(screen).showMessage(R.plurals.toast_habits_deleted, c.quantityAffected)
     }
 
     @Test

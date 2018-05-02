@@ -102,4 +102,9 @@ public class DeleteHabitsCommand extends Command
             return command;
         }
     }
+
+    @Override
+    public int getQuantityAffected() {
+        return selected.size();
+    }
 }

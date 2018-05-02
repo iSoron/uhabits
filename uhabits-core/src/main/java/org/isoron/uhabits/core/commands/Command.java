@@ -84,4 +84,8 @@ public abstract class Command
     public abstract Object toRecord();
 
     public abstract void undo();
+
+    public int getQuantityAffected() {
+        return 0;
+    }
 }
