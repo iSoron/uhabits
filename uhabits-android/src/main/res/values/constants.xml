@@ -80,7 +80,7 @@
     </string-array>
 
     <string-array name="habitTypes" translatable="false">
-        <item>Yes or No</item>
+        <item>Checked/Unchecked</item>
         <item>Number</item>
     </string-array>
 
