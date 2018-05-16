@@ -48,8 +48,6 @@ public class EditHabitDialog extends AppCompatDialogFragment
 {
     public static final String BUNDLE_HABIT_ID = "habitId";
 
-    public static final String BUNDLE_HABIT_TYPE = "habitType";
-
     protected Habit originalHabit;
 
     protected Preferences prefs;
