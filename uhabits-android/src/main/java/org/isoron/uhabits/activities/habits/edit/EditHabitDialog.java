@@ -41,6 +41,7 @@ import org.isoron.uhabits.core.preferences.*;
 import butterknife.*;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
@@ -210,22 +211,28 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
         if (originalHabit != null) habit.copyFrom(originalHabit);
 
-        if (habit.isNumerical())
+        namePanel.populateFrom(habit);
+        typePanel.setType(habit.getType());
+        typePanel.setEnabled(originalHabit == null);
+        setPanelsForType(habit.getType());
+        frequencyPanel.setFrequency(habit.getFrequency());
+        targetPanel.setTargetValue(habit.getTargetValue());
+        targetPanel.setUnit(habit.getUnit());
+        if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
+    }
+
+    private void setPanelsForType(Integer type)
+    {
+        if (typePanel.getType() == Habit.NUMBER_HABIT)
         {
+            targetPanel.setVisibility(VISIBLE);
             frequencyPanel.setVisibility(GONE);
         }
         else
         {
             targetPanel.setVisibility(GONE);
+            frequencyPanel.setVisibility(VISIBLE);
         }
-
-        namePanel.populateFrom(habit);
-        typePanel.setType(habit.getType());
-        typePanel.setEnabled(originalHabit == null);
-        frequencyPanel.setFrequency(habit.getFrequency());
-        targetPanel.setTargetValue(habit.getTargetValue());
-        targetPanel.setUnit(habit.getUnit());
-        if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
     }
 
     private void setupNameController()
@@ -256,7 +263,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
             @Override
             public void onTypeSelected(Integer previousType)
             {
-                Log.d("YOUREIT", "Prev: " + previousType.toString() + " Sel: " + typePanel.getType().toString());
+                Integer currentType = typePanel.getType();
+                setPanelsForType(currentType);
             }
         });
     }

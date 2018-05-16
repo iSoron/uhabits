@@ -19,27 +19,20 @@
 
 package org.isoron.uhabits.activities.habits.edit.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.core.models.Frequency;
 import org.isoron.uhabits.core.models.Habit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
-
-import static org.isoron.uhabits.R.id.numerator;
 
 
 public class TypePanel extends FrameLayout
@@ -83,7 +76,7 @@ public class TypePanel extends FrameLayout
     {
         if (position < 0 || position > 1) throw new IllegalArgumentException();
         Integer previousType = type;
-        type = getTypeFromQuickSelect(position);
+        type = getTypeFromQuickSelectPosition(position);
         controller.onTypeSelected(previousType);
     }
 
@@ -99,7 +92,7 @@ public class TypePanel extends FrameLayout
         default void onTypeSelected(Integer previousType) {}
     }
 
-    private Integer getTypeFromQuickSelect(@NonNull Integer position)
+    private Integer getTypeFromQuickSelectPosition(@NonNull Integer position)
     {
         if (position.equals(0)) return Habit.YES_NO_HABIT;
         if (position.equals(1)) return Habit.NUMBER_HABIT;
