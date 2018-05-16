@@ -47,6 +47,11 @@ public class TypePanel extends FrameLayout
     @BindView(R.id.spinner)
     Spinner spinner;
 
+    private Integer type;
+
+    @NonNull
+    private Controller controller;
+
     public TypePanel(@NonNull Context context,
                      @Nullable AttributeSet attrs)
     {
@@ -55,19 +60,20 @@ public class TypePanel extends FrameLayout
         View view = inflate(context, R.layout.edit_habit_type, null);
         ButterKnife.bind(this, view);
         addView(view);
+
+        setType(Habit.YES_NO_HABIT);
+        controller = new Controller() {};
     }
 
     @NonNull
     public Integer getType()
     {
-        Integer type = spinner.getSelectedItemPosition();
-        if (type.equals(0)) return Habit.YES_NO_HABIT;
-        if (type.equals(0)) return Habit.NUMBER_HABIT;
-        return -1;
+        return type;
     }
 
     public void setType(@NonNull Integer type)
     {
+        this.type = type;
         int position = getQuickSelectPosition(type);
         spinner.setSelection(position);
     }
@@ -76,7 +82,28 @@ public class TypePanel extends FrameLayout
     public void onTypeSelected(int position)
     {
         if (position < 0 || position > 1) throw new IllegalArgumentException();
-        // TODO: A callback?
+        Integer previousType = type;
+        type = getTypeFromQuickSelect(position);
+        controller.onTypeSelected(previousType);
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        spinner.setEnabled(enabled);
+    }
+
+    public void setController(@NonNull Controller controller) { this.controller = controller; }
+
+    public interface Controller
+    {
+        default void onTypeSelected(Integer previousType) {}
+    }
+
+    private Integer getTypeFromQuickSelect(@NonNull Integer position)
+    {
+        if (position.equals(0)) return Habit.YES_NO_HABIT;
+        if (position.equals(1)) return Habit.NUMBER_HABIT;
+        return -1;
     }
 
     private int getQuickSelectPosition(@NonNull Integer type)
