@@ -140,7 +140,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     private int getTypeFromArguments()
     {
-        return getArguments().getInt(BUNDLE_HABIT_TYPE);
+        return Habit.YES_NO_HABIT;
     }
 
     private void initDependencies()
