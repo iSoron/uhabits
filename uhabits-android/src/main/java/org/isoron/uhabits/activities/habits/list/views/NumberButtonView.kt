@@ -21,7 +21,9 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
 import android.graphics.*
+import android.support.v4.view.GestureDetectorCompat
 import android.text.*
+import android.util.Log
 import android.view.*
 import android.view.View.*
 import com.google.auto.factory.*
@@ -53,9 +55,7 @@ fun Double.toShortString(): String = when {
 class NumberButtonView(
         @Provided @ActivityContext context: Context,
         @Provided val preferences: Preferences
-) : View(context),
-    OnClickListener,
-    OnLongClickListener {
+) : View(context) {
 
     var color = 0
         set(value) {
@@ -83,21 +83,29 @@ class NumberButtonView(
 
     var onEdit: () -> Unit = {}
     private var drawer: Drawer = Drawer(context)
+    private val detector: GestureDetector = GestureDetector(
+            context,
+            object: GestureDetector.SimpleOnGestureListener()
+            {
+                override fun onDown(e: MotionEvent?): Boolean = true
 
-    init {
-        setOnClickListener(this)
-        setOnLongClickListener(this)
-    }
+                override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                    Log.d("YOUREIT", "onSingleTapConfirmed")
+                    if (preferences.isShortToggleEnabled) onEdit()
+                    else showMessage(R.string.long_press_to_edit)
+                    return true
+                }
 
-    override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else showMessage(R.string.long_press_to_edit)
-    }
+                override fun onDoubleTap(e: MotionEvent?): Boolean {
+                    Log.d("YOUREIT", "onDoubleTap")
+                    return true
+                }
 
-    override fun onLongClick(v: View): Boolean {
-        onEdit()
-        return true
-    }
+                override fun onLongPress(e: MotionEvent?) {
+                    Log.d("YOUREIT", "onLongPress")
+                    onEdit()
+                }
+            })
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -108,6 +116,11 @@ class NumberButtonView(
         val width = getDimension(context, R.dimen.checkmarkWidth).toInt()
         val height = getDimension(context, R.dimen.checkmarkHeight).toInt()
         setMeasuredDimension(width, height)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        detector.onTouchEvent(event)
+        return true
     }
 
     private inner class Drawer(context: Context) {
