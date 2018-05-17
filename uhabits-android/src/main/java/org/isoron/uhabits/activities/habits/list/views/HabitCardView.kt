@@ -129,6 +129,14 @@ class HabitCardView(
 
         numberPanel = numberPanelFactory.create().apply {
             visibility = GONE
+            onIncrement = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onIncrement(it, timestamp)}
+            }
+            onDecrement = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onDecrement(it, timestamp)}
+            }
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
                 habit?.let { behavior.onEdit(it, timestamp) }

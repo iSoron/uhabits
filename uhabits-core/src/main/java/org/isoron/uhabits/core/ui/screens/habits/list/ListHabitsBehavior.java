@@ -78,6 +78,26 @@ public class ListHabitsBehavior
         screen.showHabitScreen(h);
     }
 
+    public void onIncrement(@NonNull Habit habit, Timestamp timestamp)
+    {
+        CheckmarkList checkmarks = habit.getCheckmarks();
+        double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+        commandRunner.execute(
+                new CreateRepetitionCommand(habit, timestamp, (int)(oldValue + 1000)),
+                habit.getId());
+    }
+
+    public void onDecrement(@NonNull Habit habit, Timestamp timestamp)
+    {
+        CheckmarkList checkmarks = habit.getCheckmarks();
+        double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+        double newValue = oldValue - 1000;
+        if (newValue < 0) return;
+        commandRunner.execute(
+                new CreateRepetitionCommand(habit, timestamp, (int)newValue),
+                habit.getId());
+    }
+
     public void onEdit(@NonNull Habit habit, Timestamp timestamp)
     {
         CheckmarkList checkmarks = habit.getCheckmarks();

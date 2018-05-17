@@ -57,6 +57,18 @@ class NumberPanelView(
             setupButtons()
         }
 
+    var onIncrement: (Timestamp) -> Unit = {}
+        set(value) {
+            field = value
+            setupButtons()
+        }
+
+    var onDecrement: (Timestamp) -> Unit = {}
+        set(value) {
+            field = value
+            setupButtons()
+        }
+
     var onEdit: (Timestamp) -> Unit = {}
         set(value) {
             field = value
@@ -78,6 +90,8 @@ class NumberPanelView(
             button.color = color
             button.threshold = threshold
             button.units = units
+            button.onIncrement = { onIncrement(timestamp) }
+            button.onDecrement = { onDecrement(timestamp) }
             button.onEdit = { onEdit(timestamp) }
         }
     }

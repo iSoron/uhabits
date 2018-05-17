@@ -81,6 +81,8 @@ class NumberButtonView(
             invalidate()
         }
 
+    var onIncrement: () -> Unit = {}
+    var onDecrement: () -> Unit = {}
     var onEdit: () -> Unit = {}
     private var drawer: Drawer = Drawer(context)
     private val detector: GestureDetector = GestureDetector(
@@ -90,19 +92,19 @@ class NumberButtonView(
                 override fun onDown(e: MotionEvent?): Boolean = true
 
                 override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                    Log.d("YOUREIT", "onSingleTapConfirmed")
-                    if (preferences.isShortToggleEnabled) onEdit()
-                    else showMessage(R.string.long_press_to_edit)
+                    onIncrement()
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                     return true
                 }
 
                 override fun onDoubleTap(e: MotionEvent?): Boolean {
-                    Log.d("YOUREIT", "onDoubleTap")
+                    onDecrement()
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                     return true
                 }
 
                 override fun onLongPress(e: MotionEvent?) {
-                    Log.d("YOUREIT", "onLongPress")
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                     onEdit()
                 }
             })
