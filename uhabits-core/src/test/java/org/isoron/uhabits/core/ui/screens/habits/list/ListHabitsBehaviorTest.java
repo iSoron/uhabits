@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
@@ -36,6 +37,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.COULD_NOT_EXPORT;
 import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.COULD_NOT_GENERATE_BUG_REPORT;
 import static org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.DATABASE_REPAIRED;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
@@ -177,4 +179,33 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         assertFalse(habit1.isCompletedToday());
     }
 
+    @Test
+    public void testOnIncrement()
+    {
+        assertTrue(habit2.isCompletedToday());
+        assertEquals(habit2.getRepetitions().getNewest().getValue(), 100);
+        behavior.onIncrement(habit2, DateUtils.getToday());
+        assertEquals(habit2.getRepetitions().getNewest().getValue(), 1100);
+    }
+
+    @Test
+    public void testOnDecrement_belowZero() {
+        assertTrue(habit2.isCompletedToday());
+        assertEquals(habit2.getRepetitions().getNewest().getValue(), 100);
+        behavior.onDecrement(habit2, DateUtils.getToday());
+        assertEquals(habit2.getRepetitions().getNewest().getValue(), 100);
+    }
+
+    @Test
+    public void testOnDecrement()
+    {
+        assertTrue(habit2.isCompletedToday());
+        commandRunner.execute(
+                new CreateRepetitionCommand(habit2, DateUtils.getToday(), 4000),
+                habit2.getId());
+        assertEquals(habit2.getRepetitions().getNewest().getValue(), 4000);
+
+        behavior.onDecrement(habit2, DateUtils.getToday());
+        assertEquals(habit2.getRepetitions().getNewest().getValue(), 3000);
+    }
 }
