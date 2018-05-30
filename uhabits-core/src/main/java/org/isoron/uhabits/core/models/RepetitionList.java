@@ -187,18 +187,36 @@ public abstract class RepetitionList
     @NonNull
     public synchronized Repetition toggle(Timestamp timestamp)
     {
-        if(habit.isNumerical())
-            throw new IllegalStateException("habit must NOT be numerical");
-
         Repetition rep = getByTimestamp(timestamp);
-        if (rep != null) remove(rep);
-        else
-        {
-            rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
-            add(rep);
-        }
+        //Commenting below lines
+        if(habit.isNumerical()){
+//          TODO remove later
+            if (rep != null) remove(rep);
+            else
+            {
+                rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
+                add(rep);
+            }
 
-        habit.invalidateNewerThan(timestamp);
+            habit.invalidateNewerThan(timestamp);
+//          TODO remove later
+//            TODO write code to handle numerical habits
+
+/*
+            throw new IllegalStateException("habit must NOT be numerical");
+            handle numeric habit here
+*/
+        }else {
+
+            if (rep != null) remove(rep);
+            else
+            {
+                rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
+                add(rep);
+            }
+
+            habit.invalidateNewerThan(timestamp);
+        }
         return rep;
     }
 

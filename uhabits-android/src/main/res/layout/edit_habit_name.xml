@@ -54,6 +54,19 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvSpinnerHabitType"
+        android:textColor="@color/black_a6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type"/>
+    <Spinner
+        android:id="@+id/spHabitType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/habitType"
+        android:layout_marginBottom="10dp"/>
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
