@@ -89,6 +89,10 @@
         <item>@string/uncheck</item>
         <item>@string/toggle</item>
     </string-array>
+    <string-array name="habitType" translatable="false">
+        <item>With a simple yes or no</item>
+        <item>With a number</item>
+    </string-array>
 
     <string-array name="strengthIntervalNames" translatable="false">
         <item>@string/day</item>

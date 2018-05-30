@@ -20,11 +20,16 @@
 package org.isoron.uhabits.activities.habits.edit;
 
 import android.content.*;
+import android.content.res.Resources;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.text.format.*;
+import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.datetimepicker.time.*;
 
@@ -180,7 +185,13 @@ public class EditHabitDialog extends AppCompatDialogFragment
         habit.setFrequency(frequencyPanel.getFrequency());
         habit.setUnit(targetPanel.getUnit());
         habit.setTargetValue(targetPanel.getTargetValue());
-        habit.setType(type);
+//        habit.setType(type); //removing
+// adding below lines
+        Log.d("habit-typeNum",String.valueOf(habit.getType()));
+        if (targetPanel.getVisibility() == View.VISIBLE)
+            habit.setType(Habit.NUMBER_HABIT);
+        else
+            habit.setType(Habit.YES_NO_HABIT);
 
         saveHabit(habit);
         dismiss();
@@ -201,14 +212,74 @@ public class EditHabitDialog extends AppCompatDialogFragment
         return habit;
     }
 
+    @BindView(R.id.spHabitType)
+    Spinner spHabitType;
+
+    @BindView(R.id.tvSpinnerHabitType)
+    TextView tvSpinnerHabitType;
+
+    @BindView(R.id.tvDescription)
+    ExampleEditText tvDescription;
+
+    private void setupHabitTypeController(Habit habit){
+
+        spHabitType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Log.d("spinner-position", String.valueOf(i));
+                Resources res = getResources();
+
+                if (i == Habit.NUMBER_HABIT){
+                    habit.setType(Habit.NUMBER_HABIT);
+                }else {
+                    habit.setType(Habit.YES_NO_HABIT);
+                }
+
+                if(i == Habit.NUMBER_HABIT)
+                    tvDescription.setExample(res.getString(R.string.example_question_numerical));
+                else
+                    tvDescription.setExample(res.getString(R.string.example_question_boolean));
+
+                // Copied from populateform()
+                if (habit.isNumerical()) {
+                    frequencyPanel.setVisibility(GONE);
+                    targetPanel.setVisibility(View.VISIBLE);
+                }
+                else {
+                    targetPanel.setVisibility(GONE);
+                    frequencyPanel.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
     private void populateForm()
     {
         Habit habit = modelFactory.buildHabit();
         habit.setFrequency(Frequency.DAILY);
         habit.setColor(prefs.getDefaultHabitColor(habit.getColor()));
-        habit.setType(getTypeFromArguments());
+        habit.setType(getTypeFromArguments());//commenting this line for test purpose
+//        habit.setType(Habit.NUMBER_HABIT);//To be deleted later
 
-        if (originalHabit != null) habit.copyFrom(originalHabit);
+        if (originalHabit != null) {//edit habit
+
+            Log.d("isEditHabit", "true");
+            habit.copyFrom(originalHabit);
+
+            //Hide the 'type of habit' question on edit habit
+            spHabitType.setVisibility(GONE);
+            tvSpinnerHabitType.setVisibility(GONE);
+        }
+
+        //setting own habit controller
+        setupHabitTypeController(habit);
 
         if (habit.isNumerical()) frequencyPanel.setVisibility(GONE);
         else targetPanel.setVisibility(GONE);
