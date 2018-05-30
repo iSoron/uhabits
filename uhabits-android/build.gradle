@@ -16,7 +16,7 @@ android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
     buildToolsVersion BUILD_TOOLS_VERSION
 
-    if(project.hasProperty("LOOP_STORE_FILE")) {
+    if (project.hasProperty("LOOP_STORE_FILE")) {
         signingConfigs {
             release {
                 storeFile file(LOOP_STORE_FILE)
@@ -108,6 +108,9 @@ dependencies {
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$KOTLIN_VERSION"
 
+    implementation 'com.google.firebase:firebase-auth:11.6.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:1.0-beta3"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
@@ -188,3 +191,5 @@ task coverageReport(type: JacocoReport) {
 play {
     track = 'alpha'
 }
+
+apply plugin: 'com.google.gms.google-services'
