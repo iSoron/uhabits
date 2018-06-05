@@ -26,16 +26,18 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
 import javax.inject.*;
 
+
 @AppScope
 public class NotificationTray
     implements CommandRunner.Listener, Preferences.Listener
 {
+    public static final String REMINDERS_CHANNEL_ID = "REMINDERS";
+
     @NonNull
     private final TaskRunner taskRunner;
 

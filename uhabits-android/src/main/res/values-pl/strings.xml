@@ -75,10 +75,10 @@
   <string name="interval_4_hour">4 godziny</string>
   <string name="interval_8_hour">8 godzin</string>
   <string name="interval_24_hour">24 godziny</string>
-  <string name="pref_toggle_title">Przełącz powtarzanie przy krótkim naciśnięciu</string>
-  <string name="pref_toggle_description">Wygodniejsze ale może spowodować przypadkowe przełączenia.</string>
+  <string name="pref_toggle_title">Przełącz powtarzanie krótkim naciśnięciem</string>
+  <string name="pref_toggle_description">Wygodniejsze, ale może spowodować przypadkowe przełączenia.</string>
   <string name="pref_snooze_interval_title">Czas drzemki między przypomnieniami</string>
-  <string name="pref_rate_this_app">Oceń tą aplikację w Google Play</string>
+  <string name="pref_rate_this_app">Oceń tę aplikację w Google Play</string>
   <string name="pref_send_feedback">Prześlij uwagi do programisty</string>
   <string name="pref_view_source_code">Zobacz kod źródłowy na GitHub\'ie</string>
   <string name="pref_view_app_introduction">Zobacz wprowadzenie do aplikacji</string>

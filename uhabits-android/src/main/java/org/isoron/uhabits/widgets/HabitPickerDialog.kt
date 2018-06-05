@@ -56,7 +56,7 @@ class HabitPickerDialog : Activity(), AdapterView.OnItemClickListener {
         }
 
         setContentView(R.layout.widget_configure_activity)
-        with(findViewById(R.id.listView) as ListView) {
+        with(findViewById<ListView>(R.id.listView)) {
             adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1,
                                    habitNames)
             onItemClickListener = this@HabitPickerDialog
