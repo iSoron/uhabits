@@ -34,6 +34,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <org.isoron.uhabits.activities.habits.edit.views.TypePanel
+            android:id="@+id/typePanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel
             android:id="@+id/frequencyPanel"
             android:layout_width="match_parent"

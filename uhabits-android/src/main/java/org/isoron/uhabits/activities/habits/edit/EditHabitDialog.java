@@ -24,6 +24,7 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.text.format.*;
+import android.util.Log;
 import android.view.*;
 
 import com.android.datetimepicker.time.*;
@@ -40,13 +41,12 @@ import org.isoron.uhabits.core.preferences.*;
 import butterknife.*;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
     public static final String BUNDLE_HABIT_ID = "habitId";
-
-    public static final String BUNDLE_HABIT_TYPE = "habitType";
 
     protected Habit originalHabit;
 
@@ -62,6 +62,9 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     @BindView(R.id.namePanel)
     NameDescriptionPanel namePanel;
+
+    @BindView(R.id.typePanel)
+    TypePanel typePanel;
 
     @BindView(R.id.reminderPanel)
     ReminderPanel reminderPanel;
@@ -112,6 +115,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
         populateForm();
         setupReminderController();
+        setupTypeController();
         setupNameController();
 
         return view;
@@ -138,11 +142,6 @@ public class EditHabitDialog extends AppCompatDialogFragment
         }
     }
 
-    private int getTypeFromArguments()
-    {
-        return getArguments().getInt(BUNDLE_HABIT_TYPE);
-    }
-
     private void initDependencies()
     {
         Context appContext = getContext().getApplicationContext();
@@ -164,9 +163,9 @@ public class EditHabitDialog extends AppCompatDialogFragment
     @OnClick(R.id.buttonSave)
     void onSaveButtonClick()
     {
-        int type = getTypeFromArguments();
-
         if (!namePanel.validate()) return;
+
+        int type = typePanel.getType();
         if (type == Habit.YES_NO_HABIT && !frequencyPanel.validate()) return;
         if (type == Habit.NUMBER_HABIT && !targetPanel.validate()) return;
 
@@ -204,20 +203,34 @@ public class EditHabitDialog extends AppCompatDialogFragment
     private void populateForm()
     {
         Habit habit = modelFactory.buildHabit();
-        habit.setFrequency(Frequency.DAILY);
         habit.setColor(prefs.getDefaultHabitColor(habit.getColor()));
-        habit.setType(getTypeFromArguments());
+        habit.setType(Habit.YES_NO_HABIT);
+        habit.setFrequency(Frequency.DAILY);
 
         if (originalHabit != null) habit.copyFrom(originalHabit);
 
-        if (habit.isNumerical()) frequencyPanel.setVisibility(GONE);
-        else targetPanel.setVisibility(GONE);
-
         namePanel.populateFrom(habit);
+        typePanel.setType(habit.getType());
+        typePanel.setEnabled(originalHabit == null);
+        setPanelsForType(habit.getType());
         frequencyPanel.setFrequency(habit.getFrequency());
         targetPanel.setTargetValue(habit.getTargetValue());
         targetPanel.setUnit(habit.getUnit());
         if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
+    }
+
+    private void setPanelsForType(Integer type)
+    {
+        if (typePanel.getType() == Habit.NUMBER_HABIT)
+        {
+            targetPanel.setVisibility(VISIBLE);
+            frequencyPanel.setVisibility(GONE);
+        }
+        else
+        {
+            targetPanel.setVisibility(GONE);
+            frequencyPanel.setVisibility(VISIBLE);
+        }
     }
 
     private void setupNameController()
@@ -237,6 +250,19 @@ public class EditHabitDialog extends AppCompatDialogFragment
                 });
 
                 picker.show(getFragmentManager(), "picker");
+            }
+        });
+    }
+
+    private void setupTypeController()
+    {
+        typePanel.setController(new TypePanel.Controller()
+        {
+            @Override
+            public void onTypeSelected(Integer previousType)
+            {
+                Integer currentType = typePanel.getType();
+                setPanelsForType(currentType);
             }
         });
     }
