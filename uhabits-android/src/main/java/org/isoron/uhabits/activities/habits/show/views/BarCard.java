@@ -62,7 +62,7 @@ public class BarCard extends HabitCard
     @Override
     protected void refreshData()
     {
-        if(taskRunner == null) return;
+        if (taskRunner == null) return;
         taskRunner.execute(new RefreshTask(getHabit()));
     }
 
@@ -93,14 +93,17 @@ public class BarCard extends HabitCard
     {
         private final Habit habit;
 
-        public RefreshTask(Habit habit) {this.habit = habit;}
+        public RefreshTask(Habit habit)
+        {
+            this.habit = habit;
+        }
 
         @Override
         public void doInBackground()
         {
             Timestamp today = DateUtils.getToday();
-            List<Checkmark> checkmarks =
-                habit.getCheckmarks().getByInterval(Timestamp.ZERO, today);
+            List<Checkmark> checkmarks = habit.getCheckmarks().groupBy(
+                    DateUtils.TruncateField.MONTH);
             chart.setCheckmarks(checkmarks);
         }
 
@@ -110,7 +113,10 @@ public class BarCard extends HabitCard
             int color = PaletteUtils.getColor(getContext(), habit.getColor());
             title.setTextColor(color);
             chart.setColor(color);
-            chart.setTarget(habit.getTargetValue());
+            if(habit.isNumerical())
+                chart.setTarget(habit.getTargetValue());
+            else
+                chart.setTarget(0);
         }
     }
 }

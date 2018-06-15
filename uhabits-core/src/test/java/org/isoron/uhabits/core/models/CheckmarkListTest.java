@@ -28,9 +28,15 @@ import java.util.*;
 
 import nl.jqno.equalsverifier.*;
 
+import static java.util.Calendar.JANUARY;
+import static java.util.Calendar.JULY;
+import static java.util.Calendar.JUNE;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.utils.DateUtils.TruncateField.MONTH;
+import static org.isoron.uhabits.core.utils.DateUtils.TruncateField.QUARTER;
+import static org.isoron.uhabits.core.utils.DateUtils.TruncateField.YEAR;
 
 public class CheckmarkListTest extends BaseUnitTest
 {
@@ -360,13 +366,12 @@ public class CheckmarkListTest extends BaseUnitTest
         Timestamp t = Timestamp.ZERO.plus(100);
         Checkmark checkmark = new Checkmark(t, 2);
         assertThat(checkmark.toString(),
-            equalTo("{timestamp: {unixTime: 8640000000}, value: 2}"));
+            equalTo("{timestamp: 1970-04-11, value: 2}"));
 
         CheckmarkList.Interval interval =
             new CheckmarkList.Interval(t, t.plus(1), t.plus(2));
         assertThat(interval.toString(), equalTo(
-            "{begin: {unixTime: 8640000000}, center: {unixTime: 8726400000}," +
-            " end: {unixTime: 8812800000}}"));
+            "{begin: 1970-04-11, center: 1970-04-12, end: 1970-04-13}"));
     }
 
     @Test
@@ -375,5 +380,31 @@ public class CheckmarkListTest extends BaseUnitTest
         EqualsVerifier.forClass(Checkmark.class).verify();
         EqualsVerifier.forClass(Timestamp.class).verify();
         EqualsVerifier.forClass(CheckmarkList.Interval.class).verify();
+    }
+
+    @Test
+    public void testGroupBy() throws Exception
+    {
+        Habit habit = fixtures.createLongNumericalHabit(timestamp(2014, JUNE, 1));
+        CheckmarkList checkmarks = habit.getCheckmarks();
+
+        List<Checkmark> byMonth = checkmarks.groupBy(MONTH);
+        assertThat(byMonth.size(), equalTo(25)); // from 2013-01-01 to 2015-01-01
+        assertThat(byMonth.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
+        assertThat(byMonth.get(6), equalTo(new Checkmark(timestamp(2014, JULY, 1), 0)));
+        assertThat(byMonth.get(12), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 1706)));
+        assertThat(byMonth.get(18), equalTo(new Checkmark(timestamp(2013, JULY, 1), 1379)));
+
+        List<Checkmark> byQuarter = checkmarks.groupBy(QUARTER);
+        assertThat(byQuarter.size(), equalTo(9)); // from 2013-Q1 to 2015-Q1
+        assertThat(byQuarter.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
+        assertThat(byQuarter.get(4), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 4964)));
+        assertThat(byQuarter.get(8), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 4975)));
+
+        List<Checkmark> byYear = checkmarks.groupBy(YEAR);
+        assertThat(byYear.size(), equalTo(3)); // from 2013 to 2015
+        assertThat(byYear.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
+        assertThat(byYear.get(1), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 8227)));
+        assertThat(byYear.get(2), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 16172)));
     }
 }

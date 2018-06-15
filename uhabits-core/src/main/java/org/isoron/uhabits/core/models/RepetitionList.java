@@ -135,7 +135,7 @@ public abstract class RepetitionList
     public HashMap<Timestamp, Integer[]> getWeekdayFrequency()
     {
         List<Repetition> reps =
-            getByInterval(Timestamp.ZERO, DateUtils.getToday());
+                getByInterval(Timestamp.ZERO, DateUtils.getToday());
         HashMap<Timestamp, Integer[]> map = new HashMap<>();
 
         for (Repetition r : reps)
@@ -187,7 +187,7 @@ public abstract class RepetitionList
     @NonNull
     public synchronized Repetition toggle(Timestamp timestamp)
     {
-        if(habit.isNumerical())
+        if (habit.isNumerical())
             throw new IllegalStateException("habit must NOT be numerical");
 
         Repetition rep = getByTimestamp(timestamp);
@@ -213,7 +213,7 @@ public abstract class RepetitionList
     public void toggle(Timestamp timestamp, int value)
     {
         Repetition rep = getByTimestamp(timestamp);
-        if(rep != null) remove(rep);
+        if (rep != null) remove(rep);
         add(new Repetition(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }

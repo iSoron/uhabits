@@ -20,6 +20,8 @@
 package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.core.utils.DateFormats;
+import org.isoron.uhabits.core.utils.DateUtils;
 
 import java.util.*;
 
@@ -138,13 +140,16 @@ public final class Timestamp
     @Override
     public String toString()
     {
-        return new ToStringBuilder(this, defaultToStringStyle())
-            .append("unixTime", unixTime)
-            .toString();
+        return DateFormats.getCSVDateFormat().format(new Date(unixTime));
     }
 
     public int getWeekday()
     {
         return toCalendar().get(DAY_OF_WEEK) % 7;
+    }
+
+    public Timestamp truncate(DateUtils.TruncateField field)
+    {
+        return new Timestamp(DateUtils.truncate(field, unixTime));
     }
 }
