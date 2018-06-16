@@ -77,7 +77,6 @@ public class BarChart extends ScrollableChart
 
     private int primaryColor;
 
-    @Deprecated
     private int bucketSize = 7;
 
     private int backgroundColor;
@@ -127,7 +126,6 @@ public class BarChart extends ScrollableChart
         setTarget(0.5);
     }
 
-    @Deprecated
     public void setBucketSize(int bucketSize)
     {
         this.bucketSize = bucketSize;
@@ -298,13 +296,14 @@ public class BarChart extends ScrollableChart
 
         boolean shouldPrintYear = true;
         if (yearText.equals(previousYearText)) shouldPrintYear = false;
-        if (bucketSize >= 365 && (year % 2) != 0) shouldPrintYear = false;
 
         if (skipYear > 0)
         {
             skipYear--;
             shouldPrintYear = false;
         }
+
+        if (bucketSize >= 365) shouldPrintYear = true;
 
         if (shouldPrintYear)
         {
@@ -314,6 +313,8 @@ public class BarChart extends ScrollableChart
             pText.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(yearText, rect.centerX(), rect.bottom + em * 2.2f, pText);
             skipYear = 1;
+
+
         }
 
         if (bucketSize < 365)

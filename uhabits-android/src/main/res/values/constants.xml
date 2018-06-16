@@ -98,6 +98,13 @@
         <item>@string/year</item>
     </string-array>
 
+    <string-array name="strengthIntervalNamesWithoutDay" translatable="false">
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/quarter</item>
+        <item>@string/year</item>
+    </string-array>
+
     <string-array name="strenghtIntervalValues" translatable="false">
         <item>1</item>
         <item>7</item>

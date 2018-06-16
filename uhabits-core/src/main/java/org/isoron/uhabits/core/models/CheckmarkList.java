@@ -349,6 +349,12 @@ public abstract class CheckmarkList
         add(buildCheckmarksFromIntervals(reps, intervals));
     }
 
+    public List<Checkmark> getAll() {
+        Repetition oldest = habit.getRepetitions().getOldest();
+        if(oldest == null) return new ArrayList<>();
+        return getByInterval(oldest.getTimestamp(), DateUtils.getToday());
+    }
+
     static final class Interval
     {
         final Timestamp begin;
@@ -408,9 +414,7 @@ public abstract class CheckmarkList
     @NonNull
     public List<Checkmark> groupBy(DateUtils.TruncateField field)
     {
-        Repetition oldest = habit.getRepetitions().getOldest();
-        if(oldest == null) return new ArrayList<>();
-        List<Checkmark> checks = getByInterval(oldest.getTimestamp(), DateUtils.getToday());
+        List<Checkmark> checks = getAll();
 
         int count = 0;
         Timestamp truncatedTimestamps[] = new Timestamp[checks.size()];
