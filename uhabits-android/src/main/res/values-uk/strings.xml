@@ -63,11 +63,11 @@
   <string name="intro_title_1">Ласкаво просимо</string>
   <string name="intro_description_1">Трекер звичок Loop допомагає вам розвивати і підтримувати корисні звички.</string>
   <string name="intro_title_2">Додайте нові звички</string>
-  <string name="intro_description_2">Кожного дня, після виконання вашої звички, поставте пташку в програмі.</string>
+  <string name="intro_description_2">Щодня, після виконання вашої звички, ставте пташку в програмі.</string>
   <string name="intro_title_3">Продовжуйте в тому ж дусі</string>
   <string name="intro_description_3">Постійно дотримувані звички буде відзначено повною зірочкою.</string>
   <string name="intro_title_4">Відстежуйте свої успіхи</string>
-  <string name="intro_description_4">Деталізовані хвилеписи (діяграми) демонструють, як ваші звички покращилися з часом.</string>
+  <string name="intro_description_4">Деталізовані хвилеписи демонструють, як ваші звички покращилися з часом.</string>
   <string name="interval_15_minutes">15 хвилин</string>
   <string name="interval_30_minutes">30 хвилин</string>
   <string name="interval_1_hour">1 година</string>

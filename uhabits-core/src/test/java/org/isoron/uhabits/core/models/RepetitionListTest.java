@@ -189,6 +189,6 @@ public class RepetitionListTest extends BaseUnitTest
     public void testToString() throws Exception
     {
         Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 20);
-        assertThat(rep.toString(), equalTo("{timestamp: {unixTime: 8640000000}, value: 20}"));
+        assertThat(rep.toString(), equalTo("{timestamp: 1970-04-11, value: 20}"));
     }
 }

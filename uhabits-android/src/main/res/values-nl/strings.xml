@@ -29,7 +29,7 @@
   <string name="add_habit">Nieuwe gewoonte</string>
   <string name="color_picker_default_title">Verander kleur</string>
   <string name="toast_habit_created">Gewoonte aangemaakt.</string>
-  <string name="toast_habit_deleted">Gewoonte verwijderd.</string>
+  <string name="toast_habit_deleted">Gewoontes verwijderd</string>
   <string name="toast_habit_restored">Gewoontes hersteld</string>
   <string name="toast_nothing_to_undo">Niets om ongedaan te maken.</string>
   <string name="toast_nothing_to_redo">Niets om over te doen.</string>

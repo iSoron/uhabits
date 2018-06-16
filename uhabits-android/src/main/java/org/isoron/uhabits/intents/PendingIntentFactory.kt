@@ -69,7 +69,7 @@ class PendingIntentFactory
                     .addNextIntentWithParentStack(
                             intentFactory.startShowHabitActivity(
                                     context, habit))
-                    .getPendingIntent(0, FLAG_UPDATE_CURRENT)
+                    .getPendingIntent(0, FLAG_UPDATE_CURRENT)!!
 
     fun showReminder(habit: Habit,
                      reminderTime: Long?,

@@ -24,6 +24,7 @@ import android.view.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.preferences.Preferences;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 
 import javax.inject.*;
@@ -35,13 +36,26 @@ public class ShowHabitsMenu extends BaseMenu
 {
     @NonNull
     private Lazy<ShowHabitMenuBehavior> behavior;
+    @NonNull
+    private final Preferences prefs;
 
     @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull Lazy<ShowHabitMenuBehavior> behavior)
+                          @NonNull Lazy<ShowHabitMenuBehavior> behavior,
+                          @NonNull Preferences prefs)
     {
         super(activity);
         this.behavior = behavior;
+        this.prefs = prefs;
+    }
+
+    @Override
+    public void onCreate(@NonNull Menu menu)
+    {
+        super.onCreate(menu);
+
+        if (prefs.isDeveloper())
+            menu.findItem(R.id.action_randomize).setVisible(true);
     }
 
     @Override
@@ -59,6 +73,10 @@ public class ShowHabitsMenu extends BaseMenu
 
             case R.id.action_delete:
                 behavior.get().onDeleteHabit();
+                return true;
+
+            case R.id.action_randomize:
+                behavior.get().onRandomize();
                 return true;
 
             default:

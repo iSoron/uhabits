@@ -154,7 +154,7 @@
   <string name="every_x_days">Каждые %d дней</string>
   <string name="every_x_weeks">Каждые %d недель</string>
   <string name="every_x_months">Каждые %d месяцев</string>
-  <string name="score">Стабильность</string>
+  <string name="score">Счет</string>
   <string name="reminder_sound">Звук напоминания</string>
   <string name="none">Без звука</string>
   <string name="filter">Фильтр</string>
@@ -172,7 +172,7 @@
   <string name="manually">Вручную</string>
   <string name="by_name">По названию</string>
   <string name="by_color">По цвету</string>
-  <string name="by_score">По стабильности</string>
+  <string name="by_score">По оценке</string>
   <string name="download">Загрузить</string>
   <string name="export">Экспортировать</string>
 </resources>

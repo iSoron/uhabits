@@ -19,24 +19,24 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">عادت‌سنج لوپ</string>
+  <string name="app_name">Loop Habit Tracker</string>
   <string name="main_activity_title">عادت‌ها</string>
   <string name="action_settings">تنظیمات</string>
   <string name="edit">ویرایش</string>
-  <string name="delete">حذف کن</string>
+  <string name="delete">حذف</string>
   <string name="archive">بایگانی کن</string>
   <string name="unarchive">خارج کردن از بایگانی</string>
   <string name="add_habit">افزودن عادت</string>
   <string name="color_picker_default_title">تغییر رنگ</string>
-  <string name="toast_habit_created">عادت ساخته شد.</string>
-  <string name="toast_habit_deleted">عادت حذف شد.</string>
-  <string name="toast_habit_restored">عادت بازگردانده شد.</string>
+  <string name="toast_habit_created">عادت ایجاد شد</string>
+  <string name="toast_habit_deleted">عادت حذف شد</string>
+  <string name="toast_habit_restored">عادت بازگردانده شد</string>
   <string name="toast_nothing_to_undo">چیزی برای بازگرداندن به حالت قبلی وجود ندارد</string>
   <string name="toast_nothing_to_redo">چیزی برای انجام مجدد وجود ندارد</string>
   <string name="toast_habit_changed">عادت تغییر کرد.</string>
   <string name="toast_habit_changed_back">عادت به حالت قبل برگشت</string>
-  <string name="toast_habit_archived">عادات بایگانی شدند</string>
-  <string name="toast_habit_unarchived">عادت از بایگانی خارج شدند</string>
+  <string name="toast_habit_archived">عادت‌ها بایگانی شدند</string>
+  <string name="toast_habit_unarchived">عادت‌ها از بایگانی خارج شدند</string>
   <string name="overview">مرور</string>
   <string name="habit_strength">قدرت عادت</string>
   <string name="history">تاریخچه</string>

@@ -37,4 +37,10 @@
         android:title="@string/edit"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_randomize"
+        android:title="Randomize"
+        android:visible="false"
+        app:showAsAction="never"/>
+
 </menu>

@@ -29,8 +29,8 @@
   <string name="add_habit">Ajouter une habitude</string>
   <string name="color_picker_default_title">Changer la couleur</string>
   <string name="toast_habit_created">Habitude créée</string>
-  <string name="toast_habit_deleted">Habitude supprimée</string>
-  <string name="toast_habit_restored">Habitude rétablie</string>
+  <string name="toast_habit_deleted">Habitudes supprimées</string>
+  <string name="toast_habit_restored">Habitudes rétablies</string>
   <string name="toast_nothing_to_undo">Rien à annuler</string>
   <string name="toast_nothing_to_redo">Rien à refaire</string>
   <string name="toast_habit_changed">Habitude changée</string>
@@ -75,8 +75,8 @@
   <string name="interval_4_hour">4 heures</string>
   <string name="interval_8_hour">8 heures</string>
   <string name="interval_24_hour">24 heures</string>
-  <string name="pref_toggle_title">Activer les répétitions avec un appui court</string>
-  <string name="pref_toggle_description">Pointe l\'habitude avec un appui court plutôt qu\'un appuie long. Plus pratique, mais peut causer des activations accidentelles.</string>
+  <string name="pref_toggle_title">Valider l\'habitude avec un appui court</string>
+  <string name="pref_toggle_description">Valide l\'habitude avec un appui court plutôt qu\'un appuie long. Plus pratique, mais peut causer des activations accidentelles.</string>
   <string name="pref_snooze_interval_title">Intervalle de report des rappels</string>
   <string name="pref_rate_this_app">Notez cette app sur le Google Play Store</string>
   <string name="pref_send_feedback">Envoyez un avis au développeur</string>
@@ -91,10 +91,10 @@
   <string name="hint_drag">Pour réordonner les habitudes, faites un appui long sur le nom de l\'habitude et placez-la à la bonne place.</string>
   <string name="hint_landscape">Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage.</string>
   <string name="delete_habits">Supprimer des habitudes</string>
-  <string name="delete_habits_message">Les habitudes seront supprimées définitivement. Cette action ne peut être annulée.</string>
+  <string name="delete_habits_message">Les habitudes seront supprimées définitivement. Cette action est irréversible.</string>
   <string name="habit_not_found">Habitude supprimée / introuvable</string>
-  <string name="weekends">Fin de semaine</string>
-  <string name="any_weekday">Jours de la semaine</string>
+  <string name="weekends">Weekends</string>
+  <string name="any_weekday">Du lundi au vendredi</string>
   <string name="any_day">N\'importe quel jour</string>
   <string name="select_weekdays">Sélectionner des jours</string>
   <string name="export_to_csv">Exporter les données dans un fichier CSV</string>
@@ -107,7 +107,7 @@
   <string name="developers">Développeurs</string>
   <string name="version_n">Version %s</string>
   <string name="frequency">Fréquence</string>
-  <string name="checkmark">Croix</string>
+  <string name="checkmark">Case à cocher</string>
   <string name="strength">Force</string>
   <string name="best_streaks">Meilleures séries</string>
   <string name="current_streaks">Série actuelle</string>
@@ -131,7 +131,7 @@
   <string name="import_data">Importer des données</string>
   <string name="export_full_backup">Exporter une sauvegarde complète</string>
   <string name="import_data_summary">Supporte les sauvegardes complètes générées par cette application, ainsi que les fichiers Tickmate, HabitBull et Rewire. Voir la FAQ pour plus d\'informations.</string>
-  <string name="export_as_csv_summary">Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou LibreOffice Calc. Ces fichiers ne peuvent être réimportés.</string>
+  <string name="export_as_csv_summary">Génère des fichiers pouvant être ouverts par des tableurs comme Microsoft Excel ou LibreOffice Calc. Ce fichier ne peut pas être réimporté.</string>
   <string name="export_full_backup_summary">Génère un fichier contenant toutes vos données. Ce fichier peut être réimporté.</string>
   <string name="bug_report_failed">La génération du rapport de bug a échouée.</string>
   <string name="generate_bug_report">Générer un rapport de bug.</string>
@@ -154,7 +154,7 @@
   <string name="every_x_days">Tous les %d jours</string>
   <string name="every_x_weeks">Toutes les %d semaines</string>
   <string name="every_x_months">Tous les %d mois</string>
-  <string name="score">Pointage</string>
+  <string name="score">Score</string>
   <string name="reminder_sound">Son de rappel</string>
   <string name="none">Aucun</string>
   <string name="filter">Filtre</string>
@@ -162,7 +162,7 @@
   <string name="hide_archived">Cacher les habitudes archivées</string>
   <string name="sticky_notifications">Rendre les notifications persistantes</string>
   <string name="sticky_notifications_description">Évite que les notifications ne soient enlevées.</string>
-  <string name="repair_database">Réparer le base de données</string>
+  <string name="repair_database">Réparer la base de données</string>
   <string name="database_repaired">Base de données réparée.</string>
   <string name="uncheck">Décocher</string>
   <string name="toggle">Basculer</string>

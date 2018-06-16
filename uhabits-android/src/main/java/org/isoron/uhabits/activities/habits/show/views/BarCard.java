@@ -29,15 +29,25 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
 import butterknife.*;
 
+import static org.isoron.uhabits.activities.habits.show.views.ScoreCard.getTruncateField;
+
 public class BarCard extends HabitCard
 {
+    public static final int[] NUMERICAL_BUCKET_SIZES = {1, 7, 31, 92, 365};
+    public static final int[] BOOLEAN_BUCKET_SIZES = {7, 31, 92, 365};
+
+    @BindView(R.id.numericalSpinner)
+    Spinner numericalSpinner;
+
+    @BindView(R.id.boolSpinner)
+    Spinner boolSpinner;
+
     @BindView(R.id.barChart)
     BarChart chart;
 
@@ -46,6 +56,8 @@ public class BarCard extends HabitCard
 
     @Nullable
     private TaskRunner taskRunner;
+
+    private int bucketSize;
 
     public BarCard(Context context)
     {
@@ -59,10 +71,24 @@ public class BarCard extends HabitCard
         init();
     }
 
+    @OnItemSelected(R.id.numericalSpinner)
+    public void onNumericalItemSelected(int position)
+    {
+        bucketSize = NUMERICAL_BUCKET_SIZES[position];
+        refreshData();
+    }
+
+    @OnItemSelected(R.id.boolSpinner)
+    public void onBoolItemSelected(int position)
+    {
+        bucketSize = BOOLEAN_BUCKET_SIZES[position];
+        refreshData();
+    }
+
     @Override
     protected void refreshData()
     {
-        if(taskRunner == null) return;
+        if (taskRunner == null) return;
         taskRunner.execute(new RefreshTask(getHabit()));
     }
 
@@ -71,37 +97,35 @@ public class BarCard extends HabitCard
         inflate(getContext(), R.layout.show_habit_bar, this);
         ButterKnife.bind(this);
 
+        boolSpinner.setSelection(1);
+        numericalSpinner.setSelection(2);
+        bucketSize = 7;
+
         Context appContext = getContext().getApplicationContext();
         if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
             taskRunner = app.getComponent().getTaskRunner();
         }
-
-        if (isInEditMode()) initEditMode();
-    }
-
-    private void initEditMode()
-    {
-        int color = PaletteUtils.getAndroidTestColor(1);
-        title.setTextColor(color);
-        chart.setColor(color);
-        chart.populateWithRandomData();
     }
 
     private class RefreshTask implements Task
     {
         private final Habit habit;
 
-        public RefreshTask(Habit habit) {this.habit = habit;}
+        public RefreshTask(Habit habit)
+        {
+            this.habit = habit;
+        }
 
         @Override
         public void doInBackground()
         {
-            Timestamp today = DateUtils.getToday();
-            List<Checkmark> checkmarks =
-                habit.getCheckmarks().getByInterval(Timestamp.ZERO, today);
+            List<Checkmark> checkmarks;
+            if (bucketSize == 1) checkmarks = habit.getCheckmarks().getAll();
+            else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize));
             chart.setCheckmarks(checkmarks);
+            chart.setBucketSize(bucketSize);
         }
 
         @Override
@@ -110,7 +134,16 @@ public class BarCard extends HabitCard
             int color = PaletteUtils.getColor(getContext(), habit.getColor());
             title.setTextColor(color);
             chart.setColor(color);
-            chart.setTarget(habit.getTargetValue());
+            if (habit.isNumerical())
+            {
+                boolSpinner.setVisibility(GONE);
+                chart.setTarget(habit.getTargetValue());
+            }
+            else
+            {
+                numericalSpinner.setVisibility(GONE);
+                chart.setTarget(0);
+            }
         }
     }
 }

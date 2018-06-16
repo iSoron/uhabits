@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,20 +17,46 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingBottom="0dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/CardHeader"
-        android:text="@string/history"/>
-
-    <org.isoron.uhabits.activities.common.views.BarChart
-        android:id="@+id/barChart"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/numericalSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:entries="@array/strengthIntervalNames"
+            android:theme="@style/SmallSpinner" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/boolSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:entries="@array/strengthIntervalNamesWithoutDay"
+            android:theme="@style/SmallSpinner" />
+
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/CardHeader"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/history" />
+
+        <org.isoron.uhabits.activities.common.views.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@id/title"/>
+    </RelativeLayout>
 
 </merge>
