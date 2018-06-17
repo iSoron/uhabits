@@ -4,6 +4,7 @@ import android.appwidget.*;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.util.Log;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
@@ -33,14 +34,14 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     private Context context;
     private int widgetId;
     private long[] habitIds;
-    private ArrayList<Habit> habits = new ArrayList<>();
     private StackWidgetType widgetType;
+    private ArrayList<RemoteViews> remoteViews = new ArrayList<>();
 
     public StackRemoteViewsFactory(Context context, Intent intent)
     {
         this.context = context;
         widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                                      AppWidgetManager.INVALID_APPWIDGET_ID);
+                AppWidgetManager.INVALID_APPWIDGET_ID);
         int widgetTypeValue = intent.getIntExtra(WIDGET_TYPE, -1);
         String habitIdsStr = intent.getStringExtra(HABIT_IDS);
 
@@ -63,76 +64,30 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     public int getCount()
     {
-        return habits.size();
+        return habitIds.length;
     }
 
     @NonNull
     public WidgetDimensions getDimensionsFromOptions(@NonNull Context ctx,
                                                      @NonNull Bundle options)
     {
-        int maxWidth =
-            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MAX_WIDTH));
-        int maxHeight =
-            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MAX_HEIGHT));
-        int minWidth =
-            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MIN_WIDTH));
-        int minHeight =
-            (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MIN_HEIGHT));
+        int maxWidth = (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MAX_WIDTH));
+        int maxHeight = (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MAX_HEIGHT));
+        int minWidth = (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MIN_WIDTH));
+        int minHeight = (int) dpToPixels(ctx, options.getInt(OPTION_APPWIDGET_MIN_HEIGHT));
 
         return new WidgetDimensions(minWidth, maxHeight, maxWidth, minHeight);
     }
 
     public RemoteViews getViewAt(int position)
     {
-        RemoteViews rv = null;
-        if (position < getCount())
-        {
-            Habit habit = habits.get(position);
-            BaseWidget widget = initializeWidget(habit);
-            Bundle options =
-                AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId);
-            widget.setDimensions(getDimensionsFromOptions(context, options));
-            final RemoteViews[] landscape = new RemoteViews[1];
-            final RemoteViews[] portrait = new RemoteViews[1];
-
-            Object lock = new Object();
-            final boolean[] flag = {false};
-
-            new Handler(Looper.getMainLooper()).post(() ->
-                                                     {
-                                                         synchronized (lock)
-                                                         {
-                                                             landscape[0] =
-                                                                 widget.getLandscapeRemoteViews();
-                                                             portrait[0] =
-                                                                 widget.getPortraitRemoteViews();
-                                                             flag[0] = true;
-                                                             lock.notifyAll();
-                                                         }
-                                                     });
-
-            synchronized (lock)
-            {
-                while (!flag[0])
-                {
-                    try
-                    {
-                        lock.wait();
-                    }
-                    catch (InterruptedException e)
-                    {
-                        // ignored
-                    }
-                }
-            }
-
-            rv = new RemoteViews(landscape[0], portrait[0]);
-        }
-
-        return rv;
+        Log.i("StackRemoteViewsFactory", "getViewAt " + position);
+        if (position < 0 || position > remoteViews.size()) return null;
+        return remoteViews.get(position);
     }
 
-    private BaseWidget initializeWidget(Habit habit)
+    @NonNull
+    private BaseWidget constructWidget(@NonNull Habit habit)
     {
         switch (widgetType)
         {
@@ -147,12 +102,18 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
             case STREAKS:
                 return new StreakWidget(context, widgetId, habit);
         }
-        return null;
+
+        throw new IllegalStateException();
     }
 
     public RemoteViews getLoadingView()
     {
-        return null;
+        Bundle options = AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId);
+        EmptyWidget widget = new EmptyWidget(context, widgetId);
+        widget.setDimensions(getDimensionsFromOptions(context, options));
+        RemoteViews landscapeViews = widget.getLandscapeRemoteViews();
+        RemoteViews portraitViews = widget.getPortraitRemoteViews();
+        return new RemoteViews(landscapeViews, portraitViews);
     }
 
     public int getViewTypeCount()
@@ -162,25 +123,41 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     public long getItemId(int position)
     {
-        return position;
+        return habitIds[position];
     }
 
     public boolean hasStableIds()
     {
-        return false;
+        return true;
     }
 
     public void onDataSetChanged()
     {
-        habits.clear();
+        Log.i("StackRemoteViewsFactory", "onDataSetChanged started");
+
         HabitsApplication app = (HabitsApplication) context.getApplicationContext();
         HabitList habitList = app.getComponent().getHabitList();
+        Bundle options = AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId);
+        ArrayList<RemoteViews> newRemoteViews = new ArrayList<>();
+
+        if (Looper.myLooper() == null) Looper.prepare();
 
         for (long id : habitIds)
         {
             Habit h = habitList.getById(id);
             if (h == null) throw new HabitNotFoundException();
-            habits.add(h);
+
+            BaseWidget widget = constructWidget(h);
+            widget.setDimensions(getDimensionsFromOptions(context, options));
+
+            RemoteViews landscapeViews = widget.getLandscapeRemoteViews();
+            RemoteViews portraitViews = widget.getPortraitRemoteViews();
+            newRemoteViews.add(new RemoteViews(landscapeViews, portraitViews));
+
+            Log.i("StackRemoteViewsFactory", "onDataSetChanged constructed widget " + id);
         }
+
+        remoteViews = newRemoteViews;
+        Log.i("StackRemoteViewsFactory", "onDataSetChanged ended");
     }
 }

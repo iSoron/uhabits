@@ -52,7 +52,6 @@ class StackWidget(
         serviceIntent.data = Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))
         remoteViews.setRemoteAdapter(StackWidgetType.getStackWidgetAdapterViewId(widgetType), serviceIntent)
         manager.notifyAppWidgetViewDataChanged(id, StackWidgetType.getStackWidgetAdapterViewId(widgetType))
-        // TODO what should the empty view look like?
         remoteViews.setEmptyView(StackWidgetType.getStackWidgetAdapterViewId(widgetType),
                 StackWidgetType.getStackWidgetEmptyViewId(widgetType))
         return remoteViews
