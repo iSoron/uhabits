@@ -1,2 +1,3 @@
 <manifest package="org.isoron.androidbase"
+          android:installLocation="auto"
           xmlns:android="http://schemas.android.com/apk/res/android"/>
