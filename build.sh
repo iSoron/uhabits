@@ -177,10 +177,6 @@ fetch_artifacts() {
 	$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
 	$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
 	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUTS_DIR}/failed
-
-	$ADB shell rm -r /mnt/sdcard/test-screenshots/ 
-	$ADB shell rm -r /storage/sdcard/test-screenshots/ 
-	$ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
 }
 
 fetch_logcat() {
