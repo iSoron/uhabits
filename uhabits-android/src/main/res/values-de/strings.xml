@@ -175,4 +175,8 @@
   <string name="by_score">Nach Wertung</string>
   <string name="download">Runterladen</string>
   <string name="export">Exportieren</string>
+  <string name="customize_notification_summary">Ändere Ton, Vibration, Licht und andere Benachrichtigungseinstellungen</string>
+  <string name="customize_notification">Benachrichtigungen anpassen</string>
+  <string name="led_notifications">Benachrichtigungs Licht</string>
+  <string name="led_notifications_description">Zeigt ein blinkendes Licht für Benachrichtigungen. Nur verfügbar in Geräten mit einem LED Benachrichtigungslicht.</string>
 </resources>
