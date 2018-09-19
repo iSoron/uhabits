@@ -123,9 +123,14 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Nikhil (regularcoder)"/>
+
                 <TextView
                     style="@style/About.Item"
                     android:text="JanetQC"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Victor Yu"/>
 
             </LinearLayout>
 
