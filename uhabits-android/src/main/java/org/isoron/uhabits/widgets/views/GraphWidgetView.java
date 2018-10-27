@@ -20,18 +20,25 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.*;
+import android.graphics.Color;
 import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.utils.PaletteUtils;
+
+import java.util.List;
 
 public class GraphWidgetView extends HabitWidgetView
 {
 
     private final View dataView;
 
-    private TextView title;
+    private LinearLayout legend;
+
+    private List<Habit> habits;
 
     public GraphWidgetView(Context context, View dataView)
     {
@@ -45,9 +52,18 @@ public class GraphWidgetView extends HabitWidgetView
         return dataView;
     }
 
-    public void setTitle(String text)
-    {
-        title.setText(text);
+    public void setHabits(List<Habit> habits) {
+        for (Habit habit : habits) {
+            TextView t = new TextView(getContext());
+            if (habits.size() == 1) {
+                t.setTextColor(Color.WHITE);
+            } else {
+                t.setTextColor(PaletteUtils.getColor(getContext(), habit.getColor()));
+            }
+            t.setPadding(7, 0, 7, 0);
+            t.setText(habit.getName());
+            legend.addView(t);
+        }
     }
 
     @Override
@@ -67,7 +83,6 @@ public class GraphWidgetView extends HabitWidgetView
         ViewGroup innerFrame = (ViewGroup) findViewById(R.id.innerFrame);
         innerFrame.addView(dataView);
 
-        title = (TextView) findViewById(R.id.title);
-        title.setVisibility(VISIBLE);
+        legend = (LinearLayout) findViewById(R.id.legend);
     }
 }

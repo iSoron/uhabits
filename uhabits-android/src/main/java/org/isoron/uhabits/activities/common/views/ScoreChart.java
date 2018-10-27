@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.androidbase.utils.*;
@@ -71,10 +70,7 @@ public class ScoreChart extends ScrollableChart
 
     private int gridColor;
 
-    @Nullable
-    private List<Score> scores;
-
-    private int primaryColor;
+    private List<Habit> habits = new ArrayList<>();
 
     @Deprecated
     private int bucketSize = 7;
@@ -93,6 +89,8 @@ public class ScoreChart extends ScrollableChart
 
     private String previousMonthText;
 
+    private boolean drawFooter;
+
     public ScoreChart(Context context)
     {
         super(context);
@@ -108,7 +106,6 @@ public class ScoreChart extends ScrollableChart
     public void populateWithRandomData()
     {
         Random random = new Random();
-        scores = new LinkedList<>();
 
         double previous = 0.5f;
         Timestamp timestamp = DateUtils.getToday();
@@ -118,7 +115,6 @@ public class ScoreChart extends ScrollableChart
             double step = 0.1f;
             double current = previous + random.nextDouble() * step * 2 - step;
             current = Math.max(0, Math.min(1.0f, current));
-            scores.add(new Score(timestamp.minus(i), current));
             previous = current;
         }
     }
@@ -130,21 +126,15 @@ public class ScoreChart extends ScrollableChart
         postInvalidate();
     }
 
+    public void setHabits(List<Habit> habits) {
+        this.habits = habits;
+        postInvalidate();
+
+    }
+
     public void setIsTransparencyEnabled(boolean enabled)
     {
         this.isTransparencyEnabled = enabled;
-        postInvalidate();
-    }
-
-    public void setColor(int primaryColor)
-    {
-        this.primaryColor = primaryColor;
-        postInvalidate();
-    }
-
-    public void setScores(@NonNull List<Score> scores)
-    {
-        this.scores = scores;
         postInvalidate();
     }
 
@@ -166,7 +156,7 @@ public class ScoreChart extends ScrollableChart
             activeCanvas = canvas;
         }
 
-        if (scores == null) return;
+        if (habits.isEmpty()) return;
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
         rect.offset(0, paddingTop);
@@ -174,41 +164,58 @@ public class ScoreChart extends ScrollableChart
         drawGrid(activeCanvas, rect);
 
         pText.setColor(textColor);
-        pGraph.setColor(primaryColor);
         prevRect.setEmpty();
 
         previousMonthText = "";
         previousYearText = "";
         skipYear = 0;
+        drawFooter = true;
 
-        for (int k = 0; k < nColumns; k++)
+        for (Habit habit: habits)
         {
-            int offset = nColumns - k - 1 + getDataOffset();
-            if (offset >= scores.size()) continue;
 
-            double score = scores.get(offset).getValue();
-            Timestamp timestamp = scores.get(offset).getTimestamp();
+            pText.setColor(textColor);
+            pGraph.setColor(color(habit.getColor()));
+            prevRect.setEmpty();
 
-            int height = (int) (columnHeight * score);
+            previousMonthText = "";
+            previousYearText = "";
+            skipYear = 0;
 
-            rect.set(0, 0, baseSize, baseSize);
-            rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,
-                paddingTop + columnHeight - height - baseSize / 2);
-
-            if (!prevRect.isEmpty())
+            for (int k = 0; k < nColumns; k++)
             {
-                drawLine(activeCanvas, prevRect, rect);
-                drawMarker(activeCanvas, prevRect);
+                List<Score> scores = habit.getScores().toList();
+                int offset = nColumns - k - 1 + getDataOffset();
+                if (offset >= scores.size()) continue;
+
+                double score = scores.get(offset).getValue();
+                Timestamp timestamp = scores.get(offset).getTimestamp();
+
+                int height = (int) (columnHeight * score);
+
+                rect.set(0, 0, baseSize, baseSize);
+                rect.offset(k * columnWidth + (columnWidth - baseSize) / 2,
+                        paddingTop + columnHeight - height - baseSize / 2);
+
+                if (!prevRect.isEmpty())
+                {
+                    drawLine(activeCanvas, prevRect, rect, habit.getColor());
+                    drawMarker(activeCanvas, prevRect, habit.getColor());
+                }
+
+                if (k == nColumns - 1) drawMarker(activeCanvas, rect, habit.getColor());
+
+                prevRect.set(rect);
+                rect.set(0, 0, columnWidth, columnHeight);
+                rect.offset(k * columnWidth, paddingTop);
+
+                if (drawFooter) drawFooter(activeCanvas, rect, timestamp);
             }
-
-            if (k == nColumns - 1) drawMarker(activeCanvas, rect);
-
-            prevRect.set(rect);
-            rect.set(0, 0, columnWidth, columnHeight);
-            rect.offset(k * columnWidth, paddingTop);
-
-            drawFooter(activeCanvas, rect, timestamp);
+            prevRect.setEmpty();
+            drawFooter = false;
         }
+
+
 
         if (activeCanvas != canvas) canvas.drawBitmap(drawingCache, 0, 0, null);
     }
@@ -328,21 +335,21 @@ public class ScoreChart extends ScrollableChart
         canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid);
     }
 
-    private void drawLine(Canvas canvas, RectF rectFrom, RectF rectTo)
+    private void drawLine(Canvas canvas, RectF rectFrom, RectF rectTo, int colorIndex)
     {
-        pGraph.setColor(primaryColor);
+        pGraph.setColor(color(colorIndex));
         canvas.drawLine(rectFrom.centerX(), rectFrom.centerY(),
             rectTo.centerX(), rectTo.centerY(), pGraph);
     }
 
-    private void drawMarker(Canvas canvas, RectF rect)
+    private void drawMarker(Canvas canvas, RectF rect, int colorIndex)
     {
         rect.inset(baseSize * 0.225f, baseSize * 0.225f);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
         canvas.drawOval(rect, pGraph);
 
         rect.inset(baseSize * 0.1f, baseSize * 0.1f);
-        setModeOrColor(pGraph, XFERMODE_SRC, primaryColor);
+        setModeOrColor(pGraph, XFERMODE_SRC, color(colorIndex));
         canvas.drawOval(rect, pGraph);
 
 //        rect.inset(baseSize * 0.1f, baseSize * 0.1f);
@@ -350,6 +357,10 @@ public class ScoreChart extends ScrollableChart
 //        canvas.drawOval(rect, pGraph);
 
         if (isTransparencyEnabled) pGraph.setXfermode(XFERMODE_SRC);
+    }
+
+    private int color(int colorIndex) {
+        return PaletteUtils.getColor(getContext(), colorIndex);
     }
 
     private float getMaxDayWidth()
@@ -402,7 +413,6 @@ public class ScoreChart extends ScrollableChart
     {
         StyledResources res = new StyledResources(getContext());
 
-        primaryColor = Color.BLACK;
         textColor = res.getColor(R.attr.mediumContrastTextColor);
         gridColor = res.getColor(R.attr.lowContrastTextColor);
         backgroundColor = res.getColor(R.attr.cardBackgroundColor);

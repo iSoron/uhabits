@@ -37,7 +37,7 @@ class FrequencyWidget(
 
     override fun refreshData(v: View) {
         val widgetView = v as GraphWidgetView
-        widgetView.setTitle(habit.name)
+        widgetView.setHabits(listOf(habit))
         (widgetView.dataView as FrequencyChart).apply {
             setColor(PaletteUtils.getColor(context, habit.color))
             setFrequency(habit.repetitions.weekdayFrequency)

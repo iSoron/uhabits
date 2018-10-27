@@ -47,7 +47,7 @@ class StreakWidget(
 
     override fun buildView(): View {
         return GraphWidgetView(context, StreakChart(context)).apply {
-            setTitle(habit.name)
+            setHabits(listOf(habit))
             layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         }
     }

@@ -24,37 +24,31 @@ import android.view.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
 class ScoreWidget(
         context: Context,
         id: Int,
-        private val habit: Habit
+        private val habits: List<Habit>
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =
-            pendingIntentFactory.showHabit(habit)
+            pendingIntentFactory.showHabit(habits.get(0))
 
     override fun refreshData(view: View) {
         val size = ScoreCard.BUCKET_SIZES[prefs.defaultScoreSpinnerPosition]
-        val scores = when(size) {
-            1 -> habit.scores.toList()
-            else -> habit.scores.groupBy(ScoreCard.getTruncateField(size))
-        }
 
         val widgetView = view as GraphWidgetView
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(size)
-            setColor(PaletteUtils.getColor(context, habit.color))
-            setScores(scores)
+            setHabits(habits)
         }
     }
 
     override fun buildView() =
             GraphWidgetView(context, ScoreChart(context)).apply {
-                setTitle(habit.name)
+                setHabits(habits)
             }
 
     override fun getDefaultHeight() = 300

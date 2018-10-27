@@ -38,12 +38,12 @@
         android:paddingBottom="4dp"
         tools:ignore="UselessParent">
 
-        <TextView
-            android:id="@+id/title"
+        <LinearLayout
+            android:id="@+id/legend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/white"/>
+            android:orientation="horizontal"/>
 
     </LinearLayout>
 

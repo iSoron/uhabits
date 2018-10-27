@@ -128,7 +128,6 @@ public class ScoreCard extends HabitCard
         {
             spinner.setVisibility(GONE);
             title.setTextColor(PaletteUtils.getAndroidTestColor(1));
-            chart.setColor(PaletteUtils.getAndroidTestColor(1));
             chart.populateWithRandomData();
         }
     }
@@ -151,7 +150,9 @@ public class ScoreCard extends HabitCard
             if (bucketSize == 1) scores = scoreList.toList();
             else scores = scoreList.groupBy(getTruncateField(bucketSize));
 
-            chart.setScores(scores);
+            List<Habit> habits = new ArrayList<>();
+            habits.add(getHabit());
+            chart.setHabits(habits);
             chart.setBucketSize(bucketSize);
         }
 
@@ -161,7 +162,6 @@ public class ScoreCard extends HabitCard
             int color =
                 PaletteUtils.getColor(getContext(), getHabit().getColor());
             title.setTextColor(color);
-            chart.setColor(color);
         }
     }
 }
