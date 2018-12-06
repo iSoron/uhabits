@@ -47,7 +47,7 @@ def get_total(report):
     missed = 0
     covered = 0
     for r in report.split(":"):
-        doc = BeautifulSoup(file(r), 'xml')
+        doc = BeautifulSoup(open(r), 'xml')
         tag = doc.select("report > counter[type^INST]")[0]
         missed = missed + float(tag['missed'])
         covered = covered + float(tag['covered'])
