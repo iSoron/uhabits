@@ -9,9 +9,6 @@
 <a href="https://github.com/iSoron/uhabits/releases/latest">
   <img src="https://img.shields.io/badge/apk-stable-FF4081.svg" />
 </a>
-<a href="https://build.loophabits.org/app/rest/builds/buildType(id:release)/artifacts/content/loop-dev.apk?guest=1">
-  <img src="https://img.shields.io/badge/apk-nightly-FF4081.svg" />
-</a>
 
 Loop is a simple Android app that helps you create and maintain good habits,
 allowing you to achieve your long-term goals. Detailed graphs and statistics
