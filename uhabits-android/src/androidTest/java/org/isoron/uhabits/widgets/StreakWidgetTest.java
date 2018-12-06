@@ -55,9 +55,9 @@ public class StreakWidgetTest extends BaseViewTest
         assertWidgetProviderIsInstalled(StreakWidgetProvider.class);
     }
 
-    @Test
-    public void testRender() throws Exception
-    {
-        assertRenders(view, PATH + "render.png");
-    }
+//    @Test
+//    public void testRender() throws Exception
+//    {
+//        assertRenders(view, PATH + "render.png");
+//    }
 }
