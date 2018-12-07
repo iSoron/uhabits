@@ -234,7 +234,7 @@ public class StreakChart extends View
         streaks = Collections.emptyList();
 
         dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        if (!isInEditMode()) dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
         rect = new RectF();
         baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
