@@ -24,6 +24,8 @@ import android.support.annotation.*;
 import com.google.auto.factory.*;
 
 import org.isoron.uhabits.core.io.*;
+import org.isoron.uhabits.core.models.ModelFactory;
+import org.isoron.uhabits.core.models.sqlite.SQLModelFactory;
 import org.isoron.uhabits.core.tasks.*;
 
 import java.io.*;
@@ -37,21 +39,25 @@ public class ImportDataTask implements Task
 
     public static final int SUCCESS = 1;
 
-    int result;
+    private int result;
 
     @NonNull
     private final File file;
 
     private GenericImporter importer;
 
+    private SQLModelFactory modelFactory;
+
     @NonNull
     private final Listener listener;
 
     public ImportDataTask(@Provided @NonNull GenericImporter importer,
+                          @Provided @NonNull ModelFactory modelFactory,
                           @NonNull File file,
                           @NonNull Listener listener)
     {
         this.importer = importer;
+        this.modelFactory = (SQLModelFactory) modelFactory;
         this.listener = listener;
         this.file = file;
     }
@@ -59,12 +65,15 @@ public class ImportDataTask implements Task
     @Override
     public void doInBackground()
     {
+        modelFactory.db.beginTransaction();
+
         try
         {
             if (importer.canHandle(file))
             {
                 importer.importHabitsFromFile(file);
                 result = SUCCESS;
+                modelFactory.db.setTransactionSuccessful();
             }
             else
             {
@@ -76,6 +85,8 @@ public class ImportDataTask implements Task
             result = FAILED;
             e.printStackTrace();
         }
+
+        modelFactory.db.endTransaction();
     }
 
     @Override
