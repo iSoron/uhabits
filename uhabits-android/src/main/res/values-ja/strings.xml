@@ -74,6 +74,7 @@
   <string name="interval_2_hour">2 時間</string>
   <string name="interval_4_hour">4 時間</string>
   <string name="interval_8_hour">8 時間</string>
+  <string name="interval_24_hour">24時間</string>
   <string name="pref_toggle_title">クリックで繰り返しを切り替え</string>
   <string name="pref_toggle_description">便利になりますが、間違って切り替えが起こる可能性があります。</string>
   <string name="pref_snooze_interval_title">リマインダーのスヌーズ間隔</string>
@@ -146,6 +147,7 @@
   <string name="month">月</string>
   <string name="quarter">四半期</string>
   <string name="year">年</string>
+  <string name="total">合計</string>
   <!-- Middle part of the sentence '1 time in xx days' -->
   <string name="time_every">回 /</string>
   <string name="every_x_days">%d 日ごと</string>
@@ -154,4 +156,7 @@
   <string name="score">スコア</string>
   <string name="reminder_sound">リマインダー サウンド</string>
   <string name="none">なし</string>
+  <string name="filter">フィルター</string>
+  <string name="download">ダウンロード</string>
+  <string name="export">エクスポート</string>
 </resources>

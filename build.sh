@@ -168,7 +168,7 @@ generate_coverage_badge() {
 	log_info "Generating code coverage badge"
 	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
 	rm -f ${OUTPUTS_DIR}/coverage-badge.svg
-	python tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
+	python3 tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
 }
 
 fetch_artifacts() {
@@ -177,10 +177,6 @@ fetch_artifacts() {
 	$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
 	$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
 	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUTS_DIR}/failed
-
-	$ADB shell rm -r /mnt/sdcard/test-screenshots/ 
-	$ADB shell rm -r /storage/sdcard/test-screenshots/ 
-	$ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
 }
 
 fetch_logcat() {

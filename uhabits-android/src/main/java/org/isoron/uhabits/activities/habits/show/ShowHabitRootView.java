@@ -140,11 +140,7 @@ public class ShowHabitRootView extends BaseRootView
         historyCard.setHabit(habit);
         streakCard.setHabit(habit);
         frequencyCard.setHabit(habit);
-
-        if(habit.isNumerical())
-            barCard.setHabit(habit);
-        else
-            barCard.setVisibility(GONE);
+        barCard.setHabit(habit);
     }
 
     public interface Controller extends HistoryCard.Controller

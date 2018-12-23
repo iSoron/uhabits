@@ -57,7 +57,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testScheduleAll()
     {
-        long now = timestamp(2015, 1, 26, 13, 0);
+        long now = unixTime(2015, 1, 26, 13, 0);
         DateUtils.setFixedLocalTime(now);
 
         Habit h1 = fixtures.createEmptyHabit();
@@ -72,9 +72,9 @@ public class ReminderSchedulerTest extends BaseUnitTest
 
         reminderScheduler.scheduleAll();
 
-        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 27, 12, 30)),
+        verify(sys).scheduleShowReminder(eq(unixTime(2015, 1, 27, 12, 30)),
             eq(h1), anyLong());
-        verify(sys).scheduleShowReminder(eq(timestamp(2015, 1, 26, 22, 30)),
+        verify(sys).scheduleShowReminder(eq(unixTime(2015, 1, 26, 22, 30)),
             eq(h2), anyLong());
         Mockito.verifyNoMoreInteractions(sys);
     }
@@ -82,8 +82,8 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_atSpecificTime()
     {
-        long atTime = timestamp(2015, 1, 30, 11, 30);
-        long expectedCheckmarkTime = timestamp(2015, 1, 30, 0, 0);
+        long atTime = unixTime(2015, 1, 30, 11, 30);
+        long expectedCheckmarkTime = unixTime(2015, 1, 30, 0, 0);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(atTime, expectedCheckmarkTime, atTime);
@@ -92,11 +92,11 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_laterToday()
     {
-        long now = timestamp(2015, 1, 26, 6, 30);
+        long now = unixTime(2015, 1, 26, 6, 30);
         DateUtils.setFixedLocalTime(now);
 
-        long expectedCheckmarkTime = timestamp(2015, 1, 26, 0, 0);
-        long expectedReminderTime = timestamp(2015, 1, 26, 12, 30);
+        long expectedCheckmarkTime = unixTime(2015, 1, 26, 0, 0);
+        long expectedReminderTime = unixTime(2015, 1, 26, 12, 30);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
@@ -105,11 +105,11 @@ public class ReminderSchedulerTest extends BaseUnitTest
     @Test
     public void testSchedule_tomorrow()
     {
-        long now = timestamp(2015, 1, 26, 13, 0);
+        long now = unixTime(2015, 1, 26, 13, 0);
         DateUtils.setFixedLocalTime(now);
 
-        long expectedCheckmarkTime = timestamp(2015, 1, 27, 0, 0);
-        long expectedReminderTime = timestamp(2015, 1, 27, 12, 30);
+        long expectedCheckmarkTime = unixTime(2015, 1, 27, 0, 0);
+        long expectedReminderTime = unixTime(2015, 1, 27, 12, 30);
 
         habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
@@ -122,7 +122,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         Mockito.verifyZeroInteractions(sys);
     }
 
-    public long timestamp(int year, int month, int day, int hour, int minute)
+    public long unixTime(int year, int month, int day, int hour, int minute)
     {
         Calendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day, hour, minute);

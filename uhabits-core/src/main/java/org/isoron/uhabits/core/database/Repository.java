@@ -246,56 +246,96 @@ public class Repository<T>
         return fields;
     }
 
+    private Field[] cacheFields = null;
+
     @NonNull
     private Field[] getFields()
     {
-        List<Field> fields = new ArrayList<>();
-        List<Pair<Field, Column>> columns = getFieldColumnPairs();
-        for (Pair<Field, Column> pair : columns) fields.add(pair.getLeft());
-        return fields.toArray(new Field[]{});
+        if (cacheFields == null)
+        {
+            List<Field> fields = new ArrayList<>();
+            List<Pair<Field, Column>> columns = getFieldColumnPairs();
+            for (Pair<Field, Column> pair : columns) fields.add(pair.getLeft());
+            cacheFields = fields.toArray(new Field[]{});
+        }
+
+        return cacheFields;
     }
+
+    private String[] cacheColumnNames = null;
 
     @NonNull
     private String[] getColumnNames()
     {
-        List<String> names = new ArrayList<>();
-        List<Pair<Field, Column>> columns = getFieldColumnPairs();
-        for (Pair<Field, Column> pair : columns)
+        if (cacheColumnNames == null)
         {
-            String cname = pair.getRight().name();
-            if (cname.isEmpty()) cname = pair.getLeft().getName();
-            if (names.contains(cname))
-                throw new RuntimeException("duplicated column : " + cname);
-            names.add(cname);
+            List<String> names = new ArrayList<>();
+            List<Pair<Field, Column>> columns = getFieldColumnPairs();
+            for (Pair<Field, Column> pair : columns)
+            {
+                String cname = pair.getRight().name();
+                if (cname.isEmpty()) cname = pair.getLeft().getName();
+                if (names.contains(cname))
+                    throw new RuntimeException("duplicated column : " + cname);
+                names.add(cname);
+            }
+
+            cacheColumnNames = names.toArray(new String[]{});
         }
 
-        return names.toArray(new String[]{});
+        return cacheColumnNames;
     }
+
+    private String cacheTableName = null;
 
     @NonNull
     private String getTableName()
     {
-        String name = getTableAnnotation().name();
-        if (name.isEmpty()) throw new RuntimeException("Table name is empty");
-        return name;
+        if (cacheTableName == null)
+        {
+            String name = getTableAnnotation().name();
+            if (name.isEmpty()) throw new RuntimeException("Table name is empty");
+            cacheTableName = name;
+        }
+        return cacheTableName;
     }
+
+    private String cacheIdName = null;
 
     @NonNull
     private String getIdName()
     {
-        String id = getTableAnnotation().id();
-        if (id.isEmpty()) throw new RuntimeException("Table id is empty");
-        return id;
+        if (cacheIdName == null)
+        {
+            String id = getTableAnnotation().id();
+            if (id.isEmpty()) throw new RuntimeException("Table id is empty");
+            cacheIdName = id;
+        }
+
+        return cacheIdName;
     }
+
+    private Field cacheIdField = null;
 
     @NonNull
     private Field getIdField()
     {
-        Field fields[] = getFields();
-        String idName = getIdName();
-        for (Field f : fields)
-            if (f.getName().equals(idName)) return f;
-        throw new RuntimeException("Field not found: " + idName);
+        if (cacheIdField == null)
+        {
+            Field fields[] = getFields();
+            String idName = getIdName();
+            for (Field f : fields)
+                if (f.getName().equals(idName))
+                {
+                    cacheIdField = f;
+                    break;
+                }
+
+            if (cacheIdField == null)
+                throw new RuntimeException("Field not found: " + idName);
+        }
+
+        return cacheIdField;
     }
 
     @NonNull

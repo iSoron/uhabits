@@ -23,7 +23,9 @@ import org.isoron.uhabits.core.*;
 import org.junit.*;
 
 import java.io.*;
+import java.util.*;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -87,5 +89,31 @@ public class PropertiesStorageTest extends BaseUnitTest
         assertThat(storage2.getInt("intKey", 200), equalTo(64));
         assertThat(storage2.getLong("intKey", 200L), equalTo(64L));
         assertThat(storage2.getString("stringKey", ""), equalTo("Hello"));
+    }
+
+    @Test
+    public void testLongArray() throws Exception
+    {
+        long[] expected1 = new long[]{1L, 2L, 3L, 5L};
+        long[] expected2 = new long[]{1L};
+        long[] expected3 = new long[]{};
+        long[] expected4 = new long[]{};
+
+        storage.putLongArray("key1", expected1);
+        storage.putLongArray("key2", expected2);
+        storage.putLongArray("key3", expected3);
+
+        long[] actual1 = storage.getLongArray("key1");
+        long[] actual2 = storage.getLongArray("key2");
+        long[] actual3 = storage.getLongArray("key3");
+        long[] actual4 = storage.getLongArray("invalidKey");
+
+        assertTrue(Arrays.equals(actual1, expected1));
+        assertTrue(Arrays.equals(actual2, expected2));
+        assertTrue(Arrays.equals(actual3, expected3));
+        assertTrue(Arrays.equals(actual4, expected4));
+
+        assertEquals("1,2,3,5", storage.getString("key1", ""));
+        assertEquals(1, storage.getLong("key2", -1));
     }
 }

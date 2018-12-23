@@ -29,10 +29,9 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT;
-import static android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH;
+import java.util.*;
+
+import static android.appwidget.AppWidgetManager.*;
 import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
@@ -77,7 +76,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (context == null) throw new RuntimeException("context is null");
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
-            context.setTheme(R.style.TransparentWidgetTheme);
+            context.setTheme(R.style.OpaqueWidgetTheme);
 
             updateDependencies(context);
 
@@ -123,7 +122,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
-        context.setTheme(R.style.TransparentWidgetTheme);
+        context.setTheme(R.style.OpaqueWidgetTheme);
 
         updateDependencies(context);
 
@@ -135,13 +134,18 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         }).start();
     }
 
-    @NonNull
-    protected Habit getHabitFromWidgetId(int widgetId)
+    protected List<Habit> getHabitsFromWidgetId(int widgetId)
     {
-        long habitId = widgetPrefs.getHabitIdFromWidgetId(widgetId);
-        Habit habit = habits.getById(habitId);
-        if (habit == null) throw new HabitNotFoundException();
-        return habit;
+        long selectedIds[] = widgetPrefs.getHabitIdsFromWidgetId(widgetId);
+        ArrayList<Habit> selectedHabits = new ArrayList<>(selectedIds.length);
+        for (long id : selectedIds)
+        {
+            Habit h = habits.getById(id);
+            if (h == null) throw new HabitNotFoundException();
+            selectedHabits.add(h);
+        }
+
+        return selectedHabits;
     }
 
     @NonNull

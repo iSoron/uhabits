@@ -123,9 +123,14 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Nikhil (regularcoder)"/>
+
                 <TextView
                     style="@style/About.Item"
                     android:text="JanetQC"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Victor Yu"/>
 
             </LinearLayout>
 
@@ -188,11 +193,19 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Laura Sophie (Deutsch)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Ander Raso Vazquez (Español)"/>
 
                 <TextView
                     style="@style/About.Item"
                     android:text="Beriain (Euskara)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Osoitz (Euskara)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -205,6 +218,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Saeed Esmaili (Fārsi)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Behnood HRazy (Fārsi)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -221,6 +238,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Michael Faille (Français)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Tiralka (Français)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -264,6 +285,10 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Andreea Muscalagiu (Română)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Dušan Strgar (Slovenščina)"/>
 
                 <TextView
@@ -276,11 +301,19 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Sofia Veijonen (Suomen kieli)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Đorđe Vasiljević (српски)"/>
 
                 <TextView
                     style="@style/About.Item"
                     android:text="Caner Başaran (Türkçe)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="hodanli (Türkçe)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -293,6 +326,10 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Oglaigh Rystard (Українська)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="taras-ko (Українська)"/>
 
                 <TextView
                     style="@style/About.Item"
@@ -328,6 +365,14 @@
 
                 <TextView
                     style="@style/About.Item"
+                    android:text="Boula (العَرَبِية‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Israa Z (العَرَبِية‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
                     android:text="Josh Graham (한국어 )"/>
 
                 <TextView
@@ -349,6 +394,30 @@
                 <TextView
                     style="@style/About.Item"
                     android:text="Mahdi Nasiri (فارسی‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Mohammed Imthath (தமிழ்‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="magimai (தமிழ்‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Anshoe (தமிழ்‎)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Trần Thái (Tiếng Việt)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Anh Quân (Tiếng Việt)"/>
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="pnhpnh (Tiếng Việt)"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -64,13 +64,13 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         assertRenders(view, PATH + "checked.png");
     }
 
-    @Test
-    public void testRender_implicitlyChecked() throws IOException
-    {
-        view.setCheckmarkValue(Checkmark.CHECKED_IMPLICITLY);
-        view.refresh();
-        assertRenders(view, PATH + "implicitly_checked.png");
-    }
+//    @Test
+//    public void testRender_implicitlyChecked() throws IOException
+//    {
+//        view.setCheckmarkValue(Checkmark.CHECKED_IMPLICITLY);
+//        view.refresh();
+//        assertRenders(view, PATH + "implicitly_checked.png");
+//    }
 
     @Test
     public void testRender_largeSize() throws IOException
@@ -79,11 +79,11 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         assertRenders(view, PATH + "large_size.png");
     }
 
-    @Test
-    public void testRender_unchecked() throws IOException
-    {
-        view.setCheckmarkValue(Checkmark.UNCHECKED);
-        view.refresh();
-        assertRenders(view, PATH + "unchecked.png");
-    }
+//    @Test
+//    public void testRender_unchecked() throws IOException
+//    {
+//        view.setCheckmarkValue(Checkmark.UNCHECKED);
+//        view.refresh();
+//        assertRenders(view, PATH + "unchecked.png");
+//    }
 }

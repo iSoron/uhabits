@@ -19,18 +19,18 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">Loop Sledilnik Navad</string>
+  <string name="app_name">Loop Navade</string>
   <string name="main_activity_title">Navade</string>
   <string name="action_settings">Nastavitve</string>
-  <string name="edit">Spremeni</string>
+  <string name="edit">Uredi</string>
   <string name="delete">Izbriši</string>
   <string name="archive">Arhiviraj</string>
   <string name="unarchive">Odarhiviraj</string>
   <string name="add_habit">Dodaj navado</string>
   <string name="color_picker_default_title">Spremeni barvo</string>
-  <string name="toast_habit_created">Navada ustvarjana.</string>
-  <string name="toast_habit_deleted">Navada izbrisana.</string>
-  <string name="toast_habit_restored">Navada obnovljena.</string>
+  <string name="toast_habit_created">Navada ustvarjena</string>
+  <string name="toast_habit_deleted">Navada izbrisana</string>
+  <string name="toast_habit_restored">Navada obnovljena</string>
   <string name="toast_nothing_to_undo">Nič za razveljaviti.</string>
   <string name="toast_nothing_to_redo">Nič za ponovno opraviti.</string>
   <string name="toast_habit_changed">Navada spremenjena.</string>

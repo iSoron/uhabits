@@ -25,6 +25,7 @@ import org.apache.commons.io.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.Timestamp;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.test.*;
@@ -92,18 +93,22 @@ public class BaseUnitTest
         DateUtils.setFixedLocalTime(null);
     }
 
-    public long timestamp(int year, int month, int day)
+    public long unixTime(int year, int month, int day)
     {
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day, 0, 0, 0);
         return cal.getTimeInMillis();
     }
 
-    public long timestamp(int year, int month, int day, int hour, int minute)
+    public long unixTime(int year, int month, int day, int hour, int minute)
     {
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, month, day, hour, minute);
         return cal.getTimeInMillis();
+    }
+
+    public Timestamp timestamp(int year, int month, int day) {
+        return new Timestamp(unixTime(year, month, day));
     }
 
     @Test

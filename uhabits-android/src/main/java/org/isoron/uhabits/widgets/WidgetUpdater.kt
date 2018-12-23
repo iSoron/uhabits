@@ -23,6 +23,7 @@ import android.appwidget.*
 import android.content.*
 import org.isoron.androidbase.*
 import org.isoron.uhabits.core.commands.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import javax.inject.*
 
@@ -34,11 +35,12 @@ class WidgetUpdater
 @Inject constructor(
         @AppContext private val context: Context,
         private val commandRunner: CommandRunner,
-        private val taskRunner: TaskRunner
+        private val taskRunner: TaskRunner,
+        private val widgetPrefs: WidgetPreferences
 ) : CommandRunner.Listener {
 
     override fun onCommandExecuted(command: Command, refreshKey: Long?) {
-        updateWidgets()
+        updateWidgets(refreshKey)
     }
 
     /**
@@ -58,22 +60,34 @@ class WidgetUpdater
         commandRunner.removeListener(this)
     }
 
-    fun updateWidgets() {
+    fun updateWidgets(modifiedHabitId: Long?) {
         taskRunner.execute {
-            updateWidgets(CheckmarkWidgetProvider::class.java)
-            updateWidgets(HistoryWidgetProvider::class.java)
-            updateWidgets(ScoreWidgetProvider::class.java)
-            updateWidgets(StreakWidgetProvider::class.java)
-            updateWidgets(FrequencyWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, CheckmarkWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, HistoryWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, ScoreWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, StreakWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, FrequencyWidgetProvider::class.java)
         }
     }
 
-    fun updateWidgets(providerClass: Class<*>) {
-        val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(
+    private fun updateWidgets(modifiedHabitId: Long?, providerClass: Class<*>) {
+        val widgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
                 ComponentName(context, providerClass))
+
+        val modifiedWidgetIds = when (modifiedHabitId) {
+            null -> widgetIds.toList()
+            else -> widgetIds.filter { w ->
+                widgetPrefs.getHabitIdsFromWidgetId(w).contains(modifiedHabitId)
+            }
+        }
+
         context.sendBroadcast(Intent(context, providerClass).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, modifiedWidgetIds.toIntArray())
         })
+    }
+
+    fun updateWidgets() {
+        updateWidgets(null)
     }
 }

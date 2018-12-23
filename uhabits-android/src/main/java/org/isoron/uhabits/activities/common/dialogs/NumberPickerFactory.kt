@@ -42,9 +42,9 @@ class NumberPickerFactory
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
-        val picker = view.findViewById(R.id.picker) as NumberPicker
-        val picker2 = view.findViewById(R.id.picker2) as NumberPicker
-        val tvUnit = view.findViewById(R.id.tvUnit) as TextView
+        val picker = view.findViewById<NumberPicker>(R.id.picker)
+        val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
+        val tvUnit = view.findViewById<TextView>(R.id.tvUnit)
 
         val intValue = Math.round(value * 100).toInt()
 
@@ -70,6 +70,8 @@ class NumberPickerFactory
                     callback.onNumberPicked(v)
                 }
                 .create()
+
+        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)

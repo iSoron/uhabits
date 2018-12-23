@@ -61,7 +61,7 @@
   <string name="snooze">Später</string>
   <!-- App introduction -->
   <string name="intro_title_1">Willkommen</string>
-  <string name="intro_description_1">Loop Habit Tracker hilft dir gute Gewohnheiten anzueignen.</string>
+  <string name="intro_description_1">Loop Habit Tracker hilft dir dabei, gute Gewohnheiten anzunehmen.</string>
   <string name="intro_title_2">Erstelle neue Gewohnheiten</string>
   <string name="intro_description_2">Hake die Gewohnheit jeden Tag in der App ab, nachdem du sie erledigt hast.</string>
   <string name="intro_title_3">Bleib dran</string>
@@ -75,7 +75,7 @@
   <string name="interval_4_hour">4 Stunden</string>
   <string name="interval_8_hour">8 Stunden</string>
   <string name="interval_24_hour">24 Stunden</string>
-  <string name="pref_toggle_title">Markierung durch kurzes Tippen ändern</string>
+  <string name="pref_toggle_title">Markierung durch kurzes Drücken ändern</string>
   <string name="pref_toggle_description">Markierungen durch einfaches Tippen setzen anstatt durch Tippen und Halten. Bequemer, kann aber versehentlich eine Markierung ändern.</string>
   <string name="pref_snooze_interval_title">\"Später erinnern\"-Intervall bei Erinnerungen</string>
   <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
@@ -94,7 +94,7 @@
   <string name="delete_habits_message">Die Gewohnheit wird für immer gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="habit_not_found">Gewohnheit gelöscht / nicht gefunden</string>
   <string name="weekends">An Wochenenden</string>
-  <string name="any_weekday">Werktags</string>
+  <string name="any_weekday">Montag bis Freitag</string>
   <string name="any_day">Jeden Tag</string>
   <string name="select_weekdays">Wähle Tage aus</string>
   <string name="export_to_csv">Exportiere als CSV</string>

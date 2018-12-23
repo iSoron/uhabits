@@ -115,6 +115,7 @@
     <string name="clear_label">Clear</string>
     <string name="select_hours">Select hours</string>
     <string name="select_minutes">Select minutes</string>
+    <string name="select_habit_requirement_prompt">Please select at least one habit</string>
 
     <string-array name="hints">
         <item>@string/hint_drag</item>
@@ -127,6 +128,13 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
+    <string name="create_stackview_widget_button">StackView Widget For All Habits</string>
+    <string name="checkmark_stack_widget">Checkmark Stack Widget</string>
+    <string name="frequency_stack_widget">Frequency Stack Widget</string>
+    <string name="score_stack_widget">Score Stack Widget</string>
+    <string name="history_stack_widget">History Stack Widget</string>
+    <string name="streaks_stack_widget">Streaks Stack Widget</string>
+
 
     <string name="strength">Strength</string>
     <string name="best_streaks">Best streaks</string>
@@ -208,8 +216,7 @@
     <string name="by_score">By score</string>
     <string name="download">Download</string>
     <string name="export">Export</string>
-    <string name="long_press_to_edit">Press-and-hold to change the
-        value</string>
+    <string name="long_press_to_edit">Press-and-hold to change the value</string>
     <string name="change_value">Change value</string>
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
@@ -222,4 +229,6 @@
     <string name="target">Target</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="customize_notification_summary">Change sound, vibration, light and other notification settings</string>
+    <string name="customize_notification">Customize notifications</string>
 </resources>

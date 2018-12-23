@@ -74,6 +74,6 @@ public class ScoreTest extends BaseUnitTest
     public void testToString() throws Exception
     {
         Score score = new Score(Timestamp.ZERO.plus(100), 150.0);
-        assertThat(score.toString(), equalTo( "{timestamp: {unixTime: 8640000000}, value: 150.0}"));
+        assertThat(score.toString(), equalTo( "{timestamp: 1970-04-11, value: 150.0}"));
     }
 }

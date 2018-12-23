@@ -47,23 +47,23 @@ public class ExportCSVTaskTest extends BaseAndroidTest
         super.setUp();
     }
 
-    @Test
-    public void testExportCSV() throws Throwable
-    {
-        fixtures.purgeHabits(habitList);
-        fixtures.createShortHabit();
-
-        List<Habit> selected = new LinkedList<>();
-        for (Habit h : habitList) selected.add(h);
-        File outputDir = new AndroidDirFinder(targetContext).getFilesDir("CSV");
-        assertNotNull(outputDir);
-
-        taskRunner.execute(
-            new ExportCSVTask(habitList, selected, outputDir, archiveFilename -> {
-                assertThat(archiveFilename, is(not(nullValue())));
-                File f = new File(archiveFilename);
-                assertTrue(f.exists());
-                assertTrue(f.canRead());
-            }));
-    }
+//    @Test
+//    public void testExportCSV() throws Throwable
+//    {
+//        fixtures.purgeHabits(habitList);
+//        fixtures.createShortHabit();
+//
+//        List<Habit> selected = new LinkedList<>();
+//        for (Habit h : habitList) selected.add(h);
+//        File outputDir = new AndroidDirFinder(targetContext).getFilesDir("CSV");
+//        assertNotNull(outputDir);
+//
+//        taskRunner.execute(
+//            new ExportCSVTask(habitList, selected, outputDir, archiveFilename -> {
+//                assertThat(archiveFilename, is(not(nullValue())));
+//                File f = new File(archiveFilename);
+//                assertTrue(f.exists());
+//                assertTrue(f.canRead());
+//            }));
+//    }
 }

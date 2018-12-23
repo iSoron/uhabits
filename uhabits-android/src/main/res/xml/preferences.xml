@@ -74,6 +74,11 @@
             android:title="@string/led_notifications"
             android:summary="@string/led_notifications_description"/>
 
+        <Preference
+            android:key="reminderCustomize"
+            android:summary="@string/customize_notification_summary"
+            android:title="@string/customize_notification"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

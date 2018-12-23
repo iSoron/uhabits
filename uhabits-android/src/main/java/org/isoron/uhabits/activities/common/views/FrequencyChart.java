@@ -300,8 +300,16 @@ public class FrequencyChart extends ScrollableChart
 
     private void initDateFormats()
     {
-        dfMonth = AndroidDateFormats.fromSkeleton("MMM");
-        dfYear = AndroidDateFormats.fromSkeleton("yyyy");
+        if (isInEditMode())
+        {
+            dfMonth = new SimpleDateFormat("MMM", Locale.getDefault());
+            dfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+        }
+        else
+        {
+            dfMonth = AndroidDateFormats.fromSkeleton("MMM");
+            dfYear = AndroidDateFormats.fromSkeleton("yyyy");
+        }
     }
 
     private void initRects()
@@ -326,5 +334,6 @@ public class FrequencyChart extends ScrollableChart
             frequency.put(new Timestamp(date), values);
             date.add(Calendar.MONTH, -1);
         }
+        maxFreq = getMaxFreq(frequency);
     }
 }

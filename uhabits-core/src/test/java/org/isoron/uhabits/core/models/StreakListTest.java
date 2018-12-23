@@ -124,6 +124,6 @@ public class StreakListTest extends BaseUnitTest
         Timestamp time = Timestamp.ZERO.plus(100);
         Streak streak = new Streak(time, time.plus(10));
         assertThat(streak.toString(), equalTo(
-            "{start: {unixTime: 8640000000}, end: {unixTime: 9504000000}}"));
+            "{start: 1970-04-11, end: 1970-04-21}"));
     }
 }

@@ -33,7 +33,7 @@ import javax.inject.*;
  */
 public class SQLModelFactory implements ModelFactory
 {
-    private final Database db;
+    public final Database db;
 
     @Inject
     public SQLModelFactory(Database db)

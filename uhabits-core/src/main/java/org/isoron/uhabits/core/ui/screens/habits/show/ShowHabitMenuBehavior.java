@@ -25,11 +25,15 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
 import java.util.*;
 
 import javax.inject.*;
+
+import static java.lang.Math.*;
+
 
 public class ShowHabitMenuBehavior
 {
@@ -93,6 +97,27 @@ public class ShowHabitMenuBehavior
                     null);
             screen.close();
         });
+    }
+
+    public void onRandomize()
+    {
+        Random random = new Random();
+        habit.getRepetitions().removeAll();
+        double strength = 50;
+
+        for (int i = 0; i < 365 * 5; i++)
+        {
+            if (i % 7 == 0) strength = max(0, min(100, strength + 10 * random.nextGaussian()));
+            if (random.nextInt(100) > strength) continue;
+
+            int value = 1;
+            if (habit.isNumerical())
+                value = (int) (1000 + 250 * random.nextGaussian() * strength / 100) * 1000;
+
+            habit.getRepetitions().add(new Repetition(DateUtils.getToday().minus(i), value));
+        }
+
+        habit.invalidateNewerThan(Timestamp.ZERO);
     }
 
     public enum Message

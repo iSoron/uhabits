@@ -40,19 +40,19 @@ public class ExportDBTaskTest extends BaseAndroidTest
         super.setUp();
     }
 
-    @Test
-    public void testExportCSV() throws Throwable
-    {
-        ExportDBTask task =
-            new ExportDBTask(targetContext, new AndroidDirFinder(targetContext),
-                filename ->
-                {
-                    assertNotNull(filename);
-                    File f = new File(filename);
-                    assertTrue(f.exists());
-                    assertTrue(f.canRead());
-                });
-
-        taskRunner.execute(task);
-    }
+//    @Test
+//    public void testExportCSV() throws Throwable
+//    {
+//        ExportDBTask task =
+//            new ExportDBTask(targetContext, new AndroidDirFinder(targetContext),
+//                filename ->
+//                {
+//                    assertNotNull(filename);
+//                    File f = new File(filename);
+//                    assertTrue(f.exists());
+//                    assertTrue(f.canRead());
+//                });
+//
+//        taskRunner.execute(task);
+//    }
 }

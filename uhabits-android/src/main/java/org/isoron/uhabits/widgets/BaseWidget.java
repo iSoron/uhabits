@@ -30,21 +30,26 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.intents.*;
 
-import static android.view.View.MeasureSpec.*;
+import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 public abstract class BaseWidget
 {
-    private final WidgetPreferences prefs;
-
     private final int id;
 
     @NonNull
-    private WidgetDimensions dimensions;
+    protected final WidgetPreferences widgetPrefs;
+
+    @NonNull
+    protected final Preferences prefs;
+
+    @NonNull
+    protected final PendingIntentFactory pendingIntentFactory;
 
     @NonNull
     private final Context context;
 
-    protected final PendingIntentFactory pendingIntentFactory;
+    @NonNull
+    private WidgetDimensions dimensions;
 
     public BaseWidget(@NonNull Context context, int id)
     {
@@ -54,15 +59,16 @@ public abstract class BaseWidget
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
 
-        prefs = app.getComponent().getWidgetPreferences();
+        widgetPrefs = app.getComponent().getWidgetPreferences();
+        prefs = app.getComponent().getPreferences();
         pendingIntentFactory = app.getComponent().getPendingIntentFactory();
         dimensions = new WidgetDimensions(getDefaultWidth(), getDefaultHeight(),
-            getDefaultWidth(), getDefaultHeight());
+                                          getDefaultWidth(), getDefaultHeight());
     }
 
     public void delete()
     {
-        prefs.removeWidget(id);
+        widgetPrefs.removeWidget(id);
     }
 
     @NonNull
@@ -80,7 +86,7 @@ public abstract class BaseWidget
     public RemoteViews getLandscapeRemoteViews()
     {
         return getRemoteViews(dimensions.getLandscapeWidth(),
-            dimensions.getLandscapeHeight());
+                              dimensions.getLandscapeHeight());
     }
 
     public abstract PendingIntent getOnClickPendingIntent(Context context);
@@ -89,7 +95,7 @@ public abstract class BaseWidget
     public RemoteViews getPortraitRemoteViews()
     {
         return getRemoteViews(dimensions.getPortraitWidth(),
-            dimensions.getPortraitHeight());
+                              dimensions.getPortraitHeight());
     }
 
     public abstract void refreshData(View widgetView);
@@ -139,7 +145,7 @@ public abstract class BaseWidget
         int w = (int) (((float) entireWidth - imageWidth) / 2);
         int h = (int) (((float) entireHeight - imageHeight) / 2);
 
-        return new int[]{ w, h, w, h };
+        return new int[]{w, h, w, h};
     }
 
     @NonNull
@@ -156,7 +162,7 @@ public abstract class BaseWidget
     }
 
     @NonNull
-    private RemoteViews getRemoteViews(int width, int height)
+    protected RemoteViews getRemoteViews(int width, int height)
     {
         View view = buildView();
         measureView(view, width, height);
@@ -183,7 +189,7 @@ public abstract class BaseWidget
 
         entireView.measure(specWidth, specHeight);
         entireView.layout(0, 0, entireView.getMeasuredWidth(),
-            entireView.getMeasuredHeight());
+                          entireView.getMeasuredHeight());
 
         View imageView = entireView.findViewById(R.id.imageView);
         width = imageView.getMeasuredWidth();

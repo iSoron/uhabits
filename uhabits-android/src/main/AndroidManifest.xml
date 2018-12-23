@@ -19,7 +19,9 @@
 -->
 <manifest
     package="org.isoron.uhabits"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="36"
+    android:versionName="1.7.9">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -108,6 +110,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_checkmark_info"/>
         </receiver>
+        <service android:name=".widgets.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
         <receiver
             android:name=".widgets.HistoryWidgetProvider"
             android:label="@string/history">
