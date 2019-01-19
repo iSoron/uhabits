@@ -65,6 +65,8 @@
         <item name="aboutScreenColor">@color/blue_800</item>
         <item name="widgetShadowAlpha">0.25</item>
         <item name="widgetBackgroundAlpha">1</item>
+
+        <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
     </style>
 
     <style name="SmallSpinner">
@@ -120,6 +122,8 @@
 
         <item name="widgetShadowAlpha">0.25</item>
         <item name="widgetBackgroundAlpha">1</item>
+
+        <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
@@ -253,5 +257,9 @@
     <style name="DarkDialogWithTitle"
            parent="@style/Theme.AppCompat.Dialog">
         <item name="windowNoTitle">false</item>
+    </style>
+
+    <style name="ScrollableRecyclerViewStyle" parent="android:Widget">
+        <item name="android:scrollbars">vertical</item>
     </style>
 </resources>
