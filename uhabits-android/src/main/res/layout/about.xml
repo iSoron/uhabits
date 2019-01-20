@@ -132,6 +132,10 @@
                     style="@style/About.Item"
                     android:text="Victor Yu"/>
 
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Christoph Hennemann"/>
+
             </LinearLayout>
 
             <LinearLayout
