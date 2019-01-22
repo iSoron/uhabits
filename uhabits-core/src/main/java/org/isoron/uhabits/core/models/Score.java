@@ -63,6 +63,10 @@ public final class Score
                                  double previousScore,
                                  double checkmarkValue)
     {
+
+        if (checkmarkValue < 0)
+            return previousScore;
+
         double multiplier = pow(0.5, frequency / 13.0);
 
         double score = previousScore * multiplier;
