@@ -10,10 +10,10 @@ Loop is a mobile app that helps you create and maintain good habits. While the o
 
 Currently, the project can only be built on macOS. The following tools and libraries need to be installed separately, before attempting to build the application. The versions below have been tested and are know to work. Newer versions may produce errors.
 
-* node 10.15.0
-* Xcode 10.1
+* XCode 10.1
 * Android Studio 3.3
-* android-platform-tools
+* node 10.15.0 (`brew install node`)
+* Android Platform Tools 28.0.1 (`brew cask install android-platform-tools`)
 
 ### 2. Build Instructions
 
