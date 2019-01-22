@@ -153,9 +153,9 @@ public class ScoreListTest extends BaseUnitTest
             habit.getScores().groupBy(DateUtils.TruncateField.MONTH);
 
         assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), closeTo(0.653659, E));
-        assertThat(list.get(1).getValue(), closeTo(0.622715, E));
-        assertThat(list.get(2).getValue(), closeTo(0.520997, E));
+        assertThat(list.get(0).getValue(), closeTo(0.433317, E));
+        assertThat(list.get(1).getValue(), closeTo(0.384690, E));
+        assertThat(list.get(2).getValue(), closeTo(0.289305, E));
     }
 
     @Test
@@ -177,10 +177,10 @@ public class ScoreListTest extends BaseUnitTest
     {
         Habit habit = fixtures.createShortHabit();
 
-        String expectedCSV = "2015-01-25,0.2654\n2015-01-24,0.2389\n" +
-                             "2015-01-23,0.2475\n2015-01-22,0.2203\n" +
-                             "2015-01-21,0.1921\n2015-01-20,0.1628\n" +
-                             "2015-01-19,0.1325\n2015-01-18,0.1011\n" +
+        String expectedCSV = "2015-01-25,0.1866\n2015-01-24,0.1571\n" +
+                             "2015-01-23,0.1628\n2015-01-22,0.1628\n" +
+                             "2015-01-21,0.1325\n2015-01-20,0.1011\n" +
+                             "2015-01-19,0.0686\n2015-01-18,0.0686\n" +
                              "2015-01-17,0.0686\n2015-01-16,0.0349\n";
 
         StringWriter writer = new StringWriter();

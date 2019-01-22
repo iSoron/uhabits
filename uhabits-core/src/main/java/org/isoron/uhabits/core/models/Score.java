@@ -21,6 +21,8 @@ package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
 
+import sun.rmi.runtime.Log;
+
 import static java.lang.Math.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
@@ -63,6 +65,10 @@ public final class Score
                                  double previousScore,
                                  double checkmarkValue)
     {
+
+        if (checkmarkValue < 0)
+            return previousScore;
+
         double multiplier = pow(0.5, frequency / 13.0);
 
         double score = previousScore * multiplier;
