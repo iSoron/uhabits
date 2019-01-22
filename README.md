@@ -2,9 +2,13 @@
 
 Loop is a mobile app that helps you create and maintain good habits. While the original app was developed exclusively for Android, this branch contains a work-in-progress proof-of-concept multi-platform version of the app, which targets Android and iOS.  **The software in this branch is still in pre-alpha stage. Expect bugs, incomplete features and poor performance.** Suggestions and pull requests are very welcome.
 
+<center>
+  <img src="website/screenshots/macos1.png" width="800"/>
+</center>
+
 ### 1. Required Tools and Libraries
 
-Currently, the project can only be built on Mac OS. The following tools and libraries need to be installed separately, before attempting to build the application. The versions below have been tested and are know to work. Newer versions may produce errors.
+Currently, the project can only be built on macOS. The following tools and libraries need to be installed separately, before attempting to build the application. The versions below have been tested and are know to work. Newer versions may produce errors.
 
 * node 10.15.0
 * Xcode 10.1
@@ -13,15 +17,15 @@ Currently, the project can only be built on Mac OS. The following tools and libr
 
 ### 2. Build Instructions
 
-The application is composed by four different modules: (1) the **core** module, written in Kotlin/Native, which contains all the shared business logic; (2) the **react-native** module, written in JavaScript, which contains all the front-end code; (3) the **android** module, written in Kotlin, which contains just enough code to allow the two previous modules to run on Android; and (4) the **ios** module, written in Swift, which allows the two first modules to run on iOS.
+The application is composed by four different modules: (1) the **core** module, written in Kotlin/Native, which contains all the shared business logic; (2) the **react-native** module, written in JavaScript, which contains all the front-end code; (3) the **android** module, written in Kotlin, which contains just enough code to allow the two previous modules to run on Android; and (4) the **ios** module, written in Swift, which allows the first two modules to run on iOS.
 
 ### 2.1. Building the **core** module
 
-In the terminal, navigate to the `core/` folder and run `./gradlew build`. No further steps are needed. The Kotlin/Native compiler will be automatically downloaded and installed, if needed.
+In the terminal, navigate to the `core/` folder and run `./gradlew build`. No further steps are needed. The Kotlin/Native compiler will be automatically downloaded and installed, if necessary.
 
 The main outputs during this phase are `core/build/libs/core-jvm.jar`, a pure-java library used by Android, and `core/build/bin/iOS/main/debug/framework/core.framework`, a framework used by iOS.
 
-**Note:** By default, we build an x64 framework, which only runs in the simulator. To produce an arm64 framework instead, which can be installed on a real iPhone, see instruction is the file `core/build.gradle`.
+**Note:** By default, we build an x64 framework, which only runs in the simulator. To produce an arm64 framework instead, which can be installed on a real iPhone, see instruction in the file `core/build.gradle`.
 
 
 ### 2.2. Installing `react-native`
