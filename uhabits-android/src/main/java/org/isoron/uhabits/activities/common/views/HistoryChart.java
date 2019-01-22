@@ -73,13 +73,13 @@ public class HistoryChart extends ScrollableChart
 
     private int colors[];
 
+    private int textColors[];
+
     private RectF baseLocation;
 
     private int primaryColor;
 
     private boolean isBackgroundTransparent;
-
-    private int textColor;
 
     private int reverseTextColor;
 
@@ -235,7 +235,7 @@ public class HistoryChart extends ScrollableChart
         headerOverflow = 0;
         previousMonth = "";
         previousYear = "";
-        pTextHeader.setColor(textColor);
+        pTextHeader.setColor(textColors[1]);
 
         updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
@@ -352,6 +352,9 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
+
+        pSquareFg.setColor(textColors[0]);
+
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else
         {
@@ -359,12 +362,15 @@ public class HistoryChart extends ScrollableChart
             if(checkmark == 0) pSquareBg.setColor(colors[0]);
             else if(checkmark < target)
             {
-                pSquareBg.setColor(isNumerical ? textColor : colors[1]);
+                pSquareBg.setColor(isNumerical ? textColors[1] : colors[1]);
             }
-            else pSquareBg.setColor(colors[2]);
+            else
+            {
+                pSquareBg.setColor(colors[2]);
+                pSquareFg.setColor(textColors[2]);
+            }
         }
 
-        pSquareFg.setColor(reverseTextColor);
         canvas.drawRect(location, pSquareBg);
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
@@ -411,7 +417,11 @@ public class HistoryChart extends ScrollableChart
             colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.WHITE;
+
+            textColors = new int[3];
+            textColors[2] = Color.WHITE;
+            textColors[1] = Color.WHITE;
+            textColors[0] = Color.WHITE;
             reverseTextColor = Color.WHITE;
         }
         else
@@ -420,9 +430,13 @@ public class HistoryChart extends ScrollableChart
             colors[0] = res.getColor(R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = res.getColor(R.attr.mediumContrastTextColor);
-            reverseTextColor =
-                res.getColor(R.attr.highContrastReverseTextColor);
+
+            textColors = new int[3];
+            textColors[2] = res.getColor(R.attr.highContrastReverseTextColor);
+            textColors[1] = res.getColor(R.attr.mediumContrastTextColor);
+            textColors[0] = res.getColor(R.attr.lowContrastReverseTextColor);
+
+            reverseTextColor = res.getColor(R.attr.highContrastReverseTextColor);
         }
     }
 
