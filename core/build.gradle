@@ -50,7 +50,7 @@ kotlin {
 
         // Replace the target above with the following to produce a framework
         // which can be installed on a real iPhone.
-        // fromPreset(presets.iosX64, 'iOS') {
+        // fromPreset(presets.iosArm64, 'iOS') {
         //     compilations.main.outputKinds('FRAMEWORK')
         // }
     }
