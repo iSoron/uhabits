@@ -43,9 +43,16 @@ apply plugin:"kotlin-multiplatform"
 kotlin {
     targets {
         fromPreset(presets.jvm, 'jvm')
+
         fromPreset(presets.iosX64, 'iOS') {
             compilations.main.outputKinds('FRAMEWORK')
         }
+
+        // Replace the target above with the following to produce a framework
+        // which can be installed on a real iPhone.
+        // fromPreset(presets.iosX64, 'iOS') {
+        //     compilations.main.outputKinds('FRAMEWORK')
+        // }
     }
 
     sourceSets {
