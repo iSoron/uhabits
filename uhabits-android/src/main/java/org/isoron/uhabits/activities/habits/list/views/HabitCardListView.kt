@@ -28,6 +28,7 @@ import android.view.*
 import com.google.auto.factory.*
 import dagger.*
 import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
 
@@ -37,7 +38,7 @@ class HabitCardListView(
         @Provided private val adapter: HabitCardListAdapter,
         @Provided private val cardViewFactory: HabitCardViewFactory,
         @Provided private val controller: Lazy<HabitCardListController>
-) : RecyclerView(context) {
+) : RecyclerView(context, null, R.attr.scrollableRecyclerViewStyle) {
 
     var checkmarkCount: Int = 0
 
