@@ -52,16 +52,16 @@
             style="@style/Card"
             android:gravity="center"/>
 
-        <org.isoron.uhabits.activities.habits.show.views.BarCard
-            android:id="@+id/barCard"
-            style="@style/Card"
-            android:gravity="center"/>
-
         <org.isoron.uhabits.activities.habits.show.views.HistoryCard
             android:id="@+id/historyCard"
             style="@style/Card"
             android:gravity="center"
             android:paddingBottom="0dp"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.BarCard
+            android:id="@+id/barCard"
+            style="@style/Card"
+            android:gravity="center"/>
 
         <org.isoron.uhabits.activities.habits.show.views.StreakCard
             android:id="@+id/streakCard"
