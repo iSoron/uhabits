@@ -48,8 +48,8 @@ kotlin {
             compilations.main.outputKinds('FRAMEWORK')
         }
 
-        // Replace the target above with the following to produce a framework
-        // which can be installed on a real iPhone.
+        // Replace the target above by the following one to produce a framework
+        // which can be installed on a real iPhone:
         // fromPreset(presets.iosArm64, 'iOS') {
         //     compilations.main.outputKinds('FRAMEWORK')
         // }
@@ -76,6 +76,20 @@ kotlin {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-test'
                 implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation 'org.xerial:sqlite-jdbc:3.25.2'
+            }
+        }
+    }
+
+    task iosTest {
+        dependsOn 'linkTestDebugExecutableIOS'
+        group = JavaBasePlugin.VERIFICATION_GROUP
+        description = "Runs tests for target 'ios' on an iOS simulator"
+
+        doLast {
+            def binary = kotlin.targets.iOS.compilations.test.getBinary('EXECUTABLE', 'DEBUG')
+            exec {
+                commandLine 'xcrun', 'simctl', 'spawn', "iPhone 8", binary.absolutePath
             }
         }
     }

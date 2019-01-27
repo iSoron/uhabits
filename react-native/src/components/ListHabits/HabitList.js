@@ -98,7 +98,6 @@ export default class HabitList extends React.Component {
             <CheckmarkButton color={Colors[item.color]} />
             <CheckmarkButton color={Colors[item.color]} />
             <CheckmarkButton color={Colors[item.color]} />
-            <CheckmarkButton color={Colors[item.color]} />
           </View>
         )}
       />

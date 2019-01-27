@@ -19,31 +19,11 @@
 
 package org.isoron.uhabits
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import org.isoron.uhabits.utils.JavaFileOpener
+import org.isoron.uhabits.database.JavaDatabaseOpener
+import org.isoron.uhabits.utils.JavaLog
 
-class BackendTest {
-    @Test
-    fun testBackend() {
-        val backend = Backend()
-        assertEquals(backend.getHabitList().size, 0)
-
-        backend.createHabit("Brush teeth")
-        backend.createHabit("Wake up early")
-
-        var result = backend.getHabitList()
-        assertEquals(result.size, 2)
-        assertEquals(result[1]!!["name"], "Brush teeth")
-        assertEquals(result[2]!!["name"], "Wake up early")
-
-        backend.deleteHabit(1)
-        result = backend.getHabitList()
-        assertEquals(result.size, 1)
-        assertTrue(2 in result.keys)
-
-        backend.updateHabit(2, "Wake up late")
-        result = backend.getHabitList()
-        assertEquals(result[2]!!["name"], "Wake up late")
-    }
+open class BaseTest {
+    val fileOpener = JavaFileOpener()
+    val databaseOpener = JavaDatabaseOpener(JavaLog())
 }

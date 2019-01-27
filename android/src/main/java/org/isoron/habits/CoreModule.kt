@@ -24,24 +24,17 @@ import com.facebook.react.modules.core.DeviceEventManagerModule.*
 import org.isoron.uhabits.*
 
 
-class CoreModule(
-        private val context: ReactApplicationContext
-) : ReactContextBaseJavaModule(context) {
+class CoreModule(private val context: ReactApplicationContext) : ReactContextBaseJavaModule(context) {
 
-    private var backend = Backend()
+    private var backend = Backend(AndroidDatabaseOpener(),
+                                  AndroidFileOpener(context),
+                                  AndroidLog())
+
     private lateinit var emitter: RCTDeviceEventEmitter
 
     override fun initialize() {
         super.initialize()
         emitter = context.getJSModule(RCTDeviceEventEmitter::class.java)
-        backend.createHabit("Wake up early")
-        backend.createHabit("Wash clothes")
-        backend.createHabit("Exercise")
-        backend.createHabit("Meditate")
-        backend.createHabit("Take vitamins")
-        backend.createHabit("Write 'the quick brown fox jumps over the lazy dog' daily")
-        backend.createHabit("Write journal")
-        backend.createHabit("Study French")
     }
 
     override fun getName(): String {
@@ -50,15 +43,17 @@ class CoreModule(
 
     @ReactMethod
     fun requestHabitList() {
-        val params = Arguments.createArray()
-        for ((id, data) in backend.getHabitList()) {
-            params.pushMap(Arguments.createMap().apply {
-                putString("key", id.toString())
-                putString("name", data["name"] as String)
-                putInt("color", data["color"] as Int)
+        val result = backend.getHabitList()
+        val data = Arguments.createArray()
+        for (r in result) {
+            data.pushMap(Arguments.createMap().apply {
+                for ((key, value) in r) {
+                    if (value is String) putString(key, value)
+                    else if (value is Int) putInt(key, value)
+                }
             })
         }
-        emitter.emit("onHabitList", params)
+        emitter.emit("onHabitList", data)
     }
 
     @ReactMethod

@@ -70,10 +70,6 @@ export default class HabitListHeader extends React.Component {
   static renderColumns() {
     return [
       {
-        dayName: 'Sun',
-        dayNumber: '6',
-      },
-      {
         dayName: 'Sat',
         dayNumber: '5',
       },

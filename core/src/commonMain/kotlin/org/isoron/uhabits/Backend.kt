@@ -19,37 +19,38 @@
 
 package org.isoron.uhabits
 
-import org.isoron.uhabits.models.Color
-import org.isoron.uhabits.models.Frequency
-import org.isoron.uhabits.models.Habit
-import org.isoron.uhabits.models.HabitType
-import kotlin.random.Random
+import org.isoron.uhabits.models.HabitList
+import org.isoron.uhabits.utils.*
 
-class Backend {
-    var nextId = 1
-    var habits = mutableListOf<Habit>()
+class Backend(var databaseOpener: DatabaseOpener,
+              var fileOpener: FileOpener,
+              var log: Log) {
 
-    fun getHabitList(): Map<Int, Map<String, *>> {
-        return habits.map { h ->
-            h.id to mapOf("name" to h.name,
-                          "color" to h.color.paletteIndex)
-        }.toMap()
+    var db: Database
+
+    var habits: HabitList
+
+    init {
+        val dbFile = fileOpener.openUserFile("uhabits.sqlite3")
+        db = databaseOpener.open(dbFile)
+        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        habits = HabitList(db)
+    }
+
+    fun getHabitList(): List<Map<String, *>> {
+        return habits.getActive().map { h ->
+            mapOf("key" to h.id.toString(),
+                  "name" to h.name,
+                  "color" to h.color.paletteIndex)
+        }
     }
 
     fun createHabit(name: String) {
-        val c = (nextId / 4) % 5
-        habits.add(Habit(nextId, name, "", Frequency(1, 1), Color(c),
-                         false, habits.size, "", 0, HabitType.YES_NO_HABIT))
-        nextId += 1
     }
 
     fun deleteHabit(id: Int) {
-        val h = habits.find { h -> h.id == id }
-        if (h != null) habits.remove(h)
     }
 
     fun updateHabit(id: Int, name: String) {
-        val h = habits.find { h -> h.id == id }
-        h?.name = name
     }
 }
