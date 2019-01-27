@@ -96,7 +96,7 @@
 
         <item name="highContrastTextColor">@color/grey_100</item>
         <item name="mediumContrastTextColor">@color/grey_500</item>
-        <item name="lowContrastTextColor">@color/grey_800</item>
+        <item name="lowContrastTextColor">@color/grey_700</item>
 
         <item name="highContrastReverseTextColor">@color/grey_900</item>
         <item name="mediumContrastReverseTextColor">@color/grey_750</item>
@@ -133,7 +133,7 @@
         <item name="headerBackgroundColor">@color/black</item>
         <item name="highlightedBackgroundColor">@color/black</item>
 
-        <item name="lowContrastTextColor">@color/grey_900</item>
+        <item name="lowContrastTextColor">@color/grey_800</item>
         <item name="highContrastReverseTextColor">@color/black</item>
     </style>
 
