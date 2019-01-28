@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
+import android.app.Dialog;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
@@ -115,6 +116,17 @@ public class EditHabitDialog extends AppCompatDialogFragment
         setupNameController();
 
         return view;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+        final Window window = dialog.getWindow();
+        if (window != null) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        }
+        return dialog;
     }
 
     protected int getTitle()
