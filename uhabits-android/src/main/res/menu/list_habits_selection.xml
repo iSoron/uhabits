@@ -34,12 +34,12 @@
     <item
         android:id="@+id/action_archive_habit"
         android:title="@string/archive"
-        android:icon="?iconArchive" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_unarchive_habit"
         android:title="@string/unarchive"
-        android:icon="?iconUnarchive"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_delete"
