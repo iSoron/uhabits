@@ -25,6 +25,7 @@ import android.os.*;
 import android.support.annotation.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.*;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.*;
 
 import org.isoron.uhabits.*;
@@ -34,6 +35,7 @@ import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener, ModelObservable.Listener
@@ -60,6 +62,22 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     public void onClick(DialogInterface dialog, int which)
     {
         dismiss();
+    }
+
+    @Override
+    public int getTheme()
+    {
+        HabitsApplicationComponent component =
+                ((HabitsApplication) getContext().getApplicationContext()).getComponent();
+
+        if(component.getPreferences().getTheme() == THEME_LIGHT)
+            return R.style.DialogWithTitle;
+        else {
+            if (component.getPreferences().isPureBlackEnabled()) {
+                return R.style.BlackDialogWithTitle;
+            }
+            return R.style.DarkDialogWithTitle;
+        }
     }
 
     @NonNull
@@ -90,7 +108,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         historyChart.setPadding(padding, 0, padding, 0);
         historyChart.setIsEditable(true);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, getTheme()));
         builder
             .setTitle(R.string.history)
             .setView(historyChart)
