@@ -139,6 +139,8 @@
 
         <item name="lowContrastTextColor">@color/grey_900</item>
         <item name="highContrastReverseTextColor">@color/black</item>
+
+        <item name="toolbarPopupTheme">@style/BlackToolbarPopupTheme</item>
     </style>
 
     <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
@@ -257,6 +259,16 @@
     <style name="DarkDialogWithTitle"
            parent="@style/Theme.AppCompat.Dialog">
         <item name="windowNoTitle">false</item>
+    </style>
+
+    <style name="BlackDialogWithTitle"
+           parent="@style/DarkDialogWithTitle">
+        <item name="android:colorBackground">#181818</item>
+        <item name="android:background">#181818</item>
+    </style>
+    
+    <style name="BlackToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">#181818</item>
     </style>
 
     <style name="ScrollableRecyclerViewStyle" parent="android:Widget">
