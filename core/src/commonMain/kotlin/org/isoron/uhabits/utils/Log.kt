@@ -20,6 +20,20 @@
 package org.isoron.uhabits.utils
 
 interface Log {
-    fun info(msg: String)
-    fun debug(msg: String)
+    fun info(tag: String, msg: String)
+    fun debug(tag: String, msg: String)
+}
+
+/**
+ * A Log that prints to the standard output.
+ */
+class StandardLog : Log {
+    override fun info(tag: String, msg: String) {
+        println(sprintf("I/%-20s %s", tag, msg))
+    }
+
+    override fun debug(tag: String, msg: String) {
+        println(sprintf("D/%-20s %s", tag, msg))
+    }
+
 }

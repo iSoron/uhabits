@@ -29,8 +29,10 @@ interface PreparedStatement {
     fun finalize()
     fun getInt(index: Int): Int
     fun getText(index: Int): String
+    fun getReal(index: Int): Double
     fun bindInt(index: Int, value: Int)
     fun bindText(index: Int, value: String)
+    fun bindReal(index: Int, value: Double)
     fun reset()
 }
 
@@ -57,25 +59,38 @@ fun Database.queryInt(sql: String): Int {
     return result
 }
 
+fun Database.nextId(tableName: String): Int {
+    val stmt = prepareStatement("select seq from sqlite_sequence where name='$tableName'")
+    if(stmt.step() == StepResult.ROW) {
+        val result = stmt.getInt(0)
+        stmt.finalize()
+        return result + 1
+    } else {
+        return 0
+    }
+}
+
 fun Database.begin() = execute("begin")
+
 fun Database.commit() = execute("commit")
-fun Database.rollback() = execute("rollback")
+
 fun Database.getVersion() = queryInt("pragma user_version")
+
 fun Database.setVersion(v: Int) = execute("pragma user_version = $v")
 
 fun Database.migrateTo(newVersion: Int, fileOpener: FileOpener, log: Log) {
     val currentVersion = getVersion()
-    log.debug("Current database version: $currentVersion")
+    log.debug("Database", "Current database version: $currentVersion")
 
     if (currentVersion == newVersion) return
-    log.debug("Upgrading to version: $newVersion")
+    log.debug("Database", "Upgrading to version: $newVersion")
 
     if (currentVersion > newVersion)
         throw RuntimeException("database produced by future version of the application")
     
     begin()
     for (v in (currentVersion + 1)..newVersion) {
-        log.debug("Running migration $v")
+        log.debug("Database", "Running migration $v")
         val filename = sprintf("migrations/%03d.sql", v)
         val migrationFile = fileOpener.openResourceFile(filename)
         for (line in migrationFile.readLines()) {

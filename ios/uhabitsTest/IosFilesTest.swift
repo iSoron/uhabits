@@ -32,6 +32,7 @@ class IosFilesTest: XCTestCase {
     let fm = FileManager.default
     let root = try fm.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).path
     let path = "\(root)/test.txt"
+    print(path)
     fm.createFile(atPath: path, contents: "Hello world\nThis is line 2".data(using: .utf8), attributes: nil)
     
     let fileOpener = IosFileOpener()

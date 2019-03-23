@@ -24,7 +24,7 @@ import { Colors } from '../../helpers/Colors';
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    height: 55,
     paddingRight: 1,
     backgroundColor: Colors.headerBackground,
     flexDirection: 'row',
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   column: {
-    width: 44,
+    width: 55,
     alignItems: 'center',
   },
   text: {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dayName: {
-    fontSize: 10,
+    fontSize: 12,
   },
   dayNumber: {
     fontSize: 12,
@@ -81,11 +81,6 @@ export default class HabitListHeader extends React.Component {
         dayName: 'Thu',
         dayNumber: '3',
       },
-      {
-        dayName: 'Wed',
-        dayNumber: '2',
-      },
-
     ].map((day) => {
       const { dayName, dayNumber } = day;
       return HabitListHeader.renderColumn(dayName, dayNumber);

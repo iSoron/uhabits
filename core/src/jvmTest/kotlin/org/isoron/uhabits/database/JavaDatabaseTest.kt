@@ -26,15 +26,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class JavaDatabaseTest : BaseTest() {
-    private lateinit var db: Database
-
-    @Before
-    fun setup() {
-        val dbFile = fileOpener.openUserFile("test.sqlite3")
-        if (dbFile.exists()) dbFile.delete()
-        db = databaseOpener.open(dbFile)
-    }
-
     @Test
     fun testUsage() {
         db.setVersion(0)
@@ -51,14 +42,14 @@ class JavaDatabaseTest : BaseTest() {
         stmt.step()
         stmt.finalize()
 
-        stmt = db.prepareStatement("insert into demo(key, value) values (?1, ?2)")
-        stmt.bindInt(1, 42)
-        stmt.bindText(2, "Hello World")
+        stmt = db.prepareStatement("insert into demo(key, value) values (?, ?)")
+        stmt.bindInt(0, 42)
+        stmt.bindText(1, "Hello World")
         stmt.step()
         stmt.finalize()
 
-        stmt = db.prepareStatement("select * from demo where key > ?1")
-        stmt.bindInt(1, 10)
+        stmt = db.prepareStatement("select * from demo where key > ?")
+        stmt.bindInt(0, 10)
 
         var result = stmt.step()
         assertEquals(result, StepResult.ROW)
@@ -70,13 +61,5 @@ class JavaDatabaseTest : BaseTest() {
 
         stmt.finalize()
         db.close()
-    }
-
-    @Test
-    fun testMigrateTo() {
-        assertEquals(0, db.getVersion())
-        db.migrateTo(22, fileOpener)
-        assertEquals(22, db.getVersion())
-        db.execute("select * from habits")
     }
 }

@@ -24,7 +24,6 @@ internal let SQLITE_STATIC = unsafeBitCast(0, to: sqlite3_destructor_type.self)
 internal let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
 
 class IosPreparedStatement : NSObject, PreparedStatement {
-
   var db: OpaquePointer
   var statement: OpaquePointer
   
@@ -53,12 +52,20 @@ class IosPreparedStatement : NSObject, PreparedStatement {
     return String(cString: sqlite3_column_text(statement, index))
   }
   
+  func getReal(index: Int32) -> Double {
+    return sqlite3_column_double(statement, index)
+  }
+  
   func bindInt(index: Int32, value: Int32) {
-    sqlite3_bind_int(statement, index, value)
+    sqlite3_bind_int(statement, index + 1, value)
   }
   
   func bindText(index: Int32, value: String) {
-    sqlite3_bind_text(statement, index, value, -1, SQLITE_TRANSIENT)
+    sqlite3_bind_text(statement, index + 1, value, -1, SQLITE_TRANSIENT)
+  }
+  
+  func bindReal(index: Int32, value: Double) {
+    sqlite3_bind_double(statement, index + 1, value)
   }
   
   func reset() {
@@ -72,16 +79,18 @@ class IosPreparedStatement : NSObject, PreparedStatement {
 
 class IosDatabase : NSObject, Database {
   var db: OpaquePointer
+  var log: Log
   
-  init(withDb db: OpaquePointer) {
+  init(withDb db: OpaquePointer, withLog log: Log) {
     self.db = db
+    self.log = log
   }
   
   func prepareStatement(sql: String) -> PreparedStatement {
     if sql.isEmpty {
       fatalError("Provided SQL query is empty")
     }
-    print("Running SQL: \(sql)")
+    log.debug(tag: "IosDatabase", msg: "Preparing: \(sql)")
     var statement : OpaquePointer?
     let result = sqlite3_prepare_v2(db, sql, -1, &statement, nil)
     if result == SQLITE_OK {
@@ -98,16 +107,23 @@ class IosDatabase : NSObject, Database {
 }
 
 class IosDatabaseOpener : NSObject, DatabaseOpener {
+  
+  var log: Log
+  
+  init(withLog log: Log) {
+    self.log = log
+  }
+  
   func open(file: UserFile) -> Database {
     let dbPath = (file as! IosUserFile).path
     
     let version = String(cString: sqlite3_libversion())
-    print("SQLite \(version)")
-    print("Opening database: \(dbPath)")
+    log.info(tag: "IosDatabaseOpener", msg: "SQLite \(version)")
+    log.info(tag: "IosDatabaseOpener", msg: "Opening database: \(dbPath)")
     var db: OpaquePointer?
     let result = sqlite3_open(dbPath, &db)
     if result == SQLITE_OK {
-      return IosDatabase(withDb: db!)
+      return IosDatabase(withDb: db!, withLog: log)
     } else {
       fatalError("Error opening database (code \(result))")
     }

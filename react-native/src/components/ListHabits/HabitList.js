@@ -17,12 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   FlatList,
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 import { Colors } from '../../helpers/Colors';
 import { Emitter, Backend } from '../../helpers/Backend';
@@ -32,23 +35,19 @@ import CheckmarkButton from './CheckmarkButton';
 const styles = StyleSheet.create({
   item: {
     backgroundColor: Colors.itemBackground,
-    padding: 1,
-    marginTop: 0,
-    marginBottom: 1,
-    marginLeft: 0,
-    marginRight: 0,
-    elevation: 0,
+    borderBottomColor: Colors.headerBorderColor,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
     alignItems: 'stretch',
   },
   ringContainer: {
-    width: 35,
-    height: 45,
+    width: 40,
+    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
   },
   labelContainer: {
-    width: 44,
+    width: 1,
     flex: 1,
     justifyContent: 'center',
   },
@@ -69,38 +68,51 @@ export default class HabitList extends React.Component {
 
   render() {
     const { habits } = this.state;
+    const { onClickHabit, onClickCheckmark } = this.props;
     return (
       <FlatList
         style={styles.container}
         data={habits}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <View style={styles.ringContainer}>
-              <Ring
-                color={Colors[item.color]}
-                size={14}
-                strokeWidth={20}
-                percentage={Math.random()}
-              />
+          <TouchableHighlight onPress={() => onClickHabit(item.key)}>
+            <View style={styles.item}>
+              <View style={styles.ringContainer}>
+                <Ring
+                  color={Colors[item.color]}
+                  size={14}
+                  strokeWidth={20}
+                  percentage={Math.random()}
+                />
+              </View>
+              <View style={styles.labelContainer}>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    fontSize: 17,
+                    color: Colors[item.color],
+                  }}
+                >
+                  {item.name}
+                </Text>
+              </View>
+              <TouchableOpacity onPress={() => onClickCheckmark(item.key, 1)}>
+                <CheckmarkButton color={Colors[item.color]} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => onClickCheckmark(item.key, 2)}>
+                <CheckmarkButton color={Colors[item.color]} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => onClickCheckmark(item.key, 3)}>
+                <CheckmarkButton color={Colors[item.color]} />
+              </TouchableOpacity>
             </View>
-            <View style={styles.labelContainer}>
-              <Text
-                numberOfLines={2}
-                style={{
-                  fontSize: 14,
-                  color: Colors[item.color],
-                }}
-              >
-                {item.name}
-              </Text>
-            </View>
-            <CheckmarkButton color={Colors[item.color]} />
-            <CheckmarkButton color={Colors[item.color]} />
-            <CheckmarkButton color={Colors[item.color]} />
-            <CheckmarkButton color={Colors[item.color]} />
-          </View>
+          </TouchableHighlight>
         )}
       />
     );
   }
 }
+
+HabitList.propTypes = {
+  onClickHabit: PropTypes.func.isRequired,
+  onClickCheckmark: PropTypes.func.isRequired,
+};

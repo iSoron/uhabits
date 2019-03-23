@@ -21,23 +21,45 @@ import React from 'react';
 import {
   AppRegistry,
   NavigatorIOS,
-  NativeModules,
-  NativeEventEmitter,
 } from 'react-native';
 import ListHabitsScene from './src/components/ListHabits/index';
+import EditHabitScene from './src/components/EditHabit/index';
 
-function RootComponent() {
-  return (
-    <NavigatorIOS
-      translucent={false}
-      initialRoute={{
-        component: ListHabitsScene,
-        title: 'Habits',
-        rightButtonSystemIcon: 'add',
-      }}
-      style={{ flex: 1 }}
-    />
-  );
+let navigator;
+
+const routes = {
+  index: {
+    component: ListHabitsScene,
+    title: 'Habits',
+    rightButtonSystemIcon: 'add',
+    onRightButtonPress: () => navigator.push(routes.newHabit),
+    passProps: {
+      onClickHabit: () => navigator.push(routes.newHabit),
+      onClickCheckmark: () => {},
+    },
+  },
+  newHabit: {
+    component: EditHabitScene,
+    title: 'New Habit',
+    leftButtonTitle: 'Cancel',
+    rightButtonTitle: 'Save',
+    onLeftButtonPress: () => navigator.pop(),
+    onRightButtonPress: () => navigator.pop(),
+  },
+};
+
+
+class RootComponent extends React.Component {
+  render() {
+    return (
+      <NavigatorIOS
+        ref={(c) => { navigator = c; }}
+        translucent={false}
+        initialRoute={routes.index}
+        style={{ flex: 1 }}
+      />
+    );
+  }
 }
 
 AppRegistry.registerComponent('LoopHabitTracker', () => RootComponent);

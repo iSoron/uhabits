@@ -17,14 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Foundation
+import UIKit
 
-class IosLog : NSObject, Log {
-  func info(msg: String) {
-    print("[I] \(msg)")
-  }
-  
-  func debug(msg: String) {
-    print("[D] \(msg)")
-  }
+@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        if let window = window {
+            let nav = UINavigationController()
+            nav.viewControllers = [ListHabitsController()]
+            window.backgroundColor = UIColor.white
+            window.rootViewController = nav
+            window.makeKeyAndVisible()
+        }
+        return true
+    }
 }

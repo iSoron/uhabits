@@ -19,4 +19,4 @@
 
 package org.isoron.uhabits.models
 
-class Color(val paletteIndex: Int)
+data class Color(val paletteIndex: Int)

@@ -17,14 +17,22 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.utils
+import React from 'react';
+import PropTypes from 'prop-types';
+import Svg, { Circle } from 'react-native-svg';
+import { Colors } from '../../helpers/Colors';
 
-class JavaLog : Log {
-    override fun info(msg: String) {
-        println("[I] $msg")
-    }
-
-    override fun debug(msg: String) {
-        println("[D] $msg")
-    }
+export default function ColorCircle(props) {
+  const { size, color } = props;
+  return (
+    <Svg height={size} width={size} viewBox="0 0 100 100">
+      <Circle cx={50} cy={50} r={50} fill={color} />
+      <Circle cx={50} cy={50} r={30} fill={Colors.itemBackground} />
+    </Svg>
+  );
 }
+
+ColorCircle.propTypes = {
+  size: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+};

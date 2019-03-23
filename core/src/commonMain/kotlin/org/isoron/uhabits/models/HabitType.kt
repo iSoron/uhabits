@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.models
 
-enum class HabitType {
-    YES_NO_HABIT,
-    NUMERICAL_HABIT,
+enum class HabitType(val code: Int) {
+    YES_NO_HABIT(0),
+    NUMERICAL_HABIT(1),
 }

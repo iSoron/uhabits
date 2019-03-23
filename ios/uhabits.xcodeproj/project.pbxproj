@@ -18,8 +18,8 @@
 		0021019C21F8AA3E00F9283D /* IosDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0021019B21F8AA3E00F9283D /* IosDatabase.swift */; };
 		002101A421F936A300F9283D /* IosSqlDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002101A321F936A300F9283D /* IosSqlDatabaseTest.swift */; };
 		002101AC21F9428C00F9283D /* core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0008A5C021F16D25000DB3E7 /* core.framework */; };
-		0091878521FD70B5001BDE6B /* IosLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0091878421FD70B5001BDE6B /* IosLog.swift */; };
-		00B2AC3D21FCA9D900CBEC8E /* IosFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B2AC3C21FCA9D900CBEC8E /* IosFiles.swift */; };
+		00513C3B2200843F00702112 /* libthird-party.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF0FFE32056DD460020B375 /* libthird-party.a */; };
+		00513C3C2200843F00702112 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA51DF850E9000B6D8A /* libyoga.a */; };
 		00B2AC6521FD1A4500CBEC8E /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00B2AC6421FD1A4500CBEC8E /* migrations */; };
 		00B2AC6821FD1DA700CBEC8E /* IosFilesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B2AC6621FD1CEF00CBEC8E /* IosFilesTest.swift */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -339,8 +339,6 @@
 		002101A121F936A300F9283D /* uhabitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uhabitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		002101A321F936A300F9283D /* IosSqlDatabaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosSqlDatabaseTest.swift; sourceTree = "<group>"; };
 		002101A521F936A300F9283D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0091878421FD70B5001BDE6B /* IosLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IosLog.swift; path = uhabits/IosLog.swift; sourceTree = "<group>"; };
-		00B2AC3C21FCA9D900CBEC8E /* IosFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IosFiles.swift; path = uhabits/IosFiles.swift; sourceTree = "<group>"; };
 		00B2AC6421FD1A4500CBEC8E /* migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = migrations; path = ../core/assets/main/migrations; sourceTree = "<group>"; };
 		00B2AC6621FD1CEF00CBEC8E /* IosFilesTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosFilesTest.swift; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -373,6 +371,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00513C3B2200843F00702112 /* libthird-party.a in Frameworks */,
+				00513C3C2200843F00702112 /* libyoga.a in Frameworks */,
 				000BCE0521F6CB1100F4DA11 /* libRCTWebSocket.a in Frameworks */,
 				000C283821F51C9B00C5EC6D /* libRNSVG.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -425,8 +425,8 @@
 			isa = PBXGroup;
 			children = (
 				002101A521F936A300F9283D /* Info.plist */,
-				002101A321F936A300F9283D /* IosSqlDatabaseTest.swift */,
 				00B2AC6621FD1CEF00CBEC8E /* IosFilesTest.swift */,
+				002101A321F936A300F9283D /* IosSqlDatabaseTest.swift */,
 			);
 			name = "Unit Tests";
 			path = uhabitsTest;
@@ -478,16 +478,14 @@
 		13B07FAE1A68108700A75B9A /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				0008A5F721F17531000DB3E7 /* BridgingHeader.h */,
 				0008A62B21F2B755000DB3E7 /* CoreModuleBridge.m */,
+				13B07FB61A68108700A75B9A /* Info.plist */,
 				0008A5F521F17513000DB3E7 /* AppDelegate.swift */,
 				0008A62921F2B728000DB3E7 /* CoreModule.swift */,
 				0021019B21F8AA3E00F9283D /* IosDatabase.swift */,
-				00B2AC3C21FCA9D900CBEC8E /* IosFiles.swift */,
-				0091878421FD70B5001BDE6B /* IosLog.swift */,
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -545,11 +543,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				000BCDF621F6CAFF00F4DA11 /* RCTWebSocket.xcodeproj */,
-				000C280A21F51C4E00C5EC6D /* RNSVG.xcodeproj */,
-				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
-				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
+				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
 				00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */,
@@ -557,6 +552,9 @@
 				00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */,
 				139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */,
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
+				000BCDF621F6CAFF00F4DA11 /* RCTWebSocket.xcodeproj */,
+				146833FF1AC3E56700842450 /* React.xcodeproj */,
+				000C280A21F51C4E00C5EC6D /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1055,9 +1053,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00B2AC3D21FCA9D900CBEC8E /* IosFiles.swift in Sources */,
 				0008A62C21F2B755000DB3E7 /* CoreModuleBridge.m in Sources */,
-				0091878521FD70B5001BDE6B /* IosLog.swift in Sources */,
 				0021019C21F8AA3E00F9283D /* IosDatabase.swift in Sources */,
 				0008A62A21F2B728000DB3E7 /* CoreModule.swift in Sources */,
 				0008A5F621F17513000DB3E7 /* AppDelegate.swift in Sources */,

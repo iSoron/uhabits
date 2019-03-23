@@ -19,11 +19,21 @@
 
 package org.isoron.uhabits
 
-import org.isoron.uhabits.utils.JavaFileOpener
-import org.isoron.uhabits.database.JavaDatabaseOpener
-import org.isoron.uhabits.utils.JavaLog
+import org.isoron.uhabits.models.HabitRepository
+import org.isoron.uhabits.utils.*
+import org.junit.Before
 
 open class BaseTest {
     val fileOpener = JavaFileOpener()
-    val databaseOpener = JavaDatabaseOpener(JavaLog())
+    val log = StandardLog()
+    val databaseOpener = JavaDatabaseOpener(log)
+    lateinit var db: Database
+
+    @Before
+    open fun setUp() {
+        val dbFile = fileOpener.openUserFile("test.sqlite3")
+        if (dbFile.exists()) dbFile.delete()
+        db = databaseOpener.open(dbFile)
+        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+    }
 }

@@ -19,26 +19,27 @@
 
 package org.isoron.uhabits
 
-import org.isoron.uhabits.models.HabitList
+import org.isoron.uhabits.models.*
 import org.isoron.uhabits.utils.*
 
 class Backend(var databaseOpener: DatabaseOpener,
               var fileOpener: FileOpener,
               var log: Log) {
 
-    var db: Database
-
-    var habits: HabitList
+    var database: Database
+    var habitsRepository: HabitRepository
+    var habits = mutableMapOf<Int, Habit>()
 
     init {
-        val dbFile = fileOpener.openUserFile("uhabits.sqlite3")
-        db = databaseOpener.open(dbFile)
-        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
-        habits = HabitList(db)
+        val dbFile = fileOpener.openUserFile("uhabits.db")
+        database = databaseOpener.open(dbFile)
+        database.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        habitsRepository = HabitRepository(database)
+        habits = habitsRepository.findAll()
     }
 
     fun getHabitList(): List<Map<String, *>> {
-        return habits.getActive().map { h ->
+        return habits.values.sortedBy { h -> h.position }.map { h ->
             mapOf("key" to h.id.toString(),
                   "name" to h.name,
                   "color" to h.color.paletteIndex)
@@ -46,11 +47,30 @@ class Backend(var databaseOpener: DatabaseOpener,
     }
 
     fun createHabit(name: String) {
+        val id = habitsRepository.nextId()
+        val habit = Habit(id = id,
+                          name = name,
+                          description = "",
+                          frequency = Frequency(1, 1),
+                          color = Color(3),
+                          isArchived = false,
+                          position = habits.size,
+                          unit = "",
+                          target = 0.0,
+                          type = HabitType.YES_NO_HABIT)
+        habitsRepository.insert(habit)
+        habits[id] = habit
     }
 
     fun deleteHabit(id: Int) {
+        val habit = habits[id]!!
+        habitsRepository.delete(habit)
+        habits.remove(id)
     }
 
     fun updateHabit(id: Int, name: String) {
+        val habit = habits[id]!!
+        habit.name = name
+        habitsRepository.update(habit)
     }
 }

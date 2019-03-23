@@ -29,14 +29,14 @@ import { Colors } from '../../helpers/Colors';
 
 const styles = StyleSheet.create({
   checkmarkBox: {
-    width: 44,
-    height: 44,
+    width: 55,
+    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkmark: {
     fontFamily: 'FontAwesome',
-    fontSize: 14,
+    fontSize: 17,
   },
 });
 

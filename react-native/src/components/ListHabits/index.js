@@ -17,6 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '../../helpers/Colors';
@@ -30,11 +31,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ListHabitsScene() {
-  return (
-    <View style={styles.container}>
-      <HabitListHeader />
-      <HabitList />
-    </View>
-  );
+export default class ListHabitsScene extends React.Component {
+  render() {
+    const { onClickHabit, onClickCheckmark } = this.props;
+    return (
+      <View style={styles.container}>
+        <HabitListHeader />
+        <HabitList
+          onClickHabit={onClickHabit}
+          onClickCheckmark={onClickCheckmark}
+        />
+      </View>
+    );
+  }
 }
+
+ListHabitsScene.propTypes = {
+  onClickHabit: PropTypes.func.isRequired,
+  onClickCheckmark: PropTypes.func.isRequired,
+};

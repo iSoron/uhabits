@@ -25,9 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   var bridge: RCTBridge!
   
-  static var backend = Backend(databaseOpener: IosDatabaseOpener(),
+  static var backend = Backend(databaseOpener: IosDatabaseOpener(withLog: StandardLog()),
                                fileOpener: IosFileOpener(),
-                               log: IosLog())
+                               log: StandardLog())
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     let jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index.ios", fallbackResource: nil)

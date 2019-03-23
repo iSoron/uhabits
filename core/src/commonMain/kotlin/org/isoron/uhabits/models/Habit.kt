@@ -27,5 +27,5 @@ data class Habit(var id: Int,
                  var isArchived: Boolean,
                  var position: Int,
                  var unit: String,
-                 var target: Int,
+                 var target: Double,
                  var type: HabitType)

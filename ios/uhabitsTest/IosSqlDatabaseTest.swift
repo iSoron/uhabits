@@ -22,7 +22,7 @@ import XCTest
 
 class IosDatabaseTest: XCTestCase {
     func testUsage() {
-      let databaseOpener = IosDatabaseOpener()
+      let databaseOpener = IosDatabaseOpener(withLog: StandardLog())
       let fileOpener = IosFileOpener()
       
       let dbFile = fileOpener.openUserFile(filename: "test.sqlite3")

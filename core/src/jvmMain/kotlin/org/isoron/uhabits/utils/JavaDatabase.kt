@@ -17,17 +17,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.database
+package org.isoron.uhabits.utils
 
-import org.isoron.uhabits.utils.*
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class JavaPreparedStatement(private var stmt : PreparedStatement) : org.isoron.uhabits.utils.PreparedStatement {
-
+class JavaPreparedStatement(private var stmt: PreparedStatement) : org.isoron.uhabits.utils.PreparedStatement {
     private var rs: ResultSet? = null
+
     private var hasExecuted = false
 
     override fun step(): StepResult {
@@ -40,7 +39,6 @@ class JavaPreparedStatement(private var stmt : PreparedStatement) : org.isoron.u
         if (rs == null || !rs!!.next()) return StepResult.DONE
         return StepResult.ROW
     }
-
     override fun finalize() {
         stmt.close()
     }
@@ -53,16 +51,25 @@ class JavaPreparedStatement(private var stmt : PreparedStatement) : org.isoron.u
         return rs!!.getString(index + 1)
     }
 
+    override fun getReal(index: Int): Double {
+        return rs!!.getDouble(index + 1)
+    }
+
     override fun bindInt(index: Int, value: Int) {
-        stmt.setInt(index, value)
+        stmt.setInt(index + 1, value)
     }
 
     override fun bindText(index: Int, value: String) {
-        stmt.setString(index, value)
+        stmt.setString(index + 1, value)
+    }
+
+    override fun bindReal(index: Int, value: Double) {
+        stmt.setDouble(index + 1, value)
     }
 
     override fun reset() {
         stmt.clearParameters()
+        hasExecuted = false
     }
 }
 
@@ -70,7 +77,7 @@ class JavaDatabase(private var conn: Connection,
                    private val log: Log) : Database {
 
     override fun prepareStatement(sql: String): org.isoron.uhabits.utils.PreparedStatement {
-        log.debug("Running SQL: ${sql}")
+        log.debug("Database", "Preparing: $sql")
         return JavaPreparedStatement(conn.prepareStatement(sql))
     }
     override fun close() {
