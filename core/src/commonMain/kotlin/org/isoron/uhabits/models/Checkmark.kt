@@ -19,5 +19,7 @@
 
 package org.isoron.uhabits.models
 
+import org.isoron.uhabits.utils.*
+
 data class Checkmark(var timestamp: Timestamp,
                      var value: Int)

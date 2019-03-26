@@ -19,11 +19,13 @@
 
 package org.isoron.uhabits.models
 
+import org.isoron.uhabits.gui.*
+
 data class Habit(var id: Int,
                  var name: String,
                  var description: String,
                  var frequency: Frequency,
-                 var color: Color,
+                 var color: PaletteColor,
                  var isArchived: Boolean,
                  var position: Int,
                  var unit: String,

@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.utils
 
+import java.io.*
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -26,6 +27,10 @@ import java.nio.file.Paths
 class JavaResourceFile(private val path: Path) : ResourceFile {
     override fun readLines(): List<String> {
         return Files.readAllLines(path)
+    }
+
+    fun stream(): InputStream {
+        return Files.newInputStream(path)
     }
 }
 

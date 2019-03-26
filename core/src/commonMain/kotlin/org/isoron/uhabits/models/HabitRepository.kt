@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.models
 
+import org.isoron.uhabits.gui.*
 import org.isoron.uhabits.utils.Database
 import org.isoron.uhabits.utils.PreparedStatement
 import org.isoron.uhabits.utils.StepResult
@@ -69,7 +70,7 @@ class HabitRepository(var db: Database) {
                      name = stmt.getText(1),
                      description = stmt.getText(2),
                      frequency = Frequency(stmt.getInt(3), stmt.getInt(4)),
-                     color = Color(stmt.getInt(5)),
+                     color = PaletteColor(stmt.getInt(5)),
                      isArchived = stmt.getInt(6) != 0,
                      position = stmt.getInt(7),
                      unit = stmt.getText(8),
@@ -83,7 +84,7 @@ class HabitRepository(var db: Database) {
         statement.bindText(2, habit.description)
         statement.bindInt(3, habit.frequency.numerator)
         statement.bindInt(4, habit.frequency.denominator)
-        statement.bindInt(5, habit.color.paletteIndex)
+        statement.bindInt(5, habit.color.index)
         statement.bindInt(6, if (habit.isArchived) 1 else 0)
         statement.bindInt(7, habit.position)
         statement.bindText(8, habit.unit)

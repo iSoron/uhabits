@@ -21,6 +21,7 @@ package org.isoron.uhabits.models
 
 import junit.framework.Assert.assertEquals
 import org.isoron.uhabits.BaseTest
+import org.isoron.uhabits.gui.*
 import org.junit.Before
 import org.junit.Test
 
@@ -39,7 +40,7 @@ class HabitRepositoryTest : BaseTest() {
                           name = "Wake up early",
                           description = "Did you wake up before 6am?",
                           frequency = Frequency(1, 1),
-                          color = Color(3),
+                          color = PaletteColor(3),
                           isArchived = false,
                           position = 0,
                           unit = "",
@@ -50,7 +51,7 @@ class HabitRepositoryTest : BaseTest() {
                           name = "Exercise",
                           description = "Did you exercise for at least 20 minutes?",
                           frequency = Frequency(1, 2),
-                          color = Color(4),
+                          color = PaletteColor(4),
                           isArchived = false,
                           position = 1,
                           unit = "",
@@ -61,7 +62,7 @@ class HabitRepositoryTest : BaseTest() {
                           name = "Learn Japanese",
                           description = "Did you study Japanese today?",
                           frequency = Frequency(1, 1),
-                          color = Color(3),
+                          color = PaletteColor(3),
                           isArchived = false,
                           position = 2,
                           unit = "",

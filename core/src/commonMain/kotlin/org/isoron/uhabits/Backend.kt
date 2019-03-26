@@ -19,16 +19,19 @@
 
 package org.isoron.uhabits
 
+import org.isoron.uhabits.gui.*
 import org.isoron.uhabits.models.*
 import org.isoron.uhabits.utils.*
 
-class Backend(var databaseOpener: DatabaseOpener,
-              var fileOpener: FileOpener,
-              var log: Log) {
 
-    var database: Database
-    var habitsRepository: HabitRepository
-    var habits = mutableMapOf<Int, Habit>()
+class Backend(databaseOpener: DatabaseOpener,
+              fileOpener: FileOpener,
+              log: Log) {
+
+    private var database: Database
+    private var habitsRepository: HabitRepository
+    private var habits = mutableMapOf<Int, Habit>()
+    var theme: Theme = LightTheme()
 
     init {
         val dbFile = fileOpener.openUserFile("uhabits.db")
@@ -39,11 +42,14 @@ class Backend(var databaseOpener: DatabaseOpener,
     }
 
     fun getHabitList(): List<Map<String, *>> {
-        return habits.values.sortedBy { h -> h.position }.map { h ->
-            mapOf("key" to h.id.toString(),
-                  "name" to h.name,
-                  "color" to h.color.paletteIndex)
-        }
+        return habits.values
+                .filter { h -> !h.isArchived }
+                .sortedBy { h -> h.position }
+                .map { h ->
+                    mapOf("key" to h.id.toString(),
+                          "name" to h.name,
+                          "color" to h.color.index)
+                }
     }
 
     fun createHabit(name: String) {
@@ -52,7 +58,7 @@ class Backend(var databaseOpener: DatabaseOpener,
                           name = name,
                           description = "",
                           frequency = Frequency(1, 1),
-                          color = Color(3),
+                          color = PaletteColor(3),
                           isArchived = false,
                           position = habits.size,
                           unit = "",
