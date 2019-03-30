@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0057EC2B224C4CDB00C49288 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 0057EC2A224C4CDB00C49288 /* icons */; };
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
 		00A5B42A22009F590024E00C /* ListHabitsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42922009F590024E00C /* ListHabitsController.swift */; };
 		00A5B42F22009F5A0024E00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A5B42E22009F5A0024E00C /* Assets.xcassets */; };
 		00C0C6A52246537A003D8AF0 /* IosFilesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A122465365003D8AF0 /* IosFilesTest.swift */; };
-		00C0C6A62246537E003D8AF0 /* IosSqlDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A222465365003D8AF0 /* IosSqlDatabaseTest.swift */; };
+		00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */; };
 		00C0C6A8224654A2003D8AF0 /* IosDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */; };
 		00C0C6AA224654F4003D8AF0 /* IosFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A9224654F4003D8AF0 /* IosFiles.swift */; };
 		00C0C6BD22465F65003D8AF0 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BA22465F65003D8AF0 /* fonts */; };
@@ -25,6 +26,7 @@
 		00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */; };
 		00C0C6DB2247E6B0003D8AF0 /* IosDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */; };
 		00C0C6DD2247E6C4003D8AF0 /* IosDatesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */; };
+		00C0C6E0224A3602003D8AF0 /* ShowHabitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DE224A35FC003D8AF0 /* ShowHabitController.swift */; };
 		00D48BD12200A31300CC4527 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00D48BD02200A31300CC4527 /* Launch.storyboard */; };
 		00D48BD32200AC1600CC4527 /* EditHabitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D48BD22200AC1600CC4527 /* EditHabitController.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0057EC2A224C4CDB00C49288 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icons; sourceTree = "<group>"; };
 		00A5B42422009F590024E00C /* uhabits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uhabits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A5B42722009F590024E00C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00A5B42922009F590024E00C /* ListHabitsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHabitsController.swift; sourceTree = "<group>"; };
@@ -62,7 +65,7 @@
 		00A5B43822009F5A0024E00C /* uhabitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uhabitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A5B43E22009F5A0024E00C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00C0C6A122465365003D8AF0 /* IosFilesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosFilesTest.swift; sourceTree = "<group>"; };
-		00C0C6A222465365003D8AF0 /* IosSqlDatabaseTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosSqlDatabaseTest.swift; sourceTree = "<group>"; };
+		00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosDatabaseTest.swift; sourceTree = "<group>"; };
 		00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosDatabase.swift; sourceTree = "<group>"; };
 		00C0C6A9224654F4003D8AF0 /* IosFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosFiles.swift; sourceTree = "<group>"; };
 		00C0C6AE224655D8003D8AF0 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
@@ -75,6 +78,7 @@
 		00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosCanvasTest.swift; sourceTree = "<group>"; };
 		00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosDates.swift; sourceTree = "<group>"; };
 		00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosDatesTest.swift; sourceTree = "<group>"; };
+		00C0C6DE224A35FC003D8AF0 /* ShowHabitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHabitController.swift; sourceTree = "<group>"; };
 		00D48BD02200A31300CC4527 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		00D48BD22200AC1600CC4527 /* EditHabitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +103,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		006EFE49224FF41B008464E0 /* Frontend */ = {
+			isa = PBXGroup;
+			children = (
+				00D48BD22200AC1600CC4527 /* EditHabitController.swift */,
+				00A5B42922009F590024E00C /* ListHabitsController.swift */,
+				00C0C6DE224A35FC003D8AF0 /* ShowHabitController.swift */,
+			);
+			path = Frontend;
+			sourceTree = "<group>";
+		};
 		00A5B41B22009F590024E00C = {
 			isa = PBXGroup;
 			children = (
@@ -126,9 +140,8 @@
 				00A5B43322009F5A0024E00C /* Info.plist */,
 				00D48BD02200A31300CC4527 /* Launch.storyboard */,
 				00A5B42722009F590024E00C /* AppDelegate.swift */,
-				00D48BD22200AC1600CC4527 /* EditHabitController.swift */,
-				00A5B42922009F590024E00C /* ListHabitsController.swift */,
 				00A5B42E22009F5A0024E00C /* Assets.xcassets */,
+				006EFE49224FF41B008464E0 /* Frontend */,
 				00C0C6D622471BA3003D8AF0 /* Platform */,
 			);
 			path = Application;
@@ -154,11 +167,13 @@
 		00C0C6C022465F80003D8AF0 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				00C0C6BC22465F65003D8AF0 /* migrations */,
-				00C0C6BA22465F65003D8AF0 /* fonts */,
+				0057EC2A224C4CDB00C49288 /* icons */,
 				00C0C6BB22465F65003D8AF0 /* databases */,
+				00C0C6BA22465F65003D8AF0 /* fonts */,
+				00C0C6BC22465F65003D8AF0 /* migrations */,
 			);
-			path = Assets;
+			name = Assets;
+			path = ../core/assets/main;
 			sourceTree = "<group>";
 		};
 		00C0C6D622471BA3003D8AF0 /* Platform */ = {
@@ -166,9 +181,9 @@
 			children = (
 				00C0C6D022470705003D8AF0 /* IosCanvas.swift */,
 				00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */,
+				00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */,
 				00C0C6CD2246EFB3003D8AF0 /* IosExtensions.swift */,
 				00C0C6A9224654F4003D8AF0 /* IosFiles.swift */,
-				00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -176,10 +191,10 @@
 		00C0C6D722472BC9003D8AF0 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				00C0C6A122465365003D8AF0 /* IosFilesTest.swift */,
-				00C0C6A222465365003D8AF0 /* IosSqlDatabaseTest.swift */,
 				00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */,
+				00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */,
 				00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */,
+				00C0C6A122465365003D8AF0 /* IosFilesTest.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -270,6 +285,7 @@
 				00C0C6BD22465F65003D8AF0 /* fonts in Resources */,
 				00C0C6BE22465F65003D8AF0 /* databases in Resources */,
 				00C0C6BF22465F65003D8AF0 /* migrations in Resources */,
+				0057EC2B224C4CDB00C49288 /* icons in Resources */,
 				00A5B42F22009F5A0024E00C /* Assets.xcassets in Resources */,
 				00D48BD12200A31300CC4527 /* Launch.storyboard in Resources */,
 			);
@@ -313,6 +329,7 @@
 				00C0C6AA224654F4003D8AF0 /* IosFiles.swift in Sources */,
 				00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */,
 				00C0C6CE2246EFB3003D8AF0 /* IosExtensions.swift in Sources */,
+				00C0C6E0224A3602003D8AF0 /* ShowHabitController.swift in Sources */,
 				00C0C6A8224654A2003D8AF0 /* IosDatabase.swift in Sources */,
 				00C0C6DB2247E6B0003D8AF0 /* IosDates.swift in Sources */,
 				00A5B42A22009F590024E00C /* ListHabitsController.swift in Sources */,
@@ -328,7 +345,7 @@
 				00C0C6DD2247E6C4003D8AF0 /* IosDatesTest.swift in Sources */,
 				00C0C6A52246537A003D8AF0 /* IosFilesTest.swift in Sources */,
 				00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */,
-				00C0C6A62246537E003D8AF0 /* IosSqlDatabaseTest.swift in Sources */,
+				00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

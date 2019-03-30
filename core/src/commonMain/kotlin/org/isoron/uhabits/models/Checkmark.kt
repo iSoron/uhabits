@@ -19,7 +19,29 @@
 
 package org.isoron.uhabits.models
 
-import org.isoron.uhabits.utils.*
+import org.isoron.platform.time.*
 
-data class Checkmark(var timestamp: Timestamp,
-                     var value: Int)
+data class Checkmark(var date: LocalDate,
+                     var value: Int) {
+
+    companion object {
+        /**
+         * Value assigned when the user has explicitly marked the habit as
+         * completed.
+         */
+        const val CHECKED_MANUAL = 2
+
+        /**
+         * Value assigned when the user has not explicitly marked the habit as
+         * completed, however, due to the frequency of the habit, an automatic
+         * checkmark was added.
+         */
+        const val CHECKED_AUTOMATIC = 1
+
+        /**
+         * Value assigned when the user has not completed the habit, and the app
+         * has not automatically a checkmark.
+         */
+        const val UNCHECKED = 0
+    }
+}

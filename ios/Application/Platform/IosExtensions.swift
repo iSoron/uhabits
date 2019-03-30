@@ -24,7 +24,7 @@ extension Color {
       return UIColor(red: CGFloat(self.red),
                      green: CGFloat(self.green),
                      blue: CGFloat(self.blue),
-                     alpha: 1.0)
+                     alpha: CGFloat(self.alpha))
     }
     
     var cgcolor : CGColor {

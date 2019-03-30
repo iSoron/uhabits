@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits.models
 
-import org.isoron.uhabits.gui.*
-import org.isoron.uhabits.utils.Database
-import org.isoron.uhabits.utils.PreparedStatement
-import org.isoron.uhabits.utils.StepResult
-import org.isoron.uhabits.utils.nextId
+import org.isoron.platform.gui.*
+import org.isoron.platform.io.Database
+import org.isoron.platform.io.PreparedStatement
+import org.isoron.platform.io.StepResult
+import org.isoron.platform.io.nextId
 
 class HabitRepository(var db: Database) {
 

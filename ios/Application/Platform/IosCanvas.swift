@@ -35,6 +35,10 @@ class ComponentView : UIView {
         let canvas = IosCanvas(withBounds: bounds)
         component?.draw(canvas: canvas)
     }
+    
+    override func layoutSubviews() {
+        setNeedsDisplay()
+    }
 }
 
 class IosCanvas : NSObject, Canvas {
@@ -66,6 +70,7 @@ class IosCanvas : NSObject, Canvas {
     var font = Font.regular
     var textSize = CGFloat(12)
     var textColor = UIColor.black
+    var textAlign = TextAlign.center
     
     init(withBounds bounds: CGRect) {
         self.bounds = bounds
@@ -100,9 +105,19 @@ class IosCanvas : NSObject, Canvas {
                      NSAttributedString.Key.foregroundColor: textColor]
 
         let size = nsText.size(withAttributes: attrs)
-        nsText.draw(at: CGPoint(x: CGFloat(x) - size.width / 2,
-                                y : CGFloat(y) - size.height / 2),
-                    withAttributes: attrs)
+        if textAlign == TextAlign.center {
+            nsText.draw(at: CGPoint(x: CGFloat(x) - size.width / 2,
+                                    y : CGFloat(y) - size.height / 2),
+                        withAttributes: attrs)
+        } else if textAlign == TextAlign.left {
+            nsText.draw(at: CGPoint(x: CGFloat(x),
+                                    y : CGFloat(y) - size.height / 2),
+                        withAttributes: attrs)
+        } else {
+            nsText.draw(at: CGPoint(x: CGFloat(x) - size.width,
+                                    y : CGFloat(y) - size.height / 2),
+                        withAttributes: attrs)
+        }
     }
     
     func drawRect(x: Double, y: Double, width: Double, height: Double) {
@@ -127,7 +142,7 @@ class IosCanvas : NSObject, Canvas {
         return Double(bounds.width)
     }
     
-    func setTextSize(size: Double) {
+    func setFontSize(size: Double) {
         self.textSize = CGFloat(size)
     }
     
@@ -137,5 +152,9 @@ class IosCanvas : NSObject, Canvas {
     
     func setStrokeWidth(size: Double) {
         self.ctx.setLineWidth(CGFloat(size))
+    }
+    
+    func setTextAlign(align: TextAlign) {
+        self.textAlign = align
     }
 }

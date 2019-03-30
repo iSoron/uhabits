@@ -22,9 +22,12 @@ import UIKit
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var backend = Backend(databaseOpener: IosDatabaseOpener(withLog: StandardLog()),
+    var backend = Backend(databaseName: "dev.db",
+                          databaseOpener: IosDatabaseOpener(withLog: StandardLog()),
                           fileOpener: IosFileOpener(),
-                          log: StandardLog())
+                          log: StandardLog(),
+                          dateCalculator: IosLocalDateCalculator(),
+                          taskRunner: SequentialTaskRunner())
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

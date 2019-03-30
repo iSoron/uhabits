@@ -20,4 +20,10 @@
 package org.isoron.uhabits.models
 
 data class Frequency(val numerator: Int,
-                     val denominator: Int)
+                     val denominator: Int) {
+    companion object {
+        val WEEKLY = Frequency(1, 7)
+        val DAILY = Frequency(1, 1)
+        val TWO_TIMES_PER_WEEK = Frequency(2, 7)
+    }
+}

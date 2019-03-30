@@ -19,11 +19,10 @@
 
 package org.isoron.uhabits.models
 
-import junit.framework.Assert.assertEquals
-import org.isoron.uhabits.BaseTest
-import org.isoron.uhabits.gui.*
-import org.junit.Before
-import org.junit.Test
+import junit.framework.Assert.*
+import org.isoron.platform.gui.*
+import org.isoron.uhabits.*
+import org.junit.*
 
 class HabitRepositoryTest : BaseTest() {
     lateinit var repository: HabitRepository
@@ -73,7 +72,7 @@ class HabitRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun testFindActive() {
+    fun testFindAll() {
         var habits = repository.findAll()
         assertEquals(0, repository.nextId())
         assertEquals(0, habits.size)

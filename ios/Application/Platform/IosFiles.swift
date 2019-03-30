@@ -20,7 +20,7 @@
 import Foundation
 
 class IosResourceFile : NSObject, ResourceFile {
-    
+
     var path: String
     var fileManager = FileManager.default
     
@@ -35,6 +35,10 @@ class IosResourceFile : NSObject, ResourceFile {
         } catch {
             return ["ERROR"]
         }
+    }
+
+    func doCopyTo(dest: UserFile) {
+        try! fileManager.copyItem(atPath: self.path, toPath: (dest as! IosUserFile).path)
     }
 }
 

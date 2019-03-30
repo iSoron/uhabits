@@ -19,39 +19,70 @@
 
 import Foundation
 
-class IosLocalDateFormatter : NSObject, LocalDateFormatter {
-    func shortWeekdayName(date: LocalDate) -> String {
+extension LocalDate {
+    var iosDate : Date {
         let calendar = Calendar(identifier: .gregorian)
         var dc = DateComponents()
-        dc.year = Int(date.year)
-        dc.month = Int(date.month)
-        dc.day = Int(date.day)
+        dc.year = Int(self.year)
+        dc.month = Int(self.month)
+        dc.day = Int(self.day)
         dc.hour = 13
         dc.minute = 0
-        let d = calendar.date(from: dc)!
-        let fmt = DateFormatter()
+        return calendar.date(from: dc)!
+    }
+}
+
+extension Date {
+    var localDate : LocalDate {
+        let calendar = Calendar(identifier: .gregorian)
+        return LocalDate(year: Int32(calendar.component(.year, from: self)),
+                         month: Int32(calendar.component(.month, from: self)),
+                         day: Int32(calendar.component(.day, from: self)))
+    }
+}
+
+class IosLocalDateFormatter : NSObject, LocalDateFormatter {
+    let fmt = DateFormatter()
+    
+    func shortMonthName(date: LocalDate) -> String {
+        fmt.dateFormat = "MMM"
+        return fmt.string(from: date.iosDate)
+    }
+    
+    func shortWeekdayName(date: LocalDate) -> String {
         fmt.dateFormat = "EEE"
-        return fmt.string(from: d)
+        return fmt.string(from: date.iosDate)
     }
 }
 
 class IosLocalDateCalculator : NSObject, LocalDateCalculator {
+    func toTimestamp(date: LocalDate) -> Timestamp {
+        return Timestamp(unixTimeInMillis: Int64(date.iosDate.timeIntervalSince1970 * 1000))
+    }
+    
+    func fromTimestamp(timestamp: Timestamp) -> LocalDate {
+        return Date.init(timeIntervalSince1970: Double(timestamp.unixTimeInMillis / 1000)).localDate
+    }
+    
+    let calendar = Calendar(identifier: .gregorian)
+
+    func dayOfWeek(date: LocalDate) -> DayOfWeek {
+        let weekday = calendar.component(.weekday, from: date.iosDate)
+        switch(weekday) {
+            case 1: return DayOfWeek.sunday
+            case 2: return DayOfWeek.monday
+            case 3: return DayOfWeek.tuesday
+            case 4: return DayOfWeek.wednesday
+            case 5: return DayOfWeek.thursday
+            case 6: return DayOfWeek.friday
+            default: return DayOfWeek.saturday
+        }
+    }
+    
     func plusDays(date: LocalDate, days: Int32) -> LocalDate {
-        let calendar = Calendar(identifier: .gregorian)
-        var dc = DateComponents()
-        dc.year = Int(date.year)
-        dc.month = Int(date.month)
-        dc.day = Int(date.day)
-        dc.hour = 13
-        dc.minute = 0
-        let d1 = calendar.date(from: dc)!
-        let d2 = d1.addingTimeInterval(24.0 * 60 * 60 * Double(days))
+        let d2 = date.iosDate.addingTimeInterval(24.0 * 60 * 60 * Double(days))
         return LocalDate(year: Int32(calendar.component(.year, from: d2)),
                          month: Int32(calendar.component(.month, from: d2)),
                          day: Int32(calendar.component(.day, from: d2)))
-    }
-    
-    func minusDays(date: LocalDate, days: Int32) -> LocalDate {
-        return plusDays(date: date, days: -days)
     }
 }

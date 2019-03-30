@@ -24,6 +24,8 @@ internal let SQLITE_STATIC = unsafeBitCast(0, to: sqlite3_destructor_type.self)
 internal let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
 
 class IosPreparedStatement : NSObject, PreparedStatement {
+
+    
   var db: OpaquePointer
   var statement: OpaquePointer
   
@@ -46,6 +48,10 @@ class IosPreparedStatement : NSObject, PreparedStatement {
   
   func getInt(index: Int32) -> Int32 {
     return sqlite3_column_int(statement, index)
+  }
+    
+  func getLong(index: Int32) -> Int64 {
+    return sqlite3_column_int64(statement, index)
   }
   
   func getText(index: Int32) -> String {
@@ -74,6 +80,10 @@ class IosPreparedStatement : NSObject, PreparedStatement {
   
   override func finalize() {
     sqlite3_finalize(statement)
+  }
+    
+  func bindLong(index: Int32, value: Int64) {
+    sqlite3_bind_int64(statement, index + 1, value)
   }
 }
 

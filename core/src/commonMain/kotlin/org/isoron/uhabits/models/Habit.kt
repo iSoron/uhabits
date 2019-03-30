@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.models
 
-import org.isoron.uhabits.gui.*
+import org.isoron.platform.gui.*
 
 data class Habit(var id: Int,
                  var name: String,
