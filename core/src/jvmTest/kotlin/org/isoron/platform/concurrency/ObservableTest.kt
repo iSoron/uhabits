@@ -17,13 +17,32 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron.platform.concurrency
 
+import java.util.concurrent.*
 import kotlin.test.*
 
-class StringsTest {
+class ObservableTest {
+
+    interface TestListener {
+        fun onDataChanged(data: Int)
+    }
+
     @Test
-    fun testSprintf() {
-        assertEquals("Number 004", sprintf("Number %03d", 4))
+    fun test() {
+        val latch = CountDownLatch(1)
+        val listener = object : TestListener {
+            override fun onDataChanged(data: Int) {
+                assertEquals(42, data)
+                latch.countDown()
+            }
+        }
+        val observable = Observable<TestListener>()
+        observable.addListener(listener)
+        observable.notifyListeners { l ->
+            l.onDataChanged(42)
+        }
+        observable.removeListener(listener)
+        assertTrue(latch.await(3, TimeUnit.SECONDS))
     }
 }

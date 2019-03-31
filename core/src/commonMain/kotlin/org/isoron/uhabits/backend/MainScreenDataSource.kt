@@ -36,15 +36,7 @@ class MainScreenDataSource(val habits: MutableMap<Int, Habit>,
                     val colors: List<PaletteColor>,
                     val checkmarks: List<List<Int>>)
 
-    private val listeners = mutableListOf<Listener>()
-
-    fun addListener(listener: Listener) {
-        listeners.add(listener)
-    }
-
-    fun removeListener(listener: Listener) {
-        listeners.remove(listener)
-    }
+    val observable = Observable<Listener>()
 
     interface Listener {
         fun onDataChanged(newData: Data)
@@ -64,7 +56,7 @@ class MainScreenDataSource(val habits: MutableMap<Int, Habit>,
             }
             val data = Data(ids, scores, names, colors, ck)
             taskRunner.runInForeground {
-                listeners.forEach { listener ->
+                observable.notifyListeners { listener ->
                     listener.onDataChanged(data)
                 }
             }

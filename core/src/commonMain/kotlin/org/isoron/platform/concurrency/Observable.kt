@@ -17,13 +17,20 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron.platform.concurrency
 
-import kotlin.test.*
+class Observable<T> {
+    private val listeners = mutableListOf<T>()
 
-class StringsTest {
-    @Test
-    fun testSprintf() {
-        assertEquals("Number 004", sprintf("Number %03d", 4))
+    fun addListener(listener: T) {
+        listeners.add(listener)
+    }
+
+    fun notifyListeners(action: (T) -> Unit) {
+        for (l in listeners) action.invoke(l)
+    }
+
+    fun removeListener(listener: T) {
+        listeners.remove(listener)
     }
 }

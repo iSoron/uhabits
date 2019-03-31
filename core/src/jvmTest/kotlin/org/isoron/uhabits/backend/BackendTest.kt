@@ -82,7 +82,7 @@ class BackendTest : BaseTest() {
                 latch.countDown()
             }
         }
-        backend.mainScreenDataSource.addListener(listener)
+        backend.mainScreenDataSource.observable.addListener(listener)
         backend.mainScreenDataSource.requestData()
         assertTrue(latch.await(3, TimeUnit.SECONDS))
     }
