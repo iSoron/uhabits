@@ -101,7 +101,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         self.dataSource = backend.mainScreenDataSource
         self.theme = backend.theme
         super.init(nibName: nil, bundle: nil)
-        self.dataSource.addListener(listener: self)
+        self.dataSource.observable.addListener(listener: self)
         self.dataSource.requestData()
     }
     
@@ -133,16 +133,16 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data?.names.count ?? 0
+        return data?.habits.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainScreenCell
-        let color = theme.color(paletteIndex: data!.colors[row].index)
-        cell.update(name: data!.names[row],
-                    color: color,
-                    values: data!.checkmarks[row])
+        let habit = data!.habits[row]
+        cell.update(name: habit.name,
+                    color: theme.color(paletteIndex: habit.color.index),
+                    values: data!.checkmarkValues[habit]!)
         return cell
     }
     
@@ -164,7 +164,9 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let color = theme.color(paletteIndex: data!.colors[indexPath.row].index)
-        self.navigationController?.pushViewController(ShowHabitController(theme: theme, color: color), animated: true)
+        let color = theme.color(paletteIndex: data!.habits[indexPath.row].color.index)
+        self.navigationController?.pushViewController(ShowHabitController(theme: theme,
+                                                                          color: color),
+                                                      animated: true)
     }
 }

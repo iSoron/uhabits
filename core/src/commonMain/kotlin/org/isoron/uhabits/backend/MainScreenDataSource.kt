@@ -20,7 +20,6 @@
 package org.isoron.uhabits.backend
 
 import org.isoron.platform.concurrency.*
-import org.isoron.platform.gui.*
 import org.isoron.platform.time.*
 import org.isoron.uhabits.models.*
 
@@ -28,13 +27,11 @@ class MainScreenDataSource(val habits: MutableMap<Int, Habit>,
                            val checkmarks: MutableMap<Habit, CheckmarkList>,
                            val taskRunner: TaskRunner) {
 
-    private val today = LocalDate(2019, 3, 30)
+    private val today = LocalDate(2019, 3, 30) /* TODO */
 
-    data class Data(val ids: List<Int>,
-                    val scores: List<Double>,
-                    val names: List<String>,
-                    val colors: List<PaletteColor>,
-                    val checkmarks: List<List<Int>>)
+    data class Data(val habits: List<Habit>,
+                    val currentScore: Map<Habit, Double>,
+                    val checkmarkValues: Map<Habit, List<Int>>)
 
     val observable = Observable<Listener>()
 
@@ -44,17 +41,14 @@ class MainScreenDataSource(val habits: MutableMap<Int, Habit>,
 
     fun requestData() {
         taskRunner.runInBackground {
-            val filteredHabits = habits.values.filter { h -> !h.isArchived }
-            val ids = filteredHabits.map { it.id }
-            val scores = filteredHabits.map { 0.0 }
-            val names = filteredHabits.map { it.name }
-            val colors = filteredHabits.map { it.color }
-            val ck = filteredHabits.map { habit ->
-                val allValues = checkmarks[habit]!!.getValuesUntil(today)
-                if (allValues.size <= 7) allValues
-                else allValues.subList(0, 7)
+            val filtered = habits.values.filter { h -> !h.isArchived }
+            val currentScores = filtered.associate { it to 0.0 /* TODO */}
+            val recentCheckmarks = filtered.associate {
+                val allValues = checkmarks[it]!!.getValuesUntil(today)
+                if (allValues.size <= 7) it to allValues
+                else it to allValues.subList(0, 7)
             }
-            val data = Data(ids, scores, names, colors, ck)
+            val data = Data(filtered, currentScores, recentCheckmarks)
             taskRunner.runInForeground {
                 observable.notifyListeners { listener ->
                     listener.onDataChanged(data)
