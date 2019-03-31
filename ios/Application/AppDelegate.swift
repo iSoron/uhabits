@@ -26,7 +26,6 @@ import UIKit
                           databaseOpener: IosDatabaseOpener(withLog: StandardLog()),
                           fileOpener: IosFileOpener(),
                           log: StandardLog(),
-                          dateCalculator: IosLocalDateCalculator(),
                           taskRunner: SequentialTaskRunner())
     
     func application(_ application: UIApplication,
@@ -35,7 +34,7 @@ import UIKit
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
             let nav = UINavigationController()
-            nav.viewControllers = [ListHabitsController(withBackend: backend)]
+            nav.viewControllers = [MainScreenController(withBackend: backend)]
             window.backgroundColor = UIColor.white
             window.rootViewController = nav
             window.makeKeyAndVisible()

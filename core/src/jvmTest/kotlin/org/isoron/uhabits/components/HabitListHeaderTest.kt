@@ -30,8 +30,7 @@ class HabitListHeaderTest : BaseViewTest() {
         val header = HabitListHeader(LocalDate(2019, 3, 25),
                                      5,
                                      theme,
-                                     JavaLocalDateFormatter(Locale.US),
-                                     JavaLocalDateCalculator())
+                                     JavaLocalDateFormatter(Locale.US))
         assertRenders(1200, 96,
                       "components/HabitListHeader/light.png",
                       header)

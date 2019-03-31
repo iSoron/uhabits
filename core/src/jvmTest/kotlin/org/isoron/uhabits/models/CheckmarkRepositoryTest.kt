@@ -39,7 +39,7 @@ class CheckmarkRepositoryTest : BaseTest() {
                                  Checkmark(LocalDate(2019, 1, 25), 450),
                                  Checkmark(LocalDate(2019, 1, 20), 1000))
 
-        val repository = CheckmarkRepository(db, JavaLocalDateCalculator())
+        val repository = CheckmarkRepository(db)
 
         for (c in checkmarksA) repository.insert(habitA, c)
         for (c in checkmarksB) repository.insert(habitB, c)

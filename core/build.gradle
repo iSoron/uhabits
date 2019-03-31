@@ -26,7 +26,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:3.2.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
     }
 }
 
@@ -42,17 +42,11 @@ apply plugin:"kotlin-multiplatform"
 
 kotlin {
     targets {
+        def iosPreset = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
         fromPreset(presets.jvm, 'jvm')
-
-        fromPreset(presets.iosX64, 'iOS') {
+        fromPreset(iosPreset, 'iOS') {
             compilations.main.outputKinds('FRAMEWORK')
         }
-
-        // Replace the target above by the following one to produce a framework
-        // which can be installed on a real iPhone:
-        // fromPreset(presets.iosArm64, 'iOS') {
-        //     compilations.main.outputKinds('FRAMEWORK')
-        // }
     }
 
     sourceSets {

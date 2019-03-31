@@ -38,8 +38,6 @@ open class BaseTest {
 
     val databaseOpener = JavaDatabaseOpener(log)
 
-    val dateCalculator = JavaLocalDateCalculator()
-
     val taskRunner = SequentialTaskRunner()
 
     lateinit var db: Database

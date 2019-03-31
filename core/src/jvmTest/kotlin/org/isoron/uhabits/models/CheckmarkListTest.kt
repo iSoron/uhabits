@@ -32,7 +32,7 @@ class CheckmarkListTest : BaseTest() {
     private val today = LocalDate(2019, 1, 30)
 
     private fun day(offset: Int): LocalDate {
-        return dateCalculator.minusDays(today, offset)
+        return today.minus(offset)
     }
 
     @Test
@@ -45,8 +45,7 @@ class CheckmarkListTest : BaseTest() {
                 CheckmarkList.Interval(day(18), day(18), day(12)),
                 CheckmarkList.Interval(day(8), day(8), day(2)))
         val actual = CheckmarkList.buildIntervals(checks,
-                                                  Frequency.WEEKLY,
-                                                  dateCalculator)
+                                                  Frequency.WEEKLY)
         assertEquals(expected, actual)
     }
 
@@ -60,8 +59,7 @@ class CheckmarkListTest : BaseTest() {
                 CheckmarkList.Interval(day(18), day(18), day(18)),
                 CheckmarkList.Interval(day(8), day(8), day(8)))
         val actual = CheckmarkList.buildIntervals(checks,
-                                                  Frequency.DAILY,
-                                                  dateCalculator)
+                                                  Frequency.DAILY)
         assertEquals(expected, actual)
     }
 
@@ -77,8 +75,7 @@ class CheckmarkListTest : BaseTest() {
                 CheckmarkList.Interval(day(22), day(18), day(16)),
                 CheckmarkList.Interval(day(18), day(15), day(12)))
         val actual = CheckmarkList.buildIntervals(checks,
-                                                  Frequency.TWO_TIMES_PER_WEEK,
-                                                  dateCalculator)
+                                                  Frequency.TWO_TIMES_PER_WEEK)
         assertEquals(expected, actual)
     }
 
@@ -94,7 +91,7 @@ class CheckmarkListTest : BaseTest() {
                 CheckmarkList.Interval(day(25), day(25), day(19)),
                 CheckmarkList.Interval(day(18), day(16), day(12)),
                 CheckmarkList.Interval(day(11), day(8), day(5)))
-        CheckmarkList.snapIntervalsTogether(original, dateCalculator)
+        CheckmarkList.snapIntervalsTogether(original)
         assertEquals(expected, original)
     }
 
@@ -118,8 +115,7 @@ class CheckmarkListTest : BaseTest() {
                               Checkmark(day(9), CHECKED_AUTOMATIC),
                               Checkmark(day(10), CHECKED_MANUAL))
         val actual = CheckmarkList.buildCheckmarksFromIntervals(checks,
-                                                                intervals,
-                                                                dateCalculator)
+                                                                intervals)
         assertEquals(expected, actual)
     }
 
@@ -134,8 +130,7 @@ class CheckmarkListTest : BaseTest() {
                               Checkmark(day(4), CHECKED_AUTOMATIC),
                               Checkmark(day(5), CHECKED_AUTOMATIC))
         val actual = CheckmarkList.buildCheckmarksFromIntervals(reps,
-                                                                intervals,
-                                                                dateCalculator)
+                                                                intervals)
         assertEquals(expected, actual)
     }
 
@@ -158,14 +153,13 @@ class CheckmarkListTest : BaseTest() {
                               Checkmark(day(9), CHECKED_AUTOMATIC),
                               Checkmark(day(10), CHECKED_MANUAL))
         val actual = CheckmarkList.computeAutomaticCheckmarks(checks,
-                                                              Frequency(1, 3),
-                                                              dateCalculator)
+                                                              Frequency(1, 3))
         assertEquals(expected, actual)
     }
 
     @Test
     fun testGetValuesUntil() {
-        val list = CheckmarkList(Frequency(1, 2), dateCalculator)
+        val list = CheckmarkList(Frequency(1, 2))
         list.setManualCheckmarks(listOf(Checkmark(day(4), CHECKED_MANUAL),
                                         Checkmark(day(7), CHECKED_MANUAL)))
         val expected = listOf(UNCHECKED,
@@ -188,7 +182,7 @@ class CheckmarkListTest : BaseTest() {
 
     @Test
     fun testGetValuesUntil2() {
-        val list = CheckmarkList(Frequency(1, 2), dateCalculator)
+        val list = CheckmarkList(Frequency(1, 2))
         val expected = listOf<Int>()
         assertEquals(expected, list.getValuesUntil(day(0)))
     }

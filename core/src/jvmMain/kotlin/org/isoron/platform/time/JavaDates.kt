@@ -19,19 +19,20 @@
 
 package org.isoron.platform.time
 
-import java.lang.Math.*
 import java.util.*
 import java.util.Calendar.*
 
+
 fun LocalDate.toGregorianCalendar(): GregorianCalendar {
-    val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
-    cal.set(Calendar.HOUR_OF_DAY, 0)
-    cal.set(Calendar.MINUTE, 0)
-    cal.set(Calendar.SECOND, 0)
-    cal.set(Calendar.MILLISECOND, 0)
-    cal.set(Calendar.YEAR, this.year)
-    cal.set(Calendar.MONTH, this.month - 1)
-    cal.set(Calendar.DAY_OF_MONTH, this.day)
+    val cal = GregorianCalendar()
+    cal.timeZone = TimeZone.getTimeZone("GMT")
+    cal.set(MILLISECOND, 0)
+    cal.set(SECOND, 0)
+    cal.set(MINUTE, 0)
+    cal.set(HOUR_OF_DAY, 0)
+    cal.set(YEAR, this.year)
+    cal.set(MONTH, this.month - 1)
+    cal.set(DAY_OF_MONTH, this.day)
     return cal
 }
 
@@ -54,37 +55,5 @@ class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {
     override fun shortWeekdayName(date: LocalDate): String {
         val cal = date.toGregorianCalendar()
         return cal.getDisplayName(DAY_OF_WEEK, SHORT, locale);
-    }
-}
-
-class JavaLocalDateCalculator : LocalDateCalculator {
-    override fun toTimestamp(date: LocalDate): Timestamp {
-        val cal = date.toGregorianCalendar()
-        return Timestamp(cal.timeInMillis)
-    }
-
-    override fun fromTimestamp(timestamp: Timestamp): LocalDate {
-        val cal = GregorianCalendar(TimeZone.getTimeZone("GMT"))
-        cal.timeInMillis = timestamp.unixTimeInMillis
-        return cal.toLocalDate()
-    }
-
-    override fun dayOfWeek(date: LocalDate): DayOfWeek {
-        val cal = date.toGregorianCalendar()
-        return when (cal.get(DAY_OF_WEEK)) {
-            Calendar.SATURDAY -> DayOfWeek.SATURDAY
-            Calendar.SUNDAY -> DayOfWeek.SUNDAY
-            Calendar.MONDAY -> DayOfWeek.MONDAY
-            Calendar.TUESDAY -> DayOfWeek.TUESDAY
-            Calendar.WEDNESDAY -> DayOfWeek.WEDNESDAY
-            Calendar.THURSDAY -> DayOfWeek.THURSDAY
-            else -> DayOfWeek.FRIDAY
-        }
-    }
-
-    override fun plusDays(date: LocalDate, days: Int): LocalDate {
-        val cal = date.toGregorianCalendar()
-        cal.add(Calendar.DAY_OF_MONTH, days)
-        return cal.toLocalDate()
     }
 }

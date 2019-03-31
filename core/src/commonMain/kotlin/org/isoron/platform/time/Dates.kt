@@ -31,48 +31,143 @@ enum class DayOfWeek(val index: Int) {
     SATURDAY(6),
 }
 
-data class Timestamp(val unixTimeInMillis: Long)
+data class Timestamp(val millisSince1970: Long) {
+    val localDate: LocalDate
+        get() {
+            val millisSince2000 = millisSince1970 - 946684800000
+            val daysSince2000 = millisSince2000 / 86400000
+            return LocalDate(daysSince2000.toInt())
+        }
+}
 
-data class LocalDate(val year: Int,
-                     val month: Int,
-                     val day: Int) {
+data class LocalDate(val daysSince2000: Int) {
+
+    var yearCache = -1
+    var monthCache = -1
+    var dayCache = -1
+
+    init {
+        if (daysSince2000 < 0)
+            throw IllegalArgumentException("$daysSince2000 < 0")
+    }
+
+    constructor(year: Int, month: Int, day: Int) :
+            this(daysSince2000(year, month, day))
+
+    val dayOfWeek: DayOfWeek
+        get() {
+            return when (daysSince2000 % 7) {
+                0 -> DayOfWeek.SATURDAY
+                1 -> DayOfWeek.SUNDAY
+                2 -> DayOfWeek.MONDAY
+                3 -> DayOfWeek.TUESDAY
+                4 -> DayOfWeek.WEDNESDAY
+                5 -> DayOfWeek.THURSDAY
+                else -> DayOfWeek.FRIDAY
+            }
+        }
+
+    val timestamp: Timestamp
+        get() {
+            return Timestamp(946684800000 + daysSince2000.toLong() * 86400000)
+        }
+
+    val year: Int
+        get() {
+            if (yearCache < 0) updateYearMonthDayCache()
+            return yearCache
+        }
+
+    val month: Int
+        get() {
+            if (monthCache < 0) updateYearMonthDayCache()
+            return monthCache
+        }
+
+    val day: Int
+        get() {
+            if (dayCache < 0) updateYearMonthDayCache()
+            return dayCache
+        }
+
+    private fun updateYearMonthDayCache() {
+        var currYear = 2000
+        var currDay = 0
+
+        while (true) {
+            val currYearLength = if (isLeapYear(currYear)) 366 else 365
+            if (daysSince2000 < currDay + currYearLength) {
+                yearCache = currYear
+                break
+            } else {
+                currYear++
+                currDay += currYearLength
+            }
+        }
+
+        var currMonth = 1
+        val monthOffset = if (isLeapYear(currYear)) leapOffset else nonLeapOffset
+
+        while (true) {
+            if (daysSince2000 < currDay + monthOffset[currMonth]) {
+                monthCache = currMonth
+                break
+            } else {
+                currMonth++
+            }
+        }
+
+        currDay += monthOffset[currMonth - 1]
+        dayCache = daysSince2000 - currDay + 1
+
+    }
 
     fun isOlderThan(other: LocalDate): Boolean {
-        if (other.year != year) return other.year > year
-        if (other.month != month) return other.month > month
-        return other.day > day
+        return daysSince2000 < other.daysSince2000
     }
 
     fun isNewerThan(other: LocalDate): Boolean {
-        if (this == other) return false
-        return other.isOlderThan(this)
+        return daysSince2000 > other.daysSince2000
     }
 
-    init {
-        if ((month <= 0) or (month >= 13)) throw(IllegalArgumentException())
-        if ((day <= 0) or (day >= 32)) throw(IllegalArgumentException())
+    fun plus(days: Int): LocalDate {
+        return LocalDate(daysSince2000 + days)
     }
-}
 
-interface LocalDateCalculator {
-    fun plusDays(date: LocalDate, days: Int): LocalDate
-    fun dayOfWeek(date: LocalDate): DayOfWeek
-    fun toTimestamp(date: LocalDate): Timestamp
-    fun fromTimestamp(timestamp: Timestamp): LocalDate
-}
+    fun minus(days: Int): LocalDate {
+        return LocalDate(daysSince2000 - days)
+    }
 
-fun LocalDateCalculator.distanceInDays(d1: LocalDate, d2: LocalDate): Int {
-    val t1 = toTimestamp(d1)
-    val t2 = toTimestamp(d2)
-    val dayLength = 24 * 60 * 60 * 1000
-    return abs((t2.unixTimeInMillis - t1.unixTimeInMillis) / dayLength).toInt()
-}
-
-fun LocalDateCalculator.minusDays(date: LocalDate, days: Int): LocalDate {
-    return plusDays(date, -days)
+    fun distanceTo(other: LocalDate): Int {
+        return abs(daysSince2000 - other.daysSince2000)
+    }
 }
 
 interface LocalDateFormatter {
     fun shortWeekdayName(date: LocalDate): String
     fun shortMonthName(date: LocalDate): String
+}
+
+private fun isLeapYear(year: Int): Boolean {
+    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
+}
+
+val leapOffset = arrayOf(0, 31, 60, 91, 121, 152, 182,
+                         213, 244, 274, 305, 335, 366)
+val nonLeapOffset = arrayOf(0, 31, 59, 90, 120, 151, 181,
+                            212, 243, 273, 304, 334, 365)
+
+private fun daysSince2000(year: Int, month: Int, day: Int): Int {
+
+    var result = 365 * (year - 2000)
+    result += ceil((year - 2000) / 4.0).toInt()
+    result -= ceil((year - 2000) / 100.0).toInt()
+    result += ceil((year - 2000) / 400.0).toInt()
+    if (isLeapYear(year)) {
+        result += leapOffset[month - 1]
+    } else {
+        result += nonLeapOffset[month - 1]
+    }
+    result += (day - 1)
+    return result
 }

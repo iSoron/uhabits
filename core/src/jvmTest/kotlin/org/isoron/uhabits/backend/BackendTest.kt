@@ -40,7 +40,6 @@ class BackendTest : BaseTest() {
                           databaseOpener,
                           fileOpener,
                           log,
-                          dateCalculator,
                           taskRunner)
     }
 

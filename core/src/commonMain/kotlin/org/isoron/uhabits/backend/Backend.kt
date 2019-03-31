@@ -30,7 +30,6 @@ class Backend(databaseName: String,
               databaseOpener: DatabaseOpener,
               fileOpener: FileOpener,
               val log: Log,
-              val dateCalculator: LocalDateCalculator,
               val taskRunner: TaskRunner) {
 
     val database: Database
@@ -56,13 +55,12 @@ class Backend(databaseName: String,
         database = databaseOpener.open(dbFile)
         database.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
         habitsRepository = HabitRepository(database)
-        checkmarkRepository = CheckmarkRepository(database, dateCalculator)
+        checkmarkRepository = CheckmarkRepository(database)
         taskRunner.runInBackground {
             habits.putAll(habitsRepository.findAll())
             for ((key, habit) in habits) {
                 val checks = checkmarkRepository.findAll(key)
-                checkmarks[habit] = CheckmarkList(habit.frequency,
-                                                  dateCalculator)
+                checkmarks[habit] = CheckmarkList(habit.frequency)
                 checkmarks[habit]?.setManualCheckmarks(checks)
             }
         }
@@ -76,7 +74,7 @@ class Backend(databaseName: String,
         habit.id = id
         habit.position = habits.size
         habits[id] = habit
-        checkmarks[habit] = CheckmarkList(habit.frequency, dateCalculator)
+        checkmarks[habit] = CheckmarkList(habit.frequency)
         habitsRepository.insert(habit)
         mainScreenDataSource.requestData()
     }

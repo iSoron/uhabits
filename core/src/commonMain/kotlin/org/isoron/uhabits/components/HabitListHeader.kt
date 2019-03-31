@@ -25,8 +25,7 @@ import org.isoron.platform.time.*
 class HabitListHeader(private val today: LocalDate,
                       private val nButtons: Int,
                       private val theme: Theme,
-                      private val fmt: LocalDateFormatter,
-                      private val calc: LocalDateCalculator) : Component {
+                      private val fmt: LocalDateFormatter) : Component {
 
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()
@@ -44,7 +43,7 @@ class HabitListHeader(private val today: LocalDate,
         canvas.setFontSize(theme.smallTextSize)
 
         repeat(nButtons) { index ->
-            val date = calc.minusDays(today, nButtons - index - 1)
+            val date = today.minus(nButtons - index - 1)
             val name = fmt.shortWeekdayName(date).toUpperCase()
             val number = date.day.toString()
 

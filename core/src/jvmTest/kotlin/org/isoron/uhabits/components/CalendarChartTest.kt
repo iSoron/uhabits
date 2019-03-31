@@ -32,7 +32,6 @@ class CalendarChartTest : BaseViewTest() {
         val component = CalendarChart(LocalDate(2015, 1, 25),
                                       theme.color(4),
                                       theme,
-                                      JavaLocalDateCalculator(),
                                       JavaLocalDateFormatter(Locale.US))
         component.series = listOf(1.0, // today
                                   0.2, 0.5, 0.7, 0.0, 0.3, 0.4, 0.6,

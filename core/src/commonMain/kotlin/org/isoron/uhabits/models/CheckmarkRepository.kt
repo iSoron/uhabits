@@ -22,8 +22,7 @@ package org.isoron.uhabits.models
 import org.isoron.platform.io.*
 import org.isoron.platform.time.*
 
-class CheckmarkRepository(db: Database,
-                          val dateCalculator: LocalDateCalculator) {
+class CheckmarkRepository(db: Database) {
 
     private val findStatement = db.prepareStatement("select timestamp, value from Repetitions where habit = ? order by timestamp desc")
     private val insertStatement = db.prepareStatement("insert into Repetitions(habit, timestamp, value) values (?, ?, ?)")
@@ -33,9 +32,8 @@ class CheckmarkRepository(db: Database,
         findStatement.bindInt(0, habitId)
         val result = mutableListOf<Checkmark>()
         while (findStatement.step() == StepResult.ROW) {
-            val timestamp = Timestamp(findStatement.getLong(0))
+            val date = Timestamp(findStatement.getLong(0)).localDate
             val value = findStatement.getInt(1)
-            val date = dateCalculator.fromTimestamp(timestamp)
             result.add(Checkmark(date, value))
         }
         findStatement.reset()
@@ -43,18 +41,18 @@ class CheckmarkRepository(db: Database,
     }
 
     fun insert(habitId: Int, checkmark: Checkmark) {
-        val timestamp = dateCalculator.toTimestamp(checkmark.date)
+        val timestamp = checkmark.date.timestamp
         insertStatement.bindInt(0, habitId)
-        insertStatement.bindLong(1, timestamp.unixTimeInMillis)
+        insertStatement.bindLong(1, timestamp.millisSince1970)
         insertStatement.bindInt(2, checkmark.value)
         insertStatement.step()
         insertStatement.reset()
     }
 
     fun delete(habitId: Int, date: LocalDate) {
-        val timestamp = dateCalculator.toTimestamp(date)
+        val timestamp = date.timestamp
         deleteStatement.bindInt(0, habitId)
-        deleteStatement.bindLong(1, timestamp.unixTimeInMillis)
+        deleteStatement.bindLong(1, timestamp.millisSince1970)
         deleteStatement.step()
         deleteStatement.reset()
     }

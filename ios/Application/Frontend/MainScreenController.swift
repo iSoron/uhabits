@@ -19,7 +19,7 @@
 
 import UIKit
 
-class ListHabitsCell : UITableViewCell {
+class MainScreenCell : UITableViewCell {
     var ring: ComponentView
     var label = UILabel()
     var buttons: [ComponentView] = []
@@ -48,7 +48,7 @@ class ListHabitsCell : UITableViewCell {
         label.heightAnchor.constraint(equalToConstant: size).isActive = true
         stack.addArrangedSubview(label)
         
-        for _ in 1...4 {
+        for _ in 1...3 {
             let btn = ComponentView(frame: frame, component: nil)
             btn.backgroundColor = .white
             btn.widthAnchor.constraint(equalToConstant: size).isActive = true
@@ -88,7 +88,7 @@ class ListHabitsCell : UITableViewCell {
     }
 }
 
-class ListHabitsController: UITableViewController, MainScreenDataSourceListener {
+class MainScreenController: UITableViewController, MainScreenDataSourceListener {
     var backend: Backend
     var dataSource: MainScreenDataSource
     var data: MainScreenDataSource.Data?
@@ -119,7 +119,7 @@ class ListHabitsController: UITableViewController, MainScreenDataSourceListener 
                             target: self,
                             action: #selector(self.onCreateHabitClicked))
         ]
-        tableView.register(ListHabitsCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(MainScreenCell.self, forCellReuseIdentifier: "cell")
         tableView.backgroundColor = theme.headerBackgroundColor.uicolor
     }
     
@@ -140,7 +140,7 @@ class ListHabitsController: UITableViewController, MainScreenDataSourceListener 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListHabitsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainScreenCell
         let color = theme.color(paletteIndex: data!.colors[row].index)
         cell.label.text = data!.names[row]
         cell.setColor(color)
@@ -149,10 +149,9 @@ class ListHabitsController: UITableViewController, MainScreenDataSourceListener 
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let component = HabitListHeader(today: LocalDate(year: 2019, month: 3, day: 24),
-                                        nButtons: 4,
+                                        nButtons: 3,
                                         theme: theme,
-                                        fmt: IosLocalDateFormatter(),
-                                        calc: IosLocalDateCalculator())
+                                        fmt: IosLocalDateFormatter())
         return ComponentView(frame: CGRect(x: 0, y: 0, width: 100, height: CGFloat(theme.checkmarkButtonSize)),
                              component: component)
     }

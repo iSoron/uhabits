@@ -54,35 +54,3 @@ class IosLocalDateFormatter : NSObject, LocalDateFormatter {
         return fmt.string(from: date.iosDate)
     }
 }
-
-class IosLocalDateCalculator : NSObject, LocalDateCalculator {
-    func toTimestamp(date: LocalDate) -> Timestamp {
-        return Timestamp(unixTimeInMillis: Int64(date.iosDate.timeIntervalSince1970 * 1000))
-    }
-    
-    func fromTimestamp(timestamp: Timestamp) -> LocalDate {
-        return Date.init(timeIntervalSince1970: Double(timestamp.unixTimeInMillis / 1000)).localDate
-    }
-    
-    let calendar = Calendar(identifier: .gregorian)
-
-    func dayOfWeek(date: LocalDate) -> DayOfWeek {
-        let weekday = calendar.component(.weekday, from: date.iosDate)
-        switch(weekday) {
-            case 1: return DayOfWeek.sunday
-            case 2: return DayOfWeek.monday
-            case 3: return DayOfWeek.tuesday
-            case 4: return DayOfWeek.wednesday
-            case 5: return DayOfWeek.thursday
-            case 6: return DayOfWeek.friday
-            default: return DayOfWeek.saturday
-        }
-    }
-    
-    func plusDays(date: LocalDate, days: Int32) -> LocalDate {
-        let d2 = date.iosDate.addingTimeInterval(24.0 * 60 * 60 * Double(days))
-        return LocalDate(year: Int32(calendar.component(.year, from: d2)),
-                         month: Int32(calendar.component(.month, from: d2)),
-                         day: Int32(calendar.component(.day, from: d2)))
-    }
-}

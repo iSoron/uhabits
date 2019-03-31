@@ -47,7 +47,6 @@ class ShowHabitController : UITableViewController {
         let component = CalendarChart(today: LocalDate(year: 2019, month: 3, day: 15),
                                       color: color,
                                       theme: theme,
-                                      dateCalculator: IosLocalDateCalculator(),
                                       dateFormatter: IosLocalDateFormatter())
         let cell = UITableViewCell()
         let view = ComponentView(frame: cell.frame, component: component)

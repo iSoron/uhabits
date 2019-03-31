@@ -26,7 +26,6 @@ import kotlin.math.*
 class CalendarChart(var today: LocalDate,
                     var color: Color,
                     var theme: Theme,
-                    var dateCalculator: LocalDateCalculator,
                     var dateFormatter: LocalDateFormatter) : Component {
 
     var padding = 5.0
@@ -47,19 +46,19 @@ class CalendarChart(var today: LocalDate,
         canvas.setFontSize(height * 0.06)
 
         val nColumns = floor((width - 2 * padding) / squareSize).toInt() - 2
-        val todayWeekday = dateCalculator.dayOfWeek(today)
+        val todayWeekday = today.dayOfWeek
         val topLeftOffset = (nColumns - 1 + scrollPosition) * 7 + todayWeekday.index
-        val topLeftDate = dateCalculator.minusDays(today, topLeftOffset)
+        val topLeftDate = today.minus(topLeftOffset)
 
         repeat(nColumns) { column ->
             val topOffset = topLeftOffset - 7 * column
-            val topDate = dateCalculator.plusDays(topLeftDate, 7 * column)
+            val topDate = topLeftDate.plus(7 * column)
             drawColumn(canvas, column, topDate, topOffset)
         }
 
         canvas.setColor(theme.mediumContrastTextColor)
         repeat(7) { row ->
-            val date = dateCalculator.plusDays(topLeftDate, row)
+            val date = topLeftDate.plus(row)
             canvas.setTextAlign(TextAlign.LEFT)
             canvas.drawText(dateFormatter.shortWeekdayName(date),
                             padding + nColumns * squareSize + padding,
@@ -74,7 +73,7 @@ class CalendarChart(var today: LocalDate,
         drawHeader(canvas, column, topDate)
         repeat(7) { row ->
             val offset = topOffset - row
-            val date = dateCalculator.plusDays(topDate, row)
+            val date = topDate.plus(row)
             if (offset < 0) return
             drawSquare(canvas,
                        padding + column * squareSize,

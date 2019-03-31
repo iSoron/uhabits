@@ -24,8 +24,7 @@ import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_AUTOMATIC
 import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_MANUAL
 import org.isoron.uhabits.models.Checkmark.Companion.UNCHECKED
 
-class CheckmarkList(private val frequency: Frequency,
-                    private val dateCalculator: LocalDateCalculator) {
+class CheckmarkList(private val frequency: Frequency) {
 
     private val manualCheckmarks = mutableListOf<Checkmark>()
     private val automaticCheckmarks = mutableListOf<Checkmark>()
@@ -39,8 +38,7 @@ class CheckmarkList(private val frequency: Frequency,
         automaticCheckmarks.clear()
         manualCheckmarks.addAll(checks)
         automaticCheckmarks.addAll(computeAutomaticCheckmarks(checks,
-                                                              frequency,
-                                                              dateCalculator))
+                                                              frequency))
     }
 
     /**
@@ -56,7 +54,7 @@ class CheckmarkList(private val frequency: Frequency,
 
         val result = mutableListOf<Int>()
         val newest = automaticCheckmarks.first().date
-        val distToNewest = dateCalculator.distanceInDays(newest, date)
+        val distToNewest = newest.distanceTo(date)
 
         var fromIndex = 0
         val toIndex = automaticCheckmarks.size
@@ -75,13 +73,12 @@ class CheckmarkList(private val frequency: Frequency,
          * Computes the list of automatic checkmarks a list of manual ones.
          */
         fun computeAutomaticCheckmarks(checks: List<Checkmark>,
-                                       frequency: Frequency,
-                                       calc: LocalDateCalculator
+                                       frequency: Frequency
                                       ): MutableList<Checkmark> {
 
-            val intervals = buildIntervals(checks, frequency, calc)
-            snapIntervalsTogether(intervals, calc)
-            return buildCheckmarksFromIntervals(checks, intervals, calc)
+            val intervals = buildIntervals(checks, frequency)
+            snapIntervalsTogether(intervals)
+            return buildCheckmarksFromIntervals(checks, intervals)
         }
 
         /**
@@ -92,19 +89,17 @@ class CheckmarkList(private val frequency: Frequency,
          * the interval, however, still falls within the interval. The length of
          * the intervals are also not modified.
          */
-        fun snapIntervalsTogether(intervals: MutableList<Interval>,
-                                  calc: LocalDateCalculator) {
+        fun snapIntervalsTogether(intervals: MutableList<Interval>) {
 
             for (i in 1 until intervals.size) {
                 val (begin, center, end) = intervals[i]
                 val (_, _, prevEnd) = intervals[i - 1]
 
-                val gap = calc.distanceInDays(prevEnd, begin) - 1
-                val endMinusGap = calc.minusDays(end, gap)
-                if (gap <= 0 || endMinusGap.isOlderThan(center)) continue
-                intervals[i] = Interval(calc.minusDays(begin, gap),
+                val gap = prevEnd.distanceTo(begin) - 1
+                if (gap <= 0 || end.minus(gap).isOlderThan(center)) continue
+                intervals[i] = Interval(begin.minus(gap),
                                         center,
-                                        calc.minusDays(end, gap))
+                                        end.minus(gap))
             }
         }
 
@@ -119,8 +114,7 @@ class CheckmarkList(private val frequency: Frequency,
          * receive unchecked checkmarks.
          */
         fun buildCheckmarksFromIntervals(checks: List<Checkmark>,
-                                         intervals: List<Interval>,
-                                         calc: LocalDateCalculator
+                                         intervals: List<Interval>
                                         ): MutableList<Checkmark> {
 
             if (checks.isEmpty()) throw IllegalArgumentException()
@@ -137,25 +131,25 @@ class CheckmarkList(private val frequency: Frequency,
                 if (check.date.isNewerThan(newest)) newest = check.date
             }
 
-            val distance = calc.distanceInDays(oldest, newest)
+            val distance = oldest.distanceTo(newest)
             val checkmarks = mutableListOf<Checkmark>()
             for (offset in 0..distance)
-                checkmarks.add(Checkmark(calc.minusDays(newest, offset),
+                checkmarks.add(Checkmark(newest.minus(offset),
                                          UNCHECKED))
 
             for (interval in intervals) {
-                val beginOffset = calc.distanceInDays(newest, interval.begin)
-                val endOffset = calc.distanceInDays(newest, interval.end)
+                val beginOffset = newest.distanceTo(interval.begin)
+                val endOffset = newest.distanceTo(interval.end)
 
                 for (offset in endOffset..beginOffset) {
                     checkmarks.set(offset,
-                                   Checkmark(calc.minusDays(newest, offset),
+                                   Checkmark(newest.minus(offset),
                                              CHECKED_AUTOMATIC))
                 }
             }
 
             for (check in checks) {
-                val offset = calc.distanceInDays(newest, check.date)
+                val offset = newest.distanceTo(check.date)
                 checkmarks.set(offset, Checkmark(check.date, CHECKED_MANUAL))
             }
 
@@ -167,8 +161,7 @@ class CheckmarkList(private val frequency: Frequency,
          * checkmarks.
          */
         fun buildIntervals(checks: List<Checkmark>,
-                           frequency: Frequency,
-                           calc: LocalDateCalculator): MutableList<Interval> {
+                           frequency: Frequency): MutableList<Interval> {
 
             val num = frequency.numerator
             val den = frequency.denominator
@@ -178,10 +171,9 @@ class CheckmarkList(private val frequency: Frequency,
                 val first = checks[i]
                 val last = checks[i + num - 1]
 
-                val distance = calc.distanceInDays(first.date, last.date)
-                if (distance >= den) continue
+                if (first.date.distanceTo(last.date) >= den) continue
 
-                val end = calc.plusDays(first.date, den - 1)
+                val end = first.date.plus(den - 1)
                 intervals.add(Interval(first.date, last.date, end))
             }
 
