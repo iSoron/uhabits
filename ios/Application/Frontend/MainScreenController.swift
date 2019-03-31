@@ -113,9 +113,12 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         self.title = "Habits"
         
         self.navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .bookmarks, /* TODO: Replace by appropriate icon */
+                            target: self,
+                            action: #selector(self.onMoreActionsClicked)),
             UIBarButtonItem(barButtonSystemItem: .add,
                             target: self,
-                            action: #selector(self.onCreateHabitClicked))
+                            action: #selector(self.onCreateHabitClicked)),
         ]
         tableView.register(MainScreenCell.self, forCellReuseIdentifier: "cell")
         tableView.backgroundColor = theme.headerBackgroundColor.uicolor
@@ -126,10 +129,6 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         self.navigationController?.navigationBar.tintColor = theme.highContrastTextColor.uicolor
         self.navigationController?.navigationBar.barTintColor = .white
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-    }
-
-    @objc func onCreateHabitClicked() {
-        self.navigationController?.pushViewController(EditHabitController(), animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -168,5 +167,38 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         self.navigationController?.pushViewController(ShowHabitController(theme: theme,
                                                                           color: color),
                                                       animated: true)
+    }
+    
+    @objc func onCreateHabitClicked() {
+        self.navigationController?.pushViewController(EditHabitController(), animated: true)
+    }
+    
+    @objc func onMoreActionsClicked() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Show archived", style: .default) {
+            (action: UIAlertAction) -> Void in
+            // TODO
+        })
+        alert.addAction(UIAlertAction(title: "Hide completed", style: .default) {
+            (action: UIAlertAction) -> Void in
+            // TODO
+        })
+        alert.addAction(UIAlertAction(title: "Night mode", style: .default) {
+            (action: UIAlertAction) -> Void in
+            // TODO
+        })
+        alert.addAction(UIAlertAction(title: "Help & FAQ", style: .default) {
+            (action: UIAlertAction) -> Void in
+            // TODO
+        })
+        alert.addAction(UIAlertAction(title: "About", style: .default) {
+            (action: UIAlertAction) -> Void in
+            // TODO
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) {
+            (action: UIAlertAction) -> Void in
+            // Do nothing
+        })
+        present(alert, animated: true, completion: nil)
     }
 }
