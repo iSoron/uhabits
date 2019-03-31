@@ -61,8 +61,13 @@ class MainScreenCell : UITableViewCell {
         fatalError()
     }
     
-    func setColor(_ color: Color) {
+    func update(name: String,
+                color: Color,
+                values: [KotlinInt]) {
+        
+        label.text = name
         label.textColor = color.uicolor
+        
         ring.component = Ring(color: color,
                               percentage: Double.random(in: 0...1),
                               thickness: 2.5,
@@ -70,20 +75,12 @@ class MainScreenCell : UITableViewCell {
                               theme: theme,
                               label: false)
         ring.setNeedsDisplay()
-        let isNumerical = Int.random(in: 1...4) == 1
-        for btn in buttons {
-            if isNumerical {
-                btn.component = NumberButton(color: color,
-                                             value: Double.random(in: 0...5000),
-                                             threshold: 2000,
-                                             units: "steps",
-                                             theme: theme)
-            } else {
-                btn.component = CheckmarkButton(value: Int32.random(in: 0...2),
-                                                color: color,
-                                                theme: theme)
-            }
-            btn.setNeedsDisplay()
+        
+        for i in 0..<buttons.count {
+            buttons[i].component = CheckmarkButton(value: Int32(truncating: values[i]),
+                                                   color: color,
+                                                   theme: theme)
+            buttons[i].setNeedsDisplay()
         }
     }
 }
@@ -93,6 +90,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     var dataSource: MainScreenDataSource
     var data: MainScreenDataSource.Data?
     var theme: Theme
+    var nButtons = 3
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()
@@ -142,14 +140,15 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainScreenCell
         let color = theme.color(paletteIndex: data!.colors[row].index)
-        cell.label.text = data!.names[row]
-        cell.setColor(color)
+        cell.update(name: data!.names[row],
+                    color: color,
+                    values: data!.checkmarks[row])
         return cell
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let component = HabitListHeader(today: LocalDate(year: 2019, month: 3, day: 24),
-                                        nButtons: 3,
+                                        nButtons: Int32(nButtons),
                                         theme: theme,
                                         fmt: IosLocalDateFormatter())
         return ComponentView(frame: CGRect(x: 0, y: 0, width: 100, height: CGFloat(theme.checkmarkButtonSize)),
