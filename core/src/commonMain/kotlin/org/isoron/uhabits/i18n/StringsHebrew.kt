@@ -152,7 +152,7 @@ class StringsHebrew : Strings() {
     override val repair_database = "תיקון מסד נתונים"
     override val database_repaired = "מאגר נתונים תוקן."
     override val uncheck = "ביטול סימון"
-    override val toggle = "הפעלה \ כיבוי"
+    override val toggle = "הפעלה כיבוי"
     override val action = "פעולה"
     override val habit = "הרגל"
     override val sort = "מיון"

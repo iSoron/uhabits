@@ -165,7 +165,7 @@
   <string name="repair_database">תיקון מסד נתונים</string>
   <string name="database_repaired">מאגר נתונים תוקן.</string>
   <string name="uncheck">ביטול סימון</string>
-  <string name="toggle">הפעלה \ כיבוי</string>
+  <string name="toggle">הפעלה כיבוי</string>
   <string name="action">פעולה</string>
   <string name="habit">הרגל</string>
   <string name="sort">מיון</string>
