@@ -113,7 +113,8 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         self.title = "Habits"
         
         self.navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .bookmarks, /* TODO: Replace by appropriate icon */
+            UIBarButtonItem(image: UIImage(named: "ic_more"),
+                            style: .plain,
                             target: self,
                             action: #selector(self.onMoreActionsClicked)),
             UIBarButtonItem(barButtonSystemItem: .add,
