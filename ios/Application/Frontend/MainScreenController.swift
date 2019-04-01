@@ -164,9 +164,9 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let color = theme.color(paletteIndex: data!.habits[indexPath.row].color.index)
-        self.navigationController?.pushViewController(ShowHabitController(theme: theme,
-                                                                          color: color),
+        let habit = data!.habits[indexPath.row]
+        let color = theme.color(paletteIndex: habit.color.index)
+        self.navigationController?.pushViewController(DetailScreenController(habit: habit, backend: backend),
                                                       animated: true)
     }
     

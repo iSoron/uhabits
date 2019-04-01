@@ -26,7 +26,7 @@
 		00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */; };
 		00C0C6DB2247E6B0003D8AF0 /* IosDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */; };
 		00C0C6DD2247E6C4003D8AF0 /* IosDatesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */; };
-		00C0C6E0224A3602003D8AF0 /* ShowHabitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DE224A35FC003D8AF0 /* ShowHabitController.swift */; };
+		00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */; };
 		00D48BD12200A31300CC4527 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00D48BD02200A31300CC4527 /* Launch.storyboard */; };
 		00D48BD32200AC1600CC4527 /* EditHabitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D48BD22200AC1600CC4527 /* EditHabitController.swift */; };
 /* End PBXBuildFile section */
@@ -78,7 +78,7 @@
 		00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosCanvasTest.swift; sourceTree = "<group>"; };
 		00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosDates.swift; sourceTree = "<group>"; };
 		00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosDatesTest.swift; sourceTree = "<group>"; };
-		00C0C6DE224A35FC003D8AF0 /* ShowHabitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowHabitController.swift; sourceTree = "<group>"; };
+		00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenController.swift; sourceTree = "<group>"; };
 		00D48BD02200A31300CC4527 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		00D48BD22200AC1600CC4527 /* EditHabitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,7 +108,7 @@
 			children = (
 				00D48BD22200AC1600CC4527 /* EditHabitController.swift */,
 				00A5B42922009F590024E00C /* MainScreenController.swift */,
-				00C0C6DE224A35FC003D8AF0 /* ShowHabitController.swift */,
+				00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */,
 			);
 			path = Frontend;
 			sourceTree = "<group>";
@@ -329,7 +329,7 @@
 				00C0C6AA224654F4003D8AF0 /* IosFiles.swift in Sources */,
 				00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */,
 				00C0C6CE2246EFB3003D8AF0 /* IosExtensions.swift in Sources */,
-				00C0C6E0224A3602003D8AF0 /* ShowHabitController.swift in Sources */,
+				00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */,
 				00C0C6A8224654A2003D8AF0 /* IosDatabase.swift in Sources */,
 				00C0C6DB2247E6B0003D8AF0 /* IosDates.swift in Sources */,
 				00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */,

@@ -19,9 +19,10 @@
 
 import UIKit
 
-class ShowHabitController : UITableViewController {
+class DetailScreenController : UITableViewController {
     
     let theme: Theme
+    let habit: Habit
     let color: Color
     var cells = [UITableViewCell]()
     
@@ -29,14 +30,15 @@ class ShowHabitController : UITableViewController {
         fatalError()
     }
     
-    init(theme: Theme, color: Color) {
-        self.theme = theme
-        self.color = color
+    init(habit: Habit, backend: Backend) {
+        self.theme = backend.theme
+        self.habit = habit
+        self.color = theme.color(paletteIndex: self.habit.color.index)
         super.init(style: .grouped)
     }
     
     override func viewDidLoad() {
-        self.title = "Exercise"
+        self.title = habit.name
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                  target: self,
                                                                  action: #selector(self.onEditHabitClicked))
