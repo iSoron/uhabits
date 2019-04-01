@@ -139,8 +139,7 @@
   <string name="help_translate">帮助翻译这个应用</string>
   <string name="night_mode">夜间模式</string>
   <string name="use_pure_black">在夜间模式中使用纯黑色</string>
-  <string name="pure_black_description">\"以纯黑色背景代替夜间模式中的灰色背景。
-这将帮助减少 AMOLED 屏幕手机的电量使用。\"</string>
+  <string name="pure_black_description">以纯黑色背景代替夜间模式中的灰色背景。这将帮助减少 AMOLED 屏幕手机的电量使用。</string>
   <string name="interface_preferences">界面</string>
   <string name="reverse_days">反向顺序的日子</string>
   <string name="reverse_days_description">在主界面显示反向顺序的日子</string>
