@@ -24,6 +24,7 @@ fi
 
 grep "<string name" "$1" | \
         grep -v translatable | \
+        sed 's/&amp;/\&/g' | \
         sed 's/^.*name="\([^"]*\)">\([^<]*\)<.*/    '"$prefix"'val \1 = "\2"/'
 
 echo "}"

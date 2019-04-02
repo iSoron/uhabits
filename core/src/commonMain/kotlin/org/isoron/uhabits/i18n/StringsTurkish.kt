@@ -110,7 +110,7 @@ class StringsTurkish : Strings() {
     override val two_times_per_week = "Haftada 2 kez"
     override val five_times_per_week = "Haftada 5 kez"
     override val custom_frequency = "Özel ..."
-    override val help = "Yardım &amp; SSS"
+    override val help = "Yardım & SSS"
     override val could_not_export = "Dışarı veri aktarımı başarısız."
     override val could_not_import = "İçeri veri aktarımı başarısız."
     override val file_not_recognized = "Dosya tanınamadı."

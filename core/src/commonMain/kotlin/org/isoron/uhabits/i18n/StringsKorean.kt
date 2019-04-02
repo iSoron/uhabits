@@ -110,7 +110,7 @@ class StringsKorean : Strings() {
     override val two_times_per_week = "일주일에 2번"
     override val five_times_per_week = "일주일에 5번"
     override val custom_frequency = "직접 정하기"
-    override val help = "도움 &amp; FAQ"
+    override val help = "도움 & FAQ"
     override val could_not_export = "데이터 내보내기에 실패했습니다."
     override val could_not_import = "데이터 가져오기에 실패했습니다."
     override val file_not_recognized = "파일을 인식할 수 없습니다."

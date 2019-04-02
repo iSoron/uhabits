@@ -55,7 +55,7 @@ class StringsNorwegian : Strings() {
     override val every_week = "Ĉiu semajno"
     override val two_times_per_week = "Dufoje en semajno"
     override val five_times_per_week = "Kvinfoje en semajno"
-    override val help = "Helpo &amp; Ofte Demandite"
+    override val help = "Helpo & Ofte Demandite"
     override val file_not_recognized = "Dosiero ne rekonita."
     override val full_backup_success = "Plena savkopio sukcese eksportita."
     override val troubleshooting = "Problemserĉado"

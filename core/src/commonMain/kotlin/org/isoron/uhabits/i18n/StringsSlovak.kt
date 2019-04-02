@@ -110,7 +110,7 @@ class StringsSlovak : Strings() {
     override val two_times_per_week = "2 krat na teden"
     override val five_times_per_week = "5 krat na teden"
     override val custom_frequency = "Po meri ..."
-    override val help = "Pomoč &amp; Pogosta vprašanja"
+    override val help = "Pomoč & Pogosta vprašanja"
     override val could_not_export = "Neuspešen izvoz podatkov."
     override val could_not_import = "Neuspešen uvoz podatkov."
     override val file_not_recognized = "Datoteka ni bila prepoznana."

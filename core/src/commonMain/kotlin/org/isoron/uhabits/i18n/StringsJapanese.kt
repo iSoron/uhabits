@@ -109,7 +109,7 @@ class StringsJapanese : Strings() {
     override val two_times_per_week = "1 週間に 2 回"
     override val five_times_per_week = "1 週間に 5 回"
     override val custom_frequency = "カスタム &#8230;"
-    override val help = "ヘルプ &amp; FAQ"
+    override val help = "ヘルプ & FAQ"
     override val could_not_export = "データのエクスポートに失敗しました。"
     override val could_not_import = "データのインポートに失敗しました。"
     override val file_not_recognized = "ファイルを認識できません。"

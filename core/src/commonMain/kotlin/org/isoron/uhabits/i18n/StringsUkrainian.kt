@@ -110,7 +110,7 @@ class StringsUkrainian : Strings() {
     override val two_times_per_week = "Двічі на тиждень"
     override val five_times_per_week = "5 разів на тиждень"
     override val custom_frequency = "Инше&#8230;"
-    override val help = "Допомога &amp; ЧаПи"
+    override val help = "Допомога & ЧаПи"
     override val could_not_export = "Помилка експортування даних."
     override val could_not_import = "Помилка імпортування даних."
     override val file_not_recognized = "Неможливо визначити тип файлу."

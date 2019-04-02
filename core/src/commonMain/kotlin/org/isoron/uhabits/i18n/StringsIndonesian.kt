@@ -110,7 +110,7 @@ class StringsIndonesian : Strings() {
     override val two_times_per_week = "2 kali per minggu"
     override val five_times_per_week = "5 kali per minggu"
     override val custom_frequency = "Sesuaikan &#8230;"
-    override val help = "Bantuan &amp; FAQ"
+    override val help = "Bantuan & FAQ"
     override val could_not_export = "Gagal mengekspor data."
     override val could_not_import = "Gagal mengimpor data."
     override val file_not_recognized = "File tidak dikenali."

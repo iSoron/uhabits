@@ -44,6 +44,10 @@ extension Date {
 class IosLocalDateFormatter : NSObject, LocalDateFormatter {
     let fmt = DateFormatter()
     
+    override init() {
+        fmt.locale = Locale(identifier: NSLocale.preferredLanguages.first!)
+    }
+    
     func shortMonthName(date: LocalDate) -> String {
         fmt.dateFormat = "MMM"
         return fmt.string(from: date.iosDate)

@@ -21,14 +21,15 @@ package org.isoron.uhabits.backend
 
 import org.isoron.platform.concurrency.*
 import org.isoron.platform.io.*
-import org.isoron.platform.time.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.components.*
+import org.isoron.uhabits.i18n.*
 import org.isoron.uhabits.models.*
 
 class Backend(databaseName: String,
               databaseOpener: DatabaseOpener,
               fileOpener: FileOpener,
+              localeHelper: LocaleHelper,
               val log: Log,
               val taskRunner: TaskRunner) {
 
@@ -43,6 +44,8 @@ class Backend(databaseName: String,
     val checkmarks = mutableMapOf<Habit, CheckmarkList>()
 
     val mainScreenDataSource: MainScreenDataSource
+
+    val strings = localeHelper.getStringsForCurrentLocale()
 
     var theme: Theme = LightTheme()
 

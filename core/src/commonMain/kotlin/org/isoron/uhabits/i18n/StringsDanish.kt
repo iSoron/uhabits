@@ -105,7 +105,7 @@ class StringsDanish : Strings() {
     override val two_times_per_week = "2 gange om ugen"
     override val five_times_per_week = "5 gange om ugen"
     override val custom_frequency = "Brugerdefinerede"
-    override val help = "Hjælp &amp; FAQ"
+    override val help = "Hjælp & FAQ"
     override val could_not_export = "Kunne ikke eksportere data"
     override val could_not_import = "Kunne ikke importere data"
     override val file_not_recognized = "Fil ikke genkendt."

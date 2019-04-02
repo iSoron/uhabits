@@ -110,7 +110,7 @@ class StringsBulgarian : Strings() {
     override val two_times_per_week = "2 пъти седмично"
     override val five_times_per_week = "5 пъти седмично"
     override val custom_frequency = "Друго ..."
-    override val help = "Помощ &amp; ЧЗВ"
+    override val help = "Помощ & ЧЗВ"
     override val could_not_export = "Неуспешно експортиране на данни."
     override val could_not_import = "Неуспешно импортиране на данни."
     override val file_not_recognized = "Файлът не е разпознат."

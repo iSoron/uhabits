@@ -25,6 +25,7 @@ import UIKit
     var backend = Backend(databaseName: "dev.db",
                           databaseOpener: IosDatabaseOpener(withLog: StandardLog()),
                           fileOpener: IosFileOpener(),
+                          localeHelper: IosLocaleHelper(NSLocale.preferredLanguages),
                           log: StandardLog(),
                           taskRunner: SequentialTaskRunner())
     

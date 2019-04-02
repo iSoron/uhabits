@@ -110,7 +110,7 @@ class StringsPolish : Strings() {
     override val two_times_per_week = "2 razy na tydzień"
     override val five_times_per_week = "5 razy na tydzień"
     override val custom_frequency = "Niestandardowo..."
-    override val help = "Pomoc &amp; FAQ"
+    override val help = "Pomoc & FAQ"
     override val could_not_export = "Eksportowanie danych nie powiodło się."
     override val could_not_import = "Importowanie danych nie powiodło się."
     override val file_not_recognized = "Plik nierozpoznany."

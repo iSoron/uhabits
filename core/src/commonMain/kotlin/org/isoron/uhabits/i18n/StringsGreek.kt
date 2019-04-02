@@ -108,7 +108,7 @@ class StringsGreek : Strings() {
     override val two_times_per_week = "2 φορές την εβδομάδα"
     override val five_times_per_week = "5 φορές την εβδομάδα"
     override val custom_frequency = "Προσαρμογή"
-    override val help = "Βοήθεια &amp; FAQ"
+    override val help = "Βοήθεια & FAQ"
     override val could_not_export = "Αποτυχία εξαγωγής."
     override val could_not_import = "Αποτυχία εισαγωγής."
     override val file_not_recognized = "Άγνωστο αρχείο."

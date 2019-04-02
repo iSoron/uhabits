@@ -108,7 +108,7 @@ class StringsRomanian : Strings() {
     override val two_times_per_week = "De 2 ori pe săptămână"
     override val five_times_per_week = "De 5 ori pe săptămână"
     override val custom_frequency = "Personalizare ..."
-    override val help = "Ajutor &amp; Întrebări frecvente"
+    override val help = "Ajutor & Întrebări frecvente"
     override val could_not_export = "Exportare nereușită."
     override val could_not_import = "Importare nereușită."
     override val file_not_recognized = "Fișier nerecunoscut."

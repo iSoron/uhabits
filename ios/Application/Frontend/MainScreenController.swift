@@ -86,11 +86,13 @@ class MainScreenCell : UITableViewCell {
 }
 
 class MainScreenController: UITableViewController, MainScreenDataSourceListener {
+    
     var backend: Backend
     var dataSource: MainScreenDataSource
     var data: MainScreenDataSource.Data?
     var theme: Theme
     var nButtons = 3
+    var strings: Strings
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()
@@ -98,6 +100,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     init(withBackend backend:Backend) {
         self.backend = backend
+        self.strings = backend.strings
         self.dataSource = backend.mainScreenDataSource
         self.theme = backend.theme
         super.init(nibName: nil, bundle: nil)
@@ -110,7 +113,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     }
 
     override func viewDidLoad() {
-        self.title = "Habits"
+        self.title = strings.main_activity_title
         
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: UIImage(named: "ic_more"),
@@ -176,27 +179,27 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     @objc func onMoreActionsClicked() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Show archived", style: .default) {
+        alert.addAction(UIAlertAction(title: strings.show_archived, style: .default) {
             (action: UIAlertAction) -> Void in
             // TODO
         })
-        alert.addAction(UIAlertAction(title: "Hide completed", style: .default) {
+        alert.addAction(UIAlertAction(title: strings.hide_completed, style: .default) {
             (action: UIAlertAction) -> Void in
             // TODO
         })
-        alert.addAction(UIAlertAction(title: "Night mode", style: .default) {
+        alert.addAction(UIAlertAction(title: strings.night_mode, style: .default) {
             (action: UIAlertAction) -> Void in
             // TODO
         })
-        alert.addAction(UIAlertAction(title: "Help & FAQ", style: .default) {
+        alert.addAction(UIAlertAction(title: strings.help, style: .default) {
             (action: UIAlertAction) -> Void in
             // TODO
         })
-        alert.addAction(UIAlertAction(title: "About", style: .default) {
+        alert.addAction(UIAlertAction(title: strings.about, style: .default) {
             (action: UIAlertAction) -> Void in
             // TODO
         })
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) {
+        alert.addAction(UIAlertAction(title: strings.cancel, style: .cancel) {
             (action: UIAlertAction) -> Void in
             // Do nothing
         })

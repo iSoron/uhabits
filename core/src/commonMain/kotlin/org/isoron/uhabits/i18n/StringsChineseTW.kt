@@ -110,7 +110,7 @@ class StringsChineseTW : Strings() {
     override val two_times_per_week = "每週兩次"
     override val five_times_per_week = "每週五次"
     override val custom_frequency = "自訂週期"
-    override val help = "幫助&amp; 常見問題"
+    override val help = "幫助& 常見問題"
     override val could_not_export = "輸出資料失敗"
     override val could_not_import = "輸入資料失敗"
     override val file_not_recognized = "無法辨識"

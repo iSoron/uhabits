@@ -7,8 +7,8 @@ convert() {
     ./androidStringsToKt.sh $INPUT_DIR/$1/strings.xml "$2" > $OUTPUT_DIR/Strings$2.kt
 }
 
-convert values ""
-convert values-ar Arabig
+#convert values ""
+convert values-ar Arabic
 convert values-bg Bulgarian
 convert values-ca Catalan
 convert values-cs Czech
