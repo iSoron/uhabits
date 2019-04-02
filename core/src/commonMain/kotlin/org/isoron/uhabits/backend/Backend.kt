@@ -70,7 +70,8 @@ class Backend(databaseName: String,
                 checkmarks[habit]?.setManualCheckmarks(checks)
             }
         }
-        mainScreenDataSource = MainScreenDataSource(habits,
+        mainScreenDataSource = MainScreenDataSource(preferences,
+                                                    habits,
                                                     checkmarks,
                                                     taskRunner)
     }
@@ -99,6 +100,4 @@ class Backend(databaseName: String,
             habitsRepository.update(modified)
         }
     }
-
-
 }

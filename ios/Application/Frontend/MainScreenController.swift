@@ -61,13 +61,11 @@ class MainScreenCell : UITableViewCell {
         fatalError()
     }
     
-    func update(name: String,
-                color: Color,
-                values: [KotlinInt]) {
-        
-        label.text = name
+    func update(habit: Habit, values: [KotlinInt], theme: Theme) {
+        var color = theme.color(paletteIndex: habit.color.index)
+        if habit.isArchived { color = theme.mediumContrastTextColor }
+        label.text = habit.name
         label.textColor = color.uicolor
-        
         ring.component = Ring(color: color,
                               percentage: Double.random(in: 0...1),
                               thickness: 2.5,
@@ -90,6 +88,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     var backend: Backend
     var dataSource: MainScreenDataSource
     var data: MainScreenDataSource.Data?
+    var preferences: Preferences
     var theme: Theme
     var nButtons = 3
     var strings: Strings
@@ -103,13 +102,10 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         self.strings = backend.strings
         self.dataSource = backend.mainScreenDataSource
         self.theme = backend.theme
+        self.preferences = backend.preferences
         super.init(nibName: nil, bundle: nil)
         self.dataSource.observable.addListener(listener: self)
         self.dataSource.requestData()
-    }
-    
-    func onDataChanged(newData: MainScreenDataSource.Data) {
-        self.data = newData
     }
 
     override func viewDidLoad() {
@@ -140,12 +136,9 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainScreenCell
-        let habit = data!.habits[row]
-        cell.update(name: habit.name,
-                    color: theme.color(paletteIndex: habit.color.index),
-                    values: data!.checkmarkValues[habit]!)
+        let habit = data!.habits[indexPath.row]
+        cell.update(habit: habit, values: data!.checkmarkValues[habit]!, theme: theme)
         return cell
     }
     
@@ -168,9 +161,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let habit = data!.habits[indexPath.row]
-        let color = theme.color(paletteIndex: habit.color.index)
-        self.navigationController?.pushViewController(DetailScreenController(habit: habit, backend: backend),
-                                                      animated: true)
+        self.navigationController?.pushViewController(DetailScreenController(habit: habit, backend: backend), animated: true)
     }
     
     @objc func onCreateHabitClicked() {
@@ -179,18 +170,47 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     @objc func onMoreActionsClicked() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: strings.show_archived, style: .default) {
-            (action: UIAlertAction) -> Void in
-            // TODO
-        })
-        alert.addAction(UIAlertAction(title: strings.hide_completed, style: .default) {
-            (action: UIAlertAction) -> Void in
-            // TODO
-        })
-        alert.addAction(UIAlertAction(title: strings.night_mode, style: .default) {
-            (action: UIAlertAction) -> Void in
-            // TODO
-        })
+        
+        if preferences.showArchived {
+            alert.addAction(UIAlertAction(title: strings.hide_archived, style: .default) {
+                (action: UIAlertAction) -> Void in
+                self.preferences.showArchived = false
+                self.dataSource.requestData()
+            })
+        } else {
+            alert.addAction(UIAlertAction(title: strings.show_archived, style: .default) {
+                (action: UIAlertAction) -> Void in
+                self.preferences.showArchived = true
+                self.dataSource.requestData()
+            })
+        }
+        
+        if preferences.showCompleted {
+            alert.addAction(UIAlertAction(title: strings.hide_completed, style: .default) {
+                (action: UIAlertAction) -> Void in
+                self.preferences.showCompleted = false
+                self.dataSource.requestData()
+            })
+        } else {
+            alert.addAction(UIAlertAction(title: strings.show_completed, style: .default) {
+                (action: UIAlertAction) -> Void in
+                self.preferences.showCompleted = true
+                self.dataSource.requestData()
+            })
+        }
+        
+        if preferences.nightMode {
+            alert.addAction(UIAlertAction(title: strings.day_mode, style: .default) {
+                (action: UIAlertAction) -> Void in
+                self.preferences.nightMode = false
+            })
+        } else {
+            alert.addAction(UIAlertAction(title: strings.night_mode, style: .default) {
+                (action: UIAlertAction) -> Void in
+                self.preferences.nightMode = true
+            })
+        }
+        
         alert.addAction(UIAlertAction(title: strings.help, style: .default) {
             (action: UIAlertAction) -> Void in
             // TODO
@@ -204,5 +224,11 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
             // Do nothing
         })
         present(alert, animated: true, completion: nil)
+    }
+    
+    func onDataChanged(newData: MainScreenDataSource.Data) {
+        data = newData
+        let sections = NSIndexSet(indexesIn: NSMakeRange(0, self.tableView.numberOfSections))
+        tableView.reloadSections(sections as IndexSet, with: .automatic)
     }
 }

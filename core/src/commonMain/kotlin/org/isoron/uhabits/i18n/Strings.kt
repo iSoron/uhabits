@@ -186,4 +186,5 @@ open class Strings() {
     open val weekends = "Weekends"
     open val year = "Year"
     open val yes = "Yes"
+    open val day_mode = "Day mode"
 }

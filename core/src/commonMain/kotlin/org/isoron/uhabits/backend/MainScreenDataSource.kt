@@ -22,8 +22,10 @@ package org.isoron.uhabits.backend
 import org.isoron.platform.concurrency.*
 import org.isoron.platform.time.*
 import org.isoron.uhabits.models.*
+import org.isoron.uhabits.models.Checkmark.Companion.UNCHECKED
 
-class MainScreenDataSource(val habits: MutableMap<Int, Habit>,
+class MainScreenDataSource(val preferences: Preferences,
+                           val habits: MutableMap<Int, Habit>,
                            val checkmarks: MutableMap<Habit, CheckmarkList>,
                            val taskRunner: TaskRunner) {
 
@@ -41,16 +43,31 @@ class MainScreenDataSource(val habits: MutableMap<Int, Habit>,
 
     fun requestData() {
         taskRunner.runInBackground {
-            val filtered = habits.values.filter { h -> !h.isArchived }
-            val currentScores = filtered.associate { it to 0.0 /* TODO */}
-            val recentCheckmarks = filtered.associate {
-                val allValues = checkmarks[it]!!.getValuesUntil(today)
-                if (allValues.size <= 7) it to allValues
-                else it to allValues.subList(0, 7)
+            var filtered = habits.values.toList()
+
+            if (!preferences.showArchived) {
+                filtered = filtered.filter { !it.isArchived }
             }
-            val data = Data(filtered, currentScores, recentCheckmarks)
+
+            val recentCheckmarks = filtered.associate { habit ->
+                val allValues = checkmarks.getValue(habit).getValuesUntil(today)
+                if (allValues.size <= 7) habit to allValues
+                else habit to allValues.subList(0, 7)
+            }
+
+            if (!preferences.showCompleted) {
+                filtered = filtered.filter { habit ->
+                    recentCheckmarks.getValue(habit)[0] == UNCHECKED
+                }
+            }
+
+            val currentScores = filtered.associate {
+                it to 0.0 /* TODO */
+            }
+
             taskRunner.runInForeground {
                 observable.notifyListeners { listener ->
+                    val data = Data(filtered, currentScores, recentCheckmarks)
                     listener.onDataChanged(data)
                 }
             }
