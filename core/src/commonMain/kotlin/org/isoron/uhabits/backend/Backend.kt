@@ -47,6 +47,8 @@ class Backend(databaseName: String,
 
     val strings = localeHelper.getStringsForCurrentLocale()
 
+    val preferences: Preferences
+
     var theme: Theme = LightTheme()
 
     init {
@@ -57,6 +59,7 @@ class Backend(databaseName: String,
         }
         database = databaseOpener.open(dbFile)
         database.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        preferences = Preferences(PreferencesRepository(database))
         habitsRepository = HabitRepository(database)
         checkmarkRepository = CheckmarkRepository(database)
         taskRunner.runInBackground {

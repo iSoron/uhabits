@@ -17,6 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits
+package org.isoron.uhabits.models
 
-const val LOOP_DATABASE_VERSION = 23
+class Preferences(private val repository: PreferencesRepository) {
+    var showArchived = repository.getBoolean("show_archived", false)
+        set(value) {
+            repository.putBoolean("show_archived", value)
+            field = value
+        }
+
+    var showCompleted = repository.getBoolean("show_completed", true)
+        set(value) {
+            repository.putBoolean("show_completed", value)
+            field = value
+        }
+
+    var nightMode = repository.getBoolean("night_mode", false)
+        set(value) {
+            repository.putBoolean("night_mode", value)
+            field = value
+        }
+}

@@ -100,7 +100,6 @@ class IosDatabase : NSObject, Database {
     if sql.isEmpty {
       fatalError("Provided SQL query is empty")
     }
-    log.debug(tag: "IosDatabase", msg: "Preparing: \(sql)")
     var statement : OpaquePointer?
     let result = sqlite3_prepare_v2(db, sql, -1, &statement, nil)
     if result == SQLITE_OK {

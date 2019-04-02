@@ -253,7 +253,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = "Loop Habit Tracker";
+				ORGANIZATIONNAME = Loop;
 				TargetAttributes = {
 					00A5B42322009F590024E00C = {
 						CreatedOnToolsVersion = 10.1;
@@ -492,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
@@ -507,6 +508,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.isoron.uhabits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Application/BridgingHeader.h;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -517,6 +519,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
@@ -532,6 +535,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.isoron.uhabits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Application/BridgingHeader.h;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

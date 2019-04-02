@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.platform.io
 
 import org.isoron.platform.io.*
 import org.isoron.uhabits.BaseTest

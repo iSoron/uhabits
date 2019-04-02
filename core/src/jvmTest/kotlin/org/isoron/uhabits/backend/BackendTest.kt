@@ -32,21 +32,21 @@ class BackendTest : BaseTest() {
     val dbFilename = "uhabits${Random().nextInt()}.db"
     val dbFile = fileOpener.openUserFile(dbFilename)
 
-    @Before
-    override fun setUp() {
-        super.setUp()
-        if (dbFile.exists()) dbFile.delete()
-        backend = Backend(dbFilename,
-                          databaseOpener,
-                          fileOpener,
-                          log,
-                          taskRunner)
-    }
-
-    @After
-    fun tearDown() {
-        dbFile.delete()
-    }
+//    @Before
+//    override fun setUp() {
+//        super.setUp()
+//        if (dbFile.exists()) dbFile.delete()
+//        backend = Backend(dbFilename,
+//                          databaseOpener,
+//                          fileOpener,
+//                          log,
+//                          taskRunner)
+//    }
+//
+//    @After
+//    fun tearDown() {
+//        dbFile.delete()
+//    }
 
 //    @Test
 //    fun testMainScreenDataSource() {
