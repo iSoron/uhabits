@@ -75,7 +75,7 @@ class HabitRepository(var db: Database) {
                      position = stmt.getInt(7),
                      unit = stmt.getText(8),
                      target = stmt.getReal(9),
-                     type = if (stmt.getInt(10) == 0) HabitType.YES_NO_HABIT else HabitType.NUMERICAL_HABIT)
+                     type = if (stmt.getInt(10) == 0) HabitType.BOOLEAN_HABIT else HabitType.NUMERICAL_HABIT)
     }
 
     private fun bindHabitToStatement(habit: Habit, statement: PreparedStatement) {

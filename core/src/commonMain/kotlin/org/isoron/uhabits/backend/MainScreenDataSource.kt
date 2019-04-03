@@ -57,7 +57,8 @@ class MainScreenDataSource(val preferences: Preferences,
 
             if (!preferences.showCompleted) {
                 filtered = filtered.filter { habit ->
-                    recentCheckmarks.getValue(habit)[0] == UNCHECKED
+                    (habit.type == HabitType.BOOLEAN_HABIT && recentCheckmarks.getValue(habit)[0] == UNCHECKED) ||
+                    (habit.type == HabitType.NUMERICAL_HABIT && recentCheckmarks.getValue(habit)[0] * 1000 < habit.target)
                 }
             }
 

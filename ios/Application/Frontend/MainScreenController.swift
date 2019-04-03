@@ -33,7 +33,6 @@ class MainScreenCell : UITableViewCell {
         
         let stack = UIStackView(frame: contentView.frame)
         stack.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        stack.backgroundColor = .red
         stack.axis = .horizontal
         stack.distribution = .fill
         stack.alignment = .center
@@ -48,7 +47,7 @@ class MainScreenCell : UITableViewCell {
         label.heightAnchor.constraint(equalToConstant: size).isActive = true
         stack.addArrangedSubview(label)
         
-        for _ in 1...3 {
+        for _ in 1...4 {
             let btn = ComponentView(frame: frame, component: nil)
             btn.backgroundColor = .white
             btn.widthAnchor.constraint(equalToConstant: size).isActive = true
@@ -75,9 +74,17 @@ class MainScreenCell : UITableViewCell {
         ring.setNeedsDisplay()
         
         for i in 0..<buttons.count {
-            buttons[i].component = CheckmarkButton(value: Int32(truncating: values[i]),
-                                                   color: color,
-                                                   theme: theme)
+            if habit.type == .numerical {
+                buttons[i].component = NumberButton(color: color,
+                                                    value: Double(truncating: values[i]) / 1000.0,
+                                                    threshold: habit.target,
+                                                    units: habit.unit,
+                                                    theme: theme)
+            } else {
+                buttons[i].component = CheckmarkButton(value: Int32(truncating: values[i]),
+                                                       color: color,
+                                                       theme: theme)
+            }
             buttons[i].setNeedsDisplay()
         }
     }
@@ -213,11 +220,13 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         
         alert.addAction(UIAlertAction(title: strings.help, style: .default) {
             (action: UIAlertAction) -> Void in
-            // TODO
+            if let link = URL(string: "http://loophabits.org/faq") {
+                UIApplication.shared.open(link)
+            }
         })
         alert.addAction(UIAlertAction(title: strings.about, style: .default) {
             (action: UIAlertAction) -> Void in
-            // TODO
+            self.navigationController?.pushViewController(AboutScreenController(), animated: true)
         })
         alert.addAction(UIAlertAction(title: strings.cancel, style: .cancel) {
             (action: UIAlertAction) -> Void in

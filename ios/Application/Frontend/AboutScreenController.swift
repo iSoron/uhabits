@@ -17,9 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models
+import UIKit
 
-enum class HabitType(val code: Int) {
-    BOOLEAN_HABIT(0),
-    NUMERICAL_HABIT(1),
+class AboutScreenController : UITableViewController {
 }

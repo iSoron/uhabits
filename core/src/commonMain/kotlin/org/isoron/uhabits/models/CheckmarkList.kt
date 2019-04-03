@@ -24,7 +24,8 @@ import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_AUTOMATIC
 import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_MANUAL
 import org.isoron.uhabits.models.Checkmark.Companion.UNCHECKED
 
-class CheckmarkList(private val frequency: Frequency) {
+class CheckmarkList(private val frequency: Frequency,
+                    private val habitType: HabitType) {
 
     private val manualCheckmarks = mutableListOf<Checkmark>()
     private val automaticCheckmarks = mutableListOf<Checkmark>()
@@ -37,8 +38,12 @@ class CheckmarkList(private val frequency: Frequency) {
         manualCheckmarks.clear()
         automaticCheckmarks.clear()
         manualCheckmarks.addAll(checks)
-        automaticCheckmarks.addAll(computeAutomaticCheckmarks(checks,
-                                                              frequency))
+        if (habitType == HabitType.NUMERICAL_HABIT) {
+            automaticCheckmarks.addAll(checks)
+        } else {
+            val computed = computeAutomaticCheckmarks(checks, frequency)
+            automaticCheckmarks.addAll(computed)
+        }
     }
 
     /**

@@ -66,7 +66,7 @@ class Backend(databaseName: String,
             habits.putAll(habitsRepository.findAll())
             for ((key, habit) in habits) {
                 val checks = checkmarkRepository.findAll(key)
-                checkmarks[habit] = CheckmarkList(habit.frequency)
+                checkmarks[habit] = CheckmarkList(habit.frequency, habit.type)
                 checkmarks[habit]?.setManualCheckmarks(checks)
             }
         }
@@ -81,7 +81,7 @@ class Backend(databaseName: String,
         habit.id = id
         habit.position = habits.size
         habits[id] = habit
-        checkmarks[habit] = CheckmarkList(habit.frequency)
+        checkmarks[habit] = CheckmarkList(habit.frequency, habit.type)
         habitsRepository.insert(habit)
         mainScreenDataSource.requestData()
     }

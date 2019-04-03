@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		006EFE4C2252E9F3008464E0 /* IosLocaleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4A2252E9D3008464E0 /* IosLocaleTest.swift */; };
 		006EFE4E2252EA2B008464E0 /* IosLocale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4D2252EA2B008464E0 /* IosLocale.swift */; };
+		006EFE50225432B8008464E0 /* AboutScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4F225432B8008464E0 /* AboutScreenController.swift */; };
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
 		00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42922009F590024E00C /* MainScreenController.swift */; };
 		00A5B42F22009F5A0024E00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A5B42E22009F5A0024E00C /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		006EFE4A2252E9D3008464E0 /* IosLocaleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosLocaleTest.swift; sourceTree = "<group>"; };
 		006EFE4D2252EA2B008464E0 /* IosLocale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosLocale.swift; sourceTree = "<group>"; };
+		006EFE4F225432B8008464E0 /* AboutScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreenController.swift; sourceTree = "<group>"; };
 		00A5B42422009F590024E00C /* uhabits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uhabits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A5B42722009F590024E00C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00A5B42922009F590024E00C /* MainScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenController.swift; sourceTree = "<group>"; };
@@ -108,9 +110,10 @@
 		006EFE49224FF41B008464E0 /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
+				006EFE4F225432B8008464E0 /* AboutScreenController.swift */,
+				00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */,
 				00D48BD22200AC1600CC4527 /* EditHabitController.swift */,
 				00A5B42922009F590024E00C /* MainScreenController.swift */,
-				00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */,
 			);
 			path = Frontend;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */,
 				00A5B42822009F590024E00C /* AppDelegate.swift in Sources */,
 				00D48BD32200AC1600CC4527 /* EditHabitController.swift in Sources */,
+				006EFE50225432B8008464E0 /* AboutScreenController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

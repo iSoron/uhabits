@@ -159,7 +159,7 @@ class CheckmarkListTest : BaseTest() {
 
     @Test
     fun testGetValuesUntil() {
-        val list = CheckmarkList(Frequency(1, 2))
+        val list = CheckmarkList(Frequency(1, 2), HabitType.BOOLEAN_HABIT)
         list.setManualCheckmarks(listOf(Checkmark(day(4), CHECKED_MANUAL),
                                         Checkmark(day(7), CHECKED_MANUAL)))
         val expected = listOf(UNCHECKED,
@@ -182,7 +182,7 @@ class CheckmarkListTest : BaseTest() {
 
     @Test
     fun testGetValuesUntil2() {
-        val list = CheckmarkList(Frequency(1, 2))
+        val list = CheckmarkList(Frequency(1, 2), HabitType.BOOLEAN_HABIT)
         val expected = listOf<Int>()
         assertEquals(expected, list.getValuesUntil(day(0)))
     }

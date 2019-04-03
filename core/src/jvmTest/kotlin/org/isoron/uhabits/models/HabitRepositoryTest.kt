@@ -44,7 +44,7 @@ class HabitRepositoryTest : BaseTest() {
                           position = 0,
                           unit = "",
                           target = 0.0,
-                          type = HabitType.YES_NO_HABIT)
+                          type = HabitType.BOOLEAN_HABIT)
 
         original1 = Habit(id = 1,
                           name = "Exercise",
@@ -55,7 +55,7 @@ class HabitRepositoryTest : BaseTest() {
                           position = 1,
                           unit = "",
                           target = 0.0,
-                          type = HabitType.YES_NO_HABIT)
+                          type = HabitType.BOOLEAN_HABIT)
 
         original2 = Habit(id = 2,
                           name = "Learn Japanese",
@@ -66,7 +66,7 @@ class HabitRepositoryTest : BaseTest() {
                           position = 2,
                           unit = "",
                           target = 0.0,
-                          type = HabitType.YES_NO_HABIT)
+                          type = HabitType.BOOLEAN_HABIT)
 
         repository = HabitRepository(db)
     }
