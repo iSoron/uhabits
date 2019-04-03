@@ -29,6 +29,7 @@ class MainScreenDataSource(val preferences: Preferences,
                            val checkmarks: MutableMap<Habit, CheckmarkList>,
                            val taskRunner: TaskRunner) {
 
+    val maxNumberOfButtons = 60
     private val today = LocalDate(2019, 3, 30) /* TODO */
 
     data class Data(val habits: List<Habit>,
@@ -51,8 +52,8 @@ class MainScreenDataSource(val preferences: Preferences,
 
             val recentCheckmarks = filtered.associate { habit ->
                 val allValues = checkmarks.getValue(habit).getValuesUntil(today)
-                if (allValues.size <= 7) habit to allValues
-                else habit to allValues.subList(0, 7)
+                if (allValues.size <= maxNumberOfButtons) habit to allValues
+                else habit to allValues.subList(0, maxNumberOfButtons)
             }
 
             if (!preferences.showCompleted) {

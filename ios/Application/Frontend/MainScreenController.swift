@@ -20,47 +20,49 @@
 import UIKit
 
 class MainScreenCell : UITableViewCell {
-    var ring: ComponentView
+    var ring = ComponentView(frame: CGRect(), component: nil)
     var label = UILabel()
     var buttons: [ComponentView] = []
-    var theme = LightTheme()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        ring = ComponentView(frame: CGRect(), component: nil)
-        
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
-        let size = CGFloat(theme.checkmarkButtonSize)
-        
-        let stack = UIStackView(frame: contentView.frame)
-        stack.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.alignment = .center
-        contentView.addSubview(stack)
-
-        ring.backgroundColor = .white
-        ring.widthAnchor.constraint(equalToConstant: size * 0.75).isActive = true
-        ring.heightAnchor.constraint(equalToConstant: size).isActive = true
-        stack.addArrangedSubview(ring)
-        
-        label.backgroundColor = .white
-        label.heightAnchor.constraint(equalToConstant: size).isActive = true
-        stack.addArrangedSubview(label)
-        
-        for _ in 1...4 {
-            let btn = ComponentView(frame: frame, component: nil)
-            btn.backgroundColor = .white
-            btn.widthAnchor.constraint(equalToConstant: size).isActive = true
-            btn.heightAnchor.constraint(equalToConstant: size).isActive = true
-            buttons.append(btn)
-            stack.addArrangedSubview(btn)
-        }
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
     
-    func update(habit: Habit, values: [KotlinInt], theme: Theme) {
+    func update(habit: Habit, values: [KotlinInt], theme: Theme, nButtons: Int) {
+        if buttons.count != nButtons {
+            buttons.removeAll()
+            for v in contentView.subviews { v.removeFromSuperview() }
+            
+            let size = CGFloat(theme.checkmarkButtonSize)
+            let stack = UIStackView(frame: contentView.frame)
+            stack.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            stack.axis = .horizontal
+            stack.distribution = .fill
+            stack.alignment = .center
+            contentView.addSubview(stack)
+            
+            ring.backgroundColor = .white
+            ring.widthAnchor.constraint(equalToConstant: size * 0.75).isActive = true
+            ring.heightAnchor.constraint(equalToConstant: size).isActive = true
+            stack.addArrangedSubview(ring)
+            
+            label.backgroundColor = .white
+            label.heightAnchor.constraint(equalToConstant: size).isActive = true
+            stack.addArrangedSubview(label)
+            
+            for _ in 1...nButtons {
+                let btn = ComponentView(frame: frame, component: nil)
+                btn.backgroundColor = .white
+                btn.widthAnchor.constraint(equalToConstant: size).isActive = true
+                btn.heightAnchor.constraint(equalToConstant: size).isActive = true
+                buttons.append(btn)
+                stack.addArrangedSubview(btn)
+            }
+        }
+        
         var color = theme.color(paletteIndex: habit.color.index)
         if habit.isArchived { color = theme.mediumContrastTextColor }
         label.text = habit.name
@@ -129,6 +131,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
         ]
         tableView.register(MainScreenCell.self, forCellReuseIdentifier: "cell")
         tableView.backgroundColor = theme.headerBackgroundColor.uicolor
+        computeNumberOfButtons(Double(view.frame.width))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -145,7 +148,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainScreenCell
         let habit = data!.habits[indexPath.row]
-        cell.update(habit: habit, values: data!.checkmarkValues[habit]!, theme: theme)
+        cell.update(habit: habit, values: data!.checkmarkValues[habit]!, theme: theme, nButtons: nButtons)
         return cell
     }
     
@@ -163,12 +166,17 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(theme.checkmarkButtonSize) + 1
+        return CGFloat(theme.checkmarkButtonSize) + 3
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let habit = data!.habits[indexPath.row]
         self.navigationController?.pushViewController(DetailScreenController(habit: habit, backend: backend), animated: true)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        computeNumberOfButtons(Double(size.width))
+        reload()
     }
     
     @objc func onCreateHabitClicked() {
@@ -237,6 +245,15 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     func onDataChanged(newData: MainScreenDataSource.Data) {
         data = newData
+        reload()
+    }
+    
+    func computeNumberOfButtons(_ width: Double) {
+        nButtons = Int((width - 220) / theme.checkmarkButtonSize)
+        nButtons = min(nButtons, Int(dataSource.maxNumberOfButtons))
+    }
+    
+    func reload() {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0, self.tableView.numberOfSections))
         tableView.reloadSections(sections as IndexSet, with: .automatic)
     }
