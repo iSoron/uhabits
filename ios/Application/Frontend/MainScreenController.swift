@@ -250,6 +250,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     func computeNumberOfButtons(_ width: Double) {
         nButtons = Int((width - 220) / theme.checkmarkButtonSize)
+        nButtons = max(nButtons, 3)
         nButtons = min(nButtons, Int(dataSource.maxNumberOfButtons))
     }
     
