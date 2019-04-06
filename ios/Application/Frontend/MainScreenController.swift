@@ -31,7 +31,7 @@ class MainScreenCell : UITableViewCell {
         fatalError()
     }
     
-    func update(habit: Habit, values: [KotlinInt], theme: Theme, nButtons: Int) {
+    func update(habit: Habit, checkmarks: [Checkmark], score: Score, theme: Theme, nButtons: Int) {
         if buttons.count != nButtons {
             buttons.removeAll()
             for v in contentView.subviews { v.removeFromSuperview() }
@@ -68,7 +68,7 @@ class MainScreenCell : UITableViewCell {
         label.text = habit.name
         label.textColor = color.uicolor
         ring.component = Ring(color: color,
-                              percentage: Double.random(in: 0...1),
+                              percentage: score.value,
                               thickness: 2.5,
                               radius: 7,
                               theme: theme,
@@ -78,12 +78,12 @@ class MainScreenCell : UITableViewCell {
         for i in 0..<buttons.count {
             if habit.type == .numerical {
                 buttons[i].component = NumberButton(color: color,
-                                                    value: Double(truncating: values[i]) / 1000.0,
+                                                    value: Double(checkmarks[i].value) / 1000.0,
                                                     threshold: habit.target,
                                                     units: habit.unit,
                                                     theme: theme)
             } else {
-                buttons[i].component = CheckmarkButton(value: Int32(truncating: values[i]),
+                buttons[i].component = CheckmarkButton(value: checkmarks[i].value,
                                                        color: color,
                                                        theme: theme)
             }
@@ -148,7 +148,11 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MainScreenCell
         let habit = data!.habits[indexPath.row]
-        cell.update(habit: habit, values: data!.checkmarkValues[habit]!, theme: theme, nButtons: nButtons)
+        cell.update(habit: habit,
+                    checkmarks: data!.checkmarks[habit]!,
+                    score: data!.scores[habit]!,
+                    theme: theme,
+                    nButtons: nButtons)
         return cell
     }
     

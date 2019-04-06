@@ -21,6 +21,11 @@ package org.isoron.uhabits.models
 
 data class Frequency(val numerator: Int,
                      val denominator: Int) {
+
+    fun toDouble(): Double {
+        return numerator.toDouble() / denominator
+    }
+
     companion object {
         val WEEKLY = Frequency(1, 7)
         val DAILY = Frequency(1, 1)

@@ -24,11 +24,11 @@ import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_AUTOMATIC
 import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_MANUAL
 import org.isoron.uhabits.models.Checkmark.Companion.UNCHECKED
 
-class CheckmarkList(private val frequency: Frequency,
-                    private val habitType: HabitType) {
+class CheckmarkList(val frequency: Frequency,
+                    val habitType: HabitType) {
 
     private val manualCheckmarks = mutableListOf<Checkmark>()
-    private val automaticCheckmarks = mutableListOf<Checkmark>()
+    private val computedCheckmarks = mutableListOf<Checkmark>()
 
     /**
      * Replaces the entire list of manual checkmarks by the ones provided. The
@@ -36,13 +36,13 @@ class CheckmarkList(private val frequency: Frequency,
      */
     fun setManualCheckmarks(checks: List<Checkmark>) {
         manualCheckmarks.clear()
-        automaticCheckmarks.clear()
+        computedCheckmarks.clear()
         manualCheckmarks.addAll(checks)
         if (habitType == HabitType.NUMERICAL_HABIT) {
-            automaticCheckmarks.addAll(checks)
+            computedCheckmarks.addAll(checks)
         } else {
-            val computed = computeAutomaticCheckmarks(checks, frequency)
-            automaticCheckmarks.addAll(computed)
+            val computed = computeCheckmarks(checks, frequency)
+            computedCheckmarks.addAll(computed)
         }
     }
 
@@ -54,22 +54,23 @@ class CheckmarkList(private val frequency: Frequency,
      * That is, the first element of the returned list corresponds to the date
      * provided.
      */
-    fun getValuesUntil(date: LocalDate): List<Int> {
-        if (automaticCheckmarks.isEmpty()) return listOf()
+    fun getUntil(date: LocalDate): List<Checkmark> {
+        if (computedCheckmarks.isEmpty()) return listOf()
 
-        val result = mutableListOf<Int>()
-        val newest = automaticCheckmarks.first().date
+        val result = mutableListOf<Checkmark>()
+        val newest = computedCheckmarks.first().date
         val distToNewest = newest.distanceTo(date)
 
+        var k = 0
         var fromIndex = 0
-        val toIndex = automaticCheckmarks.size
+        val toIndex = computedCheckmarks.size
         if (newest.isOlderThan(date)) {
-            repeat(distToNewest) { result.add(UNCHECKED) }
+            repeat(distToNewest) { result.add(Checkmark(date.minus(k++), UNCHECKED)) }
         } else {
             fromIndex = distToNewest
         }
-        val subList = automaticCheckmarks.subList(fromIndex, toIndex)
-        result.addAll(subList.map { it.value })
+        val subList = computedCheckmarks.subList(fromIndex, toIndex)
+        result.addAll(subList.map { Checkmark(date.minus(k++), it.value) })
         return result
     }
 
@@ -77,9 +78,9 @@ class CheckmarkList(private val frequency: Frequency,
         /**
          * Computes the list of automatic checkmarks a list of manual ones.
          */
-        fun computeAutomaticCheckmarks(checks: List<Checkmark>,
-                                       frequency: Frequency
-                                      ): MutableList<Checkmark> {
+        fun computeCheckmarks(checks: List<Checkmark>,
+                              frequency: Frequency
+                             ): MutableList<Checkmark> {
 
             val intervals = buildIntervals(checks, frequency)
             snapIntervalsTogether(intervals)

@@ -114,8 +114,7 @@ class CheckmarkListTest : BaseTest() {
                               Checkmark(day(8), CHECKED_AUTOMATIC),
                               Checkmark(day(9), CHECKED_AUTOMATIC),
                               Checkmark(day(10), CHECKED_MANUAL))
-        val actual = CheckmarkList.buildCheckmarksFromIntervals(checks,
-                                                                intervals)
+        val actual = CheckmarkList.buildCheckmarksFromIntervals(checks, intervals)
         assertEquals(expected, actual)
     }
 
@@ -129,8 +128,7 @@ class CheckmarkListTest : BaseTest() {
                               Checkmark(day(3), CHECKED_AUTOMATIC),
                               Checkmark(day(4), CHECKED_AUTOMATIC),
                               Checkmark(day(5), CHECKED_AUTOMATIC))
-        val actual = CheckmarkList.buildCheckmarksFromIntervals(reps,
-                                                                intervals)
+        val actual = CheckmarkList.buildCheckmarksFromIntervals(reps, intervals)
         assertEquals(expected, actual)
     }
 
@@ -152,38 +150,37 @@ class CheckmarkListTest : BaseTest() {
                               Checkmark(day(8), CHECKED_AUTOMATIC),
                               Checkmark(day(9), CHECKED_AUTOMATIC),
                               Checkmark(day(10), CHECKED_MANUAL))
-        val actual = CheckmarkList.computeAutomaticCheckmarks(checks,
-                                                              Frequency(1, 3))
+        val actual = CheckmarkList.computeCheckmarks(checks, Frequency(1, 3))
         assertEquals(expected, actual)
     }
 
     @Test
-    fun testGetValuesUntil() {
+    fun testGetUntil() {
         val list = CheckmarkList(Frequency(1, 2), HabitType.BOOLEAN_HABIT)
         list.setManualCheckmarks(listOf(Checkmark(day(4), CHECKED_MANUAL),
                                         Checkmark(day(7), CHECKED_MANUAL)))
-        val expected = listOf(UNCHECKED,
-                              UNCHECKED,
-                              UNCHECKED,
-                              CHECKED_AUTOMATIC,
-                              CHECKED_MANUAL,
-                              UNCHECKED,
-                              CHECKED_AUTOMATIC,
-                              CHECKED_MANUAL)
-        assertEquals(expected, list.getValuesUntil(day(0)))
+        val expected = listOf(Checkmark(day(0), UNCHECKED),
+                              Checkmark(day(1), UNCHECKED),
+                              Checkmark(day(2), UNCHECKED),
+                              Checkmark(day(3), CHECKED_AUTOMATIC),
+                              Checkmark(day(4), CHECKED_MANUAL),
+                              Checkmark(day(5), UNCHECKED),
+                              Checkmark(day(6), CHECKED_AUTOMATIC),
+                              Checkmark(day(7), CHECKED_MANUAL))
+        assertEquals(expected, list.getUntil(day(0)))
 
-        val expected2 = listOf(CHECKED_AUTOMATIC,
-                               CHECKED_MANUAL,
-                               UNCHECKED,
-                               CHECKED_AUTOMATIC,
-                               CHECKED_MANUAL)
-        assertEquals(expected2, list.getValuesUntil(day(3)))
+        val expected2 = listOf(Checkmark(day(3), CHECKED_AUTOMATIC),
+                               Checkmark(day(4), CHECKED_MANUAL),
+                               Checkmark(day(5), UNCHECKED),
+                               Checkmark(day(6), CHECKED_AUTOMATIC),
+                               Checkmark(day(7), CHECKED_MANUAL))
+        assertEquals(expected2, list.getUntil(day(3)))
     }
 
     @Test
     fun testGetValuesUntil2() {
         val list = CheckmarkList(Frequency(1, 2), HabitType.BOOLEAN_HABIT)
-        val expected = listOf<Int>()
-        assertEquals(expected, list.getValuesUntil(day(0)))
+        val expected = listOf<Checkmark>()
+        assertEquals(expected, list.getUntil(day(0)))
     }
 }

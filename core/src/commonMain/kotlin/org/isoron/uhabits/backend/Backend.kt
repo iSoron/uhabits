@@ -43,6 +43,8 @@ class Backend(databaseName: String,
 
     val checkmarks = mutableMapOf<Habit, CheckmarkList>()
 
+    val scores = mutableMapOf<Habit, ScoreList>()
+
     val mainScreenDataSource: MainScreenDataSource
 
     val strings = localeHelper.getStringsForCurrentLocale()
@@ -68,11 +70,13 @@ class Backend(databaseName: String,
                 val checks = checkmarkRepository.findAll(key)
                 checkmarks[habit] = CheckmarkList(habit.frequency, habit.type)
                 checkmarks[habit]?.setManualCheckmarks(checks)
+                scores[habit] = ScoreList(checkmarks[habit]!!)
             }
         }
         mainScreenDataSource = MainScreenDataSource(preferences,
                                                     habits,
                                                     checkmarks,
+                                                    scores,
                                                     taskRunner)
     }
 
