@@ -26,15 +26,26 @@ repositories {
 }
 
 kotlin {
-    jvm()
-    js()
-
     targets {
         def sdkName = System.getenv('SDK_NAME')
         def isIphone = sdkName?.startsWith("iphoneos")
         def iosPreset = isIphone ? presets.iosArm64 : presets.iosX64
+
         fromPreset(iosPreset, 'ios') {
             compilations.main.outputKinds('FRAMEWORK')
+        }
+
+        fromPreset(presets.jvm, 'jvm') {
+
+        }
+
+        fromPreset(presets.js, 'js') {
+            compilations.main.kotlinOptions {
+                moduleKind = "commonjs"
+            }
+            compilations.test.kotlinOptions {
+                moduleKind = "commonjs"
+            }
         }
     }
 

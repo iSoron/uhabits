@@ -22,48 +22,44 @@ package org.isoron.uhabits.models
 import org.isoron.platform.time.*
 import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_MANUAL
 import org.isoron.uhabits.models.Frequency.Companion.DAILY
-import org.isoron.uhabits.models.HabitType.*
 import org.isoron.uhabits.models.ScoreList.Companion.compute
-import org.junit.Assert.*
-import org.junit.Test
-import java.lang.Math.*
 import kotlin.test.*
 
 class ScoreListTest {
-    val epsilon = 1e-6
     val today = LocalDate(2019, 1, 1)
 
     @Test
-    fun `compute with daily habit`() {
+    fun computeWithDailyHabit() {
         val freq = DAILY
         var check = 1
-        assertEquals(compute(freq, 0.0, check), 0.051922, epsilon)
-        assertEquals(compute(freq, 0.5, check), 0.525961, epsilon)
-        assertEquals(compute(freq, 0.75, check), 0.762980, epsilon)
+        assertEquals(compute(freq, 0.0, check), 0.051922)
+        assertEquals(compute(freq, 0.5, check), 0.525961)
+        assertEquals(compute(freq, 0.75, check), 0.762980)
 
         check = 0
-        assertEquals(compute(freq, 0.0, check), 0.0, epsilon)
-        assertEquals(compute(freq, 0.5, check), 0.474039, epsilon)
-        assertEquals(compute(freq, 0.75, check), 0.711058, epsilon)
+        assertEquals(compute(freq, 0.0, check), 0.0)
+        assertEquals(compute(freq, 0.5, check), 0.474038)
+        assertEquals(compute(freq, 0.75, check), 0.711058)
     }
 
     @Test
-    fun `compute with non-daily habit`() {
+    fun computeWithNonDailyHabit() {
         var check = 1
         val freq = Frequency(1, 3)
-        assertEquals(compute(freq, 0.0, check), 0.017615, epsilon)
-        assertEquals(compute(freq, 0.5, check), 0.508807, epsilon)
-        assertEquals(compute(freq, 0.75, check), 0.754404, epsilon)
+        assertEquals(compute(freq, 0.0, check), 0.017615)
+        assertEquals(compute(freq, 0.5, check), 0.508807)
+        assertEquals(compute(freq, 0.75, check), 0.754403)
 
         check = 0
-        assertEquals(compute(freq, 0.0, check), 0.0, epsilon)
-        assertEquals(compute(freq, 0.5, check), 0.491192, epsilon)
-        assertEquals(compute(freq, 0.75, check), 0.736788, epsilon)
+        assertEquals(compute(freq, 0.0, check), 0.0)
+        assertEquals(compute(freq, 0.5, check), 0.491192)
+        assertEquals(compute(freq, 0.75, check), 0.736788)
     }
 
     @Test
-    fun `getValueUntil with boolean habit`() {
-        val checks = CheckmarkList(DAILY, BOOLEAN_HABIT)
+    fun getValueUntilWithBooleanHabit() {
+        val checks = CheckmarkList(DAILY,
+                                   HabitType.BOOLEAN_HABIT)
         checks.setManualCheckmarks((0..19).map {
             Checkmark(today.minus(it), CHECKED_MANUAL)
         })
@@ -89,6 +85,7 @@ class ScoreListTest {
                               Score(today.minus(17), 0.147818),
                               Score(today.minus(18), 0.101148),
                               Score(today.minus(19), 0.051922))
+
         assertEquals(expected, actual)
     }
 }
