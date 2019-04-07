@@ -19,9 +19,9 @@
 		00C0C6BD22465F65003D8AF0 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BA22465F65003D8AF0 /* fonts */; };
 		00C0C6BE22465F65003D8AF0 /* databases in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BB22465F65003D8AF0 /* databases */; };
 		00C0C6BF22465F65003D8AF0 /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BC22465F65003D8AF0 /* migrations */; };
-		00C0C6CA2246E543003D8AF0 /* core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* core.framework */; };
-		00C0C6CB2246E543003D8AF0 /* core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* core.framework */; };
-		00C0C6CC2246E550003D8AF0 /* core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00C0C6CA2246E543003D8AF0 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
+		00C0C6CB2246E543003D8AF0 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
+		00C0C6CC2246E550003D8AF0 /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C0C6CE2246EFB3003D8AF0 /* IosExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6CD2246EFB3003D8AF0 /* IosExtensions.swift */; };
 		00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D022470705003D8AF0 /* IosCanvas.swift */; };
 		00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */; };
@@ -49,7 +49,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				00C0C6CC2246E550003D8AF0 /* core.framework in Embed Frameworks */,
+				00C0C6CC2246E550003D8AF0 /* main.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,7 +74,7 @@
 		00C0C6BA22465F65003D8AF0 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		00C0C6BB22465F65003D8AF0 /* databases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = databases; sourceTree = "<group>"; };
 		00C0C6BC22465F65003D8AF0 /* migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = migrations; sourceTree = "<group>"; };
-		00C0C6C92246E543003D8AF0 /* core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = core.framework; path = ../core/build/bin/iOS/main/debug/framework/core.framework; sourceTree = "<group>"; };
+		00C0C6C92246E543003D8AF0 /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = ../core/build/bin/ios/mainDebugFramework/main.framework; sourceTree = "<group>"; };
 		00C0C6CD2246EFB3003D8AF0 /* IosExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosExtensions.swift; sourceTree = "<group>"; };
 		00C0C6D022470705003D8AF0 /* IosCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosCanvas.swift; sourceTree = "<group>"; };
 		00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosCanvasTest.swift; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6CA2246E543003D8AF0 /* core.framework in Frameworks */,
+				00C0C6CA2246E543003D8AF0 /* main.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6CB2246E543003D8AF0 /* core.framework in Frameworks */,
+				00C0C6CB2246E543003D8AF0 /* main.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +162,7 @@
 		00C0C6B0224658CD003D8AF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				00C0C6C92246E543003D8AF0 /* core.framework */,
+				00C0C6C92246E543003D8AF0 /* main.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -319,7 +319,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../core\n./gradlew linkIOS\n";
+			shellScript = "cd ../core\n./gradlew linkMainIos\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -493,10 +493,10 @@
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/",
+					"$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/core.framework/Headers/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/main.framework/Headers/";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -520,10 +520,10 @@
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/",
+					"$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/core.framework/Headers/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/main.framework/Headers/";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -545,8 +545,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/core.framework/Headers/";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/main.framework/Headers/";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -568,8 +568,8 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/iOS/main/debug/framework/core.framework/Headers/";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/main.framework/Headers/";
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -19,11 +19,6 @@
 
 package org.isoron.platform.io
 
-import kotlin.test.*
-
-class StringsTest {
-    @Test
-    fun testSprintf() {
-        assertEquals("Number 004", sprintf("Number %03d", 4))
-    }
+actual fun sprintf(format: String, vararg args: Any?): String {
+    TODO()
 }

@@ -17,34 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
-    }
-
-    dependencies {
-        classpath "com.android.tools.build:gradle:3.2.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
-    }
+plugins {
+    id 'kotlin-multiplatform' version '1.3.21'
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
-    }
+repositories {
+    mavenCentral()
 }
-
-apply plugin:"kotlin-multiplatform"
 
 kotlin {
+    jvm()
+    js()
+
     targets {
-        def iosPreset = System.getenv('SDK_NAME')?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
-        fromPreset(presets.jvm, 'jvm')
-        fromPreset(iosPreset, 'iOS') {
+        def sdkName = System.getenv('SDK_NAME')
+        def isIphone = sdkName?.startsWith("iphoneos")
+        def iosPreset = isIphone ? presets.iosArm64 : presets.iosX64
+        fromPreset(iosPreset, 'ios') {
             compilations.main.outputKinds('FRAMEWORK')
         }
     }
@@ -52,43 +41,41 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                implementation kotlin('stdlib-common')
             }
         }
+
         commonTest {
             dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-test-common'
-                implementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
             }
         }
+
         jvmMain {
             dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                implementation kotlin('stdlib-jdk8')
             }
         }
+
         jvmTest {
             dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-test'
-                implementation 'org.jetbrains.kotlin:kotlin-test-junit'
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
                 implementation 'org.xerial:sqlite-jdbc:3.25.2'
             }
         }
-    }
 
-    task iosTest {
-        dependsOn 'linkTestDebugExecutableIOS'
-        group = JavaBasePlugin.VERIFICATION_GROUP
-        description = "Runs tests for target 'ios' on an iOS simulator"
+        jsMain {
+            dependencies {
+                implementation kotlin('stdlib-js')
+            }
+        }
 
-        doLast {
-            def binary = kotlin.targets.iOS.compilations.test.getBinary('EXECUTABLE', 'DEBUG')
-            exec {
-                commandLine 'xcrun', 'simctl', 'spawn', "iPhone 8", binary.absolutePath
+        jsTest {
+            dependencies {
+                implementation kotlin('test-js')
             }
         }
     }
-}
-
-configurations {
-    compileClasspath
 }
