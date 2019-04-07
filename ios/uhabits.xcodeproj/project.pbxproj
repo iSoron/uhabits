@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		006EFE4C2252E9F3008464E0 /* IosLocaleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4A2252E9D3008464E0 /* IosLocaleTest.swift */; };
 		006EFE4E2252EA2B008464E0 /* IosLocale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4D2252EA2B008464E0 /* IosLocale.swift */; };
 		006EFE50225432B8008464E0 /* AboutScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4F225432B8008464E0 /* AboutScreenController.swift */; };
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
@@ -58,7 +57,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		006EFE4A2252E9D3008464E0 /* IosLocaleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosLocaleTest.swift; sourceTree = "<group>"; };
 		006EFE4D2252EA2B008464E0 /* IosLocale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosLocale.swift; sourceTree = "<group>"; };
 		006EFE4F225432B8008464E0 /* AboutScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreenController.swift; sourceTree = "<group>"; };
 		00A5B42422009F590024E00C /* uhabits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uhabits.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,7 +198,6 @@
 				00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */,
 				00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */,
 				00C0C6A122465365003D8AF0 /* IosFilesTest.swift */,
-				006EFE4A2252E9D3008464E0 /* IosLocaleTest.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -351,7 +348,6 @@
 			files = (
 				00C0C6DD2247E6C4003D8AF0 /* IosDatesTest.swift in Sources */,
 				00C0C6A52246537A003D8AF0 /* IosFilesTest.swift in Sources */,
-				006EFE4C2252E9F3008464E0 /* IosLocaleTest.swift in Sources */,
 				00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */,
 				00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */,
 			);

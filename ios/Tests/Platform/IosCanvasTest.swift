@@ -27,14 +27,14 @@ class IosCanvasTest : XCTestCase {
         UIGraphicsBeginImageContext(CGSize(width: 500, height: 400))
         
         let canvas = IosCanvas(withBounds: CGRect(x: 0, y: 0, width: 500, height: 400))
-        canvas.setColor(color: Color(argb: 0x303030))
+        canvas.setColor(color: Color(rgb: 0x303030))
         canvas.fillRect(x: 0.0, y: 0.0, width: 500.0, height: 400.0)
         
-        canvas.setColor(color: Color(argb: 0x606060))
+        canvas.setColor(color: Color(rgb: 0x606060))
         canvas.setStrokeWidth(size: 25.0)
         canvas.drawRect(x: 100.0, y: 100.0, width: 300.0, height: 200.0)
         
-        canvas.setColor(color: Color(argb: 0xFFFF00))
+        canvas.setColor(color: Color(rgb: 0xFFFF00))
         canvas.setStrokeWidth(size: 1.0)
         canvas.fillCircle(centerX: 50.0, centerY: 50.0, radius: 30.0)
         canvas.fillArc(centerX: 50.0, centerY: 150.0, radius: 30.0, startAngle: 90.0, swipeAngle: 135.0)
@@ -45,13 +45,13 @@ class IosCanvasTest : XCTestCase {
         canvas.drawRect(x: 0.0, y: 200.0, width: 100.0, height: 100.0)
         canvas.drawRect(x: 0.0, y: 300.0, width: 100.0, height: 100.0)
         
-        canvas.setColor(color: Color(argb: 0xFF0000))
+        canvas.setColor(color: Color(rgb: 0xFF0000))
         canvas.setStrokeWidth(size: 2.0)
         canvas.drawLine(x1: 0.0, y1: 0.0, x2: 500.0, y2: 400.0)
         canvas.drawLine(x1: 500.0, y1: 0.0, x2: 0.0, y2: 400.0)
         
-        canvas.setTextSize(size: 50.0)
-        canvas.setColor(color: Color(argb: 0x00FF00))
+        canvas.setFontSize(size: 50.0)
+        canvas.setColor(color: Color(rgb: 0x00FF00))
         canvas.drawText(text: "Test", x: 250.0, y: 200.0)
         
         canvas.setFont(font: Font.bold)
