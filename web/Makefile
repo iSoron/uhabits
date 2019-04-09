@@ -10,7 +10,7 @@ core:
 
 $(test_bundle): test/index.js core
 	mkdir -p build/bundles
-	npx webpack $< --silent --mode development --target web --output $@
+	npx webpack $< --mode development --target web --output $@
 
 test: $(test_bundle) $(node_modules)
 	open test/index.html

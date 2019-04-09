@@ -19,14 +19,12 @@
 
 package org.isoron.platform.io
 
-import org.isoron.platform.io.*
-import org.isoron.uhabits.BaseTest
-import org.junit.Test
-import kotlin.test.assertEquals
+import kotlin.test.*
 
-class JavaDatabaseTest : BaseTest() {
+class JsDatabaseTest {
     @Test
     fun testUsage() {
-        DatabaseTest(db).testUsage()
+        val db = eval("new SQL.Database()")
+        DatabaseTest(JsDatabase(db)).testUsage()
     }
 }

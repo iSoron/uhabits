@@ -1,3 +1,3 @@
-var assert = require('assert');
-var coreTest = require('core_test');
-document.coreTest = coreTest
+let assert = require('assert');
+let coreTest = require('core_test');
+document.coreTest = coreTest;

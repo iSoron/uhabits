@@ -47,7 +47,7 @@ interface Database {
     fun close()
 }
 
-fun Database.runInBackground(sql: String) {
+fun Database.run(sql: String) {
     val stmt = prepareStatement(sql)
     stmt.step()
     stmt.finalize()
@@ -72,13 +72,13 @@ fun Database.nextId(tableName: String): Int {
     }
 }
 
-fun Database.begin() = runInBackground("begin")
+fun Database.begin() = run("begin")
 
-fun Database.commit() = runInBackground("commit")
+fun Database.commit() = run("commit")
 
 fun Database.getVersion() = queryInt("pragma user_version")
 
-fun Database.setVersion(v: Int) = runInBackground("pragma user_version = $v")
+fun Database.setVersion(v: Int) = run("pragma user_version = $v")
 
 fun Database.migrateTo(newVersion: Int, fileOpener: FileOpener, log: Log) {
     val currentVersion = getVersion()
@@ -96,7 +96,7 @@ fun Database.migrateTo(newVersion: Int, fileOpener: FileOpener, log: Log) {
         val migrationFile = fileOpener.openResourceFile(filename)
         for (line in migrationFile.readLines()) {
             if (line.isEmpty()) continue
-            runInBackground(line)
+            run(line)
         }
         setVersion(v)
     }
