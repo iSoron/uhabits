@@ -10,12 +10,10 @@ core:
 
 $(test_bundle): test/index.js core
 	mkdir -p build/bundles
-	npx webpack $< --silent --mode production --output $@
+	npx webpack $< --silent --mode development --target web --output $@
 
 test: $(test_bundle) $(node_modules)
-	mkdir -p build/reports
-	npx mocha $@ --reporter xunit > build/reports/tests.xml
-	npx mocha $@
+	open test/index.html
 
 clean:
 	rm -rf build

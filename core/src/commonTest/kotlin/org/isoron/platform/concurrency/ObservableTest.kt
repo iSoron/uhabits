@@ -19,7 +19,6 @@
 
 package org.isoron.platform.concurrency
 
-import java.util.concurrent.*
 import kotlin.test.*
 
 class ObservableTest {
@@ -29,20 +28,19 @@ class ObservableTest {
     }
 
     @Test
-    fun test() {
-        val latch = CountDownLatch(1)
+    fun testNotifyListeners() {
+        var wasCalled = false
+
         val listener = object : TestListener {
             override fun onDataChanged(data: Int) {
                 assertEquals(42, data)
-                latch.countDown()
+                wasCalled = true
             }
         }
+
         val observable = Observable<TestListener>()
         observable.addListener(listener)
-        observable.notifyListeners { l ->
-            l.onDataChanged(42)
-        }
-        observable.removeListener(listener)
-        assertTrue(latch.await(3, TimeUnit.SECONDS))
+        observable.notifyListeners { it.onDataChanged(42) }
+        assertTrue(wasCalled)
     }
 }

@@ -17,28 +17,21 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.platform.gui
 
-import org.isoron.platform.gui.*
-import org.junit.*
-import java.awt.image.*
-import java.io.*
-import javax.imageio.*
+import org.w3c.dom.*
 
-
-class JavaCanvasTest : CanvasTest.Platform {
-    private val commonTest = CanvasTest(this)
-
-    @Test
-    fun testDrawing() = commonTest.testDrawing()
+class HtmlCanvasTest(val canvas: HTMLCanvasElement) : CanvasTest.Platform {
 
     override fun createCanvas(width: Int, height: Int): Canvas {
-        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
-        return JavaCanvas(image, pixelScale=1.0)
+        return HtmlCanvas(canvas)
     }
 
     override fun writePng(canvas: Canvas, filename: String) {
-        val javaCanvas = canvas as JavaCanvas
-        ImageIO.write(javaCanvas.image, "png", File("/tmp/JavaCanvasTest.png"))
+    }
+
+    fun testDrawing() {
+        val test = CanvasTest(this)
+        test.testDrawing()
     }
 }

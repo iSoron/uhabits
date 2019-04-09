@@ -25,8 +25,8 @@ import UIKit
 class IosCanvasTest : XCTestCase {
     func testDraw() {
         UIGraphicsBeginImageContext(CGSize(width: 500, height: 400))
-        
         let canvas = IosCanvas(withBounds: CGRect(x: 0, y: 0, width: 500, height: 400))
+        
         canvas.setColor(color: Color(rgb: 0x303030))
         canvas.fillRect(x: 0.0, y: 0.0, width: 500.0, height: 400.0)
         

@@ -23,6 +23,7 @@ import org.isoron.platform.io.*
 import java.awt.*
 import java.awt.RenderingHints.*
 import java.awt.font.*
+import java.awt.image.*
 import kotlin.math.*
 
 fun createFont(path: String): java.awt.Font {
@@ -34,15 +35,16 @@ private val NOTO_REGULAR_FONT = createFont("fonts/NotoSans-Regular.ttf")
 private val NOTO_BOLD_FONT = createFont("fonts/NotoSans-Bold.ttf")
 private val FONT_AWESOME_FONT = createFont("fonts/FontAwesome.ttf")
 
-class JavaCanvas(val g2d: Graphics2D,
-                 val widthPx: Int,
-                 val heightPx: Int,
+class JavaCanvas(val image: BufferedImage,
                  val pixelScale: Double = 2.0) : Canvas {
 
     private val frc = FontRenderContext(null, true, true)
     private var fontSize = 12.0
     private var font = Font.REGULAR
     private var textAlign = TextAlign.CENTER
+    val widthPx = image.width
+    val heightPx = image.height
+    val g2d = image.createGraphics()
 
     init {
         g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);

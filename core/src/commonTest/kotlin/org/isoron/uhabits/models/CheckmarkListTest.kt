@@ -20,14 +20,12 @@
 package org.isoron.uhabits.models
 
 import org.isoron.platform.time.*
-import org.isoron.uhabits.*
 import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_AUTOMATIC
 import org.isoron.uhabits.models.Checkmark.Companion.CHECKED_MANUAL
 import org.isoron.uhabits.models.Checkmark.Companion.UNCHECKED
-import org.junit.Test
 import kotlin.test.*
 
-class CheckmarkListTest : BaseTest() {
+class CheckmarkListTest {
 
     private val today = LocalDate(2019, 1, 30)
 

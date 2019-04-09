@@ -79,7 +79,7 @@ open class BaseViewTest {
                       component: Component,
                       threshold: Double = 1e-3) {
         val actual = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-        val canvas = JavaCanvas(actual.createGraphics(), width, height)
+        val canvas = JavaCanvas(actual)
         val expectedFile: JavaResourceFile
         val actualPath = "/tmp/${expectedPath}"
 

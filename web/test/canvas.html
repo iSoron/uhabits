@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas Test</title>
+    <style>
+      @font-face {
+        font-family: "FontAwesome";
+        src: url(FontAwesome.ttf) format("truetype");
+      }
+    </style>
+  </head>
+  <body>
+    <script src="../build/bundles/test.js"></script>
+    <canvas id="canvas" width=500 height=400></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const test = new document.coreTest.org.isoron.platform.gui.HtmlCanvasTest(canvas);
+      test.testDrawing();
+    </script>
+  </body>
+</html>
