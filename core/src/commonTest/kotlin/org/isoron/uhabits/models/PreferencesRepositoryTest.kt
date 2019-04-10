@@ -23,8 +23,8 @@ import org.isoron.*
 import kotlin.test.*
 
 class PreferencesRepositoryTest : BaseTest() {
-    @Test
-    fun testUsage() {
+    suspend fun testUsage() {
+        val db = resolver.getDatabase()
         val prefs = PreferencesRepository(db)
 
         assertEquals("default", prefs.getString("non_existing_key", "default"))

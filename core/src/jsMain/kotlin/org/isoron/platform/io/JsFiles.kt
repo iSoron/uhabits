@@ -19,8 +19,10 @@
 
 package org.isoron.platform.io
 
+import kotlinx.coroutines.*
 import org.w3c.dom.events.*
 import org.w3c.xhr.*
+import kotlin.js.*
 
 class JsFileOpener : FileOpener {
     override fun openUserFile(filename: String): UserFile {
@@ -34,21 +36,26 @@ class JsFileOpener : FileOpener {
 
 class JsUserFile(filename: String) : UserFile {
     override fun delete() {
+        TODO()
     }
 
     override fun exists(): Boolean {
-        return false
+        TODO()
     }
 }
 
 class JsResourceFile(val filename: String) : ResourceFile {
-    override fun readLines(): List<String> {
-        val xhr = XMLHttpRequest()
-        xhr.open("GET", "/assets/$filename", false)
-        xhr.send()
-        return xhr.responseText.lines()
+    override suspend fun lines(): List<String> {
+        return Promise<List<String>> { resolve, reject ->
+            val xhr = XMLHttpRequest()
+            xhr.open("GET", "/assets/$filename", true)
+            xhr.onload = { resolve(xhr.responseText.lines()) }
+            xhr.onerror = { reject(Exception()) }
+            xhr.send()
+        }.await()
     }
 
     override fun copyTo(dest: UserFile) {
+        TODO()
     }
 }

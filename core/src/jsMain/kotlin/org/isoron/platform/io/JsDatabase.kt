@@ -29,6 +29,7 @@ class JsPreparedStatement(val stmt: dynamic) : PreparedStatement {
     }
 
     override fun finalize() {
+        stmt.free()
     }
 
     override fun getInt(index: Int): Int {

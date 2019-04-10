@@ -53,6 +53,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation kotlin('stdlib-common')
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.2.0-alpha-2'
             }
         }
 
@@ -66,6 +67,7 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation kotlin('stdlib-jdk8')
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2'
             }
         }
 
@@ -80,6 +82,7 @@ kotlin {
         jsMain {
             dependencies {
                 implementation kotlin('stdlib-js')
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.2.0-alpha-2'
             }
         }
 

@@ -19,6 +19,7 @@
 
 package org.isoron
 
+import kotlinx.coroutines.*
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import org.isoron.uhabits.*
@@ -34,7 +35,7 @@ actual class DependencyResolver actual constructor() {
 
     actual fun getFileOpener(): FileOpener = fileOpener
 
-    actual fun getDatabase(): Database {
+    actual suspend fun getDatabase(): Database {
         val dbFile = fileOpener.openUserFile("test.sqlite3")
         if (dbFile.exists()) dbFile.delete()
         val db = databaseOpener.open(dbFile)

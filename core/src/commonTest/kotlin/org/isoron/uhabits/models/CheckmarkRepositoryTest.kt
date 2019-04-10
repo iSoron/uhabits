@@ -25,8 +25,8 @@ import kotlin.test.*
 
 
 class CheckmarkRepositoryTest : BaseTest() {
-    @Test
-    fun testCRUD() {
+    suspend fun testCRUD() {
+        val db = resolver.getDatabase()
         val habitA = 10
         var checkmarksA = listOf(Checkmark(LocalDate(2019, 1, 15), 100),
                                  Checkmark(LocalDate(2019, 1, 7), 500),

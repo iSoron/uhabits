@@ -17,20 +17,26 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron
 
-import org.isoron.*
-import kotlin.test.*
+import kotlinx.coroutines.*
+import org.isoron.platform.io.*
+import org.isoron.uhabits.models.*
+import org.junit.*
 
-class FilesTest() : BaseTest() {
-    suspend fun testLines() {
-        val hello = fileOpener.openResourceFile("hello.txt")
-        var lines = hello.lines()
-        assertEquals("Hello World!", lines[0])
-        assertEquals("This is a resource.", lines[1])
+class JavaAsyncTests {
+    @Test
+    fun testLines() = runBlocking { FilesTest().testLines() }
 
-        val migration = fileOpener.openResourceFile("migrations/012.sql")
-        lines = migration.lines()
-        assertEquals("delete from Score", lines[0])
-    }
+    @Test
+    fun testDatabase() = runBlocking { DatabaseTest().testUsage() }
+
+    @Test
+    fun testCheckmarkRepository() = runBlocking { CheckmarkRepositoryTest().testCRUD() }
+
+    @Test
+    fun testHabitRepository() = runBlocking { HabitRepositoryTest().testCRUD() }
+
+    @Test
+    fun testPreferencesRepository() = runBlocking { PreferencesRepositoryTest().testUsage() }
 }

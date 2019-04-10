@@ -29,11 +29,11 @@ interface Log {
  */
 class StandardLog : Log {
     override fun info(tag: String, msg: String) {
-        println(sprintf("I/%-20s %s", tag, msg))
+        println("I/$tag $msg")
     }
 
     override fun debug(tag: String, msg: String) {
-        println(sprintf("D/%-20s %s", tag, msg))
+        println("D/$tag $msg")
     }
 
 }

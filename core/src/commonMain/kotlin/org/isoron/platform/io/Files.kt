@@ -56,6 +56,6 @@ interface UserFile {
  * files or translations. These files cannot be deleted.
  */
 interface ResourceFile {
-    fun readLines(): List<String>
     fun copyTo(dest: UserFile)
+    suspend fun lines(): List<String>
 }

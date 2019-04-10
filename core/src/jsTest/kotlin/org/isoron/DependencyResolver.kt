@@ -21,15 +21,18 @@ package org.isoron
 
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
+import org.isoron.uhabits.*
 import org.w3c.dom.*
 import kotlin.browser.*
 
 actual class DependencyResolver {
     actual fun getFileOpener(): FileOpener = JsFileOpener()
 
-    actual fun getDatabase(): Database {
-        val db = eval("new SQL.Database()")
-        return JsDatabase(db)
+    actual suspend fun getDatabase(): Database {
+        val nativeDB = eval("new SQL.Database()")
+        val db = JsDatabase(nativeDB)
+        db.migrateTo(LOOP_DATABASE_VERSION, getFileOpener(), StandardLog())
+        return db
     }
 
     actual fun createCanvas(width: Int, height: Int): Canvas {

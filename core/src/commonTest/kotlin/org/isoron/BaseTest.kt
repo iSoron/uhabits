@@ -22,5 +22,4 @@ package org.isoron
 open class BaseTest {
     val resolver = DependencyResolver()
     val fileOpener = resolver.getFileOpener()
-    val db = resolver.getDatabase()
 }

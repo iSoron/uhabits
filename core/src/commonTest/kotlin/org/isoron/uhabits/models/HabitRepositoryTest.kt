@@ -25,52 +25,43 @@ import org.isoron.platform.io.*
 import kotlin.test.*
 
 class HabitRepositoryTest() : BaseTest() {
+    suspend fun testCRUD() {
+        val db = resolver.getDatabase()
+        val original0 = Habit(id = 0,
+                              name = "Wake up early",
+                              description = "Did you wake up before 6am?",
+                              frequency = Frequency(1, 1),
+                              color = PaletteColor(3),
+                              isArchived = false,
+                              position = 0,
+                              unit = "",
+                              target = 0.0,
+                              type = HabitType.BOOLEAN_HABIT)
 
-    lateinit var repository: HabitRepository
-    lateinit private var original0: Habit
-    lateinit private var original1: Habit
-    lateinit private var original2: Habit
+        val original1 = Habit(id = 1,
+                              name = "Exercise",
+                              description = "Did you exercise for at least 20 minutes?",
+                              frequency = Frequency(1, 2),
+                              color = PaletteColor(4),
+                              isArchived = false,
+                              position = 1,
+                              unit = "",
+                              target = 0.0,
+                              type = HabitType.BOOLEAN_HABIT)
 
-    @BeforeTest
-    fun setUp() {
-        original0 = Habit(id = 0,
-                          name = "Wake up early",
-                          description = "Did you wake up before 6am?",
-                          frequency = Frequency(1, 1),
-                          color = PaletteColor(3),
-                          isArchived = false,
-                          position = 0,
-                          unit = "",
-                          target = 0.0,
-                          type = HabitType.BOOLEAN_HABIT)
+        val original2 = Habit(id = 2,
+                              name = "Learn Japanese",
+                              description = "Did you study Japanese today?",
+                              frequency = Frequency(1, 1),
+                              color = PaletteColor(3),
+                              isArchived = false,
+                              position = 2,
+                              unit = "",
+                              target = 0.0,
+                              type = HabitType.BOOLEAN_HABIT)
 
-        original1 = Habit(id = 1,
-                          name = "Exercise",
-                          description = "Did you exercise for at least 20 minutes?",
-                          frequency = Frequency(1, 2),
-                          color = PaletteColor(4),
-                          isArchived = false,
-                          position = 1,
-                          unit = "",
-                          target = 0.0,
-                          type = HabitType.BOOLEAN_HABIT)
+        val repository = HabitRepository(db)
 
-        original2 = Habit(id = 2,
-                          name = "Learn Japanese",
-                          description = "Did you study Japanese today?",
-                          frequency = Frequency(1, 1),
-                          color = PaletteColor(3),
-                          isArchived = false,
-                          position = 2,
-                          unit = "",
-                          target = 0.0,
-                          type = HabitType.BOOLEAN_HABIT)
-
-        repository = HabitRepository(db)
-    }
-
-    @Test
-    fun testFindAll() {
         var habits = repository.findAll()
         assertEquals(0, repository.nextId())
         assertEquals(0, habits.size)

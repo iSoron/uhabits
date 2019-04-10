@@ -23,12 +23,12 @@ import java.io.*
 import java.nio.file.*
 
 class JavaResourceFile(private val path: Path) : ResourceFile {
-    override fun copyTo(dest: UserFile) {
-        Files.copy(path, (dest as JavaUserFile).path)
+    override suspend fun lines(): List<String> {
+        return Files.readAllLines(path)
     }
 
-    override fun readLines(): List<String> {
-        return Files.readAllLines(path)
+    override fun copyTo(dest: UserFile) {
+        Files.copy(path, (dest as JavaUserFile).path)
     }
 
     fun stream(): InputStream {
