@@ -19,14 +19,14 @@
 
 package org.isoron.platform.gui
 
-class CanvasTest(val platform: Platform) {
-    interface Platform {
-        fun createCanvas(width: Int, height: Int): Canvas
-        fun writePng(canvas: Canvas, filename: String)
-    }
+import org.isoron.*
+import kotlin.test.*
 
+class CanvasTest() : BaseTest() {
+
+    @Test
     fun testDrawing() {
-        val canvas = platform.createCanvas(500, 400)
+        val canvas = resolver.createCanvas(500, 400)
 
         canvas.setColor(Color(0x303030))
         canvas.fillRect(0.0, 0.0, 500.0, 400.0)
@@ -66,6 +66,6 @@ class CanvasTest(val platform: Platform) {
         canvas.setFont(Font.FONT_AWESOME)
         canvas.drawText(FontAwesome.CHECK, 250.0, 300.0)
 
-        platform.writePng(canvas, "CanvasTest.png")
+        resolver.exportCanvas(canvas, "CanvasTest.png")
     }
 }

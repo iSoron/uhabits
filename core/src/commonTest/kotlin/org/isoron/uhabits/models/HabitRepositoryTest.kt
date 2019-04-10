@@ -19,17 +19,19 @@
 
 package org.isoron.uhabits.models
 
+import org.isoron.*
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import kotlin.test.*
 
-class HabitRepositoryTest(val db: Database) {
+class HabitRepositoryTest() : BaseTest() {
 
     lateinit var repository: HabitRepository
     lateinit private var original0: Habit
     lateinit private var original1: Habit
     lateinit private var original2: Habit
 
+    @BeforeTest
     fun setUp() {
         original0 = Habit(id = 0,
                           name = "Wake up early",
@@ -67,6 +69,7 @@ class HabitRepositoryTest(val db: Database) {
         repository = HabitRepository(db)
     }
 
+    @Test
     fun testFindAll() {
         var habits = repository.findAll()
         assertEquals(0, repository.nextId())

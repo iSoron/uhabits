@@ -19,41 +19,18 @@
 
 package org.isoron.uhabits
 
-import org.isoron.platform.concurrency.*
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
-import org.isoron.platform.time.*
 import org.isoron.uhabits.components.*
-import org.junit.*
 import java.awt.image.*
 import java.io.*
 import javax.imageio.*
 import kotlin.math.*
 
-open class BaseTest {
-
-    val fileOpener = JavaFileOpener()
-
-    val log = StandardLog()
-
-    val databaseOpener = JavaDatabaseOpener(log)
-
-    val taskRunner = SequentialTaskRunner()
-
-    lateinit var db: Database
-
-    @Before
-    open fun setUp() {
-        val dbFile = fileOpener.openUserFile("test.sqlite3")
-        if (dbFile.exists()) dbFile.delete()
-        db = databaseOpener.open(dbFile)
-        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
-    }
-}
-
 open class BaseViewTest {
     val theme = LightTheme()
-    fun distance(actual: BufferedImage,
+
+    private fun distance(actual: BufferedImage,
                          expected: BufferedImage): Double {
 
         if (actual.width != expected.width) return Double.POSITIVE_INFINITY

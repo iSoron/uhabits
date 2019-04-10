@@ -19,9 +19,11 @@
 
 package org.isoron.platform.io
 
+import org.isoron.*
 import kotlin.test.*
 
-class FilesTest(val fileOpener: FileOpener) {
+class FilesTest() : BaseTest() {
+    @Test
     fun testReadLines() {
         val hello = fileOpener.openResourceFile("hello.txt")
         var lines = hello.readLines()

@@ -17,14 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron
 
-import kotlin.test.*
+import org.isoron.platform.gui.*
+import org.isoron.platform.io.*
 
-class JsDatabaseTest {
-    @Test
-    fun testUsage() {
-        val db = eval("new SQL.Database()")
-        DatabaseTest(JsDatabase(db)).testUsage()
-    }
+actual class DependencyResolver {
+    actual fun getFileOpener(): FileOpener = TODO()
+    actual fun getDatabase(): Database = TODO()
+    actual fun createCanvas(width: Int, height: Int): Canvas = TODO()
+    actual fun exportCanvas(canvas: Canvas, filename: String): Unit = TODO()
 }

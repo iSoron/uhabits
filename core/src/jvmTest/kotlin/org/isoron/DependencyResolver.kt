@@ -17,28 +17,38 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron
 
 import org.isoron.platform.gui.*
-import org.junit.*
+import org.isoron.platform.io.*
+import org.isoron.uhabits.*
 import java.awt.image.*
 import java.io.*
 import javax.imageio.*
 
+actual class DependencyResolver actual constructor() {
 
-class JavaCanvasTest : CanvasTest.Platform {
-    private val commonTest = CanvasTest(this)
+    val log = StandardLog()
+    val fileOpener = JavaFileOpener()
+    val databaseOpener = JavaDatabaseOpener(log)
 
-    @Test
-    fun testDrawing() = commonTest.testDrawing()
+    actual fun getFileOpener(): FileOpener = fileOpener
 
-    override fun createCanvas(width: Int, height: Int): Canvas {
-        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
-        return JavaCanvas(image, pixelScale=1.0)
+    actual fun getDatabase(): Database {
+        val dbFile = fileOpener.openUserFile("test.sqlite3")
+        if (dbFile.exists()) dbFile.delete()
+        val db = databaseOpener.open(dbFile)
+        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        return db
     }
 
-    override fun writePng(canvas: Canvas, filename: String) {
+    actual fun createCanvas(width: Int, height: Int): Canvas {
+        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+        return JavaCanvas(image, pixelScale = 1.0)
+    }
+
+    actual fun exportCanvas(canvas: Canvas, filename: String) {
         val javaCanvas = canvas as JavaCanvas
-        ImageIO.write(javaCanvas.image, "png", File("/tmp/JavaCanvasTest.png"))
+        ImageIO.write(javaCanvas.image, "png", File("/tmp/$filename"))
     }
 }

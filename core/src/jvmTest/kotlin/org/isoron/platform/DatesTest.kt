@@ -26,7 +26,7 @@ import java.util.*
 import java.util.Calendar.*
 
 
-class JavaDatesTest {
+class DatesTest {
     private val d1 = LocalDate(2019, 3, 25)
     private val d2 = LocalDate(2019, 4, 4)
     private val d3 = LocalDate(2019, 5, 12)

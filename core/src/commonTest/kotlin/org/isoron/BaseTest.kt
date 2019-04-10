@@ -17,24 +17,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models
+package org.isoron
 
-import org.isoron.uhabits.*
-import org.junit.*
-
-class JavaHabitRepositoryTest : BaseTest() {
-
-    lateinit var commonTest: HabitRepositoryTest
-
-    @Before
-    override fun setUp() {
-        super.setUp()
-        commonTest = HabitRepositoryTest(db)
-        commonTest.setUp()
-    }
-
-    @Test
-    fun testFindAll() {
-        commonTest.testFindAll()
-    }
+open class BaseTest {
+    val resolver = DependencyResolver()
+    val fileOpener = resolver.getFileOpener()
+    val db = resolver.getDatabase()
 }

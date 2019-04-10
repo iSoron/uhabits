@@ -17,19 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.models
+package org.isoron
 
+import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
-import kotlin.test.*
 
-class JsHabitRepositoryTest {
-
-    val db = JsDatabase(eval("new SQL.Database()"))
-    val commonTest = HabitRepositoryTest(db)
-
-    @Test
-    fun testFindAll() {
-//        commonTest.setUp()
-//        commonTest.testFindAll()
-    }
+expect class DependencyResolver() {
+    fun getFileOpener(): FileOpener
+    fun getDatabase(): Database
+    fun createCanvas(width: Int, height: Int): Canvas
+    fun exportCanvas(canvas: Canvas, filename: String)
 }

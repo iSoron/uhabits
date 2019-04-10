@@ -19,10 +19,10 @@
 
 package org.isoron.uhabits.models
 
-import junit.framework.TestCase.*
+import org.isoron.*
 import org.isoron.platform.time.*
-import org.isoron.uhabits.*
-import org.junit.*
+import kotlin.test.*
+
 
 class CheckmarkRepositoryTest : BaseTest() {
     @Test
@@ -45,7 +45,7 @@ class CheckmarkRepositoryTest : BaseTest() {
         for (c in checkmarksB) repository.insert(habitB, c)
         assertEquals(checkmarksA, repository.findAll(habitA))
         assertEquals(checkmarksB, repository.findAll(habitB))
-        assertEquals(listOf<Checkmark>(), repository.findAll(999))
+        assertEquals(listOf(), repository.findAll(999))
 
         checkmarksA = listOf(Checkmark(LocalDate(2019, 1, 15), 100),
                              Checkmark(LocalDate(2019, 1, 1), 900))

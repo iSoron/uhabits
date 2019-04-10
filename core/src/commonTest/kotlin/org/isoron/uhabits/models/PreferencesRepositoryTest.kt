@@ -19,9 +19,8 @@
 
 package org.isoron.uhabits.models
 
-import junit.framework.TestCase.*
-import org.isoron.uhabits.*
-import org.junit.*
+import org.isoron.*
+import kotlin.test.*
 
 class PreferencesRepositoryTest : BaseTest() {
     @Test

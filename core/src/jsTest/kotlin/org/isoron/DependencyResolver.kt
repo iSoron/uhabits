@@ -17,13 +17,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron
 
-import kotlin.test.*
+import org.isoron.platform.gui.*
+import org.isoron.platform.io.*
+import org.w3c.dom.*
+import kotlin.browser.*
 
-class JsFilesTest {
-    @Test
-    fun testReadLines() {
-        FilesTest(JsFileOpener()).testReadLines()
+actual class DependencyResolver {
+    actual fun getFileOpener(): FileOpener = JsFileOpener()
+
+    actual fun getDatabase(): Database {
+        val db = eval("new SQL.Database()")
+        return JsDatabase(db)
+    }
+
+    actual fun createCanvas(width: Int, height: Int): Canvas {
+        val canvasElement = document.getElementById("canvas") as HTMLCanvasElement
+        canvasElement.style.width = "${width}px"
+        canvasElement.style.height = "${height}px"
+        return HtmlCanvas(canvasElement)
+    }
+
+    actual fun exportCanvas(canvas: Canvas, filename: String) {
+        // do nothing
     }
 }
