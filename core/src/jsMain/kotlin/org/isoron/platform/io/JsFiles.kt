@@ -17,15 +17,38 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.platform.io
 
-import org.isoron.platform.io.*
-import org.isoron.uhabits.*
-import org.junit.*
+import org.w3c.dom.events.*
+import org.w3c.xhr.*
 
-class JavaFilesTest : BaseTest() {
-    @Test
-    fun testReadLines() {
-        FilesTest(fileOpener).testReadLines()
+class JsFileOpener : FileOpener {
+    override fun openUserFile(filename: String): UserFile {
+        return JsUserFile(filename)
+    }
+
+    override fun openResourceFile(filename: String): ResourceFile {
+        return JsResourceFile(filename)
+    }
+}
+
+class JsUserFile(filename: String) : UserFile {
+    override fun delete() {
+    }
+
+    override fun exists(): Boolean {
+        return false
+    }
+}
+
+class JsResourceFile(val filename: String) : ResourceFile {
+    override fun readLines(): List<String> {
+        val xhr = XMLHttpRequest()
+        xhr.open("GET", "/assets/$filename", false)
+        xhr.send()
+        return xhr.responseText.lines()
+    }
+
+    override fun copyTo(dest: UserFile) {
     }
 }

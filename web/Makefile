@@ -1,5 +1,7 @@
-test_bundle := build/bundles/test.js
+test_bundle := build/test.js
 node_modules := node_modules/.bin/mocha
+
+all: $(test_bundle)
 
 $(node_modules):
 	npm install
@@ -7,13 +9,20 @@ $(node_modules):
 core:
 	cd ../core; ./gradlew --quiet jsMainClasses jsTestClasses
 	cp ../core/build/classes/kotlin/js/*/*.js node_modules/
+	mkdir -p build/assets
+	rsync -a ../core/assets/main/ build/assets/
+	rsync -a ../core/assets/test/ build/assets/
 
-$(test_bundle): test/index.js core
-	mkdir -p build/bundles
-	npx webpack $< --mode development --target web --output $@
+$(test_bundle): src/test/index.js core
+	mkdir -p build/lib build/test build/css
+	npx webpack -d --mode development --target web --output $@ $<
+	cp src/test/*html build/test
+	cp node_modules/mocha/mocha.css build/lib
+	cp node_modules/mocha/mocha.js build/lib
+	cp node_modules/sql.js/js/sql.js build/lib
 
-test: $(test_bundle) $(node_modules)
-	open test/index.html
+serve:
+	npx serve build/
 
 clean:
 	rm -rf build

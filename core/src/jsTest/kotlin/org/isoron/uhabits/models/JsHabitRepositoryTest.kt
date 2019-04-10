@@ -17,15 +17,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.uhabits.models
 
 import org.isoron.platform.io.*
-import org.isoron.uhabits.*
-import org.junit.*
+import kotlin.test.*
 
-class JavaFilesTest : BaseTest() {
+class JsHabitRepositoryTest {
+
+    val db = JsDatabase(eval("new SQL.Database()"))
+    val commonTest = HabitRepositoryTest(db)
+
     @Test
-    fun testReadLines() {
-        FilesTest(fileOpener).testReadLines()
+    fun testFindAll() {
+//        commonTest.setUp()
+//        commonTest.testFindAll()
     }
 }

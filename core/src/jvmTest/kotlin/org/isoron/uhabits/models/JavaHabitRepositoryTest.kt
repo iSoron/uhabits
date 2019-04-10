@@ -17,15 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.uhabits.models
 
-import org.isoron.platform.io.*
 import org.isoron.uhabits.*
 import org.junit.*
 
-class JavaFilesTest : BaseTest() {
+class JavaHabitRepositoryTest : BaseTest() {
+
+    lateinit var commonTest: HabitRepositoryTest
+
+    @Before
+    override fun setUp() {
+        super.setUp()
+        commonTest = HabitRepositoryTest(db)
+        commonTest.setUp()
+    }
+
     @Test
-    fun testReadLines() {
-        FilesTest(fileOpener).testReadLines()
+    fun testFindAll() {
+        commonTest.testFindAll()
     }
 }

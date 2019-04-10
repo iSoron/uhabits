@@ -17,15 +17,19 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.platform.io
 
-import org.isoron.platform.io.*
-import org.isoron.uhabits.*
-import org.junit.*
+import kotlin.test.*
 
-class JavaFilesTest : BaseTest() {
-    @Test
+class FilesTest(val fileOpener: FileOpener) {
     fun testReadLines() {
-        FilesTest(fileOpener).testReadLines()
+        val hello = fileOpener.openResourceFile("hello.txt")
+        var lines = hello.readLines()
+        assertEquals("Hello World!", lines[0])
+        assertEquals("This is a resource.", lines[1])
+
+        val migration = fileOpener.openResourceFile("migrations/012.sql")
+        lines = migration.readLines()
+        assertEquals("delete from Score", lines[0])
     }
 }
