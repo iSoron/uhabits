@@ -33,7 +33,7 @@ actual class DependencyResolver actual constructor() {
     val fileOpener = JavaFileOpener()
     val databaseOpener = JavaDatabaseOpener(log)
 
-    actual fun getFileOpener(): FileOpener = fileOpener
+    actual suspend fun getFileOpener(): FileOpener = fileOpener
 
     actual suspend fun getDatabase(): Database {
         val dbFile = fileOpener.openUserFile("test.sqlite3")

@@ -20,31 +20,111 @@
 package org.isoron.platform.io
 
 import kotlinx.coroutines.*
-import org.w3c.dom.events.*
 import org.w3c.xhr.*
 import kotlin.js.*
 
-class JsFileOpener : FileOpener {
-    override fun openUserFile(filename: String): UserFile {
-        return JsUserFile(filename)
+class JsFileStorage {
+    private val indexedDB = eval("indexedDB")
+    private var db: dynamic = null
+
+    private val DB_NAME = "Main"
+    private val OS_NAME = "Files"
+
+    suspend fun init() {
+        console.log("Initializing JsFileStorage...")
+        Promise<Int> { resolve, reject ->
+            val req = indexedDB.open(DB_NAME, 2)
+            req.onerror = { reject(Exception("could not open IndexedDB")) }
+            req.onupgradeneeded = {
+                console.log("Creating document store for JsFileStorage...")
+                req.result.createObjectStore(OS_NAME)
+            }
+            req.onsuccess = {
+                console.log("JsFileStorage is ready.")
+                db = req.result
+                resolve(0)
+            }
+        }.await()
     }
 
-    override fun openResourceFile(filename: String): ResourceFile {
-        return JsResourceFile(filename)
+    suspend fun delete(path: String) {
+        Promise<Int> { resolve, reject ->
+            val transaction = db.transaction(OS_NAME, "readwrite")
+            val os = transaction.objectStore(OS_NAME)
+            val req = os.delete(path)
+            req.onerror = { reject(Exception("could not delete $path")) }
+            req.onsuccess = { resolve(0) }
+        }.await()
+    }
+
+    suspend fun put(path: String, content: String) {
+        Promise<Int> { resolve, reject ->
+            val transaction = db.transaction(OS_NAME, "readwrite")
+            val os = transaction.objectStore(OS_NAME)
+            val req = os.put(content, path)
+            req.onerror = { reject(Exception("could not put $path")) }
+            req.onsuccess = { resolve(0) }
+        }.await()
+    }
+
+    suspend fun get(path: String): String {
+        return Promise<String> { resolve, reject ->
+            val transaction = db.transaction(OS_NAME, "readonly")
+            val os = transaction.objectStore(OS_NAME)
+            val req = os.get(path)
+            req.onerror = { reject(Exception("could not get $path")) }
+            req.onsuccess = { resolve(req.result) }
+        }.await()
+    }
+
+    suspend fun exists(path: String): Boolean {
+        return Promise<Boolean> { resolve, reject ->
+            val transaction = db.transaction(OS_NAME, "readonly")
+            val os = transaction.objectStore(OS_NAME)
+            val req = os.count(path)
+            req.onerror = { reject(Exception("could not count $path")) }
+            req.onsuccess = { resolve(req.result > 0) }
+        }.await()
     }
 }
 
-class JsUserFile(filename: String) : UserFile {
-    override fun delete() {
-        TODO()
+class JsFileOpener(val fileStorage: JsFileStorage) : FileOpener {
+
+    override fun openUserFile(path: String): UserFile {
+        return JsUserFile(fileStorage, path)
     }
 
-    override fun exists(): Boolean {
-        TODO()
+    override fun openResourceFile(path: String): ResourceFile {
+        return JsResourceFile(path)
+    }
+}
+
+class JsUserFile(val fs: JsFileStorage,
+                 val filename: String) : UserFile {
+    override suspend fun lines(): List<String> {
+        return fs.get(filename).lines()
+    }
+
+    override suspend fun delete() {
+        fs.delete(filename)
+    }
+
+    override suspend fun exists(): Boolean {
+        return fs.exists(filename)
     }
 }
 
 class JsResourceFile(val filename: String) : ResourceFile {
+    override suspend fun exists(): Boolean {
+        return Promise<Boolean> { resolve, reject ->
+            val xhr = XMLHttpRequest()
+            xhr.open("GET", "/assets/$filename", true)
+            xhr.onload = { resolve(xhr.status.toInt() != 404) }
+            xhr.onerror = { reject(Exception()) }
+            xhr.send()
+        }.await()
+    }
+
     override suspend fun lines(): List<String> {
         return Promise<List<String>> { resolve, reject ->
             val xhr = XMLHttpRequest()
@@ -55,7 +135,8 @@ class JsResourceFile(val filename: String) : ResourceFile {
         }.await()
     }
 
-    override fun copyTo(dest: UserFile) {
-        TODO()
+    override suspend fun copyTo(dest: UserFile) {
+        val fs = (dest as JsUserFile).fs
+        fs.put(dest.filename, lines().joinToString("\n"))
     }
 }

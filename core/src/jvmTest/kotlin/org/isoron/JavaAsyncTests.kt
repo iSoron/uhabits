@@ -26,7 +26,7 @@ import org.junit.*
 
 class JavaAsyncTests {
     @Test
-    fun testLines() = runBlocking { FilesTest().testLines() }
+    fun testFiles() = runBlocking { FilesTest().testLines() }
 
     @Test
     fun testDatabase() = runBlocking { DatabaseTest().testUsage() }

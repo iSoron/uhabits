@@ -24,12 +24,29 @@ import kotlin.test.*
 
 class FilesTest() : BaseTest() {
     suspend fun testLines() {
+        val fileOpener = resolver.getFileOpener()
+
+        assertFalse(fileOpener.openUserFile("non-existing.txt").exists())
+        assertFalse(fileOpener.openResourceFile("non-existing.txt").exists())
+
         val hello = fileOpener.openResourceFile("hello.txt")
         var lines = hello.lines()
         assertEquals("Hello World!", lines[0])
         assertEquals("This is a resource.", lines[1])
 
+        val helloCopy = fileOpener.openUserFile("hello-copy.txt")
+        hello.copyTo(helloCopy)
+        lines = helloCopy.lines()
+        assertEquals("Hello World!", lines[0])
+        assertEquals("This is a resource.", lines[1])
+
+        assertTrue(helloCopy.exists())
+        helloCopy.delete()
+        assertFalse(helloCopy.exists())
+
+
         val migration = fileOpener.openResourceFile("migrations/012.sql")
+        assertTrue(migration.exists())
         lines = migration.lines()
         assertEquals("delete from Score", lines[0])
     }

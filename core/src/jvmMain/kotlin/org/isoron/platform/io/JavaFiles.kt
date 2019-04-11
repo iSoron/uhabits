@@ -22,45 +22,54 @@ package org.isoron.platform.io
 import java.io.*
 import java.nio.file.*
 
-class JavaResourceFile(private val path: Path) : ResourceFile {
-    override suspend fun lines(): List<String> {
-        return Files.readAllLines(path)
+class JavaResourceFile(private val path: String) : ResourceFile {
+    private val javaPath: Path
+        get() {
+            val mainPath = Paths.get("assets/main/$path")
+            val testPath = Paths.get("assets/test/$path")
+            if (Files.exists(mainPath)) return mainPath
+            else return testPath
+        }
+
+    override suspend fun exists(): Boolean {
+        return Files.exists(javaPath)
     }
 
-    override fun copyTo(dest: UserFile) {
-        Files.copy(path, (dest as JavaUserFile).path)
+    override suspend fun lines(): List<String> {
+        return Files.readAllLines(javaPath)
+    }
+
+    override suspend fun copyTo(dest: UserFile) {
+        if (dest.exists()) dest.delete()
+        Files.copy(javaPath, (dest as JavaUserFile).path)
     }
 
     fun stream(): InputStream {
-        return Files.newInputStream(path)
+        return Files.newInputStream(javaPath)
     }
 }
 
 class JavaUserFile(val path: Path) : UserFile {
-    override fun exists(): Boolean {
+    override suspend fun lines(): List<String> {
+        return Files.readAllLines(path)
+    }
+
+    override suspend fun exists(): Boolean {
         return Files.exists(path)
     }
 
-    override fun delete() {
+    override suspend fun delete() {
         Files.delete(path)
     }
 }
 
 class JavaFileOpener : FileOpener {
-    override fun openUserFile(filename: String): UserFile {
-        val path = Paths.get("/tmp/$filename")
+    override fun openUserFile(path: String): UserFile {
+        val path = Paths.get("/tmp/$path")
         return JavaUserFile(path)
     }
 
-    override fun openResourceFile(filename: String): ResourceFile {
-        val rootFolders = listOf("assets/main",
-                                 "assets/test")
-        for (root in rootFolders) {
-            val path = Paths.get("$root/$filename")
-            if (Files.exists(path) && Files.isReadable(path)) {
-                return JavaResourceFile(path)
-            }
-        }
-        throw RuntimeException("file not found")
+    override fun openResourceFile(path: String): ResourceFile {
+        return JavaResourceFile(path)
     }
 }

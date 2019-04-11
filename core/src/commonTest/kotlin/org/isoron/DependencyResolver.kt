@@ -23,7 +23,7 @@ import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 
 expect class DependencyResolver() {
-    fun getFileOpener(): FileOpener
+    suspend fun getFileOpener(): FileOpener
     suspend fun getDatabase(): Database
     fun createCanvas(width: Int, height: Int): Canvas
     fun exportCanvas(canvas: Canvas, filename: String)

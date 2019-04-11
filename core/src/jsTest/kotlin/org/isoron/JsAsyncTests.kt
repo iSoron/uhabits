@@ -26,7 +26,7 @@ import kotlin.test.*
 
 class JsAsyncTests {
     @Test
-    fun testLines() = GlobalScope.promise { FilesTest().testLines() }
+    fun testFiles() = GlobalScope.promise { FilesTest().testLines() }
 
     @Test
     fun testDatabase() = GlobalScope.promise { DatabaseTest().testUsage() }

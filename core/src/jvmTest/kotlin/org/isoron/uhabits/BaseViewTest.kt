@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits
 
+import kotlinx.coroutines.*
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import org.isoron.uhabits.components.*
@@ -55,28 +56,30 @@ open class BaseViewTest {
                       expectedPath: String,
                       component: Component,
                       threshold: Double = 1e-3) {
+
         val actual = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val canvas = JavaCanvas(actual)
         val expectedFile: JavaResourceFile
         val actualPath = "/tmp/${expectedPath}"
 
         component.draw(canvas)
-        try {
-            expectedFile = JavaFileOpener().openResourceFile(expectedPath) as JavaResourceFile
-        } catch(e: RuntimeException) {
-            File(actualPath).parentFile.mkdirs()
-            ImageIO.write(actual, "png", File(actualPath))
-            //fail("Expected file is missing. Actual render saved to $actualPath")
-            return
-        }
+        expectedFile = JavaFileOpener().openResourceFile(expectedPath) as JavaResourceFile
 
-        val expected = ImageIO.read(expectedFile.stream())
-        val d = distance(actual, expected)
-        if (d >= threshold) {
-            File(actualPath).parentFile.mkdirs()
-            ImageIO.write(actual, "png", File(actualPath))
-            ImageIO.write(expected, "png", File(actualPath.replace(".png", ".expected.png")))
-            //fail("Images differ (distance=${d}). Actual rendered saved to ${actualPath}.")
+        runBlocking<Unit> {
+            if (expectedFile.exists()) {
+                val expected = ImageIO.read(expectedFile.stream())
+                val d = distance(actual, expected)
+                if (d >= threshold) {
+                    File(actualPath).parentFile.mkdirs()
+                    ImageIO.write(actual, "png", File(actualPath))
+                    ImageIO.write(expected, "png", File(actualPath.replace(".png", ".expected.png")))
+                    //fail("Images differ (distance=${d}). Actual rendered saved to ${actualPath}.")
+                }
+            } else {
+                File(actualPath).parentFile.mkdirs()
+                ImageIO.write(actual, "png", File(actualPath))
+                //fail("Expected file is missing. Actual render saved to $actualPath")
+            }
         }
     }
 }

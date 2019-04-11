@@ -26,7 +26,16 @@ import org.w3c.dom.*
 import kotlin.browser.*
 
 actual class DependencyResolver {
-    actual fun getFileOpener(): FileOpener = JsFileOpener()
+
+    var fs: JsFileStorage? = null
+
+    actual suspend fun getFileOpener(): FileOpener {
+        if (fs == null) {
+            fs = JsFileStorage()
+            fs?.init()
+        }
+        return JsFileOpener(fs!!)
+    }
 
     actual suspend fun getDatabase(): Database {
         val nativeDB = eval("new SQL.Database()")

@@ -94,7 +94,6 @@ suspend fun Database.migrateTo(newVersion: Int, fileOpener: FileOpener, log: Log
     for (v in (currentVersion + 1)..newVersion) {
         val sv = if(v < 10) "00$v" else if (v<100) "0$v" else "$v"
         val filename = "migrations/$sv.sql"
-        println(filename)
         val migrationFile = fileOpener.openResourceFile(filename)
         for (line in migrationFile.lines()) {
             if (line.isEmpty()) continue

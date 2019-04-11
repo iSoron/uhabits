@@ -72,7 +72,6 @@ class JsPreparedStatement(val stmt: dynamic) : PreparedStatement {
 
 class JsDatabase(val db: dynamic) : Database {
     override fun prepareStatement(sql: String): PreparedStatement {
-        println(sql)
         return JsPreparedStatement(db.prepare(sql))
     }
 

@@ -26,9 +26,11 @@ interface FileOpener {
      *
      * The path is relative to the assets folder. For example, to open
      * assets/main/migrations/09.sql you should provide migrations/09.sql
-     * as the filename.
+     * as the path.
+     *
+     * This function always succeed, even if the file does not exist.
      */
-    fun openResourceFile(filename: String): ResourceFile
+    fun openResourceFile(path: String): ResourceFile
 
     /**
      * Opens a file which was not shipped with the application, such as
@@ -36,26 +38,54 @@ interface FileOpener {
      *
      * The path is relative to the user folder. For example, if the application
      * stores the user data at /home/user/.loop/ and you wish to open the file
-     * /home/user/.loop/crash.log, you should provide crash.log as the filename.
+     * /home/user/.loop/crash.log, you should provide crash.log as the path.
+     *
+     * This function always succeed, even if the file does not exist.
      */
-    fun openUserFile(filename: String): UserFile
+    fun openUserFile(path: String): UserFile
 }
 
 /**
  * Represents a file that was created after the application was installed, as a
- * result of some user action, such as databases and logs. These files can be
- * deleted.
+ * result of some user action, such as databases and logs.
  */
 interface UserFile {
-    fun delete()
-    fun exists(): Boolean
+    /**
+     * Deletes the user file. If the file does not exist, nothing happens.
+     */
+    suspend fun delete()
+
+    /**
+     * Returns true if the file exists.
+     */
+    suspend fun exists(): Boolean
+
+    /**
+     * Returns the lines of the file. If the file does not exist, throws an
+     * exception.
+     */
+    suspend fun lines(): List<String>
 }
 
 /**
  * Represents a file that was shipped with the application, such as migration
- * files or translations. These files cannot be deleted.
+ * files or database templates.
  */
 interface ResourceFile {
-    fun copyTo(dest: UserFile)
+    /**
+     * Copies the resource file to the specified user file. If the user file
+     * already exists, it is replaced. If not, a new file is created.
+     */
+    suspend fun copyTo(dest: UserFile)
+
+    /**
+     * Returns the lines of the resource file. If the file does not exist,
+     * throws an exception.
+     */
     suspend fun lines(): List<String>
+
+    /**
+     * Returns true if the file exists.
+     */
+    suspend fun exists(): Boolean
 }

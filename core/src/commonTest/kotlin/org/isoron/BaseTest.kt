@@ -19,7 +19,6 @@
 
 package org.isoron
 
-open class BaseTest {
-    val resolver = DependencyResolver()
-    val fileOpener = resolver.getFileOpener()
-}
+val resolver = DependencyResolver()
+
+open class BaseTest
