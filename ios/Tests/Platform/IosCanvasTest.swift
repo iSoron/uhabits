@@ -64,6 +64,5 @@ class IosCanvasTest : XCTestCase {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let filePath = paths.first?.appendingPathComponent("IosCanvasTest.png")
         try! image.pngData()!.write(to: filePath!, options: .atomic)
-        UIGraphicsEndImageContext()
     }
 }

@@ -26,34 +26,31 @@ import org.isoron.uhabits.components.*
 import org.isoron.uhabits.i18n.*
 import org.isoron.uhabits.models.*
 
-//class Backend(databaseName: String,
-//              databaseOpener: DatabaseOpener,
-//              fileOpener: FileOpener,
-//              localeHelper: LocaleHelper,
-//              val log: Log,
-//              val taskRunner: TaskRunner) {
+class Backend(databaseName: String,
+              databaseOpener: DatabaseOpener,
+              fileOpener: FileOpener,
+              localeHelper: LocaleHelper,
+              private val log: Log,
+              private val taskRunner: TaskRunner) {
+
+//    private val database: Database
 //
-//    val database: Database
+//    private val habitsRepository: HabitRepository
 //
-//    val habitsRepository: HabitRepository
+//    private val checkmarkRepository: CheckmarkRepository
 //
-//    val checkmarkRepository: CheckmarkRepository
+//    private val habits = mutableMapOf<Int, Habit>()
 //
-//    val habits = mutableMapOf<Int, Habit>()
+//    private val checkmarks = mutableMapOf<Habit, CheckmarkList>()
 //
-//    val checkmarks = mutableMapOf<Habit, CheckmarkList>()
-//
-//    val scores = mutableMapOf<Habit, ScoreList>()
-//
-//    val mainScreenDataSource: MainScreenDataSource
-//
-//    val strings = localeHelper.getStringsForCurrentLocale()
-//
-//    val preferences: Preferences
-//
-//    var theme: Theme = LightTheme()
-//
-//    init {
+//    private val scores = mutableMapOf<Habit, ScoreList>()
+
+    val mainScreenDataSource: MainScreenDataSource? = null
+    val strings = localeHelper.getStringsForCurrentLocale()
+    val preferences: Preferences? = null
+    var theme: Theme = LightTheme()
+
+    init {
 //        val dbFile = fileOpener.openUserFile(databaseName)
 //        if (!dbFile.exists()) {
 //            val templateFile = fileOpener.openResourceFile("databases/template.db")
@@ -78,9 +75,9 @@ import org.isoron.uhabits.models.*
 //                                                    checkmarks,
 //                                                    scores,
 //                                                    taskRunner)
-//    }
-//
-//    fun createHabit(habit: Habit) {
+    }
+
+    fun createHabit(habit: Habit) {
 //        val id = habitsRepository.nextId()
 //        habit.id = id
 //        habit.position = habits.size
@@ -88,20 +85,20 @@ import org.isoron.uhabits.models.*
 //        checkmarks[habit] = CheckmarkList(habit.frequency, habit.type)
 //        habitsRepository.insert(habit)
 //        mainScreenDataSource.requestData()
-//    }
-//
-//    fun deleteHabit(id: Int) {
+    }
+
+    fun deleteHabit(id: Int) {
 //        habits[id]?.let { habit ->
 //            habitsRepository.delete(habit)
 //            habits.remove(id)
 //            mainScreenDataSource.requestData()
 //        }
-//    }
-//
-//    fun updateHabit(modified: Habit) {
+    }
+
+    fun updateHabit(modified: Habit) {
 //        habits[modified.id]?.let { existing ->
 //            modified.position = existing.position
 //            habitsRepository.update(modified)
 //        }
-//    }
-//}
+    }
+}

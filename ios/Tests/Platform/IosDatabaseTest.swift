@@ -22,52 +22,52 @@ import XCTest
 
 class IosDatabaseTest: XCTestCase {
     func testUsage() {
-      let databaseOpener = IosDatabaseOpener(withLog: StandardLog())
-      let fileOpener = IosFileOpener()
-      
-      let dbFile = fileOpener.openUserFile(filename: "test.sqlite3")
-      if dbFile.exists() {
+        let databaseOpener = IosDatabaseOpener(withLog: StandardLog())
+        let fileOpener = IosFileOpener()
+
+        let dbFile = fileOpener.openUserFile(path: "test.sqlite3")
+        if dbFile.exists() {
+            dbFile.delete()
+        }
+        let db = databaseOpener.open(file: dbFile)
+
+        var stmt = db.prepareStatement(sql: "drop table if exists demo")
+        stmt.step()
+        stmt.finalize()
+
+        stmt = db.prepareStatement(sql: "begin")
+        stmt.step()
+        stmt.finalize()
+
+        stmt = db.prepareStatement(sql: "create table if not exists demo(key int, value text)")
+        stmt.step()
+        stmt.finalize()
+
+        stmt = db.prepareStatement(sql: "insert into demo(key, value) values (?, ?)")
+        stmt.bindInt(index: 0, value: 42)
+        stmt.bindText(index: 1, value: "Hello World")
+        stmt.step()
+        stmt.finalize()
+
+        stmt = db.prepareStatement(sql: "select * from demo where key > ?")
+        stmt.bindInt(index: 0, value: 10)
+        var result = stmt.step()
+        XCTAssertEqual(result, StepResult.row)
+        XCTAssertEqual(stmt.getInt(index: 0), 42)
+        XCTAssertEqual(stmt.getText(index: 1), "Hello World")
+        result = stmt.step()
+        XCTAssertEqual(result, StepResult.done)
+        stmt.finalize()
+
+        stmt = db.prepareStatement(sql: "drop table demo")
+        stmt.step()
+        stmt.finalize()
+
+        stmt = db.prepareStatement(sql: "commit")
+        stmt.step()
+        stmt.finalize()
+
+        db.close()
         dbFile.delete()
-      }
-      let db = databaseOpener.open(file: dbFile)
-      
-      var stmt = db.prepareStatement(sql: "drop table if exists demo")
-      stmt.step()
-      stmt.finalize()
-      
-      stmt = db.prepareStatement(sql: "begin")
-      stmt.step()
-      stmt.finalize()
-      
-      stmt = db.prepareStatement(sql: "create table if not exists demo(key int, value text)")
-      stmt.step()
-      stmt.finalize()
-      
-      stmt = db.prepareStatement(sql: "insert into demo(key, value) values (?, ?)")
-      stmt.bindInt(index: 0, value: 42)
-      stmt.bindText(index: 1, value: "Hello World")
-      stmt.step()
-      stmt.finalize()
-      
-      stmt = db.prepareStatement(sql: "select * from demo where key > ?")
-      stmt.bindInt(index: 0, value: 10)
-      var result = stmt.step()
-      XCTAssertEqual(result, StepResult.row)
-      XCTAssertEqual(stmt.getInt(index: 0), 42)
-      XCTAssertEqual(stmt.getText(index: 1), "Hello World")
-      result = stmt.step()
-      XCTAssertEqual(result, StepResult.done)
-      stmt.finalize()
-      
-      stmt = db.prepareStatement(sql: "drop table demo")
-      stmt.step()
-      stmt.finalize()
-      
-      stmt = db.prepareStatement(sql: "commit")
-      stmt.step()
-      stmt.finalize()
-      
-      db.close()
-      dbFile.delete()
     }
 }

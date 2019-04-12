@@ -26,11 +26,16 @@ class FilesTest() : BaseTest() {
     suspend fun testLines() {
         val fileOpener = resolver.getFileOpener()
 
-        assertFalse(fileOpener.openUserFile("non-existing.txt").exists())
-        assertFalse(fileOpener.openResourceFile("non-existing.txt").exists())
+        assertFalse(fileOpener.openUserFile("non-existing-usr.txt").exists(),
+                    "non-existing-usr.txt shouldn't exist")
+
+        assertFalse(fileOpener.openResourceFile("non-existing-res.txt").exists(),
+                    "non-existing-res.txt shouldn't exist")
 
         val hello = fileOpener.openResourceFile("hello.txt")
+        assertTrue(hello.exists(), "hello.txt should exist")
         var lines = hello.lines()
+        assertEquals(2, lines.size)
         assertEquals("Hello World!", lines[0])
         assertEquals("This is a resource.", lines[1])
 
@@ -40,13 +45,13 @@ class FilesTest() : BaseTest() {
         assertEquals("Hello World!", lines[0])
         assertEquals("This is a resource.", lines[1])
 
-        assertTrue(helloCopy.exists())
+        assertTrue(helloCopy.exists(), "helloCopy should exist")
         helloCopy.delete()
-        assertFalse(helloCopy.exists())
+        assertFalse(helloCopy.exists(), "helloCopy shouldn't exist")
 
 
         val migration = fileOpener.openResourceFile("migrations/012.sql")
-        assertTrue(migration.exists())
+        assertTrue(migration.exists(), "migrations/012.sql should exist")
         lines = migration.lines()
         assertEquals("delete from Score", lines[0])
     }

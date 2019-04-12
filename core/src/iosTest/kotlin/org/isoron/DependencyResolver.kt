@@ -17,14 +17,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+@file:Suppress("UNCHECKED_CAST")
+
 package org.isoron
 
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
+import platform.CoreGraphics.*
+import platform.Foundation.*
+import platform.UIKit.*
 
 actual class DependencyResolver {
-    actual fun getFileOpener(): FileOpener = TODO()
-    actual fun getDatabase(): Database = TODO()
-    actual fun createCanvas(width: Int, height: Int): Canvas = TODO()
-    actual fun exportCanvas(canvas: Canvas, filename: String): Unit = TODO()
+    actual suspend fun getFileOpener(): FileOpener {
+        return IosFileOpener()
+    }
+
+    actual suspend fun getDatabase(): Database = TODO()
+
+    actual fun createCanvas(width: Int, height: Int): Canvas {
+        UIGraphicsBeginImageContext(CGSizeMake(width=500.0, height=600.0))
+        return IosCanvas()
+    }
+
+    actual fun exportCanvas(canvas: Canvas, filename: String): Unit {
+        val image = UIGraphicsGetImageFromCurrentImageContext()!!
+        val manager = NSFileManager.defaultManager
+        val paths = manager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask) as List<NSURL>
+        val filePath = paths.first().URLByAppendingPathComponent("IosCanvasTest.png")!!.path!!
+        val data = UIImagePNGRepresentation(image)!!
+        data.writeToFile(filePath, false)
+    }
 }

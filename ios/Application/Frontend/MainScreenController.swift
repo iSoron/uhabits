@@ -109,9 +109,9 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     init(withBackend backend:Backend) {
         self.backend = backend
         self.strings = backend.strings
-        self.dataSource = backend.mainScreenDataSource
+        self.dataSource = backend.mainScreenDataSource!
         self.theme = backend.theme
-        self.preferences = backend.preferences
+        self.preferences = backend.preferences!
         super.init(nibName: nil, bundle: nil)
         self.dataSource.observable.addListener(listener: self)
         self.dataSource.requestData()

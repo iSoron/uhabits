@@ -12,10 +12,8 @@
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
 		00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42922009F590024E00C /* MainScreenController.swift */; };
 		00A5B42F22009F5A0024E00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A5B42E22009F5A0024E00C /* Assets.xcassets */; };
-		00C0C6A52246537A003D8AF0 /* IosFilesTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A122465365003D8AF0 /* IosFilesTest.swift */; };
 		00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */; };
 		00C0C6A8224654A2003D8AF0 /* IosDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */; };
-		00C0C6AA224654F4003D8AF0 /* IosFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A9224654F4003D8AF0 /* IosFiles.swift */; };
 		00C0C6BD22465F65003D8AF0 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BA22465F65003D8AF0 /* fonts */; };
 		00C0C6BE22465F65003D8AF0 /* databases in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BB22465F65003D8AF0 /* databases */; };
 		00C0C6BF22465F65003D8AF0 /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BC22465F65003D8AF0 /* migrations */; };
@@ -66,10 +64,8 @@
 		00A5B43322009F5A0024E00C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00A5B43822009F5A0024E00C /* uhabitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uhabitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A5B43E22009F5A0024E00C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00C0C6A122465365003D8AF0 /* IosFilesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosFilesTest.swift; sourceTree = "<group>"; };
 		00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosDatabaseTest.swift; sourceTree = "<group>"; };
 		00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosDatabase.swift; sourceTree = "<group>"; };
-		00C0C6A9224654F4003D8AF0 /* IosFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosFiles.swift; sourceTree = "<group>"; };
 		00C0C6AE224655D8003D8AF0 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		00C0C6BA22465F65003D8AF0 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		00C0C6BB22465F65003D8AF0 /* databases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = databases; sourceTree = "<group>"; };
@@ -185,7 +181,6 @@
 				00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */,
 				00C0C6DA2247E6B0003D8AF0 /* IosDates.swift */,
 				00C0C6CD2246EFB3003D8AF0 /* IosExtensions.swift */,
-				00C0C6A9224654F4003D8AF0 /* IosFiles.swift */,
 				006EFE4D2252EA2B008464E0 /* IosLocale.swift */,
 			);
 			path = Platform;
@@ -197,7 +192,6 @@
 				00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */,
 				00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */,
 				00C0C6DC2247E6C4003D8AF0 /* IosDatesTest.swift */,
-				00C0C6A122465365003D8AF0 /* IosFilesTest.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -328,7 +322,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6AA224654F4003D8AF0 /* IosFiles.swift in Sources */,
 				00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */,
 				00C0C6CE2246EFB3003D8AF0 /* IosExtensions.swift in Sources */,
 				00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */,
@@ -347,7 +340,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				00C0C6DD2247E6C4003D8AF0 /* IosDatesTest.swift in Sources */,
-				00C0C6A52246537A003D8AF0 /* IosFilesTest.swift in Sources */,
 				00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */,
 				00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */,
 			);

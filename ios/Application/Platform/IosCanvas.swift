@@ -42,28 +42,6 @@ class ComponentView : UIView {
 }
 
 class IosCanvas : NSObject, Canvas {
-    func fillArc(centerX: Double, centerY: Double, radius: Double, startAngle: Double, swipeAngle: Double) {
-        let center = CGPoint(x: CGFloat(centerX), y: CGFloat(centerY))
-        let a1 = startAngle / 180 * .pi * (-1)
-        let a2 = a1 - swipeAngle / 180 * .pi
-        self.ctx.beginPath()
-        self.ctx.move(to: center)
-        self.ctx.addArc(center: center,
-                        radius: CGFloat(radius),
-                        startAngle: CGFloat(a1),
-                        endAngle: CGFloat(a2),
-                        clockwise: swipeAngle >= 0)
-        self.ctx.closePath()
-        self.ctx.fillPath()
-    }
-    
-    func fillCircle(centerX: Double, centerY: Double, radius: Double) {
-        self.ctx.fillEllipse(in: CGRect(x: CGFloat(centerX - radius),
-                                        y: CGFloat(centerY - radius),
-                                        width: CGFloat(radius * 2),
-                                        height: CGFloat(radius * 2)))
-    }
-    
     var bounds: CGRect
     var ctx: CGContext
     
@@ -156,5 +134,27 @@ class IosCanvas : NSObject, Canvas {
     
     func setTextAlign(align: TextAlign) {
         self.textAlign = align
+    }
+    
+    func fillArc(centerX: Double, centerY: Double, radius: Double, startAngle: Double, swipeAngle: Double) {
+        let center = CGPoint(x: CGFloat(centerX), y: CGFloat(centerY))
+        let a1 = startAngle / 180 * .pi * (-1)
+        let a2 = a1 - swipeAngle / 180 * .pi
+        self.ctx.beginPath()
+        self.ctx.move(to: center)
+        self.ctx.addArc(center: center,
+                        radius: CGFloat(radius),
+                        startAngle: CGFloat(a1),
+                        endAngle: CGFloat(a2),
+                        clockwise: swipeAngle >= 0)
+        self.ctx.closePath()
+        self.ctx.fillPath()
+    }
+    
+    func fillCircle(centerX: Double, centerY: Double, radius: Double) {
+        self.ctx.fillEllipse(in: CGRect(x: CGFloat(centerX - radius),
+                                        y: CGFloat(centerY - radius),
+                                        width: CGFloat(radius * 2),
+                                        height: CGFloat(radius * 2)))
     }
 }

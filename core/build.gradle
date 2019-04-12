@@ -91,5 +91,38 @@ kotlin {
                 implementation kotlin('test-js')
             }
         }
+
+        iosMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.0-alpha-2'
+            }
+        }
+
+        iosTest {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.0-alpha-2'
+            }
+        }
+    }
+
+    task iosTestCopyResources(type: Copy) {
+        dependsOn 'linkTestIos'
+        from 'assets/test/'
+        from 'assets/main/'
+        into 'build/bin/ios/testDebugExecutable'
+    }
+
+    task iosTest {
+        dependsOn 'linkTestIos', 'iosTestCopyResources'
+        group = JavaBasePlugin.VERIFICATION_GROUP
+        description = "Runs tests on iOS simulator"
+
+        doLast {
+            def emulatorName = "iPhone 8 Plus"
+            def binary = kotlin.targets.ios.compilations.test.getBinary('EXECUTABLE', 'DEBUG')
+            exec {
+                commandLine 'xcrun', 'simctl', 'spawn', emulatorName, binary.absolutePath
+            }
+        }
     }
 }
