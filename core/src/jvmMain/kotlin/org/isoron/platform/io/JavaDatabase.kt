@@ -92,7 +92,7 @@ class JavaDatabase(private var conn: Connection,
     }
 }
 
-class JavaDatabaseOpener(private val log: Log) : DatabaseOpener {
+class JavaDatabaseOpener(val log: Log) : DatabaseOpener {
     override fun open(file: UserFile): Database {
         val platformFile = file as JavaUserFile
         val conn = DriverManager.getConnection("jdbc:sqlite:${platformFile.path}")

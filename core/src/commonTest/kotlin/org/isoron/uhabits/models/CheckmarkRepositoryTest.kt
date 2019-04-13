@@ -20,13 +20,13 @@
 package org.isoron.uhabits.models
 
 import org.isoron.*
+import org.isoron.platform.io.*
 import org.isoron.platform.time.*
 import kotlin.test.*
 
 
-class CheckmarkRepositoryTest : BaseTest() {
-    suspend fun testCRUD() {
-        val db = resolver.getDatabase()
+class CheckmarkRepositoryTest(val db: Database) {
+    fun testCRUD() {
         val habitA = 10
         var checkmarksA = listOf(Checkmark(LocalDate(2019, 1, 15), 100),
                                  Checkmark(LocalDate(2019, 1, 7), 500),

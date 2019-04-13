@@ -19,6 +19,8 @@
 
 package org.isoron.platform.io
 
+import org.isoron.uhabits.*
+
 interface PreparedStatement {
     fun step(): StepResult
     fun finalize()
@@ -63,7 +65,7 @@ fun Database.queryInt(sql: String): Int {
 
 fun Database.nextId(tableName: String): Int {
     val stmt = prepareStatement("select seq from sqlite_sequence where name='$tableName'")
-    if(stmt.step() == StepResult.ROW) {
+    if (stmt.step() == StepResult.ROW) {
         val result = stmt.getInt(0)
         stmt.finalize()
         return result + 1
@@ -80,7 +82,9 @@ fun Database.getVersion() = queryInt("pragma user_version")
 
 fun Database.setVersion(v: Int) = run("pragma user_version = $v")
 
-suspend fun Database.migrateTo(newVersion: Int, fileOpener: FileOpener, log: Log) {
+suspend fun Database.migrateTo(newVersion: Int,
+                               fileOpener: FileOpener,
+                               log: Log) {
     val currentVersion = getVersion()
     log.debug("Database", "Current database version: $currentVersion")
 
@@ -89,10 +93,10 @@ suspend fun Database.migrateTo(newVersion: Int, fileOpener: FileOpener, log: Log
 
     if (currentVersion > newVersion)
         throw RuntimeException("database produced by future version of the application")
-    
+
     begin()
     for (v in (currentVersion + 1)..newVersion) {
-        val sv = if(v < 10) "00$v" else if (v<100) "0$v" else "$v"
+        val sv = if (v < 10) "00$v" else if (v < 100) "0$v" else "$v"
         val filename = "migrations/$sv.sql"
         val migrationFile = fileOpener.openResourceFile(filename)
         for (line in migrationFile.lines()) {

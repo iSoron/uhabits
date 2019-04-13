@@ -21,22 +21,11 @@ package org.isoron
 
 import kotlinx.coroutines.*
 import org.isoron.platform.io.*
-import org.isoron.uhabits.models.*
 import kotlin.test.*
 
 class IosAsyncTests {
     @Test
-    fun testFiles() = runBlocking { FilesTest().testLines() }
-
-//    @Test
-//    fun testDatabase() = runBlocking { DatabaseTest().testUsage() }
-//
-//    @Test
-//    fun testCheckmarkRepository() = runBlocking { CheckmarkRepositoryTest().testCRUD() }
-//
-//    @Test
-//    fun testHabitRepository() = runBlocking { HabitRepositoryTest().testCRUD() }
-//
-//    @Test
-//    fun testPreferencesRepository() = runBlocking { PreferencesRepositoryTest().testUsage() }
+    fun testFiles() = runBlocking {
+        FilesTest(IosFileOpener()).testLines()
+    }
 }

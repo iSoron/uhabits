@@ -19,27 +19,36 @@
 
 import UIKit
 
-@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
-
+@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate, BackendListener {
+   
     var window: UIWindow?
-    var backend = Backend(databaseName: "dev.db",
-                          databaseOpener: IosDatabaseOpener(withLog: StandardLog()),
-                          fileOpener: IosFileOpener(),
-                          localeHelper: IosLocaleHelper(NSLocale.preferredLanguages),
-                          log: StandardLog(),
-                          taskRunner: SequentialTaskRunner())
+    var nav: UINavigationController?
+    let log = StandardLog()
+    var backend: Backend?
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        backend = Backend(databaseName: "uhabits.db",
+                          databaseOpener: IosDatabaseOpener(withLog: log),
+                          fileOpener: IosFileOpener(),
+                          localeHelper: IosLocaleHelper(NSLocale.preferredLanguages),
+                          log: log,
+                          crCtx: UIDispatcher())
+        
+        backend?.observable.addListener(listener: self)
+        backend?.doInit()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        if let window = window {
-            let nav = UINavigationController()
-            nav.viewControllers = [MainScreenController(withBackend: backend)]
-            window.backgroundColor = UIColor.white
-            window.rootViewController = nav
-            window.makeKeyAndVisible()
-        }
+        nav = UINavigationController()
+        window?.backgroundColor = UIColor.white
+        window?.rootViewController = nav
+        window?.makeKeyAndVisible()
+        
         return true
+    }
+    
+    func onReady() {
+        nav?.viewControllers = [MainScreenController(withBackend: backend!)]
     }
 }

@@ -17,41 +17,25 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron
+package org.isoron.platform
 
 import org.isoron.platform.gui.*
-import org.isoron.platform.io.*
-import org.isoron.uhabits.*
 import org.w3c.dom.*
 import kotlin.browser.*
+import kotlin.test.*
 
-actual class DependencyResolver {
-
-    var fs: JsFileStorage? = null
-
-    actual suspend fun getFileOpener(): FileOpener {
-        if (fs == null) {
-            fs = JsFileStorage()
-            fs?.init()
-        }
-        return JsFileOpener(fs!!)
-    }
-
-    actual suspend fun getDatabase(): Database {
-        val nativeDB = eval("new SQL.Database()")
-        val db = JsDatabase(nativeDB)
-        db.migrateTo(LOOP_DATABASE_VERSION, getFileOpener(), StandardLog())
-        return db
-    }
-
-    actual fun createCanvas(width: Int, height: Int): Canvas {
+class JsCanvasTest : CanvasTest.Platform {
+    override fun createCanvas(width: Int, height: Int): Canvas {
         val canvasElement = document.getElementById("canvas") as HTMLCanvasElement
         canvasElement.style.width = "${width}px"
         canvasElement.style.height = "${height}px"
         return HtmlCanvas(canvasElement)
     }
 
-    actual fun exportCanvas(canvas: Canvas, filename: String) {
+    override fun exportCanvas(canvas: Canvas, filename: String) {
         // do nothing
     }
+
+    @Test
+    fun testDrawing() = CanvasTest(this).run()
 }

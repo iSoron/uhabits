@@ -100,7 +100,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     var preferences: Preferences
     var theme: Theme
     var nButtons = 3
-    var strings: Strings
+    var strings = Strings()
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()
@@ -109,9 +109,9 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     init(withBackend backend:Backend) {
         self.backend = backend
         self.strings = backend.strings
-        self.dataSource = backend.mainScreenDataSource!
+        self.dataSource = backend.mainScreenDataSource
         self.theme = backend.theme
-        self.preferences = backend.preferences!
+        self.preferences = backend.preferences
         super.init(nibName: nil, bundle: nil)
         self.dataSource.observable.addListener(listener: self)
         self.dataSource.requestData()
@@ -189,7 +189,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     
     @objc func onMoreActionsClicked() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
+
         if preferences.showArchived {
             alert.addAction(UIAlertAction(title: strings.hide_archived, style: .default) {
                 (action: UIAlertAction) -> Void in
@@ -203,7 +203,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
                 self.dataSource.requestData()
             })
         }
-        
+
         if preferences.showCompleted {
             alert.addAction(UIAlertAction(title: strings.hide_completed, style: .default) {
                 (action: UIAlertAction) -> Void in
@@ -217,7 +217,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
                 self.dataSource.requestData()
             })
         }
-        
+
         if preferences.nightMode {
             alert.addAction(UIAlertAction(title: strings.day_mode, style: .default) {
                 (action: UIAlertAction) -> Void in
@@ -229,7 +229,7 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
                 self.preferences.nightMode = true
             })
         }
-        
+
         alert.addAction(UIAlertAction(title: strings.help, style: .default) {
             (action: UIAlertAction) -> Void in
             if let link = URL(string: "http://loophabits.org/faq") {

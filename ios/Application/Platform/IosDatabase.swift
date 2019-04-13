@@ -124,7 +124,7 @@ class IosDatabaseOpener : NSObject, DatabaseOpener {
   }
   
   func open(file: UserFile) -> Database {
-    let dbPath = (file as! IosUserFile).path
+    let dbPath = (file as! IosFile).path
     
     let version = String(cString: sqlite3_libversion())
     log.info(tag: "IosDatabaseOpener", msg: "SQLite \(version)")

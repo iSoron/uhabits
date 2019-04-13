@@ -24,9 +24,8 @@ import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import kotlin.test.*
 
-class HabitRepositoryTest() : BaseTest() {
-    suspend fun testCRUD() {
-        val db = resolver.getDatabase()
+class HabitRepositoryTest(val db: Database) {
+    fun testCRUD() {
         val original0 = Habit(id = 0,
                               name = "Wake up early",
                               description = "Did you wake up before 6am?",

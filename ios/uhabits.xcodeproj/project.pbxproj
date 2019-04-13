@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001592642260AE0F00D2814F /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
 		006EFE4E2252EA2B008464E0 /* IosLocale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4D2252EA2B008464E0 /* IosLocale.swift */; };
 		006EFE50225432B8008464E0 /* AboutScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4F225432B8008464E0 /* AboutScreenController.swift */; };
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
@@ -18,7 +19,6 @@
 		00C0C6BE22465F65003D8AF0 /* databases in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BB22465F65003D8AF0 /* databases */; };
 		00C0C6BF22465F65003D8AF0 /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BC22465F65003D8AF0 /* migrations */; };
 		00C0C6CA2246E543003D8AF0 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
-		00C0C6CB2246E543003D8AF0 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
 		00C0C6CC2246E550003D8AF0 /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C0C6CE2246EFB3003D8AF0 /* IosExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6CD2246EFB3003D8AF0 /* IosExtensions.swift */; };
 		00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D022470705003D8AF0 /* IosCanvas.swift */; };
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6CB2246E543003D8AF0 /* main.framework in Frameworks */,
+				001592642260AE0F00D2814F /* main.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +498,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Application/BridgingHeader.h;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -525,6 +526,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Application/BridgingHeader.h;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -547,6 +549,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.isoron.uhabitsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/uhabits.app/uhabits";
@@ -570,6 +574,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.isoron.uhabitsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/uhabits.app/uhabits";

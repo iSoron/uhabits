@@ -19,14 +19,12 @@
 
 package org.isoron.uhabits.models
 
-import org.isoron.*
+import org.isoron.platform.io.*
 import kotlin.test.*
 
-class PreferencesRepositoryTest : BaseTest() {
-    suspend fun testUsage() {
-        val db = resolver.getDatabase()
+class PreferencesRepositoryTest(val db: Database) {
+    fun testUsage() {
         val prefs = PreferencesRepository(db)
-
         assertEquals("default", prefs.getString("non_existing_key", "default"))
         prefs.putString("ringtone_path", "/tmp")
         assertEquals("/tmp", prefs.getString("ringtone_path", "none"))

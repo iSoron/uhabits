@@ -23,44 +23,48 @@ import kotlinx.coroutines.*
 import org.isoron.platform.io.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.models.*
-import org.junit.*
+import kotlin.test.*
 
-class JavaAsyncTests {
+class JsAsyncTests {
+    var fs: JsFileStorage? = null
 
-    val log = StandardLog()
-    val fileOpener = JavaFileOpener()
-    val databaseOpener = JavaDatabaseOpener(log)
+    suspend fun getFileOpener(): FileOpener {
+        if (fs == null) {
+            fs = JsFileStorage()
+            fs?.init()
+        }
+        return JsFileOpener(fs!!)
+    }
 
     suspend fun getDatabase(): Database {
-        val dbFile = fileOpener.openUserFile("test.sqlite3")
-        if (dbFile.exists()) dbFile.delete()
-        val db = databaseOpener.open(dbFile)
-        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        val nativeDB = eval("new SQL.Database()")
+        val db = JsDatabase(nativeDB)
+        db.migrateTo(LOOP_DATABASE_VERSION, getFileOpener(), StandardLog())
         return db
     }
 
     @Test
-    fun testFiles() = runBlocking {
-        FilesTest(fileOpener).testLines()
+    fun testFiles() = GlobalScope.promise {
+        FilesTest(getFileOpener()).testLines()
     }
 
     @Test
-    fun testDatabase() = runBlocking {
+    fun testDatabase() = GlobalScope.promise {
         DatabaseTest(getDatabase()).testUsage()
     }
 
     @Test
-    fun testCheckmarkRepository() = runBlocking {
+    fun testCheckmarkRepository() = GlobalScope.promise {
         CheckmarkRepositoryTest(getDatabase()).testCRUD()
     }
 
     @Test
-    fun testHabitRepository() = runBlocking {
+    fun testHabitRepository() = GlobalScope.promise {
         HabitRepositoryTest(getDatabase()).testCRUD()
     }
 
     @Test
-    fun testPreferencesRepository() = runBlocking {
+    fun testPreferencesRepository() = GlobalScope.promise {
         PreferencesRepositoryTest(getDatabase()).testUsage()
     }
 }

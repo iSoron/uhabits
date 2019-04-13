@@ -27,8 +27,7 @@ import org.isoron.uhabits.models.Checkmark.Companion.UNCHECKED
 class MainScreenDataSource(val preferences: Preferences,
                            val habits: MutableMap<Int, Habit>,
                            val checkmarks: MutableMap<Habit, CheckmarkList>,
-                           val scores: MutableMap<Habit, ScoreList>,
-                           val taskRunner: TaskRunner) {
+                           val scores: MutableMap<Habit, ScoreList>) {
 
     val maxNumberOfButtons = 60
     private val today = LocalDate(2019, 3, 30) /* TODO */
@@ -44,36 +43,32 @@ class MainScreenDataSource(val preferences: Preferences,
     }
 
     fun requestData() {
-        taskRunner.runInBackground {
-            var filtered = habits.values.toList()
+        var filtered = habits.values.toList()
 
-            if (!preferences.showArchived) {
-                filtered = filtered.filter { !it.isArchived }
-            }
+        if (!preferences.showArchived) {
+            filtered = filtered.filter { !it.isArchived }
+        }
 
-            val checkmarks = filtered.associate { habit ->
-                val allValues = checkmarks.getValue(habit).getUntil(today)
-                if (allValues.size <= maxNumberOfButtons) habit to allValues
-                else habit to allValues.subList(0, maxNumberOfButtons)
-            }
+        val checkmarks = filtered.associate { habit ->
+            val allValues = checkmarks.getValue(habit).getUntil(today)
+            if (allValues.size <= maxNumberOfButtons) habit to allValues
+            else habit to allValues.subList(0, maxNumberOfButtons)
+        }
 
-            if (!preferences.showCompleted) {
-                filtered = filtered.filter { habit ->
-                    (habit.type == HabitType.BOOLEAN_HABIT && checkmarks.getValue(habit)[0].value == UNCHECKED) ||
-                    (habit.type == HabitType.NUMERICAL_HABIT && checkmarks.getValue(habit)[0].value * 1000 < habit.target)
-                }
+        if (!preferences.showCompleted) {
+            filtered = filtered.filter { habit ->
+                (habit.type == HabitType.BOOLEAN_HABIT && checkmarks.getValue(habit)[0].value == UNCHECKED) ||
+                (habit.type == HabitType.NUMERICAL_HABIT && checkmarks.getValue(habit)[0].value * 1000 < habit.target)
             }
+        }
 
-            val scores = filtered.associate { habit ->
-                habit to scores[habit]!!.getAt(today)
-            }
+        val scores = filtered.associate { habit ->
+            habit to scores[habit]!!.getAt(today)
+        }
 
-            taskRunner.runInForeground {
-                observable.notifyListeners { listener ->
-                    val data = Data(filtered, scores, checkmarks)
-                    listener.onDataChanged(data)
-                }
-            }
+        observable.notifyListeners { listener ->
+            val data = Data(filtered, scores, checkmarks)
+            listener.onDataChanged(data)
         }
     }
 }

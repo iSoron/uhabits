@@ -17,14 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron
+package org.isoron.platform.concurrency
 
-import org.isoron.platform.gui.*
-import org.isoron.platform.io.*
+import kotlinx.coroutines.*
+import platform.darwin.*
+import kotlin.coroutines.*
 
-expect class DependencyResolver() {
-    suspend fun getFileOpener(): FileOpener
-    suspend fun getDatabase(): Database
-    fun createCanvas(width: Int, height: Int): Canvas
-    fun exportCanvas(canvas: Canvas, filename: String)
+class UIDispatcher : CoroutineDispatcher() {
+    override fun dispatch(context: CoroutineContext, block: Runnable) {
+        val queue = dispatch_get_main_queue()
+        dispatch_async(queue) {
+            block.run()
+        }
+    }
 }

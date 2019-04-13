@@ -26,9 +26,6 @@ class IosDatabaseTest: XCTestCase {
         let fileOpener = IosFileOpener()
 
         let dbFile = fileOpener.openUserFile(path: "test.sqlite3")
-        if dbFile.exists() {
-            dbFile.delete()
-        }
         let db = databaseOpener.open(file: dbFile)
 
         var stmt = db.prepareStatement(sql: "drop table if exists demo")
@@ -68,6 +65,5 @@ class IosDatabaseTest: XCTestCase {
         stmt.finalize()
 
         db.close()
-        dbFile.delete()
     }
 }

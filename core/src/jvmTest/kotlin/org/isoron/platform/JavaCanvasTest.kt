@@ -17,26 +17,25 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron
+package org.isoron.platform
 
-import kotlinx.coroutines.*
-import org.isoron.platform.io.*
-import org.isoron.uhabits.models.*
-import kotlin.test.*
+import org.isoron.platform.gui.*
+import org.junit.*
+import java.awt.image.*
+import java.io.*
+import javax.imageio.*
 
-class JsAsyncTests {
+class JavaCanvasTest : CanvasTest.Platform {
+    override fun createCanvas(width: Int, height: Int): Canvas {
+        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+        return JavaCanvas(image, pixelScale = 1.0)
+    }
+
+    override fun exportCanvas(canvas: Canvas, filename: String) {
+        val javaCanvas = canvas as JavaCanvas
+        ImageIO.write(javaCanvas.image, "png", File("/tmp/$filename"))
+    }
+
     @Test
-    fun testFiles() = GlobalScope.promise { FilesTest().testLines() }
-
-    @Test
-    fun testDatabase() = GlobalScope.promise { DatabaseTest().testUsage() }
-
-    @Test
-    fun testCheckmarkRepository() = GlobalScope.promise { CheckmarkRepositoryTest().testCRUD() }
-
-    @Test
-    fun testHabitRepository() = GlobalScope.promise { HabitRepositoryTest().testCRUD() }
-
-    @Test
-    fun testPreferencesRepository() = GlobalScope.promise { PreferencesRepositoryTest().testUsage() }
+    fun testDrawing() = CanvasTest(this).run()
 }

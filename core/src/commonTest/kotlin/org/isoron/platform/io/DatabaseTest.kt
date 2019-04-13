@@ -19,12 +19,10 @@
 
 package org.isoron.platform.io
 
-import org.isoron.*
 import kotlin.test.*
 
-class DatabaseTest() : BaseTest() {
-    suspend fun testUsage() {
-        val db = resolver.getDatabase()
+class DatabaseTest(val db: Database)  {
+    fun testUsage() {
         db.setVersion(0)
         assertEquals(0, db.getVersion())
 
