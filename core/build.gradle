@@ -51,6 +51,7 @@ kotlin {
 
     sourceSets {
         commonMain {
+            kotlin { srcDir "src/main/common" }
             dependencies {
                 implementation kotlin('stdlib-common')
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.2.0-alpha-2'
@@ -58,6 +59,7 @@ kotlin {
         }
 
         commonTest {
+            kotlin { srcDir "src/test/common" }
             dependencies {
                 implementation kotlin('test-common')
                 implementation kotlin('test-annotations-common')
@@ -65,6 +67,7 @@ kotlin {
         }
 
         jvmMain {
+            kotlin { srcDir "src/main/jvm" }
             dependencies {
                 implementation kotlin('stdlib-jdk8')
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2'
@@ -72,6 +75,7 @@ kotlin {
         }
 
         jvmTest {
+            kotlin { srcDir "src/test/jvm" }
             dependencies {
                 implementation kotlin('test')
                 implementation kotlin('test-junit')
@@ -80,6 +84,7 @@ kotlin {
         }
 
         jsMain {
+            kotlin { srcDir "src/main/js" }
             dependencies {
                 implementation kotlin('stdlib-js')
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.2.0-alpha-2'
@@ -87,18 +92,21 @@ kotlin {
         }
 
         jsTest {
+            kotlin { srcDir "src/test/js" }
             dependencies {
                 implementation kotlin('test-js')
             }
         }
 
         iosMain {
+            kotlin { srcDir "src/main/ios" }
             dependencies {
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.0-alpha-2'
             }
         }
 
         iosTest {
+            kotlin { srcDir "src/test/ios" }
             dependencies {
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.0-alpha-2'
             }
