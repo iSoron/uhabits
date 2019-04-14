@@ -20,12 +20,22 @@
 package org.isoron
 
 import org.isoron.platform.io.*
+import org.isoron.platform.time.*
 
 actual object DependencyResolver {
     actual suspend fun getFileOpener(): FileOpener = IosFileOpener()
 
+    actual fun getDateFormatter(locale: Locale): LocalDateFormatter {
+        return when(locale) {
+            Locale.US -> IosLocalDateFormatter("en-US")
+            Locale.JAPAN -> IosLocalDateFormatter("ja-JP")
+        }
+    }
+
     // IosDatabase and IosCanvas are currently implemented in Swift, so we
-    // cannot test these classes here.
+    // cannot test these classes here. The tests will be skipped.
     actual suspend fun getDatabase(): Database = TODO()
     actual fun getCanvasHelper(): CanvasHelper = TODO()
+    actual val supportsDatabaseTests = false
+    actual val supportsCanvasTests = false
 }

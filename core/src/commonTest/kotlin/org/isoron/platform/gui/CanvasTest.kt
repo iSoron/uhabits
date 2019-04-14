@@ -25,6 +25,7 @@ import kotlin.test.*
 class CanvasTest {
     @Test
     fun run() {
+        if (!DependencyResolver.supportsCanvasTests) return
         val helper = DependencyResolver.getCanvasHelper()
         val canvas = helper.createCanvas(500, 400)
 

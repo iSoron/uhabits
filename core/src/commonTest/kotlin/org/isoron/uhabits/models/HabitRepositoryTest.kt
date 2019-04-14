@@ -26,6 +26,7 @@ import kotlin.test.*
 class HabitRepositoryTest() {
     @Test
     fun testCRUD() = asyncTest{
+        if (!DependencyResolver.supportsDatabaseTests) return@asyncTest
         val db = DependencyResolver.getDatabase()
         val original0 = Habit(id = 0,
                               name = "Wake up early",

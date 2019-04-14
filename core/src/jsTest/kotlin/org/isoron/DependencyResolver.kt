@@ -21,12 +21,14 @@ package org.isoron
 
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
+import org.isoron.platform.time.*
 import org.isoron.uhabits.*
 import org.w3c.dom.*
 import kotlin.browser.*
 
 actual object DependencyResolver {
-
+    actual val supportsDatabaseTests = true
+    actual val supportsCanvasTests = true
     var fileOpener: JsFileOpener? = null
 
     actual suspend fun getFileOpener(): FileOpener {
@@ -47,6 +49,13 @@ actual object DependencyResolver {
 
     actual fun getCanvasHelper(): CanvasHelper {
         return JsCanvasHelper()
+    }
+
+    actual fun getDateFormatter(locale: Locale): LocalDateFormatter {
+        return when(locale) {
+            Locale.US -> JsDateFormatter("en-US")
+            Locale.JAPAN -> JsDateFormatter("ja-JP")
+        }
     }
 }
 

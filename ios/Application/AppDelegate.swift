@@ -32,7 +32,7 @@ import UIKit
         backend = Backend(databaseName: "uhabits.db",
                           databaseOpener: IosDatabaseOpener(withLog: log),
                           fileOpener: IosFileOpener(),
-                          localeHelper: IosLocaleHelper(NSLocale.preferredLanguages),
+                          localeHelper: IosLocaleHelper(log: log),
                           log: log,
                           scope: UIDispatcher())
         

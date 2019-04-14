@@ -17,17 +17,22 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import UIKit
+package org.isoron.platform.time
 
-extension Color {
-    var uicolor: UIColor {
-      return UIColor(red: CGFloat(self.red),
-                     green: CGFloat(self.green),
-                     blue: CGFloat(self.blue),
-                     alpha: CGFloat(self.alpha))
+import kotlin.js.*
+
+fun LocalDate.toJsDate(): Date {
+    return Date(year, month - 1, day)
+}
+
+class JsDateFormatter(private val locale: String) : LocalDateFormatter {
+    override fun shortWeekdayName(date: LocalDate): String {
+        val options = dateLocaleOptions { weekday = "short" }
+        return date.toJsDate().toLocaleString(locale, options)
     }
-    
-    var cgcolor : CGColor {
-        return uicolor.cgColor
+
+    override fun shortMonthName(date: LocalDate): String {
+        val options = dateLocaleOptions { month = "short" }
+        return date.toJsDate().toLocaleString(locale, options)
     }
 }

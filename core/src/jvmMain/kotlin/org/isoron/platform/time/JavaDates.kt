@@ -22,7 +22,6 @@ package org.isoron.platform.time
 import java.util.*
 import java.util.Calendar.*
 
-
 fun LocalDate.toGregorianCalendar(): GregorianCalendar {
     val cal = GregorianCalendar()
     cal.timeZone = TimeZone.getTimeZone("GMT")
@@ -34,12 +33,6 @@ fun LocalDate.toGregorianCalendar(): GregorianCalendar {
     cal.set(MONTH, this.month - 1)
     cal.set(DAY_OF_MONTH, this.day)
     return cal
-}
-
-fun GregorianCalendar.toLocalDate(): LocalDate {
-    return LocalDate(this.get(YEAR),
-                     this.get(MONTH) + 1,
-                     this.get(DAY_OF_MONTH))
 }
 
 class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {

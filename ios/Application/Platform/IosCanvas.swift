@@ -19,6 +19,19 @@
 
 import UIKit
 
+extension Color {
+    var uicolor: UIColor {
+        return UIColor(red: CGFloat(self.red),
+                       green: CGFloat(self.green),
+                       blue: CGFloat(self.blue),
+                       alpha: CGFloat(self.alpha))
+    }
+    
+    var cgcolor : CGColor {
+        return uicolor.cgColor
+    }
+}
+
 class ComponentView : UIView {
     var component: Component?
     

@@ -21,12 +21,16 @@ package org.isoron
 
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
+import org.isoron.platform.time.*
 import org.isoron.uhabits.*
 import java.awt.image.*
 import java.io.*
 import javax.imageio.*
 
 actual object DependencyResolver {
+    actual val supportsDatabaseTests = true
+    actual val supportsCanvasTests = true
+
     actual suspend fun getFileOpener(): FileOpener = JavaFileOpener()
     actual fun getCanvasHelper(): CanvasHelper = JavaCanvasHelper()
 
@@ -42,6 +46,12 @@ actual object DependencyResolver {
         return db
     }
 
+    actual fun getDateFormatter(locale: Locale): LocalDateFormatter {
+        return when(locale) {
+            Locale.US -> JavaLocalDateFormatter(java.util.Locale.US)
+            Locale.JAPAN -> JavaLocalDateFormatter(java.util.Locale.JAPAN)
+        }
+    }
 }
 
 class JavaCanvasHelper : CanvasHelper {

@@ -21,6 +21,11 @@ package org.isoron
 
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
+import org.isoron.platform.time.*
+
+enum class Locale {
+    US, JAPAN
+}
 
 interface CanvasHelper {
     fun createCanvas(width: Int, height: Int): Canvas
@@ -28,7 +33,10 @@ interface CanvasHelper {
 }
 
 expect object DependencyResolver {
+    val supportsDatabaseTests: Boolean
+    val supportsCanvasTests: Boolean
     suspend fun getFileOpener(): FileOpener
     suspend fun getDatabase(): Database
     fun getCanvasHelper(): CanvasHelper
+    fun getDateFormatter(locale: Locale): LocalDateFormatter
 }

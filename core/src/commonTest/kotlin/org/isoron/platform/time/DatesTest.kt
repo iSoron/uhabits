@@ -17,14 +17,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron.platform.time
 
-import junit.framework.TestCase.*
-import org.isoron.platform.time.*
-import org.junit.*
-import java.util.*
-import java.util.Calendar.*
-
+import org.isoron.*
+import kotlin.test.*
 
 class DatesTest {
     private val d1 = LocalDate(2019, 3, 25)
@@ -32,7 +28,7 @@ class DatesTest {
     private val d3 = LocalDate(2019, 5, 12)
 
     @Test
-    fun plusMinusDays() {
+    fun testPlusMinusDays() {
         val today = LocalDate(2019, 3, 25)
         assertEquals(today.minus(28), LocalDate(2019, 2, 25))
         assertEquals(today.plus(7), LocalDate(2019, 4, 1))
@@ -40,8 +36,8 @@ class DatesTest {
     }
 
     @Test
-    fun shortMonthName() {
-        var fmt = JavaLocalDateFormatter(Locale.US)
+    fun testFormatter() {
+        var fmt = DependencyResolver.getDateFormatter(Locale.US)
         assertEquals("Mon", fmt.shortWeekdayName(d1))
         assertEquals("Thu", fmt.shortWeekdayName(d2))
         assertEquals("Sun", fmt.shortWeekdayName(d3))
@@ -49,7 +45,7 @@ class DatesTest {
         assertEquals("Apr", fmt.shortMonthName(d2))
         assertEquals("May", fmt.shortMonthName(d3))
 
-        fmt = JavaLocalDateFormatter(Locale.JAPAN)
+        fmt = DependencyResolver.getDateFormatter(Locale.JAPAN)
         assertEquals("月", fmt.shortWeekdayName(d1))
         assertEquals("木", fmt.shortWeekdayName(d2))
         assertEquals("日", fmt.shortWeekdayName(d3))
@@ -59,13 +55,7 @@ class DatesTest {
     }
 
     @Test
-    fun weekDay() {
-        assertEquals(DayOfWeek.SUNDAY, LocalDate(2015, 1, 25).dayOfWeek)
-        assertEquals(DayOfWeek.MONDAY, LocalDate(2017, 7, 3).dayOfWeek)
-    }
-
-    @Test
-    fun timestamps() {
+    fun testTimestamps() {
         val timestamps = listOf(Timestamp(1555977600000),
                                 Timestamp(968716800000),
                                 Timestamp(946684800000))
@@ -77,7 +67,7 @@ class DatesTest {
     }
 
     @Test
-    fun isOlderThan() {
+    fun testIsOlderThan() {
         val ref = LocalDate(2010, 10, 5)
         assertTrue(ref.isOlderThan(LocalDate(2010, 10, 10)))
         assertTrue(ref.isOlderThan(LocalDate(2010, 11, 4)))
@@ -104,39 +94,49 @@ class DatesTest {
     }
 
     @Test
-    fun gregorianCalendarConversion() {
-        fun check(cal: GregorianCalendar, daysSince2000: Int) {
-            val year = cal.get(YEAR)
-            val month = cal.get(MONTH) + 1
-            val day = cal.get(DAY_OF_MONTH)
-            val weekday = cal.get(DAY_OF_WEEK)
-            val date = LocalDate(year, month, day)
-            val millisSince1970 = cal.timeInMillis
-            val msg = "date=$year-$month-$day offset=$daysSince2000"
-
-            assertEquals(msg, daysSince2000, date.daysSince2000)
-            assertEquals(msg, year, date.year)
-            assertEquals(msg, month, date.month)
-            assertEquals(msg, day, date.day)
-            assertEquals(msg, weekday, date.dayOfWeek.index + 1)
-            assertEquals(msg, millisSince1970, date.timestamp.millisSince1970)
-            assertEquals(msg, date, date.timestamp.localDate)
+    fun testGregorianCalendarConversion() {
+        fun check(daysSince2000: Int,
+                  expectedYear: Int,
+                  expectedMonth: Int,
+                  expectedDay: Int,
+                  expectedWeekday: Int) {
+            val date = LocalDate(daysSince2000)
+            assertEquals(expectedYear, date.year)
+            assertEquals(expectedMonth, date.month)
+            assertEquals(expectedDay, date.day)
+            assertEquals(expectedWeekday, date.dayOfWeek.index)
+            assertEquals(date, date.timestamp.localDate)
         }
 
-        val cal = GregorianCalendar()
-        cal.timeZone = TimeZone.getTimeZone("GMT")
-        cal.set(MILLISECOND, 0)
-        cal.set(SECOND, 0)
-        cal.set(MINUTE, 0)
-        cal.set(HOUR_OF_DAY, 0)
-        cal.set(DAY_OF_MONTH, 1)
-        cal.set(MONTH, 0)
-        cal.set(YEAR, 2000)
-
-        // Check all dates from year 2000 until 2400
-        for(offset in 0..146097) {
-            check(cal, offset)
-            cal.add(DAY_OF_YEAR, 1)
-        }
+        check(0, 2000, 1, 1, 6)
+        check(626, 2001, 9, 18, 2)
+        check(915, 2002, 7, 4, 4)
+        check(2759, 2007, 7, 22, 0)
+        check(2791, 2007, 8, 23, 4)
+        check(6524, 2017, 11, 11, 6)
+        check(7517, 2020, 7, 31, 5)
+        check(10031, 2027, 6, 19, 6)
+        check(13091, 2035, 11, 4, 0)
+        check(14849, 2040, 8, 27, 1)
+        check(17330, 2047, 6, 13, 4)
+        check(20566, 2056, 4, 22, 6)
+        check(23617, 2064, 8, 29, 5)
+        check(27743, 2075, 12, 16, 1)
+        check(31742, 2086, 11, 27, 3)
+        check(36659, 2100, 5, 15, 6)
+        check(39224, 2107, 5, 24, 2)
+        check(39896, 2109, 3, 26, 2)
+        check(40819, 2111, 10, 5, 1)
+        check(43983, 2120, 6, 3, 1)
+        check(46893, 2128, 5, 22, 6)
+        check(51013, 2139, 9, 2, 3)
+        check(55542, 2152, 1, 26, 3)
+        check(58817, 2161, 1, 13, 2)
+        check(63769, 2174, 8, 5, 5)
+        check(64893, 2177, 9, 2, 2)
+        check(66840, 2183, 1, 1, 3)
+        check(68011, 2186, 3, 17, 5)
+        check(70060, 2191, 10, 26, 3)
+        check(70733, 2193, 8, 29, 4)
     }
 }
