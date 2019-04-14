@@ -17,22 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron
 
-interface Log {
-    fun info(tag: String, msg: String)
-    fun debug(tag: String, msg: String)
-}
+import org.isoron.platform.io.*
 
-/**
- * A Log that prints to the standard output.
- */
-class StandardLog : Log {
-    override fun info(tag: String, msg: String) {
-        println("I/$tag $msg")
-    }
+actual object DependencyResolver {
+    actual suspend fun getFileOpener(): FileOpener = IosFileOpener()
 
-    override fun debug(tag: String, msg: String) {
-        println("D/$tag $msg")
-    }
+    // IosDatabase and IosCanvas are currently implemented in Swift, so we
+    // cannot test these classes here.
+    actual suspend fun getDatabase(): Database = TODO()
+    actual fun getCanvasHelper(): CanvasHelper = TODO()
 }

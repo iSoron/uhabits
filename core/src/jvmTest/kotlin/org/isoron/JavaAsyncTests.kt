@@ -20,47 +20,9 @@
 package org.isoron
 
 import kotlinx.coroutines.*
-import org.isoron.platform.io.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.models.*
-import org.junit.*
 
-class JavaAsyncTests {
-
-    val log = StandardLog()
-    val fileOpener = JavaFileOpener()
-    val databaseOpener = JavaDatabaseOpener(log)
-
-    suspend fun getDatabase(): Database {
-        val dbFile = fileOpener.openUserFile("test.sqlite3")
-        if (dbFile.exists()) dbFile.delete()
-        val db = databaseOpener.open(dbFile)
-        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
-        return db
-    }
-
-    @Test
-    fun testFiles() = runBlocking {
-        FilesTest(fileOpener).testLines()
-    }
-
-    @Test
-    fun testDatabase() = runBlocking {
-        DatabaseTest(getDatabase()).testUsage()
-    }
-
-    @Test
-    fun testCheckmarkRepository() = runBlocking {
-        CheckmarkRepositoryTest(getDatabase()).testCRUD()
-    }
-
-    @Test
-    fun testHabitRepository() = runBlocking {
-        HabitRepositoryTest(getDatabase()).testCRUD()
-    }
-
-    @Test
-    fun testPreferencesRepository() = runBlocking {
-        PreferencesRepositoryTest(getDatabase()).testUsage()
-    }
-}
+/**
+ * Workaround until Kotlin adds support for testing suspend functions
+ * https://youtrack.jetbrains.com/issue/KT-22228
+ */
+actual fun asyncTest(block: suspend () -> Unit) = runBlocking { block() }

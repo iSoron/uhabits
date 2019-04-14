@@ -19,52 +19,46 @@
 
 package org.isoron
 
-import kotlinx.coroutines.*
+import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.models.*
-import kotlin.test.*
+import org.w3c.dom.*
+import kotlin.browser.*
 
-class JsAsyncTests {
-    var fs: JsFileStorage? = null
+actual object DependencyResolver {
 
-    suspend fun getFileOpener(): FileOpener {
-        if (fs == null) {
-            fs = JsFileStorage()
-            fs?.init()
+    var fileOpener: JsFileOpener? = null
+
+    actual suspend fun getFileOpener(): FileOpener {
+        if (fileOpener == null) {
+            val fs = JsFileStorage()
+            fs.init()
+            fileOpener = JsFileOpener(fs)
         }
-        return JsFileOpener(fs!!)
+        return fileOpener!!
     }
 
-    suspend fun getDatabase(): Database {
+    actual suspend fun getDatabase(): Database {
         val nativeDB = eval("new SQL.Database()")
         val db = JsDatabase(nativeDB)
         db.migrateTo(LOOP_DATABASE_VERSION, getFileOpener(), StandardLog())
         return db
     }
 
-    @Test
-    fun testFiles() = GlobalScope.promise {
-        FilesTest(getFileOpener()).testLines()
+    actual fun getCanvasHelper(): CanvasHelper {
+        return JsCanvasHelper()
+    }
+}
+
+class JsCanvasHelper : CanvasHelper {
+    override fun createCanvas(width: Int, height: Int): Canvas {
+        val canvasElement = document.getElementById("canvas") as HTMLCanvasElement
+        canvasElement.style.width = "${width}px"
+        canvasElement.style.height = "${height}px"
+        return HtmlCanvas(canvasElement)
     }
 
-    @Test
-    fun testDatabase() = GlobalScope.promise {
-        DatabaseTest(getDatabase()).testUsage()
-    }
-
-    @Test
-    fun testCheckmarkRepository() = GlobalScope.promise {
-        CheckmarkRepositoryTest(getDatabase()).testCRUD()
-    }
-
-    @Test
-    fun testHabitRepository() = GlobalScope.promise {
-        HabitRepositoryTest(getDatabase()).testCRUD()
-    }
-
-    @Test
-    fun testPreferencesRepository() = GlobalScope.promise {
-        PreferencesRepositoryTest(getDatabase()).testUsage()
+    override fun exportCanvas(canvas: Canvas, filename: String) {
+        // do nothing
     }
 }

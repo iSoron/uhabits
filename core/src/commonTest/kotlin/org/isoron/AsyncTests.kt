@@ -17,25 +17,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron
 
-import org.isoron.platform.gui.*
-import org.w3c.dom.*
-import kotlin.browser.*
-import kotlin.test.*
-
-class JsCanvasTest : CanvasTest.Platform {
-    override fun createCanvas(width: Int, height: Int): Canvas {
-        val canvasElement = document.getElementById("canvas") as HTMLCanvasElement
-        canvasElement.style.width = "${width}px"
-        canvasElement.style.height = "${height}px"
-        return HtmlCanvas(canvasElement)
-    }
-
-    override fun exportCanvas(canvas: Canvas, filename: String) {
-        // do nothing
-    }
-
-    @Test
-    fun testDrawing() = CanvasTest(this).run()
-}
+/**
+ * Workaround until Kotlin adds support for testing suspend functions
+ * https://youtrack.jetbrains.com/issue/KT-22228
+ */
+expect fun asyncTest(block: suspend () -> Unit)

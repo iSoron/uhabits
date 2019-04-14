@@ -34,7 +34,7 @@ import UIKit
                           fileOpener: IosFileOpener(),
                           localeHelper: IosLocaleHelper(NSLocale.preferredLanguages),
                           log: log,
-                          crCtx: UIDispatcher())
+                          scope: UIDispatcher())
         
         backend?.observable.addListener(listener: self)
         backend?.doInit()

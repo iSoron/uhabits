@@ -19,8 +19,6 @@
 
 package org.isoron.platform.io
 
-import org.isoron.uhabits.*
-
 interface PreparedStatement {
     fun step(): StepResult
     fun finalize()

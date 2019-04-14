@@ -17,22 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron
 
-interface Log {
-    fun info(tag: String, msg: String)
-    fun debug(tag: String, msg: String)
-}
+import kotlinx.coroutines.*
 
 /**
- * A Log that prints to the standard output.
+ * Workaround until Kotlin adds support for testing suspend functions
+ * https://youtrack.jetbrains.com/issue/KT-22228
  */
-class StandardLog : Log {
-    override fun info(tag: String, msg: String) {
-        println("I/$tag $msg")
-    }
-
-    override fun debug(tag: String, msg: String) {
-        println("D/$tag $msg")
-    }
-}
+actual fun asyncTest(block: suspend () -> Unit): dynamic = GlobalScope.promise { block() }

@@ -25,8 +25,11 @@ import org.isoron.platform.time.*
 import kotlin.test.*
 
 
-class CheckmarkRepositoryTest(val db: Database) {
-    fun testCRUD() {
+class CheckmarkRepositoryTest() {
+    @Test
+    fun testCRUD() = asyncTest {
+        val db = DependencyResolver.getDatabase()
+
         val habitA = 10
         var checkmarksA = listOf(Checkmark(LocalDate(2019, 1, 15), 100),
                                  Checkmark(LocalDate(2019, 1, 7), 500),

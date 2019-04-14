@@ -47,8 +47,8 @@ class Backend(private val databaseName: String,
               private val fileOpener: FileOpener,
               private val localeHelper: LocaleHelper,
               private val log: Log,
-              private val crCtx: CoroutineContext
-             ) : CoroutineScope by BackendScope(crCtx, log) {
+              private val scope: CoroutineContext
+             ) : CoroutineScope by BackendScope(scope, log) {
 
 
     private lateinit var database: Database

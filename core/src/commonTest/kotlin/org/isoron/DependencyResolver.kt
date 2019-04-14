@@ -17,22 +17,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron
 
-interface Log {
-    fun info(tag: String, msg: String)
-    fun debug(tag: String, msg: String)
+import org.isoron.platform.gui.*
+import org.isoron.platform.io.*
+
+interface CanvasHelper {
+    fun createCanvas(width: Int, height: Int): Canvas
+    fun exportCanvas(canvas: Canvas, filename: String)
 }
 
-/**
- * A Log that prints to the standard output.
- */
-class StandardLog : Log {
-    override fun info(tag: String, msg: String) {
-        println("I/$tag $msg")
-    }
-
-    override fun debug(tag: String, msg: String) {
-        println("D/$tag $msg")
-    }
+expect object DependencyResolver {
+    suspend fun getFileOpener(): FileOpener
+    suspend fun getDatabase(): Database
+    fun getCanvasHelper(): CanvasHelper
 }

@@ -20,12 +20,9 @@
 package org.isoron
 
 import kotlinx.coroutines.*
-import org.isoron.platform.io.*
-import kotlin.test.*
 
-class IosAsyncTests {
-    @Test
-    fun testFiles() = runBlocking {
-        FilesTest(IosFileOpener()).testLines()
-    }
-}
+/**
+ * Workaround until Kotlin adds support for testing suspend functions
+ * https://youtrack.jetbrains.com/issue/KT-22228
+ */
+actual fun asyncTest(block: suspend () -> Unit) = runBlocking { block() }

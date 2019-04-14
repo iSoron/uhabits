@@ -22,8 +22,11 @@ package org.isoron.platform.io
 import org.isoron.*
 import kotlin.test.*
 
-class FilesTest(val fileOpener: FileOpener) {
-    suspend fun testLines() {
+class FilesTest() {
+    @Test
+    fun testLines() = asyncTest {
+        val fileOpener = DependencyResolver.getFileOpener()
+
         assertFalse(fileOpener.openUserFile("non-existing-usr.txt").exists(),
                     "non-existing-usr.txt shouldn't exist")
 

@@ -23,7 +23,6 @@ enum class TextAlign {
     LEFT, CENTER, RIGHT
 }
 
-
 enum class Font {
     REGULAR,
     BOLD,

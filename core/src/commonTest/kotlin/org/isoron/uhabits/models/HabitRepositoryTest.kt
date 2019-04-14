@@ -21,11 +21,12 @@ package org.isoron.uhabits.models
 
 import org.isoron.*
 import org.isoron.platform.gui.*
-import org.isoron.platform.io.*
 import kotlin.test.*
 
-class HabitRepositoryTest(val db: Database) {
-    fun testCRUD() {
+class HabitRepositoryTest() {
+    @Test
+    fun testCRUD() = asyncTest{
+        val db = DependencyResolver.getDatabase()
         val original0 = Habit(id = 0,
                               name = "Wake up early",
                               description = "Did you wake up before 6am?",

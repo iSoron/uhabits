@@ -17,15 +17,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform
+package org.isoron
 
 import org.isoron.platform.gui.*
-import org.junit.*
+import org.isoron.platform.io.*
+import org.isoron.uhabits.*
 import java.awt.image.*
 import java.io.*
 import javax.imageio.*
 
-class JavaCanvasTest : CanvasTest.Platform {
+actual object DependencyResolver {
+    actual suspend fun getFileOpener(): FileOpener = JavaFileOpener()
+    actual fun getCanvasHelper(): CanvasHelper = JavaCanvasHelper()
+
+    actual suspend fun getDatabase(): Database {
+        val log = StandardLog()
+        val fileOpener = JavaFileOpener()
+        val databaseOpener = JavaDatabaseOpener(log)
+
+        val dbFile = fileOpener.openUserFile("test.sqlite3")
+        if (dbFile.exists()) dbFile.delete()
+        val db = databaseOpener.open(dbFile)
+        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        return db
+    }
+
+}
+
+class JavaCanvasHelper : CanvasHelper {
     override fun createCanvas(width: Int, height: Int): Canvas {
         val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
         return JavaCanvas(image, pixelScale = 1.0)
@@ -35,7 +54,4 @@ class JavaCanvasTest : CanvasTest.Platform {
         val javaCanvas = canvas as JavaCanvas
         ImageIO.write(javaCanvas.image, "png", File("/tmp/$filename"))
     }
-
-    @Test
-    fun testDrawing() = CanvasTest(this).run()
 }
