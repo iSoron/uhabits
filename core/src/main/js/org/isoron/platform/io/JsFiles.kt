@@ -24,6 +24,9 @@ import org.w3c.xhr.*
 import kotlin.js.*
 
 class JsFileStorage {
+    private val TAG = "JsFileStorage"
+    private val log = StandardLog()
+
     private val indexedDB = eval("indexedDB")
     private var db: dynamic = null
 
@@ -31,16 +34,16 @@ class JsFileStorage {
     private val OS_NAME = "Files"
 
     suspend fun init() {
-        console.log("Initializing JsFileStorage...")
+        log.info(TAG, "Initializing")
         Promise<Int> { resolve, reject ->
             val req = indexedDB.open(DB_NAME, 2)
             req.onerror = { reject(Exception("could not open IndexedDB")) }
             req.onupgradeneeded = {
-                console.log("Creating document store for JsFileStorage...")
+                log.info(TAG, "Creating document store")
                 req.result.createObjectStore(OS_NAME)
             }
             req.onsuccess = {
-                console.log("JsFileStorage is ready.")
+                log.info(TAG, "Ready")
                 db = req.result
                 resolve(0)
             }

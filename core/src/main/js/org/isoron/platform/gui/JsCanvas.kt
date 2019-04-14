@@ -19,17 +19,26 @@
 
 package org.isoron.platform.gui
 
+import kotlinx.coroutines.*
 import org.w3c.dom.*
-import kotlin.browser.*
+import kotlin.js.*
 import kotlin.math.*
 
-class HtmlCanvas(val canvas: HTMLCanvasElement) : Canvas {
+class JsCanvas(val element: HTMLCanvasElement,
+               val pixelScale: Double) : Canvas {
 
-    val ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+    val ctx = element.getContext("2d") as CanvasRenderingContext2D
     var fontSize = 12.0
-    var fontWeight = ""
-    var fontFamily = "sans-serif"
+    var fontFamily = "NotoRegular"
     var align = CanvasTextAlign.CENTER
+
+    private fun toPixel(x: Double): Double {
+        return pixelScale * x
+    }
+
+    private fun toDp(x: Int): Double {
+        return x / pixelScale
+    }
 
     override fun setColor(color: Color) {
         val c = "rgb(${color.red * 255}, ${color.green * 255}, ${color.blue * 255})"
@@ -39,45 +48,54 @@ class HtmlCanvas(val canvas: HTMLCanvasElement) : Canvas {
 
     override fun drawLine(x1: Double, y1: Double, x2: Double, y2: Double) {
         ctx.beginPath()
-        ctx.moveTo(x1 + 0.5, y1 + 0.5)
-        ctx.lineTo(x2 + 0.5, y2 + 0.5)
+        ctx.moveTo(toPixel(x1), toPixel(y1))
+        ctx.lineTo(toPixel(x2), toPixel(y2))
         ctx.stroke()
     }
 
     override fun drawText(text: String, x: Double, y: Double) {
-        ctx.font = "${fontWeight} ${fontSize}px ${fontFamily}"
+        ctx.font = "${fontSize}px ${fontFamily}"
         ctx.textAlign = align
         ctx.textBaseline = CanvasTextBaseline.MIDDLE
-        ctx.fillText(text, x, y)
+        ctx.fillText(text, toPixel(x), toPixel(y + fontSize * 0.05))
     }
 
     override fun fillRect(x: Double, y: Double, width: Double, height: Double) {
-        ctx.fillRect(x - 0.5, y - 0.5, width + 1.0, height + 1.0)
+        ctx.fillRect(toPixel(x),
+                     toPixel(y),
+                     toPixel(width),
+                     toPixel(height))
     }
 
     override fun drawRect(x: Double, y: Double, width: Double, height: Double) {
-        ctx.strokeRect(x - 0.5, y - 0.5, width + 1.0, height + 1.0)
+        ctx.strokeRect(toPixel(x),
+                       toPixel(y),
+                       toPixel(width),
+                       toPixel(height))
     }
 
     override fun getHeight(): Double {
-        return canvas.height.toDouble()
+        return toDp(element.height)
     }
 
     override fun getWidth(): Double {
-        return canvas.width.toDouble()
+        return toDp(element.width)
     }
 
     override fun setFont(font: Font) {
-        fontWeight = if (font == Font.BOLD) "bold" else ""
-        fontFamily = if (font == Font.FONT_AWESOME) "FontAwesome" else "sans-serif"
+        fontFamily = when(font) {
+            Font.REGULAR -> "NotoRegular"
+            Font.BOLD -> "NotoBold"
+            Font.FONT_AWESOME -> "FontAwesome"
+        }
     }
 
     override fun setFontSize(size: Double) {
-        fontSize = size
+        fontSize = size * pixelScale
     }
 
     override fun setStrokeWidth(size: Double) {
-        ctx.lineWidth = size
+        ctx.lineWidth = size * pixelScale
     }
 
     override fun fillArc(centerX: Double,
@@ -85,18 +103,24 @@ class HtmlCanvas(val canvas: HTMLCanvasElement) : Canvas {
                          radius: Double,
                          startAngle: Double,
                          swipeAngle: Double) {
+        val x = toPixel(centerX)
+        val y = toPixel(centerY)
         val from = startAngle / 180 * PI
         val to = (startAngle + swipeAngle) / 180 * PI
         ctx.beginPath()
-        ctx.moveTo(centerX, centerY)
-        ctx.arc(centerX, centerY, radius, -from, -to, swipeAngle >= 0)
-        ctx.lineTo(centerX, centerY)
+        ctx.moveTo(x, y)
+        ctx.arc(x, y, toPixel(radius), -from, -to, swipeAngle >= 0)
+        ctx.lineTo(x, y)
         ctx.fill()
     }
 
     override fun fillCircle(centerX: Double, centerY: Double, radius: Double) {
         ctx.beginPath()
-        ctx.arc(centerX, centerY, radius, 0.0, 2 * PI)
+        ctx.arc(toPixel(centerX),
+                toPixel(centerY),
+                toPixel(radius),
+                0.0,
+                2 * PI)
         ctx.fill()
     }
 
@@ -106,5 +130,16 @@ class HtmlCanvas(val canvas: HTMLCanvasElement) : Canvas {
             TextAlign.CENTER -> CanvasTextAlign.CENTER
             TextAlign.RIGHT -> CanvasTextAlign.RIGHT
         }
+    }
+
+    suspend fun loadImage(src: String) {
+        Promise<Int> { resolve, reject ->
+            val img = Image()
+            img.onload = {
+                ctx.drawImage(img, 0.0, 0.0)
+                resolve(0)
+            }
+            img.src = src
+        }.await()
     }
 }

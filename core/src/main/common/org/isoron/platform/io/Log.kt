@@ -22,17 +22,22 @@ package org.isoron.platform.io
 interface Log {
     fun info(tag: String, msg: String)
     fun debug(tag: String, msg: String)
+    fun warn(tag: String, msg: String)
 }
 
 /**
  * A Log that prints to the standard output.
  */
 class StandardLog : Log {
+    override fun warn(tag: String, msg: String) {
+        println(sprintf("W %-20s %s", tag, msg))
+    }
+
     override fun info(tag: String, msg: String) {
-        println("I/$tag $msg")
+        println(sprintf("I %-20s %s", tag, msg))
     }
 
     override fun debug(tag: String, msg: String) {
-        println("D/$tag $msg")
+        println(sprintf("D %-20s %s", tag, msg))
     }
 }

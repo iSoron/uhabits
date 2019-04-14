@@ -19,20 +19,21 @@
 
 package org.isoron.uhabits.components
 
+import org.isoron.*
 import org.isoron.uhabits.*
-import org.junit.*
+import kotlin.test.*
 
 class RingTest : BaseViewTest() {
     val base = "components/Ring"
 
     @Test
-    fun testDraw() {
+    fun testDraw() = asyncTest {
         val component = Ring(theme.color(8),
                              percentage = 0.30,
                              thickness = 5.0,
                              radius = 30.0,
                              theme = theme,
                              label = true)
-        assertRenders(120, 120, "$base/draw1.png", component)
+        assertRenders(60, 60, "$base/draw1.png", component)
     }
 }

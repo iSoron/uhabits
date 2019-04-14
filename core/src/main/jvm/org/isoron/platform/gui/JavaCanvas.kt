@@ -19,6 +19,7 @@
 
 package org.isoron.platform.gui
 
+import kotlinx.coroutines.*
 import org.isoron.platform.io.*
 import java.awt.*
 import java.awt.RenderingHints.*
@@ -26,14 +27,6 @@ import java.awt.font.*
 import java.awt.image.*
 import kotlin.math.*
 
-fun createFont(path: String): java.awt.Font {
-    val file = JavaFileOpener().openResourceFile(path) as JavaResourceFile
-    return java.awt.Font.createFont(0, file.stream())
-}
-
-private val NOTO_REGULAR_FONT = createFont("fonts/NotoSans-Regular.ttf")
-private val NOTO_BOLD_FONT = createFont("fonts/NotoSans-Bold.ttf")
-private val FONT_AWESOME_FONT = createFont("fonts/FontAwesome.ttf")
 
 class JavaCanvas(val image: BufferedImage,
                  val pixelScale: Double = 2.0) : Canvas {
@@ -45,6 +38,10 @@ class JavaCanvas(val image: BufferedImage,
     val widthPx = image.width
     val heightPx = image.height
     val g2d = image.createGraphics()
+
+    private val NOTO_REGULAR_FONT = createFont("fonts/NotoSans-Regular.ttf")
+    private val NOTO_BOLD_FONT = createFont("fonts/NotoSans-Bold.ttf")
+    private val FONT_AWESOME_FONT = createFont("fonts/FontAwesome.ttf")
 
     init {
         g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
@@ -73,6 +70,7 @@ class JavaCanvas(val image: BufferedImage,
     }
 
     override fun drawText(text: String, x: Double, y: Double) {
+        updateFont()
         val bounds = g2d.font.getStringBounds(text, frc)
         val bWidth = bounds.width.roundToInt()
         val bHeight = bounds.height.roundToInt()
@@ -122,7 +120,7 @@ class JavaCanvas(val image: BufferedImage,
     }
 
     override fun setStrokeWidth(size: Double) {
-        g2d.setStroke(BasicStroke(size.toFloat()))
+        g2d.stroke = BasicStroke((size * pixelScale).toFloat())
     }
 
     private fun updateFont() {
@@ -157,5 +155,11 @@ class JavaCanvas(val image: BufferedImage,
 
     override fun setTextAlign(align: TextAlign) {
         this.textAlign = align
+    }
+
+    private fun createFont(path: String) = runBlocking<java.awt.Font> {
+        val file = JavaFileOpener().openResourceFile(path) as JavaResourceFile
+        if (!file.exists()) throw RuntimeException("File not found: ${file.path}")
+        java.awt.Font.createFont(0, file.stream())
     }
 }

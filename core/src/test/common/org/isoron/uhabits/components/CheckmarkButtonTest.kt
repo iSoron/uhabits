@@ -17,8 +17,30 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.platform.io
+package org.isoron.uhabits.components
 
-actual fun sprintf(format: String, vararg args: Any?): String {
-    TODO()
+import org.isoron.*
+import org.isoron.uhabits.*
+import kotlin.test.*
+
+class CheckmarkButtonTest : BaseViewTest() {
+    val base = "components/CheckmarkButton"
+
+    @Test
+    fun testDrawExplicit() = asyncTest {
+        val component = CheckmarkButton(2, theme.color(8), theme)
+        assertRenders(48, 48, "$base/explicit.png", component)
+    }
+
+    @Test
+    fun testDrawImplicit() = asyncTest {
+        val component = CheckmarkButton(1, theme.color(8), theme)
+        assertRenders(48, 48, "$base/implicit.png", component)
+    }
+
+    @Test
+    fun testDrawUnchecked() = asyncTest {
+        val component = CheckmarkButton(0, theme.color(8), theme)
+        assertRenders(48, 48, "$base/unchecked.png", component)
+    }
 }

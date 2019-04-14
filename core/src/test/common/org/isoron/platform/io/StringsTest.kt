@@ -17,27 +17,21 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron
+package org.isoron.platform.io
 
-import org.isoron.platform.gui.*
-import org.isoron.platform.io.*
-import org.isoron.platform.time.*
+import kotlin.test.*
 
-enum class Locale {
-    US, JAPAN
-}
-
-interface CanvasHelper {
-    fun createCanvas(width: Int, height: Int): Canvas
-    suspend fun exportCanvas(canvas: Canvas, filename: String)
-    suspend fun compare(imageFile: ResourceFile, canvas: Canvas): Double
-}
-
-expect object DependencyResolver {
-    val supportsDatabaseTests: Boolean
-    val supportsCanvasTests: Boolean
-    suspend fun getFileOpener(): FileOpener
-    suspend fun getDatabase(): Database
-    fun getCanvasHelper(): CanvasHelper
-    fun getDateFormatter(locale: Locale): LocalDateFormatter
+class StringsTest {
+    @Test
+    fun testSprintf() {
+        assertEquals("  5", sprintf("%3d", 5))
+        assertEquals("005", sprintf("%03d", 5))
+        assertEquals("005", sprintf("%03d", 5))
+        assertEquals(" 45", sprintf("%3d", 45))
+        assertEquals("145", sprintf("%3d", 145))
+        assertEquals("  9  9", sprintf("%3d%3d", 9, 9))
+        assertEquals("   13.42", sprintf("%8.2f", 13.419187263))
+        assertEquals("00013.42", sprintf("%08.2f", 13.419187263))
+        assertEquals("13.42   ", sprintf("%-8.2f", 13.419187263))
+    }
 }

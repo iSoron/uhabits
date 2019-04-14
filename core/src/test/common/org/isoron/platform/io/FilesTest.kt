@@ -40,7 +40,7 @@ class FilesTest() {
         assertEquals("Hello World!", lines[0])
         assertEquals("This is a resource.", lines[1])
 
-        val helloCopy = fileOpener.openUserFile("hello-copy.txt")
+        val helloCopy = fileOpener.openUserFile("copies/hello.txt")
         hello.copyTo(helloCopy)
         lines = helloCopy.lines()
         assertEquals("Hello World!", lines[0])

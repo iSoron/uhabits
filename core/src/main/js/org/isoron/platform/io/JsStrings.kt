@@ -17,29 +17,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.components
+package org.isoron.platform.io
 
-import org.isoron.uhabits.*
-import org.junit.*
-
-class CheckmarkButtonTest : BaseViewTest() {
-    val base = "components/CheckmarkButton"
-
-    @Test
-    fun testDrawExplicit() {
-        val component = CheckmarkButton(2, theme.color(8), theme)
-        assertRenders(96, 96, "$base/explicit.png", component)
-    }
-
-    @Test
-    fun testDrawImplicit() {
-        val component = CheckmarkButton(1, theme.color(8), theme)
-        assertRenders(96, 96, "$base/implicit.png", component)
-    }
-
-    @Test
-    fun testDrawUnchecked() {
-        val component = CheckmarkButton(0, theme.color(8), theme)
-        assertRenders(96, 96, "$base/unchecked.png", component)
-    }
+actual fun sprintf(format: String, vararg args: Any?): String {
+    return js("vsprintf")(format, args)
 }

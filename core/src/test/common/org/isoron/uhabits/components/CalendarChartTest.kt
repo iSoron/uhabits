@@ -19,32 +19,30 @@
 
 package org.isoron.uhabits.components
 
+import org.isoron.*
 import org.isoron.platform.time.*
 import org.isoron.uhabits.*
-import org.junit.*
-import java.util.*
+import kotlin.test.*
 
 class CalendarChartTest : BaseViewTest() {
     val base = "components/CalendarChart"
 
     @Test
-    fun testDraw() {
+    fun testDraw() = asyncTest {
+        val fmt = DependencyResolver.getDateFormatter(Locale.US)
         val component = CalendarChart(LocalDate(2015, 1, 25),
                                       theme.color(4),
                                       theme,
-                                      JavaLocalDateFormatter(Locale.US))
+                                      fmt)
         component.series = listOf(1.0, // today
                                   0.2, 0.5, 0.7, 0.0, 0.3, 0.4, 0.6,
                                   0.6, 0.0, 0.3, 0.6, 0.5, 0.8, 0.0,
                                   0.0, 0.0, 0.0, 0.6, 0.5, 0.7, 0.7,
                                   0.5, 0.5, 0.8, 0.9, 1.0, 1.0, 1.0,
                                   1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.2)
-        assertRenders(800, 400, "$base/base.png", component)
+        assertRenders(400, 200, "$base/base.png", component)
 
         component.scrollPosition = 2
-        assertRenders(800, 400, "$base/scroll.png", component)
-
-        component.dateFormatter = JavaLocalDateFormatter(Locale.JAPAN)
-        assertRenders(800, 400, "$base/base-jp.png", component)
+        assertRenders(400, 200, "$base/scroll.png", component)
     }
 }

@@ -19,20 +19,16 @@
 
 package org.isoron.uhabits.components
 
+import org.isoron.*
 import org.isoron.platform.time.*
 import org.isoron.uhabits.*
-import org.junit.*
-import java.util.*
+import kotlin.test.*
 
 class HabitListHeaderTest : BaseViewTest() {
     @Test
-    fun testDraw() {
-        val header = HabitListHeader(LocalDate(2019, 3, 25),
-                                     5,
-                                     theme,
-                                     JavaLocalDateFormatter(Locale.US))
-        assertRenders(1200, 96,
-                      "components/HabitListHeader/light.png",
-                      header)
+    fun testDraw() = asyncTest {
+        val fmt = DependencyResolver.getDateFormatter(Locale.US)
+        val header = HabitListHeader(LocalDate(2019, 3, 25), 5, theme, fmt)
+        assertRenders(600, 48, "components/HabitListHeader/light.png", header)
     }
 }

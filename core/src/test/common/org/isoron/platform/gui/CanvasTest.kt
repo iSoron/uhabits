@@ -20,12 +20,13 @@
 package org.isoron.platform.gui
 
 import org.isoron.*
+import org.isoron.uhabits.*
 import kotlin.test.*
 
-class CanvasTest {
+class CanvasTest: BaseViewTest() {
     @Test
-    fun run() {
-        if (!DependencyResolver.supportsCanvasTests) return
+    fun run() = asyncTest{
+        if (!DependencyResolver.supportsCanvasTests) return@asyncTest
         val helper = DependencyResolver.getCanvasHelper()
         val canvas = helper.createCanvas(500, 400)
 
@@ -67,6 +68,6 @@ class CanvasTest {
         canvas.setFont(Font.FONT_AWESOME)
         canvas.drawText(FontAwesome.CHECK, 250.0, 300.0)
 
-        helper.exportCanvas(canvas, "CanvasTest.png")
+        assertRenders("components/CanvasTest.png", canvas)
     }
 }

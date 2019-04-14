@@ -22,7 +22,7 @@ package org.isoron.platform.io
 import java.io.*
 import java.nio.file.*
 
-class JavaResourceFile(private val path: String) : ResourceFile {
+class JavaResourceFile(val path: String) : ResourceFile {
     private val javaPath: Path
         get() {
             val mainPath = Paths.get("assets/main/$path")
@@ -41,7 +41,9 @@ class JavaResourceFile(private val path: String) : ResourceFile {
 
     override suspend fun copyTo(dest: UserFile) {
         if (dest.exists()) dest.delete()
-        Files.copy(javaPath, (dest as JavaUserFile).path)
+        val destPath = (dest as JavaUserFile).path
+        destPath.toFile().parentFile?.mkdirs()
+        Files.copy(javaPath, destPath)
     }
 
     fun stream(): InputStream {

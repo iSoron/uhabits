@@ -20,6 +20,7 @@ $(test_bundle): src/test/index.js core
 	cp node_modules/mocha/mocha.css build/lib
 	cp node_modules/mocha/mocha.js build/lib
 	cp node_modules/sql.js/js/sql.js build/lib
+	cp node_modules/sprintf-js/dist/sprintf.min.js build/lib
 
 serve:
 	npx serve build/
