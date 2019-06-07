@@ -20,7 +20,11 @@
 package org.isoron.platform.io
 
 import kotlinx.coroutines.*
+import org.isoron.platform.gui.*
+import org.isoron.platform.gui.Image
+import org.w3c.dom.*
 import org.w3c.xhr.*
+import kotlin.browser.*
 import kotlin.js.*
 
 class JsFileStorage {
@@ -141,5 +145,21 @@ class JsResourceFile(val filename: String) : ResourceFile {
     override suspend fun copyTo(dest: UserFile) {
         val fs = (dest as JsUserFile).fs
         fs.put(dest.filename, lines().joinToString("\n"))
+    }
+
+    override suspend fun toImage(): Image {
+        return Promise<Image> { resolve, reject ->
+            val img = org.w3c.dom.Image()
+            img.onload = {
+                val canvas = JsCanvas(document.createElement("canvas") as HTMLCanvasElement, 1.0)
+                canvas.element.width = img.naturalWidth
+                canvas.element.height = img.naturalHeight
+                canvas.setColor(Color(0xffffff))
+                canvas.fillRect(0.0, 0.0, canvas.getWidth(), canvas.getHeight())
+                canvas.ctx.drawImage(img, 0.0, 0.0)
+                resolve(canvas.toImage())
+            }
+            img.src = "/assets/$filename"
+        }.await()
     }
 }

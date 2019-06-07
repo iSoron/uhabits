@@ -26,7 +26,6 @@ import kotlin.test.*
 class PreferencesRepositoryTest() {
     @Test
     fun testUsage() = asyncTest{
-        if (!DependencyResolver.supportsDatabaseTests) return@asyncTest
         val db = DependencyResolver.getDatabase()
         val prefs = PreferencesRepository(db)
         assertEquals("default", prefs.getString("non_existing_key", "default"))

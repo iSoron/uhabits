@@ -21,6 +21,7 @@
 
 package org.isoron.platform.io
 
+import org.isoron.platform.gui.*
 import platform.Foundation.*
 
 class IosFileOpener : FileOpener {
@@ -54,6 +55,11 @@ class IosFile(val path: String) : UserFile, ResourceFile {
     }
 
     override suspend fun copyTo(dest: UserFile) {
-        NSFileManager.defaultManager.copyItemAtPath(path, (dest as IosFile).path, null)
+        val manager = NSFileManager.defaultManager
+        manager.copyItemAtPath(path, (dest as IosFile).path, null)
+    }
+
+    override suspend fun toImage(): Image {
+        TODO()
     }
 }

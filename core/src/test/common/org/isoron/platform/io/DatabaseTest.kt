@@ -26,7 +26,6 @@ class DatabaseTest  {
 
     @Test
     fun testUsage() = asyncTest{
-        if (!DependencyResolver.supportsDatabaseTests) return@asyncTest
         val db = DependencyResolver.getDatabase()
 
         db.setVersion(0)

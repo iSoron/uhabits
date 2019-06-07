@@ -30,6 +30,9 @@ import kotlin.math.*
 
 class JavaCanvas(val image: BufferedImage,
                  val pixelScale: Double = 2.0) : Canvas {
+    override fun toImage(): Image {
+        return JavaImage(image)
+    }
 
     private val frc = FontRenderContext(null, true, true)
     private var fontSize = 12.0

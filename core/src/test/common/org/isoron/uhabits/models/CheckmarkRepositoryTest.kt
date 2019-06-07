@@ -28,7 +28,6 @@ import kotlin.test.*
 class CheckmarkRepositoryTest() {
     @Test
     fun testCRUD() = asyncTest {
-        if (!DependencyResolver.supportsDatabaseTests) return@asyncTest
         val db = DependencyResolver.getDatabase()
 
         val habitA = 10

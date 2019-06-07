@@ -19,6 +19,8 @@
 
 package org.isoron.platform.io
 
+import org.isoron.platform.gui.*
+
 interface FileOpener {
     /**
      * Opens a file which was shipped bundled with the application, such as a
@@ -88,4 +90,9 @@ interface ResourceFile {
      * Returns true if the file exists.
      */
     suspend fun exists(): Boolean
+
+    /**
+     * Loads resource file as an image.
+     */
+    suspend fun toImage(): Image
 }

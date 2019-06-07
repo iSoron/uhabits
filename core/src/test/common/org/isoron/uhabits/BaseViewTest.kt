@@ -24,8 +24,6 @@ import org.isoron.platform.gui.*
 import org.isoron.uhabits.components.*
 import kotlin.test.*
 
-var SIMILARITY_THRESHOLD = 5.0
-
 open class BaseViewTest {
     var theme = LightTheme()
     suspend fun assertRenders(width: Int,
@@ -33,31 +31,34 @@ open class BaseViewTest {
                               expectedPath: String,
                               component: Component) {
 
-        val helper = DependencyResolver.getCanvasHelper()
-        val canvas = helper.createCanvas(width, height)
+        val canvas = DependencyResolver.createCanvas(width, height)
         component.draw(canvas)
         assertRenders(expectedPath, canvas)
     }
 
-    suspend fun assertRenders(expectedPath: String,
+    suspend fun assertRenders(path: String,
                               canvas: Canvas) {
 
-        val helper = DependencyResolver.getCanvasHelper()
+        val actualImage = canvas.toImage()
+        val failedActualPath = "/tmp/failed/${path}"
+        val failedExpectedPath = failedActualPath.replace(".png", ".expected.png")
+        val failedDiffPath = failedActualPath.replace(".png", ".diff.png")
         val fileOpener = DependencyResolver.getFileOpener()
-        val expectedFile = fileOpener.openResourceFile(expectedPath)
-        val actualPath = "/failed/${expectedPath}"
-
+        val expectedFile = fileOpener.openResourceFile(path)
         if (expectedFile.exists()) {
-            val d = helper.compare(expectedFile, canvas)
-            if (d >= SIMILARITY_THRESHOLD) {
-                helper.exportCanvas(canvas, actualPath)
-                val expectedCopy = expectedPath.replace(".png", ".expected.png")
-                expectedFile.copyTo(fileOpener.openUserFile("/failed/$expectedCopy"))
-                fail("Images differ (distance=${d}). Actual rendered saved to ${actualPath}.")
+            val expectedImage = expectedFile.toImage()
+            val diffImage = expectedFile.toImage()
+            diffImage.diff(actualImage)
+            val distance = diffImage.averageLuminosity * 100
+            if (distance >= 1.0) {
+                expectedImage.export(failedExpectedPath)
+                actualImage.export(failedActualPath)
+                diffImage.export(failedDiffPath)
+                fail("Images differ (distance=${distance})")
             }
         } else {
-            helper.exportCanvas(canvas, actualPath)
-            fail("Expected file is missing. Actual render saved to $actualPath")
+            actualImage.export(failedActualPath)
+            fail("Expected image file is missing.")
         }
     }
 }

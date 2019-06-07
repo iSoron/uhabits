@@ -26,9 +26,7 @@ import kotlin.test.*
 class CanvasTest: BaseViewTest() {
     @Test
     fun run() = asyncTest{
-        if (!DependencyResolver.supportsCanvasTests) return@asyncTest
-        val helper = DependencyResolver.getCanvasHelper()
-        val canvas = helper.createCanvas(500, 400)
+        val canvas = DependencyResolver.createCanvas(500, 400)
 
         canvas.setColor(Color(0x303030))
         canvas.fillRect(0.0, 0.0, 500.0, 400.0)

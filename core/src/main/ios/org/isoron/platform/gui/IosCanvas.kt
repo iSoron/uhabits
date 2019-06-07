@@ -28,8 +28,7 @@ val Color.uicolor: UIColor
 val Color.cgcolor: CGColorRef?
     get() = uicolor.CGColor
 
-class IosCanvas() : Canvas {
-    val ctx = UIGraphicsGetCurrentContext()
+class IosCanvas(val ctx: CGContextRef) : Canvas {
     var textColor = UIColor.blackColor
 
     override fun setColor(color: Color) {
@@ -78,5 +77,9 @@ class IosCanvas() : Canvas {
     }
 
     override fun setTextAlign(align: TextAlign) {
+    }
+
+    override fun toImage(): Image {
+        TODO()
     }
 }

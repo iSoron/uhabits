@@ -47,4 +47,6 @@ interface Canvas {
                 swipeAngle: Double)
     fun fillCircle(centerX: Double, centerY: Double, radius: Double)
     fun setTextAlign(align: TextAlign)
+    fun toImage(): Image
 }
+

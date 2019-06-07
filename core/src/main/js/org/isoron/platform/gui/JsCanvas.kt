@@ -27,6 +27,7 @@ import kotlin.math.*
 class JsCanvas(val element: HTMLCanvasElement,
                val pixelScale: Double) : Canvas {
 
+
     val ctx = element.getContext("2d") as CanvasRenderingContext2D
     var fontSize = 12.0
     var fontFamily = "NotoRegular"
@@ -57,7 +58,7 @@ class JsCanvas(val element: HTMLCanvasElement,
         ctx.font = "${fontSize}px ${fontFamily}"
         ctx.textAlign = align
         ctx.textBaseline = CanvasTextBaseline.MIDDLE
-        ctx.fillText(text, toPixel(x), toPixel(y + fontSize * 0.05))
+        ctx.fillText(text, toPixel(x), toPixel(y + fontSize * 0.025))
     }
 
     override fun fillRect(x: Double, y: Double, width: Double, height: Double) {
@@ -83,7 +84,7 @@ class JsCanvas(val element: HTMLCanvasElement,
     }
 
     override fun setFont(font: Font) {
-        fontFamily = when(font) {
+        fontFamily = when (font) {
             Font.REGULAR -> "NotoRegular"
             Font.BOLD -> "NotoBold"
             Font.FONT_AWESOME -> "FontAwesome"
@@ -125,21 +126,18 @@ class JsCanvas(val element: HTMLCanvasElement,
     }
 
     override fun setTextAlign(align: TextAlign) {
-        this.align = when(align) {
+        this.align = when (align) {
             TextAlign.LEFT -> CanvasTextAlign.LEFT
             TextAlign.CENTER -> CanvasTextAlign.CENTER
             TextAlign.RIGHT -> CanvasTextAlign.RIGHT
         }
     }
 
-    suspend fun loadImage(src: String) {
-        Promise<Int> { resolve, reject ->
-            val img = Image()
-            img.onload = {
-                ctx.drawImage(img, 0.0, 0.0)
-                resolve(0)
-            }
-            img.src = src
-        }.await()
+    override fun toImage(): Image {
+        return JsImage(this,
+                       ctx.getImageData(0.0,
+                                        0.0,
+                                        element.width.toDouble(),
+                                        element.height.toDouble()))
     }
 }
