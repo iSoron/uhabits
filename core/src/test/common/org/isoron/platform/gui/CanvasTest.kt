@@ -24,7 +24,7 @@ import org.isoron.uhabits.*
 import kotlin.test.*
 
 class CanvasTest: BaseViewTest() {
-    @Test
+    //@Test
     fun run() = asyncTest{
         val canvas = DependencyResolver.createCanvas(500, 400)
 

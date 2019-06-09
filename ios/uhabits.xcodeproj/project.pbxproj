@@ -12,8 +12,6 @@
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
 		00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42922009F590024E00C /* MainScreenController.swift */; };
 		00A5B42F22009F5A0024E00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A5B42E22009F5A0024E00C /* Assets.xcassets */; };
-		00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */; };
-		00C0C6A8224654A2003D8AF0 /* IosDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */; };
 		00C0C6BD22465F65003D8AF0 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BA22465F65003D8AF0 /* fonts */; };
 		00C0C6BE22465F65003D8AF0 /* databases in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BB22465F65003D8AF0 /* databases */; };
 		00C0C6BF22465F65003D8AF0 /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BC22465F65003D8AF0 /* migrations */; };
@@ -59,8 +57,6 @@
 		00A5B43322009F5A0024E00C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00A5B43822009F5A0024E00C /* uhabitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uhabitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A5B43E22009F5A0024E00C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosDatabaseTest.swift; sourceTree = "<group>"; };
-		00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IosDatabase.swift; sourceTree = "<group>"; };
 		00C0C6AE224655D8003D8AF0 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		00C0C6BA22465F65003D8AF0 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		00C0C6BB22465F65003D8AF0 /* databases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = databases; sourceTree = "<group>"; };
@@ -170,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				00C0C6D022470705003D8AF0 /* IosCanvas.swift */,
-				00C0C6A7224654A2003D8AF0 /* IosDatabase.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -179,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */,
-				00C0C6A222465365003D8AF0 /* IosDatabaseTest.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -312,7 +306,6 @@
 			files = (
 				00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */,
 				00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */,
-				00C0C6A8224654A2003D8AF0 /* IosDatabase.swift in Sources */,
 				00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */,
 				00A5B42822009F590024E00C /* AppDelegate.swift in Sources */,
 				00D48BD32200AC1600CC4527 /* EditHabitController.swift in Sources */,
@@ -325,7 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */,
-				00C0C6A62246537E003D8AF0 /* IosDatabaseTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

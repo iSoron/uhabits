@@ -27,7 +27,7 @@ import kotlin.test.*
 class CalendarChartTest : BaseViewTest() {
     val base = "components/CalendarChart"
 
-    @Test
+    //@Test
     fun testDraw() = asyncTest {
         val fmt = DependencyResolver.getDateFormatter(Locale.US)
         val component = CalendarChart(LocalDate(2015, 1, 25),

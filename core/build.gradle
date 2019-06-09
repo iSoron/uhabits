@@ -33,6 +33,13 @@ kotlin {
 
         fromPreset(iosPreset, 'ios') {
             compilations.main.outputKinds('FRAMEWORK')
+            compilations.main {
+                cinterops {
+                    sqlite3 {
+                        defFile project.file("src/main/c_interop/sqlite3.def")
+                    }
+                }
+            }
         }
 
         fromPreset(presets.jvm, 'jvm') {

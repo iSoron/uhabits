@@ -23,7 +23,6 @@ import org.isoron.*
 import kotlin.test.*
 
 class DatabaseTest  {
-
     @Test
     fun testUsage() = asyncTest{
         val db = DependencyResolver.getDatabase()

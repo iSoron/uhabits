@@ -17,7 +17,6 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:Suppress("UNCHECKED_CAST")
 
 package org.isoron.platform.io
 
@@ -32,9 +31,8 @@ class IosFileOpener : FileOpener {
 
     override fun openUserFile(path: String): UserFile {
         val manager = NSFileManager.defaultManager
-        val basePath = manager.URLsForDirectory(NSDocumentDirectory,
-                                                NSUserDomainMask) as List<NSURL>
-        val filePath = basePath.first().URLByAppendingPathComponent(path)!!.path!!
+        val basePath = manager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)
+        val filePath = (basePath.first() as NSURL).URLByAppendingPathComponent(path)!!.path!!
         return IosFile(filePath)
     }
 }
@@ -54,9 +52,13 @@ class IosFile(val path: String) : UserFile, ResourceFile {
         return contents.toString().lines()
     }
 
+    @Suppress("CAST_NEVER_SUCCEEDS")
     override suspend fun copyTo(dest: UserFile) {
+        val destPath = (dest as IosFile).path
         val manager = NSFileManager.defaultManager
-        manager.copyItemAtPath(path, (dest as IosFile).path, null)
+        val destParentPath = (destPath as NSString).stringByDeletingLastPathComponent
+        NSFileManager.defaultManager.createDirectoryAtPath(destParentPath, true, null, null)
+        manager.copyItemAtPath(path, destPath, null)
     }
 
     override suspend fun toImage(): Image {

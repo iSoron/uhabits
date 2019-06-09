@@ -25,7 +25,7 @@ import org.isoron.uhabits.*
 import kotlin.test.*
 
 class HabitListHeaderTest : BaseViewTest() {
-    @Test
+    //@Test
     fun testDraw() = asyncTest {
         val fmt = DependencyResolver.getDateFormatter(Locale.US)
         val header = HabitListHeader(LocalDate(2019, 3, 25), 5, theme, fmt)

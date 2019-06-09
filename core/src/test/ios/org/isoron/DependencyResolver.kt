@@ -22,6 +22,7 @@ package org.isoron
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import org.isoron.platform.time.*
+import org.isoron.uhabits.*
 import platform.CoreGraphics.*
 import platform.UIKit.*
 
@@ -41,6 +42,16 @@ actual object DependencyResolver {
         return IosCanvas(ctx)
     }
 
-    actual suspend fun getDatabase(): Database = TODO()
+    actual suspend fun getDatabase(): Database {
+        val log = StandardLog()
+        val fileOpener = IosFileOpener()
+        val databaseOpener = IosDatabaseOpener()
+
+        val dbFile = fileOpener.openUserFile("test.sqlite3")
+        if (dbFile.exists()) dbFile.delete()
+        val db = databaseOpener.open(dbFile)
+        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        return db
+    }
 
 }
