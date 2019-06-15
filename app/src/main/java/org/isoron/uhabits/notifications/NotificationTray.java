@@ -239,7 +239,13 @@ public class NotificationTray
 
             createAndroidNotificationChannel(context);
             int notificationId = getNotificationId(habit);
-            notificationManager.notify(notificationId, builder.build());
+
+            try {
+                notificationManager.notify(notificationId, builder.build());
+            } catch(RuntimeException e) {
+                builder.setSound(null);
+                notificationManager.notify(notificationId, builder.build());
+            }
         }
 
         private boolean shouldShowReminderToday()

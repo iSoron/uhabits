@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.10 (June 15, 2019)
+
+* Fix bug that prevented some devices from showing notifications.
+
 ### 1.7.8 (April 21, 2018)
 
 * Add support for adaptive icons (Oreo)
