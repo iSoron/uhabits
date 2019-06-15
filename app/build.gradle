@@ -5,8 +5,8 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.triplet.play'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
 //    signingConfigs {
 //        release {
@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "org.isoron.uhabits"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         buildConfigField "Integer", "databaseVersion", "15"
         buildConfigField "String", "databaseFilename", "\"uhabits.db\""
