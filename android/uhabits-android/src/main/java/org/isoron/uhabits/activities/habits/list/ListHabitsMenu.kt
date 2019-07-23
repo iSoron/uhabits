@@ -73,6 +73,16 @@ class ListHabitsMenu @Inject constructor(
                 return true
             }
 
+            R.id.actionCreateBooleanHabit -> {
+                behavior.onCreateBooleanHabit()
+                return true
+            }
+
+            R.id.actionCreateNumeralHabit -> {
+                behavior.onCreateNumericalHabit()
+                return true
+            }
+
             R.id.actionFAQ -> {
                 behavior.onViewFAQ()
                 return true

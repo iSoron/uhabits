@@ -74,6 +74,16 @@ public class ListHabitsMenuBehavior
         }
     }
 
+    public void onCreateBooleanHabit()
+    {
+        screen.showCreateBooleanHabitScreen();
+    }
+
+    public void onCreateNumericalHabit()
+    {
+        screen.showCreateNumericalHabitScreen();
+    }
+
     public void onViewFAQ()
     {
         screen.showFAQScreen();
@@ -154,6 +164,10 @@ public class ListHabitsMenuBehavior
         void showAboutScreen();
 
         void showCreateHabitScreen();
+
+        void showCreateBooleanHabitScreen();
+
+        void showCreateNumericalHabitScreen();
 
         void showFAQScreen();
 

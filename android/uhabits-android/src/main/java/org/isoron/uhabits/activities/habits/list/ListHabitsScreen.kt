@@ -137,8 +137,13 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
-    fun showCreateBooleanHabitScreen() {
+    override fun showCreateBooleanHabitScreen() {
         val dialog = editHabitDialogFactory.createBoolean()
+        activity.showDialog(dialog, "editHabit")
+    }
+
+    override fun showCreateNumericalHabitScreen() {
+        val dialog = editHabitDialogFactory.createNumerical()
         activity.showDialog(dialog, "editHabit")
     }
 
@@ -234,11 +239,6 @@ class ListHabitsScreen
             is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
             else -> return null
         }
-    }
-
-    private fun showCreateNumericalHabitScreen() {
-        val dialog = editHabitDialogFactory.createNumerical()
-        activity.showDialog(dialog, "editHabit")
     }
 
     private fun onImportData(file: File, onFinished: () -> Unit) {
