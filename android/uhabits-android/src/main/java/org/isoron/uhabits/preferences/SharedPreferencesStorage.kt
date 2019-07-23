@@ -89,6 +89,8 @@ class SharedPreferencesStorage
                 preferences.setNotificationsLed(getBoolean(key, false))
             "pref_feature_sync" ->
                 preferences.isSyncEnabled = getBoolean(key, false)
+            "pref_feature_numerical_habits" ->
+                preferences.isNumericalHabitsFeatureEnabled = getBoolean(key, false)
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }

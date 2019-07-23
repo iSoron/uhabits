@@ -61,9 +61,17 @@ public class ListHabitsMenuBehavior
         updateAdapterFilter();
     }
 
+    /**
+     * This function is called when a new habit should be created. (A dialog will be created)
+     * When only a single type of habit type exists (e.g. the numeral habits feature is disabled) a menu is spawned directly.
+     * If this is not the case however, a dropdown menu is shown.
+     */
     public void onCreateHabit()
     {
-        screen.showCreateHabitScreen();
+        if(!preferences.isNumericalHabitsFeatureEnabled())
+        {
+            screen.showCreateHabitScreen();
+        }
     }
 
     public void onViewFAQ()

@@ -33,15 +33,32 @@ class ListHabitsMenu @Inject constructor(
         private val preferences: Preferences,
         private val themeSwitcher: ThemeSwitcher,
         private val behavior: ListHabitsMenuBehavior
-) : BaseMenu(activity) {
+) : BaseMenu(activity), Preferences.Listener {
+
+    private lateinit var topBarMenu: Menu
 
     override fun onCreate(menu: Menu) {
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
         val hideArchivedItem = menu.findItem(R.id.actionHideArchived)
         val hideCompletedItem = menu.findItem(R.id.actionHideCompleted)
+
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
+
+
+        topBarMenu = menu
+        //the habit creation menu should be disabled when numeric habits are also disabled
+        if (!preferences.isNumericalHabitsFeatureEnabled) {
+            setCreateHabitMenuEnabled(false, menu)
+        }
+        //let the class add itself as listener
+        preferences.addListener(this)
+    }
+
+    override fun onNumericalHabitsFeatureChanged() {
+        if(topBarMenu==null){return}
+        setCreateHabitMenuEnabled(preferences.isNumericalHabitsFeatureEnabled, topBarMenu)
     }
 
     override fun onItemSelected(item: MenuItem): Boolean {
@@ -104,6 +121,19 @@ class ListHabitsMenu @Inject constructor(
             }
 
             else -> return false
+        }
+    }
+
+    /**
+     * @param enabled whether the create habit menu should be enabled or disabled
+     * @param menu a reference to the menu on which should be enabled or disabled
+     */
+    fun setCreateHabitMenuEnabled(enabled: Boolean, menu: Menu) {
+        val habitCreationMenu = menu.findItem(R.id.actionAdd).subMenu
+        for (itemIndex: Int in 0 until habitCreationMenu.size()) {
+            val menuItem = habitCreationMenu.getItem(itemIndex)
+            menuItem.isEnabled = enabled
+            menuItem.isVisible = enabled
         }
     }
 

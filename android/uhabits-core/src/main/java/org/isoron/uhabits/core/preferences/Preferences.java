@@ -232,6 +232,7 @@ public class Preferences
     public void setNumericalHabitsFeatureEnabled(boolean enabled)
     {
         storage.putBoolean("pref_feature_numerical_habits", enabled);
+        for (Listener l : listeners) l.onNumericalHabitsFeatureChanged();
     }
 
     public boolean isPureBlackEnabled()
@@ -344,6 +345,10 @@ public class Preferences
         }
 
         default void onSyncFeatureChanged()
+        {
+        }
+
+        default void onNumericalHabitsFeatureChanged()
         {
         }
     }
