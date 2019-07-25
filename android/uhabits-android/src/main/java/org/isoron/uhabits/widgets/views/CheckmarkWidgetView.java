@@ -34,18 +34,18 @@ import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
 public class CheckmarkWidgetView extends HabitWidgetView
 {
-    private int activeColor;
+    protected int activeColor;
 
-    private float percentage;
+    protected float percentage;
 
     @Nullable
-    private String name;
+    protected String name;
 
-    private RingView ring;
+    protected RingView ring;
 
-    private TextView label;
+    protected TextView label;
 
-    private int checkmarkValue;
+    protected int checkmarkValue;
 
     public CheckmarkWidgetView(Context context)
     {

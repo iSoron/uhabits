@@ -39,12 +39,20 @@ class CheckmarkWidget(
             setPercentage(habit.scores.todayValue.toFloat())
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)
-            setCheckmarkValue(habit.checkmarks.todayValue)
-            refresh()
         }
+            v.setCheckmarkValue(habit.checkmarks.todayValue)
+            v.refresh()
+
     }
 
-    override fun buildView() = CheckmarkWidgetView(context)
+
+    override fun buildView(): CheckmarkWidgetView{
+        return if (habit.isNumerical) {
+            NumericalCheckmarkWidgetView(context)
+        }else{
+            CheckmarkWidgetView(context)
+        }
+    }
     override fun getDefaultHeight() = 125
     override fun getDefaultWidth() = 125
 }
