@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
-<manifest
+<manifest xmlns:tools="http://schemas.android.com/tools"
     package="org.isoron.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="36"
@@ -163,6 +163,15 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".receivers.WidgetReceiver">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE"/>
+
+                <data
+                    android:host="org.isoron.uhabits"
+                    android:scheme="content"/>
+            </intent-filter>
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 

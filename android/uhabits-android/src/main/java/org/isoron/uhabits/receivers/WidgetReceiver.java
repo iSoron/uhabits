@@ -47,7 +47,10 @@ public class WidgetReceiver extends BroadcastReceiver
         "org.isoron.uhabits.ACTION_REMOVE_REPETITION";
 
     public static final String ACTION_TOGGLE_REPETITION =
-        "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
+            "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
+
+    public static final String ACTION_SET_NUMERICAL_VALUE =
+            "org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE";
 
     @Override
     public void onReceive(final Context context, Intent intent)
@@ -88,6 +91,11 @@ public class WidgetReceiver extends BroadcastReceiver
                     controller.onRemoveRepetition(data.getHabit(),
                         data.getTimestamp());
                     break;
+
+                case ACTION_SET_NUMERICAL_VALUE:
+                    //controller.onToggleRepetition(data.getHabit(),
+                    //    data.getTimestamp());
+                break;
             }
         }
         catch (RuntimeException e)

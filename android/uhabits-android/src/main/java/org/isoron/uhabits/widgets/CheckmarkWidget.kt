@@ -19,40 +19,38 @@
 
 package org.isoron.uhabits.widgets
 
+import android.app.PendingIntent
 import android.content.*
 import android.view.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
-class CheckmarkWidget(
+open class CheckmarkWidget(
         context: Context,
         widgetId: Int,
-        private val habit: Habit
+        protected val habit: Habit
 ) : BaseWidget(context, widgetId) {
 
-    override fun getOnClickPendingIntent(context: Context) =
-            pendingIntentFactory.toggleCheckmark(habit, null)
+    override fun getOnClickPendingIntent(context: Context): PendingIntent{
+        return pendingIntentFactory.toggleCheckmark(habit, null)
+    }
+
 
     override fun refreshData(v: View) {
         (v as CheckmarkWidgetView).apply {
             setPercentage(habit.scores.todayValue.toFloat())
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)
+            setCheckmarkValue(habit.checkmarks.todayValue)
+            refresh()
         }
-            v.setCheckmarkValue(habit.checkmarks.todayValue)
-            v.refresh()
+
 
     }
 
 
-    override fun buildView(): CheckmarkWidgetView{
-        return if (habit.isNumerical) {
-            NumericalCheckmarkWidgetView(context)
-        }else{
-            CheckmarkWidgetView(context)
-        }
-    }
+    override fun buildView(): View = CheckmarkWidgetView(context)
     override fun getDefaultHeight() = 125
     override fun getDefaultWidth() = 125
 }
