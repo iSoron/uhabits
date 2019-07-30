@@ -19,7 +19,6 @@ import org.isoron.uhabits.widgets.WidgetUpdater
 
 class NumericalCheckmarkWidgetActivity : Activity() {
 
-    //private var activityComponent : NumericalCheckmarkWidgetActivityComponent? = null
     private lateinit var behavior : NumericalCheckmarkWidgetBehavior
     private var data: IntentParser.CheckmarkIntentData? = null
     private lateinit var widgetUpdater : WidgetUpdater
@@ -68,7 +67,7 @@ class NumericalCheckmarkWidgetActivity : Activity() {
     }
 
     companion object{
-        val ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY = "org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"
+        const val ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY = "org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"
     }
 
 }

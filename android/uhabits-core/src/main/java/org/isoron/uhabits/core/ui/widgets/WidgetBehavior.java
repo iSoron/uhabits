@@ -69,11 +69,4 @@ public class WidgetBehavior extends BaseWidgetBehavior
             new ToggleRepetitionCommand(getHabitList(), habit, timestamp),
             habit.getId());
     }
-
-    public void updateWidget(@NonNull Habit habit)
-    {
-        getCommandRunner().execute(
-                new UpdateHabitCommand(getHabitList(), habit),
-                habit.getId());
-    }
 }
