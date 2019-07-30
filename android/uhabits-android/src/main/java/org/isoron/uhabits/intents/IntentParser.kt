@@ -36,6 +36,11 @@ class IntentParser
         return CheckmarkIntentData(parseHabit(uri), parseTimestamp(intent))
     }
 
+    fun copyIntentData(source: Intent, destination: Intent){
+        destination.data=source.data;
+        destination.putExtra("timestamp",source.getLongExtra("timestamp",getToday()))
+    }
+
     private fun parseHabit(uri: Uri): Habit {
         val habit = habits.getById(parseId(uri)) ?:
                     throw IllegalArgumentException("habit not found")
@@ -43,7 +48,7 @@ class IntentParser
     }
 
     private fun parseTimestamp(intent: Intent): Timestamp {
-        val today = DateUtils.getToday().unixTime
+        val today = getToday()
         var timestamp = intent.getLongExtra("timestamp", today)
         timestamp = DateUtils.getStartOfDay(timestamp)
 
@@ -51,6 +56,10 @@ class IntentParser
             throw IllegalArgumentException("timestamp is not valid")
 
         return Timestamp(timestamp)
+    }
+
+    private fun getToday() : Long{
+        return DateUtils.getToday().unixTime
     }
 
     class CheckmarkIntentData(var habit: Habit, var timestamp: Timestamp)

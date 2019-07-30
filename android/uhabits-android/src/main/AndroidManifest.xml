@@ -93,6 +93,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity"/>
         </activity>
+        <activity
+            android:name=".widgets.activities.NumericalCheckmarkWidgetActivity"
+            android:label="NumericalCheckmarkWidget"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
@@ -167,6 +177,15 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE"/>
+
+                <data
+                    android:host="org.isoron.uhabits"
+                    android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <action android:name="org.isoron.uhabits.ACTION_SAVE_NUMERICAL_VALUE"/>
 
                 <data
                     android:host="org.isoron.uhabits"

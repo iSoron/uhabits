@@ -206,7 +206,7 @@ public class Preferences
 
     public boolean isDeveloper()
     {
-        return storage.getBoolean("pref_developer", false);
+        return true;//return storage.getBoolean("pref_developer", false);
     }
 
     public void setDeveloper(boolean isDeveloper)

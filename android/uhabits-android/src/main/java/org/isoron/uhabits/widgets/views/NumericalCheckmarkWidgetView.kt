@@ -13,8 +13,6 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 
 class NumericalCheckmarkWidgetView : CheckmarkWidgetView {
 
-    private var callBackReciever : CallBackReciever = CallBackReciever()
-
     constructor(context: Context) : super(context) {}
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
@@ -50,18 +48,6 @@ class NumericalCheckmarkWidgetView : CheckmarkWidgetView {
 
         requestLayout()
         postInvalidate()
-    }
-
-    class CallBackReciever : ListHabitsBehavior.NumberPickerCallback{
-        override fun onNumberPicked(newValue: Double) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-    }
-
-    fun showNumberSelector() {
-        val numberPickerFactory = NumberPickerFactory(context)
-        numberPickerFactory.create(1000.0, "This is a test", callBackReciever).show()
     }
 
 }

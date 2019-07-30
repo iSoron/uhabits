@@ -29,17 +29,19 @@ import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import javax.annotation.Nullable
 import javax.inject.*
 
 class NumberPickerFactory
 @Inject constructor(
         @ActivityContext private val context: Context
 ) {
+
+
     fun create(value: Double,
                unit: String,
                callback: ListHabitsBehavior.NumberPickerCallback): AlertDialog {
-
-        val inflater = LayoutInflater.from(context)
+        val inflater : LayoutInflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)

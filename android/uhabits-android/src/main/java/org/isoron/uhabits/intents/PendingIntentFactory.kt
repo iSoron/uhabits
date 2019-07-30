@@ -104,12 +104,22 @@ class PendingIntentFactory
                     },
                     FLAG_UPDATE_CURRENT)
 
-    fun setNumericalValue(habit: Habit, numericalValue: Int, timestamp: Long?): PendingIntent =
+    fun setNumericalValue(widgetContext: Context, habit: Habit, numericalValue: Int, timestamp: Long?): PendingIntent =
+            PendingIntent.getBroadcast(
+                    widgetContext, 2,
+                    Intent(widgetContext, WidgetReceiver::class.java).apply {
+                        data = Uri.parse(habit.uriString)
+                        action = WidgetReceiver.ACTION_SET_NUMERICAL_VALUE
+                        putExtra("numericalValue",numericalValue);
+                        if (timestamp != null) putExtra("timestamp", timestamp)
+                    },
+                    FLAG_UPDATE_CURRENT)
+    fun saveNumericalValue(habit: Habit, numericalValue: Int, timestamp: Long?): PendingIntent =
             PendingIntent.getBroadcast(
                     context, 2,
                     Intent(context, WidgetReceiver::class.java).apply {
                         data = Uri.parse(habit.uriString)
-                        action = WidgetReceiver.ACTION_SET_NUMERICAL_VALUE
+                        action = WidgetReceiver.ACTION_SAVE_NUMERICAL_VALUE
                         putExtra("numericalValue",numericalValue);
                         if (timestamp != null) putExtra("timestamp", timestamp)
                     },
