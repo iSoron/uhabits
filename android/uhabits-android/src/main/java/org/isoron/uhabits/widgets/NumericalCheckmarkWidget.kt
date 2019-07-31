@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import org.isoron.uhabits.core.models.Checkmark
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.receivers.WidgetReceiver
 import org.isoron.uhabits.receivers.WidgetReceiver.Companion.ACTION_SET_NUMERICAL_VALUE
@@ -28,15 +29,21 @@ class NumericalCheckmarkWidget(context: Context, widgetId: Int, habit: Habit) : 
 
     override fun refreshData(v: View) {
         (v as NumericalCheckmarkWidgetView).apply {
-            Log.d("NumericalChckmarkWidget", "Refreshing data")
             setPercentage(habit.scores.todayValue.toFloat())
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)
             setCheckmarkValue(habit.checkmarks.todayValue)
+            setCheckmarkState(getCheckmarkState())
             refresh()
         }
+    }
 
-
+    private fun getCheckmarkState():Int{
+        return if(habit.isCompletedToday){
+            Checkmark.CHECKED_EXPLICITLY
+        }else{
+            Checkmark.UNCHECKED
+        }
     }
 
 }

@@ -69,10 +69,9 @@ public class CheckmarkWidgetView extends HabitWidgetView
         int bgColor;
         int fgColor;
 
-        switch (checkmarkValue)
+        switch (getCheckmarkState())
         {
             case Checkmark.CHECKED_EXPLICITLY:
-                text = getResources().getString(R.string.fa_check);
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
 
@@ -84,7 +83,6 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
-                text = getResources().getString(R.string.fa_check);
                 bgColor = res.getColor(R.attr.cardBackgroundColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
 
@@ -95,7 +93,6 @@ public class CheckmarkWidgetView extends HabitWidgetView
 
             case Checkmark.UNCHECKED:
             default:
-                text = getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBackgroundColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
 
@@ -108,13 +105,41 @@ public class CheckmarkWidgetView extends HabitWidgetView
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
         ring.setBackgroundColor(bgColor);
-        ring.setText(text);
+        ring.setText(getText());
 
         label.setText(name);
         label.setTextColor(fgColor);
 
         requestLayout();
         postInvalidate();
+    }
+
+    /**
+     * @Return the state of the checkmark, either:
+     * - Checkmark.CHECKED_EXPLICITLY
+     * - Checkmark.CHECKED_IMPLICITLY
+     * - Checkmark.UNCHECKED
+     */
+    protected int getCheckmarkState(){
+        return checkmarkValue;
+    }
+
+    /**
+     * @Return the text that should be displayed in the middle of the widget
+     */
+    protected String getText(){
+        switch (getCheckmarkState())
+        {
+            case Checkmark.CHECKED_EXPLICITLY:
+                return getResources().getString(R.string.fa_check);
+
+            case Checkmark.CHECKED_IMPLICITLY:
+                return getResources().getString(R.string.fa_check);
+
+            case Checkmark.UNCHECKED:
+            default:
+                return getResources().getString(R.string.fa_times);
+        }
     }
 
     public void setActiveColor(int activeColor)

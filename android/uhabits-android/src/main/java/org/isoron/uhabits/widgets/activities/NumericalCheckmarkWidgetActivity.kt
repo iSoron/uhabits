@@ -43,7 +43,6 @@ class NumericalCheckmarkWidgetActivity : Activity() {
 
         constructor(activity: NumericalCheckmarkWidgetActivity){
             this.activity=activity
-
         }
 
         override fun onNumberPicked(newValue: Double) {

@@ -83,11 +83,11 @@ public class ListHabitsBehavior
         CheckmarkList checkmarks = habit.getCheckmarks();
         double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
 
-        screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
+        screen.showNumberPicker(Habit.checkMarkValueToDouble(oldValue), habit.getUnit(), newValue ->
         {
-            newValue = Math.round(newValue * 1000);
+            int intValue = Habit.doubleToCheckMarkValue(newValue);
             commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
+                new CreateRepetitionCommand(habit, timestamp, intValue),
                 habit.getId());
         });
     }

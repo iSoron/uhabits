@@ -185,15 +185,6 @@
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 
-                <action android:name="org.isoron.uhabits.ACTION_SAVE_NUMERICAL_VALUE"/>
-
-                <data
-                    android:host="org.isoron.uhabits"
-                    android:scheme="content"/>
-            </intent-filter>
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-
                 <action android:name="org.isoron.uhabits.ACTION_TOGGLE_REPETITION"/>
 
                 <data

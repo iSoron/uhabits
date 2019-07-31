@@ -269,7 +269,7 @@ public class BarChart extends ScrollableChart
         float margin = baseSize * 0.225f;
 
         int color = textColor;
-        if (value / 1000 >= target) color = primaryColor;
+        if (Habit.checkMarkValueToDouble(value) >= target) color = primaryColor;
 
         rect.inset(-margin, 0);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
@@ -357,10 +357,10 @@ public class BarChart extends ScrollableChart
         if (value == 0) return;
 
         int activeColor = textColor;
-        if (value / 1000 >= target)
+        if (Habit.checkMarkValueToDouble(value) >= target)
             activeColor = primaryColor;
 
-        String label = NumberButtonViewKt.toShortString(value / 1000);
+        String label = NumberButtonViewKt.toShortString(Habit.checkMarkValueToDouble(value));
         Rect rText = new Rect();
         pText.getTextBounds(label, 0, label.length(), rText);
 
