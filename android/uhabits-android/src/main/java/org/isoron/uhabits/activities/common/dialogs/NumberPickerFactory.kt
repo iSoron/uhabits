@@ -36,8 +36,6 @@ class NumberPickerFactory
 @Inject constructor(
         @ActivityContext private val context: Context
 ) {
-
-
     fun create(value: Double,
                unit: String,
                callback: ListHabitsBehavior.NumberPickerCallback): AlertDialog {

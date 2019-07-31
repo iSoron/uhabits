@@ -83,9 +83,6 @@ class WidgetReceiver : BroadcastReceiver() {
 
     }
 
-
-
-
     @ReceiverScope
     @Component(dependencies = [HabitsApplicationComponent::class])
     internal interface WidgetComponent {

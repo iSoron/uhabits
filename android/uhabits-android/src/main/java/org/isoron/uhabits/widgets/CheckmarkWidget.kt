@@ -36,7 +36,6 @@ open class CheckmarkWidget(
         return pendingIntentFactory.toggleCheckmark(habit, null)
     }
 
-
     override fun refreshData(v: View) {
         (v as CheckmarkWidgetView).apply {
             setPercentage(habit.scores.todayValue.toFloat())
@@ -45,10 +44,7 @@ open class CheckmarkWidget(
             setCheckmarkValue(habit.checkmarks.todayValue)
             refresh()
         }
-
-
     }
-
 
     override fun buildView(): View = CheckmarkWidgetView(context)
     override fun getDefaultHeight() = 125

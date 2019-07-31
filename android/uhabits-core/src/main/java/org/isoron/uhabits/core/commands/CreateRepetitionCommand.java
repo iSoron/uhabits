@@ -62,7 +62,6 @@ public class CreateRepetitionCommand extends Command
         reps.add(newRep);
 
         habit.invalidateNewerThan(timestamp);
-
     }
 
     @NonNull

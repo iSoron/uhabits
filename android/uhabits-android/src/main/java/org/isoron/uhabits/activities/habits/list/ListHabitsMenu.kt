@@ -46,7 +46,6 @@ class ListHabitsMenu @Inject constructor(
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
 
-
         topBarMenu = menu
         //the habit creation menu should be disabled when numeric habits are also disabled
         if (!preferences.isNumericalHabitsFeatureEnabled) {

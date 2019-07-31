@@ -16,7 +16,6 @@ import org.isoron.uhabits.intents.IntentParser
 import org.isoron.uhabits.intents.PendingIntentFactory
 import org.isoron.uhabits.widgets.WidgetUpdater
 
-
 class NumericalCheckmarkWidgetActivity : Activity() {
 
     private lateinit var behavior : NumericalCheckmarkWidgetBehavior
@@ -35,7 +34,6 @@ class NumericalCheckmarkWidgetActivity : Activity() {
         widgetUpdater = component.widgetUpdater
         showNumberSelector(this)
     }
-
 
     class CallBackReceiver : ListHabitsBehavior.NumberPickerCallback{
 
@@ -68,5 +66,4 @@ class NumericalCheckmarkWidgetActivity : Activity() {
     companion object{
         const val ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY = "org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"
     }
-
 }

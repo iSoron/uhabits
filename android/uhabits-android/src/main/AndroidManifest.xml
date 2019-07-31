@@ -175,9 +175,7 @@
         <receiver android:name=".receivers.WidgetReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
-
                 <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE"/>
-
                 <data
                     android:host="org.isoron.uhabits"
                     android:scheme="content"/>
