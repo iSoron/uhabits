@@ -32,12 +32,12 @@
             <item
                 android:id="@+id/actionCreateBooleanHabit"
                 android:enabled="true"
-                android:title="@string/yes_or_no" />
+                android:title="@string/yes_or_no"/>
 
             <item
                 android:id="@+id/actionCreateNumeralHabit"
                 android:enabled="true"
-                android:title="@string/number" />
+                android:title="@string/number"/>
         </menu>
     </item>
 
@@ -51,31 +51,31 @@
                 android:id="@+id/actionHideArchived"
                 android:checkable="true"
                 android:enabled="true"
-                android:title="@string/hide_archived" />
+                android:title="@string/hide_archived"/>
 
             <item
                 android:id="@+id/actionHideCompleted"
                 android:checkable="true"
                 android:enabled="true"
-                android:title="@string/hide_completed" />
+                android:title="@string/hide_completed"/>
 
             <item android:title="@string/sort">
                 <menu>
                     <item
                         android:id="@+id/actionSortManual"
-                        android:title="@string/manually" />
+                        android:title="@string/manually"/>
 
                     <item
                         android:id="@+id/actionSortName"
-                        android:title="@string/by_name" />
+                        android:title="@string/by_name"/>
 
                     <item
                         android:id="@+id/actionSortColor"
-                        android:title="@string/by_color" />
+                        android:title="@string/by_color"/>
 
                     <item
                         android:id="@+id/actionSortScore"
-                        android:title="@string/by_score" />
+                        android:title="@string/by_score"/>
                 </menu>
             </item>
         </menu>
@@ -87,23 +87,23 @@
         android:enabled="true"
         android:orderInCategory="50"
         android:title="@string/night_mode"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/actionSettings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/actionFAQ"
         android:orderInCategory="100"
         android:title="@string/help"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/actionAbout"
         android:orderInCategory="100"
         android:title="@string/about"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 </menu>

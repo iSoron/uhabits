@@ -197,14 +197,6 @@ public class PreferencesTest extends BaseUnitTest
     }
 
     @Test
-    public void testNumericalHabits() throws Exception
-    {
-        assertFalse(prefs.isNumericalHabitsFeatureEnabled());
-        prefs.setNumericalHabitsFeatureEnabled(true);
-        assertTrue(prefs.isNumericalHabitsFeatureEnabled());
-    }
-
-    @Test
     public void testDeveloper() throws Exception
     {
         assertFalse(prefs.isDeveloper());
