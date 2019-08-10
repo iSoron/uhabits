@@ -119,7 +119,7 @@ public class HabitsCSVExporter
         {
             String sane = sanitizeFilename(h.getName());
             String habitDirName =
-                String.format("%03d %s", allHabits.indexOf(h) + 1, sane);
+                String.format(Locale.US, "%03d %s", allHabits.indexOf(h) + 1, sane);
             habitDirName = habitDirName.trim() + "/";
 
             new File(exportDirName + habitDirName).mkdirs();
@@ -202,7 +202,7 @@ public class HabitsCSVExporter
                 checksWriter.write(String.valueOf(checkmarks.get(j)[i]));
                 checksWriter.write(DELIMITER);
                 String score =
-                        String.format("%.4f", ((float) scores.get(j)[i]) / Score.MAX_VALUE);
+                        String.format(Locale.US, "%.4f", ((float) scores.get(j)[i]) / Score.MAX_VALUE);
                 scoresWriter.write(score);
                 scoresWriter.write(DELIMITER);
             }

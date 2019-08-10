@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.7.11 (Aug 10, 2019)
+
+* Fix bug that produced corrupted CSV files in some countries
+
 ### 1.7.10 (June 15, 2019)
 
 * Fix bug that prevented some devices from showing notifications.
