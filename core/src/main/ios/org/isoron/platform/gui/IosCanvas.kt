@@ -28,8 +28,12 @@ val Color.uicolor: UIColor
 val Color.cgcolor: CGColorRef?
     get() = uicolor.CGColor
 
-class IosCanvas(val ctx: CGContextRef) : Canvas {
+class IosCanvas(val width: Double,
+                val height: Double,
+                val pixelScale: Double = 2.0
+               ) : Canvas {
     var textColor = UIColor.blackColor
+    val ctx = UIGraphicsGetCurrentContext()!!
 
     override fun setColor(color: Color) {
         CGContextSetStrokeColorWithColor(ctx, color.cgcolor)
@@ -38,32 +42,47 @@ class IosCanvas(val ctx: CGContextRef) : Canvas {
     }
 
     override fun drawLine(x1: Double, y1: Double, x2: Double, y2: Double) {
+        CGContextMoveToPoint(ctx, x1 * pixelScale, y1 * pixelScale)
+        CGContextAddLineToPoint(ctx, x2 * pixelScale, y2 * pixelScale)
+        CGContextStrokePath(ctx)
     }
 
     override fun drawText(text: String, x: Double, y: Double) {
     }
 
     override fun fillRect(x: Double, y: Double, width: Double, height: Double) {
+        CGContextFillRect(ctx,
+                          CGRectMake(x * pixelScale,
+                                     y * pixelScale,
+                                     width * pixelScale,
+                                     height * pixelScale))
     }
 
     override fun drawRect(x: Double, y: Double, width: Double, height: Double) {
+        CGContextStrokeRect(ctx,
+                            CGRectMake(x * pixelScale,
+                                       y * pixelScale,
+                                       width * pixelScale,
+                                       height * pixelScale))
     }
 
     override fun getHeight(): Double {
-        return 0.0
+        return height
     }
 
     override fun getWidth(): Double {
-        return 0.0
+        return width
     }
 
     override fun setFont(font: Font) {
     }
 
     override fun setFontSize(size: Double) {
+        CGContextSetFontSize(ctx, size * pixelScale)
     }
 
     override fun setStrokeWidth(size: Double) {
+        CGContextSetLineWidth(ctx, size * pixelScale)
     }
 
     override fun fillArc(centerX: Double,
@@ -80,6 +99,6 @@ class IosCanvas(val ctx: CGContextRef) : Canvas {
     }
 
     override fun toImage(): Image {
-        TODO()
+        return IosImage(UIGraphicsGetImageFromCurrentImageContext()!!)
     }
 }

@@ -31,8 +31,8 @@ interface Image {
     suspend fun export(path: String)
 
     fun diff(other: Image) {
-        if (width != other.width) error("Width must match")
-        if (height != other.height) error("Height must match")
+        if (width != other.width) error("Width must match: $width !== ${other.width}")
+        if (height != other.height) error("Height must match: $height !== ${other.height}")
 
         for (x in 0 until width) {
             for (y in 0 until height) {

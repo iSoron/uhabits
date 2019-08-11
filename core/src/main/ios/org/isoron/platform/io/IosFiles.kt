@@ -22,6 +22,7 @@ package org.isoron.platform.io
 
 import org.isoron.platform.gui.*
 import platform.Foundation.*
+import platform.UIKit.*
 
 class IosFileOpener : FileOpener {
     override fun openResourceFile(path: String): ResourceFile {
@@ -62,6 +63,6 @@ class IosFile(val path: String) : UserFile, ResourceFile {
     }
 
     override suspend fun toImage(): Image {
-        TODO()
+        return IosImage(UIImage.imageWithContentsOfFile(path)!!)
     }
 }
