@@ -33,7 +33,7 @@ class ListHabitsMenu @Inject constructor(
         private val preferences: Preferences,
         private val themeSwitcher: ThemeSwitcher,
         private val behavior: ListHabitsMenuBehavior
-) : BaseMenu(activity), Preferences.Listener {
+) : BaseMenu(activity){
 
     override fun onCreate(menu: Menu) {
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
