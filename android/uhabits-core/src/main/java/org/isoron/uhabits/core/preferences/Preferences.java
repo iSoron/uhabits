@@ -224,16 +224,6 @@ public class Preferences
         storage.putBoolean("pref_first_run", isFirstRun);
     }
 
-    public boolean isNumericalHabitsFeatureEnabled()
-    {
-        return storage.getBoolean("pref_feature_numerical_habits", false);
-    }
-
-    public void setNumericalHabitsFeatureEnabled(boolean enabled)
-    {
-        storage.putBoolean("pref_feature_numerical_habits", enabled);
-    }
-
     public boolean isPureBlackEnabled()
     {
         return storage.getBoolean("pref_pure_black", false);

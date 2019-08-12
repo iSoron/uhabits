@@ -184,6 +184,10 @@
 
     <string name="total">Total</string>
 
+    <!-- Different types of habits -->
+    <string name="yes_or_no">Yes or No</string>
+    <string name="number">Number</string>
+
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">time in</string>
 

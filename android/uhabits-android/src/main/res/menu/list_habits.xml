@@ -18,15 +18,28 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
     <item
         android:id="@+id/actionAdd"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+
+        <menu android:id="@+id/createHabitMenu">
+            <item
+                android:id="@+id/actionCreateBooleanHabit"
+                android:enabled="true"
+                android:title="@string/yes_or_no"/>
+
+            <item
+                android:id="@+id/actionCreateNumeralHabit"
+                android:enabled="true"
+                android:title="@string/number"/>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/action_filter"

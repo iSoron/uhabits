@@ -61,9 +61,14 @@ public class ListHabitsMenuBehavior
         updateAdapterFilter();
     }
 
-    public void onCreateHabit()
+    public void onCreateBooleanHabit()
     {
-        screen.showCreateHabitScreen();
+        screen.showCreateBooleanHabitScreen();
+    }
+
+    public void onCreateNumericalHabit()
+    {
+        screen.showCreateNumericalHabitScreen();
     }
 
     public void onViewFAQ()
@@ -145,7 +150,9 @@ public class ListHabitsMenuBehavior
 
         void showAboutScreen();
 
-        void showCreateHabitScreen();
+        void showCreateBooleanHabitScreen();
+
+        void showCreateNumericalHabitScreen();
 
         void showFAQScreen();
 
