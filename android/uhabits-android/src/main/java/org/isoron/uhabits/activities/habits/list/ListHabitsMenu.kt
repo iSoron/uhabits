@@ -35,8 +35,6 @@ class ListHabitsMenu @Inject constructor(
         private val behavior: ListHabitsMenuBehavior
 ) : BaseMenu(activity), Preferences.Listener {
 
-    private lateinit var topBarMenu: Menu
-
     override fun onCreate(menu: Menu) {
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
         val hideArchivedItem = menu.findItem(R.id.actionHideArchived)
@@ -45,10 +43,6 @@ class ListHabitsMenu @Inject constructor(
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
-
-        topBarMenu = menu
-        //let the class add itself as listener
-        preferences.addListener(this)
     }
 
     override fun onItemSelected(item: MenuItem): Boolean {
@@ -116,20 +110,6 @@ class ListHabitsMenu @Inject constructor(
             }
 
             else -> return false
-        }
-    }
-
-    /**
-     * @param enabled whether the create habit menu should be enabled or disabled
-     * @param menu a reference to the menu on which should be enabled or disabled
-     */
-    @Deprecated(message = "This function was used to enable/disable the habit creation drop down menu, but since the feature is mostly implemented this is no longer necessary.")
-    fun setCreateHabitMenuEnabled(enabled: Boolean, menu: Menu) {
-        val habitCreationMenu = menu.findItem(R.id.actionAdd).subMenu
-        for (itemIndex: Int in 0 until habitCreationMenu.size()) {
-            val menuItem = habitCreationMenu.getItem(itemIndex)
-            menuItem.isEnabled = enabled
-            menuItem.isVisible = enabled
         }
     }
 

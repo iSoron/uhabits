@@ -336,10 +336,6 @@ public class Preferences
         default void onSyncFeatureChanged()
         {
         }
-
-        default void onNumericalHabitsFeatureChanged()
-        {
-        }
     }
 
     public interface Storage
