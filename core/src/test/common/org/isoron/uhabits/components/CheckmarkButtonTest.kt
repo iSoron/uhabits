@@ -26,19 +26,19 @@ import kotlin.test.*
 class CheckmarkButtonTest : BaseViewTest() {
     val base = "components/CheckmarkButton"
 
-    //@Test
+    @Test
     fun testDrawExplicit() = asyncTest {
         val component = CheckmarkButton(2, theme.color(8), theme)
         assertRenders(48, 48, "$base/explicit.png", component)
     }
 
-    //@Test
+    @Test
     fun testDrawImplicit() = asyncTest {
         val component = CheckmarkButton(1, theme.color(8), theme)
         assertRenders(48, 48, "$base/implicit.png", component)
     }
 
-    //@Test
+    @Test
     fun testDrawUnchecked() = asyncTest {
         val component = CheckmarkButton(0, theme.color(8), theme)
         assertRenders(48, 48, "$base/unchecked.png", component)

@@ -26,7 +26,7 @@ import kotlin.test.*
 class RingTest : BaseViewTest() {
     val base = "components/Ring"
 
-    //@Test
+    @Test
     fun testDraw() = asyncTest {
         val component = Ring(theme.color(8),
                              percentage = 0.30,

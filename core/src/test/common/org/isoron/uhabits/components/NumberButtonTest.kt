@@ -26,7 +26,7 @@ import kotlin.test.*
 class NumberButtonTest : BaseViewTest() {
     val base = "components/NumberButton"
 
-    //@Test
+    @Test
     fun testFormatValue() = asyncTest{
         assertEquals("0.12", 0.1235.toShortString())
         assertEquals("0.1", 0.1000.toShortString())
@@ -44,13 +44,13 @@ class NumberButtonTest : BaseViewTest() {
         assertEquals("2.0G", 1987654321.2.toShortString())
     }
 
-    //@Test
+    @Test
     fun testRenderAbove() = asyncTest {
         val btn = NumberButton(theme.color(8), 500.0, 100.0, "steps", theme)
         assertRenders(48, 48, "$base/render_above.png", btn)
     }
 
-    //@Test
+    @Test
     fun testRenderBelow() = asyncTest {
         val btn = NumberButton(theme.color(8), 99.0, 100.0, "steps", theme)
         assertRenders(48, 48, "$base/render_below.png", btn)
