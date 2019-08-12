@@ -17,8 +17,7 @@
 		00C0C6BF22465F65003D8AF0 /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BC22465F65003D8AF0 /* migrations */; };
 		00C0C6CA2246E543003D8AF0 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
 		00C0C6CC2246E550003D8AF0 /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D022470705003D8AF0 /* IosCanvas.swift */; };
-		00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */; };
+		00C0C6D122470705003D8AF0 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D022470705003D8AF0 /* ComponentView.swift */; };
 		00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */; };
 		00D48BD12200A31300CC4527 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00D48BD02200A31300CC4527 /* Launch.storyboard */; };
 		00D48BD32200AC1600CC4527 /* EditHabitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D48BD22200AC1600CC4527 /* EditHabitController.swift */; };
@@ -62,8 +61,7 @@
 		00C0C6BB22465F65003D8AF0 /* databases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = databases; sourceTree = "<group>"; };
 		00C0C6BC22465F65003D8AF0 /* migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = migrations; sourceTree = "<group>"; };
 		00C0C6C92246E543003D8AF0 /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = ../core/build/bin/ios/mainDebugFramework/main.framework; sourceTree = "<group>"; };
-		00C0C6D022470705003D8AF0 /* IosCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosCanvas.swift; sourceTree = "<group>"; };
-		00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosCanvasTest.swift; sourceTree = "<group>"; };
+		00C0C6D022470705003D8AF0 /* ComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
 		00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenController.swift; sourceTree = "<group>"; };
 		00D48BD02200A31300CC4527 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		00D48BD22200AC1600CC4527 /* EditHabitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitController.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				00A5B43E22009F5A0024E00C /* Info.plist */,
-				00C0C6D722472BC9003D8AF0 /* Platform */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -165,15 +162,7 @@
 		00C0C6D622471BA3003D8AF0 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				00C0C6D022470705003D8AF0 /* IosCanvas.swift */,
-			);
-			path = Platform;
-			sourceTree = "<group>";
-		};
-		00C0C6D722472BC9003D8AF0 /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				00C0C6D82247DC13003D8AF0 /* IosCanvasTest.swift */,
+				00C0C6D022470705003D8AF0 /* ComponentView.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -304,7 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6D122470705003D8AF0 /* IosCanvas.swift in Sources */,
+				00C0C6D122470705003D8AF0 /* ComponentView.swift in Sources */,
 				00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */,
 				00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */,
 				00A5B42822009F590024E00C /* AppDelegate.swift in Sources */,
@@ -317,7 +306,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6D92247DC13003D8AF0 /* IosCanvasTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,6 @@
 
 package org.isoron
 
-import kotlinx.cinterop.*
 import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import org.isoron.platform.time.*
@@ -40,7 +39,7 @@ actual object DependencyResolver {
     actual fun createCanvas(width: Int, height: Int): Canvas {
         val scale = 2.0
         UIGraphicsBeginImageContext(CGSizeMake(width * scale, height * scale))
-        return IosCanvas(width * scale, height * scale, pixelScale = scale)
+        return IosCanvas(width * scale, height * scale, scale = scale)
     }
 
     actual suspend fun getDatabase(): Database {

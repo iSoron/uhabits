@@ -30,7 +30,7 @@ import UIKit
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         backend = Backend(databaseName: "uhabits.db",
-                          databaseOpener: IosDatabaseOpener(withLog: log),
+                          databaseOpener: IosDatabaseOpener(),
                           fileOpener: IosFileOpener(),
                           localeHelper: IosLocaleHelper(log: log),
                           log: log,

@@ -26,7 +26,7 @@ fun sqlite3_errstr(db: CPointer<sqlite3>): String {
     return "SQLite3 error: " + sqlite3_errmsg(db).toString()
 }
 
-class IosDatabaseOpener() : DatabaseOpener {
+class IosDatabaseOpener : DatabaseOpener {
     override fun open(file: UserFile): Database = memScoped {
         val db = alloc<CPointerVar<sqlite3>>()
         val path = (file as IosFile).path
