@@ -33,9 +33,7 @@ class ListHabitsMenu @Inject constructor(
         private val preferences: Preferences,
         private val themeSwitcher: ThemeSwitcher,
         private val behavior: ListHabitsMenuBehavior
-) : BaseMenu(activity), Preferences.Listener {
-
-    private lateinit var topBarMenu: Menu
+) : BaseMenu(activity){
 
     override fun onCreate(menu: Menu) {
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
@@ -45,30 +43,12 @@ class ListHabitsMenu @Inject constructor(
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
-
-        topBarMenu = menu
-        //the habit creation menu should be disabled when numeric habits are also disabled
-        if (!preferences.isNumericalHabitsFeatureEnabled) {
-            setCreateHabitMenuEnabled(false, menu)
-        }
-        //let the class add itself as listener
-        preferences.addListener(this)
-    }
-
-    override fun onNumericalHabitsFeatureChanged() {
-        if(topBarMenu==null){return}
-        setCreateHabitMenuEnabled(preferences.isNumericalHabitsFeatureEnabled, topBarMenu)
     }
 
     override fun onItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionToggleNightMode -> {
                 behavior.onToggleNightMode()
-                return true
-            }
-
-            R.id.actionAdd -> {
-                behavior.onCreateHabit()
                 return true
             }
 
@@ -130,19 +110,6 @@ class ListHabitsMenu @Inject constructor(
             }
 
             else -> return false
-        }
-    }
-
-    /**
-     * @param enabled whether the create habit menu should be enabled or disabled
-     * @param menu a reference to the menu on which should be enabled or disabled
-     */
-    fun setCreateHabitMenuEnabled(enabled: Boolean, menu: Menu) {
-        val habitCreationMenu = menu.findItem(R.id.actionAdd).subMenu
-        for (itemIndex: Int in 0 until habitCreationMenu.size()) {
-            val menuItem = habitCreationMenu.getItem(itemIndex)
-            menuItem.isEnabled = enabled
-            menuItem.isVisible = enabled
         }
     }
 

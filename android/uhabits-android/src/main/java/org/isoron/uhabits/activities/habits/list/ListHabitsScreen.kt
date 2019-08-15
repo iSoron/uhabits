@@ -147,23 +147,6 @@ class ListHabitsScreen
         activity.showDialog(dialog, "editHabit")
     }
 
-    override fun showCreateHabitScreen() {
-        if (!preferences.isNumericalHabitsFeatureEnabled) {
-            showCreateBooleanHabitScreen()
-            return
-        }
-
-        val dialog = AlertDialog.Builder(activity)
-                .setTitle("Type of habit")
-                .setItems(R.array.habitTypes) { _, which ->
-                    if (which == 0) showCreateBooleanHabitScreen()
-                    else showCreateNumericalHabitScreen()
-                }
-                .create()
-
-        dialog.show()
-    }
-
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
         activity.showDialog(confirmDeleteDialogFactory.create(callback))
     }
