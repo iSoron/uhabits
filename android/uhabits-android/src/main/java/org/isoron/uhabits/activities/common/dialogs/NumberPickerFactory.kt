@@ -29,7 +29,6 @@ import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
-import javax.annotation.Nullable
 import javax.inject.*
 
 class NumberPickerFactory
