@@ -58,7 +58,7 @@ open class BaseViewTest {
             }
         } else {
             actualImage.export(failedActualPath)
-            fail("Expected image file is missing.")
+            fail("Expected image file is missing. Actual image: $failedActualPath")
         }
     }
 }

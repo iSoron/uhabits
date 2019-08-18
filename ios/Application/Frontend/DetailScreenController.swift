@@ -42,7 +42,30 @@ class DetailScreenController : UITableViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                  target: self,
                                                                  action: #selector(self.onEditHabitClicked))
+        cells.append(buildBarChartCell())
         cells.append(buildHistoryChartCell())
+    }
+    
+    func buildBarChartCell() -> UITableViewCell {
+        let today = LocalDate(year: 2019, month: 3, day: 15)
+        let axis = (0...365).map { today.minus(days: $0) }
+        let component = BarChart(theme: theme,
+                                 dateFormatter: IosLocalDateFormatter())
+        component.axis = axis
+        let cell = UITableViewCell()
+        let view = ComponentView(frame: cell.frame, component: component)
+        for k in 0...0 {
+            var series = [KotlinDouble]()
+            for _ in 1...365 {
+                series.append(KotlinDouble(value: Double.random(in: 0...5000)))
+            }
+            component.series.add(series)
+            let color = (self.habit.color.index + Int32(k * 3)) % 16
+            component.colors.add(theme.color(paletteIndex: color))
+        }
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        cell.contentView.addSubview(view)
+        return cell
     }
     
     func buildHistoryChartCell() -> UITableViewCell {
