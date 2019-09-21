@@ -1,27 +1,26 @@
-package org.isoron.uhabits.utils;
+package org.isoron.uhabits.utils
 
-import android.content.*;
-import android.graphics.*;
-import android.util.*;
+import android.content.Context
+import android.graphics.Color
+import android.util.Log
+import org.isoron.androidbase.utils.StyledResources
 
-import org.isoron.androidbase.utils.*;
+object PaletteUtils {
 
-public class PaletteUtils
-{
-    public static int colorToPaletteIndex(Context context, int color)
-     {
-        StyledResources res = new StyledResources(context);
-        int[] palette = res.getPalette();
+    @JvmStatic
+    fun colorToPaletteIndex(context: Context, color: Int): Int {
+        val res = StyledResources(context)
+        val palette = res.palette
 
-        for (int k = 0; k < palette.length; k++)
-            if (palette[k] == color) return k;
+        for (k in palette.indices)
+            if (palette[k] == color) return k
 
-        return -1;
+        return -1
     }
 
-    public static int getAndroidTestColor(int index)
-    {
-        int palette[] = {
+    @JvmStatic
+    fun getAndroidTestColor(index: Int): Int {
+        val palette = intArrayOf(
             Color.parseColor("#D32F2F"), //  0 red
             Color.parseColor("#E64A19"), //  1 deep orange
             Color.parseColor("#F57C00"), //  2 orange
@@ -42,26 +41,24 @@ public class PaletteUtils
             Color.parseColor("#303030"), // 17 dark grey
             Color.parseColor("#757575"), // 18 grey
             Color.parseColor("#aaaaaa")  // 19 light grey
-        };
+        )
 
-        return palette[index];
+        return palette[index]
     }
 
-    public static int getColor(Context context, int paletteColor)
-    {
+    @JvmStatic
+    fun getColor(context: Context?, paletteColor: Int): Int {
+        var paletteColor = paletteColor
         if (context == null)
-            throw new IllegalArgumentException("Context is null");
+            throw IllegalArgumentException("Context is null")
 
-        StyledResources res = new StyledResources(context);
-        int palette[] = res.getPalette();
-        if (paletteColor < 0 || paletteColor >= palette.length)
-        {
-            Log.w("ColorHelper",
-                String.format("Invalid color: %d. Returning default.",
-                    paletteColor));
-            paletteColor = 0;
+        val res = StyledResources(context)
+        val palette = res.palette
+        if (paletteColor < 0 || paletteColor >= palette.size) {
+            Log.w("ColorHelper", "Invalid color: $paletteColor. Returning default.")
+            paletteColor = 0
         }
 
-        return palette[paletteColor];
+        return palette[paletteColor]
     }
 }
