@@ -47,10 +47,8 @@ object PaletteUtils {
     }
 
     @JvmStatic
-    fun getColor(context: Context?, paletteColor: Int): Int {
+    fun getColor(context: Context, paletteColor: Int): Int {
         var paletteColor = paletteColor
-        if (context == null)
-            throw IllegalArgumentException("Context is null")
 
         val res = StyledResources(context)
         val palette = res.palette
