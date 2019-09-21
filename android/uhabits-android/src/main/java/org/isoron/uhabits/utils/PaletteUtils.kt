@@ -9,13 +9,8 @@ object PaletteUtils {
 
     @JvmStatic
     fun colorToPaletteIndex(context: Context, color: Int): Int {
-        val res = StyledResources(context)
-        val palette = res.palette
-
-        for (k in palette.indices)
-            if (palette[k] == color) return k
-
-        return -1
+        val palette = StyledResources(context).palette
+        return palette.indexOfFirst { i -> palette[i] == color }
     }
 
     @JvmStatic
