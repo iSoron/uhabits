@@ -43,15 +43,12 @@ object PaletteUtils {
 
     @JvmStatic
     fun getColor(context: Context, paletteColor: Int): Int {
-        var paletteColor = paletteColor
-
-        val res = StyledResources(context)
-        val palette = res.palette
-        if (paletteColor < 0 || paletteColor >= palette.size) {
+        val palette = StyledResources(context).palette
+        return if (paletteColor in palette.indices) {
+            palette[paletteColor]
+        } else {
             Log.w("ColorHelper", "Invalid color: $paletteColor. Returning default.")
-            paletteColor = 0
+            palette[0]
         }
-
-        return palette[paletteColor]
     }
 }
