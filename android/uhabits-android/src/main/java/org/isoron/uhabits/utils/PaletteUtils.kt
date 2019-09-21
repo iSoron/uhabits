@@ -10,7 +10,7 @@ object PaletteUtils {
     @JvmStatic
     fun colorToPaletteIndex(context: Context, color: Int): Int {
         val palette = StyledResources(context).palette
-        return palette.indexOfFirst { i -> palette[i] == color }
+        return palette.indexOf(color)
     }
 
     @JvmStatic
