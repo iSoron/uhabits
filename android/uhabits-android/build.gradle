@@ -100,7 +100,7 @@ dependencies {
     implementation "org.apmem.tools:layouts:1.10"
     implementation "com.google.code.gson:gson:2.7"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$KOTLIN_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
 
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
