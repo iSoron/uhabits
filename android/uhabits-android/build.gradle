@@ -173,7 +173,7 @@ task coverageReport(type: JacocoReport) {
     sourceDirectories = files(androidSrc)
     classDirectories = files(fileTree(dir: androidClasses, excludes: excludes))
     executionData = files(jvmExecData, connectedExecData)
-    jacocoClasspath = configurations['androidJacocoAnt']
+    jacocoClasspath = configurations['jacocoAnt']
 
     reports {
         html.enabled = true
