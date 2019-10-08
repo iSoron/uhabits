@@ -113,7 +113,7 @@ dependencies {
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    kapt "com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT"
+    kapt "com.jakewharton:butterknife-compiler:9.0.0"
     kapt "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
 
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:2.2.2"
@@ -125,7 +125,7 @@ dependencies {
     androidTestImplementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
     androidTestImplementation "com.android.support.test:rules:0.5"
     androidTestImplementation "com.android.support.test:runner:0.5"
-    androidTestImplementation "com.google.guava:guava:20.0"
+    androidTestImplementation "com.google.guava:guava:24.1-android"
     androidTestImplementation project(":uhabits-core")
     kaptAndroidTest "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
