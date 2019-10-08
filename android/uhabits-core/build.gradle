@@ -1,13 +1,10 @@
-plugins {
-    id "net.ltgt.apt" version "0.7"
-}
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
 dependencies {
-    apt "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
-    apt 'com.google.dagger:dagger:2.11-rc2'
+    annotationProcessor "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
+    annotationProcessor 'com.google.dagger:dagger:2.11-rc2'
 
     compileOnly 'javax.annotation:jsr250-api:1.0'
     compileOnly 'org.jetbrains:annotations-java5:15.0'

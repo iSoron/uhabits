@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
-    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion MIN_SDK_VERSION as Integer
@@ -30,7 +29,6 @@ android {
         abortOnError false
     }
 
-    buildToolsVersion '26.0.2'
 }
 
 dependencies {
