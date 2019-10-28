@@ -76,7 +76,7 @@ class PendingIntentFactory
                      timestamp: Long): PendingIntent =
             PendingIntent.getBroadcast(
                     context,
-                    (habit.getId()!! % Integer.MAX_VALUE).toInt() + 1,
+                    (habit.id!! % Integer.MAX_VALUE).toInt() + 1,
                     Intent(context, ReminderReceiver::class.java).apply {
                         action = ReminderReceiver.ACTION_SHOW_REMINDER
                         data = Uri.parse(habit.uriString)
