@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.core.models
 
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.isoron.uhabits.core.models.Checkmark.UNCHECKED
 import org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle
@@ -189,7 +187,7 @@ class Habit {
     }
 
     internal constructor(factory: ModelFactory, data: HabitData) {
-        this.data = HabitData(data)
+        this.data = data.copy()
         checkmarks = factory.buildCheckmarkList(this)
         streaks = factory.buildStreakList(this)
         scores = factory.buildScoreList(this)
@@ -213,7 +211,7 @@ class Habit {
      */
     @Synchronized
     fun copyFrom(model: Habit) {
-        this.data = HabitData(model.data)
+        this.data = model.data.copy()
         observable.notifyListeners()
     }
 
@@ -239,117 +237,26 @@ class Habit {
     }
 
     fun getData(): HabitData {
-        return HabitData(data)
+        return data.copy()
     }
 
     fun setPosition(newPosition: Int) {
         data.position = newPosition
     }
 
-    class HabitData {
-        var name: String
-
-        var description: String
-
-        var frequency: Frequency
-
-        var color: Int = 0
-
-        var archived: Boolean = false
-
-        var targetType: Int = 0
-
-        var targetValue: Double = 0.toDouble()
-
-        var type: Int = 0
-
-        var unit: String
-
-        var reminder: Reminder? = null
-
-        var position: Int = 0
-
-        constructor() {
-            this.color = 8
-            this.archived = false
-            this.frequency = Frequency(3, 7)
-            this.type = YES_NO_HABIT
-            this.name = ""
-            this.description = ""
-            this.targetType = AT_LEAST
-            this.targetValue = 100.0
-            this.unit = ""
-            this.position = 0
-        }
-
-        constructor(model: HabitData) {
-            this.name = model.name
-            this.description = model.description
-            this.frequency = model.frequency
-            this.color = model.color
-            this.archived = model.archived
-            this.targetType = model.targetType
-            this.targetValue = model.targetValue
-            this.type = model.type
-            this.unit = model.unit
-            this.reminder = model.reminder
-            this.position = model.position
-        }
-
-        override fun toString(): String {
-            return ToStringBuilder(this, defaultToStringStyle())
-                    .append("name", name)
-                    .append("description", description)
-                    .append("frequency", frequency)
-                    .append("color", color)
-                    .append("archived", archived)
-                    .append("targetType", targetType)
-                    .append("targetValue", targetValue)
-                    .append("type", type)
-                    .append("unit", unit)
-                    .append("reminder", reminder)
-                    .append("position", position)
-                    .toString()
-        }
-
-        override fun equals(o: Any?): Boolean {
-            if (this === o) return true
-
-            if (o == null || javaClass != o.javaClass) return false
-
-            val habitData = o as HabitData?
-
-            return EqualsBuilder()
-                    .append(color, habitData!!.color)
-                    .append(archived, habitData.archived)
-                    .append(targetType, habitData.targetType)
-                    .append(targetValue, habitData.targetValue)
-                    .append(type, habitData.type)
-                    .append(name, habitData.name)
-                    .append(description, habitData.description)
-                    .append(frequency, habitData.frequency)
-                    .append(unit, habitData.unit)
-                    .append(reminder, habitData.reminder)
-                    .append(position, habitData.position)
-                    .isEquals
-        }
-
-        override fun hashCode(): Int {
-            return HashCodeBuilder(17, 37)
-                    .append(name)
-                    .append(description)
-                    .append(frequency)
-                    .append(color)
-                    .append(archived)
-                    .append(targetType)
-                    .append(targetValue)
-                    .append(type)
-                    .append(unit)
-                    .append(reminder)
-                    .append(position)
-                    .toHashCode()
-        }
-    }
+    data class HabitData(
+            var name: String = "",
+            var description: String = "",
+            var frequency: Frequency = Frequency(3, 7),
+            var color: Int = 8,
+            var archived: Boolean = false,
+            var targetType: Int = AT_LEAST,
+            var targetValue: Double = 100.0,
+            var type: Int = YES_NO_HABIT,
+            var unit: String = "",
+            var reminder: Reminder? = null,
+            var position: Int = 0
+    )
 
     override fun toString(): String {
         return ToStringBuilder(this, defaultToStringStyle())
