@@ -1,8 +1,45 @@
 # Build the project
 
-This pages describes how to download and build the app from the source code. All instructions were tested on **Ubuntu Linux 18.04 LTS** and may need to be modified for other operating systems. If you are having trouble building the project, please do not hesitate to open a new issue.
+This pages describes how to download and build the app from the source code. If you are having trouble building the project, please do not hesitate to open a new issue.
+
+## Contents
+
+* [Build using Android Studio](#build-using-android-studio)
+* [Build from the command line](#build-from-the-command-line)
+
+## Build using Android Studio
+
+**Step 1: Install git**
+
+The package `git` is required for downloading the source code of the app and submitting changes GitHub. Please see [the git book](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for further instructions. If you are planning to submit pull requests in the future, it is recommended to [generate and configure your SSH keys](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+
+**Step 2: Download and install Android Studio**
+
+Although Android Studio can be downloaded [from their official website](https://developer.android.com/studio/), a much better option is to install it through [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/). This tool, developed by the same developers of Android Studio, allows you to easily upgrade and downgrade the IDE, or switch between stable, beta and canary versions. After downloading and installing JetBrains Toolbox, simply click the install button near Android Studio to install the newest stable version of IDE. Beta and canary versions have not been tested and may not work correctly.
+
+After installation, launch Android Studio. If this is the first time you launch it, you will need to go through a wizard to setup the IDE. The default options should work fine. The wizard will download all additional components necessary for development, including the emulator, so it may take a while.
+
+**Step 3: Download the source code**
+
+To create a complete copy of the source code repository, open the terminal (Linux/macOS) or Git Bash (Windows), navigate to the desired folder, then run:
+```bash
+git clone https://github.com/iSoron/uhabits.git
+```
+The repository will be downloaded to the directory `uhabits`. The Android files are located at `uhabits/android`.
+
+**Step 4: Open and run the project on Android Studio**
+
+1. Launch Android Studio and select "Open an existing Android Studio project".
+2. When the IDE asks you for the project location, select `uhabits/android` and click "Ok".
+3. Android Studio will spend some time indexing the project. When this is complete, click the toolbar icon "Sync Project with Gradle File", located near the right corner of the top toolbar.
+4. The operation will likely fail several times due to missing Android SDK components. Each time it fails, click the link "Install missing platforms", "Instal build tools", etc, and try again.
+5. To test the application, create a virtual Android device using the menu "Tools" and "AVD Manager". The default options should work fine, but free to customize the device.
+6. Click the menu "Run" and "uhabits-android". The application should launch.
+
 
 ## Build from the command line
+
+The following instructions were tested on **Ubuntu Linux 18.04 LTS** and may need to be modified for other operating systems.
 
 **Step 1: Install basic packages**
 
@@ -41,8 +78,6 @@ To create a complete copy of the source code repository, navigate to your home d
 git clone https://github.com/iSoron/uhabits.git
 ```
 The repository will be downloaded to the directory `uhabits`.
-
-If you are planning to submit pull request, it is recommended that you use the URL `git@github.com:iSoron/uhabits.git` instead of the one above. For this, it may be necessary to [generate and configure your SSH keys](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
 **Step 4: Compile the source code**
 
