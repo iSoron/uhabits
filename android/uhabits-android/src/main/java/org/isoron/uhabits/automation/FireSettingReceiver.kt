@@ -44,7 +44,7 @@ class FireSettingReceiver : BroadcastReceiver() {
                 .habitsApplicationComponent(app.component)
                 .build()
         allHabits = app.component.habitList
-        val args = parseIntent(intent) ?: return
+        val args = SettingUtils.parseIntent(intent, allHabits) ?: return
         val timestamp = DateUtils.getToday()
         val controller = component.widgetController
 
@@ -55,19 +55,9 @@ class FireSettingReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun parseIntent(intent: Intent): Arguments? {
-        val bundle = intent.getBundleExtra(EXTRA_BUNDLE) ?: return null
-        val action = bundle.getInt("action")
-        if (action < 0 || action > 2) return null
-        val habit = allHabits.getById(bundle.getLong("habit")) ?: return null
-        return Arguments(action, habit)
-    }
-
     @ReceiverScope
     @Component(dependencies = arrayOf(HabitsApplicationComponent::class))
     internal interface ReceiverComponent {
         val widgetController: WidgetBehavior
     }
-
-    private class Arguments(var action: Int, var habit: Habit)
 }
