@@ -2,7 +2,6 @@ apply plugin: 'idea'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco'
 apply plugin: 'com.github.triplet.play'
 import org.ajoberstar.grgit.Grgit
 
@@ -72,10 +71,6 @@ android {
                 events "passed", "skipped", "failed", "standardOut", "standardError"
                 outputs.upToDateWhen { false }
                 showStandardStreams = true
-            }
-
-            jacoco {
-                includeNoLocationClasses = true
             }
         }
     }
@@ -148,37 +143,6 @@ repositories {
 
 kapt {
     correctErrorTypes = true
-}
-
-task coverageReport(type: JacocoReport) {
-    def excludes = [
-            '**/R.class',
-            '**/R$*.class',
-            '**/BuildConfig.*',
-            '**/Manifest*',
-            '**/*Test*.*',
-            '**/*$Lambda$*',
-            '**/*$ViewBinder*',
-            '**/*MembersInjector*',
-            '**/*_Provide*',
-            '**/*Module_*',
-            '**/com/android/**/*',
-            '**/*Dagger*',
-            '**/*_Factory*'
-    ]
-    def androidSrc = "${project.projectDir}/src/main/java"
-    def androidClasses = "${buildDir}/intermediates/classes/debug"
-    def jvmExecData = "${buildDir}/jacoco/testDebugUnitTest.exec"
-    def connectedExecData = "${buildDir}/outputs/code-coverage/connected/coverage.ec"
-    sourceDirectories = files(androidSrc)
-    classDirectories = files(fileTree(dir: androidClasses, excludes: excludes))
-    executionData = files(jvmExecData, connectedExecData)
-    jacocoClasspath = configurations['jacocoAnt']
-
-    reports {
-        html.enabled = true
-        xml.enabled = true
-    }
 }
 
 play {

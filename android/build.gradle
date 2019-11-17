@@ -9,7 +9,6 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'org.jacoco:org.jacoco.core:0.8.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
         classpath 'org.ajoberstar:grgit:1.5.0'
         classpath 'com.github.triplet.gradle:play-publisher:1.2.0'

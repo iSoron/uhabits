@@ -1,6 +1,5 @@
 apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'jacoco'
 
 dependencies {
     annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
@@ -28,21 +27,6 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: '**/*Factory.*')
-        })
-    }
-}
-
-check.dependsOn jacocoTestReport
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
