@@ -2,7 +2,6 @@ apply plugin: 'idea'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.github.triplet.play'
 import org.ajoberstar.grgit.Grgit
 
 ext {
@@ -26,12 +25,6 @@ android {
         buildTypes.release.signingConfig signingConfigs.release
     }
 
-    playAccountConfigs {
-        defaultAccountConfig {
-            jsonFile = file('../secret/playstore.json')
-        }
-    }
-
     defaultConfig {
         versionCode VERSION_CODE as Integer
         versionName "$VERSION_NAME ($GIT_BRANCH $GIT_COMMIT)"
@@ -40,8 +33,6 @@ android {
 
         applicationId "org.isoron.uhabits"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        playAccountConfig = playAccountConfigs.defaultAccountConfig
     }
 
     buildTypes {
@@ -143,8 +134,4 @@ repositories {
 
 kapt {
     correctErrorTypes = true
-}
-
-play {
-    track = 'alpha'
 }
