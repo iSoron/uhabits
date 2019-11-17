@@ -71,7 +71,7 @@ class NumberPickerFactory
                 }
                 .create()
 
-        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)

@@ -20,5 +20,5 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
         android:color="?android:colorControlHighlight">
 
-    <item android:drawable="?attr/cardBackgroundColor" />
+    <item android:drawable="?attr/cardBgColor" />
 </ripple>

@@ -20,7 +20,7 @@
 <resources>
     <style name="Card" parent="CardCommon">
         <item name="android:elevation">1dp</item>
-        <item name="android:background">?attr/cardBackgroundColor</item>
+        <item name="android:background">?attr/cardBgColor</item>
     </style>
 
     <style name="About.Item.Clickable" parent="About.Item">

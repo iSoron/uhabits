@@ -97,7 +97,7 @@ public abstract class HabitWidgetView extends FrameLayout
         backgroundPaint = innerDrawable.getPaint();
         backgroundPaint.setShadowLayer(shadowRadius, shadowOffset, shadowOffset,
             shadowColor);
-        backgroundPaint.setColor(res.getColor(R.attr.cardBackgroundColor));
+        backgroundPaint.setColor(res.getColor(R.attr.cardBgColor));
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);

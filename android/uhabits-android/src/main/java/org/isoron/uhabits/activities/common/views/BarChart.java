@@ -433,7 +433,7 @@ public class BarChart extends ScrollableChart
         primaryColor = Color.BLACK;
         textColor = res.getColor(R.attr.mediumContrastTextColor);
         gridColor = res.getColor(R.attr.lowContrastTextColor);
-        backgroundColor = res.getColor(R.attr.cardBackgroundColor);
+        backgroundColor = res.getColor(R.attr.cardBgColor);
     }
 
     private void initDateFormats()

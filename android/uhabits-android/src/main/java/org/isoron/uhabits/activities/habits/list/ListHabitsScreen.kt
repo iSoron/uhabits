@@ -106,7 +106,7 @@ class ListHabitsScreen
         if (data == null) return
         if (resultCode != Activity.RESULT_OK) return
         try {
-            val inStream = activity.contentResolver.openInputStream(data.data)
+            val inStream = activity.contentResolver.openInputStream(data.data!!)
             val cacheDir = activity.externalCacheDir
             val tempFile = File.createTempFile("import", "", cacheDir)
             FileUtils.copy(inStream, tempFile)

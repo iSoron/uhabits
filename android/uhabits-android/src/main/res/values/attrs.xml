@@ -20,7 +20,7 @@
 
 <resources>
     <attr name="windowBackgroundColor" format="reference"/>
-    <attr name="cardBackgroundColor" format="reference"/>
+    <attr name="cardBgColor" format="reference"/>
     <attr name="headerBackgroundColor" format="reference"/>
     <attr name="highlightedBackgroundColor" format="reference"/>
     <attr name="useHabitColorAsPrimary" format="boolean"/>

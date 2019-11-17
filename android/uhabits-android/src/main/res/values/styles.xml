@@ -33,7 +33,7 @@
         <item name="colorPrimary">@color/blue_grey_800</item>
         <item name="colorPrimaryDark">@color/blue_grey_900</item>
         <item name="colorAccent">?aboutScreenColor</item>
-        <item name="cardBackgroundColor">@color/grey_50</item>
+        <item name="cardBgColor">@color/grey_50</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
         <item name="headerBackgroundColor">@color/grey_200</item>
         <item name="highlightedBackgroundColor">@color/grey_100</item>
@@ -88,7 +88,7 @@
         <item name="colorPrimary">@color/grey_950</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">?aboutScreenColor</item>
-        <item name="cardBackgroundColor">@color/grey_850</item>
+        <item name="cardBgColor">@color/grey_850</item>
         <item name="windowBackgroundColor">@color/grey_900</item>
         <item name="headerBackgroundColor">@color/grey_900</item>
         <item name="highlightedBackgroundColor">@color/grey_800</item>
@@ -132,7 +132,7 @@
 
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="cardBackgroundColor">@color/black</item>
+        <item name="cardBgColor">@color/black</item>
         <item name="windowBackgroundColor">@color/black</item>
         <item name="headerBackgroundColor">@color/black</item>
         <item name="highlightedBackgroundColor">@color/black</item>
@@ -142,7 +142,7 @@
     </style>
 
     <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
-        <item name="cardBackgroundColor">@color/grey_850</item>
+        <item name="cardBgColor">@color/grey_850</item>
 
         <item name="highContrastTextColor">@color/white</item>
         <item name="mediumContrastTextColor">@color/white_aa</item>
