@@ -84,11 +84,11 @@ class ListHabitsMenuTest : BaseAndroidJVMTest() {
         verify(behavior).onViewAbout()
     }
 
-    @Test
-    fun testOnSelected_add() {
-        onItemSelected(R.id.actionAdd)
-        verify(behavior).onCreateHabit()
-    }
+//    @Test
+//    fun testOnSelected_add() {
+//        onItemSelected(R.id.actionAdd)
+//        verify(behavior).onCreateHabit()
+//    }
 
     @Test
     fun testOnSelected_faq() {

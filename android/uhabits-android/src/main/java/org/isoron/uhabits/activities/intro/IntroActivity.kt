@@ -17,52 +17,41 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.intro;
+package org.isoron.uhabits.activities.intro
 
-import android.graphics.*;
-import android.os.*;
+import android.graphics.*
+import android.os.*
 
-import com.github.paolorotolo.appintro.*;
+import com.github.paolorotolo.appintro.*
 
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.R
 
 /**
  * Activity that introduces the app to the user, shown only after the app is
  * launched for the first time.
  */
-public class IntroActivity extends AppIntro2
-{
-    @Override
-    public void init(Bundle savedInstanceState)
-    {
-        showStatusBar(false);
+class IntroActivity : AppIntro2() {
+    override fun init(savedInstanceState: Bundle?) {
+        showStatusBar(false)
 
         addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_1),
-            getString(R.string.intro_description_1), R.drawable.intro_icon_1,
-            Color.parseColor("#194673")));
+                getString(R.string.intro_description_1), R.drawable.intro_icon_1,
+                Color.parseColor("#194673")))
 
         addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_2),
-            getString(R.string.intro_description_2), R.drawable.intro_icon_2,
-            Color.parseColor("#ffa726")));
+                getString(R.string.intro_description_2), R.drawable.intro_icon_2,
+                Color.parseColor("#ffa726")))
 
         addSlide(AppIntroFragment.newInstance(getString(R.string.intro_title_4),
-            getString(R.string.intro_description_4), R.drawable.intro_icon_4,
-            Color.parseColor("#9575cd")));
+                getString(R.string.intro_description_4), R.drawable.intro_icon_4,
+                Color.parseColor("#9575cd")))
     }
 
-    @Override
-    public void onNextPressed()
-    {
+    override fun onNextPressed() {}
+
+    override fun onDonePressed() {
+        finish()
     }
 
-    @Override
-    public void onDonePressed()
-    {
-        finish();
-    }
-
-    @Override
-    public void onSlideChanged()
-    {
-    }
+    override fun onSlideChanged() {}
 }

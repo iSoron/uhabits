@@ -59,7 +59,7 @@ class BarChart(var theme: Theme,
         canvas.fillRect(0.0, 0.0, width, height)
 
         fun barGroupOffset(c: Int) = marginLeft + paddingLeft +
-                                     (nColumns - c - 1) * barGroupWidth
+                                     (c) * barGroupWidth
 
         fun barOffset(c: Int, s: Int) = barGroupOffset(c) +
                                         barGroupMargin +
@@ -130,8 +130,8 @@ class BarChart(var theme: Theme,
             val isLargeInterval = (axis[0].distanceTo(axis[1]) > 300)
 
             for (c in 0 until nColumns) {
-                val x = barGroupOffset(nColumns - c - 1)
-                val date = axis[nColumns - c - 1]
+                val x = barGroupOffset(c)
+                val date = axis[c]
                 if(isLargeInterval) {
                     canvas.drawText(date.year.toString(),
                                     x + barGroupWidth / 2,
