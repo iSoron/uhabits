@@ -63,6 +63,19 @@ public class WidgetSteps
             .longClick();
     }
 
+    public static void dragCheckmarkWidgetToHomescreen() throws Exception {
+        int height = device.getDisplayHeight();
+        int width = device.getDisplayWidth();
+        device.pressHome();
+        device.waitForIdle();
+        device.findObject(new UiSelector().description("Apps")).click();
+        device.findObject(new UiSelector().description("Apps")).click();
+        device.findObject(new UiSelector().description("Widgets")).click();
+        device.drag(width/2, height/2, 0, height/2, 8);
+        device.findObject(new UiSelector().text("Checkmark"))
+                .dragTo(width / 2, height / 2, 8);
+    }
+
     public static void scrollToHabits() throws Exception
     {
         new UiScrollable(new UiSelector().resourceId(

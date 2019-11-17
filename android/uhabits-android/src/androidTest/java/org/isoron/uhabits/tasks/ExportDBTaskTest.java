@@ -19,15 +19,12 @@
 
 package org.isoron.uhabits.tasks;
 
+import android.support.test.filters.*;
 import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
-import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
 import org.junit.*;
 import org.junit.runner.*;
-
-import java.io.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest

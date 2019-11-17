@@ -91,11 +91,8 @@ public abstract class ListHabitsSteps
         }
     }
 
-    private static void clickTextInsideOverflowMenu(int id)
-    {
-        onView(allOf(withContentDescription("More options"), withParent(
-            withParent(withClassName(endsWith("Toolbar")))))).perform(click());
-
+    private static void clickTextInsideOverflowMenu(int id) {
+        onView(allOf(withContentDescription("More options"), withParent(withParent(withClassName(endsWith("Toolbar")))))).perform(click());
         onView(withText(id)).perform(click());
     }
 

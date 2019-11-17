@@ -19,22 +19,12 @@
 
 package org.isoron.uhabits.tasks;
 
+import android.support.test.filters.*;
 import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
-import org.isoron.androidbase.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.tasks.*;
 import org.junit.*;
 import org.junit.runner.*;
-
-import java.io.*;
-import java.util.*;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest

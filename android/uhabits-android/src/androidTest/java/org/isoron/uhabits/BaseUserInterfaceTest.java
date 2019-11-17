@@ -54,6 +54,7 @@ public class BaseUserInterfaceTest
         Intent intent = new Intent();
         intent.setComponent(new ComponentName(PKG, cls.getCanonicalName()));
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getContext().startActivity(intent);
     }
 
@@ -77,8 +78,6 @@ public class BaseUserInterfaceTest
     @After
     public void tearDown() throws Exception
     {
-        device.pressHome();
-        device.waitForIdle();
         TestButler.teardown(getTargetContext());
     }
 

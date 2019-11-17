@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.acceptance;
 
+import android.support.test.filters.*;
+
 import org.isoron.uhabits.*;
 import org.junit.*;
 
@@ -26,16 +28,15 @@ import static org.isoron.uhabits.acceptance.steps.CommonSteps.*;
 import static org.isoron.uhabits.acceptance.steps.WidgetSteps.*;
 import static org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText;
 
+@LargeTest
 public class WidgetTest extends BaseUserInterfaceTest
 {
     @Test
     public void shouldCreateAndToggleCheckmarkWidget() throws Exception
     {
-        longPressHomeScreen();
-        clickWidgets();
-        scrollToHabits();
-        dragWidgetToHomescreen();
+        dragCheckmarkWidgetToHomescreen();
         clickText("Wake up early");
+        clickText("Save");
         verifyCheckmarkWidgetIsShown();
         clickCheckmarkWidget();
 

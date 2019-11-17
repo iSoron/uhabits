@@ -20,8 +20,8 @@
 package org.isoron.uhabits;
 
 import android.os.*;
+import android.support.test.filters.*;
 import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.models.*;
@@ -30,8 +30,8 @@ import org.junit.runner.*;
 
 import java.io.*;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest

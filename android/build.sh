@@ -121,20 +121,15 @@ uninstall_apk() {
 install_test_butler() {
 	log_info "Installing Test Butler"
 	$ADB uninstall com.linkedin.android.testbutler
-	$ADB install tools/test-butler-app-1.3.1.apk
+	$ADB install tools/test-butler-app-2.0.2.apk
 }
 
 install_apk() {
-	if [ ! -z $UNINSTALL_FIRST ]; then
-		uninstall_apk
-	fi
-
 	log_info "Installing APK"
-
 	if [ ! -z $RELEASE ]; then
 		$ADB install -r ${OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || fail
 	else
-		$ADB install -r ${OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
+		$ADB install -t -r ${OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
 	fi
 }
 
@@ -147,9 +142,10 @@ install_test_apk() {
 }
 
 run_instrumented_tests() {
+	SIZE=$1
 	log_info "Running instrumented tests"
 	$ADB shell am instrument \
-		-r -e coverage true -e size medium \
+		-r -e coverage true -e size $SIZE \
 		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
 		| tee ${OUTPUTS_DIR}/instrument.txt
 
@@ -180,7 +176,7 @@ fetch_artifacts() {
 }
 
 fetch_logcat() {
-	log_info "Fetching logcat"
+	log_info "Fetching logcat to ${OUTPUTS_DIR}/logcat.txt"
 	$ADB logcat -d > ${OUTPUTS_DIR}/logcat.txt
 }
 
@@ -215,13 +211,14 @@ accept_images() {
 	rsync -av tmp/test-screenshots/ uhabits-android/src/androidTest/assets/
 }
 
-run_local_tests() {
-	#clean_output_dir
+run_tests() {
+	SIZE=$1
 	run_adb_as_root
 	install_test_butler
+	uninstall_apk
 	install_apk
 	install_test_apk
-	run_instrumented_tests
+	run_instrumented_tests $SIZE
 	parse_instrumentation_results
 	fetch_artifacts
 	fetch_logcat
@@ -249,7 +246,7 @@ case "$1" in
 		build_apk
 		build_instrumentation_apk
 		run_jvm_tests
-		generate_coverage_badge
+		#generate_coverage_badge
 		;;
 
 	ci-tests)
@@ -274,15 +271,20 @@ case "$1" in
 		ADB="${ADB} -s emulator-${AVD_SERIAL}"
 
 		start_emulator
-		run_local_tests
+		run_tests medium
 		stop_emulator
 		stop_gradle_daemon
 		;;
 
-	local-tests)
+	medium-tests)
 		shift; parse_opts $*
-		run_local_tests
+		run_tests medium
 		;;
+
+	large-tests)
+		shift; parse_opts $*
+		run_tests large
+ 		;;
 
 	fetch-images)
 		fetch_images
@@ -311,7 +313,6 @@ case "$1" in
 			    accept-images Copies fetched images to corresponding assets folder
 
 			Options:
-			    -u  --uninstall-first   Uninstall existing APK first
 			    -r  --release           Build and install release version, instead of debug
 		END
 		exit 1

@@ -43,14 +43,14 @@ public class LinksTest extends BaseUserInterfaceTest
         verifyOpensWebsite("https://github.com/iSoron/uhabits");
     }
 
-    @Test
-    public void shouldLinkToTranslationWebsite() throws Exception
-    {
-        launchApp();
-        clickMenu(ABOUT);
-        clickText("Help translate this app");
-        verifyOpensWebsite("translate.loophabits.org");
-    }
+//    @Test
+//    public void shouldLinkToTranslationWebsite() throws Exception
+//    {
+//        launchApp();
+//        clickMenu(ABOUT);
+//        clickText("Help translate this app");
+//        verifyOpensWebsite("translate.loophabits.org");
+//    }
 
     @Test
     public void shouldLinkToHelp() throws Exception

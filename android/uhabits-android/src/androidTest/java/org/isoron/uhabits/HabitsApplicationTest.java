@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits;
 
+import android.support.test.filters.*;
 import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
 import org.isoron.androidbase.*;
 import org.junit.*;

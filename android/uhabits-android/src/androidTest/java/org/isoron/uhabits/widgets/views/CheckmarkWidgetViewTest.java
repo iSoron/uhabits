@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.widgets.views;
 
+import android.support.test.filters.*;
 import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
