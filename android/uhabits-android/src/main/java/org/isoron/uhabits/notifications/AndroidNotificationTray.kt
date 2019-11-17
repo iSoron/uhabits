@@ -28,6 +28,7 @@ import android.os.Build.VERSION.*
 import android.support.annotation.*
 import android.support.v4.app.*
 import android.support.v4.app.NotificationCompat.*
+import android.util.*
 import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.*
@@ -71,14 +72,23 @@ class AndroidNotificationTray
         notificationManager.notify(Int.MAX_VALUE, summary)
         val notification = buildNotification(habit, reminderTime, timestamp)
         createAndroidNotificationChannel(context)
-        notificationManager.notify(notificationId, notification)
+        try {
+            notificationManager.notify(notificationId, notification)
+        } catch (e: RuntimeException) {
+            // Some Xiaomi phones produce a RuntimeException if custom notification sounds are used.
+            Log.i("AndroidNotificationTray", "Failed to show notification. Retrying without sound.")
+            val n = buildNotification(habit, reminderTime, timestamp, disableSound = true)
+            notificationManager.notify(notificationId, n)
+
+        }
         active.add(notificationId)
     }
 
     @NonNull
     fun buildNotification(@NonNull habit: Habit,
                           @NonNull reminderTime: Long,
-                          @NonNull timestamp: Timestamp) : Notification
+                          @NonNull timestamp: Timestamp,
+                          disableSound: Boolean = false) : Notification
     {
 
         val addRepetitionAction = Action(
@@ -109,11 +119,14 @@ class AndroidNotificationTray
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .addAction(addRepetitionAction)
                 .addAction(removeRepetitionAction)
-                .setSound(ringtoneManager.getURI())
+                .setSound(null)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
 		        .setGroup("default")
+
+        if (!disableSound)
+            builder.setSound(ringtoneManager.getURI())
 
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
