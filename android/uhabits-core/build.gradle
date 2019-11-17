@@ -3,13 +3,13 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 
 dependencies {
-    annotationProcessor "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
-    annotationProcessor 'com.google.dagger:dagger:2.11-rc2'
+    annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
+    annotationProcessor "com.google.dagger:dagger:$DAGGER_VERSION"
 
     compileOnly 'javax.annotation:jsr250-api:1.0'
     compileOnly 'org.jetbrains:annotations-java5:15.0'
-    compileOnly "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
-    compileOnly 'com.google.dagger:dagger:2.11-rc2'
+    compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
+    compileOnly "com.google.dagger:dagger:$DAGGER_VERSION"
 
     implementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
