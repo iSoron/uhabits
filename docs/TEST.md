@@ -23,7 +23,7 @@ For this script to succeed, make sure that an emulator is currently running, or 
 **WARNING!** This script will uninstall the app prior to testing it, and therefore delete all user data!
 
 
-If there are failing view tests (that is, if some custom views do not render exactly like the prerendered images we have), then the script `./build.sh fetch-images` can be used to download both the actual and the expected images from the device. The images will be downloaded from the device into the folder `tmp/`. After verifying the differences, if you feel that the actual images are actually find and should replace the prerendered ones, then run `./build.sh accept-images`.
+If there are failing view tests (that is, if some custom views do not render exactly like the prerendered images we have), then the script `./build.sh fetch-images` can be used to download both the actual and the expected images from the device. The images will be downloaded from the device into the folder `tmp/`. After verifying the differences, if you feel that the actual images are actually fine and should replace the prerendered ones, then run `./build.sh accept-images`.
 
 ## Running large tests
 
