@@ -139,7 +139,7 @@ public class CommonSteps extends BaseUserInterfaceTest
 
     public static void verifyOpensWebsite(String url) throws Exception
     {
-        if(SDK_INT <= LOLLIPOP) {
+        if(SDK_INT <= 23) {
             assertTrue(device.wait(Until.hasObject(By.pkg("com.android.browser")), 5000));
         } else {
             assertTrue(device.wait(Until.hasObject(By.pkg("com.android.chrome")), 5000));
