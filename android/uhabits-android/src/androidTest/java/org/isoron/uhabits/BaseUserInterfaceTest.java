@@ -78,6 +78,7 @@ public class BaseUserInterfaceTest
     @After
     public void tearDown() throws Exception
     {
+        for (int i = 0; i < 10; i++) device.pressBack();
         TestButler.teardown(getTargetContext());
     }
 

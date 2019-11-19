@@ -53,12 +53,14 @@ public class LinksTest extends BaseUserInterfaceTest
 //    }
 
     @Test
-    public void shouldLinkToHelp() throws Exception
-    {
+    public void shouldLinkToHelp() throws Exception {
         launchApp();
         clickMenu(HELP);
         verifyOpensWebsite("loophabits.org/faq.html");
+    }
 
+    @Test
+    public void shouldLinkToHelpFromSettings() throws Exception {
         launchApp();
         clickMenu(SETTINGS);
         clickText("Help & FAQ");

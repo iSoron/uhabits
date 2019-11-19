@@ -139,13 +139,13 @@ public class CommonSteps extends BaseUserInterfaceTest
 
     public static void verifyOpensWebsite(String url) throws Exception
     {
+        String browser_pkg = "org.chromium.webview_shell";
         if(SDK_INT <= 23) {
-            assertTrue(device.wait(Until.hasObject(By.pkg("com.android.browser")), 5000));
-        } else {
-            assertTrue(device.wait(Until.hasObject(By.pkg("com.android.chrome")), 5000));
+            browser_pkg = "com.android.browser";
         }
+        assertTrue(device.wait(Until.hasObject(By.pkg(browser_pkg)), 5000));
         device.waitForIdle();
-        assertTrue(device.findObject(new UiSelector().text(url)).exists());
+        assertTrue(device.findObject(new UiSelector().textContains(url)).exists());
     }
 
     public enum Screen

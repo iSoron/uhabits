@@ -32,7 +32,11 @@ public class WidgetSteps {
     }
 
     public static void clickText(String s) throws Exception {
-        device.findObject(new UiSelector().text(s)).click();
+        UiObject object = device.findObject(new UiSelector().text(s));
+        if (!object.waitForExists(1000)) {
+            object = device.findObject(new UiSelector().text(s.toUpperCase()));
+        }
+        object.click();
     }
 
     public static void dragCheckmarkWidgetToHomeScreen() throws Exception {
@@ -61,7 +65,11 @@ public class WidgetSteps {
             device.pressHome();
             device.waitForIdle();
             device.drag(w / 2, h / 2, w / 2, h / 2, 8);
-            device.findObject(new UiSelector().text("Widgets")).click();
+            UiObject button = device.findObject(new UiSelector().text("WIDGETS"));
+            if(!button.waitForExists(1000)) {
+                button = device.findObject(new UiSelector().text("Widgets"));
+            }
+            button.click();
             new UiScrollable(new UiSelector().resourceId(list_id))
                     .scrollIntoView(new UiSelector().text("Checkmark"));
         }
