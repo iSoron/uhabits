@@ -43,7 +43,6 @@ public class HabitsTest extends BaseUserInterfaceTest
 
         verifyShowsScreen(LIST_HABITS);
         clickMenu(ADD);
-        clickText("Yes or No");
 
         verifyShowsScreen(EDIT_HABIT);
         typeName("Hello world");

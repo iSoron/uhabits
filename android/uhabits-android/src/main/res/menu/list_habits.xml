@@ -23,23 +23,12 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/actionAdd"
+        android:id="@+id/actionCreateBooleanHabit"
+        android:enabled="true"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
-        app:showAsAction="always">
+        app:showAsAction="always"/>
 
-        <menu android:id="@+id/createHabitMenu">
-            <item
-                android:id="@+id/actionCreateBooleanHabit"
-                android:enabled="true"
-                android:title="@string/yes_or_no"/>
-
-            <item
-                android:id="@+id/actionCreateNumeralHabit"
-                android:enabled="true"
-                android:title="@string/number"/>
-        </menu>
-    </item>
 
     <item
         android:id="@+id/action_filter"
@@ -106,4 +95,12 @@
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/actionCreateNumeralHabit"
+        android:enabled="true"
+        android:title="Add Numerical Habit"
+        android:orderInCategory="200"
+        app:showAsAction="never" />
+
 </menu>
