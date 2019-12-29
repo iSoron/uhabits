@@ -1,5 +1,15 @@
 # Changelog
 
+### 1.8.0
+
+* New bar chart showing number of repetition per week, month, quarter or year.
+* Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will no longer break your streak.
+* Automatically switch to dark theme, according to phone settings (Android 10).
+* Yes/No buttons on notifications, instead of just "Check".
+* More color choices.
+* Significantly smaller backup files.
+* Many internal code changes improving performance and stability.
+
 ### 1.7.11 (Aug 10, 2019)
 
 * Fix bug that produced corrupted CSV files in some countries
