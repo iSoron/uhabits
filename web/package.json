@@ -1,0 +1,34 @@
+{
+  "name": "loop-habit-tracker",
+  "version": "2.0.0",
+  "description": "App for creating and maintaining good habits",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:iSoron/uhabits.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "compile": "webpack",
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "kotlin": "^1.3.41",
+    "kotlin-test": "^1.3.41",
+    "kotlinx-coroutines-core": "^1.2.2",
+    "sprintf-js": "^1.1.2",
+    "sql.js": "^0.5.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.5",
+    "mocha": "^6.2.0",
+    "serve": "^11.1.0",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  }
+}

@@ -1,0 +1,25 @@
+package = sqlite3
+headers = sqlite3.h
+headerFilter = sqlite3*.h
+compilerOpts = -std=c11
+linkerOpts.ios = -lsqlite3
+excludedFunctions = sqlite3_mutex_held \
+  sqlite3_mutex_notheld \
+  sqlite3_snapshot_cmp \
+  sqlite3_snapshot_free \
+  sqlite3_snapshot_get \
+  sqlite3_snapshot_open \
+  sqlite3_snapshot_recover \
+  sqlite3_set_last_insert_rowid \
+  sqlite3_stmt_scanstatus \
+  sqlite3_stmt_scanstatus_reset \
+  sqlite3_column_database_name \
+  sqlite3_column_database_name16 \
+  sqlite3_column_origin_name \
+  sqlite3_column_origin_name16 \
+  sqlite3_column_table_name \
+  sqlite3_column_table_name16 \
+  sqlite3_enable_load_extension \
+  sqlite3_load_extension \
+  sqlite3_unlock_notify
+noStringConversion = sqlite3_prepare_v2 sqlite3_prepare_v3

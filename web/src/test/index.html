@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="../lib/mocha.css">
+    <script src="../lib/sprintf.min.js"></script>
+    <script src="../lib/sql.js"></script>
+    <script src="../lib/mocha.js"></script>
+    <style>
+      @font-face {
+        font-family: "FontAwesome";
+        src: url(../assets/fonts/FontAwesome.ttf) format("truetype");
+      }
+      @font-face {
+        font-family: "NotoRegular";
+        src: url(../assets/fonts/NotoSans-Regular.ttf) format("truetype");
+      }
+      @font-face {
+        font-family: "NotoBold";
+        src: url(../assets/fonts/NotoSans-Bold.ttf) format("truetype");
+      }
+      .export {
+        text-align: center;
+      }
+      .export canvas {
+        border: 1px solid #000;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Preload fonts for canvas. See https://stackoverflow.com/questions/2756575/  -->
+    <span style="font-family: FontAwesome">&nbsp;</span>
+    <span style="font-family: NotoRegular">&nbsp;</span>
+    <span style="font-family: NotoBold">&nbsp;</span>
+
+    <div id="mocha"></div>
+
+    <script>
+      mocha.setup('bdd');
+      testElement = document.createElement("script");
+      testElement.src = "../test.js";
+      testElement.onload = function() {
+        mocha.run();
+      }
+      document.body.appendChild(testElement);
+    </script>
+
+  </body>
+</html>

@@ -1,16 +1,6 @@
 # Loop Habit Tracker
 
-<a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=projectOverview&guest=1">
-  <img src="https://img.shields.io/teamcity/https/build.loophabits.org/s/release.svg">
-</a>
-<a href="https://build.loophabits.org/project.html?projectId=LoopHabitTracker&tab=preport_project1_Coverage__core_&guest=1">
-  <img src="https://build.loophabits.org/app/rest/builds/buildType(id:release)/artifacts/content/coverage-badge.svg?guest=1" />
-</a>
-<a href="https://github.com/iSoron/uhabits/releases/latest">
-  <img src="https://img.shields.io/badge/apk-stable-FF4081.svg" />
-</a>
-
-Loop is a simple Android app that helps you create and maintain good habits,
+Loop is a mobile app that helps you create and maintain good habits,
 allowing you to achieve your long-term goals. Detailed graphs and statistics
 show you how your habits improved over time. It is completely ad-free and open
 source.
@@ -95,7 +85,7 @@ contribute, even if you are not a software developer.
 
 <img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
-	Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+	Copyright (C) 2016-2019 Álinson Santos Xavier <isoron@gmail.com>
 
 	Loop Habit Tracker is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by the

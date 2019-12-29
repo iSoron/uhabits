@@ -1,0 +1,143 @@
+/*
+ * Copyright (C) 2016-2019 Álinson Santos Xavier <isoron@gmail.com>
+ *
+ * This file is part of Loop Habit Tracker.
+ *
+ * Loop Habit Tracker is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * Loop Habit Tracker is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+plugins {
+    id 'kotlin-multiplatform' version '1.3.21'
+}
+
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    targets {
+        def sdkName = System.getenv('SDK_NAME')
+        def isIphone = sdkName?.startsWith("iphoneos")
+        def iosPreset = isIphone ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iosPreset, 'ios') {
+            compilations.main.outputKinds('FRAMEWORK')
+            compilations.main {
+                cinterops {
+                    sqlite3 {
+                        defFile project.file("src/main/c_interop/sqlite3.def")
+                    }
+                }
+            }
+        }
+
+        fromPreset(presets.jvm, 'jvm') {
+
+        }
+
+        fromPreset(presets.js, 'js') {
+            compilations.main.kotlinOptions {
+                moduleKind = "commonjs"
+            }
+            compilations.test.kotlinOptions {
+                moduleKind = "commonjs"
+            }
+        }
+    }
+
+    sourceSets {
+        commonMain {
+            kotlin { srcDir "src/main/common" }
+            dependencies {
+                implementation kotlin('stdlib-common')
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.2.0-alpha-2'
+            }
+        }
+
+        commonTest {
+            kotlin { srcDir "src/test/common" }
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+
+        jvmMain {
+            kotlin { srcDir "src/main/jvm" }
+            dependencies {
+                implementation kotlin('stdlib-jdk8')
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0-alpha-2'
+            }
+        }
+
+        jvmTest {
+            kotlin { srcDir "src/test/jvm" }
+            dependencies {
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
+                implementation 'org.xerial:sqlite-jdbc:3.25.2'
+            }
+        }
+
+        jsMain {
+            kotlin { srcDir "src/main/js" }
+            dependencies {
+                implementation kotlin('stdlib-js')
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.2.0-alpha-2'
+            }
+        }
+
+        jsTest {
+            kotlin { srcDir "src/test/js" }
+            dependencies {
+                implementation kotlin('test-js')
+            }
+        }
+
+        iosMain {
+            kotlin { srcDir "src/main/ios" }
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.0-alpha-2'
+            }
+        }
+
+        iosTest {
+            kotlin { srcDir "src/test/ios" }
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.0-alpha-2'
+            }
+        }
+    }
+
+    task iosTestCopyResources(type: Copy) {
+        dependsOn 'linkTestIos'
+        from 'assets/test/'
+        from 'assets/main/'
+        into 'build/bin/ios/testDebugExecutable'
+    }
+
+    task iosTest {
+        dependsOn 'linkTestIos', 'iosTestCopyResources'
+        group = JavaBasePlugin.VERIFICATION_GROUP
+        description = "Runs tests on iOS simulator"
+
+        doLast {
+            def emulatorName = "iPhone 8 Plus"
+            def binary = kotlin.targets.ios.compilations.test.getBinary('EXECUTABLE', 'DEBUG')
+            exec {
+                commandLine 'xcrun', 'simctl', 'spawn', emulatorName, binary.absolutePath
+            }
+        }
+    }
+}

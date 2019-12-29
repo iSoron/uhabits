@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="interfaceCategory"
+        android:title="@string/interface_preferences">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_short_toggle"
+            android:summary="@string/pref_toggle_description"
+            android:title="@string/pref_toggle_title"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_checkmark_reverse_order"
+            android:summary="@string/reverse_days_description"
+            android:title="@string/reverse_days"/>
+
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_pure_black"
+            android:summary="@string/pure_black_description"
+            android:title="@string/use_pure_black"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="reminderCategory"
+        android:title="@string/reminder">
+
+        <ListPreference
+            android:defaultValue="@string/snooze_interval_default"
+            android:dialogTitle="@string/snooze_interval"
+            android:entries="@array/snooze_interval_names"
+            android:entryValues="@array/snooze_interval_values"
+            android:key="pref_snooze_interval"
+            android:summary="%s"
+            android:title="@string/pref_snooze_interval_title"/>
+
+        <Preference
+            android:key="reminderSound"
+            android:title="@string/reminder_sound"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_sticky_notifications"
+            android:title="@string/sticky_notifications"
+            android:summary="@string/sticky_notifications_description"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_led_notifications"
+            android:title="@string/led_notifications"
+            android:summary="@string/led_notifications_description"/>
+
+        <Preference
+            android:key="reminderCustomize"
+            android:summary="@string/customize_notification_summary"
+            android:title="@string/customize_notification"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="databaseCategory"
+        android:title="Database">
+
+        <Preference
+            android:key="exportDB"
+            android:summary="@string/export_full_backup_summary"
+            android:title="@string/export_full_backup">
+        </Preference>
+
+        <Preference
+            android:key="exportCSV"
+            android:summary="@string/export_as_csv_summary"
+            android:title="@string/export_to_csv">
+        </Preference>
+
+        <Preference
+            android:key="importData"
+            android:summary="@string/import_data_summary"
+            android:title="@string/import_data">
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_debug"
+        android:title="@string/troubleshooting">
+
+        <Preference
+            android:key="bugReport"
+            android:title="@string/generate_bug_report"/>
+
+        <Preference
+            android:key="repairDB"
+            android:title="@string/repair_database"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="linksCategory"
+        android:title="@string/links">
+
+        <Preference android:title="@string/help">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/helpURL"/>
+        </Preference>
+
+        <Preference android:title="@string/pref_rate_this_app">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/playStoreURL"/>
+        </Preference>
+
+        <Preference android:title="@string/about">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="org.isoron.uhabits.activities.about.AboutActivity"
+                android:targetPackage="org.isoron.uhabits"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="devCategory"
+        android:title="Development">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_developer"
+            android:title="Enable developer mode"/>
+
+        <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_feature_widget_stack"
+                android:title="Enable widget stacks"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_feature_sync"
+            android:title="Enable cloud sync"/>
+
+        <EditTextPreference
+            android:key="pref_sync_address"
+            android:title="Sync server address"/>
+
+        <EditTextPreference
+            android:key="pref_sync_key"
+            android:title="Sync key"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
