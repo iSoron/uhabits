@@ -97,6 +97,13 @@ public class AboutRootView extends BaseRootView
         behavior.onTranslateApp();
     }
 
+    @OnClick(R.id.tvPrivacy)
+    public void onClickPrivacy()
+    {
+        behavior.onClickPrivacy();
+    }
+
+
     @Override
     protected void initToolbar()
     {

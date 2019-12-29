@@ -235,4 +235,6 @@
     <string name="no">No</string>
     <string name="customize_notification_summary">Change sound, vibration, light and other notification settings</string>
     <string name="customize_notification">Customize notifications</string>
+    <string name="pref_view_privacy">View our privacy policy</string>
+
 </resources>

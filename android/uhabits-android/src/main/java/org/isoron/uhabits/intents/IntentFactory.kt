@@ -46,6 +46,9 @@ class IntentFactory
     fun sendFeedback(context: Context) =
             buildSendToIntent(context.getString(R.string.feedbackURL))
 
+    fun privacyPolicy(context: Context) =
+            buildViewIntent(context.getString(R.string.privacyPolicyURL))
+
     fun startAboutActivity(context: Context) =
             Intent(context, AboutActivity::class.java)
 

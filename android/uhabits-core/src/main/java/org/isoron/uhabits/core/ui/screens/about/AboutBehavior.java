@@ -72,6 +72,10 @@ public class AboutBehavior
         screen.showSourceCodeWebsite();
     }
 
+    public void onClickPrivacy() {
+        screen.showPrivacyPolicyWebsite();
+    }
+
     public enum Message
     {
         YOU_ARE_NOW_A_DEVELOPER
@@ -88,6 +92,8 @@ public class AboutBehavior
         void showSourceCodeWebsite();
 
         void showTranslationWebsite();
+
+        void showPrivacyPolicyWebsite();
     }
 
 }

@@ -97,6 +97,11 @@
                     style="@style/About.Item.Clickable"
                     android:text="@string/pref_view_source_code"/>
 
+                <TextView
+                        android:id="@+id/tvPrivacy"
+                        style="@style/About.Item.Clickable"
+                        android:text="@string/pref_view_privacy"/>
+
             </LinearLayout>
 
             <LinearLayout
