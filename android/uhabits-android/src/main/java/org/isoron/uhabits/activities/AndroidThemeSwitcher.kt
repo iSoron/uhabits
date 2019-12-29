@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities
 
+import android.support.v4.content.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.preferences.*
@@ -34,6 +35,8 @@ class AndroidThemeSwitcher
 
     override fun applyDarkTheme() {
         activity.setTheme(R.style.AppBaseThemeDark)
+        activity.window.navigationBarColor =
+                ContextCompat.getColor(activity, R.color.grey_900)
     }
 
     override fun applyLightTheme() {
@@ -42,5 +45,7 @@ class AndroidThemeSwitcher
 
     override fun applyPureBlackTheme() {
         activity.setTheme(R.style.AppBaseThemeDark_PureBlack)
+        activity.window.navigationBarColor =
+                ContextCompat.getColor(activity, R.color.black)
     }
 }
