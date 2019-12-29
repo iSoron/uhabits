@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.activities
 
+import android.content.res.Configuration.*
+import android.os.Build.VERSION.*
 import android.support.v4.content.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
@@ -32,6 +34,16 @@ class AndroidThemeSwitcher
         private val activity: BaseActivity,
         preferences: Preferences
 ) : ThemeSwitcher(preferences) {
+
+    override fun getSystemTheme(): Int {
+        if(SDK_INT < 29) return THEME_LIGHT;
+        val uiMode = activity.resources.configuration.uiMode
+        return if ((uiMode and UI_MODE_NIGHT_MASK) == UI_MODE_NIGHT_YES) {
+            THEME_DARK;
+        } else {
+            THEME_LIGHT;
+        }
+    }
 
     override fun applyDarkTheme() {
         activity.setTheme(R.style.AppBaseThemeDark)

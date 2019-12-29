@@ -27,7 +27,9 @@ public abstract class ThemeSwitcher
 {
     public static final int THEME_DARK = 1;
 
-    public static final int THEME_LIGHT = 0;
+    public static final int THEME_LIGHT = 2;
+
+    public static final int THEME_AUTOMATIC = 0;
 
     private final Preferences preferences;
 
@@ -38,7 +40,7 @@ public abstract class ThemeSwitcher
 
     public void apply()
     {
-        if (preferences.getTheme() == THEME_DARK)
+        if (isNightMode())
         {
             if (preferences.isPureBlackEnabled()) applyPureBlackTheme();
             else applyDarkTheme();
@@ -55,19 +57,36 @@ public abstract class ThemeSwitcher
 
     public abstract void applyPureBlackTheme();
 
+    public abstract int getSystemTheme();
+
     public boolean isNightMode()
     {
-        return preferences.getTheme() == THEME_DARK;
-    }
+        int systemTheme = getSystemTheme();
+        int userTheme = preferences.getTheme();
 
-    public void setTheme(int theme)
-    {
-        preferences.setTheme(theme);
+        return (userTheme == THEME_DARK ||
+                (systemTheme == THEME_DARK && userTheme == THEME_AUTOMATIC));
     }
 
     public void toggleNightMode()
     {
-        if (isNightMode()) setTheme(THEME_LIGHT);
-        else setTheme(THEME_DARK);
+        int systemTheme = getSystemTheme();
+        int userTheme = preferences.getTheme();
+
+        if(userTheme == THEME_AUTOMATIC)
+        {
+            if(systemTheme == THEME_LIGHT) preferences.setTheme(THEME_DARK);
+            if(systemTheme == THEME_DARK) preferences.setTheme(THEME_LIGHT);
+        }
+        else if(userTheme == THEME_LIGHT)
+        {
+            if (systemTheme == THEME_LIGHT) preferences.setTheme(THEME_DARK);
+            if (systemTheme == THEME_DARK) preferences.setTheme(THEME_AUTOMATIC);
+        }
+        else if(userTheme == THEME_DARK)
+        {
+            if (systemTheme == THEME_LIGHT) preferences.setTheme(THEME_AUTOMATIC);
+            if (systemTheme == THEME_DARK) preferences.setTheme(THEME_LIGHT);
+        }
     }
 }

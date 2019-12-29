@@ -27,14 +27,14 @@ import android.provider.*;
 import android.support.annotation.*;
 import android.support.v7.preference.*;
 
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.notifications.*;
 
 import static android.media.RingtoneManager.*;
-import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION.*;
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat

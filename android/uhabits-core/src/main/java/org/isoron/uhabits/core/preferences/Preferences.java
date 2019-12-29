@@ -186,7 +186,7 @@ public class Preferences
 
     public int getTheme()
     {
-        return storage.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
+        return storage.getInt("pref_theme", ThemeSwitcher.THEME_AUTOMATIC);
     }
 
     public void setTheme(int theme)
