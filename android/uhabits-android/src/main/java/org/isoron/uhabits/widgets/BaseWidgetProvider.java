@@ -38,6 +38,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
     private HabitList habits;
 
+    private Preferences preferences;
     private WidgetPreferences widgetPrefs;
 
     public static void updateAppWidget(@NonNull AppWidgetManager manager,
@@ -122,9 +123,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
-        context.setTheme(R.style.OpaqueWidgetTheme);
-
         updateDependencies(context);
+
+        if(preferences.isWidgetStackEnabled()) {
+            context.setTheme(R.style.OpaqueWidgetTheme);
+        } else {
+            context.setTheme(R.style.TransparentWidgetTheme);
+        }
 
         new Thread(() ->
         {
@@ -193,6 +198,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
         habits = app.getComponent().getHabitList();
+        preferences = app.getComponent().getPreferences();
         widgetPrefs = app.getComponent().getWidgetPreferences();
     }
 }

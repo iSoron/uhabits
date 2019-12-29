@@ -36,7 +36,6 @@ public class WidgetTest extends BaseUserInterfaceTest
     {
         dragCheckmarkWidgetToHomeScreen();
         clickText("Wake up early");
-        clickText("Save");
         verifyCheckmarkWidgetIsShown();
         clickCheckmarkWidget();
 
