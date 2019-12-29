@@ -78,4 +78,7 @@ class IntentFactory
         action = Intent.ACTION_VIEW
         data = Uri.parse(url)
     }
+
+    fun codeContributors(context: Context) =
+            buildViewIntent(context.getString(R.string.codeContributorsURL))
 }

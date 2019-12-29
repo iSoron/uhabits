@@ -128,12 +128,13 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
-    <string name="create_stackview_widget_button">StackView Widget For All Habits</string>
-    <string name="checkmark_stack_widget">Checkmark Stack Widget</string>
-    <string name="frequency_stack_widget">Frequency Stack Widget</string>
-    <string name="score_stack_widget">Score Stack Widget</string>
-    <string name="history_stack_widget">History Stack Widget</string>
-    <string name="streaks_stack_widget">Streaks Stack Widget</string>
+
+    <string name="create_stackview_widget_button" formatted="false">StackView Widget For All Habits</string>
+    <string name="checkmark_stack_widget" formatted="false">Checkmark Stack Widget</string>
+    <string name="frequency_stack_widget" formatted="false">Frequency Stack Widget</string>
+    <string name="score_stack_widget" formatted="false">Score Stack Widget</string>
+    <string name="history_stack_widget" formatted="false">History Stack Widget</string>
+    <string name="streaks_stack_widget" formatted="false">Streaks Stack Widget</string>
 
 
     <string name="strength">Strength</string>
@@ -235,6 +236,8 @@
     <string name="no">No</string>
     <string name="customize_notification_summary">Change sound, vibration, light and other notification settings</string>
     <string name="customize_notification">Customize notifications</string>
-    <string name="pref_view_privacy">View our privacy policy</string>
+    <string name="pref_view_privacy">View privacy policy</string>
+    <string name="view_all_contributors">View all contributors…</string>
+    <string name="database">Database</string>
 
 </resources>

@@ -103,6 +103,12 @@ public class AboutRootView extends BaseRootView
         behavior.onClickPrivacy();
     }
 
+    @OnClick(R.id.tvContributors)
+    public void onClickContributors()
+    {
+        behavior.onClickCodeContributors();
+    }
+
 
     @Override
     protected void initToolbar()

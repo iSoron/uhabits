@@ -23,6 +23,7 @@
     <string name="feedbackURL" formatted="false">mailto:dev@loophabits.org?subject=Feedback%20about%20Loop%20Habit%20Tracker</string>
     <string name="bugReportURL" formatted="false">mailto:dev@loophabits.org?subject=Bug%20Report%20-%20Loop%20Habit%20Tracker</string>
     <string name="privacyPolicyURL" formatted="false">http://loophabits.org/privacy</string>
+    <string name="codeContributorsURL" formatted="false">https://github.com/iSoron/uhabits/graphs/contributors</string>
     <string name="sourceCodeURL">https://github.com/iSoron/uhabits</string>
     <string name="translateURL">http://translate.loophabits.org/</string>
     <string name="bugReportTo">dev@loophabits.org</string>

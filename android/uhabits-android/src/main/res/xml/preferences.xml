@@ -83,7 +83,7 @@
 
     <PreferenceCategory
         android:key="databaseCategory"
-        android:title="Database">
+        android:title="@string/database">
 
         <Preference
             android:key="exportDB"

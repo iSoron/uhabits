@@ -80,4 +80,9 @@ public class AboutScreen extends BaseScreen implements AboutBehavior.Screen
     {
         activity.startActivity(intents.privacyPolicy(activity));
     }
+
+    @Override
+    public void showCodeContributorsWebsite() {
+        activity.startActivity(intents.codeContributors(activity));
+    }
 }
