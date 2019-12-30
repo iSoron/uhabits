@@ -143,7 +143,7 @@ public class PreferencesTest extends BaseUnitTest
     @Test
     public void testTheme() throws Exception
     {
-        assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_LIGHT));
+        assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_AUTOMATIC));
         prefs.setTheme(ThemeSwitcher.THEME_DARK);
         assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_DARK));
 
