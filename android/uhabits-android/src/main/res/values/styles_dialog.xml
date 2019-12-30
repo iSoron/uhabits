@@ -24,7 +24,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ems">10</item>
-        <item name="android:inputType">textMultiLine</item>
+        <item name="android:inputType">textCapSentences|textMultiLine</item>
     </style>
 
     <style name="dialogFormInputColor">
