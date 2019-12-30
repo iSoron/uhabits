@@ -51,5 +51,5 @@ interface HabitsActivityComponent {
     val listHabitsScreen: ListHabitsScreen
     val listHabitsSelectionMenu: ListHabitsSelectionMenu
     val showHabitScreen: ShowHabitScreen
-    val themeSwitcher: ThemeSwitcher
+    val themeSwitcher: AndroidThemeSwitcher
 }

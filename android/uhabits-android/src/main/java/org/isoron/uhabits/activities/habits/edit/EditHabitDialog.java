@@ -41,7 +41,6 @@ import org.isoron.uhabits.core.preferences.*;
 import butterknife.*;
 
 import static android.view.View.GONE;
-import static org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_LIGHT;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
@@ -78,13 +77,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
     @Override
     public int getTheme()
     {
-        HabitsApplicationComponent component =
-            ((HabitsApplication) getContext().getApplicationContext()).getComponent();
-
-        if(component.getPreferences().getTheme() == THEME_LIGHT)
-            return R.style.DialogWithTitle;
-        else
-            return R.style.DarkDialogWithTitle;
+        HabitsActivity activity = (HabitsActivity) getActivity();
+        return activity.getComponent().getThemeSwitcher().getDialogTheme();
     }
 
     @Override

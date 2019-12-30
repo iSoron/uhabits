@@ -60,4 +60,11 @@ class AndroidThemeSwitcher
         activity.window.navigationBarColor =
                 ContextCompat.getColor(activity, R.color.black)
     }
+
+    fun getDialogTheme(): Int {
+        return when {
+            isNightMode -> R.style.DarkDialogWithTitle
+            else -> R.style.DialogWithTitle
+        }
+    }
 }
