@@ -53,9 +53,6 @@ public class ScoreCard extends HabitCard
     private int bucketSize;
 
     @Nullable
-    private TaskRunner taskRunner;
-
-    @Nullable
     private Preferences prefs;
 
     public ScoreCard(Context context)
@@ -94,13 +91,6 @@ public class ScoreCard extends HabitCard
         refreshData();
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if(taskRunner == null) return;
-        taskRunner.execute(new RefreshTask());
-    }
-
     private int getDefaultSpinnerPosition()
     {
         if(prefs == null) return 0;
@@ -113,7 +103,6 @@ public class ScoreCard extends HabitCard
         if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
             prefs = app.getComponent().getPreferences();
         }
 
@@ -140,11 +129,18 @@ public class ScoreCard extends HabitCard
         bucketSize = BUCKET_SIZES[position];
     }
 
-    private class RefreshTask implements Task
+    @Override
+    protected Task createRefreshTask()
+    {
+        return new RefreshTask();
+    }
+
+    private class RefreshTask  extends CancelableTask
     {
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             List<Score> scores;
             ScoreList scoreList = getHabit().getScores();
 

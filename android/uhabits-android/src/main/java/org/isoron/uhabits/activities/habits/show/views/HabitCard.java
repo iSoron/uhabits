@@ -24,14 +24,22 @@ import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
+import org.isoron.uhabits.core.tasks.*;
 
 public abstract class HabitCard extends LinearLayout
     implements ModelObservable.Listener
 {
     @NonNull
     private Habit habit;
+
+    @Nullable
+    private TaskRunner taskRunner;
+
+    @Nullable
+    private Task currentRefreshTask;
 
     public HabitCard(Context context)
     {
@@ -82,7 +90,15 @@ public abstract class HabitCard extends LinearLayout
         super.onDetachedFromWindow();
     }
 
-    protected abstract void refreshData();
+    protected void refreshData()
+    {
+        if(taskRunner == null) return;
+        if(currentRefreshTask != null) currentRefreshTask.cancel();
+        currentRefreshTask = createRefreshTask();
+        taskRunner.execute(currentRefreshTask);
+    }
+
+    protected abstract Task createRefreshTask();
 
     private void attachTo(Habit habit)
     {
@@ -99,5 +115,11 @@ public abstract class HabitCard extends LinearLayout
     private void init()
     {
         if(!isInEditMode()) habit = new MemoryModelFactory().buildHabit();
+        Context appContext = getContext().getApplicationContext();
+        if(appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            taskRunner = app.getComponent().getTaskRunner();
+        }
     }
 }

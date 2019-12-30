@@ -19,24 +19,19 @@
 
 package org.isoron.uhabits.core.tasks;
 
-import android.support.annotation.*;
-
-public interface Task
+public abstract class CancelableTask implements Task
 {
-    default void cancel() {}
+    private boolean isCanceled = false;
 
-    default boolean isCanceled()
+    @Override
+    public synchronized void cancel()
     {
-        return false;
+        isCanceled = true;
     }
 
-    void doInBackground();
-
-    default void onAttached(@NonNull TaskRunner runner) {}
-
-    default void onPostExecute() {}
-
-    default void onPreExecute() {}
-
-    default void onProgressUpdate(int value) {}
+    @Override
+    public synchronized boolean isCanceled()
+    {
+        return isCanceled;
+    }
 }

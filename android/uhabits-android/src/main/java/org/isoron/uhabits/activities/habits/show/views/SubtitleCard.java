@@ -27,6 +27,7 @@ import android.widget.*;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
 import butterknife.*;
@@ -110,5 +111,11 @@ public class SubtitleCard extends HabitCard
         reminderLabel.setText(
             AndroidDateUtils.formatTime(getContext(), reminder.getHour(),
                 reminder.getMinute()));
+    }
+
+    @Override
+    protected Task createRefreshTask() {
+        // Never called
+        throw new IllegalStateException();
     }
 }

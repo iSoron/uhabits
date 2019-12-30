@@ -54,9 +54,6 @@ public class BarCard extends HabitCard
     @BindView(R.id.title)
     TextView title;
 
-    @Nullable
-    private TaskRunner taskRunner;
-
     private int bucketSize;
 
     public BarCard(Context context)
@@ -85,29 +82,13 @@ public class BarCard extends HabitCard
         refreshData();
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if (taskRunner == null) return;
-        taskRunner.execute(new RefreshTask(getHabit()));
-    }
-
     private void init()
     {
         inflate(getContext(), R.layout.show_habit_bar, this);
         ButterKnife.bind(this);
-
         boolSpinner.setSelection(1);
         numericalSpinner.setSelection(2);
         bucketSize = 7;
-
-        Context appContext = getContext().getApplicationContext();
-        if (appContext instanceof HabitsApplication)
-        {
-            HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
-        }
-
         if (isInEditMode()) initEditMode();
     }
 
@@ -119,11 +100,17 @@ public class BarCard extends HabitCard
         chart.populateWithRandomData();
     }
 
-    private class RefreshTask implements Task
+    @Override
+    protected Task createRefreshTask()
+    {
+        return new RefreshTask(getHabit());
+    }
+
+    private class RefreshTask extends CancelableTask
     {
         private final Habit habit;
 
-        public RefreshTask(Habit habit)
+        RefreshTask(Habit habit)
         {
             this.habit = habit;
         }
@@ -131,6 +118,7 @@ public class BarCard extends HabitCard
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             List<Checkmark> checkmarks;
             if (bucketSize == 1) checkmarks = habit.getCheckmarks().getAll();
             else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize));

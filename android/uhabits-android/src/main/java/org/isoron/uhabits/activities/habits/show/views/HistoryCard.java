@@ -44,9 +44,6 @@ public class HistoryCard extends HabitCard
     @NonNull
     private Controller controller;
 
-    @Nullable
-    private TaskRunner taskRunner;
-
     public HistoryCard(Context context)
     {
         super(context);
@@ -70,25 +67,10 @@ public class HistoryCard extends HabitCard
         this.controller = controller;
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if(taskRunner == null) return;
-        taskRunner.execute(new RefreshTask(getHabit()));
-    }
-
     private void init()
     {
         inflate(getContext(), R.layout.show_habit_history, this);
         ButterKnife.bind(this);
-
-        Context appContext = getContext().getApplicationContext();
-        if (appContext instanceof HabitsApplication)
-        {
-            HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
-        }
-
         controller = new Controller() {};
         if (isInEditMode()) initEditMode();
     }
@@ -101,20 +83,30 @@ public class HistoryCard extends HabitCard
         chart.populateWithRandomData();
     }
 
+    @Override
+    protected Task createRefreshTask()
+    {
+        return new RefreshTask(getHabit());
+    }
+
     public interface Controller
     {
         default void onEditHistoryButtonClick() {}
     }
 
-    private class RefreshTask implements Task
+    private class RefreshTask  extends CancelableTask
     {
         private final Habit habit;
 
-        public RefreshTask(Habit habit) {this.habit = habit;}
+        private RefreshTask(Habit habit)
+        {
+            this.habit = habit;
+        }
 
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             int checkmarks[] = habit.getCheckmarks().getAllValues();
             chart.setCheckmarks(checkmarks);
         }

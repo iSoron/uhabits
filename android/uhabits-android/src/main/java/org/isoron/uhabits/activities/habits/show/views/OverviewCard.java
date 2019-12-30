@@ -60,9 +60,6 @@ public class OverviewCard extends HabitCard
 
     private int color;
 
-    @Nullable
-    private TaskRunner taskRunner;
-
     public OverviewCard(Context context)
     {
         super(context);
@@ -75,13 +72,6 @@ public class OverviewCard extends HabitCard
         init();
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if(taskRunner == null) return;
-        taskRunner.execute(new RefreshTask());
-    }
-
     private String formatPercentageDiff(float percentageDiff)
     {
         return String.format("%s%.0f%%", (percentageDiff >= 0 ? "+" : "\u2212"),
@@ -90,17 +80,9 @@ public class OverviewCard extends HabitCard
 
     private void init()
     {
-        Context appContext = getContext().getApplicationContext();
-        if (appContext instanceof HabitsApplication)
-        {
-            HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
-        }
-
         inflate(getContext(), R.layout.show_habit_overview, this);
         ButterKnife.bind(this);
         cache = new Cache();
-
         if (isInEditMode()) initEditMode();
     }
 
@@ -146,20 +128,27 @@ public class OverviewCard extends HabitCard
 
     private class Cache
     {
-        public float todayScore;
+        float todayScore;
 
-        public float lastMonthScore;
+        float lastMonthScore;
 
-        public float lastYearScore;
+        float lastYearScore;
 
-        public long totalCount;
+        long totalCount;
     }
 
-    private class RefreshTask implements Task
+    @Override
+    protected Task createRefreshTask()
+    {
+        return new RefreshTask();
+    }
+
+    private class RefreshTask  extends CancelableTask
     {
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             Habit habit = getHabit();
 
             ScoreList scores = habit.getScores();
@@ -177,6 +166,7 @@ public class OverviewCard extends HabitCard
         @Override
         public void onPostExecute()
         {
+            if (isCanceled()) return;
             refreshScore();
         }
 
