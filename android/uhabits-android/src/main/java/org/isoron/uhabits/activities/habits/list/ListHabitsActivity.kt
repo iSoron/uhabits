@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.os.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.preferences.*
@@ -46,6 +47,7 @@ class ListHabitsActivity : HabitsActivity() {
 
         setScreen(screen)
         component.listHabitsBehavior.onStartup()
+        setTitle(R.string.main_activity_title)
     }
 
     override fun onPause() {
