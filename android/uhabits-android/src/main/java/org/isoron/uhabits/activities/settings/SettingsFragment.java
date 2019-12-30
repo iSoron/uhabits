@@ -26,12 +26,14 @@ import android.os.*;
 import android.provider.*;
 import android.support.annotation.*;
 import android.support.v7.preference.*;
+import android.util.*;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.widgets.*;
 
 import static android.media.RingtoneManager.*;
 import static android.os.Build.VERSION.*;
@@ -48,6 +50,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     @Nullable
     private Preferences prefs;
+
+    @Nullable
+    private WidgetUpdater widgetUpdater;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -73,6 +78,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         {
             HabitsApplication app = (HabitsApplication) appContext;
             prefs = app.getComponent().getPreferences();
+            widgetUpdater = app.getComponent().getWidgetUpdater();
         }
 
         setResultOnPreferenceClick("importData", RESULT_IMPORT_DATA);
@@ -152,6 +158,11 @@ public class SettingsFragment extends PreferenceFragmentCompat
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key)
     {
+        if (key.equals("pref_widget_opacity") && widgetUpdater != null)
+        {
+            Log.d("SettingsFragment", "updating widgets");
+            widgetUpdater.updateWidgets();
+        }
         BackupManager.dataChanged("org.isoron.uhabits");
         updateSync();
     }

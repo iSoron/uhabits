@@ -42,7 +42,7 @@ public class StreakWidgetTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setTheme(R.style.TransparentWidgetTheme);
+        setTheme(R.style.WidgetTheme);
 
         habit = fixtures.createLongHabit();
         StreakWidget widget = new StreakWidget(targetContext, 0, habit);

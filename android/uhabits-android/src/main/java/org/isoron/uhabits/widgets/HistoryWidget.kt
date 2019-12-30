@@ -39,6 +39,7 @@ class HistoryWidget(
 
     override fun refreshData(view: View) {
         val widgetView = view as GraphWidgetView
+        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         (widgetView.dataView as HistoryChart).apply {
             setColor(PaletteUtils.getColor(context, habit.color))
             setCheckmarks(habit.checkmarks.allValues)

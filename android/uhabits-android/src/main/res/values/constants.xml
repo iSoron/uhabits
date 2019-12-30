@@ -128,4 +128,22 @@
 
     <string name="snooze_interval_default" translatable="false">15</string>
     <string name="default_count" translatable="false">100</string>
+
+    <string-array name="widget_opacity_entries">
+        <item>100%</item>
+        <item>80%</item>
+        <item>60%</item>
+        <item>40%</item>
+        <item>20%</item>
+        <item>0%</item>
+    </string-array>
+
+    <string-array name="widget_opacity_values">
+        <item>255</item>
+        <item>204</item>
+        <item>153</item>
+        <item>102</item>
+        <item>51</item>
+        <item>0</item>
+    </string-array>
 </resources>

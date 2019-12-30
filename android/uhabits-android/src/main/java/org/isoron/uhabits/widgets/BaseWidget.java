@@ -23,6 +23,7 @@ import android.app.*;
 import android.content.*;
 import android.graphics.*;
 import android.support.annotation.*;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 
@@ -200,5 +201,9 @@ public abstract class BaseWidget
 
         view.measure(specWidth, specHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+    }
+
+    protected int getPreferedBackgroundAlpha() {
+        return prefs.getWidgetOpacity();
     }
 }

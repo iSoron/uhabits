@@ -44,6 +44,7 @@ class ScoreWidget(
         }
 
         val widgetView = view as GraphWidgetView
+        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(size)

@@ -43,6 +43,15 @@
             android:summary="@string/pure_black_description"
             android:title="@string/use_pure_black"/>
 
+        <ListPreference
+            android:entries="@array/widget_opacity_entries"
+            android:entryValues="@array/widget_opacity_values"
+            android:key="pref_widget_opacity"
+            android:title="@string/widget_opacity_title"
+            android:summary="@string/widget_opacity_description"
+            android:defaultValue="102"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory

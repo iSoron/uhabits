@@ -4,9 +4,10 @@
 
 * New bar chart showing number of repetition per week, month, quarter or year.
 * Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will no longer break your streak.
-* Automatically switch to dark theme, according to phone settings (Android 10).
+* Automatically switch to dark theme according to phone settings (Android 10).
 * Yes/No buttons on notifications, instead of just "Check".
 * More color choices.
+* Customizable widget opacity.
 * Significantly smaller backup files.
 * Many internal code changes improving performance and stability.
 

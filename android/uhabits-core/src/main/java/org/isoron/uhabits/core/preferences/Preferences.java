@@ -328,6 +328,11 @@ public class Preferences
         storage.putInt("last_version", version);
     }
 
+    public int getWidgetOpacity()
+    {
+        return Integer.parseInt(storage.getString("pref_widget_opacity", "102"));
+    }
+
     public interface Listener
     {
         default void onCheckmarkSequenceChanged()

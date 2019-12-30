@@ -42,7 +42,7 @@ public class FrequencyWidgetTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setTheme(R.style.TransparentWidgetTheme);
+        setTheme(R.style.WidgetTheme);
 
         habit = fixtures.createLongHabit();
         FrequencyWidget widget = new FrequencyWidget(targetContext, 0, habit);

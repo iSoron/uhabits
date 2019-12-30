@@ -141,7 +141,7 @@
         <item name="highContrastReverseTextColor">@color/black</item>
     </style>
 
-    <style name="TransparentWidgetTheme" parent="AppBaseThemeDark">
+    <style name="WidgetTheme" parent="AppBaseThemeDark">
         <item name="cardBgColor">@color/grey_850</item>
 
         <item name="highContrastTextColor">@color/white</item>
@@ -155,12 +155,6 @@
         <item name="palette">@array/transparentWidgetPalette</item>
 
         <item name="widgetShadowAlpha">0</item>
-        <item name="widgetBackgroundAlpha">0.25</item>
-    </style>
-
-    <style name="OpaqueWidgetTheme" parent="TransparentWidgetTheme">
-        <item name="widgetBackgroundAlpha">1</item>
-        <item name="widgetShadowAlpha">0.25</item>
     </style>
 
     <style name="day_of_week_label_condensed"/>

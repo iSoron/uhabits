@@ -23,6 +23,7 @@ import android.appwidget.*;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
@@ -77,9 +78,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (context == null) throw new RuntimeException("context is null");
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
-            context.setTheme(R.style.OpaqueWidgetTheme);
-
             updateDependencies(context);
+            context.setTheme(R.style.WidgetTheme);
 
             BaseWidget widget = getWidgetFromId(context, widgetId);
             WidgetDimensions dims = getDimensionsFromOptions(context, options);
@@ -124,12 +124,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
         updateDependencies(context);
-
-        if(preferences.isWidgetStackEnabled()) {
-            context.setTheme(R.style.OpaqueWidgetTheme);
-        } else {
-            context.setTheme(R.style.TransparentWidgetTheme);
-        }
+        context.setTheme(R.style.WidgetTheme);
 
         new Thread(() ->
         {
@@ -183,7 +178,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             BaseWidget widget = getWidgetFromId(context, widgetId);
             Bundle options = manager.getAppWidgetOptions(widgetId);
             widget.setDimensions(getDimensionsFromOptions(context, options));
-
             updateAppWidget(manager, widget);
         }
         catch (RuntimeException e)
