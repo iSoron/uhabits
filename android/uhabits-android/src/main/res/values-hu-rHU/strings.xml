@@ -75,6 +75,8 @@
     <string name="interval_4_hour">4 óra</string>
     <string name="interval_8_hour">8 óra</string>
     <string name="interval_24_hour">24 óra</string>
+    <string name="interval_always_ask">Mindig rákérdez</string>
+    <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
     <string name="pref_toggle_description">Bejelölés koppintással nyomva tartás helyett. Kényelmesebb, de véletlen bejelöléseket okozhat.</string>
     <string name="pref_snooze_interval_title">Szundi időtartama emlékeztetőnél</string>
@@ -87,6 +89,7 @@
     <string name="name">Megnevezés</string>
     <string name="settings">Beállítások</string>
     <string name="snooze_interval">Szundi időtartama</string>
+    <string name="select_snooze_delay">Szundi beállítása</string>
     <string name="hint_title">Tudtad?</string>
     <string name="hint_drag">Az elemek újrarendezéséhez a koppints a szokás nevére, majd húzd a megfelelő helyre.</string>
     <string name="hint_landscape">Több nap válik láthatóvá, ha fekvő módba állítod a telefonod kijelzőjét.</string>
@@ -102,12 +105,19 @@
     <string name="clear_label">Törlés</string>
     <string name="select_hours">Óra kiválasztása</string>
     <string name="select_minutes">Perc kiválasztása</string>
+    <string name="select_habit_requirement_prompt">Kérjük, válasszon legalább egy szokást</string>
     <string name="about">Névjegy</string>
     <string name="translators">Fordítók</string>
     <string name="developers">Fejlesztők</string>
     <string name="version_n">Verzió %s</string>
     <string name="frequency">Gyakoriság</string>
     <string name="checkmark">Pipa</string>
+    <string name="create_stackview_widget_button" formatted="false">StackView-widget minden szokáshoz</string>
+    <string name="checkmark_stack_widget" formatted="false">Pipa Stack Widget</string>
+    <string name="frequency_stack_widget" formatted="false">Gyakoriság Stack-widget</string>
+    <string name="score_stack_widget" formatted="false">Pontszám stack-widget</string>
+    <string name="history_stack_widget" formatted="false">Előzmények stack-widget</string>
+    <string name="streaks_stack_widget" formatted="false">Sorozat Stack Widget</string>
     <string name="strength">Erősség</string>
     <string name="best_streaks">Legjobb széria</string>
     <string name="current_streaks">Jelenlegi széria</string>
@@ -150,6 +160,8 @@
     <string name="year">Év</string>
     <string name="total">Összesen</string>
     <!-- Different types of habits -->
+    <string name="yes_or_no">Igen vagy Nem</string>
+    <string name="number">Szám</string>
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">alk. /</string>
     <string name="every_x_days">%d naponta</string>
@@ -163,6 +175,8 @@
     <string name="hide_archived">Archiváltak elrejtése</string>
     <string name="sticky_notifications">Az értesítések legyenek ragadósak</string>
     <string name="sticky_notifications_description">Megakadályozza az értesítések eltávolítását</string>
+    <string name="led_notifications">Értesítési fény</string>
+    <string name="led_notifications_description">Emlékeztetés villogó fénnyel. Csak olyan telefonon működik amelyen van értesítési LED.</string>
     <string name="repair_database">Adatbázis javítása</string>
     <string name="database_repaired">Adatbázis javítása kész.</string>
     <string name="uncheck">Pipa kivétele</string>
@@ -176,4 +190,22 @@
     <string name="by_score">Pont szerint</string>
     <string name="download">Letöltés</string>
     <string name="export">Exportálás</string>
+    <string name="long_press_to_edit">Az érték módosításához tartsa lenyomva</string>
+    <string name="change_value">Érték módosítása</string>
+    <string name="calendar">Naptár</string>
+    <string name="unit">Egység</string>
+    <string name="count">Mennyiség</string>
+    <string name="validation_show_not_be_blank">A mező nem lehet üres</string>
+    <string name="example_question_numerical">pl. Hány lépést tettél ma?</string>
+    <string name="example_units">pl. Lépések száma</string>
+    <string name="example_question_boolean">pl. Edzettél ma?</string>
+    <string name="question">Kérdés</string>
+    <string name="target">Cél</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+    <string name="customize_notification_summary">Hang, rezgés, fény és egyéb értesítések beállítása</string>
+    <string name="customize_notification">Értesítések beállítása</string>
+    <string name="pref_view_privacy">Adatvédelmi nyilatkozat</string>
+    <string name="view_all_contributors">Az összes közreműködő megtekintése&#8230;</string>
+    <string name="database">Adatbázis</string>
 </resources>

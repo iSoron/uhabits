@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">Loop Navade</string>
+    <string name="app_name">Loop Sledilnik Navad</string>
     <string name="main_activity_title">Navade</string>
     <string name="action_settings">Nastavitve</string>
     <string name="edit">Uredi</string>

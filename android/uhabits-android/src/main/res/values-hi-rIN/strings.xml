@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">लूप - आदत पर नजर</string>
+    <string name="app_name">Loop - आदत पर नजर</string>
     <string name="main_activity_title">आदतें</string>
     <string name="action_settings">सेटिंग्स</string>
     <string name="edit">संपादित करें</string>

@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">Loop</string>
+    <string name="app_name">Loop - Tracciatore di Abitudine</string>
     <string name="main_activity_title">Abitudini</string>
     <string name="action_settings">Impostazioni</string>
     <string name="edit">Modifica</string>

@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">Millora hàbits en Loop</string>
+    <string name="app_name">Loop - Hàbit Rastrejador</string>
     <string name="main_activity_title">Hàbits</string>
     <string name="action_settings">Configuració</string>
     <string name="edit">Editar</string>

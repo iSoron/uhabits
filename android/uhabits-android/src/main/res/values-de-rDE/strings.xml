@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">Loop \"Gewohnheiten Tracking\"</string>
+    <string name="app_name">Loop - Gewohnheiten Tracking</string>
     <string name="main_activity_title">Gewohnheiten</string>
     <string name="action_settings">Einstellungen</string>
     <string name="edit">Bearbeiten</string>

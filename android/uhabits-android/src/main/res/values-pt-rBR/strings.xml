@@ -89,7 +89,7 @@
     <string name="name">Nome</string>
     <string name="settings">Configurações</string>
     <string name="snooze_interval">Duração do \"mais tarde\"</string>
-    <string name="select_snooze_delay">Selecionar atraso na soneca</string>
+    <string name="select_snooze_delay">Selecionar duração do \"mais tarde\"</string>
     <string name="hint_title">Dica</string>
     <string name="hint_drag">Para mudar a ordem dos hábitos, aperte no nome do hábito, sustente e arraste.</string>
     <string name="hint_landscape">Para ver mais dias, coloque seu aparelho em modo paisagem.</string>
@@ -168,7 +168,7 @@
     <string name="hide_completed">Ocultar concluído</string>
     <string name="hide_archived">Ocultar arquivado</string>
     <string name="sticky_notifications">Tornar notificações persistentes</string>
-    <string name="sticky_notifications_description">Impede que as notificações sejam dispensadas.</string>
+    <string name="sticky_notifications_description">Impede que as notificações sejam removidas.</string>
     <string name="led_notifications">Luz de notificação</string>
     <string name="led_notifications_description">Mostra uma luz piscando para lembretes. Disponível apenas em telefones com luzes de notificação LED.</string>
     <string name="repair_database">Reparar banco de dados</string>
@@ -201,5 +201,5 @@
     <string name="customize_notification">Personalizar notificações</string>
     <string name="pref_view_privacy">Ver política de privacidade</string>
     <string name="view_all_contributors">Exibir todos os colaboradores&#8230;</string>
-    <string name="database">Base de dados</string>
+    <string name="database">Banco de dados</string>
 </resources>

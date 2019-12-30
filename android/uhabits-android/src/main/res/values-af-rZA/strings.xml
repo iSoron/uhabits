@@ -19,7 +19,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">Herhaalde Gewoonte Boekhouer</string>
+    <string name="app_name">Loop - Gewoonte Boekhouer</string>
     <string name="main_activity_title">Gewoontes</string>
     <string name="action_settings">Instellings</string>
     <string name="edit">Redigeer</string>

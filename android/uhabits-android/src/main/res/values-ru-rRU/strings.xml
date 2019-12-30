@@ -75,6 +75,8 @@
     <string name="interval_4_hour">4 часа</string>
     <string name="interval_8_hour">8 часов</string>
     <string name="interval_24_hour">24 часа</string>
+    <string name="interval_always_ask">Всегда спрашивать</string>
+    <string name="interval_custom">Настроить...</string>
     <string name="pref_toggle_title">Отмечать коротким нажатием</string>
     <string name="pref_toggle_description">Ставить галочки коротким нажатием вместо удержания. Удобнее, но может стать причиной случайных отметок.</string>
     <string name="pref_snooze_interval_title">Интервал откладывания напоминаний</string>
@@ -87,6 +89,7 @@
     <string name="name">Название</string>
     <string name="settings">Настройки</string>
     <string name="snooze_interval">Интервал откладывания</string>
+    <string name="select_snooze_delay">Задержка повтора</string>
     <string name="hint_title">А вы знали?</string>
     <string name="hint_drag">Чтобы поменять порядок записей, нажмите и удерживайте название записи, затем перетащите её на нужное место.</string>
     <string name="hint_landscape">В горизонтальном режиме отображается больше дней.</string>
@@ -102,6 +105,7 @@
     <string name="clear_label">Очистить</string>
     <string name="select_hours">Выберите часы</string>
     <string name="select_minutes">Выберите минуты</string>
+    <string name="select_habit_requirement_prompt">Пожалуйста, выберите хотя бы одну привычку</string>
     <string name="about">О приложении</string>
     <string name="translators">Переводчики</string>
     <string name="developers">Разработчики</string>
@@ -130,7 +134,7 @@
     <string name="full_backup_success">Полная резервная копия успешно экспортирована.</string>
     <string name="import_data">Импортировать данные</string>
     <string name="export_full_backup">Экспортировать полную резервную копию</string>
-    <string name="import_data_summary">Поддерживает полные резервные копии, экспортированные из этого приложения, а также файлы, сгенерированные приложениями Tickmate, HabitBull и Rewire. Подробнее смотри в FAQ.</string>
+    <string name="import_data_summary">Поддерживает полные резервные копии, экспортированные из этого приложения, а также файлы, сгенерированные приложениями Tickmate, HabitBull и Rewire. Подробнее смотрите в FAQ.</string>
     <string name="export_as_csv_summary">Генерирует файлы, которые можно открыть в ПО для работы с таблицами (таком как Microsoft Excel или OpenOffice Calc). Этот файл нельзя импортировать обратно.</string>
     <string name="export_full_backup_summary">Генерирует файл, который содержит все ваши данные. Этот файл можно импортировать обратно.</string>
     <string name="bug_report_failed">Ошибка генерации отчёта об ошибке.</string>
@@ -139,7 +143,7 @@
     <string name="help_translate">Помогите перевести это приложение</string>
     <string name="night_mode">Ночной режим</string>
     <string name="use_pure_black">Использовать подлинный чёрный в ночном режиме</string>
-    <string name="pure_black_description">Заменяет серый фон на подлинный чёрный в ночном режиме. Уменьшает использование батареи в телефонах с дисплеем AMOLED.</string>
+    <string name="pure_black_description">Заменяет серый фон на подлинный чёрный в ночном режиме. Сокращает расход батареи в телефонах с дисплеем AMOLED.</string>
     <string name="interface_preferences">Интерфейс</string>
     <string name="reverse_days">Обратный порядок дней</string>
     <string name="reverse_days_description">Показывать дни в обратном порядке на главном экране</string>
@@ -150,6 +154,8 @@
     <string name="year">Год</string>
     <string name="total">Всего</string>
     <!-- Different types of habits -->
+    <string name="yes_or_no">Да или Нет</string>
+    <string name="number">Количество</string>
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">раз за</string>
     <string name="every_x_days">Каждые %d дней</string>
@@ -163,6 +169,8 @@
     <string name="hide_archived">Скрыть архивированные</string>
     <string name="sticky_notifications">Сделать уведомления \"липкими\"</string>
     <string name="sticky_notifications_description">Предотвращает смахивание уведомлений.</string>
+    <string name="led_notifications">Световая индикация</string>
+    <string name="led_notifications_description">Мигать индикатором для напоминаний. Доступно только в телефонах со светодиодным индикатором событий.</string>
     <string name="repair_database">Исправить базу данных</string>
     <string name="database_repaired">База данных исправлена.</string>
     <string name="uncheck">Снять отметку</string>
@@ -176,4 +184,22 @@
     <string name="by_score">По результату</string>
     <string name="download">Загрузить</string>
     <string name="export">Экспортировать</string>
+    <string name="long_press_to_edit">Нажмите и удерживайте, чтобы изменить значение</string>
+    <string name="change_value">Изменить значение</string>
+    <string name="calendar">Календарь</string>
+    <string name="unit">Ед. изм.</string>
+    <string name="count">Количество</string>
+    <string name="validation_show_not_be_blank">Это поле не должно быть пустым</string>
+    <string name="example_question_numerical">напр.: Сколько шагов вы прошли сегодня?</string>
+    <string name="example_units">напр.: шаг(ов)</string>
+    <string name="example_question_boolean">напр.: Вы упражнялись сегодня?</string>
+    <string name="question">Вопрос</string>
+    <string name="target">Цель</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="customize_notification_summary">Настройка параметров уведомлений: звук, вибрация, свет и др.</string>
+    <string name="customize_notification">Настройка уведомлений</string>
+    <string name="pref_view_privacy">Посмотреть политику конфиденциальности</string>
+    <string name="view_all_contributors">Посмотреть всех участников&#8230;</string>
+    <string name="database">База данных</string>
 </resources>
