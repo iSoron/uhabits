@@ -34,7 +34,7 @@
         android:allowBackup="true"
         android:backupAgent=".HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/main_activity_title"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
         <meta-data
@@ -44,15 +44,15 @@
         <activity
             android:name=".activities.habits.list.ListHabitsActivity"
             android:exported="true"
-            android:label="@string/app_short_name"
+            android:label="@string/main_activity_title"
             android:launchMode="singleTop"/>
 
         <activity-alias
             android:name=".MainActivity"
-            android:label="@string/app_short_name"
+            android:label="@string/main_activity_title"
             android:launchMode="singleTop"
             android:targetActivity=".activities.habits.list.ListHabitsActivity">
-            <intent-filter android:label="@string/app_short_name">
+            <intent-filter android:label="@string/main_activity_title">
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
