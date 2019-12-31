@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,167 +17,189 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:key="interfaceCategory"
-        android:title="@string/interface_preferences">
+            android:key="interfaceCategory"
+            android:title="@string/interface_preferences">
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_short_toggle"
-            android:summary="@string/pref_toggle_description"
-            android:title="@string/pref_toggle_title"/>
+                android:defaultValue="false"
+                android:key="pref_short_toggle"
+                android:summary="@string/pref_toggle_description"
+                android:title="@string/pref_toggle_title"
+                app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_checkmark_reverse_order"
-            android:summary="@string/reverse_days_description"
-            android:title="@string/reverse_days"/>
+                android:defaultValue="false"
+                android:key="pref_checkmark_reverse_order"
+                android:summary="@string/reverse_days_description"
+                android:title="@string/reverse_days"
+                app:iconSpaceReserved="false" />
 
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_pure_black"
-            android:summary="@string/pure_black_description"
-            android:title="@string/use_pure_black"/>
+                android:defaultValue="false"
+                android:key="pref_pure_black"
+                android:summary="@string/pure_black_description"
+                android:title="@string/use_pure_black"
+                app:iconSpaceReserved="false" />
 
         <ListPreference
-            android:entries="@array/widget_opacity_entries"
-            android:entryValues="@array/widget_opacity_values"
-            android:key="pref_widget_opacity"
-            android:title="@string/widget_opacity_title"
-            android:summary="@string/widget_opacity_description"
-            android:defaultValue="102"
-            />
+                android:defaultValue="102"
+                android:entries="@array/widget_opacity_entries"
+                android:entryValues="@array/widget_opacity_values"
+                android:key="pref_widget_opacity"
+                android:summary="@string/widget_opacity_description"
+                android:title="@string/widget_opacity_title"
+                app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="reminderCategory"
-        android:title="@string/reminder">
+            android:key="reminderCategory"
+            android:title="@string/reminder">
 
         <ListPreference
-            android:defaultValue="@string/snooze_interval_default"
-            android:dialogTitle="@string/snooze_interval"
-            android:entries="@array/snooze_interval_names"
-            android:entryValues="@array/snooze_interval_values"
-            android:key="pref_snooze_interval"
-            android:summary="%s"
-            android:title="@string/pref_snooze_interval_title"/>
+                android:defaultValue="@string/snooze_interval_default"
+                android:dialogTitle="@string/snooze_interval"
+                android:entries="@array/snooze_interval_names"
+                android:entryValues="@array/snooze_interval_values"
+                android:key="pref_snooze_interval"
+                android:summary="%s"
+                android:title="@string/pref_snooze_interval_title"
+                app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="reminderSound"
-            android:title="@string/reminder_sound"/>
+                android:key="reminderSound"
+                android:title="@string/reminder_sound"
+                app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_sticky_notifications"
-            android:title="@string/sticky_notifications"
-            android:summary="@string/sticky_notifications_description"/>
+                android:defaultValue="false"
+                android:key="pref_sticky_notifications"
+                android:summary="@string/sticky_notifications_description"
+                android:title="@string/sticky_notifications"
+                app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_led_notifications"
-            android:title="@string/led_notifications"
-            android:summary="@string/led_notifications_description"/>
+                android:defaultValue="false"
+                android:key="pref_led_notifications"
+                android:summary="@string/led_notifications_description"
+                android:title="@string/led_notifications"
+                app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="reminderCustomize"
-            android:summary="@string/customize_notification_summary"
-            android:title="@string/customize_notification"/>
+                android:key="reminderCustomize"
+                android:summary="@string/customize_notification_summary"
+                android:title="@string/customize_notification"
+                app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="databaseCategory"
-        android:title="@string/database">
+            android:key="databaseCategory"
+            android:title="@string/database">
 
         <Preference
-            android:key="exportDB"
-            android:summary="@string/export_full_backup_summary"
-            android:title="@string/export_full_backup">
-        </Preference>
+                android:key="exportDB"
+                android:summary="@string/export_full_backup_summary"
+                android:title="@string/export_full_backup"
+                app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="exportCSV"
-            android:summary="@string/export_as_csv_summary"
-            android:title="@string/export_to_csv">
-        </Preference>
+                android:key="exportCSV"
+                android:summary="@string/export_as_csv_summary"
+                android:title="@string/export_to_csv"
+                app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="importData"
-            android:summary="@string/import_data_summary"
-            android:title="@string/import_data">
-        </Preference>
+                android:key="importData"
+                android:summary="@string/import_data_summary"
+                android:title="@string/import_data"
+                app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="pref_key_debug"
-        android:title="@string/troubleshooting">
+            android:key="pref_key_debug"
+            android:title="@string/troubleshooting">
 
         <Preference
-            android:key="bugReport"
-            android:title="@string/generate_bug_report"/>
+                android:key="bugReport"
+                android:title="@string/generate_bug_report"
+                app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="repairDB"
-            android:title="@string/repair_database"/>
+                android:key="repairDB"
+                android:title="@string/repair_database"
+                app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="linksCategory"
-        android:title="@string/links">
+            android:key="linksCategory"
+            android:title="@string/links">
 
-        <Preference android:title="@string/help">
+        <Preference
+                android:title="@string/help"
+                app:iconSpaceReserved="false">
             <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/helpURL"/>
+                    android:action="android.intent.action.VIEW"
+                    android:data="@string/helpURL" />
         </Preference>
 
-        <Preference android:title="@string/pref_rate_this_app">
+        <Preference
+                android:title="@string/pref_rate_this_app"
+                app:iconSpaceReserved="false">
             <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/playStoreURL"/>
+                    android:action="android.intent.action.VIEW"
+                    android:data="@string/playStoreURL" />
         </Preference>
 
-        <Preference android:title="@string/about">
+        <Preference
+                android:title="@string/about"
+                app:iconSpaceReserved="false">
             <intent
-                android:action="android.intent.action.VIEW"
-                android:targetClass="org.isoron.uhabits.activities.about.AboutActivity"
-                android:targetPackage="org.isoron.uhabits"/>
+                    android:action="android.intent.action.VIEW"
+                    android:targetClass="org.isoron.uhabits.activities.about.AboutActivity"
+                    android:targetPackage="org.isoron.uhabits" />
         </Preference>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="devCategory"
-        android:title="Development">
+            android:key="devCategory"
+            android:title="Development">
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_developer"
-            android:title="Enable developer mode"/>
+                android:defaultValue="false"
+                android:key="pref_developer"
+                android:title="Enable developer mode"
+                app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="pref_feature_widget_stack"
-                android:title="Enable widget stacks"/>
+                android:title="Enable widget stacks"
+                app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_feature_sync"
-            android:title="Enable cloud sync"/>
+                android:defaultValue="false"
+                android:key="pref_feature_sync"
+                android:title="Enable cloud sync"
+                app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            android:key="pref_sync_address"
-            android:title="Sync server address"/>
+                android:key="pref_sync_address"
+                android:title="Sync server address"
+                app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            android:key="pref_sync_key"
-            android:title="Sync key"/>
+                android:key="pref_sync_key"
+                android:title="Sync key"
+                app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
