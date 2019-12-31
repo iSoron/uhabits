@@ -1,15 +1,15 @@
 # Changelog
 
-### 1.8.0
+### 1.8.0 (Jan 1, 2020)
 
-* New bar chart showing number of repetition per week, month, quarter or year.
+* New bar chart showing number of repetitions performed in each week, month, quarter or year.
 * Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will no longer break your streak.
-* Automatically switch to dark theme according to phone settings (Android 10).
+* Many more colors to choose from (now 20 in total).
+* Ability to customize how transparent the widgets are on your home screen.
 * Yes/No buttons on notifications, instead of just "Check".
-* More color choices.
-* Customizable widget opacity.
-* Significantly smaller backup files.
-* Many internal code changes improving performance and stability.
+* Automatic dark theme according to phone settings (Android 10).
+* 25% smaller APK size and much smaller backup files.
+* Many other internal code changes improving performance and stability.
 
 ### 1.7.11 (Aug 10, 2019)
 
