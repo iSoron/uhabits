@@ -30,7 +30,8 @@ import org.isoron.uhabits.widgets.views.*
 class HistoryWidget(
         context: Context,
         id: Int,
-        private val habit: Habit
+        private val habit: Habit,
+        private val firstWeekday: Int
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent {
@@ -41,6 +42,7 @@ class HistoryWidget(
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         (widgetView.dataView as HistoryChart).apply {
+            setFirstWeekday(firstWeekday)
             setColor(PaletteUtils.getColor(context, habit.color))
             setCheckmarks(habit.checkmarks.allValues)
         }

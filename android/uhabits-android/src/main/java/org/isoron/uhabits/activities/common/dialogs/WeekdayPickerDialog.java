@@ -29,6 +29,8 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 
+import java.util.*;
+
 /**
  * Dialog that allows the user to pick one or more days of the week.
  */
@@ -59,8 +61,9 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder
             .setTitle(R.string.select_weekdays)
-            .setMultiChoiceItems(DateUtils.getLongDayNames(), selectedDays,
-                this)
+            .setMultiChoiceItems(DateUtils.getLongWeekdayNames(Calendar.SATURDAY),
+                    selectedDays,
+                    this)
             .setPositiveButton(android.R.string.yes, this)
             .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 dismiss();

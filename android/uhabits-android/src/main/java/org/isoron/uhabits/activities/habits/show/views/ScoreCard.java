@@ -143,9 +143,12 @@ public class ScoreCard extends HabitCard
             if (isCanceled()) return;
             List<Score> scores;
             ScoreList scoreList = getHabit().getScores();
+            int firstWeekday = Calendar.SATURDAY;
+            if (prefs != null) firstWeekday = prefs.getFirstWeekday();
+            Log.d("ScoreCard", "firstWeekday="+firstWeekday);
 
             if (bucketSize == 1) scores = scoreList.toList();
-            else scores = scoreList.groupBy(getTruncateField(bucketSize));
+            else scores = scoreList.groupBy(getTruncateField(bucketSize), firstWeekday);
 
             chart.setScores(scores);
             chart.setBucketSize(bucketSize);

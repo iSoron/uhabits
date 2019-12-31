@@ -34,6 +34,9 @@ import static org.isoron.uhabits.core.utils.DateUtils.removeTimezone;
 
 public class DateUtilsTest extends BaseUnitTest
 {
+
+    int firstWeekday = SUNDAY;
+
     @Before
     @Override
     public void setUp() throws Exception
@@ -61,18 +64,29 @@ public class DateUtilsTest extends BaseUnitTest
         long t1 = unixTime(2015, Calendar.JANUARY, 16);
         long t2 = unixTime(2015, Calendar.JANUARY, 17);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
 
         expected = unixTime(2015, Calendar.JANUARY, 18);
         t0 = unixTime(2015, Calendar.JANUARY, 18);
         t1 = unixTime(2015, Calendar.JANUARY, 19);
         t2 = unixTime(2015, Calendar.JANUARY, 24);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
+
+
+        firstWeekday = WEDNESDAY;
+        expected = unixTime(2015, Calendar.JANUARY, 7);
+        t0 = unixTime(2015, Calendar.JANUARY, 7);
+        t1 = unixTime(2015, Calendar.JANUARY, 9);
+        t2 = unixTime(2015, Calendar.JANUARY, 13);
+
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
     }
 
     @Test
@@ -85,18 +99,18 @@ public class DateUtilsTest extends BaseUnitTest
 
         DateUtils.TruncateField field = DateUtils.TruncateField.MONTH;
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
 
         expected = unixTime(2016, DECEMBER, 1);
         t0 = unixTime(2016, DECEMBER, 1);
         t1 = unixTime(2016, DECEMBER, 15);
         t2 = unixTime(2016, DECEMBER, 31);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
     }
 
     @Test
@@ -109,18 +123,18 @@ public class DateUtilsTest extends BaseUnitTest
         long t1 = unixTime(2016, FEBRUARY, 15);
         long t2 = unixTime(2016, MARCH, 30);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
 
         expected = unixTime(2016, APRIL, 1);
         t0 = unixTime(2016, APRIL, 1);
         t1 = unixTime(2016, MAY, 30);
         t2 = unixTime(2016, JUNE, 20);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
     }
 
     @Test
@@ -133,18 +147,18 @@ public class DateUtilsTest extends BaseUnitTest
         long t1 = unixTime(2016, FEBRUARY, 25);
         long t2 = unixTime(2016, DECEMBER, 31);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
 
         expected = unixTime(2017, JANUARY, 1);
         t0 = unixTime(2017, JANUARY, 1);
         t1 = unixTime(2017, MAY, 30);
         t2 = unixTime(2017, DECEMBER, 31);
 
-        assertThat(DateUtils.truncate(field, t0), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t1), equalTo(expected));
-        assertThat(DateUtils.truncate(field, t2), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t0, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t1, firstWeekday), equalTo(expected));
+        assertThat(DateUtils.truncate(field, t2, firstWeekday), equalTo(expected));
     }
 
     @Test

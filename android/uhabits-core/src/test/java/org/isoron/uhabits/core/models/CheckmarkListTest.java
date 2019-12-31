@@ -388,20 +388,20 @@ public class CheckmarkListTest extends BaseUnitTest
         Habit habit = fixtures.createLongNumericalHabit(timestamp(2014, JUNE, 1));
         CheckmarkList checkmarks = habit.getCheckmarks();
 
-        List<Checkmark> byMonth = checkmarks.groupBy(MONTH);
+        List<Checkmark> byMonth = checkmarks.groupBy(MONTH, Calendar.SATURDAY);
         assertThat(byMonth.size(), equalTo(25)); // from 2013-01-01 to 2015-01-01
         assertThat(byMonth.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
         assertThat(byMonth.get(6), equalTo(new Checkmark(timestamp(2014, JULY, 1), 0)));
         assertThat(byMonth.get(12), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 1706)));
         assertThat(byMonth.get(18), equalTo(new Checkmark(timestamp(2013, JULY, 1), 1379)));
 
-        List<Checkmark> byQuarter = checkmarks.groupBy(QUARTER);
+        List<Checkmark> byQuarter = checkmarks.groupBy(QUARTER, Calendar.SATURDAY);
         assertThat(byQuarter.size(), equalTo(9)); // from 2013-Q1 to 2015-Q1
         assertThat(byQuarter.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
         assertThat(byQuarter.get(4), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 4964)));
         assertThat(byQuarter.get(8), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 4975)));
 
-        List<Checkmark> byYear = checkmarks.groupBy(YEAR);
+        List<Checkmark> byYear = checkmarks.groupBy(YEAR, Calendar.SATURDAY);
         assertThat(byYear.size(), equalTo(3)); // from 2013 to 2015
         assertThat(byYear.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
         assertThat(byYear.get(1), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 8227)));

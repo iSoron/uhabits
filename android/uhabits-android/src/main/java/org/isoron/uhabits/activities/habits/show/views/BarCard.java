@@ -28,6 +28,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -55,6 +56,9 @@ public class BarCard extends HabitCard
     TextView title;
 
     private int bucketSize;
+
+    @Nullable
+    private Preferences prefs;
 
     public BarCard(Context context)
     {
@@ -84,6 +88,12 @@ public class BarCard extends HabitCard
 
     private void init()
     {
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
         inflate(getContext(), R.layout.show_habit_bar, this);
         ButterKnife.bind(this);
         boolSpinner.setSelection(1);
@@ -120,8 +130,11 @@ public class BarCard extends HabitCard
         {
             if (isCanceled()) return;
             List<Checkmark> checkmarks;
+            int firstWeekday = Calendar.SATURDAY;
+            if (prefs != null) firstWeekday = prefs.getFirstWeekday();
             if (bucketSize == 1) checkmarks = habit.getCheckmarks().getAll();
-            else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize));
+            else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize),
+                                                            firstWeekday);
             chart.setCheckmarks(checkmarks);
             chart.setBucketSize(bucketSize);
         }

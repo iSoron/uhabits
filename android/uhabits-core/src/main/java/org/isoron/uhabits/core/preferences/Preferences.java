@@ -333,6 +333,19 @@ public class Preferences
         return Integer.parseInt(storage.getString("pref_widget_opacity", "102"));
     }
 
+    /**
+     * @return An integer representing the first day of the week. Sunday
+     * corresponds to 1, Monday to 2, and so on, until Saturday, which is
+     * represented by 7. By default, this is based on the current system locale,
+     * unless the user changed this in the settings.
+     */
+    public int getFirstWeekday()
+    {
+        String weekday = storage.getString("pref_first_weekday", "");
+        if (weekday.isEmpty()) return DateUtils.getFirstWeekdayNumberAccordingToLocale();
+        return Integer.parseInt(weekday);
+    }
+
     public interface Listener
     {
         default void onCheckmarkSequenceChanged()

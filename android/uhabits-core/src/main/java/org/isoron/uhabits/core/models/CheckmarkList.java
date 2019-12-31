@@ -412,7 +412,7 @@ public abstract class CheckmarkList
     }
 
     @NonNull
-    public List<Checkmark> groupBy(DateUtils.TruncateField field)
+    public List<Checkmark> groupBy(DateUtils.TruncateField field, int firstWeekday)
     {
         List<Checkmark> checks = getAll();
 
@@ -422,7 +422,7 @@ public abstract class CheckmarkList
 
         for (Checkmark rep : checks)
         {
-            Timestamp tt = rep.getTimestamp().truncate(field);
+            Timestamp tt = rep.getTimestamp().truncate(field, firstWeekday);
             if (count == 0 || !truncatedTimestamps[count - 1].equals(tt))
                 truncatedTimestamps[count++] = tt;
 

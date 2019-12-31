@@ -28,6 +28,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -42,6 +43,9 @@ public class FrequencyCard extends HabitCard
 
     @BindView(R.id.frequencyChart)
     FrequencyChart chart;
+
+    @Nullable
+    private Preferences prefs;
 
     public FrequencyCard(Context context)
     {
@@ -63,6 +67,12 @@ public class FrequencyCard extends HabitCard
 
     private void init()
     {
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
         inflate(getContext(), R.layout.show_habit_frequency, this);
         ButterKnife.bind(this);
         if (isInEditMode()) initEditMode();
@@ -84,6 +94,7 @@ public class FrequencyCard extends HabitCard
             if (isCanceled()) return;
             RepetitionList reps = getHabit().getRepetitions();
             HashMap<Timestamp, Integer[]> frequency = reps.getWeekdayFrequency();
+            if(prefs != null) chart.setFirstWeekday(prefs.getFirstWeekday());
             chart.setFrequency(frequency);
         }
 

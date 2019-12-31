@@ -40,7 +40,8 @@ class ScoreWidget(
         val size = ScoreCard.BUCKET_SIZES[prefs.defaultScoreSpinnerPosition]
         val scores = when(size) {
             1 -> habit.scores.toList()
-            else -> habit.scores.groupBy(ScoreCard.getTruncateField(size))
+            else -> habit.scores.groupBy(ScoreCard.getTruncateField(size),
+                                         prefs.firstWeekday)
         }
 
         val widgetView = view as GraphWidgetView

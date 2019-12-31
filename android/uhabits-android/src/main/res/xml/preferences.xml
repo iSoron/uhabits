@@ -55,6 +55,11 @@
                 android:title="@string/widget_opacity_title"
                 app:iconSpaceReserved="false" />
 
+        <ListPreference
+                android:key="pref_first_weekday"
+                android:title="@string/first_day_of_the_week"
+                app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

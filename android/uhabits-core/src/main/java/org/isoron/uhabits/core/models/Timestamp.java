@@ -143,13 +143,17 @@ public final class Timestamp
         return DateFormats.getCSVDateFormat().format(new Date(unixTime));
     }
 
+    /**
+     * Returns an integer corresponding to the day of the week. Saturday maps
+     * to 0, Sunday maps to 1, and so on.
+     */
     public int getWeekday()
     {
         return toCalendar().get(DAY_OF_WEEK) % 7;
     }
 
-    public Timestamp truncate(DateUtils.TruncateField field)
+    Timestamp truncate(DateUtils.TruncateField field, int firstWeekday)
     {
-        return new Timestamp(DateUtils.truncate(field, unixTime));
+        return new Timestamp(DateUtils.truncate(field, unixTime, firstWeekday));
     }
 }

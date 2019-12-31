@@ -40,6 +40,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
     private HabitList habits;
 
     private Preferences preferences;
+
     private WidgetPreferences widgetPrefs;
 
     public static void updateAppWidget(@NonNull AppWidgetManager manager,
@@ -194,5 +195,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         habits = app.getComponent().getHabitList();
         preferences = app.getComponent().getPreferences();
         widgetPrefs = app.getComponent().getWidgetPreferences();
+    }
+
+    public Preferences getPreferences()
+    {
+        return preferences;
     }
 }

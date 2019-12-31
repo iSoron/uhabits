@@ -129,10 +129,10 @@ public abstract class ScoreList implements Iterable<Score>
         return values;
     }
 
-    public List<Score> groupBy(DateUtils.TruncateField field)
+    public List<Score> groupBy(DateUtils.TruncateField field, int firstWeekday)
     {
         computeAll();
-        HashMap<Timestamp, ArrayList<Double>> groups = getGroupedValues(field);
+        HashMap<Timestamp, ArrayList<Double>> groups = getGroupedValues(field, firstWeekday);
         List<Score> scores = groupsToAvgScores(groups);
         Collections.sort(scores, (s1, s2) -> s2.compareNewer(s1));
         return scores;
@@ -293,14 +293,18 @@ public abstract class ScoreList implements Iterable<Score>
     }
 
     @NonNull
-    private HashMap<Timestamp, ArrayList<Double>> getGroupedValues(DateUtils.TruncateField field)
+    private HashMap<Timestamp, ArrayList<Double>> getGroupedValues(DateUtils.TruncateField field,
+                                                                   int firstWeekday)
     {
         HashMap<Timestamp, ArrayList<Double>> groups = new HashMap<>();
 
         for (Score s : this)
         {
             Timestamp groupTimestamp = new Timestamp(
-                DateUtils.truncate(field, s.getTimestamp().getUnixTime()));
+                DateUtils.truncate(
+                        field,
+                        s.getTimestamp().getUnixTime(),
+                        firstWeekday));
 
             if (!groups.containsKey(groupTimestamp))
                 groups.put(groupTimestamp, new ArrayList<>());

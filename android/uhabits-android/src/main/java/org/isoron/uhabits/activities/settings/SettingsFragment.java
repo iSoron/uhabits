@@ -32,8 +32,11 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.widgets.*;
+
+import java.util.*;
 
 import static android.media.RingtoneManager.*;
 import static android.os.Build.VERSION.*;
@@ -143,6 +146,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
             devCategory.setVisible(false);
         }
 
+        updateWeekdayPreference();
+
         if (SDK_INT < Build.VERSION_CODES.O)
             findPreference("reminderCustomize").setVisible(false);
         else
@@ -154,6 +159,19 @@ public class SettingsFragment extends PreferenceFragmentCompat
         updateSync();
     }
 
+    private void updateWeekdayPreference()
+    {
+        if (prefs == null) return;
+        ListPreference weekdayPref = (ListPreference) findPreference("pref_first_weekday");
+        int currentFirstWeekday = prefs.getFirstWeekday();
+        String[] dayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
+        String[] dayValues = {"7", "1", "2", "3", "4", "5", "6"};
+        weekdayPref.setEntries(dayNames);
+        weekdayPref.setEntryValues(dayValues);
+        weekdayPref.setDefaultValue(Integer.toString(currentFirstWeekday));
+        weekdayPref.setSummary(dayNames[currentFirstWeekday % 7]);
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key)
@@ -163,6 +181,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             Log.d("SettingsFragment", "updating widgets");
             widgetUpdater.updateWidgets();
         }
+        if (key.equals("pref_first_weekday")) updateWeekdayPreference();
         BackupManager.dataChanged("org.isoron.uhabits");
         updateSync();
     }

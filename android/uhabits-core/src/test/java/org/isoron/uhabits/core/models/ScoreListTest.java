@@ -150,7 +150,7 @@ public class ScoreListTest extends BaseUnitTest
     {
         Habit habit = fixtures.createLongHabit();
         List<Score> list =
-            habit.getScores().groupBy(DateUtils.TruncateField.MONTH);
+            habit.getScores().groupBy(DateUtils.TruncateField.MONTH, Calendar.SATURDAY);
 
         assertThat(list.size(), equalTo(5));
         assertThat(list.get(0).getValue(), closeTo(0.653659, E));

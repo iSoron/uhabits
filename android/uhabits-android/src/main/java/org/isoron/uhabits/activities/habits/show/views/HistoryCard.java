@@ -28,6 +28,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -41,8 +42,11 @@ public class HistoryCard extends HabitCard
     @BindView(R.id.title)
     TextView title;
 
-    @NonNull
+    @Nullable
     private Controller controller;
+
+    @Nullable
+    private Preferences prefs;
 
     public HistoryCard(Context context)
     {
@@ -59,16 +63,23 @@ public class HistoryCard extends HabitCard
     @OnClick(R.id.edit)
     public void onClickEditButton()
     {
-        controller.onEditHistoryButtonClick();
+        if(controller != null) controller.onEditHistoryButtonClick();
     }
 
-    public void setController(@NonNull Controller controller)
+    public void setController(@Nullable Controller controller)
     {
         this.controller = controller;
     }
 
     private void init()
     {
+        Context appContext = getContext().getApplicationContext();
+        if (appContext instanceof HabitsApplication)
+        {
+            HabitsApplication app = (HabitsApplication) appContext;
+            prefs = app.getComponent().getPreferences();
+        }
+
         inflate(getContext(), R.layout.show_habit_history, this);
         ButterKnife.bind(this);
         controller = new Controller() {};
@@ -107,7 +118,8 @@ public class HistoryCard extends HabitCard
         public void doInBackground()
         {
             if (isCanceled()) return;
-            int checkmarks[] = habit.getCheckmarks().getAllValues();
+            int[] checkmarks = habit.getCheckmarks().getAllValues();
+            if(prefs != null) chart.setFirstWeekday(prefs.getFirstWeekday());
             chart.setCheckmarks(checkmarks);
         }
 

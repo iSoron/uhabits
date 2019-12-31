@@ -30,6 +30,7 @@ import android.util.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -50,6 +51,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     private HabitList habitList;
 
     private TaskRunner taskRunner;
+
+    private Preferences prefs;
 
     public HistoryEditorDialog()
     {
@@ -72,9 +75,11 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             (HabitsApplication) getActivity().getApplicationContext();
         habitList = app.getComponent().getHabitList();
         taskRunner = app.getComponent().getTaskRunner();
+        prefs = app.getComponent().getPreferences();
 
         historyChart = new HistoryChart(context);
         historyChart.setController(controller);
+        historyChart.setFirstWeekday(prefs.getFirstWeekday());
 
         if (savedInstanceState != null)
         {

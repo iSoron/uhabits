@@ -41,8 +41,8 @@ public class AndroidDateUtils
 
     public static String formatWeekdayList(Context context, boolean weekday[])
     {
-        String shortDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getShortDayNames();
-        String longDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getLongDayNames();
+        String shortDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getShortWeekdayNames(Calendar.SATURDAY);
+        String longDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
         StringBuilder buffer = new StringBuilder();
 
         int count = 0;

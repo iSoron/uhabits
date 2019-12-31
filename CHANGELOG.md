@@ -6,6 +6,7 @@
 * Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will no longer break your streak.
 * Many more colors to choose from (now 20 in total).
 * Ability to customize how transparent the widgets are on your home screen.
+* Ability to customize the first day of the week.
 * Yes/No buttons on notifications, instead of just "Check".
 * Automatic dark theme according to phone settings (Android 10).
 * 25% smaller APK size and much smaller backup files.
