@@ -34,13 +34,20 @@ class HabitsDatabaseOpener(
 ) : SQLiteOpenHelper(context, databaseFilename, null, version) {
 
     override fun onCreate(db: SQLiteDatabase) {
+        db.disableWriteAheadLogging()
         db.version = 8
         onUpgrade(db, -1, version)
+    }
+
+    override fun onOpen(db: SQLiteDatabase) {
+        super.onOpen(db)
+        db.disableWriteAheadLogging()
     }
 
     override fun onUpgrade(db: SQLiteDatabase,
                            oldVersion: Int,
                            newVersion: Int) {
+        db.disableWriteAheadLogging()
         if (db.version < 8) throw UnsupportedDatabaseVersionException()
         val helper = MigrationHelper(AndroidDatabase(db))
         helper.migrateTo(newVersion)

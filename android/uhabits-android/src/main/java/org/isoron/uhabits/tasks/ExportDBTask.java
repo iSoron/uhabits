@@ -66,7 +66,7 @@ public class ExportDBTask implements Task
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
