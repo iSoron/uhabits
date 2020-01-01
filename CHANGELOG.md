@@ -9,7 +9,7 @@
 * Ability to customize the first day of the week.
 * Yes/No buttons on notifications, instead of just "Check".
 * Automatic dark theme according to phone settings (Android 10).
-* 25% smaller APK size and much smaller backup files.
+* Smaller APK and backup files.
 * Many other internal code changes improving performance and stability.
 
 ### 1.7.11 (Aug 10, 2019)
