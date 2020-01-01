@@ -78,7 +78,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
     implementation "com.jakewharton:butterknife:8.6.1-SNAPSHOT"
     implementation "org.apmem.tools:layouts:1.10"
-    implementation "com.google.code.gson:gson:2.7"
+    implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
 
@@ -105,15 +105,15 @@ dependencies {
     // mockito-android 2+ includes net.bytebuddy, which causes tests to fail.
     // Excluding the package net.bytebuddy on AndroidManifest.xml breaks some
     // AndroidJUnitRunner functionality, such as running individual methods.
-    androidTestImplementation "org.mockito:mockito-core:1+"
-    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:+"
+    androidTestImplementation "org.mockito:mockito-core:1.10.19"
+    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:1.2"
 
     testImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
     testImplementation "org.mockito:mockito-core:2.8.9"
     testImplementation "org.mockito:mockito-inline:2.8.9"
-    testImplementation "junit:junit:4+"
+    testImplementation "junit:junit:4.12"
 
-    implementation('com.opencsv:opencsv:3.9') {
+    implementation('com.opencsv:opencsv:3.10') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
     implementation('io.socket:socket.io-client:0.8.3') {
