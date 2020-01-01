@@ -75,6 +75,8 @@
     <string name="interval_4_hour">4 години</string>
     <string name="interval_8_hour">8 годин</string>
     <string name="interval_24_hour">24 години</string>
+    <string name="interval_always_ask">Завжди запитувати</string>
+    <string name="interval_custom">Налаштувати...</string>
     <string name="pref_toggle_title">Відзначати коротким натисканням</string>
     <string name="pref_toggle_description">Ставити пташки коротким натисканням, замість утримування. Дещо зручніше, але може стати причиною випадкових натискань.</string>
     <string name="pref_snooze_interval_title">Час відкладення нагадувань</string>
@@ -102,6 +104,7 @@
     <string name="clear_label">Очистити</string>
     <string name="select_hours">Оберіть години</string>
     <string name="select_minutes">Оберіть хвилини</string>
+    <string name="select_habit_requirement_prompt">Будь ласка, оберіть хоча б одну звичку</string>
     <string name="about">Про програму</string>
     <string name="translators">Перекладачі</string>
     <string name="developers">Розробники</string>
@@ -150,6 +153,8 @@
     <string name="year">Рік</string>
     <string name="total">Усього</string>
     <!-- Different types of habits -->
+    <string name="yes_or_no">Так або ні</string>
+    <string name="number">Кількість</string>
     <!-- Middle part of the sentence '1 time in xx days' -->
     <string name="time_every">раз у</string>
     <string name="every_x_days">Кожні %d дні(-в)</string>
@@ -176,4 +181,18 @@
     <string name="by_score">За сталістю</string>
     <string name="download">Завантажити</string>
     <string name="export">Експортувати</string>
+    <string name="change_value">Змінити значення</string>
+    <string name="calendar">Календар</string>
+    <string name="count">Число</string>
+    <string name="validation_show_not_be_blank">Це поле не має бути порожнім</string>
+    <string name="example_question_numerical">напр.: Скільки кроків ви сьогодні пройшли?</string>
+    <string name="example_units">напр.: крок(-ів)</string>
+    <string name="example_question_boolean">напр.: Ви робили сьогодні вправи?</string>
+    <string name="question">Запитання</string>
+    <string name="target">Мета</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+    <string name="pref_view_privacy">Переглянути політику конфіденційності</string>
+    <string name="view_all_contributors">Переглянути всіх учасників&#8230;</string>
+    <string name="database">База даних</string>
 </resources>
