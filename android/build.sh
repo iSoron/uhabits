@@ -20,6 +20,7 @@ EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUTS_DIR=uhabits-android/build/outputs
+VERSION=$(cat gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
 	echo "Error: ANDROID_HOME is not set correctly"
@@ -77,31 +78,36 @@ run_adb_as_root() {
 }
 
 build_apk() {
+	log_info "Removing old APKs..."
+	rm -vf build/*.apk
+
 	if [ ! -z $RELEASE ]; then
-		if [ -z "$KEY_FILE" -o -z "$STORE_PASSWORD" -o -z "$KEY_ALIAS" -o -z "$KEY_PASSWORD" ]; then
-			log_error "Environment variables KEY_FILE, KEY_ALIAS, KEY_PASSWORD and STORE_PASSWORD must be defined"
+		if [ -z "$LOOP_KEY_FILE" -o -z "$LOOP_STORE_PASSWORD" -o -z "$LOOP_KEY_ALIAS" -o -z "$LOOP_KEY_PASSWORD" ]; then
+			log_error "Environment variables LOOP_KEY_FILE, LOOP_KEY_ALIAS, LOOP_KEY_PASSWORD and LOOP_STORE_PASSWORD must be defined"
 			exit 1
 		fi
 		log_info "Building release APK"
 		./gradlew assembleRelease \
-			-Pandroid.injected.signing.store.file=$KEY_FILE \
-			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
-	else
-		log_info "Building debug APK"
-		./gradlew assembleDebug || fail
+			-Pandroid.injected.signing.store.file=$LOOP_KEY_FILE \
+			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
+			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
+			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
+		cp -v uhabits-android/build/outputs/apk/release/uhabits-android-release.apk build/loop-$VERSION-release.apk
 	fi
+
+	log_info "Building debug APK"
+	./gradlew assembleDebug || fail
+	cp -v uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk build/loop-$VERSION-debug.apk
 }
 
 build_instrumentation_apk() {
 	log_info "Building instrumentation APK"
 	if [ ! -z $RELEASE ]; then
 		$GRADLE assembleAndroidTest  \
-			-Pandroid.injected.signing.store.file=$KEY_FILE \
-			-Pandroid.injected.signing.store.password=$STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$KEY_PASSWORD || fail
+			-Pandroid.injected.signing.store.file=$LOOP_KEY_FILE \
+			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
+			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
+			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
 	else
 		$GRADLE assembleAndroidTest || fail
 	fi
@@ -260,7 +266,7 @@ case "$1" in
 
 				Options:
 				    -u  --uninstall-first  Uninstall existing APK first
-				    -r  --release          Build and install release version, instead of debug
+				    -r  --release          Test release APK, instead of debug
 			END
 			exit 1
 		fi
@@ -313,7 +319,7 @@ case "$1" in
 			    accept-images Copies fetched images to corresponding assets folder
 
 			Options:
-			    -r  --release           Build and install release version, instead of debug
+			    -r  --release           Build and test release APK, instead of debug
 		END
 		exit 1
 esac
