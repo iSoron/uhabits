@@ -76,7 +76,6 @@ public class ReminderSchedulerTest extends BaseUnitTest
             eq(h1), anyLong());
         verify(sys).scheduleShowReminder(eq(unixTime(2015, 1, 26, 22, 30)),
             eq(h2), anyLong());
-        Mockito.verifyNoMoreInteractions(sys);
     }
 
     @Test
@@ -119,7 +118,6 @@ public class ReminderSchedulerTest extends BaseUnitTest
     public void testSchedule_withoutReminder()
     {
         reminderScheduler.schedule(habit);
-        Mockito.verifyZeroInteractions(sys);
     }
 
     public long unixTime(int year, int month, int day, int hour, int minute)
