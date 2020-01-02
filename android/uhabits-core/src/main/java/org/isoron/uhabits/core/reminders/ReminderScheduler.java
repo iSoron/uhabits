@@ -25,6 +25,8 @@ import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 
+import java.util.*;
+
 import javax.inject.*;
 
 import static org.isoron.uhabits.core.utils.DateUtils.*;
@@ -59,22 +61,44 @@ public class ReminderScheduler implements CommandRunner.Listener
 
     public void schedule(@NonNull Habit habit)
     {
-        if (!habit.hasReminder()) return;
-        Long reminderTime = habit.getReminder().getTimeInMillis();
+        if (!habit.hasReminder()) {
+            sys.log("ReminderScheduler", "habit=" + habit.id + " has no reminder. Skipping.");
+            return;
+        }
+
+        long reminderTime = habit.getReminder().getTimeInMillis();
         scheduleAtTime(habit, reminderTime);
     }
 
-    public void scheduleAtTime(@NonNull Habit habit, @NonNull Long reminderTime)
+    public void scheduleAtTime(@NonNull Habit habit, long reminderTime)
     {
-        if (reminderTime == null) throw new IllegalArgumentException();
-        if (!habit.hasReminder()) return;
-        if (habit.isArchived()) return;
+        sys.log("ReminderScheduler", "Scheduling alarm for habit=" + habit.id);
+
+        if (!habit.hasReminder()) {
+            sys.log("ReminderScheduler", "habit=" + habit.id + " has no reminder. Skipping.");
+            return;
+        }
+
+        if (habit.isArchived()) {
+            sys.log("ReminderScheduler", "habit=" + habit.id + " is archived. Skipping.");
+            return;
+        }
+
         long timestamp = getStartOfDay(removeTimezone(reminderTime));
+        sys.log("ReminderScheduler",
+                String.format(
+                        Locale.US,
+                        "reminderTime=%d removeTimezone=%d timestamp=%d",
+                        reminderTime,
+                        removeTimezone(reminderTime),
+                        timestamp));
+
         sys.scheduleShowReminder(reminderTime, habit, timestamp);
     }
 
     public synchronized void scheduleAll()
     {
+        sys.log("ReminderScheduler", "Scheduling all alarms");
         HabitList reminderHabits =
             habitList.getFiltered(HabitMatcher.WITH_ALARM);
         for (Habit habit : reminderHabits)
@@ -101,5 +125,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     public interface SystemScheduler
     {
         void scheduleShowReminder(long reminderTime, Habit habit, long timestamp);
+
+        void log(String componentName, String msg);
     }
 }

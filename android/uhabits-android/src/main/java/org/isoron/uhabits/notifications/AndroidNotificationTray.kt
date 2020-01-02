@@ -49,8 +49,11 @@ class AndroidNotificationTray
         private val preferences: Preferences,
         private val ringtoneManager: RingtoneManager
 ) : NotificationTray.SystemTray {
-
     private var active = HashSet<Int>()
+
+    override fun log(msg: String) {
+        Log.d("AndroidNotificationTray", msg)
+    }
 
 
     override fun removeNotification(id: Int) {

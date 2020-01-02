@@ -30,12 +30,5 @@ import javax.inject.*
 class HabitLogger
 @Inject constructor() {
 
-    fun logReminderScheduled(habit: Habit, reminderTime: Long) {
-        val min = Math.min(3, habit.name.length)
-        val name = habit.name.substring(0, min)
-        val df = DateFormats.getBackupDateFormat()
-        val time = df.format(Date(reminderTime))
-        Log.i("ReminderHelper",
-              String.format("Setting alarm (%s): %s", time, name))
-    }
+
 }
