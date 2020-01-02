@@ -1,18 +1,24 @@
-apply plugin: 'idea'
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'idea'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.github.triplet.play' version '2.6.2'
+}
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
 
-    if(project.hasProperty("LOOP_STORE_FILE")) {
+    def secretPropsFile = file("../../.secret/gradle.properties")
+    if (secretPropsFile.exists()) {
+        def secrets = new Properties()
+        secretPropsFile.withInputStream { secrets.load(it) }
         signingConfigs {
             release {
-                storeFile file(LOOP_STORE_FILE)
-                storePassword LOOP_STORE_PASSWORD
-                keyAlias LOOP_KEY_ALIAS
-                keyPassword LOOP_KEY_PASSWORD
+                storeFile file(secrets.LOOP_KEY_STORE)
+                storePassword secrets.LOOP_STORE_PASSWORD
+                keyAlias secrets.LOOP_KEY_ALIAS
+                keyPassword secrets.LOOP_KEY_PASSWORD
             }
         }
         buildTypes.release.signingConfig signingConfigs.release
@@ -42,6 +48,7 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+        disable 'GoogleAppIndexingWarning'
     }
 
     compileOptions {
@@ -77,23 +84,23 @@ dependencies {
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
     implementation "com.jakewharton:butterknife:8.6.1-SNAPSHOT"
     implementation "org.apmem.tools:layouts:1.10"
-    implementation "com.google.code.gson:gson:2.7"
+    implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
 
     compileOnly "javax.annotation:jsr250-api:1.0"
-    compileOnly "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
+    compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     kapt "com.jakewharton:butterknife-compiler:9.0.0"
-    annotationProcessor "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
+    annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
 
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:2.2.2"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:2.2.2"
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:2.1.1"
     androidTestImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
     androidTestImplementation "com.linkedin.testbutler:test-butler-library:1.3.1"
-    androidTestCompileOnly "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
-    androidTestAnnotationProcessor "com.google.auto.factory:auto-factory:${AUTO_FACTORY_VERSION}"
+    androidTestCompileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
+    androidTestAnnotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     androidTestImplementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
     androidTestImplementation "com.android.support.test:rules:0.5"
     androidTestImplementation "com.android.support.test:runner:0.5"
@@ -104,15 +111,15 @@ dependencies {
     // mockito-android 2+ includes net.bytebuddy, which causes tests to fail.
     // Excluding the package net.bytebuddy on AndroidManifest.xml breaks some
     // AndroidJUnitRunner functionality, such as running individual methods.
-    androidTestImplementation "org.mockito:mockito-core:1+"
-    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:+"
+    androidTestImplementation "org.mockito:mockito-core:1.10.19"
+    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:1.2"
 
     testImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
     testImplementation "org.mockito:mockito-core:2.8.9"
     testImplementation "org.mockito:mockito-inline:2.8.9"
-    testImplementation "junit:junit:4+"
+    testImplementation "junit:junit:4.12"
 
-    implementation('com.opencsv:opencsv:3.9') {
+    implementation('com.opencsv:opencsv:3.10') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
     implementation('io.socket:socket.io-client:0.8.3') {
@@ -120,11 +127,11 @@ dependencies {
     }
 }
 
-repositories {
-    google()
-    jcenter()
-}
-
 kapt {
     correctErrorTypes = true
+}
+
+play {
+    serviceAccountCredentials = file("../../.secret/gcp-key.json")
+    track = "alpha"
 }

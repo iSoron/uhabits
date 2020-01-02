@@ -164,10 +164,10 @@ public class DateUtilsTest extends BaseUnitTest
     @Test
     public void testMillisecondsUntilTomorrow() throws Exception
     {
-        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 2, 59));
+        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
         assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(60000L));
 
-        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 0));
+        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 20, 0));
         assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(14400000L));
 
     }

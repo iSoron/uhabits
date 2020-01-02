@@ -1,0 +1,22 @@
+Loop Hjälper dig att skapa och underhålla bra vanor, genom att tillåta dig arkivera dina långtidsvanor. Detaljerade grafer och statistik visar dig hur dina vanor har förbättrats över tid. Det är helt reklamfritt och öppen källkod.
+
+<b>Enkelt, snyggt och modernt användargränssnitt<b>
+Loop har minimalistiskt gränssnitt som är enkel att använda och följer material design riktlinjer.
+
+<b>Vanepoäng<b>
+Förutom att visa din nuvarande aktivitet har Loop en avancerad algoritm som räknar ut styrkan i dina vanor. Varje repetition gör din vana starkare och varje missad dag gör den svagare. Ett par missar efter en lång, oavbruten aktivitet kommer dock inte att helt förstöra dina framsteg.
+
+<b>Detaljerade grafer och statistik</b>
+Tydligt se hur dina vanor förbättras över tiden med fina och detaljerade grafer. Skrolla tillbaka för att din fullständiga historik av dina vanor.
+
+<b>Flexibelt schema</b>
+Stödjer både dagliga vanor och avancerade vanor, som till exempel tre gånger per vecka, en gång varje vecka eller varannan dag.
+
+<b>Påminnelser</b>
+Skapa en påminnelse för varje vana. Du kan enkelt bocka av, ta bort eller skjuta upp din vana direkt från notifikationsfältet.
+
+<b>Helt reklamfri och öppen källkod</b>
+Det är absolut ingen reklam, störande notifikationer eller onödiga behörighetskrav för den här appen, och det kommer aldrig att bli. Hela källkoden finns tillgänglig under GPLv3.
+
+<b>Optimerad för smartklockor<b>
+Påminnelser kan kollas upp, snoozade eller tas bort direkt från din Android Wear enhet.

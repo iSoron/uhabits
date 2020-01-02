@@ -38,19 +38,9 @@ public abstract class DateUtils
     private static Locale fixedLocale = null;
 
     /**
-     * Time of the day when the new day starts.
-     */
-    public static final int NEW_DAY_OFFSET = 3;
-
-    /**
      * Number of milliseconds in one day.
      */
     public static final long DAY_LENGTH = 24 * 60 * 60 * 1000;
-
-    /**
-     * Number of milliseconds in one hour.
-     */
-    public static final long HOUR_LENGTH = 60 * 60 * 1000;
 
     public static long applyTimezone(long localTimestamp)
     {
@@ -182,13 +172,12 @@ public abstract class DateUtils
 
     public static long getStartOfToday()
     {
-        return getStartOfDay(getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
+        return getStartOfDay(getLocalTime());
     }
 
     public static long millisecondsUntilTomorrow()
     {
-        return getStartOfToday() + DAY_LENGTH -
-               (getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
+        return getStartOfToday() + DAY_LENGTH - getLocalTime();
     }
 
     public static GregorianCalendar getStartOfTodayCalendar()
@@ -271,7 +260,7 @@ public abstract class DateUtils
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        Long time = calendar.getTimeInMillis();
+        long time = calendar.getTimeInMillis();
 
         if (DateUtils.getLocalTime() > time)
             time += DateUtils.DAY_LENGTH;

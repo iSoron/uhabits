@@ -62,8 +62,6 @@ public class BaseAndroidTest extends TestCase
 
     protected TaskRunner taskRunner;
 
-    protected HabitLogger logger;
-
     protected HabitFixtures fixtures;
 
     protected CountDownLatch latch;
@@ -101,7 +99,6 @@ public class BaseAndroidTest extends TestCase
         prefs = appComponent.getPreferences();
         habitList = appComponent.getHabitList();
         taskRunner = appComponent.getTaskRunner();
-        logger = appComponent.getHabitsLogger();
         modelFactory = appComponent.getModelFactory();
 
         prefs.clear();

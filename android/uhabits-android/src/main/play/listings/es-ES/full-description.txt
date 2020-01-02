@@ -1,0 +1,22 @@
+Loop te ayuda a crear y mantener buenos hábitos, permitiéndote alcanzar tus metas a largo plazo. Detallados gráficos y estadísticas muestran como tus hábitos mejoran con el tiempo. No existe ningún anuncio y es de código abierto.
+
+<b>Una interfaz simple, bella y moderna</b>
+Loop tiene una interfaz minimalista que es fácil de usar y sigue los principios del material design.
+
+<b>Puntuación del hábito</b>
+Además de mostrar tu racha actual, Loop tiene un algoritmo avanzado para calcular la fuerza de tus hábitos. Cada repetición hace tu hábito más fuerte y cada día fallido lo hace más débil. Sin embargo, unos pocos días después de una larga racha no destruirán completamente todo tu progreso.
+
+<b>Detallados gráficos y estadísticas</b>
+Observa claramente como tus hábitos han mejorado con el tiempo con bellos y detallados gráficos. Ve hacia atrás para ver el historial completo del hábito.
+
+<b>Horarios flexibles</b>
+Soporta hábitos diarios y hábitos con repeticiones más complejas, como 3 veces por semana; una vez cada varias semanas; o cada día.
+
+<b>Recordatorios</b>
+Crea recordatorios individuales para cada hábito a una hora determinada del día. Fácilmente marcables, descartables o posponibles directamente desde la notificación, sin abrir la app.
+
+<b>Completamente sin anuncios y de código abierto</b>
+No existe ningún tipo de publicidad, notificaciones molestas o permisos intrusivos, y nunca los habrá. Todo el código está disponible bajo GPLv3.
+
+<b>Optimizado para smartwatches</b>
+Los recordatorios se pueden marcar, posponer o descartar directamente desde tu reloj Android Wear.

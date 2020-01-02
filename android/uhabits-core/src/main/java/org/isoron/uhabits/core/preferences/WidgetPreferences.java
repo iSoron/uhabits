@@ -38,10 +38,10 @@ public class WidgetPreferences {
     }
 
     public long[] getHabitIdsFromWidgetId(int widgetId) {
-        long habitIds[];
+        long[] habitIds;
         String habitIdKey = getHabitIdKey(widgetId);
         try {
-            habitIds = storage.getLongArray(habitIdKey);
+            habitIds = storage.getLongArray(habitIdKey, new long[]{-1});
         } catch (ClassCastException e) {
             // Up to Loop 1.7.11, this preference was not an array, but a single
             // long. Trying to read the old preference causes a cast exception.
@@ -49,7 +49,6 @@ public class WidgetPreferences {
             habitIds[0] = storage.getLong(habitIdKey, -1);
             storage.putLongArray(habitIdKey, habitIds);
         }
-        if (habitIds.length == 0) throw new HabitNotFoundException();
         return habitIds;
     }
 

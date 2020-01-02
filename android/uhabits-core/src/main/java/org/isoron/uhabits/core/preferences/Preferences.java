@@ -390,9 +390,11 @@ public class Preferences
             putString(key, StringUtils.joinLongs(values));
         }
 
-        default long[] getLongArray(String key)
+        default long[] getLongArray(String key, long[] defValue)
         {
-            return StringUtils.splitLongs(getString(key, ""));
+            String string = getString(key, "");
+            if (string.isEmpty()) return defValue;
+            else return StringUtils.splitLongs(string);
         }
     }
 }

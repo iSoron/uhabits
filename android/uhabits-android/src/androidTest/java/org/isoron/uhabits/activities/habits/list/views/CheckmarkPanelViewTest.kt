@@ -76,11 +76,12 @@ class CheckmarkPanelViewTest : BaseViewTest() {
         assertRenders(view, "$PATH/render_different_color.png")
     }
 
-    @Test
-    fun testRender_Reversed() {
-        prefs.isCheckmarkSequenceReversed = true
-        assertRenders(view, "$PATH/render_reversed.png")
-    }
+//    // Flaky test
+//    @Test
+//    fun testRender_Reversed() {
+//        prefs.isCheckmarkSequenceReversed = true
+//        assertRenders(view, "$PATH/render_reversed.png")
+//    }
 
     @Test
     fun testRender_withOffset() {

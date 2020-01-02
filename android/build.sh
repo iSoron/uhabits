@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
+cd "$(dirname "$0")"
+
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace"
@@ -56,6 +58,12 @@ fail() {
 	exit 1
 }
 
+if [ ! -z $RELEASE ]; then
+	log_info "Reading secret env variables from ../.secret/env"
+	source ../.secret/env || fail
+fi
+
+
 start_emulator() {
 	log_info "Starting emulator ($AVD_NAME)"
 	$EMULATOR -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
@@ -82,16 +90,8 @@ build_apk() {
 	rm -vf build/*.apk
 
 	if [ ! -z $RELEASE ]; then
-		if [ -z "$LOOP_KEY_FILE" -o -z "$LOOP_STORE_PASSWORD" -o -z "$LOOP_KEY_ALIAS" -o -z "$LOOP_KEY_PASSWORD" ]; then
-			log_error "Environment variables LOOP_KEY_FILE, LOOP_KEY_ALIAS, LOOP_KEY_PASSWORD and LOOP_STORE_PASSWORD must be defined"
-			exit 1
-		fi
 		log_info "Building release APK"
-		./gradlew assembleRelease \
-			-Pandroid.injected.signing.store.file=$LOOP_KEY_FILE \
-			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
+		./gradlew assembleRelease
 		cp -v uhabits-android/build/outputs/apk/release/uhabits-android-release.apk build/loop-$VERSION-release.apk
 	fi
 
@@ -104,7 +104,7 @@ build_instrumentation_apk() {
 	log_info "Building instrumentation APK"
 	if [ ! -z $RELEASE ]; then
 		$GRADLE assembleAndroidTest  \
-			-Pandroid.injected.signing.store.file=$LOOP_KEY_FILE \
+			-Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
 			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
 			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
 			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
@@ -155,10 +155,17 @@ run_instrumented_tests() {
 		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
 		| tee ${OUTPUTS_DIR}/instrument.txt
 
-	mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
-	$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
-		${OUTPUTS_DIR}/code-coverage/connected/ \
-		|| log_error "COVERAGE REPORT NOT AVAILABLE"
+	if grep FAILURES $OUTPUTS_DIR/instrument.txt; then
+		log_error "Some instrumented tests failed"
+		fetch_images
+		fetch_logcat
+		exit 1
+	fi
+
+	#mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
+	#$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
+	#	${OUTPUTS_DIR}/code-coverage/connected/ \
+	#	|| log_error "COVERAGE REPORT NOT AVAILABLE"
 }
 
 parse_instrumentation_results() {
@@ -173,16 +180,8 @@ generate_coverage_badge() {
 	python3 tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
 }
 
-fetch_artifacts() {
-	log_info "Fetching generated artifacts"
-	mkdir -p ${OUTPUTS_DIR}/failed
-	$ADB pull /mnt/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
-	$ADB pull /storage/sdcard/test-screenshots/ ${OUTPUTS_DIR}/failed
-	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ ${OUTPUTS_DIR}/failed
-}
-
 fetch_logcat() {
-	log_info "Fetching logcat to ${OUTPUTS_DIR}/logcat.txt"
+	log_info "Fetching logcat"
 	$ADB logcat -d > ${OUTPUTS_DIR}/logcat.txt
 }
 
@@ -201,14 +200,9 @@ uninstall_test_apk() {
 }
 
 fetch_images() {
-	rm -rf tmp/test-screenshots > /dev/null
-	mkdir -p tmp/
-	$ADB pull /mnt/sdcard/test-screenshots/ tmp/
-	$ADB pull /storage/sdcard/test-screenshots/ tmp/
-	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ tmp/
-
-	$ADB shell rm -r /mnt/sdcard/test-screenshots/ 
-	$ADB shell rm -r /storage/sdcard/test-screenshots/ 
+	log_info "Fetching images"
+	rm -rf $OUTPUTS_DIR/test-screenshots
+	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ $OUTPUTS_DIR
 	$ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
 }
 
@@ -226,7 +220,6 @@ run_tests() {
 	install_test_apk
 	run_instrumented_tests $SIZE
 	parse_instrumentation_results
-	fetch_artifacts
 	fetch_logcat
 	uninstall_test_apk
 }
