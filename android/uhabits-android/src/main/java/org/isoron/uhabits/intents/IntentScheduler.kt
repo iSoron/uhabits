@@ -39,8 +39,7 @@ import javax.inject.*
 class IntentScheduler
 @Inject constructor(
         @AppContext context: Context,
-        private val pendingIntents: PendingIntentFactory,
-        private val logger: HabitLogger
+        private val pendingIntents: PendingIntentFactory
 ) : ReminderScheduler.SystemScheduler {
 
     private val manager =
