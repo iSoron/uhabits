@@ -1,31 +1,40 @@
-name: Build & Test
+name: Build, Test & Publish
 
 on:
   push:
     branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
+      - master
 
 jobs:
   build:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Install GPG
+      uses: olafurpg/setup-gpg@v2
+    - name: Decrypt secrets
+      env:
+        GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+      run: .secret/decrypt.sh
     - name: Install Java Development Kit 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: Build APK & Run small tests
+      env:
+        RELEASE: 1
       run: android/build.sh build
     - name: Run medium tests
       uses: ReactiveCircus/android-emulator-runner@v2.2.0
+      env:
+        RELEASE: 1
       with:
         api-level: 29
         script: android/build.sh medium-tests
-    - name: Upload artifacts
+    - name: Upload build to GitHub
       uses: actions/upload-artifact@v1
       with:
         name: Build
         path: android/uhabits-android/build/outputs/
+    - name: Upload APK to Google Play
+      run: cd android && ./gradlew publishReleaseApk

@@ -13,6 +13,7 @@
 .gradle
 .idea
 .project
+.secret
 Thumbs.db
 art/
 bin/

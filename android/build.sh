@@ -58,6 +58,12 @@ fail() {
 	exit 1
 }
 
+if [ ! -z $RELEASE ]; then
+	log_info "Reading secret env variables from ../.secret/env"
+	source ../.secret/env || fail
+fi
+
+
 start_emulator() {
 	log_info "Starting emulator ($AVD_NAME)"
 	$EMULATOR -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
@@ -84,16 +90,8 @@ build_apk() {
 	rm -vf build/*.apk
 
 	if [ ! -z $RELEASE ]; then
-		if [ -z "$LOOP_KEY_FILE" -o -z "$LOOP_STORE_PASSWORD" -o -z "$LOOP_KEY_ALIAS" -o -z "$LOOP_KEY_PASSWORD" ]; then
-			log_error "Environment variables LOOP_KEY_FILE, LOOP_KEY_ALIAS, LOOP_KEY_PASSWORD and LOOP_STORE_PASSWORD must be defined"
-			exit 1
-		fi
 		log_info "Building release APK"
-		./gradlew assembleRelease \
-			-Pandroid.injected.signing.store.file=$LOOP_KEY_FILE \
-			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
+		./gradlew assembleRelease
 		cp -v uhabits-android/build/outputs/apk/release/uhabits-android-release.apk build/loop-$VERSION-release.apk
 	fi
 
@@ -106,7 +104,7 @@ build_instrumentation_apk() {
 	log_info "Building instrumentation APK"
 	if [ ! -z $RELEASE ]; then
 		$GRADLE assembleAndroidTest  \
-			-Pandroid.injected.signing.store.file=$LOOP_KEY_FILE \
+			-Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
 			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
 			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
 			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail

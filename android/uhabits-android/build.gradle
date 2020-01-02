@@ -1,18 +1,24 @@
-apply plugin: 'idea'
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'idea'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.github.triplet.play' version '2.6.2'
+}
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
 
-    if (project.hasProperty("LOOP_STORE_FILE")) {
+    def secretPropsFile = file("../../.secret/gradle.properties")
+    if (secretPropsFile.exists()) {
+        def secrets = new Properties()
+        secretPropsFile.withInputStream { secrets.load(it) }
         signingConfigs {
             release {
-                storeFile file(LOOP_STORE_FILE)
-                storePassword LOOP_STORE_PASSWORD
-                keyAlias LOOP_KEY_ALIAS
-                keyPassword LOOP_KEY_PASSWORD
+                storeFile file(secrets.LOOP_KEY_STORE)
+                storePassword secrets.LOOP_STORE_PASSWORD
+                keyAlias secrets.LOOP_KEY_ALIAS
+                keyPassword secrets.LOOP_KEY_PASSWORD
             }
         }
         buildTypes.release.signingConfig signingConfigs.release
@@ -123,4 +129,9 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+play {
+    serviceAccountCredentials = file("../../.secret/gcp-key.json")
+    track = "alpha"
 }

@@ -1,0 +1,22 @@
+İyi alışkanlar kazanmanı ve sürdürmene yardımcı olur, uzun dönemli hedeflerini başarmanı sağlar. Ayrıntılı çizelge ve istatistikler, zaman içinde alışkanlıklarını nasıl geliştiğini gösterir. Tamamen reklamsız ve açık kaynak.
+
+<b>Basit, güzel ve çağdaş arayüz</b>
+Kullanımı kolay sade arayüze sahiptir ve material design kurallarını takip eder.
+
+<b>Alışkanlık Puanı</b>
+Alışkanlıklarının dayanımını hesaplamak için gelişmiş algoritmaya sahiptir. Her tekrar alışkanlığını güçlendirir ve her iptal zayıflatır. Uzun süre etkinlikten sonra birkaç gün devamsızlık, tüm gelişmenizi tamamen etkilemeyecek.
+
+<b>Ayrıntılı çizelgeler ve istatistikler</b>
+Güzel ve ayrıntılı çizelgeler ile alışkanlıklarının zaman içinde nasıl geliştiğini açıkça görebilirsin. Alışkanlıklarının geçmişini tamamen görmek için geriye sürükle.
+
+<b>Esnek zamanlamalar</b>
+Günlük alışkanlanlıklar ve haftada 3 kez, diğer haftalarda bir kez veya diğer hergün gibi daha gelişmiş zamanlamalı alışkanlıkları destekler.
+
+<b>Hatırlatmalar</b>
+Herbir alışkanlık için seçtiğin gün ve saatte ayrı hatırlatma oluştur. Kolayca uygulamayı açmadan, bildirimlerden alışkanlıklarını yapıldı, iptal et veya ertele olarak işaretle.
+
+<b>Tamamen reklamsız ve açık kaynak</b>
+Bu uygulama içinde kesinlikle hiç reklam yok, can sıkıcı bildirimler veya zorunlu izinler yok ve asla da olmayacak. Kaynak kodun tamamı GPLv3 özgür yazılım lisansı kapsamındadır.
+
+<b>Akıllı saatler için uyarlandı</b>
+Android Wear saatinden, hatırlatmaları yapıldı, ertele veya iptal edebilirsin.
