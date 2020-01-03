@@ -19,51 +19,35 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.text.format.DateFormat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v7.app.*;
+import android.text.format.*;
+import android.view.*;
 
 import com.android.datetimepicker.time.TimePickerDialog;
 
-import org.isoron.uhabits.HabitsApplication;
-import org.isoron.uhabits.HabitsApplicationComponent;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.HabitsActivity;
-import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog;
-import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory;
-import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog;
-import org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel;
-import org.isoron.uhabits.activities.habits.edit.views.NameDescriptionPanel;
-import org.isoron.uhabits.activities.habits.edit.views.ReminderPanel;
-import org.isoron.uhabits.activities.habits.edit.views.TargetPanel;
-import org.isoron.uhabits.core.commands.CommandRunner;
-import org.isoron.uhabits.core.models.Frequency;
-import org.isoron.uhabits.core.models.Habit;
-import org.isoron.uhabits.core.models.HabitList;
-import org.isoron.uhabits.core.models.ModelFactory;
-import org.isoron.uhabits.core.models.WeekdayList;
-import org.isoron.uhabits.core.preferences.Preferences;
+import org.isoron.uhabits.activities.*;
+import org.isoron.uhabits.activities.common.dialogs.*;
+import org.isoron.uhabits.activities.habits.edit.views.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
 
-import static android.view.View.GONE;
+import static android.view.View.*;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
     public static final String BUNDLE_HABIT_ID = "habitId";
 
     public static final String BUNDLE_HABIT_TYPE = "habitType";
+
     private static final String WEEKDAY_PICKER_TAG = "weekdayPicker";
 
     protected Habit originalHabit;
@@ -293,16 +277,11 @@ public class EditHabitDialog extends AppCompatDialogFragment
         });
     }
 
-    /**
-     * Used to restore any child fragment listeners on rotation/config change.
-     *
-     * Can possibly be refactored to use ViewModel/
-     */
-    private void restoreChildFragmentListeners() {
-        final WeekdayPickerDialog weekdayPickerDialog =
-                (WeekdayPickerDialog) getChildFragmentManager().findFragmentByTag(WEEKDAY_PICKER_TAG);
-        if(weekdayPickerDialog != null) {
-            weekdayPickerDialog.setListener(reminderPanel);
-        }
+    private void restoreChildFragmentListeners()
+    {
+        final WeekdayPickerDialog dialog =
+                (WeekdayPickerDialog) getChildFragmentManager()
+                        .findFragmentByTag(WEEKDAY_PICKER_TAG);
+        if(dialog != null) dialog.setListener(reminderPanel);
     }
 }
