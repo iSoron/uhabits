@@ -26,6 +26,7 @@ import android.support.test.uiautomator.*;
 import android.support.v7.widget.*;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
 
 import static android.os.Build.VERSION.*;
