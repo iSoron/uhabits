@@ -29,13 +29,16 @@ import org.isoron.uhabits.acceptance.steps.EditHabitSteps.*
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText
+import org.isoron.uhabits.activities.about.*
+import org.isoron.uhabits.activities.habits.list.*
+import java.lang.Thread.*
 
 @LargeTest
-class SavedStateRegressionTest : BaseUserInterfaceTest() {
+class SavedStateTest : BaseUserInterfaceTest() {
 
     @Test
     @Throws(Exception::class)
-    fun shouldNotCrashWhenRotatingWeekdayPickedDialog() {
+    fun shouldNotCrashWhenRotatingWeekdayPickerDialog() {
         // https://github.com/iSoron/uhabits/issues/534
         launchApp()
         clickMenu(ADD)
@@ -44,5 +47,19 @@ class SavedStateRegressionTest : BaseUserInterfaceTest() {
         unselectAllDays()
         rotateDevice()
         clickText("Monday")
+    }
+
+    /**
+     * Make sure that the main activity can be recreated by using
+     * BundleSavedState after being destroyed. See bug:
+     * https://github.com/iSoron/uhabits/issues/287
+     */
+    @Test
+    @Throws(Exception::class)
+    fun testBundleSavedState() {
+        launchApp()
+        startActivity(AboutActivity::class.java)
+        sleep(1000)
+        device.pressBack()
     }
 }
