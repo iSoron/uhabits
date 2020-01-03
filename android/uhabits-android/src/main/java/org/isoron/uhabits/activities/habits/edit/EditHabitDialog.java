@@ -20,27 +20,42 @@
 package org.isoron.uhabits.activities.habits.edit;
 
 import android.app.Dialog;
-import android.content.*;
-import android.os.*;
-import android.support.annotation.*;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.*;
-import android.text.format.*;
-import android.util.Log;
-import android.view.*;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatDialogFragment;
+import android.text.format.DateFormat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
-import com.android.datetimepicker.time.*;
+import com.android.datetimepicker.time.TimePickerDialog;
 
-import org.isoron.uhabits.*;
+import org.isoron.uhabits.HabitsApplication;
+import org.isoron.uhabits.HabitsApplicationComponent;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.habits.edit.views.*;
-import org.isoron.uhabits.core.commands.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.activities.HabitsActivity;
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialog;
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory;
+import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog;
+import org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel;
+import org.isoron.uhabits.activities.habits.edit.views.NameDescriptionPanel;
+import org.isoron.uhabits.activities.habits.edit.views.ReminderPanel;
+import org.isoron.uhabits.activities.habits.edit.views.TargetPanel;
+import org.isoron.uhabits.core.commands.CommandRunner;
+import org.isoron.uhabits.core.models.Frequency;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.core.models.HabitList;
+import org.isoron.uhabits.core.models.ModelFactory;
+import org.isoron.uhabits.core.models.WeekdayList;
+import org.isoron.uhabits.core.preferences.Preferences;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 

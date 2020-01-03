@@ -19,19 +19,19 @@
 
 package org.isoron.uhabits.activities.common.dialogs;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.*;
+import android.support.v7.app.AppCompatDialogFragment;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.models.WeekdayList;
+import org.isoron.uhabits.core.utils.DateUtils;
 
-import java.util.*;
+import java.util.Calendar;
 
 /**
  * Dialog that allows the user to pick one or more days of the week.
