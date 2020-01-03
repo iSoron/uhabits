@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.acceptance.steps;
 
-import android.os.*;
 import android.support.annotation.*;
 import android.support.test.espresso.*;
 import android.support.test.espresso.contrib.*;
@@ -27,11 +26,9 @@ import android.support.test.uiautomator.*;
 import android.support.v7.widget.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.os.Build.VERSION.*;
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.PositionAssertions.*;

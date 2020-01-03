@@ -115,4 +115,10 @@ public class BaseUserInterfaceTest
         h4.setColor(2);
         habitList.update(h4);
     }
+
+    protected void rotateDevice() throws Exception
+    {
+        device.setOrientationLeft();
+        device.setOrientationNatural();
+    }
 }
