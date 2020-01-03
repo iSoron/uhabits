@@ -23,8 +23,10 @@ import android.app.Dialog;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.*;
 import android.text.format.*;
+import android.util.Log;
 import android.view.*;
 
 import com.android.datetimepicker.time.*;
@@ -47,6 +49,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
     public static final String BUNDLE_HABIT_ID = "habitId";
 
     public static final String BUNDLE_HABIT_TYPE = "habitType";
+    public static final String EDIT_HABIT_TAG = "editHabit";
+    private static final String WEEKDAY_PICKER_TAG = "weekdayPicker";
 
     protected Habit originalHabit;
 
@@ -108,6 +112,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         populateForm();
         setupReminderController();
         setupNameController();
+
+        restoreChildFragmentListeners();
 
         return view;
     }
@@ -268,8 +274,21 @@ public class EditHabitDialog extends AppCompatDialogFragment
                 WeekdayPickerDialog dialog = new WeekdayPickerDialog();
                 dialog.setListener(reminderPanel);
                 dialog.setSelectedDays(currentDays);
-                dialog.show(getFragmentManager(), "weekdayPicker");
+                dialog.show(getChildFragmentManager(), WEEKDAY_PICKER_TAG);
             }
         });
+    }
+
+    /**
+     * Used to restore any child fragment listeners on rotation/config change.
+     *
+     * Can possibly be refactored to use ViewModel/
+     */
+    private void restoreChildFragmentListeners() {
+        final WeekdayPickerDialog weekdayPickerDialog =
+                (WeekdayPickerDialog) getChildFragmentManager().findFragmentByTag(WEEKDAY_PICKER_TAG);
+        if(weekdayPickerDialog != null) {
+            weekdayPickerDialog.setListener(reminderPanel);
+        }
     }
 }

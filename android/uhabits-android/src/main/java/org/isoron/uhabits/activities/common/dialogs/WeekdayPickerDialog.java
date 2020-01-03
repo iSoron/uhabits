@@ -22,6 +22,8 @@ package org.isoron.uhabits.activities.common.dialogs;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.*;
 
@@ -38,6 +40,7 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
                                                                  DialogInterface.OnMultiChoiceClickListener,
                                                                  DialogInterface.OnClickListener
 {
+    private static final String KEY_SELECTED_DAYS = "selectedDays";
     private boolean[] selectedDays;
 
     private OnWeekdaysPickedListener listener;
@@ -46,6 +49,21 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
     public void onClick(DialogInterface dialog, int which, boolean isChecked)
     {
         selectedDays[which] = isChecked;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null){
+            selectedDays = savedInstanceState.getBooleanArray(KEY_SELECTED_DAYS);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBooleanArray(KEY_SELECTED_DAYS, selectedDays);
     }
 
     @Override
