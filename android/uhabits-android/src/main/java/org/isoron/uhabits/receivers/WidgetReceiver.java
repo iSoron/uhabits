@@ -38,33 +38,37 @@ import dagger.*;
 public class WidgetReceiver extends BroadcastReceiver
 {
     public static final String ACTION_ADD_REPETITION =
-        "org.isoron.uhabits.ACTION_ADD_REPETITION";
+            "org.isoron.uhabits.ACTION_ADD_REPETITION";
 
     public static final String ACTION_DISMISS_REMINDER =
-        "org.isoron.uhabits.ACTION_DISMISS_REMINDER";
+            "org.isoron.uhabits.ACTION_DISMISS_REMINDER";
 
     public static final String ACTION_REMOVE_REPETITION =
-        "org.isoron.uhabits.ACTION_REMOVE_REPETITION";
+            "org.isoron.uhabits.ACTION_REMOVE_REPETITION";
 
     public static final String ACTION_TOGGLE_REPETITION =
-        "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
+            "org.isoron.uhabits.ACTION_TOGGLE_REPETITION";
+
+    private static final String TAG = "WidgetReceiver";
 
     @Override
     public void onReceive(final Context context, Intent intent)
     {
         HabitsApplication app =
-            (HabitsApplication) context.getApplicationContext();
+                (HabitsApplication) context.getApplicationContext();
 
         WidgetComponent component = DaggerWidgetReceiver_WidgetComponent
-            .builder()
-            .habitsApplicationComponent(app.getComponent())
-            .build();
+                .builder()
+                .habitsApplicationComponent(app.getComponent())
+                .build();
 
         IntentParser parser = app.getComponent().getIntentParser();
         WidgetBehavior controller = component.getWidgetController();
         Preferences prefs = app.getComponent().getPreferences();
 
-        if(prefs.isSyncEnabled())
+        Log.i(TAG, String.format("Received intent: %s", intent.toString()));
+
+        if (prefs.isSyncEnabled())
             context.startService(new Intent(context, SyncService.class));
 
         try
@@ -75,18 +79,30 @@ public class WidgetReceiver extends BroadcastReceiver
             switch (intent.getAction())
             {
                 case ACTION_ADD_REPETITION:
+                    Log.d(TAG, String.format(
+                            "onAddRepetition habit=%d timestamp=%d",
+                            data.getHabit().getId(),
+                            data.getTimestamp().getUnixTime()));
                     controller.onAddRepetition(data.getHabit(),
-                        data.getTimestamp());
+                            data.getTimestamp());
                     break;
 
                 case ACTION_TOGGLE_REPETITION:
+                    Log.d(TAG, String.format(
+                            "onToggleRepetition habit=%d timestamp=%d",
+                            data.getHabit().getId(),
+                            data.getTimestamp().getUnixTime()));
                     controller.onToggleRepetition(data.getHabit(),
-                        data.getTimestamp());
+                            data.getTimestamp());
                     break;
 
                 case ACTION_REMOVE_REPETITION:
+                    Log.d(TAG, String.format(
+                            "onRemoveRepetition habit=%d timestamp=%d",
+                            data.getHabit().getId(),
+                            data.getTimestamp().getUnixTime()));
                     controller.onRemoveRepetition(data.getHabit(),
-                        data.getTimestamp());
+                            data.getTimestamp());
                     break;
             }
         }
