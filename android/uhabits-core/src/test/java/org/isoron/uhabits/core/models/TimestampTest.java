@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.models;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
+import org.mockito.internal.verification.*;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.*;
@@ -64,5 +65,10 @@ public class TimestampTest extends BaseUnitTest
         assertThat(t.daysUntil(t.minus(300)), equalTo(-300));
     }
 
-
+    @Test
+    public void testInexact() throws Exception
+    {
+        Timestamp t = new Timestamp(1578054764000L);
+        assertThat(t.getUnixTime(), equalTo(1578009600000L));
+    }
 }
