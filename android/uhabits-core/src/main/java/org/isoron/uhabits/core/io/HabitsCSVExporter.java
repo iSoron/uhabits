@@ -248,8 +248,8 @@ public class HabitsCSVExporter
                 continue;
             Timestamp currOld = h.getRepetitions().getOldest().getTimestamp();
             Timestamp currNew = h.getRepetitions().getNewest().getTimestamp();
-            oldest = currOld.isOlderThan(oldest) ? oldest : currOld;
-            newest = currNew.isNewerThan(newest) ? newest : currNew;
+            oldest = currOld.isOlderThan(oldest) ? currOld : oldest;
+            newest = currNew.isNewerThan(newest) ? currNew : newest;
         }
         return new Timestamp[]{oldest, newest};
     }
