@@ -58,6 +58,28 @@ public class EditHabitSteps
         typeTextWithId(R.id.tvDescription, name);
     }
 
+    public static void setReminder()
+    {
+        onView(withId(R.id.tvReminderTime)).perform(click());
+        onView(withId(R.id.done_button)).perform(click());
+    }
+
+    public static void clickReminderDays()
+    {
+        onView(withId(R.id.tvReminderDays)).perform(click());
+    }
+
+    public static void unselectAllDays()
+    {
+        onView(withText("Saturday")).perform(click());
+        onView(withText("Sunday")).perform(click());
+        onView(withText("Monday")).perform(click());
+        onView(withText("Tuesday")).perform(click());
+        onView(withText("Wednesday")).perform(click());
+        onView(withText("Thursday")).perform(click());
+        onView(withText("Friday")).perform(click());
+    }
+
     private static void typeTextWithId(int id, String name)
     {
         onView(withId(id)).perform(clearText(), typeText(name), closeSoftKeyboard());
