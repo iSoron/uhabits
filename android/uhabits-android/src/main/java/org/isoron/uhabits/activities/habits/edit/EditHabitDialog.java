@@ -64,7 +64,6 @@ public class EditHabitDialog extends AppCompatDialogFragment
     public static final String BUNDLE_HABIT_ID = "habitId";
 
     public static final String BUNDLE_HABIT_TYPE = "habitType";
-    public static final String EDIT_HABIT_TAG = "editHabit";
     private static final String WEEKDAY_PICKER_TAG = "weekdayPicker";
 
     protected Habit originalHabit;
