@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.edit;
 
-import android.app.Dialog;
+import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
@@ -27,7 +27,7 @@ import android.support.v7.app.*;
 import android.text.format.*;
 import android.view.*;
 
-import com.android.datetimepicker.time.*;
+import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
@@ -40,13 +40,15 @@ import org.isoron.uhabits.core.preferences.*;
 
 import butterknife.*;
 
-import static android.view.View.GONE;
+import static android.view.View.*;
 
 public class EditHabitDialog extends AppCompatDialogFragment
 {
     public static final String BUNDLE_HABIT_ID = "habitId";
 
     public static final String BUNDLE_HABIT_TYPE = "habitType";
+
+    private static final String WEEKDAY_PICKER_TAG = "weekdayPicker";
 
     protected Habit originalHabit;
 
@@ -108,6 +110,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         populateForm();
         setupReminderController();
         setupNameController();
+
+        restoreChildFragmentListeners();
 
         return view;
     }
@@ -268,8 +272,16 @@ public class EditHabitDialog extends AppCompatDialogFragment
                 WeekdayPickerDialog dialog = new WeekdayPickerDialog();
                 dialog.setListener(reminderPanel);
                 dialog.setSelectedDays(currentDays);
-                dialog.show(getFragmentManager(), "weekdayPicker");
+                dialog.show(getChildFragmentManager(), WEEKDAY_PICKER_TAG);
             }
         });
+    }
+
+    private void restoreChildFragmentListeners()
+    {
+        final WeekdayPickerDialog dialog =
+                (WeekdayPickerDialog) getChildFragmentManager()
+                        .findFragmentByTag(WEEKDAY_PICKER_TAG);
+        if(dialog != null) dialog.setListener(reminderPanel);
     }
 }
