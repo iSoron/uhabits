@@ -47,6 +47,7 @@ public class HabitCardListCache implements CommandRunner.Listener
 {
     private int checkmarkCount;
 
+    @Nullable
     private Task currentFetchTask;
 
     @NonNull
@@ -56,13 +57,15 @@ public class HabitCardListCache implements CommandRunner.Listener
     private CacheData data;
 
     @NonNull
-    private HabitList allHabits;
+    private final HabitList allHabits;
 
     @NonNull
     private HabitList filteredHabits;
 
+    @NonNull
     private final TaskRunner taskRunner;
 
+    @NonNull
     private final CommandRunner commandRunner;
 
     @Inject
@@ -70,21 +73,27 @@ public class HabitCardListCache implements CommandRunner.Listener
                               @NonNull CommandRunner commandRunner,
                               @NonNull TaskRunner taskRunner)
     {
+        if (allHabits == null) throw new NullPointerException();
+        if (commandRunner == null) throw new NullPointerException();
+        if (taskRunner == null) throw new NullPointerException();
+
         this.allHabits = allHabits;
         this.commandRunner = commandRunner;
         this.filteredHabits = allHabits;
         this.taskRunner = taskRunner;
 
-        this.listener = new Listener() {};
+        this.listener = new Listener()
+        {
+        };
         data = new CacheData();
     }
 
-    public void cancelTasks()
+    public synchronized void cancelTasks()
     {
         if (currentFetchTask != null) currentFetchTask.cancel();
     }
 
-    public int[] getCheckmarks(long habitId)
+    public synchronized int[] getCheckmarks(long habitId)
     {
         return data.checkmarks.get(habitId);
     }
@@ -98,57 +107,57 @@ public class HabitCardListCache implements CommandRunner.Listener
     @Nullable
     public synchronized Habit getHabitByPosition(int position)
     {
-        if(position < 0 || position >= data.habits.size()) return null;
+        if (position < 0 || position >= data.habits.size()) return null;
         return data.habits.get(position);
     }
 
-    public int getHabitCount()
+    public synchronized int getHabitCount()
     {
         return data.habits.size();
     }
 
-    public HabitList.Order getOrder()
+    public synchronized HabitList.Order getOrder()
     {
         return filteredHabits.getOrder();
     }
 
-    public double getScore(long habitId)
+    public synchronized double getScore(long habitId)
     {
         return data.scores.get(habitId);
     }
 
-    public void onAttached()
+    public synchronized void onAttached()
     {
         refreshAllHabits();
         commandRunner.addListener(this);
     }
 
     @Override
-    public void onCommandExecuted(@NonNull Command command,
-                                  @Nullable Long refreshKey)
+    public synchronized void onCommandExecuted(@Nullable Command command,
+                                               @Nullable Long refreshKey)
     {
         if (refreshKey == null) refreshAllHabits();
         else refreshHabit(refreshKey);
     }
 
-    public void onDetached()
+    public synchronized void onDetached()
     {
         commandRunner.removeListener(this);
     }
 
-    public void refreshAllHabits()
+    public synchronized void refreshAllHabits()
     {
         if (currentFetchTask != null) currentFetchTask.cancel();
         currentFetchTask = new RefreshTask();
         taskRunner.execute(currentFetchTask);
     }
 
-    public void refreshHabit(long id)
+    public synchronized void refreshHabit(long id)
     {
         taskRunner.execute(new RefreshTask(id));
     }
 
-    public void remove(@NonNull Long id)
+    public synchronized void remove(long id)
     {
         Habit h = data.id_to_habit.get(id);
         if (h == null) return;
@@ -162,7 +171,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         listener.onItemRemoved(position);
     }
 
-    public void reorder(int from, int to)
+    public synchronized void reorder(int from, int to)
     {
         Habit fromHabit = data.habits.get(from);
         data.habits.remove(from);
@@ -170,23 +179,26 @@ public class HabitCardListCache implements CommandRunner.Listener
         listener.onItemMoved(from, to);
     }
 
-    public void setCheckmarkCount(int checkmarkCount)
+    public synchronized void setCheckmarkCount(int checkmarkCount)
     {
         this.checkmarkCount = checkmarkCount;
     }
 
-    public void setFilter(HabitMatcher matcher)
+    public synchronized void setFilter(@NonNull HabitMatcher matcher)
     {
+        if (matcher == null) throw new NullPointerException();
         filteredHabits = allHabits.getFiltered(matcher);
     }
 
-    public void setListener(@NonNull Listener listener)
+    public synchronized void setListener(@NonNull Listener listener)
     {
+        if (listener == null) throw new NullPointerException();
         this.listener = listener;
     }
 
-    public void setOrder(HabitList.Order order)
+    public synchronized void setOrder(@NonNull HabitList.Order order)
     {
+        if (order == null) throw new NullPointerException();
         allHabits.setOrder(order);
         filteredHabits.setOrder(order);
         refreshAllHabits();
@@ -198,30 +210,40 @@ public class HabitCardListCache implements CommandRunner.Listener
      */
     public interface Listener
     {
-        default void onItemChanged(int position) {}
+        default void onItemChanged(int position)
+        {
+        }
 
-        default void onItemInserted(int position) {}
+        default void onItemInserted(int position)
+        {
+        }
 
-        default void onItemMoved(int oldPosition, int newPosition) {}
+        default void onItemMoved(int oldPosition, int newPosition)
+        {
+        }
 
-        default void onItemRemoved(int position) {}
+        default void onItemRemoved(int position)
+        {
+        }
 
-        default void onRefreshFinished() {}
+        default void onRefreshFinished()
+        {
+        }
     }
 
     private class CacheData
     {
         @NonNull
-        public HashMap<Long, Habit> id_to_habit;
+        public final HashMap<Long, Habit> id_to_habit;
 
         @NonNull
-        public List<Habit> habits;
+        public final List<Habit> habits;
 
         @NonNull
-        public HashMap<Long, int[]> checkmarks;
+        public final HashMap<Long, int[]> checkmarks;
 
         @NonNull
-        public HashMap<Long, Double> scores;
+        public final HashMap<Long, Double> scores;
 
         /**
          * Creates a new CacheData without any content.
@@ -234,8 +256,10 @@ public class HabitCardListCache implements CommandRunner.Listener
             scores = new HashMap<>();
         }
 
-        public void copyCheckmarksFrom(@NonNull CacheData oldData)
+        public synchronized void copyCheckmarksFrom(@NonNull CacheData oldData)
         {
+            if (oldData == null) throw new NullPointerException();
+
             int[] empty = new int[checkmarkCount];
 
             for (Long id : id_to_habit.keySet())
@@ -246,8 +270,10 @@ public class HabitCardListCache implements CommandRunner.Listener
             }
         }
 
-        public void copyScoresFrom(@NonNull CacheData oldData)
+        public synchronized void copyScoresFrom(@NonNull CacheData oldData)
         {
+            if (oldData == null) throw new NullPointerException();
+
             for (Long id : id_to_habit.keySet())
             {
                 if (oldData.scores.containsKey(id))
@@ -256,10 +282,11 @@ public class HabitCardListCache implements CommandRunner.Listener
             }
         }
 
-        public void fetchHabits()
+        public synchronized void fetchHabits()
         {
             for (Habit h : filteredHabits)
             {
+                if (h.getId() == null) continue;
                 habits.add(h);
                 id_to_habit.put(h.getId(), h);
             }
@@ -269,13 +296,14 @@ public class HabitCardListCache implements CommandRunner.Listener
     private class RefreshTask implements Task
     {
         @NonNull
-        private CacheData newData;
+        private final CacheData newData;
 
         @Nullable
-        private Long targetId;
+        private final Long targetId;
 
         private boolean isCancelled;
 
+        @Nullable
         private TaskRunner runner;
 
         public RefreshTask()
@@ -292,13 +320,13 @@ public class HabitCardListCache implements CommandRunner.Listener
         }
 
         @Override
-        public void cancel()
+        public synchronized void cancel()
         {
             isCancelled = true;
         }
 
         @Override
-        public void doInBackground()
+        public synchronized void doInBackground()
         {
             newData.fetchHabits();
             newData.copyScoresFrom(data);
@@ -307,7 +335,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             Timestamp dateTo = DateUtils.getToday();
             Timestamp dateFrom = dateTo.minus(checkmarkCount - 1);
 
-            runner.publishProgress(this, -1);
+            if (runner != null) runner.publishProgress(this, -1);
 
             for (int position = 0; position < newData.habits.size(); position++)
             {
@@ -318,35 +346,36 @@ public class HabitCardListCache implements CommandRunner.Listener
                 if (targetId != null && !targetId.equals(id)) continue;
 
                 newData.scores.put(id, habit.getScores().getTodayValue());
-                newData.checkmarks.put(id, habit
-                    .getCheckmarks()
-                    .getValues(dateFrom, dateTo));
+                newData.checkmarks.put(
+                        id,
+                        habit.getCheckmarks().getValues(dateFrom, dateTo));
 
                 runner.publishProgress(this, position);
             }
         }
 
         @Override
-        public void onAttached(@NonNull TaskRunner runner)
+        public synchronized void onAttached(@NonNull TaskRunner runner)
         {
+            if (runner == null) throw new NullPointerException();
             this.runner = runner;
         }
 
         @Override
-        public void onPostExecute()
+        public synchronized void onPostExecute()
         {
             currentFetchTask = null;
             listener.onRefreshFinished();
         }
 
         @Override
-        public void onProgressUpdate(int currentPosition)
+        public synchronized void onProgressUpdate(int currentPosition)
         {
             if (currentPosition < 0) processRemovedHabits();
             else processPosition(currentPosition);
         }
 
-        private void performInsert(Habit habit, int position)
+        private synchronized void performInsert(Habit habit, int position)
         {
             Long id = habit.getId();
             data.habits.add(position, habit);
@@ -356,14 +385,17 @@ public class HabitCardListCache implements CommandRunner.Listener
             listener.onItemInserted(position);
         }
 
-        private void performMove(Habit habit, int fromPosition, int toPosition)
+        private synchronized void performMove(@NonNull Habit habit,
+                                              int fromPosition,
+                                              int toPosition)
         {
+            if(habit == null) throw new NullPointerException();
             data.habits.remove(fromPosition);
             data.habits.add(toPosition, habit);
             listener.onItemMoved(fromPosition, toPosition);
         }
 
-        private void performUpdate(Long id, int position)
+        private synchronized void performUpdate(long id, int position)
         {
             double oldScore = data.scores.get(id);
             int[] oldCheckmarks = data.checkmarks.get(id);
@@ -381,7 +413,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             listener.onItemChanged(position);
         }
 
-        private void processPosition(int currentPosition)
+        private synchronized void processPosition(int currentPosition)
         {
             Habit habit = newData.habits.get(currentPosition);
             Long id = habit.getId();
@@ -401,7 +433,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             }
         }
 
-        private void processRemovedHabits()
+        private synchronized void processRemovedHabits()
         {
             Set<Long> before = data.id_to_habit.keySet();
             Set<Long> after = newData.id_to_habit.keySet();
