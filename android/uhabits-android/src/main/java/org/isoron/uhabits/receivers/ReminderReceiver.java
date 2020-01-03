@@ -77,7 +77,6 @@ public class ReminderReceiver extends BroadcastReceiver
                 case ACTION_SHOW_REMINDER:
                     if (habit == null) return;
                     Log.d("ReminderReceiver", String.format(
-                            Locale.US,
                             "onShowReminder habit=%d timestamp=%d reminderTime=%d",
                             habit.id,
                             timestamp,
@@ -88,15 +87,18 @@ public class ReminderReceiver extends BroadcastReceiver
 
                 case ACTION_DISMISS_REMINDER:
                     if (habit == null) return;
+                    Log.d("ReminderReceiver", String.format("onDismiss habit=%d", habit.id));
                     reminderController.onDismiss(habit);
                     break;
 
                 case ACTION_SNOOZE_REMINDER:
                     if (habit == null) return;
+                    Log.d("ReminderReceiver", String.format("onSnoozePressed habit=%d", habit.id));
                     reminderController.onSnoozePressed(habit, context);
                     break;
 
                 case Intent.ACTION_BOOT_COMPLETED:
+                    Log.d("ReminderReceiver", "onBootCompleted");
                     reminderController.onBootCompleted();
                     break;
             }
