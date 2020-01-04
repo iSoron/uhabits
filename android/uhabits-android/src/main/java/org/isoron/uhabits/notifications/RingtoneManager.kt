@@ -37,17 +37,17 @@ class RingtoneManager
             PreferenceManager.getDefaultSharedPreferences(context)
 
     fun getName(): String? {
-        try {
+        return try {
             var ringtoneName = context.resources.getString(R.string.none)
             val ringtoneUri = getURI()
             if (ringtoneUri != null) {
                 val ringtone = getRingtone(context, ringtoneUri)
                 if (ringtone != null) ringtoneName = ringtone.getTitle(context)
             }
-            return ringtoneName
+            ringtoneName
         } catch (e: RuntimeException) {
             e.printStackTrace()
-            return null
+            null
         }
     }
 

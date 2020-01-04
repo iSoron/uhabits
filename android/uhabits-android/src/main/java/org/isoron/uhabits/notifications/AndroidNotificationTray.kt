@@ -86,10 +86,10 @@ class AndroidNotificationTray
         active.add(notificationId)
     }
 
-    fun buildNotification(habit: Habit,
-                          reminderTime: Long,
-                          timestamp: Timestamp,
-                          disableSound: Boolean = false): Notification {
+    private fun buildNotification(habit: Habit,
+                                  reminderTime: Long,
+                                  timestamp: Timestamp,
+                                  disableSound: Boolean = false): Notification {
 
         val addRepetitionAction = Action(
                 R.drawable.ic_action_check,
@@ -112,7 +112,7 @@ class AndroidNotificationTray
                 .addAction(removeRepetitionAction)
 
         val defaultText = context.getString(R.string.default_reminder_question)
-        val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
+        val builder = Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
                 .setContentText(if(habit.description.isBlank()) defaultText else habit.description)
@@ -144,7 +144,7 @@ class AndroidNotificationTray
 
     private fun buildSummary(habit: Habit,
                              reminderTime: Long): Notification {
-        return NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
+        return Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setWhen(reminderTime)

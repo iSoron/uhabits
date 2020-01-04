@@ -89,7 +89,7 @@ public class ReminderPanel extends FrameLayout
         tvReminderTime.setText(time);
         llReminderDays.setVisibility(View.VISIBLE);
 
-        boolean weekdays[] = reminder.getDays().toArray();
+        boolean[] weekdays = reminder.getDays().toArray();
         tvReminderDays.setText(AndroidDateUtils.formatWeekdayList(ctx, weekdays));
     }
 

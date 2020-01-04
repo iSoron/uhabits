@@ -88,7 +88,7 @@ class HabitPickerDialog : Activity() {
         }
     }
 
-    fun confirm(selectedIds: List<Long>) {
+    private fun confirm(selectedIds: List<Long>) {
         widgetPreferences.addWidget(widgetId, selectedIds.toLongArray())
         widgetUpdater.updateWidgets()
         setResult(RESULT_OK, Intent().apply {

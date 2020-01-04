@@ -62,13 +62,13 @@ public class HabitBullCSVImporter extends AbstractImporter
         CSVReader reader = new CSVReader(new FileReader(file));
         HashMap<String, Habit> map = new HashMap<>();
 
-        for (String line[] : reader)
+        for (String[] line : reader)
         {
             String name = line[0];
             if (name.equals("HabitName")) continue;
 
             String description = line[1];
-            String dateString[] = line[3].split("-");
+            String[] dateString = line[3].split("-");
             int year = Integer.parseInt(dateString[0]);
             int month = Integer.parseInt(dateString[1]);
             int day = Integer.parseInt(dateString[2]);

@@ -48,11 +48,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     @NonNull
     private Controller controller;
 
-    private HabitList habitList;
-
     private TaskRunner taskRunner;
-
-    private Preferences prefs;
 
     public HistoryEditorDialog()
     {
@@ -73,9 +69,9 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
         HabitsApplication app =
             (HabitsApplication) getActivity().getApplicationContext();
-        habitList = app.getComponent().getHabitList();
+        HabitList habitList = app.getComponent().getHabitList();
         taskRunner = app.getComponent().getTaskRunner();
-        prefs = app.getComponent().getPreferences();
+        Preferences prefs = app.getComponent().getPreferences();
 
         historyChart = new HistoryChart(context);
         historyChart.setController(controller);

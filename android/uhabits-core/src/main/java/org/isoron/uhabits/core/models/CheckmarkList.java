@@ -234,7 +234,7 @@ public abstract class CheckmarkList
         if (from.isNewerThan(to)) return new int[0];
 
         List<Checkmark> checkmarks = getByInterval(from, to);
-        int values[] = new int[checkmarks.size()];
+        int[] values = new int[checkmarks.size()];
 
         int i = 0;
         for (Checkmark c : checkmarks)
@@ -260,7 +260,7 @@ public abstract class CheckmarkList
      */
     public final void writeCSV(Writer out) throws IOException
     {
-        int values[];
+        int[] values;
 
         synchronized (this)
         {
@@ -295,10 +295,10 @@ public abstract class CheckmarkList
         if (oldestRep == null) return;
         final Timestamp from = oldestRep.getTimestamp();
 
-        Repetition reps[] = habit
-            .getRepetitions()
-            .getByInterval(from, today)
-            .toArray(new Repetition[0]);
+        Repetition[] reps = habit
+                .getRepetitions()
+                .getByInterval(from, today)
+                .toArray(new Repetition[0]);
 
         if (habit.isNumerical()) computeNumerical(reps);
         else computeYesNo(reps);
@@ -417,8 +417,8 @@ public abstract class CheckmarkList
         List<Checkmark> checks = getAll();
 
         int count = 0;
-        Timestamp truncatedTimestamps[] = new Timestamp[checks.size()];
-        int values[] = new int[checks.size()];
+        Timestamp[] truncatedTimestamps = new Timestamp[checks.size()];
+        int[] values = new int[checks.size()];
 
         for (Checkmark rep : checks)
         {

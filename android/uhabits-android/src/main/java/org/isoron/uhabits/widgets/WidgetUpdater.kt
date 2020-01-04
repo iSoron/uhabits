@@ -60,7 +60,7 @@ class WidgetUpdater
         commandRunner.removeListener(this)
     }
 
-    fun updateWidgets(modifiedHabitId: Long?) {
+    private fun updateWidgets(modifiedHabitId: Long?) {
         taskRunner.execute {
             updateWidgets(modifiedHabitId, CheckmarkWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, HistoryWidgetProvider::class.java)

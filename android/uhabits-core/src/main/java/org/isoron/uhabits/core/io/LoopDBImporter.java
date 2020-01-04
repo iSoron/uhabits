@@ -84,9 +84,7 @@ public class LoopDBImporter extends AbstractImporter
     }
 
     @Override
-    public synchronized void importHabitsFromFile(@NonNull File file)
-        throws IOException
-    {
+    public synchronized void importHabitsFromFile(@NonNull File file) {
         Database db = opener.open(file);
         MigrationHelper helper = new MigrationHelper(db);
         helper.migrateTo(DATABASE_VERSION);

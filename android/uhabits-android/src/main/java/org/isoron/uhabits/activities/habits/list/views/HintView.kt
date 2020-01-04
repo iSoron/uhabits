@@ -35,7 +35,7 @@ class HintView(
         private val hintList: HintList
 ) : LinearLayout(context) {
 
-    val hintContent: TextView
+    private val hintContent: TextView
 
     init {
         isClickable = true
@@ -84,7 +84,7 @@ class HintView(
     }
 
     private inner class DismissAnimator : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: android.animation.Animator) {
+        override fun onAnimationEnd(animation: Animator) {
             visibility = View.GONE
         }
     }

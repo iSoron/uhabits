@@ -21,10 +21,10 @@ package org.isoron.uhabits.activities.habits.edit.views;
 
 import android.content.*;
 import android.support.annotation.*;
+import android.support.v7.widget.*;
 import android.text.*;
 import android.util.*;
 import android.view.*;
-import android.widget.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -35,7 +35,7 @@ import static org.isoron.uhabits.utils.AttributeSetUtils.*;
  * An EditText that shows an example usage when there is no text
  * currently set. The example disappears when the widget gains focus.
  */
-public class ExampleEditText extends EditText
+public class ExampleEditText extends AppCompatEditText
     implements View.OnFocusChangeListener
 {
 

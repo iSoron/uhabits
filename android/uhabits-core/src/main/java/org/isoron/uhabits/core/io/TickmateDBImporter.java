@@ -67,8 +67,7 @@ public class TickmateDBImporter extends AbstractImporter
     }
 
     @Override
-    public void importHabitsFromFile(@NonNull File file) throws IOException
-    {
+    public void importHabitsFromFile(@NonNull File file) {
         final Database db = opener.open(file);
         db.beginTransaction();
         createHabits(db);
@@ -111,16 +110,12 @@ public class TickmateDBImporter extends AbstractImporter
 
     private void createHabits(Database db)
     {
-        Cursor c = null;
 
-        try
-        {
-            c = db.query("select _id, name, description from tracks",
-                new String[0]);
+        try (Cursor c = db.query("select _id, name, description from tracks"
+        )) {
             if (!c.moveToNext()) return;
 
-            do
-            {
+            do {
                 int id = c.getInt(0);
                 String name = c.getString(1);
                 String description = c.getString(2);
@@ -134,10 +129,6 @@ public class TickmateDBImporter extends AbstractImporter
                 createCheckmarks(db, habit, id);
 
             } while (c.moveToNext());
-        }
-        finally
-        {
-            if (c != null) c.close();
         }
     }
 }

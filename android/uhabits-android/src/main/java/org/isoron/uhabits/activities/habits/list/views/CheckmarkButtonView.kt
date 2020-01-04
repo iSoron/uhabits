@@ -60,7 +60,7 @@ class CheckmarkButtonView(
         setOnLongClickListener(this)
     }
 
-    fun performToggle() {
+    private fun performToggle() {
         onToggle()
         value = when (value) {
             CHECKED_EXPLICITLY -> UNCHECKED

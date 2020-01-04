@@ -86,11 +86,9 @@ public class SQLParser {
 
     public static List<String> parse(final InputStream stream) throws IOException {
 
-        final BufferedInputStream buffer = new BufferedInputStream(stream);
-        final List<String> commands = new ArrayList<String>();
-        final StringBuffer sb = new StringBuffer();
-
-        try {
+        try (BufferedInputStream buffer = new BufferedInputStream(stream)) {
+            final List<String> commands = new ArrayList<>();
+            final StringBuilder sb = new StringBuilder();
             final Tokenizer tokenizer = new Tokenizer(buffer);
             int state = STATE_NONE;
 
@@ -141,16 +139,14 @@ public class SQLParser {
                     }
                 }
             }
+            if (sb.length() > 0) {
+                commands.add(sb.toString().trim());
+            }
 
-        } finally {
-            buffer.close();
+            return commands;
         }
 
-        if (sb.length() > 0) {
-            commands.add(sb.toString().trim());
-        }
 
-        return commands;
     }
 
     private static boolean isNewLine(final char c) {

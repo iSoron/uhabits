@@ -136,8 +136,8 @@ public class Repository<T>
     {
         try
         {
-            Field fields[] = getFields();
-            String columns[] = getColumnNames();
+            Field[] fields = getFields();
+            String[] columns = getColumnNames();
 
             Map<String, Object> values = new HashMap<>();
             for (int i = 0; i < fields.length; i++)
@@ -322,7 +322,7 @@ public class Repository<T>
     {
         if (cacheIdField == null)
         {
-            Field fields[] = getFields();
+            Field[] fields = getFields();
             String idName = getIdName();
             for (Field f : fields)
                 if (f.getName().equals(idName))

@@ -27,19 +27,19 @@ import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.activities.habits.show.*
-import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 
 @ActivityScope
-@Component(modules = arrayOf(
-        ActivityContextModule::class,
-        BaseActivityModule::class,
-        AboutModule::class,
-        HabitsActivityModule::class,
-        ListHabitsModule::class,
-        ShowHabitModule::class,
-        HabitModule::class
-), dependencies = arrayOf(HabitsApplicationComponent::class))
+@Component(modules = [
+    ActivityContextModule::class,
+    BaseActivityModule::class,
+    AboutModule::class,
+    HabitsActivityModule::class,
+    ListHabitsModule::class,
+    ShowHabitModule::class,
+    HabitModule::class
+], dependencies = [HabitsApplicationComponent::class])
+
 interface HabitsActivityComponent {
     val aboutRootView: AboutRootView
     val aboutScreen: AboutScreen

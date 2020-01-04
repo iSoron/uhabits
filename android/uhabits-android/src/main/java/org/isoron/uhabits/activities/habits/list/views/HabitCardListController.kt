@@ -38,12 +38,12 @@ class HabitCardListController @Inject constructor(
         private val selectionMenu: Lazy<ListHabitsSelectionMenu>
 ) : HabitCardListView.Controller, ModelObservable.Listener {
 
-    private val NORMAL_MODE = NormalMode()
-    private val SELECTION_MODE = SelectionMode()
+    private val normalMode = NormalMode()
+    private val selectionMode = SelectionMode()
     private var activeMode: Mode
 
     init {
-        this.activeMode = NORMAL_MODE
+        this.activeMode = normalMode
         adapter.observable.addListener(this)
     }
 
@@ -59,12 +59,12 @@ class HabitCardListController @Inject constructor(
         behavior.onReorderHabit(habitFrom, habitTo)
     }
 
-    override fun onItemClick(position: Int) {
-        activeMode.onItemClick(position)
+    override fun onItemClick(pos: Int) {
+        activeMode.onItemClick(pos)
     }
 
-    override fun onItemLongClick(position: Int) {
-        activeMode.onItemLongClick(position)
+    override fun onItemLongClick(pos: Int) {
+        activeMode.onItemLongClick(pos)
     }
 
     override fun onModelChange() {
@@ -82,9 +82,9 @@ class HabitCardListController @Inject constructor(
         activeMode.startDrag(position)
     }
 
-    protected fun toggleSelection(position: Int) {
+    private fun toggleSelection(position: Int) {
         adapter.toggleSelection(position)
-        activeMode = if (adapter.isSelectionEmpty) NORMAL_MODE else SELECTION_MODE
+        activeMode = if (adapter.isSelectionEmpty) normalMode else selectionMode
     }
 
     private fun cancelSelection() {
@@ -115,8 +115,7 @@ class HabitCardListController @Inject constructor(
      */
     internal inner class NormalMode : Mode {
         override fun onItemClick(position: Int) {
-            val habit = adapter.getItem(position)
-            if (habit == null) return
+            val habit = adapter.getItem(position) ?: return
             behavior.onClickHabit(habit)
         }
 
@@ -129,9 +128,9 @@ class HabitCardListController @Inject constructor(
             startSelection(position)
         }
 
-        protected fun startSelection(position: Int) {
+        private fun startSelection(position: Int) {
             toggleSelection(position)
-            activeMode = SELECTION_MODE
+            activeMode = selectionMode
             selectionMenu.get().onSelectionStart()
         }
     }
@@ -157,8 +156,8 @@ class HabitCardListController @Inject constructor(
             notifyListener()
         }
 
-        protected fun notifyListener() {
-            if (activeMode === SELECTION_MODE)
+        private fun notifyListener() {
+            if (activeMode === selectionMode)
                 selectionMenu.get().onSelectionChange()
             else
                 selectionMenu.get().onSelectionFinish()

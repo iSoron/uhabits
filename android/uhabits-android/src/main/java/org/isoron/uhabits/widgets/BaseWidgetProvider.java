@@ -23,7 +23,6 @@ import android.appwidget.*;
 import android.content.*;
 import android.os.*;
 import android.support.annotation.*;
-import android.util.*;
 import android.widget.*;
 
 import org.isoron.uhabits.*;
@@ -137,7 +136,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     protected List<Habit> getHabitsFromWidgetId(int widgetId)
     {
-        long selectedIds[] = widgetPrefs.getHabitIdsFromWidgetId(widgetId);
+        long[] selectedIds = widgetPrefs.getHabitIdsFromWidgetId(widgetId);
         ArrayList<Habit> selectedHabits = new ArrayList<>(selectedIds.length);
         for (long id : selectedIds)
         {

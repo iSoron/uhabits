@@ -50,7 +50,7 @@ public abstract class FileUtils
     }
 
     @Nullable
-    public static File getDir(@NonNull File potentialParentDirs[],
+    public static File getDir(@NonNull File[] potentialParentDirs,
                               @Nullable String relativePath)
     {
         if (relativePath == null) relativePath = "";
@@ -85,8 +85,8 @@ public abstract class FileUtils
     @Nullable
     public static File getSDCardDir(@Nullable String relativePath)
     {
-        File parents[] =
-            new File[]{ Environment.getExternalStorageDirectory() };
+        File[] parents =
+                new File[]{Environment.getExternalStorageDirectory()};
         return getDir(parents, relativePath);
     }
 }

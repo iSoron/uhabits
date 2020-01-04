@@ -50,7 +50,7 @@ public class EmptyWidgetView extends HabitWidgetView
 
     private void init()
     {
-        title = (TextView) findViewById(R.id.title);
+        title = findViewById(R.id.title);
         title.setVisibility(VISIBLE);
     }
 }

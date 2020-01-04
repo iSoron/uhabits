@@ -36,7 +36,7 @@ import java.util.*
 class HeaderView(
         context: Context,
         val prefs: Preferences,
-        val midnightTimer: MidnightTimer
+        private val midnightTimer: MidnightTimer
 ) : ScrollableChart(context),
     Preferences.Listener,
     MidnightTimer.MidnightListener {

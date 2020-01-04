@@ -50,8 +50,7 @@ abstract class HabitsActivity : BaseActivity() {
 
     private fun getHabitFromIntent(habitList: HabitList): Habit? {
         val data = intent.data ?: return null
-        val habit = habitList.getById(ContentUris.parseId(data))
+        return habitList.getById(ContentUris.parseId(data))
                     ?: throw RuntimeException("habit not found")
-        return habit
     }
 }

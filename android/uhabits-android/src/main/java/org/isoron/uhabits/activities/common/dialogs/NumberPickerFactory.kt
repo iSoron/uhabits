@@ -30,6 +30,7 @@ import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import javax.inject.*
+import kotlin.math.*
 
 class NumberPickerFactory
 @Inject constructor(
@@ -46,7 +47,7 @@ class NumberPickerFactory
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
         val tvUnit = view.findViewById<TextView>(R.id.tvUnit)
 
-        val intValue = Math.round(value * 100).toInt()
+        val intValue = (value * 100).roundToInt()
 
         picker.minValue = 0
         picker.maxValue = Integer.MAX_VALUE / 100

@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
-import android.view.*
 import android.view.Gravity.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
@@ -31,7 +30,7 @@ import org.isoron.uhabits.utils.*
 class EmptyListView(context: Context) : LinearLayout(context) {
     init {
         orientation = VERTICAL
-        gravity = Gravity.CENTER
+        gravity = CENTER
         visibility = BaseRootView.GONE
 
         addView(TextView(context).apply {

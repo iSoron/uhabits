@@ -44,8 +44,8 @@ public class AndroidDirFinder
     @Nullable
     public File getFilesDir(@Nullable String relativePath)
     {
-        File externalFilesDirs[] =
-            ContextCompat.getExternalFilesDirs(context, null);
+        File[] externalFilesDirs =
+                ContextCompat.getExternalFilesDirs(context, null);
         if (externalFilesDirs == null)
         {
             Log.e("BaseSystem",

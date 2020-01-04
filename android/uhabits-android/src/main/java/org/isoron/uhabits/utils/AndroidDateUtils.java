@@ -39,10 +39,10 @@ public class AndroidDateUtils
         return df.format(date);
     }
 
-    public static String formatWeekdayList(Context context, boolean weekday[])
+    public static String formatWeekdayList(Context context, boolean[] weekday)
     {
-        String shortDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getShortWeekdayNames(Calendar.SATURDAY);
-        String longDayNames[] = org.isoron.uhabits.core.utils.DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
+        String[] shortDayNames = org.isoron.uhabits.core.utils.DateUtils.getShortWeekdayNames(Calendar.SATURDAY);
+        String[] longDayNames = org.isoron.uhabits.core.utils.DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
         StringBuilder buffer = new StringBuilder();
 
         int count = 0;

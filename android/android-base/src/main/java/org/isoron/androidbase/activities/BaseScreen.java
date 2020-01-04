@@ -26,7 +26,6 @@ import android.net.*;
 import android.os.*;
 import android.support.annotation.*;
 import android.support.design.widget.*;
-import android.support.v4.content.res.*;
 import android.support.v7.app.*;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
@@ -69,16 +68,8 @@ public class BaseScreen
     @Deprecated
     public static int getDefaultActionBarColor(Context context)
     {
-        if (SDK_INT < LOLLIPOP)
-        {
-            return ResourcesCompat.getColor(context.getResources(),
-                R.color.grey_900, context.getTheme());
-        }
-        else
-        {
-            StyledResources res = new StyledResources(context);
-            return res.getColor(R.attr.colorPrimary);
-        }
+        StyledResources res = new StyledResources(context);
+        return res.getColor(R.attr.colorPrimary);
     }
 
     @Deprecated
@@ -86,7 +77,7 @@ public class BaseScreen
                                            int color)
     {
 
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
         if (toolbar == null) return;
 
         activity.setSupportActionBar(toolbar);
@@ -151,7 +142,6 @@ public class BaseScreen
      * @param resultCode  the result code sent by the other activity.
      * @param data        an Intent containing extra data sent by the other
      *                    activity.
-     * @see {@link android.app.Activity#onActivityResult(int, int, Intent)}
      */
     public void onResult(int requestCode, int resultCode, Intent data)
     {
@@ -215,7 +205,7 @@ public class BaseScreen
         {
             snackbar = Snackbar.make(rootView, stringId, Snackbar.LENGTH_SHORT);
             int tvId = android.support.design.R.id.snackbar_text;
-            TextView tv = (TextView) snackbar.getView().findViewById(tvId);
+            TextView tv = snackbar.getView().findViewById(tvId);
             tv.setTextColor(Color.WHITE);
         }
         else snackbar.setText(stringId);
@@ -270,8 +260,6 @@ public class BaseScreen
 
     private void setStatusBarColor(int baseColor)
     {
-        if (SDK_INT < LOLLIPOP) return;
-
         int darkerColor = ColorUtils.mixColors(baseColor, Color.BLACK, 0.75f);
         activity.getWindow().setStatusBarColor(darkerColor);
     }

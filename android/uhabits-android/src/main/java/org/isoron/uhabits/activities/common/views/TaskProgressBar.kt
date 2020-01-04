@@ -52,10 +52,9 @@ class TaskProgressBar(
         super.onDetachedFromWindow()
     }
 
-    fun update() {
+    private fun update() {
         val callback = {
-            val activeTaskCount = runner.activeTaskCount
-            val newVisibility = when (activeTaskCount) {
+            val newVisibility = when (runner.activeTaskCount) {
                 0 -> GONE
                 else -> VISIBLE
             }

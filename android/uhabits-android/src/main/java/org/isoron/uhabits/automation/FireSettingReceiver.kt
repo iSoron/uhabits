@@ -56,7 +56,7 @@ class FireSettingReceiver : BroadcastReceiver() {
     }
 
     @ReceiverScope
-    @Component(dependencies = arrayOf(HabitsApplicationComponent::class))
+    @Component(dependencies = [HabitsApplicationComponent::class])
     internal interface ReceiverComponent {
         val widgetController: WidgetBehavior
     }

@@ -66,7 +66,7 @@ class AndroidDatabase(private val db: SQLiteDatabase) : Database {
                 is Double -> values.put(key, value)
                 is String -> values.put(key, value)
                 else -> throw IllegalStateException(
-                        "unsupported type: " + value)
+                        "unsupported type: $value")
             }
         }
         return values

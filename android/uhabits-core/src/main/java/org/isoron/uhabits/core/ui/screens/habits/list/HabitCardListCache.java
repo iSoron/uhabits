@@ -234,7 +234,7 @@ public class HabitCardListCache implements CommandRunner.Listener
     private class CacheData
     {
         @NonNull
-        public final HashMap<Long, Habit> id_to_habit;
+        final HashMap<Long, Habit> id_to_habit;
 
         @NonNull
         public final List<Habit> habits;
@@ -248,7 +248,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         /**
          * Creates a new CacheData without any content.
          */
-        public CacheData()
+        CacheData()
         {
             id_to_habit = new HashMap<>();
             habits = new LinkedList<>();
@@ -256,7 +256,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             scores = new HashMap<>();
         }
 
-        public synchronized void copyCheckmarksFrom(@NonNull CacheData oldData)
+        synchronized void copyCheckmarksFrom(@NonNull CacheData oldData)
         {
             if (oldData == null) throw new NullPointerException();
 
@@ -270,7 +270,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             }
         }
 
-        public synchronized void copyScoresFrom(@NonNull CacheData oldData)
+        synchronized void copyScoresFrom(@NonNull CacheData oldData)
         {
             if (oldData == null) throw new NullPointerException();
 
@@ -282,7 +282,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             }
         }
 
-        public synchronized void fetchHabits()
+        synchronized void fetchHabits()
         {
             for (Habit h : filteredHabits)
             {
@@ -306,14 +306,14 @@ public class HabitCardListCache implements CommandRunner.Listener
         @Nullable
         private TaskRunner runner;
 
-        public RefreshTask()
+        RefreshTask()
         {
             newData = new CacheData();
             targetId = null;
             isCancelled = false;
         }
 
-        public RefreshTask(long targetId)
+        RefreshTask(long targetId)
         {
             newData = new CacheData();
             this.targetId = targetId;

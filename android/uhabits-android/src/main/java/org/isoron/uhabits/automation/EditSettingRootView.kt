@@ -79,7 +79,7 @@ class EditSettingRootView(
     }
 
     private fun populateHabitSpinner() {
-        val names = habitList.mapTo(LinkedList<String>()) { it.name }
+        val names = habitList.mapTo(LinkedList()) { it.name }
         val adapter = ArrayAdapter(context, simple_spinner_item, names)
         adapter.setDropDownViewResource(simple_spinner_dropdown_item)
         habitSpinner.adapter = adapter

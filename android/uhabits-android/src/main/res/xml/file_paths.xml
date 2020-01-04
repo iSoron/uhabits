@@ -22,6 +22,6 @@
     <files-path name="files" path="." />
     <cache-path name="cache" path="." />
     <external-path name="external" path="." />
-    <extendal-cache-path name="external-cache" path="." />
+    <external-cache-path name="external-cache" path="." />
     <external-files-path name="external-files" path="." />
 </paths>

@@ -71,7 +71,7 @@ public abstract class StreakList
         Timestamp beginning = findBeginning();
         if (beginning == null || beginning.isNewerThan(today)) return;
 
-        int checks[] = habit.getCheckmarks().getValues(beginning, today);
+        int[] checks = habit.getCheckmarks().getValues(beginning, today);
         List<Streak> streaks = checkmarksToStreaks(beginning, checks);
 
         removeNewestComputed();

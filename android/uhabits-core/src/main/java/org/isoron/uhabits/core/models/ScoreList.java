@@ -268,7 +268,7 @@ public abstract class ScoreList implements Iterable<Score>
         if (from.isNewerThan(to)) return;
 
         final double freq = habit.getFrequency().toDouble();
-        final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
+        final int[] checkmarkValues = habit.getCheckmarks().getValues(from, to);
 
         List<Score> scores = new LinkedList<>();
 

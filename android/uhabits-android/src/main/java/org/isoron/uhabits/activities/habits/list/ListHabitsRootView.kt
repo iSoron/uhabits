@@ -32,10 +32,8 @@ import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
-import java.lang.Math.*
 import javax.inject.*
 
 const val MAX_CHECKMARK_COUNT = 60
@@ -52,11 +50,11 @@ class ListHabitsRootView @Inject constructor(
 ) : BaseRootView(context), ModelObservable.Listener {
 
     val listView: HabitCardListView = habitCardListViewFactory.create()
-    val llEmpty = EmptyListView(context)
-    val tbar = buildToolbar()
-    val progressBar = TaskProgressBar(context, runner)
-    val hintView: HintView
-    val header = HeaderView(context, preferences, midnightTimer)
+    private val llEmpty = EmptyListView(context)
+    private val tbar = buildToolbar()
+    private val progressBar = TaskProgressBar(context, runner)
+    private val hintView: HintView
+    private val header = HeaderView(context, preferences, midnightTimer)
 
     init {
         val hints = resources.getStringArray(R.array.hints)
@@ -113,7 +111,7 @@ class ListHabitsRootView @Inject constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         val count = getCheckmarkCount()
         header.buttonCount = count
-        header.setMaxDataOffset(max(MAX_CHECKMARK_COUNT - count, 0))
+        header.setMaxDataOffset((MAX_CHECKMARK_COUNT - count).coerceAtLeast(0))
         listView.checkmarkCount = count
         super.onSizeChanged(w, h, oldw, oldh)
     }
@@ -121,9 +119,9 @@ class ListHabitsRootView @Inject constructor(
     private fun getCheckmarkCount(): Int {
         val nameWidth = dim(R.dimen.habitNameWidth)
         val buttonWidth = dim(R.dimen.checkmarkWidth)
-        val labelWidth = max((measuredWidth / 3).toFloat(), nameWidth)
+        val labelWidth = (measuredWidth / 3).toFloat().coerceAtLeast(nameWidth)
         val buttonCount = ((measuredWidth - labelWidth) / buttonWidth).toInt()
-        return min(MAX_CHECKMARK_COUNT, max(0, buttonCount))
+        return MAX_CHECKMARK_COUNT.coerceAtMost(0.coerceAtLeast(buttonCount))
     }
 
     private fun updateEmptyView() {

@@ -70,7 +70,7 @@ public abstract class HabitCard extends LinearLayout
     @Override
     public void onModelChange()
     {
-        post(() -> refreshData());
+        post(this::refreshData);
     }
 
     @Override

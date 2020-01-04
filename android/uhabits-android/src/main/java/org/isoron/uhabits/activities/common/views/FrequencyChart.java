@@ -335,7 +335,7 @@ public class FrequencyChart extends ScrollableChart
 
         for (int i = 0; i < 40; i++)
         {
-            Integer values[] = new Integer[7];
+            Integer[] values = new Integer[7];
             for (int j = 0; j < 7; j++)
                 values[j] = rand.nextInt(5);
 

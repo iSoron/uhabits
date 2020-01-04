@@ -45,7 +45,7 @@ public class HintList
      * @param hints initial list of hints
      */
     public HintList(@Provided @NonNull Preferences prefs,
-                    @NonNull String hints[])
+                    @NonNull String[] hints)
     {
         this.prefs = prefs;
         this.hints = hints;

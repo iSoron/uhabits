@@ -23,7 +23,6 @@ import android.app.*
 import android.content.*
 import android.os.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.automation.FireSettingReceiver.*
 import org.isoron.uhabits.core.models.*
 
 class EditSettingController(private val activity: Activity) {
@@ -45,11 +44,11 @@ class EditSettingController(private val activity: Activity) {
     }
 
     private fun getActionName(action: Int): String {
-        when (action) {
-            ACTION_CHECK -> return activity.getString(R.string.check)
-            ACTION_UNCHECK -> return activity.getString(R.string.uncheck)
-            ACTION_TOGGLE -> return activity.getString(R.string.toggle)
-            else -> return "???"
+        return when (action) {
+            ACTION_CHECK -> activity.getString(R.string.check)
+            ACTION_UNCHECK -> activity.getString(R.string.uncheck)
+            ACTION_TOGGLE -> activity.getString(R.string.toggle)
+            else -> "???"
         }
     }
 }

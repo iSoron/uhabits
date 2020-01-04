@@ -83,9 +83,7 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
                     selectedDays,
                     this)
             .setPositiveButton(android.R.string.yes, this)
-            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                dismiss();
-            });
+            .setNegativeButton(android.R.string.cancel, (dialog, which) -> dismiss());
 
         return builder.create();
     }

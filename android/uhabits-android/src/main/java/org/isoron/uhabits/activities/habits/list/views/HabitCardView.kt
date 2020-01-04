@@ -154,7 +154,7 @@ class HabitCardView(
         }
 
         clipToPadding = false
-        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         val margin = dp(3f).toInt()
         setPadding(margin, 0, margin, margin)
         addView(innerFrame)
@@ -171,7 +171,7 @@ class HabitCardView(
         updateBackground(isSelected)
     }
 
-    fun triggerRipple(timestamp: Timestamp) {
+    private fun triggerRipple(timestamp: Timestamp) {
         val today = DateUtils.getToday()
         val offset = timestamp.daysUntil(today) - dataOffset
         val button = checkmarkPanel.buttons[offset]

@@ -55,7 +55,7 @@ public class MidnightTimer
     public synchronized void onResume()
     {
         executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(() -> notifyListeners(),
+        executor.scheduleAtFixedRate(this::notifyListeners,
             DateUtils.millisecondsUntilTomorrow() + 1000,
             DateUtils.DAY_LENGTH, TimeUnit.MILLISECONDS);
     }

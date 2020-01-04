@@ -37,9 +37,8 @@ class IntentParser
     }
 
     private fun parseHabit(uri: Uri): Habit {
-        val habit = habits.getById(parseId(uri)) ?:
+        return habits.getById(parseId(uri)) ?:
                     throw IllegalArgumentException("habit not found")
-        return habit
     }
 
     private fun parseTimestamp(intent: Intent): Timestamp {

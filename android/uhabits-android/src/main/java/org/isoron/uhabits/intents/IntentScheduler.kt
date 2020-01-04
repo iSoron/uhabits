@@ -27,7 +27,6 @@ import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
 import android.util.*
 import org.isoron.androidbase.*
-import org.isoron.uhabits.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.reminders.*
@@ -45,13 +44,13 @@ class IntentScheduler
     private val manager =
             context.getSystemService(ALARM_SERVICE) as AlarmManager
 
-    fun schedule(timestamp: Long, intent: PendingIntent) {
+    private fun schedule(timestamp: Long, intent: PendingIntent) {
         Log.d("IntentScheduler",
               "timestamp=" + timestamp + " current=" + System.currentTimeMillis())
         if (timestamp < System.currentTimeMillis()) {
             Log.e("IntentScheduler",
                   "Ignoring attempt to schedule intent in the past.")
-            return;
+            return
         }
         if (SDK_INT >= M)
             manager.setExactAndAllowWhileIdle(RTC_WAKEUP, timestamp, intent)
@@ -72,7 +71,7 @@ class IntentScheduler
     }
 
     private fun logReminderScheduled(habit: Habit, reminderTime: Long) {
-        val min = Math.min(5, habit.name.length)
+        val min = 5.coerceAtMost(habit.name.length)
         val name = habit.name.substring(0, min)
         val df = DateFormats.getBackupDateFormat()
         val time = df.format(Date(reminderTime))

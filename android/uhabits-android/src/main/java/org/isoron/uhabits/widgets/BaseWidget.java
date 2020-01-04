@@ -23,7 +23,6 @@ import android.app.*;
 import android.content.*;
 import android.graphics.*;
 import android.support.annotation.*;
-import android.util.*;
 import android.view.*;
 import android.widget.*;
 
@@ -38,7 +37,7 @@ public abstract class BaseWidget
     private final int id;
 
     @NonNull
-    protected final WidgetPreferences widgetPrefs;
+    private final WidgetPreferences widgetPrefs;
 
     @NonNull
     protected final Preferences prefs;
@@ -119,7 +118,7 @@ public abstract class BaseWidget
     {
         int imageWidth = view.getMeasuredWidth();
         int imageHeight = view.getMeasuredHeight();
-        int p[] = calculatePadding(width, height, imageWidth, imageHeight);
+        int[] p = calculatePadding(width, height, imageWidth, imageHeight);
         remoteViews.setViewPadding(R.id.buttonOverlay, p[0], p[1], p[2], p[3]);
     }
 

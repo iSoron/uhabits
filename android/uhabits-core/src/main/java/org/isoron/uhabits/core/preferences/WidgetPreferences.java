@@ -33,7 +33,7 @@ public class WidgetPreferences {
         this.storage = storage;
     }
 
-    public void addWidget(int widgetId, long habitIds[]) {
+    public void addWidget(int widgetId, long[] habitIds) {
         storage.putLongArray(getHabitIdKey(widgetId), habitIds);
     }
 

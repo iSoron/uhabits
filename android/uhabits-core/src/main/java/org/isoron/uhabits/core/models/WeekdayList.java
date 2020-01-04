@@ -43,7 +43,7 @@ public final class WeekdayList
         }
     }
 
-    public WeekdayList(boolean weekdays[])
+    public WeekdayList(boolean[] weekdays)
     {
         this.weekdays = Arrays.copyOf(weekdays, 7);
     }

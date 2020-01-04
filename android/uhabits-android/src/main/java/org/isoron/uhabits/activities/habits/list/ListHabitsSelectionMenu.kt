@@ -95,7 +95,7 @@ class ListHabitsSelectionMenu @Inject constructor(
         itemEdit.isVisible = behavior.canEdit()
         itemArchive.isVisible = behavior.canArchive()
         itemUnarchive.isVisible = behavior.canUnarchive()
-        setTitle(Integer.toString(listAdapter.selected.size))
+        setTitle(listAdapter.selected.size.toString())
         itemNotify.isVisible = prefs.isDeveloper
 
         return true

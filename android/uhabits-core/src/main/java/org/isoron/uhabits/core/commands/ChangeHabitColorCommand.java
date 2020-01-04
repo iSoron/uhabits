@@ -37,7 +37,7 @@ public class ChangeHabitColorCommand extends Command
     final List<Habit> selected;
 
     @NonNull
-    final List<Integer> originalColors;
+    private final List<Integer> originalColors;
 
     @NonNull
     final Integer newColor;

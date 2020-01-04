@@ -20,12 +20,6 @@
 package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
-import org.isoron.uhabits.core.utils.DateFormats;
-import org.isoron.uhabits.core.utils.DateUtils;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 

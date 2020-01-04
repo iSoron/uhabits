@@ -29,12 +29,12 @@ import org.isoron.uhabits.core.utils.*
 
 class ListHabitsActivity : HabitsActivity() {
 
-    var pureBlack: Boolean = false
+    private var pureBlack: Boolean = false
     lateinit var adapter: HabitCardListAdapter
-    lateinit var rootView: ListHabitsRootView
+    private lateinit var rootView: ListHabitsRootView
     lateinit var screen: ListHabitsScreen
     lateinit var prefs: Preferences
-    lateinit var midnightTimer: MidnightTimer
+    private lateinit var midnightTimer: MidnightTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

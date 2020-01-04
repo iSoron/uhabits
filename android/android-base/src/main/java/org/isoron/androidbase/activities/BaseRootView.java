@@ -68,7 +68,7 @@ public abstract class BaseRootView extends FrameLayout
     @NonNull
     public Toolbar getToolbar()
     {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar == null) throw new RuntimeException(
             "Your BaseRootView should have a " +
             "toolbar with id R.id.toolbar");

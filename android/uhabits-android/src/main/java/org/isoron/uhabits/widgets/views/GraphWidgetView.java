@@ -64,10 +64,10 @@ public class GraphWidgetView extends HabitWidgetView
                 ViewGroup.LayoutParams.MATCH_PARENT);
         dataView.setLayoutParams(params);
 
-        ViewGroup innerFrame = (ViewGroup) findViewById(R.id.innerFrame);
+        ViewGroup innerFrame = findViewById(R.id.innerFrame);
         innerFrame.addView(dataView);
 
-        title = (TextView) findViewById(R.id.title);
+        title = findViewById(R.id.title);
         title.setVisibility(VISIBLE);
     }
 }

@@ -73,21 +73,19 @@ public abstract class DatabaseUtils
     }
 
     @NonNull
-    public static String getDatabaseFilename()
+    private static String getDatabaseFilename()
     {
         String databaseFilename = Config.DATABASE_FILENAME;
         if (HabitsApplication.Companion.isTestMode()) databaseFilename = "test.db";
         return databaseFilename;
     }
 
-    @SuppressWarnings("unchecked")
     public static void initializeDatabase(Context context)
     {
         opener = new HabitsDatabaseOpener(context, getDatabaseFilename(),
             DATABASE_VERSION);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String saveDatabaseCopy(Context context, File dir)
         throws IOException
     {

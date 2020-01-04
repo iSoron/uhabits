@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.utils.DateUtils;
 import java.util.*;
 
 import static java.util.Calendar.*;
-import static org.isoron.uhabits.core.utils.StringUtils.*;
 
 public final class Timestamp
 {

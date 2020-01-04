@@ -28,7 +28,7 @@ import org.jetbrains.annotations.*;
 
 public class AttributeSetUtils
 {
-    public static final String ISORON_NAMESPACE = "http://isoron.org/android";
+    private static final String ISORON_NAMESPACE = "http://isoron.org/android";
 
     @Nullable
     public static String getAttribute(@NonNull Context context,

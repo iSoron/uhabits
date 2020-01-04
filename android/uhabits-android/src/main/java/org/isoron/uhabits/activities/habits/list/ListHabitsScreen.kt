@@ -166,7 +166,7 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
-    fun showImportScreen() {
+    private fun showImportScreen() {
         val intent = intentFactory.openDocument()
         activity.startActivityForResult(intent, REQUEST_OPEN_DOCUMENT)
     }
@@ -213,26 +213,30 @@ class ListHabitsScreen
 
     @StringRes
     private fun getExecuteString(command: Command): Int? {
-        when (command) {
-            is ArchiveHabitsCommand -> return R.string.toast_habit_archived
-            is ChangeHabitColorCommand -> return R.string.toast_habit_changed
-            is CreateHabitCommand -> return R.string.toast_habit_created
-            is DeleteHabitsCommand -> return R.string.toast_habit_deleted
-            is EditHabitCommand -> return R.string.toast_habit_changed
-            is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
-            else -> return null
+        return when (command) {
+            is ArchiveHabitsCommand -> R.string.toast_habit_archived
+            is ChangeHabitColorCommand -> R.string.toast_habit_changed
+            is CreateHabitCommand -> R.string.toast_habit_created
+            is DeleteHabitsCommand -> R.string.toast_habit_deleted
+            is EditHabitCommand -> R.string.toast_habit_changed
+            is UnarchiveHabitsCommand -> R.string.toast_habit_unarchived
+            else -> null
         }
     }
 
     private fun onImportData(file: File, onFinished: () -> Unit) {
         taskRunner.execute(importTaskFactory.create(file) { result ->
-            if (result == ImportDataTask.SUCCESS) {
-                adapter.refresh()
-                showMessage(R.string.habits_imported)
-            } else if (result == ImportDataTask.NOT_RECOGNIZED) {
-                showMessage(R.string.file_not_recognized)
-            } else {
-                showMessage(R.string.could_not_import)
+            when (result) {
+                ImportDataTask.SUCCESS -> {
+                    adapter.refresh()
+                    showMessage(R.string.habits_imported)
+                }
+                ImportDataTask.NOT_RECOGNIZED -> {
+                    showMessage(R.string.file_not_recognized)
+                }
+                else -> {
+                    showMessage(R.string.could_not_import)
+                }
             }
             onFinished()
         })

@@ -27,8 +27,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 
-import java.util.*;
-
 import static android.content.ContentUris.*;
 
 /**

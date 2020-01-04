@@ -81,7 +81,7 @@ public class HabitsCSVExporter
         zos.putNextEntry(ze);
 
         int length;
-        byte bytes[] = new byte[1024];
+        byte[] bytes = new byte[1024];
         while ((length = fis.read(bytes)) >= 0) zos.write(bytes, 0, length);
 
         zos.closeEntry();
@@ -102,7 +102,7 @@ public class HabitsCSVExporter
     @NonNull
     private String sanitizeFilename(String name)
     {
-        String s = name.replaceAll("[^ a-zA-Z0-9\\._-]+", "");
+        String s = name.replaceAll("[^ a-zA-Z0-9._-]+", "");
         return s.substring(0, Math.min(s.length(), 100));
     }
 

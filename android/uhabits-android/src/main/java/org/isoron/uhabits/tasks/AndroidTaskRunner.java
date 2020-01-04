@@ -89,7 +89,7 @@ public class AndroidTaskRunner implements TaskRunner
         private final Task task;
         private boolean isCancelled = false;
 
-        public CustomAsyncTask(Task task)
+        CustomAsyncTask(Task task)
         {
             this.task = task;
         }
@@ -99,7 +99,7 @@ public class AndroidTaskRunner implements TaskRunner
             return task;
         }
 
-        public void publish(int progress)
+        void publish(int progress)
         {
             publishProgress(progress);
         }

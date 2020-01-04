@@ -155,9 +155,9 @@ public class NotificationTray
     {
         public final Timestamp timestamp;
 
-        public final long reminderTime;
+        final long reminderTime;
 
-        public NotificationData(Timestamp timestamp, long reminderTime)
+        NotificationData(Timestamp timestamp, long reminderTime)
         {
             this.timestamp = timestamp;
             this.reminderTime = reminderTime;
@@ -174,7 +174,7 @@ public class NotificationTray
 
         private final long reminderTime;
 
-        public ShowNotificationTask(Habit habit, NotificationData data)
+        ShowNotificationTask(Habit habit, NotificationData data)
         {
             this.habit = habit;
             this.timestamp = data.timestamp;
@@ -225,7 +225,7 @@ public class NotificationTray
             if (!habit.hasReminder()) return false;
             Reminder reminder = habit.getReminder();
 
-            boolean reminderDays[] = reminder.getDays().toArray();
+            boolean[] reminderDays = reminder.getDays().toArray();
             int weekday = timestamp.getWeekday();
 
             return reminderDays[weekday];

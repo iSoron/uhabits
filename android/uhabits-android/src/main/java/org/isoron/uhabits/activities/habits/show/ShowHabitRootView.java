@@ -98,9 +98,7 @@ public class ShowHabitRootView extends BaseRootView
     @Override
     public void onModelChange()
     {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            toolbar.setTitle(habit.getName());
-        });
+        new Handler(Looper.getMainLooper()).post(() -> toolbar.setTitle(habit.getName()));
 
         controller.onToolbarChanged();
     }

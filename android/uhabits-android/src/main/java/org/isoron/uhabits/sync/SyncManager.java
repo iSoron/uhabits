@@ -134,7 +134,7 @@ public class SyncManager implements CommandRunner.Listener
         if (command.isRemote()) return;
 
         JSONObject msg = toJSONObject(command.toJson());
-        Long now = new Date().getTime();
+        long now = new Date().getTime();
         Event e = new Event(command.getId(), now, msg.toString());
         repository.save(e);
 
@@ -309,7 +309,7 @@ public class SyncManager implements CommandRunner.Listener
         public void call(Object... args)
         {
             readyToEmit = false;
-            for (Event e : pendingConfirmation) pendingEmit.add(e);
+            pendingEmit.addAll(pendingConfirmation);
             pendingConfirmation.clear();
         }
     }

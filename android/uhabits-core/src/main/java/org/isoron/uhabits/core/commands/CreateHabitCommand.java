@@ -31,7 +31,7 @@ import org.isoron.uhabits.core.models.*;
 @AutoFactory
 public class CreateHabitCommand extends Command
 {
-    ModelFactory modelFactory;
+    private ModelFactory modelFactory;
 
     HabitList habitList;
 

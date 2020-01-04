@@ -71,7 +71,7 @@ public class HistoryChart extends ScrollableChart
      */
     private int todayPositionInColumn;
 
-    private int colors[];
+    private int[] colors;
 
     private RectF baseLocation;
 

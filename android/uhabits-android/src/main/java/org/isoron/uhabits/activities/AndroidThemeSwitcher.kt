@@ -36,12 +36,12 @@ class AndroidThemeSwitcher
 ) : ThemeSwitcher(preferences) {
 
     override fun getSystemTheme(): Int {
-        if(SDK_INT < 29) return THEME_LIGHT;
+        if(SDK_INT < 29) return THEME_LIGHT
         val uiMode = activity.resources.configuration.uiMode
         return if ((uiMode and UI_MODE_NIGHT_MASK) == UI_MODE_NIGHT_YES) {
-            THEME_DARK;
+            THEME_DARK
         } else {
-            THEME_LIGHT;
+            THEME_LIGHT
         }
     }
 

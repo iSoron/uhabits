@@ -40,8 +40,6 @@ public class StreakChart extends View
 {
     private Paint paint;
 
-    private long minLength;
-
     private long maxLength;
 
     private int[] colors;
@@ -274,7 +272,7 @@ public class StreakChart extends View
     private void updateMaxMinLengths()
     {
         maxLength = 0;
-        minLength = Long.MAX_VALUE;
+        long minLength = Long.MAX_VALUE;
         shouldShowLabels = true;
 
         for (Streak s : streaks)

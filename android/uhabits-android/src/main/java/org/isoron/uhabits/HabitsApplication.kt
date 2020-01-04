@@ -70,7 +70,7 @@ class HabitsApplication : Application() {
         notificationTray.startListening()
 
         val prefs = component.preferences
-        prefs.setLastAppVersion(BuildConfig.VERSION_CODE)
+        prefs.lastAppVersion = BuildConfig.VERSION_CODE
 
         val taskRunner = component.taskRunner
         taskRunner.execute {
@@ -93,11 +93,11 @@ class HabitsApplication : Application() {
         lateinit var component: HabitsApplicationComponent
 
         fun isTestMode(): Boolean {
-            try {
+            return try {
                 Class.forName("org.isoron.uhabits.BaseAndroidTest")
-                return true
+                true
             } catch (e: ClassNotFoundException) {
-                return false
+                false
             }
         }
     }

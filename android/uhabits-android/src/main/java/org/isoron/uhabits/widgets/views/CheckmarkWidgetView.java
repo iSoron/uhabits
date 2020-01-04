@@ -171,8 +171,8 @@ public class CheckmarkWidgetView extends HabitWidgetView
 
     private void init()
     {
-        ring = (RingView) findViewById(R.id.scoreRing);
-        label = (TextView) findViewById(R.id.label);
+        ring = findViewById(R.id.scoreRing);
+        label = findViewById(R.id.label);
 
         if (ring != null) ring.setIsTransparencyEnabled(true);
 
