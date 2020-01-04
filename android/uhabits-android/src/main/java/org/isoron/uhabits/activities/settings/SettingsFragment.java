@@ -148,13 +148,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
         updateWeekdayPreference();
 
-        if (SDK_INT < Build.VERSION_CODES.O)
-            findPreference("reminderCustomize").setVisible(false);
-        else
-        {
-            findPreference("reminderSound").setVisible(false);
-            findPreference("pref_snooze_interval").setVisible(false);
-        }
+        // Temporarily disable this; we now always ask
+        findPreference("reminderSound").setVisible(false);
+        findPreference("pref_snooze_interval").setVisible(false);
 
         updateSync();
     }

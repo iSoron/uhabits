@@ -24,6 +24,7 @@ import android.support.annotation.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 
 import java.util.*;
 
@@ -34,6 +35,8 @@ import static org.isoron.uhabits.core.utils.DateUtils.*;
 @AppScope
 public class ReminderScheduler implements CommandRunner.Listener
 {
+    private final WidgetPreferences widgetPreferences;
+
     private CommandRunner commandRunner;
 
     private HabitList habitList;
@@ -43,43 +46,77 @@ public class ReminderScheduler implements CommandRunner.Listener
     @Inject
     public ReminderScheduler(@NonNull CommandRunner commandRunner,
                              @NonNull HabitList habitList,
-                             @NonNull SystemScheduler sys)
+                             @NonNull SystemScheduler sys,
+                             @NonNull WidgetPreferences widgetPreferences)
     {
         this.commandRunner = commandRunner;
         this.habitList = habitList;
         this.sys = sys;
+        this.widgetPreferences = widgetPreferences;
     }
 
     @Override
-    public void onCommandExecuted(@NonNull Command command,
-                                  @Nullable Long refreshKey)
+    public synchronized void onCommandExecuted(@NonNull Command command,
+                                               @Nullable Long refreshKey)
     {
         if (command instanceof ToggleRepetitionCommand) return;
         if (command instanceof ChangeHabitColorCommand) return;
         scheduleAll();
     }
 
-    public void schedule(@NonNull Habit habit)
+    public synchronized void schedule(@NonNull Habit habit)
     {
-        if (!habit.hasReminder()) {
+        if (habit.getId() == null)
+        {
+            sys.log("ReminderScheduler", "Habit has null id. Returning.");
+            return;
+        }
+
+        if (!habit.hasReminder())
+        {
             sys.log("ReminderScheduler", "habit=" + habit.id + " has no reminder. Skipping.");
             return;
         }
 
         long reminderTime = habit.getReminder().getTimeInMillis();
+        long snoozeReminderTime = widgetPreferences.getSnoozeTime(habit.getId());
+
+        if (snoozeReminderTime != 0)
+        {
+            long now = applyTimezone(getLocalTime());
+            sys.log("ReminderScheduler", String.format(
+                    Locale.US,
+                    "Habit %d has been snoozed until %d",
+                    habit.getId(),
+                    snoozeReminderTime));
+
+            if (snoozeReminderTime > now)
+            {
+                sys.log("ReminderScheduler", "Snooze time is in the future. Accepting.");
+                reminderTime = snoozeReminderTime;
+            }
+            else
+            {
+                sys.log("ReminderScheduler", "Snooze time is in the past. Discarding.");
+                widgetPreferences.removeSnoozeTime(habit.getId());
+            }
+        }
         scheduleAtTime(habit, reminderTime);
+
     }
 
-    public void scheduleAtTime(@NonNull Habit habit, long reminderTime)
+    public synchronized void scheduleAtTime(@NonNull Habit habit, long reminderTime)
     {
         sys.log("ReminderScheduler", "Scheduling alarm for habit=" + habit.id);
 
-        if (!habit.hasReminder()) {
+        if (!habit.hasReminder())
+        {
             sys.log("ReminderScheduler", "habit=" + habit.id + " has no reminder. Skipping.");
             return;
         }
 
-        if (habit.isArchived()) {
+        if (habit.isArchived())
+        {
             sys.log("ReminderScheduler", "habit=" + habit.id + " is archived. Skipping.");
             return;
         }
@@ -100,26 +137,27 @@ public class ReminderScheduler implements CommandRunner.Listener
     {
         sys.log("ReminderScheduler", "Scheduling all alarms");
         HabitList reminderHabits =
-            habitList.getFiltered(HabitMatcher.WITH_ALARM);
+                habitList.getFiltered(HabitMatcher.WITH_ALARM);
         for (Habit habit : reminderHabits)
             schedule(habit);
     }
 
-    public void startListening()
+    public synchronized void startListening()
     {
         commandRunner.addListener(this);
     }
 
-    public void stopListening()
+    public synchronized void stopListening()
     {
         commandRunner.removeListener(this);
     }
 
-    public void scheduleMinutesFromNow(Habit habit, long minutes)
+    public synchronized void snoozeReminder(Habit habit, long minutes)
     {
         long now = applyTimezone(getLocalTime());
-        long reminderTime = now + minutes * 60 * 1000;
-        scheduleAtTime(habit, reminderTime);
+        long snoozedUntil = now + minutes * 60 * 1000;
+        widgetPreferences.setSnoozeTime(habit.getId(), snoozedUntil);
+        schedule(habit);
     }
 
     public interface SystemScheduler
