@@ -19,6 +19,9 @@
 
 package org.isoron.uhabits.sync;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.isoron.uhabits.core.database.*;
 
 @Table(name = "Events")

@@ -21,6 +21,8 @@ package org.isoron.uhabits.activities.habits.edit;
 
 import android.os.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.uhabits.core.models.*;
 
 import javax.inject.*;

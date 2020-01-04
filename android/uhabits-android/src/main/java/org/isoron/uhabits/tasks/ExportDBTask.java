@@ -21,6 +21,9 @@ package org.isoron.uhabits.tasks;
 
 import android.content.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.auto.factory.*;
 
 import org.isoron.androidbase.*;

@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.acceptance.steps;
 
+import androidx.annotation.StringRes;
 import androidx.test.espresso.*;
 import androidx.test.espresso.contrib.*;
 import androidx.test.uiautomator.*;

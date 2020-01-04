@@ -22,6 +22,7 @@ package org.isoron.androidbase.activities;
 import android.content.*;
 import android.os.*;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.*;
 import android.view.*;
 

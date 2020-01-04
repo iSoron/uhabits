@@ -25,6 +25,9 @@ import android.graphics.Paint.*;
 import android.util.*;
 import android.view.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;

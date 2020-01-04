@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.common.dialogs;
 
 import android.content.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.*;
 
 import com.google.auto.factory.*;

@@ -23,6 +23,9 @@ import android.content.*;
 import android.content.res.*;
 import android.graphics.drawable.*;
 
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
+
 import org.isoron.androidbase.*;
 
 public class StyledResources

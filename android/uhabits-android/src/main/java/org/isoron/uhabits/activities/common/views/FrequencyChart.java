@@ -23,6 +23,8 @@ import android.content.*;
 import android.graphics.*;
 import android.util.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;

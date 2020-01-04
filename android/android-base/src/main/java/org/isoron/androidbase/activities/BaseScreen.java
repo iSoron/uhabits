@@ -25,6 +25,9 @@ import android.graphics.drawable.*;
 import android.net.*;
 import android.os.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.core.content.res.*;
 import androidx.appcompat.app.*;
 import androidx.appcompat.view.ActionMode;
@@ -215,7 +218,7 @@ public class BaseScreen
         if (snackbar == null)
         {
             snackbar = Snackbar.make(rootView, stringId, Snackbar.LENGTH_SHORT);
-            int tvId = android.support.design.R.id.snackbar_text;
+            int tvId = R.id.snackbar_text;
             TextView tv = (TextView) snackbar.getView().findViewById(tvId);
             tv.setTextColor(Color.WHITE);
         }

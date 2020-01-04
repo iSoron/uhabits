@@ -22,6 +22,8 @@ package org.isoron.uhabits.activities.about;
 import android.content.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.BuildConfig;

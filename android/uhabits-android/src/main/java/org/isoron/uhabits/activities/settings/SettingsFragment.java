@@ -26,6 +26,12 @@ import android.os.*;
 import android.provider.*;
 import android.util.*;
 
+import androidx.annotation.Nullable;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;

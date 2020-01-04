@@ -19,6 +19,9 @@
 
 package org.isoron.androidbase;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.isoron.androidbase.activities.*;
 
 public class BaseExceptionHandler implements Thread.UncaughtExceptionHandler

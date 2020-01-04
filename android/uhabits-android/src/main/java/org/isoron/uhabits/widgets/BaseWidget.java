@@ -25,6 +25,8 @@ import android.graphics.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.intents.*;

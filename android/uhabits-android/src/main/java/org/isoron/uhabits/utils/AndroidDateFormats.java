@@ -18,6 +18,8 @@
  */
 package org.isoron.uhabits.utils;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.uhabits.core.utils.*;
 
 import java.text.*;

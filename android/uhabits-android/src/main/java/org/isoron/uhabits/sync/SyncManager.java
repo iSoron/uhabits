@@ -21,6 +21,9 @@ package org.isoron.uhabits.sync;
 
 import android.util.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.core.*;

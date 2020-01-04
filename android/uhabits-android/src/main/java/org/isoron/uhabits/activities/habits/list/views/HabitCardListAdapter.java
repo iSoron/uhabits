@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.activities.habits.list.views;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.*;
 import android.view.*;
 

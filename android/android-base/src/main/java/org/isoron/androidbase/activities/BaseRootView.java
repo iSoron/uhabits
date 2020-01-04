@@ -21,6 +21,8 @@ package org.isoron.androidbase.activities;
 
 import android.content.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import android.view.*;
 import android.widget.*;

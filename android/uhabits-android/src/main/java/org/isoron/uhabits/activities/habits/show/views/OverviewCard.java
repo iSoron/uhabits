@@ -23,6 +23,8 @@ import android.content.*;
 import android.util.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;

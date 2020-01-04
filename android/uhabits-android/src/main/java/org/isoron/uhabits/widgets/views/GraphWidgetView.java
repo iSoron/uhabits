@@ -23,6 +23,8 @@ import android.content.*;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.uhabits.*;
 
 public class GraphWidgetView extends HabitWidgetView

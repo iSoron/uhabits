@@ -21,7 +21,6 @@ package org.isoron.uhabits.utils
 
 import android.graphics.*
 import androidx.annotation.*
-import android.support.design.widget.*
 import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
@@ -75,7 +74,7 @@ fun ViewGroup.buildToolbar(): Toolbar {
 fun View.showMessage(@StringRes stringId: Int) {
     try {
         val snackbar = Snackbar.make(this, stringId, Snackbar.LENGTH_SHORT)
-        val tvId = android.support.design.R.id.snackbar_text
+        val tvId = R.id.snackbar_text
         val tv = snackbar.view.findViewById<TextView>(tvId)
         tv?.setTextColor(Color.WHITE)
         snackbar.show()

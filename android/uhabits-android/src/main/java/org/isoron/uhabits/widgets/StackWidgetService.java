@@ -6,6 +6,8 @@ import android.os.*;
 import android.util.Log;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;

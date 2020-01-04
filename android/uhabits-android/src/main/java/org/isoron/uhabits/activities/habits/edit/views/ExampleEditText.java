@@ -23,7 +23,9 @@ import android.content.*;
 import android.text.*;
 import android.util.*;
 import android.view.*;
-import android.widget.*;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -34,7 +36,7 @@ import static org.isoron.uhabits.utils.AttributeSetUtils.*;
  * An EditText that shows an example usage when there is no text
  * currently set. The example disappears when the widget gains focus.
  */
-public class ExampleEditText extends EditText
+public class ExampleEditText extends AppCompatEditText
     implements View.OnFocusChangeListener
 {
 

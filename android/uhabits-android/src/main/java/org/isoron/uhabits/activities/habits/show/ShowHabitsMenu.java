@@ -21,6 +21,8 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.view.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.Preferences;

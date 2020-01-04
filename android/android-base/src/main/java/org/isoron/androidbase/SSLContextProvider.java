@@ -21,6 +21,8 @@ package org.isoron.androidbase;
 
 import android.content.*;
 
+import androidx.annotation.NonNull;
+
 import java.io.*;
 import java.security.*;
 import java.security.cert.Certificate;
