@@ -91,7 +91,7 @@ dependencies {
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    kapt "com.jakewharton:butterknife-compiler:9.0.0"
+    kapt "com.jakewharton:butterknife-compiler:10.2.1"
     annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
 
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
