@@ -21,8 +21,8 @@ package org.isoron.androidbase.activities;
 
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.app.*;
+
+import androidx.appcompat.app.*;
 import android.view.*;
 
 import org.isoron.androidbase.*;

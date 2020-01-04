@@ -19,8 +19,6 @@
 
 package org.isoron.androidbase;
 
-import android.support.annotation.*;
-
 import org.isoron.androidbase.activities.*;
 
 public class BaseExceptionHandler implements Thread.UncaughtExceptionHandler

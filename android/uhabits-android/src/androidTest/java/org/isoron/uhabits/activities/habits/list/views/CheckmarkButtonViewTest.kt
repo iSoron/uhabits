@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.support.test.filters.*
-import android.support.test.runner.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.*
+import androidx.test.runner.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*

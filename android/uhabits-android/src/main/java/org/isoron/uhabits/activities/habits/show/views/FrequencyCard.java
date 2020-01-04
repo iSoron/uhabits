@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 

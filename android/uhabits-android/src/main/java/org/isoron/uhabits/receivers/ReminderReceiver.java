@@ -20,14 +20,11 @@
 package org.isoron.uhabits.receivers;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
-
-import java.util.*;
 
 import static android.content.ContentUris.*;
 

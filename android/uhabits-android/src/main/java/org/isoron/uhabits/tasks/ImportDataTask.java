@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.*;
-
 import com.google.auto.factory.*;
 
 import org.isoron.uhabits.core.io.*;

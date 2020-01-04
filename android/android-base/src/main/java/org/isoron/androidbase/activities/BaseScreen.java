@@ -24,14 +24,15 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.net.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.design.widget.*;
-import android.support.v4.content.res.*;
-import android.support.v7.app.*;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.Toolbar;
+
+import androidx.core.content.res.*;
+import androidx.appcompat.app.*;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;
@@ -40,7 +41,7 @@ import java.io.*;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static android.support.v4.content.FileProvider.getUriForFile;
+import static androidx.core.content.FileProvider.getUriForFile;
 
 /**
  * Base class for all screens in the application.

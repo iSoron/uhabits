@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.sync;
 
-import android.support.annotation.*;
-
 import org.isoron.uhabits.core.database.*;
 
 @Table(name = "Events")

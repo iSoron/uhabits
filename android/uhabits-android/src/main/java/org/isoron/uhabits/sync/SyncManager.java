@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.sync;
 
-import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.androidbase.*;

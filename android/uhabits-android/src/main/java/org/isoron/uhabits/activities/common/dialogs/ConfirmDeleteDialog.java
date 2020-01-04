@@ -20,8 +20,8 @@
 package org.isoron.uhabits.activities.common.dialogs;
 
 import android.content.*;
-import android.support.annotation.*;
-import android.support.v7.app.*;
+
+import androidx.appcompat.app.*;
 
 import com.google.auto.factory.*;
 

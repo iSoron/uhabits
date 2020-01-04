@@ -22,8 +22,8 @@ package org.isoron.uhabits.activities.habits.edit;
 import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.app.*;
+
+import androidx.appcompat.app.*;
 import android.text.format.*;
 import android.view.*;
 

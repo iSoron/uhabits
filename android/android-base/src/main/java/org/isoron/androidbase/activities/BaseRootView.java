@@ -20,8 +20,8 @@
 package org.isoron.androidbase.activities;
 
 import android.content.*;
-import android.support.annotation.*;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.widget.Toolbar;
 import android.view.*;
 import android.widget.*;
 

@@ -23,7 +23,7 @@ import android.app.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
-import android.support.v7.app.*;
+import androidx.appcompat.app.*;
 import android.util.*;
 import android.view.*;
 import android.view.View.*;

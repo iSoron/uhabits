@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.regression
 
-import android.support.test.filters.*
+import androidx.test.filters.*
 
 import org.isoron.uhabits.*
 import org.junit.*

@@ -21,7 +21,6 @@ package org.isoron.uhabits.receivers;
 
 import android.content.*;
 import android.net.*;
-import android.support.annotation.*;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;

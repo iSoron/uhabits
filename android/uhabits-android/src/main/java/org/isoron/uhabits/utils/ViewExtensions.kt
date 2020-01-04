@@ -20,13 +20,14 @@
 package org.isoron.uhabits.utils
 
 import android.graphics.*
-import android.support.annotation.*
+import androidx.annotation.*
 import android.support.design.widget.*
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import android.widget.RelativeLayout.*
+import com.google.android.material.snackbar.Snackbar
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 

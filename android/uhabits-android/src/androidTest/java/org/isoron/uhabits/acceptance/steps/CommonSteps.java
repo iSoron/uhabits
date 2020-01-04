@@ -19,22 +19,23 @@
 
 package org.isoron.uhabits.acceptance.steps;
 
-import android.support.annotation.*;
-import android.support.test.espresso.*;
-import android.support.test.espresso.contrib.*;
-import android.support.test.uiautomator.*;
-import android.support.v7.widget.*;
+import androidx.test.espresso.*;
+import androidx.test.espresso.contrib.*;
+import androidx.test.uiautomator.*;
+import androidx.appcompat.widget.*;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
 
 import static android.os.Build.VERSION.*;
-import static android.support.test.espresso.Espresso.*;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.PositionAssertions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.Espresso.*;
+import static androidx.test.espresso.action.ViewActions.*;
+import static androidx.test.espresso.assertion.PositionAssertions.*;
+import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 

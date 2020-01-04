@@ -20,8 +20,8 @@
 package org.isoron.uhabits.utils;
 
 import android.content.*;
-import android.support.annotation.*;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 import android.util.*;
 
 import org.jetbrains.annotations.*;

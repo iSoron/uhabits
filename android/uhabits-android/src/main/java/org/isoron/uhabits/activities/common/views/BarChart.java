@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.util.*;
 
 import org.isoron.androidbase.utils.*;

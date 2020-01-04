@@ -19,7 +19,6 @@
 
 package org.isoron.androidbase.activities;
 
-import android.support.annotation.*;
 import android.view.*;
 
 /**

@@ -20,12 +20,10 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
 
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;

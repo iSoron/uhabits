@@ -21,7 +21,6 @@ package org.isoron.androidbase;
 
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.view.*;
 
 import java.io.*;

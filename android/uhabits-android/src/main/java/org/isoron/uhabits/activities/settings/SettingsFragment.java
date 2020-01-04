@@ -24,8 +24,6 @@ import android.content.*;
 import android.net.*;
 import android.os.*;
 import android.provider.*;
-import android.support.annotation.*;
-import android.support.v7.preference.*;
 import android.util.*;
 
 import org.isoron.uhabits.R;

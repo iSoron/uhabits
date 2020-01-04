@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.edit.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.text.*;
 import android.util.*;
 import android.view.*;
