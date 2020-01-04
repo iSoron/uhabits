@@ -66,8 +66,8 @@ class AndroidNotificationTray
                                   timestamp: Timestamp,
                                   reminderTime: Long) {
         val notificationManager = NotificationManagerCompat.from(context)
-        val summary = buildSummary(habit, reminderTime)
-        notificationManager.notify(Int.MAX_VALUE, summary)
+        //val summary = buildSummary(habit, reminderTime)
+        //notificationManager.notify(Int.MAX_VALUE, summary)
         val notification = buildNotification(habit, reminderTime, timestamp)
         createAndroidNotificationChannel(context)
         try {
@@ -132,13 +132,11 @@ class AndroidNotificationTray
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
 
-        if (SDK_INT < Build.VERSION_CODES.O) {
-            val snoozeAction = Action(R.drawable.ic_action_snooze,
-                                      context.getString(R.string.snooze),
-                                      pendingIntents.snoozeNotification(habit))
-            wearableExtender.addAction(snoozeAction)
-            builder.addAction(snoozeAction)
-        }
+        val snoozeAction = Action(R.drawable.ic_action_snooze,
+                                  context.getString(R.string.snooze),
+                                  pendingIntents.snoozeNotification(habit))
+        wearableExtender.addAction(snoozeAction)
+        builder.addAction(snoozeAction)
 
         builder.extend(wearableExtender)
         return builder.build()

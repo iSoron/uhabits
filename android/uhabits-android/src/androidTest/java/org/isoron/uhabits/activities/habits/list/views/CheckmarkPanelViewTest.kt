@@ -61,7 +61,6 @@ class CheckmarkPanelViewTest : BaseViewTest() {
 
     @After
     public override fun tearDown() {
-//        view.onDetachedFromWindow()
         super.tearDown()
     }
 
@@ -70,11 +69,12 @@ class CheckmarkPanelViewTest : BaseViewTest() {
         assertRenders(view, "$PATH/render.png")
     }
 
-    @Test
-    fun testRender_withDifferentColor() {
-        view.color = PaletteUtils.getAndroidTestColor(1)
-        assertRenders(view, "$PATH/render_different_color.png")
-    }
+//    // Flaky test
+//    @Test
+//    fun testRender_withDifferentColor() {
+//        view.color = PaletteUtils.getAndroidTestColor(1)
+//        assertRenders(view, "$PATH/render_different_color.png")
+//    }
 
 //    // Flaky test
 //    @Test

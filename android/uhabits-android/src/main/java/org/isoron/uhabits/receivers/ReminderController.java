@@ -70,17 +70,13 @@ public class ReminderController
 
     public void onSnoozePressed(@NonNull Habit habit, final Context context)
     {
-        long delay = preferences.getSnoozeInterval();
-
-        if (delay < 0)
-            showSnoozeDelayPicker(habit, context);
-        else
-            scheduleReminderMinutesFromNow(habit, delay);
+        showSnoozeDelayPicker(habit, context);
     }
 
-    public void onSnoozeDelayPicked(Habit habit, int delay)
+    public void onSnoozeDelayPicked(Habit habit, int delayInMinutes)
     {
-        scheduleReminderMinutesFromNow(habit, delay);
+        reminderScheduler.snoozeReminder(habit, delayInMinutes);
+        notificationTray.cancel(habit);
     }
 
     public void onSnoozeTimePicked(Habit habit, int hour, int minute)
@@ -92,12 +88,6 @@ public class ReminderController
 
     public void onDismiss(@NonNull Habit habit)
     {
-        notificationTray.cancel(habit);
-    }
-
-    private void scheduleReminderMinutesFromNow(Habit habit, long minutes)
-    {
-        reminderScheduler.scheduleMinutesFromNow(habit, minutes);
         notificationTray.cancel(habit);
     }
 

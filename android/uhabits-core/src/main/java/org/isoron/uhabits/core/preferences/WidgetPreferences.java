@@ -57,7 +57,27 @@ public class WidgetPreferences {
         storage.remove(habitIdKey);
     }
 
+    public long getSnoozeTime(long id)
+    {
+        return storage.getLong(getSnoozeKey(id), 0);
+    }
+
     private String getHabitIdKey(int id) {
         return String.format("widget-%06d-habit", id);
+    }
+
+    private String getSnoozeKey(long id)
+    {
+        return String.format("snooze-%06d", id);
+    }
+
+    public void removeSnoozeTime(long id)
+    {
+        storage.putLong(getSnoozeKey(id), 0);
+    }
+
+    public void setSnoozeTime(Long id, long time)
+    {
+        storage.putLong(getSnoozeKey(id), time);
     }
 }
