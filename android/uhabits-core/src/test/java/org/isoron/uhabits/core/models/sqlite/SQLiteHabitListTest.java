@@ -65,7 +65,7 @@ public class SQLiteHabitListTest extends BaseUnitTest
         for (int i = 0; i < 10; i++)
         {
             Habit habit = fixtures.createEmptyHabit();
-            habit.setName("habit " + i);
+            habit.setName("habit " + (i+1));
             habitList.update(habit);
             habitsArray.add(habit);
 
@@ -147,13 +147,13 @@ public class SQLiteHabitListTest extends BaseUnitTest
     @Test
     public void testGetById()
     {
-        Habit h1 = habitList.getById(0);
+        Habit h1 = habitList.getById(1);
         assertNotNull(h1);
-        assertThat(h1.getName(), equalTo("habit 0"));
+        assertThat(h1.getName(), equalTo("habit 1"));
 
-        Habit h2 = habitList.getById(0);
+        Habit h2 = habitList.getById(2);
         assertNotNull(h2);
-        assertThat(h1, equalTo(h2));
+        assertThat(h2, equalTo(h2));
     }
 
     @Test
@@ -167,7 +167,7 @@ public class SQLiteHabitListTest extends BaseUnitTest
     @Test
     public void testGetByPosition()
     {
-        Habit h = habitList.getByPosition(5);
+        Habit h = habitList.getByPosition(4);
         assertNotNull(h);
         assertThat(h.getName(), equalTo("habit 5"));
     }
@@ -189,7 +189,7 @@ public class SQLiteHabitListTest extends BaseUnitTest
     @Test
     public void testRemove() throws Exception
     {
-        Habit h = habitList.getByPosition(2);
+        Habit h = habitList.getById(2);
         habitList.remove(h);
         assertThat(habitList.indexOf(h), equalTo(-1));
 
@@ -198,7 +198,7 @@ public class SQLiteHabitListTest extends BaseUnitTest
 
         rec = repository.find(3L);
         assertNotNull(rec);
-        assertThat(rec.position, equalTo(2));
+        assertThat(rec.position, equalTo(1));
     }
 
     @Test
@@ -212,11 +212,11 @@ public class SQLiteHabitListTest extends BaseUnitTest
 
         HabitRecord record3 = repository.find(3L);
         assertNotNull(record3);
-        assertThat(record3.position, equalTo(4));
+        assertThat(record3.position, equalTo(3));
 
         HabitRecord record4 = repository.find(4L);
         assertNotNull(record4);
-        assertThat(record4.position, equalTo(3));
+        assertThat(record4.position, equalTo(2));
     }
 
 
