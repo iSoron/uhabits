@@ -3,11 +3,13 @@ package org.isoron.uhabits.notifications;
 
 import android.app.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v4.app.*;
+import androidx.annotation.*;
+import androidx.core.app.*;
 import android.text.format.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.datetimepicker.time.TimePickerDialog;
 

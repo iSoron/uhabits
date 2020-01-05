@@ -22,7 +22,7 @@ package org.isoron.uhabits.widgets;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
+import androidx.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;

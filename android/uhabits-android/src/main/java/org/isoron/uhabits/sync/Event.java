@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.sync;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.database.*;
 

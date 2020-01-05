@@ -21,8 +21,8 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.widget.*;
+import androidx.annotation.*;
+import androidx.appcompat.widget.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;

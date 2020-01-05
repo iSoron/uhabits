@@ -19,9 +19,11 @@
 
 package org.isoron.uhabits.activities.habits.list.views;
 
-import android.support.annotation.*;
-import android.support.v7.widget.*;
+import androidx.annotation.*;
+import androidx.appcompat.widget.*;
 import android.view.*;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.activities.habits.list.*;

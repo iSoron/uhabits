@@ -20,7 +20,7 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.*;
-import android.support.annotation.*;
+import androidx.annotation.*;
 import android.view.*;
 import android.widget.*;
 

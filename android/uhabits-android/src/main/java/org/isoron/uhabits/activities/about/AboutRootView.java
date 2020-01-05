@@ -20,7 +20,7 @@
 package org.isoron.uhabits.activities.about;
 
 import android.content.*;
-import android.support.annotation.*;
+import androidx.annotation.*;
 import android.widget.*;
 
 import org.isoron.androidbase.activities.*;

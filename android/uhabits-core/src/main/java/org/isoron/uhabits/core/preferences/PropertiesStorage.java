@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.preferences;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import java.io.*;
 import java.util.*;

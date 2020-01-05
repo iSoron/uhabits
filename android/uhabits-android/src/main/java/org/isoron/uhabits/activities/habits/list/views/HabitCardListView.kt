@@ -21,9 +21,9 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
 import android.os.*
-import android.support.v7.widget.*
-import android.support.v7.widget.helper.*
-import android.support.v7.widget.helper.ItemTouchHelper.*
+import androidx.appcompat.widget.*
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
 import com.google.auto.factory.*
 import dagger.*

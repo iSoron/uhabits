@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.app.*
 import android.content.*
-import android.support.annotation.*
+import androidx.annotation.*
 import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*

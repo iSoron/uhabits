@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities
 
 import android.content.res.Configuration.*
 import android.os.Build.VERSION.*
-import android.support.v4.content.*
+import androidx.core.content.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.preferences.*

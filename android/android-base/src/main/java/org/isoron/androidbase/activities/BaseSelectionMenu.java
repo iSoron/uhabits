@@ -19,8 +19,8 @@
 
 package org.isoron.androidbase.activities;
 
-import android.support.annotation.*;
-import android.support.v7.view.ActionMode;
+import androidx.annotation.*;
+import androidx.appcompat.view.ActionMode;
 import android.view.*;
 
 /**

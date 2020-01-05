@@ -20,7 +20,7 @@
 package org.isoron.androidbase.utils;
 
 import android.os.*;
-import android.support.annotation.*;
+import androidx.annotation.*;
 import android.util.*;
 
 import java.io.*;

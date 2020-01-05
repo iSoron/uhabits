@@ -23,8 +23,8 @@ android {
 
 dependencies {
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
-    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "org.apache.commons:commons-lang3:3.5"
 
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"

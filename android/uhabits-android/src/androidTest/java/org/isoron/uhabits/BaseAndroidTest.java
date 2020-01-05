@@ -23,10 +23,12 @@ import android.appwidget.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.test.*;
-import android.support.test.filters.*;
+import androidx.annotation.*;
+import androidx.test.*;
+import androidx.test.filters.*;
 import android.util.*;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import junit.framework.*;
 

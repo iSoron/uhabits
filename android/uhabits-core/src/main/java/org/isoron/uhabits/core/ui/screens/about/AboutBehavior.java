@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.about;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.preferences.*;
 

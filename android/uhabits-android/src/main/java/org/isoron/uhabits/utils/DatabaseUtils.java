@@ -21,7 +21,7 @@ package org.isoron.uhabits.utils;
 
 import android.content.*;
 import android.database.sqlite.*;
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;

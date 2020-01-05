@@ -10,7 +10,7 @@ dependencies {
     compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     compileOnly "com.google.dagger:dagger:$DAGGER_VERSION"
 
-    implementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+    implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.apache.commons:commons-lang3:3.5'
     implementation 'com.google.code.gson:gson:2.8.5'

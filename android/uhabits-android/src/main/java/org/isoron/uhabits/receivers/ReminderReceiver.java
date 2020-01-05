@@ -20,7 +20,7 @@
 package org.isoron.uhabits.receivers;
 
 import android.content.*;
-import android.support.annotation.*;
+import androidx.annotation.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;

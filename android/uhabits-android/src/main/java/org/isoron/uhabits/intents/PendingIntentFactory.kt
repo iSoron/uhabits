@@ -23,6 +23,7 @@ import android.app.*
 import android.app.PendingIntent.*
 import android.content.*
 import android.net.*
+import androidx.core.app.TaskStackBuilder
 import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.models.*
@@ -64,8 +65,7 @@ class PendingIntentFactory
                     FLAG_UPDATE_CURRENT)
 
     fun showHabit(habit: Habit): PendingIntent =
-            android.support.v4.app.TaskStackBuilder
-                    .create(context)
+            TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(
                             intentFactory.startShowHabitActivity(
                                     context, habit))

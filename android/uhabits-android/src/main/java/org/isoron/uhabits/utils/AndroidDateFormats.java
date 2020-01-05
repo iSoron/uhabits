@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.utils;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.utils.*;
 

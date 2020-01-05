@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.activities.about;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 import android.widget.*;
 
 import org.isoron.androidbase.activities.*;

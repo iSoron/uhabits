@@ -20,8 +20,10 @@
 package org.isoron.uhabits.activities.common.views;
 
 import android.graphics.*;
-import android.support.test.filters.*;
-import android.support.test.runner.*;
+import androidx.test.filters.*;
+import androidx.test.runner.*;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;

@@ -22,9 +22,9 @@ package org.isoron.uhabits.activities.common.dialogs;
 import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.*;
+import androidx.annotation.*;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
