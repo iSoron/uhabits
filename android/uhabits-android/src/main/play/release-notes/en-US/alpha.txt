@@ -1,4 +1,4 @@
-1.8.5
+1.8.6
 * Bugfixes
 1.8:
 * New bar chart showing number of repetitions performed each week, month or year
