@@ -84,8 +84,8 @@ public class BaseAndroidTest extends TestCase
     {
         if (Looper.myLooper() == null) Looper.prepare();
 
-        targetContext = InstrumentationRegistry.getTargetContext();
-        testContext = InstrumentationRegistry.getContext();
+        targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        testContext = InstrumentationRegistry.getInstrumentation().getContext();
 
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
         setResolution(2.0f);
