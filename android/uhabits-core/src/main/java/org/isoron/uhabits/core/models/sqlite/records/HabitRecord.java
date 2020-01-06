@@ -34,6 +34,9 @@ public class HabitRecord
     public String description;
 
     @Column
+    public String question;
+
+    @Column
     public String name;
 
     @Column(name = "freq_num")
@@ -91,6 +94,7 @@ public class HabitRecord
         this.targetValue = model.getTargetValue();
         this.unit = model.getUnit();
         this.position = model.getPosition();
+        this.question = model.getQuestion();
 
         Frequency freq = model.getFrequency();
         this.freqNum = freq.getNumerator();
@@ -113,6 +117,7 @@ public class HabitRecord
         habit.setId(this.id);
         habit.setName(this.name);
         habit.setDescription(this.description);
+        habit.setQuestion(this.question);
         habit.setFrequency(new Frequency(this.freqNum, this.freqDen));
         habit.setColor(this.color);
         habit.setArchived(this.archived != 0);
