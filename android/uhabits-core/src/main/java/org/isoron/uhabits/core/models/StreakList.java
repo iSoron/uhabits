@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.models;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.utils.*;
 

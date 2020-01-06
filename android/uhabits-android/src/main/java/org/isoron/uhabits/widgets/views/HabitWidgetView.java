@@ -23,10 +23,12 @@ import android.content.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;

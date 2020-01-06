@@ -25,8 +25,8 @@ import android.graphics.*
 import android.graphics.BitmapFactory.*
 import android.os.*
 import android.os.Build.VERSION.*
-import android.support.v4.app.*
-import android.support.v4.app.NotificationCompat.*
+import androidx.core.app.*
+import androidx.core.app.NotificationCompat.*
 import android.util.*
 import org.isoron.androidbase.*
 import org.isoron.uhabits.R

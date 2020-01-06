@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.AppCompatSpinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/numericalSpinner"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
@@ -33,7 +33,7 @@
             android:entries="@array/strengthIntervalNames"
             android:theme="@style/SmallSpinner" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/boolSpinner"
             android:layout_width="wrap_content"
             android:layout_height="22dp"

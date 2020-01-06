@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.apache.commons.io.*;
 import org.isoron.uhabits.core.commands.*;

@@ -19,7 +19,8 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.support.v7.widget.*
+import androidx.appcompat.widget.*
 import android.view.*
+import androidx.recyclerview.widget.RecyclerView
 
 class HabitCardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

@@ -20,9 +20,10 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.*;
 

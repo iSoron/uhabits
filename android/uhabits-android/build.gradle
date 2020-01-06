@@ -31,7 +31,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION as Integer
 
         applicationId "org.isoron.uhabits"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -76,10 +76,10 @@ dependencies {
     implementation project(":android-base")
     implementation project(":android-pickers")
 
-    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:preference-v14:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.github.paolorotolo:appintro:3.4.0"
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
     implementation "com.jakewharton:butterknife:8.6.1-SNAPSHOT"
@@ -91,19 +91,19 @@ dependencies {
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    kapt "com.jakewharton:butterknife-compiler:9.0.0"
+    kapt "com.jakewharton:butterknife-compiler:10.2.1"
     annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
 
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:2.2.2"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:2.2.2"
-    androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:2.1.1"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
     androidTestImplementation "com.linkedin.testbutler:test-butler-library:1.3.1"
     androidTestCompileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     androidTestAnnotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
-    androidTestImplementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    androidTestImplementation "com.android.support.test:rules:0.5"
-    androidTestImplementation "com.android.support.test:runner:0.5"
+    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation "com.google.guava:guava:24.1-android"
     androidTestImplementation project(":uhabits-core")
     kaptAndroidTest "com.google.dagger:dagger-compiler:$DAGGER_VERSION"

@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.activities.about;
 
-import android.support.annotation.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.core.ui.screens.about.*;

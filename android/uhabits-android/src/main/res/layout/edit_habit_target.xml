@@ -29,7 +29,7 @@
         style="@style/dialogFormLabel"
         android:text="@string/target"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2">
@@ -43,9 +43,9 @@
             android:inputType="numberDecimal"
             android:text="@string/default_count"
             />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2">
@@ -58,5 +58,5 @@
             android:hint="@string/unit"
             android:inputType="text"
             app:example="@string/example_units"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

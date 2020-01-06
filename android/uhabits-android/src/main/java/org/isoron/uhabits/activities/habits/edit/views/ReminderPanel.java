@@ -21,10 +21,12 @@ package org.isoron.uhabits.activities.habits.edit.views;
 
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.datetimepicker.time.*;
 

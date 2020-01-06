@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.tasks;
 
-import android.support.annotation.*;
+import androidx.annotation.NonNull;
 
 import com.google.auto.factory.*;
 

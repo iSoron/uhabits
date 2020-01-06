@@ -22,10 +22,12 @@ package org.isoron.uhabits.activities.habits.edit.views;
 import android.annotation.*;
 import android.content.*;
 import android.content.res.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.models.*;
