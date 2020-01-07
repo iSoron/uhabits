@@ -142,7 +142,7 @@ public class Habit
         data.color = color;
     }
 
-    @NonNull
+    @Nullable
     public synchronized String getDescription()
     {
         return data.description;
