@@ -56,9 +56,6 @@ class AndroidNotificationTray
         val manager = NotificationManagerCompat.from(context)
         manager.cancel(id)
         active.remove(id)
-
-        // Clear the group summary notification
-        if (active.isEmpty()) manager.cancelAll()
     }
 
     override fun showNotification(habit: Habit,
