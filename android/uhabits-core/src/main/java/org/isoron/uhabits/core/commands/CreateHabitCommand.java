@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.commands;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import com.google.auto.factory.*;
 

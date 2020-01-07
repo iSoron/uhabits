@@ -22,9 +22,10 @@ package org.isoron.uhabits.widgets;
 import android.appwidget.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.util.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;

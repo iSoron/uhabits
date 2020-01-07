@@ -25,8 +25,8 @@ import android.graphics.*
 import android.graphics.BitmapFactory.*
 import android.os.*
 import android.os.Build.VERSION.*
-import android.support.v4.app.*
-import android.support.v4.app.NotificationCompat.*
+import androidx.core.app.*
+import androidx.core.app.NotificationCompat.*
 import android.util.*
 import org.isoron.androidbase.*
 import org.isoron.uhabits.R
@@ -56,9 +56,6 @@ class AndroidNotificationTray
         val manager = NotificationManagerCompat.from(context)
         manager.cancel(id)
         active.remove(id)
-
-        // Clear the group summary notification
-        if (active.isEmpty()) manager.cancelAll()
     }
 
     override fun showNotification(habit: Habit,

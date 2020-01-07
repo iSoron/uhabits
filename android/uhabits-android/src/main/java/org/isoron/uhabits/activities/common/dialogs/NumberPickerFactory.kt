@@ -20,7 +20,7 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.*
-import android.support.v7.app.*
+import androidx.appcompat.app.*
 import android.text.*
 import android.view.*
 import android.view.inputmethod.*

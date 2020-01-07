@@ -3,9 +3,10 @@ package org.isoron.uhabits.widgets;
 import android.appwidget.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.util.Log;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;

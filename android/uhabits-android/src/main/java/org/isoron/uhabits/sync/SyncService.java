@@ -23,7 +23,7 @@ import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.os.*;
-import android.support.v4.app.*;
+import androidx.core.app.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;

@@ -20,7 +20,8 @@
 package org.isoron.uhabits.activities.habits.edit;
 
 import android.os.*;
-import android.support.annotation.*;
+
+import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.core.models.*;
 

@@ -20,8 +20,10 @@
 package org.isoron.androidbase;
 
 import android.content.*;
-import android.support.annotation.*;
-import android.support.v4.content.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.*;
 import android.util.*;
 
 import org.isoron.androidbase.utils.*;

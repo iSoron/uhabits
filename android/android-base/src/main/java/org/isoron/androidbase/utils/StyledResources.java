@@ -22,7 +22,9 @@ package org.isoron.androidbase.utils;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.drawable.*;
-import android.support.annotation.*;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
 
 import org.isoron.androidbase.*;
 

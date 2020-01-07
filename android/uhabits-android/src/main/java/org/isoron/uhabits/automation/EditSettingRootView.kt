@@ -21,8 +21,8 @@ package org.isoron.uhabits.automation
 
 import android.R.layout.*
 import android.content.*
-import android.support.v7.widget.*
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.*
+import androidx.appcompat.widget.Toolbar
 import android.widget.*
 import butterknife.*
 import org.isoron.androidbase.activities.*

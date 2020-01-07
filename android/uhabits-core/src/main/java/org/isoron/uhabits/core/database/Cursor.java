@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.database;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 public interface Cursor extends AutoCloseable
 {

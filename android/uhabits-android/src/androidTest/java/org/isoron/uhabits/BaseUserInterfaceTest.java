@@ -20,7 +20,8 @@
 package org.isoron.uhabits;
 
 import android.content.*;
-import android.support.test.uiautomator.*;
+
+import androidx.test.uiautomator.*;
 
 import com.linkedin.android.testbutler.*;
 
@@ -30,8 +31,10 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static android.support.test.InstrumentationRegistry.*;
-import static android.support.test.uiautomator.UiDevice.*;
+import static androidx.test.InstrumentationRegistry.getContext;
+import static androidx.test.InstrumentationRegistry.getTargetContext;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.uiautomator.UiDevice.*;
 
 public class BaseUserInterfaceTest
 {
