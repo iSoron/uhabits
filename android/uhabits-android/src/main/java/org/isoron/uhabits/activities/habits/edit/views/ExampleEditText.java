@@ -24,6 +24,7 @@ import android.text.*;
 import android.util.*;
 import android.view.*;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
@@ -82,7 +83,7 @@ public class ExampleEditText extends AppCompatEditText
         updateText();
     }
 
-    public void setRealText(String realText)
+    public void setRealText(@NonNull String realText)
     {
         this.realText = realText;
         updateText();

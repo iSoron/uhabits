@@ -70,7 +70,7 @@
 
         <org.isoron.uhabits.activities.habits.edit.views.ExampleEditText
             android:id="@+id/tvQuestion"
-            style="@style/dialogFormInputMultiline"
+            style="@style/dialogFormInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:example="@string/example_question_numerical" />
@@ -88,11 +88,10 @@
 
         <org.isoron.uhabits.activities.habits.edit.views.ExampleEditText
             android:id="@+id/tvDescription"
-            style="@style/dialogFormInput"
+            style="@style/dialogFormInputMultiline"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="top"
-            android:minHeight="300dp"
             app:example="@string/example_notes" />
     </com.google.android.material.textfield.TextInputLayout>
 

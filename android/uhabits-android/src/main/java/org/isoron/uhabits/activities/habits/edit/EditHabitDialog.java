@@ -187,6 +187,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
             habit.copyFrom(originalHabit);
         habit.setName(namePanel.getName());
         habit.setDescription(namePanel.getDescription());
+        habit.setQuestion(namePanel.getQuestion());
         habit.setColor(namePanel.getColor());
         habit.setReminder(reminderPanel.getReminder());
         habit.setFrequency(frequencyPanel.getFrequency());
