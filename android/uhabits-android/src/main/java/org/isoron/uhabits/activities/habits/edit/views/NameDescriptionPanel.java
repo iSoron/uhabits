@@ -83,7 +83,8 @@ public class NameDescriptionPanel extends FrameLayout
     }
 
     @NonNull
-    public String getQuestion() {
+    public String getQuestion()
+    {
         return tvQuestion.getRealText().trim();
     }
 
