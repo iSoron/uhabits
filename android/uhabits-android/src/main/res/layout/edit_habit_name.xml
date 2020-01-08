@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,53 +17,83 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://isoron.org/android"
+    xmlns:app1="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        style="@style/dialogFormRow">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="6">
-
-            <EditText
-                android:id="@+id/tvName"
-                style="@style/dialogFormInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/name">
-
-                <requestFocus/>
-            </EditText>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/buttonPickColor"
-            style="@style/dialogFormInputColor"
-            android:layout_weight="1"
-            android:contentDescription="@string/color_picker_default_title"
-            android:src="?dialogIconChangeColor"/>
-
-    </LinearLayout>
+    android:layout_height="wrap_content"
+    android:minWidth="300dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/tilName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app1:layout_constraintEnd_toStartOf="@+id/buttonPickColor"
+        app1:layout_constraintHorizontal_weight="6"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/tvName"
+            style="@style/dialogFormInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="start"
+            android:gravity="center_vertical"
+            android:hint="@string/name">
+
+            <requestFocus />
+        </EditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/buttonPickColor"
+        style="@style/dialogFormInputColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/color_picker_default_title"
+        android:src="?dialogIconChangeColor"
+        app1:layout_constraintBottom_toBottomOf="@id/tilName"
+        app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintHorizontal_weight="1"
+        app1:layout_constraintStart_toEndOf="@+id/tilName"
+        app1:layout_constraintTop_toTopOf="@id/tilName" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilQuestion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/question"
+        app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toBottomOf="@id/tilName">
 
         <org.isoron.uhabits.activities.habits.edit.views.ExampleEditText
-            android:id="@+id/tvDescription"
+            android:id="@+id/tvQuestion"
             style="@style/dialogFormInputMultiline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/question"
-            app:example="@string/example_question_numerical"/>
+            app:example="@string/example_question_numerical" />
     </com.google.android.material.textfield.TextInputLayout>
 
-</LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/notes"
+        app1:layout_constraintBottom_toBottomOf="parent"
+        app1:layout_constraintEnd_toEndOf="parent"
+        app1:layout_constraintStart_toStartOf="parent"
+        app1:layout_constraintTop_toBottomOf="@id/tilQuestion">
+
+        <org.isoron.uhabits.activities.habits.edit.views.ExampleEditText
+            android:id="@+id/tvDescription"
+            style="@style/dialogFormInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:minHeight="300dp"
+            app:example="@string/example_notes" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

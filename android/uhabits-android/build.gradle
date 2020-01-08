@@ -87,6 +87,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"

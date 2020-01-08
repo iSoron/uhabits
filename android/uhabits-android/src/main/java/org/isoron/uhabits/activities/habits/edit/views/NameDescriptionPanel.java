@@ -42,6 +42,9 @@ public class NameDescriptionPanel extends FrameLayout
     @BindView(R.id.tvName)
     EditText tvName;
 
+    @BindView(R.id.tvQuestion)
+    ExampleEditText tvQuestion;
+
     @BindView(R.id.tvDescription)
     ExampleEditText tvDescription;
 
@@ -76,7 +79,7 @@ public class NameDescriptionPanel extends FrameLayout
     @NonNull
     public String getDescription()
     {
-        return tvDescription.getRealText().trim();
+        return tvQuestion.getRealText().trim();
     }
 
     @NonNull
@@ -90,13 +93,13 @@ public class NameDescriptionPanel extends FrameLayout
         Resources res = getResources();
 
         if(habit.isNumerical())
-            tvDescription.setExample(res.getString(R.string.example_question_numerical));
+            tvQuestion.setExample(res.getString(R.string.example_question_numerical));
         else
-            tvDescription.setExample(res.getString(R.string.example_question_boolean));
+            tvQuestion.setExample(res.getString(R.string.example_question_boolean));
 
         setColor(habit.getColor());
         tvName.setText(habit.getName());
-        tvDescription.setRealText(habit.getDescription());
+        tvQuestion.setRealText(habit.getDescription());
     }
 
     public boolean validate()

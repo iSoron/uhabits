@@ -23,7 +23,6 @@ import androidx.annotation.StringRes;
 import androidx.test.espresso.*;
 import androidx.test.espresso.contrib.*;
 import androidx.test.uiautomator.*;
-import androidx.appcompat.widget.*;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -167,7 +166,7 @@ public class CommonSteps extends BaseUserInterfaceTest
                 break;
 
             case EDIT_HABIT:
-                onView(withId(R.id.tvDescription)).check(matches(isDisplayed()));
+                onView(withId(R.id.tvQuestion)).check(matches(isDisplayed()));
                 break;
         }
     }
