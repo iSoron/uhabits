@@ -64,7 +64,7 @@ public class SubtitleCard extends HabitCard
 
         if (habit.hasReminder()) updateReminderText(habit.getReminder());
 
-        if (habit.getDescription().isEmpty()) questionLabel.setVisibility(GONE);
+        if (habit.getQuestion().isEmpty()) questionLabel.setVisibility(GONE);
 
         invalidate();
     }

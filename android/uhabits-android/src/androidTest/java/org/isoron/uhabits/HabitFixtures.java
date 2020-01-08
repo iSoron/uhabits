@@ -52,7 +52,7 @@ public class HabitFixtures
     {
         Habit habit = modelFactory.buildHabit();
         habit.setName("Meditate");
-        habit.setDescription("Did you meditate this morning?");
+        habit.setQuestion("Did you meditate this morning?");
         habit.setColor(5);
         habit.setFrequency(Frequency.DAILY);
         habit.setId(id);
@@ -81,7 +81,7 @@ public class HabitFixtures
     {
         Habit habit = modelFactory.buildHabit();
         habit.setName("Take a walk");
-        habit.setDescription("How many steps did you walk today?");
+        habit.setQuestion("How many steps did you walk today?");
         habit.setType(Habit.NUMBER_HABIT);
         habit.setTargetType(Habit.AT_LEAST);
         habit.setTargetValue(200.0);
@@ -103,7 +103,7 @@ public class HabitFixtures
     {
         Habit habit = modelFactory.buildHabit();
         habit.setName("Wake up early");
-        habit.setDescription("Did you wake up before 6am?");
+        habit.setQuestion("Did you wake up before 6am?");
         habit.setFrequency(new Frequency(2, 3));
         habitList.add(habit);
 

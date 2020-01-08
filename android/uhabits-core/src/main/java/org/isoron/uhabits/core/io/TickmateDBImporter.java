@@ -123,11 +123,11 @@ public class TickmateDBImporter extends AbstractImporter
             {
                 int id = c.getInt(0);
                 String name = c.getString(1);
-                String description = c.getString(2);
+                String question = c.getString(2);
 
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
-                habit.setDescription(description);
+                habit.setQuestion(question);
                 habit.setFrequency(Frequency.DAILY);
                 habitList.add(habit);
 

@@ -115,7 +115,7 @@ class AndroidNotificationTray
         val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
-                .setContentText(if(habit.description.isNullOrBlank()) defaultText else habit.description)
+                .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
                 .addAction(addRepetitionAction)

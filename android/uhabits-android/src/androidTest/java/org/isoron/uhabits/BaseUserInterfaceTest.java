@@ -96,25 +96,25 @@ public class BaseUserInterfaceTest
 
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("Wake up early");
-        h1.setDescription("Did you wake up early today?");
+        h1.setQuestion("Did you wake up early today?");
         h1.setColor(5);
         habitList.update(h1);
 
         Habit h2 = fixtures.createShortHabit();
         h2.setName("Track time");
-        h2.setDescription("Did you track your time?");
+        h2.setQuestion("Did you track your time?");
         h2.setColor(5);
         habitList.update(h2);
 
         Habit h3 = fixtures.createLongHabit();
         h3.setName("Meditate");
-        h3.setDescription("Did meditate today?");
+        h3.setQuestion("Did meditate today?");
         h3.setColor(10);
         habitList.update(h3);
 
         Habit h4 = fixtures.createEmptyHabit();
         h4.setName("Read books");
-        h4.setDescription("Did you read books today?");
+        h4.setQuestion("Did you read books today?");
         h4.setColor(2);
         habitList.update(h4);
     }
