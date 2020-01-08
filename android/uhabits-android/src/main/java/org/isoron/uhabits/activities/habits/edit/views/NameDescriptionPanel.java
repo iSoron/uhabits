@@ -76,7 +76,7 @@ public class NameDescriptionPanel extends FrameLayout
         tvName.setTextColor(PaletteUtils.getColor(getContext(), color));
     }
 
-    @Nullable
+    @NonNull
     public String getDescription()
     {
         return tvDescription.getRealText().trim();
@@ -105,10 +105,7 @@ public class NameDescriptionPanel extends FrameLayout
         setColor(habit.getColor());
         tvName.setText(habit.getName());
         tvQuestion.setRealText(habit.getQuestion());
-        final String description = habit.getDescription();
-        if(description != null) {
-            tvDescription.setRealText(description);
-        }
+        tvDescription.setRealText(habit.getDescription());
     }
 
     public boolean validate()

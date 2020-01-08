@@ -142,7 +142,7 @@ public class Habit
         data.color = color;
     }
 
-    @Nullable
+    @NonNull
     public synchronized String getDescription()
     {
         return data.description;
@@ -368,7 +368,7 @@ public class Habit
         @NonNull
         public String name;
 
-        @Nullable
+        @NonNull
         public String description;
 
         @NonNull
@@ -402,7 +402,7 @@ public class Habit
             this.frequency = new Frequency(3, 7);
             this.type = YES_NO_HABIT;
             this.name = "";
-            this.description = null;
+            this.description = "";
             this.question = "";
             this.targetType = AT_LEAST;
             this.targetValue = 100;
