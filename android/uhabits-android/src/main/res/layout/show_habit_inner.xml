@@ -38,15 +38,10 @@
             android:id="@+id/subtitleCard"
             style="@style/ShowHabit.Subtitle"/>
 
-        <TextView
-            android:id="@+id/habitNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <org.isoron.uhabits.activities.habits.show.views.NotesCard
+            android:id="@+id/notesCard"
             style="@style/Card"
-            android:gravity="center"
-            android:textColor="?highContrastTextColor"
-            tools:text="This is some example text for the notes"
-            android:visibility="gone"/>
+            android:gravity="center" />
 
         <View
             android:id="@+id/headerShadow"
