@@ -38,7 +38,16 @@ import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 public class HabitsTest extends BaseUserInterfaceTest
 {
     @Test
-    public void shouldCreateHabit() throws Exception
+    public void shouldCreateHabit() throws Exception {
+        shouldCreateHabit("this is a test description");
+    }
+
+    @Test
+    public void shouldCreateHabitBlankDescription() throws Exception {
+        shouldCreateHabit("");
+    }
+
+    private void shouldCreateHabit(String description) throws Exception
     {
         launchApp();
 
@@ -46,14 +55,16 @@ public class HabitsTest extends BaseUserInterfaceTest
         clickMenu(ADD);
 
         verifyShowsScreen(EDIT_HABIT);
-        typeName("Hello world");
+        String testName = "Hello world";
+        typeName(testName);
         typeQuestion("Did you say hello to the world today?");
+        typeDescription(description);
         pickFrequency("Every week");
         pickColor(5);
         clickSave();
 
         verifyShowsScreen(LIST_HABITS);
-        verifyDisplaysText("Hello world");
+        verifyDisplaysText(testName);
     }
 
     @Test
