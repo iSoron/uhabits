@@ -20,7 +20,6 @@
 package org.isoron.uhabits.acceptance;
 
 import androidx.test.filters.*;
-import androidx.test.runner.*;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -81,7 +80,16 @@ public class HabitsTest extends BaseUserInterfaceTest
     }
 
     @Test
-    public void shouldEditHabit() throws Exception
+    public void shouldEditHabit() throws Exception {
+        shouldEditHabit("this is a test description");
+    }
+
+    @Test
+    public void shouldEditHabitBlankDescription() throws Exception {
+        shouldEditHabit("");
+    }
+
+    private void shouldEditHabit(String description) throws Exception
     {
         launchApp();
 
@@ -92,7 +100,7 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyShowsScreen(EDIT_HABIT);
         typeName("Take a walk");
         typeQuestion("Did you take a walk today?");
-        typeDescription("this is a test description");
+        typeDescription(description);
         clickSave();
 
         verifyShowsScreen(LIST_HABITS);
