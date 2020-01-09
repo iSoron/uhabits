@@ -18,7 +18,12 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.LinearLayout"
+    tools:orientation="vertical"
+    tools:layout_width="match_parent"
+    tools:layout_height="wrap_content">
     <TextView
         android:id="@+id/questionLabel"
         android:layout_width="match_parent"
@@ -26,6 +31,7 @@
         android:layout_marginBottom="8dp"
         android:textColor="?mediumContrastTextColor"
         android:textSize="@dimen/regularTextSize"
+        tools:text="Have you worked out today?"
         />
 
     <LinearLayout
@@ -33,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/frequencyIcon"
@@ -42,8 +49,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:alpha="0.3"
-            android:src="?iconFrequency"
-            />
+            android:src="?iconFrequency" />
 
         <TextView
             android:id="@+id/frequencyLabel"
@@ -51,20 +57,18 @@
             android:layout_height="wrap_content"
             android:text="@string/every_day"
             android:textColor="?mediumContrastTextColor"
-            android:textSize="@dimen/smallTextSize"
-            />
+            android:textSize="@dimen/smallTextSize" />
 
         <ImageView
             android:id="@+id/reminderIcon"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
             android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:alpha="0.3"
-            android:src="?iconReminder"
-            />
+            android:src="?iconReminder" />
 
         <TextView
             android:id="@+id/reminderLabel"
@@ -72,8 +76,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="1dp"
             android:textColor="?mediumContrastTextColor"
-            android:textSize="@dimen/smallTextSize"
-            />
+            android:textSize="@dimen/smallTextSize" />
 
     </LinearLayout>
 </merge>
