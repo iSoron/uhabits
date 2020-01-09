@@ -92,6 +92,7 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyShowsScreen(EDIT_HABIT);
         typeName("Take a walk");
         typeQuestion("Did you take a walk today?");
+        typeDescription("this is a test description");
         clickSave();
 
         verifyShowsScreen(LIST_HABITS);
