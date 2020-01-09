@@ -194,4 +194,12 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyDisplaysText("Track time");
         verifyDisplaysText("Wake up early");
     }
+
+    @Test
+    public void shouldHideNotesCard() throws Exception
+    {
+        launchApp();
+        clickText(EMPTY_DESCRIPTION_HABIT_NAME);
+        verifyShowsScreen(SHOW_HABIT, false);
+    }
 }
