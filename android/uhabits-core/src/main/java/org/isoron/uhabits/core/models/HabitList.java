@@ -212,6 +212,7 @@ public abstract class HabitList implements Iterable<Habit>
         String header[] = {
             "Position",
             "Name",
+            "Question",
             "Description",
             "NumRepetitions",
             "Interval",
@@ -229,6 +230,7 @@ public abstract class HabitList implements Iterable<Habit>
                 String.format("%03d", indexOf(habit) + 1),
                 habit.getName(),
                 habit.getQuestion(),
+                habit.getDescription(),
                 Integer.toString(freq.getNumerator()),
                 Integer.toString(freq.getDenominator()),
                 ColorConstants.CSV_PALETTE[habit.getColor()]
