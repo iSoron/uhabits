@@ -57,7 +57,7 @@ class Version23Test: BaseUnitTest() {
         val cursor = db.query("select description from Habits")
 
         while(cursor.moveToNext()){
-            MatcherAssert.assertThat(cursor.getString(0), Matchers.nullValue())
+            MatcherAssert.assertThat(cursor.getString(0), Matchers.equalTo(""))
         }
     }
 }
