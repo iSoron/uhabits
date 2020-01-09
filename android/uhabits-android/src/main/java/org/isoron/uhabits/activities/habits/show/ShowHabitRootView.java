@@ -21,6 +21,8 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.content.*;
 import android.os.*;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.*;
@@ -51,6 +53,9 @@ public class ShowHabitRootView extends BaseRootView
 
     @BindView(R.id.subtitleCard)
     SubtitleCard subtitleCard;
+
+    @BindView(R.id.habitNotes)
+    TextView habitNotes;
 
     @BindView(R.id.overviewCard)
     OverviewCard overviewCard;
@@ -136,12 +141,21 @@ public class ShowHabitRootView extends BaseRootView
     private void initCards()
     {
         subtitleCard.setHabit(habit);
+        initHabitNotes();
         overviewCard.setHabit(habit);
         scoreCard.setHabit(habit);
         historyCard.setHabit(habit);
         streakCard.setHabit(habit);
         frequencyCard.setHabit(habit);
         barCard.setHabit(habit);
+    }
+
+    private void initHabitNotes() {
+        final String description = habit.getDescription();
+        if(!description.isEmpty()){
+            habitNotes.setText(description);
+            habitNotes.setVisibility(View.VISIBLE);
+        }
     }
 
     public interface Controller extends HistoryCard.Controller

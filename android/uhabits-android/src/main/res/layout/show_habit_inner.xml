@@ -38,6 +38,16 @@
             android:id="@+id/subtitleCard"
             style="@style/ShowHabit.Subtitle"/>
 
+        <TextView
+            android:id="@+id/habitNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Card"
+            android:gravity="center"
+            android:textColor="?highContrastTextColor"
+            tools:text="This is some example text for the notes"
+            android:visibility="gone"/>
+
         <View
             android:id="@+id/headerShadow"
             style="@style/ToolbarShadow"/>
