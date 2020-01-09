@@ -67,7 +67,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             String name = line[0];
             if (name.equals("HabitName")) continue;
 
-            String question = line[1];
+            String description = line[1];
             String dateString[] = line[3].split("-");
             int year = Integer.parseInt(dateString[0]);
             int month = Integer.parseInt(dateString[1]);
@@ -87,7 +87,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             {
                 h = modelFactory.buildHabit();
                 h.setName(name);
-                h.setQuestion(question);
+                h.setDescription(description);
                 h.setFrequency(Frequency.DAILY);
                 habitList.add(h);
                 map.put(name, h);

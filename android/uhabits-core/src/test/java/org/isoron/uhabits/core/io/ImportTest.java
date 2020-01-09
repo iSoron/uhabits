@@ -52,7 +52,7 @@ public class ImportTest extends BaseUnitTest
 
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Breed dragons"));
-        assertThat(habit.getQuestion(), equalTo("with love and fire"));
+        assertThat(habit.getDescription(), equalTo("with love and fire"));
         assertThat(habit.getFrequency(), equalTo(Frequency.DAILY));
         assertTrue(containsRepetition(habit, 2016, 3, 18));
         assertTrue(containsRepetition(habit, 2016, 3, 19));

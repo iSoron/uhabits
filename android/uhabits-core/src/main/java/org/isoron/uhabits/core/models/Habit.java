@@ -148,9 +148,9 @@ public class Habit
         return data.description;
     }
 
-    public synchronized void setDescription(@NonNull String description)
+    public synchronized void setDescription(@Nullable String description)
     {
-        data.description = description;
+        data.description = description == null ? "" : description;
     }
 
     @NonNull

@@ -92,7 +92,7 @@ public class RewireDBImporter extends AbstractImporter
             {
                 int id = c.getInt(0);
                 String name = c.getString(1);
-                String question = c.getString(2);
+                String description = c.getString(2);
                 int schedule = c.getInt(3);
                 String activeDays = c.getString(4);
                 int repeatingCount = c.getInt(5);
@@ -101,7 +101,7 @@ public class RewireDBImporter extends AbstractImporter
 
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
-                habit.setQuestion(question);
+                habit.setDescription(description);
 
                 int periods[] = { 7, 31, 365 };
                 int numerator, denominator;
