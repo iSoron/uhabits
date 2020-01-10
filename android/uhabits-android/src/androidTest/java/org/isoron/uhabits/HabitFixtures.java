@@ -53,6 +53,7 @@ public class HabitFixtures
         Habit habit = modelFactory.buildHabit();
         habit.setName("Meditate");
         habit.setQuestion("Did you meditate this morning?");
+        habit.setDescription("This is a test description");
         habit.setColor(5);
         habit.setFrequency(Frequency.DAILY);
         habit.setId(id);

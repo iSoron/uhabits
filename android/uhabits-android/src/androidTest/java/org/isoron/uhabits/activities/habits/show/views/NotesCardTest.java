@@ -19,24 +19,27 @@
 
 package org.isoron.uhabits.activities.habits.show.views;
 
-import androidx.test.filters.*;
-import androidx.test.runner.*;
-import android.view.*;
+import android.view.LayoutInflater;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.MediumTest;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.junit.*;
-import org.junit.runner.*;
+import org.isoron.uhabits.BaseViewTest;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.core.models.Reminder;
+import org.isoron.uhabits.core.models.WeekdayList;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class SubtitleCardTest extends BaseViewTest
+public class NotesCardTest extends BaseViewTest
 {
-    public static final String PATH = "habits/show/SubtitleCard/";
+    public static final String PATH = "habits/show/NotesCard/";
 
-    private SubtitleCard view;
+    private NotesCard view;
 
     private Habit habit;
 
@@ -52,7 +55,7 @@ public class SubtitleCardTest extends BaseViewTest
         view = LayoutInflater
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
-            .findViewById(R.id.subtitleCard);
+            .findViewById(R.id.notesCard);
 
         view.setHabit(habit);
         view.refreshData();
@@ -64,5 +67,13 @@ public class SubtitleCardTest extends BaseViewTest
     public void testRender() throws Exception
     {
         assertRenders(view, PATH + "render.png");
+    }
+
+    @Test
+    public void testRenderEmptyDescription() throws Exception
+    {
+        habit.setDescription("");
+        view.refreshData();
+        assertRenders(view, PATH + "render-empty-description.png");
     }
 }

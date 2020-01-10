@@ -7,7 +7,7 @@ import android.widget.TextView
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.tasks.Task
 
-internal class NotesCard(context: Context?, attrs: AttributeSet?) : HabitCard(context, attrs) {
+class NotesCard(context: Context?, attrs: AttributeSet?) : HabitCard(context, attrs) {
 
     private val notesTextView: TextView
 
