@@ -138,8 +138,8 @@ class ListHabitsScreen
     }
 
     override fun showCreateBooleanHabitScreen() {
-        val dialog = editHabitDialogFactory.createBoolean()
-        activity.showDialog(dialog, "editHabit")
+        val intent = intentFactory.startEditActivity(activity)
+        activity.startActivity(intent)
     }
 
     override fun showCreateNumericalHabitScreen() {
