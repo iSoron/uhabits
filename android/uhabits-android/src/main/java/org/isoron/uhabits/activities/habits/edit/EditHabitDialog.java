@@ -82,7 +82,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
     public int getTheme()
     {
         HabitsActivity activity = (HabitsActivity) getActivity();
-        return activity.getComponent().getThemeSwitcher().getDialogTheme();
+        return ((AndroidThemeSwitcher) activity.getComponent().getThemeSwitcher()).getDialogTheme();
     }
 
     @Override

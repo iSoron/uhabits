@@ -19,23 +19,58 @@
 
 package org.isoron.uhabits.activities.habits.edit
 
+import android.content.res.*
 import android.graphics.*
 import android.os.*
 import androidx.appcompat.app.*
-import androidx.appcompat.widget.*
+import kotlinx.android.synthetic.main.activity_edit_habit.*
+import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.activities.common.dialogs.*
+import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.ui.*
+import org.isoron.uhabits.preferences.*
+import org.isoron.uhabits.utils.*
 
 class EditHabitActivity : AppCompatActivity() {
+
+    private lateinit var themeSwitcher: AndroidThemeSwitcher
+
+    var paletteColor = 11
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val prefs = Preferences(SharedPreferencesStorage(this))
+        themeSwitcher = AndroidThemeSwitcher(this, prefs)
+        themeSwitcher.apply()
+
         setContentView(R.layout.activity_edit_habit)
+        updateColors()
 
-        window.statusBarColor = Color.parseColor("#B4285A")
-
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.elevation = 10.0f
+
+        val colorPickerDialogFactory = ColorPickerDialogFactory(this)
+        colorButton.setOnClickListener {
+            val dialog = colorPickerDialogFactory.create(paletteColor)
+            dialog.setListener { paletteColor ->
+                this.paletteColor = paletteColor
+                updateColors()
+            }
+            dialog.show(supportFragmentManager, "colorPicker")
+        }
+    }
+
+    private fun updateColors() {
+        val androidColor = PaletteUtils.getColor(this, paletteColor)
+        colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
+        if(!themeSwitcher.isNightMode) {
+            val darkerAndroidColor = ColorUtils.mixColors(Color.BLACK, androidColor, 0.15f)
+            window.statusBarColor = darkerAndroidColor
+            toolbar.setBackgroundColor(androidColor)
+        }
     }
 }

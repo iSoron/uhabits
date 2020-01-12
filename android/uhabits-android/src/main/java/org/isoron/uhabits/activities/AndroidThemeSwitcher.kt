@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities
 
+import android.app.*
 import android.content.res.Configuration.*
 import android.os.Build.VERSION.*
 import androidx.core.content.*
@@ -30,8 +31,8 @@ import javax.inject.*
 
 @ActivityScope
 class AndroidThemeSwitcher
-@Inject constructor(
-        private val activity: BaseActivity,
+constructor(
+        private val activity: Activity,
         preferences: Preferences
 ) : ThemeSwitcher(preferences) {
 

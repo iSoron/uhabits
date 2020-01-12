@@ -17,9 +17,12 @@
             android:theme="@style/AppBaseTheme">
 
         <activity
-                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                 android:exported="true"
-                android:name=".activities.habits.edit.EditHabitActivity" />
+                android:name=".activities.habits.edit.EditHabitActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".activities.habits.list.ListHabitsActivity" />
+        </activity>
 
         <meta-data
                 android:name="com.google.android.backup.api_key"

@@ -21,10 +21,17 @@ package org.isoron.uhabits.activities
 
 import dagger.*
 import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.*
 
 @Module
-abstract class HabitsActivityModule {
-    @Binds @ActivityScope
-    internal abstract fun getThemeSwitcher(t: AndroidThemeSwitcher): ThemeSwitcher
+class HabitsActivityModule {
+
+    @Provides
+    @ActivityScope
+    fun getThemeSwitcher(activity: BaseActivity,
+                         prefs: Preferences
+                        ): ThemeSwitcher {
+        return AndroidThemeSwitcher(activity, prefs)
+    }
 }

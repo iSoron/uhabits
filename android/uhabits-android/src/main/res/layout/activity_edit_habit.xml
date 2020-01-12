@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?attr/highContrastReverseTextColor"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         tools:context=".activities.habits.edit.EditHabitActivity">
@@ -17,13 +17,13 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#E23673"
+                android:background="?attr/colorPrimary"
                 android:elevation="2dp"
                 android:gravity="end"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:title="Edit habit"
-                app:titleTextColor="@android:color/white">
+                app:title="@string/create_habit"
+                app:titleTextColor="@color/white">
 
             <com.google.android.material.button.MaterialButton
                     android:id="@+id/material_text_button"
@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginEnd="16dp"
-                    android:text="SAVE"
+                    android:text="@string/save"
                     android:textColor="@color/white"
                     app:rippleColor="@color/white"
                     app:strokeColor="@color/white" />
@@ -82,7 +82,7 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="-17dp"
                                 android:layout_marginBottom="-4dp"
-                                android:background="@color/white"
+                                android:background="?attr/highContrastReverseTextColor"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
                                 android:textSize="@dimen/smallTextSize"
@@ -122,13 +122,14 @@
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="-17dp"
                                 android:layout_marginBottom="-4dp"
-                                android:background="@color/white"
+                                android:background="?attr/highContrastReverseTextColor"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
                                 android:textSize="@dimen/smallTextSize"
                                 android:text="Color" />
 
                         <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/colorButton"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="16dp"
@@ -168,7 +169,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="-17dp"
                             android:layout_marginBottom="-4dp"
-                            android:background="@color/white"
+                            android:background="?attr/highContrastReverseTextColor"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
                             android:textSize="@dimen/smallTextSize"
@@ -209,20 +210,21 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="-17dp"
                             android:layout_marginBottom="-4dp"
-                            android:background="@color/white"
+                            android:background="?attr/highContrastReverseTextColor"
                             android:textSize="@dimen/smallTextSize"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
                             android:text="@string/frequency" />
 
                     <TextView
+                            android:id="@+id/frequencyPicker"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableEnd="@drawable/ic_arrow_drop_down_dark"
                             android:textSize="@dimen/regularTextSize"
                             android:padding="16dp"
                             android:text="@string/every_day"
-                            android:textColor="@color/black" />
+                            android:textColor="?attr/highContrastTextColor" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -249,7 +251,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="-17dp"
                             android:layout_marginBottom="-4dp"
-                            android:background="@color/white"
+                            android:background="?attr/highContrastReverseTextColor"
                             android:textSize="@dimen/smallTextSize"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
@@ -261,7 +263,7 @@
                             android:background="?attr/selectableItemBackground"
                             android:drawableEnd="@drawable/ic_arrow_drop_down_dark"
                             android:textSize="@dimen/regularTextSize"
-                            android:textColor="@color/black"
+                            android:textColor="?attr/highContrastTextColor"
                             android:padding="16dp"
                             android:text="@string/reminder_off" />
                 </LinearLayout>
@@ -291,7 +293,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="-17dp"
                             android:layout_marginBottom="-4dp"
-                            android:background="@color/white"
+                            android:background="?attr/highContrastReverseTextColor"
                             android:textSize="@dimen/smallTextSize"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
@@ -302,7 +304,7 @@
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:textSize="@dimen/regularTextSize"
-                            android:textColor="@color/black"
+                            android:textColor="?attr/highContrastTextColor"
                             android:padding="16dp"
                             android:hint="(Optional)" />
                 </LinearLayout>

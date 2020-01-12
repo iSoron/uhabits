@@ -18,7 +18,7 @@
   -->
 
 <resources>
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppBaseTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
@@ -30,9 +30,9 @@
         <item name="selectedBackground">@drawable/selected_box_light</item>
         <item name="cardBackground">@drawable/card_light_background</item>
 
-        <item name="colorPrimary">@color/blue_grey_800</item>
-        <item name="colorPrimaryDark">@color/blue_grey_900</item>
-        <item name="colorAccent">?aboutScreenColor</item>
+        <item name="colorPrimary">#363636</item>
+        <item name="colorPrimaryDark">#303030</item>
+        <item name="colorAccent">#303030</item>
         <item name="cardBgColor">@color/grey_50</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
         <item name="headerBackgroundColor">@color/grey_200</item>
@@ -74,7 +74,7 @@
         <item name="android:textSize">@dimen/smallTextSize</item>
     </style>
 
-    <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
