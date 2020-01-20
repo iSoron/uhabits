@@ -29,7 +29,6 @@ import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.preferences.*
 import org.isoron.uhabits.utils.*
 
@@ -38,6 +37,8 @@ class EditHabitActivity : AppCompatActivity() {
     private lateinit var themeSwitcher: AndroidThemeSwitcher
 
     var paletteColor = 11
+    var freqNum = 1
+    var freqDen = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +63,29 @@ class EditHabitActivity : AppCompatActivity() {
             }
             dialog.show(supportFragmentManager, "colorPicker")
         }
+
+        populateFrequency()
+        frequencyPicker.setOnClickListener {
+            val dialog = FrequencyPickerDialog(freqNum, freqDen)
+            dialog.onFrequencyPicked = {num, den ->
+                freqNum = num
+                freqDen = den
+                populateFrequency()
+            }
+            dialog.show(supportFragmentManager, "frequencyPicker")
+        }
+    }
+
+    private fun populateFrequency() {
+        val label = when {
+            freqNum == 1 && freqDen == 1 -> "Every day"
+            freqNum == 1 && freqDen == 7 -> "Every week"
+            freqNum == 1 && freqDen > 1 -> "Every $freqDen days"
+            freqDen == 7 -> "$freqNum times per week"
+            freqDen == 31 -> "$freqNum times per month"
+            else -> "Unknown"
+        }
+        frequencyPicker.text = label
     }
 
     private fun updateColors() {

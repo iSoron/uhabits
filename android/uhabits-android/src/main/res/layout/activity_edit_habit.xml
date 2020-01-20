@@ -71,7 +71,7 @@
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/input_box_background"
+                            android:background="@drawable/bg_input_group"
                             android:clipChildren="false"
                             android:clipToPadding="false"
                             android:orientation="vertical">
@@ -111,7 +111,7 @@
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/input_box_background"
+                            android:background="@drawable/bg_input_group"
                             android:clipChildren="false"
                             android:clipToPadding="false"
                             android:orientation="vertical">
@@ -158,7 +158,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/input_box_background"
+                        android:background="@drawable/bg_input_group"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:orientation="vertical">
@@ -199,7 +199,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/input_box_background"
+                        android:background="@drawable/bg_input_group"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:orientation="vertical">
@@ -240,7 +240,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/input_box_background"
+                        android:background="@drawable/bg_input_group"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:orientation="vertical">
@@ -282,7 +282,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/input_box_background"
+                        android:background="@drawable/bg_input_group"
                         android:clipChildren="false"
                         android:clipToPadding="false"
                         android:orientation="vertical">
