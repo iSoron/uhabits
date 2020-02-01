@@ -159,22 +159,4 @@ public class Version22Test extends BaseUnitTest
         db.execute("insert into repetitions(habit, timestamp, value)" +
                    "values (0, 100, 5)");
     }
-
-    @Test
-    @Ignore("this test is invalid. findAll method queries all columns in the code when the database may be different columns")
-    public void testKeepHabitsUnchanged() throws Exception
-    {
-        Habit original = fixtures.createLongHabit();
-        Reminder reminder = new Reminder(8, 30, new WeekdayList(100));
-        original.setReminder(reminder);
-        habitList.update(original);
-
-        helper.migrateTo(22);
-
-        ((SQLiteHabitList) habitList).reload();
-        Habit modified = habitList.getById(original.getId());
-        assertNotNull(modified);
-
-        assertThat(original.getData(), equalTo(modified.getData()));
-    }
 }
