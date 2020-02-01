@@ -22,37 +22,25 @@ package org.isoron.uhabits.acceptance.steps;
 import android.view.View;
 
 import androidx.annotation.StringRes;
+import androidx.test.espresso.*;
+import androidx.test.espresso.contrib.*;
+import androidx.test.uiautomator.*;
+
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.espresso.PerformException;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiSelector;
-import androidx.test.uiautomator.Until;
 
 import org.hamcrest.Matcher;
-import org.isoron.uhabits.BaseUserInterfaceTest;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.habits.list.ListHabitsActivity;
+import org.isoron.uhabits.activities.habits.list.*;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.longClick;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.PositionAssertions.isBelow;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.Visibility;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.endsWith;
-import static org.hamcrest.CoreMatchers.instanceOf;
+import static android.os.Build.VERSION.*;
+import static androidx.test.espresso.Espresso.*;
+import static androidx.test.espresso.action.ViewActions.*;
+import static androidx.test.espresso.assertion.PositionAssertions.*;
+import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static junit.framework.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 public class CommonSteps extends BaseUserInterfaceTest
 {
