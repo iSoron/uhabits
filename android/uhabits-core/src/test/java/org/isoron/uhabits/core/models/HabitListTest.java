@@ -226,7 +226,7 @@ public class HabitListTest extends BaseUnitTest
         Habit h2 = fixtures.createEmptyHabit();
         h2.setName("Wake up early");
         h2.setQuestion("Did you wake up before 6am?");
-        h2.setDescription(null);
+        h2.setDescription("");
         h2.setFrequency(new Frequency(2, 3));
         h2.setColor(5);
 
