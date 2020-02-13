@@ -151,6 +151,7 @@ public class MemoryHabitList extends HabitList
         if (order == BY_NAME) return nameComparator;
         if (order == BY_COLOR) return colorComparator;
         if (order == BY_SCORE) return scoreComparator;
+        if (order == BY_SCORE_ASC) return scoreComparator.reversed();
         throw new IllegalStateException();
     }
 

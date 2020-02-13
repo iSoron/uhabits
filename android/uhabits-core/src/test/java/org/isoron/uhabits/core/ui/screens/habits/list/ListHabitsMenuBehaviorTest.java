@@ -124,6 +124,14 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     }
 
     @Test
+    public void testOnSortScoreAsc()
+    {
+        behavior.onSortByScoreAsc();
+        verify(adapter).setOrder(orderCaptor.capture());
+        assertThat(orderCaptor.getValue(), equalTo(BY_SCORE_ASC));
+    }
+
+    @Test
     public void testOnSortName()
     {
         behavior.onSortByName();

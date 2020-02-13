@@ -17,6 +17,7 @@ open class Strings() {
     open val by_color = "By color"
     open val by_name = "By name"
     open val by_score = "By score"
+    open val by_score_asc = "By lowest score"
     open val calendar = "Calendar"
     open val cancel = "Cancel"
     open val change_value = "Change value"

@@ -111,6 +111,11 @@ class ListHabitsMenu @Inject constructor(
                 return true
             }
 
+            R.id.actionSortScoreAsc -> {
+                behavior.onSortByScoreAsc()
+                return true
+            }
+
             else -> return false
         }
     }

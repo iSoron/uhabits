@@ -115,6 +115,11 @@ public class ListHabitsMenuBehavior
         adapter.setOrder(HabitList.Order.BY_SCORE);
     }
 
+    public void onSortByScoreAsc()
+    {
+        adapter.setOrder(HabitList.Order.BY_SCORE_ASC);
+    }
+
     public void onSortByName()
     {
         adapter.setOrder(HabitList.Order.BY_NAME);
