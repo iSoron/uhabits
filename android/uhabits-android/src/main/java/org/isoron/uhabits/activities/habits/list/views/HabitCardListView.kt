@@ -129,6 +129,7 @@ class HabitCardListView(
         fun drop(from: Int, to: Int) {}
         fun onItemClick(pos: Int) {}
         fun onItemLongClick(pos: Int) {}
+        fun onSwiped(position: Int, direction: Int) {}
         fun startDrag(position: Int) {}
     }
 
@@ -164,9 +165,11 @@ class HabitCardListView(
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder,
                               direction: Int) {
+            val position = viewHolder.adapterPosition
+            controller.get().onSwiped(position, direction)
         }
 
-        override fun isItemViewSwipeEnabled() = false
+        override fun isItemViewSwipeEnabled() = true
         override fun isLongPressDragEnabled() = false
     }
 }

@@ -288,6 +288,11 @@ public class HabitCardListAdapter
         cache.reorder(from, to);
     }
 
+    public void dismiss(int position)
+    {
+        cache.dismiss(position);
+    }
+
     @Override
     public void refresh()
     {

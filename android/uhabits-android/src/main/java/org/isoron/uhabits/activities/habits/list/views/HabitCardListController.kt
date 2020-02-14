@@ -47,6 +47,10 @@ class HabitCardListController @Inject constructor(
         adapter.observable.addListener(this)
     }
 
+    override fun onSwiped(position: Int, direction: Int) {
+        adapter.dismiss(position)
+    }
+
     override fun drop(from: Int, to: Int) {
         if (from == to) return
         cancelSelection()

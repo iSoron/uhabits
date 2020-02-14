@@ -179,6 +179,12 @@ public class HabitCardListCache implements CommandRunner.Listener
         listener.onItemMoved(from, to);
     }
 
+    public synchronized void dismiss(int position)
+    {
+        Habit habit = data.habits.get(position);
+        habit.dismiss();
+    }
+
     public synchronized void setCheckmarkCount(int checkmarkCount)
     {
         this.checkmarkCount = checkmarkCount;
