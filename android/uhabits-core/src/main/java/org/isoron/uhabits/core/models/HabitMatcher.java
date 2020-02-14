@@ -61,6 +61,7 @@ public class HabitMatcher
         if (!isArchivedAllowed() && habit.isArchived()) return false;
         if (isReminderRequired() && !habit.hasReminder()) return false;
         if (!isCompletedAllowed() && habit.isCompletedToday()) return false;
+        if (habit.isDismissedToday()) return false;
         return true;
     }
 }

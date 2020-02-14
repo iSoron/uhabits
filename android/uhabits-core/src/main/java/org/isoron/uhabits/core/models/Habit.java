@@ -23,6 +23,7 @@ import androidx.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.annotation.concurrent.*;
@@ -30,6 +31,7 @@ import javax.inject.*;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+
 
 /**
  * The thing that the user wants to track.
@@ -65,6 +67,8 @@ public class Habit
 
     @NonNull
     private CheckmarkList checkmarks;
+
+    private LocalDate lastDismissed = LocalDate.MIN;
 
     private ModelObservable observable = new ModelObservable();
 
@@ -337,6 +341,17 @@ public class Habit
     public synchronized boolean isNumerical()
     {
         return data.type == NUMBER_HABIT;
+    }
+
+    public synchronized boolean isDismissedToday()
+    {
+        LocalDate today = LocalDate.now();
+        return lastDismissed.equals(today);
+    }
+
+    public synchronized void dismiss()
+    {
+        lastDismissed = LocalDate.now();
     }
 
     public HabitData getData()
