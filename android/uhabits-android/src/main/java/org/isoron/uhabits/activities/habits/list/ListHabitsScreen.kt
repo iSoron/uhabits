@@ -184,6 +184,7 @@ class ListHabitsScreen
                         DATABASE_REPAIRED -> R.string.database_repaired
                         COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
                         FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
+                        HABIT_DISMISSED -> R.string.toast_habit_dismissed
                     })
     }
 

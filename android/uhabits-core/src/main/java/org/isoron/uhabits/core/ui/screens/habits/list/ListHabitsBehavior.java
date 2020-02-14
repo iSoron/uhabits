@@ -113,6 +113,11 @@ public class ListHabitsBehavior
         screen.showIntroScreen();
     }
 
+    public void onDismissedHabit(Habit habit)
+    {
+        screen.showMessage(Message.HABIT_DISMISSED);
+    }
+
     public void onReorderHabit(@NonNull Habit from, @NonNull Habit to)
     {
         taskRunner.execute(() -> habitList.reorder(from, to));
@@ -159,7 +164,7 @@ public class ListHabitsBehavior
     public enum Message
     {
         COULD_NOT_EXPORT, IMPORT_SUCCESSFUL, IMPORT_FAILED, DATABASE_REPAIRED,
-        COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED
+        COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED, HABIT_DISMISSED
     }
 
     public interface BugReporter

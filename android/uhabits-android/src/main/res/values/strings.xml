@@ -31,6 +31,7 @@
     <string name="color_picker_default_title">Change color</string>
 
     <string name="toast_habit_created">Habit created</string>
+    <string name="toast_habit_dismissed">Habit dismissed</string>
     <string name="toast_habit_deleted">Habits deleted</string>
     <string name="toast_habit_restored">Habits restored</string>
     <string name="toast_nothing_to_undo">Nothing to undo</string>

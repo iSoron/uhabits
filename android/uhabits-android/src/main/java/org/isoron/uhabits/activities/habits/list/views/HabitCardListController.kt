@@ -49,6 +49,7 @@ class HabitCardListController @Inject constructor(
 
     override fun onSwiped(position: Int, direction: Int) {
         adapter.dismiss(position)
+        behavior.onDismissedHabit(adapter.getItem(position))
     }
 
     override fun drop(from: Int, to: Int) {
