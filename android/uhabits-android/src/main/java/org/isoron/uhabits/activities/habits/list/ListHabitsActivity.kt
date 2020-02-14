@@ -52,7 +52,7 @@ class ListHabitsActivity : HabitsActivity() {
 
     override fun onPause() {
         midnightTimer.onPause()
-        screen.onDettached()
+        screen.onDetached()
         adapter.cancelRefresh()
         super.onPause()
     }
