@@ -115,7 +115,7 @@ public class ListHabitsBehavior
 
     public void onDismissedHabit(Habit habit)
     {
-        screen.showMessage(Message.HABIT_DISMISSED);
+        taskRunner.execute(() -> screen.showMessage(Message.HABIT_DISMISSED));
     }
 
     public void onReorderHabit(@NonNull Habit from, @NonNull Habit to)
