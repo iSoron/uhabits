@@ -64,10 +64,12 @@
 
                     <item
                         android:id="@+id/actionSortScore"
+                        android:icon="?iconDescending"
                         android:title="@string/by_score"/>
 
                     <item
                         android:id="@+id/actionSortScoreAsc"
+                        android:icon="?iconAscending"
                         android:title="@string/by_score_asc"/>
                 </menu>
             </item>

@@ -36,7 +36,9 @@
 
     <attr name="iconAdd" format="reference"/>
     <attr name="iconArchive" format="reference"/>
+    <attr name="iconAscending" format="reference"/>
     <attr name="iconChangeColor" format="reference"/>
+    <attr name="iconDescending" format="reference"/>
     <attr name="iconDownload" format="reference"/>
     <attr name="iconEdit" format="reference"/>
     <attr name="iconUnarchive" format="reference"/>

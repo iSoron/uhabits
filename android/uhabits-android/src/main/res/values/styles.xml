@@ -52,7 +52,9 @@
 
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
         <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconAscending">@drawable/ic_sort_ascending_light</item>
         <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconDescending">@drawable/ic_sort_descending_light</item>
         <item name="iconDownload">@drawable/ic_action_download_dark</item>
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
@@ -106,7 +108,9 @@
 
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
         <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconAscending">@drawable/ic_sort_ascending_dark</item>
         <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconDescending">@drawable/ic_sort_descending_dark</item>
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconFilter">@drawable/ic_action_filter_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
