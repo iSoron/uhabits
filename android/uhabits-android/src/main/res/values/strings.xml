@@ -220,7 +220,6 @@
     <string name="by_name">By name</string>
     <string name="by_color">By color</string>
     <string name="by_score">By score</string>
-    <string name="by_score_asc">By lowest score</string>
     <string name="download">Download</string>
     <string name="export">Export</string>
     <string name="long_press_to_edit">Press-and-hold to change the value</string>

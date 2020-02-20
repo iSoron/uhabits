@@ -70,7 +70,7 @@
                     <item
                         android:id="@+id/actionSortScoreAsc"
                         android:icon="?iconAscending"
-                        android:title="@string/by_score_asc"/>
+                        android:title="@string/by_score"/>
                 </menu>
             </item>
         </menu>
