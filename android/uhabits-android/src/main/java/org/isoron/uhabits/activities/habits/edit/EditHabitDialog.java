@@ -52,6 +52,12 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     private static final String WEEKDAY_PICKER_TAG = "weekdayPicker";
 
+    private static final String KEY_NUMERATOR = "numerator";
+
+    private static final String KEY_DENOMINATOR = "denominator";
+
+    private static final String KEY_DESCRIPTION = "description";
+
     protected Habit originalHabit;
 
     protected Preferences prefs;
@@ -109,7 +115,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
         originalHabit = parseHabitFromArguments();
         getDialog().setTitle(getTitle());
 
-        populateForm();
+        populateForm(savedInstanceState);
         setupReminderController();
         setupNameController();
 
@@ -213,7 +219,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
         return habit;
     }
 
-    private void populateForm()
+    private void populateForm(Bundle bundle)
     {
         Habit habit = modelFactory.buildHabit();
         habit.setFrequency(Frequency.DAILY);
@@ -221,6 +227,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         habit.setType(getTypeFromArguments());
 
         if (originalHabit != null) habit.copyFrom(originalHabit);
+
+        if (bundle != null) populateFormWithBundle(bundle, habit);
 
         if (habit.isNumerical()) frequencyPanel.setVisibility(GONE);
         else targetPanel.setVisibility(GONE);
@@ -230,6 +238,15 @@ public class EditHabitDialog extends AppCompatDialogFragment
         targetPanel.setTargetValue(habit.getTargetValue());
         targetPanel.setUnit(habit.getUnit());
         if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());
+    }
+
+    private void populateFormWithBundle(Bundle bundle, Habit habit)
+    {
+        int numerator = bundle.getInt(KEY_NUMERATOR);
+        int denominator = bundle.getInt(KEY_DENOMINATOR);
+        String description = bundle.getString(KEY_DESCRIPTION);
+        habit.setFrequency(new Frequency(numerator, denominator));
+        if (description != null) habit.setDescription(description);
     }
 
     private void setupNameController()
@@ -285,5 +302,13 @@ public class EditHabitDialog extends AppCompatDialogFragment
                 (WeekdayPickerDialog) getChildFragmentManager()
                         .findFragmentByTag(WEEKDAY_PICKER_TAG);
         if(dialog != null) dialog.setListener(reminderPanel);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        outState.putString(KEY_DESCRIPTION, namePanel.getDescription());
+        outState.putInt(KEY_NUMERATOR, frequencyPanel.getFrequency().getNumerator());
+        outState.putInt(KEY_DENOMINATOR, frequencyPanel.getFrequency().getDenominator());
     }
 }
