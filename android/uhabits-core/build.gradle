@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'kotlin'
 
 dependencies {
     annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
@@ -26,6 +27,7 @@ dependencies {
     implementation('com.opencsv:opencsv:3.10') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
 }
 
 sourceCompatibility = "1.8"

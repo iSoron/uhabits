@@ -55,7 +55,12 @@ public class EditHabitSteps
 
     public static void typeQuestion(String name)
     {
-        typeTextWithId(R.id.tvDescription, name);
+        typeTextWithId(R.id.tvQuestion, name);
+    }
+
+    public static void typeDescription(String description)
+    {
+        typeTextWithId(R.id.tvDescription, description);
     }
 
     public static void setReminder()

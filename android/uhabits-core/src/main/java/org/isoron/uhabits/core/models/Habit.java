@@ -354,6 +354,15 @@ public class Habit
         data.position = newPosition;
     }
 
+    @NonNull
+    public String getQuestion() {
+        return data.question;
+    }
+
+    public void setQuestion(@NonNull String question) {
+        data.question = question;
+    }
+
     public static final class HabitData
     {
         @NonNull
@@ -361,6 +370,9 @@ public class Habit
 
         @NonNull
         public String description;
+
+        @NonNull
+        public String question;
 
         @NonNull
         public Frequency frequency;
@@ -391,6 +403,7 @@ public class Habit
             this.type = YES_NO_HABIT;
             this.name = "";
             this.description = "";
+            this.question = "";
             this.targetType = AT_LEAST;
             this.targetValue = 100;
             this.unit = "";
@@ -401,6 +414,7 @@ public class Habit
         {
             this.name = model.name;
             this.description = model.description;
+            this.question = model.question;
             this.frequency = model.frequency;
             this.color = model.color;
             this.archived = model.archived;
@@ -427,6 +441,7 @@ public class Habit
                 .append("unit", unit)
                 .append("reminder", reminder)
                 .append("position", position)
+                .append("question", question)
                 .toString();
         }
 
@@ -451,6 +466,7 @@ public class Habit
                 .append(unit, habitData.unit)
                 .append(reminder, habitData.reminder)
                 .append(position, habitData.position)
+                .append(question, habitData.question)
                 .isEquals();
         }
 
@@ -469,6 +485,7 @@ public class Habit
                 .append(unit)
                 .append(reminder)
                 .append(position)
+                .append(question)
                 .toHashCode();
         }
     }

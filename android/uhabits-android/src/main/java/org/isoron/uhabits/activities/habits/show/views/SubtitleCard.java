@@ -59,12 +59,12 @@ public class SubtitleCard extends HabitCard
         questionLabel.setVisibility(VISIBLE);
 
         questionLabel.setTextColor(color);
-        questionLabel.setText(habit.getDescription());
+        questionLabel.setText(habit.getQuestion());
         frequencyLabel.setText(toText(habit.getFrequency()));
 
         if (habit.hasReminder()) updateReminderText(habit.getReminder());
 
-        if (habit.getDescription().isEmpty()) questionLabel.setVisibility(GONE);
+        if (habit.getQuestion().isEmpty()) questionLabel.setVisibility(GONE);
 
         invalidate();
     }
