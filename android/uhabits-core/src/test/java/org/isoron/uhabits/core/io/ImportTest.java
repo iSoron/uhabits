@@ -135,7 +135,8 @@ public class ImportTest extends BaseUnitTest
             new LoopDBImporter(habitList, modelFactory, databaseOpener),
             new RewireDBImporter(habitList, modelFactory, databaseOpener),
             new TickmateDBImporter(habitList, modelFactory, databaseOpener),
-            new HabitBullCSVImporter(habitList, modelFactory));
+            new HabitBullCSVImporter(habitList, modelFactory),
+            new HabitsCSVImporter(habitList, modelFactory));
 
         assertTrue(importer.canHandle(file));
         importer.importHabitsFromFile(file);

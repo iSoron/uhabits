@@ -41,7 +41,8 @@ public class GenericImporter extends AbstractImporter
                            @NonNull LoopDBImporter loopDBImporter,
                            @NonNull RewireDBImporter rewireDBImporter,
                            @NonNull TickmateDBImporter tickmateDBImporter,
-                           @NonNull HabitBullCSVImporter habitBullCSVImporter)
+                           @NonNull HabitBullCSVImporter habitBullCSVImporter,
+                           @NonNull HabitsCSVImporter habitsCSVImporter)
     {
         super(habits);
         importers = new LinkedList<>();
@@ -49,6 +50,7 @@ public class GenericImporter extends AbstractImporter
         importers.add(rewireDBImporter);
         importers.add(tickmateDBImporter);
         importers.add(habitBullCSVImporter);
+        importers.add(habitsCSVImporter);
     }
 
     @Override

@@ -19,20 +19,33 @@
 
 package org.isoron.uhabits.core.io;
 
-import org.apache.commons.io.*;
-import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.models.*;
-import org.junit.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.isoron.uhabits.core.BaseUnitTest;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.core.models.HabitList;
+import org.isoron.uhabits.core.models.memory.MemoryModelFactory;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.zip.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
 
-public class HabitsCSVExporterTest extends BaseUnitTest
+public class HabitsCSVExporterAndImporterTest extends BaseUnitTest
 {
     private File baseDir;
 
@@ -75,6 +88,39 @@ public class HabitsCSVExporterTest extends BaseUnitTest
         assertPathExists("002 Meditate/Scores.csv");
         assertPathExists("Checkmarks.csv");
         assertPathExists("Scores.csv");
+    }
+
+    @Test
+    public void testImportCSV() throws IOException {
+        List<Habit> selected = new LinkedList<>();
+        for (Habit h : habitList) selected.add(h);
+
+        HabitsCSVExporter exporter =
+                new HabitsCSVExporter(habitList, selected, baseDir);
+        File file = new File(exporter.writeArchive());
+
+        HabitList oldHabits = habitList;
+
+        // reset model before importing
+        modelFactory = new MemoryModelFactory();
+        habitList = spy(modelFactory.buildHabitList());
+
+        HabitsCSVImporter importer = new HabitsCSVImporter(habitList, modelFactory);
+        assertTrue(importer.canHandle(file));
+
+        importer.importHabitsFromFile(file);
+
+        String fixed = stringRepresentation(oldHabits);
+        String updated = stringRepresentation(habitList);
+
+        // equals methods are too strict for this purpose
+        assertEquals(fixed, updated);
+    }
+
+    @NotNull
+    private String stringRepresentation(HabitList oldHabits) {
+        assertEquals(2, oldHabits.size());
+        return oldHabits.getByPosition(0).toString() + oldHabits.getByPosition(1).toString();
     }
 
     private void unzip(File file) throws IOException
