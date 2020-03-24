@@ -53,8 +53,6 @@ public class HabitsCSVImporter extends AbstractImporter {
         ZipFile zipFile = new ZipFile(file);
         CSVReader habitsCsv = new CSVReader(new InputStreamReader(zipFile.getInputStream(zipFile.getEntry("Habits.csv"))));
         try {
-            HashMap<String, Habit> map = new HashMap<>();
-
             boolean hasQuestion = false;
             for (String line[] : habitsCsv) {
                 if ("Position".equals(line[0])) {
