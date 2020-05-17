@@ -21,10 +21,26 @@ package org.isoron.platform.io
 
 import kotlinx.cinterop.*
 
-actual fun sprintf(format: String, vararg args: Any?): String {
+// Although the three following methods have exactly the same implementation,
+// replacing them all by a single format(format: String, arg: Any) breaks
+// everything, as of Kotlin/Native 1.3.72. Apparently, Kotlin/Native is not
+// able to do proper type conversions for variables of type Any when calling
+// C functions.
+
+actual fun format(format: String, arg: String): String {
     val buffer = ByteArray(1000)
-    buffer.usePinned { p ->
-        platform.posix.sprintf(p.addressOf(0), format, *args)
-    }
-    return buffer.stringFromUtf8()
+    buffer.usePinned { p -> platform.posix.sprintf(p.addressOf(0), format, arg) }
+    return buffer.toKString()
+}
+
+actual fun format(format: String, arg: Int): String {
+    val buffer = ByteArray(1000)
+    buffer.usePinned { p -> platform.posix.sprintf(p.addressOf(0), format, arg) }
+    return buffer.toKString()
+}
+
+actual fun format(format: String, arg: Double): String {
+    val buffer = ByteArray(1000)
+    buffer.usePinned { p -> platform.posix.sprintf(p.addressOf(0), format, arg) }
+    return buffer.toKString()
 }

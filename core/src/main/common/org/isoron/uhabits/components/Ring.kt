@@ -47,7 +47,7 @@ class Ring(val color: Color,
         if(label) {
             canvas.setColor(color)
             canvas.setFontSize(radius * 0.4)
-            canvas.drawText(sprintf("%.0f%%", percentage * 100), width / 2, height / 2)
+            canvas.drawText(format("%.0f%%", percentage * 100), width / 2, height / 2)
         }
     }
 }
