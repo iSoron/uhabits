@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		001592642260AE0F00D2814F /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
+		001592642260AE0F00D2814F /* LoopHabitTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */; };
+		005166D12471C02D00C6CFD6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
 		006EFE50225432B8008464E0 /* AboutScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006EFE4F225432B8008464E0 /* AboutScreenController.swift */; };
 		00A5B42822009F590024E00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42722009F590024E00C /* AppDelegate.swift */; };
 		00A5B42A22009F590024E00C /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A5B42922009F590024E00C /* MainScreenController.swift */; };
@@ -15,8 +16,8 @@
 		00C0C6BD22465F65003D8AF0 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BA22465F65003D8AF0 /* fonts */; };
 		00C0C6BE22465F65003D8AF0 /* databases in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BB22465F65003D8AF0 /* databases */; };
 		00C0C6BF22465F65003D8AF0 /* migrations in Resources */ = {isa = PBXBuildFile; fileRef = 00C0C6BC22465F65003D8AF0 /* migrations */; };
-		00C0C6CA2246E543003D8AF0 /* main.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; };
-		00C0C6CC2246E550003D8AF0 /* main.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* main.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00C0C6CA2246E543003D8AF0 /* LoopHabitTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */; };
+		00C0C6CC2246E550003D8AF0 /* LoopHabitTracker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C0C6D122470705003D8AF0 /* ComponentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6D022470705003D8AF0 /* ComponentView.swift */; };
 		00C0C6E0224A3602003D8AF0 /* DetailScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */; };
 		00D48BD12200A31300CC4527 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00D48BD02200A31300CC4527 /* Launch.storyboard */; };
@@ -40,7 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				00C0C6CC2246E550003D8AF0 /* main.framework in Embed Frameworks */,
+				00C0C6CC2246E550003D8AF0 /* LoopHabitTracker.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,7 +61,7 @@
 		00C0C6BA22465F65003D8AF0 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		00C0C6BB22465F65003D8AF0 /* databases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = databases; sourceTree = "<group>"; };
 		00C0C6BC22465F65003D8AF0 /* migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = migrations; sourceTree = "<group>"; };
-		00C0C6C92246E543003D8AF0 /* main.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = main.framework; path = ../core/build/bin/ios/mainDebugFramework/main.framework; sourceTree = "<group>"; };
+		00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopHabitTracker.framework; path = ../core/build/bin/ios/debugFramework/LoopHabitTracker.framework; sourceTree = "<group>"; };
 		00C0C6D022470705003D8AF0 /* ComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
 		00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenController.swift; sourceTree = "<group>"; };
 		00D48BD02200A31300CC4527 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
@@ -72,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C0C6CA2246E543003D8AF0 /* main.framework in Frameworks */,
+				00C0C6CA2246E543003D8AF0 /* LoopHabitTracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				001592642260AE0F00D2814F /* main.framework in Frameworks */,
+				001592642260AE0F00D2814F /* LoopHabitTracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,7 +144,7 @@
 		00C0C6B0224658CD003D8AF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				00C0C6C92246E543003D8AF0 /* main.framework */,
+				00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -284,7 +285,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../core\n./gradlew linkMainIos\n";
+			shellScript = "cd ../core\n./gradlew linkDebugFrameworkIos\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -306,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				005166D12471C02D00C6CFD6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,10 +451,10 @@
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/",
+					"$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/main.framework/Headers/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/LoopHabitTracker.framework/Headers/";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -477,10 +479,10 @@
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/",
+					"$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/mainDebugFramework/main.framework/Headers/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/LoopHabitTracker.framework/Headers/";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

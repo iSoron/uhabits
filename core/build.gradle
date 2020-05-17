@@ -33,7 +33,9 @@ kotlin {
 
         fromPreset(iosPreset, 'ios') {
             binaries {
-                framework()
+                framework {
+                    baseName = "LoopHabitTracker"
+                }
             }
             compilations.main {
                 cinterops {
@@ -128,5 +130,7 @@ kotlin {
         into 'build/bin/ios/debugTest'
     }
 
-    iosTest.dependsOn(iosTestCopyResources)
+    if (project.tasks.findByName('iosTest')) {
+        iosTest.dependsOn(iosTestCopyResources)
+    }
 }
