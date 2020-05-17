@@ -4,6 +4,7 @@
 *.perspectivev3
 *.swp
 *~.nib
+*.hprof
 .DS_Store
 .externalNativeBuild
 .gradle

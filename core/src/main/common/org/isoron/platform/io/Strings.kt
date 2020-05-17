@@ -19,4 +19,6 @@
 
 package org.isoron.platform.io
 
-expect fun sprintf(format: String, vararg args: Any?): String
+expect fun format(format: String, arg: String): String
+expect fun format(format: String, arg: Int): String
+expect fun format(format: String, arg: Double): String

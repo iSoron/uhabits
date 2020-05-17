@@ -27,6 +27,8 @@ import platform.CoreGraphics.*
 import platform.UIKit.*
 
 actual object DependencyResolver {
+    actual val ignoreViewTests = true
+
     actual suspend fun getFileOpener(): FileOpener = IosFileOpener()
 
     actual fun getDateFormatter(locale: Locale): LocalDateFormatter {
@@ -53,5 +55,4 @@ actual object DependencyResolver {
         db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
         return db
     }
-
 }

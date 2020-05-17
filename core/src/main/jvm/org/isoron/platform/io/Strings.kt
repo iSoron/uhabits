@@ -19,6 +19,11 @@
 
 package org.isoron.platform.io
 
-actual fun sprintf(format: String, vararg args: Any?): String {
-    return String.format(format, *args)
-}
+actual fun format(format: String, arg: String): String =
+        String.format(format, arg)
+
+actual fun format(format: String, arg: Int): String =
+        String.format(format, arg)
+
+actual fun format(format: String, arg: Double): String =
+        String.format(format, arg)
