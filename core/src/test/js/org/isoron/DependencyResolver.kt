@@ -27,6 +27,8 @@ import org.w3c.dom.*
 import kotlin.browser.*
 
 actual object DependencyResolver {
+    actual val ignoreViewTests = false
+
     var fileOpener: JsFileOpener? = null
 
     actual suspend fun getFileOpener(): FileOpener {
