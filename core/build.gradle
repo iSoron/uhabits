@@ -122,24 +122,11 @@ kotlin {
         }
     }
 
-//    task iosTestCopyResources(type: Copy) {
-//        dependsOn 'linkTestIos'
-//        from 'assets/test/'
-//        from 'assets/main/'
-//        into 'build/bin/ios/testDebugExecutable'
-//    }
-//
-//    task iosTestCustom {
-//        dependsOn 'linkTestIos', 'iosTestCopyResources'
-//        group = JavaBasePlugin.VERIFICATION_GROUP
-//        description = "Runs tests on iOS simulator"
-//
-//        doLast {
-//            def emulatorName = "iPhone 8 Plus"
-//            def binary = kotlin.targets.ios.compilations.test.getBinary('EXECUTABLE', 'DEBUG')
-//            exec {
-//                commandLine 'xcrun', 'simctl', 'spawn', emulatorName, binary.absolutePath
-//            }
-//        }
-//    }
+    task iosTestCopyResources(type: Copy) {
+        from 'assets/test/'
+        from 'assets/main/'
+        into 'build/bin/ios/debugTest'
+    }
+
+    iosTest.dependsOn(iosTestCopyResources)
 }
