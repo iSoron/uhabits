@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
@@ -28,4 +29,8 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:3.5"
 
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
+}
+repositories {
+    mavenCentral()
 }
