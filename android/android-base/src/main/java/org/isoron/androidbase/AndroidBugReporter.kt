@@ -65,8 +65,7 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
                 if (log.size > maxLineCount) log.removeFirst()
             }
             for (l in log) {
-                builder.append(l)
-                builder.append('\n')
+                builder.appendln(l)
             }
             return builder.toString()
         }
@@ -98,12 +97,20 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
 
     private fun getDeviceInfo(): String {
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        return String.format("App Version Name: %s\n", BuildConfig.VERSION_NAME) + String.format("App Version Code: %s\n", BuildConfig.VERSION_CODE) + String.format("OS Version: %s (%s)\n",
-                System.getProperty("os.version"), Build.VERSION.INCREMENTAL) + String.format("OS API Level: %s\n", Build.VERSION.SDK) + String.format("Device: %s\n", Build.DEVICE) + String.format("Model (Product): %s (%s)\n", Build.MODEL,
-                Build.PRODUCT) + String.format("Manufacturer: %s\n", Build.MANUFACTURER) + String.format("Other tags: %s\n", Build.TAGS) + String.format("Screen Width: %s\n",
-                wm.defaultDisplay.width) + String.format("Screen Height: %s\n",
-                wm.defaultDisplay.height) + String.format("External storage state: %s\n\n",
-                Environment.getExternalStorageState())
+        return buildString {
+            appendln("App Version Name: ${BuildConfig.VERSION_NAME}")
+            appendln("App Version Code: ${BuildConfig.VERSION_CODE}")
+            appendln("OS Version: ${System.getProperty("os.version")} (${Build.VERSION.INCREMENTAL})")
+            appendln("OS API Level: ${Build.VERSION.SDK}")
+            appendln("Device: ${Build.DEVICE}")
+            appendln("Model (Product): ${Build.MODEL} (${Build.PRODUCT})")
+            appendln("Manufacturer: ${Build.MANUFACTURER}")
+            appendln("Other tags: ${Build.TAGS}")
+            appendln("Screen Width: ${wm.defaultDisplay.width}")
+            appendln("Screen Height: ${wm.defaultDisplay.height}")
+            appendln("External storage state: ${Environment.getExternalStorageState()}")
+            appendln()
+        }
     }
 
 }
