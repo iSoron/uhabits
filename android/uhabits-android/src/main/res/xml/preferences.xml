@@ -125,6 +125,11 @@
                 android:title="@string/import_data"
                 app:iconSpaceReserved="false" />
 
+        <Preference
+            android:key="resetHabits"
+            android:title="Reset Habits"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
