@@ -127,6 +127,7 @@
 
         <Preference
             android:key="resetHabits"
+            android:summary="Reset the history of all habits"
             android:title="Reset Habits"
             app:iconSpaceReserved="false" />
 
