@@ -16,16 +16,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.androidbase
 
-package org.isoron.androidbase;
-
-import java.lang.annotation.*;
-
-import javax.inject.*;
+import java.lang.annotation.Documented
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
+import javax.inject.Qualifier
 
 @Qualifier
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AppContext
-{
-}
+annotation class AppContext
