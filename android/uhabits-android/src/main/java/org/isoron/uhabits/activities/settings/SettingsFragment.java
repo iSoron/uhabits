@@ -93,6 +93,8 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
         setResultOnPreferenceClick("repairDB", RESULT_REPAIR_DB);
         setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
+        setResultOnPreferenceClick("resetHabits", RESET_HABITS);
+
     }
 
     @Override

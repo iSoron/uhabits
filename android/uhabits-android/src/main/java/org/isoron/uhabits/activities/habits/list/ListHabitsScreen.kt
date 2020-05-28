@@ -49,12 +49,14 @@ const val RESULT_BUG_REPORT = 4
 const val RESULT_REPAIR_DB = 5
 const val REQUEST_OPEN_DOCUMENT = 6
 const val REQUEST_SETTINGS = 7
+const val RESET_HABITS = 8
 
 @ActivityScope
 class ListHabitsScreen
 @Inject constructor(
         activity: BaseActivity,
         rootView: ListHabitsRootView,
+        private val habitList: HabitList,
         private val commandRunner: CommandRunner,
         private val intentFactory: IntentFactory,
         private val themeSwitcher: ThemeSwitcher,
@@ -118,12 +120,14 @@ class ListHabitsScreen
     }
 
     private fun onSettingsResult(resultCode: Int) {
+        val liist = habitList.getFiltered(HabitMatcher(true,true,true))
         when (resultCode) {
             RESULT_IMPORT_DATA -> showImportScreen()
             RESULT_EXPORT_CSV -> behavior.get().onExportCSV()
             RESULT_EXPORT_DB -> onExportDB()
             RESULT_BUG_REPORT -> behavior.get().onSendBugReport()
             RESULT_REPAIR_DB -> behavior.get().onRepairDB()
+            RESET_HABITS -> ResetHabitsCommand(liist, liist.toList()).execute()
         }
     }
 

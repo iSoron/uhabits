@@ -134,18 +134,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:key="pref_key_debug"
-            android:title="@string/troubleshooting">
+        android:key="pref_key_debug"
+        android:title="@string/troubleshooting">
 
         <Preference
-                android:key="bugReport"
-                android:title="@string/generate_bug_report"
-                app:iconSpaceReserved="false" />
+            android:key="bugReport"
+            android:title="@string/generate_bug_report"
+            app:iconSpaceReserved="false" />
 
         <Preference
-                android:key="repairDB"
-                android:title="@string/repair_database"
-                app:iconSpaceReserved="false" />
+            android:key="repairDB"
+            android:title="@string/repair_database"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

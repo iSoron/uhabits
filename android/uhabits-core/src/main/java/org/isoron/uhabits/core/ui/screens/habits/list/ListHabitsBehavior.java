@@ -126,7 +126,14 @@ public class ListHabitsBehavior
             screen.showMessage(Message.DATABASE_REPAIRED);
         });
     }
-
+    public void onResetHabits()
+    {
+        taskRunner.execute(() ->
+        {
+            habitList.repair();
+            screen.showMessage(Message.DATABASE_REPAIRED);
+        });
+    }
     public void onSendBugReport()
     {
         bugReporter.dumpBugReportToFile();

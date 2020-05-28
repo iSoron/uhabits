@@ -50,5 +50,8 @@
         android:id="@+id/action_notify"
         android:title="@string/reminder"
         app:showAsAction="never"/>
-
+    <item
+        android:id="@+id/action_reset"
+        android:title="@string/reset"
+        app:showAsAction="never" />
 </menu>

@@ -246,5 +246,7 @@
     <string name="default_reminder_question">Have you completed this habit today?</string>
     <string name="notes">Notes</string>
     <string name="example_notes">You can put whatever you want here!</string>
+    <string name="Reset">reset</string>
+    <string name="reset">Reset</string>
 
 </resources>
