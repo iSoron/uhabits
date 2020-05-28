@@ -129,6 +129,11 @@ public class ListHabitsSelectionMenuBehavior
 
         void performRemove(List<Habit> selected);
     }
+    public void onResetHabits()
+    {
+        ResetHabitsCommand command = new ResetHabitsCommand(habitList, adapter.getSelected());
+        command.execute();
+    }
 
     public interface Screen
     {

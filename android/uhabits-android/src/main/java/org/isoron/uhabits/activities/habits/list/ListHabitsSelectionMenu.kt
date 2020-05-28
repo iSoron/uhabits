@@ -79,6 +79,10 @@ class ListHabitsSelectionMenu @Inject constructor(
                     notificationTray.show(h, DateUtils.getToday(), 0)
                 return true
             }
+            R.id.action_reset -> {
+                behavior.onResetHabits()
+                return true
+            }
 
             else -> return false
         }
