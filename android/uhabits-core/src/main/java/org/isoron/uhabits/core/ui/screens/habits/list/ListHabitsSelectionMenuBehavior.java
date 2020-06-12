@@ -109,6 +109,16 @@ public class ListHabitsSelectionMenuBehavior
         });
     }
 
+    public void onResetHabits()
+    {
+        //ResetHabitsCommand command = new ResetHabitsCommand(habitList, adapter.getSelected());
+        //command.execute();
+        List<Habit> selected = adapter.getSelected();
+        commandRunner.execute(new ResetHabitsCommand(habitList, selected),
+                null);
+        adapter.clearSelection();
+    }
+
     public void onEditHabits()
     {
         screen.showEditHabitsScreen(adapter.getSelected());
@@ -128,11 +138,6 @@ public class ListHabitsSelectionMenuBehavior
         List<Habit> getSelected();
 
         void performRemove(List<Habit> selected);
-    }
-    public void onResetHabits()
-    {
-        ResetHabitsCommand command = new ResetHabitsCommand(habitList, adapter.getSelected());
-        command.execute();
     }
 
     public interface Screen

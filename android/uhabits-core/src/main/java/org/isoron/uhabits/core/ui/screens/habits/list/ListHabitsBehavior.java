@@ -128,11 +128,11 @@ public class ListHabitsBehavior
     }
     public void onResetHabits()
     {
-        taskRunner.execute(() ->
-        {
-            habitList.repair();
-            screen.showMessage(Message.DATABASE_REPAIRED);
-        });
+        //ResetHabitsCommand rst = new ResetHabitsCommand(habitList);
+        //rst.execute();
+        commandRunner.execute(new ResetHabitsCommand(habitList),
+                null);
+        habitList.repair();
     }
     public void onSendBugReport()
     {

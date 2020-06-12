@@ -23,14 +23,28 @@ public class ResetHabitsCommand extends Command
         this.selected = new LinkedList<>(selected);
     }
 
+    public ResetHabitsCommand(@NonNull HabitList habitList) {
+        this.habitList = habitList;
+        selected = null;
+    }
+
     @Override
     public void execute()
     {
-        for (Habit h : selected) {
-            RepetitionList repetitionList = h.getRepetitions();
-            repetitionList.removeAll();
+        if (selected != null) {
+            for (Habit h : selected) {
+                RepetitionList repetitionList = h.getRepetitions();
+                repetitionList.removeAll();
+            }
+        } else {
+            for (Habit h : habitList) {
+                RepetitionList repetitionList = h.getRepetitions();
+                repetitionList.removeAll();
+            }
         }
     }
+
+
     public List<Habit> getSelected()
     {
         return Collections.unmodifiableList(selected);
@@ -38,8 +52,37 @@ public class ResetHabitsCommand extends Command
 
     @NonNull
     @Override
-    public Object toRecord() { return null;}
+    public Object toRecord() {return new Record(this);}
 
+    public static class Record {
+        @NonNull
+        public String id;
+
+        @NonNull
+        public String event = "ResetHabit";
+
+        @NonNull
+        public List<Long> habits;
+
+        public Record(ResetHabitsCommand command) {
+            id = command.getId();
+            habits = new LinkedList<>();
+            for (Habit h : command.selected) {
+                if (!h.hasId()) throw new RuntimeException("Habit not saved");
+                habits.add(h.getId());
+            }
+        }
+
+        public ResetHabitsCommand toCommand(@NonNull HabitList habitList) {
+            List<Habit> selected = new LinkedList<>();
+            for (Long id : this.habits) selected.add(habitList.getById(id));
+
+            ResetHabitsCommand command;
+            command = new ResetHabitsCommand(habitList, selected);
+            command.setId(id);
+            return command;
+        }
+    }
     @Override
     public void undo() { throw new UnsupportedOperationException();}
 }

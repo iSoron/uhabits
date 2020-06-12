@@ -120,14 +120,15 @@ class ListHabitsScreen
     }
 
     private fun onSettingsResult(resultCode: Int) {
-        val liist = habitList.getFiltered(HabitMatcher(true,true,true))
+        //val liist = habitList.getFiltered(HabitMatcher(true,true,true))
         when (resultCode) {
             RESULT_IMPORT_DATA -> showImportScreen()
             RESULT_EXPORT_CSV -> behavior.get().onExportCSV()
             RESULT_EXPORT_DB -> onExportDB()
             RESULT_BUG_REPORT -> behavior.get().onSendBugReport()
             RESULT_REPAIR_DB -> behavior.get().onRepairDB()
-            RESET_HABITS -> ResetHabitsCommand(liist, liist.toList()).execute()
+            RESET_HABITS -> /*ResetHabitsCommand(liist, liist.toList()).execute()*/ behavior.get().onResetHabits()
+
         }
     }
 
