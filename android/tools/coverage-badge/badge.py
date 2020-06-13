@@ -55,7 +55,7 @@ def get_total(report):
 
 def get_color(total):
     """
-    Return color for current coverage precent
+    Return color for current coverage percent
     """
     try:
         xtotal = int(total)
