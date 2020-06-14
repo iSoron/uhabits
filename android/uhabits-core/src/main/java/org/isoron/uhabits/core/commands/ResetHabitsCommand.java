@@ -45,8 +45,6 @@ public class ResetHabitsCommand extends Command
             habitList.update(selected);
         } else {
             for (Habit h : habitList) {
-               // h.getRepetitions().removeAll();
-               // habitList.update(h);
                 RepetitionList repetitionList = h.getRepetitions();
                 Repetition rep;
                 while(repetitionList.getTotalCount() != 0) {
