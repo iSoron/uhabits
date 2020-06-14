@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.utils.*;
-
 import java.io.*;
 import java.util.*;
 
@@ -128,11 +127,12 @@ public class ListHabitsBehavior
     }
     public void onResetHabits()
     {
-        //ResetHabitsCommand rst = new ResetHabitsCommand(habitList);
-        //rst.execute();
         commandRunner.execute(new ResetHabitsCommand(habitList),
                 null);
         habitList.repair();
+        HabitCardListCache hclc = new HabitCardListCache(habitList, commandRunner, taskRunner);
+        hclc.refreshAllHabits();
+
     }
     public void onSendBugReport()
     {

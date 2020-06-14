@@ -39,6 +39,7 @@
     <string name="toast_habit_changed_back">Habit changed back</string>
     <string name="toast_habit_archived">Habits archived</string>
     <string name="toast_habit_unarchived">Habits unarchived</string>
+    <string name="toast_habit_reset">Habits reset</string>
 
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>

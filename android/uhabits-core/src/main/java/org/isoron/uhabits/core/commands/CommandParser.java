@@ -79,6 +79,9 @@ public class CommandParser
         if (event.equals("Unarchive")) return gson
             .fromJson(json, UnarchiveHabitsCommand.Record.class)
             .toCommand(habitList);
+        if(event.equals("HabitReset")) return gson
+            .fromJson(json, ResetHabitsCommand.Record.class)
+            .toCommand(habitList);
 
         throw new IllegalStateException("Unknown command");
     }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.core.models.Habit;
 import org.isoron.uhabits.core.models.HabitList;
+import org.isoron.uhabits.core.models.Repetition;
 import org.isoron.uhabits.core.models.RepetitionList;
 
 import java.util.Collections;
@@ -34,12 +35,18 @@ public class ResetHabitsCommand extends Command
         if (selected != null) {
             for (Habit h : selected) {
                 RepetitionList repetitionList = h.getRepetitions();
-                repetitionList.removeAll();
+                Repetition rep;
+                while(repetitionList.getTotalCount() != 0) {
+                    rep = repetitionList.getOldest();
+                    repetitionList.toggle(rep.getTimestamp());
+                    repetitionList.remove(rep);
+                }
             }
+            habitList.update(selected);
         } else {
             for (Habit h : habitList) {
-                RepetitionList repetitionList = h.getRepetitions();
-                repetitionList.removeAll();
+                h.getRepetitions().removeAll();
+                habitList.update(h);
             }
         }
     }

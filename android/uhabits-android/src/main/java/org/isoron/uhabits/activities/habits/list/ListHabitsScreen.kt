@@ -225,6 +225,7 @@ class ListHabitsScreen
             is DeleteHabitsCommand -> return R.string.toast_habit_deleted
             is EditHabitCommand -> return R.string.toast_habit_changed
             is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
+            is ResetHabitsCommand -> return R.string.toast_habit_reset
             else -> return null
         }
     }
