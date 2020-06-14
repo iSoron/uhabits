@@ -60,12 +60,12 @@ class ListHabitsScreen
         private val commandRunner: CommandRunner,
         private val intentFactory: IntentFactory,
         private val themeSwitcher: ThemeSwitcher,
-        private val preferences: Preferences,
         private val adapter: HabitCardListAdapter,
         private val taskRunner: TaskRunner,
         private val exportDBFactory: ExportDBTaskFactory,
         private val importTaskFactory: ImportDataTaskFactory,
         private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
+        private val confirmResetDialogFactory: ConfirmResetDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
         private val editHabitDialogFactory: EditHabitDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
@@ -120,14 +120,13 @@ class ListHabitsScreen
     }
 
     private fun onSettingsResult(resultCode: Int) {
-        //val liist = habitList.getFiltered(HabitMatcher(true,true,true))
         when (resultCode) {
             RESULT_IMPORT_DATA -> showImportScreen()
             RESULT_EXPORT_CSV -> behavior.get().onExportCSV()
             RESULT_EXPORT_DB -> onExportDB()
             RESULT_BUG_REPORT -> behavior.get().onSendBugReport()
             RESULT_REPAIR_DB -> behavior.get().onRepairDB()
-            RESET_HABITS -> /*ResetHabitsCommand(liist, liist.toList()).execute()*/ behavior.get().onResetHabits()
+            RESET_HABITS -> behavior.get().onResetHabits()
 
         }
     }
@@ -154,6 +153,10 @@ class ListHabitsScreen
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
         activity.showDialog(confirmDeleteDialogFactory.create(callback))
+    }
+
+    override fun showResetConfirmationScreen(callback: OnConfirmedCallback) {
+        activity.showDialog(confirmResetDialogFactory.create(callback))
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {

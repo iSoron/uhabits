@@ -270,7 +270,16 @@ public class HabitCardListAdapter
         for (Habit h : habits)
             cache.remove(h.getId());
     }
-
+    @Override
+    public void performReset(List<Habit> habits)
+    {
+        for (Habit h : habits)
+            while(h.getRepetitions().getTotalCount() != 0) {
+                Repetition rep = h.getRepetitions().getOldest();
+                h.getRepetitions().toggle(rep.getTimestamp());
+                h.getRepetitions().remove(rep);
+        }
+    }
     /**
      * Changes the order of habits on the adapter.
      * <p>

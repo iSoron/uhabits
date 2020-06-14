@@ -106,6 +106,8 @@
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
     <string name="delete_habits">Delete Habits</string>
     <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
+    <string name="reset_habits">Reset Habits</string>
+    <string name="reset_habits_message">The habits will be permanently reset. This action cannot be undone.</string>
     <string name="habit_not_found">Habit deleted / not found</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Monday to Friday</string>

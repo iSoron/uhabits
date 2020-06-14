@@ -111,12 +111,14 @@ public class ListHabitsSelectionMenuBehavior
 
     public void onResetHabits()
     {
-        //ResetHabitsCommand command = new ResetHabitsCommand(habitList, adapter.getSelected());
-        //command.execute();
         List<Habit> selected = adapter.getSelected();
-        commandRunner.execute(new ResetHabitsCommand(habitList, selected),
-                null);
-        adapter.clearSelection();
+        screen.showResetConfirmationScreen(() ->
+        {
+            adapter.performReset(selected);
+            commandRunner.execute(new ResetHabitsCommand(habitList, selected),
+                    null);
+            adapter.clearSelection();
+        });
     }
 
     public void onEditHabits()
@@ -138,6 +140,8 @@ public class ListHabitsSelectionMenuBehavior
         List<Habit> getSelected();
 
         void performRemove(List<Habit> selected);
+
+        void performReset(List<Habit> selected);
     }
 
     public interface Screen
@@ -147,6 +151,9 @@ public class ListHabitsSelectionMenuBehavior
 
         void showDeleteConfirmationScreen(
             @NonNull OnConfirmedCallback callback);
+
+        void showResetConfirmationScreen(
+                @NonNull OnConfirmedCallback callback);
 
         void showEditHabitsScreen(@NonNull List<Habit> selected);
     }
