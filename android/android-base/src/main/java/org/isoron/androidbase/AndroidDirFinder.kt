@@ -25,9 +25,10 @@ import java.io.File
 import javax.inject.Inject
 
 class AndroidDirFinder @Inject constructor(@param:AppContext private val context: Context) {
-    fun getFilesDir(relativePath: String?): File? =
-            FileUtils.getDir(
-                    ContextCompat.getExternalFilesDirs(context, null),
-                    relativePath
-            )
+    fun getFilesDir(relativePath: String?): File? {
+        return FileUtils.getDir(
+                ContextCompat.getExternalFilesDirs(context, null),
+                relativePath
+        )
+    }
 }

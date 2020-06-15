@@ -22,25 +22,18 @@ import org.isoron.androidbase.activities.BaseActivity
 
 class BaseExceptionHandler(private val activity: BaseActivity) : Thread.UncaughtExceptionHandler {
 
-    private val originalHandler: Thread.UncaughtExceptionHandler? = Thread.getDefaultUncaughtExceptionHandler()
+    private val originalHandler: Thread.UncaughtExceptionHandler? =
+            Thread.getDefaultUncaughtExceptionHandler()
 
     override fun uncaughtException(thread: Thread?, ex: Throwable?) {
-        ex?.let { ex ->
-            try {
-                ex.printStackTrace()
-                AndroidBugReporter(activity).dumpBugReportToFile()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-//        if (ex.cause is InconsistentDatabaseException) {
-//            val app = activity.application as HabitsApplication
-//            val habits = app.getComponent().getHabitList()
-//            habits.repair()
-//            System.exit(0)
-//        }
-
-            originalHandler?.uncaughtException(thread, ex)
+        if (ex == null) return
+        if (thread == null) return
+        try {
+            ex.printStackTrace()
+            AndroidBugReporter(activity).dumpBugReportToFile()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        originalHandler?.uncaughtException(thread, ex)
     }
 }

@@ -26,26 +26,23 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
 class SSLContextProvider @Inject constructor(@param:AppContext private val context: Context) {
-    fun getCACertSSLContext(): SSLContext =
-            try {
-                val ca = CertificateFactory.getInstance("X.509")
-                        .let { cf ->
-                            context.assets.open("cacert.pem")
-                                    .use { caInput ->
-                                        cf.generateCertificate(caInput)
-                                    }
-                        }
-                val ks = KeyStore.getInstance(KeyStore.getDefaultType())
-                        .apply {
-                            load(null, null)
-                            setCertificateEntry("ca", ca)
-                        }
-                val tmf =
-                        TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
-                                .apply { init(ks) }
-                SSLContext.getInstance("TLS")
-                        .apply { init(null, tmf.trustManagers, null) }
-            } catch (e: Exception) {
-                throw RuntimeException(e)
+    fun getCACertSSLContext(): SSLContext {
+        try {
+            val cf = CertificateFactory.getInstance("X.509")
+            val ca = cf.generateCertificate(context.assets.open("cacert.pem"))
+            val ks = KeyStore.getInstance(KeyStore.getDefaultType()).apply {
+                load(null, null)
+                setCertificateEntry("ca", ca)
             }
+            val alg = TrustManagerFactory.getDefaultAlgorithm()
+            val tmf = TrustManagerFactory.getInstance(alg).apply {
+                init(ks)
+            }
+            return SSLContext.getInstance("TLS").apply {
+                init(null, tmf.trustManagers, null)
+            }
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+    }
 }
