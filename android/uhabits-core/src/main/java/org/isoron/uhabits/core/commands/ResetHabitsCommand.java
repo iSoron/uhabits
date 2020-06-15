@@ -37,7 +37,7 @@ public class ResetHabitsCommand extends Command
 
     @NonNull
     final List<Habit> selected;
-0
+
     public ResetHabitsCommand(@NonNull HabitList habitList, @NonNull List<Habit> selected) {
         this.habitList = habitList;
         this.selected = new LinkedList<>(selected);
