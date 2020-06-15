@@ -20,12 +20,11 @@ package org.isoron.androidbase.utils
 
 import android.content.Context
 import android.graphics.Typeface
+import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
-import androidx.core.view.ViewCompat
 
 object InterfaceUtils {
     private var fontAwesome: Typeface? = null
@@ -44,42 +43,51 @@ object InterfaceUtils {
     }
 
     @JvmStatic
-    fun dpToPixels(context: Context, dp: Float): Float {
-        if (fixedResolution != null) return dp * fixedResolution!!
-        val resources = context.resources
-        val metrics = resources.displayMetrics
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, metrics)
-    }
+    fun dpToPixels(context: Context, dp: Float): Float =
+            getPixels(
+                    context,
+                    fixedResolutionTransform = { dp * it },
+                    actualResolutionTransform = { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, it) }
+            )
 
     @JvmStatic
-    fun spToPixels(context: Context, sp: Float): Float {
-        if (fixedResolution != null) return sp * fixedResolution!!
-        val resources = context.resources
-        val metrics = resources.displayMetrics
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics)
-    }
+    fun spToPixels(context: Context, sp: Float): Float =
+            getPixels(
+                    context,
+                    fixedResolutionTransform = { sp * it },
+                    actualResolutionTransform = { TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, it) }
+            )
 
     @JvmStatic
     fun getDimension(context: Context, id: Int): Float {
         val dim = context.resources.getDimension(id)
-        return if (fixedResolution == null) dim else {
-            val dm = context.resources.displayMetrics
-            val actualDensity = dm.density
-            dim / actualDensity * fixedResolution!!
-        }
+        return fixedResolution
+                ?.let { fixedRes ->
+                    val dm = context.resources.displayMetrics
+                    val actualDensity = dm.density
+                    dim / actualDensity * fixedRes
+                }
+                ?: dim
     }
 
-    fun setupEditorAction(parent: ViewGroup,
-                          listener: OnEditorActionListener) {
+    fun setupEditorAction(parent: ViewGroup, listener: OnEditorActionListener) {
         for (i in 0 until parent.childCount) {
-            val child = parent.getChildAt(i)
-            if (child is ViewGroup) setupEditorAction(child, listener)
-            if (child is TextView) child.setOnEditorActionListener(listener)
+            when (val child = parent.getChildAt(i)) {
+                is ViewGroup -> setupEditorAction(child, listener)
+                is TextView -> child.setOnEditorActionListener(listener)
+            }
         }
     }
 
-    fun isLayoutRtl(view: View?): Boolean {
-        return ViewCompat.getLayoutDirection(view!!) ==
-                ViewCompat.LAYOUT_DIRECTION_RTL
-    }
+    private fun getPixels(
+            context: Context,
+            fixedResolutionTransform: (Float) -> Float,
+            actualResolutionTransform: (DisplayMetrics) -> Float
+    ): Float =
+            fixedResolution?.let(fixedResolutionTransform)
+                    ?: run {
+                        val resources = context.resources
+                        val metrics = resources.displayMetrics
+                        return actualResolutionTransform(metrics)
+                    }
 }

@@ -26,6 +26,7 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import android.widget.RelativeLayout.*
+import androidx.core.view.ViewCompat
 import com.google.android.material.snackbar.Snackbar
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
@@ -89,7 +90,7 @@ fun Int.toMeasureSpec(mode: Int) =
 fun Float.toMeasureSpec(mode: Int) =
         View.MeasureSpec.makeMeasureSpec(toInt(), mode)
 
-fun View.isRTL() = InterfaceUtils.isLayoutRtl(this)
+fun View.isRTL() = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL
 fun View.getFontAwesome() = InterfaceUtils.getFontAwesome(context)!!
 fun View.dim(id: Int) = InterfaceUtils.getDimension(context, id)
 fun View.sp(value: Float) = InterfaceUtils.spToPixels(context, value)
