@@ -25,294 +25,255 @@ OUTPUTS_DIR=uhabits-android/build/outputs
 VERSION=$(cat gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
-	echo "Error: ANDROID_HOME is not set correctly"
-	exit 1
+    echo "Error: ANDROID_HOME is not set correctly"
+    exit 1
 fi
 
 log_error() {
-	if [ ! -z "$TEAMCITY_VERSION" ]; then
-		echo "###teamcity[progressMessage '$1']"
-	else
-		local COLOR='\033[1;31m'
-		local NC='\033[0m'
-		echo -e "$COLOR>>> $1 $NC"
-	fi
+    if [ ! -z "$TEAMCITY_VERSION" ]; then
+        echo "###teamcity[progressMessage '$1']"
+    else
+        local COLOR='\033[1;31m'
+        local NC='\033[0m'
+        echo -e "$COLOR>>> $1 $NC"
+    fi
 }
 
 log_info() {
-	if [ ! -z "$TEAMCITY_VERSION" ]; then
-		echo "###teamcity[progressMessage '$1']"
-	else
-		local COLOR='\033[1;32m'
-		local NC='\033[0m'
-		echo -e "$COLOR>>> $1 $NC"
-	fi
+    if [ ! -z "$TEAMCITY_VERSION" ]; then
+        echo "###teamcity[progressMessage '$1']"
+    else
+        local COLOR='\033[1;32m'
+        local NC='\033[0m'
+        echo -e "$COLOR>>> $1 $NC"
+    fi
 }
 
 fail() {
-	if [ ! -z ${AVD_NAME} ]; then
-		stop_emulator
-		stop_gradle_daemon
-	fi
-	log_error "BUILD FAILED"
-	exit 1
+    log_error "BUILD FAILED"
+    exit 1
 }
 
 if [ ! -z $RELEASE ]; then
-	log_info "Reading secret env variables from ../.secret/env"
-	source ../.secret/env || fail
+    log_info "Reading secret env variables from ../.secret/env"
+    source ../.secret/env || fail
 fi
 
 
-start_emulator() {
-	log_info "Starting emulator ($AVD_NAME)"
-	$EMULATOR -avd ${AVD_NAME} -port ${AVD_SERIAL} -no-audio -no-window &
-	$ADB wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
-}
-
-stop_emulator() {
-	log_info "Stopping emulator"
-	$ADB emu kill
-}
-
-stop_gradle_daemon() {
-	log_info "Stopping gradle daemon"
-	$GRADLE --stop
-}
-
 run_adb_as_root() {
-	log_info "Running adb as root"
-	$ADB root
+    log_info "Running adb as root"
+    $ADB root
 }
 
 build_apk() {
-	log_info "Removing old APKs..."
-	rm -vf build/*.apk
+    log_info "Removing old APKs..."
+    rm -vf build/*.apk
 
-	if [ ! -z $RELEASE ]; then
-		log_info "Building release APK"
-		./gradlew assembleRelease
-		cp -v uhabits-android/build/outputs/apk/release/uhabits-android-release.apk build/loop-$VERSION-release.apk
-	fi
+    if [ ! -z $RELEASE ]; then
+        log_info "Building release APK"
+        ./gradlew assembleRelease
+        cp -v uhabits-android/build/outputs/apk/release/uhabits-android-release.apk build/loop-$VERSION-release.apk
+    fi
 
-	log_info "Building debug APK"
-	./gradlew assembleDebug || fail
-	cp -v uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk build/loop-$VERSION-debug.apk
+    log_info "Building debug APK"
+    ./gradlew assembleDebug || fail
+    cp -v uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk build/loop-$VERSION-debug.apk
 }
 
 build_instrumentation_apk() {
-	log_info "Building instrumentation APK"
-	if [ ! -z $RELEASE ]; then
-		$GRADLE assembleAndroidTest  \
-			-Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
-			-Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
-			-Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
-			-Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
-	else
-		$GRADLE assembleAndroidTest || fail
-	fi
-}
-
-clean_output_dir() {
-	log_info "Cleaning output directory"
-	rm -rf ${OUTPUTS_DIR}
-	mkdir -p ${OUTPUTS_DIR}
+    log_info "Building instrumentation APK"
+    if [ ! -z $RELEASE ]; then
+        $GRADLE assembleAndroidTest  \
+            -Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
+            -Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
+    else
+        $GRADLE assembleAndroidTest || fail
+    fi
 }
 
 uninstall_apk() {
-	log_info "Uninstalling existing APK"
-	$ADB uninstall ${PACKAGE_NAME}
+    log_info "Uninstalling existing APK"
+    $ADB uninstall ${PACKAGE_NAME}
 }
 
 install_test_butler() {
-	log_info "Installing Test Butler"
-	$ADB uninstall com.linkedin.android.testbutler
-	$ADB install tools/test-butler-app-2.0.2.apk
+    log_info "Installing Test Butler"
+    $ADB uninstall com.linkedin.android.testbutler
+    $ADB install tools/test-butler-app-2.0.2.apk
 }
 
 install_apk() {
-	log_info "Installing APK"
-	if [ ! -z $RELEASE ]; then
-		$ADB install -r ${OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || fail
-	else
-		$ADB install -t -r ${OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
-	fi
+    log_info "Installing APK"
+    if [ ! -z $RELEASE ]; then
+        $ADB install -r ${OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || fail
+    else
+        $ADB install -t -r ${OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
+    fi
 }
 
 install_test_apk() {
-	log_info "Uninstalling existing test APK"
-	$ADB uninstall ${PACKAGE_NAME}.test
+    log_info "Uninstalling existing test APK"
+    $ADB uninstall ${PACKAGE_NAME}.test
 
-	log_info "Installing test APK"
-	$ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || fail
+    log_info "Installing test APK"
+    $ADB install -r ${OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || fail
 }
 
 run_instrumented_tests() {
-	SIZE=$1
-	log_info "Running instrumented tests"
-	$ADB shell am instrument \
-		-r -e coverage true -e size $SIZE \
-		-w ${PACKAGE_NAME}.test/android.support.test.runner.AndroidJUnitRunner \
-		| tee ${OUTPUTS_DIR}/instrument.txt
+    SIZE=$1
+    log_info "Running instrumented tests"
+    $ADB shell am instrument \
+        -r -e coverage true -e size $SIZE \
+        -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
+        | tee ${OUTPUTS_DIR}/instrument.txt
 
-	if grep FAILURES $OUTPUTS_DIR/instrument.txt; then
-		log_error "Some instrumented tests failed"
-		fetch_images
-		fetch_logcat
-		exit 1
-	fi
+    if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\)" $OUTPUTS_DIR/instrument.txt; then
+        log_error "Some instrumented tests failed"
+        fetch_images
+        fetch_logcat
+        exit 1
+    fi
 
-	#mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
-	#$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
-	#	${OUTPUTS_DIR}/code-coverage/connected/ \
-	#	|| log_error "COVERAGE REPORT NOT AVAILABLE"
+    #mkdir -p ${OUTPUTS_DIR}/code-coverage/connected/
+    #$ADB pull /data/user/0/${PACKAGE_NAME}/files/coverage.ec \
+    #       ${OUTPUTS_DIR}/code-coverage/connected/ \
+    #       || log_error "COVERAGE REPORT NOT AVAILABLE"
 }
 
 parse_instrumentation_results() {
-	log_info "Parsing instrumented test results"
-	java -jar tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
+    log_info "Parsing instrumented test results"
+    java -jar tools/automator-log-converter-1.5.0.jar ${OUTPUTS_DIR}/instrument.txt || fail
 }
 
 generate_coverage_badge() {
-	log_info "Generating code coverage badge"
-	CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
-	rm -f ${OUTPUTS_DIR}/coverage-badge.svg
-	python3 tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
+    log_info "Generating code coverage badge"
+    CORE_REPORT=uhabits-core/build/reports/jacoco/test/jacocoTestReport.xml
+    rm -f ${OUTPUTS_DIR}/coverage-badge.svg
+    python3 tools/coverage-badge/badge.py -i $CORE_REPORT -o ${OUTPUTS_DIR}/coverage-badge
 }
 
 fetch_logcat() {
-	log_info "Fetching logcat"
-	$ADB logcat -d > ${OUTPUTS_DIR}/logcat.txt
+    log_info "Fetching logcat"
+    $ADB logcat -d > ${OUTPUTS_DIR}/logcat.txt
 }
 
 run_jvm_tests() {
-	log_info "Running JVM tests"
-	if [ ! -z $RELEASE ]; then
-		$GRADLE testReleaseUnitTest :uhabits-core:check || fail
-	else
-		$GRADLE testDebugUnitTest :uhabits-core:check || fail
-	fi
+    log_info "Running JVM tests"
+    if [ ! -z $RELEASE ]; then
+        $GRADLE testReleaseUnitTest :uhabits-core:check || fail
+    else
+        $GRADLE testDebugUnitTest :uhabits-core:check || fail
+    fi
 }
 
 uninstall_test_apk() {
-	log_info "Uninstalling test APK"
-	$ADB uninstall ${PACKAGE_NAME}.test
+    log_info "Uninstalling test APK"
+    $ADB uninstall ${PACKAGE_NAME}.test
 }
 
 fetch_images() {
-	log_info "Fetching images"
-	rm -rf $OUTPUTS_DIR/test-screenshots
-	$ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ $OUTPUTS_DIR
-	$ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
+    log_info "Fetching images"
+    rm -rf $OUTPUTS_DIR/test-screenshots
+    $ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ $OUTPUTS_DIR
+    $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/ 
 }
 
 accept_images() {
-	find tmp/test-screenshots -name '*.expected*' -delete
-	rsync -av tmp/test-screenshots/ uhabits-android/src/androidTest/assets/
+    find tmp/test-screenshots -name '*.expected*' -delete
+    rsync -av tmp/test-screenshots/ uhabits-android/src/androidTest/assets/
 }
 
 run_tests() {
-	SIZE=$1
-	run_adb_as_root
-	install_test_butler
-	uninstall_apk
-	install_apk
-	install_test_apk
-	run_instrumented_tests $SIZE
-	parse_instrumentation_results
-	fetch_logcat
-	uninstall_test_apk
+    SIZE=$1
+    run_adb_as_root
+    install_test_butler
+    uninstall_apk
+    install_apk
+    install_test_apk
+    run_instrumented_tests $SIZE
+    parse_instrumentation_results
+    fetch_logcat
+    uninstall_test_apk
 }
 
 parse_opts() {
-	OPTS=`getopt -o ur --long uninstall-first,release -n 'build.sh' -- "$@"`
-	if [ $? != 0 ] ; then exit 1; fi
-	eval set -- "$OPTS" 
+    OPTS=`getopt -o r --long release -n 'build.sh' -- "$@"`
+    if [ $? != 0 ] ; then exit 1; fi
+    eval set -- "$OPTS" 
 
-	while true; do
-		case "$1" in
-			-u | --uninstall-first ) UNINSTALL_FIRST=1; shift ;;
-			-r | --release ) RELEASE=1; shift ;;
-			* ) break ;;
-		esac
-	done	
+    while true; do
+        case "$1" in
+            -r | --release ) RELEASE=1; shift ;;
+            * ) break ;;
+        esac
+    done    
+}
+
+remove_build_dir() {
+    rm -rfv build
+    rm -rfv android-base/build
+    rm -rfv android-pickers/build
+    rm -rfv uhabits-android/build
+    rm -rfv uhabits-core/build
 }
 
 case "$1" in
-	build)
-		shift; parse_opts $*
+    build)
+        shift; parse_opts $*
 
-		build_apk
-		build_instrumentation_apk
-		run_jvm_tests
-		#generate_coverage_badge
-		;;
+        build_apk
+        build_instrumentation_apk
+        run_jvm_tests
+        #generate_coverage_badge
+        ;;
 
-	ci-tests)
-		if [ -z $3 ]; then
-			cat <<- END
-				Usage: $0 ci-tests AVD_NAME AVD_SERIAL [options]
+    medium-tests)
+        shift; parse_opts $*
+        run_tests medium
+        ;;
 
-				Parameters:
-				    AVD_NAME    name of the virtual android device to start
-				    AVD_SERIAL  adb port to use (e.g. 5560)
+    large-tests)
+        shift; parse_opts $*
+        run_tests large
+        ;;
 
-				Options:
-				    -u  --uninstall-first  Uninstall existing APK first
-				    -r  --release          Test release APK, instead of debug
-			END
-			exit 1
-		fi
+    fetch-images)
+        fetch_images
+        ;;
 
-		shift; AVD_NAME=$1
-		shift; AVD_SERIAL=$1
-		shift; parse_opts $*
-		ADB="${ADB} -s emulator-${AVD_SERIAL}"
+    accept-images)
+        accept_images
+        ;;
 
-		start_emulator
-		run_tests medium
-		stop_emulator
-		stop_gradle_daemon
-		;;
+    install)
+        shift; parse_opts $*
+        build_apk
+        install_apk
+        ;;
+    
+    clean)
+        remove_build_dir
+        ;;
 
-	medium-tests)
-		shift; parse_opts $*
-		run_tests medium
-		;;
+    *)
+cat <<END
+Usage: $0 <command> [options]
+Builds, installs and tests Loop Habit Tracker
 
-	large-tests)
-		shift; parse_opts $*
-		run_tests large
- 		;;
+Commands:
+    accept-images     Copies fetched images to corresponding assets folder
+    build             Build APK and run JVM tests
+    clean             Remove build directory
+    fetch-images      Fetches failed view test images from device
+    install           Install app on connected device
+    large-tests       Run large-sized tests on connected device
+    medium-tests      Run medium-sized tests on connected device
 
-	fetch-images)
-		fetch_images
-		;;
-
-	accept-images)
-		accept_images
-		;;
-
-	install)
-		shift; parse_opts $*
-		build_apk
-		install_apk
-		;;
-
-	*)
-		cat <<- END
-			Usage: $0 <command> [options]
-			Builds, installs and tests Loop Habit Tracker
-
-			Commands:
-			    ci-tests      Start emulator silently, run tests then kill emulator
-			    local-tests   Run all tests on connected device
-			    install       Install app on connected device
-			    fetch-images  Fetches failed view test images from device
-			    accept-images Copies fetched images to corresponding assets folder
-
-			Options:
-			    -r  --release           Build and test release APK, instead of debug
-		END
-		exit 1
+Options:
+    -r  --release       Build and test release APK, instead of debug
+END
+        exit 1
+        ;;
 esac
