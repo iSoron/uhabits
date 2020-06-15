@@ -30,22 +30,12 @@ public abstract class ColorUtils
         final byte GREEN_CHANNEL = 8;
         final byte BLUE_CHANNEL = 0;
 
-        final float inverseAmount = 1.0f - amount;
+        int a = getComponent(color1, color2, amount, ALPHA_CHANNEL);
+        int r = getComponent(color1, color2, amount, RED_CHANNEL);
+        int g = getComponent(color1, color2, amount, GREEN_CHANNEL);
+        int b = getComponent(color1, color2, amount, BLUE_CHANNEL);
 
-        int a = ((int) (((float) (color1 >> ALPHA_CHANNEL & 0xff) * amount) +
-                        ((float) (color2 >> ALPHA_CHANNEL & 0xff) *
-                         inverseAmount))) & 0xff;
-        int r = ((int) (((float) (color1 >> RED_CHANNEL & 0xff) * amount) +
-                        ((float) (color2 >> RED_CHANNEL & 0xff) *
-                         inverseAmount))) & 0xff;
-        int g = ((int) (((float) (color1 >> GREEN_CHANNEL & 0xff) * amount) +
-                        ((float) (color2 >> GREEN_CHANNEL & 0xff) *
-                         inverseAmount))) & 0xff;
-        int b = ((int) (((float) (color1 & 0xff) * amount) +
-                        ((float) (color2 & 0xff) * inverseAmount))) & 0xff;
-
-        return a << ALPHA_CHANNEL | r << RED_CHANNEL | g << GREEN_CHANNEL |
-               b << BLUE_CHANNEL;
+        return a | r | g  | b ;
     }
 
     public static int setAlpha(int color, float newAlpha)
@@ -61,6 +51,13 @@ public abstract class ColorUtils
         Color.colorToHSV(color, hsv);
         hsv[2] = Math.max(hsv[2], newValue);
         return Color.HSVToColor(hsv);
+    }
+
+    private static int getComponent(int color1, int color2, float amount, byte channel) {
+        final float inverseAmount = 1.0f - amount;
+
+        return (((int) (((float) (color1 >> channel & 0xff) * amount) +
+                ((float) (color2 >> channel & 0xff) * inverseAmount))) & 0xff) << channel;
     }
 
 }
