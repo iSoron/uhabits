@@ -31,6 +31,3 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
 }
-repositories {
-    mavenCentral()
-}
