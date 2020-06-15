@@ -49,22 +49,14 @@ object FileUtils {
     }
 
     @JvmStatic
-    fun getDir(potentialParentDirs: Array<File?>,
-               relativePath: String?): File? {
-        var relativePath = relativePath
-        if (relativePath == null) relativePath = ""
-        var chosenDir: File? = null
-        for (dir in potentialParentDirs) {
-            if (dir == null || !dir.canWrite()) continue
-            chosenDir = dir
-            break
-        }
+    fun getDir(potentialParentDirs: Array<File?>, relativePath: String?): File? {
+        val chosenDir: File? = potentialParentDirs.firstOrNull { dir -> dir?.canWrite() == true }
         if (chosenDir == null) {
             Log.e("FileUtils",
                     "getDir: all potential parents are null or non-writable")
             return null
         }
-        val dir = File(String.format("%s/%s/", chosenDir.absolutePath, relativePath))
+        val dir = File("${chosenDir.absolutePath}/${relativePath ?: ""}/")
         if (!dir.exists() && !dir.mkdirs()) {
             Log.e("FileUtils",
                     "getDir: chosen dir does not exist and cannot be created")
