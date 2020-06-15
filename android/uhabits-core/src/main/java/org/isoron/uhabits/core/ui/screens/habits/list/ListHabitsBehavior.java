@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback;
 import org.isoron.uhabits.core.utils.*;
 import java.io.*;
 import java.util.*;
@@ -127,12 +128,12 @@ public class ListHabitsBehavior
     }
     public void onResetHabits()
     {
-        commandRunner.execute(new ResetHabitsCommand(habitList),
-                null);
-        habitList.repair();
-        HabitCardListCache hclc = new HabitCardListCache(habitList, commandRunner, taskRunner);
-        hclc.refreshAllHabits();
-
+        screen.showResetConfirmationScreen(() ->
+        {
+            commandRunner.execute(new ResetHabitsCommand(habitList),
+                    null);
+        });
+        
     }
     public void onSendBugReport()
     {
@@ -201,5 +202,8 @@ public class ListHabitsBehavior
         void showSendBugReportToDeveloperScreen(String log);
 
         void showSendFileScreen(@NonNull String filename);
+
+        void showResetConfirmationScreen(
+                @NonNull OnConfirmedCallback callback);
     }
 }
