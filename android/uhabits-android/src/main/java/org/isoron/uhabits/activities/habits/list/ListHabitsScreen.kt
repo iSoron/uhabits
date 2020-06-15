@@ -109,7 +109,7 @@ class ListHabitsScreen
             val inStream = activity.contentResolver.openInputStream(data.data!!)
             val cacheDir = activity.externalCacheDir
             val tempFile = File.createTempFile("import", "", cacheDir)
-            FileUtils.copy(inStream, tempFile)
+            FileUtils.copy(inStream!!, tempFile)
             onImportData(tempFile) { tempFile.delete() }
         } catch (e: IOException) {
             showMessage(R.string.could_not_import)
