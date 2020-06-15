@@ -33,7 +33,7 @@ import org.isoron.uhabits.core.ui.callbacks.*;
 import butterknife.*;
 
 /**
- * Dialog that asks the user confirmation before executing a delete operation.
+ * Dialog that asks the user confirmation before executing a reset operation.
  */
 @AutoFactory(allowSubclasses = true)
 public class ConfirmResetDialog extends AlertDialog

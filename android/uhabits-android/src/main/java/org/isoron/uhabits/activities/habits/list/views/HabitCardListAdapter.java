@@ -270,6 +270,18 @@ public class HabitCardListAdapter
         for (Habit h : habits)
             cache.remove(h.getId());
     }
+
+    /**
+     * Resets a list of habits from the adapter.
+     * <p>
+     * Note that this only has effect on the adapter cache. The database is not
+     * modified, and the change is lost when the cache is refreshed. This method
+     * is useful for making the ListView more responsive: while we wait for the
+     * database operation to finish, the cache can be modified to reflect the
+     * changes immediately.
+     *
+     * @param habits list of habits to be reset
+     */
     @Override
     public void performReset(List<Habit> habits)
     {
@@ -280,6 +292,7 @@ public class HabitCardListAdapter
                 h.getRepetitions().remove(rep);
         }
     }
+
     /**
      * Changes the order of habits on the adapter.
      * <p>
