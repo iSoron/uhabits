@@ -123,7 +123,7 @@ public abstract class StreakList
      * habit to not performing a habit, and vice-versa.
      *
      * @param beginning the timestamp for the first checkmark
-     * @param checks    the checkmarks, ordered by decresing timestamp
+     * @param checks    the checkmarks, ordered by decreasing timestamp
      * @return the list of transitions
      */
     @NonNull
