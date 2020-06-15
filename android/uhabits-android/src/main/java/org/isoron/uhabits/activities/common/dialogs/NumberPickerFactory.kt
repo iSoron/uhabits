@@ -19,17 +19,21 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
-import android.content.*
-import androidx.appcompat.app.*
-import android.text.*
-import android.view.*
-import android.view.inputmethod.*
-import android.widget.*
-import org.isoron.androidbase.activities.*
-import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import javax.inject.*
+import android.content.Context
+import android.content.DialogInterface
+import android.text.InputFilter
+import android.view.LayoutInflater
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import org.isoron.androidbase.activities.ActivityContext
+import org.isoron.androidbase.utils.InterfaceUtils
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import javax.inject.Inject
 
 class NumberPickerFactory
 @Inject constructor(
@@ -73,11 +77,11 @@ class NumberPickerFactory
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
-        InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
+        InterfaceUtils.setupEditorAction(picker, TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
             false
-        }
+        })
 
         return dialog
     }
