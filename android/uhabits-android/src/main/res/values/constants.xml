@@ -123,7 +123,7 @@
     <string-array name="targetIntervals" translatable="false">
         <item>daily</item>
         <item>weekly</item>
-        <item>montly</item>
+        <item>monthly</item>
     </string-array>
 
     <string name="snooze_interval_default" translatable="false">15</string>

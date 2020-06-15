@@ -878,7 +878,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
             // When the first digit is 2, the second digit may be 4-5.
             secondDigit = new Node(k4, k5);
             firstDigit.addChild(secondDigit);
-            // We must now be followd by the last minute digit. E.g. 2:40, 2:53.
+            // We must now be followed by the last minute digit. E.g. 2:40, 2:53.
             secondDigit.addChild(minuteSecondDigit);
 
             // The first digit may be 3-9.
