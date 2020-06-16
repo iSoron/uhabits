@@ -212,6 +212,7 @@ parse_opts() {
 }
 
 remove_build_dir() {
+    rm -rfv .gradle
     rm -rfv build
     rm -rfv android-base/build
     rm -rfv android-pickers/build
