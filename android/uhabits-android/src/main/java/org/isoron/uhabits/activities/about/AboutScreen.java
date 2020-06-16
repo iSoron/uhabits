@@ -21,69 +21,67 @@ package org.isoron.uhabits.activities.about;
 
 import android.widget.*;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.core.ui.screens.about.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.intents.*;
 
-import javax.inject.*;
-
-import static org.isoron.uhabits.core.ui.screens.about.AboutBehavior.Message.*;
-
-public class AboutScreen extends BaseScreen implements AboutBehavior.Screen
+public class AboutScreen extends BaseScreen
 {
+    @NonNull
+    private final Preferences prefs;
+
+    private int developerCountdown = 5;
+
     @NonNull
     private final IntentFactory intents;
 
-    @Inject
     public AboutScreen(@NonNull BaseActivity activity,
-                       @NonNull IntentFactory intents)
+                       @NonNull IntentFactory intents,
+                       @NonNull Preferences prefs)
     {
         super(activity);
         this.intents = intents;
+        this.prefs = prefs;
     }
 
-    @Override
-    public void showMessage(AboutBehavior.Message message)
-    {
-        if (message == YOU_ARE_NOW_A_DEVELOPER) Toast
-            .makeText(activity, "You are now a developer", Toast.LENGTH_LONG)
-            .show();
-    }
-
-    @Override
     public void showRateAppWebsite()
     {
         activity.startActivity(intents.rateApp(activity));
     }
 
-    @Override
     public void showSendFeedbackScreen()
     {
         activity.startActivity(intents.sendFeedback(activity));
     }
 
-    @Override
     public void showSourceCodeWebsite()
     {
         activity.startActivity(intents.viewSourceCode(activity));
     }
 
-    @Override
     public void showTranslationWebsite()
     {
         activity.startActivity(intents.helpTranslate(activity));
     }
 
-    @Override
     public void showPrivacyPolicyWebsite()
     {
         activity.startActivity(intents.privacyPolicy(activity));
     }
 
-    @Override
-    public void showCodeContributorsWebsite() {
+    public void showCodeContributorsWebsite()
+    {
         activity.startActivity(intents.codeContributors(activity));
+    }
+
+    public void onPressDeveloperCountdown()
+    {
+        developerCountdown--;
+        if (developerCountdown == 0) {
+            prefs.setDeveloper(true);
+            Toast.makeText(activity, "You are now a developer", Toast.LENGTH_LONG).show();
+        }
     }
 }
