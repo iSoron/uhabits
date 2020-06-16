@@ -47,16 +47,15 @@ import org.isoron.androidbase.BaseExceptionHandler
 abstract class BaseActivity : AppCompatActivity() {
     private var baseMenu: BaseMenu? = null
     private var screen: BaseScreen? = null
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu == null) return true
-        if (baseMenu == null) return true
-        baseMenu!!.onCreate(menuInflater, menu)
+        if (menu != null) baseMenu?.onCreate(menuInflater, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item == null) return false
-        return if (baseMenu == null) false else baseMenu!!.onItemSelected(item)
+        return baseMenu?.onItemSelected(item) ?: false
     }
 
     fun restartWithFade(cls: Class<*>?) {
@@ -84,19 +83,19 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(request: Int, result: Int, data: Intent?) {
-        if (screen == null) super.onActivityResult(request, result, data) else screen!!.onResult(request, result, data)
+        screen?.onResult(request, result, data)
+                ?: super.onActivityResult(request, result, data)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler)
+        Thread.setDefaultUncaughtExceptionHandler(getExceptionHandler())
     }
 
-    protected val exceptionHandler: Thread.UncaughtExceptionHandler
-        protected get() = BaseExceptionHandler(this)
+    protected fun getExceptionHandler(): Thread.UncaughtExceptionHandler = BaseExceptionHandler(this)
 
     override fun onResume() {
         super.onResume()
-        if (screen != null) screen!!.reattachDialogs()
+        screen?.reattachDialogs()
     }
 }
