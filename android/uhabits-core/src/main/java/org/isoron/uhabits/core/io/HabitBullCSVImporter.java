@@ -87,7 +87,7 @@ public class HabitBullCSVImporter extends AbstractImporter
             {
                 h = modelFactory.buildHabit();
                 h.setName(name);
-                h.setDescription(description);
+                h.setDescription(description == null ? "" : description);
                 h.setFrequency(Frequency.DAILY);
                 habitList.add(h);
                 map.put(name, h);

@@ -16,15 +16,19 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.activities.about;
+package org.isoron.androidbase
 
-import org.isoron.uhabits.core.ui.screens.about.*;
+import android.content.Context
+import androidx.core.content.ContextCompat
+import org.isoron.androidbase.utils.FileUtils
+import java.io.File
+import javax.inject.Inject
 
-import dagger.*;
-
-@Module
-public abstract class AboutModule
-{
-    @Binds
-    abstract AboutBehavior.Screen getScreen(AboutScreen screen);
+class AndroidDirFinder @Inject constructor(@param:AppContext private val context: Context) {
+    fun getFilesDir(relativePath: String?): File? {
+        return FileUtils.getDir(
+                ContextCompat.getExternalFilesDirs(context, null),
+                relativePath
+        )
+    }
 }

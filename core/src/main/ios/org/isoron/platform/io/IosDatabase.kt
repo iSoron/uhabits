@@ -20,19 +20,25 @@
 package org.isoron.platform.io
 
 import kotlinx.cinterop.*
+import platform.Foundation.*
 import sqlite3.*
 
 fun sqlite3_errstr(db: CPointer<sqlite3>): String {
     return "SQLite3 error: " + sqlite3_errmsg(db).toString()
 }
 
+@Suppress("CAST_NEVER_SUCCEEDS")
 class IosDatabaseOpener : DatabaseOpener {
     override fun open(file: UserFile): Database = memScoped {
-        val db = alloc<CPointerVar<sqlite3>>()
         val path = (file as IosFile).path
-        if (sqlite3_open(path, db.ptr) != SQLITE_OK) {
-            throw Exception(sqlite3_errstr(db.value!!))
-        }
+        val dirname = (path as NSString).stringByDeletingLastPathComponent
+        NSFileManager.defaultManager.createDirectoryAtPath(dirname, true, null, null)
+
+        val db = alloc<CPointerVar<sqlite3>>()
+        val result = sqlite3_open(path, db.ptr)
+        if (result != SQLITE_OK)
+            throw Exception("sqlite3_open failed (code $result)")
+
         return IosDatabase(db.value!!)
     }
 }
@@ -41,9 +47,9 @@ class IosDatabase(val db: CPointer<sqlite3>) : Database {
     override fun prepareStatement(sql: String): PreparedStatement = memScoped {
         if (sql.isEmpty()) throw Exception("empty SQL query")
         val stmt = alloc<CPointerVar<sqlite3_stmt>>()
-        if (sqlite3_prepare_v2(db, sql.cstr, -1, stmt.ptr, null) != SQLITE_OK) {
-            throw Exception(sqlite3_errstr(db))
-        }
+        val result = sqlite3_prepare_v2(db, sql.cstr, -1, stmt.ptr, null)
+        if (result != SQLITE_OK)
+            throw Exception("sqlite3_prepare_v2 failed (code $result)")
         return IosPreparedStatement(db, stmt.value!!)
     }
     override fun close() {
@@ -54,8 +60,7 @@ class IosDatabase(val db: CPointer<sqlite3>) : Database {
 class IosPreparedStatement(val db: CPointer<sqlite3>,
                            val stmt: CPointer<sqlite3_stmt>) : PreparedStatement {
     override fun step(): StepResult {
-        val result = sqlite3_step(stmt)
-        when (result) {
+        when (sqlite3_step(stmt)) {
             SQLITE_ROW -> return StepResult.ROW
             SQLITE_DONE -> return StepResult.DONE
             else -> throw Exception(sqlite3_errstr(db))

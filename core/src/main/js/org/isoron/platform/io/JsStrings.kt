@@ -19,6 +19,14 @@
 
 package org.isoron.platform.io
 
-actual fun sprintf(format: String, vararg args: Any?): String {
-    return js("vsprintf")(format, args)
+actual fun format(format: String, arg: String): String {
+    return js("vsprintf")(format, arg) as String
+}
+
+actual fun format(format: String, arg: Int): String {
+    return js("vsprintf")(format, arg) as String
+}
+
+actual fun format(format: String, arg: Double): String {
+    return js("vsprintf")(format, arg) as String
 }

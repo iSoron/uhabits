@@ -28,6 +28,7 @@ enum class Locale {
 }
 
 expect object DependencyResolver {
+    val ignoreViewTests: Boolean
     suspend fun getFileOpener(): FileOpener
     suspend fun getDatabase(): Database
     fun getDateFormatter(locale: Locale): LocalDateFormatter

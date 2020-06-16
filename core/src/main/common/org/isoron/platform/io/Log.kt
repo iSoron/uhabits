@@ -30,14 +30,17 @@ interface Log {
  */
 class StandardLog : Log {
     override fun warn(tag: String, msg: String) {
-        println(sprintf("W %-20s %s", tag, msg))
+        val ftag = format("%-20s", tag)
+        println("W $ftag $msg")
     }
 
     override fun info(tag: String, msg: String) {
-        println(sprintf("I %-20s %s", tag, msg))
+        val ftag = format("%-20s", tag)
+        println("I $ftag $msg")
     }
 
     override fun debug(tag: String, msg: String) {
-        println(sprintf("D %-20s %s", tag, msg))
+        val ftag = format("%-20s", tag)
+        println("D $ftag $msg")
     }
 }

@@ -16,11 +16,24 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.androidbase
 
-package org.isoron.uhabits.core;
+import org.isoron.androidbase.activities.BaseActivity
 
-public class Config
-{
-    public static final String DATABASE_FILENAME = "uhabits.db";
-    public static int DATABASE_VERSION = 23;
+class BaseExceptionHandler(private val activity: BaseActivity) : Thread.UncaughtExceptionHandler {
+
+    private val originalHandler: Thread.UncaughtExceptionHandler? =
+            Thread.getDefaultUncaughtExceptionHandler()
+
+    override fun uncaughtException(thread: Thread?, ex: Throwable?) {
+        if (ex == null) return
+        if (thread == null) return
+        try {
+            ex.printStackTrace()
+            AndroidBugReporter(activity).dumpBugReportToFile()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        originalHandler?.uncaughtException(thread, ex)
+    }
 }

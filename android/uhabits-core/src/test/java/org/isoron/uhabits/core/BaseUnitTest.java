@@ -125,7 +125,7 @@ public class BaseUnitTest
                 DriverManager.getConnection("jdbc:sqlite::memory:"));
             db.execute("pragma user_version=8;");
             MigrationHelper helper = new MigrationHelper(db);
-            helper.migrateTo(21);
+            helper.migrateTo(23);
             return db;
         }
         catch (SQLException e)

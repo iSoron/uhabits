@@ -76,7 +76,7 @@ class MainScreenCell : UITableViewCell {
         ring.setNeedsDisplay()
         
         for i in 0..<buttons.count {
-            if habit.type == .numerical {
+            if habit.type == HabitType.numericalHabit {
                 buttons[i].component = NumberButton(color: color,
                                                     value: Double(checkmarks[i].value) / 1000.0,
                                                     threshold: habit.target,

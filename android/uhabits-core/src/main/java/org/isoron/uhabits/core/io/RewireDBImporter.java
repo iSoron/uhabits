@@ -101,7 +101,7 @@ public class RewireDBImporter extends AbstractImporter
 
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
-                habit.setDescription(description);
+                habit.setDescription(description == null ? "" : description);
 
                 int periods[] = { 7, 31, 365 };
                 int numerator, denominator;

@@ -19,14 +19,16 @@
 
 package org.isoron.uhabits.acceptance.steps;
 
+import android.view.View;
+
 import androidx.annotation.StringRes;
 import androidx.test.espresso.*;
 import androidx.test.espresso.contrib.*;
 import androidx.test.uiautomator.*;
-import androidx.appcompat.widget.*;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.hamcrest.Matcher;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
@@ -153,7 +155,11 @@ public class CommonSteps extends BaseUserInterfaceTest
         LIST_HABITS, SHOW_HABIT, EDIT_HABIT
     }
 
-    public static void verifyShowsScreen(Screen screen)
+    public static void verifyShowsScreen(Screen screen) {
+        verifyShowsScreen(screen, true);
+    }
+
+    public static void verifyShowsScreen(Screen screen, boolean notesCardVisibleExpected)
     {
         switch(screen)
         {
@@ -163,10 +169,14 @@ public class CommonSteps extends BaseUserInterfaceTest
                 break;
 
             case SHOW_HABIT:
+                Matcher<View> noteCardViewMatcher = notesCardVisibleExpected ? isDisplayed() :
+                        withEffectiveVisibility(Visibility.GONE);
                 onView(withId(R.id.subtitleCard)).check(matches(isDisplayed()));
+                onView(withId(R.id.notesCard)).check(matches(noteCardViewMatcher));
                 break;
 
             case EDIT_HABIT:
+                onView(withId(R.id.tvQuestion)).check(matches(isDisplayed()));
                 onView(withId(R.id.tvDescription)).check(matches(isDisplayed()));
                 break;
         }

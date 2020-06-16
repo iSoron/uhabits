@@ -24,12 +24,10 @@ import org.isoron.platform.io.*
 import org.isoron.platform.time.*
 import org.isoron.uhabits.*
 import java.awt.image.*
-import java.io.*
-import java.lang.Math.*
-import java.nio.file.*
-import javax.imageio.*
 
 actual object DependencyResolver {
+    actual val ignoreViewTests = false
+
     actual suspend fun getFileOpener(): FileOpener = JavaFileOpener()
 
     actual suspend fun getDatabase(): Database {

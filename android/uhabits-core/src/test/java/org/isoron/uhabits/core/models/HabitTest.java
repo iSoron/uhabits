@@ -155,7 +155,7 @@ public class HabitTest extends BaseUnitTest
                           " targetValue: 100.0, type: 0, unit: ," +
                           " reminder: {hour: 22, minute: 30," +
                           " days: {weekdays: [true,true,true,true,true,true,true]}}," +
-                          " position: 0}}";
+                          " position: 0, question: }}";
 
         assertThat(h.toString(), equalTo(expected));
     }

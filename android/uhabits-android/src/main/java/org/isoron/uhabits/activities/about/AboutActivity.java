@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.about;
 
 import android.os.*;
 
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.*;
 
 /**
@@ -33,8 +34,12 @@ public class AboutActivity extends HabitsActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        AboutScreen screen = getComponent().getAboutScreen();
-        screen.setRootView(getComponent().getAboutRootView());
+        HabitsApplication app = (HabitsApplication) getApplication();
+        AboutScreen screen = new AboutScreen(this,
+                                             app.getComponent().getIntentFactory(),
+                                             app.getComponent().getPreferences());
+        AboutRootView rootView = new AboutRootView(this, screen);
+        screen.setRootView(rootView);
         setScreen(screen);
     }
 }

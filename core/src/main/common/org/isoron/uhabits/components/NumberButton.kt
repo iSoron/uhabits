@@ -24,22 +24,22 @@ import org.isoron.platform.io.*
 import kotlin.math.*
 
 fun Double.toShortString(): String = when {
-    this >= 1e9 -> sprintf("%.1fG", this / 1e9)
-    this >= 1e8 -> sprintf("%.0fM", this / 1e6)
-    this >= 1e7 -> sprintf("%.1fM", this / 1e6)
-    this >= 1e6 -> sprintf("%.1fM", this / 1e6)
-    this >= 1e5 -> sprintf("%.0fk", this / 1e3)
-    this >= 1e4 -> sprintf("%.1fk", this / 1e3)
-    this >= 1e3 -> sprintf("%.1fk", this / 1e3)
-    this >= 1e2 -> sprintf("%.0f", this)
+    this >= 1e9 -> format("%.1fG", this / 1e9)
+    this >= 1e8 -> format("%.0fM", this / 1e6)
+    this >= 1e7 -> format("%.1fM", this / 1e6)
+    this >= 1e6 -> format("%.1fM", this / 1e6)
+    this >= 1e5 -> format("%.0fk", this / 1e3)
+    this >= 1e4 -> format("%.1fk", this / 1e3)
+    this >= 1e3 -> format("%.1fk", this / 1e3)
+    this >= 1e2 -> format("%.0f", this)
     this >= 1e1 -> when {
-        round(this) == this -> sprintf("%.0f", this)
-        else -> sprintf("%.1f", this)
+        round(this) == this -> format("%.0f", this)
+        else -> format("%.1f", this)
     }
     else -> when {
-        round(this) == this -> sprintf("%.0f", this)
-        round(this * 10) == this * 10 -> sprintf("%.1f", this)
-        else -> sprintf("%.2f", this)
+        round(this) == this -> format("%.0f", this)
+        round(this * 10) == this * 10 -> format("%.1f", this)
+        else -> format("%.2f", this)
     }
 }
 

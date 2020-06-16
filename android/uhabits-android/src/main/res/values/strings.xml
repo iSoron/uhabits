@@ -244,5 +244,7 @@
     <string name="widget_opacity_description">Makes widgets more transparent or more opaque in your home screen.</string>
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="default_reminder_question">Have you completed this habit today?</string>
+    <string name="notes">Notes</string>
+    <string name="example_notes">You can put whatever you want here!</string>
 
 </resources>

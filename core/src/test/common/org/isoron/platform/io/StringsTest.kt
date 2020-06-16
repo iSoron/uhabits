@@ -24,14 +24,14 @@ import kotlin.test.*
 class StringsTest {
     @Test
     fun testSprintf() {
-        assertEquals("  5", sprintf("%3d", 5))
-        assertEquals("005", sprintf("%03d", 5))
-        assertEquals("005", sprintf("%03d", 5))
-        assertEquals(" 45", sprintf("%3d", 45))
-        assertEquals("145", sprintf("%3d", 145))
-        assertEquals("  9  9", sprintf("%3d%3d", 9, 9))
-        assertEquals("   13.42", sprintf("%8.2f", 13.419187263))
-        assertEquals("00013.42", sprintf("%08.2f", 13.419187263))
-        assertEquals("13.42   ", sprintf("%-8.2f", 13.419187263))
+        assertEquals("hello world!", format("hello %s!", "world"))
+        assertEquals("  5", format("%3d", 5))
+        assertEquals("005", format("%03d", 5))
+        assertEquals("005", format("%03d", 5))
+        assertEquals(" 45", format("%3d", 45))
+        assertEquals("145", format("%3d", 145))
+        assertEquals("   13.42", format("%8.2f", 13.419187263))
+        assertEquals("00013.42", format("%08.2f", 13.419187263))
+        assertEquals("13.42   ", format("%-8.2f", 13.419187263))
     }
 }
