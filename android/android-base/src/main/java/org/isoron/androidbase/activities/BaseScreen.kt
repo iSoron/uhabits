@@ -59,20 +59,21 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
      * Notifies the screen that its contents should be updated.
      */
     fun invalidate() {
-        if (rootView == null) return
-        rootView!!.invalidate()
+        rootView?.invalidate()
     }
 
     fun invalidateToolbar() {
-        if (rootView == null) return
-        activity.runOnUiThread {
-            val toolbar = rootView!!.getToolbar()
-            activity.setSupportActionBar(toolbar)
-            val actionBar = activity.supportActionBar ?: return@runOnUiThread
-            actionBar.setDisplayHomeAsUpEnabled(rootView!!.displayHomeAsUp)
-            val color = rootView!!.getToolbarColor()
-            setActionBarColor(actionBar, color)
-            setStatusBarColor(color)
+        rootView?.let { root ->
+            activity.runOnUiThread {
+                val toolbar = root.getToolbar()
+                activity.setSupportActionBar(toolbar)
+                activity.supportActionBar?.let { actionBar ->
+                    actionBar.setDisplayHomeAsUpEnabled(root.displayHomeAsUp)
+                    val color = root.getToolbarColor()
+                    setActionBarColor(actionBar, color)
+                    setStatusBarColor(color)
+                }
+            }
         }
     }
 
@@ -114,9 +115,10 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
     fun setRootView(rootView: BaseRootView?) {
         this.rootView = rootView
         activity.setContentView(rootView)
-        if (rootView == null) return
-        rootView.onAttachedToScreen(this)
-        invalidateToolbar()
+        rootView?.let {
+            it.onAttachedToScreen(this)
+            invalidateToolbar()
+        }
     }
 
     /**
@@ -135,26 +137,28 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
      */
     fun showMessage(@StringRes stringId: Int?) {
         if (stringId == null || rootView == null) return
-        if (snackbar == null) {
-            snackbar = Snackbar.make(rootView!!, stringId, Snackbar.LENGTH_SHORT)
-            val tvId = R.id.snackbar_text
-            val tv = snackbar!!.view.findViewById<View>(tvId) as TextView
-            tv.setTextColor(Color.WHITE)
-        } else snackbar!!.setText(stringId)
-        snackbar!!.show()
+        (snackbar?.setText(stringId)
+                ?: run {
+                    val snack = Snackbar.make(rootView!!, stringId, Snackbar.LENGTH_SHORT)
+                    val tvId = R.id.snackbar_text
+                    val tv = snack.view.findViewById<View>(tvId) as TextView
+                    tv.setTextColor(Color.WHITE)
+                    this.snackbar = snack
+                    snack
+                }).show()
     }
 
-    fun showSendEmailScreen(@StringRes toId: Int,
-                            @StringRes subjectId: Int,
-                            content: String?) {
+    fun showSendEmailScreen(@StringRes toId: Int, @StringRes subjectId: Int, content: String?) {
         val to = activity.getString(toId)
         val subject = activity.getString(subjectId)
         val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "message/rfc822"
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        intent.putExtra(Intent.EXTRA_TEXT, content)
+                .apply {
+                    action = Intent.ACTION_SEND
+                    type = "message/rfc822"
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+                    putExtra(Intent.EXTRA_SUBJECT, subject)
+                    putExtra(Intent.EXTRA_TEXT, content)
+                }
         activity.startActivity(intent)
     }
 
@@ -162,10 +166,12 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         val file = File(archiveFilename)
         val fileUri = FileProvider.getUriForFile(activity, "org.isoron.uhabits", file)
         val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "application/zip"
-        intent.putExtra(Intent.EXTRA_STREAM, fileUri)
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                .apply {
+                    action = Intent.ACTION_SEND
+                    type = "application/zip"
+                    putExtra(Intent.EXTRA_STREAM, fileUri)
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                }
         activity.startActivity(intent)
     }
 
@@ -192,13 +198,14 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
     }
 
     private inner class ActionModeWrapper : ActionMode.Callback {
-        override fun onActionItemClicked(mode: ActionMode?,
-                                         item: MenuItem?): Boolean {
-            return if (item == null || selectionMenu == null) false else selectionMenu!!.onItemClicked(item)
-        }
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean =
+                if (item == null || selectionMenu == null) {
+                    false
+                } else {
+                    selectionMenu!!.onItemClicked(item)
+                }
 
-        override fun onCreateActionMode(mode: ActionMode?,
-                                        menu: Menu?): Boolean {
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
             if (selectionMenu == null) return false
             if (mode == null || menu == null) return false
             selectionMenu!!.onCreate(activity.menuInflater, mode, menu)
@@ -206,14 +213,15 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         }
 
         override fun onDestroyActionMode(mode: ActionMode?) {
-            if (selectionMenu == null) return
-            selectionMenu!!.onFinish()
+            selectionMenu?.onFinish()
         }
 
-        override fun onPrepareActionMode(mode: ActionMode?,
-                                         menu: Menu?): Boolean {
-            return if (selectionMenu == null || menu == null) false else selectionMenu!!.onPrepare(menu)
-        }
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean =
+                if (selectionMenu == null || menu == null) {
+                    false
+                } else {
+                    selectionMenu!!.onPrepare(menu)
+                }
     }
 
     companion object {
@@ -221,32 +229,29 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         @Deprecated("")
         fun getDefaultActionBarColor(context: Context): Int {
             return if (VERSION.SDK_INT < VERSION_CODES.LOLLIPOP) {
-                ResourcesCompat.getColor(context.resources,
-                        R.color.grey_900, context.theme)
+                ResourcesCompat.getColor(context.resources, R.color.grey_900, context.theme)
             } else {
-                val res = StyledResources(context)
-                res.getColor(R.attr.colorPrimary)
+                StyledResources(context).getColor(R.attr.colorPrimary)
             }
         }
 
         @JvmStatic
         @Deprecated("")
-        fun setupActionBarColor(activity: AppCompatActivity,
-                                color: Int) {
-            val toolbar = activity.findViewById<View>(R.id.toolbar) as Toolbar ?: return
-            activity.setSupportActionBar(toolbar)
-            val actionBar = activity.supportActionBar ?: return
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            val drawable = ColorDrawable(color)
-            actionBar.setBackgroundDrawable(drawable)
-            if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                val darkerColor = mixColors(color, Color.BLACK, 0.75f)
-                activity.window.statusBarColor = darkerColor
-                toolbar.elevation = dpToPixels(activity, 2f)
-                var view = activity.findViewById<View>(R.id.toolbarShadow)
-                if (view != null) view.visibility = View.GONE
-                view = activity.findViewById(R.id.headerShadow)
-                if (view != null) view.visibility = View.GONE
+        fun setupActionBarColor(activity: AppCompatActivity, color: Int) {
+            activity.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
+                activity.setSupportActionBar(toolbar)
+                activity.supportActionBar?.let { actionBar ->
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    val drawable = ColorDrawable(color)
+                    actionBar.setBackgroundDrawable(drawable)
+                    if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+                        val darkerColor = mixColors(color, Color.BLACK, 0.75f)
+                        activity.window.statusBarColor = darkerColor
+                        toolbar.elevation = dpToPixels(activity, 2f)
+                        activity.findViewById<View>(R.id.toolbarShadow)?.visibility = View.GONE
+                        activity.findViewById<View>(R.id.headerShadow)?.visibility = View.GONE
+                    }
+                }
             }
         }
     }
