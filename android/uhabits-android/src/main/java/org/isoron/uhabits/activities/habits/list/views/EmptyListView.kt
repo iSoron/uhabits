@@ -32,7 +32,7 @@ class EmptyListView(context: Context) : LinearLayout(context) {
     init {
         orientation = VERTICAL
         gravity = Gravity.CENTER
-        visibility = BaseRootView.GONE
+        visibility = View.GONE
 
         addView(TextView(context).apply {
             text = str(R.string.fa_star_half_o)
