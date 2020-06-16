@@ -25,40 +25,17 @@ import androidx.annotation.AttrRes
 import org.isoron.androidbase.R
 
 class StyledResources(private val context: Context) {
-    fun getBoolean(@AttrRes attrId: Int): Boolean {
-        val ta = getTypedArray(attrId)
-        val bool = ta.getBoolean(0, false)
-        ta.recycle()
-        return bool
-    }
+    fun getBoolean(@AttrRes attrId: Int): Boolean = getFromTypedArray(attrId) { getBoolean(0, false) }
 
-    fun getDimension(@AttrRes attrId: Int): Int {
-        val ta = getTypedArray(attrId)
-        val dim = ta.getDimensionPixelSize(0, 0)
-        ta.recycle()
-        return dim
-    }
+    fun getDimension(@AttrRes attrId: Int): Int = getFromTypedArray(attrId) { getDimensionPixelSize(0, 0) }
 
-    fun getColor(@AttrRes attrId: Int): Int {
-        val ta = getTypedArray(attrId)
-        val color = ta.getColor(0, 0)
-        ta.recycle()
-        return color
-    }
+    fun getColor(@AttrRes attrId: Int): Int = getFromTypedArray(attrId) { getColor(0, 0) }
 
-    fun getDrawable(@AttrRes attrId: Int): Drawable? {
-        val ta = getTypedArray(attrId)
-        val drawable = ta.getDrawable(0)
-        ta.recycle()
-        return drawable
-    }
+    fun getDrawable(@AttrRes attrId: Int): Drawable? = getFromTypedArray(attrId) { getDrawable(0) }
 
-    fun getFloat(@AttrRes attrId: Int): Float {
-        val ta = getTypedArray(attrId)
-        val f = ta.getFloat(0, 0f)
-        ta.recycle()
-        return f
-    }
+    fun getFloat(@AttrRes attrId: Int): Float = getFromTypedArray(attrId) { getFloat(0, 0f) }
+
+    fun getResource(@AttrRes attrId: Int): Int = getFromTypedArray(attrId) { getResourceId(0, -1) }
 
     val palette: IntArray
         get() {
@@ -67,24 +44,26 @@ class StyledResources(private val context: Context) {
             return context.resources.getIntArray(resourceId)
         }
 
-    fun getResource(@AttrRes attrId: Int): Int {
+    private inline fun <TResult> getFromTypedArray(@AttrRes attrId: Int, resultProvider: TypedArray.() -> TResult): TResult {
         val ta = getTypedArray(attrId)
-        val resourceId = ta.getResourceId(0, -1)
+        val result = ta.resultProvider()
         ta.recycle()
-        return resourceId
+        return result
     }
 
     private fun getTypedArray(@AttrRes attrId: Int): TypedArray {
         val attrs = intArrayOf(attrId)
-        return if (fixedTheme != null) context.theme.obtainStyledAttributes(fixedTheme!!, attrs) else context.obtainStyledAttributes(attrs)
+        return fixedTheme?.let { context.theme.obtainStyledAttributes(it, attrs) }
+                ?: context.obtainStyledAttributes(attrs)
     }
 
     companion object {
         private var fixedTheme: Int? = null
+
         @JvmStatic
         fun setFixedTheme(theme: Int?) {
             fixedTheme = theme
         }
-    }
 
+    }
 }
