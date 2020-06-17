@@ -153,6 +153,7 @@ public class ScoreCard extends HabitCard
             else scores = scoreList.groupBy(getTruncateField(bucketSize), firstWeekday);
 
             chart.setScores(scores);
+            chart.reset();
             chart.setBucketSize(bucketSize);
         }
 
