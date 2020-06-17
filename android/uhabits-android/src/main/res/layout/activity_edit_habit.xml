@@ -26,7 +26,7 @@
                 app:titleTextColor="@color/white">
 
             <com.google.android.material.button.MaterialButton
-                    android:id="@+id/material_text_button"
+                    android:id="@+id/buttonSave"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

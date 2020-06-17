@@ -22,6 +22,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/blue_grey_700</item>
@@ -255,5 +256,40 @@
 
     <style name="ScrollableRecyclerViewStyle" parent="android:Widget">
         <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="SelectHabitTypeButton">
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:elevation">6dp</item>
+        <item name="android:background">@drawable/round_ripple</item>
+        <item name="android:clickable">true</item>
+        <item name="android:selectable">true</item>
+    </style>
+
+    <style name="SelectHabitTypeButtonTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="SelectHabitTypeButtonBody">
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+    </style>
+
+    <style name="Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>

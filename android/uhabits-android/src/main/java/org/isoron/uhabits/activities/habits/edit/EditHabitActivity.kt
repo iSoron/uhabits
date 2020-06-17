@@ -23,18 +23,19 @@ import android.content.res.*
 import android.graphics.*
 import android.os.*
 import androidx.appcompat.app.*
-import kotlinx.android.synthetic.main.activity_edit_habit.*
 import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.preferences.*
 import org.isoron.uhabits.utils.*
 
 class EditHabitActivity : AppCompatActivity() {
 
     private lateinit var themeSwitcher: AndroidThemeSwitcher
+
+    private lateinit var binding: ActivityEditHabitBinding
 
     var paletteColor = 11
     var freqNum = 1
@@ -46,16 +47,17 @@ class EditHabitActivity : AppCompatActivity() {
         themeSwitcher = AndroidThemeSwitcher(this, prefs)
         themeSwitcher.apply()
 
-        setContentView(R.layout.activity_edit_habit)
+        binding = ActivityEditHabitBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         updateColors()
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.elevation = 10.0f
 
         val colorPickerDialogFactory = ColorPickerDialogFactory(this)
-        colorButton.setOnClickListener {
+        binding.colorButton.setOnClickListener {
             val dialog = colorPickerDialogFactory.create(paletteColor)
             dialog.setListener { paletteColor ->
                 this.paletteColor = paletteColor
@@ -65,7 +67,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         populateFrequency()
-        frequencyPicker.setOnClickListener {
+        binding.frequencyPicker.setOnClickListener {
             val dialog = FrequencyPickerDialog(freqNum, freqDen)
             dialog.onFrequencyPicked = {num, den ->
                 freqNum = num
@@ -73,6 +75,10 @@ class EditHabitActivity : AppCompatActivity() {
                 populateFrequency()
             }
             dialog.show(supportFragmentManager, "frequencyPicker")
+        }
+
+        binding.buttonSave.setOnClickListener {
+            finish()
         }
     }
 
@@ -85,16 +91,16 @@ class EditHabitActivity : AppCompatActivity() {
             freqDen == 31 -> "$freqNum times per month"
             else -> "Unknown"
         }
-        frequencyPicker.text = label
+        binding.frequencyPicker.text = label
     }
 
     private fun updateColors() {
         val androidColor = PaletteUtils.getColor(this, paletteColor)
-        colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
+        binding.colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
         if(!themeSwitcher.isNightMode) {
             val darkerAndroidColor = ColorUtils.mixColors(Color.BLACK, androidColor, 0.15f)
             window.statusBarColor = darkerAndroidColor
-            toolbar.setBackgroundColor(androidColor)
+            binding.toolbar.setBackgroundColor(androidColor)
         }
     }
 }
