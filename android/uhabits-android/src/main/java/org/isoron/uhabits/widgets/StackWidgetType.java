@@ -12,7 +12,8 @@ public enum StackWidgetType {
     FREQUENCY(1),
     SCORE(2), // habit strength widget
     HISTORY(3),
-    STREAKS(4);
+    STREAKS(4),
+    CURRENTSTREAK(5);
 
     private int value;
     StackWidgetType(int value) {
@@ -26,6 +27,8 @@ public enum StackWidgetType {
     public static StackWidgetType getWidgetTypeFromValue(int value) {
         if (CHECKMARK.getValue() == value) {
             return CHECKMARK;
+        } else if (CURRENTSTREAK.getValue() == value) {
+            return CURRENTSTREAK;
         } else if (FREQUENCY.getValue() == value) {
             return FREQUENCY;
         } else if (SCORE.getValue() == value) {
@@ -42,6 +45,8 @@ public enum StackWidgetType {
         switch (type) {
             case CHECKMARK:
                 return R.layout.checkmark_stackview_widget;
+            case CURRENTSTREAK:
+                return R.layout.currentstreak_stackview_widget;
             case FREQUENCY:
                 return R.layout.frequency_stackview_widget;
             case SCORE:
@@ -58,6 +63,8 @@ public enum StackWidgetType {
         switch (type) {
             case CHECKMARK:
                 return R.id.checkmarkStackWidgetView;
+            case CURRENTSTREAK:
+                return R.id.currentStreakkWidgetEmptyView;
             case FREQUENCY:
                 return R.id.frequencyStackWidgetView;
             case SCORE:
@@ -74,6 +81,8 @@ public enum StackWidgetType {
         switch (type) {
             case CHECKMARK:
                 return R.id.checkmarkStackWidgetEmptyView;
+            case CURRENTSTREAK:
+                return R.id.currentStreakkWidgetEmptyView;
             case FREQUENCY:
                 return R.id.frequencyStackWidgetEmptyView;
             case SCORE:

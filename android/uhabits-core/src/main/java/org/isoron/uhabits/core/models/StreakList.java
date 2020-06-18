@@ -78,6 +78,18 @@ public abstract class StreakList
         add(streaks);
     }
 
+    public synchronized Streak getActiveStreak()
+    {
+        List<Streak> streaks = getAll();
+        if (streaks.size() > 0){
+            Streak s = streaks.get(0);
+            if (s.isActive()){
+                return s;
+            }
+        }
+        return null;
+    }
+
     /**
      * Converts a list of checkmark values to a list of streaks.
      *

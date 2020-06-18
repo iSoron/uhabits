@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.core.utils.DateUtils;
 
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
@@ -29,6 +30,8 @@ public final class Streak
 
     private final Timestamp end;
 
+    //TODO define the "End" of a streak to follow the rules of the given streak?
+    //ex if 2 times in a week, define end at end of that week. or by other rules ofc
     public Streak(Timestamp start, Timestamp end)
     {
         this.start = start;
@@ -51,6 +54,12 @@ public final class Streak
     public Timestamp getEnd()
     {
         return end;
+    }
+
+    public boolean isActive()
+    {
+        Timestamp now = DateUtils.getToday();
+        return (start.daysUntil(now) >= 0) & (end.daysUntil(now) <= 1);
     }
 
     public int getLength()

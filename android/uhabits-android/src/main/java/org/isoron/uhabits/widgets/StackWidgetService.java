@@ -96,6 +96,8 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         {
             case CHECKMARK:
                 return new CheckmarkWidget(context, widgetId, habit);
+            case CURRENTSTREAK:
+                return new CurrentStreakWidget(context, widgetId, habit);
             case FREQUENCY:
                 return new FrequencyWidget(context, widgetId, habit, prefs.getFirstWeekday());
             case SCORE:

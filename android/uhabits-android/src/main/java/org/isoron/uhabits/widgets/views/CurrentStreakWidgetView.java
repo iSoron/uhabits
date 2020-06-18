@@ -19,22 +19,23 @@
 
 package org.isoron.uhabits.widgets.views;
 
-import android.content.*;
-import android.util.*;
-import android.widget.*;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.androidbase.utils.StyledResources;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.activities.common.views.RingView;
+import org.isoron.uhabits.core.models.Checkmark;
+import org.isoron.uhabits.utils.PaletteUtils;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
-public class CheckmarkWidgetView extends HabitWidgetView
+public class CurrentStreakWidgetView extends HabitWidgetView
 {
     private int activeColor;
 
@@ -48,14 +49,15 @@ public class CheckmarkWidgetView extends HabitWidgetView
     private TextView label;
 
     private int checkmarkValue;
+    private String currentStreak;
 
-    public CheckmarkWidgetView(Context context)
+    public CurrentStreakWidgetView(Context context)
     {
         super(context);
         init();
     }
 
-    public CheckmarkWidgetView(Context context, AttributeSet attrs)
+    public CurrentStreakWidgetView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
@@ -74,7 +76,6 @@ public class CheckmarkWidgetView extends HabitWidgetView
         switch (checkmarkValue)
         {
             case Checkmark.CHECKED_EXPLICITLY:
-                text = getResources().getString(R.string.fa_check);
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
@@ -83,20 +84,14 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
-                text = getResources().getString(R.string.fa_check);
-                bgColor = res.getColor(R.attr.cardBgColor);
-                fgColor = res.getColor(R.attr.mediumContrastTextColor);
-                setShadowAlpha(0x00);
-                break;
-
             case Checkmark.UNCHECKED:
             default:
-                text = getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
                 setShadowAlpha(0x00);
                 break;
         }
+        text = currentStreak;
 
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
@@ -113,6 +108,10 @@ public class CheckmarkWidgetView extends HabitWidgetView
     public void setActiveColor(int activeColor)
     {
         this.activeColor = activeColor;
+    }
+    public void setCurrentStreak(String currentStreak)
+    {
+        this.currentStreak = currentStreak;
     }
 
     public void setCheckmarkValue(int checkmarkValue)
@@ -156,9 +155,9 @@ public class CheckmarkWidgetView extends HabitWidgetView
             ring.setVisibility(VISIBLE);
 
         widthMeasureSpec =
-                MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
+            MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
         heightMeasureSpec =
-                MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
+            MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
 
         float textSize = 0.15f * h;
         float maxTextSize = getDimension(getContext(), R.dimen.smallerTextSize);

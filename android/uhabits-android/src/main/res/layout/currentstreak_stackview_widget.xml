@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <StackView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/currentStreakStackWidgetView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:loopViews="true" />
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/currentStreakkWidgetEmptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/checkmark_stack_widget"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+</FrameLayout>

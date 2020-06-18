@@ -333,6 +333,11 @@ public class Preferences
         return Integer.parseInt(storage.getString("pref_widget_opacity", "102"));
     }
 
+    public boolean getWidgetNumberMode()
+    {
+        return storage.getBoolean("pref_widget_numbers", false);
+    }
+
     /**
      * @return An integer representing the first day of the week. Sunday
      * corresponds to 1, Monday to 2, and so on, until Saturday, which is
