@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.edit;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.*;
 import android.os.*;
 
 import androidx.annotation.NonNull;
@@ -265,7 +266,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
                 boolean is24HourMode = DateFormat.is24HourFormat(getContext());
                 timePicker =
                     TimePickerDialog.newInstance(reminderPanel, currentHour,
-                        currentMin, is24HourMode);
+                                                 currentMin, is24HourMode, Color.BLUE);
                 timePicker.show(getFragmentManager(), "timePicker");
             }
 

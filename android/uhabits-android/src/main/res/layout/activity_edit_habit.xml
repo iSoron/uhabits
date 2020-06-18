@@ -1,142 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/highContrastReverseTextColor"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"
-        tools:context=".activities.habits.edit.EditHabitActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/highContrastReverseTextColor"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.habits.edit.EditHabitActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:elevation="2dp"
-                android:gravity="end"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:title="@string/create_habit"
-                app:titleTextColor="@color/white">
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="2dp"
+            android:gravity="end"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/create_habit"
+            app:titleTextColor="@color/white">
 
             <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonSave"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/save"
-                    android:textColor="@color/white"
-                    app:rippleColor="@color/white"
-                    app:strokeColor="@color/white" />
+                android:id="@+id/buttonSave"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                app:rippleColor="@color/white"
+                app:strokeColor="@color/white" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
 
 
             <!-- Title and color -->
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <!-- Habit Title -->
                 <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_input_group"
-                            android:clipChildren="false"
-                            android:clipToPadding="false"
-                            android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_group"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:orientation="vertical">
 
                         <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="-17dp"
-                                android:layout_marginBottom="-4dp"
-                                android:background="?attr/highContrastReverseTextColor"
-                                android:paddingStart="8dp"
-                                android:paddingEnd="8dp"
-                                android:textSize="@dimen/smallTextSize"
-                                android:text="@string/name" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="-17dp"
+                            android:layout_marginBottom="-4dp"
+                            android:background="?attr/highContrastReverseTextColor"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="@string/name"
+                            android:textSize="@dimen/smallTextSize" />
 
                         <EditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/transparent"
-                                android:textSize="@dimen/regularTextSize"
-                                android:padding="16dp"
-                                android:hint="e.g. Exercise" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:hint="e.g. Exercise"
+                            android:padding="16dp"
+                            android:textSize="@dimen/regularTextSize" />
                     </LinearLayout>
                 </FrameLayout>
 
                 <!-- Habit Color -->
                 <FrameLayout
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent"
-                        android:paddingStart="0dp"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:orientation="vertical"
-                        android:padding="8dp">
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:paddingStart="0dp">
 
                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/bg_input_group"
-                            android:clipChildren="false"
-                            android:clipToPadding="false"
-                            android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_input_group"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:orientation="vertical">
 
                         <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="-17dp"
-                                android:layout_marginBottom="-4dp"
-                                android:background="?attr/highContrastReverseTextColor"
-                                android:paddingStart="8dp"
-                                android:paddingEnd="8dp"
-                                android:textSize="@dimen/smallTextSize"
-                                android:text="Color" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="-17dp"
+                            android:layout_marginBottom="-4dp"
+                            android:background="?attr/highContrastReverseTextColor"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="Color"
+                            android:textSize="@dimen/smallTextSize" />
 
                         <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/colorButton"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="16dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"
-                                android:backgroundTint="#E23673"/>
+                            android:id="@+id/colorButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:backgroundTint="#E23673" />
 
                     </LinearLayout>
                 </FrameLayout>
@@ -147,166 +147,166 @@
 
             <!-- Habit Question -->
             <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:paddingTop="4dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:paddingTop="4dp">
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_input_group"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_input_group"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="-17dp"
-                            android:layout_marginBottom="-4dp"
-                            android:background="?attr/highContrastReverseTextColor"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:textSize="@dimen/smallTextSize"
-                            android:text="@string/question" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-17dp"
+                        android:layout_marginBottom="-4dp"
+                        android:background="?attr/highContrastReverseTextColor"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/question"
+                        android:textSize="@dimen/smallTextSize" />
 
                     <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:textSize="@dimen/regularTextSize"
-                            android:hint="@string/example_question_boolean"
-                            android:padding="16dp"
-                            android:text="" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:hint="@string/example_question_boolean"
+                        android:padding="16dp"
+                        android:text=""
+                        android:textSize="@dimen/regularTextSize" />
                 </LinearLayout>
             </FrameLayout>
 
             <!-- Frequency -->
             <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:paddingTop="4dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:paddingTop="4dp">
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_input_group"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-17dp"
+                        android:layout_marginBottom="-4dp"
+                        android:background="?attr/highContrastReverseTextColor"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/frequency"
+                        android:textSize="@dimen/smallTextSize" />
+
+                    <TextView
+                        android:id="@+id/frequencyPicker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_input_group"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="-17dp"
-                            android:layout_marginBottom="-4dp"
-                            android:background="?attr/highContrastReverseTextColor"
-                            android:textSize="@dimen/smallTextSize"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:text="@string/frequency" />
-
-                    <TextView
-                            android:id="@+id/frequencyPicker"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/ic_arrow_drop_down_dark"
-                            android:textSize="@dimen/regularTextSize"
-                            android:padding="16dp"
-                            android:text="@string/every_day"
-                            android:textColor="?attr/highContrastTextColor" />
+                        android:drawableEnd="@drawable/ic_arrow_drop_down_dark"
+                        android:padding="16dp"
+                        android:text="@string/every_day"
+                        android:textColor="?attr/highContrastTextColor"
+                        android:textSize="@dimen/regularTextSize" />
                 </LinearLayout>
             </FrameLayout>
 
             <!-- Reminder -->
             <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_input_group"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-17dp"
+                        android:layout_marginBottom="-4dp"
+                        android:background="?attr/highContrastReverseTextColor"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/reminder"
+                        android:textSize="@dimen/smallTextSize" />
+
+                    <TextView
+                        android:id="@+id/reminderTimePicker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_input_group"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:orientation="vertical">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="-17dp"
-                            android:layout_marginBottom="-4dp"
-                            android:background="?attr/highContrastReverseTextColor"
-                            android:textSize="@dimen/smallTextSize"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:text="@string/reminder" />
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?attr/selectableItemBackground"
-                            android:drawableEnd="@drawable/ic_arrow_drop_down_dark"
-                            android:textSize="@dimen/regularTextSize"
-                            android:textColor="?attr/highContrastTextColor"
-                            android:padding="16dp"
-                            android:text="@string/reminder_off" />
+                        android:drawableEnd="@drawable/ic_arrow_drop_down_dark"
+                        android:padding="16dp"
+                        android:text="@string/reminder_off"
+                        android:textColor="?attr/highContrastTextColor"
+                        android:textSize="@dimen/regularTextSize" />
                 </LinearLayout>
             </FrameLayout>
 
 
             <!-- Notes -->
             <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_input_group"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_input_group"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="-17dp"
-                            android:layout_marginBottom="-4dp"
-                            android:background="?attr/highContrastReverseTextColor"
-                            android:textSize="@dimen/smallTextSize"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:text="Notes" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="-17dp"
+                        android:layout_marginBottom="-4dp"
+                        android:background="?attr/highContrastReverseTextColor"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="Notes"
+                        android:textSize="@dimen/smallTextSize" />
 
                     <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:textSize="@dimen/regularTextSize"
-                            android:textColor="?attr/highContrastTextColor"
-                            android:padding="16dp"
-                            android:hint="(Optional)" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:hint="(Optional)"
+                        android:padding="16dp"
+                        android:textColor="?attr/highContrastTextColor"
+                        android:textSize="@dimen/regularTextSize" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

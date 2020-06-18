@@ -252,5 +252,7 @@
     <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read? How many calories did you eat?</string>
     <string name="subjective">Subjective</string>
     <string name="subjective_example">e.g. Are you felling happy today? Definitely, somewhat, not at all? How frequently did you snack? Very often, sometimes, never?</string>
+    <string name="x_times_per_week">%d times per week</string>
+    <string name="x_times_per_month">%d times per month</string>
 
 </resources>
