@@ -23,12 +23,14 @@ import android.content.res.*
 import android.graphics.*
 import android.os.*
 import android.text.format.*
+import android.view.*
 import androidx.appcompat.app.*
 import com.android.datetimepicker.time.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.preferences.*
@@ -47,6 +49,7 @@ class EditHabitActivity : AppCompatActivity() {
     var freqDen = 1
     var reminderHour = -1
     var reminderMin = -1
+    var reminderDays = WeekdayList.EVERY_DAY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +87,7 @@ class EditHabitActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "frequencyPicker")
         }
 
+        populateReminder()
         binding.reminderTimePicker.setOnClickListener {
             val currentHour = if (reminderHour >= 0) reminderHour else 8
             val currentMin = if (reminderMin >= 0) reminderMin else 0
@@ -97,10 +101,22 @@ class EditHabitActivity : AppCompatActivity() {
                 override fun onTimeCleared(view: RadialPickerLayout?) {
                     reminderHour = -1
                     reminderMin = -1
+                    reminderDays = WeekdayList.EVERY_DAY
                     populateReminder()
                 }
             }, currentHour, currentMin, is24HourMode, androidColor)
             dialog.show(supportFragmentManager, "timePicker")
+        }
+
+        binding.reminderDatePicker.setOnClickListener {
+            val dialog = WeekdayPickerDialog()
+            dialog.setListener { days ->
+                reminderDays = days
+                if (reminderDays.isEmpty) reminderDays = WeekdayList.EVERY_DAY
+                populateReminder()
+            }
+            dialog.setSelectedDays(reminderDays)
+            dialog.show(supportFragmentManager, "dayPicker")
         }
 
         binding.buttonSave.setOnClickListener {
@@ -111,9 +127,15 @@ class EditHabitActivity : AppCompatActivity() {
     private fun populateReminder() {
         if (reminderHour < 0) {
             binding.reminderTimePicker.text = getString(R.string.reminder_off)
+            binding.reminderDatePicker.visibility = View.GONE
+            binding.reminderDivider.visibility = View.GONE
         } else {
             val time = AndroidDateUtils.formatTime(this, reminderHour, reminderMin)
+            val daysArray = reminderDays.toArray()
             binding.reminderTimePicker.text = time
+            binding.reminderDatePicker.visibility = View.VISIBLE
+            binding.reminderDivider.visibility = View.VISIBLE
+            binding.reminderDatePicker.text = AndroidDateUtils.formatWeekdayList(this, daysArray)
         }
     }
 
