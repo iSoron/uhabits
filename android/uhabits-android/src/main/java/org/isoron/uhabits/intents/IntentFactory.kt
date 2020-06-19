@@ -21,8 +21,10 @@ package org.isoron.uhabits.intents
 
 import android.content.*
 import android.net.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.about.*
+import org.isoron.uhabits.activities.habits.edit.*
 import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.activities.intro.*
 import org.isoron.uhabits.activities.settings.*
@@ -81,4 +83,14 @@ class IntentFactory
 
     fun codeContributors(context: Context) =
             buildViewIntent(context.getString(R.string.codeContributorsURL))
+
+    fun startEditActivity(context: Context): Intent {
+        return Intent(context, EditHabitActivity::class.java)
+    }
+
+    fun startEditActivity(context: Context, habit: Habit): Intent {
+        val intent = startEditActivity(context)
+        intent.putExtra("habitId", habit.id)
+        return intent
+    }
 }

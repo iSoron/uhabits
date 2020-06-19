@@ -2,6 +2,7 @@ package org.isoron.uhabits.notifications;
 
 
 import android.app.*;
+import android.graphics.*;
 import android.os.*;
 
 import androidx.annotation.Nullable;
@@ -66,7 +67,8 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
             },
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
-            DateFormat.is24HourFormat(this));
+            DateFormat.is24HourFormat(this),
+            Color.BLUE);
         dialog.show(getSupportFragmentManager(), "timePicker");
     }
 

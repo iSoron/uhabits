@@ -152,7 +152,7 @@ public class CommonSteps extends BaseUserInterfaceTest
 
     public enum Screen
     {
-        LIST_HABITS, SHOW_HABIT, EDIT_HABIT
+        LIST_HABITS, SHOW_HABIT, EDIT_HABIT, SELECT_HABIT_TYPE
     }
 
     public static void verifyShowsScreen(Screen screen) {
@@ -176,9 +176,15 @@ public class CommonSteps extends BaseUserInterfaceTest
                 break;
 
             case EDIT_HABIT:
-                onView(withId(R.id.tvQuestion)).check(matches(isDisplayed()));
-                onView(withId(R.id.tvDescription)).check(matches(isDisplayed()));
+                onView(withId(R.id.questionInput)).check(matches(isDisplayed()));
                 break;
+
+            case SELECT_HABIT_TYPE:
+                onView(withText(R.string.yes_or_no_example)).check(matches(isDisplayed()));
+                break;
+
+            default:
+                throw new IllegalStateException();
         }
     }
 }

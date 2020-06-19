@@ -18,10 +18,11 @@
   -->
 
 <resources>
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppBaseTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/blue_grey_700</item>
@@ -30,9 +31,9 @@
         <item name="selectedBackground">@drawable/selected_box_light</item>
         <item name="cardBackground">@drawable/card_light_background</item>
 
-        <item name="colorPrimary">@color/blue_grey_800</item>
-        <item name="colorPrimaryDark">@color/blue_grey_900</item>
-        <item name="colorAccent">?aboutScreenColor</item>
+        <item name="colorPrimary">#363636</item>
+        <item name="colorPrimaryDark">#303030</item>
+        <item name="colorAccent">#303030</item>
         <item name="cardBgColor">@color/grey_50</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
         <item name="headerBackgroundColor">@color/grey_200</item>
@@ -74,7 +75,7 @@
         <item name="android:textSize">@dimen/smallTextSize</item>
     </style>
 
-    <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
@@ -255,5 +256,87 @@
 
     <style name="ScrollableRecyclerViewStyle" parent="android:Widget">
         <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="SelectHabitTypeButton">
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:elevation">6dp</item>
+        <item name="android:background">@drawable/round_ripple</item>
+        <item name="android:clickable">true</item>
+        <item name="android:selectable">true</item>
+    </style>
+
+    <style name="SelectHabitTypeButtonTitle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="SelectHabitTypeButtonBody">
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+    </style>
+
+    <style name="Translucent">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="FormLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">-17dp</item>
+        <item name="android:layout_marginBottom">-4dp</item>
+        <item name="android:background">?attr/highContrastReverseTextColor</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:textSize">@dimen/smallerTextSize</item>
+    </style>
+
+    <style name="FormInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
+    </style>
+
+    <style name="FormDropdown">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableEnd">@drawable/ic_arrow_drop_down_dark</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:text">@string/every_day</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
+    </style>
+
+    <style name="FormInnerBox">
+        <item name="android:background">@drawable/bg_input_group</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="FormDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/lowContrastTextColor</item>
     </style>
 </resources>

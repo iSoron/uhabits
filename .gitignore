@@ -16,3 +16,7 @@ captures
 local.properties
 node_modules
 *xcuserdata*
+*.sketch
+/design
+/releases
+/screenshots

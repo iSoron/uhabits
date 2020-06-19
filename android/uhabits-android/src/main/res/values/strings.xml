@@ -245,6 +245,15 @@
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="default_reminder_question">Have you completed this habit today?</string>
     <string name="notes">Notes</string>
-    <string name="example_notes">You can put whatever you want here!</string>
+    <string name="example_notes">(Optional)</string>
+
+    <string name="yes_or_no_example">e.g. Did you wake up early today? Did you exercise? Did you play chess?</string>
+    <string name="measurable">Measurable</string>
+    <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read? How many calories did you eat?</string>
+    <string name="subjective">Subjective</string>
+    <string name="subjective_example">e.g. Are you felling happy today? Definitely, somewhat, not at all? How frequently did you snack? Very often, sometimes, never?</string>
+    <string name="x_times_per_week">%d times per week</string>
+    <string name="x_times_per_month">%d times per month</string>
+    <string name="exercise_habit_name">e.g. Exercise</string>
 
 </resources>

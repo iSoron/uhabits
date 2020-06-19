@@ -58,14 +58,12 @@ class ListHabitsScreen
         private val commandRunner: CommandRunner,
         private val intentFactory: IntentFactory,
         private val themeSwitcher: ThemeSwitcher,
-        private val preferences: Preferences,
         private val adapter: HabitCardListAdapter,
         private val taskRunner: TaskRunner,
         private val exportDBFactory: ExportDBTaskFactory,
         private val importTaskFactory: ImportDataTaskFactory,
         private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
-        private val editHabitDialogFactory: EditHabitDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
         private val behavior: Lazy<ListHabitsBehavior>,
         private val menu: Lazy<ListHabitsMenu>,
@@ -137,14 +135,9 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
-    override fun showCreateBooleanHabitScreen() {
-        val dialog = editHabitDialogFactory.createBoolean()
-        activity.showDialog(dialog, "editHabit")
-    }
-
-    override fun showCreateNumericalHabitScreen() {
-        val dialog = editHabitDialogFactory.createNumerical()
-        activity.showDialog(dialog, "editHabit")
+    override fun showSelectHabitTypeDialog() {
+        val dialog = HabitTypeDialog()
+        activity.showDialog(dialog, "habitType")
     }
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
@@ -152,8 +145,8 @@ class ListHabitsScreen
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {
-        val dialog = editHabitDialogFactory.edit(habits[0])
-        activity.showDialog(dialog, "editNumericalHabit")
+        val intent = intentFactory.startEditActivity(activity!!, habits[0])
+        activity.startActivity(intent)
     }
 
     override fun showFAQScreen() {

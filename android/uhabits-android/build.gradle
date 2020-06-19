@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.github.triplet.play' version '2.6.2'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -69,6 +70,10 @@ android {
     sourceSets {
         main.assets.srcDirs += '../uhabits-core/src/main/resources/'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -89,6 +94,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     compileOnly "javax.annotation:jsr250-api:1.0"
     compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"

@@ -76,7 +76,7 @@ build_apk() {
     fi
 
     log_info "Building debug APK"
-    ./gradlew assembleDebug || fail
+    ./gradlew assembleDebug --stacktrace || fail
     cp -v uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk build/loop-$VERSION-debug.apk
 }
 

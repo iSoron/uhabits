@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/highContrastReverseTextColor"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.habits.edit.EditHabitActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="2dp"
+            android:gravity="end"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/create_habit"
+            app:titleTextColor="@color/white">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSave"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                app:rippleColor="@color/white"
+                app:strokeColor="@color/white" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+
+
+            <!-- Title and color -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Habit Title -->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/name" />
+
+                        <EditText
+                            android:id="@+id/nameInput"
+                            style="@style/FormInput"
+                            android:maxLines="1"
+                            android:inputType="textCapSentences"
+                            android:hint="@string/exercise_habit_name"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Habit Color -->
+                <FrameLayout
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:paddingStart="0dp">
+
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="Color" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/colorButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:backgroundTint="#E23673" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+
+            <!-- Habit Question -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:paddingTop="4dp">
+
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/question" />
+
+                    <EditText
+                        android:id="@+id/questionInput"
+                        style="@style/FormInput"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:hint="@string/example_question_boolean"
+                         />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Frequency -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:paddingTop="4dp">
+
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/frequency" />
+
+                    <TextView
+                        style="@style/FormDropdown"
+                        android:id="@+id/frequencyPicker"
+                        android:textColor="?attr/highContrastTextColor"
+                        />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Reminder -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/reminder" />
+
+                    <TextView
+                        style="@style/FormDropdown"
+                        android:id="@+id/reminderTimePicker"
+                        android:text="@string/reminder_off" />
+
+                    <View
+                        style="@style/FormDivider"
+                        android:id="@+id/reminderDivider"/>
+
+                    <TextView
+                        style="@style/FormDropdown"
+                        android:id="@+id/reminderDatePicker"
+                        android:text="" />
+                </LinearLayout>
+            </FrameLayout>
+
+
+            <!-- Notes -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/notes" />
+
+                    <EditText
+                        android:id="@+id/notesInput"
+                        style="@style/FormInput"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:hint="@string/example_notes" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

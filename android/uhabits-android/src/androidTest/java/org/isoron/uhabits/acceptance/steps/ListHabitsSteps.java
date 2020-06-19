@@ -60,7 +60,7 @@ public abstract class ListHabitsSteps
                 break;
 
             case ADD:
-                clickViewWithId(R.id.actionCreateBooleanHabit);
+                clickViewWithId(R.id.actionCreateHabit);
                 break;
 
             case EDIT:

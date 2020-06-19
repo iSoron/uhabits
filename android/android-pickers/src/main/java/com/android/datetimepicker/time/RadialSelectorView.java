@@ -40,7 +40,7 @@ public class RadialSelectorView extends View {
     // Alpha level for the line.
     private static final int FULL_ALPHA = Utils.FULL_ALPHA;
 
-    private final Paint mPaint = new Paint();
+    protected final Paint mPaint = new Paint();
 
     private boolean mIsInitialized;
     private boolean mDrawValuesReady;
@@ -96,8 +96,6 @@ public class RadialSelectorView extends View {
 
         Resources res = context.getResources();
 
-        int blue = res.getColor(R.color.blue);
-        mPaint.setColor(blue);
         mPaint.setAntiAlias(true);
         mSelectionAlpha = SELECTED_ALPHA;
 
@@ -139,15 +137,11 @@ public class RadialSelectorView extends View {
 
     /* package */ void setTheme(Context context, boolean themeDark) {
         Resources res = context.getResources();
-        int color;
         if (themeDark) {
-            color = res.getColor(R.color.red);
             mSelectionAlpha = SELECTED_ALPHA_THEME_DARK;
         } else {
-            color = res.getColor(R.color.blue);
             mSelectionAlpha = SELECTED_ALPHA;
         }
-        mPaint.setColor(color);
     }
 
     /**

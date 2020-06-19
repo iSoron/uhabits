@@ -84,6 +84,14 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
     private AnimatorSet mTransition;
     private Handler mHandler = new Handler();
 
+    public void setColor(int selectedColor)
+    {
+        mHourRadialSelectorView.mPaint.setColor(selectedColor);
+        mMinuteRadialSelectorView.mPaint.setColor(selectedColor);
+        mAmPmCirclesView.mSelectedColor = selectedColor;
+        mAmPmCirclesView.mAmPmTextColor = selectedColor;
+    }
+
     public interface OnValueSelectedListener {
         void onValueSelected(int pickerIndex, int newValue, boolean autoAdvance);
     }
