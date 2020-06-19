@@ -133,7 +133,7 @@
                     <EditText
                         android:id="@+id/questionInput"
                         style="@style/FormInput"
-                        android:inputType="textCapSentences"
+                        android:inputType="textCapSentences|textMultiLine"
                         android:hint="@string/example_question_boolean"
                          />
                 </LinearLayout>
@@ -210,6 +210,7 @@
                     <EditText
                         android:id="@+id/notesInput"
                         style="@style/FormInput"
+                        android:inputType="textCapSentences|textMultiLine"
                         android:hint="@string/example_notes" />
                 </LinearLayout>
             </FrameLayout>
