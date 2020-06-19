@@ -52,6 +52,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
     private static final String KEY_IN_KB_MODE = "in_kb_mode";
     private static final String KEY_TYPED_TIMES = "typed_times";
     private static final String KEY_DARK_THEME = "dark_theme";
+    private static final String KEY_SELECTED_COLOR = "selected_color";
 
     public static final int HOUR_INDEX = 0;
     public static final int MINUTE_INDEX = 1;
@@ -202,6 +203,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
             mIs24HourMode = savedInstanceState.getBoolean(KEY_IS_24_HOUR_VIEW);
             mInKbMode = savedInstanceState.getBoolean(KEY_IN_KB_MODE);
             mThemeDark = savedInstanceState.getBoolean(KEY_DARK_THEME);
+            mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
         }
     }
 
@@ -436,6 +438,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
                 outState.putIntegerArrayList(KEY_TYPED_TIMES, mTypedTimes);
             }
             outState.putBoolean(KEY_DARK_THEME, mThemeDark);
+            outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);
         }
     }
 

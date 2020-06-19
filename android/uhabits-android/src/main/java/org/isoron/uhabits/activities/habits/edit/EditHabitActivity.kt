@@ -25,6 +25,7 @@ import android.os.*
 import android.text.format.*
 import android.view.*
 import androidx.appcompat.app.*
+import androidx.fragment.app.*
 import com.android.datetimepicker.time.*
 import kotlinx.android.synthetic.main.activity_edit_habit.*
 import org.isoron.androidbase.utils.*
@@ -150,6 +151,10 @@ class EditHabitActivity : AppCompatActivity() {
 
         binding.buttonSave.setOnClickListener {
             if(validate()) save()
+        }
+
+        for (fragment in supportFragmentManager.fragments) {
+            (fragment as DialogFragment).dismiss()
         }
     }
 

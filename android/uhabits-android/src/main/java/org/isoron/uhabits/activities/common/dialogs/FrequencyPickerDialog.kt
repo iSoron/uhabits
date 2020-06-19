@@ -37,6 +37,8 @@ class FrequencyPickerDialog(var freqNumerator: Int,
     lateinit var contentView: View
     var onFrequencyPicked: (num: Int, den: Int) -> Unit = {_,_ -> }
 
+    constructor() : this(1, 1)
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
         contentView = inflater.inflate(R.layout.frequency_picker_dialog, null)
