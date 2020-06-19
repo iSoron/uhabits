@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.activities.habits.show;
 
+import android.content.*;
+
 import androidx.annotation.NonNull;
 
 import org.isoron.androidbase.activities.*;
@@ -28,6 +30,7 @@ import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
+import org.isoron.uhabits.intents.*;
 
 import javax.inject.*;
 
@@ -44,29 +47,29 @@ public class ShowHabitScreen extends BaseScreen
     private final Habit habit;
 
     @NonNull
-    private final EditHabitDialogFactory editHabitDialogFactory;
-
-    @NonNull
     private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
 
     private final Lazy<ShowHabitBehavior> behavior;
+
+    @NonNull
+    private final IntentFactory intentFactory;
 
     @Inject
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
                            @NonNull ShowHabitRootView view,
                            @NonNull ShowHabitsMenu menu,
-                           @NonNull EditHabitDialogFactory editHabitDialogFactory,
                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                           @NonNull IntentFactory intentFactory,
                            @NonNull Lazy<ShowHabitBehavior> behavior)
     {
         super(activity);
+        this.intentFactory = intentFactory;
         setMenu(menu);
         setRootView(view);
 
         this.habit = habit;
         this.behavior = behavior;
-        this.editHabitDialogFactory = editHabitDialogFactory;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         view.setController(this);
     }
@@ -102,7 +105,8 @@ public class ShowHabitScreen extends BaseScreen
     @Override
     public void showEditHabitScreen(@NonNull Habit habit)
     {
-        activity.showDialog(editHabitDialogFactory.edit(habit), "editHabit");
+        Intent intent = intentFactory.startEditActivity(activity, habit);
+        activity.startActivity(intent);
     }
 
     @Override
