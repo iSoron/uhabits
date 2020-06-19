@@ -112,6 +112,7 @@ public class ListHabitsSelectionMenuBehavior
     public void onEditHabits()
     {
         screen.showEditHabitsScreen(adapter.getSelected());
+        adapter.clearSelection();
     }
 
     public void onUnarchiveHabits()

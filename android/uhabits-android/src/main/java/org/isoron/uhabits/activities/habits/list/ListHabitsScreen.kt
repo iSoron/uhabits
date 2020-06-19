@@ -147,8 +147,8 @@ class ListHabitsScreen
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {
-        val dialog = editHabitDialogFactory.edit(habits[0])
-        activity.showDialog(dialog, "editNumericalHabit")
+        val intent = intentFactory.startEditActivity(activity!!, habits[0])
+        activity.startActivity(intent)
     }
 
     override fun showFAQScreen() {

@@ -74,14 +74,17 @@
                             android:text="@string/name" />
 
                         <EditText
+                            android:id="@+id/nameInput"
                             style="@style/FormInput"
+                            android:maxLines="1"
+                            android:inputType="textCapSentences"
                             android:hint="@string/exercise_habit_name"
                             />
                     </LinearLayout>
                 </FrameLayout>
 
                 <!-- Habit Color -->
-                <FrameLayut
+                <FrameLayout
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:clipChildren="false"
@@ -106,7 +109,7 @@
                             android:backgroundTint="#E23673" />
 
                     </LinearLayout>
-                </FrameLayut>
+                </FrameLayout>
 
 
             </LinearLayout>
@@ -128,7 +131,9 @@
                         android:text="@string/question" />
 
                     <EditText
+                        android:id="@+id/questionInput"
                         style="@style/FormInput"
+                        android:inputType="textCapSentences"
                         android:hint="@string/example_question_boolean"
                          />
                 </LinearLayout>
@@ -203,6 +208,7 @@
                         android:text="@string/notes" />
 
                     <EditText
+                        android:id="@+id/notesInput"
                         style="@style/FormInput"
                         android:hint="@string/example_notes" />
                 </LinearLayout>

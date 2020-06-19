@@ -88,15 +88,21 @@ class FrequencyPickerDialog(var freqNumerator: Int,
                 // NOP
             }
             contentView.everyXDaysRadioButton.isChecked -> {
-                denominator = Integer.parseInt(contentView.everyXDaysTextView.text.toString())
+                if (contentView.everyXDaysTextView.text.isNotEmpty()) {
+                    denominator = Integer.parseInt(contentView.everyXDaysTextView.text.toString())
+                }
             }
             contentView.xTimesPerWeekRadioButton.isChecked -> {
-                numerator = Integer.parseInt(contentView.xTimesPerWeekTextView.text.toString())
-                denominator = 7
+                if (contentView.xTimesPerWeekTextView.text.isNotEmpty()) {
+                    numerator = Integer.parseInt(contentView.xTimesPerWeekTextView.text.toString())
+                    denominator = 7
+                }
             }
             else -> {
-                numerator = Integer.parseInt(contentView.xTimesPerMonthTextView.text.toString())
-                denominator = 31
+                if (contentView.xTimesPerMonthTextView.text.isNotEmpty()) {
+                    numerator = Integer.parseInt(contentView.xTimesPerMonthTextView.text.toString())
+                    denominator = 30
+                }
             }
         }
         if (numerator >= denominator || numerator < 1) {
@@ -138,7 +144,7 @@ class FrequencyPickerDialog(var freqNumerator: Int,
                 contentView.xTimesPerMonthTextView.setText(freqNumerator.toString())
                 focus(contentView.xTimesPerMonthTextView)
             } else {
-                Log.w("FrequencyPickerDialog", "Unknown frequency: " + freqNumerator + "/" + freqDenominator)
+                Log.w("FrequencyPickerDialog", "Unknown frequency: $freqNumerator/$freqDenominator")
                 contentView.everyDayRadioButton.isChecked = true
             }
         }
