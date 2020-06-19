@@ -54,12 +54,15 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyShowsScreen(LIST_HABITS);
         clickMenu(ADD);
 
+        verifyShowsScreen(SELECT_HABIT_TYPE);
+        clickText("Yes or No");
+
         verifyShowsScreen(EDIT_HABIT);
         String testName = "Hello world";
         typeName(testName);
         typeQuestion("Did you say hello to the world today?");
         typeDescription(description);
-        pickFrequency("Every week");
+        pickFrequency();
         pickColor(5);
         clickSave();
 

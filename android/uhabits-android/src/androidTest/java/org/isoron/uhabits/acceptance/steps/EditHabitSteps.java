@@ -36,42 +36,42 @@ public class EditHabitSteps
         onView(withId(R.id.buttonSave)).perform(click());
     }
 
-    public static void pickFrequency(String freq)
+    public static void pickFrequency()
     {
-        onView(withId(R.id.spinner)).perform(click());
-        device.findObject(By.text(freq)).click();
+        onView(withId(R.id.frequencyPicker)).perform(click());
+        onView(withText("SAVE")).perform(click());
     }
 
     public static void pickColor(int color)
     {
-        onView(withId(R.id.buttonPickColor)).perform(click());
+        onView(withId(R.id.colorButton)).perform(click());
         device.findObject(By.descStartsWith(String.format("Color %d", color))).click();
     }
 
     public static void typeName(String name)
     {
-        typeTextWithId(R.id.tvName, name);
+        typeTextWithId(R.id.nameInput, name);
     }
 
     public static void typeQuestion(String name)
     {
-        typeTextWithId(R.id.tvQuestion, name);
+        typeTextWithId(R.id.questionInput, name);
     }
 
     public static void typeDescription(String description)
     {
-        typeTextWithId(R.id.tvDescription, description);
+        typeTextWithId(R.id.notesInput, description);
     }
 
     public static void setReminder()
     {
-        onView(withId(R.id.tvReminderTime)).perform(click());
+        onView(withId(R.id.reminderTimePicker)).perform(click());
         onView(withId(R.id.done_button)).perform(click());
     }
 
     public static void clickReminderDays()
     {
-        onView(withId(R.id.tvReminderDays)).perform(click());
+        onView(withId(R.id.reminderDatePicker)).perform(click());
     }
 
     public static void unselectAllDays()
