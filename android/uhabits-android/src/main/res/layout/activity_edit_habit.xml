@@ -127,7 +127,7 @@
                         android:text="@string/frequency" />
                     <TextView
                         style="@style/FormDropdown"
-                        android:id="@+id/frequencyPicker"
+                        android:id="@+id/boolean_frequency_picker"
                         android:text="@string/every_day" />
                 </LinearLayout>
             </FrameLayout>
@@ -142,6 +142,7 @@
                         android:text="@string/unit" />
                     <EditText
                         style="@style/FormInput"
+                        android:id="@+id/unitInput"
                         android:maxLines="1"
                         android:ems="10"
                         android:hint="@string/measurable_units_example"/>
@@ -163,6 +164,7 @@
                             android:text="@string/target" />
                         <EditText
                             style="@style/FormInput"
+                            android:id="@+id/targetInput"
                             android:maxLines="1"
                             android:inputType="number"
                             android:hint="@string/example_target"/>
@@ -178,6 +180,7 @@
                             android:text="@string/frequency" />
                         <TextView
                             style="@style/FormDropdown"
+                            android:id="@+id/numericalFrequencyPicker"
                             android:text="@string/every_week"
                             android:textColor="?attr/highContrastTextColor"
                             />

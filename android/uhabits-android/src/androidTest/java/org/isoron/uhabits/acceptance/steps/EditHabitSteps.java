@@ -38,7 +38,7 @@ public class EditHabitSteps
 
     public static void pickFrequency()
     {
-        onView(withId(R.id.frequencyPicker)).perform(click());
+        onView(withId(R.id.boolean_frequency_picker)).perform(click());
         onView(withText("SAVE")).perform(click());
     }
 
