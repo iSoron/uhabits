@@ -49,55 +49,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp">
-
+            android:paddingTop="8dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp">
 
             <!-- Title and color -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <!-- Habit Title -->
                 <FrameLayout
+                    style="@style/FormOuterBox"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
+                    android:layout_weight="1">
                     <LinearLayout style="@style/FormInnerBox">
                         <TextView
                             style="@style/FormLabel"
                             android:text="@string/name" />
-
                         <EditText
                             android:id="@+id/nameInput"
                             style="@style/FormInput"
                             android:maxLines="1"
                             android:inputType="textCapSentences"
-                            android:hint="@string/exercise_habit_name"
+                            android:hint="@string/yes_or_no_short_example"
                             />
                     </LinearLayout>
                 </FrameLayout>
 
                 <!-- Habit Color -->
                 <FrameLayout
+                    style="@style/FormOuterBox"
                     android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:paddingStart="0dp">
-
+                    android:layout_height="match_parent">
                     <LinearLayout style="@style/FormInnerBox">
                         <TextView
                             style="@style/FormLabel"
-                            android:text="Color" />
-
+                            android:text="@string/color" />
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/colorButton"
                             android:layout_width="match_parent"
@@ -110,26 +100,14 @@
 
                     </LinearLayout>
                 </FrameLayout>
-
-
             </LinearLayout>
 
-
             <!-- Habit Question -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:paddingTop="4dp">
-
+            <FrameLayout style="@style/FormOuterBox">
                 <LinearLayout style="@style/FormInnerBox">
                     <TextView
                         style="@style/FormLabel"
                         android:text="@string/question" />
-
                     <EditText
                         android:id="@+id/questionInput"
                         style="@style/FormInput"
@@ -141,36 +119,74 @@
 
             <!-- Frequency -->
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:paddingTop="4dp">
-
+                android:id="@+id/frequencyOuterBox"
+                style="@style/FormOuterBox">
                 <LinearLayout style="@style/FormInnerBox">
                     <TextView
                         style="@style/FormLabel"
                         android:text="@string/frequency" />
-
                     <TextView
                         style="@style/FormDropdown"
                         android:id="@+id/frequencyPicker"
-                        android:textColor="?attr/highContrastTextColor"
-                        />
+                        android:text="@string/every_day" />
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Reminder -->
+            <!-- Target value, unit and frequency -->
             <FrameLayout
+                android:id="@+id/unitOuterBox"
+                style="@style/FormOuterBox">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/unit" />
+                    <EditText
+                        style="@style/FormInput"
+                        android:maxLines="1"
+                        android:ems="10"
+                        android:hint="@string/measurable_units_example"/>
+                </LinearLayout>
+            </FrameLayout>
+            <LinearLayout
+                android:id="@+id/targetOuterBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/target" />
+                        <EditText
+                            style="@style/FormInput"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:hint="@string/example_target"/>
+                    </LinearLayout>
+                </FrameLayout>
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/frequency" />
+                        <TextView
+                            style="@style/FormDropdown"
+                            android:text="@string/every_week"
+                            android:textColor="?attr/highContrastTextColor"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
 
+            <!-- Reminder -->
+            <FrameLayout style="@style/FormOuterBox">
                 <LinearLayout style="@style/FormInnerBox">
                     <TextView
                         style="@style/FormLabel"
@@ -194,14 +210,7 @@
 
 
             <!-- Notes -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:orientation="vertical"
-                android:padding="8dp">
-
+            <FrameLayout style="@style/FormOuterBox">
                 <LinearLayout style="@style/FormInnerBox">
                     <TextView
                         style="@style/FormLabel"

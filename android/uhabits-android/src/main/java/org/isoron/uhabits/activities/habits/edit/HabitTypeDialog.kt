@@ -23,6 +23,7 @@ import android.os.*
 import android.view.*
 import androidx.appcompat.app.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.intents.*
 
@@ -35,16 +36,14 @@ class HabitTypeDialog : AppCompatDialogFragment() {
         val binding = SelectHabitTypeBinding.inflate(inflater, container, false)
 
         binding.buttonYesNo.setOnClickListener {
-            val intent = IntentFactory().startEditActivity(activity!!)
+            val intent = IntentFactory().startEditActivity(activity!!, Habit.YES_NO_HABIT)
             startActivity(intent)
             dismiss()
         }
 
         binding.buttonMeasurable.setOnClickListener {
-            dismiss()
-        }
-
-        binding.buttonSubjective.setOnClickListener{
+            val intent = IntentFactory().startEditActivity(activity!!, Habit.NUMBER_HABIT)
+            startActivity(intent)
             dismiss()
         }
 

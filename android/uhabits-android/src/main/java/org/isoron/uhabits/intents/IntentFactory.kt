@@ -84,13 +84,20 @@ class IntentFactory
     fun codeContributors(context: Context) =
             buildViewIntent(context.getString(R.string.codeContributorsURL))
 
-    fun startEditActivity(context: Context): Intent {
+    private fun startEditActivity(context: Context): Intent {
         return Intent(context, EditHabitActivity::class.java)
     }
 
     fun startEditActivity(context: Context, habit: Habit): Intent {
         val intent = startEditActivity(context)
         intent.putExtra("habitId", habit.id)
+        intent.putExtra("habitType", habit.type)
+        return intent
+    }
+
+    fun startEditActivity(context: Context, habitType: Int): Intent {
+        val intent = startEditActivity(context)
+        intent.putExtra("habitType", habitType)
         return intent
     }
 }

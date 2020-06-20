@@ -44,6 +44,7 @@ class EditHabitActivity : AppCompatActivity() {
     private lateinit var commandRunner: CommandRunner
 
     var habitId = -1L
+    var habitType = -1
     var paletteColor = 11
     var androidColor = 0
     var freqNum = 1
@@ -66,6 +67,7 @@ class EditHabitActivity : AppCompatActivity() {
             binding.toolbar.title = getString(R.string.edit_habit)
             habitId = intent.getLongExtra("habitId", -1)
             val habit = component.habitList.getById(habitId)!!
+            habitType = habit.type
             paletteColor = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
@@ -77,10 +79,13 @@ class EditHabitActivity : AppCompatActivity() {
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
+        } else {
+            habitType = intent.getIntExtra("habitType", Habit.YES_NO_HABIT)
         }
 
         if (state != null) {
             habitId = state.getLong("habitId")
+            habitType = state.getInt("habitType")
             paletteColor = state.getInt("paletteColor")
             freqNum = state.getInt("freqNum")
             freqDen = state.getInt("freqDen")
@@ -90,6 +95,15 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         updateColors()
+
+        if (habitType == Habit.YES_NO_HABIT) {
+            binding.unitOuterBox.visibility = View.GONE
+            binding.targetOuterBox.visibility = View.GONE
+        } else {
+            binding.nameInput.hint = getString(R.string.measurable_short_example)
+            binding.questionInput.hint = getString(R.string.measurable_question_example)
+            binding.frequencyOuterBox.visibility = View.GONE
+        }
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -238,6 +252,7 @@ class EditHabitActivity : AppCompatActivity() {
         super.onSaveInstanceState(state)
         with(state) {
             putLong("habitId", habitId)
+            putInt("habitType", habitType)
             putInt("paletteColor", paletteColor)
             putInt("androidColor", androidColor)
             putInt("freqNum", freqNum)
