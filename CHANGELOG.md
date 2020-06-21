@@ -3,6 +3,7 @@
 ### 1.8.8 (June 21, 2020)
 
 * Make small changes to the habit scheduling algorithm, so that "1 time every x days" habits work more predictably.
+* Fix crash when saving habit
 
 ### 1.8.0 (Jan 1, 2020)
 
