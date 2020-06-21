@@ -1,11 +1,11 @@
-1.8.7
-* Fix notification issues
+1.8.8
+* Small tweaks to the habit scheduling algorithm
 1.8:
 * New bar chart showing number of repetitions performed each week, month or year
 * Performing habits on irregular weekdays will no longer break your streak
 * More colors to choose from (now 20 in total)
-* Ability to customize how transparent the widgets are
-* Ability to customize the first day of the week
-* Yes/No buttons on notifications instead of just "Check"
+* Customize how transparent the widgets are
+* Customize the first day of the week
+* Yes/No buttons on notifications
 * Automatic dark theme (Android 10)
 * Smaller APK and backup files
