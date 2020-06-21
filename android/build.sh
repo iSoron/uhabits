@@ -181,8 +181,8 @@ fetch_images() {
 }
 
 accept_images() {
-    find tmp/test-screenshots -name '*.expected*' -delete
-    rsync -av tmp/test-screenshots/ uhabits-android/src/androidTest/assets/
+    find $OUTPUTS_DIR/test-screenshots -name '*.expected*' -delete
+    rsync -av $OUTPUTS_DIR/test-screenshots/ uhabits-android/src/androidTest/assets/
 }
 
 run_tests() {
