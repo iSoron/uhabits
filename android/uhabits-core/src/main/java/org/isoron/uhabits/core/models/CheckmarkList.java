@@ -122,22 +122,28 @@ public abstract class CheckmarkList
     }
 
     /**
-     * Starting from the oldest interval, this function tries to slide the
+     * Starting from the second newest interval, this function tries to slide the
      * intervals backwards into the past, so that gaps are eliminated and
-     * streaks are maximized. When it detects that sliding an interval
-     * would not help fixing any gap, it leaves the interval unchanged.
+     * streaks are maximized.
      */
     static void snapIntervalsTogether(@NonNull ArrayList<Interval> intervals)
     {
-        for (int i = 1; i < intervals.size(); i++)
+        int n = intervals.size();
+        for (int i = n - 2; i >= 0; i--)
         {
             Interval curr = intervals.get(i);
-            Interval prev = intervals.get(i - 1);
+            Interval next = intervals.get(i + 1);
 
-            int gap = prev.end.daysUntil(curr.begin) - 1;
-            if (gap <= 0 || curr.end.minus(gap).isOlderThan(curr.center)) continue;
-            intervals.set(i, new Interval(curr.begin.minus(gap), curr.center,
-                curr.end.minus(gap)));
+            int gapNextToCurrent = next.begin.daysUntil(curr.end);
+            int gapCenterToEnd = curr.center.daysUntil(curr.end);
+
+            if (gapNextToCurrent >= 0)
+            {
+                int shift = Math.min(gapCenterToEnd, gapNextToCurrent + 1);
+                intervals.set(i, new Interval(curr.begin.minus(shift),
+                                              curr.center,
+                                              curr.end.minus(shift)));
+            }
         }
     }
 

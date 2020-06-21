@@ -57,7 +57,13 @@ public class TargetPanel extends FrameLayout
     public double getTargetValue()
     {
         String sValue = tvTargetValue.getText().toString();
-        return Double.parseDouble(sValue);
+        double value = 0;
+        try {
+            value = Double.parseDouble(sValue);
+        } catch (NumberFormatException e) {
+            // NOP
+        }
+        return value;
     }
 
     public void setTargetValue(double targetValue)
