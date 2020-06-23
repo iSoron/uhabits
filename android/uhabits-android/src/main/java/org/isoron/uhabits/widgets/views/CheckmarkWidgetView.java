@@ -156,9 +156,9 @@ public class CheckmarkWidgetView extends HabitWidgetView
             ring.setVisibility(VISIBLE);
 
         widthMeasureSpec =
-                MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
+            MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
         heightMeasureSpec =
-                MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
+            MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
 
         float textSize = 0.15f * h;
         float maxTextSize = getDimension(getContext(), R.dimen.smallerTextSize);

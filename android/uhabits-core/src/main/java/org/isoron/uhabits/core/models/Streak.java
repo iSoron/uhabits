@@ -30,8 +30,6 @@ public final class Streak
 
     private final Timestamp end;
 
-    //TODO define the "End" of a streak to follow the rules of the given streak?
-    //ex if 2 times in a week, define end at end of that week. or by other rules ofc
     public Streak(Timestamp start, Timestamp end)
     {
         this.start = start;

@@ -59,14 +59,6 @@
                 android:key="pref_first_weekday"
                 android:title="@string/first_day_of_the_week"
                 app:iconSpaceReserved="false" />
-        <CheckBoxPreference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="false"
-            android:key="pref_widget_numbers"
-            android:summary="@string/use_widget_numbers_description"
-            android:title="@string/use_widget_numbers"
-            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

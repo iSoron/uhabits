@@ -174,8 +174,6 @@
     <string name="night_mode">Dark theme</string>
     <string name="use_pure_black">Use pure black in dark theme</string>
     <string name="pure_black_description">Replaces gray backgrounds with pure black in dark theme. Reduces battery usage in phones with AMOLED display.</string>
-    <string name="use_widget_numbers">Widget numbers instead of checkmarks</string>
-    <string name="use_widget_numbers_description">Replaces the checkmark in the 1x1 habit widget with the number of times you\'ve currently chained the habit.</string>
     <string name="interface_preferences">Interface</string>
     <string name="reverse_days">Reverse order of days</string>
     <string name="reverse_days_description">Show days in reverse order on the main screen.</string>
