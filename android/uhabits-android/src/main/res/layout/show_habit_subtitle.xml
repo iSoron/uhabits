@@ -24,6 +24,7 @@
     tools:orientation="vertical"
     tools:layout_width="match_parent"
     tools:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/questionLabel"
         android:layout_width="match_parent"
@@ -37,19 +38,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         tools:visibility="visible">
 
-        <ImageView
+        <TextView
+            android:id="@+id/targetIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_arrow_circle_up"
+            android:textColor="?mediumContrastTextColor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/targetText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8.5k"
+            android:textColor="?mediumContrastTextColor"
+            android:textSize="@dimen/smallTextSize"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            />
+
+        <TextView
             android:id="@+id/frequencyIcon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:alpha="0.3"
-            android:src="?iconFrequency" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_calendar"
+            android:textColor="?mediumContrastTextColor"
+            android:textSize="@dimen/smallTextSize" />
 
         <TextView
             android:id="@+id/frequencyLabel"
@@ -57,18 +76,17 @@
             android:layout_height="wrap_content"
             android:text="@string/every_day"
             android:textColor="?mediumContrastTextColor"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
             android:textSize="@dimen/smallTextSize" />
 
-        <ImageView
+        <TextView
             android:id="@+id/reminderIcon"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:alpha="0.3"
-            android:src="?iconReminder" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_bell_o"
+            android:textColor="?mediumContrastTextColor"
+            android:textSize="@dimen/smallTextSize" />
 
         <TextView
             android:id="@+id/reminderLabel"
@@ -76,6 +94,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="1dp"
             android:textColor="?mediumContrastTextColor"
+            android:text="8:00 AM"
+            android:layout_marginStart="4dp"
             android:textSize="@dimen/smallTextSize" />
 
     </LinearLayout>

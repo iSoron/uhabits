@@ -21,11 +21,16 @@
 <resources>
 	<string translatable="false" name="fa_star">&#xf005;</string>
 	<string translatable="false" name="fa_star_o">&#xf006;</string>
-	<!--<string translatable="false" name="fa_star_half">&#xf089;</string>-->
+	<string translatable="false" name="fa_star_half">&#xf089;</string>
 	<string translatable="false" name="fa_star_half_o">&#xf123;</string>
+	<string translatable="false" name="fa_arrow_circle_up">&#xf0aa;</string>
 	<string translatable="false" name="fa_check">&#xf00c;</string>
 	<string translatable="false" name="fa_times">&#xf00d;</string>
 	<string translatable="false" name="fa_archive">&#xf187;</string>
+	<string translatable="false" name="fa_bell">&#xf0f3;</string>
+	<string translatable="false" name="fa_bell_o">&#xf0a2;</string>
+	<string translatable="false" name="fa_calendar">&#xf073;</string>
+	<string translatable="false" name="fa_retweet">&#xf079;</string>
 
 	<!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
 	<!--<string translatable="false" name="fa_music">&#xf001;</string>-->
@@ -131,13 +136,11 @@
 	<!--<string translatable="false" name="fa_eye_slash">&#xf070;</string>-->
 	<!--<string translatable="false" name="fa_exclamation_triangle">&#xf071;</string>-->
 	<!--<string translatable="false" name="fa_plane">&#xf072;</string>-->
-	<!--<string translatable="false" name="fa_calendar">&#xf073;</string>-->
 	<!--<string translatable="false" name="fa_random">&#xf074;</string>-->
 	<!--<string translatable="false" name="fa_comment">&#xf075;</string>-->
 	<!--<string translatable="false" name="fa_magnet">&#xf076;</string>-->
 	<!--<string translatable="false" name="fa_chevron_up">&#xf077;</string>-->
 	<!--<string translatable="false" name="fa_chevron_down">&#xf078;</string>-->
-	<!--<string translatable="false" name="fa_retweet">&#xf079;</string>-->
 	<!--<string translatable="false" name="fa_shopping_cart">&#xf07a;</string>-->
 	<!--<string translatable="false" name="fa_folder">&#xf07b;</string>-->
 	<!--<string translatable="false" name="fa_folder_open">&#xf07c;</string>-->
@@ -174,7 +177,6 @@
 	<!--<string translatable="false" name="fa_rss">&#xf09e;</string>-->
 	<!--<string translatable="false" name="fa_hdd_o">&#xf0a0;</string>-->
 	<!--<string translatable="false" name="fa_bullhorn">&#xf0a1;</string>-->
-	<!--<string translatable="false" name="fa_bell">&#xf0f3;</string>-->
 	<!--<string translatable="false" name="fa_certificate">&#xf0a3;</string>-->
 	<!--<string translatable="false" name="fa_hand_o_right">&#xf0a4;</string>-->
 	<!--<string translatable="false" name="fa_hand_o_left">&#xf0a5;</string>-->
@@ -182,7 +184,6 @@
 	<!--<string translatable="false" name="fa_hand_o_down">&#xf0a7;</string>-->
 	<!--<string translatable="false" name="fa_arrow_circle_left">&#xf0a8;</string>-->
 	<!--<string translatable="false" name="fa_arrow_circle_right">&#xf0a9;</string>-->
-	<!--<string translatable="false" name="fa_arrow_circle_up">&#xf0aa;</string>-->
 	<!--<string translatable="false" name="fa_arrow_circle_down">&#xf0ab;</string>-->
 	<!--<string translatable="false" name="fa_globe">&#xf0ac;</string>-->
 	<!--<string translatable="false" name="fa_wrench">&#xf0ad;</string>-->
@@ -238,7 +239,6 @@
 	<!--<string translatable="false" name="fa_user_md">&#xf0f0;</string>-->
 	<!--<string translatable="false" name="fa_stethoscope">&#xf0f1;</string>-->
 	<!--<string translatable="false" name="fa_suitcase">&#xf0f2;</string>-->
-	<!--<string translatable="false" name="fa_bell_o">&#xf0a2;</string>-->
 	<!--<string translatable="false" name="fa_coffee">&#xf0f4;</string>-->
 	<!--<string translatable="false" name="fa_cutlery">&#xf0f5;</string>-->
 	<!--<string translatable="false" name="fa_file_text_o">&#xf0f6;</string>-->

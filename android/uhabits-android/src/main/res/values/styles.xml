@@ -58,8 +58,6 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="iconFilter">@drawable/ic_action_filter_dark</item>
-        <item name="iconFrequency">@drawable/ic_repeat_black</item>
-        <item name="iconReminder">@drawable/ic_alarm_black</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
@@ -112,8 +110,6 @@
         <item name="iconFilter">@drawable/ic_action_filter_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
-        <item name="iconFrequency">@drawable/ic_repeat_white</item>
-        <item name="iconReminder">@drawable/ic_alarm_white</item>
 
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
 
