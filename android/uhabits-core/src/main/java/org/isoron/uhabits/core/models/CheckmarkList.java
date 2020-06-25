@@ -222,6 +222,35 @@ public abstract class CheckmarkList
         else return UNCHECKED;
     }
 
+    public synchronized int getThisWeekValue(int firstWeekday)
+    {
+        return getThisIntervalValue(DateUtils.TruncateField.WEEK_NUMBER, firstWeekday);
+    }
+
+    public synchronized int getThisMonthValue()
+    {
+        return getThisIntervalValue(DateUtils.TruncateField.MONTH, Calendar.SATURDAY);
+    }
+
+
+    public synchronized int getThisQuarterValue()
+    {
+        return getThisIntervalValue(DateUtils.TruncateField.QUARTER, Calendar.SATURDAY);
+    }
+
+
+    public synchronized int getThisYearValue()
+    {
+        return getThisIntervalValue(DateUtils.TruncateField.YEAR, Calendar.SATURDAY);
+    }
+
+    private int getThisIntervalValue(DateUtils.TruncateField truncateField, int firstWeekday)
+    {
+        List<Checkmark> groups = habit.getCheckmarks().groupBy(truncateField, firstWeekday, 1);
+        if (groups.isEmpty()) return 0;
+        return groups.get(0).getValue();
+    }
+
     /**
      * Returns the values of the checkmarks that fall inside a certain interval
      * of time.
@@ -328,7 +357,7 @@ public abstract class CheckmarkList
 
     private void computeNumerical(Repetition[] reps)
     {
-        if (reps.length == 0) throw new IllegalArgumentException();
+        if (reps.length == 0) return;
 
         Timestamp today = DateUtils.getToday();
         Timestamp begin = reps[0].getTimestamp();
@@ -420,22 +449,35 @@ public abstract class CheckmarkList
     @NonNull
     public List<Checkmark> groupBy(DateUtils.TruncateField field, int firstWeekday)
     {
+        return groupBy(field, firstWeekday, 0);
+    }
+
+
+    @NonNull
+    public List<Checkmark> groupBy(DateUtils.TruncateField field,
+                                   int firstWeekday,
+                                   int maxGroups)
+    {
         List<Checkmark> checks = getAll();
 
         int count = 0;
-        Timestamp truncatedTimestamps[] = new Timestamp[checks.size()];
-        int values[] = new int[checks.size()];
+        Timestamp[] truncatedTimestamps = new Timestamp[checks.size()];
+        int[] values = new int[checks.size()];
 
         for (Checkmark rep : checks)
         {
             Timestamp tt = rep.getTimestamp().truncate(field, firstWeekday);
             if (count == 0 || !truncatedTimestamps[count - 1].equals(tt))
+            {
+                if (maxGroups > 0 && count >= maxGroups) break;
                 truncatedTimestamps[count++] = tt;
+            }
 
             if(habit.isNumerical())
                 values[count - 1] += rep.getValue();
             else if(rep.getValue() == Checkmark.CHECKED_EXPLICITLY)
                 values[count - 1] += 1000;
+
         }
 
         ArrayList<Checkmark> groupedCheckmarks = new ArrayList<>();
