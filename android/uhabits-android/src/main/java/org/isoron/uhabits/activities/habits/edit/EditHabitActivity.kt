@@ -80,13 +80,11 @@ class EditHabitActivity : AppCompatActivity() {
                 reminderMin = habit.reminder.minute
                 reminderDays = habit.reminder.days
             }
-            var target = habit.targetValue * habit.frequency.denominator
-            target = (target * 100.0).roundToLong() / 100.0
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
             binding.unitInput.setText(habit.unit)
-            binding.targetInput.setText(target.toString())
+            binding.targetInput.setText(habit.targetValue.toString())
         } else {
             habitType = intent.getIntExtra("habitType", Habit.YES_NO_HABIT)
         }
@@ -216,8 +214,7 @@ class EditHabitActivity : AppCompatActivity() {
             habit.setReminder(Reminder(reminderHour, reminderMin, reminderDays))
         }
         habit.frequency = Frequency(freqNum, freqDen)
-        val target = targetInput.text.toString().toDouble() / freqDen
-        habit.targetValue = target
+        habit.targetValue = targetInput.text.toString().toDouble()
         habit.targetType = Habit.AT_LEAST
         habit.unit = unitInput.text.trim().toString()
         habit.type = habitType
