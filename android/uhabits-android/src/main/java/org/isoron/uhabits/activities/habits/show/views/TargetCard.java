@@ -24,6 +24,8 @@ import android.content.res.*;
 import android.util.*;
 import android.widget.*;
 
+import androidx.annotation.*;
+
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
@@ -86,10 +88,10 @@ public class TargetCard extends HabitCard
     @Override
     protected Task createRefreshTask()
     {
-        return new RefreshTask();
+        return new RefreshTask(getContext(), getHabit(), firstWeekday, targetChart, title);
     }
 
-    private class RefreshTask extends CancelableTask
+    public static class RefreshTask extends CancelableTask
     {
         double todayValue;
         double thisWeekValue;
@@ -97,11 +99,30 @@ public class TargetCard extends HabitCard
         double thisQuarterValue;
         double thisYearValue;
 
+        private Context context;
+        private Habit habit;
+        private int firstWeekday;
+        private TargetChart chart;
+        private TextView title;
+
+        public RefreshTask(@NonNull Context context,
+                           @NonNull Habit habit,
+                           int firstWeekday,
+                           @NonNull TargetChart chart,
+                           @Nullable TextView title)
+        {
+            this.context = context;
+            this.habit = habit;
+            this.firstWeekday = firstWeekday;
+            this.chart = chart;
+            this.title = title;
+        }
+
         @Override
         public void doInBackground()
         {
             if (isCanceled()) return;
-            CheckmarkList checkmarks = getHabit().getCheckmarks();
+            CheckmarkList checkmarks = habit.getCheckmarks();
             todayValue = checkmarks.getTodayValue() / 1e3;
             thisWeekValue = checkmarks.getThisWeekValue(firstWeekday) / 1e3;
             thisMonthValue = checkmarks.getThisMonthValue() / 1e3;
@@ -113,15 +134,14 @@ public class TargetCard extends HabitCard
         public void onPostExecute()
         {
             if (isCanceled()) return;
-
             Calendar cal = DateUtils.getStartOfTodayCalendar();
             int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
             int daysInQuarter = 91;
             int daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR);
 
-            int den = getHabit().getFrequency().getDenominator();
-            double dailyTarget = getHabit().getTargetValue() / den;
-            Resources res = getResources();
+            int den = habit.getFrequency().getDenominator();
+            double dailyTarget = habit.getTargetValue() / den;
+            Resources res = context.getResources();
 
             ArrayList<Double> values = new ArrayList<>();
             if (den <= 1) values.add(todayValue);
@@ -129,7 +149,7 @@ public class TargetCard extends HabitCard
             values.add(thisMonthValue);
             values.add(thisQuarterValue);
             values.add(thisYearValue);
-            targetChart.setValues(values);
+            chart.setValues(values);
 
             ArrayList<Double> targets = new ArrayList<>();
             if (den <= 1) targets.add(dailyTarget);
@@ -137,7 +157,7 @@ public class TargetCard extends HabitCard
             targets.add(dailyTarget * daysInMonth);
             targets.add(dailyTarget * daysInQuarter);
             targets.add(dailyTarget * daysInYear);
-            targetChart.setTargets(targets);
+            chart.setTargets(targets);
 
             ArrayList<String> labels = new ArrayList<>();
             if (den <= 1) labels.add(res.getString(R.string.today));
@@ -145,15 +165,15 @@ public class TargetCard extends HabitCard
             labels.add(res.getString(R.string.month));
             labels.add(res.getString(R.string.quarter));
             labels.add(res.getString(R.string.year));
-            targetChart.setLabels(labels);
+            chart.setLabels(labels);
         }
 
         @Override
         public void onPreExecute()
         {
-            int color = PaletteUtils.getColor(getContext(), getHabit().getColor());
-            title.setTextColor(color);
-            targetChart.setColor(color);
+            int color = PaletteUtils.getColor(context, habit.getColor());
+            if(title != null) title.setTextColor(color);
+            chart.setColor(color);
         }
     }
 }

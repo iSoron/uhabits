@@ -93,7 +93,8 @@ public class TargetChart extends View
             maxLabelSize = Math.max(maxLabelSize, len);
         }
 
-        rect.set(0, 0, getWidth(), baseSize);
+        float marginTop = (getHeight() - baseSize * labels.size()) / 2.0f;
+        rect.set(0, marginTop, getWidth(), marginTop + baseSize);
         for (int i = 0; i < labels.size(); i++) {
             drawRow(canvas, i, rect);
             rect.offset(0, baseSize);
@@ -103,8 +104,17 @@ public class TargetChart extends View
     @Override
     protected void onMeasure(int widthSpec, int heightSpec)
     {
+        baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
+
         int width = getSize(widthSpec);
         int height = labels.size() * baseSize;
+
+        ViewGroup.LayoutParams params = getLayoutParams();
+        if (params != null && params.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+            height = getSize(heightSpec);
+            if (labels.size() > 0) baseSize = height / labels.size();
+        }
+
         heightSpec = makeMeasureSpec(height, EXACTLY);
         widthSpec = makeMeasureSpec(width, EXACTLY);
         setMeasuredDimension(widthSpec, heightSpec);
@@ -194,7 +204,6 @@ public class TargetChart extends View
         mediumContrastTextColor = res.getColor(R.attr.mediumContrastTextColor);
         highContrastReverseTextColor = res.getColor(R.attr.highContrastReverseTextColor);
         tinyTextSize = getDimension(getContext(), R.dimen.tinyTextSize);
-        baseSize = getResources().getDimensionPixelSize(R.dimen.baseSize);
     }
 
     public void setValues(List<Double> values)
