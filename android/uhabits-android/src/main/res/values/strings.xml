@@ -262,6 +262,7 @@
     <string name="measurable_units_example">e.g. miles</string>
     <string name="every_month">Every month</string>
     <string name="validation_should_not_be_blank">Cannot be blank</string>
+    <string name="today">Today</string>
 
 
 </resources>

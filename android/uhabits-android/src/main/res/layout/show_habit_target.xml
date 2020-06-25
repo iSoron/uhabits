@@ -18,31 +18,14 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingBottom="0dp">
-
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/title"
         style="@style/CardHeader"
-        android:text="@string/calendar"/>
+        android:text="@string/target"/>
 
-    <org.isoron.uhabits.activities.common.views.HistoryChart
-        android:id="@+id/historyChart"
+    <org.isoron.uhabits.activities.common.views.TargetChart
+        android:id="@+id/targetChart"
         android:layout_width="match_parent"
-        android:layout_height="160dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/edit"
-        style="?android:borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_action_edit_light"
-        android:text="@string/edit"
-        android:textColor="@color/grey_400"
-        android:textSize="@dimen/smallTextSize"/>
-
+        android:layout_height="300dp"/>
 </merge>

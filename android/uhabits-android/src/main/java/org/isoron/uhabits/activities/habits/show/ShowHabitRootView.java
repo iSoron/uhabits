@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.content.*;
 import android.os.*;
+import android.view.*;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -73,6 +74,9 @@ public class ShowHabitRootView extends BaseRootView
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.targetCard)
+    TargetCard targetCard;
 
     @NonNull
     private Controller controller;
@@ -150,6 +154,13 @@ public class ShowHabitRootView extends BaseRootView
         streakCard.setHabit(habit);
         frequencyCard.setHabit(habit);
         barCard.setHabit(habit);
+        targetCard.setHabit(habit);
+
+        if(habit.isNumerical()) {
+            overviewCard.setVisibility(View.GONE);
+        } else {
+            targetCard.setVisibility(View.GONE);
+        }
     }
 
     public interface Controller extends HistoryCard.Controller

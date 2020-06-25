@@ -43,12 +43,13 @@
             style="@style/Card"
             android:gravity="center" />
 
-        <View
-            android:id="@+id/headerShadow"
-            style="@style/ToolbarShadow"/>
-
         <org.isoron.uhabits.activities.habits.show.views.OverviewCard
             android:id="@+id/overviewCard"
+            style="@style/Card"
+            android:paddingTop="12dp"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.TargetCard
+            android:id="@+id/targetCard"
             style="@style/Card"
             android:paddingTop="12dp"/>
 
