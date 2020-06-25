@@ -34,7 +34,7 @@ import java.text.*;
 import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
 public class StreakChart extends View
 {
@@ -202,8 +202,14 @@ public class StreakChart extends View
 
         paint.setColor(percentageToColor(percentage));
 
-        canvas.drawRect(rect.left + gap, rect.top + paddingTopBottom,
-            rect.right - gap, rect.bottom - paddingTopBottom, paint);
+        float round = dpToPixels(getContext(), 2);
+        canvas.drawRoundRect(rect.left + gap,
+                             rect.top + paddingTopBottom,
+                             rect.right - gap,
+                             rect.bottom - paddingTopBottom,
+                             round,
+                             round,
+                             paint);
 
         float yOffset = rect.centerY() + 0.3f * em;
 

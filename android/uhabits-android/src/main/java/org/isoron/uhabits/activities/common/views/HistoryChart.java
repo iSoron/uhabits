@@ -375,7 +375,8 @@ public class HistoryChart extends ScrollableChart
         }
 
         pSquareFg.setColor(reverseTextColor);
-        canvas.drawRect(location, pSquareBg);
+        float round = dpToPixels(getContext(), 2);
+        canvas.drawRoundRect(location, round, round, pSquareBg);
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
             location.centerY() + squareTextOffset, pSquareFg);
