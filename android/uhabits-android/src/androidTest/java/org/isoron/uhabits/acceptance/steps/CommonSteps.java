@@ -19,21 +19,26 @@
 
 package org.isoron.uhabits.acceptance.steps;
 
-import android.support.annotation.*;
-import android.support.test.espresso.*;
-import android.support.test.espresso.contrib.*;
-import android.support.test.uiautomator.*;
-import android.support.v7.widget.*;
+import android.view.View;
 
+import androidx.annotation.StringRes;
+import androidx.test.espresso.*;
+import androidx.test.espresso.contrib.*;
+import androidx.test.uiautomator.*;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.hamcrest.Matcher;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
 
-import static android.support.test.espresso.Espresso.*;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.PositionAssertions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
+import static android.os.Build.VERSION.*;
+import static androidx.test.espresso.Espresso.*;
+import static androidx.test.espresso.action.ViewActions.*;
+import static androidx.test.espresso.assertion.PositionAssertions.*;
+import static androidx.test.espresso.assertion.ViewAssertions.*;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -136,18 +141,25 @@ public class CommonSteps extends BaseUserInterfaceTest
 
     public static void verifyOpensWebsite(String url) throws Exception
     {
-        assertTrue(
-            device.wait(Until.hasObject(By.pkg("com.android.chrome")), 5000));
+        String browser_pkg = "org.chromium.webview_shell";
+        if(SDK_INT <= 23) {
+            browser_pkg = "com.android.browser";
+        }
+        assertTrue(device.wait(Until.hasObject(By.pkg(browser_pkg)), 5000));
         device.waitForIdle();
-        assertTrue(device.findObject(new UiSelector().text(url)).exists());
+        assertTrue(device.findObject(new UiSelector().textContains(url)).exists());
     }
 
     public enum Screen
     {
-        LIST_HABITS, SHOW_HABIT, EDIT_HABIT
+        LIST_HABITS, SHOW_HABIT, EDIT_HABIT, SELECT_HABIT_TYPE
     }
 
-    public static void verifyShowsScreen(Screen screen)
+    public static void verifyShowsScreen(Screen screen) {
+        verifyShowsScreen(screen, true);
+    }
+
+    public static void verifyShowsScreen(Screen screen, boolean notesCardVisibleExpected)
     {
         switch(screen)
         {
@@ -157,12 +169,22 @@ public class CommonSteps extends BaseUserInterfaceTest
                 break;
 
             case SHOW_HABIT:
+                Matcher<View> noteCardViewMatcher = notesCardVisibleExpected ? isDisplayed() :
+                        withEffectiveVisibility(Visibility.GONE);
                 onView(withId(R.id.subtitleCard)).check(matches(isDisplayed()));
+                onView(withId(R.id.notesCard)).check(matches(noteCardViewMatcher));
                 break;
 
             case EDIT_HABIT:
-                onView(withId(R.id.tvDescription)).check(matches(isDisplayed()));
+                onView(withId(R.id.questionInput)).check(matches(isDisplayed()));
                 break;
+
+            case SELECT_HABIT_TYPE:
+                onView(withText(R.string.yes_or_no_example)).check(matches(isDisplayed()));
+                break;
+
+            default:
+                throw new IllegalStateException();
         }
     }
 }

@@ -19,8 +19,10 @@
 
 package org.isoron.uhabits.acceptance;
 
-import android.support.test.filters.*;
-import android.support.test.runner.*;
+import androidx.test.filters.*;
+import androidx.test.runner.*;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.junit.*;
@@ -43,22 +45,24 @@ public class LinksTest extends BaseUserInterfaceTest
         verifyOpensWebsite("https://github.com/iSoron/uhabits");
     }
 
-    @Test
-    public void shouldLinkToTranslationWebsite() throws Exception
-    {
-        launchApp();
-        clickMenu(ABOUT);
-        clickText("Help translate this app");
-        verifyOpensWebsite("translate.loophabits.org");
-    }
+//    @Test
+//    public void shouldLinkToTranslationWebsite() throws Exception
+//    {
+//        launchApp();
+//        clickMenu(ABOUT);
+//        clickText("Help translate this app");
+//        verifyOpensWebsite("translate.loophabits.org");
+//    }
 
     @Test
-    public void shouldLinkToHelp() throws Exception
-    {
+    public void shouldLinkToHelp() throws Exception {
         launchApp();
         clickMenu(HELP);
         verifyOpensWebsite("loophabits.org/faq.html");
+    }
 
+    @Test
+    public void shouldLinkToHelpFromSettings() throws Exception {
         launchApp();
         clickMenu(SETTINGS);
         clickText("Help & FAQ");

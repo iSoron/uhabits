@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.app.*
 import android.content.*
-import android.support.annotation.*
+import androidx.annotation.*
 import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
@@ -58,14 +58,12 @@ class ListHabitsScreen
         private val commandRunner: CommandRunner,
         private val intentFactory: IntentFactory,
         private val themeSwitcher: ThemeSwitcher,
-        private val preferences: Preferences,
         private val adapter: HabitCardListAdapter,
         private val taskRunner: TaskRunner,
         private val exportDBFactory: ExportDBTaskFactory,
         private val importTaskFactory: ImportDataTaskFactory,
         private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
-        private val editHabitDialogFactory: EditHabitDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
         private val behavior: Lazy<ListHabitsBehavior>,
         private val menu: Lazy<ListHabitsMenu>,
@@ -106,7 +104,7 @@ class ListHabitsScreen
         if (data == null) return
         if (resultCode != Activity.RESULT_OK) return
         try {
-            val inStream = activity.contentResolver.openInputStream(data.data)
+            val inStream = activity.contentResolver.openInputStream(data.data!!)
             val cacheDir = activity.externalCacheDir
             val tempFile = File.createTempFile("import", "", cacheDir)
             FileUtils.copy(inStream, tempFile)
@@ -152,8 +150,8 @@ class ListHabitsScreen
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {
-        val dialog = editHabitDialogFactory.edit(habits[0])
-        activity.showDialog(dialog, "editNumericalHabit")
+        val intent = intentFactory.startEditActivity(activity!!, habits[0])
+        activity.startActivity(intent)
     }
 
     override fun showFAQScreen() {

@@ -19,23 +19,40 @@
 
 package org.isoron
 
+import org.isoron.platform.gui.*
 import org.isoron.platform.io.*
 import org.isoron.platform.time.*
+import org.isoron.uhabits.*
+import platform.CoreGraphics.*
+import platform.UIKit.*
 
 actual object DependencyResolver {
+    actual val ignoreViewTests = true
+
     actual suspend fun getFileOpener(): FileOpener = IosFileOpener()
 
     actual fun getDateFormatter(locale: Locale): LocalDateFormatter {
-        return when(locale) {
+        return when (locale) {
             Locale.US -> IosLocalDateFormatter("en-US")
             Locale.JAPAN -> IosLocalDateFormatter("ja-JP")
         }
     }
 
-    // IosDatabase and IosCanvas are currently implemented in Swift, so we
-    // cannot test these classes here. The tests will be skipped.
-    actual suspend fun getDatabase(): Database = TODO()
-    actual fun getCanvasHelper(): CanvasHelper = TODO()
-    actual val supportsDatabaseTests = false
-    actual val supportsCanvasTests = false
+    actual fun createCanvas(width: Int, height: Int): Canvas {
+        val scale = 2.0
+        UIGraphicsBeginImageContext(CGSizeMake(width * scale, height * scale))
+        return IosCanvas(width * scale, height * scale, scale = scale)
+    }
+
+    actual suspend fun getDatabase(): Database {
+        val log = StandardLog()
+        val fileOpener = IosFileOpener()
+        val databaseOpener = IosDatabaseOpener()
+
+        val dbFile = fileOpener.openUserFile("test.sqlite3")
+        if (dbFile.exists()) dbFile.delete()
+        val db = databaseOpener.open(dbFile)
+        db.migrateTo(LOOP_DATABASE_VERSION, fileOpener, log)
+        return db
+    }
 }

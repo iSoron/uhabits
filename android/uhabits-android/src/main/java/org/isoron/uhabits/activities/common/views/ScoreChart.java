@@ -21,8 +21,10 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.util.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -405,7 +407,7 @@ public class ScoreChart extends ScrollableChart
         primaryColor = Color.BLACK;
         textColor = res.getColor(R.attr.mediumContrastTextColor);
         gridColor = res.getColor(R.attr.lowContrastTextColor);
-        backgroundColor = res.getColor(R.attr.cardBackgroundColor);
+        backgroundColor = res.getColor(R.attr.cardBgColor);
     }
 
     private void initDateFormats()

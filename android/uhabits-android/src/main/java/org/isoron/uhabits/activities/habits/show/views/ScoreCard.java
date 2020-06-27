@@ -20,9 +20,11 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
@@ -51,9 +53,6 @@ public class ScoreCard extends HabitCard
     TextView title;
 
     private int bucketSize;
-
-    @Nullable
-    private TaskRunner taskRunner;
 
     @Nullable
     private Preferences prefs;
@@ -94,13 +93,6 @@ public class ScoreCard extends HabitCard
         refreshData();
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if(taskRunner == null) return;
-        taskRunner.execute(new RefreshTask());
-    }
-
     private int getDefaultSpinnerPosition()
     {
         if(prefs == null) return 0;
@@ -113,7 +105,6 @@ public class ScoreCard extends HabitCard
         if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
             prefs = app.getComponent().getPreferences();
         }
 
@@ -140,18 +131,29 @@ public class ScoreCard extends HabitCard
         bucketSize = BUCKET_SIZES[position];
     }
 
-    private class RefreshTask implements Task
+    @Override
+    protected Task createRefreshTask()
+    {
+        return new RefreshTask();
+    }
+
+    private class RefreshTask  extends CancelableTask
     {
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             List<Score> scores;
             ScoreList scoreList = getHabit().getScores();
+            int firstWeekday = Calendar.SATURDAY;
+            if (prefs != null) firstWeekday = prefs.getFirstWeekday();
+            Log.d("ScoreCard", "firstWeekday="+firstWeekday);
 
             if (bucketSize == 1) scores = scoreList.toList();
-            else scores = scoreList.groupBy(getTruncateField(bucketSize));
+            else scores = scoreList.groupBy(getTruncateField(bucketSize), firstWeekday);
 
             chart.setScores(scores);
+            chart.reset();
             chart.setBucketSize(bucketSize);
         }
 

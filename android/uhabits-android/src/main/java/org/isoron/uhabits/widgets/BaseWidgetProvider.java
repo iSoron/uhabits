@@ -22,8 +22,10 @@ package org.isoron.uhabits.widgets;
 import android.appwidget.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
@@ -37,6 +39,8 @@ import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {
     private HabitList habits;
+
+    private Preferences preferences;
 
     private WidgetPreferences widgetPrefs;
 
@@ -76,9 +80,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (context == null) throw new RuntimeException("context is null");
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
-            context.setTheme(R.style.OpaqueWidgetTheme);
-
             updateDependencies(context);
+            context.setTheme(R.style.WidgetTheme);
 
             BaseWidget widget = getWidgetFromId(context, widgetId);
             WidgetDimensions dims = getDimensionsFromOptions(context, options);
@@ -122,9 +125,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         if (context == null) throw new RuntimeException("context is null");
         if (manager == null) throw new RuntimeException("manager is null");
         if (widgetIds == null) throw new RuntimeException("widgetIds is null");
-        context.setTheme(R.style.OpaqueWidgetTheme);
-
         updateDependencies(context);
+        context.setTheme(R.style.WidgetTheme);
 
         new Thread(() ->
         {
@@ -193,6 +195,12 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
         HabitsApplication app =
             (HabitsApplication) context.getApplicationContext();
         habits = app.getComponent().getHabitList();
+        preferences = app.getComponent().getPreferences();
         widgetPrefs = app.getComponent().getWidgetPreferences();
+    }
+
+    public Preferences getPreferences()
+    {
+        return preferences;
     }
 }

@@ -20,6 +20,7 @@
 
 <resources>
     <string name="app_name">Loop Habit Tracker</string>
+    <string name="app_short_name" translatable="false">Loop</string>
     <string name="main_activity_title">Habits</string>
     <string name="action_settings">Settings</string>
     <string name="edit">Edit</string>
@@ -128,12 +129,13 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
-    <string name="create_stackview_widget_button">StackView Widget For All Habits</string>
-    <string name="checkmark_stack_widget">Checkmark Stack Widget</string>
-    <string name="frequency_stack_widget">Frequency Stack Widget</string>
-    <string name="score_stack_widget">Score Stack Widget</string>
-    <string name="history_stack_widget">History Stack Widget</string>
-    <string name="streaks_stack_widget">Streaks Stack Widget</string>
+
+    <string name="create_stackview_widget_button" formatted="false">StackView Widget For All Habits</string>
+    <string name="checkmark_stack_widget" formatted="false">Checkmark Stack Widget</string>
+    <string name="frequency_stack_widget" formatted="false">Frequency Stack Widget</string>
+    <string name="score_stack_widget" formatted="false">Score Stack Widget</string>
+    <string name="history_stack_widget" formatted="false">History Stack Widget</string>
+    <string name="streaks_stack_widget" formatted="false">Streaks Stack Widget</string>
 
 
     <string name="strength">Strength</string>
@@ -169,9 +171,9 @@
     <string name="troubleshooting">Troubleshooting</string>
 
     <string name="help_translate">Help translate this app</string>
-    <string name="night_mode">Night mode</string>
-    <string name="use_pure_black">Use pure black in night mode</string>
-    <string name="pure_black_description">Replaces gray backgrounds with pure black in night mode. Reduces battery usage in phones with AMOLED display.</string>
+    <string name="night_mode">Dark theme</string>
+    <string name="use_pure_black">Use pure black in dark theme</string>
+    <string name="pure_black_description">Replaces gray backgrounds with pure black in dark theme. Reduces battery usage in phones with AMOLED display.</string>
     <string name="interface_preferences">Interface</string>
     <string name="reverse_days">Reverse order of days</string>
     <string name="reverse_days_description">Show days in reverse order on the main screen.</string>
@@ -235,4 +237,32 @@
     <string name="no">No</string>
     <string name="customize_notification_summary">Change sound, vibration, light and other notification settings</string>
     <string name="customize_notification">Customize notifications</string>
+    <string name="pref_view_privacy">View privacy policy</string>
+    <string name="view_all_contributors">View all contributors…</string>
+    <string name="database">Database</string>
+    <string name="widget_opacity_title">Widget opacity</string>
+    <string name="widget_opacity_description">Makes widgets more transparent or more opaque in your home screen.</string>
+    <string name="first_day_of_the_week">First day of the week</string>
+    <string name="default_reminder_question">Have you completed this habit today?</string>
+    <string name="notes">Notes</string>
+    <string name="example_notes">(Optional)</string>
+
+    <string name="yes_or_no_example">e.g. Did you wake up early today? Did you exercise? Did you play chess?</string>
+    <string name="measurable">Measurable</string>
+    <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read? How many calories did you eat?</string>
+    <string name="subjective">Subjective</string>
+    <string name="subjective_example">e.g. Are you felling happy today? Definitely, somewhat, not at all? How frequently did you snack? Very often, sometimes, never?</string>
+    <string name="x_times_per_week">%d times per week</string>
+    <string name="x_times_per_month">%d times per month</string>
+    <string name="yes_or_no_short_example">e.g. Exercise</string>
+    <string name="color">Color</string>
+    <string name="example_target">e.g. 15</string>
+    <string name="measurable_short_example">e.g. Run</string>
+    <string name="measurable_question_example">e.g. How many miles did you run today?</string>
+    <string name="measurable_units_example">e.g. miles</string>
+    <string name="every_month">Every month</string>
+    <string name="validation_should_not_be_blank">Cannot be blank</string>
+    <string name="today">Today</string>
+
+
 </resources>

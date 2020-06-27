@@ -64,7 +64,7 @@ class PendingIntentFactory
                     FLAG_UPDATE_CURRENT)
 
     fun showHabit(habit: Habit): PendingIntent =
-            android.support.v4.app.TaskStackBuilder
+            androidx.core.app.TaskStackBuilder
                     .create(context)
                     .addNextIntentWithParentStack(
                             intentFactory.startShowHabitActivity(

@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.preferences;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.*;
@@ -186,7 +186,7 @@ public class Preferences
 
     public int getTheme()
     {
-        return storage.getInt("pref_theme", ThemeSwitcher.THEME_LIGHT);
+        return storage.getInt("pref_theme", ThemeSwitcher.THEME_AUTOMATIC);
     }
 
     public void setTheme(int theme)
@@ -253,6 +253,11 @@ public class Preferences
     {
         storage.putBoolean("pref_feature_sync", isEnabled);
         for (Listener l : listeners) l.onSyncFeatureChanged();
+    }
+
+    public boolean isWidgetStackEnabled()
+    {
+        return storage.getBoolean("pref_feature_widget_stack", false);
     }
 
     public void removeListener(Listener listener)
@@ -323,6 +328,24 @@ public class Preferences
         storage.putInt("last_version", version);
     }
 
+    public int getWidgetOpacity()
+    {
+        return Integer.parseInt(storage.getString("pref_widget_opacity", "102"));
+    }
+
+    /**
+     * @return An integer representing the first day of the week. Sunday
+     * corresponds to 1, Monday to 2, and so on, until Saturday, which is
+     * represented by 7. By default, this is based on the current system locale,
+     * unless the user changed this in the settings.
+     */
+    public int getFirstWeekday()
+    {
+        String weekday = storage.getString("pref_first_weekday", "");
+        if (weekday.isEmpty()) return DateUtils.getFirstWeekdayNumberAccordingToLocale();
+        return Integer.parseInt(weekday);
+    }
+
     public interface Listener
     {
         default void onCheckmarkSequenceChanged()
@@ -367,9 +390,11 @@ public class Preferences
             putString(key, StringUtils.joinLongs(values));
         }
 
-        default long[] getLongArray(String key)
+        default long[] getLongArray(String key, long[] defValue)
         {
-            return StringUtils.splitLongs(getString(key, ""));
+            String string = getString(key, "");
+            if (string.isEmpty()) return defValue;
+            else return StringUtils.splitLongs(string);
         }
     }
 }

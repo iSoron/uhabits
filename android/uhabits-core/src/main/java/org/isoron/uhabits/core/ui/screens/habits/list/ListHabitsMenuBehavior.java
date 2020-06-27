@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -157,5 +157,7 @@ public class ListHabitsMenuBehavior
         void showFAQScreen();
 
         void showSettingsScreen();
+
+        void showSelectHabitTypeDialog();
     }
 }

@@ -20,14 +20,16 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
+
+import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -54,10 +56,10 @@ public class BarCard extends HabitCard
     @BindView(R.id.title)
     TextView title;
 
-    @Nullable
-    private TaskRunner taskRunner;
-
     private int bucketSize;
+
+    @Nullable
+    private Preferences prefs;
 
     public BarCard(Context context)
     {
@@ -85,29 +87,19 @@ public class BarCard extends HabitCard
         refreshData();
     }
 
-    @Override
-    protected void refreshData()
-    {
-        if (taskRunner == null) return;
-        taskRunner.execute(new RefreshTask(getHabit()));
-    }
-
     private void init()
     {
-        inflate(getContext(), R.layout.show_habit_bar, this);
-        ButterKnife.bind(this);
-
-        boolSpinner.setSelection(1);
-        numericalSpinner.setSelection(2);
-        bucketSize = 7;
-
         Context appContext = getContext().getApplicationContext();
         if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
+            prefs = app.getComponent().getPreferences();
         }
-
+        inflate(getContext(), R.layout.show_habit_bar, this);
+        ButterKnife.bind(this);
+        boolSpinner.setSelection(1);
+        numericalSpinner.setSelection(2);
+        bucketSize = 7;
         if (isInEditMode()) initEditMode();
     }
 
@@ -119,11 +111,17 @@ public class BarCard extends HabitCard
         chart.populateWithRandomData();
     }
 
-    private class RefreshTask implements Task
+    @Override
+    protected Task createRefreshTask()
+    {
+        return new RefreshTask(getHabit());
+    }
+
+    private class RefreshTask extends CancelableTask
     {
         private final Habit habit;
 
-        public RefreshTask(Habit habit)
+        RefreshTask(Habit habit)
         {
             this.habit = habit;
         }
@@ -131,9 +129,13 @@ public class BarCard extends HabitCard
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             List<Checkmark> checkmarks;
+            int firstWeekday = Calendar.SATURDAY;
+            if (prefs != null) firstWeekday = prefs.getFirstWeekday();
             if (bucketSize == 1) checkmarks = habit.getCheckmarks().getAll();
-            else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize));
+            else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize),
+                                                            firstWeekday);
             chart.setCheckmarks(checkmarks);
             chart.setBucketSize(bucketSize);
         }

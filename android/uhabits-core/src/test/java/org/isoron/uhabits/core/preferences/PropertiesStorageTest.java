@@ -103,10 +103,10 @@ public class PropertiesStorageTest extends BaseUnitTest
         storage.putLongArray("key2", expected2);
         storage.putLongArray("key3", expected3);
 
-        long[] actual1 = storage.getLongArray("key1");
-        long[] actual2 = storage.getLongArray("key2");
-        long[] actual3 = storage.getLongArray("key3");
-        long[] actual4 = storage.getLongArray("invalidKey");
+        long[] actual1 = storage.getLongArray("key1", new long[]{});
+        long[] actual2 = storage.getLongArray("key2", new long[]{});
+        long[] actual3 = storage.getLongArray("key3", new long[]{});
+        long[] actual4 = storage.getLongArray("invalidKey", new long[]{});
 
         assertTrue(Arrays.equals(actual1, expected1));
         assertTrue(Arrays.equals(actual2, expected2));

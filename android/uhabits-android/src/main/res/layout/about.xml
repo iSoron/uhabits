@@ -25,7 +25,7 @@
             android:background="?windowBackgroundColor"
             android:fillViewport="true">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         app:popupTheme="?toolbarPopupTheme"
         style="@style/Toolbar"/>
@@ -97,6 +97,11 @@
                     style="@style/About.Item.Clickable"
                     android:text="@string/pref_view_source_code"/>
 
+                <TextView
+                        android:id="@+id/tvPrivacy"
+                        style="@style/About.Item.Clickable"
+                        android:text="@string/pref_view_privacy"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -108,33 +113,26 @@
                     android:text="@string/developers"
                     android:textColor="?aboutScreenColor"/>
 
+                <!--
+                This file lists developers who contributed with at least 100 lines
+                of code or 5 commits to our code base. All other contributors
+                are acknowledge in the GitHub Contributors page, linked at the
+                bottom of the list. If you qualify, please feel free to submit
+                a pull request adding yourself here.
+                -->
+                <TextView style="@style/About.Item" android:text="Álinson Santos Xavier"/>
+                <TextView style="@style/About.Item" android:text="Victor Yu"/>
+                <TextView style="@style/About.Item" android:text="Joseph Tran"/>
+                <TextView style="@style/About.Item" android:text="Luboš Luňák"/>
+                <TextView style="@style/About.Item" android:text="Christoph Hennemann"/>
+                <TextView style="@style/About.Item" android:text="Денис (sciamano)"/>
+                <TextView style="@style/About.Item" android:text="Nikhil (regularcoder)"/>
+                <TextView style="@style/About.Item" android:text="JanetQC"/>
+                <TextView style="@style/About.Item" android:text="olegivo"/>
                 <TextView
-                    style="@style/About.Item"
-                    android:text="Álinson Xavier"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="Денис (sciamano)"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="Joseph Tran"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="Nikhil (regularcoder)"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="JanetQC"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="Victor Yu"/>
-
-                <TextView
-                    style="@style/About.Item"
-                    android:text="Christoph Hennemann"/>
+                        android:id="@+id/tvContributors"
+                        style="@style/About.Item.Clickable"
+                        android:text="@string/view_all_contributors"/>
 
             </LinearLayout>
 
@@ -273,7 +271,7 @@
 
                 <TextView
                     style="@style/About.Item"
-                    android:text="Álinson Xavier (Português)"/>
+                    android:text="Álinson Santos Xavier (Português)"/>
 
                 <TextView
                     style="@style/About.Item"

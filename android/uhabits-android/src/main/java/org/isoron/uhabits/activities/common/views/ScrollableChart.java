@@ -217,6 +217,13 @@ public abstract class ScrollableChart extends View
         scrollController = new ScrollController() {};
     }
 
+    public void reset()
+    {
+        scroller.setFinalX(0);
+        scroller.computeScrollOffset();
+        updateDataOffset();
+    }
+
     private void updateDataOffset()
     {
         int newDataOffset = scroller.getCurrX() / scrollerBucketSize;

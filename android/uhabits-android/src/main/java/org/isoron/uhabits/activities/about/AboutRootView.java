@@ -20,14 +20,14 @@
 package org.isoron.uhabits.activities.about;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.widget.*;
+
+import androidx.annotation.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.BuildConfig;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.core.ui.screens.about.*;
 
 import javax.inject.*;
 
@@ -39,14 +39,14 @@ public class AboutRootView extends BaseRootView
     TextView tvVersion;
 
     @NonNull
-    private final AboutBehavior behavior;
+    private final AboutScreen screen;
 
     @Inject
     public AboutRootView(@NonNull @ActivityContext Context context,
-                         @NonNull AboutBehavior behavior)
+                         @NonNull AboutScreen screen)
     {
         super(context);
-        this.behavior = behavior;
+        this.screen = screen;
 
         addView(inflate(getContext(), R.layout.about, null));
         ButterKnife.bind(this);
@@ -70,31 +70,43 @@ public class AboutRootView extends BaseRootView
     @OnClick(R.id.tvFeedback)
     public void onClickFeedback()
     {
-        behavior.onSendFeedback();
+        screen.showSendFeedbackScreen();
     }
 
     @OnClick(R.id.tvVersion)
     public void onClickIcon()
     {
-        behavior.onPressDeveloperCountdown();
+        screen.onPressDeveloperCountdown();
     }
 
     @OnClick(R.id.tvRate)
     public void onClickRate()
     {
-        behavior.onRateApp();
+        screen.showRateAppWebsite();
     }
 
     @OnClick(R.id.tvSource)
     public void onClickSource()
     {
-        behavior.onViewSourceCode();
+        screen.showSourceCodeWebsite();
     }
 
     @OnClick(R.id.tvTranslate)
     public void onClickTranslate()
     {
-        behavior.onTranslateApp();
+        screen.showTranslationWebsite();
+    }
+
+    @OnClick(R.id.tvPrivacy)
+    public void onClickPrivacy()
+    {
+        screen.showPrivacyPolicyWebsite();
+    }
+
+    @OnClick(R.id.tvContributors)
+    public void onClickContributors()
+    {
+        screen.showCodeContributorsWebsite();
     }
 
     @Override

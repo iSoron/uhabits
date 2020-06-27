@@ -30,7 +30,6 @@ import static org.isoron.uhabits.core.utils.StringUtils.*;
 
 public final class Timestamp
 {
-
     public static final long DAY_LENGTH = 86400000;
 
     public static final Timestamp ZERO = new Timestamp(0);
@@ -39,9 +38,12 @@ public final class Timestamp
 
     public Timestamp(long unixTime)
     {
-        if (unixTime < 0 || unixTime % DAY_LENGTH != 0)
+        if (unixTime < 0)
             throw new IllegalArgumentException(
                 "Invalid unix time: " + unixTime);
+
+        if (unixTime % DAY_LENGTH != 0)
+            unixTime = (unixTime / DAY_LENGTH) * DAY_LENGTH;
 
         this.unixTime = unixTime;
     }
@@ -143,13 +145,17 @@ public final class Timestamp
         return DateFormats.getCSVDateFormat().format(new Date(unixTime));
     }
 
+    /**
+     * Returns an integer corresponding to the day of the week. Saturday maps
+     * to 0, Sunday maps to 1, and so on.
+     */
     public int getWeekday()
     {
         return toCalendar().get(DAY_OF_WEEK) % 7;
     }
 
-    public Timestamp truncate(DateUtils.TruncateField field)
+    Timestamp truncate(DateUtils.TruncateField field, int firstWeekday)
     {
-        return new Timestamp(DateUtils.truncate(field, unixTime));
+        return new Timestamp(DateUtils.truncate(field, unixTime, firstWeekday));
     }
 }

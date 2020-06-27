@@ -35,10 +35,13 @@ public class SingleThreadTaskRunner implements TaskRunner
     public void execute(Task task)
     {
         for(Listener l : listeners) l.onTaskStarted(task);
-        task.onAttached(this);
-        task.onPreExecute();
-        task.doInBackground();
-        task.onPostExecute();
+        if(!task.isCanceled())
+        {
+            task.onAttached(this);
+            task.onPreExecute();
+            task.doInBackground();
+            task.onPostExecute();
+        }
         for(Listener l : listeners) l.onTaskFinished(task);
     }
 

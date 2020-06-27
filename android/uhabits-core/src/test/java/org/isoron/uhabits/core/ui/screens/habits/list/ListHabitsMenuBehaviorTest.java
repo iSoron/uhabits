@@ -92,12 +92,12 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
         assertFalse(matcherCaptor.getValue().isCompletedAllowed());
     }
 
-    @Test
-    public void testOnCreateHabit()
-    {
-        behavior.onCreateHabit();
-        verify(screen).showCreateHabitScreen();
-    }
+//    @Test
+//    public void testOnCreateHabit()
+//    {
+//        behavior.onCreateHabit();
+//        verify(screen).showCreateHabitScreen();
+//    }
 
     @Test
     public void testOnSortByColor()

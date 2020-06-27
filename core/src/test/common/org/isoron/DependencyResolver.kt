@@ -27,17 +27,10 @@ enum class Locale {
     US, JAPAN
 }
 
-interface CanvasHelper {
-    fun createCanvas(width: Int, height: Int): Canvas
-    suspend fun exportCanvas(canvas: Canvas, filename: String)
-    suspend fun compare(imageFile: ResourceFile, canvas: Canvas): Double
-}
-
 expect object DependencyResolver {
-    val supportsDatabaseTests: Boolean
-    val supportsCanvasTests: Boolean
+    val ignoreViewTests: Boolean
     suspend fun getFileOpener(): FileOpener
     suspend fun getDatabase(): Database
-    fun getCanvasHelper(): CanvasHelper
     fun getDateFormatter(locale: Locale): LocalDateFormatter
+    fun createCanvas(width: Int, height: Int): Canvas
 }

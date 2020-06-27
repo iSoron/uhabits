@@ -24,17 +24,26 @@ import android.content.*;
 import android.net.*;
 import android.os.*;
 import android.provider.*;
-import android.support.annotation.*;
-import android.support.v7.preference.*;
+import android.util.*;
 
-import org.isoron.uhabits.*;
+import androidx.annotation.Nullable;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.notifications.*;
+import org.isoron.uhabits.widgets.*;
+
+import java.util.*;
 
 import static android.media.RingtoneManager.*;
-import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION.*;
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
@@ -48,6 +57,9 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     @Nullable
     private Preferences prefs;
+
+    @Nullable
+    private WidgetUpdater widgetUpdater;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -73,6 +85,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         {
             HabitsApplication app = (HabitsApplication) appContext;
             prefs = app.getComponent().getPreferences();
+            widgetUpdater = app.getComponent().getWidgetUpdater();
         }
 
         setResultOnPreferenceClick("importData", RESULT_IMPORT_DATA);
@@ -137,21 +150,38 @@ public class SettingsFragment extends PreferenceFragmentCompat
             devCategory.setVisible(false);
         }
 
-        if (SDK_INT < Build.VERSION_CODES.O)
-            findPreference("reminderCustomize").setVisible(false);
-        else
-        {
-            findPreference("reminderSound").setVisible(false);
-            findPreference("pref_snooze_interval").setVisible(false);
-        }
+        updateWeekdayPreference();
+
+        // Temporarily disable this; we now always ask
+        findPreference("reminderSound").setVisible(false);
+        findPreference("pref_snooze_interval").setVisible(false);
 
         updateSync();
+    }
+
+    private void updateWeekdayPreference()
+    {
+        if (prefs == null) return;
+        ListPreference weekdayPref = (ListPreference) findPreference("pref_first_weekday");
+        int currentFirstWeekday = prefs.getFirstWeekday();
+        String[] dayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
+        String[] dayValues = {"7", "1", "2", "3", "4", "5", "6"};
+        weekdayPref.setEntries(dayNames);
+        weekdayPref.setEntryValues(dayValues);
+        weekdayPref.setDefaultValue(Integer.toString(currentFirstWeekday));
+        weekdayPref.setSummary(dayNames[currentFirstWeekday % 7]);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key)
     {
+        if (key.equals("pref_widget_opacity") && widgetUpdater != null)
+        {
+            Log.d("SettingsFragment", "updating widgets");
+            widgetUpdater.updateWidgets();
+        }
+        if (key.equals("pref_first_weekday")) updateWeekdayPreference();
         BackupManager.dataChanged("org.isoron.uhabits");
         updateSync();
     }

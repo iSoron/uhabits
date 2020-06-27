@@ -24,11 +24,9 @@ import org.isoron.platform.io.*
 import org.isoron.platform.time.*
 import kotlin.test.*
 
-
 class CheckmarkRepositoryTest() {
     @Test
     fun testCRUD() = asyncTest {
-        if (!DependencyResolver.supportsDatabaseTests) return@asyncTest
         val db = DependencyResolver.getDatabase()
 
         val habitA = 10

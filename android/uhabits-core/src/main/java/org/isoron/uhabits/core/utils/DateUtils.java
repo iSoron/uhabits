@@ -19,9 +19,10 @@
 
 package org.isoron.uhabits.core.utils;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
+import org.jetbrains.annotations.*;
 
 import java.util.*;
 
@@ -37,19 +38,9 @@ public abstract class DateUtils
     private static Locale fixedLocale = null;
 
     /**
-     * Time of the day when the new day starts.
-     */
-    public static final int NEW_DAY_OFFSET = 3;
-
-    /**
      * Number of milliseconds in one day.
      */
     public static final long DAY_LENGTH = 24 * 60 * 60 * 1000;
-
-    /**
-     * Number of milliseconds in one hour.
-     */
-    public static final long HOUR_LENGTH = 60 * 60 * 1000;
 
     public static long applyTimezone(long localTimestamp)
     {
@@ -73,23 +64,6 @@ public abstract class DateUtils
         return day;
     }
 
-    private static String[] getDayNames(int format)
-    {
-        String[] wdays = new String[7];
-
-        Calendar day = new GregorianCalendar();
-        day.set(DAY_OF_WEEK, Calendar.SATURDAY);
-
-        for (int i = 0; i < wdays.length; i++)
-        {
-            wdays[i] =
-                day.getDisplayName(DAY_OF_WEEK, format, getLocale());
-            day.add(DAY_OF_MONTH, 1);
-        }
-
-        return wdays;
-    }
-
     public static long getLocalTime()
     {
         if (fixedLocalTime != null) return fixedLocalTime;
@@ -100,19 +74,25 @@ public abstract class DateUtils
     }
 
     /**
-     * @return array with weekday names starting according to locale settings,
-     * e.g. [Mo,Di,Mi,Do,Fr,Sa,So] in Germany
+     * Returns an array of strings with the names for each day of the week,
+     * in either SHORT or LONG format. The first entry corresponds to the
+     * first day of the week, according to the provided argument.
+     *
+     * @param format Either GregorianCalendar.SHORT or LONG
+     * @param firstWeekday An integer representing the first day of the week,
+     *                     following java.util.Calendar conventions. That is,
+     *                     Saturday corresponds to 7, and Sunday corresponds
+     *                     to 1.
      */
-    public static String[] getLocaleDayNames(int format)
+    @NotNull
+    private static String[] getWeekdayNames(int format, int firstWeekday)
     {
         String[] days = new String[7];
-
         Calendar calendar = new GregorianCalendar();
-        calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        for (int i = 0; i < days.length; i++)
-        {
+        calendar.set(DAY_OF_WEEK, firstWeekday);
+        for (int i = 0; i < days.length; i++) {
             days[i] = calendar.getDisplayName(DAY_OF_WEEK, format,
-                getLocale());
+                    getLocale());
             calendar.add(DAY_OF_MONTH, 1);
         }
 
@@ -120,30 +100,63 @@ public abstract class DateUtils
     }
 
     /**
-     * @return array with week days numbers starting according to locale
-     * settings, e.g. [2,3,4,5,6,7,1] in Europe
+     * Returns a vector of exactly seven integers, where the first integer is
+     * the provided firstWeekday number, and each subsequent number is the
+     * previous number plus 1, wrapping back to 1 after 7. For example,
+     * providing 3 as firstWeekday returns {3,4,5,6,7,1,2}
+     *
+     * This function is supposed to be used to construct a sequence of weekday
+     * number following java.util.Calendar conventions.
      */
-    public static Integer[] getLocaleWeekdayList()
+    public static int[] getWeekdaySequence(int firstWeekday)
     {
-        Integer[] dayNumbers = new Integer[7];
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        for (int i = 0; i < dayNumbers.length; i++)
+        return new int[]
         {
-            dayNumbers[i] = calendar.get(DAY_OF_WEEK);
-            calendar.add(DAY_OF_MONTH, 1);
-        }
-        return dayNumbers;
+                (firstWeekday - 1) % 7 + 1,
+                (firstWeekday) % 7 + 1,
+                (firstWeekday + 1) % 7 + 1,
+                (firstWeekday + 2) % 7 + 1,
+                (firstWeekday + 3) % 7 + 1,
+                (firstWeekday + 4) % 7 + 1,
+                (firstWeekday + 5) % 7 + 1,
+        };
     }
 
-    public static String[] getLongDayNames()
+    /**
+     * @return An integer representing the first day of the week, according to
+     * the current locale. Sunday corresponds to 1, Monday to 2, and so on,
+     * until Saturday, which is represented by 7. This is consistent
+     * with java.util.Calendar constants.
+     */
+    public static int getFirstWeekdayNumberAccordingToLocale()
     {
-        return getDayNames(GregorianCalendar.LONG);
+        return new GregorianCalendar().getFirstDayOfWeek();
     }
 
-    public static String[] getShortDayNames()
+    /**
+     * @return A vector of strings with the long names for the week days,
+     * according to the current locale. The first entry corresponds to Saturday,
+     * the second entry corresponds to Monday, and so on.
+     *
+     * @param firstWeekday Either Calendar.SATURDAY, Calendar.MONDAY, or other
+     *                     weekdays defined in this class.
+     */
+    public static String[] getLongWeekdayNames(int firstWeekday)
     {
-        return getDayNames(SHORT);
+        return getWeekdayNames(GregorianCalendar.LONG, firstWeekday);
+    }
+
+    /**
+     * Returns a vector of strings with the short names for the week days,
+     * according to the current locale. The first entry corresponds to Saturday,
+     * the second entry corresponds to Monday, and so on.
+     *
+     * @param firstWeekday Either Calendar.SATURDAY, Calendar.MONDAY, or other
+     *                     weekdays defined in this class.
+     */
+    public static String[] getShortWeekdayNames(int firstWeekday)
+    {
+        return getWeekdayNames(GregorianCalendar.SHORT, firstWeekday);
     }
 
     @NonNull
@@ -159,13 +172,12 @@ public abstract class DateUtils
 
     public static long getStartOfToday()
     {
-        return getStartOfDay(getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
+        return getStartOfDay(getLocalTime());
     }
 
     public static long millisecondsUntilTomorrow()
     {
-        return getStartOfToday() + DAY_LENGTH -
-               (getLocalTime() - NEW_DAY_OFFSET * HOUR_LENGTH);
+        return getStartOfToday() + DAY_LENGTH - getLocalTime();
     }
 
     public static GregorianCalendar getStartOfTodayCalendar()
@@ -206,9 +218,12 @@ public abstract class DateUtils
         return Locale.getDefault();
     }
 
-    public static Long truncate(TruncateField field, long timestamp)
+    public static Long truncate(TruncateField field,
+                                long timestamp,
+                                int firstWeekday)
     {
         GregorianCalendar cal = DateUtils.getCalendar(timestamp);
+
 
         switch (field)
         {
@@ -217,7 +232,6 @@ public abstract class DateUtils
                 return cal.getTimeInMillis();
 
             case WEEK_NUMBER:
-                int firstWeekday = cal.getFirstDayOfWeek();
                 int weekday = cal.get(DAY_OF_WEEK);
                 int delta = weekday - firstWeekday;
                 if (delta < 0) delta += 7;
@@ -246,7 +260,7 @@ public abstract class DateUtils
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
-        Long time = calendar.getTimeInMillis();
+        long time = calendar.getTimeInMillis();
 
         if (DateUtils.getLocalTime() > time)
             time += DateUtils.DAY_LENGTH;

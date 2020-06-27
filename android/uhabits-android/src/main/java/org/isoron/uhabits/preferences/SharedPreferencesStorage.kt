@@ -55,7 +55,7 @@ class SharedPreferencesStorage
             sharedPrefs.getLong(key, defValue)
 
     override fun getString(key: String, defValue: String): String =
-            sharedPrefs.getString(key, defValue)
+            sharedPrefs.getString(key, defValue)!!
 
     override fun onAttached(preferences: Preferences) {
         this.preferences = preferences

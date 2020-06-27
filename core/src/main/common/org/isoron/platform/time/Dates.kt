@@ -46,10 +46,10 @@ data class LocalDate(val daysSince2000: Int) {
     var monthCache = -1
     var dayCache = -1
 
-    init {
-        if (daysSince2000 < 0)
-            throw IllegalArgumentException("$daysSince2000 < 0")
-    }
+//    init {
+//        if (daysSince2000 < 0)
+//            throw IllegalArgumentException("$daysSince2000 < 0")
+//    }
 
     constructor(year: Int, month: Int, day: Int) :
             this(daysSince2000(year, month, day))

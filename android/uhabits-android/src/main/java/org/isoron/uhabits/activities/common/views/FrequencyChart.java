@@ -21,8 +21,9 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.util.*;
+
+import androidx.annotation.NonNull;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -69,7 +70,10 @@ public class FrequencyChart extends ScrollableChart
 
     @NonNull
     private HashMap<Timestamp, Integer[]> frequency;
+
     private int maxFreq;
+
+    private int firstWeekday = Calendar.SUNDAY;
 
     public FrequencyChart(Context context)
     {
@@ -95,6 +99,12 @@ public class FrequencyChart extends ScrollableChart
     {
         this.frequency = frequency;
         maxFreq = getMaxFreq(frequency);
+        postInvalidate();
+    }
+
+    public void setFirstWeekday(int firstWeekday)
+    {
+        this.firstWeekday = firstWeekday;
         postInvalidate();
     }
 
@@ -144,7 +154,6 @@ public class FrequencyChart extends ScrollableChart
         prevRect.setEmpty();
 
         GregorianCalendar currentDate = DateUtils.getStartOfTodayCalendar();
-
         currentDate.set(Calendar.DAY_OF_MONTH, 1);
         currentDate.add(Calendar.MONTH, -nColumns + 2 - getDataOffset());
 
@@ -193,11 +202,11 @@ public class FrequencyChart extends ScrollableChart
 
     private void drawColumn(Canvas canvas, RectF rect, GregorianCalendar date)
     {
-        Integer values[] = frequency.get(new Timestamp(date));
+        Integer[] values = frequency.get(new Timestamp(date));
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
-        Integer[] localeWeekdayList = DateUtils.getLocaleWeekdayList();
+        int[] localeWeekdayList = DateUtils.getWeekdaySequence(firstWeekday);
         for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
@@ -233,7 +242,7 @@ public class FrequencyChart extends ScrollableChart
         pText.setColor(textColor);
         pGrid.setColor(gridColor);
 
-        for (String day : DateUtils.getLocaleDayNames(Calendar.SHORT))
+        for (String day : DateUtils.getShortWeekdayNames(firstWeekday))
         {
             canvas.drawText(day, rGrid.right - columnWidth,
                 rGrid.top + rowHeight / 2 + 0.25f * em, pText);

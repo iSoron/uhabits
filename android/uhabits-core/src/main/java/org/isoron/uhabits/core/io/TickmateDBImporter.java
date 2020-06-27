@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.io;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
@@ -127,7 +127,7 @@ public class TickmateDBImporter extends AbstractImporter
 
                 Habit habit = modelFactory.buildHabit();
                 habit.setName(name);
-                habit.setDescription(description);
+                habit.setDescription(description == null ? "" : description);
                 habit.setFrequency(Frequency.DAILY);
                 habitList.add(habit);
 

@@ -21,7 +21,7 @@
 
 package org.isoron.uhabits.core.models.sqlite;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
@@ -79,13 +79,14 @@ public class SQLiteHabitList extends HabitList
     {
         loadRecords();
         habit.setPosition(size());
-        list.add(habit);
 
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
         repository.save(record);
+        habit.id = record.id;
         rebuildOrder();
 
+        list.add(habit);
         getObservable().notifyListeners();
     }
 

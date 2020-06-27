@@ -21,8 +21,11 @@ package org.isoron.uhabits.activities.habits.show;
 
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
-import android.support.v7.widget.*;
+import android.view.*;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
@@ -51,6 +54,12 @@ public class ShowHabitRootView extends BaseRootView
     @BindView(R.id.subtitleCard)
     SubtitleCard subtitleCard;
 
+    @BindView(R.id.notesCard)
+    NotesCard notesCard;
+
+    @BindView(R.id.habitNotes)
+    TextView habitNotes;
+
     @BindView(R.id.overviewCard)
     OverviewCard overviewCard;
 
@@ -65,6 +74,9 @@ public class ShowHabitRootView extends BaseRootView
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.targetCard)
+    TargetCard targetCard;
 
     @NonNull
     private Controller controller;
@@ -135,12 +147,20 @@ public class ShowHabitRootView extends BaseRootView
     private void initCards()
     {
         subtitleCard.setHabit(habit);
+        notesCard.setHabit(habit);
         overviewCard.setHabit(habit);
         scoreCard.setHabit(habit);
         historyCard.setHabit(habit);
         streakCard.setHabit(habit);
         frequencyCard.setHabit(habit);
         barCard.setHabit(habit);
+        targetCard.setHabit(habit);
+
+        if(habit.isNumerical()) {
+            overviewCard.setVisibility(View.GONE);
+        } else {
+            targetCard.setVisibility(View.GONE);
+        }
     }
 
     public interface Controller extends HistoryCard.Controller

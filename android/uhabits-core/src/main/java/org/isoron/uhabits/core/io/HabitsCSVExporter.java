@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.io;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
@@ -119,7 +119,7 @@ public class HabitsCSVExporter
         {
             String sane = sanitizeFilename(h.getName());
             String habitDirName =
-                String.format("%03d %s", allHabits.indexOf(h) + 1, sane);
+                String.format(Locale.US, "%03d %s", allHabits.indexOf(h) + 1, sane);
             habitDirName = habitDirName.trim() + "/";
 
             new File(exportDirName + habitDirName).mkdirs();
@@ -202,7 +202,7 @@ public class HabitsCSVExporter
                 checksWriter.write(String.valueOf(checkmarks.get(j)[i]));
                 checksWriter.write(DELIMITER);
                 String score =
-                        String.format("%.4f", ((float) scores.get(j)[i]));
+                        String.format(Locale.US, "%.4f", ((float) scores.get(j)[i]));
                 scoresWriter.write(score);
                 scoresWriter.write(DELIMITER);
             }
@@ -248,8 +248,8 @@ public class HabitsCSVExporter
                 continue;
             Timestamp currOld = h.getRepetitions().getOldest().getTimestamp();
             Timestamp currNew = h.getRepetitions().getNewest().getTimestamp();
-            oldest = currOld.isOlderThan(oldest) ? oldest : currOld;
-            newest = currNew.isNewerThan(newest) ? newest : currNew;
+            oldest = currOld.isOlderThan(oldest) ? currOld : oldest;
+            newest = currNew.isNewerThan(newest) ? currNew : newest;
         }
         return new Timestamp[]{oldest, newest};
     }

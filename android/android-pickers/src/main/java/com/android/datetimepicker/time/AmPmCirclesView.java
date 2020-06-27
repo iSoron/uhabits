@@ -41,8 +41,8 @@ public class AmPmCirclesView extends View {
     private final Paint mPaint = new Paint();
     private int mSelectedAlpha;
     private int mUnselectedColor;
-    private int mAmPmTextColor;
-    private int mSelectedColor;
+    protected int mAmPmTextColor = Color.WHITE;
+    protected int mSelectedColor = Color.BLUE;
     private float mCircleRadiusMultiplier;
     private float mAmPmCircleRadiusMultiplier;
     private String mAmText;
@@ -73,8 +73,8 @@ public class AmPmCirclesView extends View {
 
         Resources res = context.getResources();
         mUnselectedColor = res.getColor(R.color.white);
-        mSelectedColor = res.getColor(R.color.blue);
-        mAmPmTextColor = res.getColor(R.color.ampm_text_color);
+        //mSelectedColor = res.getColor(R.color.blue);
+        //mAmPmTextColor = res.getColor(R.color.ampm_text_color);
         mSelectedAlpha = SELECTED_ALPHA;
         String typefaceFamily = res.getString(R.string.sans_serif);
         Typeface tf = Typeface.create(typefaceFamily, Typeface.NORMAL);
@@ -105,8 +105,8 @@ public class AmPmCirclesView extends View {
             mSelectedAlpha = SELECTED_ALPHA_THEME_DARK;
         } else {
             mUnselectedColor = res.getColor(R.color.white);
-            mSelectedColor = res.getColor(R.color.blue);
-            mAmPmTextColor = res.getColor(R.color.ampm_text_color);
+            //mSelectedColor = res.getColor(R.color.blue);
+            //mAmPmTextColor = res.getColor(R.color.ampm_text_color);
             mSelectedAlpha = SELECTED_ALPHA;
         }
     }

@@ -26,28 +26,25 @@ import android.os.*
 import android.widget.*
 import android.widget.AbsListView.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import java.util.*
 
 class HabitPickerDialog : Activity() {
 
     private var widgetId = 0
-    private lateinit var habitList: HabitList
-    private lateinit var preferences: WidgetPreferences
-    private lateinit var habitIds: ArrayList<Long>
+    private lateinit var widgetPreferences: WidgetPreferences
     private lateinit var widgetUpdater: WidgetUpdater
-    private lateinit var listView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (applicationContext as HabitsApplication).component
-        habitList = component.habitList
-        preferences = component.widgetPreferences
+        val habitList = component.habitList
+        val preferences = component.preferences
+        widgetPreferences = component.widgetPreferences
         widgetUpdater = component.widgetUpdater
         widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: 0
 
-        habitIds = ArrayList()
+        val habitIds = ArrayList<Long>()
         val habitNames = ArrayList<String>()
         for (h in habitList) {
             if (h.isArchived) continue
@@ -56,30 +53,47 @@ class HabitPickerDialog : Activity() {
         }
 
         setContentView(R.layout.widget_configure_activity)
-        listView = findViewById(R.id.listView) as ListView
+        val listView = findViewById<ListView>(R.id.listView)
+        val saveButton = findViewById<Button>(R.id.buttonSave)
 
-        with(listView) {
-            adapter = ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, habitNames)
-            choiceMode = CHOICE_MODE_MULTIPLE
-            itemsCanFocus = false
-        }
-
-        with(findViewById(R.id.buttonSave) as Button) {
-            setOnClickListener({
+        if(preferences.isWidgetStackEnabled) {
+            with(listView) {
+                adapter = ArrayAdapter(context,
+                                       android.R.layout.simple_list_item_multiple_choice,
+                                       habitNames)
+                choiceMode = CHOICE_MODE_MULTIPLE
+                itemsCanFocus = false
+            }
+            saveButton.setOnClickListener {
                 val selectedIds = mutableListOf<Long>()
                 for (i in 0..listView.count) {
                     if (listView.isItemChecked(i)) {
                         selectedIds.add(habitIds[i])
                     }
                 }
-
-                preferences.addWidget(widgetId, selectedIds.toLongArray())
-                widgetUpdater.updateWidgets()
-                setResult(Activity.RESULT_OK, Intent().apply {
-                    putExtra(EXTRA_APPWIDGET_ID, widgetId)
-                })
-                finish()
-            })
+                confirm(selectedIds)
+            }
+        } else {
+            saveButton.visibility = GONE
+            with(listView) {
+                adapter = ArrayAdapter(context,
+                                       android.R.layout.simple_list_item_1,
+                                       habitNames)
+                choiceMode = CHOICE_MODE_SINGLE
+                itemsCanFocus = false
+            }
+            listView.setOnItemClickListener { _, _, position, _ ->
+                confirm(listOf(habitIds[position]))
+            }
         }
+    }
+
+    fun confirm(selectedIds: List<Long>) {
+        widgetPreferences.addWidget(widgetId, selectedIds.toLongArray())
+        widgetUpdater.updateWidgets()
+        setResult(RESULT_OK, Intent().apply {
+            putExtra(EXTRA_APPWIDGET_ID, widgetId)
+        })
+        finish()
     }
 }

@@ -19,8 +19,10 @@
 
 package org.isoron.uhabits.activities.common.views;
 
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
+import androidx.test.filters.*;
+import androidx.test.runner.*;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
@@ -28,6 +30,8 @@ import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
+
+import java.util.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -80,7 +84,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
-        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.MONTH));
+        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.MONTH, Calendar.SUNDAY));
         view.setBucketSize(30);
         view.invalidate();
 
@@ -97,7 +101,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withYearlyBucket() throws Throwable
     {
-        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.YEAR));
+        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.YEAR, Calendar.SUNDAY));
         view.setBucketSize(365);
         view.invalidate();
 

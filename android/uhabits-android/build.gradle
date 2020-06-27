@@ -1,55 +1,38 @@
-apply plugin: 'idea'
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco'
-apply plugin: 'com.github.triplet.play'
-import org.ajoberstar.grgit.Grgit
-
-ext {
-    git = Grgit.open(currentDir: projectDir)
-    GIT_COMMIT = git.head().id.substring(0, 8)
-    GIT_BRANCH = git.branch.current.name
+plugins {
+    id 'idea'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.github.triplet.play' version '2.6.2'
+    id 'kotlin-android-extensions'
 }
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
-    buildToolsVersion BUILD_TOOLS_VERSION
 
-    if(project.hasProperty("LOOP_STORE_FILE")) {
+    def secretPropsFile = file("../../.secret/gradle.properties")
+    if (secretPropsFile.exists()) {
+        def secrets = new Properties()
+        secretPropsFile.withInputStream { secrets.load(it) }
         signingConfigs {
             release {
-                storeFile file(LOOP_STORE_FILE)
-                storePassword LOOP_STORE_PASSWORD
-                keyAlias LOOP_KEY_ALIAS
-                keyPassword LOOP_KEY_PASSWORD
+                storeFile file(secrets.LOOP_KEY_STORE)
+                storePassword secrets.LOOP_STORE_PASSWORD
+                keyAlias secrets.LOOP_KEY_ALIAS
+                keyPassword secrets.LOOP_KEY_PASSWORD
             }
         }
         buildTypes.release.signingConfig signingConfigs.release
     }
 
-    playAccountConfigs {
-        defaultAccountConfig {
-            jsonFile = file('../secret/playstore.json')
-        }
-    }
-
     defaultConfig {
         versionCode VERSION_CODE as Integer
-        versionName "$VERSION_NAME ($GIT_BRANCH $GIT_COMMIT)"
+        versionName "$VERSION_NAME"
         minSdkVersion MIN_SDK_VERSION as Integer
         targetSdkVersion TARGET_SDK_VERSION as Integer
 
         applicationId "org.isoron.uhabits"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath false
-            }
-        }
-
-        playAccountConfig = playAccountConfigs.defaultAccountConfig
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -66,6 +49,7 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+        disable 'GoogleAppIndexingWarning'
     }
 
     compileOptions {
@@ -80,17 +64,16 @@ android {
                 outputs.upToDateWhen { false }
                 showStandardStreams = true
             }
-
-            jacoco {
-                includeNoLocationClasses = true
-            }
         }
     }
 
     sourceSets {
         main.assets.srcDirs += '../uhabits-core/src/main/resources/'
     }
-    buildToolsVersion '26.0.2'
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -98,49 +81,52 @@ dependencies {
     implementation project(":android-base")
     implementation project(":android-pickers")
 
-    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:preference-v14:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.github.paolorotolo:appintro:3.4.0"
     implementation "com.google.dagger:dagger:$DAGGER_VERSION"
     implementation "com.jakewharton:butterknife:8.6.1-SNAPSHOT"
     implementation "org.apmem.tools:layouts:1.10"
-    implementation "com.google.code.gson:gson:2.7"
+    implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$KOTLIN_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
 
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     compileOnly "javax.annotation:jsr250-api:1.0"
-    compileOnly "com.google.auto.factory:auto-factory:1.0-beta3"
+    compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    kapt "com.jakewharton:butterknife-compiler:8.6.1-SNAPSHOT"
-    kapt "com.google.auto.factory:auto-factory:1.0-beta3"
+    kapt "com.jakewharton:butterknife-compiler:10.2.1"
+    annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
 
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:2.2.2"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:2.2.2"
-    androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:2.1.1"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
     androidTestImplementation "com.linkedin.testbutler:test-butler-library:1.3.1"
-    androidTestCompileOnly "com.google.auto.factory:auto-factory:1.0-beta3"
-    androidTestImplementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    androidTestImplementation "com.android.support.test:rules:0.5"
-    androidTestImplementation "com.android.support.test:runner:0.5"
-    androidTestImplementation "com.google.guava:guava:20.0"
+    androidTestCompileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
+    androidTestAnnotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
+    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "com.google.guava:guava:24.1-android"
     androidTestImplementation project(":uhabits-core")
     kaptAndroidTest "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
     // mockito-android 2+ includes net.bytebuddy, which causes tests to fail.
     // Excluding the package net.bytebuddy on AndroidManifest.xml breaks some
     // AndroidJUnitRunner functionality, such as running individual methods.
-    androidTestImplementation "org.mockito:mockito-core:1+"
-    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:+"
+    androidTestImplementation "org.mockito:mockito-core:1.10.19"
+    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:1.2"
 
     testImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
     testImplementation "org.mockito:mockito-core:2.8.9"
     testImplementation "org.mockito:mockito-inline:2.8.9"
-    testImplementation "junit:junit:4+"
+    testImplementation "junit:junit:4.12"
 
-    implementation('com.opencsv:opencsv:3.9') {
+    implementation('com.opencsv:opencsv:3.10') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
     implementation('io.socket:socket.io-client:0.8.3') {
@@ -148,45 +134,11 @@ dependencies {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 kapt {
     correctErrorTypes = true
 }
 
-task coverageReport(type: JacocoReport) {
-    def excludes = [
-            '**/R.class',
-            '**/R$*.class',
-            '**/BuildConfig.*',
-            '**/Manifest*',
-            '**/*Test*.*',
-            '**/*$Lambda$*',
-            '**/*$ViewBinder*',
-            '**/*MembersInjector*',
-            '**/*_Provide*',
-            '**/*Module_*',
-            '**/com/android/**/*',
-            '**/*Dagger*',
-            '**/*_Factory*'
-    ]
-    def androidSrc = "${project.projectDir}/src/main/java"
-    def androidClasses = "${buildDir}/intermediates/classes/debug"
-    def jvmExecData = "${buildDir}/jacoco/testDebugUnitTest.exec"
-    def connectedExecData = "${buildDir}/outputs/code-coverage/connected/coverage.ec"
-    sourceDirectories = files(androidSrc)
-    classDirectories = files(fileTree(dir: androidClasses, excludes: excludes))
-    executionData = files(jvmExecData, connectedExecData)
-    jacocoClasspath = configurations['androidJacocoAnt']
-
-    reports {
-        html.enabled = true
-        xml.enabled = true
-    }
-}
-
 play {
-    track = 'alpha'
+    serviceAccountCredentials = file("../../.secret/gcp-key.json")
+    track = "alpha"
 }

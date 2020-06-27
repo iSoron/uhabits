@@ -19,15 +19,19 @@
 
 package org.isoron.uhabits.activities.common.dialogs;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.*;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.models.WeekdayList;
+import org.isoron.uhabits.core.utils.DateUtils;
+
+import java.util.Calendar;
 
 /**
  * Dialog that allows the user to pick one or more days of the week.
@@ -36,6 +40,7 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
                                                                  DialogInterface.OnMultiChoiceClickListener,
                                                                  DialogInterface.OnClickListener
 {
+    private static final String KEY_SELECTED_DAYS = "selectedDays";
     private boolean[] selectedDays;
 
     private OnWeekdaysPickedListener listener;
@@ -44,6 +49,21 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
     public void onClick(DialogInterface dialog, int which, boolean isChecked)
     {
         selectedDays[which] = isChecked;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null){
+            selectedDays = savedInstanceState.getBooleanArray(KEY_SELECTED_DAYS);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBooleanArray(KEY_SELECTED_DAYS, selectedDays);
     }
 
     @Override
@@ -59,8 +79,9 @@ public class WeekdayPickerDialog extends AppCompatDialogFragment implements
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder
             .setTitle(R.string.select_weekdays)
-            .setMultiChoiceItems(DateUtils.getLongDayNames(), selectedDays,
-                this)
+            .setMultiChoiceItems(DateUtils.getLongWeekdayNames(Calendar.SATURDAY),
+                    selectedDays,
+                    this)
             .setPositiveButton(android.R.string.yes, this)
             .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                 dismiss();

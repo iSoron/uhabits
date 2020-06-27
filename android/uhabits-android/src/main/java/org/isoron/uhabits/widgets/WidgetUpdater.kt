@@ -67,6 +67,7 @@ class WidgetUpdater
             updateWidgets(modifiedHabitId, ScoreWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, StreakWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, FrequencyWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, TargetWidgetProvider::class.java)
         }
     }
 

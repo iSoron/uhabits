@@ -38,6 +38,7 @@ open class CheckmarkWidget(
 
     override fun refreshData(v: View) {
         (v as CheckmarkWidgetView).apply {
+            setBackgroundAlpha(preferedBackgroundAlpha)
             setPercentage(habit.scores.todayValue.toFloat())
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)

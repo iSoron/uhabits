@@ -3,12 +3,14 @@ package org.isoron.uhabits.widgets;
 import android.appwidget.*;
 import android.content.*;
 import android.os.*;
-import android.support.annotation.*;
 import android.util.Log;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
+
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
@@ -87,18 +89,19 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
     }
 
     @NonNull
-    private BaseWidget constructWidget(@NonNull Habit habit)
+    private BaseWidget constructWidget(@NonNull Habit habit,
+                                       @NonNull Preferences prefs)
     {
         switch (widgetType)
         {
             case CHECKMARK:
                 return new CheckmarkWidget(context, widgetId, habit);
             case FREQUENCY:
-                return new FrequencyWidget(context, widgetId, habit);
+                return new FrequencyWidget(context, widgetId, habit, prefs.getFirstWeekday());
             case SCORE:
                 return new ScoreWidget(context, widgetId, habit);
             case HISTORY:
-                return new HistoryWidget(context, widgetId, habit);
+                return new HistoryWidget(context, widgetId, habit, prefs.getFirstWeekday());
             case STREAKS:
                 return new StreakWidget(context, widgetId, habit);
         }
@@ -136,6 +139,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
         Log.i("StackRemoteViewsFactory", "onDataSetChanged started");
 
         HabitsApplication app = (HabitsApplication) context.getApplicationContext();
+        Preferences prefs = app.getComponent().getPreferences();
         HabitList habitList = app.getComponent().getHabitList();
         Bundle options = AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId);
         ArrayList<RemoteViews> newRemoteViews = new ArrayList<>();
@@ -147,7 +151,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory
             Habit h = habitList.getById(id);
             if (h == null) throw new HabitNotFoundException();
 
-            BaseWidget widget = constructWidget(h);
+            BaseWidget widget = constructWidget(h, prefs);
             widget.setDimensions(getDimensionsFromOptions(context, options));
 
             RemoteViews landscapeViews = widget.getLandscapeRemoteViews();

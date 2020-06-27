@@ -1,0 +1,22 @@
+Loop hilft dir gute Gewohnheiten anzunehmen und deine langfristigen Ziele zu erreichen. Detailierte Statistiken zeigen dir, wie du dich entwickelt hast. Es ist ohne Werbung und Open Source.
+
+<b>Einfaches, schönes und modernes Oberfläche</b>
+Loop hat eine minimale Oberfläche und ist deshalb einfach zu nutzen. Es folgt dem material Design.
+
+<b>Habit Punkte</b>
+Um dir deine Schwächen zu zeigen, hat Loop einen Algorithmus, um deine starken Angewohnheiten zu erkennen. Jede Wiederholung verstärkt diese und jedes Aussetzen schwächt sie. Aber ein paar Verfehlungen nach langem Durchhalten machen natürlich nicht gleich alles zu nichte.
+
+<b>Statistiken</b>
+Schau dir an, wie sich deine Angewohnheiten im Laufe der Zeit gemacht haben. Schau auf die schönen Diagramme und gehe zurück im gesamten Verlauf.
+
+<b>Flexible Zeiten</b>
+Unterstützt sowohl tägliche Vorgaben, als auch komplexere Pläne, woe etwa 3 mal pro Woche; ein mal in jeder anderen Woche; oder jeden anderen Tag.
+
+<b>Erinnerungen</b>
+Erstelle individuelle Erinnerungen und wann diese dich benachrichtigen sollen. Kontrolliere deine Vorhaben ganz einfach und lehne sie bei Bedarf direkt ab, ohne in die App zu wechseln.
+
+<b>Komplett werbefrei und Open Source</b>
+Es gibt absolut keine Werbung, nervende Einblendungen oder merkwürdige Berechtigungen in dieser App und das wird auch so bleiben. Der komplette Quellcode steht unter der GPLv3.
+
+<b>Optimiert für Smartwatches</b>
+Erinnerungen können direkt von der Android Wear watch kontrolliert, pausiert, oder verschoben werden.

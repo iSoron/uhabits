@@ -29,7 +29,8 @@ import org.isoron.uhabits.widgets.views.*
 class FrequencyWidget(
         context: Context,
         widgetId: Int,
-        private val habit: Habit
+        private val habit: Habit,
+        private val firstWeekday: Int
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context) =
@@ -38,7 +39,9 @@ class FrequencyWidget(
     override fun refreshData(v: View) {
         val widgetView = v as GraphWidgetView
         widgetView.setTitle(habit.name)
+        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         (widgetView.dataView as FrequencyChart).apply {
+            setFirstWeekday(firstWeekday)
             setColor(PaletteUtils.getColor(context, habit.color))
             setFrequency(habit.repetitions.weekdayFrequency)
         }

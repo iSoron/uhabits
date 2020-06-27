@@ -39,6 +39,7 @@ class StreakWidget(
 
     override fun refreshData(view: View) {
         val widgetView = view as GraphWidgetView
+        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         (widgetView.dataView as StreakChart).apply {
             setColor(PaletteUtils.getColor(context, habit.color))
             setStreaks(habit.streaks.getBest(maxStreakCount))

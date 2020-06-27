@@ -19,14 +19,18 @@
 
 package org.isoron.uhabits.widgets;
 
-import android.support.test.runner.*;
-import android.test.suitebuilder.annotation.*;
+import androidx.test.filters.*;
+import androidx.test.runner.*;
 import android.widget.*;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 import org.junit.runner.*;
+
+import java.util.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -42,10 +46,10 @@ public class FrequencyWidgetTest extends BaseViewTest
     public void setUp()
     {
         super.setUp();
-        setTheme(R.style.TransparentWidgetTheme);
+        setTheme(R.style.WidgetTheme);
 
         habit = fixtures.createLongHabit();
-        FrequencyWidget widget = new FrequencyWidget(targetContext, 0, habit);
+        FrequencyWidget widget = new FrequencyWidget(targetContext, 0, habit, Calendar.SUNDAY);
         view = convertToView(widget, 400, 400);
     }
 

@@ -20,9 +20,11 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -74,31 +76,24 @@ public class CheckmarkWidgetView extends HabitWidgetView
             case Checkmark.CHECKED_EXPLICITLY:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
-
                 setShadowAlpha(0x4f);
-                rebuildBackground();
-
                 backgroundPaint.setColor(bgColor);
                 frame.setBackgroundDrawable(background);
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
-                bgColor = res.getColor(R.attr.cardBackgroundColor);
+                text = getResources().getString(R.string.fa_check);
+                bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
-
                 setShadowAlpha(0x00);
-                rebuildBackground();
-
                 break;
 
             case Checkmark.UNCHECKED:
             default:
-                bgColor = res.getColor(R.attr.cardBackgroundColor);
+                text = getResources().getString(R.string.fa_times);
+                bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
-
                 setShadowAlpha(0x00);
-                rebuildBackground();
-
                 break;
         }
 

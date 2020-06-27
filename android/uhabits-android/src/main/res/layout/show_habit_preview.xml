@@ -23,9 +23,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <org.isoron.uhabits.activities.habits.show.views.ScoreCard
+    <org.isoron.uhabits.activities.habits.show.views.TargetCard
+        android:id="@+id/targetCard"
         style="@style/Card"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" />
+        android:gravity="center"/>
 </LinearLayout>

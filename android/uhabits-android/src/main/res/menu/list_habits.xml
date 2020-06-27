@@ -23,7 +23,8 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/actionAdd"
+        android:id="@+id/actionCreateHabit"
+        android:enabled="true"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
         app:showAsAction="always">
@@ -40,6 +41,7 @@
                 android:title="@string/number"/>
         </menu>
     </item>
+
 
     <item
         android:id="@+id/action_filter"
@@ -106,4 +108,5 @@
         android:orderInCategory="100"
         android:title="@string/about"
         app:showAsAction="never"/>
+
 </menu>

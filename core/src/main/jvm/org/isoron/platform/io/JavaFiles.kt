@@ -19,8 +19,10 @@
 
 package org.isoron.platform.io
 
+import org.isoron.platform.gui.*
 import java.io.*
 import java.nio.file.*
+import javax.imageio.*
 
 class JavaResourceFile(val path: String) : ResourceFile {
     private val javaPath: Path
@@ -48,6 +50,10 @@ class JavaResourceFile(val path: String) : ResourceFile {
 
     fun stream(): InputStream {
         return Files.newInputStream(javaPath)
+    }
+
+    override suspend fun toImage(): Image {
+        return JavaImage(ImageIO.read(stream()))
     }
 }
 

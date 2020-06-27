@@ -22,8 +22,10 @@ package org.isoron.androidbase.utils;
 import android.content.*;
 import android.content.res.*;
 import android.graphics.*;
-import android.support.annotation.*;
-import android.support.v4.view.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;

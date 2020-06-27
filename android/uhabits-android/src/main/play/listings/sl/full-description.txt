@@ -1,0 +1,22 @@
+Loop vam pomaga ustvariti in vzdrževati dobre navade, kar vam omogoča, da bi dosegli svoje dolgoročne cilje. Podrobni grafi in statistike vam pokažejo kako so se vaše navade skozi čas izboljšale. Je popolnoma brez oglasov in odprtokodno.
+
+<b>Enostaven, lep in sodoben vmesnik</b>
+Loop ima minimalističen vmesnik, ki je preprost za uporabo in sledi smernicam Material design.
+
+<b>Ocena navade</b>
+Poleg tega, da vam prikazuje vaše trenutne serije, ima Loop napreden algoritem za izračun moči vaših navad. Vsaka ponovitev naredi vašo navado močnejšo in vsak zgrešen dan jo naredi šibkejšo. Nekaj zgrešenih dni po dolgi seriji, pa vendar ne bo popolnoma uničilo vašega celotnega napredka.
+
+<b>Podrobni grafi in statistike</b>
+Z lepimi in natančnimi grafi, jasno poglejte, kako so se skozi čas vaše navade izboljšale. Da boste videli celotno zgodovino svojih navad se pomaknite nazaj.
+
+<b>Prilagodljivi urniki</b>
+Podpira tako vsakdanje navade in navade z bolj zapletenimi urniki, kot so 3-krat na teden; enkrat vsak drugi teden; ali vsak drugi dan.
+
+<b>Opomniki</b>
+Ustvari individualni opomnik za vsako navado, pri izbrani uri dneva. Enostavno preverite, zavrzite ali dajte v dremež svoje navade neposredno iz obvestila, ne da bi odprli aplikacijo.
+
+<b>Popolnoma brez oglasov in odprtokodno</b>
+V tej aplikaciji ni absolutno nobene reklame, sitnih obvestil ali vsiljivih dovoljenj in jih tudi nikoli ne bo. Celotna izvorna koda je na razpolago pod GPLv3.
+
+<b>Optimirano za pametne ure</b>
+Opomnike lahko preverite, jih date v dremež ali pa zavrzite neposredno iz vaše Android Wear ure.

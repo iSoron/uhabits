@@ -35,8 +35,10 @@ class EditSettingActivity : BaseActivity() {
                         .setCompletedAllowed(true)
                         .build())
 
+        val args = SettingUtils.parseIntent(this.intent, habits)
+
         val controller = EditSettingController(this)
-        val rootView = EditSettingRootView(this, habits, controller)
+        val rootView = EditSettingRootView(this, habits, controller, args)
         val screen = BaseScreen(this)
         screen.setRootView(rootView)
         setScreen(screen)

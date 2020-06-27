@@ -33,9 +33,7 @@ class CalendarChart(var today: LocalDate,
     var squareSpacing = 1.0
     var series = listOf<Double>()
     var scrollPosition = 0
-
     private var squareSize = 0.0
-    private var fontSize = 0.0
 
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()

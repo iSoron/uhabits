@@ -19,8 +19,10 @@
 
 package org.isoron.uhabits.acceptance;
 
-import android.support.test.filters.*;
-import android.support.test.runner.*;
+import androidx.test.filters.*;
+import androidx.test.runner.*;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.junit.*;
@@ -35,15 +37,17 @@ import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 public class AboutTest extends BaseUserInterfaceTest
 {
     @Test
-    public void shouldDisplayAboutScreen()
-    {
+    public void shouldDisplayAboutScreen() {
         launchApp();
         clickMenu(ABOUT);
         verifyDisplaysText("Loop Habit Tracker");
         verifyDisplaysText("Rate this app on Google Play");
         verifyDisplaysText("Developers");
         verifyDisplaysText("Translators");
+    }
 
+    @Test
+    public void shouldDisplayAboutScreenFromSettings() {
         launchApp();
         clickMenu(SETTINGS);
         clickText("About");

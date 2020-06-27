@@ -23,10 +23,8 @@ import org.isoron.*
 import kotlin.test.*
 
 class DatabaseTest  {
-
     @Test
     fun testUsage() = asyncTest{
-        if (!DependencyResolver.supportsDatabaseTests) return@asyncTest
         val db = DependencyResolver.getDatabase()
 
         db.setVersion(0)

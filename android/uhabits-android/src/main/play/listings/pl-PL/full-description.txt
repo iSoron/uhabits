@@ -1,0 +1,22 @@
+Loop pozwala Ci na tworzenie i utrzymywanie dobrych nawyków, pozwala na Ci na osiągnięcie Twoich długoterminowych celów. Szczegółowe grafiki i statystyki pozwalają na zobaczenie jak Twoje nawyki polepszyły się. Jest całkowicie wolna od reklam i open source.
+
+<b>Prosty, piękny i nowoczesny interfejs</b>
+Loop posiada minimalistyczny interfejs, który jest prosty do użycia i przestrzega zasad material design.
+
+<b>Punkty nawyku</b>
+Oprócz pokazywania Twojej aktualnej serii, Loop posiada zaawansowany algorytm obliczania siły Twoich nawyków. Każde powtórzenie nawyku czyni go silniejszymi a każdy opuszczony dzień słabszym. Jednakże kilka opuszczonych dni po dłuższej serii nie zrujnuje Twojego całego postępu.
+
+<b>Szczegółowe grafiki i statystyki</b>
+Zobacz jak Twoje nawyki ulepszają się poprzez piękne i szczegółowe wykresy. Przewiń do tyłu aby zobaczyć pełną historię Twoich nawyków.
+
+<b>Elastyczne plany</b>
+Wspiera zarówno codzienne nawyki jak i nawyki z bardziej złożonym planem, jakie jak 3 razy co tydzień; raz w ciągu innego tygodnia; lub każdego innego dnia.
+
+<b>Przypomnienia</b>
+Utwórz indywidualne przypomnienia dla każdego nawyku, w określonej godzinie dnia. Łatwo sprawdź, usuń i uśpij powiadomienia o nawyku bezpośrednio z powiadomienia, bez otwierania aplikacji.
+
+<b>Całkowicie bez reklam i open source</b>
+Absolutnie nie ma żadnych reklam, denerwujących powiadomień czy szpiegujących uprawnień w tej aplikacji i nigdy nie będzie. Cały kod źródłowy jest dostępny pod licencją GPLv3.
+
+<b>Zoptymalizowana pod smartwatche</b>
+Przypomnienia można sprawdzić, uśpić czy usunąć bezpośrednio z twojego zegarka Android Wear.
