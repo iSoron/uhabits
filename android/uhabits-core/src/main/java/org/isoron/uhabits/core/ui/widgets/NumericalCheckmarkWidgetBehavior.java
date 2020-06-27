@@ -1,6 +1,6 @@
 package org.isoron.uhabits.core.ui.widgets;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.core.commands.CommandRunner;
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand;
