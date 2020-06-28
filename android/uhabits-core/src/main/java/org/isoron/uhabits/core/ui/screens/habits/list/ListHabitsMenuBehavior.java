@@ -61,7 +61,9 @@ public class ListHabitsMenuBehavior
         updateAdapterFilter();
     }
 
-    public void onCreateHabit() { screen.showSelectHabitTypeDialog(); }
+    public void onCreateHabit() {
+        screen.showSelectHabitTypeDialog();
+    }
 
     public void onViewFAQ()
     {

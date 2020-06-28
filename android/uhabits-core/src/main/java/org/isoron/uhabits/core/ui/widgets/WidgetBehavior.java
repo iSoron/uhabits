@@ -79,13 +79,13 @@ public class WidgetBehavior
 
     private void performToggle(@NonNull Habit habit, Timestamp timestamp)
     {
-        getCommandRunner().execute(
-            new ToggleRepetitionCommand(getHabitList(), habit, timestamp),
+        commandRunner.execute(
+            new ToggleRepetitionCommand(habitList, habit, timestamp),
             habit.getId());
     }
 
     public void setNumericValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
-        getCommandRunner().execute(
+        commandRunner.execute(
                 new CreateRepetitionCommand(habit, timestamp, newValue),
                 habit.getId());
     }
