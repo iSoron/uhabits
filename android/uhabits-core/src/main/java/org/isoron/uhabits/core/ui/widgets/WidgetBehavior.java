@@ -27,9 +27,22 @@ import org.isoron.uhabits.core.ui.*;
 
 import javax.inject.*;
 
-public class WidgetBehavior extends BaseWidgetBehavior
+public class WidgetBehavior
 {
 
+    private HabitList getHabitList() {
+    return habitList;
+}
+
+    @NonNull
+    private CommandRunner getCommandRunner() {
+        return commandRunner;
+    }
+
+    private HabitList habitList;
+
+    @NonNull
+    private final CommandRunner commandRunner;
 
     private NotificationTray notificationTray;
 
@@ -38,7 +51,8 @@ public class WidgetBehavior extends BaseWidgetBehavior
                           @NonNull CommandRunner commandRunner,
                           @NonNull NotificationTray notificationTray)
     {
-        super(habitList, commandRunner);
+        this.habitList = habitList;
+        this.commandRunner = commandRunner;
         this.notificationTray = notificationTray;
     }
 
@@ -69,4 +83,11 @@ public class WidgetBehavior extends BaseWidgetBehavior
             new ToggleRepetitionCommand(getHabitList(), habit, timestamp),
             habit.getId());
     }
+
+    public void setNumericValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
+        getCommandRunner().execute(
+                new CreateRepetitionCommand(habit, timestamp, newValue),
+                habit.getId());
+    }
+
 }
