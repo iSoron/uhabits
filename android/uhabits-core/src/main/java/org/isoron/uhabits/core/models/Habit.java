@@ -327,9 +327,9 @@ public class Habit
         if (isNumerical())
         {
             if(getTargetType() == AT_LEAST)
-                return todayCheckmark >= doubleToCheckMarkValue(data.targetValue);
+                return todayCheckmark >= data.targetValue;
             else
-                return todayCheckmark <= doubleToCheckMarkValue(data.targetValue);
+                return todayCheckmark <= data.targetValue;
         }
         else return (todayCheckmark != UNCHECKED);
     }
