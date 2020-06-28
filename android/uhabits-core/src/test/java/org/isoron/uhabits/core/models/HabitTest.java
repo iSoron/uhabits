@@ -102,19 +102,19 @@ public class HabitTest extends BaseUnitTest
         h.setTargetValue(100.0);
         assertFalse(h.isCompletedToday());
 
-        h.getRepetitions().toggle(getToday(), 200);
+        h.getRepetitions().toggle(getToday(), 200 * 1000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 100);
+        h.getRepetitions().toggle(getToday(), 100 * 1000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 50);
+        h.getRepetitions().toggle(getToday(), 50 * 1000);
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
-        h.getRepetitions().toggle(getToday(), 200);
+        h.getRepetitions().toggle(getToday(), 200 * 1000);
         assertFalse(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 100);
+        h.getRepetitions().toggle(getToday(), 100 * 1000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 50);
+        h.getRepetitions().toggle(getToday(), 50 * 1000);
         assertTrue(h.isCompletedToday());
     }
 
