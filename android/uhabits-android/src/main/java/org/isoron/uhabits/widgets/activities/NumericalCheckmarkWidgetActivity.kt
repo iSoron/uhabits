@@ -6,6 +6,7 @@ import android.os.*
 import android.view.*
 import android.widget.FrameLayout
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.widgets.*
@@ -33,16 +34,17 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
 
 
     override fun onNumberPicked(newValue: Double) {
-        behavior.setNumericValue(data!!.habit, data!!.timestamp, (newValue * 1000).toInt())
+        behavior.setNumericValue(data.habit, data.timestamp, (newValue * 1000).toInt())
         widgetUpdater.updateWidgets()
         finish()
     }
 
     fun showNumberSelector(context: Context) {
+        AndroidThemeSwitcher(this, (this.applicationContext as HabitsApplication).component.preferences).apply()
         var localData = data
         if (behavior != null && localData != null) {//if a blank screen shows up without a popup when pressing the widget, you should check if this check passes.
             val numberPickerFactory = NumberPickerFactory(context)
-            numberPickerFactory.create(data!!.habit.checkmarks.today!!.value.toDouble() / 1000, "This is a test", this).show()
+            numberPickerFactory.create(data.habit.checkmarks.today!!.value.toDouble() / 1000, data.habit.unit, this).show()
         }
     }
 
