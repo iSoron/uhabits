@@ -132,7 +132,7 @@ public class HistoryCard extends HabitCard
             chart.setColor(color);
             if(habit.isNumerical())
             {
-                chart.setTarget(Habit.doubleToCheckMarkValue(habit.getTargetValue()));
+                chart.setTarget(Checkmark.doubleToCheckMarkValue(habit.getTargetValue()));
                 chart.setNumerical(true);
             }
         }

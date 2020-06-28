@@ -27,20 +27,7 @@
         android:enabled="true"
         android:icon="?iconAdd"
         android:title="@string/add_habit"
-        app:showAsAction="always">
-
-        <menu android:id="@+id/createHabitMenu">
-            <item
-                android:id="@+id/actionCreateBooleanHabit"
-                android:enabled="true"
-                android:title="@string/yes_or_no"/>
-
-            <item
-                android:id="@+id/actionCreateNumeralHabit"
-                android:enabled="true"
-                android:title="@string/number"/>
-        </menu>
-    </item>
+        app:showAsAction="always"/>
 
 
     <item

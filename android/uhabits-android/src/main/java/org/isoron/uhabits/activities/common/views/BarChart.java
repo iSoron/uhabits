@@ -272,7 +272,7 @@ public class BarChart extends ScrollableChart
         float round = dpToPixels(getContext(), 2);
 
         int color = textColor;
-        if (Habit.checkMarkValueToDouble(value) >= target) color = primaryColor;
+        if (Checkmark.checkMarkValueToDouble(value) >= target) color = primaryColor;
 
         rect.inset(-margin, 0);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
@@ -365,10 +365,10 @@ public class BarChart extends ScrollableChart
         if (value == 0) return;
 
         int activeColor = textColor;
-        if (Habit.checkMarkValueToDouble(value) >= target)
+        if (Checkmark.checkMarkValueToDouble(value) >= target)
             activeColor = primaryColor;
 
-        String label = NumberButtonViewKt.toShortString(Habit.checkMarkValueToDouble(value));
+        String label = NumberButtonViewKt.toShortString(Checkmark.checkMarkValueToDouble(value));
         Rect rText = new Rect();
         pText.getTextBounds(label, 0, label.length(), rText);
 

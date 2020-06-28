@@ -86,7 +86,7 @@ class HabitCardView(
         get() = checkmarkPanel.values
         set(values) {
             checkmarkPanel.values = values
-            numberPanel.values = values.map { Habit.checkMarkValueToDouble(it) }.toDoubleArray()
+            numberPanel.values = values.map { Checkmark.checkMarkValueToDouble(it) }.toDoubleArray()
         }
 
     var threshold: Double

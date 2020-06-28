@@ -33,9 +33,9 @@ import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.uhabits.activities.habits.list.views.NumberButtonViewKt.*;
 
-public class CheckmarkWidgetView extends HabitWidgetView
-{
+public class CheckmarkWidgetView extends HabitWidgetView {
     protected int activeColor;
 
     protected float percentage;
@@ -49,20 +49,29 @@ public class CheckmarkWidgetView extends HabitWidgetView
 
     protected int checkmarkValue;
 
-    public CheckmarkWidgetView(Context context)
-    {
+    protected int checkmarkState;
+
+    protected boolean isNumerical;
+
+    public boolean isNumerical() {
+        return isNumerical;
+    }
+
+    public void setNumerical(boolean numerical) {
+        isNumerical = numerical;
+    }
+
+    public CheckmarkWidgetView(Context context) {
         super(context);
         init();
     }
 
-    public CheckmarkWidgetView(Context context, AttributeSet attrs)
-    {
+    public CheckmarkWidgetView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         if (backgroundPaint == null || frame == null || ring == null) return;
 
         StyledResources res = new StyledResources(getContext());
@@ -71,8 +80,7 @@ public class CheckmarkWidgetView extends HabitWidgetView
         int bgColor;
         int fgColor;
 
-        switch (getCheckmarkState())
-        {
+        switch (getCheckmarkState()) {
             case Checkmark.CHECKED_EXPLICITLY:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
@@ -115,58 +123,66 @@ public class CheckmarkWidgetView extends HabitWidgetView
      * - Checkmark.CHECKED_IMPLICITLY
      * - Checkmark.UNCHECKED
      */
-    protected int getCheckmarkState(){
-        return checkmarkValue;
+    public int getCheckmarkState() {
+        return checkmarkState;
     }
+
+    /**
+     * @brief set the state of the checkmark to either:
+     * - Checkmark.CHECKED_EXPLICITLY
+     * - Checkmark.CHECKED_IMPLICITLY
+     * - Checkmark.UNCHECKED
+     */
+    public void setCheckmarkState(int checkmarkState) {
+        this.checkmarkState = checkmarkState;
+    }
+
 
     /**
      * @Return the text that should be displayed in the middle of the widget
      */
-    protected String getText(){
-        switch (getCheckmarkState())
-        {
-            case Checkmark.CHECKED_EXPLICITLY:
-                return getResources().getString(R.string.fa_check);
+    protected String getText() {
+        if (isNumerical) {
+            return doubleToShortString(Checkmark.checkMarkValueToDouble(checkmarkValue));
+        } else {
+            switch (getCheckmarkState()) {
+                case Checkmark.CHECKED_EXPLICITLY:
+                    return getResources().getString(R.string.fa_check);
 
-            case Checkmark.CHECKED_IMPLICITLY:
-                return getResources().getString(R.string.fa_check);
+                case Checkmark.CHECKED_IMPLICITLY:
+                    return getResources().getString(R.string.fa_check);
 
-            case Checkmark.UNCHECKED:
-            default:
-                return getResources().getString(R.string.fa_times);
+                case Checkmark.UNCHECKED:
+                default:
+                    return getResources().getString(R.string.fa_times);
+            }
         }
     }
 
-    public void setActiveColor(int activeColor)
-    {
+    public void setActiveColor(int activeColor) {
         this.activeColor = activeColor;
     }
 
-    public void setCheckmarkValue(int checkmarkValue)
-    {
+    public void setCheckmarkValue(int checkmarkValue) {
         this.checkmarkValue = checkmarkValue;
     }
 
-    public void setName(@NonNull String name)
-    {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public void setPercentage(float percentage)
-    {
+    public void setPercentage(float percentage) {
         this.percentage = percentage;
     }
 
     @Override
     @NonNull
-    protected Integer getInnerLayoutId()
-    {
+    protected Integer getInnerLayoutId() {
         return R.layout.widget_checkmark;
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
@@ -183,9 +199,9 @@ public class CheckmarkWidgetView extends HabitWidgetView
             ring.setVisibility(VISIBLE);
 
         widthMeasureSpec =
-            MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
+                MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
         heightMeasureSpec =
-            MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
+                MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
 
         float textSize = 0.15f * h;
         float maxTextSize = getDimension(getContext(), R.dimen.smallerTextSize);
@@ -198,15 +214,13 @@ public class CheckmarkWidgetView extends HabitWidgetView
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    private void init()
-    {
+    private void init() {
         ring = (RingView) findViewById(R.id.scoreRing);
         label = (TextView) findViewById(R.id.label);
 
         if (ring != null) ring.setIsTransparencyEnabled(true);
 
-        if (isInEditMode())
-        {
+        if (isInEditMode()) {
             percentage = 0.75f;
             name = "Wake up early";
             activeColor = PaletteUtils.getAndroidTestColor(6);

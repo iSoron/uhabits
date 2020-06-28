@@ -94,21 +94,6 @@ public class Habit
         observable = new ModelObservable();
     }
 
-    public static double checkMarkValueToDouble(int a)
-    {
-        return ((double) a)/1000.0;
-    }
-
-    public static double checkMarkValueToDouble(double a)
-    {
-        return a/1000.0;
-    }
-
-    public static int doubleToCheckMarkValue(double a)
-    {
-        return (int)Math.round(a*1000);
-    }
-
     /**
      * Clears the reminder for a habit.
      */

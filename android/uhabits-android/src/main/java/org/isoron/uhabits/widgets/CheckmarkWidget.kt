@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.widgets
 
-import android.app.PendingIntent
+import android.app.*
 import android.content.*
+import android.util.Log
 import android.view.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*
@@ -32,22 +33,46 @@ open class CheckmarkWidget(
         protected val habit: Habit
 ) : BaseWidget(context, widgetId) {
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent{
-        return pendingIntentFactory.toggleCheckmark(habit, null)
+    override fun getOnClickPendingIntent(context: Context): PendingIntent {
+        return if (habit.isNumerical) {
+            pendingIntentFactory.setNumericalValue(context, habit, 10, null)
+        } else {
+            pendingIntentFactory.toggleCheckmark(habit, null)
+        }
     }
 
     override fun refreshData(v: View) {
         (v as CheckmarkWidgetView).apply {
             setBackgroundAlpha(preferedBackgroundAlpha)
-            setPercentage(habit.scores.todayValue.toFloat())
+
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)
             setCheckmarkValue(habit.checkmarks.todayValue)
+            if (habit.isNumerical) {
+                isNumerical = true;
+                checkmarkState = getNumericalCheckmarkState();
+                setPercentage((Checkmark.checkMarkValueToDouble(habit.checkmarks.todayValue) / habit.data.targetValue).toFloat())
+            } else {
+                checkmarkState = habit.checkmarks.todayValue;
+                setPercentage(habit.scores.todayValue.toFloat())
+            }
             refresh()
         }
     }
 
-    override fun buildView(): View = CheckmarkWidgetView(context)
+    override fun buildView(): View {
+        return CheckmarkWidgetView(context)
+    }
+
     override fun getDefaultHeight() = 125
     override fun getDefaultWidth() = 125
+
+    private fun getNumericalCheckmarkState(): Int {
+        return if (habit.isCompletedToday) {
+            Checkmark.CHECKED_EXPLICITLY
+        } else {
+            Checkmark.UNCHECKED
+        }
+    }
+
 }

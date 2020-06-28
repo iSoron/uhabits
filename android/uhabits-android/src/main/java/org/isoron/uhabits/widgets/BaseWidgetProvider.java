@@ -44,7 +44,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
 
     private WidgetPreferences widgetPrefs;
 
-    public static void updateAppWidget(@NonNull Context context, @NonNull AppWidgetManager manager,
+    public static void updateAppWidget(@NonNull AppWidgetManager manager,
                                        @NonNull BaseWidget widget)
     {
         RemoteViews landscape = widget.getLandscapeRemoteViews();
@@ -86,7 +86,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             BaseWidget widget = getWidgetFromId(context, widgetId);
             WidgetDimensions dims = getDimensionsFromOptions(context, options);
             widget.setDimensions(dims);
-            updateAppWidget(context, manager, widget);
+            updateAppWidget(manager, widget);
         }
         catch (RuntimeException e)
         {
@@ -181,7 +181,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             Bundle options = manager.getAppWidgetOptions(widgetId);
             widget.setDimensions(getDimensionsFromOptions(context, options));
 
-            updateAppWidget(context, manager, widget);
+            updateAppWidget(manager, widget);
         }
         catch (RuntimeException e)
         {

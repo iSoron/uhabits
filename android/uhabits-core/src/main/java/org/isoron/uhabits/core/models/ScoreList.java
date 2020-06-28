@@ -278,7 +278,7 @@ public abstract class ScoreList implements Iterable<Score>
 
             if (habit.isNumerical())
             {
-                value = Habit.checkMarkValueToDouble(value);
+                value = Checkmark.checkMarkValueToDouble(value);
                 value /= habit.getTargetValue();
                 value = Math.min(1, value);
             }

@@ -38,7 +38,7 @@ class NumberPickerFactory
     fun create(value: Double,
                unit: String,
                callback: ListHabitsBehavior.NumberPickerCallback): AlertDialog {
-        val inflater : LayoutInflater = LayoutInflater.from(context)
+        val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)

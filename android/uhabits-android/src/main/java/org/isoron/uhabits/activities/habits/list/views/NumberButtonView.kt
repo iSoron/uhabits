@@ -36,17 +36,19 @@ import java.text.*
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
 private val NORMAL_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.NORMAL)
 
-fun Double.toShortString(): String = when {
-    this >= 1e9 -> String.format("%.1fG", this / 1e9)
-    this >= 1e8 -> String.format("%.0fM", this / 1e6)
-    this >= 1e7 -> String.format("%.1fM", this / 1e6)
-    this >= 1e6 -> String.format("%.1fM", this / 1e6)
-    this >= 1e5 -> String.format("%.0fk", this / 1e3)
-    this >= 1e4 -> String.format("%.1fk", this / 1e3)
-    this >= 1e3 -> String.format("%.1fk", this / 1e3)
-    this >= 1e2 -> DecimalFormat("#").format(this)
-    this >= 1e1 -> DecimalFormat("#.#").format(this)
-    else -> DecimalFormat("#.##").format(this)
+fun Double.toShortString(): String = doubleToShortString(this);
+
+fun doubleToShortString(d : Double): String = when {
+    d >= 1e9 -> String.format("%.1fG", d / 1e9)
+    d >= 1e8 -> String.format("%.0fM", d / 1e6)
+    d >= 1e7 -> String.format("%.1fM", d / 1e6)
+    d >= 1e6 -> String.format("%.1fM", d / 1e6)
+    d >= 1e5 -> String.format("%.0fk", d / 1e3)
+    d >= 1e4 -> String.format("%.1fk", d / 1e3)
+    d >= 1e3 -> String.format("%.1fk", d / 1e3)
+    d >= 1e2 -> DecimalFormat("#").format(d)
+    d >= 1e1 -> DecimalFormat("#.#").format(d)
+    else -> DecimalFormat("#.##").format(d)
 }
 
 @AutoFactory

@@ -24,11 +24,7 @@ class CheckmarkWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
         val habits = getHabitsFromWidgetId(id)
         return if (habits.size == 1) {
-            if (habits[0].isNumerical){
-                NumericalCheckmarkWidget(context, id, habits[0])
-            }else {
-                CheckmarkWidget(context, id, habits[0])
-            }
+            CheckmarkWidget(context, id, habits[0])
         }
         else StackWidget(context, id, StackWidgetType.CHECKMARK, habits)
     }
