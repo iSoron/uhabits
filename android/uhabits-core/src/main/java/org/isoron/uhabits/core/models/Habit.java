@@ -22,11 +22,14 @@ package org.isoron.uhabits.core.models;
 import androidx.annotation.*;
 
 import org.apache.commons.lang3.builder.*;
+import org.isoron.uhabits.core.utils.DateUtils;
 
 import java.util.*;
 
 import javax.annotation.concurrent.*;
 import javax.inject.*;
+
+import autovalue.shaded.com.google$.common.base.$Function;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
@@ -332,6 +335,76 @@ public class Habit
                 return todayCheckmark <= data.targetValue;
         }
         else return (todayCheckmark != UNCHECKED);
+    }
+
+    private boolean activeValue(int value) {
+        return value == Checkmark.CHECKED_EXPLICITLY || value == Checkmark.CHECKED_IMPLICITLY;
+    }
+
+    public boolean isActive() {
+        CheckmarkList cm = getCheckmarks();
+        int[] values = cm.getAllValues();
+        if (values.length == 0 || isArchived()){
+            return false;
+        }
+
+        return activeValue(values[0]);
+    }
+
+    public float timeoutPercentage(){
+        Timestamp now = DateUtils.getToday();
+        CheckmarkList cm = getCheckmarks();
+        int[] values = cm.getAllValues();
+
+        if (values.length == 0) {
+            return 0f;
+        } else if (!activeValue(values[0]) && !activeValue(cm.getTodayValue())) {
+            return 0f;
+        } else if (cm.getTodayValue() == CHECKED_EXPLICITLY) {
+            return 1f;
+        }
+
+        int numDaysLimit = getData().frequency.getDenominator();
+        //int numTimesLimit = getData().frequency.getNumerator(); // we assume this is 1, and dont handle multiple now
+        Timestamp oldest = getRepetitions().getOldest().getTimestamp(); //shouldnt null if we have checkmarks
+        Timestamp potentialNewest = DateUtils.getToday().plus(numDaysLimit);
+
+        //TODO speedup by not getting ALL checkmarks?
+        int[] vals = getCheckmarks().getValues(oldest, potentialNewest);
+        //System.out.println(Arrays.toString(vals));
+
+        int daysSinceStreakStart = 0;
+
+        boolean isActiveSegment = false;
+        for (int c : vals){
+            if (c != UNCHECKED && !isActiveSegment) isActiveSegment = true;
+
+            if (isActiveSegment){
+                if (c == CHECKED_IMPLICITLY || c == UNCHECKED) {
+                    daysSinceStreakStart += 1;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        int streakDaysRemain = numDaysLimit - daysSinceStreakStart;
+
+        //TODO can this fail if we completed the streak TOO often the last few days?
+
+        //TODO we handle this differently if numerator is higher than 1?
+        //TODO just dont handle multicase?
+        //TODO Need to change CheckmarkList.getValues(from, to) to fix this?
+
+        Timestamp trueEnd = now.plus(streakDaysRemain + 1); // a streak will always be terminated on the evening of that day?
+        Timestamp trueStart = now.minus(daysSinceStreakStart);
+
+        long nowDiff = now.getUnixTime() - trueStart.getUnixTime();
+        long endDiff = trueEnd.getUnixTime() - trueStart.getUnixTime();
+
+        //System.out.println("n: " + nowDiff + " e: " + endDiff + " start: " + daysSinceStreakStart + " remain: " + (streakDaysRemain+1));
+
+        return 1f - ((float) nowDiff / endDiff);
     }
 
     public synchronized boolean isNumerical()

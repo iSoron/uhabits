@@ -27,18 +27,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.isoron.androidbase.utils.ColorUtils;
 import org.isoron.androidbase.utils.StyledResources;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.RingView;
 import org.isoron.uhabits.core.models.Checkmark;
-import org.isoron.uhabits.utils.PaletteUtils;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
 public class CurrentStreakWidgetView extends HabitWidgetView
 {
-    private int activeColor;
-
     private float percentage;
 
     @Nullable
@@ -49,7 +47,10 @@ public class CurrentStreakWidgetView extends HabitWidgetView
     private TextView label;
 
     private int checkmarkValue;
+    private int startColor = 0x388e3c + (255 << 24); // add full alpha
+    private int endColor = 0xc62828 + (255 << 24); // add full alpha
     private String currentStreak;
+    private float timeoutPercentage;
 
     public CurrentStreakWidgetView(Context context)
     {
@@ -69,34 +70,30 @@ public class CurrentStreakWidgetView extends HabitWidgetView
 
         StyledResources res = new StyledResources(getContext());
 
-        String text;
         int bgColor;
         int fgColor;
 
+        bgColor = ColorUtils.interPolateHSV(startColor, endColor, timeoutPercentage);
         switch (checkmarkValue)
         {
             case Checkmark.CHECKED_EXPLICITLY:
-                bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
-                backgroundPaint.setColor(bgColor);
-                frame.setBackgroundDrawable(background);
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
             case Checkmark.UNCHECKED:
             default:
-                bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
-                setShadowAlpha(0x00);
                 break;
         }
-        text = currentStreak;
 
+        backgroundPaint.setColor(bgColor);
+        frame.setBackgroundDrawable(background);
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
         ring.setBackgroundColor(bgColor);
-        ring.setText(text);
+        ring.setText(currentStreak);
 
         label.setText(name);
         label.setTextColor(fgColor);
@@ -105,10 +102,6 @@ public class CurrentStreakWidgetView extends HabitWidgetView
         postInvalidate();
     }
 
-    public void setActiveColor(int activeColor)
-    {
-        this.activeColor = activeColor;
-    }
     public void setCurrentStreak(String currentStreak)
     {
         this.currentStreak = currentStreak;
@@ -127,6 +120,10 @@ public class CurrentStreakWidgetView extends HabitWidgetView
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
+    }
+    public void setTimeOutPercentage(float percentage)
+    {
+        this.timeoutPercentage = percentage;
     }
 
     @Override
@@ -181,7 +178,6 @@ public class CurrentStreakWidgetView extends HabitWidgetView
         {
             percentage = 0.75f;
             name = "Wake up early";
-            activeColor = PaletteUtils.getAndroidTestColor(6);
             checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
             refresh();
         }

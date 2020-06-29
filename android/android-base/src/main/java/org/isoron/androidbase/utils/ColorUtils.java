@@ -21,15 +21,17 @@ package org.isoron.androidbase.utils;
 
 import android.graphics.*;
 
+import static java.lang.Math.abs;
+
 public abstract class ColorUtils
 {
+    final static byte ALPHA_CHANNEL = 24;
+    final static byte RED_CHANNEL = 16;
+    final static byte GREEN_CHANNEL = 8;
+    final static byte BLUE_CHANNEL = 0;
+
     public static int mixColors(int color1, int color2, float amount)
     {
-        final byte ALPHA_CHANNEL = 24;
-        final byte RED_CHANNEL = 16;
-        final byte GREEN_CHANNEL = 8;
-        final byte BLUE_CHANNEL = 0;
-
         final float inverseAmount = 1.0f - amount;
 
         int a = ((int) (((float) (color1 >> ALPHA_CHANNEL & 0xff) * amount) +
@@ -46,6 +48,18 @@ public abstract class ColorUtils
 
         return a << ALPHA_CHANNEL | r << RED_CHANNEL | g << GREEN_CHANNEL |
                b << BLUE_CHANNEL;
+    }
+
+    public static int interPolateHSV(int col1, int col2, float factor){
+        //based on https://www.alanzucconi.com/2016/01/06/colour-interpolation/2/
+        float[] a = new float[3];
+        float[] b = new float[3];
+        Color.colorToHSV(col1, a);
+        Color.colorToHSV(col2, b);
+
+        float[] out = new float[3];
+        androidx.core.graphics.ColorUtils.blendHSL(a, b, factor, out);
+        return Color.HSVToColor(out);
     }
 
     public static int setAlpha(int color, float newAlpha)

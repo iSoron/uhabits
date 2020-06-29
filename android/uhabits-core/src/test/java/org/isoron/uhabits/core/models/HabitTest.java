@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.models;
 
+import org.hamcrest.number.IsCloseTo;
 import org.isoron.uhabits.core.*;
 import org.junit.*;
 import org.junit.rules.*;
@@ -26,6 +27,7 @@ import org.junit.rules.*;
 import nl.jqno.equalsverifier.*;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.closeTo;
 import static org.isoron.uhabits.core.utils.DateUtils.*;
 import static org.junit.Assert.*;
 
@@ -51,6 +53,96 @@ public class HabitTest extends BaseUnitTest
         assertNotNull(habit.getScores());
         assertNotNull(habit.getRepetitions());
         assertNotNull(habit.getCheckmarks());
+    }
+
+    @Test
+    public void testActiveState_archived()
+    {
+        Habit model = modelFactory.buildHabit();
+        model.setArchived(true);
+        model.getRepetitions().toggle(getToday());
+
+        assertFalse(model.isActive());
+    }
+
+    @Test
+    public void testActiveState()
+    {
+        Habit model = modelFactory.buildHabit();
+
+        assertFalse(model.isActive());
+        model.getRepetitions().toggle(getToday());
+        assertTrue(model.isActive());
+    }
+
+    @Test
+    public void testTimeoutPercentage()
+    {
+        Habit model = modelFactory.buildHabit();
+        assertThat(model.timeoutPercentage(), is(0f));
+
+        model.getRepetitions().toggle(getToday());
+        assertThat(model.timeoutPercentage(), is(1f));
+    }
+
+    @Test
+    public void testTimeoutPercentage_once_per_period()
+    {
+        Habit model = modelFactory.buildHabit();
+
+        Timestamp day = getToday().minus(2);
+        model.getRepetitions().toggle(day);
+
+        model.setFrequency(new Frequency(1, 3));
+        assertThat((double) model.timeoutPercentage(), is(closeTo(0.25f, 0.01f)));
+
+        model.setFrequency(new Frequency(1, 5));
+        assertThat((double) model.timeoutPercentage(), is(closeTo(0.5f, 0.01f)));
+    }
+
+    @Test
+    public void testTimeoutPercentage_several_hits()
+    {
+        Habit model = modelFactory.buildHabit();
+
+        Timestamp day = getToday().minus(2);
+        model.getRepetitions().toggle(day);
+        model.getRepetitions().toggle(day.minus(2));
+
+        model.setFrequency(new Frequency(1, 3));
+        assertThat((double) model.timeoutPercentage(), is(closeTo(0.25f, 0.01f)));
+    }
+
+    @Test
+    public void testTimeoutPercentage_every_day()
+    {
+        Habit model = modelFactory.buildHabit();
+        model.setFrequency(new Frequency(1, 1));
+
+        Timestamp day = getToday().minus(1);
+        model.getRepetitions().toggle(day);
+
+        assertThat((double) model.timeoutPercentage(), is(closeTo(0.5f, 0.01f)));
+    }
+
+    @Test
+    @Ignore
+    public void testTimeoutPercentage_multiple_per_period()
+    {
+        Habit model = modelFactory.buildHabit();
+        model.setFrequency(new Frequency(2, 5));
+
+        Timestamp day = getToday().minus(2);
+
+        model.getRepetitions().toggle(day);
+        model.getRepetitions().toggle(day.minus(2));
+        // if we have 2 triggered, this validates 5 days, starting at first day
+        // But, current code doesn't handle telling us when the last day we can still chain.
+        //TODO Need to change CheckmarkList.getValues(from, to) to fix this?
+        assertThat((double) model.timeoutPercentage(), is(closeTo(0.25f, 0.01f)));
+
+        model.setFrequency(new Frequency(1, 5));
+        assertThat((double) model.timeoutPercentage(), is(closeTo(0.5f, 0.01f)));
     }
 
     @Test

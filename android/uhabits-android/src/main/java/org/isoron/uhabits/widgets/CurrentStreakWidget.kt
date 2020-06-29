@@ -22,8 +22,8 @@ package org.isoron.uhabits.widgets
 import android.content.*
 import android.view.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
+
 
 class CurrentStreakWidget(
         context: Context,
@@ -41,11 +41,13 @@ class CurrentStreakWidget(
         } else {
             "0"
         }
+        val timeoutPercent = habit.timeoutPercentage()
+
         (v as CurrentStreakWidgetView).apply {
             setBackgroundAlpha(preferedBackgroundAlpha)
             setCurrentStreak(numReps)
             setPercentage(habit.scores.todayValue.toFloat())
-            setActiveColor(PaletteUtils.getColor(context, habit.color))
+            setTimeOutPercentage(1 - timeoutPercent)
             setName(habit.name)
             setCheckmarkValue(habit.checkmarks.todayValue)
             refresh()
