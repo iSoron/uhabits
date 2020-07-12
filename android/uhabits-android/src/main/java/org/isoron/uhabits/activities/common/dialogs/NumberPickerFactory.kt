@@ -69,6 +69,9 @@ class NumberPickerFactory
                     val v = picker.value + 0.05 * picker2.value
                     callback.onNumberPicked(v)
                 }
+                .setOnDismissListener{
+                    callback.onNumberPickerDismissed()
+                }
                 .create()
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)

@@ -84,7 +84,17 @@
         </activity>
 
         <activity
-            android:name=".notifications.SnoozeDelayPickerActivity"
+            android:name=".widgets.activities.NumericalCheckmarkWidgetActivity"
+            android:label="NumericalCheckmarkWidget"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -174,7 +184,14 @@
 
         <receiver android:name=".receivers.WidgetReceiver">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE"/>
+                <data
+                    android:host="org.isoron.uhabits"
+                    android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
 
                 <action android:name="org.isoron.uhabits.ACTION_TOGGLE_REPETITION" />
 

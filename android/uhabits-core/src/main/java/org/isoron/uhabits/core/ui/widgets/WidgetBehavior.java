@@ -73,4 +73,11 @@ public class WidgetBehavior
             new ToggleRepetitionCommand(habitList, habit, timestamp),
             habit.getId());
     }
+
+    public void setNumericValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
+        commandRunner.execute(
+                new CreateRepetitionCommand(habit, timestamp, newValue),
+                habit.getId());
+    }
+
 }

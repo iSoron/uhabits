@@ -28,26 +28,30 @@ import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
-public class CheckmarkWidgetView extends HabitWidgetView
-{
-    private int activeColor;
+public class CheckmarkWidgetView extends HabitWidgetView {
+    protected int activeColor;
 
-    private float percentage;
+    protected float percentage;
 
     @Nullable
-    private String name;
+    protected String name;
 
-    private RingView ring;
+    protected RingView ring;
 
-    private TextView label;
+    protected TextView label;
 
-    private int checkmarkValue;
+    protected int checkmarkValue;
+
+    protected int checkmarkState;
+
+    protected boolean isNumerical;
 
     public CheckmarkWidgetView(Context context)
     {
@@ -67,14 +71,11 @@ public class CheckmarkWidgetView extends HabitWidgetView
 
         StyledResources res = new StyledResources(getContext());
 
-        String text;
         int bgColor;
         int fgColor;
 
-        switch (checkmarkValue)
-        {
+        switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
-                text = getResources().getString(R.string.fa_check);
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
@@ -83,15 +84,9 @@ public class CheckmarkWidgetView extends HabitWidgetView
                 break;
 
             case Checkmark.CHECKED_IMPLICITLY:
-                text = getResources().getString(R.string.fa_check);
-                bgColor = res.getColor(R.attr.cardBgColor);
-                fgColor = res.getColor(R.attr.mediumContrastTextColor);
-                setShadowAlpha(0x00);
-                break;
-
             case Checkmark.UNCHECKED:
             default:
-                text = getResources().getString(R.string.fa_times);
+                getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
                 setShadowAlpha(0x00);
@@ -101,13 +96,32 @@ public class CheckmarkWidgetView extends HabitWidgetView
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
         ring.setBackgroundColor(bgColor);
-        ring.setText(text);
+        ring.setText(getText());
 
         label.setText(name);
         label.setTextColor(fgColor);
 
         requestLayout();
         postInvalidate();
+    }
+
+    public void setCheckmarkState(int checkmarkState)
+    {
+        this.checkmarkState = checkmarkState;
+    }
+
+    protected String getText()
+    {
+        if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
+        switch (checkmarkState) {
+            case Checkmark.CHECKED_EXPLICITLY:
+            case Checkmark.CHECKED_IMPLICITLY:
+                return getResources().getString(R.string.fa_check);
+
+            case Checkmark.UNCHECKED:
+            default:
+                return getResources().getString(R.string.fa_times);
+        }
     }
 
     public void setActiveColor(int activeColor)
@@ -128,6 +142,11 @@ public class CheckmarkWidgetView extends HabitWidgetView
     public void setPercentage(float percentage)
     {
         this.percentage = percentage;
+    }
+
+    public void setNumerical(boolean isNumerical)
+    {
+        this.isNumerical = isNumerical;
     }
 
     @Override

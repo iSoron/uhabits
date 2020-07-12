@@ -177,6 +177,8 @@ public class ListHabitsBehavior
     public interface NumberPickerCallback
     {
         void onNumberPicked(double newValue);
+
+        default void onNumberPickerDismissed() {}
     }
 
     public interface Screen
