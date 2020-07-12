@@ -100,7 +100,7 @@ public abstract class DatabaseUtils
 
         File db = getDatabaseFile(context);
         File dbCopy = new File(filename);
-        FileUtils.copy(db, dbCopy);
+        FileUtilsKt.copyTo(db, dbCopy);
 
         return dbCopy.getAbsolutePath();
     }
