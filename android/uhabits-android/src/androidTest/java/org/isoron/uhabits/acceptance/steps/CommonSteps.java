@@ -39,7 +39,7 @@ import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.PositionAssertions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 public class CommonSteps extends BaseUserInterfaceTest
@@ -125,7 +125,7 @@ public class CommonSteps extends BaseUserInterfaceTest
         verifyDisplaysText(text[0]);
         for(int i = 1; i < text.length; i++) {
             verifyDisplaysText(text[i]);
-            onView(withText(text[i])).check(isBelow(withText(text[i-1])));
+            onView(withText(text[i])).check(isCompletelyBelow(withText(text[i-1])));
         }
     }
 

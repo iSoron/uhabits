@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
@@ -100,7 +100,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
         assertThat(cache.getHabitCount(), equalTo(10));
 
         Habit h = habitList.getByPosition(3);
-        junit.framework.Assert.assertNotNull(h.getId());
+        Assert.assertNotNull(h.getId());
         double score = h.getScores().getTodayValue();
 
         assertThat(cache.getHabitByPosition(3), equalTo(h));

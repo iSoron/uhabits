@@ -31,8 +31,7 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-import static androidx.test.InstrumentationRegistry.getTargetContext;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.uiautomator.UiDevice.*;
 
@@ -59,18 +58,18 @@ public class BaseUserInterfaceTest
         intent.setComponent(new ComponentName(PKG, cls.getCanonicalName()));
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getContext().startActivity(intent);
+        getApplicationContext().startActivity(intent);
     }
 
     @Before
     public void setUp() throws Exception
     {
         device = getInstance(getInstrumentation());
-        TestButler.setup(getTargetContext());
-        TestButler.verifyAnimationsDisabled(getTargetContext());
+        TestButler.setup(getApplicationContext());
+        TestButler.verifyAnimationsDisabled(getApplicationContext());
 
         HabitsApplication app =
-            (HabitsApplication) getTargetContext().getApplicationContext();
+            (HabitsApplication) getApplicationContext().getApplicationContext();
         component = app.getComponent();
         habitList = component.getHabitList();
         prefs = component.getPreferences();
@@ -83,7 +82,7 @@ public class BaseUserInterfaceTest
     public void tearDown() throws Exception
     {
         for (int i = 0; i < 10; i++) device.pressBack();
-        TestButler.teardown(getTargetContext());
+        TestButler.teardown(getApplicationContext());
     }
 
     private void resetState() throws Exception

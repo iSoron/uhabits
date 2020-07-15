@@ -18,6 +18,7 @@ package com.android.colorpicker;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 
@@ -47,9 +48,9 @@ public class ColorStateDrawable extends LayerDrawable {
         }
 
         if (pressedOrFocused) {
-            super.setColorFilter(getPressedColor(mColor), PorterDuff.Mode.SRC_ATOP);
+            super.setColorFilter(new PorterDuffColorFilter(getPressedColor(mColor), PorterDuff.Mode.SRC_ATOP));
         } else {
-            super.setColorFilter(mColor, PorterDuff.Mode.SRC_ATOP);
+            super.setColorFilter(new PorterDuffColorFilter(mColor, PorterDuff.Mode.SRC_ATOP));
         }
 
         return super.onStateChange(states);
