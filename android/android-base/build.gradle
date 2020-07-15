@@ -29,5 +29,5 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:3.5"
 
     annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
 }
