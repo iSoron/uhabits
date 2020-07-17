@@ -181,4 +181,26 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="database">Datenbank</string>
+    <string name="widget_opacity_title">Widget Deckkraft</string>
+    <string name="widget_opacity_description">Stellt das durchscheinen des Hintergrundes beim Widgets auf dem Startbildschimr ein.</string>
+    <string name="first_day_of_the_week">Erster Tag der Woche</string>
+    <string name="default_reminder_question">Hast du die Gewohnheit heute abgeschlossen?</string>
+    <string name="notes">Notiz</string>
+    <string name="example_notes">(Optional)</string>
+    <string name="yes_or_no_example">z.B. Bist du heute früh wach geworden? Hast du trainiert? Hast du Schach gespielt?</string>
+    <string name="measurable">Messbar</string>
+    <string name="measurable_example">z.B. Wie viele Kilometer bist du heute gelaufen? Wie viele Seiten hast du gelesen? Wie viele Kalorien hast du gegessen?</string>
+    <string name="subjective">Subjektiv</string>
+    <string name="subjective_example">z.B. Fühlst du dich heute glücklich? Sicher, irgendwie schon, gar nicht? Wie oft hast du Sußes gegessen? Sehr oft, manchmal, gar nicht?</string>
+    <string name="x_times_per_week">%d mal pro Woche</string>
+    <string name="x_times_per_month">%d mal pro Monat</string>
+    <string name="yes_or_no_short_example">z.B. Übung</string>
+    <string name="color">Farbe</string>
+    <string name="example_target">z.B. 15</string>
+    <string name="measurable_short_example">z.B. Laufen</string>
+    <string name="measurable_question_example">z.B. Wie viele Kilometer bist du heute gelaufen?</string>
+    <string name="measurable_units_example">z.B. Kilometer</string>
+    <string name="every_month">Monatlich</string>
+    <string name="validation_should_not_be_blank">Darf nicht leer sein</string>
+    <string name="today">Heute</string>
 </resources>
