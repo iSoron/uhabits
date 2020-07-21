@@ -154,7 +154,6 @@ public class HistoryChart extends ScrollableChart
             newValue = Repetition.nextToggleValue(checkmarks[offset]);
             checkmarks[offset] = newValue;
         }
-
         controller.onToggleCheckmark(timestamp, newValue);
         postInvalidate();
         return true;
@@ -363,6 +362,18 @@ public class HistoryChart extends ScrollableChart
         headerOverflow = Math.max(0, headerOverflow - columnWidth);
     }
 
+    private boolean isNotCompleted(int checkmark)
+    {
+        return (checkmark == 0 ||
+                (!isNumerical && checkmark == UNCHECKED_EXPLICITLY));
+    }
+
+    private boolean isImplicitlyCompleted(int checkmark)
+    {
+        if (isNumerical) return checkmark < target;
+        return (checkmark == SKIPPED || checkmark == CHECKED_IMPLICITLY);
+    }
+
     private void drawSquare(Canvas canvas,
                             RectF location,
                             GregorianCalendar date,
@@ -378,12 +389,12 @@ public class HistoryChart extends ScrollableChart
         else
         {
             checkmark = checkmarks[checkmarkOffset];
-            if(checkmark == 0)
+            if(isNotCompleted(checkmark))
             {
                 pSquareBg.setColor(colors[0]);
                 pSquareFg.setColor(textColors[1]);
             }
-            else if(checkmark < target)
+            else if(isImplicitlyCompleted(checkmark))
             {
                 pSquareBg.setColor(colors[1]);
                 pSquareFg.setColor(textColors[2]);
@@ -452,16 +463,13 @@ public class HistoryChart extends ScrollableChart
 
         if (isBackgroundTransparent)
             primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
-
-        int red = Color.red(primaryColor);
-        int green = Color.green(primaryColor);
-        int blue = Color.blue(primaryColor);
+        int lighterPrimaryColor = ColorUtils.setAlpha(primaryColor, 0.5f);
 
         if (isBackgroundTransparent)
         {
             colors = new int[3];
             colors[0] = Color.argb(16, 255, 255, 255);
-            colors[1] = Color.argb(128, red, green, blue);
+            colors[1] = lighterPrimaryColor;
             colors[2] = primaryColor;
 
             textColors = new int[3];
@@ -474,7 +482,7 @@ public class HistoryChart extends ScrollableChart
         {
             colors = new int[3];
             colors[0] = res.getColor(R.attr.lowContrastTextColor);
-            colors[1] = Color.argb(127, red, green, blue);
+            colors[1] = lighterPrimaryColor;
             colors[2] = primaryColor;
 
             textColors = new int[3];

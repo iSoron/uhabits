@@ -90,6 +90,7 @@ public class CreateRepetitionCommand extends Command
         if(newRep != null) habit.getRepetitions().remove(newRep);
         if (previousRep != null) habit.getRepetitions().add(previousRep);
         habit.invalidateNewerThan(timestamp);
+        habitList.update(habit);
     }
 
     public static class Record

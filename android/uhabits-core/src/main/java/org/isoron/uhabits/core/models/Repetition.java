@@ -31,8 +31,8 @@ import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
- * Represents a record that the user has performed or skipped a certain habit at a certain
- * date.
+ * Represents a record that the user has performed, didn't perform or skipped a certain habit at
+ * a certain date.
  */
 public final class Repetition
 {
@@ -42,9 +42,12 @@ public final class Repetition
     /**
      * The value of the repetition.
      *
-     * For boolean habits, this equals CHECKED_EXPLICITLY if performed or SKIPPED if skipped.
-     * For numerical habits, this number is stored in thousandths. That is, if the user enters
-     * value 1.50 on the app, it is here stored as 1500.
+     * For boolean habits, this equals:
+     * Checkmark.CHECKED_EXPLICITLY if performed
+     * Checkmark.UNCHECKED_EXPLICITLY if not performed.
+     * Checkmark.SKIPPED if skipped.
+     * For numerical habits, this number is stored in thousandths. That
+     * is, if the user enters value 1.50 on the app, it is here stored as 1500.
      */
     private final int value;
 
@@ -66,6 +69,7 @@ public final class Repetition
     {
         switch(value) {
             case UNCHECKED:
+            case UNCHECKED_EXPLICITLY:
             case CHECKED_IMPLICITLY:
                 return CHECKED_EXPLICITLY;
             case CHECKED_EXPLICITLY:

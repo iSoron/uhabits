@@ -26,6 +26,7 @@ import android.view.*
 import android.view.View.MeasureSpec.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
@@ -53,6 +54,7 @@ class CheckmarkButtonView(
         }
 
     var onToggle: (Int) -> Unit = {}
+    var onToggleWithOptions: () -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -68,13 +70,22 @@ class CheckmarkButtonView(
         invalidate()
     }
 
+    fun performToggleWithOptions() {
+        onToggleWithOptions()
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS)
+    }
+
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
+        else if (preferences.isAdvancedCheckmarksEnabled) performToggleWithOptions()
         else showMessage(R.string.long_press_to_toggle)
     }
 
     override fun onLongClick(v: View): Boolean {
-        performToggle()
+        if (preferences.isShortToggleEnabled && preferences.isAdvancedCheckmarksEnabled) {
+            performToggleWithOptions()
+        }
+        else performToggle()
         return true
     }
 
@@ -102,14 +113,22 @@ class CheckmarkButtonView(
         }
 
         fun draw(canvas: Canvas) {
+            val lighterColor = ColorUtils.setAlpha(color, 0.5f)
+
             paint.color = when (value) {
                 CHECKED_EXPLICITLY -> color
-                SKIPPED -> color
-                else -> lowContrastColor
+                UNCHECKED_EXPLICITLY -> lowContrastColor
+                UNCHECKED -> lowContrastColor
+                else -> lighterColor
+            }
+            var unchecked_symbol = R.string.fa_times
+            if (preferences.isAdvancedCheckmarksEnabled) {
+                unchecked_symbol = R.string.fa_question
             }
             val id = when (value) {
                 SKIPPED -> R.string.fa_skipped
-                UNCHECKED -> R.string.fa_times
+                UNCHECKED -> unchecked_symbol
+                UNCHECKED_EXPLICITLY -> R.string.fa_times
                 else -> R.string.fa_check
             }
             val label = resources.getString(id)
@@ -121,3 +140,4 @@ class CheckmarkButtonView(
         }
     }
 }
+

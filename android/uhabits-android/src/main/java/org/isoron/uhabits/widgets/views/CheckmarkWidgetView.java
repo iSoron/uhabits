@@ -73,27 +73,35 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
         int bgColor;
         int fgColor;
+        int lighterActiveColor = ColorUtils.setAlpha(activeColor, 0.5f);
 
         switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
-            case Checkmark.SKIPPED:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
-                backgroundPaint.setColor(bgColor);
                 frame.setBackgroundDrawable(background);
                 break;
-
+            case Checkmark.UNCHECKED_EXPLICITLY:
+                bgColor = res.getColor(R.attr.highlightedBackgroundColor);
+                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
+                setShadowAlpha(0x4f);
+                break;
+            case Checkmark.SKIPPED:
             case Checkmark.CHECKED_IMPLICITLY:
+                bgColor = lighterActiveColor;
+                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
+                setShadowAlpha(0x4f);
+                break;
             case Checkmark.UNCHECKED:
             default:
-                getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
                 setShadowAlpha(0x00);
                 break;
         }
 
+        backgroundPaint.setColor(bgColor);
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
         ring.setBackgroundColor(bgColor);
@@ -113,6 +121,13 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
     protected String getText()
     {
+        HabitsApplication app =
+                (HabitsApplication) getContext().getApplicationContext();
+        int uncheckedSymbol = R.string.fa_times;
+        if (app.getComponent().getPreferences().isAdvancedCheckmarksEnabled())
+        {
+            uncheckedSymbol = R.string.fa_question;
+        }
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
         switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
@@ -120,9 +135,11 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 return getResources().getString(R.string.fa_check);
             case Checkmark.SKIPPED:
                 return getResources().getString(R.string.fa_skipped);
+            case Checkmark.UNCHECKED_EXPLICITLY:
+                return getResources().getString(R.string.fa_times);
             case Checkmark.UNCHECKED:
             default:
-                return getResources().getString(R.string.fa_times);
+                return getResources().getString(uncheckedSymbol);
         }
     }
 

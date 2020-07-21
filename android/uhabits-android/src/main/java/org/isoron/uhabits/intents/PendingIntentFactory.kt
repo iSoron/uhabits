@@ -118,4 +118,14 @@ class PendingIntentFactory
                         if (timestamp != null) putExtra("timestamp", timestamp)
                     },
                     FLAG_UPDATE_CURRENT)
+
+    fun setYesNoValue(habit: Habit, timestamp: Timestamp?): PendingIntent =
+            PendingIntent.getBroadcast(
+                    context, 0,
+                    Intent(context, WidgetReceiver::class.java).apply {
+                        data = Uri.parse(habit.uriString)
+                        action = WidgetReceiver.ACTION_SET_YESNO_VALUE
+                        if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
+                    },
+                    FLAG_UPDATE_CURRENT)
 }

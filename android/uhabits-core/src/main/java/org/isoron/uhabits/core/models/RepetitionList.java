@@ -211,7 +211,7 @@ public abstract class RepetitionList
     {
         Repetition rep = getByTimestamp(timestamp);
         if (rep != null) remove(rep);
-        add(new Repetition(timestamp, value));
+        if (value > 0) add(new Repetition(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }
 

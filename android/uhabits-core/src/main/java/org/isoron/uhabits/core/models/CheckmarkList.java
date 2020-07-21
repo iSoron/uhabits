@@ -79,7 +79,13 @@ public abstract class CheckmarkList
         {
             Timestamp date = rep.getTimestamp();
             int offset = date.daysUntil(today);
-            checkmarks.set(offset, new Checkmark(date, rep.getValue()));
+            int checkmarkValue = rep.getValue();
+            int oldValue = checkmarks.get(offset).getValue();
+            if (checkmarkValue == UNCHECKED_EXPLICITLY && oldValue == CHECKED_IMPLICITLY)
+            {
+                checkmarkValue = oldValue;
+            }
+            checkmarks.set(offset, new Checkmark(date, checkmarkValue));
         }
 
         return checkmarks;
@@ -379,7 +385,15 @@ public abstract class CheckmarkList
     private void computeYesNo(Repetition[] reps)
     {
         ArrayList<Interval> intervals;
-        intervals = buildIntervals(habit.getFrequency(), reps);
+        List<Repetition> checkedRepetitions = new ArrayList<>();
+        for (Repetition rep : reps)
+        {
+            int value = rep.getValue();
+            if (value == CHECKED_EXPLICITLY || value == SKIPPED)
+                checkedRepetitions.add(rep);
+        }
+        intervals = buildIntervals(
+                habit.getFrequency(), checkedRepetitions.toArray(new Repetition[0]));
         snapIntervalsTogether(intervals);
         add(buildCheckmarksFromIntervals(reps, intervals));
     }

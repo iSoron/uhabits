@@ -32,7 +32,7 @@ import org.isoron.uhabits.core.ui.widgets.*
 import org.isoron.uhabits.intents.*
 import org.isoron.uhabits.widgets.*
 
-class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPickerCallback {
+class YesNoCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.CheckmarkOptionsCallback {
 
     private lateinit var behavior: WidgetBehavior
     private lateinit var data: IntentParser.CheckmarkIntentData
@@ -46,33 +46,31 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         val component = app.component
         val parser = app.component.intentParser
         data = parser.parseCheckmarkIntent(intent)
-        behavior = WidgetBehavior(component.habitList,
-                                  component.commandRunner,
-                                  component.notificationTray)
+        behavior = WidgetBehavior(component.habitList, component.commandRunner, component.notificationTray)
         widgetUpdater = component.widgetUpdater
-        showNumberSelector(this)
+        showCheckmarkOptions(this)
     }
 
-    override fun onNumberPicked(newValue: Double) {
-        behavior.setNumericValue(data.habit, data.timestamp, (newValue * 1000).toInt())
+    override fun onCheckmarkOptionPicked(newValue: Int) {
+        behavior.setYesNoValue(data.habit, data.timestamp, newValue)
         widgetUpdater.updateWidgets()
         finish()
     }
 
-    override fun onNumberPickerDismissed() {
+    override fun onCheckmarkOptionDismissed() {
         finish()
     }
 
-    private fun showNumberSelector(context: Context) {
+    private fun showCheckmarkOptions(context: Context) {
         val app = this.applicationContext as HabitsApplication
         AndroidThemeSwitcher(this, app.component.preferences).apply()
-        val numberPickerFactory = NumberPickerFactory(context)
-        numberPickerFactory.create(data.habit.checkmarks.today!!.value.toDouble() / 1000,
-                data.habit.unit,
-                this).show()
+        val oldValue = data.habit.checkmarks.getValues(data.timestamp, data.timestamp)[0]
+        val checkmarkOptionsPickerFactory = CheckmarkOptionPickerFactory(context)
+        checkmarkOptionsPickerFactory.create(
+                data.habit, data.timestamp.toString(), oldValue, this).show()
     }
 
     companion object {
-        const val ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY = "org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"
+        const val ACTION_SHOW_YESNO_VALUE_ACTIVITY = "org.isoron.uhabits.ACTION_SHOW_YESNO_VALUE_ACTIVITY"
     }
 }

@@ -42,6 +42,11 @@ public final class Checkmark
      */
     public static final int SKIPPED = 3;
 
+    /** Indicates that there was an explicit unchecked repetition at the timestamp and a
+     * repetition was expected.
+     */
+    public static final int UNCHECKED_EXPLICITLY = 5;
+
     /**
      * Indicates that there was a repetition at the timestamp.
      */
@@ -64,8 +69,8 @@ public final class Checkmark
     /**
      * The value of the checkmark.
      * <p>
-     * For boolean habits, this equals either UNCHECKED, CHECKED_EXPLICITLY, CHECKED_IMPLICITLY
-     * or SKIPPED.
+     * For boolean habits, this equals either UNCHECKED, SKIPPED, CHECKED_EXPLICITLY,
+     * CHECKED_IMPLICITLY, UNCHECKED_EXPLICITLY.
      * <p>
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is stored as 1500.

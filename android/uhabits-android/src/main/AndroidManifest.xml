@@ -119,6 +119,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".widgets.activities.YesNoCheckmarkWidgetActivity"
+            android:label="YesNoCheckmarkWidget"
+            android:noHistory="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="org.isoron.uhabits.ACTION_SHOW_YESNO_VALUE_ACTIVITY"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"

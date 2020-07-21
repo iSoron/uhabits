@@ -82,4 +82,7 @@ public class WidgetBehavior
                 habit.getId());
     }
 
+    public void setYesNoValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
+        performToggle(habit, timestamp, newValue);
+    }
 }

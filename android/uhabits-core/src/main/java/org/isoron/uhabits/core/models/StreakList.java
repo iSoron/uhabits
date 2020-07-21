@@ -131,18 +131,39 @@ public abstract class StreakList
     {
         ArrayList<Timestamp> list = new ArrayList<>();
         Timestamp current = beginning;
-        list.add(current);
+        Timestamp lastChecked = beginning;
+        boolean isInStreak = false;
 
-        for (int i = 1; i < checks.length; i++)
+        for (int i = checks.length - 1; i >= 0; --i)
         {
-            current = current.plus(1);
-            int j = checks.length - i - 1;
+            boolean isCurrentChecked = (
+                    checks[i] == Checkmark.CHECKED_EXPLICITLY ||
+                    checks[i] == Checkmark.CHECKED_IMPLICITLY ||
+                    checks[i] == Checkmark.SKIPPED
+            );
+            boolean isCurrentUnchecked= (
+                    checks[i] == Checkmark.UNCHECKED ||
+                    checks[i] == Checkmark.UNCHECKED_EXPLICITLY
+            );
+            if (isCurrentChecked)
+                lastChecked = current;
 
-            if ((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
-            if ((checks[j + 1] > 0 && checks[j] == 0)) list.add(current.minus(1));
+            if (isInStreak && isCurrentUnchecked)
+            {
+                list.add(lastChecked);
+                isInStreak = false;
+            }
+            if (!isInStreak && isCurrentChecked)
+            {
+                list.add(current);
+                isInStreak = true;
+            }
+
+            current = current.plus(1);
         }
 
-        if (list.size() % 2 == 1) list.add(current);
+        if (isInStreak)
+            list.add(lastChecked);
 
         return list;
     }
