@@ -283,7 +283,7 @@ public abstract class ScoreList implements Iterable<Score>
                 value = Math.min(1, value);
             }
 
-            if (!habit.isNumerical() & value > 0) {
+            if (!habit.isNumerical() && value > 0) {
                 value = value != Checkmark.SKIPPED_EXPLICITLY ? 1 : -1;
             }
 
