@@ -174,6 +174,8 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     {
         assertTrue(habit1.isCompletedToday());
         behavior.onToggle(habit1, DateUtils.getToday());
+        assertTrue(habit1.isCompletedToday());
+        behavior.onToggle(habit1, DateUtils.getToday());
         assertFalse(habit1.isCompletedToday());
     }
 

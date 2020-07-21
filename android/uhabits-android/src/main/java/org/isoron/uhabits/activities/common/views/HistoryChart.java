@@ -362,6 +362,7 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
+        pSquareFg.setStrikeThruText(false);
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else
         {
@@ -371,13 +372,18 @@ public class HistoryChart extends ScrollableChart
             {
                 pSquareBg.setColor(isNumerical ? textColor : colors[1]);
             }
+            else if (!isNumerical && checkmark == 3) {
+                pSquareFg.setStrikeThruText(true);
+                pSquareBg.setColor(colors[1]);
+            }
             else pSquareBg.setColor(colors[2]);
         }
 
         pSquareFg.setColor(reverseTextColor);
+
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
-        String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
+        String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH)) ;
         canvas.drawText(text, location.centerX(),
             location.centerY() + squareTextOffset, pSquareFg);
     }

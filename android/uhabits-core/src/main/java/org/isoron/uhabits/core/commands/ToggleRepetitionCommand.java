@@ -70,6 +70,7 @@ public class ToggleRepetitionCommand extends Command
     public void undo()
     {
         execute();
+        execute();
     }
 
     public static class Record

@@ -119,9 +119,15 @@ public class MemoryRepetitionList extends RepetitionList
     }
 
     @Override
-    public long getTotalCount()
+    public long getTotalSuccessfulCount()
     {
-        return list.size();
+        int count = 0;
+        for (Repetition rep : list) {
+            if (rep.getValue() != Checkmark.SKIPPED_EXPLICITLY) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     @Override

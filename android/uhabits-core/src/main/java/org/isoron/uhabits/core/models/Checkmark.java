@@ -38,6 +38,11 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 public final class Checkmark
 {
     /**
+     * Indicates that there was an explicit skip at the timestamp.
+     */
+    public static final int SKIPPED_EXPLICITLY = 3;
+
+    /**
      * Indicates that there was a repetition at the timestamp.
      */
     public static final int CHECKED_EXPLICITLY = 2;
@@ -59,7 +64,7 @@ public final class Checkmark
     /**
      * The value of the checkmark.
      * <p>
-     * For boolean habits, this equals either UNCHECKED, CHECKED_EXPLICITLY,
+     * For boolean habits, this equals either UNCHECKED, SKIPPED_EXPLICITLY, CHECKED_EXPLICITLY,
      * or CHECKED_IMPLICITLY.
      * <p>
      * For numerical habits, this number is stored in thousandths. That

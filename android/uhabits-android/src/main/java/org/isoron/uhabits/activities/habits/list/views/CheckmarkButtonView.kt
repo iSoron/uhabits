@@ -63,7 +63,8 @@ class CheckmarkButtonView(
     fun performToggle() {
         onToggle()
         value = when (value) {
-            CHECKED_EXPLICITLY -> UNCHECKED
+            CHECKED_EXPLICITLY -> SKIPPED_EXPLICITLY
+            SKIPPED_EXPLICITLY -> UNCHECKED
             else -> CHECKED_EXPLICITLY
         }
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
@@ -95,6 +96,9 @@ class CheckmarkButtonView(
     private inner class Drawer {
         private val rect = RectF()
         private val lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
+        private val mediumContrastTextColor = sres.getColor(R.attr.mediumContrastTextColor)
+
+
 
         private val paint = TextPaint().apply {
             typeface = getFontAwesome()
@@ -106,9 +110,11 @@ class CheckmarkButtonView(
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
                 CHECKED_EXPLICITLY -> color
+                SKIPPED_EXPLICITLY -> mediumContrastTextColor
                 else -> lowContrastColor
             }
             val id = when (value) {
+                SKIPPED_EXPLICITLY -> R.string.fa_skipped
                 UNCHECKED -> R.string.fa_times
                 else -> R.string.fa_check
             }

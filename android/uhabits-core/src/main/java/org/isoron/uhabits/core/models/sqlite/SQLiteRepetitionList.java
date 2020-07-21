@@ -129,10 +129,10 @@ public class SQLiteRepetitionList extends RepetitionList
     }
 
     @Override
-    public long getTotalCount()
+    public long getTotalSuccessfulCount()
     {
         loadRecords();
-        return list.getTotalCount();
+        return list.getTotalSuccessfulCount();
     }
 
     public void reload()

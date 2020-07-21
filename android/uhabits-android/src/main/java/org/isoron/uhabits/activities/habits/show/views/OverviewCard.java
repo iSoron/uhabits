@@ -160,7 +160,7 @@ public class OverviewCard extends HabitCard
             cache.todayScore = (float) scores.getTodayValue();
             cache.lastMonthScore = (float) scores.getValue(lastMonth);
             cache.lastYearScore = (float) scores.getValue(lastYear);
-            cache.totalCount = habit.getRepetitions().getTotalCount();
+            cache.totalCount = habit.getRepetitions().getTotalSuccessfulCount();
         }
 
         @Override
