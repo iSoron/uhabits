@@ -101,6 +101,13 @@ public class SQLiteRepetitionList extends RepetitionList
     }
 
     @Override
+    public Repetition getOldestSuccessful()
+    {
+        loadRecords();
+        return list.getOldestSuccessful();
+    }
+
+    @Override
     public Repetition getNewest()
     {
         loadRecords();

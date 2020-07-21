@@ -94,6 +94,29 @@ public class MemoryRepetitionList extends RepetitionList
 
     @Nullable
     @Override
+    public Repetition getOldestSuccessful()
+    {
+        Timestamp oldestTimestamp = Timestamp.ZERO.plus(1000000);
+        Repetition oldestRep = null;
+
+        for (Repetition rep : list)
+        {
+            if (habit.getData().type == Habit.YES_NO_HABIT
+                    && rep.getValue() == Checkmark.SKIPPED_EXPLICITLY) {
+                continue;
+            }
+            if (rep.getTimestamp().isOlderThan(oldestTimestamp))
+            {
+                oldestRep = rep;
+                oldestTimestamp = rep.getTimestamp();
+            }
+        }
+
+        return oldestRep;
+    }
+
+    @Nullable
+    @Override
     public Repetition getNewest()
     {
         Timestamp newestTimestamp = Timestamp.ZERO;

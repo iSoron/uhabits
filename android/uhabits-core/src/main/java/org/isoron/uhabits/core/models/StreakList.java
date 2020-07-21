@@ -113,7 +113,7 @@ public abstract class StreakList
         Streak newestStreak = getNewestComputed();
         if (newestStreak != null) return newestStreak.getStart();
 
-        Repetition oldestRep = habit.getRepetitions().getOldest();
+        Repetition oldestRep = habit.getRepetitions().getOldestSuccessful();
         if (oldestRep != null) return oldestRep.getTimestamp();
         return null;
     }
@@ -131,18 +131,32 @@ public abstract class StreakList
     {
         ArrayList<Timestamp> list = new ArrayList<>();
         Timestamp current = beginning;
-        list.add(current);
+        Timestamp lastSuccesful = beginning;
+        boolean isInStreak = false;
 
-        for (int i = 1; i < checks.length; i++)
+        for (int i = checks.length - 1; i >= 0; --i)
         {
-            current = current.plus(1);
-            int j = checks.length - i - 1;
+            boolean isCurrentChecked = (
+                    checks[i] == Checkmark.CHECKED_EXPLICITLY ||
+                        checks[i] == Checkmark.CHECKED_IMPLICITLY
+            );
+            if (habit.getData().type == Habit.NUMBER_HABIT || isCurrentChecked) {
+                lastSuccesful = current;
+            }
 
-            if ((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
-            if ((checks[j + 1] > 0 && checks[j] == 0)) list.add(current.minus(1));
+            if (isInStreak && checks[i] == 0) {
+                list.add(lastSuccesful);
+                isInStreak = false;
+            }
+            if (!isInStreak && isCurrentChecked) {
+                list.add(current);
+                isInStreak = true;
+            }
+
+            current = current.plus(1);
         }
 
-        if (list.size() % 2 == 1) list.add(current);
+        if (isInStreak) list.add(lastSuccesful);
 
         return list;
     }

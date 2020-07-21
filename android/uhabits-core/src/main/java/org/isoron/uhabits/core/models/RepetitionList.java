@@ -107,6 +107,17 @@ public abstract class RepetitionList
     @Nullable
     public abstract Repetition getOldest();
 
+    /**
+     * Returns the oldest successful repetition in the list.
+     * <p>
+     * If the list is empty, returns null. Repetitions in the future are
+     * discarded.
+     *
+     * @return oldest sucessful repetition in the list, or null if list is empty.
+     */
+    @Nullable
+    public abstract Repetition getOldestSuccessful();
+
     @Nullable
     /**
      * Returns the newest repetition in the list.
