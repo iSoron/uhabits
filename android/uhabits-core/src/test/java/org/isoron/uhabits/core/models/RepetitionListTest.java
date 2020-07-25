@@ -31,7 +31,6 @@ import static java.util.Calendar.*;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -158,20 +157,16 @@ public class RepetitionListTest extends BaseUnitTest
     @Test
     public void test_toggle()
     {
-        assertEquals(reps.getByTimestamp(today).getValue(), Checkmark.CHECKED_EXPLICITLY);
-        reps.toggle(today);
-        assertEquals(reps.getByTimestamp(today).getValue(), Checkmark.SKIPPED_EXPLICITLY);
+        assertTrue(reps.containsTimestamp(today));
         reps.toggle(today);
         assertFalse(reps.containsTimestamp(today));
-        verify(listener, times(3)).onModelChange();
+        verify(listener).onModelChange();
         reset(listener);
 
         assertFalse(reps.containsTimestamp(today.minus(1)));
         reps.toggle(today.minus(1));
-        assertEquals(reps.getByTimestamp(today.minus(1)).getValue(), Checkmark.CHECKED_EXPLICITLY);
-        reps.toggle(today.minus(1));
-        assertEquals(reps.getByTimestamp(today.minus(1)).getValue(), Checkmark.SKIPPED_EXPLICITLY);
-        verify(listener, times(3)).onModelChange();
+        assertTrue(reps.containsTimestamp(today.minus(1)));
+        verify(listener).onModelChange();
         reset(listener);
 
         habit.setType(Habit.NUMBER_HABIT);

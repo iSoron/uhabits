@@ -38,6 +38,18 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 public final class Checkmark
 {
     /**
+     * Indicates that there was a failed repetition at the timestamp and a
+     * repetition was expected.
+     */
+    public static final int FAILED_EXPLICITLY_NECESSARY = 5;
+
+    /**
+     * Indicates that there was a failed repetition at the timestamp and a
+     * repetition wasn't expected.
+     */
+    public static final int FAILED_EXPLICITLY_UNNECESSARY = 4;
+
+    /**
      * Indicates that there was an explicit skip at the timestamp.
      */
     public static final int SKIPPED_EXPLICITLY = 3;
@@ -65,7 +77,7 @@ public final class Checkmark
      * The value of the checkmark.
      * <p>
      * For boolean habits, this equals either UNCHECKED, SKIPPED_EXPLICITLY, CHECKED_EXPLICITLY,
-     * or CHECKED_IMPLICITLY.
+     * CHECKED_IMPLICITLY, FAILED_EXPLICITLY_UNNECESSARY, FAILED_EXPLICITLY_NECESSARY.
      * <p>
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is stored as 1500.

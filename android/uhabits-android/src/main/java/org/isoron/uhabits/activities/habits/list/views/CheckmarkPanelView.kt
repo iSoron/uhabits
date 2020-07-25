@@ -52,6 +52,12 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
+    var onToggleWithOptions: (Timestamp) -> Unit = {}
+        set(value) {
+            field = value
+            setupButtons()
+        }
+
     override fun createButton(): CheckmarkButtonView = buttonFactory.create()
 
     @Synchronized
@@ -66,6 +72,7 @@ class CheckmarkPanelView(
             }
             button.color = color
             button.onToggle = { onToggle(timestamp) }
+            button.onToggleWithOptions = { onToggleWithOptions (timestamp) }
         }
     }
 }

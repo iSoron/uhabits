@@ -101,10 +101,10 @@ public class MemoryRepetitionList extends RepetitionList
 
         for (Repetition rep : list)
         {
-            if (habit.getData().type == Habit.YES_NO_HABIT
-                    && rep.getValue() == Checkmark.SKIPPED_EXPLICITLY) {
+            if (habit.getData().type == Habit.YES_NO_HABIT &&
+                rep.getValue() != Checkmark.CHECKED_EXPLICITLY)
                 continue;
-            }
+
             if (rep.getTimestamp().isOlderThan(oldestTimestamp))
             {
                 oldestRep = rep;
@@ -145,10 +145,10 @@ public class MemoryRepetitionList extends RepetitionList
     public long getTotalSuccessfulCount()
     {
         int count = 0;
-        for (Repetition rep : list) {
-            if (rep.getValue() != Checkmark.SKIPPED_EXPLICITLY) {
-                ++count;
-            }
+        for (Repetition rep : list)
+        {
+            if (rep.getValue() == Checkmark.CHECKED_EXPLICITLY)
+                count++;
         }
         return count;
     }

@@ -244,6 +244,16 @@ public class Preferences
         storage.putBoolean("pref_short_toggle", enabled);
     }
 
+    public boolean isAdvancedCheckmarksEnabled()
+    {
+        return storage.getBoolean("pref_advanced_checkmarks", false);
+    }
+
+    public void setAdvancedCheckmarksEnabled(boolean enabled)
+    {
+        storage.putBoolean("pref_advanced_checkmarks", enabled);
+    }
+
     public boolean isSyncEnabled()
     {
         return storage.getBoolean("pref_feature_sync", false);

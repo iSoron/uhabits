@@ -151,10 +151,9 @@ public abstract class RepetitionList
 
         for (Repetition r : reps)
         {
-            if ((habit.getData().type == Habit.YES_NO_HABIT)
-                    && (r.getValue() == Checkmark.SKIPPED_EXPLICITLY)) {
+            if (habit.getData().type == Habit.YES_NO_HABIT &&
+                r.getValue() != Checkmark.CHECKED_EXPLICITLY)
                 continue;
-            }
 
             Calendar date = r.getTimestamp().toCalendar();
             int weekday = r.getTimestamp().getWeekday();
@@ -207,13 +206,7 @@ public abstract class RepetitionList
             throw new IllegalStateException("habit must NOT be numerical");
 
         Repetition rep = getByTimestamp(timestamp);
-        if (rep != null) {
-            remove(rep);
-            if (rep.getValue() == Checkmark.CHECKED_EXPLICITLY) {
-                rep = new Repetition(timestamp, Checkmark.SKIPPED_EXPLICITLY);
-                add(rep);
-            }
-        }
+        if (rep != null) remove(rep);
         else
         {
             rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);

@@ -79,7 +79,14 @@ public abstract class CheckmarkList
         {
             Timestamp date = rep.getTimestamp();
             int offset = date.daysUntil(today);
-            checkmarks.set(offset, new Checkmark(date, rep.getValue()));
+            int checkmarkValue = rep.getValue();
+            if (checkmarkValue == FAILED_EXPLICITLY_NECESSARY)
+            {
+                int oldValue = checkmarks.get(offset).getValue();
+                checkmarkValue = (oldValue == CHECKED_IMPLICITLY) ?
+                        FAILED_EXPLICITLY_UNNECESSARY : FAILED_EXPLICITLY_NECESSARY;
+            }
+            checkmarks.set(offset, new Checkmark(date, checkmarkValue));
         }
 
         return checkmarks;
@@ -380,10 +387,10 @@ public abstract class CheckmarkList
     {
         ArrayList<Interval> intervals;
         List<Repetition> successful_repetitions = new ArrayList<>();
-        for (Repetition rep : reps) {
-            if (rep.getValue() != SKIPPED_EXPLICITLY) {
+        for (Repetition rep : reps)
+        {
+            if (rep.getValue() == CHECKED_EXPLICITLY)
                 successful_repetitions.add(rep);
-            }
         }
         intervals = buildIntervals(
                 habit.getFrequency(), successful_repetitions.toArray(new Repetition[0]));

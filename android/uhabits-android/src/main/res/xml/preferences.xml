@@ -32,6 +32,13 @@
                 app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_advanced_checkmarks"
+            android:summary="@string/pref_advanced_checkmarks_description"
+            android:title="@string/pref_advanced_checkmarks_title"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="pref_checkmark_reverse_order"
                 android:summary="@string/reverse_days_description"

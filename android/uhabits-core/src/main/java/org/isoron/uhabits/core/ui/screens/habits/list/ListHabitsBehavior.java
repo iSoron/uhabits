@@ -156,6 +156,18 @@ public class ListHabitsBehavior
             habit.getId());
     }
 
+    public void onToggleWithOptions(@NonNull Habit habit, Timestamp timestamp)
+    {
+        CheckmarkList checkmarks = habit.getCheckmarks();
+        int oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+        screen.showCheckmarkOptions(habit.getName(), timestamp, oldValue, newValue ->
+        {
+            commandRunner.execute(
+                    new CreateRepetitionCommand(habit, timestamp, newValue),
+                    habit.getId());
+        });
+    }
+
     public enum Message
     {
         COULD_NOT_EXPORT, IMPORT_SUCCESSFUL, IMPORT_FAILED, DATABASE_REPAIRED,
@@ -181,6 +193,13 @@ public class ListHabitsBehavior
         default void onNumberPickerDismissed() {}
     }
 
+    public interface CheckmarkOptionsCallback
+    {
+        void onCheckmarkOptionPicked(int newValue);
+
+        default void onCheckmarkOptionDismissed() {}
+    }
+
     public interface Screen
     {
         void showHabitScreen(@NonNull Habit h);
@@ -192,6 +211,11 @@ public class ListHabitsBehavior
         void showNumberPicker(double value,
                               @NonNull String unit,
                               @NonNull NumberPickerCallback callback);
+
+        void showCheckmarkOptions(String habitName,
+                                  Timestamp timestamp,
+                                  int value,
+                                  @NonNull CheckmarkOptionsCallback callback);
 
         void showSendBugReportToDeveloperScreen(String log);
 

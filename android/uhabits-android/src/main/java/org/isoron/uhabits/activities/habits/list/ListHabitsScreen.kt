@@ -65,6 +65,7 @@ class ListHabitsScreen
         private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
+        private val checkmarkOptionPickerFactory: CheckmarkOptionPickerFactory,
         private val behavior: Lazy<ListHabitsBehavior>,
         private val menu: Lazy<ListHabitsMenu>,
         private val selectionMenu: Lazy<ListHabitsSelectionMenu>
@@ -202,6 +203,13 @@ class ListHabitsScreen
                                   unit: String,
                                   callback: ListHabitsBehavior.NumberPickerCallback) {
         numberPickerFactory.create(value, unit, callback).show()
+    }
+
+    override fun showCheckmarkOptions(habitName: String,
+                                      timestamp: Timestamp,
+                                      value: Int,
+                                      callback: ListHabitsBehavior.CheckmarkOptionsCallback) {
+        checkmarkOptionPickerFactory.create(habitName, timestamp.toString(), value, callback).show()
     }
 
     @StringRes

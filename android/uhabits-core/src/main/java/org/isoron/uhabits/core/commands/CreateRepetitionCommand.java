@@ -58,8 +58,11 @@ public class CreateRepetitionCommand extends Command
         previousRep = reps.getByTimestamp(timestamp);
         if (previousRep != null) reps.remove(previousRep);
 
-        newRep = new Repetition(timestamp, value);
-        reps.add(newRep);
+        if (value != 0)
+        {
+            newRep = new Repetition(timestamp, value);
+            reps.add(newRep);
+        }
 
         habit.invalidateNewerThan(timestamp);
     }

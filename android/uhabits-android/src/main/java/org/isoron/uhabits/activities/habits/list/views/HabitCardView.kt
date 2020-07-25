@@ -125,6 +125,10 @@ class HabitCardView(
                 triggerRipple(timestamp)
                 habit?.let { behavior.onToggle(it, timestamp) }
             }
+            onToggleWithOptions = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onToggleWithOptions(it, timestamp) }
+            }
         }
 
         numberPanel = numberPanelFactory.create().apply {

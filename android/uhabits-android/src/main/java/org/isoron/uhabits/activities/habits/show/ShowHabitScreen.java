@@ -26,8 +26,8 @@ import androidx.annotation.NonNull;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.Preferences;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 import org.isoron.uhabits.intents.*;
@@ -49,10 +49,16 @@ public class ShowHabitScreen extends BaseScreen
     @NonNull
     private final ConfirmDeleteDialogFactory confirmDeleteDialogFactory;
 
+    @NonNull
+    private final CheckmarkOptionPickerFactory checkmarkOptionPickerFactory;
+
     private final Lazy<ShowHabitBehavior> behavior;
 
     @NonNull
     private final IntentFactory intentFactory;
+
+    @NonNull
+    private final Preferences prefs;
 
     @Inject
     public ShowHabitScreen(@NonNull BaseActivity activity,
@@ -60,8 +66,10 @@ public class ShowHabitScreen extends BaseScreen
                            @NonNull ShowHabitRootView view,
                            @NonNull ShowHabitsMenu menu,
                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
+                           @NonNull CheckmarkOptionPickerFactory checkmarkOptionPickerFactory,
                            @NonNull IntentFactory intentFactory,
-                           @NonNull Lazy<ShowHabitBehavior> behavior)
+                           @NonNull Lazy<ShowHabitBehavior> behavior,
+                           @NonNull Preferences prefs)
     {
         super(activity);
         this.intentFactory = intentFactory;
@@ -71,6 +79,8 @@ public class ShowHabitScreen extends BaseScreen
         this.habit = habit;
         this.behavior = behavior;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
+        this.checkmarkOptionPickerFactory = checkmarkOptionPickerFactory;
+        this.prefs = prefs;
         view.setController(this);
     }
 
@@ -83,7 +93,17 @@ public class ShowHabitScreen extends BaseScreen
     @Override
     public void onToggleCheckmark(Timestamp timestamp)
     {
-        behavior.get().onToggleCheckmark(timestamp);
+        if (prefs.isAdvancedCheckmarksEnabled())
+        {
+            CheckmarkList checkmarks = habit.getCheckmarks();
+            int oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+            checkmarkOptionPickerFactory.create(habit.getName(), timestamp.toString(), oldValue,
+                    newValue ->
+                    {
+                        behavior.get().onCreateRepetition(timestamp, newValue);
+                    }).show();
+        }
+        else behavior.get().onToggleCheckmark(timestamp);
     }
 
     @Override

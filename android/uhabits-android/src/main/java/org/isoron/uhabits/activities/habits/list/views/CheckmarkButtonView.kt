@@ -52,6 +52,7 @@ class CheckmarkButtonView(
         }
 
     var onToggle: () -> Unit = {}
+    var onToggleWithOptions: () -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -63,21 +64,29 @@ class CheckmarkButtonView(
     fun performToggle() {
         onToggle()
         value = when (value) {
-            CHECKED_EXPLICITLY -> SKIPPED_EXPLICITLY
-            SKIPPED_EXPLICITLY -> UNCHECKED
-            else -> CHECKED_EXPLICITLY
+            UNCHECKED -> CHECKED_EXPLICITLY
+            else -> UNCHECKED
         }
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }
 
+    fun performToggleWithOptions() {
+        onToggleWithOptions()
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS)
+    }
+
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
+        else if (preferences.isAdvancedCheckmarksEnabled) performToggleWithOptions()
         else showMessage(R.string.long_press_to_toggle)
     }
 
     override fun onLongClick(v: View): Boolean {
-        performToggle()
+        if (preferences.isShortToggleEnabled && preferences.isAdvancedCheckmarksEnabled) {
+            performToggleWithOptions()
+        }
+        else performToggle()
         return true
     }
 
@@ -110,12 +119,16 @@ class CheckmarkButtonView(
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
                 CHECKED_EXPLICITLY -> color
+                FAILED_EXPLICITLY_UNNECESSARY -> mediumContrastTextColor
                 SKIPPED_EXPLICITLY -> mediumContrastTextColor
+                FAILED_EXPLICITLY_NECESSARY -> mediumContrastTextColor
                 else -> lowContrastColor
             }
             val id = when (value) {
                 SKIPPED_EXPLICITLY -> R.string.fa_skipped
                 UNCHECKED -> R.string.fa_times
+                FAILED_EXPLICITLY_NECESSARY -> R.string.fa_times
+                FAILED_EXPLICITLY_UNNECESSARY -> R.string.fa_check
                 else -> R.string.fa_check
             }
             val label = resources.getString(id)

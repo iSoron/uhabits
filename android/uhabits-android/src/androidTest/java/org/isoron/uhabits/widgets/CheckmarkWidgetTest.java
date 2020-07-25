@@ -71,11 +71,6 @@ public class CheckmarkWidgetTest extends BaseViewTest
         button.performClick();
         sleep(1000);
 
-        assertThat(checkmarks.getTodayValue(), equalTo(SKIPPED_EXPLICITLY));
-
-        button.performClick();
-        sleep(1000);
-
         assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
     }
 

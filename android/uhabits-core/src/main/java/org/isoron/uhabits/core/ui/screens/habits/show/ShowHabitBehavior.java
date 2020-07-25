@@ -62,6 +62,12 @@ public class ShowHabitBehavior
             new ToggleRepetitionCommand(habitList, habit, timestamp), null);
     }
 
+    public void onCreateRepetition(Timestamp timestamp, int value)
+    {
+        commandRunner.execute(
+                new CreateRepetitionCommand(habit, timestamp, value), null);
+    }
+
     public interface Screen
     {
         void showEditHistoryScreen();

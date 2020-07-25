@@ -143,14 +143,6 @@ public class HistoryChart extends ScrollableChart
         final Timestamp timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
-        Timestamp today = DateUtils.getToday();
-        int offset = timestamp.daysUntil(today);
-        if (offset < checkmarks.length)
-        {
-            boolean isChecked = checkmarks[offset] == CHECKED_EXPLICITLY;
-            checkmarks[offset] = (isChecked ? UNCHECKED : CHECKED_EXPLICITLY);
-        }
-
         controller.onToggleCheckmark(timestamp);
         postInvalidate();
         return true;
@@ -357,26 +349,45 @@ public class HistoryChart extends ScrollableChart
         headerOverflow = Math.max(0, headerOverflow - columnWidth);
     }
 
+    private boolean isFailed(int checkmark)
+    {
+        return (checkmark == 0 ||
+                (!isNumerical && checkmark == FAILED_EXPLICITLY_NECESSARY));
+    }
+
+    private boolean isImplicitlySuccessful(int checkmark)
+    {
+        if (isNumerical) return checkmark < target;
+
+        return (checkmark == SKIPPED_EXPLICITLY ||
+                checkmark == FAILED_EXPLICITLY_UNNECESSARY ||
+                checkmark == CHECKED_IMPLICITLY);
+    }
+
     private void drawSquare(Canvas canvas,
                             RectF location,
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
-        pSquareFg.setStrikeThruText(false);
+        boolean drawCross = false;
+        boolean drawDash = false;
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else
         {
             int checkmark = checkmarks[checkmarkOffset];
-            if(checkmark == 0) pSquareBg.setColor(colors[0]);
-            else if(checkmark < target)
+            if(isFailed(checkmark)) pSquareBg.setColor(colors[0]);
+            else if(isImplicitlySuccessful(checkmark))
             {
                 pSquareBg.setColor(isNumerical ? textColor : colors[1]);
             }
-            else if (!isNumerical && checkmark == 3) {
-                pSquareFg.setStrikeThruText(true);
-                pSquareBg.setColor(colors[1]);
-            }
             else pSquareBg.setColor(colors[2]);
+
+            if (!isNumerical)
+            {
+                if (checkmark == FAILED_EXPLICITLY_UNNECESSARY ||
+                        checkmark == FAILED_EXPLICITLY_NECESSARY) drawCross = true;
+                if (checkmark == SKIPPED_EXPLICITLY) drawDash = true;
+            }
         }
 
         pSquareFg.setColor(reverseTextColor);
@@ -385,6 +396,28 @@ public class HistoryChart extends ScrollableChart
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
             location.centerY() + squareTextOffset, pSquareFg);
+        if (drawCross)
+        {
+            for (int thickness = -1; thickness < 2; thickness ++)
+            {
+                canvas.drawLine(
+                        location.left + thickness, location.bottom,
+                        location.right - thickness, location.top, pSquareFg);
+                canvas.drawLine(
+                        location.right - thickness, location.bottom,
+                        location.left + thickness, location.top, pSquareFg);
+            }
+        }
+        if (drawDash)
+        {
+            for (int thickness = -1; thickness < 2; thickness ++)
+            {
+                canvas.drawLine(
+                        location.left, location.centerY() + thickness + squareTextOffset / 2,
+                        location.right,location.centerY() + thickness + squareTextOffset / 2,
+                        pSquareFg);
+            }
+        }
     }
 
     private float getWeekdayLabelWidth()
