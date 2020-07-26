@@ -76,7 +76,7 @@ public class WidgetBehavior
 
     public void setNumericValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
         commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, newValue),
+                new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
                 habit.getId());
     }
 

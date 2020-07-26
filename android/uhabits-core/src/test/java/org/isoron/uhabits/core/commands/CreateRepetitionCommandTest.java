@@ -47,7 +47,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         habitList.add(habit);
 
         today = DateUtils.getToday();
-        command = new CreateRepetitionCommand(habit, today, 100);
+        command = new CreateRepetitionCommand(habitList, habit, today, 100);
     }
 
     @Test

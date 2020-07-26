@@ -87,7 +87,7 @@ public class ListHabitsBehavior
         {
             newValue = Math.round(newValue * 1000);
             commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
+                new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
                 habit.getId());
         });
     }
@@ -163,7 +163,7 @@ public class ListHabitsBehavior
         screen.showCheckmarkOptions(habit.getName(), timestamp, oldValue, newValue ->
         {
             commandRunner.execute(
-                    new CreateRepetitionCommand(habit, timestamp, newValue),
+                    new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
                     habit.getId());
         });
     }

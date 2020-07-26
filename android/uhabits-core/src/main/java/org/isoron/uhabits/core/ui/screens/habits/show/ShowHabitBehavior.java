@@ -65,7 +65,7 @@ public class ShowHabitBehavior
     public void onCreateRepetition(Timestamp timestamp, int value)
     {
         commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, value), null);
+                new CreateRepetitionCommand(habitList, habit, timestamp, value), null);
     }
 
     public interface Screen

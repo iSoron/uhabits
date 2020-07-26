@@ -29,6 +29,9 @@ import org.isoron.uhabits.core.models.*;
 public class CreateRepetitionCommand extends Command
 {
     @NonNull
+    final HabitList list;
+
+    @NonNull
     final Habit habit;
 
     final Timestamp timestamp;
@@ -41,10 +44,12 @@ public class CreateRepetitionCommand extends Command
     @Nullable
     Repetition newRep;
 
-    public CreateRepetitionCommand(@NonNull Habit habit,
+    public CreateRepetitionCommand(@NonNull HabitList list,
+                                   @NonNull Habit habit,
                                    Timestamp timestamp,
                                    int value)
     {
+        this.list = list;
         this.timestamp = timestamp;
         this.habit = habit;
         this.value = value;
@@ -65,6 +70,7 @@ public class CreateRepetitionCommand extends Command
         }
 
         habit.invalidateNewerThan(timestamp);
+        list.update(habit);
     }
 
     @NonNull
@@ -88,6 +94,7 @@ public class CreateRepetitionCommand extends Command
 
         if (previousRep != null) habit.getRepetitions().add(previousRep);
         habit.invalidateNewerThan(timestamp);
+        list.update(habit);
     }
 
     public static class Record
@@ -122,7 +129,7 @@ public class CreateRepetitionCommand extends Command
 
             CreateRepetitionCommand command;
             command = new CreateRepetitionCommand(
-                h, new Timestamp(repTimestamp), value);
+                habitList, h, new Timestamp(repTimestamp), value);
             command.setId(id);
             return command;
         }
