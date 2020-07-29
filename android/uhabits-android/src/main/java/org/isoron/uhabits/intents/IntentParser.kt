@@ -33,12 +33,13 @@ class IntentParser
 
     fun parseCheckmarkIntent(intent: Intent): CheckmarkIntentData {
         val uri = intent.data ?: throw IllegalArgumentException("uri is null")
-        return CheckmarkIntentData(parseHabit(uri), parseTimestamp(intent))
+        return CheckmarkIntentData(parseHabit(uri), parseTimestamp(intent), parseValue(intent))
     }
 
     fun copyIntentData(source: Intent, destination: Intent) {
         destination.data = source.data;
         destination.putExtra("timestamp", source.getLongExtra("timestamp", DateUtils.getToday().unixTime))
+        destination.putExtra("value", source.getIntExtra("value", 0))
     }
 
     private fun parseHabit(uri: Uri): Habit {
@@ -58,5 +59,9 @@ class IntentParser
         return Timestamp(timestamp)
     }
 
-    class CheckmarkIntentData(var habit: Habit, var timestamp: Timestamp)
+    private fun parseValue(intent: Intent): Int {
+        return intent.getIntExtra("value", 0)
+    }
+
+    class CheckmarkIntentData(var habit: Habit, var timestamp: Timestamp, var value: Int)
 }

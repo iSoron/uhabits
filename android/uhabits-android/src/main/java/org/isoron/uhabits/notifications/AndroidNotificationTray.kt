@@ -84,16 +84,32 @@ class AndroidNotificationTray
                           reminderTime: Long,
                           timestamp: Timestamp,
                           disableSound: Boolean = false): Notification {
+        val addRepetitionAction = if (!preferences.isAdvancedCheckmarksEnabled) {
+            Action(
+                    R.drawable.ic_action_check,
+                    context.getString(R.string.yes),
+                    pendingIntents.addCheckmark(habit, timestamp))
+        }
+        else {
+            Action(
+                    R.drawable.ic_action_check,
+                    context.getString(R.string.yes),
+                    pendingIntents.setYesNoValue(habit, timestamp, Checkmark.CHECKED_EXPLICITLY))
+        }
 
-        val addRepetitionAction = Action(
-                R.drawable.ic_action_check,
-                context.getString(R.string.yes),
-                pendingIntents.addCheckmark(habit, timestamp))
-
-        val removeRepetitionAction = Action(
-                R.drawable.ic_action_cancel,
-                context.getString(R.string.no),
-                pendingIntents.removeRepetition(habit))
+        val removeRepetitionAction = if (!preferences.isAdvancedCheckmarksEnabled) {
+            Action(
+                    R.drawable.ic_action_cancel,
+                    context.getString(R.string.no),
+                    pendingIntents.removeRepetition(habit))
+        }
+        else {
+            Action(
+                    R.drawable.ic_action_cancel,
+                    context.getString(R.string.no),
+                    pendingIntents.setYesNoValue(
+                            habit, timestamp, Checkmark.FAILED_EXPLICITLY_NECESSARY))
+        }
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 

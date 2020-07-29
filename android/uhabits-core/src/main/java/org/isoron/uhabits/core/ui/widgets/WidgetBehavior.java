@@ -80,4 +80,11 @@ public class WidgetBehavior
                 habit.getId());
     }
 
+    public void setYesNoValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
+        notificationTray.cancel(habit);
+        commandRunner.execute(
+                new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
+                habit.getId());
+    }
+
 }

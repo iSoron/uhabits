@@ -52,6 +52,9 @@ public class WidgetReceiver extends BroadcastReceiver
     public static final String ACTION_SET_NUMERICAL_VALUE =
             "org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE";
 
+    public static final String ACTION_SET_YESNO_VALUE =
+            "org.isoron.uhabits.ACTION_SET_YESNO_VALUE";
+
     private static final String TAG = "WidgetReceiver";
 
     @Override
@@ -111,6 +114,15 @@ public class WidgetReceiver extends BroadcastReceiver
                     numberSelectorIntent.setAction(NumericalCheckmarkWidgetActivity.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY);
                     parser.copyIntentData(intent,numberSelectorIntent);
                     context.startActivity(numberSelectorIntent);
+                    break;
+                case ACTION_SET_YESNO_VALUE:
+                    Log.d(TAG, String.format(
+                            "onSetYesNoValue habit=%d timestamp=%d value=%d",
+                            data.getHabit().getId(),
+                            data.getTimestamp().getUnixTime(),
+                            data.getValue()));
+                    controller.setYesNoValue(
+                            data.getHabit(), data.getTimestamp(), data.getValue());
                     break;
             }
         }
