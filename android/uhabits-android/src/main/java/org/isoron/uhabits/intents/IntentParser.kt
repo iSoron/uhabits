@@ -39,7 +39,7 @@ class IntentParser
     fun copyIntentData(source: Intent, destination: Intent) {
         destination.data = source.data;
         destination.putExtra("timestamp", source.getLongExtra("timestamp", DateUtils.getToday().unixTime))
-        destination.putExtra("value", source.getIntExtra("value", 0))
+        destination.putExtra("value", source.getIntExtra("value", -1))
     }
 
     private fun parseHabit(uri: Uri): Habit {
@@ -60,7 +60,7 @@ class IntentParser
     }
 
     private fun parseValue(intent: Intent): Int {
-        return intent.getIntExtra("value", 0)
+        return intent.getIntExtra("value", -1)
     }
 
     class CheckmarkIntentData(var habit: Habit, var timestamp: Timestamp, var value: Int)

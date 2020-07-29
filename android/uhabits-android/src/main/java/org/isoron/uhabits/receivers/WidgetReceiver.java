@@ -121,8 +121,20 @@ public class WidgetReceiver extends BroadcastReceiver
                             data.getHabit().getId(),
                             data.getTimestamp().getUnixTime(),
                             data.getValue()));
-                    controller.setYesNoValue(
-                            data.getHabit(), data.getTimestamp(), data.getValue());
+                    if (data.getValue() >= 0)
+                    {
+                        controller.setYesNoValue(
+                                data.getHabit(), data.getTimestamp(), data.getValue());
+                    }
+                    else
+                    {
+                        Intent checkmarkOptionsSelector = new Intent(context, YesNoCheckmarkWidgetActivity.class);
+                        checkmarkOptionsSelector.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        checkmarkOptionsSelector.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        checkmarkOptionsSelector.setAction(YesNoCheckmarkWidgetActivity.ACTION_SHOW_YESNO_VALUE_ACTIVITY);
+                        parser.copyIntentData(intent, checkmarkOptionsSelector);
+                        context.startActivity(checkmarkOptionsSelector);
+                    }
                     break;
             }
         }

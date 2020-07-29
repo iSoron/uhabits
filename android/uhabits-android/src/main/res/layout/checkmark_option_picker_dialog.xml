@@ -35,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableStart="@drawable/ic_action_check"
         android:text="@string/done_button_text"
         app:cornerRadius="0dp" />
 

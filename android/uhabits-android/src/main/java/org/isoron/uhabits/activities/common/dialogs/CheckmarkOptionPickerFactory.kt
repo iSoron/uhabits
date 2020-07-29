@@ -20,14 +20,11 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.PorterDuff
-import android.os.Build
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.WindowManager
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.button.MaterialButton
 import org.isoron.androidbase.activities.ActivityContext
 import org.isoron.androidbase.utils.InterfaceUtils
 import org.isoron.uhabits.R
@@ -70,20 +67,16 @@ class CheckmarkOptionPickerFactory
         )
 
         for ((buttonId, buttonValue) in buttonValues) {
-            val button = view.findViewById<MaterialButton>(buttonId)
-            button.setTypeface(InterfaceUtils.getFontAwesome(context))
+            val button = view.findViewById<Button>(buttonId)
+            var textStyle = Typeface.NORMAL
             button.setOnClickListener{
                 callback.onCheckmarkOptionPicked(buttonValue)
                 dialog.dismiss()
             }
-            if (valuesToButton.containsKey(value) &&  valuesToButton[value] == buttonId) {
-                val color = context.resources.getColor(R.color.amber_800)
-                if (Build.VERSION.SDK_INT >= 29) {
-                    button.background.colorFilter = BlendModeColorFilter(color, BlendMode.MULTIPLY)
-                }  else {
-                    button.background.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-                }
-            }
+            if (valuesToButton.containsKey(value) &&  valuesToButton[value] == buttonId)
+                textStyle = Typeface.BOLD
+
+            button.setTypeface(InterfaceUtils.getFontAwesome(context), textStyle)
         }
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)

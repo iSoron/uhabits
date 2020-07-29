@@ -19,12 +19,14 @@
 
 package org.isoron.uhabits.widgets
 
-import android.app.*
-import android.content.*
-import android.view.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.app.PendingIntent
+import android.content.Context
+import android.view.View
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.core.models.Checkmark
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.PaletteUtils
+import org.isoron.uhabits.widgets.views.CheckmarkWidgetView
 
 open class CheckmarkWidget(
         context: Context,
@@ -36,7 +38,12 @@ open class CheckmarkWidget(
         return if (habit.isNumerical) {
             pendingIntentFactory.setNumericalValue(context, habit, 10, null)
         } else {
-            pendingIntentFactory.toggleCheckmark(habit, null)
+            val prefs = (context.applicationContext as HabitsApplication).component.preferences
+            if (prefs.isAdvancedCheckmarksEnabled) {
+                pendingIntentFactory.setYesNoValue(habit, null, -1)
+            }  else {
+                pendingIntentFactory.toggleCheckmark(habit, null)
+            }
         }
     }
 
