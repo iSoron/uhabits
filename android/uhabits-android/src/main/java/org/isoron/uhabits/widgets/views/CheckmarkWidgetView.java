@@ -20,6 +20,7 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.*;
+import android.graphics.Color;
 import android.util.*;
 import android.widget.*;
 
@@ -73,24 +74,27 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
         int bgColor;
         int fgColor;
+        int lighterActiveColor = ColorUtils.setAlpha(activeColor, 0.5f);
 
         switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
-                backgroundPaint.setColor(bgColor);
                 frame.setBackgroundDrawable(background);
                 break;
             case Checkmark.FAILED_EXPLICITLY_NECESSARY:
-            case Checkmark.FAILED_EXPLICITLY_UNNECESSARY:
-            case Checkmark.SKIPPED_EXPLICITLY:
                 bgColor = res.getColor(R.attr.highlightedBackgroundColor);
-                fgColor = res.getColor(R.attr.mediumContrastTextColor);
+                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
                 break;
-
+            case Checkmark.SKIPPED_EXPLICITLY:
             case Checkmark.CHECKED_IMPLICITLY:
+            case Checkmark.FAILED_EXPLICITLY_UNNECESSARY:
+                bgColor = lighterActiveColor;
+                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
+                setShadowAlpha(0x4f);
+                break;
             case Checkmark.UNCHECKED:
             default:
                 bgColor = res.getColor(R.attr.cardBgColor);
@@ -99,6 +103,7 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 break;
         }
 
+        backgroundPaint.setColor(bgColor);
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
         ring.setBackgroundColor(bgColor);
@@ -118,18 +123,29 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
     protected String getText()
     {
+        HabitsApplication app =
+                (HabitsApplication) getContext().getApplicationContext();
+        int uncheckedSymbol = R.string.fa_times;
+        int implicitCheckedSymbol = R.string.fa_check;
+        if (app.getComponent().getPreferences().isAdvancedCheckmarksEnabled())
+        {
+            uncheckedSymbol = R.string.fa_question;
+            implicitCheckedSymbol = R.string.fa_question;
+        }
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
         switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
-            case Checkmark.CHECKED_IMPLICITLY:
             case Checkmark.FAILED_EXPLICITLY_UNNECESSARY:
                 return getResources().getString(R.string.fa_check);
+            case Checkmark.CHECKED_IMPLICITLY:
+                return getResources().getString(implicitCheckedSymbol);
             case Checkmark.SKIPPED_EXPLICITLY:
                 return getResources().getString(R.string.fa_skipped);
-            case Checkmark.UNCHECKED:
             case Checkmark.FAILED_EXPLICITLY_NECESSARY:
-            default:
                 return getResources().getString(R.string.fa_times);
+            case Checkmark.UNCHECKED:
+            default:
+                return getResources().getString(uncheckedSymbol);
         }
     }
 

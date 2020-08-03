@@ -369,8 +369,6 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
-        boolean drawCross = false;
-        boolean drawDash = false;
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else
         {
@@ -381,13 +379,6 @@ public class HistoryChart extends ScrollableChart
                 pSquareBg.setColor(isNumerical ? textColor : colors[1]);
             }
             else pSquareBg.setColor(colors[2]);
-
-            if (!isNumerical)
-            {
-                if (checkmark == FAILED_EXPLICITLY_UNNECESSARY ||
-                        checkmark == FAILED_EXPLICITLY_NECESSARY) drawCross = true;
-                if (checkmark == SKIPPED_EXPLICITLY) drawDash = true;
-            }
         }
 
         pSquareFg.setColor(reverseTextColor);
@@ -396,28 +387,6 @@ public class HistoryChart extends ScrollableChart
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
             location.centerY() + squareTextOffset, pSquareFg);
-        if (drawCross)
-        {
-            for (int thickness = -1; thickness < 2; thickness ++)
-            {
-                canvas.drawLine(
-                        location.left + thickness, location.bottom,
-                        location.right - thickness, location.top, pSquareFg);
-                canvas.drawLine(
-                        location.right - thickness, location.bottom,
-                        location.left + thickness, location.top, pSquareFg);
-            }
-        }
-        if (drawDash)
-        {
-            for (int thickness = -1; thickness < 2; thickness ++)
-            {
-                canvas.drawLine(
-                        location.left, location.centerY() + thickness + squareTextOffset / 2,
-                        location.right,location.centerY() + thickness + squareTextOffset / 2,
-                        pSquareFg);
-            }
-        }
     }
 
     private float getWeekdayLabelWidth()
@@ -449,16 +418,13 @@ public class HistoryChart extends ScrollableChart
 
         if (isBackgroundTransparent)
             primaryColor = ColorUtils.setMinValue(primaryColor, 0.75f);
-
-        int red = Color.red(primaryColor);
-        int green = Color.green(primaryColor);
-        int blue = Color.blue(primaryColor);
+        int lighterPrimaryColor = ColorUtils.setAlpha(primaryColor, 0.5f);
 
         if (isBackgroundTransparent)
         {
             colors = new int[3];
             colors[0] = Color.argb(16, 255, 255, 255);
-            colors[1] = Color.argb(128, red, green, blue);
+            colors[1] = lighterPrimaryColor;
             colors[2] = primaryColor;
             textColor = Color.WHITE;
             reverseTextColor = Color.WHITE;
@@ -467,7 +433,7 @@ public class HistoryChart extends ScrollableChart
         {
             colors = new int[3];
             colors[0] = res.getColor(R.attr.lowContrastTextColor);
-            colors[1] = Color.argb(127, red, green, blue);
+            colors[1] = lighterPrimaryColor;
             colors[2] = primaryColor;
             textColor = res.getColor(R.attr.mediumContrastTextColor);
             reverseTextColor =

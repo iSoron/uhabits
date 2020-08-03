@@ -26,6 +26,7 @@ import android.view.*
 import android.view.View.MeasureSpec.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.utils.ColorUtils
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
@@ -105,9 +106,6 @@ class CheckmarkButtonView(
     private inner class Drawer {
         private val rect = RectF()
         private val lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
-        private val mediumContrastTextColor = sres.getColor(R.attr.mediumContrastTextColor)
-
-
 
         private val paint = TextPaint().apply {
             typeface = getFontAwesome()
@@ -117,18 +115,25 @@ class CheckmarkButtonView(
         }
 
         fun draw(canvas: Canvas) {
+            val lighterColor = ColorUtils.setAlpha(color, 0.5f)
+
             paint.color = when (value) {
                 CHECKED_EXPLICITLY -> color
-                FAILED_EXPLICITLY_UNNECESSARY -> mediumContrastTextColor
-                SKIPPED_EXPLICITLY -> mediumContrastTextColor
-                FAILED_EXPLICITLY_NECESSARY -> mediumContrastTextColor
-                else -> lowContrastColor
+                FAILED_EXPLICITLY_NECESSARY -> lowContrastColor
+                UNCHECKED -> lowContrastColor
+                else -> lighterColor
+            }
+            var unchecked_symbol = R.string.fa_times
+            var implicitCheckedSymbol = R.string.fa_check
+            if (preferences.isAdvancedCheckmarksEnabled) {
+                unchecked_symbol = R.string.fa_question
+                implicitCheckedSymbol = R.string.fa_question
             }
             val id = when (value) {
                 SKIPPED_EXPLICITLY -> R.string.fa_skipped
-                UNCHECKED -> R.string.fa_times
+                UNCHECKED -> unchecked_symbol
                 FAILED_EXPLICITLY_NECESSARY -> R.string.fa_times
-                FAILED_EXPLICITLY_UNNECESSARY -> R.string.fa_check
+                CHECKED_IMPLICITLY -> implicitCheckedSymbol
                 else -> R.string.fa_check
             }
             val label = resources.getString(id)
@@ -140,3 +145,4 @@ class CheckmarkButtonView(
         }
     }
 }
+
