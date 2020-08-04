@@ -26,7 +26,7 @@ import android.view.*
 import android.view.View.MeasureSpec.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
-import org.isoron.androidbase.utils.ColorUtils
+import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*

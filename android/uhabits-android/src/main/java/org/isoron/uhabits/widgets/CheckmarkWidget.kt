@@ -19,14 +19,13 @@
 
 package org.isoron.uhabits.widgets
 
-import android.app.PendingIntent
-import android.content.Context
-import android.view.View
-import org.isoron.uhabits.HabitsApplication
-import org.isoron.uhabits.core.models.Checkmark
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.utils.PaletteUtils
-import org.isoron.uhabits.widgets.views.CheckmarkWidgetView
+import android.app.*
+import android.content.*
+import android.view.*
+import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.widgets.views.*
 
 open class CheckmarkWidget(
         context: Context,

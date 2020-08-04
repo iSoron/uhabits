@@ -27,7 +27,7 @@ import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.preferences.Preferences;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 import org.isoron.uhabits.intents.*;

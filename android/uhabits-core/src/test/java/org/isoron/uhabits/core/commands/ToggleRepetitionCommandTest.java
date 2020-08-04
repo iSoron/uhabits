@@ -57,6 +57,7 @@ public class ToggleRepetitionCommandTest extends BaseUnitTest
         assertFalse(habit.getRepetitions().containsTimestamp(today));
 
         command.undo();
+        assertTrue(habit.getRepetitions().containsTimestamp(today));
 
         command.execute();
         assertFalse(habit.getRepetitions().containsTimestamp(today));

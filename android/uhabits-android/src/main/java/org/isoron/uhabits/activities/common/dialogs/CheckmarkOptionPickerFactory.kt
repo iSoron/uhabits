@@ -19,18 +19,18 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
-import android.content.Context
-import android.graphics.Typeface
-import android.view.LayoutInflater
-import android.view.WindowManager
-import android.widget.Button
-import androidx.appcompat.app.AlertDialog
-import org.isoron.androidbase.activities.ActivityContext
-import org.isoron.androidbase.utils.InterfaceUtils
-import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.Checkmark
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
-import javax.inject.Inject
+import android.content.*
+import android.graphics.*
+import android.view.*
+import android.widget.*
+import androidx.appcompat.app.*
+import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.utils.*
+import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.ui.screens.habits.list.*
+import javax.inject.*
+
 
 class CheckmarkOptionPickerFactory
 @Inject constructor(

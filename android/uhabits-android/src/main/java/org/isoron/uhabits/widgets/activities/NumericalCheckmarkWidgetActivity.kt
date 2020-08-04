@@ -23,7 +23,7 @@ import android.app.*
 import android.content.*
 import android.os.*
 import android.view.*
-import android.widget.FrameLayout
+import android.widget.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*

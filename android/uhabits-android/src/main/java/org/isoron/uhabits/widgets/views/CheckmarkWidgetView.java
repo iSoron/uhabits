@@ -20,7 +20,6 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.*;
-import android.graphics.Color;
 import android.util.*;
 import android.widget.*;
 
