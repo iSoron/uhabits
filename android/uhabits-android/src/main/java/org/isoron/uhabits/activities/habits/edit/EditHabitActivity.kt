@@ -214,9 +214,11 @@ class EditHabitActivity : AppCompatActivity() {
             habit.setReminder(Reminder(reminderHour, reminderMin, reminderDays))
         }
         habit.frequency = Frequency(freqNum, freqDen)
-        habit.targetValue = targetInput.text.toString().toDouble()
-        habit.targetType = Habit.AT_LEAST
-        habit.unit = unitInput.text.trim().toString()
+        if (habitType == Habit.NUMBER_HABIT) {
+            habit.targetValue = targetInput.text.toString().toDouble()
+            habit.targetType = Habit.AT_LEAST
+            habit.unit = unitInput.text.trim().toString()
+        }
         habit.type = habitType
 
         val command = if (habitId >= 0) {
