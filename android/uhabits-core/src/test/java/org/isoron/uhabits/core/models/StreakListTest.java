@@ -122,8 +122,8 @@ public class StreakListTest extends BaseUnitTest
     public void testToString() throws Exception
     {
         Timestamp time = Timestamp.ZERO.plus(100);
-        Streak streak = new Streak(time, time.plus(10));
+        Streak streak = new Streak(time, time.plus(10), 3);
         assertThat(streak.toString(), equalTo(
-            "{start: 1970-04-11, end: 1970-04-21}"));
+            "{start: 1970-04-11, end: 1970-04-21, skipDays: 3}"));
     }
 }

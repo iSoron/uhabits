@@ -29,10 +29,13 @@ public final class Streak
 
     private final Timestamp end;
 
-    public Streak(Timestamp start, Timestamp end)
+    private final int skipDays;
+
+    public Streak(Timestamp start, Timestamp end, int skipDays)
     {
         this.start = start;
         this.end = end;
+        this.skipDays = skipDays;
     }
 
     public int compareLonger(Streak other)
@@ -55,7 +58,7 @@ public final class Streak
 
     public int getLength()
     {
-        return start.daysUntil(end) + 1;
+        return start.daysUntil(end) + 1 - skipDays;
     }
 
     public Timestamp getStart()
@@ -69,6 +72,7 @@ public final class Streak
         return new ToStringBuilder(this, defaultToStringStyle())
             .append("start", start)
             .append("end", end)
+            .append("skipDays", skipDays)
             .toString();
     }
 
@@ -84,6 +88,7 @@ public final class Streak
         return new EqualsBuilder()
             .append(start, streak.start)
             .append(end, streak.end)
+            .append(skipDays, streak.skipDays)
             .isEquals();
     }
 
@@ -93,6 +98,7 @@ public final class Streak
         return new HashCodeBuilder(17, 37)
             .append(start)
             .append(end)
+            .append(skipDays)
             .toHashCode();
     }
 }

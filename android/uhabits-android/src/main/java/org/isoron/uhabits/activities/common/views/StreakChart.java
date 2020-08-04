@@ -99,12 +99,14 @@ public class StreakChart extends View
     {
         Timestamp start = DateUtils.getToday();
         LinkedList<Streak> streaks = new LinkedList<>();
+        Random random = new Random();
 
         for (int i = 0; i < 10; i++)
         {
-            int length = new Random().nextInt(100);
+            int length = random.nextInt(100);
+            int skipDays = random.nextInt(Math.max(0, length - 2));
             Timestamp end = start.plus(length);
-            streaks.add(new Streak(start, end));
+            streaks.add(new Streak(start, end, skipDays));
             start = end.plus(1);
         }
 

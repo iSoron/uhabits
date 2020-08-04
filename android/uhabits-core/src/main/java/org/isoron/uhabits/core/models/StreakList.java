@@ -89,14 +89,50 @@ public abstract class StreakList
     @NonNull
     protected List<Streak> checkmarksToStreaks(Timestamp beginning, int[] checks)
     {
-        ArrayList<Timestamp> transitions = getTransitions(beginning, checks);
-
         List<Streak> streaks = new LinkedList<>();
-        for (int i = 0; i < transitions.size(); i += 2)
+        Timestamp current = beginning;
+        Timestamp lastChecked = beginning;
+        Timestamp streakStart = beginning;
+        boolean isInStreak = false;
+        int skipDaysInStreak = 0;
+
+        for (int i = checks.length - 1; i >= 0; --i)
         {
-            Timestamp start = transitions.get(i);
-            Timestamp end = transitions.get(i + 1);
-            streaks.add(new Streak(start, end));
+            boolean isCurrentChecked = (
+                    checks[i] == Checkmark.CHECKED_EXPLICITLY ||
+                            checks[i] == Checkmark.CHECKED_IMPLICITLY ||
+                            checks[i] == Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY
+            );
+            boolean isCurrentUnchecked= (
+                    checks[i] == Checkmark.UNCHECKED ||
+                            checks[i] == Checkmark.UNCHECKED_EXPLICITLY_NECESSARY
+            );
+
+            if (habit.getData().type == Habit.NUMBER_HABIT || isCurrentChecked)
+                lastChecked = current;
+
+            if (isInStreak && checks[i] == Checkmark.SKIPPED_EXPLICITLY)
+                skipDaysInStreak += 1;
+            else if (isInStreak && isCurrentUnchecked)
+            {
+                skipDaysInStreak -= lastChecked.daysUntil(current) - 1;
+                streaks.add(new Streak(streakStart, lastChecked, skipDaysInStreak));
+                isInStreak = false;
+            }
+            else if (!isInStreak && isCurrentChecked)
+            {
+                streakStart = current;
+                isInStreak = true;
+                skipDaysInStreak = 0;
+            }
+
+            current = current.plus(1);
+        }
+
+        if (isInStreak)
+        {
+            skipDaysInStreak -= lastChecked.daysUntil(current) - 1;
+            streaks.add(new Streak(streakStart, lastChecked, skipDaysInStreak));
         }
 
         return streaks;
@@ -116,57 +152,6 @@ public abstract class StreakList
         Repetition oldestRep = habit.getRepetitions().getOldestSuccessful();
         if (oldestRep != null) return oldestRep.getTimestamp();
         return null;
-    }
-
-    /**
-     * Returns the timestamps where there was a transition from performing a
-     * habit to not performing a habit, and vice-versa.
-     *
-     * @param beginning the timestamp for the first checkmark
-     * @param checks    the checkmarks, ordered by decreasing timestamp
-     * @return the list of transitions
-     */
-    @NonNull
-    protected ArrayList<Timestamp> getTransitions(Timestamp beginning, int[] checks)
-    {
-        ArrayList<Timestamp> list = new ArrayList<>();
-        Timestamp current = beginning;
-        Timestamp lastChecked = beginning;
-        boolean isInStreak = false;
-
-        for (int i = checks.length - 1; i >= 0; --i)
-        {
-            boolean isCurrentChecked = (
-                    checks[i] == Checkmark.CHECKED_EXPLICITLY ||
-                    checks[i] == Checkmark.CHECKED_IMPLICITLY ||
-                    checks[i] == Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY
-            );
-            boolean isCurrentUnchecked= (
-                    checks[i] == Checkmark.UNCHECKED ||
-                    checks[i] == Checkmark.UNCHECKED_EXPLICITLY_NECESSARY
-            );
-
-            if (habit.getData().type == Habit.NUMBER_HABIT || isCurrentChecked)
-                lastChecked = current;
-
-            if (isInStreak && isCurrentUnchecked)
-            {
-                list.add(lastChecked);
-                isInStreak = false;
-            }
-            if (!isInStreak && isCurrentChecked)
-            {
-                list.add(current);
-                isInStreak = true;
-            }
-
-            current = current.plus(1);
-        }
-
-        if (isInStreak)
-            list.add(lastChecked);
-
-        return list;
     }
 
     protected abstract void add(@NonNull List<Streak> streaks);
