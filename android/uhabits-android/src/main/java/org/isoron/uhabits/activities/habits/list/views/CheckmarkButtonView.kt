@@ -119,7 +119,7 @@ class CheckmarkButtonView(
 
             paint.color = when (value) {
                 CHECKED_EXPLICITLY -> color
-                FAILED_EXPLICITLY_NECESSARY -> lowContrastColor
+                UNCHECKED_EXPLICITLY_NECESSARY -> lowContrastColor
                 UNCHECKED -> lowContrastColor
                 else -> lighterColor
             }
@@ -132,7 +132,7 @@ class CheckmarkButtonView(
             val id = when (value) {
                 SKIPPED_EXPLICITLY -> R.string.fa_skipped
                 UNCHECKED -> unchecked_symbol
-                FAILED_EXPLICITLY_NECESSARY -> R.string.fa_times
+                UNCHECKED_EXPLICITLY_NECESSARY -> R.string.fa_times
                 CHECKED_IMPLICITLY -> implicitCheckedSymbol
                 else -> R.string.fa_check
             }

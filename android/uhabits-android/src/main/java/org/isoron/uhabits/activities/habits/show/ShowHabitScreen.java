@@ -97,7 +97,7 @@ public class ShowHabitScreen extends BaseScreen
         {
             CheckmarkList checkmarks = habit.getCheckmarks();
             int oldValue = checkmarks.getValues(timestamp, timestamp)[0];
-            checkmarkOptionPickerFactory.create(habit.getName(), timestamp.toString(), oldValue,
+            checkmarkOptionPickerFactory.create(habit, timestamp.toString(), oldValue,
                     newValue ->
                     {
                         behavior.get().onCreateRepetition(timestamp, newValue);

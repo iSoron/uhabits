@@ -131,7 +131,7 @@ public abstract class StreakList
     {
         ArrayList<Timestamp> list = new ArrayList<>();
         Timestamp current = beginning;
-        Timestamp lastSuccesful = beginning;
+        Timestamp lastChecked = beginning;
         boolean isInStreak = false;
 
         for (int i = checks.length - 1; i >= 0; --i)
@@ -139,19 +139,19 @@ public abstract class StreakList
             boolean isCurrentChecked = (
                     checks[i] == Checkmark.CHECKED_EXPLICITLY ||
                     checks[i] == Checkmark.CHECKED_IMPLICITLY ||
-                    checks[i] == Checkmark.FAILED_EXPLICITLY_UNNECESSARY
+                    checks[i] == Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY
             );
-            boolean isCurrentFailed = (
+            boolean isCurrentUnchecked= (
                     checks[i] == Checkmark.UNCHECKED ||
-                    checks[i] == Checkmark.FAILED_EXPLICITLY_NECESSARY
+                    checks[i] == Checkmark.UNCHECKED_EXPLICITLY_NECESSARY
             );
 
             if (habit.getData().type == Habit.NUMBER_HABIT || isCurrentChecked)
-                lastSuccesful = current;
+                lastChecked = current;
 
-            if (isInStreak && isCurrentFailed)
+            if (isInStreak && isCurrentUnchecked)
             {
-                list.add(lastSuccesful);
+                list.add(lastChecked);
                 isInStreak = false;
             }
             if (!isInStreak && isCurrentChecked)
@@ -164,7 +164,7 @@ public abstract class StreakList
         }
 
         if (isInStreak)
-            list.add(lastSuccesful);
+            list.add(lastChecked);
 
         return list;
     }

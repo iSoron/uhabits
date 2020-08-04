@@ -164,7 +164,7 @@
     <string name="export">Export</string>
     <string name="long_press_to_edit">Press-and-hold to change the value</string>
     <string name="change_value">Change value</string>
-    <string name="choose_checkmark_option">%1$s on %2$s</string>
+    <string name="choose_checkmark_question">%1$s on %2$s?</string>
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
@@ -197,8 +197,9 @@
     <string name="every_month">Every month</string>
     <string name="validation_cannot_be_blank">Cannot be blank</string>
     <string name="today">Today</string>
-    <string name="done_button_text">&#xf14a;\nDone</string>
-    <string name="fail_button_text">&#xf057;\nFail</string>
+    <string name="yes_button_text">&#xf14a;\nYes</string>
+    <string name="no_button_text">&#xf057;\nNo</string>
     <string name="skip_button_text">&#xf146;\nSkip</string>
     <string name="delete_button_text">&#xf05e;\nDelete</string>
+    <string name="default_checkmark_option_question">Have you completed this habit</string>
 </resources>

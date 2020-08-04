@@ -205,11 +205,11 @@ class ListHabitsScreen
         numberPickerFactory.create(value, unit, callback).show()
     }
 
-    override fun showCheckmarkOptions(habitName: String,
+    override fun showCheckmarkOptions(habit: Habit,
                                       timestamp: Timestamp,
                                       value: Int,
                                       callback: ListHabitsBehavior.CheckmarkOptionsCallback) {
-        checkmarkOptionPickerFactory.create(habitName, timestamp.toString(), value, callback).show()
+        checkmarkOptionPickerFactory.create(habit, timestamp.toString(), value, callback).show()
     }
 
     @StringRes

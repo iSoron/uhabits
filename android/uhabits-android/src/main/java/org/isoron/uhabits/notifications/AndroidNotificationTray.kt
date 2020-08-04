@@ -108,7 +108,7 @@ class AndroidNotificationTray
                     R.drawable.ic_action_cancel,
                     context.getString(R.string.no),
                     pendingIntents.setYesNoValue(
-                            habit, timestamp, Checkmark.FAILED_EXPLICITLY_NECESSARY))
+                            habit, timestamp, Checkmark.UNCHECKED_EXPLICITLY_NECESSARY))
         }
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)

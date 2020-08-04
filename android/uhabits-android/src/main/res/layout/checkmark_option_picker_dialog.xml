@@ -20,49 +20,64 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:paddingHorizontal="5dp"
-    android:paddingVertical="25dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:divider="?android:dividerVertical"
-    android:showDividers="middle">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="5dp"
+    android:paddingVertical="20dp">
 
-    <Button
-        android:id="@+id/check_button"
-        style="@style/Widget.AppCompat.Button.Borderless"
+    <TextView
+        android:id="@+id/choose_checkmark_question_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/done_button_text"
-        app:cornerRadius="0dp" />
+        android:paddingBottom="5dp"
+        android:text="@string/default_checkmark_option_question"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-    <Button
-        android:id="@+id/fail_button"
-        style="@style/Widget.AppCompat.Button.Borderless"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/fail_button_text"
-        app:cornerRadius="0dp" />
+        android:divider="?android:dividerVertical"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:showDividers="middle">
 
-    <Button
-        android:id="@+id/skip_button"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/skip_button_text"
-        app:cornerRadius="0dp" />
+        <Button
+            android:id="@+id/yes_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/yes_button_text"
+            app:cornerRadius="0dp" />
+
+        <Button
+            android:id="@+id/no_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/no_button_text"
+            app:cornerRadius="0dp" />
+
+        <Button
+            android:id="@+id/skip_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/skip_button_text"
+            app:cornerRadius="0dp" />
 
 
-    <Button
-        android:id="@+id/clear_button"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/delete_button_text"
-        app:cornerRadius="0dp" />
+        <Button
+            android:id="@+id/clear_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/delete_button_text"
+            app:cornerRadius="0dp" />
+    </LinearLayout>
 </LinearLayout>

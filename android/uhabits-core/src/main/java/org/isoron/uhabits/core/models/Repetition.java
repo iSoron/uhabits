@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
- * Represents a record that the user has performed, failed to perform or skipped a certain habit at
+ * Represents a record that the user has performed, didn't perform or skipped a certain habit at
  * a certain date.
  */
 public final class Repetition
@@ -44,7 +44,7 @@ public final class Repetition
      * For boolean habits, this equals:
      * Checkmark.CHECKED_EXPLICITLY if performed
      * Checkmark.SKIPPED_EXPLICITLY if skipped.
-     * Checkmark.FAILED_EXPLICITLY_NECESSARY if failed.
+     * Checkmark.UNCHECKED_EXPLICITLY_NECESSARY if not performed.
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is here stored as 1500.
      */

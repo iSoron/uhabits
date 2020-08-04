@@ -113,7 +113,7 @@ public abstract class RepetitionList
      * If the list is empty, returns null. Repetitions in the future are
      * discarded.
      *
-     * @return oldest sucessful repetition in the list, or null if list is empty.
+     * @return oldest successful repetition in the list, or null if list is empty.
      */
     @Nullable
     public abstract Repetition getOldestSuccessful();

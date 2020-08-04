@@ -349,18 +349,18 @@ public class HistoryChart extends ScrollableChart
         headerOverflow = Math.max(0, headerOverflow - columnWidth);
     }
 
-    private boolean isFailed(int checkmark)
+    private boolean isNotCompleted(int checkmark)
     {
         return (checkmark == 0 ||
-                (!isNumerical && checkmark == FAILED_EXPLICITLY_NECESSARY));
+                (!isNumerical && checkmark == UNCHECKED_EXPLICITLY_NECESSARY));
     }
 
-    private boolean isImplicitlySuccessful(int checkmark)
+    private boolean isImplicitlyCompleted(int checkmark)
     {
         if (isNumerical) return checkmark < target;
 
         return (checkmark == SKIPPED_EXPLICITLY ||
-                checkmark == FAILED_EXPLICITLY_UNNECESSARY ||
+                checkmark == UNCHECKED_EXPLICITLY_UNNECESSARY ||
                 checkmark == CHECKED_IMPLICITLY);
     }
 
@@ -373,8 +373,8 @@ public class HistoryChart extends ScrollableChart
         else
         {
             int checkmark = checkmarks[checkmarkOffset];
-            if(isFailed(checkmark)) pSquareBg.setColor(colors[0]);
-            else if(isImplicitlySuccessful(checkmark))
+            if(isNotCompleted(checkmark)) pSquareBg.setColor(colors[0]);
+            else if(isImplicitlyCompleted(checkmark))
             {
                 pSquareBg.setColor(isNumerical ? textColor : colors[1]);
             }

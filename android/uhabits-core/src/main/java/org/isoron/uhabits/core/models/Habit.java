@@ -331,7 +331,7 @@ public class Habit
             else
                 return todayCheckmark / 1000.0 <= data.targetValue;
         }
-        else return (todayCheckmark != UNCHECKED);
+        else return (todayCheckmark != UNCHECKED && todayCheckmark != UNCHECKED_EXPLICITLY_NECESSARY);
     }
 
     public synchronized boolean isNumerical()

@@ -286,7 +286,7 @@ public abstract class ScoreList implements Iterable<Score>
             else
             {
                 if (value == Checkmark.UNCHECKED ||
-                        value == Checkmark.FAILED_EXPLICITLY_NECESSARY)
+                        value == Checkmark.UNCHECKED_EXPLICITLY_NECESSARY)
                     value = 0;
                 else if (value == Checkmark.SKIPPED_EXPLICITLY)
                     skip_calculation = true;

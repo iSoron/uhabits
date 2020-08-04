@@ -82,14 +82,14 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 setShadowAlpha(0x4f);
                 frame.setBackgroundDrawable(background);
                 break;
-            case Checkmark.FAILED_EXPLICITLY_NECESSARY:
+            case Checkmark.UNCHECKED_EXPLICITLY_NECESSARY:
                 bgColor = res.getColor(R.attr.highlightedBackgroundColor);
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
                 break;
             case Checkmark.SKIPPED_EXPLICITLY:
             case Checkmark.CHECKED_IMPLICITLY:
-            case Checkmark.FAILED_EXPLICITLY_UNNECESSARY:
+            case Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY:
                 bgColor = lighterActiveColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
@@ -134,13 +134,13 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
         switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
-            case Checkmark.FAILED_EXPLICITLY_UNNECESSARY:
+            case Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY:
                 return getResources().getString(R.string.fa_check);
             case Checkmark.CHECKED_IMPLICITLY:
                 return getResources().getString(implicitCheckedSymbol);
             case Checkmark.SKIPPED_EXPLICITLY:
                 return getResources().getString(R.string.fa_skipped);
-            case Checkmark.FAILED_EXPLICITLY_NECESSARY:
+            case Checkmark.UNCHECKED_EXPLICITLY_NECESSARY:
                 return getResources().getString(R.string.fa_times);
             case Checkmark.UNCHECKED:
             default:

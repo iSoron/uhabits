@@ -67,7 +67,7 @@ class YesNoCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.CheckmarkOpt
         val oldValue = data.habit.checkmarks.getValues(data.timestamp, data.timestamp)[0]
         val checkmarkOptionsPickerFactory = CheckmarkOptionPickerFactory(context)
         checkmarkOptionsPickerFactory.create(
-                data.habit.name, data.timestamp.toString(), oldValue, this).show()
+                data.habit, data.timestamp.toString(), oldValue, this).show()
     }
 
     companion object {

@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.*
-import android.graphics.*
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.*
@@ -36,48 +35,54 @@ class CheckmarkOptionPickerFactory
 @Inject constructor(
         @ActivityContext private val context: Context
 ) {
-    fun create(habitName: String,
+    fun create(habit: Habit,
                habitTimestamp: String,
                value: Int,
                callback: ListHabitsBehavior.CheckmarkOptionsCallback): AlertDialog {
 
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.checkmark_option_picker_dialog, null)
-        val title = context.resources.getString(
-                R.string.choose_checkmark_option, habitName, habitTimestamp)
         val dialog = AlertDialog.Builder(context)
                 .setView(view)
-                .setTitle(title)
+                .setTitle(habit.name)
                 .setOnDismissListener{
                     callback.onCheckmarkOptionDismissed()
                 }
                 .create()
 
         val buttonValues = mapOf(
-                R.id.check_button to Checkmark.CHECKED_EXPLICITLY,
+                R.id.yes_button to Checkmark.CHECKED_EXPLICITLY,
                 R.id.skip_button to Checkmark.SKIPPED_EXPLICITLY,
-                R.id.fail_button to Checkmark.FAILED_EXPLICITLY_NECESSARY,
+                R.id.no_button to Checkmark.UNCHECKED_EXPLICITLY_NECESSARY,
                 R.id.clear_button to Checkmark.UNCHECKED
         )
         val valuesToButton = mapOf(
-                Checkmark.CHECKED_EXPLICITLY to R.id.check_button,
+                Checkmark.CHECKED_EXPLICITLY to R.id.yes_button,
                 Checkmark.SKIPPED_EXPLICITLY to R.id.skip_button ,
-                Checkmark.FAILED_EXPLICITLY_NECESSARY to R.id.fail_button,
-                Checkmark.FAILED_EXPLICITLY_UNNECESSARY to R.id.fail_button
+                Checkmark.UNCHECKED_EXPLICITLY_NECESSARY to R.id.no_button,
+                Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY to R.id.no_button
         )
 
         for ((buttonId, buttonValue) in buttonValues) {
             val button = view.findViewById<Button>(buttonId)
-            var textStyle = Typeface.NORMAL
             button.setOnClickListener{
                 callback.onCheckmarkOptionPicked(buttonValue)
                 dialog.dismiss()
             }
-            if (valuesToButton.containsKey(value) &&  valuesToButton[value] == buttonId)
-                textStyle = Typeface.BOLD
-
-            button.setTypeface(InterfaceUtils.getFontAwesome(context), textStyle)
+            button.isPressed = (
+                    valuesToButton.containsKey(value) &&
+                    valuesToButton[value] == buttonId)
+            button.typeface = InterfaceUtils.getFontAwesome(context)
         }
+
+        val questionTextView = view.findViewById<TextView>(R.id.choose_checkmark_question_textview)
+        var question = context.resources.getString(R.string.default_checkmark_option_question)
+        if (habit.question.isNotEmpty()) {
+            question = habit.question.trim('?')
+        }
+        val questionFullText = context.resources.getString(
+                R.string.choose_checkmark_question, question, habitTimestamp)
+        questionTextView.text = questionFullText
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 

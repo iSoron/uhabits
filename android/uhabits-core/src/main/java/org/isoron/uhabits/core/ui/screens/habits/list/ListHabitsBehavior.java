@@ -160,7 +160,7 @@ public class ListHabitsBehavior
     {
         CheckmarkList checkmarks = habit.getCheckmarks();
         int oldValue = checkmarks.getValues(timestamp, timestamp)[0];
-        screen.showCheckmarkOptions(habit.getName(), timestamp, oldValue, newValue ->
+        screen.showCheckmarkOptions(habit, timestamp, oldValue, newValue ->
         {
             commandRunner.execute(
                     new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
@@ -212,7 +212,7 @@ public class ListHabitsBehavior
                               @NonNull String unit,
                               @NonNull NumberPickerCallback callback);
 
-        void showCheckmarkOptions(String habitName,
+        void showCheckmarkOptions(Habit habit,
                                   Timestamp timestamp,
                                   int value,
                                   @NonNull CheckmarkOptionsCallback callback);
