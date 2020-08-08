@@ -20,6 +20,8 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.*
+import android.graphics.*
+import android.os.*
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.*
@@ -28,6 +30,7 @@ import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.utils.*
 import javax.inject.*
 
 
@@ -40,11 +43,21 @@ class CheckmarkOptionPickerFactory
                value: Int,
                callback: ListHabitsBehavior.CheckmarkOptionsCallback): AlertDialog {
 
+        var habitColor = PaletteUtils.getColor(context, habit.color)
+        val res = StyledResources(context)
+
+        val titleTextView = TextView(context)
+        titleTextView.setText(habit.name)
+        titleTextView.setTextSize(20F)
+        titleTextView.setPadding(20, 30, 20, 30);
+        titleTextView.setTextColor(res.getColor(R.attr.highContrastReverseTextColor))
+        titleTextView.setBackgroundColor(habitColor)
+
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.checkmark_option_picker_dialog, null)
         val dialog = AlertDialog.Builder(context)
                 .setView(view)
-                .setTitle(habit.name)
+                .setCustomTitle(titleTextView)
                 .setOnDismissListener{
                     callback.onCheckmarkOptionDismissed()
                 }
@@ -63,6 +76,7 @@ class CheckmarkOptionPickerFactory
                 Checkmark.UNCHECKED_EXPLICITLY_UNNECESSARY to R.id.no_button
         )
 
+
         for ((buttonId, buttonValue) in buttonValues) {
             val button = view.findViewById<Button>(buttonId)
             button.setOnClickListener{
@@ -73,6 +87,7 @@ class CheckmarkOptionPickerFactory
                     valuesToButton.containsKey(value) &&
                     valuesToButton[value] == buttonId)
             button.typeface = InterfaceUtils.getFontAwesome(context)
+            button.background.setTint(habitColor)
         }
 
         val questionTextView = view.findViewById<TextView>(R.id.choose_checkmark_question_textview)
@@ -83,6 +98,7 @@ class CheckmarkOptionPickerFactory
         val questionFullText = context.resources.getString(
                 R.string.choose_checkmark_question, question, habitTimestamp)
         questionTextView.text = questionFullText
+        questionTextView.setTextColor(habitColor)
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
