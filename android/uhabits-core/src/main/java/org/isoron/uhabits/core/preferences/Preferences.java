@@ -141,6 +141,16 @@ public class Preferences
         storage.putBoolean("pref_show_completed", showCompleted);
     }
 
+    public boolean getShowEntered()
+    {
+        return storage.getBoolean("pref_show_entered", true);
+    }
+
+    public void setShowEntered(boolean showEntered)
+    {
+        storage.putBoolean("pref_show_entered", showEntered);
+    }
+
     public long getSnoozeInterval()
     {
         return Long.parseLong(storage.getString("pref_snooze_interval", "15"));

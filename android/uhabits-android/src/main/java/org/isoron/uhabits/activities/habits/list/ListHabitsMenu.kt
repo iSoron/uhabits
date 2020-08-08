@@ -39,10 +39,12 @@ class ListHabitsMenu @Inject constructor(
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
         val hideArchivedItem = menu.findItem(R.id.actionHideArchived)
         val hideCompletedItem = menu.findItem(R.id.actionHideCompleted)
+        val hideEnteredItem = menu.findItem(R.id.actionHideEntered)
 
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
+        hideEnteredItem.isChecked = !preferences.showEntered
     }
 
     override fun onItemSelected(item: MenuItem): Boolean {
@@ -80,6 +82,12 @@ class ListHabitsMenu @Inject constructor(
 
             R.id.actionHideCompleted -> {
                 behavior.onToggleShowCompleted()
+                invalidate()
+                return true
+            }
+
+            R.id.actionHideEntered -> {
+                behavior.onToggleShowEntered()
                 invalidate()
                 return true
             }

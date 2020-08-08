@@ -27,10 +27,12 @@ public class HabitMatcherBuilder
 
     private boolean completedAllowed = true;
 
+    private boolean enteredAllowed = true;
+
     public HabitMatcher build()
     {
         return new HabitMatcher(archivedAllowed, reminderRequired,
-            completedAllowed);
+            completedAllowed, enteredAllowed);
     }
 
     public HabitMatcherBuilder setArchivedAllowed(boolean archivedAllowed)
@@ -42,6 +44,12 @@ public class HabitMatcherBuilder
     public HabitMatcherBuilder setCompletedAllowed(boolean completedAllowed)
     {
         this.completedAllowed = completedAllowed;
+        return this;
+    }
+
+    public HabitMatcherBuilder setEnteredAllowed(boolean enteredAllowed)
+    {
+        this.enteredAllowed = enteredAllowed;
         return this;
     }
 

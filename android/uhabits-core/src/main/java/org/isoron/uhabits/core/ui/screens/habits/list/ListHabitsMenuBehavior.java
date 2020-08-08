@@ -45,6 +45,8 @@ public class ListHabitsMenuBehavior
 
     private boolean showArchived;
 
+    private boolean showEntered;
+
     @Inject
     public ListHabitsMenuBehavior(@NonNull Screen screen,
                                   @NonNull Adapter adapter,
@@ -58,6 +60,7 @@ public class ListHabitsMenuBehavior
 
         showCompleted = preferences.getShowCompleted();
         showArchived = preferences.getShowArchived();
+        showEntered = preferences.getShowEntered();
         updateAdapterFilter();
     }
 
@@ -92,6 +95,13 @@ public class ListHabitsMenuBehavior
     {
         showCompleted = !showCompleted;
         preferences.setShowCompleted(showCompleted);
+        updateAdapterFilter();
+    }
+
+    public void onToggleShowEntered()
+    {
+        showEntered = !showEntered;
+        preferences.setShowEntered(showEntered);
         updateAdapterFilter();
     }
 
@@ -138,6 +148,7 @@ public class ListHabitsMenuBehavior
         adapter.setFilter(new HabitMatcherBuilder()
             .setArchivedAllowed(showArchived)
             .setCompletedAllowed(showCompleted)
+            .setEnteredAllowed(showEntered)
             .build());
         adapter.refresh();
     }

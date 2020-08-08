@@ -334,6 +334,13 @@ public class Habit
         else return (todayCheckmark != UNCHECKED && todayCheckmark != UNCHECKED_EXPLICITLY_NECESSARY);
     }
 
+    public synchronized boolean isEnteredToday()
+    {
+        int todayCheckmark = getCheckmarks().getTodayValue();
+        if (isNumerical()) return todayCheckmark > 0;
+        else return (todayCheckmark != UNCHECKED && todayCheckmark != CHECKED_IMPLICITLY);
+    }
+
     public synchronized boolean isNumerical()
     {
         return data.type == NUMBER_HABIT;

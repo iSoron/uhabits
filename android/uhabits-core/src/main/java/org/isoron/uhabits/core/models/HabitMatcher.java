@@ -32,13 +32,17 @@ public class HabitMatcher
 
     private final boolean completedAllowed;
 
+    private final boolean enteredAllowed;
+
     public HabitMatcher(boolean allowArchived,
                         boolean reminderRequired,
-                        boolean completedAllowed)
+                        boolean completedAllowed,
+                        boolean enteredAllowed)
     {
         this.archivedAllowed = allowArchived;
         this.reminderRequired = reminderRequired;
         this.completedAllowed = completedAllowed;
+        this.enteredAllowed = enteredAllowed;
     }
 
     public boolean isArchivedAllowed()
@@ -51,6 +55,11 @@ public class HabitMatcher
         return completedAllowed;
     }
 
+    public boolean isEnteredAllowed()
+    {
+        return enteredAllowed;
+    }
+
     public boolean isReminderRequired()
     {
         return reminderRequired;
@@ -61,6 +70,7 @@ public class HabitMatcher
         if (!isArchivedAllowed() && habit.isArchived()) return false;
         if (isReminderRequired() && !habit.hasReminder()) return false;
         if (!isCompletedAllowed() && habit.isCompletedToday()) return false;
+        if (!isEnteredAllowed() && habit.isEnteredToday()) return false;
         return true;
     }
 }

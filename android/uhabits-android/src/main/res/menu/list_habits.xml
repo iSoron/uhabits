@@ -48,6 +48,12 @@
                 android:enabled="true"
                 android:title="@string/hide_completed"/>
 
+            <item
+                android:id="@+id/actionHideEntered"
+                android:checkable="true"
+                android:enabled="true"
+                android:title="@string/hide_entered"/>
+
             <item android:title="@string/sort">
                 <menu>
                     <item

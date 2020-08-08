@@ -88,6 +88,11 @@ public abstract class ListHabitsSteps
                 clickViewWithId(R.id.action_filter);
                 clickText(R.string.hide_completed);
                 break;
+
+            case TOGGLE_ENTERED:
+                clickViewWithId(R.id.action_filter);
+                clickText(R.string.hide_entered);
+                break;
         }
     }
 
@@ -156,6 +161,6 @@ public abstract class ListHabitsSteps
     public enum MenuItem
     {
         ABOUT, HELP, SETTINGS, EDIT, DELETE, ARCHIVE, TOGGLE_ARCHIVED,
-        UNARCHIVE, TOGGLE_COMPLETED, ADD
+        UNARCHIVE, TOGGLE_COMPLETED, TOGGLE_ENTERED, ADD
     }
 }
