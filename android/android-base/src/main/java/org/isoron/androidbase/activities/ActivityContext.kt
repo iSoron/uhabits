@@ -16,16 +16,11 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.androidbase.activities
 
-package org.isoron.androidbase.activities;
-
-import java.lang.annotation.*;
-
-import javax.inject.*;
+import javax.inject.*
 
 @Qualifier
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ActivityContext
-{
-}
+@MustBeDocumented
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class ActivityContext
