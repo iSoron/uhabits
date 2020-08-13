@@ -24,15 +24,14 @@ import android.view.*
 import android.view.Gravity.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
-import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.utils.*
 
 class EmptyListView(context: Context) : LinearLayout(context) {
     init {
         orientation = VERTICAL
-        gravity = Gravity.CENTER
-        visibility = BaseRootView.GONE
+        gravity = CENTER
+        visibility = View.GONE
 
         addView(TextView(context).apply {
             text = str(R.string.fa_star_half_o)

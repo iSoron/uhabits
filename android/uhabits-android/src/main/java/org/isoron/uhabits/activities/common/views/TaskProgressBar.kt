@@ -20,8 +20,8 @@
 package org.isoron.uhabits.activities.common.views
 
 import android.content.*
+import android.view.*
 import android.widget.*
-import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.core.tasks.*
 
 class TaskProgressBar(
@@ -34,7 +34,7 @@ class TaskProgressBar(
 ), TaskRunner.Listener {
 
     init {
-        visibility = BaseRootView.GONE
+        visibility = View.GONE
         isIndeterminate = true
     }
 
