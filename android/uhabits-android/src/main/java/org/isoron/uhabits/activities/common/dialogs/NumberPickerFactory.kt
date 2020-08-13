@@ -76,11 +76,11 @@ class NumberPickerFactory
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
-        InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
+        InterfaceUtils.setupEditorAction(picker, TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
             false
-        }
+        })
 
         return dialog
     }
