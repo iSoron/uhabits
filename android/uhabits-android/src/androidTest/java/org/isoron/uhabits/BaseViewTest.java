@@ -20,10 +20,13 @@
 package org.isoron.uhabits;
 
 import android.graphics.*;
-import android.support.annotation.*;
-import android.support.test.*;
+
+import androidx.annotation.NonNull;
+import androidx.test.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;

@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/edit"
         style="?android:borderlessButtonStyle"
         android:layout_width="wrap_content"

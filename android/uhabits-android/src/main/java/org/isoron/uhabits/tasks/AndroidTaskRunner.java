@@ -87,6 +87,7 @@ public class AndroidTaskRunner implements TaskRunner
     private class CustomAsyncTask extends AsyncTask<Void, Integer, Void>
     {
         private final Task task;
+        private boolean isCancelled = false;
 
         public CustomAsyncTask(Task task)
         {
@@ -106,6 +107,7 @@ public class AndroidTaskRunner implements TaskRunner
         @Override
         protected Void doInBackground(Void... params)
         {
+            if(isCancelled) return null;
             task.doInBackground();
             return null;
         }
@@ -113,6 +115,7 @@ public class AndroidTaskRunner implements TaskRunner
         @Override
         protected void onPostExecute(Void aVoid)
         {
+            if(isCancelled) return;
             task.onPostExecute();
             activeTasks.remove(this);
             taskToAsyncTask.remove(task);
@@ -122,6 +125,8 @@ public class AndroidTaskRunner implements TaskRunner
         @Override
         protected void onPreExecute()
         {
+            isCancelled = task.isCanceled();
+            if(isCancelled) return;
             for (Listener l : listeners) l.onTaskStarted(task);
             activeTasks.add(this);
             taskToAsyncTask.put(task, this);

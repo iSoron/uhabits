@@ -20,14 +20,16 @@
 package org.isoron.uhabits.activities.habits.show.views;
 
 import android.content.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.widget.*;
+
+import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -44,7 +46,7 @@ public class FrequencyCard extends HabitCard
     FrequencyChart chart;
 
     @Nullable
-    private TaskRunner taskRunner;
+    private Preferences prefs;
 
     public FrequencyCard(Context context)
     {
@@ -59,24 +61,21 @@ public class FrequencyCard extends HabitCard
     }
 
     @Override
-    protected void refreshData()
+    protected Task createRefreshTask()
     {
-        if(taskRunner == null) return;
-        taskRunner.execute(new RefreshTask());
+        return new RefreshTask();
     }
 
     private void init()
     {
-        inflate(getContext(), R.layout.show_habit_frequency, this);
-        ButterKnife.bind(this);
-
         Context appContext = getContext().getApplicationContext();
-        if(appContext instanceof HabitsApplication)
+        if (appContext instanceof HabitsApplication)
         {
             HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
+            prefs = app.getComponent().getPreferences();
         }
-
+        inflate(getContext(), R.layout.show_habit_frequency, this);
+        ButterKnife.bind(this);
         if (isInEditMode()) initEditMode();
     }
 
@@ -88,13 +87,15 @@ public class FrequencyCard extends HabitCard
         chart.populateWithRandomData();
     }
 
-    private class RefreshTask implements Task
+    private class RefreshTask  extends CancelableTask
     {
         @Override
         public void doInBackground()
         {
+            if (isCanceled()) return;
             RepetitionList reps = getHabit().getRepetitions();
             HashMap<Timestamp, Integer[]> frequency = reps.getWeekdayFrequency();
+            if(prefs != null) chart.setFirstWeekday(prefs.getFirstWeekday());
             chart.setFrequency(frequency);
         }
 

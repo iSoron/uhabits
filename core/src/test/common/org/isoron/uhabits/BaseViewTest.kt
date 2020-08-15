@@ -30,7 +30,10 @@ open class BaseViewTest {
                               height: Int,
                               expectedPath: String,
                               component: Component) {
-
+        if (DependencyResolver.ignoreViewTests) {
+            println("WARN: Ignoring BaseViewTest assertion")
+            return
+        }
         val canvas = DependencyResolver.createCanvas(width, height)
         component.draw(canvas)
         assertRenders(expectedPath, canvas)
@@ -38,10 +41,14 @@ open class BaseViewTest {
 
     suspend fun assertRenders(path: String,
                               canvas: Canvas) {
-
+        if (DependencyResolver.ignoreViewTests) {
+            println("WARN: Ignoring BaseViewTest assertion")
+            return
+        }
         val actualImage = canvas.toImage()
         val failedActualPath = "/tmp/failed/${path}"
-        val failedExpectedPath = failedActualPath.replace(".png", ".expected.png")
+        val failedExpectedPath = failedActualPath.replace(".png",
+                                                          ".expected.png")
         val failedDiffPath = failedActualPath.replace(".png", ".diff.png")
         val fileOpener = DependencyResolver.getFileOpener()
         val expectedFile = fileOpener.openResourceFile(path)

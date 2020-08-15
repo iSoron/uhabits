@@ -23,10 +23,12 @@ import android.content.*;
 import android.graphics.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
-import android.support.annotation.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -49,6 +51,8 @@ public abstract class HabitWidgetView extends FrameLayout
 
     private StyledResources res;
 
+    private int backgroundAlpha;
+
     public HabitWidgetView(Context context)
     {
         super(context);
@@ -64,18 +68,22 @@ public abstract class HabitWidgetView extends FrameLayout
     public void setShadowAlpha(int shadowAlpha)
     {
         this.shadowAlpha = shadowAlpha;
+        rebuildBackground();
+    }
+
+    public void setBackgroundAlpha(int backgroundAlpha)
+    {
+        this.backgroundAlpha = backgroundAlpha;
+        rebuildBackground();
     }
 
     protected abstract
     @NonNull
     Integer getInnerLayoutId();
 
-    protected void rebuildBackground()
+    public void rebuildBackground()
     {
         Context context = getContext();
-
-        int backgroundAlpha =
-            (int) (255 * res.getFloat(R.attr.widgetBackgroundAlpha));
 
         int shadowRadius = (int) dpToPixels(context, 2);
         int shadowOffset = (int) dpToPixels(context, 1);

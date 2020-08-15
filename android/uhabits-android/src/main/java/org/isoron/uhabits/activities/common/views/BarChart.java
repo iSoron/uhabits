@@ -21,8 +21,10 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
-import android.support.annotation.*;
 import android.util.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -267,16 +269,22 @@ public class BarChart extends ScrollableChart
     private void drawBar(Canvas canvas, RectF rect, double value)
     {
         float margin = baseSize * 0.225f;
+        float round = dpToPixels(getContext(), 2);
 
         int color = textColor;
         if (value / 1000 >= target) color = primaryColor;
 
         rect.inset(-margin, 0);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
-        canvas.drawRect(rect, pGraph);
+        canvas.drawRoundRect(rect, round, round, pGraph);
 
         rect.inset(margin, 0);
         setModeOrColor(pGraph, XFERMODE_SRC, color);
+        canvas.drawRoundRect(rect, round, round, pGraph);
+        rect.set(rect.left,
+                 rect.top + rect.height() / 2.0f,
+                 rect.right,
+                 rect.bottom);
         canvas.drawRect(rect, pGraph);
 
         if (isTransparencyEnabled) pGraph.setXfermode(XFERMODE_SRC);

@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.database;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.apache.commons.lang3.*;
 import org.apache.commons.lang3.tuple.*;
@@ -57,7 +57,7 @@ public class Repository<T>
      * Returns all records matching the given SQL query.
      * <p>
      * The query should only contain the "where" part of the SQL query, and
-     * optinally the "order by" part. "Group by" is not allowed. If no matching
+     * optionally the "order by" part. "Group by" is not allowed. If no matching
      * records are found, returns an empty list.
      */
     @NonNull

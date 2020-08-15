@@ -1,5 +1,22 @@
 # Changelog
 
+### 1.8.8 (June 21, 2020)
+
+* Make small changes to the habit scheduling algorithm, so that "1 time every x days" habits work more predictably.
+* Fix crash when saving habit
+
+### 1.8.0 (Jan 1, 2020)
+
+* New bar chart showing number of repetitions performed in each week, month, quarter or year.
+* Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will no longer break your streak.
+* Many more colors to choose from (now 20 in total).
+* Ability to customize how transparent the widgets are on your home screen.
+* Ability to customize the first day of the week.
+* Yes/No buttons on notifications, instead of just "Check".
+* Automatic dark theme according to phone settings (Android 10).
+* Smaller APK and backup files.
+* Many other internal code changes improving performance and stability.
+
 ### 1.7.11 (Aug 10, 2019)
 
 * Fix bug that produced corrupted CSV files in some countries

@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -61,14 +61,9 @@ public class ListHabitsMenuBehavior
         updateAdapterFilter();
     }
 
-    public void onCreateBooleanHabit()
+    public void onCreateHabit()
     {
-        screen.showCreateBooleanHabitScreen();
-    }
-
-    public void onCreateNumericalHabit()
-    {
-        screen.showCreateNumericalHabitScreen();
+        screen.showSelectHabitTypeDialog();
     }
 
     public void onViewFAQ()
@@ -150,12 +145,10 @@ public class ListHabitsMenuBehavior
 
         void showAboutScreen();
 
-        void showCreateBooleanHabitScreen();
-
-        void showCreateNumericalHabitScreen();
-
         void showFAQScreen();
 
         void showSettingsScreen();
+
+        void showSelectHabitTypeDialog();
     }
 }

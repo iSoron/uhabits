@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.acceptance;
 
-import android.support.test.filters.*;
-import android.support.test.runner.*;
+import androidx.test.filters.*;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.junit.*;
@@ -37,22 +38,36 @@ import static org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*;
 public class HabitsTest extends BaseUserInterfaceTest
 {
     @Test
-    public void shouldCreateHabit() throws Exception
+    public void shouldCreateHabit() throws Exception {
+        shouldCreateHabit("this is a test description");
+    }
+
+    @Test
+    public void shouldCreateHabitBlankDescription() throws Exception {
+        shouldCreateHabit("");
+    }
+
+    private void shouldCreateHabit(String description) throws Exception
     {
         launchApp();
 
         verifyShowsScreen(LIST_HABITS);
         clickMenu(ADD);
 
+        verifyShowsScreen(SELECT_HABIT_TYPE);
+        clickText("Yes or No");
+
         verifyShowsScreen(EDIT_HABIT);
-        typeName("Hello world");
+        String testName = "Hello world";
+        typeName(testName);
         typeQuestion("Did you say hello to the world today?");
-        pickFrequency("Every week");
+        typeDescription(description);
+        pickFrequency();
         pickColor(5);
         clickSave();
 
         verifyShowsScreen(LIST_HABITS);
-        verifyDisplaysText("Hello world");
+        verifyDisplaysText(testName);
     }
 
     @Test
@@ -79,7 +94,16 @@ public class HabitsTest extends BaseUserInterfaceTest
     }
 
     @Test
-    public void shouldEditHabit() throws Exception
+    public void shouldEditHabit() throws Exception {
+        shouldEditHabit("this is a test description");
+    }
+
+    @Test
+    public void shouldEditHabitBlankDescription() throws Exception {
+        shouldEditHabit("");
+    }
+
+    private void shouldEditHabit(String description) throws Exception
     {
         launchApp();
 
@@ -90,6 +114,7 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyShowsScreen(EDIT_HABIT);
         typeName("Take a walk");
         typeQuestion("Did you take a walk today?");
+        typeDescription(description);
         clickSave();
 
         verifyShowsScreen(LIST_HABITS);
@@ -171,5 +196,13 @@ public class HabitsTest extends BaseUserInterfaceTest
         clickMenu(TOGGLE_COMPLETED);
         verifyDisplaysText("Track time");
         verifyDisplaysText("Wake up early");
+    }
+
+    @Test
+    public void shouldHideNotesCard() throws Exception
+    {
+        launchApp();
+        clickText(EMPTY_DESCRIPTION_HABIT_NAME);
+        verifyShowsScreen(SHOW_HABIT, false);
     }
 }

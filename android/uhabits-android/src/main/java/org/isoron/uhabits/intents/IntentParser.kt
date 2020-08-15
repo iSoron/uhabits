@@ -36,6 +36,11 @@ class IntentParser
         return CheckmarkIntentData(parseHabit(uri), parseTimestamp(intent))
     }
 
+    fun copyIntentData(source: Intent, destination: Intent) {
+        destination.data = source.data;
+        destination.putExtra("timestamp", source.getLongExtra("timestamp", DateUtils.getToday().unixTime))
+    }
+
     private fun parseHabit(uri: Uri): Habit {
         val habit = habits.getById(parseId(uri)) ?:
                     throw IllegalArgumentException("habit not found")

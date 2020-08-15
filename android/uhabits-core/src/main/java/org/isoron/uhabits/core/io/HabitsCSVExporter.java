@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.io;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
@@ -248,8 +248,8 @@ public class HabitsCSVExporter
                 continue;
             Timestamp currOld = h.getRepetitions().getOldest().getTimestamp();
             Timestamp currNew = h.getRepetitions().getNewest().getTimestamp();
-            oldest = currOld.isOlderThan(oldest) ? oldest : currOld;
-            newest = currNew.isNewerThan(newest) ? newest : currNew;
+            oldest = currOld.isOlderThan(oldest) ? currOld : oldest;
+            newest = currNew.isNewerThan(newest) ? currNew : newest;
         }
         return new Timestamp[]{oldest, newest};
     }

@@ -62,21 +62,6 @@ public class ReminderControllerTest extends BaseAndroidJVMTest
     }
 
     @Test
-    public void testOnSnooze() throws Exception
-    {
-        Habit habit = mock(Habit.class);
-        long now = timestamp(2015, 1, 1);
-        long nowTz = DateUtils.applyTimezone(now);
-        DateUtils.setFixedLocalTime(now);
-        when(preferences.getSnoozeInterval()).thenReturn(15L);
-
-        controller.onSnoozePressed(habit,null);
-
-        verify(reminderScheduler).scheduleMinutesFromNow(habit, 15L);
-        verify(notificationTray).cancel(habit);
-    }
-
-    @Test
     public void testOnShowReminder() throws Exception
     {
         Habit habit = mock(Habit.class);

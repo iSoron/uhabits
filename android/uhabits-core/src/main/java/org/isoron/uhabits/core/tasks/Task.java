@@ -19,11 +19,16 @@
 
 package org.isoron.uhabits.core.tasks;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 public interface Task
 {
     default void cancel() {}
+
+    default boolean isCanceled()
+    {
+        return false;
+    }
 
     void doInBackground();
 

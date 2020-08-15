@@ -21,8 +21,10 @@ package org.isoron.uhabits.intents
 
 import android.content.*
 import android.net.*
+import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.about.*
+import org.isoron.uhabits.activities.habits.edit.*
 import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.activities.intro.*
 import org.isoron.uhabits.activities.settings.*
@@ -45,6 +47,9 @@ class IntentFactory
 
     fun sendFeedback(context: Context) =
             buildSendToIntent(context.getString(R.string.feedbackURL))
+
+    fun privacyPolicy(context: Context) =
+            buildViewIntent(context.getString(R.string.privacyPolicyURL))
 
     fun startAboutActivity(context: Context) =
             Intent(context, AboutActivity::class.java)
@@ -74,5 +79,25 @@ class IntentFactory
     private fun buildViewIntent(url: String) = Intent().apply {
         action = Intent.ACTION_VIEW
         data = Uri.parse(url)
+    }
+
+    fun codeContributors(context: Context) =
+            buildViewIntent(context.getString(R.string.codeContributorsURL))
+
+    private fun startEditActivity(context: Context): Intent {
+        return Intent(context, EditHabitActivity::class.java)
+    }
+
+    fun startEditActivity(context: Context, habit: Habit): Intent {
+        val intent = startEditActivity(context)
+        intent.putExtra("habitId", habit.id)
+        intent.putExtra("habitType", habit.type)
+        return intent
+    }
+
+    fun startEditActivity(context: Context, habitType: Int): Intent {
+        val intent = startEditActivity(context)
+        intent.putExtra("habitType", habitType)
+        return intent
     }
 }

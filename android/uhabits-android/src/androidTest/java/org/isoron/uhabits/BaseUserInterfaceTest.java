@@ -20,7 +20,8 @@
 package org.isoron.uhabits;
 
 import android.content.*;
-import android.support.test.uiautomator.*;
+
+import androidx.test.uiautomator.*;
 
 import com.linkedin.android.testbutler.*;
 
@@ -30,12 +31,15 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static android.support.test.InstrumentationRegistry.*;
-import static android.support.test.uiautomator.UiDevice.*;
+import static androidx.test.InstrumentationRegistry.getContext;
+import static androidx.test.InstrumentationRegistry.getTargetContext;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.uiautomator.UiDevice.*;
 
 public class BaseUserInterfaceTest
 {
     private static final String PKG = "org.isoron.uhabits";
+    public static final String EMPTY_DESCRIPTION_HABIT_NAME = "Read books";
 
     public static UiDevice device;
 
@@ -93,26 +97,36 @@ public class BaseUserInterfaceTest
 
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("Wake up early");
-        h1.setDescription("Did you wake up early today?");
+        h1.setQuestion("Did you wake up early today?");
+        h1.setDescription("test description 1");
         h1.setColor(5);
         habitList.update(h1);
 
         Habit h2 = fixtures.createShortHabit();
         h2.setName("Track time");
-        h2.setDescription("Did you track your time?");
+        h2.setQuestion("Did you track your time?");
+        h2.setDescription("test description 2");
         h2.setColor(5);
         habitList.update(h2);
 
         Habit h3 = fixtures.createLongHabit();
         h3.setName("Meditate");
-        h3.setDescription("Did meditate today?");
+        h3.setQuestion("Did meditate today?");
+        h3.setDescription("test description 3");
         h3.setColor(10);
         habitList.update(h3);
 
         Habit h4 = fixtures.createEmptyHabit();
-        h4.setName("Read books");
-        h4.setDescription("Did you read books today?");
+        h4.setName(EMPTY_DESCRIPTION_HABIT_NAME);
+        h4.setQuestion("Did you read books today?");
+        h4.setDescription("");
         h4.setColor(2);
         habitList.update(h4);
+    }
+
+    protected void rotateDevice() throws Exception
+    {
+        device.setOrientationLeft();
+        device.setOrientationNatural();
     }
 }

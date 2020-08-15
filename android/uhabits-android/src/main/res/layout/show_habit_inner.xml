@@ -38,12 +38,18 @@
             android:id="@+id/subtitleCard"
             style="@style/ShowHabit.Subtitle"/>
 
-        <View
-            android:id="@+id/headerShadow"
-            style="@style/ToolbarShadow"/>
+        <org.isoron.uhabits.activities.habits.show.views.NotesCard
+            android:id="@+id/notesCard"
+            style="@style/Card"
+            android:gravity="center" />
 
         <org.isoron.uhabits.activities.habits.show.views.OverviewCard
             android:id="@+id/overviewCard"
+            style="@style/Card"
+            android:paddingTop="12dp"/>
+
+        <org.isoron.uhabits.activities.habits.show.views.TargetCard
+            android:id="@+id/targetCard"
             style="@style/Card"
             android:paddingTop="12dp"/>
 

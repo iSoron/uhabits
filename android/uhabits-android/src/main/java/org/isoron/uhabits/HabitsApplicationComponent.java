@@ -63,8 +63,6 @@ public interface HabitsApplicationComponent
 
     HabitList getHabitList();
 
-    HabitLogger getHabitsLogger();
-
     IntentFactory getIntentFactory();
 
     IntentParser getIntentParser();

@@ -19,8 +19,10 @@
 
 package org.isoron.androidbase.activities;
 
-import android.support.annotation.*;
 import android.view.*;
+
+import androidx.annotation.MenuRes;
+import androidx.annotation.NonNull;
 
 /**
  * Base class for all the menus in the application.

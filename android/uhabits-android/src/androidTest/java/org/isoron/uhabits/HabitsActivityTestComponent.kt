@@ -37,7 +37,6 @@ class TestModule {
 @ActivityScope
 @Component(modules = arrayOf(
         ActivityContextModule::class,
-        AboutModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
         ShowHabitModule::class,

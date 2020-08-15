@@ -1,0 +1,18 @@
+Loop ti aiuta a creare e mantenere buone abitudini, permettendoti di raggiungere i tuoi obbiettivi a lungo termine. Grafici dettagliati e le statistiche ti mostrano come le tue abitudini sono migliorate durante il tempo. E' completamente senza pubblicità ed opensource.
+
+<b>Interfaccia semplice e moderna</b> Loop ha un'interfaccia minimale che è semplice da usare e segue le linee guida del Material Design
+
+<b>Forza dell'abitudine</b>
+In aggiunta al traguardo attuale, Loop ha un algoritmo avanzato per calcolare la forza delle tue abitudini. Ogni ripetizione la rafforza, mentre ogni giorno mancato la indebolisce. Pochi giorni mancati dopo una lunga serie però non vanificherà completamente il tuo progresso totale.
+
+<b>Grafici dettagliati e statistiche</b> Visualizza in modo semplice come le tue abitudini sono migliorate nel tempo con grafici dettagliati. Scorri indietro per vedere la cronologia completa delle tue abitudini.
+
+<b>Programmi flessibili</b> Supporto per abitudini sia giornaliere che con organizzazioni più complesse, come 3 volte alla settimana; una volta ogni 2 settimane; ogni due giorni...
+
+<b>Promemoria</b>
+Crea un promemoria per ogni abitudine, ad una specificata ora del giorno. Completa, ritarda o ignora il promemoria direttamente dalla notifica, senza aprire l'app.
+
+<b>Completamente gratuito ed opensource</b>
+Non ci sono pubblicità, notifiche invasive o permessi intrusivi e mai ce ne saranno. Il codice sorgente completo è disponibile sotto licenza GPLv3.
+
+<b>Ottimizzata per gli smartwatch</b> I promemoria possono essere completati, ritardati o ignorati direttamente dal tuo orologio Android Wear.

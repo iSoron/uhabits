@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
@@ -177,6 +177,8 @@ public class ListHabitsBehavior
     public interface NumberPickerCallback
     {
         void onNumberPicked(double newValue);
+
+        default void onNumberPickerDismissed() {}
     }
 
     public interface Screen

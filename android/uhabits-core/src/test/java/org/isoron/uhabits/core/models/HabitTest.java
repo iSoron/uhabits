@@ -102,19 +102,19 @@ public class HabitTest extends BaseUnitTest
         h.setTargetValue(100.0);
         assertFalse(h.isCompletedToday());
 
-        h.getRepetitions().toggle(getToday(), 200);
+        h.getRepetitions().toggle(getToday(), 200_000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 100);
+        h.getRepetitions().toggle(getToday(), 100_000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 50);
+        h.getRepetitions().toggle(getToday(), 50_000);
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
-        h.getRepetitions().toggle(getToday(), 200);
+        h.getRepetitions().toggle(getToday(), 200_000);
         assertFalse(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 100);
+        h.getRepetitions().toggle(getToday(), 100_000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 50);
+        h.getRepetitions().toggle(getToday(), 50_000);
         assertTrue(h.isCompletedToday());
     }
 
@@ -155,7 +155,7 @@ public class HabitTest extends BaseUnitTest
                           " targetValue: 100.0, type: 0, unit: ," +
                           " reminder: {hour: 22, minute: 30," +
                           " days: {weekdays: [true,true,true,true,true,true,true]}}," +
-                          " position: 0}}";
+                          " position: 0, question: }}";
 
         assertThat(h.toString(), equalTo(expected));
     }

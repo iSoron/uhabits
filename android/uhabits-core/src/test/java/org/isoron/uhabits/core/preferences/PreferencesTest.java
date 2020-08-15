@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.core.preferences;
 
-import android.support.annotation.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
@@ -143,7 +143,7 @@ public class PreferencesTest extends BaseUnitTest
     @Test
     public void testTheme() throws Exception
     {
-        assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_LIGHT));
+        assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_AUTOMATIC));
         prefs.setTheme(ThemeSwitcher.THEME_DARK);
         assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_DARK));
 

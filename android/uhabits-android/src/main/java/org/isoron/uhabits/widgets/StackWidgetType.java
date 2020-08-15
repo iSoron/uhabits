@@ -12,7 +12,8 @@ public enum StackWidgetType {
     FREQUENCY(1),
     SCORE(2), // habit strength widget
     HISTORY(3),
-    STREAKS(4);
+    STREAKS(4),
+    TARGET(5);
 
     private int value;
     StackWidgetType(int value) {
@@ -34,6 +35,8 @@ public enum StackWidgetType {
             return HISTORY;
         } else if (STREAKS.getValue() == value) {
             return STREAKS;
+        } else if (TARGET.getValue() == value) {
+            return TARGET;
         }
         return null;
     }
@@ -50,6 +53,8 @@ public enum StackWidgetType {
                 return R.layout.history_stackview_widget;
             case STREAKS:
                 return R.layout.streak_stackview_widget;
+            case TARGET:
+                return R.layout.target_stackview_widget;
         }
         return 0;
     }
@@ -66,6 +71,8 @@ public enum StackWidgetType {
                 return R.id.historyStackWidgetView;
             case STREAKS:
                 return R.id.streakStackWidgetView;
+            case TARGET:
+                return R.id.targetStackWidgetView;
         }
         return 0;
     }
@@ -82,6 +89,8 @@ public enum StackWidgetType {
                 return R.id.historyStackWidgetEmptyView;
             case STREAKS:
                 return R.id.streakStackWidgetEmptyView;
+            case TARGET:
+                return R.id.targetStackWidgetEmptyView;
         }
         return 0;
     }

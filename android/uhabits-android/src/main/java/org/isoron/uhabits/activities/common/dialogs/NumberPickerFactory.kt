@@ -20,7 +20,7 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.*
-import android.support.v7.app.*
+import androidx.appcompat.app.*
 import android.text.*
 import android.view.*
 import android.view.inputmethod.*
@@ -69,15 +69,18 @@ class NumberPickerFactory
                     val v = picker.value + 0.05 * picker2.value
                     callback.onNumberPicked(v)
                 }
+                .setOnDismissListener{
+                    callback.onNumberPickerDismissed()
+                }
                 .create()
 
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
-        InterfaceUtils.setupEditorAction(picker) { _, actionId, _ ->
+        InterfaceUtils.setupEditorAction(picker, TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
             false
-        }
+        })
 
         return dialog
     }

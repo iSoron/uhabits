@@ -21,7 +21,8 @@ package org.isoron.uhabits.receivers;
 
 import android.content.*;
 import android.net.*;
-import android.support.annotation.*;
+
+import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
@@ -70,34 +71,24 @@ public class ReminderController
 
     public void onSnoozePressed(@NonNull Habit habit, final Context context)
     {
-        long delay = preferences.getSnoozeInterval();
-
-        if (delay < 0)
-            showSnoozeDelayPicker(habit, context);
-        else
-            scheduleReminderMinutesFromNow(habit, delay);
+        showSnoozeDelayPicker(habit, context);
     }
 
-    public void onSnoozeDelayPicked(Habit habit, int delay)
+    public void onSnoozeDelayPicked(Habit habit, int delayInMinutes)
     {
-        scheduleReminderMinutesFromNow(habit, delay);
+        reminderScheduler.snoozeReminder(habit, delayInMinutes);
+        notificationTray.cancel(habit);
     }
 
     public void onSnoozeTimePicked(Habit habit, int hour, int minute)
     {
-        Long time = DateUtils.getUpcomingTimeInMillis(hour, minute);
+        long time = DateUtils.getUpcomingTimeInMillis(hour, minute);
         reminderScheduler.scheduleAtTime(habit, time);
         notificationTray.cancel(habit);
     }
 
     public void onDismiss(@NonNull Habit habit)
     {
-        notificationTray.cancel(habit);
-    }
-
-    private void scheduleReminderMinutesFromNow(Habit habit, long minutes)
-    {
-        reminderScheduler.scheduleMinutesFromNow(habit, minutes);
         notificationTray.cancel(habit);
     }
 

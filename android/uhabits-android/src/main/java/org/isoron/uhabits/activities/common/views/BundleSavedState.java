@@ -20,9 +20,10 @@
 package org.isoron.uhabits.activities.common.views;
 
 import android.os.*;
-import android.support.v4.os.*;
+import androidx.core.os.*;
+import androidx.customview.view.AbsSavedState;
 
-public class BundleSavedState extends android.support.v4.view.AbsSavedState
+public class BundleSavedState extends AbsSavedState
 {
     public static final Parcelable.Creator<BundleSavedState> CREATOR =
         ParcelableCompat.newCreator(

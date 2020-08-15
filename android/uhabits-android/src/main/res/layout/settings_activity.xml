@@ -26,7 +26,7 @@
              tools:context=".activities.settings.SettingsActivity"
              tools:ignore="MergeRootFrame">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         app:popupTheme="?toolbarPopupTheme"
         style="@style/Toolbar"/>

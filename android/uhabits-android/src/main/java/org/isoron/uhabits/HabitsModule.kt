@@ -48,9 +48,10 @@ class HabitsModule {
     fun getReminderScheduler(
             sys: IntentScheduler,
             commandRunner: CommandRunner,
-            habitList: HabitList
+            habitList: HabitList,
+            widgetPreferences: WidgetPreferences
     ): ReminderScheduler {
-        return ReminderScheduler(commandRunner, habitList, sys)
+        return ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
     }
 
     @Provides

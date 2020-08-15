@@ -22,5 +22,5 @@ package org.isoron.uhabits.core;
 public class Config
 {
     public static final String DATABASE_FILENAME = "uhabits.db";
-    public static int DATABASE_VERSION = 22;
+    public static int DATABASE_VERSION = 23;
 }

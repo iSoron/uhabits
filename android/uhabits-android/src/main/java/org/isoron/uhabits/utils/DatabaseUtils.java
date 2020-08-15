@@ -21,7 +21,9 @@ package org.isoron.uhabits.utils;
 
 import android.content.*;
 import android.database.sqlite.*;
-import android.support.annotation.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -98,7 +100,7 @@ public abstract class DatabaseUtils
 
         File db = getDatabaseFile(context);
         File dbCopy = new File(filename);
-        FileUtils.copy(db, dbCopy);
+        FileUtilsKt.copyTo(db, dbCopy);
 
         return dbCopy.getAbsolutePath();
     }
