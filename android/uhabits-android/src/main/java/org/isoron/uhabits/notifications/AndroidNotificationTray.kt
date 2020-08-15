@@ -51,7 +51,6 @@ class AndroidNotificationTray
         Log.d("AndroidNotificationTray", msg)
     }
 
-
     override fun removeNotification(id: Int) {
         val manager = NotificationManagerCompat.from(context)
         manager.cancel(id)
@@ -63,8 +62,6 @@ class AndroidNotificationTray
                                   timestamp: Timestamp,
                                   reminderTime: Long) {
         val notificationManager = NotificationManagerCompat.from(context)
-        //val summary = buildSummary(habit, reminderTime)
-        //notificationManager.notify(Int.MAX_VALUE, summary)
         val notification = buildNotification(habit, reminderTime, timestamp)
         createAndroidNotificationChannel(context)
         try {
@@ -109,7 +106,7 @@ class AndroidNotificationTray
                 .addAction(removeRepetitionAction)
 
         val defaultText = context.getString(R.string.default_reminder_question)
-        val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
+        val builder = Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
                 .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
@@ -121,7 +118,6 @@ class AndroidNotificationTray
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
-                .setGroup("group" + habit.getId())
 
         if (!disableSound)
             builder.setSound(ringtoneManager.getURI())
@@ -137,18 +133,6 @@ class AndroidNotificationTray
 
         builder.extend(wearableExtender)
         return builder.build()
-    }
-
-    private fun buildSummary(habit: Habit,
-                             reminderTime: Long): Notification {
-        return NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setWhen(reminderTime)
-                .setShowWhen(true)
-                .setGroup("group" + habit.getId())
-                .setGroupSummary(true)
-                .build()
     }
 
     companion object {
