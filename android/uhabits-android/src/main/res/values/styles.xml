@@ -154,8 +154,6 @@
         <item name="widgetShadowAlpha">0</item>
     </style>
 
-    <style name="day_of_week_label_condensed"/>
-
     <style name="CardList">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -188,18 +186,6 @@
         <item name="android:textSize">@dimen/regularTextSize</item>
     </style>
 
-    <style name="CardRow">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:layout_marginTop">4dp</item>
-    </style>
-
-    <style name="CardLabel">
-        <item name="android:layout_width">120dp</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
     <style name="About" />
 
     <style name="About.Item">
@@ -213,14 +199,6 @@
     <style name="About.Item.Clickable">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
-    </style>
-
-    <style name="SmallDataView">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
-        <item name="android:textColor">?mediumContrastTextColor</item>
     </style>
 
     <style name="Toolbar">

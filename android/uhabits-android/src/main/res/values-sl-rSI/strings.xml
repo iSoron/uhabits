@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">Spremeni barvo</string>
     <string name="toast_habit_created">Navada ustvarjena</string>
     <string name="toast_habit_deleted">Navada izbrisana</string>
-    <string name="toast_habit_restored">Navada obnovljena</string>
-    <string name="toast_nothing_to_undo">Nič za razveljaviti.</string>
-    <string name="toast_nothing_to_redo">Nič za ponovno opraviti.</string>
     <string name="toast_habit_changed">Navada spremenjena.</string>
-    <string name="toast_habit_changed_back">Navada obnovljena.</string>
     <string name="toast_habit_archived">Navada arhivirana.</string>
     <string name="toast_habit_unarchived">Navada dearhivirana.</string>
     <string name="overview">Pregled</string>
     <string name="habit_strength">Moč navade</string>
     <string name="history">Zgodovina</string>
     <string name="clear">Počisti</string>
-    <string name="description_hint">Vprašanje (Ste ... danes?)</string>
-    <string name="repeat">Ponovi</string>
     <string name="times_every">krat v</string>
     <string name="days">dni</string>
     <string name="reminder">Opomnik</string>
-    <string name="discard">Zavrzi</string>
     <string name="save">Shrani</string>
     <string name="streaks">Serije</string>
     <string name="no_habits_found">Nimate aktivnih navad</string>
     <string name="long_press_to_toggle">Pritisnite-in-držite, da označite ali odznačite</string>
     <string name="reminder_off">Izključeno</string>
-    <string name="validation_name_should_not_be_blank">Ime ne more biti prazno.</string>
-    <string name="validation_number_should_be_positive">Številka mora biti pozitivna.</string>
-    <string name="validation_at_most_one_rep_per_day">Na dan lahko imate kvečjemu eno ponovitev</string>
     <string name="create_habit">Ustvari navado</string>
     <string name="edit_habit">Spremeni navado</string>
     <string name="check">Označi</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">Loop Sledilnik Navad vam pomaga ustvariti in vzdrževati dobre navade.</string>
     <string name="intro_title_2">Ustvari nekaj novih navad</string>
     <string name="intro_description_2">Vsak dan, potem ko opravite vašo navado, vnesite kljukico v aplikacijo.</string>
-    <string name="intro_title_3">Kar tako naprej</string>
-    <string name="intro_description_3">Dalj časa dosledno izvedene Navade si bodo zaslužile polno zvezdo.</string>
     <string name="intro_title_4">Spremljaj svoj napredek</string>
     <string name="intro_description_4">Podrobni grafi vam pokažejo kako so se skozi čas vaše navede izboljšale.</string>
     <string name="interval_15_minutes">15 minut</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">Oceni to aplikacijo na Google Play</string>
     <string name="pref_send_feedback">Pošlji povratne informacije razvijalcem</string>
     <string name="pref_view_source_code">Poglej izvorno kodo na GitHub</string>
-    <string name="pref_view_app_introduction">Poglej uvod aplikacije</string>
     <string name="links">Povezave</string>
-    <string name="behavior">Obnašanje</string>
     <string name="name">Ime</string>
     <string name="settings">Nastavitve</string>
     <string name="snooze_interval">Interval dremeža</string>
@@ -108,26 +94,14 @@
     <string name="version_n">Verzija %s</string>
     <string name="frequency">Pogostost</string>
     <string name="checkmark">Kljukica</string>
-    <string name="strength">Moč</string>
     <string name="best_streaks">Najboljša serija</string>
-    <string name="current_streaks">Trenutna serija</string>
-    <string name="number_of_repetitions">Število ponovitev</string>
-    <string name="last_x_days">Zadnjih %d dni</string>
-    <string name="last_x_weeks">Zadnjih %d tednov</string>
-    <string name="last_x_months">Zadnjih %d mesecev</string>
-    <string name="last_x_years">Zadnjih %d let</string>
-    <string name="all_time">Ves čas</string>
     <string name="every_day">Vsak dan</string>
     <string name="every_week">Vsak teden</string>
-    <string name="two_times_per_week">2 krat na teden</string>
-    <string name="five_times_per_week">5 krat na teden</string>
-    <string name="custom_frequency">Po meri ...</string>
     <string name="help">Pomoč &amp; Pogosta vprašanja</string>
     <string name="could_not_export">Neuspešen izvoz podatkov.</string>
     <string name="could_not_import">Neuspešen uvoz podatkov.</string>
     <string name="file_not_recognized">Datoteka ni bila prepoznana.</string>
     <string name="habits_imported">Navade uspešno uvožene.</string>
-    <string name="full_backup_success">Popolna varnostna kopija uspešno izvožena.</string>
     <string name="import_data">Uvozi podatke</string>
     <string name="export_full_backup">Izvozi popolno varnostno kopijo</string>
     <string name="import_data_summary">Podpira polne varnostne kopije izvožene iz te aplikacije, kakor tudi datoteke, ki jih ustvari Tickmate, HabitBull ali Rewire. Glej Pogosta vprašanja za več informacij.</string>
@@ -151,10 +125,8 @@
     <string name="total">Skupaj</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">enkrat na</string>
     <string name="every_x_days">Vsakih %d dni</string>
     <string name="every_x_weeks">Vsakih %d tednov</string>
-    <string name="every_x_months">Vsakih %d mesecev</string>
     <string name="score">Ocena</string>
     <string name="reminder_sound">Zvok opomnika</string>
     <string name="none">Noben</string>
@@ -174,6 +146,5 @@
     <string name="by_name">Po imenu</string>
     <string name="by_color">Po barvi</string>
     <string name="by_score">Po rezultatu</string>
-    <string name="download">Prenesi</string>
     <string name="export">Izvozi</string>
 </resources>

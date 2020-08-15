@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">Canviar color</string>
     <string name="toast_habit_created">Hàbit creat.</string>
     <string name="toast_habit_deleted">Hàbits esborrats.</string>
-    <string name="toast_habit_restored">Hàbits restaurats.</string>
-    <string name="toast_nothing_to_undo">Res a desfer.</string>
-    <string name="toast_nothing_to_redo">Res a refer.</string>
     <string name="toast_habit_changed">Hàbit modificat.</string>
-    <string name="toast_habit_changed_back">Hàbit restaurat.</string>
     <string name="toast_habit_archived">Hàbits arxivats.</string>
     <string name="toast_habit_unarchived">Hàbits trets de l\'arxiu.</string>
     <string name="overview">Visió general</string>
     <string name="habit_strength">Fortalesa de l\'hàbit</string>
     <string name="history">Història</string>
     <string name="clear">Netejar</string>
-    <string name="description_hint">Pregunta (Has ... avui?)</string>
-    <string name="repeat">Repetir</string>
     <string name="times_every">vegades en</string>
     <string name="days">dies</string>
     <string name="reminder">Recordatori</string>
-    <string name="discard">Descartar</string>
     <string name="save">Desar</string>
     <string name="streaks">Ratxa</string>
     <string name="no_habits_found">No tens hàbits actius</string>
     <string name="long_press_to_toggle">Prem i manté per a marcar o desmarcar</string>
     <string name="reminder_off">Desactivat</string>
-    <string name="validation_name_should_not_be_blank">El nom no pot estar buit</string>
-    <string name="validation_number_should_be_positive">El número ha de ser positiu</string>
-    <string name="validation_at_most_one_rep_per_day">Pots tenir com a màxim una repetició per dia</string>
     <string name="create_habit">Crear hàbit</string>
     <string name="edit_habit">Editar hàbit</string>
     <string name="check">Revisar</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">Loop Habit Tracker t\'ajuda a crear i mantenir bons hàbits</string>
     <string name="intro_title_2">Crear alguns hàbits nous</string>
     <string name="intro_description_2">Cada dia, després de complir el teu hàbit, posa una marca amb l\'aplicació.</string>
-    <string name="intro_title_3">Continua fent-ho</string>
-    <string name="intro_description_3">Els hàbits que facis consistentment durant una llarga temporada obtindran una estrella</string>
     <string name="intro_title_4">Segueix el teu progrès</string>
     <string name="intro_description_4">Els gràfics detallats et mostren com han mirollat els teus hàbits al llarg del temps</string>
     <string name="interval_15_minutes">15 minuts</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">Valora aquesta app a Google Play</string>
     <string name="pref_send_feedback">Enviar resposta al desenvolupador</string>
     <string name="pref_view_source_code">Veure codi font a Github</string>
-    <string name="pref_view_app_introduction">Veure introducció de l\'app</string>
     <string name="links">Enllaços</string>
-    <string name="behavior">Comportament</string>
     <string name="name">Nom</string>
     <string name="settings">Ajustaments</string>
     <string name="snooze_interval">Interval d\'endarreriment</string>
@@ -108,26 +94,14 @@
     <string name="version_n">Versió %s</string>
     <string name="frequency">Freqüència</string>
     <string name="checkmark">Marca</string>
-    <string name="strength">Fortalesa</string>
     <string name="best_streaks">Millors ratxes</string>
-    <string name="current_streaks">Ratxa actual</string>
-    <string name="number_of_repetitions">Nombre de repeticions</string>
-    <string name="last_x_days">Últims %d dies</string>
-    <string name="last_x_weeks">Últimes %d setmanes</string>
-    <string name="last_x_months">Últims %d mesos</string>
-    <string name="last_x_years">Últims %d anys</string>
-    <string name="all_time">Tot el temps</string>
     <string name="every_day">Cada dia</string>
     <string name="every_week">Cada setmana</string>
-    <string name="two_times_per_week">2 cops per setmana</string>
-    <string name="five_times_per_week">5 cops per setmana</string>
-    <string name="custom_frequency">Personalitzar ...</string>
     <string name="help">Ajuda i Preguntes Freqüents</string>
     <string name="could_not_export">Error exportant dades.</string>
     <string name="could_not_import">Error important dades.</string>
     <string name="file_not_recognized">Fitxer no reconegut.</string>
     <string name="habits_imported">Hàbits importats correctament.</string>
-    <string name="full_backup_success">Còpia de seguretat sencera exportada satisfactòriament.</string>
     <string name="import_data">Importar dades</string>
     <string name="export_full_backup">Exportar còpia de seguretat sencera</string>
     <string name="import_data_summary">Suporta còpies de seguretat exportades per aquesta app, també fitxers generats per Tickmate, HabitBull o Rewire. Mira les Preguntes Freqüents per a més informació.</string>
@@ -151,10 +125,8 @@
     <string name="total">Total</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">vegades en</string>
     <string name="every_x_days">Cada %d dies</string>
     <string name="every_x_weeks">Cada %d setmanes</string>
-    <string name="every_x_months">Cada %d mesos</string>
     <string name="score">Puntuació</string>
     <string name="reminder_sound">So de recordatori</string>
     <string name="none">Cap</string>
@@ -174,6 +146,5 @@
     <string name="by_name">Per nom</string>
     <string name="by_color">Pel color</string>
     <string name="by_score">Per marcador</string>
-    <string name="download">Descarrega</string>
     <string name="export">Exportar</string>
 </resources>

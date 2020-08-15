@@ -20,16 +20,4 @@
 
 <resources>
 
-    <style name="ListHabits">
-        <item name="android:background">@color/transparent</item>
-    </style>
-
-    <style name="ListHabits.EmptyState">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:textColor">#c0c0c0</item>
-    </style>
-
 </resources>

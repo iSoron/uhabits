@@ -23,12 +23,10 @@
     <dimen name="checkmarkHeight">48dp</dimen>
     <dimen name="history_editor_max_height">450dp</dimen>
     <dimen name="history_editor_padding">8dp</dimen>
-    <dimen name="history_max_font_size">@dimen/regularTextSize</dimen>
     <dimen name="regularTextSize">16sp</dimen>
     <dimen name="smallTextSize">14sp</dimen>
     <dimen name="smallerTextSize">12sp</dimen>
     <dimen name="tinyTextSize">10sp</dimen>
     <dimen name="habitNameWidth">160dp</dimen>
-    <dimen name="progressbarOffset">-6dp</dimen>
     <dimen name="checkmarkWidget_heightBreakpoint">55dp</dimen>
 </resources>
