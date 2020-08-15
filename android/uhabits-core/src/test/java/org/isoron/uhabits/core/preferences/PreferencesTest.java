@@ -77,8 +77,8 @@ public class PreferencesTest extends BaseUnitTest
     {
         assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_POSITION));
 
-        prefs.setDefaultOrder(HabitList.Order.BY_SCORE);
-        assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_SCORE));
+        prefs.setDefaultOrder(HabitList.Order.BY_SCORE_DESC);
+        assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_SCORE_DESC));
 
         storage.putString("pref_default_order", "BOGUS");
         assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_POSITION));

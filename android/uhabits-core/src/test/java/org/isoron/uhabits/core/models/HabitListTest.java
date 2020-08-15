@@ -144,7 +144,13 @@ public class HabitListTest extends BaseUnitTest
         assertThat(list.getByPosition(2), equalTo(h4));
         assertThat(list.getByPosition(3), equalTo(h2));
 
-        list.setOrder(BY_NAME);
+        list.setOrder(BY_NAME_DESC);
+        assertThat(list.getByPosition(0), equalTo(h4));
+        assertThat(list.getByPosition(1), equalTo(h3));
+        assertThat(list.getByPosition(2), equalTo(h2));
+        assertThat(list.getByPosition(3), equalTo(h1));
+
+        list.setOrder(BY_NAME_ASC);
         assertThat(list.getByPosition(0), equalTo(h1));
         assertThat(list.getByPosition(1), equalTo(h2));
         assertThat(list.getByPosition(2), equalTo(h3));
@@ -154,11 +160,17 @@ public class HabitListTest extends BaseUnitTest
         list.add(h1);
         assertThat(list.getByPosition(0), equalTo(h1));
 
-        list.setOrder(BY_COLOR);
+        list.setOrder(BY_COLOR_ASC);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h4));
         assertThat(list.getByPosition(2), equalTo(h1));
         assertThat(list.getByPosition(3), equalTo(h2));
+
+        list.setOrder(BY_COLOR_DESC);
+        assertThat(list.getByPosition(0), equalTo(h2));
+        assertThat(list.getByPosition(1), equalTo(h1));
+        assertThat(list.getByPosition(2), equalTo(h4));
+        assertThat(list.getByPosition(3), equalTo(h3));
 
         list.setOrder(BY_POSITION);
         assertThat(list.getByPosition(0), equalTo(h3));
@@ -284,7 +296,7 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void testReorder_onSortedList() throws Exception
     {
-        habitList.setOrder(BY_SCORE);
+        habitList.setOrder(BY_SCORE_DESC);
         Habit h1 = habitsArray.get(1);
         Habit h2 = habitsArray.get(2);
         thrown.expect(IllegalStateException.class);

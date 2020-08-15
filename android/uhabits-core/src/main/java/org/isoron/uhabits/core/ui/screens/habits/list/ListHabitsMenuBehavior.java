@@ -97,7 +97,11 @@ public class ListHabitsMenuBehavior
 
     public void onSortByColor()
     {
-        adapter.setOrder(HabitList.Order.BY_COLOR);
+        if (adapter.getOrder() != HabitList.Order.BY_COLOR_ASC) {
+            adapter.setOrder(HabitList.Order.BY_COLOR_ASC);
+        } else {
+            adapter.setOrder(HabitList.Order.BY_COLOR_DESC);
+        }
     }
 
     public void onSortByManually()
@@ -107,12 +111,20 @@ public class ListHabitsMenuBehavior
 
     public void onSortByScore()
     {
-        adapter.setOrder(HabitList.Order.BY_SCORE);
+        if (adapter.getOrder() != HabitList.Order.BY_SCORE_DESC) {
+            adapter.setOrder(HabitList.Order.BY_SCORE_DESC);
+        } else {
+            adapter.setOrder(HabitList.Order.BY_SCORE_ASC);
+        }
     }
 
     public void onSortByName()
     {
-        adapter.setOrder(HabitList.Order.BY_NAME);
+        if (adapter.getOrder() != HabitList.Order.BY_NAME_ASC) {
+            adapter.setOrder(HabitList.Order.BY_NAME_ASC);
+        } else {
+            adapter.setOrder(HabitList.Order.BY_NAME_DESC);
+        }
     }
 
     public void onToggleNightMode()
@@ -137,6 +149,8 @@ public class ListHabitsMenuBehavior
         void setFilter(HabitMatcher build);
 
         void setOrder(HabitList.Order order);
+
+        HabitList.Order getOrder();
     }
 
     public interface Screen

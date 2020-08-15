@@ -104,7 +104,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     {
         behavior.onSortByColor();
         verify(adapter).setOrder(orderCaptor.capture());
-        assertThat(orderCaptor.getValue(), equalTo(BY_COLOR));
+        assertThat(orderCaptor.getValue(), equalTo(BY_COLOR_ASC));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     {
         behavior.onSortByScore();
         verify(adapter).setOrder(orderCaptor.capture());
-        assertThat(orderCaptor.getValue(), equalTo(BY_SCORE));
+        assertThat(orderCaptor.getValue(), equalTo(BY_SCORE_DESC));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     {
         behavior.onSortByName();
         verify(adapter).setOrder(orderCaptor.capture());
-        assertThat(orderCaptor.getValue(), equalTo(BY_NAME));
+        assertThat(orderCaptor.getValue(), equalTo(BY_NAME_ASC));
     }
 
     @Test

@@ -120,37 +120,49 @@ public class MemoryHabitList extends HabitList
 
     private Comparator<Habit> getComparatorByOrder(Order order)
     {
-        Comparator<Habit> nameComparator =
-            (h1, h2) -> h1.getName().compareTo(h2.getName());
+        Comparator<Habit> nameComparatorAsc =
+                (h1, h2) -> h1.getName().compareTo(h2.getName());
 
-        Comparator<Habit> colorComparator = (h1, h2) ->
+        Comparator<Habit> nameComparatorDesc =
+                (h1, h2) -> nameComparatorAsc.compare(h2, h1);
+
+        Comparator<Habit> colorComparatorAsc = (h1, h2) ->
         {
             Integer c1 = h1.getColor();
             Integer c2 = h2.getColor();
-            if (c1.equals(c2)) return nameComparator.compare(h1, h2);
+            if (c1.equals(c2)) return nameComparatorAsc.compare(h1, h2);
             else return c1.compareTo(c2);
         };
 
-        Comparator<Habit> scoreComparator = (h1, h2) ->
+        Comparator<Habit> colorComparatorDesc =
+                (h1, h2) -> colorComparatorAsc.compare(h2, h1);
+
+        Comparator<Habit> scoreComparatorDesc = (h1, h2) ->
         {
             Double s1 = h1.getScores().getTodayValue();
             Double s2 = h2.getScores().getTodayValue();
-            if (s1.equals(s2)) return nameComparator.compare(h1, h2);
+            if (s1.equals(s2)) return nameComparatorAsc.compare(h1, h2);
             else return s2.compareTo(s1);
         };
+
+        Comparator<Habit> scoreComparatorAsc =
+                (h1, h2) -> scoreComparatorDesc.compare(h2, h1);
 
         Comparator<Habit> positionComparator = (h1, h2) ->
         {
             Integer p1 = h1.getPosition();
             Integer p2 = h2.getPosition();
-            if (p1.equals(p2)) return nameComparator.compare(h1, h2);
+            if (p1.equals(p2)) return nameComparatorAsc.compare(h1, h2);
             else return p1.compareTo(p2);
         };
 
         if (order == BY_POSITION) return positionComparator;
-        if (order == BY_NAME) return nameComparator;
-        if (order == BY_COLOR) return colorComparator;
-        if (order == BY_SCORE) return scoreComparator;
+        if (order == BY_NAME_ASC) return nameComparatorAsc;
+        if (order == BY_NAME_DESC) return nameComparatorDesc;
+        if (order == BY_COLOR_ASC) return colorComparatorAsc;
+        if (order == BY_COLOR_DESC) return colorComparatorDesc;
+        if (order == BY_SCORE_DESC) return scoreComparatorDesc;
+        if (order == BY_SCORE_ASC) return scoreComparatorAsc;
         throw new IllegalStateException();
     }
 
