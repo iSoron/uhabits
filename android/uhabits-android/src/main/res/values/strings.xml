@@ -28,13 +28,11 @@
     <string name="unarchive">Unarchive</string>
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Change color</string>
-
     <string name="toast_habit_created">Habit created</string>
     <string name="toast_habit_deleted">Habits deleted</string>
     <string name="toast_habit_changed">Habit changed</string>
     <string name="toast_habit_archived">Habits archived</string>
     <string name="toast_habit_unarchived">Habits unarchived</string>
-
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
@@ -52,17 +50,12 @@
     <string name="edit_habit">Edit habit</string>
     <string name="check">Check</string>
     <string name="snooze">Later</string>
-
-    <!-- App introduction -->
     <string name="intro_title_1">Welcome</string>
     <string name="intro_description_1">Loop Habit Tracker helps you create and maintain good habits.</string>
-
     <string name="intro_title_2">Create some new habits</string>
     <string name="intro_description_2">Every day, after performing your habit, put a checkmark on the app.</string>
-
     <string name="intro_title_4">Track your progress</string>
     <string name="intro_description_4">Detailed graphs show you how your habits improved over time.</string>
-
     <string name="interval_15_minutes">15 minutes</string>
     <string name="interval_30_minutes">30 minutes</string>
     <string name="interval_1_hour">1 hour</string>
@@ -83,7 +76,6 @@
     <string name="settings">Settings</string>
     <string name="snooze_interval">Snooze interval</string>
     <string name="select_snooze_delay">Select snooze delay</string>
-
     <string name="hint_title">Did you know?</string>
     <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
@@ -95,36 +87,28 @@
     <string name="any_day">Any day of the week</string>
     <string name="select_weekdays">Select days</string>
     <string name="export_to_csv">Export as CSV</string>
-
     <string name="done_label">Done</string>
     <string name="clear_label">Clear</string>
     <string name="select_hours">Select hours</string>
     <string name="select_minutes">Select minutes</string>
-
     <string-array name="hints">
         <item>@string/hint_drag</item>
         <item>@string/hint_landscape</item>
     </string-array>
-
     <string name="about">About</string>
     <string name="translators">Translators</string>
     <string name="developers">Developers</string>
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
     <string name="checkmark">Checkmark</string>
-
     <string name="checkmark_stack_widget" formatted="false">Checkmark Stack Widget</string>
     <string name="frequency_stack_widget" formatted="false">Frequency Stack Widget</string>
     <string name="score_stack_widget" formatted="false">Score Stack Widget</string>
     <string name="history_stack_widget" formatted="false">History Stack Widget</string>
     <string name="streaks_stack_widget" formatted="false">Streaks Stack Widget</string>
-
-
     <string name="best_streaks">Best streaks</string>
-
     <string name="every_day">Every day</string>
     <string name="every_week">Every week</string>
-
     <string name="help">Help &amp; FAQ</string>
     <string name="could_not_export">Failed to export data.</string>
     <string name="could_not_import">Failed to import data.</string>
@@ -138,7 +122,6 @@
     <string name="bug_report_failed">Failed to generate bug report.</string>
     <string name="generate_bug_report">Generate bug report</string>
     <string name="troubleshooting">Troubleshooting</string>
-
     <string name="help_translate">Help translate this app</string>
     <string name="night_mode">Dark theme</string>
     <string name="use_pure_black">Use pure black in dark theme</string>
@@ -146,20 +129,13 @@
     <string name="interface_preferences">Interface</string>
     <string name="reverse_days">Reverse order of days</string>
     <string name="reverse_days_description">Show days in reverse order on the main screen.</string>
-
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="quarter">Quarter</string>
     <string name="year">Year</string>
-
     <string name="total">Total</string>
-
-    <!-- Different types of habits -->
     <string name="yes_or_no">Yes or No</string>
-
-    <!-- Middle part of the sentence '1 time in xx days' -->
-
     <string name="every_x_days">Every %d days</string>
     <string name="every_x_weeks">Every %d weeks</string>
     <string name="score">Score</string>
@@ -168,19 +144,16 @@
     <string name="filter">Filter</string>
     <string name="hide_completed">Hide completed</string>
     <string name="hide_archived">Hide archived</string>
-
     <string name="sticky_notifications">Make notifications sticky</string>
     <string name="sticky_notifications_description">Prevents notifications from being swiped away.</string>
     <string name="led_notifications">Notification light</string>
     <string name="led_notifications_description">Shows a blinking light for reminders. Only available in phones with LED notification lights.</string>
     <string name="repair_database">Repair database</string>
     <string name="database_repaired">Database repaired.</string>
-
     <string name="uncheck">Uncheck</string>
     <string name="toggle">Toggle</string>
     <string name="action">Action</string>
     <string name="habit">Habit</string>
-
     <string name="sort">Sort</string>
     <string name="manually">Manually</string>
     <string name="by_name">By name</string>
@@ -207,7 +180,6 @@
     <string name="default_reminder_question">Have you completed this habit today?</string>
     <string name="notes">Notes</string>
     <string name="example_notes">(Optional)</string>
-
     <string name="yes_or_no_example">e.g. Did you wake up early today? Did you exercise? Did you play chess?</string>
     <string name="measurable">Measurable</string>
     <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read? How many calories did you eat?</string>
@@ -220,8 +192,6 @@
     <string name="measurable_question_example">e.g. How many miles did you run today?</string>
     <string name="measurable_units_example">e.g. miles</string>
     <string name="every_month">Every month</string>
-    <string name="validation_should_not_be_blank">Cannot be blank</string>
+    <string name="validation_cannot_be_blank">Cannot be blank</string>
     <string name="today">Today</string>
-
-
 </resources>

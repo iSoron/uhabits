@@ -37,7 +37,6 @@ import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
-import kotlin.math.*
 
 
 class EditHabitActivity : AppCompatActivity() {
@@ -233,16 +232,16 @@ class EditHabitActivity : AppCompatActivity() {
     private fun validate(): Boolean {
         var isValid = true
         if (nameInput.text.isEmpty()) {
-            nameInput.error = getString(R.string.validation_should_not_be_blank)
+            nameInput.error = getString(R.string.validation_cannot_be_blank)
             isValid = false
         }
         if (habitType == Habit.NUMBER_HABIT) {
             if(unitInput.text.isEmpty()) {
-                unitInput.error = getString(R.string.validation_should_not_be_blank)
+                unitInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
             if(targetInput.text.isEmpty()) {
-                targetInput.error = getString(R.string.validation_should_not_be_blank)
+                targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
         }
