@@ -85,7 +85,15 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
-            android:name=".widgets.HabitPickerDialog"
+            android:name=".widgets.activities.HabitPickerDialog"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".widgets.activities.BooleanHabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />

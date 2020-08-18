@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.widgets
+package org.isoron.uhabits.widgets.activities
 
 import android.app.*
 import android.appwidget.AppWidgetManager.*
@@ -27,13 +27,16 @@ import android.widget.*
 import android.widget.AbsListView.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.widgets.*
 import java.util.*
 
-class HabitPickerDialog : Activity() {
+open class HabitPickerDialog : Activity() {
 
     private var widgetId = 0
     private lateinit var widgetPreferences: WidgetPreferences
     private lateinit var widgetUpdater: WidgetUpdater
+
+    protected open fun shouldHideNumerical() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,7 @@ class HabitPickerDialog : Activity() {
         val habitNames = ArrayList<String>()
         for (h in habitList) {
             if (h.isArchived) continue
+            if (h.isNumerical and shouldHideNumerical()) continue
             habitIds.add(h.id!!)
             habitNames.add(h.name)
         }
