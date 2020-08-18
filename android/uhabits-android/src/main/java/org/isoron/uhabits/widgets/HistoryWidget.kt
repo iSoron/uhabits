@@ -41,6 +41,7 @@ class HistoryWidget(
     override fun refreshData(view: View) {
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
+        if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as HistoryChart).apply {
             setFirstWeekday(firstWeekday)
             setColor(PaletteUtils.getColor(context, habit.color))

@@ -81,6 +81,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider
             if (manager == null) throw new RuntimeException("manager is null");
             if (options == null) throw new RuntimeException("options is null");
             updateDependencies(context);
+
             context.setTheme(R.style.WidgetTheme);
 
             BaseWidget widget = getWidgetFromId(context, widgetId);
