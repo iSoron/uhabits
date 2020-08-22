@@ -95,7 +95,7 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
             appendln("App Version Name: ${BuildConfig.VERSION_NAME}")
             appendln("App Version Code: ${BuildConfig.VERSION_CODE}")
             appendln("OS Version: ${System.getProperty("os.version")} (${Build.VERSION.INCREMENTAL})")
-            appendln("OS API Level: ${Build.VERSION.SDK}")
+            appendln("OS API Level: ${Build.VERSION.SDK_INT}")
             appendln("Device: ${Build.DEVICE}")
             appendln("Model (Product): ${Build.MODEL} (${Build.PRODUCT})")
             appendln("Manufacturer: ${Build.MANUFACTURER}")

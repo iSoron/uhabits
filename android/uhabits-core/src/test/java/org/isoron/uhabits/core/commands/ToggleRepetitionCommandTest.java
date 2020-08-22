@@ -24,9 +24,9 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 public class ToggleRepetitionCommandTest extends BaseUnitTest
 {

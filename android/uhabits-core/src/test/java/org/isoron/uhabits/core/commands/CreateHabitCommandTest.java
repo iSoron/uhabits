@@ -23,7 +23,7 @@ import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 

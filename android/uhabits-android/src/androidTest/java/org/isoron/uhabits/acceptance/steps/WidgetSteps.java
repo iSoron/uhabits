@@ -22,7 +22,7 @@ package org.isoron.uhabits.acceptance.steps;
 import androidx.test.uiautomator.*;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 import static org.isoron.uhabits.BaseUserInterfaceTest.*;
 
 public class WidgetSteps {

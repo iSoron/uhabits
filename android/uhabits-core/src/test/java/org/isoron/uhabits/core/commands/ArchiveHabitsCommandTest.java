@@ -25,8 +25,8 @@ import org.junit.*;
 
 import java.util.*;
 
-import static junit.framework.Assert.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class ArchiveHabitsCommandTest extends BaseUnitTest
