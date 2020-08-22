@@ -29,15 +29,19 @@ import javax.inject.*;
 
 public class WidgetBehavior
 {
+    private HabitList habitList;
+
     @NonNull
     private final CommandRunner commandRunner;
 
     private NotificationTray notificationTray;
 
     @Inject
-    public WidgetBehavior(@NonNull CommandRunner commandRunner,
+    public WidgetBehavior(@NonNull HabitList habitList,
+                          @NonNull CommandRunner commandRunner,
                           @NonNull NotificationTray notificationTray)
     {
+        this.habitList = habitList;
         this.commandRunner = commandRunner;
         this.notificationTray = notificationTray;
     }
@@ -68,13 +72,13 @@ public class WidgetBehavior
     private void performToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
         commandRunner.execute(
-            new CreateRepetitionCommand(habit, timestamp, value),
+            new CreateRepetitionCommand(habitList, habit, timestamp, value),
             habit.getId());
     }
 
     public void setNumericValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
         commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, newValue),
+                new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
                 habit.getId());
     }
 

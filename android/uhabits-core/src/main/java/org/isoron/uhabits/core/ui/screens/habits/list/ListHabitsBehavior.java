@@ -87,7 +87,7 @@ public class ListHabitsBehavior
         {
             newValue = Math.round(newValue * 1000);
             commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
+                new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
                 habit.getId());
         });
     }
@@ -152,7 +152,7 @@ public class ListHabitsBehavior
     public void onToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
         commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, value),
+                new CreateRepetitionCommand(habitList, habit, timestamp, value),
                 habit.getId());
     }
 
