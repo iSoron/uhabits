@@ -121,7 +121,11 @@ public class MemoryRepetitionList extends RepetitionList
     @Override
     public long getTotalCount()
     {
-        return list.size();
+        int count = 0;
+        for (Repetition rep : list)
+            if (rep.getValue() == Checkmark.CHECKED_EXPLICITLY)
+                count++;
+        return count;
     }
 
     @Override

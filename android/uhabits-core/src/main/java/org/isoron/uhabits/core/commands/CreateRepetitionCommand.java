@@ -58,8 +58,11 @@ public class CreateRepetitionCommand extends Command
         previousRep = reps.getByTimestamp(timestamp);
         if (previousRep != null) reps.remove(previousRep);
 
-        newRep = new Repetition(timestamp, value);
-        reps.add(newRep);
+        if (value > 0)
+        {
+            newRep = new Repetition(timestamp, value);
+            reps.add(newRep);
+        }
 
         habit.invalidateNewerThan(timestamp);
     }
@@ -80,9 +83,7 @@ public class CreateRepetitionCommand extends Command
     @Override
     public void undo()
     {
-        if(newRep == null) throw new IllegalStateException();
-        habit.getRepetitions().remove(newRep);
-
+        if(newRep != null) habit.getRepetitions().remove(newRep);
         if (previousRep != null) habit.getRepetitions().add(previousRep);
         habit.invalidateNewerThan(timestamp);
     }

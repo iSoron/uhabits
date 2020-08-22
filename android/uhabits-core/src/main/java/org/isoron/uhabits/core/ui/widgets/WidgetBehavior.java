@@ -29,19 +29,15 @@ import javax.inject.*;
 
 public class WidgetBehavior
 {
-    private HabitList habitList;
-
     @NonNull
     private final CommandRunner commandRunner;
 
     private NotificationTray notificationTray;
 
     @Inject
-    public WidgetBehavior(@NonNull HabitList habitList,
-                          @NonNull CommandRunner commandRunner,
+    public WidgetBehavior(@NonNull CommandRunner commandRunner,
                           @NonNull NotificationTray notificationTray)
     {
-        this.habitList = habitList;
         this.commandRunner = commandRunner;
         this.notificationTray = notificationTray;
     }
@@ -51,7 +47,7 @@ public class WidgetBehavior
         notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
-        performToggle(habit, timestamp);
+        performToggle(habit, timestamp, Checkmark.CHECKED_EXPLICITLY);
     }
 
     public void onRemoveRepetition(@NonNull Habit habit, Timestamp timestamp)
@@ -59,18 +55,20 @@ public class WidgetBehavior
         notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
-        performToggle(habit, timestamp);
+        performToggle(habit, timestamp, Checkmark.UNCHECKED);
     }
 
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
-        performToggle(habit, timestamp);
+        Repetition previous = habit.getRepetitions().getByTimestamp(timestamp);
+        if(previous == null) performToggle(habit, timestamp, Checkmark.CHECKED_EXPLICITLY);
+        else performToggle(habit, timestamp, Repetition.nextToggleValue(previous.getValue()));
     }
 
-    private void performToggle(@NonNull Habit habit, Timestamp timestamp)
+    private void performToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
         commandRunner.execute(
-            new ToggleRepetitionCommand(habitList, habit, timestamp),
+            new CreateRepetitionCommand(habit, timestamp, value),
             habit.getId());
     }
 

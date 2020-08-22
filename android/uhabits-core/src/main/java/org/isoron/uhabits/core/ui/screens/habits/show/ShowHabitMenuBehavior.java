@@ -110,7 +110,7 @@ public class ShowHabitMenuBehavior
             if (i % 7 == 0) strength = max(0, min(100, strength + 10 * random.nextGaussian()));
             if (random.nextInt(100) > strength) continue;
 
-            int value = 1;
+            int value = Checkmark.CHECKED_EXPLICITLY;
             if (habit.isNumerical())
                 value = (int) (1000 + 250 * random.nextGaussian() * strength / 100) * 1000;
 

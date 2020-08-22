@@ -76,17 +76,11 @@ public class NotificationTray
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        if (command instanceof ToggleRepetitionCommand)
+        if (command instanceof CreateRepetitionCommand)
         {
-            ToggleRepetitionCommand toggleCmd =
-                (ToggleRepetitionCommand) command;
-
-            Habit habit = toggleCmd.getHabit();
-            taskRunner.execute(() ->
-            {
-                if (habit.getCheckmarks().getTodayValue() !=
-                    Checkmark.UNCHECKED) cancel(habit);
-            });
+            CreateRepetitionCommand createCmd = (CreateRepetitionCommand) command;
+            Habit habit = createCmd.getHabit();
+            cancel(habit);
         }
 
         if (command instanceof DeleteHabitsCommand)

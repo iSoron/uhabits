@@ -79,7 +79,7 @@ public abstract class CheckmarkList
         {
             Timestamp date = rep.getTimestamp();
             int offset = date.daysUntil(today);
-            checkmarks.set(offset, new Checkmark(date, CHECKED_EXPLICITLY));
+            checkmarks.set(offset, new Checkmark(date, rep.getValue()));
         }
 
         return checkmarks;

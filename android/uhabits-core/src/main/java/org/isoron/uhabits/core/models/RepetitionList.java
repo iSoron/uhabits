@@ -119,15 +119,15 @@ public abstract class RepetitionList
     public abstract Repetition getNewest();
 
     /**
-     * Returns the total number of repetitions for each month, from the first
+     * Returns the total number of successful repetitions for each month, from the first
      * repetition until today, grouped by day of week.
      * <p>
      * The repetitions are returned in a HashMap. The key is the timestamp for
      * the first day of the month, at midnight (00:00). The value is an integer
      * array with 7 entries. The first entry contains the total number of
-     * repetitions during the specified month that occurred on a Saturday. The
+     * successful repetitions during the specified month that occurred on a Saturday. The
      * second entry corresponds to Sunday, and so on. If there are no
-     * repetitions during a certain month, the value is null.
+     * successful repetitions during a certain month, the value is null.
      *
      * @return total number of repetitions by month versus day of week
      */
@@ -140,6 +140,9 @@ public abstract class RepetitionList
 
         for (Repetition r : reps)
         {
+            if (!habit.isNumerical() && r.getValue() != Checkmark.CHECKED_EXPLICITLY)
+                continue;
+
             Calendar date = r.getTimestamp().toCalendar();
             int weekday = r.getTimestamp().getWeekday();
             date.set(Calendar.DAY_OF_MONTH, 1);
@@ -202,12 +205,6 @@ public abstract class RepetitionList
         return rep;
     }
 
-    /**
-     * Returns the number of all repetitions
-     *
-     * @return number of all repetitions
-     */
-    @NonNull
     public abstract long getTotalCount();
 
     public void toggle(Timestamp timestamp, int value)

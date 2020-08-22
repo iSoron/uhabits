@@ -81,9 +81,9 @@ public class ShowHabitScreen extends BaseScreen
     }
 
     @Override
-    public void onToggleCheckmark(Timestamp timestamp)
+    public void onToggleCheckmark(Timestamp timestamp, int value)
     {
-        behavior.get().onToggleCheckmark(timestamp);
+        behavior.get().onToggleCheckmark(timestamp, value);
     }
 
     @Override

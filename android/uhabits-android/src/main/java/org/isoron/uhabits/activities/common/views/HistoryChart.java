@@ -147,11 +147,10 @@ public class HistoryChart extends ScrollableChart
         int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
-            boolean isChecked = checkmarks[offset] == CHECKED_EXPLICITLY;
-            checkmarks[offset] = (isChecked ? UNCHECKED : CHECKED_EXPLICITLY);
+            checkmarks[offset] = Repetition.nextToggleValue(checkmarks[offset]);
         }
 
-        controller.onToggleCheckmark(timestamp);
+        controller.onToggleCheckmark(timestamp, checkmarks[offset]);
         postInvalidate();
         return true;
     }
@@ -362,21 +361,42 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
+        int checkmark = 0;
         if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
         else
         {
-            int checkmark = checkmarks[checkmarkOffset];
-            if(checkmark == 0) pSquareBg.setColor(colors[0]);
+            checkmark = checkmarks[checkmarkOffset];
+            if(checkmark == 0)
+                pSquareBg.setColor(colors[0]);
             else if(checkmark < target)
-            {
-                pSquareBg.setColor(isNumerical ? textColor : colors[1]);
-            }
-            else pSquareBg.setColor(colors[2]);
+                pSquareBg.setColor(colors[1]);
+            else
+                pSquareBg.setColor(colors[2]);
         }
 
         pSquareFg.setColor(reverseTextColor);
+        pSquareFg.setStrokeWidth(columnWidth * 0.025f);
+
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
+
+        if (!isNumerical && checkmark == SKIPPED)
+        {
+            canvas.save();
+            canvas.clipRect(location);
+            float offset = - columnWidth;
+            for (int k = 0; k < 10; k++)
+            {
+                offset += columnWidth / 5;
+                canvas.drawLine(location.left + offset,
+                                location.bottom,
+                                location.right + offset,
+                                location.top,
+                                pSquareFg);
+            }
+            canvas.restore();
+        }
+
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
             location.centerY() + squareTextOffset, pSquareFg);
@@ -492,6 +512,6 @@ public class HistoryChart extends ScrollableChart
 
     public interface Controller
     {
-        default void onToggleCheckmark(Timestamp timestamp) {}
+        default void onToggleCheckmark(Timestamp timestamp, int value) {}
     }
 }

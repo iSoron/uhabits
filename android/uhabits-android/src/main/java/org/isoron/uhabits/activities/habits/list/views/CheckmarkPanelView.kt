@@ -46,7 +46,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    var onToggle: (Timestamp) -> Unit = {}
+    var onToggle: (Timestamp, Int) -> Unit = {_, _ ->}
         set(value) {
             field = value
             setupButtons()
@@ -65,7 +65,7 @@ class CheckmarkPanelView(
                 else -> UNCHECKED
             }
             button.color = color
-            button.onToggle = { onToggle(timestamp) }
+            button.onToggle = { value -> onToggle(timestamp, value) }
         }
     }
 }

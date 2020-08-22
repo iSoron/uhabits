@@ -27,6 +27,7 @@ import android.view.View.MeasureSpec.*
 import com.google.auto.factory.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.utils.*
@@ -51,7 +52,7 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var onToggle: () -> Unit = {}
+    var onToggle: (Int) -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -61,11 +62,8 @@ class CheckmarkButtonView(
     }
 
     fun performToggle() {
-        onToggle()
-        value = when (value) {
-            CHECKED_EXPLICITLY -> UNCHECKED
-            else -> CHECKED_EXPLICITLY
-        }
+        value = Repetition.nextToggleValue(value)
+        onToggle(value)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }
@@ -106,9 +104,11 @@ class CheckmarkButtonView(
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
                 CHECKED_EXPLICITLY -> color
+                SKIPPED -> color
                 else -> lowContrastColor
             }
             val id = when (value) {
+                SKIPPED -> R.string.fa_skipped
                 UNCHECKED -> R.string.fa_times
                 else -> R.string.fa_check
             }

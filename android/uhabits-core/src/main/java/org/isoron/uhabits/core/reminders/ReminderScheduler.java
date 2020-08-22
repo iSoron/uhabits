@@ -59,7 +59,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     public synchronized void onCommandExecuted(@NonNull Command command,
                                                @Nullable Long refreshKey)
     {
-        if (command instanceof ToggleRepetitionCommand) return;
+        if (command instanceof CreateRepetitionCommand) return;
         if (command instanceof ChangeHabitColorCommand) return;
         scheduleAll();
     }

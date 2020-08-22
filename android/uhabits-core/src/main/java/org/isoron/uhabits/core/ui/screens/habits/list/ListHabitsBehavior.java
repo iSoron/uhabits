@@ -149,11 +149,11 @@ public class ListHabitsBehavior
         if (prefs.isFirstRun()) onFirstRun();
     }
 
-    public void onToggle(@NonNull Habit habit, Timestamp timestamp)
+    public void onToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
         commandRunner.execute(
-            new ToggleRepetitionCommand(habitList, habit, timestamp),
-            habit.getId());
+                new CreateRepetitionCommand(habit, timestamp, value),
+                habit.getId());
     }
 
     public enum Message

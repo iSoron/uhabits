@@ -54,7 +54,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
         commandRunner = mock(CommandRunner.class);
         notificationTray = mock(NotificationTray.class);
         controller =
-            new WidgetBehavior(habitList, commandRunner, notificationTray);
+            new WidgetBehavior(commandRunner, notificationTray);
     }
 
     @Test

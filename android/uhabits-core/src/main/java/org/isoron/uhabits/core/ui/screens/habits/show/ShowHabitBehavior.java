@@ -56,10 +56,10 @@ public class ShowHabitBehavior
         screen.showEditHistoryScreen();
     }
 
-    public void onToggleCheckmark(Timestamp timestamp)
+    public void onToggleCheckmark(Timestamp timestamp, int value)
     {
         commandRunner.execute(
-            new ToggleRepetitionCommand(habitList, habit, timestamp), null);
+            new CreateRepetitionCommand(habit, timestamp, value), null);
     }
 
     public interface Screen

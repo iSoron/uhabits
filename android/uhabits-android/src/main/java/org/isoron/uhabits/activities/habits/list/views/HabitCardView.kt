@@ -121,9 +121,9 @@ class HabitCardView(
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
-            onToggle = { timestamp ->
+            onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp) }
+                habit?.let { behavior.onToggle(it, timestamp, value) }
             }
         }
 

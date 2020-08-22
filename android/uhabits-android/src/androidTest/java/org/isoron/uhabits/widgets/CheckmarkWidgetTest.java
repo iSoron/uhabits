@@ -70,7 +70,10 @@ public class CheckmarkWidgetTest extends BaseViewTest
         // possible to capture intents sent to BroadcastReceivers.
         button.performClick();
         sleep(1000);
+        assertThat(checkmarks.getTodayValue(), equalTo(SKIPPED));
 
+        button.performClick();
+        sleep(1000);
         assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
     }
 

@@ -27,10 +27,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
- * Represents a record that the user has performed a certain habit at a certain
+ * Represents a record that the user has performed or skipped a certain habit at a certain
  * date.
  */
 public final class Repetition
@@ -41,9 +42,9 @@ public final class Repetition
     /**
      * The value of the repetition.
      *
-     * For boolean habits, this always equals Checkmark.CHECKED_EXPLICITLY.
-     * For numerical habits, this number is stored in thousandths. That
-     * is, if the user enters value 1.50 on the app, it is here stored as 1500.
+     * For boolean habits, this equals CHECKED_EXPLICITLY if performed or SKIPPED if skipped.
+     * For numerical habits, this number is stored in thousandths. That is, if the user enters
+     * value 1.50 on the app, it is here stored as 1500.
      */
     private final int value;
 
@@ -60,6 +61,21 @@ public final class Repetition
         this.timestamp = timestamp;
         this.value = value;
     }
+
+    public static int nextToggleValue(int value)
+    {
+        switch(value) {
+            case UNCHECKED:
+            case CHECKED_IMPLICITLY:
+                return CHECKED_EXPLICITLY;
+            case CHECKED_EXPLICITLY:
+                return SKIPPED;
+            default:
+            case SKIPPED:
+                return UNCHECKED;
+        }
+    }
+
 
     @Override
     public boolean equals(Object o)
