@@ -47,7 +47,7 @@
                 app:iconSpaceReserved="false" />
 
         <ListPreference
-                android:defaultValue="102"
+                android:defaultValue="255"
                 android:entries="@array/widget_opacity_entries"
                 android:entryValues="@array/widget_opacity_values"
                 android:key="pref_widget_opacity"

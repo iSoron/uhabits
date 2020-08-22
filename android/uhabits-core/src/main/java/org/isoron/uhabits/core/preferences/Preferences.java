@@ -330,7 +330,7 @@ public class Preferences
 
     public int getWidgetOpacity()
     {
-        return Integer.parseInt(storage.getString("pref_widget_opacity", "102"));
+        return Integer.parseInt(storage.getString("pref_widget_opacity", "255"));
     }
 
     /**
