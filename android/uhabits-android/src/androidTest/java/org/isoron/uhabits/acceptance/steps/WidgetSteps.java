@@ -70,7 +70,7 @@ public class WidgetSteps {
                 button = device.findObject(new UiSelector().text("Widgets"));
             }
             button.click();
-            if (SDK_INT == 28) {
+            if (SDK_INT >= 28) {
                 new UiScrollable(new UiSelector().resourceId(list_id))
                         .scrollForward();
             }
