@@ -47,8 +47,9 @@ public class FrequencyWidgetTest extends BaseViewTest
     {
         super.setUp();
         setTheme(R.style.WidgetTheme);
+        prefs.setWidgetOpacity(255);
 
-        habit = fixtures.createLongHabit();
+        habit = fixtures.createVeryLongHabit();
         FrequencyWidget widget = new FrequencyWidget(targetContext, 0, habit, Calendar.SUNDAY);
         view = convertToView(widget, 400, 400);
     }
@@ -59,9 +60,9 @@ public class FrequencyWidgetTest extends BaseViewTest
         assertWidgetProviderIsInstalled(FrequencyWidgetProvider.class);
     }
 
-//    @Test
-//    public void testRender() throws Exception
-//    {
-//        assertRenders(view, PATH + "render.png");
-//    }
+    @Test
+    public void testRender() throws Exception
+    {
+        assertRenders(view, PATH + "render.png");
+    }
 }

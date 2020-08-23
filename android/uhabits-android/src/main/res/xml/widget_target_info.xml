@@ -24,10 +24,10 @@
                     android:minResizeWidth="40dp"
                     android:minResizeHeight="40dp"
                     android:initialLayout="@layout/widget_graph"
-                    android:previewImage="@drawable/widget_preview_streaks"
+                    android:previewImage="@drawable/widget_preview_target"
                     android:resizeMode="vertical|horizontal"
                     android:updatePeriodMillis="3600000"
-                    android:configure="org.isoron.uhabits.widgets.activities.NumericalHabitPickerDialog"
+                    android:configure="org.isoron.uhabits.widgets.activities.BooleanHabitPickerDialog"
                     android:widgetCategory="home_screen">
 
 </appwidget-provider>

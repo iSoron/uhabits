@@ -45,8 +45,9 @@ public class StreakWidgetTest extends BaseViewTest
     {
         super.setUp();
         setTheme(R.style.WidgetTheme);
+        prefs.setWidgetOpacity(255);
 
-        habit = fixtures.createLongHabit();
+        habit = fixtures.createVeryLongHabit();
         StreakWidget widget = new StreakWidget(targetContext, 0, habit);
         view = convertToView(widget, 400, 400);
     }
@@ -57,9 +58,9 @@ public class StreakWidgetTest extends BaseViewTest
         assertWidgetProviderIsInstalled(StreakWidgetProvider.class);
     }
 
-//    @Test
-//    public void testRender() throws Exception
-//    {
-//        assertRenders(view, PATH + "render.png");
-//    }
+    @Test
+    public void testRender() throws Exception
+    {
+        assertRenders(view, PATH + "render.png");
+    }
 }
