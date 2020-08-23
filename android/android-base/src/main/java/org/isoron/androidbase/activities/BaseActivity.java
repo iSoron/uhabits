@@ -126,4 +126,18 @@ abstract public class BaseActivity extends AppCompatActivity
         super.onResume();
         if(screen != null) screen.reattachDialogs();
     }
+
+    @Override
+    public void startActivity(Intent intent)
+    {
+        try
+        {
+            super.startActivity(intent);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            if (this.screen != null)
+                this.screen.showMessage(R.string.activity_not_found);
+        }
+    }
 }
