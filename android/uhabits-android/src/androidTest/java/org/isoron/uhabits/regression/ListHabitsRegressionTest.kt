@@ -44,6 +44,9 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
         clickOK()
 
         clickMenu(ADD)
+        verifyShowsScreen(SELECT_HABIT_TYPE)
+        clickText("Yes or No")
+
         verifyShowsScreen(EDIT_HABIT)
         typeName("Hello world")
         clickSave()
