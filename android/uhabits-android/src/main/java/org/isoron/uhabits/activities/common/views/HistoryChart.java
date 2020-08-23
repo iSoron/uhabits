@@ -400,7 +400,7 @@ public class HistoryChart extends ScrollableChart
 
         if (!isNumerical && checkmark == SKIPPED)
         {
-            pSquareBg.setColor(colors[0]);
+            pSquareBg.setColor(textColors[2]);
             pSquareBg.setStrokeWidth(columnWidth * 0.025f);
 
             canvas.save();
