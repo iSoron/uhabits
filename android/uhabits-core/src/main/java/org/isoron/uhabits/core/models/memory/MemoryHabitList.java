@@ -55,6 +55,7 @@ public class MemoryHabitList extends HabitList
         super(matcher);
         this.parent = parent;
         this.comparator = comparator;
+        this.order = parent.order;
         parent.getObservable().addListener(this::loadFromParent);
         loadFromParent();
     }
