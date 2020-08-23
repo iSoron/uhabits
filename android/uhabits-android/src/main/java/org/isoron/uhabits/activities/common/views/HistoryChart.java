@@ -121,11 +121,7 @@ public class HistoryChart extends ScrollableChart
     @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
-        if (!isEditable) return false;
-
-        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         float x, y;
-
         try
         {
             int pointerId = e.getPointerId(0);
@@ -139,20 +135,30 @@ public class HistoryChart extends ScrollableChart
             // e.getPointerId.
             return false;
         }
+        return tap(x, y);
+    }
+
+    public boolean tap(float x, float y)
+    {
+        if (!isEditable) return false;
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
         final Timestamp timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
         Timestamp today = DateUtils.getToday();
+        int newValue = CHECKED_EXPLICITLY;
         int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
-            checkmarks[offset] = Repetition.nextToggleValue(checkmarks[offset]);
+            newValue = Repetition.nextToggleValue(checkmarks[offset]);
+            checkmarks[offset] = newValue;
         }
 
-        controller.onToggleCheckmark(timestamp, checkmarks[offset]);
+        controller.onToggleCheckmark(timestamp, newValue);
         postInvalidate();
         return true;
+
     }
 
     public void populateWithRandomData()
