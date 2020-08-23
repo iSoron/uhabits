@@ -46,6 +46,8 @@ public class StreakChart extends View
 
     private int[] colors;
 
+    private int[] textColors;
+
     private RectF rect;
 
     private int baseSize;
@@ -69,8 +71,6 @@ public class StreakChart extends View
     private boolean shouldShowLabels;
 
     private int textColor;
-
-    private int reverseTextColor;
 
     public StreakChart(Context context)
     {
@@ -213,7 +213,7 @@ public class StreakChart extends View
 
         float yOffset = rect.centerY() + 0.3f * em;
 
-        paint.setColor(reverseTextColor);
+        paint.setColor(percentageToTextColor(percentage));
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(Long.toString(streak.getLength()), rect.centerX(),
             yOffset, paint);
@@ -223,7 +223,7 @@ public class StreakChart extends View
             String startLabel = dateFormat.format(streak.getStart().toJavaDate());
             String endLabel = dateFormat.format(streak.getEnd().toJavaDate());
 
-            paint.setColor(textColor);
+            paint.setColor(textColors[1]);
             paint.setTextAlign(Paint.Align.RIGHT);
             canvas.drawText(startLabel, gap - textMargin, yOffset, paint);
 
@@ -258,8 +258,11 @@ public class StreakChart extends View
         colors[2] = Color.argb(192, red, green, blue);
         colors[1] = Color.argb(96, red, green, blue);
         colors[0] = res.getColor(R.attr.lowContrastTextColor);
-        textColor = res.getColor(R.attr.mediumContrastTextColor);
-        reverseTextColor = res.getColor(R.attr.highContrastReverseTextColor);
+
+        textColors = new int[3];
+        textColors[2] = res.getColor(R.attr.highContrastReverseTextColor);
+        textColors[1] = res.getColor(R.attr.mediumContrastTextColor);
+        textColors[0] = res.getColor(R.attr.lowContrastReverseTextColor);
     }
 
     private void initPaints()
@@ -275,6 +278,12 @@ public class StreakChart extends View
         if (percentage >= 0.8f) return colors[2];
         if (percentage >= 0.5f) return colors[1];
         return colors[0];
+    }
+
+    private int percentageToTextColor(float percentage)
+    {
+        if (percentage >= 0.5f) return textColors[2];
+        return textColors[1];
     }
 
     private void updateMaxMinLengths()

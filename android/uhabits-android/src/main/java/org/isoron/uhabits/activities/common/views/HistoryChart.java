@@ -75,13 +75,13 @@ public class HistoryChart extends ScrollableChart
 
     private int colors[];
 
+    private int textColors[];
+
     private RectF baseLocation;
 
     private int primaryColor;
 
     private boolean isBackgroundTransparent;
-
-    private int textColor;
 
     private int reverseTextColor;
 
@@ -232,6 +232,7 @@ public class HistoryChart extends ScrollableChart
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
+        pSquareBg.setAntiAlias(true);
 
         pSquareFg = new Paint();
         pSquareFg.setAntiAlias(true);
@@ -250,7 +251,7 @@ public class HistoryChart extends ScrollableChart
         headerOverflow = 0;
         previousMonth = "";
         previousYear = "";
-        pTextHeader.setColor(textColor);
+        pTextHeader.setColor(textColors[1]);
 
         updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
@@ -367,27 +368,41 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
+
         int checkmark = 0;
-        if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
+        if (checkmarkOffset >= checkmarks.length)
+        {
+            pSquareBg.setColor(colors[0]);
+            pSquareFg.setColor(textColors[1]);
+        }
         else
         {
             checkmark = checkmarks[checkmarkOffset];
             if(checkmark == 0)
+            {
                 pSquareBg.setColor(colors[0]);
+                pSquareFg.setColor(textColors[1]);
+            }
             else if(checkmark < target)
+            {
                 pSquareBg.setColor(colors[1]);
+                pSquareFg.setColor(textColors[2]);
+            }
             else
+            {
                 pSquareBg.setColor(colors[2]);
+                pSquareFg.setColor(textColors[2]);
+            }
         }
-
-        pSquareFg.setColor(reverseTextColor);
-        pSquareFg.setStrokeWidth(columnWidth * 0.025f);
 
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
 
         if (!isNumerical && checkmark == SKIPPED)
         {
+            pSquareBg.setColor(colors[0]);
+            pSquareBg.setStrokeWidth(columnWidth * 0.025f);
+
             canvas.save();
             canvas.clipRect(location);
             float offset = - columnWidth;
@@ -398,7 +413,7 @@ public class HistoryChart extends ScrollableChart
                                 location.bottom,
                                 location.right + offset,
                                 location.top,
-                                pSquareFg);
+                                pSquareBg);
             }
             canvas.restore();
         }
@@ -448,7 +463,11 @@ public class HistoryChart extends ScrollableChart
             colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.WHITE;
+
+            textColors = new int[3];
+            textColors[0] = Color.WHITE;
+            textColors[1] = Color.WHITE;
+            textColors[2] = Color.WHITE;
             reverseTextColor = Color.WHITE;
         }
         else
@@ -457,9 +476,12 @@ public class HistoryChart extends ScrollableChart
             colors[0] = res.getColor(R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = res.getColor(R.attr.mediumContrastTextColor);
-            reverseTextColor =
-                res.getColor(R.attr.highContrastReverseTextColor);
+
+            textColors = new int[3];
+            textColors[0] = res.getColor(R.attr.lowContrastReverseTextColor);
+            textColors[1] = res.getColor(R.attr.mediumContrastTextColor);
+            textColors[2] = res.getColor(R.attr.highContrastReverseTextColor);
+            reverseTextColor = res.getColor(R.attr.highContrastReverseTextColor);
         }
     }
 
