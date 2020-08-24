@@ -2,6 +2,8 @@ package org.isoron.uhabits.widgets;
 
 import org.isoron.uhabits.R;
 
+import java.lang.annotation.Target;
+
 /**
  * Created by victoryu on 11/3/17.
  */
@@ -13,7 +15,8 @@ public enum StackWidgetType {
     SCORE(2), // habit strength widget
     HISTORY(3),
     STREAKS(4),
-    TARGET(5);
+    TARGET(5),
+    CHECKMARKTIME(6);
 
     private int value;
     StackWidgetType(int value) {
@@ -37,6 +40,8 @@ public enum StackWidgetType {
             return STREAKS;
         } else if (TARGET.getValue() == value) {
             return TARGET;
+        } else if (CHECKMARKTIME.getValue() == value) {
+            return CHECKMARKTIME;
         }
         return null;
     }
@@ -55,6 +60,8 @@ public enum StackWidgetType {
                 return R.layout.streak_stackview_widget;
             case TARGET:
                 return R.layout.target_stackview_widget;
+            case CHECKMARKTIME:
+                return R.layout.checkmarktime_stackview_widget;
         }
         return 0;
     }
@@ -73,6 +80,8 @@ public enum StackWidgetType {
                 return R.id.streakStackWidgetView;
             case TARGET:
                 return R.id.targetStackWidgetView;
+            case CHECKMARKTIME:
+                return R.id.checkmarkTimeStackWidgetView;
         }
         return 0;
     }
@@ -91,6 +100,8 @@ public enum StackWidgetType {
                 return R.id.streakStackWidgetEmptyView;
             case TARGET:
                 return R.id.targetStackWidgetEmptyView;
+            case CHECKMARKTIME:
+                return R.id.checkmarkTimeStackWidgetEmptyView;
         }
         return 0;
     }

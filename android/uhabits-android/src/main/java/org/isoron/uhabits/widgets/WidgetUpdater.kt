@@ -68,6 +68,7 @@ class WidgetUpdater
             updateWidgets(modifiedHabitId, StreakWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, FrequencyWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, TargetWidgetProvider::class.java)
+            updateWidgets(modifiedHabitId, CheckmarkWidgetWithTimeProvider::class.java)
         }
     }
 
