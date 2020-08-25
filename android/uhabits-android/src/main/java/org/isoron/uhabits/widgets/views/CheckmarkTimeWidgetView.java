@@ -21,6 +21,7 @@ package org.isoron.uhabits.widgets.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.RingView;
 import org.isoron.uhabits.activities.habits.list.views.NumberButtonViewKt;
 import org.isoron.uhabits.core.models.Checkmark;
+import org.isoron.uhabits.core.models.Repetition;
+import org.isoron.uhabits.core.models.Timestamp;
 import org.isoron.uhabits.utils.PaletteUtils;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
@@ -47,6 +50,8 @@ public class CheckmarkTimeWidgetView extends HabitWidgetView {
     protected RingView ring;
 
     protected TextView label;
+
+    protected Repetition newest;
 
     protected int checkmarkValue;
 
@@ -123,7 +128,7 @@ public class CheckmarkTimeWidgetView extends HabitWidgetView {
                 return getResources().getString(R.string.fa_skipped);
             case Checkmark.UNCHECKED:
             default:
-                return getResources().getString(R.string.fa_times);
+                return newest == null ? "0" : String.valueOf(newest.getTimestamp().daysUntil(new Timestamp(System.currentTimeMillis())));
         }
     }
 
@@ -150,6 +155,10 @@ public class CheckmarkTimeWidgetView extends HabitWidgetView {
     public void setNumerical(boolean isNumerical)
     {
         this.isNumerical = isNumerical;
+    }
+
+    public void setNewest(Repetition newest) {
+        this.newest = newest;
     }
 
     @Override

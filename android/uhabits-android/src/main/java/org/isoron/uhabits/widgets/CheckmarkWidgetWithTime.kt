@@ -21,7 +21,10 @@ package org.isoron.uhabits.widgets
 
 import android.app.*
 import android.content.*
+import android.os.Build
 import android.view.*
+import androidx.annotation.RequiresApi
+
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
@@ -43,7 +46,7 @@ open class CheckmarkWidgetWithTime(
     override fun refreshData(v: View) {
         (v as CheckmarkTimeWidgetView).apply {
             setBackgroundAlpha(preferedBackgroundAlpha)
-
+            setNewest(habit.repetitions.newest)
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)
             setCheckmarkValue(habit.checkmarks.todayValue)

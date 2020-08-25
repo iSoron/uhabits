@@ -18,7 +18,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -31,13 +31,13 @@
         android:id="@+id/scoreRing"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        habit:thickness="2"
-        habit:textSize="16"
-        habit:enableFontAwesome="true"
-        android:layout_marginTop="8dp"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
+        android:layout_weight="1"
+        habit:enableFontAwesome="true"
+        habit:textSize="16"
+        habit:thickness="2" />
 
     <TextView
         android:id="@+id/label"
