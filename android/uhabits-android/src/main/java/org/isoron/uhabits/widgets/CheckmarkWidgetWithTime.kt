@@ -21,9 +21,7 @@ package org.isoron.uhabits.widgets
 
 import android.app.*
 import android.content.*
-import android.os.Build
 import android.view.*
-import androidx.annotation.RequiresApi
 
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*

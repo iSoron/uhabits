@@ -21,14 +21,8 @@ package org.isoron.uhabits.widgets.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import org.isoron.androidbase.utils.StyledResources;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.RingView;
 import org.isoron.uhabits.activities.habits.list.views.NumberButtonViewKt;
@@ -37,27 +31,8 @@ import org.isoron.uhabits.core.models.Repetition;
 import org.isoron.uhabits.core.models.Timestamp;
 import org.isoron.uhabits.utils.PaletteUtils;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
-
-public class CheckmarkTimeWidgetView extends HabitWidgetView {
-    protected int activeColor;
-
-    protected float percentage;
-
-    @Nullable
-    protected String name;
-
-    protected RingView ring;
-
-    protected TextView label;
-
+public class CheckmarkTimeWidgetView extends CheckmarkWidgetView {
     protected Repetition newest;
-
-    protected int checkmarkValue;
-
-    protected int checkmarkState;
-
-    protected boolean isNumerical;
 
     public CheckmarkTimeWidgetView(Context context)
     {
@@ -71,52 +46,11 @@ public class CheckmarkTimeWidgetView extends HabitWidgetView {
         init();
     }
 
-    public void refresh()
-    {
-        if (backgroundPaint == null || frame == null || ring == null) return;
-
-        StyledResources res = new StyledResources(getContext());
-
-        int bgColor;
-        int fgColor;
-
-        switch (checkmarkState) {
-            case Checkmark.CHECKED_EXPLICITLY:
-            case Checkmark.SKIPPED:
-                bgColor = activeColor;
-                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
-                setShadowAlpha(0x4f);
-                backgroundPaint.setColor(bgColor);
-                frame.setBackgroundDrawable(background);
-                break;
-
-            case Checkmark.CHECKED_IMPLICITLY:
-            case Checkmark.UNCHECKED:
-            default:
-                getResources().getString(R.string.fa_times);
-                bgColor = res.getColor(R.attr.cardBgColor);
-                fgColor = res.getColor(R.attr.mediumContrastTextColor);
-                setShadowAlpha(0x00);
-                break;
-        }
-
-        ring.setPercentage(percentage);
-        ring.setColor(fgColor);
-        ring.setBackgroundColor(bgColor);
-        ring.setText(getText());
-
-        label.setText(name);
-        label.setTextColor(fgColor);
-
-        requestLayout();
-        postInvalidate();
+    public void setNewest(Repetition newest) {
+        this.newest = newest;
     }
 
-    public void setCheckmarkState(int checkmarkState)
-    {
-        this.checkmarkState = checkmarkState;
-    }
-
+    @Override
     protected String getText()
     {
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
@@ -130,76 +64,6 @@ public class CheckmarkTimeWidgetView extends HabitWidgetView {
             default:
                 return newest == null ? "0" : String.valueOf(newest.getTimestamp().daysUntil(new Timestamp(System.currentTimeMillis())));
         }
-    }
-
-    public void setActiveColor(int activeColor)
-    {
-        this.activeColor = activeColor;
-    }
-
-    public void setCheckmarkValue(int checkmarkValue)
-    {
-        this.checkmarkValue = checkmarkValue;
-    }
-
-    public void setName(@NonNull String name)
-    {
-        this.name = name;
-    }
-
-    public void setPercentage(float percentage)
-    {
-        this.percentage = percentage;
-    }
-
-    public void setNumerical(boolean isNumerical)
-    {
-        this.isNumerical = isNumerical;
-    }
-
-    public void setNewest(Repetition newest) {
-        this.newest = newest;
-    }
-
-    @Override
-    @NonNull
-    protected Integer getInnerLayoutId()
-    {
-        return R.layout.widget_checkmarktime;
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-
-        float w = width;
-        float h = width * 1.25f;
-        float scale = Math.min(width / w, height / h);
-
-        w *= scale;
-        h *= scale;
-
-        if (h < getDimension(getContext(), R.dimen.checkmarkWidget_heightBreakpoint))
-            ring.setVisibility(GONE);
-        else
-            ring.setVisibility(VISIBLE);
-
-        widthMeasureSpec =
-            MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
-        heightMeasureSpec =
-            MeasureSpec.makeMeasureSpec((int) h, MeasureSpec.EXACTLY);
-
-        float textSize = 0.15f * h;
-        float maxTextSize = getDimension(getContext(), R.dimen.smallerTextSize);
-        textSize = Math.min(textSize, maxTextSize);
-
-        label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-        ring.setTextSize(textSize);
-        ring.setThickness(0.15f * textSize);
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     private void init()
