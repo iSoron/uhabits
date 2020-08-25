@@ -2,8 +2,6 @@ package org.isoron.uhabits.widgets;
 
 import org.isoron.uhabits.R;
 
-import java.lang.annotation.Target;
-
 /**
  * Created by victoryu on 11/3/17.
  */
@@ -61,7 +59,7 @@ public enum StackWidgetType {
             case TARGET:
                 return R.layout.target_stackview_widget;
             case CHECKMARKTIME:
-                return R.layout.checkmarktime_stackview_widget;
+                return R.layout.timed_checkmark_stackview_widget;
         }
         return 0;
     }

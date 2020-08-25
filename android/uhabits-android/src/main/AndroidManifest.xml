@@ -137,15 +137,15 @@
         </receiver>
 
         <receiver
-            android:name=".widgets.CheckmarkWidgetWithTimeProvider"
-            android:label="CheckmarkTime">
+            android:name=".widgets.TimedCheckmarkWidgetProvider"
+            android:label="Timed Checkmark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_checkmarktime_info" />
+                android:resource="@xml/widget_timed_checkmark_info" />
         </receiver>
 
         <service

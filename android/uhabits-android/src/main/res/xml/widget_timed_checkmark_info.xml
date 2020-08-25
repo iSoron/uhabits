@@ -22,7 +22,7 @@
                     android:minHeight="40dp"
                     android:minWidth="40dp"
                     android:initialLayout="@layout/widget_wrapper"
-                    android:previewImage="@drawable/widget_preview_checkmark"
+                    android:previewImage="@drawable/widget_preview_timed_checkmark"
                     android:resizeMode="none"
                     android:updatePeriodMillis="3600000"
                     android:configure="org.isoron.uhabits.widgets.activities.HabitPickerDialog"

@@ -27,7 +27,7 @@ import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
-open class CheckmarkWidgetWithTime(
+open class TimedCheckmarkWidget(
         context: Context,
         widgetId: Int,
         protected val habit: Habit
@@ -42,7 +42,7 @@ open class CheckmarkWidgetWithTime(
     }
 
     override fun refreshData(v: View) {
-        (v as CheckmarkTimeWidgetView).apply {
+        (v as TimedCheckmarkWidgetView).apply {
             setBackgroundAlpha(preferedBackgroundAlpha)
             setNewest(habit.repetitions.newest)
             setActiveColor(PaletteUtils.getColor(context, habit.color))
@@ -60,7 +60,7 @@ open class CheckmarkWidgetWithTime(
     }
 
     override fun buildView(): View {
-        return CheckmarkTimeWidgetView(context)
+        return TimedCheckmarkWidgetView(context)
     }
 
     override fun getDefaultHeight() = 125

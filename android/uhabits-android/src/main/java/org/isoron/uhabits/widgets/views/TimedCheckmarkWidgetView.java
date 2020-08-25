@@ -20,8 +20,12 @@
 package org.isoron.uhabits.widgets.views;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.common.views.RingView;
@@ -31,16 +35,20 @@ import org.isoron.uhabits.core.models.Repetition;
 import org.isoron.uhabits.core.models.Timestamp;
 import org.isoron.uhabits.utils.PaletteUtils;
 
-public class CheckmarkTimeWidgetView extends CheckmarkWidgetView {
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+
+public class TimedCheckmarkWidgetView extends CheckmarkWidgetView {
     protected Repetition newest;
 
-    public CheckmarkTimeWidgetView(Context context)
+    public TimedCheckmarkWidgetView(Context context)
     {
         super(context);
         init();
     }
 
-    public CheckmarkTimeWidgetView(Context context, AttributeSet attrs)
+    public TimedCheckmarkWidgetView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
