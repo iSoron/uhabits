@@ -69,11 +69,11 @@ class AndroidNotificationTray
         } catch (e: RuntimeException) {
             // Some Xiaomi phones produce a RuntimeException if custom notification sounds are used.
             Log.i("AndroidNotificationTray",
-                  "Failed to show notification. Retrying without sound.")
+                    "Failed to show notification. Retrying without sound.")
             val n = buildNotification(habit,
-                                      reminderTime,
-                                      timestamp,
-                                      disableSound = true)
+                    reminderTime,
+                    timestamp,
+                    disableSound = true)
             notificationManager.notify(notificationId, n)
 
         }
@@ -95,29 +95,40 @@ class AndroidNotificationTray
                 context.getString(R.string.no),
                 pendingIntents.removeRepetition(habit))
 
+        val enterAction = Action(R.drawable.ic_action_check,
+                context.getString(R.string.enter),
+                pendingIntents.setNumericalValue(context, habit, 0, null))
+
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 
         // Even though the set of actions is the same on the phone and
         // on the watch, Pebble requires us to add them to the
         // WearableExtender.
-        val wearableExtender = WearableExtender()
-                .setBackground(wearableBg)
-                .addAction(addRepetitionAction)
-                .addAction(removeRepetitionAction)
+        val wearableExtender = WearableExtender().setBackground(wearableBg)
 
         val defaultText = context.getString(R.string.default_reminder_question)
         val builder = Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
-                .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
+                .setContentText(if (habit.question.isBlank()) defaultText else habit.question)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .addAction(addRepetitionAction)
-                .addAction(removeRepetitionAction)
                 .setSound(null)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
+
+        if (habit.isNumerical) {
+            wearableExtender.addAction(enterAction)
+            builder.addAction(enterAction)
+        } else {
+            wearableExtender
+                    .addAction(addRepetitionAction)
+                    .addAction(removeRepetitionAction)
+            builder
+                    .addAction(addRepetitionAction)
+                    .addAction(removeRepetitionAction)
+        }
 
         if (!disableSound)
             builder.setSound(ringtoneManager.getURI())
@@ -126,8 +137,8 @@ class AndroidNotificationTray
             builder.setLights(Color.RED, 1000, 1000)
 
         val snoozeAction = Action(R.drawable.ic_action_snooze,
-                                  context.getString(R.string.snooze),
-                                  pendingIntents.snoozeNotification(habit))
+                context.getString(R.string.snooze),
+                pendingIntents.snoozeNotification(habit))
         wearableExtender.addAction(snoozeAction)
         builder.addAction(snoozeAction)
 
@@ -142,8 +153,8 @@ class AndroidNotificationTray
                     as NotificationManager
             if (SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(REMINDERS_CHANNEL_ID,
-                                                  context.resources.getString(R.string.reminder),
-                                                  NotificationManager.IMPORTANCE_DEFAULT)
+                        context.resources.getString(R.string.reminder),
+                        NotificationManager.IMPORTANCE_DEFAULT)
                 notificationManager.createNotificationChannel(channel)
             }
         }
