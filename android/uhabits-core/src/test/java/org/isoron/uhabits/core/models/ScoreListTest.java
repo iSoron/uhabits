@@ -126,6 +126,49 @@ public class ScoreListTest extends BaseUnitTest
     }
 
     @Test
+    public void test_getValueWithSkip()
+    {
+        toggleRepetitions(0, 20);
+        addSkip(5);
+        addSkip(10);
+        addSkip(11);
+
+        double expectedValues[] = {
+                0.596033,
+                0.573910,
+                0.550574,
+                0.525961,
+                0.500000,
+                0.472617,
+                0.472617,
+                0.443734,
+                0.413270,
+                0.381137,
+                0.347244,
+                0.347244,
+                0.347244,
+                0.311495,
+                0.273788,
+                0.234017,
+                0.192067,
+                0.147820,
+                0.101149,
+                0.051922,
+                0.000000,
+                0.000000,
+                0.000000
+        };
+
+        ScoreList scores = habit.getScores();
+        Timestamp current = DateUtils.getToday();
+        for (double expectedValue : expectedValues)
+        {
+            assertThat(scores.getValue(current), closeTo(expectedValue, E));
+            current = current.minus(1);
+        }
+    }
+
+    @Test
     public void test_getValues()
     {
         toggleRepetitions(0, 20);
@@ -196,5 +239,12 @@ public class ScoreListTest extends BaseUnitTest
 
         for (int i = from; i < to; i++)
             reps.toggle(today.minus(i));
+    }
+
+    private void addSkip(final int day)
+    {
+        RepetitionList reps = habit.getRepetitions();
+        Timestamp today = DateUtils.getToday();
+        reps.toggle(today.minus(day), Checkmark.SKIP);
     }
 }
