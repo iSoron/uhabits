@@ -85,6 +85,8 @@ public class HistoryChart extends ScrollableChart
 
     private int reverseTextColor;
 
+    private int backgroundColor;
+
     private boolean isEditable;
 
     private String previousMonth;
@@ -383,7 +385,7 @@ public class HistoryChart extends ScrollableChart
                 pSquareBg.setColor(colors[0]);
                 pSquareFg.setColor(textColors[1]);
             }
-            else if(checkmark < target)
+            else if ((isNumerical && checkmark < target) || checkmark != CHECKED_EXPLICITLY)
             {
                 pSquareBg.setColor(colors[1]);
                 pSquareFg.setColor(textColors[2]);
@@ -400,7 +402,7 @@ public class HistoryChart extends ScrollableChart
 
         if (!isNumerical && checkmark == SKIPPED)
         {
-            pSquareBg.setColor(textColors[2]);
+            pSquareBg.setColor(backgroundColor);
             pSquareBg.setStrokeWidth(columnWidth * 0.025f);
 
             canvas.save();
@@ -456,6 +458,8 @@ public class HistoryChart extends ScrollableChart
         int red = Color.red(primaryColor);
         int green = Color.green(primaryColor);
         int blue = Color.blue(primaryColor);
+
+        backgroundColor = res.getColor(R.attr.cardBgColor);
 
         if (isBackgroundTransparent)
         {

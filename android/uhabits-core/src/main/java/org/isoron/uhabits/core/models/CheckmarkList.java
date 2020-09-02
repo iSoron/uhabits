@@ -100,14 +100,19 @@ public abstract class CheckmarkList
     static ArrayList<Interval> buildIntervals(@NonNull Frequency freq,
                                               @NonNull Repetition[] reps)
     {
+        ArrayList<Repetition> filteredReps = new ArrayList<>();
+        for (Repetition r : reps)
+            if (r.getValue() == CHECKED_EXPLICITLY)
+                filteredReps.add(r);
+
         int num = freq.getNumerator();
         int den = freq.getDenominator();
 
         ArrayList<Interval> intervals = new ArrayList<>();
-        for (int i = 0; i < reps.length - num + 1; i++)
+        for (int i = 0; i < filteredReps.size() - num + 1; i++)
         {
-            Repetition first = reps[i];
-            Repetition last = reps[i + num - 1];
+            Repetition first = filteredReps.get(i);
+            Repetition last = filteredReps.get(i + num - 1);
 
             long distance = first.getTimestamp().daysUntil(last.getTimestamp());
             if (distance >= den) continue;

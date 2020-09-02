@@ -116,8 +116,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
         switch (checkmarkState) {
             case Checkmark.CHECKED_EXPLICITLY:
-            case Checkmark.CHECKED_IMPLICITLY:
                 return getResources().getString(R.string.fa_check);
+            case Checkmark.CHECKED_IMPLICITLY:
             case Checkmark.SKIPPED:
                 return getResources().getString(R.string.fa_skipped);
             case Checkmark.UNCHECKED:
