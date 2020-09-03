@@ -23,6 +23,7 @@
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:itemBackground">?attr/highContrastReverseTextColor</item>
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/blue_grey_700</item>

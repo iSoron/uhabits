@@ -30,6 +30,16 @@ import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.widgets.*
 import java.util.*
 
+class BooleanHabitPickerDialog : HabitPickerDialog() {
+    override fun shouldHideNumerical() = true
+    override fun getEmptyMessage() = R.string.no_boolean_habits
+}
+
+class NumericalHabitPickerDialog : HabitPickerDialog() {
+    override fun shouldHideBoolean() = true
+    override fun getEmptyMessage() = R.string.no_numerical_habits
+}
+
 open class HabitPickerDialog : Activity() {
 
     private var widgetId = 0
@@ -37,6 +47,8 @@ open class HabitPickerDialog : Activity() {
     private lateinit var widgetUpdater: WidgetUpdater
 
     protected open fun shouldHideNumerical() = false
+    protected open fun shouldHideBoolean() = false
+    protected open fun getEmptyMessage() = R.string.no_habits
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +64,15 @@ open class HabitPickerDialog : Activity() {
         for (h in habitList) {
             if (h.isArchived) continue
             if (h.isNumerical and shouldHideNumerical()) continue
+            if (!h.isNumerical and shouldHideBoolean()) continue
             habitIds.add(h.id!!)
             habitNames.add(h.name)
+        }
+
+        if (habitNames.isEmpty()) {
+            setContentView(R.layout.widget_empty_activity)
+            findViewById<TextView>(R.id.message).setText(getEmptyMessage())
+            return;
         }
 
         setContentView(R.layout.widget_configure_activity)

@@ -109,6 +109,7 @@ class CheckmarkButtonView(
             }
             val id = when (value) {
                 SKIPPED -> R.string.fa_skipped
+                CHECKED_IMPLICITLY -> R.string.fa_skipped
                 UNCHECKED -> R.string.fa_times
                 else -> R.string.fa_check
             }

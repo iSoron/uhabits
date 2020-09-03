@@ -71,12 +71,12 @@ build_apk() {
 
     if [ ! -z $RELEASE ]; then
         log_info "Building release APK"
-        ./gradlew assembleRelease
+        $GRADLE assembleRelease
         cp -v uhabits-android/build/outputs/apk/release/uhabits-android-release.apk build/loop-$VERSION-release.apk
     fi
 
     log_info "Building debug APK"
-    ./gradlew assembleDebug --stacktrace || fail
+    $GRADLE assembleDebug --stacktrace || fail
     cp -v uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk build/loop-$VERSION-debug.apk
 }
 
