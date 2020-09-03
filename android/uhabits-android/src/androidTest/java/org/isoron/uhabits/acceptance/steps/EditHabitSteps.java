@@ -69,9 +69,9 @@ public class EditHabitSteps
         onView(withId(R.id.done_button)).perform(click());
     }
 
-    public static void clickReminderDays()
+    public static void clickActiveDays()
     {
-        onView(withId(R.id.reminderDatePicker)).perform(click());
+        onView(withId(R.id.activeDaysDatePicker)).perform(click());
     }
 
     public static void unselectAllDays()

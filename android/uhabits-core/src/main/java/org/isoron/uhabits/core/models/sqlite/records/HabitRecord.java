@@ -57,8 +57,8 @@ public class HabitRecord
     @Column(name = "reminder_min")
     public Integer reminderMin;
 
-    @Column(name = "reminder_days")
-    public Integer reminderDays;
+    @Column(name = "active_days")
+    public Integer activeDays;
 
     @Column
     public Integer highlight;
@@ -99,7 +99,7 @@ public class HabitRecord
         Frequency freq = model.getFrequency();
         this.freqNum = freq.getNumerator();
         this.freqDen = freq.getDenominator();
-        this.reminderDays = 0;
+        this.activeDays = 0;
         this.reminderMin = null;
         this.reminderHour = null;
 
@@ -108,8 +108,8 @@ public class HabitRecord
             Reminder reminder = model.getReminder();
             this.reminderHour = reminder.getHour();
             this.reminderMin = reminder.getMinute();
-            this.reminderDays = reminder.getDays().toInteger();
         }
+        this.activeDays = model.getActiveDays().toInteger();
     }
 
     public void copyTo(Habit habit)
@@ -129,8 +129,8 @@ public class HabitRecord
 
         if (reminderHour != null && reminderMin != null)
         {
-            habit.setReminder(new Reminder(reminderHour, reminderMin,
-                new WeekdayList(reminderDays)));
+            habit.setReminder(new Reminder(reminderHour, reminderMin));
         }
+        habit.setActiveDays(new WeekdayList(this.activeDays));
     }
 }

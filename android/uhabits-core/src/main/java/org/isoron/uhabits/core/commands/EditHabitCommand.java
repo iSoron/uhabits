@@ -46,6 +46,8 @@ public class EditHabitCommand extends Command
 
     final boolean hasTargetChanged;
 
+    final boolean hasActiveDaysChanged;
+
     public EditHabitCommand(@Provided @NonNull ModelFactory modelFactory,
                             @NonNull HabitList habitList,
                             @NonNull Habit original,
@@ -68,6 +70,7 @@ public class EditHabitCommand extends Command
         hasTargetChanged =
             (original.getTargetType() != modified.getTargetType() ||
              original.getTargetValue() != modified.getTargetValue());
+        hasActiveDaysChanged = original.getActiveDays() != modified.getActiveDays();
     }
 
     @Override
@@ -97,7 +100,7 @@ public class EditHabitCommand extends Command
         habit.copyFrom(model);
         habitList.update(habit);
 
-        if (hasFrequencyChanged || hasTargetChanged)
+        if (hasFrequencyChanged || hasTargetChanged || hasActiveDaysChanged)
             habit.invalidateNewerThan(Timestamp.ZERO);
     }
 

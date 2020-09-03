@@ -76,7 +76,7 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
         switch (checkmarkState) {
             case Checkmark.YES_MANUAL:
-            case Checkmark.SKIP:
+            case Checkmark.SKIP_MANUAL:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
@@ -85,6 +85,7 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 break;
 
             case Checkmark.YES_AUTO:
+            case Checkmark.SKIP_AUTO:
             case Checkmark.NO:
             default:
                 getResources().getString(R.string.fa_times);
@@ -118,7 +119,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
             case Checkmark.YES_MANUAL:
             case Checkmark.YES_AUTO:
                 return getResources().getString(R.string.fa_check);
-            case Checkmark.SKIP:
+            case Checkmark.SKIP_MANUAL:
+            case Checkmark.SKIP_AUTO:
                 return getResources().getString(R.string.fa_skipped);
             case Checkmark.NO:
             default:

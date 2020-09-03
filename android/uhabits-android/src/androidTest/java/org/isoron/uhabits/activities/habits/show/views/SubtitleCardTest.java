@@ -47,7 +47,7 @@ public class SubtitleCardTest extends BaseViewTest
         super.setUp();
 
         habit = fixtures.createLongHabit();
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habit.setReminder(new Reminder(8, 30));
 
         view = LayoutInflater
             .from(targetContext)

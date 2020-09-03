@@ -41,7 +41,7 @@ public class CreateHabitCommandTest extends BaseUnitTest
 
         model = fixtures.createEmptyHabit();
         model.setName("New habit");
-        model.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        model.setReminder(new Reminder(8, 30));
 
         command = new CreateHabitCommand(modelFactory, habitList, model);
     }

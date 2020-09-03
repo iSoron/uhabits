@@ -54,7 +54,7 @@ class EditHabitActivity : AppCompatActivity() {
     var freqDen = 1
     var reminderHour = -1
     var reminderMin = -1
-    var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
+    var activeDays: WeekdayList = WeekdayList.EVERY_DAY
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -77,8 +77,9 @@ class EditHabitActivity : AppCompatActivity() {
             if (habit.hasReminder()) {
                 reminderHour = habit.reminder.hour
                 reminderMin = habit.reminder.minute
-                reminderDays = habit.reminder.days
             }
+            activeDays = habit.activeDays
+            
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
@@ -96,7 +97,7 @@ class EditHabitActivity : AppCompatActivity() {
             freqDen = state.getInt("freqDen")
             reminderHour = state.getInt("reminderHour")
             reminderMin = state.getInt("reminderMin")
-            reminderDays = WeekdayList(state.getInt("reminderDays"))
+            activeDays = WeekdayList(state.getInt("activeDays"))
         }
 
         updateColors()
@@ -168,21 +169,21 @@ class EditHabitActivity : AppCompatActivity() {
                 override fun onTimeCleared(view: RadialPickerLayout?) {
                     reminderHour = -1
                     reminderMin = -1
-                    reminderDays = WeekdayList.EVERY_DAY
                     populateReminder()
                 }
             }, currentHour, currentMin, is24HourMode, androidColor)
             dialog.show(supportFragmentManager, "timePicker")
         }
 
-        binding.reminderDatePicker.setOnClickListener {
+        populateActiveDays()
+        binding.activeDaysDatePicker.setOnClickListener {
             val dialog = WeekdayPickerDialog()
             dialog.setListener { days ->
-                reminderDays = days
-                if (reminderDays.isEmpty) reminderDays = WeekdayList.EVERY_DAY
-                populateReminder()
+                activeDays = days
+                if (activeDays.isEmpty) activeDays = WeekdayList.EVERY_DAY
+                populateActiveDays()
             }
-            dialog.setSelectedDays(reminderDays)
+            dialog.setSelectedDays(activeDays)
             dialog.show(supportFragmentManager, "dayPicker")
         }
 
@@ -210,8 +211,9 @@ class EditHabitActivity : AppCompatActivity() {
         habit.description = notesInput.text.trim().toString()
         habit.color = paletteColor
         if (reminderHour >= 0) {
-            habit.setReminder(Reminder(reminderHour, reminderMin, reminderDays))
+            habit.setReminder(Reminder(reminderHour, reminderMin))
         }
+        habit.activeDays = activeDays
         habit.frequency = Frequency(freqNum, freqDen)
         if (habitType == Habit.NUMBER_HABIT) {
             habit.targetValue = targetInput.text.toString().toDouble()
@@ -251,16 +253,15 @@ class EditHabitActivity : AppCompatActivity() {
     private fun populateReminder() {
         if (reminderHour < 0) {
             binding.reminderTimePicker.text = getString(R.string.reminder_off)
-            binding.reminderDatePicker.visibility = View.GONE
-            binding.reminderDivider.visibility = View.GONE
         } else {
             val time = AndroidDateUtils.formatTime(this, reminderHour, reminderMin)
-            val daysArray = reminderDays.toArray()
             binding.reminderTimePicker.text = time
-            binding.reminderDatePicker.visibility = View.VISIBLE
-            binding.reminderDivider.visibility = View.VISIBLE
-            binding.reminderDatePicker.text = AndroidDateUtils.formatWeekdayList(this, daysArray)
         }
+    }
+
+    private fun populateActiveDays() {
+        val daysArray = activeDays.toArray()
+        binding.activeDaysDatePicker.text = AndroidDateUtils.formatWeekdayList(this, daysArray)
     }
 
     private fun populateFrequency() {
@@ -301,7 +302,7 @@ class EditHabitActivity : AppCompatActivity() {
             putInt("freqDen", freqDen)
             putInt("reminderHour", reminderHour)
             putInt("reminderMin", reminderMin)
-            putInt("reminderDays", reminderDays.toInteger())
+            putInt("activeDays", activeDays.toInteger())
         }
     }
 }

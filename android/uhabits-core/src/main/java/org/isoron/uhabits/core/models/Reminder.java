@@ -32,19 +32,10 @@ public final class Reminder
 
     private final int minute;
 
-    private final WeekdayList days;
-
-    public Reminder(int hour, int minute, @NonNull WeekdayList days)
+    public Reminder(int hour, int minute)
     {
         this.hour = hour;
         this.minute = minute;
-        this.days = days;
-    }
-
-    @NonNull
-    public WeekdayList getDays()
-    {
-        return days;
     }
 
     public int getHour()
@@ -74,7 +65,6 @@ public final class Reminder
         return new EqualsBuilder()
                 .append(hour, reminder.hour)
                 .append(minute, reminder.minute)
-                .append(days, reminder.days)
                 .isEquals();
     }
 
@@ -84,7 +74,6 @@ public final class Reminder
         return new HashCodeBuilder(17, 37)
                 .append(hour)
                 .append(minute)
-                .append(days)
                 .toHashCode();
     }
 
@@ -94,7 +83,6 @@ public final class Reminder
         return new ToStringBuilder(this, defaultToStringStyle())
                 .append("hour", hour)
                 .append("minute", minute)
-                .append("days", days)
                 .toString();
     }
 }

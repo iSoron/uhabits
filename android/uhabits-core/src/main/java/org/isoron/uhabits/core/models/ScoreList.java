@@ -267,21 +267,33 @@ public abstract class ScoreList implements Iterable<Score>
     {
         if (from.isNewerThan(to)) return;
 
-        final double freq = habit.getFrequency().toDouble();
+        final int activeDays = habit.getActiveDays().count();
+        final Frequency frequency = habit.getFrequency();
+        final double nonSkippedDays = (double)frequency.getDenominator() * activeDays / 7;
+        final double freq = Math.min((double)frequency.getNumerator() / nonSkippedDays, 1);
         final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
 
         List<Score> scores = new LinkedList<>();
 
         for (int i = 0; i < checkmarkValues.length; i++)
         {
+            boolean isSkip = false;
             double value = checkmarkValues[checkmarkValues.length - i - 1];
             if (habit.isNumerical())
             {
                 value /= 1000;
                 value /= habit.getTargetValue();
+                value = Math.min(1, value);
+            } else if(value == Checkmark.SKIP_AUTO)
+            {
+                isSkip = true;
             }
-            value = Math.min(1, value);
-            previousValue = Score.compute(freq, previousValue, value);
+            else value = Math.min(1, value);
+
+            if(!isSkip)
+            {
+                previousValue = Score.compute(freq, previousValue, value);
+            }
             scores.add(new Score(from.plus(i), previousValue));
         }
 

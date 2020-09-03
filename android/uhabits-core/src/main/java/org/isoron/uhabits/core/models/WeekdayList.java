@@ -73,6 +73,15 @@ public final class WeekdayList
         return packedList;
     }
 
+    public int count() {
+        int count = 0;
+        for (int i = 0; i < 7; i++)
+        {
+            if (weekdays[i]) count += 1;
+        }
+        return count;
+    }
+
     @Override
     public boolean equals(Object o)
     {

@@ -40,7 +40,7 @@ public class HabitRecordTest extends BaseUnitTest
         original.setColor(1);
         original.setArchived(true);
         original.setFrequency(Frequency.THREE_TIMES_PER_WEEK);
-        original.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        original.setReminder(new Reminder(8, 30));
         original.setId(1000L);
         original.setPosition(20);
 

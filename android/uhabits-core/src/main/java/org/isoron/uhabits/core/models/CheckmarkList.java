@@ -51,7 +51,8 @@ public abstract class CheckmarkList
 
     @NonNull
     static List<Checkmark> buildCheckmarksFromIntervals(Repetition[] reps,
-                                                        ArrayList<Interval> intervals)
+                                                        ArrayList<Interval> intervals,
+                                                        boolean[] activeDays)
     {
         if (reps.length == 0) throw new IllegalArgumentException();
 
@@ -74,6 +75,16 @@ public abstract class CheckmarkList
                 checkmarks.set(offset, new Checkmark(date, YES_AUTO));
             }
         }
+
+        int realWeekday =
+                DateUtils.getStartOfTodayCalendar().get(Calendar.DAY_OF_WEEK) % 7;
+        for (int i = 0; i < nDays; i++)
+        {
+            if (!activeDays[realWeekday])
+                checkmarks.set(i, new Checkmark(today.minus(i), SKIP_AUTO));
+            realWeekday = (realWeekday + 6) % 7;
+        }
+
 
         for (Repetition rep : reps)
         {
@@ -386,7 +397,7 @@ public abstract class CheckmarkList
         ArrayList<Interval> intervals;
         intervals = buildIntervals(habit.getFrequency(), reps);
         snapIntervalsTogether(intervals);
-        add(buildCheckmarksFromIntervals(reps, intervals));
+        add(buildCheckmarksFromIntervals(reps, intervals, habit.getActiveDays().toArray()));
     }
 
     public List<Checkmark> getAll() {

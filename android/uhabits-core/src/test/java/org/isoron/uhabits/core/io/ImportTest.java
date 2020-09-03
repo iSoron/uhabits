@@ -98,8 +98,8 @@ public class ImportTest extends BaseUnitTest
         Reminder reminder = habit.getReminder();
         assertThat(reminder.getHour(), equalTo(8));
         assertThat(reminder.getMinute(), equalTo(0));
-        boolean[] reminderDays = { false, true, true, true, true, true, false };
-        assertThat(reminder.getDays().toArray(), equalTo(reminderDays));
+        boolean[] activeDays = { false, true, true, true, true, true, false };
+        assertThat(habit.getActiveDays().toArray(), equalTo(activeDays));
     }
 
     @Test

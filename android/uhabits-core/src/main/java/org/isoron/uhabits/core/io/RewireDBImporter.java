@@ -189,21 +189,21 @@ public class RewireDBImporter extends AbstractImporter
             int rewireReminder = Integer.parseInt(c.getString(0));
             if (rewireReminder <= 0 || rewireReminder >= 1440) return;
 
-            boolean reminderDays[] = new boolean[7];
+            boolean activeDays[] = new boolean[7];
 
-            String activeDays[] = c.getString(1).split(",");
-            for (String d : activeDays)
+            String rewireActiveDays[] = c.getString(1).split(",");
+            for (String d : rewireActiveDays)
             {
                 int idx = (Integer.parseInt(d) + 1) % 7;
-                reminderDays[idx] = true;
+                activeDays[idx] = true;
             }
 
             int hour = rewireReminder / 60;
             int minute = rewireReminder % 60;
-            WeekdayList days = new WeekdayList(reminderDays);
 
-            Reminder reminder = new Reminder(hour, minute, days);
+            Reminder reminder = new Reminder(hour, minute);
             habit.setReminder(reminder);
+            habit.setActiveDays(new WeekdayList(activeDays));
             habitList.update(habit);
         }
         finally

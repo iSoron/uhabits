@@ -36,7 +36,7 @@ public final class Repetition
     /**
      * The value of the repetition.
      *
-     * For boolean habits, this equals YES_MANUAL if performed or SKIP if skipped.
+     * For boolean habits, this equals YES_MANUAL if performed or SKIP_MANUAL if skipped.
      * For numerical habits, this number is stored in thousandths. That is, if the user enters
      * value 1.50 on the app, it is here stored as 1500.
      */
@@ -61,11 +61,12 @@ public final class Repetition
         switch(value) {
             case NO:
             case YES_AUTO:
+            case SKIP_AUTO:
                 return YES_MANUAL;
             case YES_MANUAL:
-                return SKIP;
+                return SKIP_MANUAL;
             default:
-            case SKIP:
+            case SKIP_MANUAL:
                 return NO;
         }
     }

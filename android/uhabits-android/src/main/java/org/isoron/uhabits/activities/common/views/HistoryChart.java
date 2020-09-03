@@ -400,7 +400,7 @@ public class HistoryChart extends ScrollableChart
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
 
-        if (!isNumerical && checkmark == SKIP)
+        if (!isNumerical && (checkmark == SKIP_MANUAL || checkmark == SKIP_AUTO))
         {
             pSquareBg.setColor(backgroundColor);
             pSquareBg.setStrokeWidth(columnWidth * 0.025f);

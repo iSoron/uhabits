@@ -73,8 +73,8 @@ public class ReminderSchedulerTest extends BaseUnitTest
         Habit h1 = fixtures.createEmptyHabit();
         Habit h2 = fixtures.createEmptyHabit();
         Habit h3 = fixtures.createEmptyHabit();
-        h1.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
-        h2.setReminder(new Reminder(18, 30, WeekdayList.EVERY_DAY));
+        h1.setReminder(new Reminder(8, 30));
+        h2.setReminder(new Reminder(18, 30));
         h3.setReminder(null);
         habitList.add(h1);
         habitList.add(h2);
@@ -94,7 +94,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long atTime = unixTime(2015, 1, 30, 11, 30);
         long expectedCheckmarkTime = unixTime(2015, 1, 30, 0, 0);
 
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habit.setReminder(new Reminder(8, 30));
         scheduleAndVerify(atTime, expectedCheckmarkTime, atTime);
     }
 
@@ -109,7 +109,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long regularReminderTime = applyTimezone(unixTime(2015, 1, 2, 8, 30));
         long todayCheckmarkTime = unixTime(2015, 1, 1, 0, 0);
         long tomorrowCheckmarkTime = unixTime(2015, 1, 2, 0, 0);
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habit.setReminder(new Reminder(8, 30));
 
         when(widgetPreferences.getSnoozeTime(habitId)).thenReturn(snoozeTimeInFuture);
         reminderScheduler.schedule(habit);
@@ -129,7 +129,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long expectedCheckmarkTime = unixTime(2015, 1, 26, 0, 0);
         long expectedReminderTime = unixTime(2015, 1, 26, 12, 30);
 
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habit.setReminder(new Reminder(8, 30));
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
     }
 
@@ -142,7 +142,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
         long expectedCheckmarkTime = unixTime(2015, 1, 27, 0, 0);
         long expectedReminderTime = unixTime(2015, 1, 27, 12, 30);
 
-        habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+        habit.setReminder(new Reminder(8, 30));
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime);
     }
 

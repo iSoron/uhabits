@@ -70,7 +70,7 @@ public class SQLiteHabitListTest extends BaseUnitTest
             habitsArray.add(habit);
 
             if (i % 3 == 0)
-                habit.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
+                habit.setReminder(new Reminder(8, 30));
         }
 
         habitsArray.get(0).setArchived(true);

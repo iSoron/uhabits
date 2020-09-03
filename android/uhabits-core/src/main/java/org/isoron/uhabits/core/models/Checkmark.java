@@ -38,9 +38,14 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 public final class Checkmark
 {
     /**
+     * Indicates that there was an implicit skip at the timestamp.
+     */
+    public static final int SKIP_AUTO = 4;
+
+    /**
      * Indicates that there was an explicit skip at the timestamp.
      */
-    public static final int SKIP = 3;
+    public static final int SKIP_MANUAL = 3;
 
     /**
      * Indicates that there was a repetition at the timestamp.
@@ -64,7 +69,7 @@ public final class Checkmark
     /**
      * The value of the checkmark.
      * <p>
-     * For boolean habits, this equals either NO, YES_AUTO, YES_MANUAL or SKIP.
+     * For boolean habits, this equals either NO, YES_AUTO, YES_MANUAL, SKIP_MANUAL or SKIP_AUTO.
      * <p>
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is stored as 1500.

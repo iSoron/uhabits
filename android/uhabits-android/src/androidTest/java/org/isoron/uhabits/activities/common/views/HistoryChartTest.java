@@ -80,7 +80,7 @@ public class HistoryChartTest extends BaseViewTest
         chart.setIsEditable(true);
 
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.SKIP);
+        verify(controller).onToggleCheckmark(today, Checkmark.SKIP_MANUAL);
         chart.tap(dpToPixels(340), dpToPixels(40));
         verify(controller).onToggleCheckmark(today, Checkmark.NO);
         chart.tap(dpToPixels(340), dpToPixels(40));

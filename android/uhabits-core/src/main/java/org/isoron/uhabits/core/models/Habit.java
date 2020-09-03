@@ -279,6 +279,17 @@ public class Habit
         data.unit = unit;
     }
 
+    @NonNull
+    public synchronized WeekdayList getActiveDays()
+    {
+        return data.activeDays;
+    }
+
+    public synchronized void setActiveDays(@NonNull WeekdayList activeDays)
+    {
+        data.activeDays = activeDays;
+    }
+
     /**
      * Returns the public URI that identifies this habit
      *
@@ -393,6 +404,9 @@ public class Habit
         @Nullable
         public Reminder reminder;
 
+        @Nullable
+        private WeekdayList activeDays;
+
         public int position;
 
         public HabitData()
@@ -408,6 +422,7 @@ public class Habit
             this.targetValue = 100;
             this.unit = "";
             this.position = 0;
+            this.activeDays = WeekdayList.EVERY_DAY;
         }
 
         public HabitData(@NonNull HabitData model)
@@ -424,6 +439,7 @@ public class Habit
             this.unit = model.unit;
             this.reminder = model.reminder;
             this.position = model.position;
+            this.activeDays = model.activeDays;
         }
 
         @Override
@@ -442,6 +458,7 @@ public class Habit
                 .append("reminder", reminder)
                 .append("position", position)
                 .append("question", question)
+                .append("activeDays", activeDays)
                 .toString();
         }
 
@@ -467,6 +484,7 @@ public class Habit
                 .append(reminder, habitData.reminder)
                 .append(position, habitData.position)
                 .append(question, habitData.question)
+                .append(activeDays, habitData.activeDays)
                 .isEquals();
         }
 
@@ -486,6 +504,7 @@ public class Habit
                 .append(reminder)
                 .append(position)
                 .append(question)
+                .append(activeDays)
                 .toHashCode();
         }
     }

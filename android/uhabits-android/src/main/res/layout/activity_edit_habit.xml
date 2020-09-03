@@ -199,18 +199,21 @@
                         style="@style/FormDropdown"
                         android:id="@+id/reminderTimePicker"
                         android:text="@string/reminder_off" />
-
-                    <View
-                        style="@style/FormDivider"
-                        android:id="@+id/reminderDivider"/>
-
-                    <TextView
-                        style="@style/FormDropdown"
-                        android:id="@+id/reminderDatePicker"
-                        android:text="" />
                 </LinearLayout>
             </FrameLayout>
 
+            <!-- ActiveDays -->
+            <FrameLayout style="@style/FormOuterBox">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/active_days" />
+                    <TextView
+                        style="@style/FormDropdown"
+                        android:id="@+id/activeDaysDatePicker"
+                        android:text="" />
+                    </LinearLayout>
+            </FrameLayout>
 
             <!-- Notes -->
             <FrameLayout style="@style/FormOuterBox">
