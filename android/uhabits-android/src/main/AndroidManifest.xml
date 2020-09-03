@@ -101,6 +101,14 @@
         </activity>
 
         <activity
+            android:name=".widgets.activities.NumericalHabitPickerDialog"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.about.AboutActivity"
             android:label="@string/about">
             <meta-data
@@ -198,7 +206,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_frequency_info" />
+                android:resource="@xml/widget_target_info" />
         </receiver>
 
         <receiver android:name=".receivers.ReminderReceiver">

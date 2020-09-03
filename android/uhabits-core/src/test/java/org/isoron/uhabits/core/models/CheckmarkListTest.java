@@ -176,6 +176,25 @@ public class CheckmarkListTest extends BaseUnitTest
         assertThat(actual, equalTo(expected));
     }
 
+
+    @Test
+    public void test_buildIntervals_4() throws Exception
+    {
+        Repetition[] reps = new Repetition[]{
+                new Repetition(day(30), CHECKED_EXPLICITLY),
+                new Repetition(day(20), SKIPPED),
+                new Repetition(day(10), CHECKED_EXPLICITLY),
+        };
+
+        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
+        expected.add(new CheckmarkList.Interval(day(30), day(30), day(28)));
+        expected.add(new CheckmarkList.Interval(day(10), day(10), day(8)));
+
+        ArrayList<CheckmarkList.Interval> actual;
+        actual = CheckmarkList.buildIntervals(new Frequency(1, 3), reps);
+        assertThat(actual, equalTo(expected));
+    }
+
     @Test
     public void test_getAllValues_moveBackwardsInTime()
     {

@@ -19,30 +19,23 @@
 
 package org.isoron.uhabits.widgets;
 
-import androidx.test.filters.*;
-import androidx.test.runner.*;
 import android.widget.*;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.ext.junit.runners.*;
+import androidx.test.filters.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
-
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class CheckmarkWidgetTest extends BaseViewTest
+public class TargetWidgetTest extends BaseViewTest
 {
-    private static final String PATH = "widgets/CheckmarkWidget/";
+    private static final String PATH = "widgets/TargetWidget/";
 
     private Habit habit;
-
-    private CheckmarkList checkmarks;
 
     private FrameLayout view;
 
@@ -53,35 +46,16 @@ public class CheckmarkWidgetTest extends BaseViewTest
         setTheme(R.style.WidgetTheme);
         prefs.setWidgetOpacity(255);
 
-        habit = fixtures.createVeryLongHabit();
-        checkmarks = habit.getCheckmarks();
-        CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
-        view = convertToView(widget, 150, 200);
-
-        assertThat(checkmarks.getTodayValue(), equalTo(CHECKED_EXPLICITLY));
-    }
-
-    @Test
-    public void testClick() throws Exception
-    {
-        Button button = (Button) view.findViewById(R.id.button);
-        assertThat(button, is(not(nullValue())));
-
-        // A better test would be to capture the intent, but it doesn't seem
-        // possible to capture intents sent to BroadcastReceivers.
-        button.performClick();
-        sleep(1000);
-        assertThat(checkmarks.getTodayValue(), equalTo(SKIPPED));
-
-        button.performClick();
-        sleep(1000);
-        assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
+        habit = fixtures.createLongNumericalHabit();
+        habit.setColor(11);
+        TargetWidget widget = new TargetWidget(targetContext, 0, habit);
+        view = convertToView(widget, 400, 400);
     }
 
     @Test
     public void testIsInstalled()
     {
-        assertWidgetProviderIsInstalled(CheckmarkWidgetProvider.class);
+        assertWidgetProviderIsInstalled(TargetWidgetProvider.class);
     }
 
     @Test
