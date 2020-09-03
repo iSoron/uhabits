@@ -36,7 +36,7 @@ class PendingIntentFactory
         private val intentFactory: IntentFactory) {
 
     fun addCheckmark(habit: Habit, timestamp: Timestamp?): PendingIntent =
-            getBroadcast(
+            PendingIntent.getBroadcast(
                     context, 1,
                     Intent(context, WidgetReceiver::class.java).apply {
                         data = Uri.parse(habit.uriString)
@@ -46,7 +46,7 @@ class PendingIntentFactory
                     FLAG_UPDATE_CURRENT)
 
     fun dismissNotification(habit: Habit): PendingIntent =
-            getBroadcast(
+            PendingIntent.getBroadcast(
                     context, 0,
                     Intent(context, ReminderReceiver::class.java).apply {
                         action = WidgetReceiver.ACTION_DISMISS_REMINDER
@@ -55,7 +55,7 @@ class PendingIntentFactory
                     FLAG_UPDATE_CURRENT)
 
     fun removeRepetition(habit: Habit): PendingIntent =
-            getBroadcast(
+            PendingIntent.getBroadcast(
                     context, 3,
                     Intent(context, WidgetReceiver::class.java).apply {
                         action = WidgetReceiver.ACTION_REMOVE_REPETITION
@@ -71,8 +71,10 @@ class PendingIntentFactory
                                     context, habit))
                     .getPendingIntent(0, FLAG_UPDATE_CURRENT)!!
 
-    fun showReminder(habit: Habit, reminderTime: Long?, timestamp: Long): PendingIntent =
-            getBroadcast(
+    fun showReminder(habit: Habit,
+                     reminderTime: Long?,
+                     timestamp: Long): PendingIntent =
+            PendingIntent.getBroadcast(
                     context,
                     (habit.getId()!! % Integer.MAX_VALUE).toInt() + 1,
                     Intent(context, ReminderReceiver::class.java).apply {
@@ -84,7 +86,7 @@ class PendingIntentFactory
                     FLAG_UPDATE_CURRENT)
 
     fun snoozeNotification(habit: Habit): PendingIntent =
-            getBroadcast(
+            PendingIntent.getBroadcast(
                     context, 0,
                     Intent(context, ReminderReceiver::class.java).apply {
                         data = Uri.parse(habit.uriString)
@@ -93,7 +95,7 @@ class PendingIntentFactory
                     FLAG_UPDATE_CURRENT)
 
     fun toggleCheckmark(habit: Habit, timestamp: Long?): PendingIntent =
-            getBroadcast(
+            PendingIntent.getBroadcast(
                     context, 2,
                     Intent(context, WidgetReceiver::class.java).apply {
                         data = Uri.parse(habit.uriString)
