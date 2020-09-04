@@ -62,7 +62,7 @@ public class ReminderReceiver extends BroadcastReceiver
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
 
         Habit habit = null;
-        long today = DateUtils.getStartOfToday();
+        long today = DateUtils.getStartOfTodayWithOffset();
 
         if (intent.getData() != null)
             habit = habits.getById(parseId(intent.getData()));

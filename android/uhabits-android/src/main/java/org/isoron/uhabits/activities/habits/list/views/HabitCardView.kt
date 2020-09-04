@@ -172,7 +172,7 @@ class HabitCardView(
     }
 
     fun triggerRipple(timestamp: Timestamp) {
-        val today = DateUtils.getToday()
+        val today = DateUtils.getTodayWithOffset()
         val offset = timestamp.daysUntil(today) - dataOffset
         val button = checkmarkPanel.buttons[offset]
         val y = button.height / 2.0f

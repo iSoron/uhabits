@@ -55,7 +55,7 @@ public abstract class CheckmarkList
     {
         if (reps.length == 0) throw new IllegalArgumentException();
 
-        Timestamp today = DateUtils.getToday();
+        Timestamp today = DateUtils.getTodayWithOffset();
         Timestamp begin = reps[0].getTimestamp();
         if (intervals.size() > 0) begin = Timestamp.oldest(begin, intervals.get(0).begin);
 
@@ -181,7 +181,7 @@ public abstract class CheckmarkList
         if (oldestRep == null) return new int[0];
 
         Timestamp fromTimestamp = oldestRep.getTimestamp();
-        Timestamp toTimestamp = DateUtils.getToday();
+        Timestamp toTimestamp = DateUtils.getTodayWithOffset();
 
         return getValues(fromTimestamp, toTimestamp);
     }
@@ -211,7 +211,7 @@ public abstract class CheckmarkList
     public synchronized final Checkmark getToday()
     {
         compute();
-        Timestamp today = DateUtils.getToday();
+        Timestamp today = DateUtils.getTodayWithOffset();
         return getByInterval(today, today).get(0);
     }
 
@@ -325,7 +325,7 @@ public abstract class CheckmarkList
      */
     protected final synchronized void compute()
     {
-        final Timestamp today = DateUtils.getToday();
+        final Timestamp today = DateUtils.getTodayWithOffset();
 
         Checkmark newest = getNewestComputed();
         if (newest != null && newest.getTimestamp().equals(today)) return;
@@ -334,6 +334,8 @@ public abstract class CheckmarkList
         Repetition oldestRep = habit.getRepetitions().getOldest();
         if (oldestRep == null) return;
         final Timestamp from = oldestRep.getTimestamp();
+
+        if (from.isNewerThan(today)) return;
 
         Repetition reps[] = habit
             .getRepetitions()
@@ -364,7 +366,7 @@ public abstract class CheckmarkList
     {
         if (reps.length == 0) return;
 
-        Timestamp today = DateUtils.getToday();
+        Timestamp today = DateUtils.getTodayWithOffset();
         Timestamp begin = reps[0].getTimestamp();
 
         int nDays = begin.daysUntil(today) + 1;
@@ -392,7 +394,7 @@ public abstract class CheckmarkList
     public List<Checkmark> getAll() {
         Repetition oldest = habit.getRepetitions().getOldest();
         if(oldest == null) return new ArrayList<>();
-        return getByInterval(oldest.getTimestamp(), DateUtils.getToday());
+        return getByInterval(oldest.getTimestamp(), DateUtils.getTodayWithOffset());
     }
 
     static final class Interval

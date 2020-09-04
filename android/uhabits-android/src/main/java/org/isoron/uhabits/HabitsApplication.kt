@@ -25,6 +25,7 @@ import org.isoron.androidbase.*
 import org.isoron.uhabits.core.database.*
 import org.isoron.uhabits.core.reminders.*
 import org.isoron.uhabits.core.ui.*
+import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
 import java.io.*
@@ -59,6 +60,7 @@ class HabitsApplication : Application() {
             db.renameTo(File(db.absolutePath + ".invalid"))
             DatabaseUtils.initializeDatabase(context)
         }
+        DateUtils.setStartDayOffset(3, 0)
 
         widgetUpdater = component.widgetUpdater
         widgetUpdater.startListening()

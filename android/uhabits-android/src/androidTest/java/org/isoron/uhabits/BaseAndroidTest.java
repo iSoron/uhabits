@@ -88,6 +88,7 @@ public class BaseAndroidTest extends TestCase
         testContext = InstrumentationRegistry.getInstrumentation().getContext();
 
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
+        DateUtils.setStartDayOffset(0, 0);
         setResolution(2.0f);
         setTheme(R.style.AppBaseTheme);
         setLocale("en", "US");

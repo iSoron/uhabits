@@ -153,7 +153,7 @@ public class OverviewCard extends HabitCard
 
             ScoreList scores = habit.getScores();
 
-            Timestamp today = DateUtils.getToday();
+            Timestamp today = DateUtils.getTodayWithOffset();
             Timestamp lastMonth = today.minus(30);
             Timestamp lastYear = today.minus(365);
 

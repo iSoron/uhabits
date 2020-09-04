@@ -78,6 +78,7 @@ public class BaseUnitTest
     public void setUp() throws Exception
     {
         DateUtils.setFixedLocalTime(FIXED_LOCAL_TIME);
+        DateUtils.setStartDayOffset(0, 0);
 
         modelFactory = new MemoryModelFactory();
         habitList = spy(modelFactory.buildHabitList());
@@ -91,6 +92,7 @@ public class BaseUnitTest
     {
         validateMockitoUsage();
         DateUtils.setFixedLocalTime(null);
+        DateUtils.setStartDayOffset(0, 0);
     }
 
     public long unixTime(int year, int month, int day)

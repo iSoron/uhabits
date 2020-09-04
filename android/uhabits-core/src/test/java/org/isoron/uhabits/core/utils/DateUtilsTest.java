@@ -29,8 +29,7 @@ import static java.util.Calendar.*;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
-import static org.isoron.uhabits.core.utils.DateUtils.removeTimezone;
+import static org.isoron.uhabits.core.utils.DateUtils.*;
 
 public class DateUtilsTest extends BaseUnitTest
 {
@@ -165,12 +164,19 @@ public class DateUtilsTest extends BaseUnitTest
     public void testMillisecondsUntilTomorrow() throws Exception
     {
         DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT"));
+
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(60000L));
+        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(MINUTE_LENGTH));
 
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 20, 0));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(14400000L));
+        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(4 * HOUR_LENGTH));
 
+        DateUtils.setStartDayOffset(3, 30);
+        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
+        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(3 * HOUR_LENGTH + 31 * MINUTE_LENGTH));
+
+        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 2, 1, 0));
+        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(2 * HOUR_LENGTH + 30 * MINUTE_LENGTH));
     }
 
     @Test

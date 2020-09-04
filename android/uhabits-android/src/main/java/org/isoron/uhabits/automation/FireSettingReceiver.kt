@@ -45,7 +45,7 @@ class FireSettingReceiver : BroadcastReceiver() {
                 .build()
         allHabits = app.component.habitList
         val args = SettingUtils.parseIntent(intent, allHabits) ?: return
-        val timestamp = DateUtils.getToday()
+        val timestamp = DateUtils.getTodayWithOffset()
         val controller = component.widgetController
 
         when (args.action) {
