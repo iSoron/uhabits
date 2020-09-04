@@ -180,6 +180,29 @@ public class DateUtilsTest extends BaseUnitTest
     }
 
     @Test
+    public void testGetTodayWithOffset() throws Exception
+    {
+        assertThat(DateUtils.getTodayWithOffset(), equalTo(new Timestamp(FIXED_LOCAL_TIME)));
+        DateUtils.setStartDayOffset(9, 0);
+        assertThat(
+                DateUtils.getTodayWithOffset(),
+                equalTo(new Timestamp(FIXED_LOCAL_TIME - DAY_LENGTH)));
+    }
+
+    @Test
+    public void testGetStartOfDayWithOffset() throws Exception
+    {
+        long timestamp = unixTime(2020, SEPTEMBER, 3);
+        assertThat(
+                DateUtils.getStartOfDayWithOffset(timestamp + HOUR_LENGTH),
+                equalTo(timestamp));
+        DateUtils.setStartDayOffset(3, 30);
+        assertThat(
+                DateUtils.getStartOfDayWithOffset(timestamp + 3 * HOUR_LENGTH + 29 * MINUTE_LENGTH),
+                equalTo(timestamp - DAY_LENGTH));
+    }
+
+    @Test
     public void test_applyTimezone()
     {
         DateUtils.setFixedTimeZone(TimeZone.getTimeZone("Australia/Sydney"));
