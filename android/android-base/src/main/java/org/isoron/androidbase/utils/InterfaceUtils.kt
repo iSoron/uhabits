@@ -22,6 +22,7 @@ import android.content.*
 import android.graphics.*
 import android.util.*
 import android.view.*
+import android.view.inputmethod.*
 import android.widget.*
 import android.widget.TextView.*
 import androidx.core.view.*
@@ -82,4 +83,16 @@ object InterfaceUtils {
         return ViewCompat.getLayoutDirection(view!!) ==
                 ViewCompat.LAYOUT_DIRECTION_RTL
     }
+}
+
+fun Context.getInputManager() =
+        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+fun Context.showKeyboard() {
+    this.getInputManager().toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                           InputMethodManager.HIDE_IMPLICIT_ONLY)
+}
+
+fun Context.hideKeyboard() {
+    this.getInputManager().toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
 }

@@ -20,12 +20,11 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.*
-import androidx.appcompat.app.*
 import android.text.*
 import android.view.*
-import android.view.WindowManager.LayoutParams.*
 import android.view.inputmethod.*
 import android.widget.*
+import androidx.appcompat.app.*
 import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
@@ -70,14 +69,16 @@ class NumberPickerFactory
                     val v = picker.value + 0.05 * picker2.value
                     callback.onNumberPicked(v)
                 }
-                .setOnDismissListener{
-                    callback.onNumberPickerDismissed()
-                }
                 .create()
 
         dialog.setOnShowListener {
             picker.getChildAt(0)?.requestFocus()
-            dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            context.showKeyboard()
+        }
+
+        dialog.setOnDismissListener {
+            context.hideKeyboard()
+            callback.onNumberPickerDismissed()
         }
 
         InterfaceUtils.setupEditorAction(picker, TextView.OnEditorActionListener { _, actionId, _ ->
