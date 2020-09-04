@@ -25,6 +25,8 @@ import org.isoron.androidbase.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
+import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.intents.*
 import javax.inject.*
 
 /**
@@ -36,7 +38,8 @@ class WidgetUpdater
         @AppContext private val context: Context,
         private val commandRunner: CommandRunner,
         private val taskRunner: TaskRunner,
-        private val widgetPrefs: WidgetPreferences
+        private val widgetPrefs: WidgetPreferences,
+        private val intentScheduler: IntentScheduler
 ) : CommandRunner.Listener {
 
     override fun onCommandExecuted(command: Command, refreshKey: Long?) {
@@ -58,6 +61,11 @@ class WidgetUpdater
      */
     fun stopListening() {
         commandRunner.removeListener(this)
+    }
+
+    fun scheduleStartDayWidgetUpdate() {
+        val timestamp = DateUtils.getTomorrowStart()
+        intentScheduler.scheduleWidgetUpdate(timestamp);
     }
 
     fun updateWidgets(modifiedHabitId: Long?) {
