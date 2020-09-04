@@ -46,6 +46,14 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
         habit = appComponent.getHabitList().getById(parseId(getIntent().getData()));
         if (habit == null) finish();
 
+        // Unlock device on clicking notification action
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+            km.requestDismissKeyguard(this, null);
+        } else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        }
+
         int theme = R.style.Theme_AppCompat_Light_Dialog_Alert;
         dialog = new AlertDialog.Builder(new ContextThemeWrapper(this, theme))
             .setTitle(R.string.select_snooze_delay)
