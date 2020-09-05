@@ -164,6 +164,8 @@ public class ReminderScheduler implements CommandRunner.Listener
     {
         void scheduleShowReminder(long reminderTime, Habit habit, long timestamp);
 
+        void scheduleWidgetUpdate(long updateTime);
+
         void log(String componentName, String msg);
     }
 }

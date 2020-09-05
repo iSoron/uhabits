@@ -164,6 +164,7 @@ public class DateUtilsTest extends BaseUnitTest
     @Test
     public void testMillisecondsUntilTomorrow() throws Exception
     {
+        DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT"));
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
         assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(60000L));
 
