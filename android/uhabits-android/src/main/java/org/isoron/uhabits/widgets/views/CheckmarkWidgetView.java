@@ -116,8 +116,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
         switch (checkmarkState) {
             case Checkmark.YES_MANUAL:
-                return getResources().getString(R.string.fa_check);
             case Checkmark.YES_AUTO:
+                return getResources().getString(R.string.fa_check);
             case Checkmark.SKIP:
                 return getResources().getString(R.string.fa_skipped);
             case Checkmark.NO:
