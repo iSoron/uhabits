@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.*
-import androidx.test.runner.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.utils.*
@@ -41,7 +40,7 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     override fun setUp() {
         super.setUp()
         view = component.getCheckmarkButtonViewFactory().create().apply {
-            value = Checkmark.UNCHECKED
+            value = Checkmark.NO
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { toggled = true }
         }
@@ -50,19 +49,19 @@ class CheckmarkButtonViewTest : BaseViewTest() {
 
     @Test
     fun testRender_explicitCheck() {
-        view.value = Checkmark.CHECKED_EXPLICITLY
+        view.value = Checkmark.YES_MANUAL
         assertRendersCheckedExplicitly()
     }
 
     @Test
     fun testRender_implicitCheck() {
-        view.value = Checkmark.CHECKED_IMPLICITLY
+        view.value = Checkmark.YES_AUTO
         assertRendersCheckedImplicitly()
     }
 
     @Test
     fun testRender_unchecked() {
-        view.value = Checkmark.UNCHECKED
+        view.value = Checkmark.NO
         assertRendersUnchecked()
     }
 

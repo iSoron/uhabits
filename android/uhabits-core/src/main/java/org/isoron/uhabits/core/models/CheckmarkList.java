@@ -62,7 +62,7 @@ public abstract class CheckmarkList
         int nDays = begin.daysUntil(today) + 1;
         List<Checkmark> checkmarks = new ArrayList<>(nDays);
         for (int i = 0; i < nDays; i++)
-            checkmarks.add(new Checkmark(today.minus(i), UNCHECKED));
+            checkmarks.add(new Checkmark(today.minus(i), NO));
 
         for (Interval interval : intervals)
         {
@@ -71,7 +71,7 @@ public abstract class CheckmarkList
                 Timestamp date = interval.begin.plus(i);
                 int offset = date.daysUntil(today);
                 if (offset < 0) continue;
-                checkmarks.set(offset, new Checkmark(date, CHECKED_IMPLICITLY));
+                checkmarks.set(offset, new Checkmark(date, YES_AUTO));
             }
         }
 
@@ -102,7 +102,7 @@ public abstract class CheckmarkList
     {
         ArrayList<Repetition> filteredReps = new ArrayList<>();
         for (Repetition r : reps)
-            if (r.getValue() == CHECKED_EXPLICITLY)
+            if (r.getValue() == YES_MANUAL)
                 filteredReps.add(r);
 
         int num = freq.getNumerator();
@@ -224,7 +224,7 @@ public abstract class CheckmarkList
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();
-        else return UNCHECKED;
+        else return NO;
     }
 
     public synchronized int getThisWeekValue(int firstWeekday)
@@ -480,7 +480,7 @@ public abstract class CheckmarkList
 
             if(habit.isNumerical())
                 values[count - 1] += rep.getValue();
-            else if(rep.getValue() == Checkmark.CHECKED_EXPLICITLY)
+            else if(rep.getValue() == Checkmark.YES_MANUAL)
                 values[count - 1] += 1000;
 
         }

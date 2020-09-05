@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.*
-import androidx.test.runner.*
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
@@ -43,13 +42,13 @@ class CheckmarkPanelViewTest : BaseViewTest() {
         super.setUp()
         prefs.isCheckmarkSequenceReversed = false
 
-        val checkmarks = intArrayOf(CHECKED_EXPLICITLY,
-                                    CHECKED_EXPLICITLY,
-                                    CHECKED_IMPLICITLY,
-                                    UNCHECKED,
-                                    UNCHECKED,
-                                    UNCHECKED,
-                                    CHECKED_EXPLICITLY)
+        val checkmarks = intArrayOf(YES_MANUAL,
+                                    YES_MANUAL,
+                                    YES_AUTO,
+                                    NO,
+                                    NO,
+                                    NO,
+                                    YES_MANUAL)
 
         view = component.getCheckmarkPanelViewFactory().create().apply {
             values = checkmarks

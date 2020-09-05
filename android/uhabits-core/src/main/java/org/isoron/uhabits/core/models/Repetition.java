@@ -20,12 +20,6 @@
 package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
-import org.isoron.uhabits.core.utils.DateFormats;
-import org.isoron.uhabits.core.utils.DateUtils;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
@@ -42,7 +36,7 @@ public final class Repetition
     /**
      * The value of the repetition.
      *
-     * For boolean habits, this equals CHECKED_EXPLICITLY if performed or SKIPPED if skipped.
+     * For boolean habits, this equals YES_MANUAL if performed or SKIP if skipped.
      * For numerical habits, this number is stored in thousandths. That is, if the user enters
      * value 1.50 on the app, it is here stored as 1500.
      */
@@ -65,14 +59,14 @@ public final class Repetition
     public static int nextToggleValue(int value)
     {
         switch(value) {
-            case UNCHECKED:
-            case CHECKED_IMPLICITLY:
-                return CHECKED_EXPLICITLY;
-            case CHECKED_EXPLICITLY:
-                return SKIPPED;
+            case NO:
+            case YES_AUTO:
+                return YES_MANUAL;
+            case YES_MANUAL:
+                return SKIP;
             default:
-            case SKIPPED:
-                return UNCHECKED;
+            case SKIP:
+                return NO;
         }
     }
 

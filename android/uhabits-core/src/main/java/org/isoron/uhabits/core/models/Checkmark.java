@@ -40,32 +40,31 @@ public final class Checkmark
     /**
      * Indicates that there was an explicit skip at the timestamp.
      */
-    public static final int SKIPPED = 3;
+    public static final int SKIP = 3;
 
     /**
      * Indicates that there was a repetition at the timestamp.
      */
-    public static final int CHECKED_EXPLICITLY = 2;
+    public static final int YES_MANUAL = 2;
 
     /**
      * Indicates that there was no repetition at the timestamp, but one was not
      * expected in any case, due to the frequency of the habit.
      */
-    public static final int CHECKED_IMPLICITLY = 1;
+    public static final int YES_AUTO = 1;
 
     /**
      * Indicates that there was no repetition at the timestamp, even though a
      * repetition was expected.
      */
-    public static final int UNCHECKED = 0;
+    public static final int NO = 0;
 
     private final Timestamp timestamp;
 
     /**
      * The value of the checkmark.
      * <p>
-     * For boolean habits, this equals either UNCHECKED, CHECKED_EXPLICITLY, CHECKED_IMPLICITLY
-     * or SKIPPED.
+     * For boolean habits, this equals either NO, YES_AUTO, YES_MANUAL or SKIP.
      * <p>
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is stored as 1500.

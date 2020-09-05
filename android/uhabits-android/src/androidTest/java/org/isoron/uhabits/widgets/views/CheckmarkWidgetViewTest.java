@@ -70,7 +70,7 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
 //    @Test
 //    public void testRender_implicitlyChecked() throws IOException
 //    {
-//        view.setCheckmarkValue(Checkmark.CHECKED_IMPLICITLY);
+//        view.setCheckmarkValue(Checkmark.YES_AUTO);
 //        view.refresh();
 //        assertRenders(view, PATH + "implicitly_checked.png");
 //    }
@@ -85,7 +85,7 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
 //    @Test
 //    public void testRender_unchecked() throws IOException
 //    {
-//        view.setCheckmarkValue(Checkmark.UNCHECKED);
+//        view.setCheckmarkValue(Checkmark.NO);
 //        view.refresh();
 //        assertRenders(view, PATH + "unchecked.png");
 //    }

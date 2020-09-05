@@ -149,7 +149,7 @@ public class HistoryChart extends ScrollableChart
         if (timestamp == null) return false;
 
         Timestamp today = DateUtils.getToday();
-        int newValue = CHECKED_EXPLICITLY;
+        int newValue = YES_MANUAL;
         int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
@@ -385,7 +385,7 @@ public class HistoryChart extends ScrollableChart
                 pSquareBg.setColor(colors[0]);
                 pSquareFg.setColor(textColors[1]);
             }
-            else if ((isNumerical && checkmark < target) || checkmark != CHECKED_EXPLICITLY)
+            else if ((isNumerical && checkmark < target) || checkmark != YES_MANUAL)
             {
                 pSquareBg.setColor(colors[1]);
                 pSquareFg.setColor(textColors[2]);
@@ -400,7 +400,7 @@ public class HistoryChart extends ScrollableChart
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
 
-        if (!isNumerical && checkmark == SKIPPED)
+        if (!isNumerical && checkmark == SKIP)
         {
             pSquareBg.setColor(backgroundColor);
             pSquareBg.setStrokeWidth(columnWidth * 0.025f);

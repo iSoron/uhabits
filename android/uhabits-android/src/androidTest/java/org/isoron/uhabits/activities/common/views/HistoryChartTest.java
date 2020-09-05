@@ -80,11 +80,11 @@ public class HistoryChartTest extends BaseViewTest
         chart.setIsEditable(true);
 
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.SKIPPED);
+        verify(controller).onToggleCheckmark(today, Checkmark.SKIP);
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.UNCHECKED);
+        verify(controller).onToggleCheckmark(today, Checkmark.NO);
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.CHECKED_EXPLICITLY);
+        verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
         verifyNoMoreInteractions(controller);
     }
 
@@ -94,7 +94,7 @@ public class HistoryChartTest extends BaseViewTest
         chart.setIsEditable(true);
         chart.setCheckmarks(new int[]{});
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.CHECKED_EXPLICITLY);
+        verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
         verifyNoMoreInteractions(controller);
     }
 

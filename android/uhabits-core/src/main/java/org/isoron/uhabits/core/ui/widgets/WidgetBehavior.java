@@ -51,7 +51,7 @@ public class WidgetBehavior
         notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
-        performToggle(habit, timestamp, Checkmark.CHECKED_EXPLICITLY);
+        performToggle(habit, timestamp, Checkmark.YES_MANUAL);
     }
 
     public void onRemoveRepetition(@NonNull Habit habit, Timestamp timestamp)
@@ -59,13 +59,13 @@ public class WidgetBehavior
         notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
-        performToggle(habit, timestamp, Checkmark.UNCHECKED);
+        performToggle(habit, timestamp, Checkmark.NO);
     }
 
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
         Repetition previous = habit.getRepetitions().getByTimestamp(timestamp);
-        if(previous == null) performToggle(habit, timestamp, Checkmark.CHECKED_EXPLICITLY);
+        if(previous == null) performToggle(habit, timestamp, Checkmark.YES_MANUAL);
         else performToggle(habit, timestamp, Repetition.nextToggleValue(previous.getValue()));
     }
 

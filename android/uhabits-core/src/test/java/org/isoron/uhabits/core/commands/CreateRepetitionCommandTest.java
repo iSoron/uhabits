@@ -57,7 +57,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
 
         Repetition rep = reps.getByTimestamp(today);
         assertNotNull(rep);
-        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
+        assertEquals(YES_MANUAL, rep.getValue());
 
         command.execute();
         rep = reps.getByTimestamp(today);
@@ -67,7 +67,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         command.undo();
         rep = reps.getByTimestamp(today);
         assertNotNull(rep);
-        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
+        assertEquals(YES_MANUAL, rep.getValue());
     }
 
     @Test

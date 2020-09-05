@@ -140,7 +140,7 @@ public abstract class RepetitionList
 
         for (Repetition r : reps)
         {
-            if (!habit.isNumerical() && r.getValue() != Checkmark.CHECKED_EXPLICITLY)
+            if (!habit.isNumerical() && r.getValue() != Checkmark.YES_MANUAL)
                 continue;
 
             Calendar date = r.getTimestamp().toCalendar();
@@ -197,7 +197,7 @@ public abstract class RepetitionList
         if (rep != null) remove(rep);
         else
         {
-            rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
+            rep = new Repetition(timestamp, Checkmark.YES_MANUAL);
             add(rep);
         }
 

@@ -70,12 +70,12 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         RepetitionRecord record = getByTimestamp(today.plus(1));
         assertNull(record);
 
-        Repetition rep = new Repetition(today.plus(1), CHECKED_EXPLICITLY);
+        Repetition rep = new Repetition(today.plus(1), YES_MANUAL);
         habit.getRepetitions().add(rep);
 
         record = getByTimestamp(today.plus(1));
         assertNotNull(record);
-        assertThat(record.value, equalTo(CHECKED_EXPLICITLY));
+        assertThat(record.value, equalTo(YES_MANUAL));
     }
 
     @Test

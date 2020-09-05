@@ -67,9 +67,9 @@ open class CheckmarkWidget(
 
     private fun getNumericalCheckmarkState(): Int {
         return if (habit.isCompletedToday) {
-            Checkmark.CHECKED_EXPLICITLY
+            Checkmark.YES_MANUAL
         } else {
-            Checkmark.UNCHECKED
+            Checkmark.NO
         }
     }
 

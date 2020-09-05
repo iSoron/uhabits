@@ -103,14 +103,14 @@ class CheckmarkButtonView(
 
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
-                CHECKED_EXPLICITLY -> color
-                SKIPPED -> color
+                YES_MANUAL -> color
+                SKIP -> color
                 else -> lowContrastColor
             }
             val id = when (value) {
-                SKIPPED -> R.string.fa_skipped
-                CHECKED_IMPLICITLY -> R.string.fa_skipped
-                UNCHECKED -> R.string.fa_times
+                SKIP -> R.string.fa_skipped
+                YES_AUTO -> R.string.fa_skipped
+                NO -> R.string.fa_times
                 else -> R.string.fa_check
             }
             val label = resources.getString(id)
