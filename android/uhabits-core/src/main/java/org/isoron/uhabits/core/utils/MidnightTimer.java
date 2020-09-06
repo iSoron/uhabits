@@ -56,7 +56,7 @@ public class MidnightTimer
     {
         executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(() -> notifyListeners(),
-            DateUtils.millisecondsUntilTomorrow() + 1000,
+            DateUtils.millisecondsUntilTomorrowWithOffset() + 1000,
             DateUtils.DAY_LENGTH, TimeUnit.MILLISECONDS);
     }
 

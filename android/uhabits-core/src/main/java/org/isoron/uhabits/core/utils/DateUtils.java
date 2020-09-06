@@ -202,19 +202,19 @@ public abstract class DateUtils
         return getStartOfDay(getLocalTime());
     }
 
-    public static long getStartOfTomorrow()
+    public static long getStartOfTomorrowWithOffset()
     {
         return getUpcomingTimeInMillis(startDayHourOffset, startDayMinuteOffset);
     }
-    
+
     public static long getStartOfTodayWithOffset()
     {
         return getStartOfDayWithOffset(getLocalTime());
     }
 
-    public static long millisecondsUntilTomorrow()
+    public static long millisecondsUntilTomorrowWithOffset()
     {
-        return getStartOfTomorrow() - getLocalTime();
+        return getStartOfTomorrowWithOffset() - getLocalTime();
     }
 
     public static GregorianCalendar getStartOfTodayCalendar()

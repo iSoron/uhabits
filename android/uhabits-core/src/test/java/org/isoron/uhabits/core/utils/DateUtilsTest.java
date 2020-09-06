@@ -166,17 +166,17 @@ public class DateUtilsTest extends BaseUnitTest
         DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT"));
 
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(MINUTE_LENGTH));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(MINUTE_LENGTH));
 
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 20, 0));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(4 * HOUR_LENGTH));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(4 * HOUR_LENGTH));
 
         DateUtils.setStartDayOffset(3, 30);
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(3 * HOUR_LENGTH + 31 * MINUTE_LENGTH));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(3 * HOUR_LENGTH + 31 * MINUTE_LENGTH));
 
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 2, 1, 0));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(2 * HOUR_LENGTH + 30 * MINUTE_LENGTH));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(2 * HOUR_LENGTH + 30 * MINUTE_LENGTH));
     }
 
     @Test

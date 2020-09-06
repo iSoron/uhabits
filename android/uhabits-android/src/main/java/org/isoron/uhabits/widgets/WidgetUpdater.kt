@@ -64,7 +64,7 @@ class WidgetUpdater
     }
 
     fun scheduleStartDayWidgetUpdate() {
-        val timestamp = DateUtils.getStartOfTomorrow()
+        val timestamp = DateUtils.getStartOfTomorrowWithOffset()
         intentScheduler.scheduleWidgetUpdate(timestamp);
     }
 
