@@ -33,6 +33,7 @@ import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
@@ -40,6 +41,7 @@ import org.isoron.uhabits.utils.*
 @AutoFactory
 class HabitCardView(
         @Provided @ActivityContext context: Context,
+        @Provided private val preferences: Preferences,
         @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
         @Provided private val numberPanelFactory: NumberPanelViewFactory,
         @Provided private val behavior: ListHabitsBehavior
@@ -89,7 +91,7 @@ class HabitCardView(
         set(values) {
             checkmarkPanel.values = values
             numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
-            if (habit?.isNumerical == false) {
+            if (habit?.isNumerical == false && scoreAsText) {
                 streakText.apply {
                     visibility = if (values[0] == 0) View.GONE else View.VISIBLE
                 }
@@ -102,6 +104,9 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
+    private val scoreAsText: Boolean
+        get() = preferences.scoreAsText
+
     private var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
@@ -109,8 +114,6 @@ class HabitCardView(
     private var scoreRing: RingView
     private var scoreText: TextView
     private var streakText: TextView
-
-    private val showScoreText = true //Use value from Preferences.getScoreAsText()
 
     init {
         scoreRing = RingView(context).apply {
@@ -174,11 +177,9 @@ class HabitCardView(
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
 
-            if (showScoreText) {
-                addView(scoreText)
-                addView(streakText)
-            } else
-                addView(scoreRing)
+            addView(scoreText)
+            addView(streakText)
+            addView(scoreRing)
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
@@ -243,12 +244,14 @@ class HabitCardView(
         }
         scoreRing.apply {
             color = c
+            visibility = if (scoreAsText) View.GONE else View.VISIBLE
         }
         scoreText.apply {
             setTextColor(c)
+            visibility = if (scoreAsText) View.VISIBLE else View.GONE
         }
 
-        if (!h.isNumerical) {
+        if (!h.isNumerical && scoreAsText) {
             val streaks = h.streaks.all
             var isLastStreakBestStreak = false
             val lastStreak =

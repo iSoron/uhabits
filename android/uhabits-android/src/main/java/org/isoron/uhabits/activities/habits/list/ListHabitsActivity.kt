@@ -59,6 +59,7 @@ class ListHabitsActivity : HabitsActivity() {
 
     override fun onResume() {
         adapter.refresh()
+        adapter.notifyDataSetChanged()
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
