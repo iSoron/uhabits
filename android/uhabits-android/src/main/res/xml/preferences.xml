@@ -38,6 +38,12 @@
                 android:title="@string/reverse_days"
                 app:iconSpaceReserved="false" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_show_text_instead_of_circle"
+            android:summary="@string/score_text_description"
+            android:title="@string/score_text"
+            app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
                 android:defaultValue="false"

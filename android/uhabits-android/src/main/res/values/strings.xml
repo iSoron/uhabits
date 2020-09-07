@@ -129,6 +129,8 @@
     <string name="interface_preferences">Interface</string>
     <string name="reverse_days">Reverse order of days</string>
     <string name="reverse_days_description">Show days in reverse order on the main screen.</string>
+    <string name="score_text">Show score as text</string>
+    <string name="score_text_description">Show the score as text instead of a circle. Furthermore the current streak is displayed next to the score.</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>

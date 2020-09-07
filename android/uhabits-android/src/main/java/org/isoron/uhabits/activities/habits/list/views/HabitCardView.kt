@@ -110,6 +110,8 @@ class HabitCardView(
     private var scoreText: TextView
     private var streakText: TextView
 
+    private val showScoreText = true //Use value from Preferences.getScoreAsText()
+
     init {
         scoreRing = RingView(context).apply {
             val thickness = dp(3f)
@@ -172,9 +174,11 @@ class HabitCardView(
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
 
-            addView(scoreRing)
-            addView(scoreText)
-            addView(streakText)
+            if (showScoreText) {
+                addView(scoreText)
+                addView(streakText)
+            } else
+                addView(scoreRing)
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
