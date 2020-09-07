@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
+import android.graphics.Typeface
 import android.os.*
 import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
@@ -87,6 +88,11 @@ class HabitCardView(
         set(values) {
             checkmarkPanel.values = values
             numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
+            if (habit?.isNumerical == false) {
+                streakText.apply {
+                    visibility = if (values[0] == 0) View.GONE else View.VISIBLE
+                }
+            }
         }
 
     var threshold: Double
@@ -100,6 +106,7 @@ class HabitCardView(
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
+    private var streakText: TextView
 
     init {
         scoreRing = RingView(context).apply {
@@ -111,6 +118,17 @@ class HabitCardView(
                 gravity = Gravity.CENTER
             }
             setThickness(thickness)
+        }
+
+        streakText = TextView(context).apply {
+            val marginRight = dp(8f).toInt()
+            setSingleLine()
+            gravity = Gravity.CENTER
+            typeface = Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                setMargins(0, 0, marginRight, 0)
+                gravity = Gravity.CENTER
+            }
         }
 
         label = TextView(context).apply {
@@ -142,6 +160,7 @@ class HabitCardView(
             if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
 
             addView(scoreRing)
+            addView(streakText)
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
@@ -207,6 +226,31 @@ class HabitCardView(
         scoreRing.apply {
             color = c
         }
+
+        if (!h.isNumerical) {
+            val streaks = h.streaks.all
+            var isLastStreakBestStreak = false
+            val lastStreak =
+                    if (streaks != null && streaks.size > 0) {
+                        if (h.streaks.getBest(1)[0] == streaks[0])
+                            isLastStreakBestStreak = true
+                        streaks[0].length
+                    } else 0
+
+            streakText.apply {
+                text = lastStreak.toString()
+                setTextColor(when (isLastStreakBestStreak) {
+                    true -> c
+                    false -> sres.getColor(R.attr.mediumContrastTextColor)
+                })
+                visibility = View.VISIBLE
+            }
+        } else {
+            streakText.apply {
+                visibility = View.GONE
+            }
+        }
+
         checkmarkPanel.apply {
             color = c
             visibility = when (h.isNumerical) {
