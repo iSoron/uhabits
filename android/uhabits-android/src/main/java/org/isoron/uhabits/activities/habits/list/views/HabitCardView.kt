@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
+import android.graphics.Typeface
 import android.os.*
 import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
@@ -74,6 +75,7 @@ class HabitCardView(
         set(value) {
             scoreRing.percentage = value.toFloat()
             scoreRing.precision = 1.0f / 16
+            scoreText.text = "${(value * 100).toInt()}%"
         }
 
     var unit
@@ -100,6 +102,7 @@ class HabitCardView(
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
+    private var scoreText: TextView
 
     init {
         scoreRing = RingView(context).apply {
@@ -111,6 +114,17 @@ class HabitCardView(
                 gravity = Gravity.CENTER
             }
             setThickness(thickness)
+        }
+
+        scoreText = TextView(context).apply {
+            val margin = dp(8f).toInt()
+            setSingleLine()
+            gravity = Gravity.CENTER
+            typeface = Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                setMargins(margin, 0, margin, 0)
+                gravity = Gravity.CENTER
+            }
         }
 
         label = TextView(context).apply {
@@ -142,6 +156,7 @@ class HabitCardView(
             if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
 
             addView(scoreRing)
+            addView(scoreText)
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
@@ -206,6 +221,9 @@ class HabitCardView(
         }
         scoreRing.apply {
             color = c
+        }
+        scoreText.apply {
+            setTextColor(c)
         }
         checkmarkPanel.apply {
             color = c
