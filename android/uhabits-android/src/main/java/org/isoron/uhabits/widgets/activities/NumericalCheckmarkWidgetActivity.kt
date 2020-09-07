@@ -52,7 +52,6 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         widgetUpdater = component.widgetUpdater
         showNumberSelector(this)
 
-        // Unlock device on clicking notification action
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
             km.requestDismissKeyguard(this, null)

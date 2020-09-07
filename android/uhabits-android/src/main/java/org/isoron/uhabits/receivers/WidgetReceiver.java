@@ -67,6 +67,7 @@ public class WidgetReceiver extends BroadcastReceiver
 
         IntentParser parser = app.getComponent().getIntentParser();
         WidgetBehavior controller = component.getWidgetController();
+        Preferences prefs = app.getComponent().getPreferences();
 
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
 
@@ -104,9 +105,7 @@ public class WidgetReceiver extends BroadcastReceiver
                             data.getTimestamp());
                     break;
                 case ACTION_SET_NUMERICAL_VALUE:
-                    // close Notification drawer
                     context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
-
                     Intent numberSelectorIntent = new Intent(context, NumericalCheckmarkWidgetActivity.class);
                     numberSelectorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     numberSelectorIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

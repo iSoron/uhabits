@@ -28,7 +28,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 import org.isoron.uhabits.intents.*;
 

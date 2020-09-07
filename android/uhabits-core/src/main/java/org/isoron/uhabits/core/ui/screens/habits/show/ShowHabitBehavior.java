@@ -23,7 +23,7 @@ import androidx.annotation.*;
 
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 
 import javax.inject.*;
 
