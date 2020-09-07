@@ -30,6 +30,7 @@ import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.widgets.*
 import org.isoron.uhabits.intents.*
+import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
 
 class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPickerCallback {
@@ -52,12 +53,7 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         widgetUpdater = component.widgetUpdater
         showNumberSelector(this)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
-            km.requestDismissKeyguard(this, null)
-        } else {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
-        }
+        SystemUtils.unlockScreen(this)
     }
 
     override fun onNumberPicked(newValue: Double) {

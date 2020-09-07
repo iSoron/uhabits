@@ -18,6 +18,7 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.receivers.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -46,13 +47,6 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
         habit = appComponent.getHabitList().getById(parseId(getIntent().getData()));
         if (habit == null) finish();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-            km.requestDismissKeyguard(this, null);
-        } else {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        }
-
         int theme = R.style.Theme_AppCompat_Light_Dialog_Alert;
         dialog = new AlertDialog.Builder(new ContextThemeWrapper(this, theme))
             .setTitle(R.string.select_snooze_delay)
@@ -62,6 +56,8 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
         dialog.getListView().setOnItemClickListener(this);
         dialog.setOnDismissListener(d -> finish());
         dialog.show();
+
+        SystemUtils.unlockScreen(this);
     }
 
     private void showTimePicker()
