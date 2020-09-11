@@ -194,6 +194,7 @@
     <string name="every_month">Every month</string>
     <string name="validation_cannot_be_blank">Cannot be blank</string>
     <string name="today">Today</string>
+    <string name="enter">Enter</string>
     <string name="no_habits">No habits found</string>
     <string name="no_numerical_habits">No measurable habits found</string>
     <string name="no_boolean_habits">No yes-or-no habits found</string>

@@ -26,9 +26,9 @@ import androidx.annotation.NonNull;
 import org.isoron.androidbase.activities.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.dialogs.*;
-import org.isoron.uhabits.activities.habits.edit.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.*;
 import org.isoron.uhabits.intents.*;
 
@@ -54,6 +54,9 @@ public class ShowHabitScreen extends BaseScreen
     @NonNull
     private final IntentFactory intentFactory;
 
+    @NonNull
+    private final NumberPickerFactory numberPickerFactory;
+
     @Inject
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
@@ -61,6 +64,7 @@ public class ShowHabitScreen extends BaseScreen
                            @NonNull ShowHabitsMenu menu,
                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                            @NonNull IntentFactory intentFactory,
+                           @NonNull NumberPickerFactory numberPickerFactory,
                            @NonNull Lazy<ShowHabitBehavior> behavior)
     {
         super(activity);
@@ -71,6 +75,7 @@ public class ShowHabitScreen extends BaseScreen
         this.habit = habit;
         this.behavior = behavior;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
+        this.numberPickerFactory = numberPickerFactory;
         view.setController(this);
     }
 
@@ -78,6 +83,14 @@ public class ShowHabitScreen extends BaseScreen
     public void onEditHistoryButtonClick()
     {
         behavior.get().onEditHistory();
+    }
+
+    @Override
+    public void showNumberPicker(double value,
+                                 @NonNull String unit,
+                                 @NonNull ListHabitsBehavior.NumberPickerCallback callback)
+    {
+        numberPickerFactory.create(value, unit, callback).show();
     }
 
     @Override

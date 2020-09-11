@@ -23,6 +23,7 @@ import androidx.annotation.*;
 
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.screens.habits.list.*;
 
 import javax.inject.*;
 
@@ -58,12 +59,29 @@ public class ShowHabitBehavior
 
     public void onToggleCheckmark(Timestamp timestamp, int value)
     {
-        commandRunner.execute(
-            new CreateRepetitionCommand(habitList, habit, timestamp, value), null);
+        if (habit.isNumerical()) {
+            CheckmarkList checkmarks = habit.getCheckmarks();
+            double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+
+            screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
+            {
+                newValue = Math.round(newValue * 1000);
+                commandRunner.execute(
+                        new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
+                        habit.getId());
+            });
+        } else {
+            commandRunner.execute(
+                    new CreateRepetitionCommand(habitList, habit, timestamp, value), null);
+        }
     }
 
     public interface Screen
     {
         void showEditHistoryScreen();
+
+        void showNumberPicker(double value,
+                              @NonNull String unit,
+                              @NonNull ListHabitsBehavior.NumberPickerCallback callback);
     }
 }

@@ -18,6 +18,7 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.receivers.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
@@ -55,6 +56,8 @@ public class SnoozeDelayPickerActivity extends FragmentActivity
         dialog.getListView().setOnItemClickListener(this);
         dialog.setOnDismissListener(d -> finish());
         dialog.show();
+
+        SystemUtils.unlockScreen(this);
     }
 
     private void showTimePicker()
