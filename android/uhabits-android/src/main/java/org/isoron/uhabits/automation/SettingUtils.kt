@@ -9,7 +9,7 @@ object SettingUtils {
     fun parseIntent(intent: Intent, allHabits: HabitList): Arguments? {
         val bundle = intent.getBundleExtra(EXTRA_BUNDLE) ?: return null
         val action = bundle.getInt("action")
-        if (action < 0 || action > 2) return null
+        if (action < 0 || action > 4) return null
         val habit = allHabits.getById(bundle.getLong("habit")) ?: return null
         return Arguments(action, habit)
     }

@@ -198,4 +198,6 @@
     <string name="no_habits">No habits found</string>
     <string name="no_numerical_habits">No measurable habits found</string>
     <string name="no_boolean_habits">No yes-or-no habits found</string>
+    <string name="increment">Increment</string>
+    <string name="decrement">Decrement</string>
 </resources>

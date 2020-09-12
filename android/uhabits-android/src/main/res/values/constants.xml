@@ -72,10 +72,15 @@
         <item>-1</item>
     </integer-array>
 
-    <string-array name="actions" translatable="false">
+    <string-array name="actions_yes_no" translatable="false">
         <item>@string/check</item>
         <item>@string/uncheck</item>
         <item>@string/toggle</item>
+    </string-array>
+
+    <string-array name="actions_numerical" translatable="false">
+        <item>@string/increment</item>
+        <item>@string/decrement</item>
     </string-array>
 
     <string-array name="strengthIntervalNames" translatable="false">

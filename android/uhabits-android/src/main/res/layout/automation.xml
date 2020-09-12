@@ -22,67 +22,81 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="@color/white">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/Toolbar"
-        android:title="@string/app_name"
-        app:popupTheme="?toolbarPopupTheme"/>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="2dp"
+            android:gravity="end"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/white">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSave"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:text="@string/save"
+                android:textColor="@color/white"
+                app:rippleColor="@color/white"
+                app:strokeColor="@color/white" />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/formPanel"
         style="@style/dialogFormPanel">
 
-        <LinearLayout
-            style="@style/dialogFormRow">
+        <FrameLayout style="@style/FormOuterBox">
+            <LinearLayout style="@style/FormInnerBox">
+                <TextView
+                    style="@style/FormLabel"
+                    android:text="@string/habit" />
 
-            <TextView
-                style="@style/dialogFormLabel"
-                android:text="@string/action"/>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:id="@+id/habitSpinner"
+                    android:text="@string/check" />
+            </LinearLayout>
+        </FrameLayout>
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/actionSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:entries="@array/actions"
-                android:minWidth="400dp"
-                android:theme="@style/dialogFormText"/>
-        </LinearLayout>
+        <FrameLayout style="@style/FormOuterBox">
+            <LinearLayout style="@style/FormInnerBox">
+                <TextView
+                    style="@style/FormLabel"
+                    android:text="@string/action" />
 
-        <LinearLayout
-            style="@style/dialogFormRow">
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/actionSpinner"
+                    android:entries="@array/actions_yes_no"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/check" />
+            </LinearLayout>
+        </FrameLayout>
 
-            <TextView
-                style="@style/dialogFormLabel"
-                android:text="@string/habit"/>
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/habitSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:entries="@array/actions"
-                android:minWidth="400dp"
-                android:theme="@style/dialogFormText"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:paddingEnd="16dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="16dp"
-        android:paddingStart="0dp">
-
-        <Button
-            android:id="@+id/buttonSave"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -24,6 +24,7 @@ import androidx.annotation.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.*;
+import org.jetbrains.annotations.*;
 
 import javax.inject.*;
 
@@ -82,4 +83,13 @@ public class WidgetBehavior
                 habit.getId());
     }
 
+    public void onIncrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
+        int currentValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
+        setNumericValue(habit, timestamp, currentValue + amount);
+    }
+
+    public void onDecrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
+        int currentValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
+        setNumericValue(habit, timestamp, currentValue - amount);
+    }
 }
