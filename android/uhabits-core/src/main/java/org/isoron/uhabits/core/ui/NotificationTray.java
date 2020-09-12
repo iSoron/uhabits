@@ -194,18 +194,27 @@ public class NotificationTray
                 return;
             }
 
-            if (!shouldShowReminderToday()) {
-                systemTray.log(String.format(
-                        Locale.US,
-                        "Habit %d not supposed to run today. Skipping.",
-                        habit.id));
-                return;
-            }
-
             if (!habit.hasReminder()) {
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d does not have a reminder. Skipping.",
+                        habit.id));
+                return;
+            }
+
+            if (habit.isArchived())
+            {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d is archived. Skipping.",
+                        habit.id));
+                return;
+            }
+
+            if (!shouldShowReminderToday()) {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d not supposed to run today. Skipping.",
                         habit.id));
                 return;
             }
