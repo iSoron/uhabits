@@ -211,7 +211,10 @@ class EditHabitActivity : AppCompatActivity() {
         habit.color = paletteColor
         if (reminderHour >= 0) {
             habit.setReminder(Reminder(reminderHour, reminderMin, reminderDays))
+        } else {
+            habit.setReminder(null)
         }
+
         habit.frequency = Frequency(freqNum, freqDen)
         if (habitType == Habit.NUMBER_HABIT) {
             habit.targetValue = targetInput.text.toString().toDouble()
