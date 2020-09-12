@@ -132,8 +132,8 @@ public class HistoryCard extends HabitCard
             chart.setColor(color);
             if(habit.isNumerical())
             {
-                chart.setTarget((int) (habit.getTargetValue() * 1000));
                 chart.setNumerical(true);
+                chart.setTarget(habit.getTargetValue() / habit.getFrequency().getDenominator());
             }
         }
     }

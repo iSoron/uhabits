@@ -181,6 +181,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             int color = PaletteUtils.getColor(getContext(), habit.getColor());
             historyChart.setColor(color);
             historyChart.setCheckmarks(checkmarks);
+            historyChart.setNumerical(habit.isNumerical());
+            historyChart.setTarget(habit.getTargetValue() / habit.getFrequency().getDenominator());
         }
     }
 }

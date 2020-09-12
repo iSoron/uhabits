@@ -77,8 +77,6 @@ public class BarChart extends ScrollableChart
     @Nullable
     private List<Checkmark> checkmarks;
 
-    private int primaryColor;
-
     private int bucketSize = 7;
 
     private int backgroundColor;
@@ -98,6 +96,10 @@ public class BarChart extends ScrollableChart
     private double maxValue;
 
     private double target;
+
+    private int primaryColor;
+
+    private int darkerPrimaryColor;
 
     public BarChart(Context context)
     {
@@ -148,7 +150,10 @@ public class BarChart extends ScrollableChart
 
     public void setColor(int primaryColor)
     {
+        StyledResources res = new StyledResources(getContext());
+        int backgroundColor = res.getColor(R.attr.cardBgColor);
         this.primaryColor = primaryColor;
+        this.darkerPrimaryColor = ColorUtils.mixColors(primaryColor, backgroundColor, 0.6f);
         postInvalidate();
     }
 
@@ -271,7 +276,7 @@ public class BarChart extends ScrollableChart
         float margin = baseSize * 0.225f;
         float round = dpToPixels(getContext(), 2);
 
-        int color = textColor;
+        int color = darkerPrimaryColor;
         if (value / 1000 >= target) color = primaryColor;
 
         rect.inset(-margin, 0);
@@ -364,7 +369,7 @@ public class BarChart extends ScrollableChart
     {
         if (value == 0) return;
 
-        int activeColor = textColor;
+        int activeColor = darkerPrimaryColor;
         if (value / 1000 >= target)
             activeColor = primaryColor;
 

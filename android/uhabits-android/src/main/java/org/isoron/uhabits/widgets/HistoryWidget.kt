@@ -46,6 +46,8 @@ class HistoryWidget(
             setFirstWeekday(firstWeekday)
             setColor(PaletteUtils.getColor(context, habit.color))
             setCheckmarks(habit.checkmarks.allValues)
+            setNumerical(habit.isNumerical)
+            setTarget(habit.targetValue / habit.frequency.denominator)
         }
     }
 

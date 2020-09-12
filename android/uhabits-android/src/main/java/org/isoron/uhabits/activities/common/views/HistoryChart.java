@@ -44,7 +44,7 @@ public class HistoryChart extends ScrollableChart
 {
     private int[] checkmarks;
 
-    private int target;
+    private double target;
 
     private Paint pSquareBg, pSquareFg, pTextHeader;
 
@@ -202,6 +202,7 @@ public class HistoryChart extends ScrollableChart
     public void setNumerical(boolean numerical)
     {
         isNumerical = numerical;
+        postInvalidate();
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
@@ -215,7 +216,7 @@ public class HistoryChart extends ScrollableChart
         this.isEditable = isEditable;
     }
 
-    public void setTarget(int target)
+    public void setTarget(double target)
     {
         this.target = target;
         postInvalidate();
@@ -385,14 +386,14 @@ public class HistoryChart extends ScrollableChart
                 pSquareBg.setColor(colors[0]);
                 pSquareFg.setColor(textColors[1]);
             }
-            else if ((isNumerical && checkmark < target) || checkmark != YES_MANUAL)
+            else if ((isNumerical && (checkmark / 1000f >= target) || (!isNumerical && checkmark == YES_MANUAL)))
             {
-                pSquareBg.setColor(colors[1]);
+                pSquareBg.setColor(colors[2]);
                 pSquareFg.setColor(textColors[2]);
             }
             else
             {
-                pSquareBg.setColor(colors[2]);
+                pSquareBg.setColor(colors[1]);
                 pSquareFg.setColor(textColors[2]);
             }
         }
