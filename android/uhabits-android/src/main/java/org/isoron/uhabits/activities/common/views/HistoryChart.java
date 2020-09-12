@@ -44,6 +44,8 @@ public class HistoryChart extends ScrollableChart
 {
     private int[] checkmarks;
 
+    private boolean[] activeDays;
+
     private int target;
 
     private Paint pSquareBg, pSquareFg, pTextHeader;
@@ -181,9 +183,10 @@ public class HistoryChart extends ScrollableChart
         }
     }
 
-    public void setCheckmarks(int[] checkmarks)
+    public void updateState(int[] checkmarks, boolean[] activeDays)
     {
         this.checkmarks = checkmarks;
+        this.activeDays = activeDays;
         postInvalidate();
     }
 
@@ -370,7 +373,7 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
-
+        int realWeekday = date.get(Calendar.DAY_OF_WEEK) % 7;
         int checkmark = 0;
         if (checkmarkOffset >= checkmarks.length)
         {
@@ -400,7 +403,7 @@ public class HistoryChart extends ScrollableChart
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
 
-        if (!isNumerical && (checkmark == SKIP_MANUAL || checkmark == SKIP_AUTO))
+        if (!isNumerical && (checkmark == SKIP_MANUAL || !activeDays[realWeekday]))
         {
             pSquareBg.setColor(backgroundColor);
             pSquareBg.setStrokeWidth(columnWidth * 0.025f);
@@ -439,6 +442,7 @@ public class HistoryChart extends ScrollableChart
     {
         isEditable = false;
         checkmarks = new int[0];
+        activeDays = WeekdayList.EVERY_DAY.toArray();
         controller = new Controller() {};
         target = 2;
 

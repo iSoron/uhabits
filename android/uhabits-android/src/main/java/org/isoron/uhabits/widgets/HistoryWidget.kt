@@ -45,7 +45,7 @@ class HistoryWidget(
         (widgetView.dataView as HistoryChart).apply {
             setFirstWeekday(firstWeekday)
             setColor(PaletteUtils.getColor(context, habit.color))
-            setCheckmarks(habit.checkmarks.allValues)
+            updateState(habit.checkmarks.allValues, habit.activeDays.toArray())
         }
     }
 

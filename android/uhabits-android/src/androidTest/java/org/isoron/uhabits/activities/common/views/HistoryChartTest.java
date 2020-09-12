@@ -56,7 +56,7 @@ public class HistoryChartTest extends BaseViewTest
         today = new Timestamp(DateUtils.getStartOfToday());
 
         chart = new HistoryChart(targetContext);
-        chart.setCheckmarks(habit.getCheckmarks().getAllValues());
+        chart.updateState(habit.getCheckmarks().getAllValues(), habit.getActiveDays().toArray());
         chart.setColor(PaletteUtils.getAndroidTestColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));
 
@@ -92,7 +92,7 @@ public class HistoryChartTest extends BaseViewTest
     public void tapDate_withEmptyHabit()
     {
         chart.setIsEditable(true);
-        chart.setCheckmarks(new int[]{});
+        chart.updateState(new int[]{}, WeekdayList.EVERY_DAY.toArray());
         chart.tap(dpToPixels(340), dpToPixels(40));
         verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
         verifyNoMoreInteractions(controller);

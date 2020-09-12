@@ -121,7 +121,7 @@ public class HistoryCard extends HabitCard
             if (isCanceled()) return;
             int[] checkmarks = habit.getCheckmarks().getAllValues();
             if(prefs != null) chart.setFirstWeekday(prefs.getFirstWeekday());
-            chart.setCheckmarks(checkmarks);
+            chart.updateState(checkmarks, habit.getActiveDays().toArray());
         }
 
         @Override
