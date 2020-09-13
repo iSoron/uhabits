@@ -51,7 +51,6 @@ class AndroidNotificationTray
         Log.d("AndroidNotificationTray", msg)
     }
 
-
     override fun removeNotification(id: Int) {
         val manager = NotificationManagerCompat.from(context)
         manager.cancel(id)
@@ -63,8 +62,6 @@ class AndroidNotificationTray
                                   timestamp: Timestamp,
                                   reminderTime: Long) {
         val notificationManager = NotificationManagerCompat.from(context)
-        //val summary = buildSummary(habit, reminderTime)
-        //notificationManager.notify(Int.MAX_VALUE, summary)
         val notification = buildNotification(habit, reminderTime, timestamp)
         createAndroidNotificationChannel(context)
         try {
@@ -98,30 +95,41 @@ class AndroidNotificationTray
                 context.getString(R.string.no),
                 pendingIntents.removeRepetition(habit))
 
+        val enterAction = Action(
+                R.drawable.ic_action_check,
+                context.getString(R.string.enter),
+                pendingIntents.setNumericalValue(context, habit, 0, null))
+
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 
         // Even though the set of actions is the same on the phone and
         // on the watch, Pebble requires us to add them to the
         // WearableExtender.
-        val wearableExtender = WearableExtender()
-                .setBackground(wearableBg)
-                .addAction(addRepetitionAction)
-                .addAction(removeRepetitionAction)
+        val wearableExtender = WearableExtender().setBackground(wearableBg)
 
         val defaultText = context.getString(R.string.default_reminder_question)
-        val builder = NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
+        val builder = Builder(context, REMINDERS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(habit.name)
                 .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
                 .setContentIntent(pendingIntents.showHabit(habit))
                 .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .addAction(addRepetitionAction)
-                .addAction(removeRepetitionAction)
                 .setSound(null)
                 .setWhen(reminderTime)
                 .setShowWhen(true)
                 .setOngoing(preferences.shouldMakeNotificationsSticky())
-                .setGroup("group" + habit.getId())
+
+        if (habit.isNumerical) {
+            wearableExtender.addAction(enterAction)
+            builder.addAction(enterAction)
+        } else {
+            wearableExtender
+                    .addAction(addRepetitionAction)
+                    .addAction(removeRepetitionAction)
+            builder
+                    .addAction(addRepetitionAction)
+                    .addAction(removeRepetitionAction)
+        }
 
         if (!disableSound)
             builder.setSound(ringtoneManager.getURI())
@@ -137,18 +145,6 @@ class AndroidNotificationTray
 
         builder.extend(wearableExtender)
         return builder.build()
-    }
-
-    private fun buildSummary(habit: Habit,
-                             reminderTime: Long): Notification {
-        return NotificationCompat.Builder(context, REMINDERS_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setWhen(reminderTime)
-                .setShowWhen(true)
-                .setGroup("group" + habit.getId())
-                .setGroupSummary(true)
-                .build()
     }
 
     companion object {

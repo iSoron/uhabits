@@ -20,14 +20,13 @@
 package org.isoron.uhabits.activities.common.views;
 
 import android.os.*;
-import androidx.core.os.*;
-import androidx.customview.view.AbsSavedState;
+
+import androidx.customview.view.*;
 
 public class BundleSavedState extends AbsSavedState
 {
     public static final Parcelable.Creator<BundleSavedState> CREATOR =
-        ParcelableCompat.newCreator(
-            new ParcelableCompatCreatorCallbacks<BundleSavedState>()
+            new ClassLoaderCreator<BundleSavedState>()
             {
                 @Override
                 public BundleSavedState createFromParcel(Parcel source,
@@ -37,11 +36,17 @@ public class BundleSavedState extends AbsSavedState
                 }
 
                 @Override
+                public BundleSavedState createFromParcel(Parcel source)
+                {
+                    return null;
+                }
+
+                @Override
                 public BundleSavedState[] newArray(int size)
                 {
                     return new BundleSavedState[size];
                 }
-            });
+            };
 
     public final Bundle bundle;
 

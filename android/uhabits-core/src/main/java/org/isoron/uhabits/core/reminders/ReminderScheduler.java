@@ -59,7 +59,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     public synchronized void onCommandExecuted(@NonNull Command command,
                                                @Nullable Long refreshKey)
     {
-        if (command instanceof ToggleRepetitionCommand) return;
+        if (command instanceof CreateRepetitionCommand) return;
         if (command instanceof ChangeHabitColorCommand) return;
         scheduleAll();
     }
@@ -163,6 +163,8 @@ public class ReminderScheduler implements CommandRunner.Listener
     public interface SystemScheduler
     {
         void scheduleShowReminder(long reminderTime, Habit habit, long timestamp);
+
+        void scheduleWidgetUpdate(long updateTime);
 
         void log(String componentName, String msg);
     }

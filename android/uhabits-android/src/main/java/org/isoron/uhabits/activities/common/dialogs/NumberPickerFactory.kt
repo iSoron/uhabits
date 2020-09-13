@@ -23,6 +23,7 @@ import android.content.*
 import androidx.appcompat.app.*
 import android.text.*
 import android.view.*
+import android.view.WindowManager.LayoutParams.*
 import android.view.inputmethod.*
 import android.widget.*
 import org.isoron.androidbase.activities.*
@@ -74,7 +75,10 @@ class NumberPickerFactory
                 }
                 .create()
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog.setOnShowListener {
+            picker.getChildAt(0)?.requestFocus()
+            dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
 
         InterfaceUtils.setupEditorAction(picker, TextView.OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE)

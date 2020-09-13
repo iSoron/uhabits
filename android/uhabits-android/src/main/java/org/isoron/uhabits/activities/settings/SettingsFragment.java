@@ -155,8 +155,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         // Temporarily disable this; we now always ask
         findPreference("reminderSound").setVisible(false);
         findPreference("pref_snooze_interval").setVisible(false);
-
-        updateSync();
     }
 
     private void updateWeekdayPreference()
@@ -183,7 +181,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         }
         if (key.equals("pref_first_weekday")) updateWeekdayPreference();
         BackupManager.dataChanged("org.isoron.uhabits");
-        updateSync();
     }
 
     private void setResultOnPreferenceClick(String key, final int result)
@@ -217,25 +214,5 @@ public class SettingsFragment extends PreferenceFragmentCompat
         if (ringtoneName == null) return;
         Preference ringtonePreference = findPreference("reminderSound");
         ringtonePreference.setSummary(ringtoneName);
-    }
-
-    private void updateSync()
-    {
-        if (prefs == null) return;
-        boolean enabled = prefs.isSyncEnabled();
-
-        Preference syncKey = findPreference("pref_sync_key");
-        if (syncKey != null)
-        {
-            syncKey.setSummary(prefs.getSyncKey());
-            syncKey.setVisible(enabled);
-        }
-
-        Preference syncAddress = findPreference("pref_sync_address");
-        if (syncAddress != null)
-        {
-            syncAddress.setSummary(prefs.getSyncAddress());
-            syncAddress.setVisible(enabled);
-        }
     }
 }

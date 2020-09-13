@@ -24,6 +24,7 @@ import androidx.annotation.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.*;
+import org.jetbrains.annotations.*;
 
 import javax.inject.*;
 
@@ -51,7 +52,7 @@ public class WidgetBehavior
         notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep != null) return;
-        performToggle(habit, timestamp);
+        performToggle(habit, timestamp, Checkmark.YES_MANUAL);
     }
 
     public void onRemoveRepetition(@NonNull Habit habit, Timestamp timestamp)
@@ -59,25 +60,36 @@ public class WidgetBehavior
         notificationTray.cancel(habit);
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
-        performToggle(habit, timestamp);
+        performToggle(habit, timestamp, Checkmark.NO);
     }
 
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
-        performToggle(habit, timestamp);
+        Repetition previous = habit.getRepetitions().getByTimestamp(timestamp);
+        if(previous == null) performToggle(habit, timestamp, Checkmark.YES_MANUAL);
+        else performToggle(habit, timestamp, Repetition.nextToggleValue(previous.getValue()));
     }
 
-    private void performToggle(@NonNull Habit habit, Timestamp timestamp)
+    private void performToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
         commandRunner.execute(
-            new ToggleRepetitionCommand(habitList, habit, timestamp),
+            new CreateRepetitionCommand(habitList, habit, timestamp, value),
             habit.getId());
     }
 
     public void setNumericValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
         commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, newValue),
+                new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
                 habit.getId());
     }
 
+    public void onIncrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
+        int currentValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
+        setNumericValue(habit, timestamp, currentValue + amount);
+    }
+
+    public void onDecrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
+        int currentValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
+        setNumericValue(habit, timestamp, currentValue - amount);
+    }
 }

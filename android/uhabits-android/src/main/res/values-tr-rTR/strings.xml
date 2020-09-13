@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">Renk Değiştir</string>
     <string name="toast_habit_created">Alışkanlık oluşturuldu.</string>
     <string name="toast_habit_deleted">Alışkanlık silindi.</string>
-    <string name="toast_habit_restored">Alışkanlıklar geri getirildi</string>
-    <string name="toast_nothing_to_undo">Geri alınacak bir şey yok</string>
-    <string name="toast_nothing_to_redo">Tekrar yapılacak birşey yok.</string>
     <string name="toast_habit_changed">Alışkanlık değiştirildi</string>
-    <string name="toast_habit_changed_back">Alışkanlık eski haline getirildi</string>
     <string name="toast_habit_archived">Alışkanlık arşivlendi.</string>
     <string name="toast_habit_unarchived">Alışkanlık arşivden çıkarıldı.</string>
     <string name="overview">Genel Bakış</string>
     <string name="habit_strength">Alışkanlık gücü</string>
     <string name="history">Geçmiş</string>
     <string name="clear">Temizle</string>
-    <string name="description_hint">Soru (Bugün ... yaptın mı?)</string>
-    <string name="repeat">Tekrar</string>
     <string name="times_every">defa /</string>
     <string name="days">gün</string>
     <string name="reminder">Hatırlatma</string>
-    <string name="discard">Vazgeç</string>
     <string name="save">Kaydet</string>
     <string name="streaks">Seriler</string>
     <string name="no_habits_found">Etkin alışkanlığın yok</string>
     <string name="long_press_to_toggle">İşaretlemek ya da işaret kaldırmak için basılı tut</string>
     <string name="reminder_off">Kapalı</string>
-    <string name="validation_name_should_not_be_blank">Adı boş bırakamazsın.</string>
-    <string name="validation_number_should_be_positive">Sayılar sıfırdan büyük olmalı.</string>
-    <string name="validation_at_most_one_rep_per_day">Günde en fazla bir tekrar yapabilirsin.</string>
     <string name="create_habit">Alışkanlık oluştur</string>
     <string name="edit_habit">Alışkanlık düzenle</string>
     <string name="check">Yaptım</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">Loop Alışkanlık Takibi, iyi alışkanlıklar edinmene ve sürdürmene yardımcı olur.</string>
     <string name="intro_title_2">Yeni alışkanlıklar oluştur</string>
     <string name="intro_description_2">Her gün, alışkanlığını gerçekleştirdikten sonra, uygulamada onay işareti koy.</string>
-    <string name="intro_title_3">Yapmaya devam et</string>
-    <string name="intro_description_3">Uzun süre düzenli sürdürdüğün alışkanlıkların için bir tam yıldız kazanacaksın.</string>
     <string name="intro_title_4">Gelişimini izle</string>
     <string name="intro_description_4">Detaylı grafiklerle, zaman içinde alışkanlıklarının nasıl geliştiğini gör.</string>
     <string name="interval_15_minutes">15 dakika</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">Google Play\'de uygulamayı oyla</string>
     <string name="pref_send_feedback">Geliştiriciye geri bildirim gönder</string>
     <string name="pref_view_source_code">Github\'da kaynak kodunu gör</string>
-    <string name="pref_view_app_introduction">Uygulama tanıtımını göster</string>
     <string name="links">Bağlantılar</string>
-    <string name="behavior">Davranış</string>
     <string name="name">Ad</string>
     <string name="settings">Ayarlar</string>
     <string name="snooze_interval">Erteleme süresi</string>
@@ -108,26 +94,14 @@
     <string name="version_n">Sürüm %s</string>
     <string name="frequency">Sıklık</string>
     <string name="checkmark">İşaret</string>
-    <string name="strength">Güç</string>
     <string name="best_streaks">En uzun seriler</string>
-    <string name="current_streaks">Şimdiki seri</string>
-    <string name="number_of_repetitions">Tekrar sayısı</string>
-    <string name="last_x_days">Son %d gün</string>
-    <string name="last_x_weeks">Son %d hafta</string>
-    <string name="last_x_months">Son %d ay</string>
-    <string name="last_x_years">Son %d yıl</string>
-    <string name="all_time">Tüm zamanlar</string>
     <string name="every_day">Her gün</string>
     <string name="every_week">Her hafta</string>
-    <string name="two_times_per_week">Haftada 2 kez</string>
-    <string name="five_times_per_week">Haftada 5 kez</string>
-    <string name="custom_frequency">Özel ...</string>
     <string name="help">Yardım &amp; SSS</string>
     <string name="could_not_export">Dışarı veri aktarımı başarısız.</string>
     <string name="could_not_import">İçeri veri aktarımı başarısız.</string>
     <string name="file_not_recognized">Dosya tanınamadı.</string>
     <string name="habits_imported">Alışkanlıklar başarıyla içeri aktarıldı.</string>
-    <string name="full_backup_success">Tam yedek başarıyla dışarı aktarıldı.</string>
     <string name="import_data">İçeri veri aktar</string>
     <string name="export_full_backup">Tüm yedeği dışarı aktar</string>
     <string name="import_data_summary">Hem bu uygulama tarafından dışarı aktarılmış tam yedekleri, hem de Tickmate, HabitBull veya Rewire tarafından üretilmiş dosyaları destekler. Daha fazla bilgi için SSS\'a başvurun.</string>
@@ -151,10 +125,8 @@
     <string name="total">Tümü</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">defa /</string>
     <string name="every_x_days">Her %d gün</string>
     <string name="every_x_weeks">Her %d hafta</string>
-    <string name="every_x_months">Her %d ay</string>
     <string name="score">Puan</string>
     <string name="reminder_sound">Hatırlatma sesi</string>
     <string name="none">Sessiz</string>
@@ -174,6 +146,5 @@
     <string name="by_name">Ada göre</string>
     <string name="by_color">Renge göre</string>
     <string name="by_score">Puana göre</string>
-    <string name="download">İndir</string>
     <string name="export">Dışarı aktar</string>
 </resources>

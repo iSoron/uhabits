@@ -319,6 +319,12 @@ public class HabitCardListAdapter
         preferences.setDefaultOrder(order);
     }
 
+    @Override
+    public HabitList.Order getOrder()
+    {
+        return cache.getOrder();
+    }
+
     /**
      * Selects or deselects the item at a given position.
      *

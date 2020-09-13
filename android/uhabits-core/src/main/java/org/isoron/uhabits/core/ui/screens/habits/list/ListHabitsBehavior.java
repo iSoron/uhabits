@@ -87,7 +87,7 @@ public class ListHabitsBehavior
         {
             newValue = Math.round(newValue * 1000);
             commandRunner.execute(
-                new CreateRepetitionCommand(habit, timestamp, (int) newValue),
+                new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
                 habit.getId());
         });
     }
@@ -149,11 +149,11 @@ public class ListHabitsBehavior
         if (prefs.isFirstRun()) onFirstRun();
     }
 
-    public void onToggle(@NonNull Habit habit, Timestamp timestamp)
+    public void onToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
         commandRunner.execute(
-            new ToggleRepetitionCommand(habitList, habit, timestamp),
-            habit.getId());
+                new CreateRepetitionCommand(habitList, habit, timestamp, value),
+                habit.getId());
     }
 
     public enum Message

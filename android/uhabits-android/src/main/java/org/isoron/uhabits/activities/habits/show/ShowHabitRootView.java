@@ -158,6 +158,7 @@ public class ShowHabitRootView extends BaseRootView
 
         if(habit.isNumerical()) {
             overviewCard.setVisibility(View.GONE);
+            streakCard.setVisibility(View.GONE);
         } else {
             targetCard.setVisibility(View.GONE);
         }

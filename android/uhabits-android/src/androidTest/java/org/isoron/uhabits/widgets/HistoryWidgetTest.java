@@ -27,6 +27,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -47,8 +48,9 @@ public class HistoryWidgetTest extends BaseViewTest
     {
         super.setUp();
         setTheme(R.style.WidgetTheme);
+        prefs.setWidgetOpacity(255);
 
-        habit = fixtures.createLongHabit();
+        habit = fixtures.createVeryLongHabit();
         HistoryWidget widget = new HistoryWidget(targetContext, 0, habit, Calendar.SUNDAY);
         view = convertToView(widget, 400, 400);
     }
@@ -59,9 +61,9 @@ public class HistoryWidgetTest extends BaseViewTest
         assertWidgetProviderIsInstalled(HistoryWidgetProvider.class);
     }
 
-//    @Test
-//    public void testRender() throws Exception
-//    {
-//        assertRenders(view, PATH + "render.png");
-//    }
+    @Test
+    public void testRender() throws Exception
+    {
+        assertRenders(view, PATH + "render.png");
+    }
 }

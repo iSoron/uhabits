@@ -62,7 +62,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     {
         habit.getRepetitions().toggle(today);
         int todayValue = habit.getCheckmarks().getTodayValue();
-        assertThat(todayValue, equalTo(CHECKED_EXPLICITLY));
+        assertThat(todayValue, equalTo(YES_MANUAL));
         controller.onAddRepetition(habit, today);
         verifyZeroInteractions(commandRunner);
     }
@@ -71,7 +71,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     public void testOnAddRepetition_whenUnchecked() throws Exception
     {
         int todayValue = habit.getCheckmarks().getTodayValue();
-        assertThat(todayValue, equalTo(UNCHECKED));
+        assertThat(todayValue, equalTo(NO));
         controller.onAddRepetition(habit, today);
         verify(commandRunner).execute(any(), isNull());
         verify(notificationTray).cancel(habit);
@@ -82,7 +82,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     {
         habit.getRepetitions().toggle(today);
         int todayValue = habit.getCheckmarks().getTodayValue();
-        assertThat(todayValue, equalTo(CHECKED_EXPLICITLY));
+        assertThat(todayValue, equalTo(YES_MANUAL));
         controller.onRemoveRepetition(habit, today);
         verify(commandRunner).execute(any(), isNull());
     }
@@ -91,7 +91,7 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     public void testOnRemoveRepetition_whenUnchecked() throws Exception
     {
         int todayValue = habit.getCheckmarks().getTodayValue();
-        assertThat(todayValue, equalTo(UNCHECKED));
+        assertThat(todayValue, equalTo(NO));
         controller.onRemoveRepetition(habit, today);
         verifyZeroInteractions(commandRunner);
     }

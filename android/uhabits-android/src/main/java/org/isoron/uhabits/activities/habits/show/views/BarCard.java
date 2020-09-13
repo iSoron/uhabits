@@ -149,7 +149,7 @@ public class BarCard extends HabitCard
             if (habit.isNumerical())
             {
                 boolSpinner.setVisibility(GONE);
-                chart.setTarget(habit.getTargetValue() * bucketSize);
+                chart.setTarget(habit.getTargetValue() / habit.getFrequency().getDenominator() * bucketSize);
             }
             else
             {

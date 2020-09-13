@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">تغییر رنگ</string>
     <string name="toast_habit_created">عادت ایجاد شد</string>
     <string name="toast_habit_deleted">عادت حذف شد</string>
-    <string name="toast_habit_restored">عادت بازگردانده شد</string>
-    <string name="toast_nothing_to_undo">چیزی برای بازگرداندن به حالت قبلی وجود ندارد</string>
-    <string name="toast_nothing_to_redo">چیزی برای انجام مجدد وجود ندارد</string>
     <string name="toast_habit_changed">عادت تغییر کرد.</string>
-    <string name="toast_habit_changed_back">عادت به حالت قبل برگشت</string>
     <string name="toast_habit_archived">عادت‌ها بایگانی شدند</string>
     <string name="toast_habit_unarchived">عادت‌ها از بایگانی خارج شدند</string>
     <string name="overview">مرور</string>
     <string name="habit_strength">قدرت عادت</string>
     <string name="history">تاریخچه</string>
     <string name="clear">بی‌خیال</string>
-    <string name="description_hint">سوال (آیا امروز شما&#8230;؟)</string>
-    <string name="repeat">تکرار</string>
     <string name="times_every">بار در هر</string>
     <string name="days">روز</string>
     <string name="reminder">یادآور</string>
-    <string name="discard">بی‌خیال</string>
     <string name="save">ذخیره</string>
     <string name="streaks">روزهای پیوسته</string>
     <string name="no_habits_found">شما هیچ عادت فعالی ندارید</string>
     <string name="long_press_to_toggle">برای تیک زدن یا برداشتن، ضربه بزنید و نگه دارید</string>
     <string name="reminder_off">خاموش</string>
-    <string name="validation_name_should_not_be_blank">جای اسم نمی‌تواند خالی باشد.</string>
-    <string name="validation_number_should_be_positive">عدد بایستی مثبت باشد.</string>
-    <string name="validation_at_most_one_rep_per_day">شما در نهایت می‌توانید یک تکرار در یک روز داشته باشید.</string>
     <string name="create_habit">درج عادت جدید</string>
     <string name="edit_habit">ویرایش عادت</string>
     <string name="check">تیک زدن</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">رهگیر عادت لوپ به شما کمک می‌کند تا برای خودتان عادت‌های خوبی بسازید.</string>
     <string name="intro_title_2">ساخت چند عادت جدید</string>
     <string name="intro_description_2">هر روز، بعد از انجام عادت، آن را در برنامه تیک بزنید.</string>
-    <string name="intro_title_3">ادامه دهید</string>
-    <string name="intro_description_3">عادت‌هایی که به صورت پیوسته برای مدت طولانی انجام شده‌اند یک ستاره‌ی کامل دریافت می‌کنند.</string>
     <string name="intro_title_4">پیشرفت خود را رهگیری کنید</string>
     <string name="intro_description_4">نمودار جزئیات به شما نشان می‌دهد که چطور عادت‌هایتان با گذشت زمان بهبود پیدا کرده‌اند.</string>
     <string name="interval_15_minutes">۱۵ دقیقه</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">به این برنامه در گوگل‌پلی امتیاز بدهید</string>
     <string name="pref_send_feedback">ارسال بازخورد به توسعه‌دهنده</string>
     <string name="pref_view_source_code">دیدن منبع برنامه در گیت‌هاب</string>
-    <string name="pref_view_app_introduction">مشاهده معرفی برنامه</string>
     <string name="links">لینک‌ها</string>
-    <string name="behavior">رفتار</string>
     <string name="name">نام</string>
     <string name="settings">تنظیمات</string>
     <string name="snooze_interval">بازه به تعویق انداختن</string>
@@ -108,26 +94,14 @@
     <string name="version_n">نسخه %s</string>
     <string name="frequency">تناوب</string>
     <string name="checkmark">علامت</string>
-    <string name="strength">قدرت</string>
     <string name="best_streaks">بهترین استمرار</string>
-    <string name="current_streaks">استمرار فعلی</string>
-    <string name="number_of_repetitions">تعداد تکرارها</string>
-    <string name="last_x_days">%d روز اخیر</string>
-    <string name="last_x_weeks">%d هفته اخیر</string>
-    <string name="last_x_months">%d ماه اخیر</string>
-    <string name="last_x_years">%d سال اخیر</string>
-    <string name="all_time">همیشه</string>
     <string name="every_day">هر روز</string>
     <string name="every_week">هر هفته</string>
-    <string name="two_times_per_week">۲ بار در هفته</string>
-    <string name="five_times_per_week">۵ بار در هفته</string>
-    <string name="custom_frequency">سفارشی‌سازی ...</string>
     <string name="help">راهنما و سوالات متداول</string>
     <string name="could_not_export">خطا در صدور اطلاعات.</string>
     <string name="could_not_import">خطا در وارد کردن اطلاعات.</string>
     <string name="file_not_recognized">پرونده شناخته شده نیست.</string>
     <string name="habits_imported">عادت‌ها با موفقیت وارد شدند.</string>
-    <string name="full_backup_success">پرونده پشتیبان کامل، با موفقیت صادر شد.</string>
     <string name="import_data">ورود اطلاعات</string>
     <string name="export_full_backup">پشتیبان گیری کامل</string>
     <string name="import_data_summary">علاوه بر پشتیبان کامل تهیه شده توسط این برنامه، از پرونده‌های تولید شده توسط Tickmate، HabitbBull و یا Rewire هم پشتیبانی می‌شود. برای اطلاعات بیشتر سوالات متداول را ببینید.</string>
@@ -151,10 +125,8 @@
     <string name="total">مجموع</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">بار در هر</string>
     <string name="every_x_days">هر %d روز یک‌بار</string>
     <string name="every_x_weeks">هر %d هفته یک‌بار</string>
-    <string name="every_x_months">هر %d ماه یک‌بار</string>
     <string name="score">امتیاز</string>
     <string name="reminder_sound">صدای یادآور</string>
     <string name="none">هیچ‌کدام</string>
@@ -174,6 +146,5 @@
     <string name="by_name">بر اساس نام</string>
     <string name="by_color">بر اساس رنگ</string>
     <string name="by_score">بر اساس امتیاز</string>
-    <string name="download">بارگيری</string>
     <string name="export">صدور</string>
 </resources>

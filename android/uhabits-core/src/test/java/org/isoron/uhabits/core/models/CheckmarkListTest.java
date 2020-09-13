@@ -29,7 +29,6 @@ import java.util.*;
 import nl.jqno.equalsverifier.*;
 
 import static java.util.Calendar.*;
-import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
@@ -69,10 +68,10 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildCheckmarksFromIntervals_1() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(10), CHECKED_EXPLICITLY),
-                new Repetition(day(5), CHECKED_EXPLICITLY),
-                new Repetition(day(2), CHECKED_EXPLICITLY),
-                new Repetition(day(1), CHECKED_EXPLICITLY),
+                new Repetition(day(10), YES_MANUAL),
+                new Repetition(day(5), YES_MANUAL),
+                new Repetition(day(2), YES_MANUAL),
+                new Repetition(day(1), YES_MANUAL),
                 };
 
         ArrayList<CheckmarkList.Interval> intervals = new ArrayList<>();
@@ -81,17 +80,17 @@ public class CheckmarkListTest extends BaseUnitTest
         intervals.add(new CheckmarkList.Interval(day(2), day(2), day(1)));
 
         List<Checkmark> expected = new ArrayList<>();
-        expected.add(new Checkmark(day(0), UNCHECKED));
-        expected.add(new Checkmark(day(1), CHECKED_EXPLICITLY));
-        expected.add(new Checkmark(day(2), CHECKED_EXPLICITLY));
-        expected.add(new Checkmark(day(3), UNCHECKED));
-        expected.add(new Checkmark(day(4), CHECKED_IMPLICITLY));
-        expected.add(new Checkmark(day(5), CHECKED_EXPLICITLY));
-        expected.add(new Checkmark(day(6), CHECKED_IMPLICITLY));
-        expected.add(new Checkmark(day(7), UNCHECKED));
-        expected.add(new Checkmark(day(8), CHECKED_IMPLICITLY));
-        expected.add(new Checkmark(day(9), CHECKED_IMPLICITLY));
-        expected.add(new Checkmark(day(10), CHECKED_EXPLICITLY));
+        expected.add(new Checkmark(day(0), NO));
+        expected.add(new Checkmark(day(1), YES_MANUAL));
+        expected.add(new Checkmark(day(2), YES_MANUAL));
+        expected.add(new Checkmark(day(3), NO));
+        expected.add(new Checkmark(day(4), YES_AUTO));
+        expected.add(new Checkmark(day(5), YES_MANUAL));
+        expected.add(new Checkmark(day(6), YES_AUTO));
+        expected.add(new Checkmark(day(7), NO));
+        expected.add(new Checkmark(day(8), YES_AUTO));
+        expected.add(new Checkmark(day(9), YES_AUTO));
+        expected.add(new Checkmark(day(10), YES_MANUAL));
 
         List<Checkmark> actual =
                 CheckmarkList.buildCheckmarksFromIntervals(reps, intervals);
@@ -102,14 +101,14 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildCheckmarksFromIntervals_2() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(0), CHECKED_EXPLICITLY),
+                new Repetition(day(0), YES_MANUAL),
                 };
 
         ArrayList<CheckmarkList.Interval> intervals = new ArrayList<>();
         intervals.add(new CheckmarkList.Interval(day(0), day(0), day(-10)));
 
         List<Checkmark> expected = new ArrayList<>();
-        expected.add(new Checkmark(day(0), CHECKED_EXPLICITLY));
+        expected.add(new Checkmark(day(0), YES_MANUAL));
 
         List<Checkmark> actual =
                 CheckmarkList.buildCheckmarksFromIntervals(reps, intervals);
@@ -120,9 +119,9 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_1() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(23), CHECKED_EXPLICITLY),
-                new Repetition(day(18), CHECKED_EXPLICITLY),
-                new Repetition(day(8), CHECKED_EXPLICITLY),
+                new Repetition(day(23), YES_MANUAL),
+                new Repetition(day(18), YES_MANUAL),
+                new Repetition(day(8), YES_MANUAL),
                 };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -139,9 +138,9 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_2() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(23), CHECKED_EXPLICITLY),
-                new Repetition(day(18), CHECKED_EXPLICITLY),
-                new Repetition(day(8), CHECKED_EXPLICITLY),
+                new Repetition(day(23), YES_MANUAL),
+                new Repetition(day(18), YES_MANUAL),
+                new Repetition(day(8), YES_MANUAL),
                 };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -158,11 +157,11 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_3() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(23), CHECKED_EXPLICITLY),
-                new Repetition(day(22), CHECKED_EXPLICITLY),
-                new Repetition(day(18), CHECKED_EXPLICITLY),
-                new Repetition(day(15), CHECKED_EXPLICITLY),
-                new Repetition(day(8), CHECKED_EXPLICITLY),
+                new Repetition(day(23), YES_MANUAL),
+                new Repetition(day(22), YES_MANUAL),
+                new Repetition(day(18), YES_MANUAL),
+                new Repetition(day(15), YES_MANUAL),
+                new Repetition(day(8), YES_MANUAL),
                 };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -176,19 +175,38 @@ public class CheckmarkListTest extends BaseUnitTest
         assertThat(actual, equalTo(expected));
     }
 
+
+    @Test
+    public void test_buildIntervals_4() throws Exception
+    {
+        Repetition[] reps = new Repetition[]{
+                new Repetition(day(30), YES_MANUAL),
+                new Repetition(day(20), SKIP),
+                new Repetition(day(10), YES_MANUAL),
+        };
+
+        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
+        expected.add(new CheckmarkList.Interval(day(30), day(30), day(28)));
+        expected.add(new CheckmarkList.Interval(day(10), day(10), day(8)));
+
+        ArrayList<CheckmarkList.Interval> actual;
+        actual = CheckmarkList.buildIntervals(new Frequency(1, 3), reps);
+        assertThat(actual, equalTo(expected));
+    }
+
     @Test
     public void test_getAllValues_moveBackwardsInTime()
     {
         travelInTime(-3);
 
         int[] expectedValues = {
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY
+                YES_MANUAL,
+                YES_MANUAL,
+                YES_MANUAL,
+                YES_AUTO,
+                YES_AUTO,
+                YES_MANUAL,
+                YES_MANUAL
         };
 
         int[] actualValues = nonDailyHabit.getCheckmarks().getAllValues();
@@ -202,19 +220,19 @@ public class CheckmarkListTest extends BaseUnitTest
         travelInTime(3);
 
         int[] expectedValues = {
-                UNCHECKED,
-                UNCHECKED,
-                UNCHECKED,
-                CHECKED_EXPLICITLY,
-                UNCHECKED,
-                CHECKED_IMPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY
+                NO,
+                NO,
+                NO,
+                YES_MANUAL,
+                NO,
+                YES_AUTO,
+                YES_MANUAL,
+                YES_MANUAL,
+                YES_MANUAL,
+                YES_AUTO,
+                YES_AUTO,
+                YES_MANUAL,
+                YES_MANUAL
         };
 
         int[] actualValues = nonDailyHabit.getCheckmarks().getAllValues();
@@ -235,16 +253,16 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_getAllValues_withNonDailyHabit()
     {
         int[] expectedValues = {
-                CHECKED_EXPLICITLY,
-                UNCHECKED,
-                CHECKED_IMPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY
+                YES_MANUAL,
+                NO,
+                YES_AUTO,
+                YES_MANUAL,
+                YES_MANUAL,
+                YES_MANUAL,
+                YES_AUTO,
+                YES_AUTO,
+                YES_MANUAL,
+                YES_MANUAL
         };
 
         int[] actualValues = nonDailyHabit.getCheckmarks().getAllValues();
@@ -272,13 +290,13 @@ public class CheckmarkListTest extends BaseUnitTest
         CheckmarkList checkmarks = nonDailyHabit.getCheckmarks();
 
         travelInTime(-1);
-        assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
+        assertThat(checkmarks.getTodayValue(), equalTo(NO));
 
         travelInTime(0);
-        assertThat(checkmarks.getTodayValue(), equalTo(CHECKED_EXPLICITLY));
+        assertThat(checkmarks.getTodayValue(), equalTo(YES_MANUAL));
 
         travelInTime(1);
-        assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
+        assertThat(checkmarks.getTodayValue(), equalTo(NO));
     }
 
     @Test
@@ -297,17 +315,17 @@ public class CheckmarkListTest extends BaseUnitTest
         Timestamp to = today.minus(5);
 
         int[] expectedValues = {
-                CHECKED_EXPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_IMPLICITLY,
-                CHECKED_EXPLICITLY,
-                CHECKED_EXPLICITLY,
-                UNCHECKED,
-                UNCHECKED,
-                UNCHECKED,
-                UNCHECKED,
-                UNCHECKED,
-                UNCHECKED
+                YES_MANUAL,
+                YES_AUTO,
+                YES_AUTO,
+                YES_MANUAL,
+                YES_MANUAL,
+                NO,
+                NO,
+                NO,
+                NO,
+                NO,
+                NO
         };
 
         int[] actualValues = nonDailyHabit.getCheckmarks().getValues(from, to);

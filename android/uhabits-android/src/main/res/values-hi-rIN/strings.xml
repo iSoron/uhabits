@@ -30,33 +30,22 @@
     <string name="color_picker_default_title">रंग बदलें</string>
     <string name="toast_habit_created">आदत बनायी गई</string>
     <string name="toast_habit_deleted">आदत हटाई गई</string>
-    <string name="toast_habit_restored">आदत पुनर्स्थापित</string>
-    <string name="toast_nothing_to_undo">पूर्ववत करने के लिए कुछ नहीं</string>
-    <string name="toast_nothing_to_redo">अद्यतन करने के लिए कुछ नहीं</string>
     <string name="toast_habit_changed">आदत बहाल</string>
-    <string name="toast_habit_changed_back">आदत बहाल</string>
     <string name="toast_habit_archived">आदत  संग्रहीत</string>
     <string name="toast_habit_unarchived">आदत असंग्रहीत</string>
     <string name="overview">अवलोकन</string>
     <string name="habit_strength">आदत शक्ति</string>
     <string name="history">पूर्वलेख</string>
     <string name="clear">साफ करें</string>
-    <string name="description_hint">सवाल (क्या आज आपने ... किया?)</string>
-    <string name="repeat">दोहराएँ</string>
     <string name="times_every">बार</string>
     <string name="days">दिन</string>
     <string name="reminder">अनुस्मारक</string>
-    <string name="discard">रद्द करें</string>
     <string name="save">सहेजें</string>
     <string name="streaks">प्रवर्ति</string>
     <string name="no_habits_found">\"आपकी कोई सक्रिय आदत नही है
 \"</string>
     <string name="long_press_to_toggle">चेक या अनचेक करने के लिए दबाएँ व दबाएँ रखें </string>
     <string name="reminder_off">बंद</string>
-    <string name="validation_name_should_not_be_blank">नाम को खाली नही छोड़ सकते</string>
-    <string name="validation_number_should_be_positive">नंबर सकारात्मक डालें</string>
-    <string name="validation_at_most_one_rep_per_day">\"
-आप एक दिन मे अधिक से अधिक एक पुनरावृत्ति हो सकती है\"</string>
     <string name="create_habit">आदत उत्पन्न करें</string>
     <string name="edit_habit">आदत संपादित करें</string>
     <string name="check">\"
@@ -68,9 +57,6 @@
     <string name="intro_description_1">लूप हैबिट ट्रैकर नई और अच्छी आदतों को बनाए रखने मे मदद करता है ।</string>
     <string name="intro_title_2">कुछ नई अच्छी आदतें बनाएँ</string>
     <string name="intro_description_2">हर दिन, अपनी आदत के प्रदर्शन के बाद, ऐप पर एक सही का निशान डालें</string>
-    <string name="intro_title_3">इसे करते रहें</string>
-    <string name="intro_description_3">\"
-एक लंबे समय के लिए लगातार प्रदर्शन की आदतों से पूर्ण स्टार अर्जित करेंगे।\"</string>
     <string name="intro_title_4">\"
 अपनी प्रगति को ट्रैक करें\"</string>
     <string name="intro_description_4">\"
@@ -90,10 +76,7 @@
 गूगले प्ले पर इस ऐप्लिकेशन को रेट करें\"</string>
     <string name="pref_send_feedback">डेवेलपर को प्रतिक्रिया भेजें </string>
     <string name="pref_view_source_code">Github मे सोर्स कोड देखें</string>
-    <string name="pref_view_app_introduction">अप्प्प का परिचय देखें</string>
     <string name="links">लिंक</string>
-    <string name="behavior">\"
-व्यवहार\"</string>
     <string name="name">नाम</string>
     <string name="settings">सेटिंग्स</string>
     <string name="snooze_interval">\"
@@ -130,28 +113,11 @@
     <string name="version_n">वर्ज़न %s</string>
     <string name="frequency">आवृत्ति</string>
     <string name="checkmark">सही का चिह्न</string>
-    <string name="strength">\"
-ताक़त\"</string>
     <string name="best_streaks">बेस्ट स्ट्रीक्स</string>
-    <string name="current_streaks">\"
-वर्तमान स्ट्रीक्स\"</string>
-    <string name="number_of_repetitions">\"
-repetitions की संख्या\"</string>
-    <string name="last_x_days">अंतिम %d दिवस</string>
-    <string name="last_x_weeks">पिछले %d सप्ताह</string>
-    <string name="last_x_months">पिछले %d माह</string>
-    <string name="last_x_years">\"
-पिछले %d साल\"</string>
-    <string name="all_time">पूरा समय</string>
     <string name="every_day">\"
 हर दिन\"</string>
     <string name="every_week">\"
 प्रति सप्ताह\"</string>
-    <string name="two_times_per_week">\"
-प्रति सप्ताह 2 बार\"</string>
-    <string name="five_times_per_week">\"
-प्रति सप्ताह 5 बार\"</string>
-    <string name="custom_frequency">अन्य</string>
     <string name="help">\"
 मदद और बार-बार सवाल पूछने वाले सवाल\"</string>
     <string name="could_not_export">\"
@@ -160,8 +126,6 @@ repetitions की संख्या\"</string>
     <string name="file_not_recognized">फाइल की पहचान नही </string>
     <string name="habits_imported">\"
 आदतों को सफलतापूर्वक आयात\"</string>
-    <string name="full_backup_success">\"
-पूर्ण बैकअप सफलतापूर्वक निर्यात किया।\"</string>
     <string name="import_data">\"
 डेटा आयात\"</string>
     <string name="export_full_backup">\"
@@ -192,13 +156,10 @@ repetitions की संख्या\"</string>
     <string name="total">कुल</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">समय में</string>
     <string name="every_x_days">\"
 हर %d दिन\"</string>
     <string name="every_x_weeks">\"
 हर %d हफ्ते\"</string>
-    <string name="every_x_months">\"
-हर %d महीने\"</string>
     <string name="score">स्कोर</string>
     <string name="reminder_sound">अनुस्मारक ध्वनि</string>
     <string name="none">\"
@@ -219,6 +180,5 @@ repetitions की संख्या\"</string>
     <string name="by_name">नाम द्वारा</string>
     <string name="by_color">रंग द्वारा</string>
     <string name="by_score">स्कोर से</string>
-    <string name="download">डाउनलोड</string>
     <string name="export">एक्सपोर्ट करे</string>
 </resources>

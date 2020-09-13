@@ -20,7 +20,7 @@
 package org.isoron.uhabits.widgets;
 
 import androidx.test.filters.*;
-import androidx.test.runner.*;
+
 import android.widget.*;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -51,13 +51,14 @@ public class CheckmarkWidgetTest extends BaseViewTest
     {
         super.setUp();
         setTheme(R.style.WidgetTheme);
+        prefs.setWidgetOpacity(255);
 
-        habit = fixtures.createShortHabit();
+        habit = fixtures.createVeryLongHabit();
         checkmarks = habit.getCheckmarks();
         CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
-        view = convertToView(widget, 200, 250);
+        view = convertToView(widget, 150, 200);
 
-        assertThat(checkmarks.getTodayValue(), equalTo(CHECKED_EXPLICITLY));
+        assertThat(checkmarks.getTodayValue(), equalTo(YES_MANUAL));
     }
 
     @Test
@@ -70,8 +71,11 @@ public class CheckmarkWidgetTest extends BaseViewTest
         // possible to capture intents sent to BroadcastReceivers.
         button.performClick();
         sleep(1000);
+        assertThat(checkmarks.getTodayValue(), equalTo(SKIP));
 
-        assertThat(checkmarks.getTodayValue(), equalTo(UNCHECKED));
+        button.performClick();
+        sleep(1000);
+        assertThat(checkmarks.getTodayValue(), equalTo(NO));
     }
 
     @Test

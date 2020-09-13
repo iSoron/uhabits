@@ -20,34 +20,14 @@
 package org.isoron.uhabits.regression
 
 import androidx.test.filters.*
-
 import org.isoron.uhabits.*
-import org.junit.*
-
 import org.isoron.uhabits.acceptance.steps.CommonSteps.*
-import org.isoron.uhabits.acceptance.steps.EditHabitSteps.*
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*
-import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText
 import org.isoron.uhabits.activities.about.*
-import org.isoron.uhabits.activities.habits.list.*
+import org.junit.*
 import java.lang.Thread.*
 
 @LargeTest
 class SavedStateTest : BaseUserInterfaceTest() {
-
-    @Test
-    @Throws(Exception::class)
-    fun shouldNotCrashWhenRotatingWeekdayPickerDialog() {
-        // https://github.com/iSoron/uhabits/issues/534
-        launchApp()
-        clickMenu(ADD)
-        setReminder()
-        clickReminderDays()
-        unselectAllDays()
-        rotateDevice()
-        clickText("Monday")
-    }
 
     /**
      * Make sure that the main activity can be recreated by using

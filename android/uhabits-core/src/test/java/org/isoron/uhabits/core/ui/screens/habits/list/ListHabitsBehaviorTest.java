@@ -173,7 +173,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     public void testOnToggle()
     {
         assertTrue(habit1.isCompletedToday());
-        behavior.onToggle(habit1, DateUtils.getToday());
+        behavior.onToggle(habit1, DateUtils.getToday(), Checkmark.NO);
         assertFalse(habit1.isCompletedToday());
     }
 

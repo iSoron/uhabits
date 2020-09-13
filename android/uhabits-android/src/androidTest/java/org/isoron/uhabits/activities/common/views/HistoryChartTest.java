@@ -19,16 +19,17 @@
 
 package org.isoron.uhabits.activities.common.views;
 
+import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
-import androidx.test.runner.*;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
+
+import static org.mockito.Mockito.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -38,6 +39,12 @@ public class HistoryChartTest extends BaseViewTest
 
     private HistoryChart chart;
 
+    private Habit habit;
+
+    Timestamp today;
+
+    private HistoryChart.Controller controller;
+
     @Override
     @Before
     public void setUp()
@@ -45,50 +52,59 @@ public class HistoryChartTest extends BaseViewTest
         super.setUp();
 
         fixtures.purgeHabits(habitList);
-        Habit habit = fixtures.createLongHabit();
+        habit = fixtures.createLongHabit();
+        today = new Timestamp(DateUtils.getStartOfToday());
 
         chart = new HistoryChart(targetContext);
         chart.setCheckmarks(habit.getCheckmarks().getAllValues());
         chart.setColor(PaletteUtils.getAndroidTestColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));
+
+        controller = mock(HistoryChart.Controller.class);
+        chart.setController(controller);
     }
 
-//    @Test
-//    public void tapDate_atInvalidLocations() throws Throwable
-//    {
-//        int expectedCheckmarkValues[] = habit.getCheckmarks().getAllValues();
-//
-//        chart.setIsEditable(true);
-//        tap(chart, 118, 13); // header
-//        tap(chart, 336, 60); // tomorrow's square
-//        tap(chart, 370, 60); // right axis
-//        waitForAsyncTasks();
-//
-//        int actualCheckmarkValues[] = habit.getCheckmarks().getAllValues();
-//        assertThat(actualCheckmarkValues, equalTo(expectedCheckmarkValues));
-//    }
-//
-//    @Test
-//    public void tapDate_withEditableView() throws Throwable
-//    {
-//        chart.setIsEditable(true);
-//        tap(chart, 340, 40); // today's square
-//        waitForAsyncTasks();
-//
-//        long today = DateUtils.getStartOfToday();
-//        assertFalse(habit.getRepetitions().containsTimestamp(today));
-//    }
-//
-//    @Test
-//    public void tapDate_withReadOnlyView() throws Throwable
-//    {
-//        chart.setIsEditable(false);
-//        tap(chart, 340, 40); // today's square
-//        waitForAsyncTasks();
-//
-//        long today = DateUtils.getStartOfToday();
-//        assertTrue(habit.getRepetitions().containsTimestamp(today));
-//    }
+    @Test
+    public void tapDate_atInvalidLocations() throws Throwable
+    {
+        chart.setIsEditable(true);
+        chart.tap(dpToPixels(118), dpToPixels(13)); // header
+        chart.tap(dpToPixels(336), dpToPixels(60)); // tomorrow's square
+        chart.tap(dpToPixels(370), dpToPixels(60)); // right axis
+        verifyNoMoreInteractions(controller);
+    }
+
+    @Test
+    public void tapDate_withEditableView() throws Throwable
+    {
+        chart.setIsEditable(true);
+
+        chart.tap(dpToPixels(340), dpToPixels(40));
+        verify(controller).onToggleCheckmark(today, Checkmark.SKIP);
+        chart.tap(dpToPixels(340), dpToPixels(40));
+        verify(controller).onToggleCheckmark(today, Checkmark.NO);
+        chart.tap(dpToPixels(340), dpToPixels(40));
+        verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
+        verifyNoMoreInteractions(controller);
+    }
+
+    @Test
+    public void tapDate_withEmptyHabit()
+    {
+        chart.setIsEditable(true);
+        chart.setCheckmarks(new int[]{});
+        chart.tap(dpToPixels(340), dpToPixels(40));
+        verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
+        verifyNoMoreInteractions(controller);
+    }
+
+    @Test
+    public void tapDate_withReadOnlyView() throws Throwable
+    {
+        chart.setIsEditable(false);
+        chart.tap(dpToPixels(340), dpToPixels(40));
+        verifyNoMoreInteractions(controller);
+    }
 
     @Test
     public void testRender() throws Throwable

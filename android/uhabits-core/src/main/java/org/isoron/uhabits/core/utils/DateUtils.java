@@ -175,9 +175,14 @@ public abstract class DateUtils
         return getStartOfDay(getLocalTime());
     }
 
+    public static long getStartOfTomorrow()
+    {
+        return getUpcomingTimeInMillis(0, 0);
+    }
+
     public static long millisecondsUntilTomorrow()
     {
-        return getStartOfToday() + DAY_LENGTH - getLocalTime();
+        return getStartOfTomorrow() - getLocalTime();
     }
 
     public static GregorianCalendar getStartOfTodayCalendar()

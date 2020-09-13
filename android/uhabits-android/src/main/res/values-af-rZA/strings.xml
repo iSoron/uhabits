@@ -30,11 +30,7 @@
     <string name="color_picker_default_title">Verander kleur</string>
     <string name="toast_habit_created">Gewoonte geskep</string>
     <string name="toast_habit_deleted">Gewoontes verwyder</string>
-    <string name="toast_habit_restored">Gewoontes herstel</string>
-    <string name="toast_nothing_to_undo">Niks om terug te doen nie</string>
-    <string name="toast_nothing_to_redo">Niks om oor te doen nie</string>
     <string name="toast_habit_changed">Gewoonte verander</string>
-    <string name="toast_habit_changed_back">Gewoonte terug verander</string>
     <string name="toast_habit_archived">Gewoontes geargiveer</string>
     <string name="toast_habit_unarchived">Gewoontes gedeargiveer</string>
     <string name="overview">Oorsig</string>

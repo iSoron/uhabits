@@ -24,10 +24,10 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.isoron.uhabits.core.models.Checkmark.CHECKED_EXPLICITLY;
+import static org.hamcrest.Matchers.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.junit.Assert.*;
 
 public class CreateRepetitionCommandTest extends BaseUnitTest
 {
@@ -47,7 +47,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         habitList.add(habit);
 
         today = DateUtils.getToday();
-        command = new CreateRepetitionCommand(habit, today, 100);
+        command = new CreateRepetitionCommand(habitList, habit, today, 100);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
 
         Repetition rep = reps.getByTimestamp(today);
         assertNotNull(rep);
-        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
+        assertEquals(YES_MANUAL, rep.getValue());
 
         command.execute();
         rep = reps.getByTimestamp(today);
@@ -67,7 +67,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         command.undo();
         rep = reps.getByTimestamp(today);
         assertNotNull(rep);
-        assertEquals(CHECKED_EXPLICITLY, rep.getValue());
+        assertEquals(YES_MANUAL, rep.getValue());
     }
 
     @Test

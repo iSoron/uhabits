@@ -44,7 +44,7 @@ public class HistoryChart extends ScrollableChart
 {
     private int[] checkmarks;
 
-    private int target;
+    private double target;
 
     private Paint pSquareBg, pSquareFg, pTextHeader;
 
@@ -75,15 +75,17 @@ public class HistoryChart extends ScrollableChart
 
     private int colors[];
 
+    private int textColors[];
+
     private RectF baseLocation;
 
     private int primaryColor;
 
     private boolean isBackgroundTransparent;
 
-    private int textColor;
-
     private int reverseTextColor;
+
+    private int backgroundColor;
 
     private boolean isEditable;
 
@@ -121,11 +123,7 @@ public class HistoryChart extends ScrollableChart
     @Override
     public boolean onSingleTapUp(MotionEvent e)
     {
-        if (!isEditable) return false;
-
-        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         float x, y;
-
         try
         {
             int pointerId = e.getPointerId(0);
@@ -139,21 +137,30 @@ public class HistoryChart extends ScrollableChart
             // e.getPointerId.
             return false;
         }
+        return tap(x, y);
+    }
+
+    public boolean tap(float x, float y)
+    {
+        if (!isEditable) return false;
+        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
         final Timestamp timestamp = positionToTimestamp(x, y);
         if (timestamp == null) return false;
 
         Timestamp today = DateUtils.getToday();
+        int newValue = YES_MANUAL;
         int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
-            boolean isChecked = checkmarks[offset] == CHECKED_EXPLICITLY;
-            checkmarks[offset] = (isChecked ? UNCHECKED : CHECKED_EXPLICITLY);
+            newValue = Repetition.nextToggleValue(checkmarks[offset]);
+            checkmarks[offset] = newValue;
         }
 
-        controller.onToggleCheckmark(timestamp);
+        controller.onToggleCheckmark(timestamp, newValue);
         postInvalidate();
         return true;
+
     }
 
     public void populateWithRandomData()
@@ -195,6 +202,7 @@ public class HistoryChart extends ScrollableChart
     public void setNumerical(boolean numerical)
     {
         isNumerical = numerical;
+        postInvalidate();
     }
 
     public void setIsBackgroundTransparent(boolean isBackgroundTransparent)
@@ -208,7 +216,7 @@ public class HistoryChart extends ScrollableChart
         this.isEditable = isEditable;
     }
 
-    public void setTarget(int target)
+    public void setTarget(double target)
     {
         this.target = target;
         postInvalidate();
@@ -227,6 +235,7 @@ public class HistoryChart extends ScrollableChart
         pTextHeader.setAntiAlias(true);
 
         pSquareBg = new Paint();
+        pSquareBg.setAntiAlias(true);
 
         pSquareFg = new Paint();
         pSquareFg.setAntiAlias(true);
@@ -245,7 +254,7 @@ public class HistoryChart extends ScrollableChart
         headerOverflow = 0;
         previousMonth = "";
         previousYear = "";
-        pTextHeader.setColor(textColor);
+        pTextHeader.setColor(textColors[1]);
 
         updateDate();
         GregorianCalendar currentDate = (GregorianCalendar) baseDate.clone();
@@ -362,21 +371,56 @@ public class HistoryChart extends ScrollableChart
                             GregorianCalendar date,
                             int checkmarkOffset)
     {
-        if (checkmarkOffset >= checkmarks.length) pSquareBg.setColor(colors[0]);
+
+        int checkmark = 0;
+        if (checkmarkOffset >= checkmarks.length)
+        {
+            pSquareBg.setColor(colors[0]);
+            pSquareFg.setColor(textColors[1]);
+        }
         else
         {
-            int checkmark = checkmarks[checkmarkOffset];
-            if(checkmark == 0) pSquareBg.setColor(colors[0]);
-            else if(checkmark < target)
+            checkmark = checkmarks[checkmarkOffset];
+            if(checkmark == 0)
             {
-                pSquareBg.setColor(isNumerical ? textColor : colors[1]);
+                pSquareBg.setColor(colors[0]);
+                pSquareFg.setColor(textColors[1]);
             }
-            else pSquareBg.setColor(colors[2]);
+            else if ((isNumerical && (checkmark / 1000f >= target) || (!isNumerical && checkmark == YES_MANUAL)))
+            {
+                pSquareBg.setColor(colors[2]);
+                pSquareFg.setColor(textColors[2]);
+            }
+            else
+            {
+                pSquareBg.setColor(colors[1]);
+                pSquareFg.setColor(textColors[2]);
+            }
         }
 
-        pSquareFg.setColor(reverseTextColor);
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
+
+        if (!isNumerical && checkmark == SKIP)
+        {
+            pSquareBg.setColor(backgroundColor);
+            pSquareBg.setStrokeWidth(columnWidth * 0.025f);
+
+            canvas.save();
+            canvas.clipRect(location);
+            float offset = - columnWidth;
+            for (int k = 0; k < 10; k++)
+            {
+                offset += columnWidth / 5;
+                canvas.drawLine(location.left + offset,
+                                location.bottom,
+                                location.right + offset,
+                                location.top,
+                                pSquareBg);
+            }
+            canvas.restore();
+        }
+
         String text = Integer.toString(date.get(Calendar.DAY_OF_MONTH));
         canvas.drawText(text, location.centerX(),
             location.centerY() + squareTextOffset, pSquareFg);
@@ -416,13 +460,19 @@ public class HistoryChart extends ScrollableChart
         int green = Color.green(primaryColor);
         int blue = Color.blue(primaryColor);
 
+        backgroundColor = res.getColor(R.attr.cardBgColor);
+
         if (isBackgroundTransparent)
         {
             colors = new int[3];
             colors[0] = Color.argb(16, 255, 255, 255);
             colors[1] = Color.argb(128, red, green, blue);
             colors[2] = primaryColor;
-            textColor = Color.WHITE;
+
+            textColors = new int[3];
+            textColors[0] = Color.WHITE;
+            textColors[1] = Color.WHITE;
+            textColors[2] = Color.WHITE;
             reverseTextColor = Color.WHITE;
         }
         else
@@ -431,9 +481,12 @@ public class HistoryChart extends ScrollableChart
             colors[0] = res.getColor(R.attr.lowContrastTextColor);
             colors[1] = Color.argb(127, red, green, blue);
             colors[2] = primaryColor;
-            textColor = res.getColor(R.attr.mediumContrastTextColor);
-            reverseTextColor =
-                res.getColor(R.attr.highContrastReverseTextColor);
+
+            textColors = new int[3];
+            textColors[0] = res.getColor(R.attr.lowContrastReverseTextColor);
+            textColors[1] = res.getColor(R.attr.mediumContrastTextColor);
+            textColors[2] = res.getColor(R.attr.highContrastReverseTextColor);
+            reverseTextColor = res.getColor(R.attr.highContrastReverseTextColor);
         }
     }
 
@@ -492,6 +545,6 @@ public class HistoryChart extends ScrollableChart
 
     public interface Controller
     {
-        default void onToggleCheckmark(Timestamp timestamp) {}
+        default void onToggleCheckmark(Timestamp timestamp, int value) {}
     }
 }

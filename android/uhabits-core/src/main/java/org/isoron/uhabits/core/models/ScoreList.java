@@ -267,25 +267,30 @@ public abstract class ScoreList implements Iterable<Score>
     {
         if (from.isNewerThan(to)) return;
 
+        double rollingSum = 0.0;
+        int denominator = habit.getFrequency().getDenominator();
         final double freq = habit.getFrequency().toDouble();
-        final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
+        final int[] checkmarkValues = habit.getCheckmarks().getValues(from, to);
 
         List<Score> scores = new LinkedList<>();
 
         for (int i = 0; i < checkmarkValues.length; i++)
         {
-            double value = checkmarkValues[checkmarkValues.length - i - 1];
-
+            int offset = checkmarkValues.length - i - 1;
             if (habit.isNumerical())
             {
-                value /= 1000;
-                value /= habit.getTargetValue();
-                value = Math.min(1, value);
+                rollingSum += checkmarkValues[offset];
+                if (offset + denominator < checkmarkValues.length) {
+                    rollingSum -= checkmarkValues[offset + denominator];
+                }
+                double percentageCompleted = Math.min(1, rollingSum / 1000 / habit.getTargetValue());
+                previousValue = Score.compute(1.0, previousValue, percentageCompleted);
             }
-
-            if (!habit.isNumerical() && value > 0) value = 1;
-
-            previousValue = Score.compute(freq, previousValue, value);
+            else
+            {
+                double value = Math.min(1, checkmarkValues[offset]);
+                previousValue = Score.compute(freq, previousValue, value);
+            }
             scores.add(new Score(from.plus(i), previousValue));
         }
 

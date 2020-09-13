@@ -47,7 +47,7 @@
                 app:iconSpaceReserved="false" />
 
         <ListPreference
-                android:defaultValue="102"
+                android:defaultValue="255"
                 android:entries="@array/widget_opacity_entries"
                 android:entryValues="@array/widget_opacity_values"
                 android:key="pref_widget_opacity"
@@ -188,22 +188,6 @@
                 android:defaultValue="false"
                 android:key="pref_feature_widget_stack"
                 android:title="Enable widget stacks"
-                app:iconSpaceReserved="false" />
-
-        <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="pref_feature_sync"
-                android:title="Enable cloud sync"
-                app:iconSpaceReserved="false" />
-
-        <EditTextPreference
-                android:key="pref_sync_address"
-                android:title="Sync server address"
-                app:iconSpaceReserved="false" />
-
-        <EditTextPreference
-                android:key="pref_sync_key"
-                android:title="Sync key"
                 app:iconSpaceReserved="false" />
 
     </PreferenceCategory>

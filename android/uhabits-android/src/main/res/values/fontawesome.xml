@@ -19,20 +19,15 @@
   -->
 
 <resources>
-	<string translatable="false" name="fa_star">&#xf005;</string>
-	<string translatable="false" name="fa_star_o">&#xf006;</string>
-	<string translatable="false" name="fa_star_half">&#xf089;</string>
-	<string translatable="false" name="fa_star_half_o">&#xf123;</string>
+    <string translatable="false" name="fa_star_half_o">&#xf123;</string>
 	<string translatable="false" name="fa_arrow_circle_up">&#xf0aa;</string>
 	<string translatable="false" name="fa_check">&#xf00c;</string>
 	<string translatable="false" name="fa_times">&#xf00d;</string>
-	<string translatable="false" name="fa_archive">&#xf187;</string>
-	<string translatable="false" name="fa_bell">&#xf0f3;</string>
-	<string translatable="false" name="fa_bell_o">&#xf0a2;</string>
+	<string translatable="false" name="fa_skipped">&#xf068;</string>
+    <string translatable="false" name="fa_bell_o">&#xf0a2;</string>
 	<string translatable="false" name="fa_calendar">&#xf073;</string>
-	<string translatable="false" name="fa_retweet">&#xf079;</string>
 
-	<!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
+    <!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
 	<!--<string translatable="false" name="fa_music">&#xf001;</string>-->
 	<!--<string translatable="false" name="fa_search">&#xf002;</string>-->
 	<!--<string translatable="false" name="fa_envelope_o">&#xf003;</string>-->

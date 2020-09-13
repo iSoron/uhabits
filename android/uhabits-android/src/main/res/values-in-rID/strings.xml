@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">Ganti warna</string>
     <string name="toast_habit_created">Kebiasaan ditambahkan.</string>
     <string name="toast_habit_deleted">Kebiasaan dihapus.</string>
-    <string name="toast_habit_restored">Kebiasaan dipulihkan</string>
-    <string name="toast_nothing_to_undo">Tidak ada aksi sebelumnya.</string>
-    <string name="toast_nothing_to_redo">Tidak ada aksi sesudahnya.</string>
     <string name="toast_habit_changed">Kebiasaan diubah.</string>
-    <string name="toast_habit_changed_back">Kebiasaan telah dikembalikan.</string>
     <string name="toast_habit_archived">Kebiasaan diarsipkan.</string>
     <string name="toast_habit_unarchived">Kebiasaan dikeluarkan dari arsip.</string>
     <string name="overview">Ikhtisar</string>
     <string name="habit_strength">Kekuatan Kebiasaan</string>
     <string name="history">Riwayat</string>
     <string name="clear">Bersihkan</string>
-    <string name="description_hint">Pertanyaan (Sudahkah Anda ... hari ini?)</string>
-    <string name="repeat">Ulangi</string>
     <string name="times_every">kali dalam</string>
     <string name="days">hari</string>
     <string name="reminder">Pengingat</string>
-    <string name="discard">Batalkan</string>
     <string name="save">Simpan</string>
     <string name="streaks">Rentetan</string>
     <string name="no_habits_found">Anda tidak memiliki Kebiasaan yang aktif</string>
     <string name="long_press_to_toggle">Tekan dan tahan untuk menambah atau menghapus centang</string>
     <string name="reminder_off">Mati</string>
-    <string name="validation_name_should_not_be_blank">Nama tidak boleh kosong.</string>
-    <string name="validation_number_should_be_positive">Angka harus positif.</string>
-    <string name="validation_at_most_one_rep_per_day">Maksimal satu kali pengulangan dalam satu hari</string>
     <string name="create_habit">Buat Kebiasaan</string>
     <string name="edit_habit">Sunting Kebiasaan</string>
     <string name="check">Tanda cek</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">Loop Habit Tracker membantu mencatat dan mengelola Kebiasaan baik Anda.</string>
     <string name="intro_title_2">Buat beberapa Kebiasaan baru</string>
     <string name="intro_description_2">Berikan tanda cek setiap kali Anda selesai melakukannya.</string>
-    <string name="intro_title_3">Terus lakukan</string>
-    <string name="intro_description_3">Kebiasaan yang dilakukan secara konsisten dalam jangka waktu panjang akan mendapatkan tanda bintang penuh.</string>
     <string name="intro_title_4">Lacak perkembangan Anda</string>
     <string name="intro_description_4">Grafik terperinci menampilkan perkembangan Kebiasaanmu dari waktu ke waktu.</string>
     <string name="interval_15_minutes">15 menit</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">Berikan rating aplikasi ini di Google Play</string>
     <string name="pref_send_feedback">Kirimkan umpan balik kepada Developer</string>
     <string name="pref_view_source_code">Lihat kode aplikasi di GitHub</string>
-    <string name="pref_view_app_introduction">Tampilkan perkenalan aplikasi</string>
     <string name="links">Tautan</string>
-    <string name="behavior">Perilaku</string>
     <string name="name">Nama</string>
     <string name="settings">Pengaturan</string>
     <string name="snooze_interval">Durasi tunda sejenak</string>
@@ -108,26 +94,14 @@
     <string name="version_n">Versi %s</string>
     <string name="frequency">Frekuensi</string>
     <string name="checkmark">Cek</string>
-    <string name="strength">Kekuatan</string>
     <string name="best_streaks">Rentetan terbaik</string>
-    <string name="current_streaks">Rentetan saat ini</string>
-    <string name="number_of_repetitions">Jumlah pengulangan</string>
-    <string name="last_x_days">%d hari terakhir</string>
-    <string name="last_x_weeks">%d minggu terakhir</string>
-    <string name="last_x_months">%d bulan terakhir</string>
-    <string name="last_x_years">%d tahun terakhir</string>
-    <string name="all_time">Seluruh waktu</string>
     <string name="every_day">Setiap hari</string>
     <string name="every_week">Setiap minggu</string>
-    <string name="two_times_per_week">2 kali per minggu</string>
-    <string name="five_times_per_week">5 kali per minggu</string>
-    <string name="custom_frequency">Sesuaikan &#8230;</string>
     <string name="help">Bantuan &amp; FAQ</string>
     <string name="could_not_export">Gagal mengekspor data.</string>
     <string name="could_not_import">Gagal mengimpor data.</string>
     <string name="file_not_recognized">File tidak dikenali.</string>
     <string name="habits_imported">Impor data berhasil.</string>
-    <string name="full_backup_success">Seluruh data berhasil di-ekspor.</string>
     <string name="import_data">Impor data</string>
     <string name="export_full_backup">Ekspor keseluruhan data</string>
     <string name="import_data_summary">Mendukung ekspor data dan berkas dari aplikasi Tickmate, HabitBull atau Rewire. Lihat FAQ untuk informasi lebih lanjut.</string>
@@ -151,10 +125,8 @@
     <string name="total">Total</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">kali dalam</string>
     <string name="every_x_days">Setiap %d hari</string>
     <string name="every_x_weeks">Setiap %d minggu</string>
-    <string name="every_x_months">Setiap %d bulan</string>
     <string name="score">Skor</string>
     <string name="reminder_sound">Suara pengingat</string>
     <string name="none">Hening</string>
@@ -174,6 +146,5 @@
     <string name="by_name">Berdasarkan nama</string>
     <string name="by_color">Berdasarkan Warna</string>
     <string name="by_score">Berdasarkan Skor</string>
-    <string name="download">Unduh</string>
     <string name="export">Ekspor</string>
 </resources>

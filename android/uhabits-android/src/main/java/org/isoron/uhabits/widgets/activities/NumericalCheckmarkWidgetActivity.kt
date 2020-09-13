@@ -30,6 +30,7 @@ import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.widgets.*
 import org.isoron.uhabits.intents.*
+import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
 
 class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPickerCallback {
@@ -46,9 +47,13 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         val component = app.component
         val parser = app.component.intentParser
         data = parser.parseCheckmarkIntent(intent)
-        behavior = WidgetBehavior(component.habitList, component.commandRunner, component.notificationTray)
+        behavior = WidgetBehavior(component.habitList,
+                                  component.commandRunner,
+                                  component.notificationTray)
         widgetUpdater = component.widgetUpdater
         showNumberSelector(this)
+
+        SystemUtils.unlockScreen(this)
     }
 
     override fun onNumberPicked(newValue: Double) {

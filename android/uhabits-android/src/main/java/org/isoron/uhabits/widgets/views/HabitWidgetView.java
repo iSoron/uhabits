@@ -27,8 +27,7 @@ import android.util.*;
 import android.view.*;
 import android.widget.*;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.annotation.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
@@ -109,7 +108,7 @@ public abstract class HabitWidgetView extends FrameLayout
         backgroundPaint.setAlpha(backgroundAlpha);
 
         frame = (ViewGroup) findViewById(R.id.frame);
-        if (frame != null) frame.setBackgroundDrawable(background);
+        if (frame != null) frame.setBackground(background);
     }
 
     private void init()

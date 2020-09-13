@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">நிறம் மாற்ற</string>
     <string name="toast_habit_created">பழக்கம் உருவாக்கப்பட்டது</string>
     <string name="toast_habit_deleted">பழக்கம் நீக்கப்பட்டது</string>
-    <string name="toast_habit_restored">பழக்கம் மீட்கப்பட்டது</string>
-    <string name="toast_nothing_to_undo">மீட்க ஒன்றும் இல்லை</string>
-    <string name="toast_nothing_to_redo">திருத்த எதுவும் இல்லை</string>
     <string name="toast_habit_changed">பழக்கம் மாற்றப்பட்டது</string>
-    <string name="toast_habit_changed_back">பழக்கம் திரும்ப பழைய நிலைக்கு மாற்றப்பட்டது</string>
     <string name="toast_habit_archived">காப்பகப்படுத்தியப் பழக்கம்</string>
     <string name="toast_habit_unarchived">பழக்கங்கள் ஆவண காப்பகத்தில் இருந்து நீக்கப் பட்டது</string>
     <string name="overview">மேற்பார்வை</string>
     <string name="habit_strength">பழக்கத்தின் வலிமை</string>
     <string name="history">வரலாறு</string>
     <string name="clear">அழி</string>
-    <string name="description_hint">கேள்வி (இன்று ... செய்தீர்களா?)</string>
-    <string name="repeat">மீண்டும் செய்க</string>
     <string name="times_every">காலங்களில்</string>
     <string name="days">நாட்கள்</string>
     <string name="reminder">நினைவூட்டல்கள்</string>
-    <string name="discard">நிராகரி</string>
     <string name="save">சேமிக்கவும்</string>
     <string name="streaks">சாதனைகள்</string>
     <string name="no_habits_found">நடப்பு பழக்கம் எதுவும் இல்லை</string>
     <string name="long_press_to_toggle">குறிக்க அல்லது குறிப்பை நீக்க அழுத்தி பிடிக்கவும்</string>
     <string name="reminder_off">வேண்டாம்</string>
-    <string name="validation_name_should_not_be_blank">பெயர் காலியாக இருக்க கூடாது.</string>
-    <string name="validation_number_should_be_positive">நேர்மறை எண்ணாக இருக்க வேண்டும் (பூஜியத்தை விட அதிகம்).</string>
-    <string name="validation_at_most_one_rep_per_day">ஒரு நாளைக்கு அதிகப்பட்சம் ஒரு முறை மீள் நிகழ்வை பெற முடியும்</string>
     <string name="create_habit">புதிய பழக்கம்</string>
     <string name="edit_habit">பழக்கத்தை திருத்த</string>
     <string name="check">சரிப்பார்ப்பு குறி</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">இந்த செயலி நல்ல பழக்க வழக்கங்களை துவங்க மற்றும் தொடர உதவுகிறது.</string>
     <string name="intro_title_2">சில புது பழக்கங்களை துவங்கவும்!</string>
     <string name="intro_description_2">தினமும் உங்கள் புதிய பழக்கத்தை முடித்தவுடன் இந்த செயலியில் அதை குறிக்கவும்.</string>
-    <string name="intro_title_3">மனம் தளராமல் தொடரவும்</string>
-    <string name="intro_description_3">தொடர்ச்சியாக செய்யும் பழக்கங்கள் ஒரு முழு நட்சத்திரத்தை பெற்று தரும்.</string>
     <string name="intro_title_4">உங்கள் முன்னேற்றத்தை கண்காணிக்கவும்</string>
     <string name="intro_description_4">நாளடைவில் நீங்கள் அடைந்த முன்னேற்றத்தை வரைபடத்தின் மூலம் அறியலாம்.</string>
     <string name="interval_15_minutes">15 நிமிடங்கள்</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">Google Play-ல் இந்த செயலியை மதிப்பிட</string>
     <string name="pref_send_feedback">இந்த செயலியை மேம்படுத்த உங்கள் கருத்துகளை பகிர</string>
     <string name="pref_view_source_code">இந்த செயலியின் மூல நிரலை GitHub வலைதளத்தில் பார்க்கவும்</string>
-    <string name="pref_view_app_introduction">இந்த செயலியின் முன்னோட்டத்தை பார்க்க</string>
     <string name="links">இணைப்புகள்</string>
-    <string name="behavior">செயல்பாடு</string>
     <string name="name">பெயர்</string>
     <string name="settings">அமைப்புகள்</string>
     <string name="snooze_interval">தாமத காலம்</string>
@@ -108,26 +94,14 @@
     <string name="version_n">மென்பொருள் பதிப்பு %s</string>
     <string name="frequency">கால இடைவெளி</string>
     <string name="checkmark">சரிபார்ப்பு குறி</string>
-    <string name="strength">வலிமை</string>
     <string name="best_streaks">சிறந்த சாதனைகள்</string>
-    <string name="current_streaks">நடப்பு சாதனை</string>
-    <string name="number_of_repetitions">மீள் நிகழ்வுகளின் எண்ணிக்கை</string>
-    <string name="last_x_days">கடந்த %d நாட்கள்</string>
-    <string name="last_x_weeks">கடந்த %d வாரங்கள்</string>
-    <string name="last_x_months">கடந்த %d மாதங்கள்</string>
-    <string name="last_x_years">கடந்த %d வருடங்கள்</string>
-    <string name="all_time">எல்லா நேரமும்</string>
     <string name="every_day">எல்லா நாளும்</string>
     <string name="every_week">எல்லா வாரமும்</string>
-    <string name="two_times_per_week">வாரத்திற்கு இரண்டு முறை</string>
-    <string name="five_times_per_week">வாரத்துக்கு 5 முறை</string>
-    <string name="custom_frequency">விருப்பத்திற்கு ஏற்றபடி&#8230;</string>
     <string name="help">உதவி &amp; அதிகம் கேட்கப்படும் கேள்விகள்</string>
     <string name="could_not_export">தரவுகளை ஏற்றுமதி செய்ய முடியவில்லை.</string>
     <string name="could_not_import">தரவை இறக்குமதி செய்ய முடியவில்லை.</string>
     <string name="file_not_recognized">இது எந்த வகையான ஆவணம் என்பதை உறுதி செய்ய முடியவில்லை.</string>
     <string name="habits_imported">பழக்கங்கள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டது.</string>
-    <string name="full_backup_success">முழு ஆவணக் காப்பு நகல் வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது.</string>
     <string name="import_data">தரவு இறக்குமதி</string>
     <string name="export_full_backup">ஆவணக் காப்பு நகல் முழுமையாக ஏற்றுமதி செய்</string>
     <string name="import_data_summary">இந்த செயலி மூலம் ஆவண காப்பு நகல் முழுவதுமாக ஏற்றுமதி செய்யவும் மற்றும் Tickmate, HabitBull அல்லது Rewire செயலிகள் மூலம் உருவாக்கப்படும் ஆவணங்களும் இந்த செயலியில் பயண்படுத்தலாம் மேலும் தகவல்களுக்கு அதிகம் கேட்கப்படும் கேள்விகளை (FAQ) பார்க்கவும்.</string>
@@ -151,10 +125,8 @@
     <string name="total">மொத்தம்</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">நேரம்</string>
     <string name="every_x_days">ஓவ்வொரு %d நாளும்</string>
     <string name="every_x_weeks">ஒவ்வொரு %d வாரங்களும்</string>
-    <string name="every_x_months">ஒவ்வொரு %d மாதங்களும்</string>
     <string name="score">மதிப்பெண்கள்</string>
     <string name="reminder_sound">நினைவூட்டல் சத்தம்</string>
     <string name="none">எதுவும் இல்லை</string>
@@ -174,6 +146,5 @@
     <string name="by_name">பெயரின் மூலம்</string>
     <string name="by_color">நிறத்தின் மூலம்</string>
     <string name="by_score">மதிப்பெண்களின் மூலம்</string>
-    <string name="download">பதிவிறக்கம்</string>
     <string name="export">ஏற்றுமதி</string>
 </resources>

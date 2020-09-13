@@ -75,7 +75,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         int fgColor;
 
         switch (checkmarkState) {
-            case Checkmark.CHECKED_EXPLICITLY:
+            case Checkmark.YES_MANUAL:
+            case Checkmark.SKIP:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
@@ -83,8 +84,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 frame.setBackgroundDrawable(background);
                 break;
 
-            case Checkmark.CHECKED_IMPLICITLY:
-            case Checkmark.UNCHECKED:
+            case Checkmark.YES_AUTO:
+            case Checkmark.NO:
             default:
                 getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBgColor);
@@ -114,11 +115,12 @@ public class CheckmarkWidgetView extends HabitWidgetView {
     {
         if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
         switch (checkmarkState) {
-            case Checkmark.CHECKED_EXPLICITLY:
-            case Checkmark.CHECKED_IMPLICITLY:
+            case Checkmark.YES_MANUAL:
+            case Checkmark.YES_AUTO:
                 return getResources().getString(R.string.fa_check);
-
-            case Checkmark.UNCHECKED:
+            case Checkmark.SKIP:
+                return getResources().getString(R.string.fa_skipped);
+            case Checkmark.NO:
             default:
                 return getResources().getString(R.string.fa_times);
         }
@@ -202,7 +204,7 @@ public class CheckmarkWidgetView extends HabitWidgetView {
             percentage = 0.75f;
             name = "Wake up early";
             activeColor = PaletteUtils.getAndroidTestColor(6);
-            checkmarkValue = Checkmark.CHECKED_EXPLICITLY;
+            checkmarkValue = Checkmark.YES_MANUAL;
             refresh();
         }
     }

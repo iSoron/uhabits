@@ -45,6 +45,7 @@ public class WidgetTest extends BaseUserInterfaceTest
 
         pressHome();
         clickCheckmarkWidget();
+        clickCheckmarkWidget();
 
         launchApp();
         clickText("Wake up early");

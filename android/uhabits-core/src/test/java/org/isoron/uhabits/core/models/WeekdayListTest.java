@@ -22,8 +22,8 @@ package org.isoron.uhabits.core.models;
 import org.isoron.uhabits.core.*;
 import org.junit.*;
 
-import static junit.framework.Assert.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
 
 public class WeekdayListTest extends BaseUnitTest

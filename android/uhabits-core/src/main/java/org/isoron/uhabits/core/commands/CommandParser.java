@@ -72,10 +72,6 @@ public class CommandParser
             .fromJson(json, EditHabitCommand.Record.class)
             .toCommand(modelFactory, habitList);
 
-        if (event.equals("Toggle")) return gson
-            .fromJson(json, ToggleRepetitionCommand.Record.class)
-            .toCommand(habitList);
-
         if (event.equals("Unarchive")) return gson
             .fromJson(json, UnarchiveHabitsCommand.Record.class)
             .toCommand(habitList);

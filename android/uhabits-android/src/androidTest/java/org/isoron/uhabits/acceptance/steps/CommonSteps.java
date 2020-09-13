@@ -19,16 +19,15 @@
 
 package org.isoron.uhabits.acceptance.steps;
 
-import android.view.View;
+import android.view.*;
 
-import androidx.annotation.StringRes;
+import androidx.annotation.*;
+import androidx.recyclerview.widget.*;
 import androidx.test.espresso.*;
 import androidx.test.espresso.contrib.*;
 import androidx.test.uiautomator.*;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.hamcrest.Matcher;
+import org.hamcrest.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.activities.habits.list.*;
@@ -39,8 +38,8 @@ import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.PositionAssertions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.*;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
-import static junit.framework.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 public class CommonSteps extends BaseUserInterfaceTest
 {
@@ -125,7 +124,7 @@ public class CommonSteps extends BaseUserInterfaceTest
         verifyDisplaysText(text[0]);
         for(int i = 1; i < text.length; i++) {
             verifyDisplaysText(text[i]);
-            onView(withText(text[i])).check(isBelow(withText(text[i-1])));
+            onView(withText(text[i])).check(isCompletelyBelow(withText(text[i-1])));
         }
     }
 

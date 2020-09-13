@@ -19,13 +19,11 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
-import junit.framework.Assert;
-
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.*;
 
@@ -86,9 +84,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
     {
         Habit h2 = habitList.getByPosition(2);
         Timestamp today = DateUtils.getToday();
-        commandRunner.execute(new ToggleRepetitionCommand(habitList, h2, today),
-            h2.getId());
-
+        commandRunner.execute(new CreateRepetitionCommand(habitList, h2, today, Checkmark.NO), h2.getId());
         verify(listener).onItemChanged(2);
         verify(listener).onRefreshFinished();
         verifyNoMoreInteractions(listener);
@@ -100,7 +96,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
         assertThat(cache.getHabitCount(), equalTo(10));
 
         Habit h = habitList.getByPosition(3);
-        junit.framework.Assert.assertNotNull(h.getId());
+        Assert.assertNotNull(h.getId());
         double score = h.getScores().getTodayValue();
 
         assertThat(cache.getHabitByPosition(3), equalTo(h));

@@ -29,7 +29,6 @@
     <string name="color_picker_default_title">رەڭ ئۆزگەردى</string>
     <string name="toast_habit_created">ئادەت قۇرۇلدى</string>
     <string name="toast_habit_deleted">ئادەت ئۆچۈرۈلدى</string>
-    <string name="toast_habit_restored">ئادەتلەر قايتۇرۇلدى</string>
     <string name="toast_habit_changed">ئادەت ئۆزگەرتىلدى</string>
     <!-- App introduction -->
     <string name="settings">تەڭشەك</string>

@@ -79,7 +79,7 @@ class HabitCardListView(
         cardView.dataOffset = dataOffset
         cardView.score = score
         cardView.unit = habit.unit
-        cardView.threshold = habit.targetValue
+        cardView.threshold = habit.targetValue / habit.frequency.denominator
 
         val detector = GestureDetector(context, CardViewGestureDetector(holder))
         cardView.setOnTouchListener { _, ev ->

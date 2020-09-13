@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">Szín módosítása</string>
     <string name="toast_habit_created">Szokás létrehozva</string>
     <string name="toast_habit_deleted">Szokás törölve</string>
-    <string name="toast_habit_restored">Szokás visszaállítva</string>
-    <string name="toast_nothing_to_undo">Nincs mit visszavonni</string>
-    <string name="toast_nothing_to_redo">Nincs mit újraalkalmazni</string>
     <string name="toast_habit_changed">Szokás módosítva</string>
-    <string name="toast_habit_changed_back">Szokás visszaállítva</string>
     <string name="toast_habit_archived">Szokás archiválva</string>
     <string name="toast_habit_unarchived">Szokás újraaktiválva</string>
     <string name="overview">Áttekintés</string>
     <string name="habit_strength">Szokás erőssége</string>
     <string name="history">Napló</string>
     <string name="clear">Törlés</string>
-    <string name="description_hint">Kérdés (Sikerült ma&#8230;?)</string>
-    <string name="repeat">Ismétlődés</string>
     <string name="times_every">alk. /</string>
     <string name="days">nap</string>
     <string name="reminder">Emlékeztető</string>
-    <string name="discard">Elvetés</string>
     <string name="save">Mentés</string>
     <string name="streaks">Szériák</string>
     <string name="no_habits_found">Nincs aktív szokásod</string>
     <string name="long_press_to_toggle">Tartsd lenyomva a bejelöléshez, vagy a jelölés törléséhez</string>
     <string name="reminder_off">Kikapcsolva</string>
-    <string name="validation_name_should_not_be_blank">A megnevezés nem maradhat üresen.</string>
-    <string name="validation_number_should_be_positive">A számnak pozitívnak kell lennie.</string>
-    <string name="validation_at_most_one_rep_per_day">Maximum napi 1 ismétlés lehetséges</string>
     <string name="create_habit">Szokás rögzítése</string>
     <string name="edit_habit">Szokás szerkesztése</string>
     <string name="check">Kipipálva</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">A Loop Habit Tracker segít a jó szokások kialakításában és azok fenntartásában</string>
     <string name="intro_title_2">Hozz létre néhány új szokást</string>
     <string name="intro_description_2">Minden nap jelöld pipával az alkalmazásban, ahogy elvégeztél egy jó szokást.</string>
-    <string name="intro_title_3">Ne hagyd abba</string>
-    <string name="intro_description_3">A hosszú időn keresztül folyamatosan fenntartott jó szokásokért teljes csillag jár.</string>
     <string name="intro_title_4">Kövesd a fejlődésed</string>
     <string name="intro_description_4">A szokások fejlődésének időbeni alakulását részletes grafikonok mutatják.</string>
     <string name="interval_15_minutes">15 perc</string>
@@ -83,9 +71,7 @@
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
-    <string name="pref_view_app_introduction">Bemutató megtekintése</string>
     <string name="links">Linkek</string>
-    <string name="behavior">Szokás</string>
     <string name="name">Megnevezés</string>
     <string name="settings">Beállítások</string>
     <string name="snooze_interval">Szundi időtartama</string>
@@ -105,39 +91,25 @@
     <string name="clear_label">Törlés</string>
     <string name="select_hours">Óra kiválasztása</string>
     <string name="select_minutes">Perc kiválasztása</string>
-    <string name="select_habit_requirement_prompt">Kérjük, válasszon legalább egy szokást</string>
     <string name="about">Névjegy</string>
     <string name="translators">Fordítók</string>
     <string name="developers">Fejlesztők</string>
     <string name="version_n">Verzió %s</string>
     <string name="frequency">Gyakoriság</string>
     <string name="checkmark">Pipa</string>
-    <string name="create_stackview_widget_button" formatted="false">StackView-widget minden szokáshoz</string>
     <string name="checkmark_stack_widget" formatted="false">Pipa Stack Widget</string>
     <string name="frequency_stack_widget" formatted="false">Gyakoriság Stack-widget</string>
     <string name="score_stack_widget" formatted="false">Pontszám stack-widget</string>
     <string name="history_stack_widget" formatted="false">Előzmények stack-widget</string>
     <string name="streaks_stack_widget" formatted="false">Sorozat Stack Widget</string>
-    <string name="strength">Erősség</string>
     <string name="best_streaks">Legjobb széria</string>
-    <string name="current_streaks">Jelenlegi széria</string>
-    <string name="number_of_repetitions">Ismétlődések száma</string>
-    <string name="last_x_days">Utolsó %d nap</string>
-    <string name="last_x_weeks">Utolsó %d hét</string>
-    <string name="last_x_months">Utolsó %d hónap</string>
-    <string name="last_x_years">Utolsó %d év</string>
-    <string name="all_time">Mindig</string>
     <string name="every_day">Minden nap</string>
     <string name="every_week">Minden héten</string>
-    <string name="two_times_per_week">Heti 2-szer</string>
-    <string name="five_times_per_week">Hetente 5-ször</string>
-    <string name="custom_frequency">Egyéni&#8230;</string>
     <string name="help">Súgó és GYIK</string>
     <string name="could_not_export">Nem sikerült az adatok exportálása.</string>
     <string name="could_not_import">Nem sikerült az adatok importálása</string>
     <string name="file_not_recognized">A fájlt nem sikerült felismerni.</string>
     <string name="habits_imported">A szokások importálása sikerült.</string>
-    <string name="full_backup_success">A teljes mentés sikeresen exportálva lett.</string>
     <string name="import_data">Adat importálása</string>
     <string name="export_full_backup">Teljes mentés exportálása</string>
     <string name="import_data_summary">Támogatja a Loop Habit Tracker alkalmazás teljes mentéseit, illetve a Tickmate, HabitBull és Rewire alkalmazások formátumait is. További információt a GYIK-ben találsz.</string>
@@ -161,12 +133,9 @@
     <string name="total">Összesen</string>
     <!-- Different types of habits -->
     <string name="yes_or_no">Igen vagy Nem</string>
-    <string name="number">Szám</string>
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">alk. /</string>
     <string name="every_x_days">%d naponta</string>
     <string name="every_x_weeks">%d hetente</string>
-    <string name="every_x_months">%d havonta</string>
     <string name="score">Pont</string>
     <string name="reminder_sound">Emlékeztető dallama</string>
     <string name="none">Nem ismétlődik</string>
@@ -188,16 +157,11 @@
     <string name="by_name">Megnevezés szerint</string>
     <string name="by_color">Színek szerint</string>
     <string name="by_score">Pont szerint</string>
-    <string name="download">Letöltés</string>
     <string name="export">Exportálás</string>
     <string name="long_press_to_edit">Az érték módosításához tartsa lenyomva</string>
     <string name="change_value">Érték módosítása</string>
     <string name="calendar">Naptár</string>
     <string name="unit">Egység</string>
-    <string name="count">Mennyiség</string>
-    <string name="validation_show_not_be_blank">A mező nem lehet üres</string>
-    <string name="example_question_numerical">pl. Hány lépést tettél ma?</string>
-    <string name="example_units">pl. Lépések száma</string>
     <string name="example_question_boolean">pl. Edzettél ma?</string>
     <string name="question">Kérdés</string>
     <string name="target">Cél</string>

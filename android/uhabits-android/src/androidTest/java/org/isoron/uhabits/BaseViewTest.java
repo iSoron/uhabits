@@ -20,13 +20,11 @@
 package org.isoron.uhabits;
 
 import android.graphics.*;
-
-import androidx.annotation.NonNull;
-import androidx.test.*;
 import android.view.*;
 import android.widget.*;
 
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.annotation.*;
+import androidx.test.platform.app.*;
 
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;
@@ -35,10 +33,9 @@ import org.isoron.uhabits.widgets.*;
 import java.io.*;
 import java.util.*;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.KITKAT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static android.view.View.MeasureSpec.makeMeasureSpec;
+import static android.os.Build.VERSION.*;
+import static android.os.Build.VERSION_CODES.*;
+import static android.view.View.MeasureSpec.*;
 
 public class BaseViewTest extends BaseAndroidTest
 {

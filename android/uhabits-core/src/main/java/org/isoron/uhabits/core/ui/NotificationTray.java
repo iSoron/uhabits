@@ -76,17 +76,11 @@ public class NotificationTray
     public void onCommandExecuted(@NonNull Command command,
                                   @Nullable Long refreshKey)
     {
-        if (command instanceof ToggleRepetitionCommand)
+        if (command instanceof CreateRepetitionCommand)
         {
-            ToggleRepetitionCommand toggleCmd =
-                (ToggleRepetitionCommand) command;
-
-            Habit habit = toggleCmd.getHabit();
-            taskRunner.execute(() ->
-            {
-                if (habit.getCheckmarks().getTodayValue() !=
-                    Checkmark.UNCHECKED) cancel(habit);
-            });
+            CreateRepetitionCommand createCmd = (CreateRepetitionCommand) command;
+            Habit habit = createCmd.getHabit();
+            cancel(habit);
         }
 
         if (command instanceof DeleteHabitsCommand)
@@ -192,18 +186,10 @@ public class NotificationTray
         {
             systemTray.log("Showing notification for habit=" + habit.id);
 
-            if (todayValue != Checkmark.UNCHECKED) {
+            if (todayValue != Checkmark.NO) {
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d already checked. Skipping.",
-                        habit.id));
-                return;
-            }
-
-            if (!shouldShowReminderToday()) {
-                systemTray.log(String.format(
-                        Locale.US,
-                        "Habit %d not supposed to run today. Skipping.",
                         habit.id));
                 return;
             }
@@ -212,6 +198,23 @@ public class NotificationTray
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d does not have a reminder. Skipping.",
+                        habit.id));
+                return;
+            }
+
+            if (habit.isArchived())
+            {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d is archived. Skipping.",
+                        habit.id));
+                return;
+            }
+
+            if (!shouldShowReminderToday()) {
+                systemTray.log(String.format(
+                        Locale.US,
+                        "Habit %d not supposed to run today. Skipping.",
                         habit.id));
                 return;
             }

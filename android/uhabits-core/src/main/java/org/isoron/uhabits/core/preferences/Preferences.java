@@ -330,8 +330,14 @@ public class Preferences
 
     public int getWidgetOpacity()
     {
-        return Integer.parseInt(storage.getString("pref_widget_opacity", "102"));
+        return Integer.parseInt(storage.getString("pref_widget_opacity", "255"));
     }
+
+    public void setWidgetOpacity(int value)
+    {
+        storage.putString("pref_widget_opacity", Integer.toString(value));
+    }
+
 
     /**
      * @return An integer representing the first day of the week. Sunday

@@ -30,31 +30,21 @@
     <string name="color_picker_default_title">Kolorea aldatu</string>
     <string name="toast_habit_created">Ohitura sortu da</string>
     <string name="toast_habit_deleted">Ohiturak ezabatu dira</string>
-    <string name="toast_habit_restored">Ohiturak berrezarri dira</string>
-    <string name="toast_nothing_to_undo">Ez dago ezer desegiteko</string>
-    <string name="toast_nothing_to_redo">Ez dago ezer berregiteko</string>
     <string name="toast_habit_changed">Ohitura aldatu egin da</string>
-    <string name="toast_habit_changed_back">Ohitura berrezarri da</string>
     <string name="toast_habit_archived">Ohiturak artxibatu dira</string>
     <string name="toast_habit_unarchived">Ohiturak desartxibatu dira</string>
     <string name="overview">Ikuspegi orokorra</string>
     <string name="habit_strength">Ohituraren indarra</string>
     <string name="history">Historia</string>
     <string name="clear">Garbitu</string>
-    <string name="description_hint">Galdera (... al duzu gaur?)</string>
-    <string name="repeat">Errepikatu</string>
     <string name="times_every">aldiz</string>
     <string name="days">egunetan</string>
     <string name="reminder">Oroigarria</string>
-    <string name="discard">Baztertu</string>
     <string name="save">Gorde</string>
     <string name="streaks">Boladak</string>
     <string name="no_habits_found">Ez duzu ohitura aktiborik</string>
     <string name="long_press_to_toggle">Sakatu eta mantendu markatu edo desmarkatzeko</string>
     <string name="reminder_off">Itzalita</string>
-    <string name="validation_name_should_not_be_blank">Izena ezin da hutsik egon.</string>
-    <string name="validation_number_should_be_positive">Zenbakia positiboa izan behar da.</string>
-    <string name="validation_at_most_one_rep_per_day">Gehienez errepikapen bat eguneko izan dezakezu</string>
     <string name="create_habit">Ohitura sortu</string>
     <string name="edit_habit">Ohitura editatu</string>
     <string name="check">Markatu</string>
@@ -64,8 +54,6 @@
     <string name="intro_description_1">Loop Habit Tracker-ek ohitura onak hartzen eta mantentzen laguntzen dizu.</string>
     <string name="intro_title_2">Sor itzazu ohitura berri batzuk</string>
     <string name="intro_description_2">Egunero, zure ohitura egin ostean, jarri ezazu egiaztatze marka bat aplikazioan.</string>
-    <string name="intro_title_3">Jarrai ezazu ohitura egiten</string>
-    <string name="intro_description_3">Denbora luzean zehar trinkotasunez egindako ohiturek izar oso bat irabaziko dute.</string>
     <string name="intro_title_4">Jarrai ezazu zure aurrerapena</string>
     <string name="intro_description_4">Grafiko zehatzen bitartez denboran zehar zure ohiturak nola hobetu diren ikus ditzakezu</string>
     <string name="interval_15_minutes">15 minutu</string>
@@ -81,9 +69,7 @@
     <string name="pref_rate_this_app">Aplikazio hau Google Playen puntuatu</string>
     <string name="pref_send_feedback">Zure iritzia garatzaileari bidali</string>
     <string name="pref_view_source_code">Iturburu kodea GitHuben ikusi</string>
-    <string name="pref_view_app_introduction">Aplikazioaren aurkezpena ikusi</string>
     <string name="links">Loturak</string>
-    <string name="behavior">Portaera</string>
     <string name="name">Izena</string>
     <string name="settings">Ezarpenak</string>
     <string name="snooze_interval">Atzeratze tartea</string>
@@ -108,26 +94,14 @@
     <string name="version_n">%s bertsioa</string>
     <string name="frequency">Maiztasuna</string>
     <string name="checkmark">Egiaztatze marka</string>
-    <string name="strength">Indarra</string>
     <string name="best_streaks">Bolada onenak</string>
-    <string name="current_streaks">Uneko bolada</string>
-    <string name="number_of_repetitions">Errepikapenen kopurua</string>
-    <string name="last_x_days">Azken %d egunak</string>
-    <string name="last_x_weeks">Azken %d asteak</string>
-    <string name="last_x_months">Azken %d hilabeteak</string>
-    <string name="last_x_years">Azken %d urteak</string>
-    <string name="all_time">Hasieratik</string>
     <string name="every_day">Egunero</string>
     <string name="every_week">Astero</string>
-    <string name="two_times_per_week">Astean 2 aldiz</string>
-    <string name="five_times_per_week">Astean 5 aldiz</string>
-    <string name="custom_frequency">Pertsonalizatua ...</string>
     <string name="help">Laguntza eta ohiko galderak</string>
     <string name="could_not_export">Huts datuak esportatzerakoan.</string>
     <string name="could_not_import">Huts datuak inportatzerakoan.</string>
     <string name="file_not_recognized">Fitxategi ezezaguna.</string>
     <string name="habits_imported">Ohiturak ondo inportatu dira.</string>
-    <string name="full_backup_success">Babes kopia osoa ondo esportatu da.</string>
     <string name="import_data">Datuak inportatu</string>
     <string name="export_full_backup">Babes kopia osoa esportatu</string>
     <string name="import_data_summary">Aplikazio honek esportatutako babes kopia osoak onartzen dira, baita Tickmate, HabitBull edo Rewirek sortutako fitxategiak ere. Ikusi ohito galderak informazio gehiago lortzeko.</string>
@@ -151,10 +125,8 @@
     <string name="total">Guztira</string>
     <!-- Different types of habits -->
     <!-- Middle part of the sentence '1 time in xx days' -->
-    <string name="time_every">denbora</string>
     <string name="every_x_days">%d egunero</string>
     <string name="every_x_weeks">%d astero</string>
-    <string name="every_x_months">%d hilabetero</string>
     <string name="score">Lorpena</string>
     <string name="reminder_sound">Oroigarriaren soinua</string>
     <string name="none">Bat ere ez</string>
@@ -174,6 +146,5 @@
     <string name="by_name">Izenaren arabera</string>
     <string name="by_color">Kolorearen arabera</string>
     <string name="by_score">Puntuen arabera</string>
-    <string name="download">Deskargatu</string>
     <string name="export">Esportatu</string>
 </resources>

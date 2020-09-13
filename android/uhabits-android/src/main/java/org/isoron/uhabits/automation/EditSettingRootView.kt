@@ -21,6 +21,7 @@ package org.isoron.uhabits.automation
 
 import android.R.layout.*
 import android.content.*
+import android.view.*
 import androidx.appcompat.widget.*
 import androidx.appcompat.widget.Toolbar
 import android.widget.*
@@ -51,10 +52,17 @@ class EditSettingRootView(
         addView(inflate(getContext(), R.layout.automation, null))
         ButterKnife.bind(this)
         populateHabitSpinner()
-
+        habitSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                populateActionSpinner(habitList.getByPosition(position).isNumerical)
+            }
+        }
         args?.let {
             habitSpinner.setSelection(habitList.indexOf(it.habit))
-            actionSpinner.setSelection(it.action)
+            populateActionSpinner(it.habit.isNumerical)
+            actionSpinner.setSelection(mapActionToSpinnerPosition(it.action))
         }
     }
 
@@ -72,16 +80,49 @@ class EditSettingRootView(
 
     @OnClick(R.id.buttonSave)
     fun onClickSave() {
-        val action = actionSpinner.selectedItemPosition
-        val habitPosition = habitSpinner.selectedItemPosition
-        val habit = habitList.getByPosition(habitPosition)
+        val habit = habitList.getByPosition(habitSpinner.selectedItemPosition)
+        val action = mapSpinnerPositionToAction(habit.isNumerical,
+                                                actionSpinner.selectedItemPosition)
         controller.onSave(habit, action)
     }
 
+    private fun mapSpinnerPositionToAction(isNumerical: Boolean, itemPosition: Int): Int {
+        return if (isNumerical) {
+            when (itemPosition) {
+                0 -> ACTION_INCREMENT
+                else -> ACTION_DECREMENT
+            }
+        } else {
+            when (itemPosition) {
+                0 -> ACTION_CHECK
+                1 -> ACTION_UNCHECK
+                else -> ACTION_TOGGLE
+            }
+        }
+    }
+
+    private fun mapActionToSpinnerPosition(action: Int): Int {
+        return when(action) {
+            ACTION_CHECK -> 0
+            ACTION_UNCHECK -> 1
+            ACTION_TOGGLE -> 2
+            ACTION_INCREMENT -> 0
+            ACTION_DECREMENT -> 1
+            else -> 0
+        }
+    }
+
     private fun populateHabitSpinner() {
-        val names = habitList.mapTo(LinkedList<String>()) { it.name }
+        val names = habitList.mapTo(LinkedList()) { it.name }
         val adapter = ArrayAdapter(context, simple_spinner_item, names)
         adapter.setDropDownViewResource(simple_spinner_dropdown_item)
         habitSpinner.adapter = adapter
+    }
+
+    private fun populateActionSpinner(isNumerical: Boolean) {
+        val entries = (if (isNumerical) R.array.actions_numerical else R.array.actions_yes_no)
+        val adapter = ArrayAdapter.createFromResource(context, entries, simple_spinner_item)
+        adapter.setDropDownViewResource(simple_spinner_dropdown_item)
+        actionSpinner.adapter = adapter
     }
 }

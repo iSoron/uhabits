@@ -244,9 +244,12 @@ public abstract class HabitList implements Iterable<Habit>
 
     public enum Order
     {
-        BY_NAME,
-        BY_COLOR,
-        BY_SCORE,
+        BY_NAME_ASC,
+        BY_NAME_DESC,
+        BY_COLOR_ASC,
+        BY_COLOR_DESC,
+        BY_SCORE_ASC,
+        BY_SCORE_DESC,
         BY_POSITION
     }
 }
