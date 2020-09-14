@@ -33,7 +33,7 @@ public class RepetitionRecordTest extends BaseUnitTest
     @Test
     public void testRecord() throws Exception
     {
-        Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 50);
+        Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 50, true);
         RepetitionRecord record = new RepetitionRecord();
         record.copyFrom(rep);
         assertThat(rep, equalTo(record.toRepetition()));

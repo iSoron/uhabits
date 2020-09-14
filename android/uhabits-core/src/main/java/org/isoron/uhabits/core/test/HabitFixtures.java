@@ -87,7 +87,7 @@ public class HabitFixtures
         for (int i = 0; i < times.length; i++)
         {
             Timestamp timestamp = today.minus(times[i]);
-            habit.getRepetitions().add(new Repetition(timestamp, values[i]));
+            habit.getRepetitions().add(new Repetition(timestamp, values[i], true));
         }
 
         return habit;
@@ -123,7 +123,7 @@ public class HabitFixtures
         for (int i = 0; i < times.length; i++)
         {
             Timestamp timestamp = reference.minus(times[i]);
-            habit.getRepetitions().add(new Repetition(timestamp, values[i]));
+            habit.getRepetitions().add(new Repetition(timestamp, values[i], true));
         }
 
         return habit;

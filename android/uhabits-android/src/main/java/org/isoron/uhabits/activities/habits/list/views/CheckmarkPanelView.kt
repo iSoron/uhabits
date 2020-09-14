@@ -34,7 +34,7 @@ class CheckmarkPanelView(
         @Provided private val buttonFactory: CheckmarkButtonViewFactory
 ) : ButtonPanelView<CheckmarkButtonView>(context, preferences) {
 
-    var values = IntArray(0)
+    var values: Array<CheckmarkState> = emptyArray()
         set(values) {
             field = values
             setupButtons()
@@ -46,7 +46,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    var onToggle: (Timestamp, Int) -> Unit = {_, _ ->}
+    var onToggle: (Timestamp, Int, Boolean) -> Unit = {_, _, _ ->}
         set(value) {
             field = value
             setupButtons()
@@ -62,10 +62,10 @@ class CheckmarkPanelView(
             val timestamp = today.minus(index + dataOffset)
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
-                else -> NO
+                else -> CheckmarkState(NO, false)
             }
             button.color = color
-            button.onToggle = { value -> onToggle(timestamp, value) }
+            button.onToggle = { state -> onToggle(timestamp, state.value, state.isManualInput) }
         }
     }
 }

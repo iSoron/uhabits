@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.models;
 
+import androidx.annotation.NonNull;
 import org.apache.commons.lang3.builder.*;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
@@ -34,13 +35,10 @@ public final class Repetition
     private final Timestamp timestamp;
 
     /**
-     * The value of the repetition.
-     *
-     * For boolean habits, this equals YES_MANUAL if performed or SKIP if skipped.
-     * For numerical habits, this number is stored in thousandths. That is, if the user enters
-     * value 1.50 on the app, it is here stored as 1500.
+     * The state of the repetition.
      */
-    private final int value;
+    @NonNull
+    private final CheckmarkState state;
 
     /**
      * Creates a new repetition with given parameters.
@@ -50,19 +48,18 @@ public final class Repetition
      *
      * @param timestamp the time this repetition occurred.
      */
-    public Repetition(Timestamp timestamp, int value)
+    public Repetition(Timestamp timestamp, int value, boolean manualInput)
     {
         this.timestamp = timestamp;
-        this.value = value;
+        this.state = new CheckmarkState(value, manualInput);
     }
 
     public static int nextToggleValue(int value)
     {
         switch(value) {
             case NO:
-            case YES_AUTO:
-                return YES_MANUAL;
-            case YES_MANUAL:
+                return YES;
+            case YES:
                 return SKIP;
             default:
             case SKIP:
@@ -81,7 +78,8 @@ public final class Repetition
 
         return new EqualsBuilder()
                 .append(timestamp, that.timestamp)
-                .append(value, that.value)
+                .append(getValue(), that.getValue())
+                .append(isManualInput(), that.isManualInput())
                 .isEquals();
     }
 
@@ -90,17 +88,30 @@ public final class Repetition
         return timestamp;
     }
 
+    public CheckmarkState getState()
+    {
+        return state;
+    }
+
     public int getValue()
     {
-        return value;
+        return state.getValue();
     }
+
+
+    public boolean isManualInput()
+    {
+        return state.isManualInput();
+    }
+
 
     @Override
     public int hashCode()
     {
         return new HashCodeBuilder(17, 37)
                 .append(timestamp)
-                .append(value)
+                .append(getValue())
+                .append(isManualInput())
                 .toHashCode();
     }
 
@@ -109,7 +120,8 @@ public final class Repetition
     {
         return new ToStringBuilder(this, defaultToStringStyle())
                 .append("timestamp", timestamp)
-                .append("value", value)
+                .append("value", getValue())
+                .append("manualInput", isManualInput())
                 .toString();
     }
 }

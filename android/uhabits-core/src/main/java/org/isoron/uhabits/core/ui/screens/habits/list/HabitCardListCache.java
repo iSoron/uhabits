@@ -93,9 +93,9 @@ public class HabitCardListCache implements CommandRunner.Listener
         if (currentFetchTask != null) currentFetchTask.cancel();
     }
 
-    public synchronized int[] getCheckmarks(long habitId)
+    public synchronized CheckmarkState[] getCheckmarkStates(long habitId)
     {
-        return data.checkmarks.get(habitId);
+        return data.checkmarkStates.get(habitId);
     }
 
     /**
@@ -165,7 +165,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         int position = data.habits.indexOf(h);
         data.habits.remove(position);
         data.id_to_habit.remove(id);
-        data.checkmarks.remove(id);
+        data.checkmarkStates.remove(id);
         data.scores.remove(id);
 
         listener.onItemRemoved(position);
@@ -240,7 +240,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         public final List<Habit> habits;
 
         @NonNull
-        public final HashMap<Long, int[]> checkmarks;
+        public final HashMap<Long, CheckmarkState[]> checkmarkStates;
 
         @NonNull
         public final HashMap<Long, Double> scores;
@@ -252,7 +252,7 @@ public class HabitCardListCache implements CommandRunner.Listener
         {
             id_to_habit = new HashMap<>();
             habits = new LinkedList<>();
-            checkmarks = new HashMap<>();
+            checkmarkStates = new HashMap<>();
             scores = new HashMap<>();
         }
 
@@ -260,13 +260,13 @@ public class HabitCardListCache implements CommandRunner.Listener
         {
             if (oldData == null) throw new NullPointerException();
 
-            int[] empty = new int[checkmarkCount];
+            CheckmarkState[] empty = new CheckmarkState[checkmarkCount];
 
             for (Long id : id_to_habit.keySet())
             {
-                if (oldData.checkmarks.containsKey(id))
-                    checkmarks.put(id, oldData.checkmarks.get(id));
-                else checkmarks.put(id, empty);
+                if (oldData.checkmarkStates.containsKey(id))
+                    checkmarkStates.put(id, oldData.checkmarkStates.get(id));
+                else checkmarkStates.put(id, empty);
             }
         }
 
@@ -346,9 +346,9 @@ public class HabitCardListCache implements CommandRunner.Listener
                 if (targetId != null && !targetId.equals(id)) continue;
 
                 newData.scores.put(id, habit.getScores().getTodayValue());
-                newData.checkmarks.put(
+                newData.checkmarkStates.put(
                         id,
-                        habit.getCheckmarks().getValues(dateFrom, dateTo));
+                        habit.getCheckmarks().getCheckmarkStates(dateFrom, dateTo));
 
                 runner.publishProgress(this, position);
             }
@@ -381,7 +381,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             data.habits.add(position, habit);
             data.id_to_habit.put(id, habit);
             data.scores.put(id, newData.scores.get(id));
-            data.checkmarks.put(id, newData.checkmarks.get(id));
+            data.checkmarkStates.put(id, newData.checkmarkStates.get(id));
             listener.onItemInserted(position);
         }
 
@@ -398,10 +398,10 @@ public class HabitCardListCache implements CommandRunner.Listener
         private synchronized void performUpdate(long id, int position)
         {
             double oldScore = data.scores.get(id);
-            int[] oldCheckmarks = data.checkmarks.get(id);
+            CheckmarkState[] oldCheckmarks = data.checkmarkStates.get(id);
 
             double newScore = newData.scores.get(id);
-            int[] newCheckmarks = newData.checkmarks.get(id);
+            CheckmarkState[] newCheckmarks = newData.checkmarkStates.get(id);
 
             boolean unchanged = true;
             if (oldScore != newScore) unchanged = false;
@@ -409,7 +409,7 @@ public class HabitCardListCache implements CommandRunner.Listener
             if (unchanged) return;
 
             data.scores.put(id, newScore);
-            data.checkmarks.put(id, newCheckmarks);
+            data.checkmarkStates.put(id, newCheckmarks);
             listener.onItemChanged(position);
         }
 

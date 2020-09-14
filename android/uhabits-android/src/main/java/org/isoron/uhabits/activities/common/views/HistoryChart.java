@@ -42,7 +42,7 @@ import static org.isoron.uhabits.core.models.Checkmark.*;
 
 public class HistoryChart extends ScrollableChart
 {
-    private int[] checkmarks;
+    private CheckmarkState[] checkmarks;
 
     private double target;
 
@@ -149,15 +149,15 @@ public class HistoryChart extends ScrollableChart
         if (timestamp == null) return false;
 
         Timestamp today = DateUtils.getToday();
-        int newValue = YES_MANUAL;
+        int newValue = YES;
         int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
-            newValue = Repetition.nextToggleValue(checkmarks[offset]);
-            checkmarks[offset] = newValue;
+            newValue = Repetition.nextToggleValue(checkmarks[offset].getValue());
+            checkmarks[offset] = new CheckmarkState(newValue, true);
         }
 
-        controller.onToggleCheckmark(timestamp, newValue);
+        controller.onToggleCheckmark(timestamp, newValue, true);
         postInvalidate();
         return true;
 
@@ -166,22 +166,28 @@ public class HistoryChart extends ScrollableChart
     public void populateWithRandomData()
     {
         Random random = new Random();
-        checkmarks = new int[100];
+        checkmarks = new CheckmarkState[100];
 
         for (int i = 0; i < 100; i++)
-            if (random.nextFloat() < 0.3) checkmarks[i] = 2;
+            if (random.nextFloat() < 0.3)
+            {
+                checkmarks[i] = new CheckmarkState(2, random.nextBoolean());
+            }
 
         for (int i = 0; i < 100 - 7; i++)
         {
             int count = 0;
             for (int j = 0; j < 7; j++)
-                if (checkmarks[i + j] != 0) count++;
+                if (checkmarks[i + j].getValue() != 0) count++;
 
-            if (count >= 3) checkmarks[i] = Math.max(checkmarks[i], 1);
+            if (count >= 3)
+            {
+                checkmarks[i] = new CheckmarkState(Math.max(checkmarks[i].getValue(), 1), random.nextBoolean());
+            }
         }
     }
 
-    public void setCheckmarks(int[] checkmarks)
+    public void setCheckmarkStates(CheckmarkState[] checkmarks)
     {
         this.checkmarks = checkmarks;
         postInvalidate();
@@ -372,7 +378,8 @@ public class HistoryChart extends ScrollableChart
                             int checkmarkOffset)
     {
 
-        int checkmark = 0;
+        int value = NO;
+        boolean manualInput = false;
         if (checkmarkOffset >= checkmarks.length)
         {
             pSquareBg.setColor(colors[0]);
@@ -380,13 +387,14 @@ public class HistoryChart extends ScrollableChart
         }
         else
         {
-            checkmark = checkmarks[checkmarkOffset];
-            if(checkmark == 0)
+            value = checkmarks[checkmarkOffset].getValue();
+            manualInput = checkmarks[checkmarkOffset].isManualInput();
+            if(value == NO)
             {
                 pSquareBg.setColor(colors[0]);
                 pSquareFg.setColor(textColors[1]);
             }
-            else if ((isNumerical && (checkmark / 1000f >= target) || (!isNumerical && checkmark == YES_MANUAL)))
+            else if ((isNumerical && (value / 1000f >= target) || (!isNumerical && value == YES && manualInput)))
             {
                 pSquareBg.setColor(colors[2]);
                 pSquareFg.setColor(textColors[2]);
@@ -401,7 +409,7 @@ public class HistoryChart extends ScrollableChart
         float round = dpToPixels(getContext(), 2);
         canvas.drawRoundRect(location, round, round, pSquareBg);
 
-        if (!isNumerical && checkmark == SKIP)
+        if (!isNumerical && value == SKIP)
         {
             pSquareBg.setColor(backgroundColor);
             pSquareBg.setStrokeWidth(columnWidth * 0.025f);
@@ -439,7 +447,7 @@ public class HistoryChart extends ScrollableChart
     private void init()
     {
         isEditable = false;
-        checkmarks = new int[0];
+        checkmarks = new CheckmarkState[0];
         controller = new Controller() {};
         target = 2;
 
@@ -545,6 +553,6 @@ public class HistoryChart extends ScrollableChart
 
     public interface Controller
     {
-        default void onToggleCheckmark(Timestamp timestamp, int value) {}
+        default void onToggleCheckmark(Timestamp timestamp, int value, boolean manualInput) {}
     }
 }

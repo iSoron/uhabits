@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
 import android.os.*
-import androidx.appcompat.widget.*
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
@@ -69,12 +68,12 @@ class HabitCardListView(
     fun bindCardView(holder: HabitCardViewHolder,
                      habit: Habit,
                      score: Double,
-                     checkmarks: IntArray,
+                     checkmarkStates: Array<CheckmarkState>,
                      selected: Boolean): View {
         val cardView = holder.itemView as HabitCardView
         cardView.habit = habit
         cardView.isSelected = selected
-        cardView.values = checkmarks
+        cardView.values = checkmarkStates
         cardView.buttonCount = checkmarkCount
         cardView.dataOffset = dataOffset
         cardView.score = score

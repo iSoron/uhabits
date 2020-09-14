@@ -123,7 +123,7 @@ public class MemoryRepetitionList extends RepetitionList
     {
         int count = 0;
         for (Repetition rep : list)
-            if (rep.getValue() == Checkmark.YES_MANUAL)
+            if (rep.getValue() == Checkmark.YES && rep.isManualInput())
                 count++;
         return count;
     }

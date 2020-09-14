@@ -57,7 +57,7 @@ public class ShowHabitBehavior
         screen.showEditHistoryScreen();
     }
 
-    public void onToggleCheckmark(Timestamp timestamp, int value)
+    public void onToggleCheckmark(Timestamp timestamp, int value, boolean manualInput)
     {
         if (habit.isNumerical()) {
             CheckmarkList checkmarks = habit.getCheckmarks();
@@ -67,12 +67,12 @@ public class ShowHabitBehavior
             {
                 newValue = Math.round(newValue * 1000);
                 commandRunner.execute(
-                        new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
+                        new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue, manualInput),
                         habit.getId());
             });
         } else {
             commandRunner.execute(
-                    new CreateRepetitionCommand(habitList, habit, timestamp, value), null);
+                    new CreateRepetitionCommand(habitList, habit, timestamp, value, manualInput), null);
         }
     }
 

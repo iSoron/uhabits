@@ -23,6 +23,7 @@ import android.app.*
 import android.content.*
 import android.view.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.models.Checkmark.NO
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
@@ -46,12 +47,13 @@ open class CheckmarkWidget(
 
             setActiveColor(PaletteUtils.getColor(context, habit.color))
             setName(habit.name)
-            setCheckmarkValue(habit.checkmarks.todayValue)
+
+            val state = habit.checkmarks.todayState
             if (habit.isNumerical) {
                 setNumerical(true)
-                setCheckmarkState(getNumericalCheckmarkState())
+                setCheckmarkState(getNumericalCheckmarkState(state))
             } else {
-                setCheckmarkState(habit.checkmarks.todayValue)
+                setCheckmarkState(state)
             }
             setPercentage(habit.scores.todayValue.toFloat())
             refresh()
@@ -65,11 +67,11 @@ open class CheckmarkWidget(
     override fun getDefaultHeight() = 125
     override fun getDefaultWidth() = 125
 
-    private fun getNumericalCheckmarkState(): Int {
+    private fun getNumericalCheckmarkState(state: CheckmarkState): CheckmarkState {
         return if (habit.isCompletedToday) {
-            Checkmark.YES_MANUAL
+            CheckmarkState(state.value, true)
         } else {
-            Checkmark.NO
+            CheckmarkState(state.value, false)
         }
     }
 

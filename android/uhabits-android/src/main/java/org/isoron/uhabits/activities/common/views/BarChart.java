@@ -123,7 +123,7 @@ public class BarChart extends ScrollableChart
         for (int i = 1; i < 100; i++)
         {
             int value = random.nextInt(1000);
-            checkmarks.add(new Checkmark(today.minus(i), value));
+            checkmarks.add(new Checkmark(today.minus(i), value, false));
         }
 
         setCheckmarks(checkmarks);

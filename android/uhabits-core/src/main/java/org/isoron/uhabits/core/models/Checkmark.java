@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.models;
 
+import androidx.annotation.NonNull;
 import org.apache.commons.lang3.builder.*;
 
 import javax.annotation.concurrent.*;
@@ -40,18 +41,12 @@ public final class Checkmark
     /**
      * Indicates that there was an explicit skip at the timestamp.
      */
-    public static final int SKIP = 3;
+    public static final int SKIP = 2;
 
     /**
      * Indicates that there was a repetition at the timestamp.
      */
-    public static final int YES_MANUAL = 2;
-
-    /**
-     * Indicates that there was no repetition at the timestamp, but one was not
-     * expected in any case, due to the frequency of the habit.
-     */
-    public static final int YES_AUTO = 1;
+    public static final int YES = 1;
 
     /**
      * Indicates that there was no repetition at the timestamp, even though a
@@ -62,19 +57,15 @@ public final class Checkmark
     private final Timestamp timestamp;
 
     /**
-     * The value of the checkmark.
-     * <p>
-     * For boolean habits, this equals either NO, YES_AUTO, YES_MANUAL or SKIP.
-     * <p>
-     * For numerical habits, this number is stored in thousandths. That
-     * is, if the user enters value 1.50 on the app, it is stored as 1500.
+     * The state of the checkmark.
      */
-    private final int value;
+    @NonNull
+    private final CheckmarkState state;
 
-    public Checkmark(Timestamp timestamp, int value)
+    public Checkmark(Timestamp timestamp, int value, boolean manualInput)
     {
         this.timestamp = timestamp;
-        this.value = value;
+        this.state = new CheckmarkState(value, manualInput);
     }
 
     @Override
@@ -88,7 +79,7 @@ public final class Checkmark
 
         return new EqualsBuilder()
             .append(timestamp, checkmark.timestamp)
-            .append(value, checkmark.value)
+            .append(getState(), checkmark.getState())
             .isEquals();
     }
 
@@ -97,9 +88,19 @@ public final class Checkmark
         return timestamp;
     }
 
+    public CheckmarkState getState()
+    {
+        return state;
+    }
+
     public int getValue()
     {
-        return value;
+        return state.getValue();
+    }
+
+    public boolean isManualInput()
+    {
+        return state.isManualInput();
     }
 
     @Override
@@ -107,7 +108,7 @@ public final class Checkmark
     {
         return new HashCodeBuilder(17, 37)
             .append(timestamp)
-            .append(value)
+            .append(getState())
             .toHashCode();
     }
 
@@ -116,7 +117,8 @@ public final class Checkmark
     {
         return new ToStringBuilder(this, defaultToStringStyle())
             .append("timestamp", timestamp)
-            .append("value", value)
+            .append("value", getValue())
+            .append("manualInput", isManualInput())
             .toString();
     }
 }

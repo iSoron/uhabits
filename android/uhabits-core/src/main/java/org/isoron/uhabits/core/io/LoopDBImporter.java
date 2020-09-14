@@ -109,7 +109,7 @@ public class LoopDBImporter extends AbstractImporter
                     habitRecord.id.toString());
 
             for (RepetitionRecord r : reps)
-                h.getRepetitions().toggle(new Timestamp(r.timestamp), r.value);
+                h.getRepetitions().toggle(new Timestamp(r.timestamp), r.value, r.isManualInput());
         }
     }
 }

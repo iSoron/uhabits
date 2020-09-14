@@ -84,7 +84,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
     {
         Habit h2 = habitList.getByPosition(2);
         Timestamp today = DateUtils.getToday();
-        commandRunner.execute(new CreateRepetitionCommand(habitList, h2, today, Checkmark.NO), h2.getId());
+        commandRunner.execute(new CreateRepetitionCommand(habitList, h2, today, Checkmark.NO, false), h2.getId());
         verify(listener).onItemChanged(2);
         verify(listener).onRefreshFinished();
         verifyNoMoreInteractions(listener);
@@ -103,9 +103,9 @@ public class HabitCardListCacheTest extends BaseUnitTest
         assertThat(cache.getScore(h.getId()), equalTo(score));
 
         Timestamp today = DateUtils.getToday();
-        int[] actualCheckmarks = cache.getCheckmarks(h.getId());
-        int[] expectedCheckmarks =
-            h.getCheckmarks().getValues(today.minus(9), today);
+        CheckmarkState[] actualCheckmarks = cache.getCheckmarkStates(h.getId());
+        CheckmarkState[] expectedCheckmarks =
+            h.getCheckmarks().getCheckmarkStates(today.minus(9), today);
 
         assertThat(actualCheckmarks, equalTo(expectedCheckmarks));
     }

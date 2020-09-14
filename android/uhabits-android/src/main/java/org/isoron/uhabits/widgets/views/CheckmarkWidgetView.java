@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.widgets.views;
 
+
 import android.content.*;
 import android.util.*;
 import android.widget.*;
@@ -35,6 +36,9 @@ import org.isoron.uhabits.utils.*;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
 
+
+
+
 public class CheckmarkWidgetView extends HabitWidgetView {
     protected int activeColor;
 
@@ -49,74 +53,76 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
     protected int checkmarkValue;
 
-    protected int checkmarkState;
+    protected CheckmarkState checkmarkState;
 
     protected boolean isNumerical;
 
-    public CheckmarkWidgetView(Context context)
-    {
+
+    public CheckmarkWidgetView(Context context) {
         super(context);
         init();
     }
 
-    public CheckmarkWidgetView(Context context, AttributeSet attrs)
-    {
+
+    public CheckmarkWidgetView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public void refresh()
-    {
-        if (backgroundPaint == null || frame == null || ring == null) return;
+
+    public void refresh() {
+        if (backgroundPaint == null || frame == null || ring == null) {
+            return;
+        }
 
         StyledResources res = new StyledResources(getContext());
 
         int bgColor;
         int fgColor;
 
-        switch (checkmarkState) {
-            case Checkmark.YES_MANUAL:
-            case Checkmark.SKIP:
-                bgColor = activeColor;
-                fgColor = res.getColor(R.attr.highContrastReverseTextColor);
-                setShadowAlpha(0x4f);
-                backgroundPaint.setColor(bgColor);
-                frame.setBackgroundDrawable(background);
-                break;
-
-            case Checkmark.YES_AUTO:
-            case Checkmark.NO:
-            default:
-                getResources().getString(R.string.fa_times);
-                bgColor = res.getColor(R.attr.cardBgColor);
-                fgColor = res.getColor(R.attr.mediumContrastTextColor);
-                setShadowAlpha(0x00);
-                break;
+        if (checkmarkState.isManualInput()) {
+            bgColor = activeColor;
+            fgColor = res.getColor(R.attr.highContrastReverseTextColor);
+            setShadowAlpha(0x4f);
+            backgroundPaint.setColor(bgColor);
+            frame.setBackgroundDrawable(background);
+        } else {
+            bgColor = res.getColor(R.attr.cardBgColor);
+            fgColor = res.getColor(R.attr.mediumContrastTextColor);
+            setShadowAlpha(0x00);
         }
 
         ring.setPercentage(percentage);
         ring.setColor(fgColor);
         ring.setBackgroundColor(bgColor);
-        ring.setText(getText());
+        ring.setText(
+
+
+            getText());
 
         label.setText(name);
         label.setTextColor(fgColor);
 
+
         requestLayout();
+
+
         postInvalidate();
+
     }
 
-    public void setCheckmarkState(int checkmarkState)
-    {
+
+    public void setCheckmarkState(CheckmarkState checkmarkState) {
         this.checkmarkState = checkmarkState;
     }
 
-    protected String getText()
-    {
-        if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
-        switch (checkmarkState) {
-            case Checkmark.YES_MANUAL:
-            case Checkmark.YES_AUTO:
+
+    protected String getText() {
+        if (isNumerical) {
+            return NumberButtonViewKt.toShortString(checkmarkState.getValue() / 1000.0);
+        }
+        switch (checkmarkState.getValue()) {
+            case Checkmark.YES:
                 return getResources().getString(R.string.fa_check);
             case Checkmark.SKIP:
                 return getResources().getString(R.string.fa_skipped);
@@ -126,41 +132,36 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         }
     }
 
-    public void setActiveColor(int activeColor)
-    {
+
+    public void setActiveColor(int activeColor) {
         this.activeColor = activeColor;
     }
 
-    public void setCheckmarkValue(int checkmarkValue)
-    {
-        this.checkmarkValue = checkmarkValue;
-    }
 
-    public void setName(@NonNull String name)
-    {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public void setPercentage(float percentage)
-    {
+
+    public void setPercentage(float percentage) {
         this.percentage = percentage;
     }
 
-    public void setNumerical(boolean isNumerical)
-    {
+
+    public void setNumerical(boolean isNumerical) {
         this.isNumerical = isNumerical;
     }
 
+
     @Override
     @NonNull
-    protected Integer getInnerLayoutId()
-    {
+    protected Integer getInnerLayoutId() {
         return R.layout.widget_checkmark;
     }
 
+
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
@@ -171,10 +172,11 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         w *= scale;
         h *= scale;
 
-        if (h < getDimension(getContext(), R.dimen.checkmarkWidget_heightBreakpoint))
+        if (h < getDimension(getContext(), R.dimen.checkmarkWidget_heightBreakpoint)) {
             ring.setVisibility(GONE);
-        else
+        } else {
             ring.setVisibility(VISIBLE);
+        }
 
         widthMeasureSpec =
             MeasureSpec.makeMeasureSpec((int) w, MeasureSpec.EXACTLY);
@@ -192,19 +194,20 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    private void init()
-    {
+
+    private void init() {
         ring = (RingView) findViewById(R.id.scoreRing);
         label = (TextView) findViewById(R.id.label);
 
-        if (ring != null) ring.setIsTransparencyEnabled(true);
+        if (ring != null) {
+            ring.setIsTransparencyEnabled(true);
+        }
 
-        if (isInEditMode())
-        {
+        if (isInEditMode()) {
             percentage = 0.75f;
             name = "Wake up early";
             activeColor = PaletteUtils.getAndroidTestColor(6);
-            checkmarkValue = Checkmark.YES_MANUAL;
+            checkmarkState = new CheckmarkState(Checkmark.YES, true);
             refresh();
         }
     }

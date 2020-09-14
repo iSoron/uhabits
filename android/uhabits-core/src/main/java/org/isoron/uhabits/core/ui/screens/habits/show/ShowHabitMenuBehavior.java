@@ -110,11 +110,11 @@ public class ShowHabitMenuBehavior
             if (i % 7 == 0) strength = max(0, min(100, strength + 10 * random.nextGaussian()));
             if (random.nextInt(100) > strength) continue;
 
-            int value = Checkmark.YES_MANUAL;
+            int value = Checkmark.YES;
             if (habit.isNumerical())
                 value = (int) (1000 + 250 * random.nextGaussian() * strength / 100) * 1000;
 
-            habit.getRepetitions().add(new Repetition(DateUtils.getToday().minus(i), value));
+            habit.getRepetitions().add(new Repetition(DateUtils.getToday().minus(i), value, true));
         }
 
         habit.invalidateNewerThan(Timestamp.ZERO);

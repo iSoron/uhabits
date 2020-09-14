@@ -170,17 +170,19 @@ public class RepetitionListTest extends BaseUnitTest
         reset(listener);
 
         habit.setType(Habit.NUMBER_HABIT);
-        reps.toggle(today, 100);
+        reps.toggle(today, 100, true);
         Repetition check = reps.getByTimestamp(today);
         assertNotNull(check);
         assertThat(check.getValue(), equalTo(100));
+        assertThat(check.isManualInput(), equalTo(true));
         verify(listener).onModelChange();
         reset(listener);
 
-        reps.toggle(today, 500);
+        reps.toggle(today, 500, true);
         check = reps.getByTimestamp(today);
         assertNotNull(check);
         assertThat(check.getValue(), equalTo(500));
+        assertThat(check.isManualInput(), equalTo(true));
         verify(listener, times(2)).onModelChange();
         reset(listener);
     }
@@ -188,7 +190,7 @@ public class RepetitionListTest extends BaseUnitTest
     @Test
     public void testToString() throws Exception
     {
-        Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 20);
-        assertThat(rep.toString(), equalTo("{timestamp: 1970-04-11, value: 20}"));
+        Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 20, true);
+        assertThat(rep.toString(), equalTo("{timestamp: 1970-04-11, value: 20, manualInput: true}"));
     }
 }

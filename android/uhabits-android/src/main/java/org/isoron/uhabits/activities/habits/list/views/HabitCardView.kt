@@ -86,7 +86,7 @@ class HabitCardView(
         get() = checkmarkPanel.values
         set(values) {
             checkmarkPanel.values = values
-            numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
+            numberPanel.values = values.map { it.value / 1000.0 }.toDoubleArray()
         }
 
     var threshold: Double
@@ -121,9 +121,9 @@ class HabitCardView(
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
-            onToggle = { timestamp, value ->
+            onToggle = { timestamp, value, manualInput ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value) }
+                habit?.let { behavior.onToggle(it, timestamp, value, manualInput) }
             }
         }
 

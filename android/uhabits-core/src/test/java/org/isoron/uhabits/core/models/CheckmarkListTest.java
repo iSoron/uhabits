@@ -68,10 +68,10 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildCheckmarksFromIntervals_1() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(10), YES_MANUAL),
-                new Repetition(day(5), YES_MANUAL),
-                new Repetition(day(2), YES_MANUAL),
-                new Repetition(day(1), YES_MANUAL),
+                new Repetition(day(10), YES, true),
+                new Repetition(day(5), YES, true),
+                new Repetition(day(2), YES, true),
+                new Repetition(day(1), YES, true),
                 };
 
         ArrayList<CheckmarkList.Interval> intervals = new ArrayList<>();
@@ -80,17 +80,17 @@ public class CheckmarkListTest extends BaseUnitTest
         intervals.add(new CheckmarkList.Interval(day(2), day(2), day(1)));
 
         List<Checkmark> expected = new ArrayList<>();
-        expected.add(new Checkmark(day(0), NO));
-        expected.add(new Checkmark(day(1), YES_MANUAL));
-        expected.add(new Checkmark(day(2), YES_MANUAL));
-        expected.add(new Checkmark(day(3), NO));
-        expected.add(new Checkmark(day(4), YES_AUTO));
-        expected.add(new Checkmark(day(5), YES_MANUAL));
-        expected.add(new Checkmark(day(6), YES_AUTO));
-        expected.add(new Checkmark(day(7), NO));
-        expected.add(new Checkmark(day(8), YES_AUTO));
-        expected.add(new Checkmark(day(9), YES_AUTO));
-        expected.add(new Checkmark(day(10), YES_MANUAL));
+        expected.add(new Checkmark(day(0), NO, false));
+        expected.add(new Checkmark(day(1), YES, true));
+        expected.add(new Checkmark(day(2), YES, true));
+        expected.add(new Checkmark(day(3), NO, false));
+        expected.add(new Checkmark(day(4), YES, false));
+        expected.add(new Checkmark(day(5), YES, true));
+        expected.add(new Checkmark(day(6), YES, false));
+        expected.add(new Checkmark(day(7), NO, false));
+        expected.add(new Checkmark(day(8), YES, false));
+        expected.add(new Checkmark(day(9), YES, false));
+        expected.add(new Checkmark(day(10), YES, true));
 
         List<Checkmark> actual =
                 CheckmarkList.buildCheckmarksFromIntervals(reps, intervals);
@@ -101,14 +101,14 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildCheckmarksFromIntervals_2() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(0), YES_MANUAL),
+                new Repetition(day(0), YES, true),
                 };
 
         ArrayList<CheckmarkList.Interval> intervals = new ArrayList<>();
         intervals.add(new CheckmarkList.Interval(day(0), day(0), day(-10)));
 
         List<Checkmark> expected = new ArrayList<>();
-        expected.add(new Checkmark(day(0), YES_MANUAL));
+        expected.add(new Checkmark(day(0), YES, true));
 
         List<Checkmark> actual =
                 CheckmarkList.buildCheckmarksFromIntervals(reps, intervals);
@@ -119,9 +119,9 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_1() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(23), YES_MANUAL),
-                new Repetition(day(18), YES_MANUAL),
-                new Repetition(day(8), YES_MANUAL),
+                new Repetition(day(23), YES, true),
+                new Repetition(day(18), YES, true),
+                new Repetition(day(8), YES, true),
                 };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -138,9 +138,9 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_2() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(23), YES_MANUAL),
-                new Repetition(day(18), YES_MANUAL),
-                new Repetition(day(8), YES_MANUAL),
+                new Repetition(day(23), YES, true),
+                new Repetition(day(18), YES, true),
+                new Repetition(day(8), YES, true),
                 };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -157,11 +157,11 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_3() throws Exception
     {
         Repetition reps[] = new Repetition[]{
-                new Repetition(day(23), YES_MANUAL),
-                new Repetition(day(22), YES_MANUAL),
-                new Repetition(day(18), YES_MANUAL),
-                new Repetition(day(15), YES_MANUAL),
-                new Repetition(day(8), YES_MANUAL),
+                new Repetition(day(23), YES, true),
+                new Repetition(day(22), YES, true),
+                new Repetition(day(18), YES, true),
+                new Repetition(day(15), YES, true),
+                new Repetition(day(8), YES, true),
                 };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -180,9 +180,9 @@ public class CheckmarkListTest extends BaseUnitTest
     public void test_buildIntervals_4() throws Exception
     {
         Repetition[] reps = new Repetition[]{
-                new Repetition(day(30), YES_MANUAL),
-                new Repetition(day(20), SKIP),
-                new Repetition(day(10), YES_MANUAL),
+                new Repetition(day(30), YES, true),
+                new Repetition(day(20), SKIP, true),
+                new Repetition(day(10), YES, true),
         };
 
         ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
@@ -199,17 +199,17 @@ public class CheckmarkListTest extends BaseUnitTest
     {
         travelInTime(-3);
 
-        int[] expectedValues = {
-                YES_MANUAL,
-                YES_MANUAL,
-                YES_MANUAL,
-                YES_AUTO,
-                YES_AUTO,
-                YES_MANUAL,
-                YES_MANUAL
+        CheckmarkState[] expectedValues = {
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true)
         };
 
-        int[] actualValues = nonDailyHabit.getCheckmarks().getAllValues();
+        CheckmarkState[] actualValues = nonDailyHabit.getCheckmarks().getAllStates();
 
         assertThat(actualValues, equalTo(expectedValues));
     }
@@ -219,23 +219,23 @@ public class CheckmarkListTest extends BaseUnitTest
     {
         travelInTime(3);
 
-        int[] expectedValues = {
-                NO,
-                NO,
-                NO,
-                YES_MANUAL,
-                NO,
-                YES_AUTO,
-                YES_MANUAL,
-                YES_MANUAL,
-                YES_MANUAL,
-                YES_AUTO,
-                YES_AUTO,
-                YES_MANUAL,
-                YES_MANUAL
+        CheckmarkState[] expectedValues = {
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true)
         };
 
-        int[] actualValues = nonDailyHabit.getCheckmarks().getAllValues();
+        CheckmarkState[] actualValues = nonDailyHabit.getCheckmarks().getAllStates();
 
         assertThat(actualValues, equalTo(expectedValues));
     }
@@ -243,8 +243,8 @@ public class CheckmarkListTest extends BaseUnitTest
     @Test
     public void test_getAllValues_withEmptyHabit()
     {
-        int[] expectedValues = new int[0];
-        int[] actualValues = emptyHabit.getCheckmarks().getAllValues();
+        CheckmarkState[] expectedValues = new CheckmarkState[0];
+        CheckmarkState[] actualValues = emptyHabit.getCheckmarks().getAllStates();
 
         assertThat(actualValues, equalTo(expectedValues));
     }
@@ -252,20 +252,20 @@ public class CheckmarkListTest extends BaseUnitTest
     @Test
     public void test_getAllValues_withNonDailyHabit()
     {
-        int[] expectedValues = {
-                YES_MANUAL,
-                NO,
-                YES_AUTO,
-                YES_MANUAL,
-                YES_MANUAL,
-                YES_MANUAL,
-                YES_AUTO,
-                YES_AUTO,
-                YES_MANUAL,
-                YES_MANUAL
+        CheckmarkState[] expectedValues = {
+                new CheckmarkState(YES, true),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true)
         };
 
-        int[] actualValues = nonDailyHabit.getCheckmarks().getAllValues();
+        CheckmarkState[] actualValues = nonDailyHabit.getCheckmarks().getAllStates();
 
         assertThat(actualValues, equalTo(expectedValues));
     }
@@ -276,9 +276,9 @@ public class CheckmarkListTest extends BaseUnitTest
         CheckmarkList checkmarks = numericalHabit.getCheckmarks();
 
         List<Checkmark> expected =
-                Arrays.asList(new Checkmark(day(1), 200), new Checkmark(day(2), 0),
-                              new Checkmark(day(3), 300), new Checkmark(day(4), 0),
-                              new Checkmark(day(5), 400));
+                Arrays.asList(new Checkmark(day(1), 200, true), new Checkmark(day(2), 0, false),
+                              new Checkmark(day(3), 300, true), new Checkmark(day(4), 0, false),
+                              new Checkmark(day(5), 400, true));
 
         List<Checkmark> actual = checkmarks.getByInterval(day(5), day(1));
         assertThat(actual, equalTo(expected));
@@ -293,7 +293,8 @@ public class CheckmarkListTest extends BaseUnitTest
         assertThat(checkmarks.getTodayValue(), equalTo(NO));
 
         travelInTime(0);
-        assertThat(checkmarks.getTodayValue(), equalTo(YES_MANUAL));
+        assertThat(checkmarks.getTodayValue(), equalTo(YES));
+        assertThat(checkmarks.getTodayState().isManualInput(), equalTo(true));
 
         travelInTime(1);
         assertThat(checkmarks.getTodayValue(), equalTo(NO));
@@ -302,10 +303,10 @@ public class CheckmarkListTest extends BaseUnitTest
     @Test
     public void test_getValues_withInvalidInterval()
     {
-        int values[] = nonDailyHabit
+        CheckmarkState[] values = nonDailyHabit
                 .getCheckmarks()
-                .getValues(new Timestamp(0L).plus(100), new Timestamp(0L));
-        assertThat(values, equalTo(new int[0]));
+                .getCheckmarkStates(new Timestamp(0L).plus(100), new Timestamp(0L));
+        assertThat(values, equalTo(new CheckmarkState[0]));
     }
 
     @Test
@@ -314,21 +315,21 @@ public class CheckmarkListTest extends BaseUnitTest
         Timestamp from = today.minus(15);
         Timestamp to = today.minus(5);
 
-        int[] expectedValues = {
-                YES_MANUAL,
-                YES_AUTO,
-                YES_AUTO,
-                YES_MANUAL,
-                YES_MANUAL,
-                NO,
-                NO,
-                NO,
-                NO,
-                NO,
-                NO
+        CheckmarkState[] expectedValues = {
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, false),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(YES, true),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false),
+                new CheckmarkState(NO, false)
         };
 
-        int[] actualValues = nonDailyHabit.getCheckmarks().getValues(from, to);
+        CheckmarkState[] actualValues = nonDailyHabit.getCheckmarks().getCheckmarkStates(from, to);
         assertThat(actualValues, equalTo(expectedValues));
     }
 
@@ -369,10 +370,10 @@ public class CheckmarkListTest extends BaseUnitTest
     @Test
     public void test_writeCSV() throws IOException
     {
-        String expectedCSV = "2015-01-25,2\n2015-01-24,0\n2015-01-23,1\n" +
-                "2015-01-22,2\n2015-01-21,2\n2015-01-20,2\n" +
-                "2015-01-19,1\n2015-01-18,1\n2015-01-17,2\n" +
-                "2015-01-16,2\n";
+        String expectedCSV = "2015-01-25,1,1\n2015-01-24,0,0\n2015-01-23,1,0\n" +
+                "2015-01-22,1,1\n2015-01-21,1,1\n2015-01-20,1,1\n" +
+                "2015-01-19,1,0\n2015-01-18,1,0\n2015-01-17,1,1\n" +
+                "2015-01-16,1,1\n";
 
 
         StringWriter writer = new StringWriter();
@@ -396,9 +397,9 @@ public class CheckmarkListTest extends BaseUnitTest
     public void testToString() throws Exception
     {
         Timestamp t = Timestamp.ZERO.plus(100);
-        Checkmark checkmark = new Checkmark(t, 2);
+        Checkmark checkmark = new Checkmark(t, 2, true);
         assertThat(checkmark.toString(),
-                   equalTo("{timestamp: 1970-04-11, value: 2}"));
+                   equalTo("{timestamp: 1970-04-11, value: 2, manualInput: true}"));
 
         CheckmarkList.Interval interval =
                 new CheckmarkList.Interval(t, t.plus(1), t.plus(2));
@@ -422,22 +423,22 @@ public class CheckmarkListTest extends BaseUnitTest
 
         List<Checkmark> byMonth = checkmarks.groupBy(MONTH, Calendar.SATURDAY);
         assertThat(byMonth.size(), equalTo(25)); // from 2013-01-01 to 2015-01-01
-        assertThat(byMonth.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
-        assertThat(byMonth.get(6), equalTo(new Checkmark(timestamp(2014, JULY, 1), 0)));
-        assertThat(byMonth.get(12), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 1706)));
-        assertThat(byMonth.get(18), equalTo(new Checkmark(timestamp(2013, JULY, 1), 1379)));
+        assertThat(byMonth.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0, false)));
+        assertThat(byMonth.get(6), equalTo(new Checkmark(timestamp(2014, JULY, 1), 0, false)));
+        assertThat(byMonth.get(12), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 1706, true)));
+        assertThat(byMonth.get(18), equalTo(new Checkmark(timestamp(2013, JULY, 1), 1379, true)));
 
         List<Checkmark> byQuarter = checkmarks.groupBy(QUARTER, Calendar.SATURDAY);
         assertThat(byQuarter.size(), equalTo(9)); // from 2013-Q1 to 2015-Q1
-        assertThat(byQuarter.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
-        assertThat(byQuarter.get(4), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 4964)));
-        assertThat(byQuarter.get(8), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 4975)));
+        assertThat(byQuarter.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0, false)));
+        assertThat(byQuarter.get(4), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 4964, true)));
+        assertThat(byQuarter.get(8), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 4975, true)));
 
         List<Checkmark> byYear = checkmarks.groupBy(YEAR, Calendar.SATURDAY);
         assertThat(byYear.size(), equalTo(3)); // from 2013 to 2015
-        assertThat(byYear.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0)));
-        assertThat(byYear.get(1), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 8227)));
-        assertThat(byYear.get(2), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 16172)));
+        assertThat(byYear.get(0), equalTo(new Checkmark(timestamp(2015, JANUARY, 1), 0, false)));
+        assertThat(byYear.get(1), equalTo(new Checkmark(timestamp(2014, JANUARY, 1), 8227, true)));
+        assertThat(byYear.get(2), equalTo(new Checkmark(timestamp(2013, JANUARY, 1), 16172, true)));
     }
 
     @Test

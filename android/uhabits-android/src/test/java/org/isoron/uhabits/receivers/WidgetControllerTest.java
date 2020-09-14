@@ -61,8 +61,9 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     public void testOnAddRepetition_whenChecked() throws Exception
     {
         habit.getRepetitions().toggle(today);
-        int todayValue = habit.getCheckmarks().getTodayValue();
-        assertThat(todayValue, equalTo(YES_MANUAL));
+        CheckmarkState todayValue = habit.getCheckmarks().getTodayState();
+        assertThat(todayValue.getValue(), equalTo(YES));
+        assertThat(todayValue.isManualInput(), equalTo(true));
         controller.onAddRepetition(habit, today);
         verifyZeroInteractions(commandRunner);
     }
@@ -81,8 +82,9 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
     public void testOnRemoveRepetition_whenChecked() throws Exception
     {
         habit.getRepetitions().toggle(today);
-        int todayValue = habit.getCheckmarks().getTodayValue();
-        assertThat(todayValue, equalTo(YES_MANUAL));
+        CheckmarkState todayValue = habit.getCheckmarks().getTodayState();
+        assertThat(todayValue.getValue(), equalTo(YES));
+        assertThat(todayValue.isManualInput(), equalTo(true));
         controller.onRemoveRepetition(habit, today);
         verify(commandRunner).execute(any(), isNull());
     }

@@ -38,6 +38,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
+import static org.isoron.uhabits.core.Config.DATABASE_VERSION;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -125,7 +126,7 @@ public class BaseUnitTest
                 DriverManager.getConnection("jdbc:sqlite::memory:"));
             db.execute("pragma user_version=8;");
             MigrationHelper helper = new MigrationHelper(db);
-            helper.migrateTo(23);
+            helper.migrateTo(DATABASE_VERSION);
             return db;
         }
         catch (SQLException e)

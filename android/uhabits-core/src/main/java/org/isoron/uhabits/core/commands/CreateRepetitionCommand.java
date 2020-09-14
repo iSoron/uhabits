@@ -36,6 +36,8 @@ public class CreateRepetitionCommand extends Command
 
     final int value;
 
+    final boolean manualInput;
+
     @Nullable
     Repetition previousRep;
 
@@ -45,12 +47,14 @@ public class CreateRepetitionCommand extends Command
     public CreateRepetitionCommand(@NonNull HabitList habitList,
                                    @NonNull Habit habit,
                                    Timestamp timestamp,
-                                   int value)
+                                   int value,
+                                   boolean manualInput)
     {
         this.habitList = habitList;
         this.timestamp = timestamp;
         this.habit = habit;
         this.value = value;
+        this.manualInput = manualInput;
     }
 
     @Override
@@ -63,7 +67,7 @@ public class CreateRepetitionCommand extends Command
 
         if (value > 0)
         {
-            newRep = new Repetition(timestamp, value);
+            newRep = new Repetition(timestamp, value, manualInput);
             reps.add(newRep);
         }
 
@@ -106,6 +110,8 @@ public class CreateRepetitionCommand extends Command
 
         public int value;
 
+        public boolean manualInput;
+
         public Record(CreateRepetitionCommand command)
         {
             id = command.getId();
@@ -115,6 +121,7 @@ public class CreateRepetitionCommand extends Command
             this.habit = habitId;
             this.repTimestamp = command.timestamp.getUnixTime();
             this.value = command.value;
+            this.manualInput = command.manualInput;
         }
 
         public CreateRepetitionCommand toCommand(@NonNull HabitList habitList)
@@ -123,8 +130,7 @@ public class CreateRepetitionCommand extends Command
             if(h == null) throw new HabitNotFoundException();
 
             CreateRepetitionCommand command;
-            command = new CreateRepetitionCommand(
-                habitList, h, new Timestamp(repTimestamp), value);
+            command = new CreateRepetitionCommand(habitList, h, new Timestamp(repTimestamp), value, manualInput);
             command.setId(id);
             return command;
         }

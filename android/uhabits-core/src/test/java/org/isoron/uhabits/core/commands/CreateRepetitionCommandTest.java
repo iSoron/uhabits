@@ -47,7 +47,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         habitList.add(habit);
 
         today = DateUtils.getToday();
-        command = new CreateRepetitionCommand(habitList, habit, today, 100);
+        command = new CreateRepetitionCommand(habitList, habit, today, 100, true);
     }
 
     @Test
@@ -57,17 +57,20 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
 
         Repetition rep = reps.getByTimestamp(today);
         assertNotNull(rep);
-        assertEquals(YES_MANUAL, rep.getValue());
+        assertEquals(YES, rep.getValue());
+        assertTrue(rep.isManualInput());
 
         command.execute();
         rep = reps.getByTimestamp(today);
         assertNotNull(rep);
         assertEquals(100, rep.getValue());
+        assertTrue(rep.isManualInput());
 
         command.undo();
         rep = reps.getByTimestamp(today);
         assertNotNull(rep);
-        assertEquals(YES_MANUAL, rep.getValue());
+        assertEquals(YES, rep.getValue());
+        assertTrue(rep.isManualInput());
     }
 
     @Test

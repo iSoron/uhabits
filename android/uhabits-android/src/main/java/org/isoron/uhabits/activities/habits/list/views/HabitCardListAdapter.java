@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.habits.list.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.*;
 import android.view.*;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -181,10 +180,10 @@ public class HabitCardListAdapter
 
         Habit habit = cache.getHabitByPosition(position);
         double score = cache.getScore(habit.getId());
-        int checkmarks[] = cache.getCheckmarks(habit.getId());
+        CheckmarkState[] checkmarkStates = cache.getCheckmarkStates(habit.getId());
         boolean selected = this.selected.contains(habit);
 
-        listView.bindCardView(holder, habit, score, checkmarks, selected);
+        listView.bindCardView(holder, habit, score, checkmarkStates, selected);
     }
 
     @Override

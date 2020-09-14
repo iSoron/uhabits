@@ -46,13 +46,13 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var value: Int = 0
+    var value: CheckmarkState = CheckmarkState(0, false)
         set(value) {
             field = value
             invalidate()
         }
 
-    var onToggle: (Int) -> Unit = {}
+    var onToggle: (CheckmarkState) -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -62,7 +62,7 @@ class CheckmarkButtonView(
     }
 
     fun performToggle() {
-        value = Repetition.nextToggleValue(value)
+        value = CheckmarkState(Repetition.nextToggleValue(value.value), true)
         onToggle(value)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
@@ -102,12 +102,11 @@ class CheckmarkButtonView(
         }
 
         fun draw(canvas: Canvas) {
-            paint.color = when (value) {
-                YES_MANUAL -> color
-                SKIP -> color
-                else -> lowContrastColor
+            paint.color = when (value.isManualInput) {
+                true -> color
+                false -> lowContrastColor
             }
-            val id = when (value) {
+            val id = when (value.value) {
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 else -> R.string.fa_check

@@ -140,7 +140,7 @@ public abstract class RepetitionList
 
         for (Repetition r : reps)
         {
-            if (!habit.isNumerical() && r.getValue() != Checkmark.YES_MANUAL)
+            if (!habit.isNumerical() && !(r.getValue() == Checkmark.YES && r.isManualInput()))
                 continue;
 
             Calendar date = r.getTimestamp().toCalendar();
@@ -197,7 +197,7 @@ public abstract class RepetitionList
         if (rep != null) remove(rep);
         else
         {
-            rep = new Repetition(timestamp, Checkmark.YES_MANUAL);
+            rep = new Repetition(timestamp, Checkmark.YES, true);
             add(rep);
         }
 
@@ -207,11 +207,11 @@ public abstract class RepetitionList
 
     public abstract long getTotalCount();
 
-    public void toggle(Timestamp timestamp, int value)
+    public void toggle(Timestamp timestamp, int value, boolean manualInput)
     {
         Repetition rep = getByTimestamp(timestamp);
         if (rep != null) remove(rep);
-        add(new Repetition(timestamp, value));
+        add(new Repetition(timestamp, value, manualInput));
         habit.invalidateNewerThan(timestamp);
     }
 

@@ -42,16 +42,33 @@ public class RepetitionRecord
     public Integer value;
 
     @Column
+    public Integer manualInput;
+
+    @Column
     public Long id;
+
+    public boolean isManualInput() {
+        return manualInput == 1;
+    }
 
     public void copyFrom(Repetition repetition)
     {
         timestamp = repetition.getTimestamp().getUnixTime();
         value = repetition.getValue();
+        manualInput = convertToInt(repetition);
     }
+
+    private int convertToInt(final Repetition repetition) {
+        if(repetition.isManualInput()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 
     public Repetition toRepetition()
     {
-        return new Repetition(new Timestamp(timestamp), value);
+        return new Repetition(new Timestamp(timestamp), value, isManualInput());
     }
 }

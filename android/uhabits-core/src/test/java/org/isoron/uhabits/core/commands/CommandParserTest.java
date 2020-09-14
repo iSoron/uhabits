@@ -96,13 +96,14 @@ public class CommandParserTest extends BaseUnitTest
     public void testDecodeCreateRepCommand() throws JSONException
     {
         CreateRepetitionCommand original, decoded;
-        original = new CreateRepetitionCommand(habitList, habit, Timestamp.ZERO.plus(100), 5);
+        original = new CreateRepetitionCommand(habitList, habit, Timestamp.ZERO.plus(100), 5, true);
         decoded = (CreateRepetitionCommand) parser.parse(original.toJson());
 
         MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
         MatcherAssert.assertThat(decoded.timestamp, equalTo(original
             .timestamp));
         MatcherAssert.assertThat(decoded.value, equalTo(original.value));
+        MatcherAssert.assertThat(decoded.manualInput, equalTo(original.manualInput));
         MatcherAssert.assertThat(decoded.habit, equalTo(original.habit));
     }
 

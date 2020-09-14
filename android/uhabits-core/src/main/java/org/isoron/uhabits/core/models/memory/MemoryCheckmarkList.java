@@ -68,7 +68,7 @@ public class MemoryCheckmarkList extends CheckmarkList
         {
             Timestamp t = to.minus(i);
             if(t.isNewerThan(newestComputed) || t.isOlderThan(oldestComputed))
-                filtered.add(new Checkmark(t, Checkmark.NO));
+                filtered.add(new Checkmark(t, Checkmark.NO, false));
             else
                 filtered.add(list.get(t.daysUntil(newestComputed)));
         }
