@@ -19,21 +19,31 @@
 
 package org.isoron.uhabits.activities.habits.show.views;
 
-import android.content.*;
-import android.util.*;
-import android.widget.*;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
-import org.isoron.androidbase.utils.*;
+import org.isoron.androidbase.utils.StyledResources;
 import org.isoron.uhabits.R;
-import org.isoron.uhabits.activities.common.views.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.activities.common.views.RingView;
+import org.isoron.uhabits.core.commands.CommandRunner;
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand;
+import org.isoron.uhabits.core.models.Habit;
+import org.isoron.uhabits.core.models.HabitList;
+import org.isoron.uhabits.core.models.ScoreList;
+import org.isoron.uhabits.core.models.Timestamp;
+import org.isoron.uhabits.core.tasks.CancelableTask;
+import org.isoron.uhabits.core.tasks.Task;
+import org.isoron.uhabits.core.utils.DateUtils;
+import org.isoron.uhabits.utils.PaletteUtils;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class OverviewCard extends HabitCard
 {
@@ -58,7 +68,14 @@ public class OverviewCard extends HabitCard
     @BindView(R.id.title)
     TextView title;
 
+    @BindView(R.id.checkHabitTodayButton)
+    Button checkHabitTodayButton;
+
     private int color;
+    private CommandRunner commandRunner;
+    private HabitList habitList;
+
+    private volatile boolean habitIsCheckedForToday;
 
     public OverviewCard(Context context)
     {
@@ -70,6 +87,17 @@ public class OverviewCard extends HabitCard
     {
         super(context, attrs);
         init();
+    }
+
+    @OnClick(R.id.checkHabitTodayButton)
+    public void onClickFeedback()
+    {
+        int newValue = this.habitIsCheckedForToday ? 0 : 1;
+        final Habit habit = getHabit();
+        commandRunner.execute(
+                new CreateRepetitionCommand(habitList, habit, DateUtils.getToday(), newValue),
+                habit.getId()
+        );
     }
 
     private String formatPercentageDiff(float percentageDiff)
@@ -84,6 +112,13 @@ public class OverviewCard extends HabitCard
         ButterKnife.bind(this);
         cache = new Cache();
         if (isInEditMode()) initEditMode();
+        commandRunner = component.getCommandRunner();
+        commandRunner.addListener((command, refreshKey) -> {
+            if(command instanceof  CreateRepetitionCommand) {
+                refreshData();
+            }
+        });
+        habitList = component.getHabitList();
     }
 
     private void initEditMode()
@@ -126,6 +161,17 @@ public class OverviewCard extends HabitCard
         postInvalidate();
     }
 
+
+    private void refreshHabitChecked()
+    {
+       this.habitIsCheckedForToday = cache.habitIsCheckedForToday;
+
+       @StringRes int checkHabitButtonTextRes =
+               this.habitIsCheckedForToday ? R.string.mark_undone_for_today :
+                       R.string.mark_done_for_today;
+       checkHabitTodayButton.setText(checkHabitButtonTextRes);
+    }
+
     private class Cache
     {
         float todayScore;
@@ -135,6 +181,8 @@ public class OverviewCard extends HabitCard
         float lastYearScore;
 
         long totalCount;
+
+        boolean habitIsCheckedForToday;
     }
 
     @Override
@@ -161,6 +209,7 @@ public class OverviewCard extends HabitCard
             cache.lastMonthScore = (float) scores.getValue(lastMonth);
             cache.lastYearScore = (float) scores.getValue(lastYear);
             cache.totalCount = habit.getRepetitions().getTotalCount();
+            cache.habitIsCheckedForToday = habit.getCheckmarks().getTodayValue() == 1;
         }
 
         @Override
@@ -168,6 +217,7 @@ public class OverviewCard extends HabitCard
         {
             if (isCanceled()) return;
             refreshScore();
+            refreshHabitChecked();
         }
 
         @Override

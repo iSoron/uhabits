@@ -43,6 +43,9 @@ public abstract class HabitCard extends LinearLayout
     @Nullable
     private Task currentRefreshTask;
 
+    protected HabitsApplication app;
+    protected HabitsApplicationComponent component;
+
     public HabitCard(Context context)
     {
         super(context);
@@ -118,10 +121,8 @@ public abstract class HabitCard extends LinearLayout
     {
         if(!isInEditMode()) habit = new MemoryModelFactory().buildHabit();
         Context appContext = getContext().getApplicationContext();
-        if(appContext instanceof HabitsApplication)
-        {
-            HabitsApplication app = (HabitsApplication) appContext;
-            taskRunner = app.getComponent().getTaskRunner();
-        }
+        app = (HabitsApplication) appContext;
+        component = app.getComponent();
+        taskRunner = component.getTaskRunner();
     }
 }

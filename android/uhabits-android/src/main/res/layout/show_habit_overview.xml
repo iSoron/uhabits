@@ -19,7 +19,10 @@
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:habit="http://isoron.org/android">
+    xmlns:habit="http://isoron.org/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.LinearLayout"
+    tools:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
@@ -125,4 +128,14 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/checkHabitTodayButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button"
+        android:text="@string/mark_done_for_today">
+    </Button>
+
 </merge>

@@ -200,4 +200,6 @@
     <string name="no_boolean_habits">No yes-or-no habits found</string>
     <string name="increment">Increment</string>
     <string name="decrement">Decrement</string>
+    <string name="mark_done_for_today">mark done for today</string>
+    <string name="mark_undone_for_today">mark not done for today</string>
 </resources>
