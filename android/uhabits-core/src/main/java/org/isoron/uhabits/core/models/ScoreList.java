@@ -298,16 +298,18 @@ public abstract class ScoreList implements Iterable<Score>
                 double percentageCompleted = Math.min(1, rollingSum / 1000 / habit.getTargetValue());
                 previousValue = Score.compute(freq, previousValue, percentageCompleted);
             }
-            else if (checkmarkValues[offset] != Checkmark.SKIP)
+            else
             {
                 if (checkmarkValues[offset] == YES_MANUAL)
                     rollingSum += 1.0;
                 if (offset + denominator < checkmarkValues.length)
                     if (checkmarkValues[offset + denominator] == YES_MANUAL)
                         rollingSum -= 1.0;
-
-                double percentageCompleted = Math.min(1, rollingSum / numerator);
-                previousValue = Score.compute(freq, previousValue, percentageCompleted);
+                if (checkmarkValues[offset] != SKIP)
+                {
+                    double percentageCompleted = Math.min(1, rollingSum / numerator);
+                    previousValue = Score.compute(freq, previousValue, percentageCompleted);
+                }
             }
             scores.add(new Score(from.plus(i), previousValue));
         }

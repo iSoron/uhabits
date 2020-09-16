@@ -20,7 +20,6 @@
 package org.isoron.uhabits.core.models;
 
 import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.test.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
@@ -119,13 +118,7 @@ public class ScoreListTest extends BaseUnitTest
             0.000000
         };
 
-        ScoreList scores = habit.getScores();
-        Timestamp current = DateUtils.getToday();
-        for (double expectedValue : expectedValues)
-        {
-            assertThat(scores.getValue(current), closeTo(expectedValue, E));
-            current = current.minus(1);
-        }
+        checkScoreValues(expectedValues);
     }
 
     @Test
@@ -162,13 +155,26 @@ public class ScoreListTest extends BaseUnitTest
                 0.000000
         };
 
-        ScoreList scores = habit.getScores();
-        Timestamp current = DateUtils.getToday();
-        for (double expectedValue : expectedValues)
-        {
-            assertThat(scores.getValue(current), closeTo(expectedValue, E));
-            current = current.minus(1);
-        }
+        checkScoreValues(expectedValues);
+    }
+
+    @Test
+    public void test_getValueWithSkip2()
+    {
+        toggle(5);
+        addSkip(4);
+
+        double[] expectedValues = {
+                0.041949,
+                0.044247,
+                0.046670,
+                0.049226,
+                0.051922,
+                0.051922,
+                0.0
+        };
+
+        checkScoreValues(expectedValues);
     }
 
     @Test
@@ -348,5 +354,16 @@ public class ScoreListTest extends BaseUnitTest
         RepetitionList reps = habit.getRepetitions();
         Timestamp today = DateUtils.getToday();
         reps.toggle(today.minus(day), Checkmark.SKIP);
+    }
+
+    private void checkScoreValues(double[] expectedValues)
+    {
+        Timestamp current = DateUtils.getToday();
+        ScoreList scores = habit.getScores();
+        for (double expectedValue : expectedValues)
+        {
+            assertThat(scores.getValue(current), closeTo(expectedValue, E));
+            current = current.minus(1);
+        }
     }
 }
