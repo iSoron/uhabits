@@ -29,6 +29,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.hamcrest.number.IsCloseTo.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 
 public class ScoreListTest extends BaseUnitTest
 {
@@ -189,6 +190,28 @@ public class ScoreListTest extends BaseUnitTest
     }
 
     @Test
+    public void test_imperfectNonDaily()
+    {
+        habit.setFrequency(new Frequency(3, 7));
+        ArrayList<Integer> values = new ArrayList<>();
+        for (int k = 0; k < 100; k++)
+        {
+            values.add(YES_MANUAL);
+            values.add(YES_MANUAL);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+        }
+        toggle(values);
+        assertThat(habit.getScores().getTodayValue(), closeTo(2/3.0, E));
+
+        habit.setFrequency(new Frequency(4, 7));
+        assertThat(habit.getScores().getTodayValue(), closeTo(0.5, E));
+    }
+
+    @Test
     public void test_groupBy()
     {
         Habit habit = fixtures.createLongHabit();
@@ -196,9 +219,9 @@ public class ScoreListTest extends BaseUnitTest
             habit.getScores().groupBy(DateUtils.TruncateField.MONTH, Calendar.SATURDAY);
 
         assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), closeTo(0.687724, E));
-        assertThat(list.get(1).getValue(), closeTo(0.636747, E));
-        assertThat(list.get(2).getValue(), closeTo(0.533860, E));
+        assertThat(list.get(0).getValue(), closeTo(0.601508, E));
+        assertThat(list.get(1).getValue(), closeTo(0.580580, E));
+        assertThat(list.get(2).getValue(), closeTo(0.474609, E));
     }
 
     @Test
@@ -220,11 +243,17 @@ public class ScoreListTest extends BaseUnitTest
     {
         Habit habit = fixtures.createShortHabit();
 
-        String expectedCSV = "2015-01-25,0.2654\n2015-01-24,0.2389\n" +
-                             "2015-01-23,0.2475\n2015-01-22,0.2203\n" +
-                             "2015-01-21,0.1921\n2015-01-20,0.1628\n" +
-                             "2015-01-19,0.1325\n2015-01-18,0.1011\n" +
-                             "2015-01-17,0.0686\n2015-01-16,0.0349\n";
+        String expectedCSV =
+                "2015-01-25,0.2234\n" +
+                "2015-01-24,0.2134\n" +
+                "2015-01-23,0.2031\n" +
+                "2015-01-22,0.1742\n" +
+                "2015-01-21,0.1443\n" +
+                "2015-01-20,0.1134\n" +
+                "2015-01-19,0.0994\n" +
+                "2015-01-18,0.0849\n" +
+                "2015-01-17,0.0518\n" +
+                "2015-01-16,0.0175\n";
 
         StringWriter writer = new StringWriter();
         habit.getScores().writeCSV(writer);
@@ -239,6 +268,15 @@ public class ScoreListTest extends BaseUnitTest
 
         for (int i = from; i < to; i++)
             reps.toggle(today.minus(i));
+    }
+
+    private void toggle(ArrayList<Integer> values)
+    {
+        RepetitionList reps = habit.getRepetitions();
+        Timestamp today = DateUtils.getToday();
+        for (int i = 0; i < values.size(); i++)
+            if (values.get(i) == YES_MANUAL)
+                reps.toggle(today.minus(i));
     }
 
     private void addSkip(final int day)

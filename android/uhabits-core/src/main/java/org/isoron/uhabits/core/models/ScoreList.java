@@ -27,6 +27,8 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
+import static org.isoron.uhabits.core.models.Checkmark.*;
+
 public abstract class ScoreList implements Iterable<Score>
 {
     protected final Habit habit;
@@ -268,6 +270,7 @@ public abstract class ScoreList implements Iterable<Score>
         if (from.isNewerThan(to)) return;
 
         double rollingSum = 0.0;
+        int numerator = habit.getFrequency().getNumerator();
         int denominator = habit.getFrequency().getDenominator();
         final double freq = habit.getFrequency().toDouble();
         final int[] checkmarkValues = habit.getCheckmarks().getValues(from, to);
@@ -288,8 +291,14 @@ public abstract class ScoreList implements Iterable<Score>
             }
             else if (checkmarkValues[offset] != Checkmark.SKIP)
             {
-                double value = Math.min(1, checkmarkValues[offset]);
-                previousValue = Score.compute(freq, previousValue, value);
+                if (checkmarkValues[offset] == YES_MANUAL)
+                    rollingSum += 1.0;
+                if (offset + denominator < checkmarkValues.length)
+                    if (checkmarkValues[offset + denominator] == YES_MANUAL)
+                        rollingSum -= 1.0;
+
+                double percentageCompleted = Math.min(1, rollingSum / numerator);
+                previousValue = Score.compute(freq, previousValue, percentageCompleted);
             }
             scores.add(new Score(from.plus(i), previousValue));
         }

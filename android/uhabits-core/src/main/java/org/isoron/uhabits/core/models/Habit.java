@@ -162,6 +162,7 @@ public class Habit
     public synchronized void setFrequency(@NonNull Frequency frequency)
     {
         data.frequency = frequency;
+        invalidateNewerThan(Timestamp.ZERO);
     }
 
     @Nullable
