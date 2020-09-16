@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.models;
 
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.test.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
@@ -29,6 +30,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.hamcrest.number.IsCloseTo.*;
+import static org.hamcrest.number.OrderingComparison.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
 
 public class ScoreListTest extends BaseUnitTest
@@ -48,7 +50,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getAll()
     {
-        toggleRepetitions(0, 20);
+        toggle(0, 20);
 
         double expectedValues[] = {
             0.655747,
@@ -81,7 +83,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getTodayValue()
     {
-        toggleRepetitions(0, 20);
+        toggle(0, 20);
         double actual = habit.getScores().getTodayValue();
         assertThat(actual, closeTo(0.655747, E));
     }
@@ -89,7 +91,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValue()
     {
-        toggleRepetitions(0, 20);
+        toggle(0, 20);
 
         double expectedValues[] = {
             0.655747,
@@ -172,7 +174,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValues()
     {
-        toggleRepetitions(0, 20);
+        toggle(0, 20);
 
         Timestamp today = DateUtils.getToday();
         Timestamp from = today.minus(4);
@@ -192,6 +194,8 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_imperfectNonDaily()
     {
+        // If the habit should be performed 3 times per week and the user misses 1 repetition
+        // each week, score should converge to 66%.
         habit.setFrequency(new Frequency(3, 7));
         ArrayList<Integer> values = new ArrayList<>();
         for (int k = 0; k < 100; k++)
@@ -207,8 +211,61 @@ public class ScoreListTest extends BaseUnitTest
         toggle(values);
         assertThat(habit.getScores().getTodayValue(), closeTo(2/3.0, E));
 
+        // Missing 2 repetitions out of 4 per week, the score should converge to 50%
         habit.setFrequency(new Frequency(4, 7));
         assertThat(habit.getScores().getTodayValue(), closeTo(0.5, E));
+    }
+
+    @Test
+    public void test_irregularNonDaily()
+    {
+        // If the user performs habit perfectly each week, but on different weekdays,
+        // score should still converge to 100%
+        habit.setFrequency(new Frequency(1, 7));
+        ArrayList<Integer> values = new ArrayList<>();
+        for (int k = 0; k < 100; k++)
+        {
+            // Week 0
+            values.add(YES_MANUAL);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+
+            // Week 1
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(NO);
+            values.add(YES_MANUAL);
+        }
+        toggle(values);
+        assertThat(habit.getScores().getTodayValue(), closeTo(1.0, 1e-3));
+    }
+
+    @Test
+    public void shouldAchieveHighScoreInReasonableTime()
+    {
+        // Daily habits should achieve at least 99% in 3 months
+        habit = fixtures.createEmptyHabit();
+        habit.setFrequency(Frequency.DAILY);
+        for (int i = 0; i < 90; i++) toggle(i);
+        assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
+
+        // Weekly habits should achieve at least 99% in 9 months
+        habit = fixtures.createEmptyHabit();
+        habit.setFrequency(Frequency.WEEKLY);
+        for (int i = 0; i < 39; i++) toggle(7 * i);
+        assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
+
+        // Monthly habits should achieve at least 99% in 18 months
+        habit.setFrequency(new Frequency(1, 30));
+        for (int i = 0; i < 18; i++) toggle(30 * i);
+        assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
     }
 
     @Test
@@ -219,9 +276,9 @@ public class ScoreListTest extends BaseUnitTest
             habit.getScores().groupBy(DateUtils.TruncateField.MONTH, Calendar.SATURDAY);
 
         assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), closeTo(0.601508, E));
-        assertThat(list.get(1).getValue(), closeTo(0.580580, E));
-        assertThat(list.get(2).getValue(), closeTo(0.474609, E));
+        assertThat(list.get(0).getValue(), closeTo(0.644120, E));
+        assertThat(list.get(1).getValue(), closeTo(0.713651, E));
+        assertThat(list.get(2).getValue(), closeTo(0.571922, E));
     }
 
     @Test
@@ -229,13 +286,13 @@ public class ScoreListTest extends BaseUnitTest
     {
         assertThat(habit.getScores().getTodayValue(), closeTo(0.0, E));
 
-        toggleRepetitions(0, 2);
+        toggle(0, 2);
         assertThat(habit.getScores().getTodayValue(), closeTo(0.101149, E));
 
         habit.setFrequency(new Frequency(1, 2));
         habit.getScores().invalidateNewerThan(new Timestamp(0));
 
-        assertThat(habit.getScores().getTodayValue(), closeTo(0.051922, E));
+        assertThat(habit.getScores().getTodayValue(), closeTo(0.054816, E));
     }
 
     @Test
@@ -244,16 +301,16 @@ public class ScoreListTest extends BaseUnitTest
         Habit habit = fixtures.createShortHabit();
 
         String expectedCSV =
-                "2015-01-25,0.2234\n" +
-                "2015-01-24,0.2134\n" +
-                "2015-01-23,0.2031\n" +
-                "2015-01-22,0.1742\n" +
-                "2015-01-21,0.1443\n" +
-                "2015-01-20,0.1134\n" +
-                "2015-01-19,0.0994\n" +
-                "2015-01-18,0.0849\n" +
-                "2015-01-17,0.0518\n" +
-                "2015-01-16,0.0175\n";
+                "2015-01-25,0.2557\n" +
+                "2015-01-24,0.2226\n" +
+                "2015-01-23,0.1991\n" +
+                "2015-01-22,0.1746\n" +
+                "2015-01-21,0.1379\n" +
+                "2015-01-20,0.0995\n" +
+                "2015-01-19,0.0706\n" +
+                "2015-01-18,0.0515\n" +
+                "2015-01-17,0.0315\n" +
+                "2015-01-16,0.0107\n";
 
         StringWriter writer = new StringWriter();
         habit.getScores().writeCSV(writer);
@@ -261,7 +318,14 @@ public class ScoreListTest extends BaseUnitTest
         assertThat(writer.toString(), equalTo(expectedCSV));
     }
 
-    private void toggleRepetitions(final int from, final int to)
+    private void toggle(final int offset)
+    {
+        RepetitionList reps = habit.getRepetitions();
+        Timestamp today = DateUtils.getToday();
+        reps.toggle(today.minus(offset));
+    }
+
+    private void toggle(final int from, final int to)
     {
         RepetitionList reps = habit.getRepetitions();
         Timestamp today = DateUtils.getToday();

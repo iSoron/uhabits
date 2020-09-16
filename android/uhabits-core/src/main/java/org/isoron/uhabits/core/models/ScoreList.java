@@ -275,6 +275,15 @@ public abstract class ScoreList implements Iterable<Score>
         final double freq = habit.getFrequency().toDouble();
         final int[] checkmarkValues = habit.getCheckmarks().getValues(from, to);
 
+        // For non-daily boolean habits, we double the numerator and the denominator to smooth
+        // out irregular repetition schedules (for example, weekly habits performed on different
+        // days of the week)
+        if (!habit.isNumerical() && freq < 1.0)
+        {
+            numerator *= 2;
+            denominator *= 2;
+        }
+
         List<Score> scores = new LinkedList<>();
 
         for (int i = 0; i < checkmarkValues.length; i++)

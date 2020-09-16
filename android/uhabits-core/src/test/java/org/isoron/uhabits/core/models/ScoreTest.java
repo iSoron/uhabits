@@ -59,14 +59,14 @@ public class ScoreTest extends BaseUnitTest
     {
         int check = 1;
         double freq = 1 / 3.0;
-        assertThat(compute(freq, 0, check), closeTo(0.017616, E));
-        assertThat(compute(freq, 0.5, check), closeTo(0.508808, E));
-        assertThat(compute(freq, 0.75, check), closeTo(0.754404, E));
+        assertThat(compute(freq, 0, check), closeTo(0.030314, E));
+        assertThat(compute(freq, 0.5, check), closeTo(0.515157, E));
+        assertThat(compute(freq, 0.75, check), closeTo(0.757578, E));
 
         check = 0;
         assertThat(compute(freq, 0, check), closeTo(0.0, E));
-        assertThat(compute(freq, 0.5, check), closeTo(0.491192, E));
-        assertThat(compute(freq, 0.75, check), closeTo(0.736788, E));
+        assertThat(compute(freq, 0.5, check), closeTo(0.484842, E));
+        assertThat(compute(freq, 0.75, check), closeTo(0.727263, E));
     }
 
 
