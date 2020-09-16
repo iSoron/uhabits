@@ -131,7 +131,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValueWithSkip()
     {
-        toggleRepetitions(0, 20);
+        toggle(0, 20);
         addSkip(5);
         addSkip(10);
         addSkip(11);
