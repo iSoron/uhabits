@@ -22,6 +22,7 @@ package org.isoron.uhabits;
 import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.intents.*;
 
 import dagger.*;
 
@@ -34,7 +35,7 @@ import dagger.*;
 public interface HabitsApplicationTestComponent
     extends HabitsApplicationComponent
 {
-
+    IntentScheduler getIntentScheduler();
 }
 
 @Module

@@ -22,7 +22,6 @@ package org.isoron.uhabits
 import dagger.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.about.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.activities.habits.show.*

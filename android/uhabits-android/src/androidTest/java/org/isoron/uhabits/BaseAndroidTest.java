@@ -23,14 +23,12 @@ import android.appwidget.*;
 import android.content.*;
 import android.content.res.*;
 import android.os.*;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.StyleRes;
-import androidx.test.*;
-import androidx.test.filters.*;
 import android.util.*;
 
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.annotation.*;
+import androidx.test.filters.*;
+import androidx.test.platform.app.*;
+import androidx.test.uiautomator.*;
 
 import junit.framework.*;
 
@@ -44,9 +42,12 @@ import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
 import java.io.*;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import static androidx.test.platform.app.InstrumentationRegistry.*;
+import static androidx.test.uiautomator.UiDevice.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -78,11 +79,14 @@ public class BaseAndroidTest extends TestCase
 
     private boolean isDone = false;
 
+    private UiDevice device;
+
     @Override
     @Before
     public void setUp()
     {
         if (Looper.myLooper() == null) Looper.prepare();
+        device = getInstance(getInstrumentation());
 
         targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         testContext = InstrumentationRegistry.getInstrumentation().getContext();
@@ -214,5 +218,53 @@ public class BaseAndroidTest extends TestCase
     protected Timestamp day(int offset)
     {
         return DateUtils.getToday().minus(offset);
+    }
+
+
+    public void setSystemTime(String tz,
+                              int year,
+                              int javaMonth,
+                              int day,
+                              int hourOfDay,
+                              int minute) throws Exception
+    {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTimeZone(TimeZone.getTimeZone(tz));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(year, javaMonth, day, hourOfDay, minute);
+        setSystemTime(cal);
+    }
+
+    private void setSystemTime(GregorianCalendar cal) throws Exception
+    {
+        ZoneId tz = cal.getTimeZone().toZoneId();
+
+        // Set time zone (temporary)
+        String command = String.format("service call alarm 3 s16 %s", tz);
+        device.executeShellCommand(command);
+
+        // Set time zone (permanent)
+        command = String.format("setprop persist.sys.timezone %s", tz);
+        device.executeShellCommand(command);
+
+        // Set time
+        command = String.format("date -u @%d", cal.getTimeInMillis() / 1000);
+        device.executeShellCommand(command);
+
+        // Wait for system events to settle
+        Thread.sleep(1000);
+    }
+
+    private GregorianCalendar savedCalendar = null;
+
+    public void saveSystemTime()
+    {
+        savedCalendar = new GregorianCalendar();
+    }
+
+    public void restoreSystemTime() throws Exception
+    {
+        if (savedCalendar == null) throw new NullPointerException();
+        setSystemTime(savedCalendar);
     }
 }

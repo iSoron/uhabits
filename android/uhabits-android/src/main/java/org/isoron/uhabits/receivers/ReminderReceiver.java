@@ -48,11 +48,14 @@ public class ReminderReceiver extends BroadcastReceiver
 
     private static final String TAG = "ReminderReceiver";
 
+    private static Intent lastReceivedIntent = null;
+
     @Override
     public void onReceive(@Nullable final Context context, @Nullable Intent intent)
     {
         if (context == null || intent == null) return;
         if (intent.getAction() == null) return;
+        lastReceivedIntent = intent;
 
         HabitsApplication app = (HabitsApplication) context.getApplicationContext();
         HabitsApplicationComponent appComponent = app.getComponent();
@@ -106,5 +109,15 @@ public class ReminderReceiver extends BroadcastReceiver
         {
             Log.e(TAG, "could not process intent", e);
         }
+    }
+
+    public static void clearLastReceivedIntent()
+    {
+        lastReceivedIntent = null;
+    }
+
+    public static Intent getLastReceivedIntent()
+    {
+        return lastReceivedIntent;
     }
 }

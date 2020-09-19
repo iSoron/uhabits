@@ -58,6 +58,8 @@ public class WidgetReceiver extends BroadcastReceiver
 
     private static final String TAG = "WidgetReceiver";
 
+    private static Intent lastReceivedIntent = null;
+
     @Override
     public void onReceive(final Context context, Intent intent)
     {
@@ -75,6 +77,7 @@ public class WidgetReceiver extends BroadcastReceiver
         WidgetUpdater widgetUpdater = app.getComponent().getWidgetUpdater();
 
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
+        lastReceivedIntent = intent;
 
         try
         {
@@ -112,6 +115,7 @@ public class WidgetReceiver extends BroadcastReceiver
                     controller.onRemoveRepetition(data.getHabit(),
                             data.getTimestamp());
                     break;
+
                 case ACTION_SET_NUMERICAL_VALUE:
                     context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     Intent numberSelectorIntent = new Intent(context, NumericalCheckmarkWidgetActivity.class);
@@ -121,6 +125,7 @@ public class WidgetReceiver extends BroadcastReceiver
                     parser.copyIntentData(intent,numberSelectorIntent);
                     context.startActivity(numberSelectorIntent);
                     break;
+
                 case ACTION_UPDATE_WIDGETS_VALUE:
                     widgetUpdater.updateWidgets();
                     widgetUpdater.scheduleStartDayWidgetUpdate();
@@ -138,5 +143,15 @@ public class WidgetReceiver extends BroadcastReceiver
     interface WidgetComponent
     {
         WidgetBehavior getWidgetController();
+    }
+
+    public static Intent getLastReceivedIntent()
+    {
+        return lastReceivedIntent;
+    }
+
+    public static void clearLastReceivedIntent()
+    {
+        lastReceivedIntent = null;
     }
 }

@@ -162,10 +162,16 @@ public class ReminderScheduler implements CommandRunner.Listener
 
     public interface SystemScheduler
     {
-        void scheduleShowReminder(long reminderTime, Habit habit, long timestamp);
+        SchedulerResult scheduleShowReminder(long reminderTime, Habit habit, long timestamp);
 
-        void scheduleWidgetUpdate(long updateTime);
+        SchedulerResult scheduleWidgetUpdate(long updateTime);
 
         void log(String componentName, String msg);
+    }
+
+    public enum SchedulerResult
+    {
+        IGNORED,
+        OK
     }
 }

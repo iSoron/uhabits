@@ -31,6 +31,9 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
+import java.time.*;
+import java.util.*;
+
 import static androidx.test.core.app.ApplicationProvider.*;
 import static androidx.test.platform.app.InstrumentationRegistry.*;
 import static androidx.test.uiautomator.UiDevice.*;
@@ -128,4 +131,5 @@ public class BaseUserInterfaceTest
         device.setOrientationLeft();
         device.setOrientationNatural();
     }
+
 }

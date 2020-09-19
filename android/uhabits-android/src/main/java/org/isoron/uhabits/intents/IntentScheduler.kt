@@ -27,10 +27,9 @@ import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
 import android.util.*
 import org.isoron.androidbase.*
-import org.isoron.uhabits.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.reminders.*
+import org.isoron.uhabits.core.reminders.ReminderScheduler.*
 import org.isoron.uhabits.core.utils.*
 import java.util.*
 import javax.inject.*
@@ -40,36 +39,37 @@ class IntentScheduler
 @Inject constructor(
         @AppContext context: Context,
         private val pendingIntents: PendingIntentFactory
-) : ReminderScheduler.SystemScheduler {
+) : SystemScheduler {
 
     private val manager =
             context.getSystemService(ALARM_SERVICE) as AlarmManager
 
-    fun schedule(timestamp: Long, intent: PendingIntent, alarmType: Int) {
-        Log.d("IntentScheduler",
-              "timestamp=" + timestamp + " current=" + System.currentTimeMillis())
-        if (timestamp < System.currentTimeMillis()) {
+    private fun schedule(timestamp: Long, intent: PendingIntent, alarmType: Int): SchedulerResult {
+        val now = System.currentTimeMillis()
+        Log.d("IntentScheduler", "timestamp=$timestamp now=$now")
+        if (timestamp < now) {
             Log.e("IntentScheduler",
                   "Ignoring attempt to schedule intent in the past.")
-            return;
+            return SchedulerResult.IGNORED
         }
         if (SDK_INT >= M)
             manager.setExactAndAllowWhileIdle(alarmType, timestamp, intent)
         else
             manager.setExact(alarmType, timestamp, intent)
+        return SchedulerResult.OK
     }
 
     override fun scheduleShowReminder(reminderTime: Long,
                                       habit: Habit,
-                                      timestamp: Long) {
+                                      timestamp: Long): SchedulerResult {
         val intent = pendingIntents.showReminder(habit, reminderTime, timestamp)
-        schedule(reminderTime, intent, RTC_WAKEUP)
         logReminderScheduled(habit, reminderTime)
+        return schedule(reminderTime, intent, RTC_WAKEUP)
     }
 
-    override fun scheduleWidgetUpdate(updateTime: Long) {
+    override fun scheduleWidgetUpdate(updateTime: Long): SchedulerResult {
         val intent = pendingIntents.updateWidgets()
-        schedule(updateTime, intent, RTC)
+        return schedule(updateTime, intent, RTC)
     }
 
     override fun log(componentName: String, msg: String) {
