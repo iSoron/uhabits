@@ -67,7 +67,7 @@ public abstract class StreakList
 
     public synchronized void rebuild()
     {
-        Timestamp today = DateUtils.getToday();
+        Timestamp today = DateUtils.getTodayWithOffset();
         Timestamp beginning = findBeginning();
         if (beginning == null || beginning.isNewerThan(today)) return;
 

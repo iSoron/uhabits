@@ -38,7 +38,7 @@ class IntentParser
 
     fun copyIntentData(source: Intent, destination: Intent) {
         destination.data = source.data;
-        destination.putExtra("timestamp", source.getLongExtra("timestamp", DateUtils.getToday().unixTime))
+        destination.putExtra("timestamp", source.getLongExtra("timestamp", DateUtils.getTodayWithOffset().unixTime))
     }
 
     private fun parseHabit(uri: Uri): Habit {
@@ -48,7 +48,7 @@ class IntentParser
     }
 
     private fun parseTimestamp(intent: Intent): Timestamp {
-        val today = DateUtils.getToday().unixTime
+        val today = DateUtils.getTodayWithOffset().unixTime
         var timestamp = intent.getLongExtra("timestamp", today)
         timestamp = DateUtils.getStartOfDay(timestamp)
 

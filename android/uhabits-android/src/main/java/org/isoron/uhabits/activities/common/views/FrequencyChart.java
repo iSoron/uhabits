@@ -153,7 +153,7 @@ public class FrequencyChart extends ScrollableChart
         pGraph.setColor(primaryColor);
         prevRect.setEmpty();
 
-        GregorianCalendar currentDate = DateUtils.getStartOfTodayCalendar();
+        GregorianCalendar currentDate = DateUtils.getStartOfTodayCalendarWithOffset();
         currentDate.set(Calendar.DAY_OF_MONTH, 1);
         currentDate.add(Calendar.MONTH, -nColumns + 2 - getDataOffset());
 
@@ -274,7 +274,7 @@ public class FrequencyChart extends ScrollableChart
     private float getMaxMonthWidth()
     {
         float maxMonthWidth = 0;
-        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendarWithOffset();
 
         for (int i = 0; i < 12; i++)
         {

@@ -67,7 +67,7 @@ class NumberPanelView(
 
     @Synchronized
     override fun setupButtons() {
-        val today = DateUtils.getToday()
+        val today = DateUtils.getTodayWithOffset()
 
         buttons.forEachIndexed { index, button ->
             val timestamp = today.minus(index + dataOffset)

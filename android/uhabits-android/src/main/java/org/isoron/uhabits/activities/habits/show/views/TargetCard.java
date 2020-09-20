@@ -134,7 +134,7 @@ public class TargetCard extends HabitCard
         public void onPostExecute()
         {
             if (isCanceled()) return;
-            Calendar cal = DateUtils.getStartOfTodayCalendar();
+            Calendar cal = DateUtils.getStartOfTodayCalendarWithOffset();
             int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
             int daysInQuarter = 91;
             int daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR);

@@ -29,8 +29,7 @@ import static java.util.Calendar.*;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.isoron.uhabits.core.utils.DateUtils.applyTimezone;
-import static org.isoron.uhabits.core.utils.DateUtils.removeTimezone;
+import static org.isoron.uhabits.core.utils.DateUtils.*;
 
 public class DateUtilsTest extends BaseUnitTest
 {
@@ -165,12 +164,42 @@ public class DateUtilsTest extends BaseUnitTest
     public void testMillisecondsUntilTomorrow() throws Exception
     {
         DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT"));
+
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(60000L));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(MINUTE_LENGTH));
 
         DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 20, 0));
-        assertThat(DateUtils.millisecondsUntilTomorrow(), equalTo(14400000L));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(4 * HOUR_LENGTH));
 
+        DateUtils.setStartDayOffset(3, 30);
+        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 1, 23, 59));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(3 * HOUR_LENGTH + 31 * MINUTE_LENGTH));
+
+        DateUtils.setFixedLocalTime(unixTime(2017, JANUARY, 2, 1, 0));
+        assertThat(DateUtils.millisecondsUntilTomorrowWithOffset(), equalTo(2 * HOUR_LENGTH + 30 * MINUTE_LENGTH));
+    }
+
+    @Test
+    public void testGetTodayWithOffset() throws Exception
+    {
+        assertThat(DateUtils.getTodayWithOffset(), equalTo(new Timestamp(FIXED_LOCAL_TIME)));
+        DateUtils.setStartDayOffset(9, 0);
+        assertThat(
+                DateUtils.getTodayWithOffset(),
+                equalTo(new Timestamp(FIXED_LOCAL_TIME - DAY_LENGTH)));
+    }
+
+    @Test
+    public void testGetStartOfDayWithOffset() throws Exception
+    {
+        long timestamp = unixTime(2020, SEPTEMBER, 3);
+        assertThat(
+                DateUtils.getStartOfDayWithOffset(timestamp + HOUR_LENGTH),
+                equalTo(timestamp));
+        DateUtils.setStartDayOffset(3, 30);
+        assertThat(
+                DateUtils.getStartOfDayWithOffset(timestamp + 3 * HOUR_LENGTH + 29 * MINUTE_LENGTH),
+                equalTo(timestamp - DAY_LENGTH));
     }
 
     @Test

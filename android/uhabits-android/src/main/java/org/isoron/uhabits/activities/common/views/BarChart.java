@@ -396,7 +396,7 @@ public class BarChart extends ScrollableChart
     private float getMaxDayWidth()
     {
         float maxDayWidth = 0;
-        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendarWithOffset();
 
         for (int i = 0; i < 28; i++)
         {
@@ -411,7 +411,7 @@ public class BarChart extends ScrollableChart
     private float getMaxMonthWidth()
     {
         float maxMonthWidth = 0;
-        GregorianCalendar day = DateUtils.getStartOfTodayCalendar();
+        GregorianCalendar day = DateUtils.getStartOfTodayCalendarWithOffset();
 
         for (int i = 0; i < 12; i++)
         {
