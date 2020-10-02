@@ -93,7 +93,7 @@ class HabitCardView(
             numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
             if (habit?.isNumerical == false && scoreAsText) {
                 streakText.apply {
-                    visibility = if (values[0] == 0) View.GONE else View.VISIBLE
+                    visibility = if (values[1] == 0 && values[0] == 0) View.GONE else View.VISIBLE
                 }
             }
         }
@@ -262,7 +262,7 @@ class HabitCardView(
                     } else 0
 
             streakText.apply {
-                text = lastStreak.toString()
+                text = "$lastStreak |"
                 setTextColor(when (isLastStreakBestStreak) {
                     true -> c
                     false -> sres.getColor(R.attr.mediumContrastTextColor)
