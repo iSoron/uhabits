@@ -23,17 +23,25 @@ import android.os.*;
 
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.*;
 
 /**
  * Activity that allows the user to view and modify the app settings.
  */
 public class SettingsActivity extends BaseActivity
 {
+    private AndroidThemeSwitcher themeSwitcher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        HabitsApplicationComponent compoenent = ((HabitsApplication) getApplication()).getComponent();
+        themeSwitcher = new AndroidThemeSwitcher(this, compoenent.getPreferences());
+        themeSwitcher.apply();
+
         setContentView(R.layout.settings_activity);
         setupActionBarColor();
     }
