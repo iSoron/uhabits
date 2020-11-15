@@ -157,6 +157,24 @@ public class MemoryHabitList extends HabitList
             else return p1.compareTo(p2);
         };
 
+        Comparator<Habit> priorityComparatorDesc = (h1, h2) ->
+        {
+            if (h1.isCompletedToday() != h2.isCompletedToday()) {
+                return h1.isCompletedToday() ? -1 : 1;
+            }
+
+            if (h1.isNumerical() != h2.isNumerical()) {
+                return h1.isNumerical() ? -1 : 1;
+            }
+
+            Integer v1 = h1.getCheckmarks().getToday().getValue();
+            Integer v2 = h2.getCheckmarks().getToday().getValue();
+
+            return v2.compareTo(v1);
+        };
+
+        Comparator<Habit> priorityComparatorAsc = (h1, h2) -> priorityComparatorDesc.compare(h2, h1);
+
         if (order == BY_POSITION) return positionComparator;
         if (order == BY_NAME_ASC) return nameComparatorAsc;
         if (order == BY_NAME_DESC) return nameComparatorDesc;
@@ -164,6 +182,8 @@ public class MemoryHabitList extends HabitList
         if (order == BY_COLOR_DESC) return colorComparatorDesc;
         if (order == BY_SCORE_DESC) return scoreComparatorDesc;
         if (order == BY_SCORE_ASC) return scoreComparatorAsc;
+        if (order == BY_PRIORITY_DESC) return priorityComparatorDesc;
+        if (order == BY_PRIORITY_ASC) return priorityComparatorAsc;
         throw new IllegalStateException();
     }
 

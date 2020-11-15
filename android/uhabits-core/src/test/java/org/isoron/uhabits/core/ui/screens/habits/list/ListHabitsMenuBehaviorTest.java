@@ -132,6 +132,14 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     }
 
     @Test
+    public void testOnSortPriority()
+    {
+        behavior.onSortByPriority();
+        verify(adapter).setOrder(orderCaptor.capture());
+        assertThat(orderCaptor.getValue(), equalTo(BY_PRIORITY_DESC));
+    }
+
+    @Test
     public void testOnToggleShowArchived()
     {
         behavior.onToggleShowArchived();
