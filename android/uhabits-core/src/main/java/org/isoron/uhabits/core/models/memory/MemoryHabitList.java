@@ -40,6 +40,9 @@ public class MemoryHabitList extends HabitList
     @NonNull
     private Order order = Order.BY_POSITION;
 
+    @NonNull
+    private Order previousOrder = Order.BY_POSITION;
+
     @Nullable
     private MemoryHabitList parent = null;
 
@@ -113,14 +116,27 @@ public class MemoryHabitList extends HabitList
     @Override
     public synchronized void setOrder(@NonNull Order order)
     {
+        this.previousOrder = this.order;
         this.order = order;
-        this.comparator = getComparatorByOrder(order);
+        this.comparator = getComposedComparatorByOrder(order, this.previousOrder);
         resort();
         getObservable().notifyListeners();
     }
 
-    private Comparator<Habit> getComparatorByOrder(Order order)
+    private Comparator<Habit> getComposedComparatorByOrder(Order firstOrder, Order secondOrder)
     {
+        return (h1, h2) -> {
+            int firstResult = getComparatorByOrder(firstOrder).compare(h1, h2);
+
+            if (firstResult != 0 || secondOrder == null) {
+                return firstResult;
+            }
+
+            return getComparatorByOrder(secondOrder).compare(h1, h2);
+        };
+    }
+
+    private Comparator<Habit> getComparatorByOrder(Order order) {
         Comparator<Habit> nameComparatorAsc =
                 (h1, h2) -> h1.getName().compareTo(h2.getName());
 

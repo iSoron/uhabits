@@ -252,6 +252,6 @@ public abstract class HabitList implements Iterable<Habit>
         BY_SCORE_DESC,
         BY_PRIORITY_ASC,
         BY_PRIORITY_DESC,
-        BY_POSITION;
+        BY_POSITION
     }
 }

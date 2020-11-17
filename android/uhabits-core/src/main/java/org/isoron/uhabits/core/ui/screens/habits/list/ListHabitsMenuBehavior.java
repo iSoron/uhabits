@@ -128,10 +128,10 @@ public class ListHabitsMenuBehavior
     }
 
     public void onSortByPriority() {
-        if (adapter.getOrder() != HabitList.Order.BY_PRIORITY_DESC) {
-            adapter.setOrder(HabitList.Order.BY_PRIORITY_DESC);
-        } else {
+        if (adapter.getOrder() != HabitList.Order.BY_PRIORITY_ASC) {
             adapter.setOrder(HabitList.Order.BY_PRIORITY_ASC);
+        } else {
+            adapter.setOrder(HabitList.Order.BY_PRIORITY_DESC);
         }
     }
 
