@@ -320,9 +320,20 @@ public class HabitCardListAdapter
     }
 
     @Override
+    public void setPreviousOrder(HabitList.Order order) {
+        cache.setPreviousOrder(order);
+        preferences.setDefaultPreviousOrder(order);
+    }
+
+    @Override
     public HabitList.Order getOrder()
     {
         return cache.getOrder();
+    }
+
+    @Override
+    public HabitList.Order getPreviousOrder() {
+        return cache.getPreviousOrder();
     }
 
     /**

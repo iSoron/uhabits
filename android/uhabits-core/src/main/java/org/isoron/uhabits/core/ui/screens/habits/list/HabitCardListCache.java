@@ -121,6 +121,11 @@ public class HabitCardListCache implements CommandRunner.Listener
         return filteredHabits.getOrder();
     }
 
+    public synchronized HabitList.Order getPreviousOrder()
+    {
+        return filteredHabits.getPreviousOrder();
+    }
+
     public synchronized double getScore(long habitId)
     {
         return data.scores.get(habitId);
@@ -203,6 +208,14 @@ public class HabitCardListCache implements CommandRunner.Listener
         filteredHabits.setOrder(order);
         refreshAllHabits();
     }
+
+    public synchronized void setPreviousOrder(@NonNull HabitList.Order order)
+    {
+        allHabits.setPreviousOrder(order);
+        filteredHabits.setPreviousOrder(order);
+        refreshAllHabits();
+    }
+
 
     /**
      * Interface definition for a callback to be invoked when the data on the

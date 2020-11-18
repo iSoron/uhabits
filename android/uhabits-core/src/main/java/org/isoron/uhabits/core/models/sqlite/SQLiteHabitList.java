@@ -122,9 +122,22 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
+    public Order getPreviousOrder()
+    {
+        return list.getPreviousOrder();
+    }
+
+    @Override
     public synchronized void setOrder(@NonNull Order order)
     {
         list.setOrder(order);
+        getObservable().notifyListeners();
+    }
+
+    @Override
+    public synchronized void setPreviousOrder(@NonNull Order order)
+    {
+        list.setPreviousOrder(order);
         getObservable().notifyListeners();
     }
 

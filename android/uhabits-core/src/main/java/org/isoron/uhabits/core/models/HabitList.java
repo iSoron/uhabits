@@ -109,12 +109,21 @@ public abstract class HabitList implements Iterable<Habit>
 
     public abstract Order getOrder();
 
+    public abstract Order getPreviousOrder();
+
     /**
      * Changes the order of the elements on the list.
      *
-     * @param order the new order criterea
+     * @param order the new order criterion
      */
     public abstract void setOrder(@NonNull Order order);
+
+    /**
+     * Changes the previous order of the elements on the list.
+     *
+     * @param order the new order criterion
+     */
+    public abstract void setPreviousOrder(@NonNull Order order);
 
     /**
      * Returns the index of the given habit in the list, or -1 if the list does
@@ -241,6 +250,8 @@ public abstract class HabitList implements Iterable<Habit>
 
         csv.close();
     }
+
+
 
     public enum Order
     {

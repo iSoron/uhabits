@@ -114,11 +114,25 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
+    public synchronized Order getPreviousOrder()
+    {
+        return previousOrder;
+    }
+
+    @Override
     public synchronized void setOrder(@NonNull Order order)
     {
-        this.previousOrder = this.order;
         this.order = order;
-        this.comparator = getComposedComparatorByOrder(order, this.previousOrder);
+        this.comparator = getComposedComparatorByOrder(this.order, this.previousOrder);
+        resort();
+        getObservable().notifyListeners();
+    }
+
+    @Override
+    public void setPreviousOrder(@NonNull Order order)
+    {
+        this.previousOrder = order;
+        this.comparator = getComposedComparatorByOrder(this.order, this.previousOrder);
         resort();
         getObservable().notifyListeners();
     }

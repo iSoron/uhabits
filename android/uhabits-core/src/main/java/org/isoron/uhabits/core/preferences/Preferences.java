@@ -80,6 +80,11 @@ public class Preferences
         storage.putString("pref_default_order", order.name());
     }
 
+    public void setDefaultPreviousOrder(HabitList.Order order)
+    {
+        storage.putString("pref_default_previous_order", order.name());
+    }
+
     public int getDefaultScoreSpinnerPosition()
     {
         int defaultScoreInterval =
