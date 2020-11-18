@@ -132,11 +132,11 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     }
 
     @Test
-    public void testOnSortPriority()
+    public void testOnSortStatus()
     {
-        behavior.onSortByPriority();
+        behavior.onSortByStatus();
         verify(adapter).setOrder(orderCaptor.capture());
-        assertThat(orderCaptor.getValue(), equalTo(BY_PRIORITY_ASC));
+        assertThat(orderCaptor.getValue(), equalTo(BY_STATUS_ASC));
     }
 
     @Test

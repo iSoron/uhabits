@@ -67,8 +67,8 @@
                         android:title="@string/by_score"/>
 
                     <item
-                        android:id="@+id/actionSortPriority"
-                        android:title="@string/by_priority"/>
+                        android:id="@+id/actionSortStatus"
+                        android:title="@string/by_status"/>
                 </menu>
             </item>
         </menu>

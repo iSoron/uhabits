@@ -33,7 +33,7 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
  * expected at that day or not.
  * </p>
  * <p>
- * Note that the priority comparator in
+ * Note that the status comparator in
  * {@link org.isoron.uhabits.core.models.memory.MemoryHabitList}
  * relies on SKIP > YES_MANUAL > YES_AUTO > NO.
  * <p>
