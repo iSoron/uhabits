@@ -68,11 +68,11 @@ public class HabitsCSVExporterTest extends BaseUnitTest
         unzip(archive);
 
         assertPathExists("Habits.csv");
-        assertPathExists("001 Wake up early");
-        assertPathExists("001 Wake up early/Checkmarks.csv");
-        assertPathExists("001 Wake up early/Scores.csv");
-        assertPathExists("002 Meditate/Checkmarks.csv");
-        assertPathExists("002 Meditate/Scores.csv");
+        assertPathExists("001 Meditate/Checkmarks.csv");
+        assertPathExists("001 Meditate/Scores.csv");
+        assertPathExists("002 Wake up early");
+        assertPathExists("002 Wake up early/Checkmarks.csv");
+        assertPathExists("002 Wake up early/Scores.csv");
         assertPathExists("Checkmarks.csv");
         assertPathExists("Scores.csv");
     }

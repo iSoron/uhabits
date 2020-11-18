@@ -81,7 +81,7 @@ public class ImportTest extends BaseUnitTest
 
         assertThat(habitList.size(), equalTo(3));
 
-        Habit habit = habitList.getByPosition(0);
+        Habit habit = habitList.getByPosition(1);
         assertThat(habit.getName(), equalTo("Wake up early"));
         assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
         assertFalse(habit.hasReminder());
@@ -90,7 +90,7 @@ public class ImportTest extends BaseUnitTest
         assertTrue(containsRepetition(habit, 2016, 1, 28));
         assertFalse(containsRepetition(habit, 2016, 3, 10));
 
-        habit = habitList.getByPosition(1);
+        habit = habitList.getByPosition(2);
         assertThat(habit.getName(), equalTo("brush teeth"));
         assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
         assertThat(habit.hasReminder(), equalTo(true));
@@ -109,7 +109,7 @@ public class ImportTest extends BaseUnitTest
 
         assertThat(habitList.size(), equalTo(3));
 
-        Habit h = habitList.getByPosition(0);
+        Habit h = habitList.getByPosition(2);
         assertThat(h.getName(), equalTo("Vegan"));
         assertTrue(containsRepetition(h, 2016, 1, 24));
         assertTrue(containsRepetition(h, 2016, 2, 5));
