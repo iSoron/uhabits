@@ -2,8 +2,7 @@
 
 ### 1.8.9 (Nov 18, 2020)
 
-* Remove INTERNET permission
-* Manage exceptions for when activities don't exist to handle intents (#181)
+* Manage exceptions when activities don't exist to handle intents (#181)
 * MemoryHabitList: Inherit parent's order (#598)
 * Remove notification groups; revert to default system behavior
 * Remove SyncManager and Internet permission
