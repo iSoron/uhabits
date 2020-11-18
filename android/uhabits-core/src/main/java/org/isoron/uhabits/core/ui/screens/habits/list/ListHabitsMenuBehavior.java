@@ -160,8 +160,6 @@ public class ListHabitsMenuBehavior
         void setPreviousOrder(HabitList.Order order);
 
         HabitList.Order getOrder();
-
-        HabitList.Order getPreviousOrder();
     }
 
     public interface Screen

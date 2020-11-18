@@ -83,6 +83,7 @@ public class HabitCardListAdapter
         cache.setListener(this);
         cache.setCheckmarkCount(
             ListHabitsRootViewKt.MAX_CHECKMARK_COUNT);
+        cache.setPreviousOrder(preferences.getDefaultPreviousOrder());
         cache.setOrder(preferences.getDefaultOrder());
 
         setHasStableIds(true);
@@ -329,11 +330,6 @@ public class HabitCardListAdapter
     public HabitList.Order getOrder()
     {
         return cache.getOrder();
-    }
-
-    @Override
-    public HabitList.Order getPreviousOrder() {
-        return cache.getPreviousOrder();
     }
 
     /**

@@ -59,6 +59,7 @@ public class MemoryHabitList extends HabitList
         this.parent = parent;
         this.comparator = comparator;
         this.order = parent.order;
+        this.previousOrder = parent.previousOrder;
         parent.getObservable().addListener(this::loadFromParent);
         loadFromParent();
     }
@@ -155,10 +156,10 @@ public class MemoryHabitList extends HabitList
         h1.getName().compareTo(h2.getName());
 
         Comparator<Habit> nameComparatorDesc = (h1, h2) ->
-        nameComparatorAsc.compare(h2, h1);
+                nameComparatorAsc.compare(h2, h1);
 
         Comparator<Habit> colorComparatorAsc = (h1, h2) ->
-        h1.getColor().compareTo(h2.getColor());
+                h1.getColor().compareTo(h2.getColor());
 
         Comparator<Habit> colorComparatorDesc = (h1, h2) ->
                 colorComparatorAsc.compare(h2, h1);
