@@ -76,7 +76,7 @@ public class Preferences
     }
 
     public HabitList.Order getDefaultPreviousOrder() {
-        String name = storage.getString("pref_default_previous_order", "BY_POSITION");
+        String name = storage.getString("pref_default_previous_order", "BY_NAME_ASC");
 
         try
         {
@@ -84,7 +84,7 @@ public class Preferences
         }
         catch (IllegalArgumentException e)
         {
-            setDefaultPreviousOrder(HabitList.Order.BY_POSITION);
+            setDefaultPreviousOrder(HabitList.Order.BY_NAME_ASC);
             return HabitList.Order.BY_POSITION;
         }
     }
