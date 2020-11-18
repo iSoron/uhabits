@@ -137,41 +137,26 @@ public class MemoryHabitList extends HabitList
     }
 
     private Comparator<Habit> getComparatorByOrder(Order order) {
-        Comparator<Habit> nameComparatorAsc =
-                (h1, h2) -> h1.getName().compareTo(h2.getName());
+        Comparator<Habit> nameComparatorAsc = (h1, h2) ->
+        h1.getName().compareTo(h2.getName());
 
-        Comparator<Habit> nameComparatorDesc =
-                (h1, h2) -> nameComparatorAsc.compare(h2, h1);
+        Comparator<Habit> nameComparatorDesc = (h1, h2) ->
+        nameComparatorAsc.compare(h2, h1);
 
         Comparator<Habit> colorComparatorAsc = (h1, h2) ->
-        {
-            Integer c1 = h1.getColor();
-            Integer c2 = h2.getColor();
-            if (c1.equals(c2)) return nameComparatorAsc.compare(h1, h2);
-            else return c1.compareTo(c2);
-        };
+        h1.getColor().compareTo(h2.getColor());
 
-        Comparator<Habit> colorComparatorDesc =
-                (h1, h2) -> colorComparatorAsc.compare(h2, h1);
+        Comparator<Habit> colorComparatorDesc = (h1, h2) ->
+                colorComparatorAsc.compare(h2, h1);
 
         Comparator<Habit> scoreComparatorDesc = (h1, h2) ->
-        {
-            Double s1 = h1.getScores().getTodayValue();
-            Double s2 = h2.getScores().getTodayValue();
-            if (s1.equals(s2)) return nameComparatorAsc.compare(h1, h2);
-            else return s2.compareTo(s1);
-        };
+                Double.compare(h1.getScores().getTodayValue(), h2.getScores().getTodayValue());
 
-        Comparator<Habit> scoreComparatorAsc =
-                (h1, h2) -> scoreComparatorDesc.compare(h2, h1);
+        Comparator<Habit> scoreComparatorAsc = (h1, h2) ->
+                scoreComparatorDesc.compare(h2, h1);
 
         Comparator<Habit> positionComparator = (h1, h2) ->
-        {
-            Integer p1 = h1.getPosition();
-            Integer p2 = h2.getPosition();
-            if (p1.equals(p2)) return nameComparatorAsc.compare(h1, h2);
-            else return p1.compareTo(p2);
-        };
+                h1.getPosition().compareTo(h2.getPosition());
 
         Comparator<Habit> statusComparatorDesc = (h1, h2) ->
         {
@@ -183,8 +168,8 @@ public class MemoryHabitList extends HabitList
                 return h1.isNumerical() ? -1 : 1;
             }
 
-            Integer v1 = h1.getCheckmarks().getToday().getValue();
-            Integer v2 = h2.getCheckmarks().getToday().getValue();
+            Integer v1 = Objects.requireNonNull(h1.getCheckmarks().getToday()).getValue();
+            Integer v2 = Objects.requireNonNull(h2.getCheckmarks().getToday()).getValue();
 
             return v2.compareTo(v1);
         };
