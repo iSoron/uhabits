@@ -35,13 +35,13 @@ public class MemoryHabitList extends HabitList
     @NonNull
     private LinkedList<Habit> list = new LinkedList<>();
 
-    private Comparator<Habit> comparator = null;
-
     @NonNull
     private Order order = Order.BY_POSITION;
 
     @NonNull
-    private Order previousOrder = Order.BY_POSITION;
+    private Order previousOrder = Order.BY_NAME_ASC;
+
+    private Comparator<Habit> comparator = getComposedComparatorByOrder(order, previousOrder);
 
     @Nullable
     private MemoryHabitList parent = null;

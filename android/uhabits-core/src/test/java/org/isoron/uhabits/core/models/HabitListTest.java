@@ -111,7 +111,6 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void testOrdering()
     {
-        HabitList list = modelFactory.buildHabitList();
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("A Habit");
         h1.setColor(2);
@@ -131,46 +130,52 @@ public class HabitListTest extends BaseUnitTest
         h4.setName("D Habit");
         h4.setColor(1);
         h4.setPosition(2);
+        HabitList list;
 
-        list.add(h3);
-        list.add(h1);
-        list.add(h4);
-        list.add(h2);
-
+        list = testOrderingSetup(h1, h2, h3, h4);
         list.setOrder(BY_POSITION);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h1));
         assertThat(list.getByPosition(2), equalTo(h4));
         assertThat(list.getByPosition(3), equalTo(h2));
 
+        list = testOrderingSetup(h1, h2, h3, h4);
         list.setOrder(BY_NAME_DESC);
         assertThat(list.getByPosition(0), equalTo(h4));
         assertThat(list.getByPosition(1), equalTo(h3));
         assertThat(list.getByPosition(2), equalTo(h2));
         assertThat(list.getByPosition(3), equalTo(h1));
 
+        list = testOrderingSetup(h1, h2, h3, h4);
         list.setOrder(BY_NAME_ASC);
         assertThat(list.getByPosition(0), equalTo(h1));
         assertThat(list.getByPosition(1), equalTo(h2));
         assertThat(list.getByPosition(2), equalTo(h3));
         assertThat(list.getByPosition(3), equalTo(h4));
 
+        list = testOrderingSetup(h1, h2, h3, h4);
+        list.setOrder(BY_NAME_ASC);
         list.remove(h1);
         list.add(h1);
         assertThat(list.getByPosition(0), equalTo(h1));
 
+        list = testOrderingSetup(h1, h2, h3, h4);
         list.setOrder(BY_COLOR_ASC);
+        list.setPreviousOrder(BY_NAME_ASC);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h4));
         assertThat(list.getByPosition(2), equalTo(h1));
         assertThat(list.getByPosition(3), equalTo(h2));
 
+        list = testOrderingSetup(h1, h2, h3, h4);
         list.setOrder(BY_COLOR_DESC);
-        assertThat(list.getByPosition(0), equalTo(h2));
-        assertThat(list.getByPosition(1), equalTo(h1));
+        list.setPreviousOrder(BY_NAME_ASC);
+        assertThat(list.getByPosition(0), equalTo(h1));
+        assertThat(list.getByPosition(1), equalTo(h2));
         assertThat(list.getByPosition(2), equalTo(h4));
         assertThat(list.getByPosition(3), equalTo(h3));
 
+        list = testOrderingSetup(h1, h2, h3, h4);
         list.setOrder(BY_POSITION);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h1));
@@ -178,9 +183,20 @@ public class HabitListTest extends BaseUnitTest
         assertThat(list.getByPosition(3), equalTo(h2));
     }
 
-    @Test
-    public void testReorder()
+    private HabitList testOrderingSetup(Habit h1, Habit h2, Habit h3, Habit h4)
     {
+        HabitList list = modelFactory.buildHabitList();
+
+        list.add(h3);
+        list.add(h1);
+        list.add(h4);
+        list.add(h2);
+
+        return list;
+    }
+
+    @Test
+    public void testReorder() {
         int operations[][] = {
             { 5, 2 }, { 3, 7 }, { 4, 4 }, { 8, 3 }
         };
