@@ -213,12 +213,12 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void testOrder_inherit()
     {
-        habitList.setOrder(BY_COLOR_ASC);
+        habitList.setOrder(BY_COLOR);
         HabitList filteredList = habitList.getFiltered(new HabitMatcherBuilder()
                                                                .setArchivedAllowed(false)
                                                                .setCompletedAllowed(false)
                                                                .build());
-        assertEquals(filteredList.getOrder(), BY_COLOR_ASC);
+        assertEquals(filteredList.getOrder(), BY_COLOR);
     }
 
     @Test
