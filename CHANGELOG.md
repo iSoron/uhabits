@@ -1,5 +1,13 @@
 # Changelog
 
+### 1.8.9 (Nov 18, 2020)
+
+* Remove INTERNET permission
+* Manage exceptions for when activities don't exist to handle intents (#181)
+* MemoryHabitList: Inherit parent's order (#598)
+* Remove notification groups; revert to default system behavior
+* Remove SyncManager and Internet permission
+
 ### 1.8.8 (June 21, 2020)
 
 * Make small changes to the habit scheduling algorithm, so that "1 time every x days" habits work more predictably.

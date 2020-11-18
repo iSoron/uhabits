@@ -26,7 +26,6 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.widgets.*;
 import org.isoron.uhabits.intents.*;
-import org.isoron.uhabits.sync.*;
 
 import dagger.*;
 
@@ -67,9 +66,6 @@ public class WidgetReceiver extends BroadcastReceiver
         Preferences prefs = app.getComponent().getPreferences();
 
         Log.i(TAG, String.format("Received intent: %s", intent.toString()));
-
-        if (prefs.isSyncEnabled())
-            context.startService(new Intent(context, SyncService.class));
 
         try
         {

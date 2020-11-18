@@ -25,8 +25,6 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -218,12 +216,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-
-        <service
-            android:name=".sync.SyncService"
-            android:enabled="true"
-            android:exported="false">
-        </service>
     </application>
 
 </manifest>

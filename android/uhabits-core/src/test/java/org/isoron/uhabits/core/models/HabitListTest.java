@@ -31,8 +31,7 @@ import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.isoron.uhabits.core.models.HabitList.Order.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @SuppressWarnings("JavaDoc")
 public class HabitListTest extends BaseUnitTest
@@ -209,6 +208,17 @@ public class HabitListTest extends BaseUnitTest
         Habit h2 = fixtures.createEmptyHabit();
         thrown.expect(IllegalArgumentException.class);
         habitList.reorder(h1, h2);
+    }
+
+    @Test
+    public void testOrder_inherit()
+    {
+        habitList.setOrder(BY_COLOR);
+        HabitList filteredList = habitList.getFiltered(new HabitMatcherBuilder()
+                                                               .setArchivedAllowed(false)
+                                                               .setCompletedAllowed(false)
+                                                               .build());
+        assertEquals(filteredList.getOrder(), BY_COLOR);
     }
 
     @Test
