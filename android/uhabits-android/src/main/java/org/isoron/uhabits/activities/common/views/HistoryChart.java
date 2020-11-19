@@ -102,6 +102,8 @@ public class HistoryChart extends ScrollableChart
     @NonNull
     private Controller controller;
 
+    private boolean skipsEnabled;
+
     public HistoryChart(Context context)
     {
         super(context);
@@ -153,7 +155,10 @@ public class HistoryChart extends ScrollableChart
         int offset = timestamp.daysUntil(today);
         if (offset < checkmarks.length)
         {
-            newValue = Repetition.nextToggleValue(checkmarks[offset]);
+            if(skipsEnabled)
+                newValue = Repetition.nextToggleValueWithSkip(checkmarks[offset]);
+            else
+                newValue = Repetition.nextToggleValueWithoutSkip(checkmarks[offset]);
             checkmarks[offset] = newValue;
         }
 
@@ -209,6 +214,11 @@ public class HistoryChart extends ScrollableChart
     {
         this.isBackgroundTransparent = isBackgroundTransparent;
         initColors();
+    }
+
+    public void setSkipEnabled(boolean value)
+    {
+        this.skipsEnabled = value;
     }
 
     public void setIsEditable(boolean isEditable)

@@ -44,6 +44,7 @@ class HistoryWidget(
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as HistoryChart).apply {
             setFirstWeekday(firstWeekday)
+            setSkipEnabled(prefs.isSkipEnabled)
             setColor(PaletteUtils.getColor(context, habit.color))
             setCheckmarks(habit.checkmarks.allValues)
             setNumerical(habit.isNumerical)

@@ -82,6 +82,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         historyChart = new HistoryChart(context);
         historyChart.setController(controller);
         historyChart.setFirstWeekday(prefs.getFirstWeekday());
+        historyChart.setSkipEnabled(prefs.isSkipEnabled());
 
         if (savedInstanceState != null)
         {

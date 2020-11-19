@@ -23,6 +23,7 @@ import androidx.annotation.*;
 
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.jetbrains.annotations.*;
 
@@ -35,16 +36,22 @@ public class WidgetBehavior
     @NonNull
     private final CommandRunner commandRunner;
 
-    private NotificationTray notificationTray;
+    @NonNull
+    private final NotificationTray notificationTray;
+
+    @NonNull
+    private final Preferences preferences;
 
     @Inject
     public WidgetBehavior(@NonNull HabitList habitList,
                           @NonNull CommandRunner commandRunner,
-                          @NonNull NotificationTray notificationTray)
+                          @NonNull NotificationTray notificationTray,
+                          @NonNull Preferences preferences)
     {
         this.habitList = habitList;
         this.commandRunner = commandRunner;
         this.notificationTray = notificationTray;
+        this.preferences = preferences;
     }
 
     public void onAddRepetition(@NonNull Habit habit, Timestamp timestamp)
@@ -66,8 +73,19 @@ public class WidgetBehavior
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
         Repetition previous = habit.getRepetitions().getByTimestamp(timestamp);
-        if(previous == null) performToggle(habit, timestamp, Checkmark.YES_MANUAL);
-        else performToggle(habit, timestamp, Repetition.nextToggleValue(previous.getValue()));
+        if(previous == null)
+        {
+            performToggle(habit, timestamp, Checkmark.YES_MANUAL);
+        }
+        else
+        {
+            int value;
+            if(preferences.isSkipEnabled())
+                value = Repetition.nextToggleValueWithSkip(previous.getValue());
+            else
+                value = Repetition.nextToggleValueWithoutSkip(previous.getValue());
+            performToggle(habit, timestamp, value);
+        }
     }
 
     private void performToggle(@NonNull Habit habit, Timestamp timestamp, int value)

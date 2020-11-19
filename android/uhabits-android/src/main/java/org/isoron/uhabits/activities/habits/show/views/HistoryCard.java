@@ -120,7 +120,11 @@ public class HistoryCard extends HabitCard
         {
             if (isCanceled()) return;
             int[] checkmarks = habit.getCheckmarks().getAllValues();
-            if(prefs != null) chart.setFirstWeekday(prefs.getFirstWeekday());
+            if(prefs != null)
+            {
+                chart.setFirstWeekday(prefs.getFirstWeekday());
+                chart.setSkipEnabled(prefs.isSkipEnabled());
+            }
             chart.setCheckmarks(checkmarks);
         }
 

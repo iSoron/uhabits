@@ -49,7 +49,8 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         data = parser.parseCheckmarkIntent(intent)
         behavior = WidgetBehavior(component.habitList,
                                   component.commandRunner,
-                                  component.notificationTray)
+                                  component.notificationTray,
+                                  component.preferences)
         widgetUpdater = component.widgetUpdater
         showNumberSelector(this)
 
