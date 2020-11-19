@@ -56,6 +56,7 @@ public class HistoryChartTest extends BaseViewTest
         today = new Timestamp(DateUtils.getStartOfToday());
 
         chart = new HistoryChart(targetContext);
+        chart.setSkipEnabled(true);
         chart.setCheckmarks(habit.getCheckmarks().getAllValues());
         chart.setColor(PaletteUtils.getAndroidTestColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));

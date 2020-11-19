@@ -343,6 +343,11 @@ public class Preferences
         return storage.getBoolean("pref_skip_enabled", false);
     }
 
+    public void setSkipEnabled(boolean value)
+    {
+        storage.putBoolean("pref_skip_enabled", value);
+    }
+
 
     /**
      * @return An integer representing the first day of the week. Sunday

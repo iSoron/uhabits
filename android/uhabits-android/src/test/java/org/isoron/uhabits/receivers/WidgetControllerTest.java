@@ -22,6 +22,7 @@ package org.isoron.uhabits.receivers;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.widgets.*;
 import org.isoron.uhabits.core.utils.*;
@@ -44,6 +45,8 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
 
     private NotificationTray notificationTray;
 
+    private Preferences preferences;
+
     @Override
     public void setUp()
     {
@@ -53,8 +56,9 @@ public class WidgetControllerTest extends BaseAndroidJVMTest
         habit = fixtures.createEmptyHabit();
         commandRunner = mock(CommandRunner.class);
         notificationTray = mock(NotificationTray.class);
+        preferences = mock(Preferences.class);
         controller =
-            new WidgetBehavior(habitList, commandRunner, notificationTray);
+            new WidgetBehavior(habitList, commandRunner, notificationTray, preferences);
     }
 
     @Test

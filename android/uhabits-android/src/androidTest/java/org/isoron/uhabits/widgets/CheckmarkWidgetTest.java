@@ -52,6 +52,7 @@ public class CheckmarkWidgetTest extends BaseViewTest
         super.setUp();
         setTheme(R.style.WidgetTheme);
         prefs.setWidgetOpacity(255);
+        prefs.setSkipEnabled(true);
 
         habit = fixtures.createVeryLongHabit();
         checkmarks = habit.getCheckmarks();
