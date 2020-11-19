@@ -54,6 +54,9 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     @Captor
     private ArgumentCaptor<HabitList.Order> orderCaptor;
 
+    @Captor
+    private ArgumentCaptor<HabitList.Order> secondaryOrderCaptor;
+
     @Override
     public void setUp() throws Exception
     {
@@ -134,9 +137,25 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     @Test
     public void testOnSortStatus()
     {
+        when(adapter.getPrimaryOrder()).thenReturn(BY_NAME_ASC);
+
         behavior.onSortByStatus();
         verify(adapter).setPrimaryOrder(orderCaptor.capture());
+        verify(adapter).setSecondaryOrder(secondaryOrderCaptor.capture());
         assertThat(orderCaptor.getValue(), equalTo(BY_STATUS_ASC));
+        assertThat(secondaryOrderCaptor.getValue(), equalTo(BY_NAME_ASC));
+    }
+
+    @Test
+    public void testOnSortStatusToggle()
+    {
+        when(adapter.getPrimaryOrder()).thenReturn(BY_STATUS_ASC);
+
+        behavior.onSortByStatus();
+
+        verify(adapter).setPrimaryOrder(orderCaptor.capture());
+        verify(adapter, never()).setSecondaryOrder(any());
+        assertThat(orderCaptor.getValue(), equalTo(BY_STATUS_DESC));
     }
 
     @Test
