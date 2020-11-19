@@ -36,12 +36,12 @@ public class MemoryHabitList extends HabitList
     private LinkedList<Habit> list = new LinkedList<>();
 
     @NonNull
-    private Order order = Order.BY_POSITION;
+    private Order primaryOrder = Order.BY_POSITION;
 
     @NonNull
-    private Order previousOrder = Order.BY_NAME_ASC;
+    private Order secondaryOrder = Order.BY_NAME_ASC;
 
-    private Comparator<Habit> comparator = getComposedComparatorByOrder(order, previousOrder);
+    private Comparator<Habit> comparator = getComposedComparatorByOrder(primaryOrder, secondaryOrder);
 
     @Nullable
     private MemoryHabitList parent = null;
@@ -58,8 +58,8 @@ public class MemoryHabitList extends HabitList
         super(matcher);
         this.parent = parent;
         this.comparator = comparator;
-        this.order = parent.order;
-        this.previousOrder = parent.previousOrder;
+        this.primaryOrder = parent.primaryOrder;
+        this.secondaryOrder = parent.secondaryOrder;
         parent.getObservable().addListener(this::loadFromParent);
         loadFromParent();
     }
@@ -109,31 +109,31 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public synchronized Order getOrder()
+    public synchronized Order getPrimaryOrder()
     {
-        return order;
+        return primaryOrder;
     }
 
     @Override
-    public synchronized Order getPreviousOrder()
+    public synchronized Order getSecondaryOrder()
     {
-        return previousOrder;
+        return secondaryOrder;
     }
 
     @Override
-    public synchronized void setOrder(@NonNull Order order)
+    public synchronized void setPrimaryOrder(@NonNull Order order)
     {
-        this.order = order;
-        this.comparator = getComposedComparatorByOrder(this.order, this.previousOrder);
+        this.primaryOrder = order;
+        this.comparator = getComposedComparatorByOrder(this.primaryOrder, this.secondaryOrder);
         resort();
         getObservable().notifyListeners();
     }
 
     @Override
-    public void setPreviousOrder(@NonNull Order order)
+    public void setSecondaryOrder(@NonNull Order order)
     {
-        this.previousOrder = order;
-        this.comparator = getComposedComparatorByOrder(this.order, this.previousOrder);
+        this.secondaryOrder = order;
+        this.comparator = getComposedComparatorByOrder(this.primaryOrder, this.secondaryOrder);
         resort();
         getObservable().notifyListeners();
     }
@@ -228,7 +228,7 @@ public class MemoryHabitList extends HabitList
     public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
     {
         throwIfHasParent();
-        if (order != BY_POSITION) throw new IllegalStateException(
+        if (primaryOrder != BY_POSITION) throw new IllegalStateException(
             "cannot reorder automatically sorted list");
 
         if (indexOf(from) < 0) throw new IllegalArgumentException(

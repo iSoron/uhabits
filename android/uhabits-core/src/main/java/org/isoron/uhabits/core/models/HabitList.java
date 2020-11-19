@@ -107,23 +107,23 @@ public abstract class HabitList implements Iterable<Habit>
         return observable;
     }
 
-    public abstract Order getOrder();
+    public abstract Order getPrimaryOrder();
 
-    public abstract Order getPreviousOrder();
+    public abstract Order getSecondaryOrder();
 
     /**
      * Changes the order of the elements on the list.
      *
      * @param order the new order criterion
      */
-    public abstract void setOrder(@NonNull Order order);
+    public abstract void setPrimaryOrder(@NonNull Order order);
 
     /**
      * Changes the previous order of the elements on the list.
      *
      * @param order the new order criterion
      */
-    public abstract void setPreviousOrder(@NonNull Order order);
+    public abstract void setSecondaryOrder(@NonNull Order order);
 
     /**
      * Returns the index of the given habit in the list, or -1 if the list does

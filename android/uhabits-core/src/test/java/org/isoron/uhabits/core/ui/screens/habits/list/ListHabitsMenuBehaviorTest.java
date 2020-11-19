@@ -103,7 +103,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     public void testOnSortByColor()
     {
         behavior.onSortByColor();
-        verify(adapter).setOrder(orderCaptor.capture());
+        verify(adapter).setPrimaryOrder(orderCaptor.capture());
         assertThat(orderCaptor.getValue(), equalTo(BY_COLOR_ASC));
     }
 
@@ -111,7 +111,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     public void testOnSortManually()
     {
         behavior.onSortByManually();
-        verify(adapter).setOrder(orderCaptor.capture());
+        verify(adapter).setPrimaryOrder(orderCaptor.capture());
         assertThat(orderCaptor.getValue(), equalTo(BY_POSITION));
     }
 
@@ -119,7 +119,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     public void testOnSortScore()
     {
         behavior.onSortByScore();
-        verify(adapter).setOrder(orderCaptor.capture());
+        verify(adapter).setPrimaryOrder(orderCaptor.capture());
         assertThat(orderCaptor.getValue(), equalTo(BY_SCORE_DESC));
     }
 
@@ -127,7 +127,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     public void testOnSortName()
     {
         behavior.onSortByName();
-        verify(adapter).setOrder(orderCaptor.capture());
+        verify(adapter).setPrimaryOrder(orderCaptor.capture());
         assertThat(orderCaptor.getValue(), equalTo(BY_NAME_ASC));
     }
 
@@ -135,7 +135,7 @@ public class ListHabitsMenuBehaviorTest extends BaseUnitTest
     public void testOnSortStatus()
     {
         behavior.onSortByStatus();
-        verify(adapter).setOrder(orderCaptor.capture());
+        verify(adapter).setPrimaryOrder(orderCaptor.capture());
         assertThat(orderCaptor.getValue(), equalTo(BY_STATUS_ASC));
     }
 

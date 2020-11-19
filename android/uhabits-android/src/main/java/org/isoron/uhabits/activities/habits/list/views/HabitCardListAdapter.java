@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.habits.list.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.*;
+
 import android.view.*;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,8 +83,8 @@ public class HabitCardListAdapter
         cache.setListener(this);
         cache.setCheckmarkCount(
             ListHabitsRootViewKt.MAX_CHECKMARK_COUNT);
-        cache.setPreviousOrder(preferences.getDefaultPreviousOrder());
-        cache.setOrder(preferences.getDefaultOrder());
+        cache.setSecondaryOrder(preferences.getDefaultSecondaryOrder());
+        cache.setPrimaryOrder(preferences.getDefaultPrimaryOrder());
 
         setHasStableIds(true);
     }
@@ -161,7 +161,7 @@ public class HabitCardListAdapter
 
     public boolean isSortable()
     {
-        return cache.getOrder() == HabitList.Order.BY_POSITION;
+        return cache.getPrimaryOrder() == HabitList.Order.BY_POSITION;
     }
 
     /**
@@ -314,22 +314,22 @@ public class HabitCardListAdapter
     }
 
     @Override
-    public void setOrder(HabitList.Order order)
+    public void setPrimaryOrder(HabitList.Order order)
     {
-        cache.setOrder(order);
-        preferences.setDefaultOrder(order);
+        cache.setPrimaryOrder(order);
+        preferences.setDefaultPrimaryOrder(order);
     }
 
     @Override
-    public void setPreviousOrder(HabitList.Order order) {
-        cache.setPreviousOrder(order);
-        preferences.setDefaultPreviousOrder(order);
+    public void setSecondaryOrder(HabitList.Order order) {
+        cache.setSecondaryOrder(order);
+        preferences.setDefaultSecondaryOrder(order);
     }
 
     @Override
-    public HabitList.Order getOrder()
+    public HabitList.Order getPrimaryOrder()
     {
-        return cache.getOrder();
+        return cache.getPrimaryOrder();
     }
 
     /**

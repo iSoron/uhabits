@@ -75,13 +75,13 @@ public class PreferencesTest extends BaseUnitTest
     @Test
     public void testDefaultOrder() throws Exception
     {
-        assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_POSITION));
+        assertThat(prefs.getDefaultPrimaryOrder(), equalTo(HabitList.Order.BY_POSITION));
 
-        prefs.setDefaultOrder(HabitList.Order.BY_SCORE_DESC);
-        assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_SCORE_DESC));
+        prefs.setDefaultPrimaryOrder(HabitList.Order.BY_SCORE_DESC);
+        assertThat(prefs.getDefaultPrimaryOrder(), equalTo(HabitList.Order.BY_SCORE_DESC));
 
         storage.putString("pref_default_order", "BOGUS");
-        assertThat(prefs.getDefaultOrder(), equalTo(HabitList.Order.BY_POSITION));
+        assertThat(prefs.getDefaultPrimaryOrder(), equalTo(HabitList.Order.BY_POSITION));
         assertThat(storage.getString("pref_default_order", ""), equalTo("BY_POSITION"));
     }
 

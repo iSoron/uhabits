@@ -116,14 +116,14 @@ public class HabitCardListCache implements CommandRunner.Listener
         return data.habits.size();
     }
 
-    public synchronized HabitList.Order getOrder()
+    public synchronized HabitList.Order getPrimaryOrder()
     {
-        return filteredHabits.getOrder();
+        return filteredHabits.getPrimaryOrder();
     }
 
-    public synchronized HabitList.Order getPreviousOrder()
+    public synchronized HabitList.Order getSecondaryOrder()
     {
-        return filteredHabits.getPreviousOrder();
+        return filteredHabits.getSecondaryOrder();
     }
 
     public synchronized double getScore(long habitId)
@@ -201,18 +201,18 @@ public class HabitCardListCache implements CommandRunner.Listener
         this.listener = listener;
     }
 
-    public synchronized void setOrder(@NonNull HabitList.Order order)
+    public synchronized void setPrimaryOrder(@NonNull HabitList.Order order)
     {
         if (order == null) throw new NullPointerException();
-        allHabits.setOrder(order);
-        filteredHabits.setOrder(order);
+        allHabits.setPrimaryOrder(order);
+        filteredHabits.setPrimaryOrder(order);
         refreshAllHabits();
     }
 
-    public synchronized void setPreviousOrder(@NonNull HabitList.Order order)
+    public synchronized void setSecondaryOrder(@NonNull HabitList.Order order)
     {
-        allHabits.setPreviousOrder(order);
-        filteredHabits.setPreviousOrder(order);
+        allHabits.setSecondaryOrder(order);
+        filteredHabits.setSecondaryOrder(order);
         refreshAllHabits();
     }
 

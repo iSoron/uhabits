@@ -133,50 +133,50 @@ public class HabitListTest extends BaseUnitTest
         HabitList list;
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_POSITION);
+        list.setPrimaryOrder(BY_POSITION);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h1));
         assertThat(list.getByPosition(2), equalTo(h4));
         assertThat(list.getByPosition(3), equalTo(h2));
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_NAME_DESC);
+        list.setPrimaryOrder(BY_NAME_DESC);
         assertThat(list.getByPosition(0), equalTo(h4));
         assertThat(list.getByPosition(1), equalTo(h3));
         assertThat(list.getByPosition(2), equalTo(h2));
         assertThat(list.getByPosition(3), equalTo(h1));
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_NAME_ASC);
+        list.setPrimaryOrder(BY_NAME_ASC);
         assertThat(list.getByPosition(0), equalTo(h1));
         assertThat(list.getByPosition(1), equalTo(h2));
         assertThat(list.getByPosition(2), equalTo(h3));
         assertThat(list.getByPosition(3), equalTo(h4));
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_NAME_ASC);
+        list.setPrimaryOrder(BY_NAME_ASC);
         list.remove(h1);
         list.add(h1);
         assertThat(list.getByPosition(0), equalTo(h1));
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_COLOR_ASC);
-        list.setPreviousOrder(BY_NAME_ASC);
+        list.setPrimaryOrder(BY_COLOR_ASC);
+        list.setSecondaryOrder(BY_NAME_ASC);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h4));
         assertThat(list.getByPosition(2), equalTo(h1));
         assertThat(list.getByPosition(3), equalTo(h2));
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_COLOR_DESC);
-        list.setPreviousOrder(BY_NAME_ASC);
+        list.setPrimaryOrder(BY_COLOR_DESC);
+        list.setSecondaryOrder(BY_NAME_ASC);
         assertThat(list.getByPosition(0), equalTo(h1));
         assertThat(list.getByPosition(1), equalTo(h2));
         assertThat(list.getByPosition(2), equalTo(h4));
         assertThat(list.getByPosition(3), equalTo(h3));
 
         list = testOrderingSetup(h1, h2, h3, h4);
-        list.setOrder(BY_POSITION);
+        list.setPrimaryOrder(BY_POSITION);
         assertThat(list.getByPosition(0), equalTo(h3));
         assertThat(list.getByPosition(1), equalTo(h1));
         assertThat(list.getByPosition(2), equalTo(h4));
@@ -241,12 +241,12 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void testOrder_inherit()
     {
-        habitList.setOrder(BY_COLOR_ASC);
+        habitList.setPrimaryOrder(BY_COLOR_ASC);
         HabitList filteredList = habitList.getFiltered(new HabitMatcherBuilder()
                                                                .setArchivedAllowed(false)
                                                                .setCompletedAllowed(false)
                                                                .build());
-        assertEquals(filteredList.getOrder(), BY_COLOR_ASC);
+        assertEquals(filteredList.getPrimaryOrder(), BY_COLOR_ASC);
     }
 
     @Test
@@ -322,7 +322,7 @@ public class HabitListTest extends BaseUnitTest
     @Test
     public void testReorder_onSortedList() throws Exception
     {
-        habitList.setOrder(BY_SCORE_DESC);
+        habitList.setPrimaryOrder(BY_SCORE_DESC);
         Habit h1 = habitsArray.get(1);
         Habit h2 = habitsArray.get(2);
         thrown.expect(IllegalStateException.class);

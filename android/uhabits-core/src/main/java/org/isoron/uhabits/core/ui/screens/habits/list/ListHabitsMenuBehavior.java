@@ -97,7 +97,7 @@ public class ListHabitsMenuBehavior
 
     public void onSortByManually()
     {
-        adapter.setOrder(HabitList.Order.BY_POSITION);
+        adapter.setPrimaryOrder(HabitList.Order.BY_POSITION);
     }
 
     public void onSortByColor()
@@ -123,13 +123,13 @@ public class ListHabitsMenuBehavior
 
     private void onSortToggleBy(HabitList.Order defaultOrder, HabitList.Order reversedOrder)
     {
-        if (adapter.getOrder() != defaultOrder) {
-            if (adapter.getOrder() != reversedOrder) {
-                adapter.setPreviousOrder(adapter.getOrder());
+        if (adapter.getPrimaryOrder() != defaultOrder) {
+            if (adapter.getPrimaryOrder() != reversedOrder) {
+                adapter.setSecondaryOrder(adapter.getPrimaryOrder());
             }
-            adapter.setOrder(defaultOrder);
+            adapter.setPrimaryOrder(defaultOrder);
         } else {
-            adapter.setOrder(reversedOrder);
+            adapter.setPrimaryOrder(reversedOrder);
         }
 
     }
@@ -155,11 +155,11 @@ public class ListHabitsMenuBehavior
 
         void setFilter(HabitMatcher build);
 
-        void setOrder(HabitList.Order order);
+        void setPrimaryOrder(HabitList.Order order);
 
-        void setPreviousOrder(HabitList.Order order);
+        void setSecondaryOrder(HabitList.Order order);
 
-        HabitList.Order getOrder();
+        HabitList.Order getPrimaryOrder();
     }
 
     public interface Screen
