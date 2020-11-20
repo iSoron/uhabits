@@ -1,5 +1,26 @@
 # Changelog
 
+### 2.0.0 (TBD)
+
+New Features:
+* Track numerical habits (@iSoron, @namnl)
+* Skip days without breaking streak (@KristianTashkov)
+* Sort habits by status (@hiqua)
+* Sort habits in reverse order (@iSoron)
+* Add notes to habits (@recheej)
+* Improve readibility of charts (@chennemann)
+* Delay new day until 3am (@KristianTashkov)
+* Export backups daily (@iSoron)
+
+Bug fixes:
+* Reset chart offset when switching scale (@alxmjo)
+* Don't show reminders from archived habits (@KristianTashkov)
+* Lapses on non-daily habits decrease the score too much (#641)
+* Update widgets at midnight (@KristianTashkov)
+
+Refactoring:
+* Convert files to Kotlin (@olegivo)
+
 ### 1.8.9 (Nov 18, 2020)
 
 * Manage exceptions when activities don't exist to handle intents (#181)
