@@ -60,7 +60,7 @@ public class Preferences
             fallbackColor);
     }
 
-    public HabitList.Order getDefaultOrder()
+    public HabitList.Order getDefaultPrimaryOrder()
     {
         String name = storage.getString("pref_default_order", "BY_POSITION");
 
@@ -70,14 +70,33 @@ public class Preferences
         }
         catch (IllegalArgumentException e)
         {
-            setDefaultOrder(HabitList.Order.BY_POSITION);
+            setDefaultPrimaryOrder(HabitList.Order.BY_POSITION);
             return HabitList.Order.BY_POSITION;
         }
     }
 
-    public void setDefaultOrder(HabitList.Order order)
+    public HabitList.Order getDefaultSecondaryOrder() {
+        String name = storage.getString("pref_default_secondary_order", "BY_NAME_ASC");
+
+        try
+        {
+            return HabitList.Order.valueOf(name);
+        }
+        catch (IllegalArgumentException e)
+        {
+            setDefaultSecondaryOrder(HabitList.Order.BY_NAME_ASC);
+            return HabitList.Order.BY_POSITION;
+        }
+    }
+
+    public void setDefaultPrimaryOrder(HabitList.Order order)
     {
         storage.putString("pref_default_order", order.name());
+    }
+
+    public void setDefaultSecondaryOrder(HabitList.Order order)
+    {
+        storage.putString("pref_default_secondary_order", order.name());
     }
 
     public int getDefaultScoreSpinnerPosition()

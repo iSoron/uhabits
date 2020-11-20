@@ -104,6 +104,11 @@ class ListHabitsMenu @Inject constructor(
                 return true
             }
 
+            R.id.actionSortStatus -> {
+                behavior.onSortByStatus()
+                return true
+            }
+
             else -> return false
         }
     }

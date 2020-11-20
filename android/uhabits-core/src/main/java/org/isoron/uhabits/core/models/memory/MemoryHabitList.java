@@ -35,10 +35,13 @@ public class MemoryHabitList extends HabitList
     @NonNull
     private LinkedList<Habit> list = new LinkedList<>();
 
-    private Comparator<Habit> comparator = null;
+    @NonNull
+    private Order primaryOrder = Order.BY_POSITION;
 
     @NonNull
-    private Order order = Order.BY_POSITION;
+    private Order secondaryOrder = Order.BY_NAME_ASC;
+
+    private Comparator<Habit> comparator = getComposedComparatorByOrder(primaryOrder, secondaryOrder);
 
     @Nullable
     private MemoryHabitList parent = null;
@@ -55,7 +58,8 @@ public class MemoryHabitList extends HabitList
         super(matcher);
         this.parent = parent;
         this.comparator = comparator;
-        this.order = parent.order;
+        this.primaryOrder = parent.primaryOrder;
+        this.secondaryOrder = parent.secondaryOrder;
         parent.getObservable().addListener(this::loadFromParent);
         loadFromParent();
     }
@@ -105,57 +109,87 @@ public class MemoryHabitList extends HabitList
     }
 
     @Override
-    public synchronized Order getOrder()
+    public synchronized Order getPrimaryOrder()
     {
-        return order;
+        return primaryOrder;
     }
 
     @Override
-    public synchronized void setOrder(@NonNull Order order)
+    public synchronized Order getSecondaryOrder()
     {
-        this.order = order;
-        this.comparator = getComparatorByOrder(order);
+        return secondaryOrder;
+    }
+
+    @Override
+    public synchronized void setPrimaryOrder(@NonNull Order order)
+    {
+        this.primaryOrder = order;
+        this.comparator = getComposedComparatorByOrder(this.primaryOrder, this.secondaryOrder);
         resort();
         getObservable().notifyListeners();
     }
 
-    private Comparator<Habit> getComparatorByOrder(Order order)
+    @Override
+    public void setSecondaryOrder(@NonNull Order order)
     {
-        Comparator<Habit> nameComparatorAsc =
-                (h1, h2) -> h1.getName().compareTo(h2.getName());
+        this.secondaryOrder = order;
+        this.comparator = getComposedComparatorByOrder(this.primaryOrder, this.secondaryOrder);
+        resort();
+        getObservable().notifyListeners();
+    }
 
-        Comparator<Habit> nameComparatorDesc =
-                (h1, h2) -> nameComparatorAsc.compare(h2, h1);
+    private Comparator<Habit> getComposedComparatorByOrder(Order firstOrder, Order secondOrder)
+    {
+        return (h1, h2) -> {
+            int firstResult = getComparatorByOrder(firstOrder).compare(h1, h2);
+
+            if (firstResult != 0 || secondOrder == null) {
+                return firstResult;
+            }
+
+            return getComparatorByOrder(secondOrder).compare(h1, h2);
+        };
+    }
+
+    private Comparator<Habit> getComparatorByOrder(Order order) {
+        Comparator<Habit> nameComparatorAsc = (h1, h2) ->
+        h1.getName().compareTo(h2.getName());
+
+        Comparator<Habit> nameComparatorDesc = (h1, h2) ->
+                nameComparatorAsc.compare(h2, h1);
 
         Comparator<Habit> colorComparatorAsc = (h1, h2) ->
-        {
-            Integer c1 = h1.getColor();
-            Integer c2 = h2.getColor();
-            if (c1.equals(c2)) return nameComparatorAsc.compare(h1, h2);
-            else return c1.compareTo(c2);
-        };
+                h1.getColor().compareTo(h2.getColor());
 
-        Comparator<Habit> colorComparatorDesc =
-                (h1, h2) -> colorComparatorAsc.compare(h2, h1);
+        Comparator<Habit> colorComparatorDesc = (h1, h2) ->
+                colorComparatorAsc.compare(h2, h1);
 
         Comparator<Habit> scoreComparatorDesc = (h1, h2) ->
-        {
-            Double s1 = h1.getScores().getTodayValue();
-            Double s2 = h2.getScores().getTodayValue();
-            if (s1.equals(s2)) return nameComparatorAsc.compare(h1, h2);
-            else return s2.compareTo(s1);
-        };
+                Double.compare(h1.getScores().getTodayValue(), h2.getScores().getTodayValue());
 
-        Comparator<Habit> scoreComparatorAsc =
-                (h1, h2) -> scoreComparatorDesc.compare(h2, h1);
+        Comparator<Habit> scoreComparatorAsc = (h1, h2) ->
+                scoreComparatorDesc.compare(h2, h1);
 
         Comparator<Habit> positionComparator = (h1, h2) ->
+                h1.getPosition().compareTo(h2.getPosition());
+
+        Comparator<Habit> statusComparatorDesc = (h1, h2) ->
         {
-            Integer p1 = h1.getPosition();
-            Integer p2 = h2.getPosition();
-            if (p1.equals(p2)) return nameComparatorAsc.compare(h1, h2);
-            else return p1.compareTo(p2);
+            if (h1.isCompletedToday() != h2.isCompletedToday()) {
+                return h1.isCompletedToday() ? -1 : 1;
+            }
+
+            if (h1.isNumerical() != h2.isNumerical()) {
+                return h1.isNumerical() ? -1 : 1;
+            }
+
+            Integer v1 = Objects.requireNonNull(h1.getCheckmarks().getToday()).getValue();
+            Integer v2 = Objects.requireNonNull(h2.getCheckmarks().getToday()).getValue();
+
+            return v2.compareTo(v1);
         };
+
+        Comparator<Habit> statusComparatorAsc = (h1, h2) -> statusComparatorDesc.compare(h2, h1);
 
         if (order == BY_POSITION) return positionComparator;
         if (order == BY_NAME_ASC) return nameComparatorAsc;
@@ -164,6 +198,8 @@ public class MemoryHabitList extends HabitList
         if (order == BY_COLOR_DESC) return colorComparatorDesc;
         if (order == BY_SCORE_DESC) return scoreComparatorDesc;
         if (order == BY_SCORE_ASC) return scoreComparatorAsc;
+        if (order == BY_STATUS_DESC) return statusComparatorDesc;
+        if (order == BY_STATUS_ASC) return statusComparatorAsc;
         throw new IllegalStateException();
     }
 
@@ -192,7 +228,7 @@ public class MemoryHabitList extends HabitList
     public synchronized void reorder(@NonNull Habit from, @NonNull Habit to)
     {
         throwIfHasParent();
-        if (order != BY_POSITION) throw new IllegalStateException(
+        if (primaryOrder != BY_POSITION) throw new IllegalStateException(
             "cannot reorder automatically sorted list");
 
         if (indexOf(from) < 0) throw new IllegalArgumentException(

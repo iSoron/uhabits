@@ -95,36 +95,43 @@ public class ListHabitsMenuBehavior
         updateAdapterFilter();
     }
 
-    public void onSortByColor()
-    {
-        if (adapter.getOrder() != HabitList.Order.BY_COLOR_ASC) {
-            adapter.setOrder(HabitList.Order.BY_COLOR_ASC);
-        } else {
-            adapter.setOrder(HabitList.Order.BY_COLOR_DESC);
-        }
-    }
-
     public void onSortByManually()
     {
-        adapter.setOrder(HabitList.Order.BY_POSITION);
+        adapter.setPrimaryOrder(HabitList.Order.BY_POSITION);
     }
+
+    public void onSortByColor()
+    {
+        onSortToggleBy(HabitList.Order.BY_COLOR_ASC, HabitList.Order.BY_COLOR_DESC);
+    }
+
 
     public void onSortByScore()
     {
-        if (adapter.getOrder() != HabitList.Order.BY_SCORE_DESC) {
-            adapter.setOrder(HabitList.Order.BY_SCORE_DESC);
-        } else {
-            adapter.setOrder(HabitList.Order.BY_SCORE_ASC);
-        }
+        onSortToggleBy(HabitList.Order.BY_SCORE_DESC, HabitList.Order.BY_SCORE_ASC);
     }
 
     public void onSortByName()
     {
-        if (adapter.getOrder() != HabitList.Order.BY_NAME_ASC) {
-            adapter.setOrder(HabitList.Order.BY_NAME_ASC);
+        onSortToggleBy(HabitList.Order.BY_NAME_ASC, HabitList.Order.BY_NAME_DESC);
+    }
+
+    public void onSortByStatus()
+    {
+        onSortToggleBy(HabitList.Order.BY_STATUS_ASC, HabitList.Order.BY_STATUS_DESC);
+    }
+
+    private void onSortToggleBy(HabitList.Order defaultOrder, HabitList.Order reversedOrder)
+    {
+        if (adapter.getPrimaryOrder() != defaultOrder) {
+            if (adapter.getPrimaryOrder() != reversedOrder) {
+                adapter.setSecondaryOrder(adapter.getPrimaryOrder());
+            }
+            adapter.setPrimaryOrder(defaultOrder);
         } else {
-            adapter.setOrder(HabitList.Order.BY_NAME_DESC);
+            adapter.setPrimaryOrder(reversedOrder);
         }
+
     }
 
     public void onToggleNightMode()
@@ -148,9 +155,11 @@ public class ListHabitsMenuBehavior
 
         void setFilter(HabitMatcher build);
 
-        void setOrder(HabitList.Order order);
+        void setPrimaryOrder(HabitList.Order order);
 
-        HabitList.Order getOrder();
+        void setSecondaryOrder(HabitList.Order order);
+
+        HabitList.Order getPrimaryOrder();
     }
 
     public interface Screen

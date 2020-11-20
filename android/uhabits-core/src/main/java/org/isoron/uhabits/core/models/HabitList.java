@@ -107,14 +107,23 @@ public abstract class HabitList implements Iterable<Habit>
         return observable;
     }
 
-    public abstract Order getOrder();
+    public abstract Order getPrimaryOrder();
+
+    public abstract Order getSecondaryOrder();
 
     /**
      * Changes the order of the elements on the list.
      *
-     * @param order the new order criterea
+     * @param order the new order criterion
      */
-    public abstract void setOrder(@NonNull Order order);
+    public abstract void setPrimaryOrder(@NonNull Order order);
+
+    /**
+     * Changes the previous order of the elements on the list.
+     *
+     * @param order the new order criterion
+     */
+    public abstract void setSecondaryOrder(@NonNull Order order);
 
     /**
      * Returns the index of the given habit in the list, or -1 if the list does
@@ -242,6 +251,8 @@ public abstract class HabitList implements Iterable<Habit>
         csv.close();
     }
 
+
+
     public enum Order
     {
         BY_NAME_ASC,
@@ -250,6 +261,8 @@ public abstract class HabitList implements Iterable<Habit>
         BY_COLOR_DESC,
         BY_SCORE_ASC,
         BY_SCORE_DESC,
+        BY_STATUS_ASC,
+        BY_STATUS_DESC,
         BY_POSITION
     }
 }

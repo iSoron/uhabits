@@ -31,6 +31,11 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
  * While repetitions simply record that the habit was performed at a given date,
  * a checkmark provides more information, such as whether a repetition was
  * expected at that day or not.
+ * </p>
+ * <p>
+ * Note that the status comparator in
+ * {@link org.isoron.uhabits.core.models.memory.MemoryHabitList}
+ * relies on SKIP > YES_MANUAL > YES_AUTO > NO.
  * <p>
  * Checkmarks are computed automatically from the list of repetitions.
  */
