@@ -24,12 +24,15 @@ import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.ThemeSwitcher.*
 import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.database.*
 
 class ListHabitsActivity : HabitsActivity() {
 
     var pureBlack: Boolean = false
+    lateinit var taskRunner: TaskRunner
     lateinit var adapter: HabitCardListAdapter
     lateinit var rootView: ListHabitsRootView
     lateinit var screen: ListHabitsScreen
@@ -44,6 +47,7 @@ class ListHabitsActivity : HabitsActivity() {
         rootView = component.listHabitsRootView
         screen = component.listHabitsScreen
         adapter = component.habitCardListAdapter
+        taskRunner = appComponent.taskRunner
 
         setScreen(screen)
         component.listHabitsBehavior.onStartup()
@@ -62,6 +66,9 @@ class ListHabitsActivity : HabitsActivity() {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
+        taskRunner.run {
+            AutoBackup(this@ListHabitsActivity).run()
+        }
 
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
             restartWithFade(ListHabitsActivity::class.java)

@@ -21,6 +21,7 @@ package org.isoron.uhabits.utils;
 
 import android.content.*;
 import android.database.sqlite.*;
+import android.util.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ import androidx.annotation.Nullable;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.Config;
 import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
@@ -97,6 +99,7 @@ public abstract class DatabaseUtils
         String date = dateFormat.format(DateUtils.getLocalTime());
         String format = "%s/Loop Habits Backup %s.db";
         String filename = String.format(format, dir.getAbsolutePath(), date);
+        Log.i("DatabaseUtils", "Writing: " + filename);
 
         File db = getDatabaseFile(context);
         File dbCopy = new File(filename);
