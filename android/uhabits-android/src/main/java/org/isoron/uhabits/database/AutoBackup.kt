@@ -31,15 +31,18 @@ class AutoBackup(private val context: Context) {
     private val basedir = AndroidDirFinder(context).getFilesDir("Backups")!!
 
     fun run(keep: Int = 5) {
+        Log.i("AutoBackup", "Starting automatic backups...")
         val files = listBackupFiles()
         var newestTimestamp = 0L;
         if (files.isNotEmpty()) {
             newestTimestamp = files.last().lastModified()
         }
-        val todayTimestamp = DateUtils.getStartOfToday()
+        val now = DateUtils.getLocalTime()
         removeOldest(files, keep)
-        if (todayTimestamp - newestTimestamp > DateUtils.DAY_LENGTH) {
+        if (now - newestTimestamp > DateUtils.DAY_LENGTH) {
             DatabaseUtils.saveDatabaseCopy(context, basedir)
+        } else {
+            Log.i("AutoBackup", "Fresh backup found (timestamp=$newestTimestamp)")
         }
     }
 
