@@ -52,6 +52,55 @@
                 android:id="@+id/instructions"
                 />
 
+            <!-- Sync Link (QR) -->
+            <FrameLayout style="@style/FormOuterBox">
+
+                <LinearLayout
+                    style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:translationZ="0.01dp"
+                        android:text="@string/sync_link_qr" />
+
+                    <LinearLayout
+                        android:id="@+id/errorPanel"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/errorIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="40dp"
+                            android:layout_margin="40dp"
+                            android:text="@string/fa_exclamation_circle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Error generating code. Please try again later."
+                            />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        android:layout_width="50dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        android:indeterminate="true"
+                        />
+
+                    <ImageView
+                        android:id="@+id/qrCode"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </FrameLayout>
+
             <!-- Sync Link -->
             <FrameLayout style="@style/FormOuterBox">
 
@@ -73,22 +122,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Sync Link -->
-            <FrameLayout style="@style/FormOuterBox">
-
-                <LinearLayout style="@style/FormInnerBox">
-                    <TextView
-                        style="@style/FormLabel"
-                        android:text="@string/sync_link_qr" />
-                    <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/qrCode" />
-                </LinearLayout>
-            </FrameLayout>
-
+            <!-- Password -->
             <FrameLayout style="@style/FormOuterBox">
 
                 <LinearLayout style="@style/FormInnerBox">

@@ -24,17 +24,23 @@ import android.content.ClipboardManager
 import android.graphics.*
 import android.os.*
 import android.text.*
+import android.view.*
 import com.google.zxing.*
 import com.google.zxing.qrcode.*
+import kotlinx.coroutines.*
 import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
+import org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.databinding.*
+import org.isoron.uhabits.sync.*
 
 
 class SyncActivity : BaseActivity() {
 
+    private lateinit var taskRunner: TaskRunner
     private lateinit var baseScreen: BaseScreen
     private lateinit var themeSwitcher: AndroidThemeSwitcher
     private lateinit var binding: ActivitySyncBinding
@@ -47,9 +53,12 @@ class SyncActivity : BaseActivity() {
         val component = (application as HabitsApplication).component
         themeSwitcher = AndroidThemeSwitcher(this, component.preferences)
         themeSwitcher.apply()
+        taskRunner = component.taskRunner
 
         binding = ActivitySyncBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.errorIcon.typeface = getFontAwesome(this)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -58,12 +67,48 @@ class SyncActivity : BaseActivity() {
 
         binding.instructions.setText(Html.fromHtml(resources.getString(R.string.sync_instructions)))
 
-        displayLink("https://loophabits.org/sync/KA9GvblSWrcLk9iwJrplHvWiWdE6opAokdf2qqRl6n6ECX8IUhvcksqlfkQACoMM")
-        displayPassword("6B2W9F5X")
-
         binding.syncLink.setOnClickListener {
             copyToClipboard()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        displayLoading()
+        taskRunner.execute(object : Task {
+            private var key = ""
+            private var error = false
+            override fun doInBackground() {
+                runBlocking {
+                    val server = RemoteSyncServer()
+                    try {
+                        key = server.register()
+                    } catch(e: ServiceUnavailable) {
+                        error = true
+                    }
+                }
+            }
+            override fun onPostExecute() {
+                if(error) {
+                    displayError()
+                } else {
+                    displayLink("https://loophabits.org/sync/$key")
+                    displayPassword("6B2W9F5X")
+                }
+            }
+        })
+    }
+
+    private fun displayLoading() {
+        binding.qrCode.visibility = View.GONE
+        binding.progress.visibility = View.VISIBLE
+        binding.errorPanel.visibility = View.GONE
+    }
+
+    private fun displayError() {
+        binding.qrCode.visibility = View.GONE
+        binding.progress.visibility = View.GONE
+        binding.errorPanel.visibility = View.VISIBLE
     }
 
     private fun copyToClipboard() {
@@ -77,6 +122,9 @@ class SyncActivity : BaseActivity() {
     }
 
     private fun displayLink(link: String) {
+        binding.qrCode.visibility = View.VISIBLE
+        binding.progress.visibility = View.GONE
+        binding.errorPanel.visibility = View.GONE
         binding.syncLink.text = link
         displayQR(link)
     }
