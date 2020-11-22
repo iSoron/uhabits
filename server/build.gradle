@@ -72,7 +72,7 @@ shadowJar {
 }
 
 docker {
-    name = "uhabits-server:$version"
+    name = "docker.axavier.org/uhabits-server:$version"
     files "build/libs/uhabits-server.jar"
 }
 
