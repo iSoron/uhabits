@@ -42,6 +42,17 @@ class StorageModuleTest : BaseApplicationTest() {
     }
 
     @Test
+    fun `when get version succeeds should return version`() {
+        `when`(server.get("k1")).thenReturn(data1)
+        withTestApplication(app()) {
+            handleGet("/db/k1/version").apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertEquals("1", response.content)
+            }
+        }
+    }
+
+    @Test
     fun `when get with invalid key should return 404`() {
         `when`(server.get("k1")).thenThrow(KeyNotFoundException())
         withTestApplication(app()) {

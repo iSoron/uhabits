@@ -50,5 +50,14 @@ fun Routing.storage(app: SyncApplication) {
                 call.respond(HttpStatusCode.Conflict, currData)
             }
         }
+        get("version") {
+            val key = call.parameters["key"]!!
+            try {
+                val data = app.server.get(key)
+                call.respond(HttpStatusCode.OK, data.version)
+            } catch(e: KeyNotFoundException) {
+                call.respond(HttpStatusCode.NotFound)
+            }
+        }
     }
 }
