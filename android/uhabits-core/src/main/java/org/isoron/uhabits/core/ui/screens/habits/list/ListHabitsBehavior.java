@@ -25,7 +25,9 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.utils.*;
+import org.jetbrains.annotations.*;
 
 import java.io.*;
 import java.util.*;
@@ -156,10 +158,19 @@ public class ListHabitsBehavior
                 habit.getId());
     }
 
+    public void onSyncKeyOffer(@NotNull String key)
+    {
+        screen.showConfirmInstallSyncKey(() -> {
+            prefs.setSyncKey(key);
+            prefs.setSyncEnabled(true);
+            screen.showMessage(Message.SYNC_ENABLED);
+        });
+    }
+
     public enum Message
     {
         COULD_NOT_EXPORT, IMPORT_SUCCESSFUL, IMPORT_FAILED, DATABASE_REPAIRED,
-        COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED
+        COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED, SYNC_ENABLED
     }
 
     public interface BugReporter
@@ -196,5 +207,7 @@ public class ListHabitsBehavior
         void showSendBugReportToDeveloperScreen(String log);
 
         void showSendFileScreen(@NonNull String filename);
+
+        void showConfirmInstallSyncKey(@NonNull OnConfirmedCallback callback);
     }
 }

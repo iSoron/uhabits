@@ -145,7 +145,6 @@ public class SettingsFragment extends PreferenceFragmentCompat
         {
             PreferenceCategory devCategory =
                     (PreferenceCategory) findPreference("devCategory");
-            devCategory.removeAll();
             devCategory.setVisible(false);
         }
 
@@ -159,6 +158,10 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private void updateSyncPreferences()
     {
+        if(prefs.getSyncKey().isEmpty()) {
+            prefs.setSyncEnabled(false);
+            ((CheckBoxPreference) findPreference("pref_sync_enabled")).setChecked(false);
+        }
         findPreference("pref_sync_base_url").setSummary(prefs.getSyncBaseURL());
         findPreference("pref_sync_key").setSummary(prefs.getSyncKey());
         findPreference("pref_sync_display").setVisible(prefs.isSyncEnabled());

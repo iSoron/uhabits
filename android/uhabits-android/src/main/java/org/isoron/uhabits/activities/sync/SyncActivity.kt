@@ -44,8 +44,9 @@ class SyncActivity : BaseActivity() {
     private lateinit var preferences: Preferences
     private lateinit var taskRunner: TaskRunner
     private lateinit var baseScreen: BaseScreen
-    private lateinit var themeSwitcher: AndroidThemeSwitcher
     private lateinit var binding: ActivitySyncBinding
+
+    private var styledResources = StyledResources(this)
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -53,8 +54,6 @@ class SyncActivity : BaseActivity() {
         baseScreen = BaseScreen(this)
 
         val component = (application as HabitsApplication).component
-        themeSwitcher = AndroidThemeSwitcher(this, component.preferences)
-        themeSwitcher.apply()
         taskRunner = component.taskRunner
         preferences = component.preferences
 
@@ -85,7 +84,7 @@ class SyncActivity : BaseActivity() {
     }
 
     private fun displayCurrentKey() {
-        displayLink("${preferences.syncBaseURL}/sync/${preferences.syncKey}")
+        displayLink("https://loophabits.org/sync/${preferences.syncKey}")
         displayPassword("6B2W9F5X")
     }
 
@@ -139,27 +138,36 @@ class SyncActivity : BaseActivity() {
     }
 
     private fun displayLink(link: String) {
-        binding.qrCode.visibility = View.VISIBLE
-        binding.progress.visibility = View.GONE
+        binding.qrCode.visibility = View.GONE
+        binding.progress.visibility = View.VISIBLE
         binding.errorPanel.visibility = View.GONE
         binding.syncLink.text = link
         displayQR(link)
     }
 
     private fun displayQR(msg: String) {
-        val writer = QRCodeWriter()
-        val matrix = writer.encode(msg, BarcodeFormat.QR_CODE, 1024, 1024)
-        val height = matrix.height
-        val width = matrix.width
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-        val bgColor = StyledResources(this).getColor(R.attr.highContrastReverseTextColor)
-        val fgColor = StyledResources(this).getColor(R.attr.highContrastTextColor)
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                val color = if (matrix.get(x, y)) fgColor else bgColor
-                bitmap.setPixel(x, y, color)
+        taskRunner.execute(object : Task {
+            lateinit var bitmap: Bitmap
+            override fun doInBackground() {
+                val writer = QRCodeWriter()
+                val matrix = writer.encode(msg, BarcodeFormat.QR_CODE, 1024, 1024)
+                val height = matrix.height
+                val width = matrix.width
+                bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+                val bgColor = styledResources.getColor(R.attr.highContrastReverseTextColor)
+                val fgColor = styledResources.getColor(R.attr.highContrastTextColor)
+                for (x in 0 until width) {
+                    for (y in 0 until height) {
+                        val color = if (matrix.get(x, y)) fgColor else bgColor
+                        bitmap.setPixel(x, y, color)
+                    }
+                }
             }
-        }
-        binding.qrCode.setImageBitmap(bitmap)
+            override fun onPostExecute() {
+                binding.progress.visibility = View.GONE
+                binding.qrCode.visibility = View.VISIBLE
+                binding.qrCode.setImageBitmap(bitmap)
+            }
+        })
     }
 }

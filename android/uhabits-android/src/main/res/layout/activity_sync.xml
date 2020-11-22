@@ -123,7 +123,9 @@
             </FrameLayout>
 
             <!-- Password -->
-            <FrameLayout style="@style/FormOuterBox">
+            <FrameLayout
+                style="@style/FormOuterBox"
+                android:visibility="gone">
 
                 <LinearLayout style="@style/FormInnerBox">
 

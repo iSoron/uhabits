@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.app.*
 import android.content.*
+import android.util.*
 import androidx.annotation.*
 import dagger.*
 import org.isoron.androidbase.activities.*
@@ -31,7 +32,6 @@ import org.isoron.uhabits.activities.habits.edit.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.callbacks.*
@@ -42,13 +42,13 @@ import org.isoron.uhabits.tasks.*
 import java.io.*
 import javax.inject.*
 
-const val RESULT_IMPORT_DATA = 1
-const val RESULT_EXPORT_CSV = 2
-const val RESULT_EXPORT_DB = 3
-const val RESULT_BUG_REPORT = 4
-const val RESULT_REPAIR_DB = 5
-const val REQUEST_OPEN_DOCUMENT = 6
-const val REQUEST_SETTINGS = 7
+const val RESULT_IMPORT_DATA = 101
+const val RESULT_EXPORT_CSV = 102
+const val RESULT_EXPORT_DB = 103
+const val RESULT_BUG_REPORT = 104
+const val RESULT_REPAIR_DB = 105
+const val REQUEST_OPEN_DOCUMENT = 106
+const val REQUEST_SETTINGS = 107
 
 @ActivityScope
 class ListHabitsScreen
@@ -63,6 +63,7 @@ class ListHabitsScreen
         private val exportDBFactory: ExportDBTaskFactory,
         private val importTaskFactory: ImportDataTaskFactory,
         private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
+        private val confirmSyncKeyDialogFactory: ConfirmSyncKeyDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
         private val behavior: Lazy<ListHabitsBehavior>,
@@ -82,6 +83,12 @@ class ListHabitsScreen
         setMenu(menu.get())
         setSelectionMenu(selectionMenu.get())
         commandRunner.addListener(this)
+        if(activity.intent.action == "android.intent.action.VIEW") {
+            val uri = activity.intent.data!!.toString()
+            val key = uri.replace(Regex("^.*sync/"), "")
+            Log.i("ListHabitsScreen", key)
+            behavior.get().onSyncKeyOffer(key)
+        }
     }
 
     fun onDettached() {
@@ -171,13 +178,14 @@ class ListHabitsScreen
 
     override fun showMessage(m: ListHabitsBehavior.Message) {
         showMessage(when (m) {
-                        COULD_NOT_EXPORT -> R.string.could_not_export
-                        IMPORT_SUCCESSFUL -> R.string.habits_imported
-                        IMPORT_FAILED -> R.string.could_not_import
-                        DATABASE_REPAIRED -> R.string.database_repaired
-                        COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
-                        FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
-                    })
+            COULD_NOT_EXPORT -> R.string.could_not_export
+            IMPORT_SUCCESSFUL -> R.string.habits_imported
+            IMPORT_FAILED -> R.string.could_not_import
+            DATABASE_REPAIRED -> R.string.database_repaired
+            COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
+            FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
+            SYNC_ENABLED -> R.string.sync_enabled
+        })
     }
 
     override fun showSendBugReportToDeveloperScreen(log: String) {
@@ -202,6 +210,10 @@ class ListHabitsScreen
                                   unit: String,
                                   callback: ListHabitsBehavior.NumberPickerCallback) {
         numberPickerFactory.create(value, unit, callback).show()
+    }
+
+    override fun showConfirmInstallSyncKey(callback: OnConfirmedCallback) {
+        activity.showDialog(confirmSyncKeyDialogFactory.create(callback))
     }
 
     @StringRes

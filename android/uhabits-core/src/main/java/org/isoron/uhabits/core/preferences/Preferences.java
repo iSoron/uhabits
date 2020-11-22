@@ -329,6 +329,11 @@ public class Preferences
         return storage.getBoolean("pref_sync_enabled", false);
     }
 
+    public void setSyncEnabled(boolean enabled)
+    {
+        storage.putBoolean("pref_sync_enabled", enabled);
+    }
+
 
     /**
      * @return An integer representing the first day of the week. Sunday
