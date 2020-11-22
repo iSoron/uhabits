@@ -203,4 +203,13 @@
     <string name="decrement">Decrement</string>
     <string name="pref_skip_title">Enable skip days</string>
     <string name="pref_skip_description">Toggle twice to add a skip instead of a checkmark. Skips keep your score unchanged and don\'t break your streak.</string>
+    <string name="device_sync">Device sync</string>
+    <string name="pref_sync_summary">This feature allows you to synchronize data between multiple devices. When enabled, an encrypted copy of your data will be uploaded to Loop Habit Tracker servers. See privacy policy for more details.</string>
+    <string name="pref_sync_title">Enable device sync</string>
+    <string name="display_sync_code">Display sync instructions</string>
+    <string name="sync_instructions"><![CDATA[<b>Instructions:</b><br/>1. Install Loop in your second device.<br/>2. Open the link below in your second device.<br/>3. Provide the 8-character password below.<br/><b>Important:</b> Do not publish this information. It gives anyone access to your entire data.]]></string>
+    <string name="sync_link">Sync link</string>
+    <string name="sync_link_qr">Sync link (QR code)</string>
+    <string name="password">Password</string>
+    <string name="copied_to_the_clipboard">Copied to the clipboard</string>
 </resources>

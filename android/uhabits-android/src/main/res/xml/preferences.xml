@@ -111,6 +111,27 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="deviceSync"
+        android:title="@string/device_sync" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_enable_device_sync"
+            android:summary="@string/pref_sync_summary"
+            android:title="@string/pref_sync_title"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="viewSync"
+            android:title="@string/display_sync_code"
+            app:iconSpaceReserved="false"
+            />
+
+    </PreferenceCategory>
+
+
+
+    <PreferenceCategory
             android:key="databaseCategory"
             android:title="@string/database">
 

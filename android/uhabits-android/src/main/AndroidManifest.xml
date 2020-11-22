@@ -41,6 +41,14 @@
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
 
+        <activity
+            android:name=".activities.sync.SyncActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.settings.SettingsActivity" />
+        </activity>
+
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw" />

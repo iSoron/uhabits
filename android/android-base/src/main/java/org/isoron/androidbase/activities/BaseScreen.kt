@@ -127,8 +127,7 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
      *
      * @param stringId the string resource id for this message.
      */
-    fun showMessage(@StringRes stringId: Int?) {
-        val rootView = this.rootView
+    fun showMessage(@StringRes stringId: Int?, rootView: View?) {
         var snackbar = this.snackbar
         if (stringId == null || rootView == null) return
         if (snackbar == null) {
@@ -140,6 +139,10 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         }
         snackbar.setText(stringId)
         snackbar.show()
+    }
+
+    fun showMessage(@StringRes stringId: Int?) {
+        showMessage(stringId, this.rootView)
     }
 
     fun showSendEmailScreen(@StringRes toId: Int, @StringRes subjectId: Int, content: String?) {
