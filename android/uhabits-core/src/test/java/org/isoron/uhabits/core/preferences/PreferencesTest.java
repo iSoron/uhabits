@@ -110,37 +110,6 @@ public class PreferencesTest extends BaseUnitTest
     }
 
     @Test
-    public void testSync() throws Exception
-    {
-        assertThat(prefs.getLastSync(), equalTo(0L));
-        prefs.setLastSync(100);
-        assertThat(prefs.getLastSync(), equalTo(100L));
-
-        assertThat(prefs.getSyncAddress(),
-            equalTo(Preferences.DEFAULT_SYNC_SERVER));
-        prefs.setSyncAddress("example");
-        assertThat(prefs.getSyncAddress(), equalTo("example"));
-        verify(listener).onSyncFeatureChanged();
-        reset(listener);
-
-        assertThat(prefs.getSyncKey(), equalTo(""));
-        prefs.setSyncKey("123");
-        assertThat(prefs.getSyncKey(), equalTo("123"));
-        verify(listener).onSyncFeatureChanged();
-        reset(listener);
-
-        assertFalse(prefs.isSyncEnabled());
-        prefs.setSyncEnabled(true);
-        assertTrue(prefs.isSyncEnabled());
-        verify(listener).onSyncFeatureChanged();
-        reset(listener);
-
-        String id = prefs.getSyncClientId();
-        assertFalse(id.isEmpty());
-        assertThat(prefs.getSyncClientId(), equalTo(id));
-    }
-
-    @Test
     public void testTheme() throws Exception
     {
         assertThat(prefs.getTheme(), equalTo(ThemeSwitcher.THEME_AUTOMATIC));

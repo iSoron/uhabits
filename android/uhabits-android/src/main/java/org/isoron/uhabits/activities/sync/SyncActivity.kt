@@ -33,6 +33,7 @@ import org.isoron.androidbase.utils.*
 import org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.sync.*
@@ -40,6 +41,7 @@ import org.isoron.uhabits.sync.*
 
 class SyncActivity : BaseActivity() {
 
+    private lateinit var preferences: Preferences
     private lateinit var taskRunner: TaskRunner
     private lateinit var baseScreen: BaseScreen
     private lateinit var themeSwitcher: AndroidThemeSwitcher
@@ -54,6 +56,7 @@ class SyncActivity : BaseActivity() {
         themeSwitcher = AndroidThemeSwitcher(this, component.preferences)
         themeSwitcher.apply()
         taskRunner = component.taskRunner
+        preferences = component.preferences
 
         binding = ActivitySyncBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -74,27 +77,41 @@ class SyncActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
+        if(preferences.syncKey.isBlank()) {
+            register()
+        } else {
+            displayCurrentKey()
+        }
+    }
+
+    private fun displayCurrentKey() {
+        displayLink("${preferences.syncBaseURL}/sync/${preferences.syncKey}")
+        displayPassword("6B2W9F5X")
+    }
+
+    private fun register() {
         displayLoading()
         taskRunner.execute(object : Task {
             private var key = ""
             private var error = false
             override fun doInBackground() {
                 runBlocking {
-                    val server = RemoteSyncServer()
+                    val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
                     try {
                         key = server.register()
-                    } catch(e: ServiceUnavailable) {
+                    } catch (e: ServiceUnavailable) {
                         error = true
                     }
                 }
             }
+
             override fun onPostExecute() {
-                if(error) {
+                if (error) {
                     displayError()
-                } else {
-                    displayLink("https://loophabits.org/sync/$key")
-                    displayPassword("6B2W9F5X")
+                    return;
                 }
+                preferences.syncKey = key;
+                displayCurrentKey()
             }
         })
     }

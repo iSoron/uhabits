@@ -21,13 +21,13 @@ package org.isoron.uhabits.intents
 
 import android.content.*
 import android.net.*
-import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.about.*
 import org.isoron.uhabits.activities.habits.edit.*
 import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.activities.intro.*
 import org.isoron.uhabits.activities.settings.*
+import org.isoron.uhabits.activities.sync.*
 import org.isoron.uhabits.core.models.*
 import javax.inject.*
 
@@ -99,5 +99,9 @@ class IntentFactory
         val intent = startEditActivity(context)
         intent.putExtra("habitType", habitType)
         return intent
+    }
+
+    fun startSyncActivity(context: Context): Intent {
+        return Intent(context, SyncActivity::class.java)
     }
 }

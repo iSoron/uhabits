@@ -26,17 +26,15 @@ import android.os.*;
 import android.provider.*;
 import android.util.*;
 
-import androidx.annotation.Nullable;
-import androidx.preference.ListPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
+import androidx.annotation.*;
+import androidx.preference.*;
 
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.notifications.*;
 import org.isoron.uhabits.widgets.*;
 
@@ -47,7 +45,7 @@ import static android.os.Build.VERSION.*;
 import static org.isoron.uhabits.activities.habits.list.ListHabitsScreenKt.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat
-    implements SharedPreferences.OnSharedPreferenceChangeListener
+        implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     private static int RINGTONE_REQUEST_CODE = 1;
 
@@ -55,7 +53,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 
     private RingtoneManager ringtoneManager;
 
-    @Nullable
+    @NonNull
     private Preferences prefs;
 
     @Nullable
@@ -93,6 +91,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
         setResultOnPreferenceClick("exportDB", RESULT_EXPORT_DB);
         setResultOnPreferenceClick("repairDB", RESULT_REPAIR_DB);
         setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT);
+
     }
 
     @Override
@@ -142,24 +141,31 @@ public class SettingsFragment extends PreferenceFragmentCompat
         sharedPrefs = getPreferenceManager().getSharedPreferences();
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 
-        if (prefs != null && !prefs.isDeveloper())
+        if (!prefs.isDeveloper())
         {
             PreferenceCategory devCategory =
-                (PreferenceCategory) findPreference("devCategory");
+                    (PreferenceCategory) findPreference("devCategory");
             devCategory.removeAll();
             devCategory.setVisible(false);
         }
 
         updateWeekdayPreference();
+        updateSyncPreferences();
 
         // Temporarily disable this; we now always ask
         findPreference("reminderSound").setVisible(false);
         findPreference("pref_snooze_interval").setVisible(false);
     }
 
+    private void updateSyncPreferences()
+    {
+        findPreference("pref_sync_base_url").setSummary(prefs.getSyncBaseURL());
+        findPreference("pref_sync_key").setSummary(prefs.getSyncKey());
+        findPreference("pref_sync_display").setVisible(prefs.isSyncEnabled());
+    }
+
     private void updateWeekdayPreference()
     {
-        if (prefs == null) return;
         ListPreference weekdayPref = (ListPreference) findPreference("pref_first_weekday");
         int currentFirstWeekday = prefs.getFirstWeekday();
         String[] dayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
@@ -179,8 +185,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
             Log.d("SettingsFragment", "updating widgets");
             widgetUpdater.updateWidgets();
         }
-        if (key.equals("pref_first_weekday")) updateWeekdayPreference();
+        if (key.equals("pref_sync_enabled"))
+        {
+            Context context = getActivity();
+            if (prefs.isSyncEnabled())
+            {
+                Intent intent = new IntentFactory().startSyncActivity(context);
+                context.startActivity(intent);
+            }
+        }
         BackupManager.dataChanged("org.isoron.uhabits");
+        updateWeekdayPreference();
+        updateSyncPreferences();
     }
 
     private void setResultOnPreferenceClick(String key, final int result)

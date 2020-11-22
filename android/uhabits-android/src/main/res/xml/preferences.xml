@@ -116,19 +116,22 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="pref_enable_device_sync"
+            android:key="pref_sync_enabled"
             android:summary="@string/pref_sync_summary"
             android:title="@string/pref_sync_title"
             app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="viewSync"
+            android:key="pref_sync_display"
             android:title="@string/display_sync_code"
-            app:iconSpaceReserved="false"
-            />
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="org.isoron.uhabits.activities.sync.SyncActivity"
+                android:targetPackage="org.isoron.uhabits" />
+        </Preference>
 
     </PreferenceCategory>
-
 
 
     <PreferenceCategory
@@ -217,6 +220,20 @@
                 android:key="pref_feature_widget_stack"
                 android:title="Enable widget stacks"
                 app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            android:defaultValue="@string/syncBaseURL"
+            android:key="pref_sync_base_url"
+            android:title="Sync server"
+            app:iconSpaceReserved="false"
+            />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_sync_key"
+            android:title="Sync key"
+            app:iconSpaceReserved="false"
+            />
 
     </PreferenceCategory>
 

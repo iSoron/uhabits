@@ -29,10 +29,6 @@ import java.util.*;
 
 public class Preferences
 {
-
-    public static final String DEFAULT_SYNC_SERVER =
-        "https://sync.loophabits.org";
-
     @NonNull
     private final Storage storage;
 
@@ -130,16 +126,6 @@ public class Preferences
         else return new Timestamp(unixTime);
     }
 
-    public long getLastSync()
-    {
-        return storage.getLong("last_sync", 0);
-    }
-
-    public void setLastSync(long timestamp)
-    {
-        storage.putLong("last_sync", timestamp);
-    }
-
     public boolean getShowArchived()
     {
         return storage.getBoolean("pref_show_archived", false);
@@ -168,39 +154,6 @@ public class Preferences
     public void setSnoozeInterval(int interval)
     {
         storage.putString("pref_snooze_interval", String.valueOf(interval));
-    }
-
-    public String getSyncAddress()
-    {
-        return storage.getString("pref_sync_address", DEFAULT_SYNC_SERVER);
-    }
-
-    public void setSyncAddress(String address)
-    {
-        storage.putString("pref_sync_address", address);
-        for (Listener l : listeners) l.onSyncFeatureChanged();
-    }
-
-    public String getSyncClientId()
-    {
-        String id = storage.getString("pref_sync_client_id", "");
-        if (!id.isEmpty()) return id;
-
-        id = UUID.randomUUID().toString();
-        storage.putString("pref_sync_client_id", id);
-
-        return id;
-    }
-
-    public String getSyncKey()
-    {
-        return storage.getString("pref_sync_key", "");
-    }
-
-    public void setSyncKey(String key)
-    {
-        storage.putString("pref_sync_key", key);
-        for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
     public int getTheme()
@@ -261,17 +214,6 @@ public class Preferences
     public void setShortToggleEnabled(boolean enabled)
     {
         storage.putBoolean("pref_short_toggle", enabled);
-    }
-
-    public boolean isSyncEnabled()
-    {
-        return storage.getBoolean("pref_feature_sync", false);
-    }
-
-    public void setSyncEnabled(boolean isEnabled)
-    {
-        storage.putBoolean("pref_feature_sync", isEnabled);
-        for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
     public boolean isWidgetStackEnabled()
@@ -367,6 +309,26 @@ public class Preferences
         storage.putBoolean("pref_skip_enabled", value);
     }
 
+    public String getSyncBaseURL()
+    {
+        return storage.getString("pref_sync_base_url", "");
+    }
+
+    public String getSyncKey()
+    {
+        return storage.getString("pref_sync_key", "");
+    }
+
+    public void setSyncKey(String key)
+    {
+        storage.putString("pref_sync_key", key);
+    }
+
+    public boolean isSyncEnabled()
+    {
+        return storage.getBoolean("pref_sync_enabled", false);
+    }
+
 
     /**
      * @return An integer representing the first day of the week. Sunday
@@ -388,10 +350,6 @@ public class Preferences
         }
 
         default void onNotificationsChanged()
-        {
-        }
-
-        default void onSyncFeatureChanged()
         {
         }
     }

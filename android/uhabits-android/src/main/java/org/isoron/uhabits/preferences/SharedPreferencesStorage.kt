@@ -87,8 +87,6 @@ class SharedPreferencesStorage
                 preferences.setNotificationsSticky(getBoolean(key, false))
             "pref_led_notifications" ->
                 preferences.setNotificationsLed(getBoolean(key, false))
-            "pref_feature_sync" ->
-                preferences.isSyncEnabled = getBoolean(key, false)
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
