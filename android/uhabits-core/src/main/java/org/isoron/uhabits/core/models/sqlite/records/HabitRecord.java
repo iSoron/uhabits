@@ -81,6 +81,9 @@ public class HabitRecord
     @Column
     public Long id;
 
+    @Column
+    public String uuid;
+
     public void copyFrom(Habit model)
     {
         this.id = model.getId();
@@ -95,6 +98,7 @@ public class HabitRecord
         this.unit = model.getUnit();
         this.position = model.getPosition();
         this.question = model.getQuestion();
+        this.uuid = model.getUUID();
 
         Frequency freq = model.getFrequency();
         this.freqNum = freq.getNumerator();
@@ -126,6 +130,7 @@ public class HabitRecord
         habit.setTargetValue(this.targetValue);
         habit.setUnit(this.unit);
         habit.setPosition(this.position);
+        habit.setUUID(this.uuid);
 
         if (reminderHour != null && reminderMin != null)
         {

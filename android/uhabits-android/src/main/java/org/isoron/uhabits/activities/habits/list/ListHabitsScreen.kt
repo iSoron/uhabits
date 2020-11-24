@@ -97,9 +97,9 @@ class ListHabitsScreen
         commandRunner.removeListener(this)
     }
 
-    override fun onCommandExecuted(command: Command, refreshKey: Long?) {
-        if (command.isRemote) return
-        showMessage(getExecuteString(command))
+    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
+        if (command != null)
+            showMessage(getExecuteString(command))
     }
 
     override fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {

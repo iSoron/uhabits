@@ -356,12 +356,25 @@ public class Habit
     }
 
     @NonNull
-    public String getQuestion() {
+    public String getQuestion()
+    {
         return data.question;
     }
 
-    public void setQuestion(@NonNull String question) {
+    public void setQuestion(@NonNull String question)
+    {
         data.question = question;
+    }
+
+    @NonNull
+    public String getUUID()
+    {
+        return data.uuid;
+    }
+
+    public void setUUID(@NonNull String uuid)
+    {
+        data.uuid = uuid;
     }
 
     public static final class HabitData
@@ -388,6 +401,8 @@ public class Habit
 
         public int type;
 
+        public String uuid;
+
         @NonNull
         public String unit;
 
@@ -409,6 +424,7 @@ public class Habit
             this.targetValue = 100;
             this.unit = "";
             this.position = 0;
+            this.uuid = UUID.randomUUID().toString().replace("-", "");
         }
 
         public HabitData(@NonNull HabitData model)
@@ -425,6 +441,7 @@ public class Habit
             this.unit = model.unit;
             this.reminder = model.reminder;
             this.position = model.position;
+            this.uuid = model.uuid;
         }
 
         @Override
@@ -443,6 +460,7 @@ public class Habit
                 .append("reminder", reminder)
                 .append("position", position)
                 .append("question", question)
+                .append("uuid", uuid)
                 .toString();
         }
 
@@ -468,6 +486,7 @@ public class Habit
                 .append(reminder, habitData.reminder)
                 .append(position, habitData.position)
                 .append(question, habitData.question)
+                .append(uuid, habitData.uuid)
                 .isEquals();
         }
 
@@ -487,6 +506,7 @@ public class Habit
                 .append(reminder)
                 .append(position)
                 .append(question)
+                .append(uuid)
                 .toHashCode();
         }
     }

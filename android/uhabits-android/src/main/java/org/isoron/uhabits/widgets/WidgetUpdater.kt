@@ -45,7 +45,7 @@ class WidgetUpdater
 
     private var lastUpdated = 0L
 
-    override fun onCommandExecuted(command: Command, refreshKey: Long?) {
+    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
         updateWidgets(refreshKey)
     }
 

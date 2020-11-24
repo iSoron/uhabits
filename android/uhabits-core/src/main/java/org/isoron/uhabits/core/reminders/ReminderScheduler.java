@@ -56,7 +56,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     }
 
     @Override
-    public synchronized void onCommandExecuted(@NonNull Command command,
+    public synchronized void onCommandExecuted(@Nullable Command command,
                                                @Nullable Long refreshKey)
     {
         if (command instanceof CreateRepetitionCommand) return;

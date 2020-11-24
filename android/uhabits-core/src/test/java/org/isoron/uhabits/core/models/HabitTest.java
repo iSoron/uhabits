@@ -148,6 +148,7 @@ public class HabitTest extends BaseUnitTest
     public void testToString() throws Exception
     {
         Habit h = modelFactory.buildHabit();
+        h.setUUID("nnnn");
         h.setReminder(new Reminder(22, 30, WeekdayList.EVERY_DAY));
         String expected = "{id: <null>, data: {name: , description: ," +
                           " frequency: {numerator: 3, denominator: 7}," +
@@ -155,7 +156,7 @@ public class HabitTest extends BaseUnitTest
                           " targetValue: 100.0, type: 0, unit: ," +
                           " reminder: {hour: 22, minute: 30," +
                           " days: {weekdays: [true,true,true,true,true,true,true]}}," +
-                          " position: 0, question: }}";
+                          " position: 0, question: , uuid: nnnn}}";
 
         assertThat(h.toString(), equalTo(expected));
     }

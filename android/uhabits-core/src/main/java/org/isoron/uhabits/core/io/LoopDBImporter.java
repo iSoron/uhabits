@@ -101,35 +101,42 @@ public class LoopDBImporter extends AbstractImporter
         habitsRepository = new Repository<>(HabitRecord.class, db);
         repsRepository = new Repository<>(RepetitionRecord.class, db);
 
-        for (HabitRecord habitRecord : habitsRepository.findAll(
-                "order by position"))
+        List<HabitRecord> records = habitsRepository.findAll("order by position");
+        for (HabitRecord habitRecord : records)
         {
-            Habit habit = habitList.getById(habitRecord.id);
+            List<RepetitionRecord> reps =
+                    repsRepository.findAll("where habit = ?",
+                            habitRecord.id.toString());
+
+            Habit habit = habitList.getByUUID(habitRecord.uuid);
             if (habit == null)
             {
                 habit = modelFactory.buildHabit();
+                habitRecord.id = null;
                 habitRecord.copyTo(habit);
-                runner.execute(new CreateHabitCommand(modelFactory, habitList, habit), null);
+                new CreateHabitCommand(modelFactory, habitList, habit).execute();
             }
             else
             {
                 Habit modified = modelFactory.buildHabit();
+                habitRecord.id = habit.id;
                 habitRecord.copyTo(modified);
                 if (!modified.getData().equals(habit.getData()))
-                    runner.execute(new EditHabitCommand(modelFactory, habitList, habit, modified), null);
+                    new EditHabitCommand(modelFactory, habitList, habit, modified).execute();
             }
 
-            List<RepetitionRecord> reps =
-                    repsRepository.findAll("where habit = ?",
-                            habitRecord.id.toString());
+            // Reload saved version of the habit
+            habit = habitList.getByUUID(habitRecord.uuid);
 
             for (RepetitionRecord r : reps)
             {
                 Timestamp t = new Timestamp(r.timestamp);
                 Repetition rep = habit.getRepetitions().getByTimestamp(t);
                 if(rep == null || rep.getValue() != r.value)
-                    runner.execute(new CreateRepetitionCommand(habitList, habit, t, r.value), habit.id);
+                    new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
             }
         }
+
+        runner.notifyListeners(null, null);
     }
 }
