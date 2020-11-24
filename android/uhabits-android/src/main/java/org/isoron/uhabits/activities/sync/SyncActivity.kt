@@ -32,15 +32,16 @@ import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
 import org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.utils.*
 
 
 class SyncActivity : BaseActivity() {
 
+    private lateinit var syncManager: SyncManager
     private lateinit var preferences: Preferences
     private lateinit var taskRunner: TaskRunner
     private lateinit var baseScreen: BaseScreen
@@ -56,6 +57,7 @@ class SyncActivity : BaseActivity() {
         val component = (application as HabitsApplication).component
         taskRunner = component.taskRunner
         preferences = component.preferences
+        syncManager = component.syncManager
 
         binding = ActivitySyncBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -84,20 +86,26 @@ class SyncActivity : BaseActivity() {
     }
 
     private fun displayCurrentKey() {
-        displayLink("https://loophabits.org/sync/${preferences.syncKey}")
+        displayLink("https://loophabits.org/sync/${preferences.syncKey}#${preferences.encryptionKey}")
         displayPassword("6B2W9F5X")
     }
 
     private fun register() {
         displayLoading()
         taskRunner.execute(object : Task {
-            private var key = ""
+            private lateinit var encKey: String
+            private lateinit var syncKey: String
             private var error = false
             override fun doInBackground() {
                 runBlocking {
                     val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
                     try {
-                        key = server.register()
+                        syncKey = server.register()
+                        encKey = generateEncryptionKey()
+                        preferences.isSyncEnabled = true
+                        preferences.encryptionKey = encKey
+                        preferences.syncKey = syncKey;
+                        syncManager.sync()
                     } catch (e: ServiceUnavailable) {
                         error = true
                     }
@@ -109,7 +117,6 @@ class SyncActivity : BaseActivity() {
                     displayError()
                     return;
                 }
-                preferences.syncKey = key;
                 displayCurrentKey()
             }
         })

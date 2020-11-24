@@ -158,10 +158,15 @@ public class ListHabitsBehavior
                 habit.getId());
     }
 
-    public void onSyncKeyOffer(@NotNull String key)
+    public void onSyncKeyOffer(@NotNull String syncKey, @NotNull String encryptionKey)
     {
+        if(prefs.getSyncKey().equals(syncKey)) {
+            screen.showMessage(Message.SYNC_KEY_ALREADY_INSTALLED);
+            return;
+        }
         screen.showConfirmInstallSyncKey(() -> {
-            prefs.setSyncKey(key);
+            prefs.setSyncKey(syncKey);
+            prefs.setEncryptionKey(encryptionKey);
             prefs.setSyncEnabled(true);
             screen.showMessage(Message.SYNC_ENABLED);
         });
@@ -170,7 +175,7 @@ public class ListHabitsBehavior
     public enum Message
     {
         COULD_NOT_EXPORT, IMPORT_SUCCESSFUL, IMPORT_FAILED, DATABASE_REPAIRED,
-        COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED, SYNC_ENABLED
+        COULD_NOT_GENERATE_BUG_REPORT, FILE_NOT_RECOGNIZED, SYNC_ENABLED, SYNC_KEY_ALREADY_INSTALLED
     }
 
     public interface BugReporter

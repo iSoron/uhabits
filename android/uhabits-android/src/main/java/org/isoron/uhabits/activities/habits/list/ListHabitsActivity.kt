@@ -28,6 +28,7 @@ import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.ThemeSwitcher.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.database.*
+import org.isoron.uhabits.sync.*
 
 class ListHabitsActivity : HabitsActivity() {
 
@@ -38,10 +39,12 @@ class ListHabitsActivity : HabitsActivity() {
     lateinit var screen: ListHabitsScreen
     lateinit var prefs: Preferences
     lateinit var midnightTimer: MidnightTimer
+    lateinit var syncManager: SyncManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = appComponent.preferences
+        syncManager = appComponent.syncManager
         pureBlack = prefs.isPureBlackEnabled
         midnightTimer = appComponent.midnightTimer
         rootView = component.listHabitsRootView
@@ -58,6 +61,7 @@ class ListHabitsActivity : HabitsActivity() {
         midnightTimer.onPause()
         screen.onDettached()
         adapter.cancelRefresh()
+        syncManager.onPause()
         super.onPause()
     }
 
@@ -66,14 +70,13 @@ class ListHabitsActivity : HabitsActivity() {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
+        syncManager.onResume()
         taskRunner.run {
             AutoBackup(this@ListHabitsActivity).run()
         }
-
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
             restartWithFade(ListHabitsActivity::class.java)
         }
-
         super.onResume()
     }
 }

@@ -214,4 +214,5 @@
     <string name="copied_to_the_clipboard">Copied to the clipboard</string>
     <string name="sync_confirm"><![CDATA[Are you trying to enable device sync?\n\nThis feature allows you to sync your data across multiple devices. When enabled, an encrypted copy of your data will be uploaded to our servers.]]></string>
     <string name="sync_enabled">Device sync enabled</string>
+    <string name="sync_key_already_installed">Sync key already installed</string>
 </resources>

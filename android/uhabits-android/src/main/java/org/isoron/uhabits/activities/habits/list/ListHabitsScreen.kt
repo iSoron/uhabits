@@ -85,9 +85,11 @@ class ListHabitsScreen
         commandRunner.addListener(this)
         if(activity.intent.action == "android.intent.action.VIEW") {
             val uri = activity.intent.data!!.toString()
-            val key = uri.replace(Regex("^.*sync/"), "")
-            Log.i("ListHabitsScreen", key)
-            behavior.get().onSyncKeyOffer(key)
+            val parts = uri.replace(Regex("^.*sync/"), "").split("#")
+            val syncKey = parts[0]
+            val encKey = parts[1]
+            Log.i("ListHabitsScreen", "sync: $syncKey enc: $encKey")
+            behavior.get().onSyncKeyOffer(syncKey, encKey)
         }
     }
 
@@ -185,6 +187,7 @@ class ListHabitsScreen
             COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
             FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
             SYNC_ENABLED -> R.string.sync_enabled
+            SYNC_KEY_ALREADY_INSTALLED -> R.string.sync_key_already_installed
         })
     }
 

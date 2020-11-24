@@ -46,7 +46,7 @@ class RemoteSyncServer(
 
     override suspend fun put(key: String, newData: SyncData) {
         try {
-            val response: String = httpClient.put("$baseURL/$key") {
+            val response: String = httpClient.put("$baseURL/db/$key") {
                 header("Content-Type", "application/json")
                 body = newData
             }
@@ -59,7 +59,7 @@ class RemoteSyncServer(
 
     override suspend fun getData(key: String): SyncData {
         try {
-            return httpClient.get("$baseURL/$key")
+            return httpClient.get("$baseURL/db/$key")
         } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
@@ -69,7 +69,7 @@ class RemoteSyncServer(
 
     override suspend fun getDataVersion(key: String): Long {
         try {
-            val response: GetDataVersionResponse = httpClient.get("$baseURL/$key/version")
+            val response: GetDataVersionResponse = httpClient.get("$baseURL/db/$key/version")
             return response.version
         } catch(e: ServerResponseException) {
             throw ServiceUnavailable()

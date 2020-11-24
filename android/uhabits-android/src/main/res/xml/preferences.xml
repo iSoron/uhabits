@@ -235,6 +235,13 @@
             app:iconSpaceReserved="false"
             />
 
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="pref_encryption_key"
+            android:title="Encryption key"
+            app:iconSpaceReserved="false"
+            />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

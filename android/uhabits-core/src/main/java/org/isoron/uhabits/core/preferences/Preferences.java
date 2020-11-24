@@ -324,6 +324,16 @@ public class Preferences
         storage.putString("pref_sync_key", key);
     }
 
+    public String getEncryptionKey()
+    {
+        return storage.getString("pref_encryption_key", "");
+    }
+
+    public void setEncryptionKey(String key)
+    {
+        storage.putString("pref_encryption_key", key);
+    }
+
     public boolean isSyncEnabled()
     {
         return storage.getBoolean("pref_sync_enabled", false);
@@ -332,6 +342,7 @@ public class Preferences
     public void setSyncEnabled(boolean enabled)
     {
         storage.putBoolean("pref_sync_enabled", enabled);
+        if(enabled) for (Listener l : listeners) l.onSyncEnabled();
     }
 
 
@@ -355,6 +366,10 @@ public class Preferences
         }
 
         default void onNotificationsChanged()
+        {
+        }
+
+        default void onSyncEnabled()
         {
         }
     }
