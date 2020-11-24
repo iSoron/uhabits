@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.io;
 
 import androidx.annotation.*;
 
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
@@ -42,15 +43,19 @@ public class LoopDBImporter extends AbstractImporter
 
     @NonNull
     private final DatabaseOpener opener;
+    @NonNull
+    private final CommandRunner runner;
 
     @Inject
     public LoopDBImporter(@NonNull HabitList habitList,
                           @NonNull ModelFactory modelFactory,
-                          @NonNull DatabaseOpener opener)
+                          @NonNull DatabaseOpener opener,
+                          @NonNull CommandRunner runner)
     {
         super(habitList);
         this.modelFactory = modelFactory;
         this.opener = opener;
+        this.runner = runner;
     }
 
     @Override
@@ -97,19 +102,34 @@ public class LoopDBImporter extends AbstractImporter
         repsRepository = new Repository<>(RepetitionRecord.class, db);
 
         for (HabitRecord habitRecord : habitsRepository.findAll(
-            "order by position"))
+                "order by position"))
         {
-            Habit h = modelFactory.buildHabit();
-            habitRecord.copyTo(h);
-            h.setId(null);
-            habitList.add(h);
+            Habit habit = habitList.getById(habitRecord.id);
+            if (habit == null)
+            {
+                habit = modelFactory.buildHabit();
+                habitRecord.copyTo(habit);
+                runner.execute(new CreateHabitCommand(modelFactory, habitList, habit), null);
+            }
+            else
+            {
+                Habit modified = modelFactory.buildHabit();
+                habitRecord.copyTo(modified);
+                if (!modified.getData().equals(habit.getData()))
+                    runner.execute(new EditHabitCommand(modelFactory, habitList, habit, modified), null);
+            }
 
             List<RepetitionRecord> reps =
-                repsRepository.findAll("where habit = ?",
-                    habitRecord.id.toString());
+                    repsRepository.findAll("where habit = ?",
+                            habitRecord.id.toString());
 
             for (RepetitionRecord r : reps)
-                h.getRepetitions().toggle(new Timestamp(r.timestamp), r.value);
+            {
+                Timestamp t = new Timestamp(r.timestamp);
+                Repetition rep = habit.getRepetitions().getByTimestamp(t);
+                if(rep == null || rep.getValue() != r.value)
+                    runner.execute(new CreateRepetitionCommand(habitList, habit, t, r.value), habit.id);
+            }
         }
     }
 }
