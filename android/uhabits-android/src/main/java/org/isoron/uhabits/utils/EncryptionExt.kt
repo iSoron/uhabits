@@ -78,7 +78,7 @@ fun generateEncryptionKey(): String {
         val keygen = KeyGenerator.getInstance("AES")
         keygen.init(256)
         val key = keygen.generateKey()
-        Base64.encodeToString(key.encoded, Base64.DEFAULT)
+        Base64.encodeToString(key.encoded, Base64.DEFAULT).trim()
     } catch (e: Exception) {
         throw RuntimeException(e)
     }
