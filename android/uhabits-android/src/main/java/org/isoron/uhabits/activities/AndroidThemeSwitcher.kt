@@ -19,15 +19,16 @@
 
 package org.isoron.uhabits.activities
 
-import android.app.*
-import android.content.res.Configuration.*
-import android.os.Build.VERSION.*
-import androidx.core.content.*
-import org.isoron.androidbase.activities.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
-import javax.inject.*
+import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration.UI_MODE_NIGHT_MASK
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.os.Build.VERSION.SDK_INT
+import androidx.core.content.ContextCompat
+import org.isoron.androidbase.activities.ActivityScope
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.ThemeSwitcher
 
 @ActivityScope
 class AndroidThemeSwitcher
@@ -54,6 +55,14 @@ constructor(
 
     override fun applyLightTheme() {
         activity.setTheme(R.style.AppBaseTheme)
+
+        if(isEdgeToEdgeEnabled(activity.baseContext) == 2) {
+            activity.window.navigationBarColor =
+                    ContextCompat.getColor(activity, R.color.grey_200)
+        } else {
+            activity.window.navigationBarColor =
+                    ContextCompat.getColor(activity, R.color.transparent)
+        }
     }
 
     override fun applyPureBlackTheme() {
@@ -67,5 +76,13 @@ constructor(
             isNightMode -> R.style.DarkDialogWithTitle
             else -> R.style.DialogWithTitle
         }
+    }
+
+    fun isEdgeToEdgeEnabled(context: Context): Int {
+        val resources = context.resources
+        val resourceId = resources.getIdentifier("config_navBarInteractionMode", "integer", "android")
+        return if (resourceId > 0) {
+            resources.getInteger(resourceId)
+        } else 0
     }
 }

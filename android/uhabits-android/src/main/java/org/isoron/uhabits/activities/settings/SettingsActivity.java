@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.activities.settings;
 
+
+import android.graphics.Color;
 import android.os.*;
 
 import org.isoron.androidbase.activities.*;
@@ -44,6 +46,8 @@ public class SettingsActivity extends BaseActivity
 
         setContentView(R.layout.settings_activity);
         setupActionBarColor();
+
+        getWindow().setNavigationBarColor((Color.TRANSPARENT));
     }
 
     private void setupActionBarColor()
@@ -56,4 +60,5 @@ public class SettingsActivity extends BaseActivity
 
         BaseScreen.setupActionBarColor(this, color);
     }
+
 }
