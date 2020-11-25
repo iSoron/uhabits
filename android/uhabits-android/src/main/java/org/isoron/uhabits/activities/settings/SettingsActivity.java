@@ -52,7 +52,7 @@ public class SettingsActivity extends BaseActivity
         int color = BaseScreen.getDefaultActionBarColor(this);
 
         if (res.getBoolean(R.attr.useHabitColorAsPrimary))
-            color = res.getColor(R.attr.aboutScreenColor);
+            color = res.getColor(R.attr.colorPrimary);
 
         BaseScreen.setupActionBarColor(this, color);
     }
