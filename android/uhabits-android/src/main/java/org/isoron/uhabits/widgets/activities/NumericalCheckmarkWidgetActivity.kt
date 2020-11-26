@@ -58,7 +58,7 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
     }
 
     override fun onNumberPicked(newValue: Double) {
-        behavior.setNumericValue(data.habit, data.timestamp, (newValue * 1000).toInt())
+        behavior.setValue(data.habit, data.timestamp, (newValue * 1000).toInt())
         widgetUpdater.updateWidgets()
         finish()
     }

@@ -128,8 +128,7 @@ public class HabitFixtures
         Timestamp timestamp = DateUtils.getToday();
         for (int value : LONG_NUMERICAL_HABIT_CHECKS)
         {
-            Repetition r = new Repetition(timestamp, value);
-            habit.getRepetitions().add(r);
+            habit.getRepetitions().setValue(timestamp, value);
             timestamp = timestamp.minus(1);
         }
 
