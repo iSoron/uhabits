@@ -1,5 +1,0 @@
-Version 1.7.11:
-* Fix bug that produced corrupted CSV files in some countries
-Version 1.7.10:
-* Fix bug that prevented notifications from appearing on some phones
-* Update target SDK to Android Pie 9 (API Level 28)

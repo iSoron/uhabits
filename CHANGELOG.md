@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.8.10 (Nov 26, 2020)
+
+* Update translations
+
 ### 1.8.9 (Nov 18, 2020)
 
 * Remove INTERNET permission
