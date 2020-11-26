@@ -31,6 +31,7 @@ import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.activities.common.views.*;
+import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
@@ -52,6 +53,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
     protected int checkmarkState;
 
     protected boolean isNumerical;
+
+    private Preferences preferences;
 
     public CheckmarkWidgetView(Context context)
     {
@@ -121,7 +124,12 @@ public class CheckmarkWidgetView extends HabitWidgetView {
             case Checkmark.SKIP:
                 return getResources().getString(R.string.fa_skipped);
             case Checkmark.UNKNOWN:
-                return getResources().getString(R.string.fa_question);
+            {
+                if (preferences.areQuestionMarksEnabled())
+                    return getResources().getString(R.string.fa_question);
+                else
+                    getResources().getString(R.string.fa_times);
+            }
             case Checkmark.NO:
             default:
                 return getResources().getString(R.string.fa_times);
@@ -196,6 +204,10 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
     private void init()
     {
+        HabitsApplicationComponent appComponent;
+        appComponent = (HabitsApplicationComponent) getContext().getApplicationContext();
+        preferences = appComponent.getPreferences();
+
         ring = (RingView) findViewById(R.id.scoreRing);
         label = (TextView) findViewById(R.id.label);
 
