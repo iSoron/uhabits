@@ -23,6 +23,7 @@ docs/
 gen/
 local.properties
 crowdin.yaml
+crowdin.yml
 local
 tmp/
 secret/

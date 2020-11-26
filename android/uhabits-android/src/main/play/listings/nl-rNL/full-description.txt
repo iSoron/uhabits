@@ -1,0 +1,29 @@
+Loop Habit Tracker helpt je bij het creëren van positieve gewoontes in je leven en deze langdurig vast te houden. Gedetailleerde grafieken en statistieken geven je een duidelijk beeld van hoe je gewoontes in de loop van de tijd zijn verbeterd. De app is volledig advertentievrij, open source en respecteert je privacy.
+
+<b>Mooi, minimalistisch met een simpele database-achtige interface</b>
+Loop heeft een elegante en simpele interface die erg makkelijk in gebruik is, zelfs voor beginners. De app is zeer geoptimaliseerd voor snelheid en werkt zelfs goed op oudere telefoons.
+
+<b>Gewoontescore</b>
+Loop heeft een geavanceerde formule om de sterkte van je gewoontes te berekenen. Elke herhaling maakt je gewoonte sterker en elke gemiste dag maakt hem zwakker. Een paar gemiste dagen na een lange reeks zullen je voortgang niet volledig tenietdoen, in tegenstelling tot vele andere verbreek-de-reeks-niet apps.
+
+<b>Flexibele schema's</b>
+Naast dagelijkse gewoontes ondersteunt Loop gewoontes met complexere schema's, zoals 3 keer per week of elke andere dag.
+
+<b>Herinneringen</b>
+Plan notificaties om jezelf te herinneren aan je gewoontes. Elke gewoonte kan zijn eigen herinnering krijgen, op een zelf gekozen tijd. Je gewoonte kun je direct vanuit de melding als gedaan afwijzen of aanvinken.
+
+<b>Widgets</b>
+Wordt bij elke telefoonontgrendeling herinnerd aan je gewoontes. Kleurrijke widgets maken het mogelijk je gewoontes direct vanuit het startscherm te tracken, zonder de app te openen.
+
+<b>Neem controle over uw gegevens</b>
+Als je jouw gegevens verder wilt analyseren, of wil verplaatsen in een andere service, dan geeft Loop je de mogelijkheid het te exporteren naar spreadsheets (CSV) of naar een databasebestand (SQlite). Voor hoofdgebruikers kunnen vinkjes worden toegevoegd via andere apps, zoals Tasker.
+
+<b>Geen beperkingen</b>
+Track zoveel gewoontes als je wil. Loop legt geen kunstmatige grenzen op aan het aantal gewoontes dat je kan hebben. Alle functies zijn beschikbaar voor alle gebruikers. Er zijn geen in-app aankopen.
+
+<b>Volledig advertentievrij en open source</b>
+Er zijn geen advertenties, vervelende meldingen of opdringerige machtigingen in deze app, en dat zal nooit zo zijn. De app is volledig open source (GPLv3).
+
+<b>Werkt offline en respecteert je privacy</b>
+Loop vereist geen internetverbinding of online accountregistratie. Je vertrouwelijke gegevens zullen nooit met anderen worden gedeeld. Noch de ontwikkelaars noch derden hebben er toegang toe.
+

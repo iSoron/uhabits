@@ -1,0 +1,29 @@
+Loop - Rastreador de Hábitos ajuda-te a criar e a manter na tua vida, bons hábitos de longo prazo . Gráficos e estatísticas detalhadas fornecem uma imagem clara de como os seus hábitos melhoram ao longo do tempo. Esta app é completamente livre de anúncios, criada em código aberto com respeito à sua privacidade.
+
+<b>Interface bonita, minimalista e rápida</b>
+Loop possui uma interface elegante e minimalista que é muito fácil de usar, mesmo para utilizadores inexperientes. Altamente optimizado para rapidez e estabilidade, o aplicativo funciona bem mesmo em telemóveis mais antigos.
+
+<b>Pontuação dos hábitos</b>
+Loop tem uma fórmula avançada para calcular a força dos seus hábitos. Cada repetição concluída torna o seu hábito mais forte e a cada dia perdido o tornará mais fraco. No entanto, após alguns dias perdidos numa longa série, não irá destruir completamente o seu progresso, ao contrário de muitos outras app's de rastreamento de hábitos em cadeia.
+
+<b>Horários flexíveis</b>
+Para além dos hábitos diários, o Loop oferece suporte a hábitos com horários mais complexos, como 3 vezes por semana ou em dias alternados.
+
+<b>Lembretes</b>
+Agende notificações para lembrá-lo dos seus hábitos. Cada hábito pode ter o seu próprio lembrete numa determinada hora do dia. Marque ou desmarque facilmente o seu hábito directamente na notificação.
+
+<b>Widgets</b>
+Seja lembrado dos seus hábitos sempre que desbloquear o telefone. Os widgets coloridos permitem-lhe que rastreie os seus hábitos diretamente da tela inicial, sem ter que abrir a app.
+
+<b>Assuma o controle dos seus dados</b>
+Se você quiser analisar mais detalhadamente os seus dados, ou movê-los para outro serviço, Loop permite exportar para folhas de cálculo (CSV) ou para um arquivo de base de dados (SQLite). Para usuários mais avançados, as marcas de verificação podem ser adicionadas por meio de outros aplicativos, como o Tasker.
+
+<b>Sem limites</b>
+Rastreie tantos hábitos quanto desejar. Loop não impõe limites artificiais sobre quantos hábitos você pode ter. Todas as funcionalidades estão disponíveis para todos os utilizadores. Não existe qualquer tipo de compras in-app.
+
+<b>Código aberto e completamente livre de anúncios</b>
+Não há anúncios, notificações irritantes ou permissões intrusivas nesta app, nem nunca irá existir. A app é totalmente criada em código aberto (GPLv3).
+
+<b>Funciona offline e respeita a tua privacidade</b>
+Loop não precisa de uma ligação à Internet ou registo de uma conta online. Os teus dados confidenciais nunca serão enviados a ninguém. Nem os programadores, nem terceiros têm acesso aos dados.
+

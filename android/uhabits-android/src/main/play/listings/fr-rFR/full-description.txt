@@ -1,0 +1,29 @@
+Loop Habit Tracker vous aide à développer et à maintenir des habitudes positives à long terme dans votre vie. Des graphiques et des statistiques détaillés vous donnent des images claires de l'amélioration de vos habitudes au fil du temps. L'application ne présente aucune publicité, elle est open source et elle respecte votre vie privée.
+
+<b>Interface magnifique, minimaliste et légère</b>
+Loop a une interface élégante et minimaliste qui est très facile à utiliser, même pour les nouveaux utilisateurs. Hautement optimisée pour la vitesse, l'application fonctionne bien même sur les téléphones plus anciens.
+
+<b>Score d'habitude</b>
+Loop a une formule avancée pour calculer la force de vos habitudes. Chaque répétition renforce votre habitude et chaque jour manqué la rend plus faible. Cependant, quelques jours manqués après une longue séquence ne détruiront pas complètement votre progression, contrairement à de nombreuses autres applications.
+
+<b>Horaires flexibles</b>
+En plus des habitudes quotidiennes, Loop prend en charge des habitudes avec des horaires plus complexes, comme 3 fois par semaine ou tous les deux jours.
+
+<b>Rappels</b>
+Planifiez des notifications pour vous rappeler vos habitudes. Chaque habitude peut avoir son propre rappel, à un moment choisi de la journée. Vérifiez ou rejetez facilement votre habitude directement à partir de la notification.
+
+<b>Widgets</b>
+Obtenez un rappel de vos habitudes à chaque fois que vous déverrouillez votre téléphone. Des widgets colorés vous permettent de suivre vos habitudes directement depuis votre écran d'accueil, sans même ouvrir l'application.
+
+<b>Prenez le contrôle de vos données</b>
+Si vous souhaitez analyser davantage vos données ou les déplacer vers un autre service, Loop vous permet de les exporter vers des feuilles de calcul (CSV) ou vers un fichier de base de données (SQLite). Pour les utilisateurs expérimentés, des crochets peuvent être ajoutées via d'autres applications, telles que Tasker.
+
+<b>Pas de limites</b>
+Suivez autant d'habitudes que vous le souhaitez. Loop n'impose aucune limite artificielle sur le nombre d'habitudes que vous pouvez avoir. Toutes les fonctionnalités sont disponibles pour tous les utilisateurs. Il n'y a aucun achat dans l'application.
+
+<b>Entièrement sans publicité et open source</b>
+Il n'y a pas de publicités, de notifications agaçantes ou d'autorisations intrusives dans cette application. Il n'y en aura jamais. L'application est entièrement open-source (GPLv3).
+
+<b>Fonctionne hors ligne et respecte votre vie privée</b>
+Loop ne nécessite pas de connexion Internet ni d'enregistrement d'un compte en ligne. Vos données confidentielles ne sont jamais envoyées à personne. Ni les développeurs ni aucun tiers n'y ont accès.
+

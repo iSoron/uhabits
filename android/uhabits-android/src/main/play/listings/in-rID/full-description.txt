@@ -1,0 +1,29 @@
+Loop Habit Tracker membantu Anda menciptakan dan memelihara kebiasaan positif jangka panjang dalam hidup Anda. Grafik dan statistik terperinci memberi Anda gambaran yang jelas tentang bagaimana kebiasaan Anda meningkat dari waktu ke waktu. Aplikasi ini sepenuhnya bebas iklan, kode sumber terbuka dan menghargai privasi Anda.
+
+<b>Antarmuka yang indah, minimalis, dan ringan</b>
+Loop memiliki antarmuka yang elegan dan minimalis yang sangat mudah digunakan, bahkan untuk pengguna pertama kali. Sangat dioptimalkan untuk kecepatan, aplikasi ini bekerja dengan baik bahkan pada ponsel lama.
+
+<b>Skor Kebiasaan</b>
+Loop memiliki formula canggih untuk menghitung kekuatan kebiasaan Anda. Setiap pengulangan membuat kebiasaan Anda lebih kuat dan setiap hari yang terlewat menjadikannya lebih lemah. Namun, beberapa hari yang terlewatkan setelah rentetan panjang, tidak akan sepenuhnya menghancurkan kemajuan Anda, tidak seperti banyak aplikasi lain yang tidak putus rantai.
+
+<b>Jadwal fleksibel</b>
+Selain kebiasaan sehari-hari, Loop mendukung kebiasaan dengan jadwal yang lebih kompleks, seperti 3 kali per minggu atau setiap hari.
+
+<b>Pengingat</b>
+Jadwalkan pemberitahuan untuk mengingatkan Anda tentang kebiasaan Anda. Setiap kebiasaan dapat memiliki pengingatnya sendiri, pada waktu yang dipilih hari itu. Periksa atau abaikan kebiasaan Anda langsung dari notifikasi.
+
+<b>Widget</b>
+Ingatkan kebiasaan Anda setiap kali Anda membuka kunci ponsel. Widget berwarna-warni memungkinkan Anda untuk melacak kebiasaan Anda langsung dari layar utama, bahkan tanpa membuka aplikasi.
+
+<b>Kendalikan data Anda</b>
+Jika Anda ingin menganalisis lebih lanjut data Anda, atau memindahkannya ke layanan lain, Loop mengizinkan Anda untuk mengekspornya ke spreadsheet (CSV) atau ke file database (SQLite). Untuk pengguna tingkat lanjut, tanda centang dapat ditambahkan melalui aplikasi lain, seperti Tasker.
+
+<b>Tidak ada batasan</b>
+Lacak kebiasaan sebanyak yang Anda inginkan. Loop tidak membatasi seberapa banyak kebiasaan yang dapat Anda miliki. Semua fitur tersedia untuk semua pengguna. Tidak ada pembelian di dalam aplikasi (IAP)
+
+<b>Bebas iklan dan open source</b>
+Tidak ada iklan, pemberitahuan yang mengganggu, atau izin yang mengganggu dalam aplikasi ini, dan tidak akan pernah ada. Aplikasi ini sepenuhnya bersumber terbuka (GPLv3).
+
+<b>Tidak membutuhkan koneksi internet dan menghargai privasi anda</b>
+Loop tidak membutuhkan koneksi internet atau pendaftaran akun secara online Data rahasia anda tidak akan pernah dikirim kepada siapapun Tidak juga pengembang maupun pihak ketiga punya akses pada itu
+
