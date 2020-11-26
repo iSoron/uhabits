@@ -1,0 +1,29 @@
+Loop Habit Tracker vám pomáha vytvárať a udržiavať dlhodobé pozitívne návyky vo vašom živote. Podrobné grafy a štatistiky vám poskytujú jasný obraz o tom, ako sa vaše návyky v priebehu času zlepšili. Aplikácia je úplne bez reklám, s otvoreným zdrojovým kódom a rešpektuje vaše súkromie.
+
+<b>Krásne, minimalistické a prehľadné rozhranie</b>
+Loop má elegantné a minimalistické rozhranie, ktoré sa veľmi ľahko používa, dokonca aj pre začínajúcich používateľov. Aplikácia je vysoko optimalizovaná na rýchlosť a funguje dobre aj na starších telefónoch.
+
+<b>Skóre návyku</b>
+Loop má pokročilý vzorec na výpočet sily vašich návykov. Každé opakovanie robí váš návyk silnejším a každý zmeškaný deň ho oslabuje. Niekoľko zmeškaných dní po dlhej sérii vám však na rozdiel od mnohých iných aplikácií neprerušujúcich reťazec úplne nezničí váš pokrok.
+
+<b>Flexibilné plány</b>
+Okrem denných návykov podporuje Loop návyky aj pri zložitejších plánoch, napríklad trikrát týždenne alebo každý druhý deň.
+
+<b>Pripomienky</b>
+Naplánujte si upozornenia, ktoré vám pripomenú vaše návyky. Každý návyk môže mať svoje vlastné pripomenutie vo zvolenú dennú dobu. Svoj návyk môžete ľahko potvrdiť alebo vylúčiť priamo z oznámenia.
+
+<b>Widgety</b>
+Nechajte si pri každom odomknutí telefónu pripomenúť vaše navyky. Farebné widgety vám umožňujú sledovať vaše návyky priamo z domovskej obrazovky bez toho, aby ste aplikáciu vôbec otvorili.
+
+<b>Prevezmite kontrolu nad svojimi údajmi</b>
+Ak chcete svoje údaje ďalej analyzovať alebo ich presunúť do inej služby, Loop vám umožní exportovať ich do tabuliek (CSV) alebo do databázového súboru (SQLite). Pre pokročilých používateľov môžu byť začiarkavacie značky pridané prostredníctvom ďalších aplikácií, ako napríklad Tasker.
+
+<b>Žiadne obmedzenia</b>
+Sledujte toľko návykov, koľko si prajete. Loop nijako umelo neobmedzuje počet návykov, ktoré môžete mať. Všetky funkcie sú k dispozícii všetkým používateľom. Neexistujú žiadne nákupy v aplikácii.
+
+<b>Úplne bez reklám a s otvoreným zdrojovým kódom</b>
+V tejto aplikácii nie sú žiadne reklamy, nepríjemné upozornenia ani dotieravé povolenia a nikdy nebudú. Aplikácia je úplne otvorená (GPLv3).
+
+<b>Funguje offline a rešpektuje vaše súkromie</b>
+Loop nevyžaduje pripojenie na internet ani registráciu online účtu. Vaše dôverné údaje sa nikdy nikomu neodosielajú. Prístup k nim nemajú vývojári ani tretie strany.
+

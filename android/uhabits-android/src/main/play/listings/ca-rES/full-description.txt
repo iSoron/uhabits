@@ -1,0 +1,29 @@
+Loop Seguiment d'hàbits t'ajuda a crear i mantenir en la teva vida hàbits positius de llarg termini. Estadístiques i gràfiques detallades et donen una imatge clara de com els teus hàbits han millorat en el temps. L'app és completament sense anuncis, de codi obert i respecta la teva privadesa.
+
+<b>Interfície minimalista, lleugera i bonica</b>
+Loop té una interfície elegant i minimalista que es molt fàcil d'usar, inclús per als usuaris primerencs. Altament optimitzada per a que sigui ràpida, l'app funciona bé inclús en telèfons antics.
+
+<b>Puntuació d'hàbit</b>
+Loop té una fórmula avançada per a calcular la fortalesa dels teus hàbits. Cada repetició fa el teu hàbit més fort i cada dia perdut el fa més dèbil. Però si perds alguns pocs dies després d'una llarga ratxa, això no destruirà completament el teu progrès, a diferència de moltes altres aplicacions.
+
+<b>Planificacions flexibles</b>
+A més d'hàbits diaris, Loop permet hàbits més complexes, com per exemple 3 cops per setmana o cada cert dia.
+
+<b>Recordatoris</b>
+Planifica notificaciones per a recordar-te dels teus hàbits. Cada hàbit pot tenir el seu propi recordatori, a una hora escollida del dia. Marca o refusa fàcilment el teu hàbit directament des de la notificació.
+
+<b>Ginys</b>
+Tingues recordatoris dels teus hàbits quan desbloqueges el teu telèfon. Ginys plens de color et permeten fer el seguiment dels teus hàbits directament des de la pantalla d'inici, sense obrir l'app.
+
+<b>Pren el control de les teves dades</b>
+Si vols analitzar més les teves dades, o moure-les a un altre servei, Loop et permet exportar-les a fulles de càlcul (CSV) o a un fitxer de base de dades (SQLite). Per a usuaris avançats, les marques de verificació poden ser afegides mitjançant altres apps, com per exemple Tasker.
+
+<b>Sense limitacions</b>
+Fes el seguiment de tants hàbits com vulguis. Loop no imposa cap límit artificial a quants hàbits pots tenir. Totes les característiques estan disponibles per a tots els usuaris. No hi ha comandes adicionals per a comprar dintre de l'app.
+
+<b>Completament sense anuncis i de codi obert</b>
+No hi ha anuncis, notificacions molestes o permisos intrusius en aquesta app, i no n'hi haurà mai. L'app és completament de codi obert (GPLv3).
+
+<b>Funciona sense connexió i respecta la teva privacitat</b>
+Loop no necessita connexió a Internet o registrar un compte d'usuari. Les teves dades confidencials mai són enviades a ningú. Ni els desenvolupadors ni terceres parts tenen accés a les dades.
+

@@ -1,0 +1,29 @@
+Aplikacja "Śledzenie nawyków Loop" pomaga tworzyć i utrzymywać długotrwałe pozytywne nawyki w twoim życiu. Szczegółowe wykresy i statystyki dają jasny obraz tego, jak Twoje nawyki uległy poprawie z upływem czasu. Aplikacja jest całkowicie wolna od reklam, otwartoźródłowa i szanuje Twoją prywatność.
+
+<b>Piękny, minimalistyczny i lekki interfejs</b>
+Aplikacja "Śledzenie nawyków Loop" ma elegancki i minimalistyczny interfejs, który jest bardzo łatwy w obsłudze, nawet dla początkujących użytkowników. Jest ona wysoce zoptymalizowana pod kątem szybkości działania nawet na starszych telefonach.
+
+Ocena nawyku
+Aplikacja wykorzystuje zaawansowany algorytm obliczający siłę twoich nawyków. Każde powtórzenie sprawia, że twój nawyk staje się silniejszy, a każdy stracony dzień sprawia, że jest słabszy. Jednak kilka opuszczonych dni po długiej passie nie zrujnuje całkowicie Twoich postępów, w przeciwieństwie do wielu innych aplikacji typu "don’t-break-the-chain"
+
+<b>Elastyczne harmonogramy</b>
+Oprócz codziennych nawyków obsługuje nawyki z bardziej złożonymi harmonogramami, na przykład "3 razy w tygodniu" lub "co drugi dzień".
+
+<b>Przypomnienia</b>
+Zaplanuj powiadomienia przypominające o swoich nawykach. Każdy nawyk może mieć własne przypomnienie o wybranej porze dnia. Łatwo sprawdź lub odrzuć swój nawyk bezpośrednio z powiadomienia.
+
+<b>Widżety</b>
+Przypominaj o swoich nawykach za każdym razem, gdy odblokujesz telefon. Kolorowe widżety pozwalają śledzić swoje nawyki bezpośrednio z ekranu głównego, nawet bez otwierania aplikacji.
+
+<b>Przejmij kontrolę nad swoimi danymi</b>
+Jeśli chcesz dalej analizować swoje dane lub przenieść je do innej usługi, Loop umożliwia wyeksportowanie ich do arkusza kalkulacyjnego (CSV) lub do pliku bazy danych (SQLite). W przypadku zaawansowanych użytkowników znaczniki wyboru można dodawać za pośrednictwem innych aplikacji, takich jak Tasker.
+
+<b>Brak ograniczeń</b>
+Śledź tyle nawyków, ile chcesz. Aplikacja Loop nie nakłada sztucznych ograniczeń na liczbę stworzonych nawyków. Te funkcje są dostępne we wszystkich planach. Brak zakupów w aplikacji.
+
+<b>Całkowicie wolna od reklam i otwartoźródłowa</b>
+W aplikacji brak, teraz i w przyszłości, reklam, irytujących powiadomień lub inwazyjnych uprawnień. Aplikacja jest całkowicie otwartoźródłowa (GPLv3).
+
+<b>Działa w trybie offline i szanuje Twoją prywatność</b>
+Aplikacja nie wymaga połączenia z Internetem ani rejestracji konta online. Twoje poufne dane nie są nigdy nikomu wysyłane. Ani programiści, ani osoby trzecie nie mają do nich dostępu.
+

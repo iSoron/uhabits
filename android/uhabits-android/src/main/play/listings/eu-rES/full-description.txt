@@ -1,0 +1,29 @@
+Loop Habit Tracker aplikazioak epe luzeko ohitura positiboak sortzen eta mantentzen laguntzen dizu. Grafiko xehatuek eta estatistikek zure ohiturak denboran zehar nola hobetu diren azaltzen dute. Aplikazioa erabat iragarki gabekoa da, kode irekikoa da eta zure pribatutasuna errespetatzen du.
+
+<b>Interfaze ederra, minimalista eta arina</b>
+Loop-ek interfaze dotorea eta minimalista du, oso erraza da erabiltzeko, baita lehen aldiz erabiltzen dutenentzat. Abiadura oso optimizatuta, aplikazioak ondo funtzionatzen du telefono zaharretan ere.
+
+<b>Ohitura-puntuazioa</b>
+Loop-ek zure ohituren indarra kalkulatzeko formula aurreratua du. Errepikapen bakoitzarekin zure ohitura indartsuagoa da eta galdutako egun bakoitzarekin ahulagoa. Dena den, bolada luze baten ondoren galdutako egun gutxi batzuk ez dute zure progresioa erabat suntsituko, ez-apurtu-katea motako aplikazioetan ez bezala.
+
+<b>Ordutegi malguak</b>
+Eguneroko ohiturez gain, Loop-ek ordutegi konplexuagoak dituzten ohiturak onartzen ditu, hala nola astean 3 aldiz edo bi egunetik behin.
+
+<b>Oroigarriak</b>
+Programatu jakinarazpenak zure ohiturak gogorarazteko. Ohitura bakoitzak bere oroigarria izan dezake, aukeratutako eguneko unean. Egiaztatu edo baztertu zure ohitura zuzenean jakinarazpenetik.
+
+<b>Trepetak</b>
+Jaso zure ohituren oroigarria telefonoa desblokeatzean. Trepeta koloretsuek ohiturak zuzenean zure pantailatik jarraitzeko aukera ematen dizute, aplikazioa ireki gabe ere.
+
+<b>Hartu zure datuen kontrola</b>
+Zure datuak sakonago aztertu nahi badituzu edo beste zerbitzu batera eraman nahi baduzu, Loop-ek kalkulu orrietara (CSV) edo datu-basearen fitxategira (SQLite) esportatzea ahalbidetzen dizu. Erabiltzaile aurreratuei begira, markak gehitu daitezke beste aplikazio batzuen bidez, adibidez Tasker.
+
+<b>Mugarik gabe</b>
+Jarraitu nahi adina ohitura. Loop-ek ez du muga artifizialik ezartzen sor ditzakezun ohituretan. Ezaugarri guztiak erabiltzaile guztien eskura daude. Ez dago aplikazioko erosketarik.
+
+<b>Erabat iragarkiz libre eta iturri irekikoa</b>
+Ez dago iragarkirik, jakinarazpen gogaikarririk edo baimen intrusiborik aplikazio honetan, eta ez da inoiz egongo. Aplikazioa guztiz irekia da (GPLv3).
+
+<b>Lineaz kanpo funtzionatzen du eta zure pribatutasuna errespetatzen du</b>
+Loop-ek ez du Interneteko konexiorik edo lineako kontuen erregistrorik behar. Zure datu konfidentzialak ez zaizkio inori bidaliko. Inork ez dauka sarbidea zure datuetara, ez garatzaileek ez beste inor.
+
