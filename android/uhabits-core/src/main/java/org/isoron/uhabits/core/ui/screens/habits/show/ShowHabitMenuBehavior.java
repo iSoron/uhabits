@@ -114,7 +114,7 @@ public class ShowHabitMenuBehavior
             if (habit.isNumerical())
                 value = (int) (1000 + 250 * random.nextGaussian() * strength / 100) * 1000;
 
-            habit.getRepetitions().add(new Repetition(DateUtils.getToday().minus(i), value));
+            habit.getRepetitions().setValue(DateUtils.getToday().minus(i), value);
         }
 
         habit.invalidateNewerThan(Timestamp.ZERO);

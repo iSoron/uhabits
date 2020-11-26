@@ -1,0 +1,29 @@
+Loop Habit Tracker giúp bạn tạo và duy trì những thói quen lâu dài tích cực trong cuộc sống. Biểu đồ và số liệu thống kê chi tiết cung cấp cho bạn một cái nhìn cụ thể về cách các thói quen của bạn đã được cải thiện theo thời gian. Ứng dụng này hoàn toàn không có quảng cáo, mã nguồn mở và tôn trọng quyền riêng tư của bạn.
+
+<b>Giao diện đẹp, đơn giản và nhẹ</b>
+Loop có giao diện thanh lịch và tối giản, rất dễ sử dụng, ngay cả đối với người dùng lần đầu. Tối ưu hóa cao về tốc độ, ứng dụng hoạt động tốt ngay cả trên điện thoại cũ.
+
+<b>Điểm thói quen</b>
+Loop có một công thức để tính toán độ mạnh của các thói quen của bạn. Mỗi lần lặp lại một thói quen làm cho thói quen của bạn mạnh hơn và mỗi ngày bạn bỏ qua thói quen đó làm cho nó yếu đi. Tuy nhiên, một vài ngày bị bỏ lỡ sau một chuỗi ngày dài sẽ không phá hủy hoàn toàn tiến trình của bạn, không giống như nhiều ứng dụng không-được-phá-chuỗi khác.
+
+<b>Lịch trình linh hoạt</b>
+Ngoài thói quen hàng ngày, Loop hỗ trợ các thói quen với lịch trình phức tạp hơn, chẳng hạn như 3 lần mỗi tuần hoặc mỗi hai ngày.
+
+<b>Nhắc nhở</b>
+Lịch trình thông báo để nhắc nhở bạn về thói quen của bạn. Mỗi thói quen có thể có lời nhắc riêng, vào một thời điểm được chọn trong ngày. Dễ dàng kiểm tra hoặc loại bỏ thói quen của bạn trực tiếp từ thông báo.
+
+<b>Tiện ích</b>
+Bạn sẽ được nhắc nhở về thói quen của bạn bất cứ khi nào bạn mở khóa điện thoại của bạn. Các vật dụng đầy màu sắc cho phép bạn theo dõi thói quen của mình trực tiếp từ màn hình chính mà không cần mở ứng dụng.
+
+<b>Kiểm soát dữ liệu của bạn</b>
+Nếu bạn muốn phân tích thêm dữ liệu của mình hoặc chuyển dữ liệu sang dịch vụ khác, Loop cho phép bạn xuất dữ liệu sang bảng tính (CSV) hoặc tệp cơ sở dữ liệu (SQLite). Đối với người dùng cấp cao, có thể thêm dấu thông qua các ứng dụng khác, chẳng hạn như Tasker.
+
+<b>Không giới hạn</b>
+Theo dõi bao nhiêu thói quen tùy ý. Loop áp đặt không có giới hạn về số lượng thói quen bạn có thể có. Tất cả các tính năng có sẵn cho tất cả người dùng. Không có tính năng mua trong ứng dụng.
+
+<b>Hoàn toàn không có quảng cáo và mã nguồn mở</b>
+Không có quảng cáo, thông báo gây phiền nhiễu hoặc quyền xâm nhập trong ứng dụng này và sẽ không bao giờ có. Ứng dụng này hoàn toàn là mã nguồn mở (GPLv3).
+
+<b>Hoạt động ngoại tuyến và tôn trọng quyền riêng tư của bạn</b>
+Loop không yêu cầu kết nối Internet hoặc đăng ký tài khoản trực tuyến. Dữ liệu bí mật của bạn không bao giờ được gửi cho bất cứ ai. Cả nhà phát triển lẫn bất kỳ bên thứ ba nào cũng không có quyền truy cập nó.
+

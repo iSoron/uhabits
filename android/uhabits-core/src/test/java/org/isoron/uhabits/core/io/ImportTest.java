@@ -30,6 +30,7 @@ import java.util.*;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.isoron.uhabits.core.models.Frequency.*;
 import static org.junit.Assert.assertTrue;
 
@@ -54,9 +55,9 @@ public class ImportTest extends BaseUnitTest
         assertThat(habit.getName(), equalTo("Breed dragons"));
         assertThat(habit.getDescription(), equalTo("with love and fire"));
         assertThat(habit.getFrequency(), equalTo(Frequency.DAILY));
-        assertTrue(containsRepetition(habit, 2016, 3, 18));
-        assertTrue(containsRepetition(habit, 2016, 3, 19));
-        assertFalse(containsRepetition(habit, 2016, 3, 20));
+        assertTrue(isChecked(habit, 2016, 3, 18));
+        assertTrue(isChecked(habit, 2016, 3, 19));
+        assertFalse(isChecked(habit, 2016, 3, 20));
     }
 
     @Test
@@ -69,9 +70,9 @@ public class ImportTest extends BaseUnitTest
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo("Wake up early"));
         assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
-        assertTrue(containsRepetition(habit, 2016, 3, 14));
-        assertTrue(containsRepetition(habit, 2016, 3, 16));
-        assertFalse(containsRepetition(habit, 2016, 3, 17));
+        assertTrue(isChecked(habit, 2016, 3, 14));
+        assertTrue(isChecked(habit, 2016, 3, 16));
+        assertFalse(isChecked(habit, 2016, 3, 17));
     }
 
     @Test
@@ -85,10 +86,10 @@ public class ImportTest extends BaseUnitTest
         assertThat(habit.getName(), equalTo("Wake up early"));
         assertThat(habit.getFrequency(), equalTo(THREE_TIMES_PER_WEEK));
         assertFalse(habit.hasReminder());
-        assertFalse(containsRepetition(habit, 2015, 12, 31));
-        assertTrue(containsRepetition(habit, 2016, 1, 18));
-        assertTrue(containsRepetition(habit, 2016, 1, 28));
-        assertFalse(containsRepetition(habit, 2016, 3, 10));
+        assertFalse(isChecked(habit, 2015, 12, 31));
+        assertTrue(isChecked(habit, 2016, 1, 18));
+        assertTrue(isChecked(habit, 2016, 1, 28));
+        assertFalse(isChecked(habit, 2016, 3, 10));
 
         habit = habitList.getByPosition(2);
         assertThat(habit.getName(), equalTo("brush teeth"));
@@ -111,17 +112,18 @@ public class ImportTest extends BaseUnitTest
 
         Habit h = habitList.getByPosition(2);
         assertThat(h.getName(), equalTo("Vegan"));
-        assertTrue(containsRepetition(h, 2016, 1, 24));
-        assertTrue(containsRepetition(h, 2016, 2, 5));
-        assertTrue(containsRepetition(h, 2016, 3, 18));
-        assertFalse(containsRepetition(h, 2016, 3, 14));
+        assertTrue(isChecked(h, 2016, 1, 24));
+        assertTrue(isChecked(h, 2016, 2, 5));
+        assertTrue(isChecked(h, 2016, 3, 18));
+        assertFalse(isChecked(h, 2016, 3, 14));
     }
 
-    private boolean containsRepetition(Habit h, int year, int month, int day)
+    private boolean isChecked(Habit h, int year, int month, int day)
     {
         GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(year, month - 1, day);
-        return h.getRepetitions().containsTimestamp(new Timestamp(date));
+        Timestamp timestamp = new Timestamp(date);
+        return h.getRepetitions().getValue(timestamp) == YES_MANUAL;
     }
 
     private void importFromFile(String assetFilename) throws IOException

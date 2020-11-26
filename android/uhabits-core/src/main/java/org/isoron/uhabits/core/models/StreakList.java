@@ -138,8 +138,8 @@ public abstract class StreakList
             current = current.plus(1);
             int j = checks.length - i - 1;
 
-            if ((checks[j + 1] == 0 && checks[j] > 0)) list.add(current);
-            if ((checks[j + 1] > 0 && checks[j] == 0)) list.add(current.minus(1));
+            if ((checks[j + 1] <= 0 && checks[j] > 0)) list.add(current);
+            if ((checks[j + 1] > 0 && checks[j] <= 0)) list.add(current.minus(1));
         }
 
         if (list.size() % 2 == 1) list.add(current);

@@ -62,7 +62,7 @@ public abstract class CheckmarkList
         int nDays = begin.daysUntil(today) + 1;
         List<Checkmark> checkmarks = new ArrayList<>(nDays);
         for (int i = 0; i < nDays; i++)
-            checkmarks.add(new Checkmark(today.minus(i), NO));
+            checkmarks.add(new Checkmark(today.minus(i), UNKNOWN));
 
         for (Interval interval : intervals)
         {
@@ -79,7 +79,10 @@ public abstract class CheckmarkList
         {
             Timestamp date = rep.getTimestamp();
             int offset = date.daysUntil(today);
-            checkmarks.set(offset, new Checkmark(date, rep.getValue()));
+            int value = rep.getValue();
+            int prevValue = checkmarks.get(offset).getValue();
+            if (prevValue < value)
+                checkmarks.set(offset, new Checkmark(date, value));
         }
 
         return checkmarks;
@@ -224,7 +227,7 @@ public abstract class CheckmarkList
     {
         Checkmark today = getToday();
         if (today != null) return today.getValue();
-        else return NO;
+        else return UNKNOWN;
     }
 
     public synchronized int getThisWeekValue(int firstWeekday)

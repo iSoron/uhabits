@@ -215,4 +215,6 @@
     <string name="sync_confirm"><![CDATA[Are you trying to enable device sync?\n\nThis feature allows you to sync your data across multiple devices. When enabled, an encrypted copy of your data will be uploaded to our servers.]]></string>
     <string name="sync_enabled">Device sync enabled</string>
     <string name="sync_key_already_installed">Sync key already installed</string>
+    <string name="pref_unknown_title">Show question marks for missing data</string>
+    <string name="pref_unknown_description">Differentiate days without data from actual lapses. To enter a lapse, toggle twice.</string>
 </resources>

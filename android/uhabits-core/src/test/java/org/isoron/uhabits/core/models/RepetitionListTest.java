@@ -28,11 +28,9 @@ import org.junit.*;
 import java.util.*;
 
 import static java.util.Calendar.*;
-import static junit.framework.TestCase.assertFalse;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.mockito.Mockito.*;
 
 public class RepetitionListTest extends BaseUnitTest
@@ -60,11 +58,11 @@ public class RepetitionListTest extends BaseUnitTest
 
         today = DateUtils.getToday();
 
-        reps.toggle(today.minus(3));
-        reps.toggle(today.minus(2));
-        reps.toggle(today);
-        reps.toggle(today.minus(7));
-        reps.toggle(today.minus(5));
+        reps.setValue(today.minus(3), YES_MANUAL);
+        reps.setValue(today.minus(2), YES_MANUAL);
+        reps.setValue(today, YES_MANUAL);
+        reps.setValue(today.minus(7), YES_MANUAL);
+        reps.setValue(today.minus(5), YES_MANUAL);
 
         listener = mock(ModelObservable.Listener.class);
         reps.getObservable().addListener(listener);
@@ -76,17 +74,6 @@ public class RepetitionListTest extends BaseUnitTest
     public void tearDown() throws Exception
     {
         super.tearDown();
-    }
-
-    @Test
-    public void test_contains()
-    {
-        assertTrue(reps.containsTimestamp(today));
-        assertTrue(reps.containsTimestamp(today.minus(2)));
-        assertTrue(reps.containsTimestamp(today.minus(3)));
-
-        assertFalse(reps.containsTimestamp(today.minus(1)));
-        assertFalse(reps.containsTimestamp(today.minus(4)));
     }
 
     @Test
@@ -126,7 +113,7 @@ public class RepetitionListTest extends BaseUnitTest
                 // Leave the month of March empty, to check that it returns null
                 if (month == MARCH) continue;
 
-                reps.toggle(new Timestamp(day));
+                reps.setValue(new Timestamp(day), YES_MANUAL);
 
                 // Repetitions in December should not be counted
                 if (month == DECEMBER) continue;
@@ -155,32 +142,22 @@ public class RepetitionListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_toggle()
+    public void test_setValue()
     {
-        assertTrue(reps.containsTimestamp(today));
-        reps.toggle(today);
-        assertFalse(reps.containsTimestamp(today));
-        verify(listener).onModelChange();
-        reset(listener);
-
-        assertFalse(reps.containsTimestamp(today.minus(1)));
-        reps.toggle(today.minus(1));
-        assertTrue(reps.containsTimestamp(today.minus(1)));
-        verify(listener).onModelChange();
+        assertThat(reps.getValue(today), equalTo(YES_MANUAL));
+        reps.setValue(today, NO);
+        assertThat(reps.getValue(today), equalTo(NO));
+        verify(listener, times(2)).onModelChange();
         reset(listener);
 
         habit.setType(Habit.NUMBER_HABIT);
-        reps.toggle(today, 100);
-        Repetition check = reps.getByTimestamp(today);
-        assertNotNull(check);
-        assertThat(check.getValue(), equalTo(100));
-        verify(listener).onModelChange();
+        reps.setValue(today, 100);
+        assertThat(reps.getValue(today), equalTo(100));
+        verify(listener, times(2)).onModelChange();
         reset(listener);
 
-        reps.toggle(today, 500);
-        check = reps.getByTimestamp(today);
-        assertNotNull(check);
-        assertThat(check.getValue(), equalTo(500));
+        reps.setValue(today, 500);
+        assertThat(reps.getValue(today), equalTo(500));
         verify(listener, times(2)).onModelChange();
         reset(listener);
     }

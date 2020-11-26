@@ -23,6 +23,8 @@ import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 
+import java.util.*;
+
 /**
  * Command to toggle a repetition.
  */
@@ -31,20 +33,19 @@ public class CreateRepetitionCommand extends Command
     @NonNull
     final Habit habit;
 
-    private HabitList habitList;
+    @NonNull
+    final HabitList habitList;
+
+    @NonNull
     final Timestamp timestamp;
 
     final int value;
 
-    @Nullable
-    Repetition previousRep;
-
-    @Nullable
-    Repetition newRep;
+    int previousValue;
 
     public CreateRepetitionCommand(@NonNull HabitList habitList,
                                    @NonNull Habit habit,
-                                   Timestamp timestamp,
+                                   @NonNull Timestamp timestamp,
                                    int value)
     {
         this.habitList = habitList;
@@ -57,18 +58,8 @@ public class CreateRepetitionCommand extends Command
     public void execute()
     {
         RepetitionList reps = habit.getRepetitions();
-
-        previousRep = reps.getByTimestamp(timestamp);
-        if (previousRep != null) reps.remove(previousRep);
-
-        if (value > 0)
-        {
-            newRep = new Repetition(timestamp, value);
-            reps.add(newRep);
-        }
-
-        habit.invalidateNewerThan(timestamp);
-        habitList.update(habit);
+        previousValue = reps.getValue(timestamp);
+        reps.setValue(timestamp, value);
     }
 
     @NonNull
@@ -87,9 +78,7 @@ public class CreateRepetitionCommand extends Command
     @Override
     public void undo()
     {
-        if(newRep != null) habit.getRepetitions().remove(newRep);
-        if (previousRep != null) habit.getRepetitions().add(previousRep);
-        habit.invalidateNewerThan(timestamp);
+        habit.getRepetitions().setValue(timestamp, previousValue);
     }
 
     public static class Record
@@ -128,5 +117,35 @@ public class CreateRepetitionCommand extends Command
             command.setId(id);
             return command;
         }
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreateRepetitionCommand that = (CreateRepetitionCommand) o;
+        return value == that.value &&
+                habit.equals(that.habit) &&
+                habitList.equals(that.habitList) &&
+                timestamp.equals(that.timestamp);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(habit, habitList, timestamp, value);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "CreateRepetitionCommand{" +
+                "habit=" + habit +
+                ", habitList=" + habitList +
+                ", timestamp=" + timestamp +
+                ", value=" + value +
+                ", previousValue=" + previousValue +
+                '}';
     }
 }

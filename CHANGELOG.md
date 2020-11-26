@@ -19,6 +19,10 @@
 * **Refactoring:**
   * Convert files to Kotlin (@olegivo)
 
+### 1.8.10 (Nov 26, 2020)
+
+* Update translations
+
 ### 1.8.9 (Nov 18, 2020)
 
 * Manage exceptions when activities don't exist to handle intents (#181)

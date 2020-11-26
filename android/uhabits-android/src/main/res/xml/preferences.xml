@@ -39,6 +39,13 @@
             app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_unknown_enabled"
+            android:summary="@string/pref_unknown_description"
+            android:title="@string/pref_unknown_title"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="pref_checkmark_reverse_order"
                 android:summary="@string/reverse_days_description"

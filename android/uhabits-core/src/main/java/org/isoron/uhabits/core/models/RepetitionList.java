@@ -53,19 +53,6 @@ public abstract class RepetitionList
     public abstract void add(Repetition repetition);
 
     /**
-     * Returns true if the list contains a repetition that has the given
-     * timestamp.
-     *
-     * @param timestamp the timestamp to find.
-     * @return true if list contains repetition with given timestamp, false
-     * otherwise.
-     */
-    public boolean containsTimestamp(Timestamp timestamp)
-    {
-        return (getByTimestamp(timestamp) != null);
-    }
-
-    /**
      * Returns the list of repetitions that happened within the given time
      * interval.
      * <p>
@@ -89,6 +76,18 @@ public abstract class RepetitionList
      */
     @Nullable
     public abstract Repetition getByTimestamp(Timestamp timestamp);
+
+    /**
+     * If a repetition with the given timestamp exists, return its value. Otherwise, returns
+     * Checkmark.NO for boolean habits and zero for numerical habits.
+     */
+    @NonNull
+    public int getValue(Timestamp timestamp)
+    {
+        Repetition rep = getByTimestamp(timestamp);
+        if (rep == null) return Checkmark.UNKNOWN;
+        return rep.getValue();
+    }
 
     @NonNull
     public ModelObservable getObservable()
@@ -175,39 +174,9 @@ public abstract class RepetitionList
      */
     public abstract void remove(@NonNull Repetition repetition);
 
-    /**
-     * Adds or remove a repetition at a certain timestamp.
-     * <p>
-     * If there exists a repetition on the list with the given timestamp, the
-     * method removes this repetition from the list and returns it. If there are
-     * no repetitions with the given timestamp, creates and adds one to the
-     * list, then returns it.
-     *
-     * @param timestamp the timestamp for the timestamp that should be added or
-     *                  removed.
-     * @return the repetition that has been added or removed.
-     */
-    @NonNull
-    public synchronized Repetition toggle(Timestamp timestamp)
-    {
-        if (habit.isNumerical())
-            throw new IllegalStateException("habit must NOT be numerical");
-
-        Repetition rep = getByTimestamp(timestamp);
-        if (rep != null) remove(rep);
-        else
-        {
-            rep = new Repetition(timestamp, Checkmark.YES_MANUAL);
-            add(rep);
-        }
-
-        habit.invalidateNewerThan(timestamp);
-        return rep;
-    }
-
     public abstract long getTotalCount();
 
-    public void toggle(Timestamp timestamp, int value)
+    public void setValue(Timestamp timestamp, int value)
     {
         Repetition rep = getByTimestamp(timestamp);
         if (rep != null) remove(rep);

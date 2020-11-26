@@ -62,7 +62,7 @@ class CheckmarkPanelView(
             val timestamp = today.minus(index + dataOffset)
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
-                else -> NO
+                else -> UNKNOWN
             }
             button.color = color
             button.onToggle = { value -> onToggle(timestamp, value) }

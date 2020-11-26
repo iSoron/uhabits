@@ -114,6 +114,10 @@ class CheckmarkButtonView(
             val id = when (value) {
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
+                UNKNOWN -> {
+                    if(preferences.areQuestionMarksEnabled()) R.string.fa_question
+                    else R.string.fa_times
+                }
                 else -> R.string.fa_check
             }
             val label = resources.getString(id)

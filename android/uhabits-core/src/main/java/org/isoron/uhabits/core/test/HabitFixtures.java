@@ -23,6 +23,8 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.*;
 import org.isoron.uhabits.core.utils.*;
 
+import static org.isoron.uhabits.core.models.Checkmark.*;
+
 public class HabitFixtures
 {
     public boolean NON_DAILY_HABIT_CHECKS[] = {
@@ -63,7 +65,7 @@ public class HabitFixtures
                 81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getRepetitions().toggle(today.minus(mark));
+            habit.getRepetitions().setValue(today.minus(mark), YES_MANUAL);
 
         return habit;
     }
@@ -87,7 +89,7 @@ public class HabitFixtures
         for (int i = 0; i < times.length; i++)
         {
             Timestamp timestamp = today.minus(times[i]);
-            habit.getRepetitions().add(new Repetition(timestamp, values[i]));
+            habit.getRepetitions().setValue(timestamp, values[i]);
         }
 
         return habit;
@@ -123,7 +125,7 @@ public class HabitFixtures
         for (int i = 0; i < times.length; i++)
         {
             Timestamp timestamp = reference.minus(times[i]);
-            habit.getRepetitions().add(new Repetition(timestamp, values[i]));
+            habit.getRepetitions().setValue(timestamp, values[i]);
         }
 
         return habit;
@@ -140,7 +142,9 @@ public class HabitFixtures
         Timestamp timestamp = DateUtils.getToday();
         for (boolean c : NON_DAILY_HABIT_CHECKS)
         {
-            if (c) habit.getRepetitions().toggle(timestamp);
+            int value = NO;
+            if (c) value = YES_MANUAL;
+            habit.getRepetitions().setValue(timestamp, value);
             timestamp = timestamp.minus(1);
         }
 

@@ -27,6 +27,7 @@
     <string translatable="false" name="fa_bell_o">&#xf0a2;</string>
 	<string translatable="false" name="fa_calendar">&#xf073;</string>
 	<string translatable="false" name="fa_exclamation_circle">&#xf06a;</string>
+	<string translatable="false" name="fa_question">&#xf128;</string>
 
     <!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
 	<!--<string translatable="false" name="fa_music">&#xf001;</string>-->
@@ -281,7 +282,6 @@
 	<!--<string translatable="false" name="fa_crop">&#xf125;</string>-->
 	<!--<string translatable="false" name="fa_code_fork">&#xf126;</string>-->
 	<!--<string translatable="false" name="fa_chain_broken">&#xf127;</string>-->
-	<!--<string translatable="false" name="fa_question">&#xf128;</string>-->
 	<!--<string translatable="false" name="fa_info">&#xf129;</string>-->
 	<!--<string translatable="false" name="fa_exclamation">&#xf12a;</string>-->
 	<!--<string translatable="false" name="fa_superscript">&#xf12b;</string>-->

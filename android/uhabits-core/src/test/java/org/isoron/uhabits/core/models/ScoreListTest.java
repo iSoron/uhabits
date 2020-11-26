@@ -49,7 +49,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getAll()
     {
-        toggle(0, 20);
+        check(0, 20);
 
         double expectedValues[] = {
             0.655747,
@@ -82,7 +82,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getTodayValue()
     {
-        toggle(0, 20);
+        check(0, 20);
         double actual = habit.getScores().getTodayValue();
         assertThat(actual, closeTo(0.655747, E));
     }
@@ -90,7 +90,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValue()
     {
-        toggle(0, 20);
+        check(0, 20);
 
         double expectedValues[] = {
             0.655747,
@@ -124,7 +124,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValueWithSkip()
     {
-        toggle(0, 20);
+        check(0, 20);
         addSkip(5);
         addSkip(10);
         addSkip(11);
@@ -161,7 +161,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValueWithSkip2()
     {
-        toggle(5);
+        check(5);
         addSkip(4);
 
         double[] expectedValues = {
@@ -180,7 +180,7 @@ public class ScoreListTest extends BaseUnitTest
     @Test
     public void test_getValues()
     {
-        toggle(0, 20);
+        check(0, 20);
 
         Timestamp today = DateUtils.getToday();
         Timestamp from = today.minus(4);
@@ -214,7 +214,7 @@ public class ScoreListTest extends BaseUnitTest
             values.add(NO);
             values.add(NO);
         }
-        toggle(values);
+        check(values);
         assertThat(habit.getScores().getTodayValue(), closeTo(2/3.0, E));
 
         // Missing 2 repetitions out of 4 per week, the score should converge to 50%
@@ -249,7 +249,7 @@ public class ScoreListTest extends BaseUnitTest
             values.add(NO);
             values.add(YES_MANUAL);
         }
-        toggle(values);
+        check(values);
         assertThat(habit.getScores().getTodayValue(), closeTo(1.0, 1e-3));
     }
 
@@ -259,18 +259,18 @@ public class ScoreListTest extends BaseUnitTest
         // Daily habits should achieve at least 99% in 3 months
         habit = fixtures.createEmptyHabit();
         habit.setFrequency(Frequency.DAILY);
-        for (int i = 0; i < 90; i++) toggle(i);
+        for (int i = 0; i < 90; i++) check(i);
         assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
 
         // Weekly habits should achieve at least 99% in 9 months
         habit = fixtures.createEmptyHabit();
         habit.setFrequency(Frequency.WEEKLY);
-        for (int i = 0; i < 39; i++) toggle(7 * i);
+        for (int i = 0; i < 39; i++) check(7 * i);
         assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
 
         // Monthly habits should achieve at least 99% in 18 months
         habit.setFrequency(new Frequency(1, 30));
-        for (int i = 0; i < 18; i++) toggle(30 * i);
+        for (int i = 0; i < 18; i++) check(30 * i);
         assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
     }
 
@@ -292,7 +292,7 @@ public class ScoreListTest extends BaseUnitTest
     {
         assertThat(habit.getScores().getTodayValue(), closeTo(0.0, E));
 
-        toggle(0, 2);
+        check(0, 2);
         assertThat(habit.getScores().getTodayValue(), closeTo(0.101149, E));
 
         habit.setFrequency(new Frequency(1, 2));
@@ -324,36 +324,36 @@ public class ScoreListTest extends BaseUnitTest
         assertThat(writer.toString(), equalTo(expectedCSV));
     }
 
-    private void toggle(final int offset)
+    private void check(final int offset)
     {
         RepetitionList reps = habit.getRepetitions();
         Timestamp today = DateUtils.getToday();
-        reps.toggle(today.minus(offset));
+        reps.setValue(today.minus(offset), YES_MANUAL);
     }
 
-    private void toggle(final int from, final int to)
+    private void check(final int from, final int to)
     {
         RepetitionList reps = habit.getRepetitions();
         Timestamp today = DateUtils.getToday();
 
         for (int i = from; i < to; i++)
-            reps.toggle(today.minus(i));
+            reps.setValue(today.minus(i), YES_MANUAL);
     }
 
-    private void toggle(ArrayList<Integer> values)
+    private void check(ArrayList<Integer> values)
     {
         RepetitionList reps = habit.getRepetitions();
         Timestamp today = DateUtils.getToday();
         for (int i = 0; i < values.size(); i++)
             if (values.get(i) == YES_MANUAL)
-                reps.toggle(today.minus(i));
+                reps.setValue(today.minus(i), YES_MANUAL);
     }
 
     private void addSkip(final int day)
     {
         RepetitionList reps = habit.getRepetitions();
         Timestamp today = DateUtils.getToday();
-        reps.toggle(today.minus(day), Checkmark.SKIP);
+        reps.setValue(today.minus(day), Checkmark.SKIP);
     }
 
     private void checkScoreValues(double[] expectedValues)

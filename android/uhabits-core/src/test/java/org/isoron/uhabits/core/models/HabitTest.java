@@ -89,7 +89,7 @@ public class HabitTest extends BaseUnitTest
     {
         Habit h = modelFactory.buildHabit();
         assertFalse(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday());
+        h.getRepetitions().setValue(getToday(), Checkmark.YES_MANUAL);
         assertTrue(h.isCompletedToday());
     }
 
@@ -102,19 +102,19 @@ public class HabitTest extends BaseUnitTest
         h.setTargetValue(100.0);
         assertFalse(h.isCompletedToday());
 
-        h.getRepetitions().toggle(getToday(), 200_000);
+        h.getRepetitions().setValue(getToday(), 200_000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 100_000);
+        h.getRepetitions().setValue(getToday(), 100_000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 50_000);
+        h.getRepetitions().setValue(getToday(), 50_000);
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
-        h.getRepetitions().toggle(getToday(), 200_000);
+        h.getRepetitions().setValue(getToday(), 200_000);
         assertFalse(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 100_000);
+        h.getRepetitions().setValue(getToday(), 100_000);
         assertTrue(h.isCompletedToday());
-        h.getRepetitions().toggle(getToday(), 50_000);
+        h.getRepetitions().setValue(getToday(), 50_000);
         assertTrue(h.isCompletedToday());
     }
 

@@ -345,6 +345,10 @@ public class Preferences
         if(enabled) for (Listener l : listeners) l.onSyncEnabled();
     }
 
+    public boolean areQuestionMarksEnabled()
+    {
+        return storage.getBoolean("pref_unknown_enabled", false);
+    }
 
     /**
      * @return An integer representing the first day of the week. Sunday
