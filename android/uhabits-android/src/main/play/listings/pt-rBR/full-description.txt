@@ -1,0 +1,29 @@
+O Rastreador de Hábitos Loop ajuda a criar e manter hábitos positivos a longo prazo em sua vida. Gráficos e estatísticas detalhados fornecem uma imagem clara de como seus hábitos melhoraram ao longo do tempo. O aplicativo é totalmente livre de anúncios, de código aberto e respeita a sua privacidade.
+
+Bonito, minimalista e interface leve
+O Loop possui uma interface elegante e minimalista, muito fácil de usar, mesmo para usuários iniciantes. Altamente otimizado para velocidade, o aplicativo funciona bem mesmo em telefones mais antigos.
+
+<b>Contagem de hábito</b>
+O Loop possui uma fórmula avançada para calcular a força de seus hábitos. Cada repetição fortalece seu hábito e todos os dias perdidos o tornam mais fraco. Alguns dias perdidos após uma longa sequência, no entanto, não destruirão completamente seu progresso, ao contrário de muitos outros aplicativos não-quebre-a-maré.
+
+<b>Cronogramas flexíveis</b>
+Além dos hábitos diários, o Loop suporta hábitos com cronogramas mais complexos, como 3 vezes por semana ou em dias alternados.
+
+<b>Lembretes</b>
+Agende notificações para lembrá-lo de seus hábitos. Cada hábito pode ter seu próprio lembrete, no horário escolhido. Verifique ou dispense facilmente seu hábito diretamente da notificação.
+
+<b>Widgets</b>
+Lembre-se de seus hábitos sempre que desbloquear o telefone. Widgets coloridos permitem que você acompanhe seus hábitos diretamente na tela inicial, sem abrir o aplicativo.
+
+<b>Assuma o controle de seus dados</b>
+Se você deseja analisar melhor seus dados ou movê-los para outro serviço, o Loop permite exportá-los para planilhas (CSV) ou para um arquivo de banco de dados (SQLite). Para usuários avançados, marcas de seleção podem ser adicionadas através de outros aplicativos, como o Tasker.
+
+<b>Sem limitações</b>
+Acompanhe quantos hábitos desejar. O loop não impõe limites artificiais para quantos hábitos você pode ter. Todos os recursos estão disponíveis para todos os usuários. Não há compras no aplicativo.
+
+<b>Código-fonte aberto e completamente livre de anúncios</b>
+Não há anúncios, notificações irritantes ou permissões intrusivas neste aplicativo, e nunca haverá. O aplicativo é completamente de código aberto (GPLv3).
+
+<b>Funciona offline e respeita sua privacidade</b>
+O loop não requer conexão com a Internet ou registro de conta online. Seus dados confidenciais nunca são enviados a ninguém. Nem os desenvolvedores nem terceiros têm acesso a ele.
+

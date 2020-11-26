@@ -1,0 +1,29 @@
+Loop Habit Tracker vám pomáhá vytvořit a udržet si dlouhodobé pozitivní zvyky. Podrobné grafy a statistiky vám ukáží jasný přehled, jak se vaše zvyky postupem času zlepšily. Aplikace je kompletně bez reklam, open source (otevřený zdrojový kód) a respektuje vaše soukromí.
+
+<b>Krásné, minimalistické a přehledné rozhraní</b>
+Loop má elegantní a minimalostické rozhraní, které je velice jednoduché k použití. I pro nové uživatele. Skvěle optimalizováno pro rychlost, aplikace funguje i na starších telefonech.
+
+<b>Skóre návyků</b>
+Loop má propracovaný vzorec pro výpočet síly vašich návyků. Každé opakování posílí váš zvyk a každé vynechání ho oslabí. Ale pár zmeškaných dní po dlouhém období vám kompletně nezničí váš pokrok, jako u mnoho jiných aplikací soustředěných na "nepřerušení řetězce".
+
+<b>Flexibilní plánování</b>
+Kromě každodenních návyků podporuje Loop návyky se složitějšími plány, například třikrát týdně nebo každý druhý den.
+
+<b>Připomenutí</b>
+Nastavte si oznámení, aby vám připomněly vaše návyky. Každý návyk může mít svou notifikaci ve zvoleném čase. Jednoduše potvrďte nebo zamítněte návyk přímo z notifikace.
+
+<b>Widgety</b>
+Nechte si při každém odemknutí telefonu připomenout vaše návyky. Barevné widgety vám dovolují sledovat vaše návyky přimo z vaší domovské obrazovky, aniž byste museli otevřít aplikaci.
+
+<b>Převezměte kontrolu nad svými daty</b>
+Pokud chcete dále analyzovat vaše údaje, nebo je přesunout do jiné služby, Loop umožňuje je exportovat do tabulek (CSV) nebo do databázového souboru (SQLite). Pokročilí uživatelé můžou propojit ovládání i skrze jiné aplikace, jako je Tasker.
+
+<b>Bez omezení</b>
+Sledujte si tolik návyků, kolik chcete. Loop nenastavuje žádné umělé omezení počtu návyků, které můžete sledovat. Všechny funkce jsou k dispozici všem uživatelům. Neexistují žádné nákupy v aplikaci.
+
+<b>Zcela bez reklam a open source</b>
+V této aplikaci nejsou žádné reklamy, nepříjemná oznámení nebo dotěrná oprávnění a nikdy zde nebudou. Aplikace je zcela open-source (GPLv3).
+
+<b>Funguje offline a respektuje vaše soukromí</b>
+Loop nevyžaduje připojení k Internetu ani registraci online účtu. Vaše důvěrné údaje nejsou nikdy nikomu zaslány. Nemají k nim přístup ani vývojáři, nebo třetí strany.
+

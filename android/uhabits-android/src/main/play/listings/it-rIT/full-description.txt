@@ -1,0 +1,29 @@
+Loop Habit Tracker ti aiuta a creare e mantenere abitudini positive a lungo termine nella tua vita. Grafici e statistiche dettagliate ti danno un quadro chiaro di come le tue abitudini sono migliorate nel tempo. L'app è completamente priva di pubblicità, open source e rispetta la tua privacy.
+
+<b>Interfaccia gradevole, minimalista e leggera</b>
+Loop ha un'interfaccia elegante e minimalista molto facile da usare, anche per i nuovi utenti. Altamente ottimizzata per la velocità, l'app funziona bene anche sui vecchi telefoni.
+
+<b>Punteggio abitudine</b>
+Loop ha una formula avanzata per calcolare la forza delle tue abitudini. Ogni ripetizione rende la tua abitudine più forte e ogni giorno perso la rende più debole. Alcuni giorni persi dopo una lunga serie, tuttavia, non distruggeranno completamente i tuoi progressi, a differenza di molte altre app.
+
+<b>Pianificazioni flessibili</b>
+Oltre alle abitudini quotidiane, Loop supporta abitudini con programmi più complessi, come 3 volte a settimana o a giorni alterni.
+
+<b>Promemoria</b>
+Pianifica le notifiche per ricordarti le tue abitudini. Ogni abitudine può avere il suo promemoria, all'ora prescelta del giorno. Controlla o elimina facilmente l'abitudine direttamente dalla notifica.
+
+<b>Widget</b>
+Ricorda le tue abitudini ogni volta che sblocchi il telefono. I widget colorati ti consentono di monitorare le tue abitudini direttamente dalla schermata iniziale, senza nemmeno aprire l'app.
+
+<b>Prendi il controllo dei tuoi dati</b>
+Se desideri analizzare ulteriormente i tuoi dati o spostarli su un altro servizio, Loop ti consente di esportarli in fogli di calcolo (CSV) o in un file di database (SQLite). Per gli utenti esperti, i segni di spunta possono essere aggiunti tramite altre app, come Tasker.
+
+<b>Nessuna limitazione</b>
+Tieni traccia di tutte le abitudini che desideri. Il loop non impone limiti riguardo il numero di abitudini che puoi avere. Tutte le funzionalità sono disponibili per tutti gli utenti. Non ci sono acquisti in-app.
+
+<b>Senza pubblicità e open source</b>
+Non ci sono pubblicità, fastidiose notifiche o permessi intrusivi in questa app, e non ci saranno mai. L'app è completamente open-source (GPLv3).
+
+<b>Funziona offline e rispetta la tua privacy</b>
+Loop non richiede una connessione Internet o la registrazione dell'account online. I tuoi dati riservati non vengono mai inviati a nessuno. Né gli sviluppatori né terze parti hanno accesso ad esso.
+

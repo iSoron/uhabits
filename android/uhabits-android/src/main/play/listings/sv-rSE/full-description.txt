@@ -1,0 +1,29 @@
+Loop Habit Tracker hjälper dig att skapa och upprätthålla långsiktiga, gynnsamma vanor i ditt liv. Detaljrika diagram och statistik ger dig en tydlig bild av hur dina vanor har förbättrats med tiden. Appen är helt fri från annonser, har öppen källkod och respekterar din integritet.
+
+<b>Vackert, minimalistiskt och stilrent gränssnitt</b>
+Loop har ett elegant och minimalistiskt gränssnitt som är mycket lättanvänt, även för förstagångsanvändare. Appen är optimerad för hastighet och fungerar bra även på äldre telefoner.
+
+<b>Vanepoäng</b>
+Loop har en avancerad formel för att beräkna dina vanors styrka. Varje upprepning gör din vana starkare och varje missad dag gör den svagare. Ett par missade dagar efter en lång serie kommer dock inte förstöra dina framsteg helt, till skillnad från många andra "don't-break-the-chain"-appar.
+
+<b>Flexibla scheman</b>
+Förutom dagliga vanor stödjer Loop vanor med mer komplexa scheman, t.ex. 3 gånger per vecka eller varannan dag.
+
+<b>Påminnelser</b>
+Schemalägg aviseringar för att påminna dig om dina vanor. Varje vana kan ha en egen påminnelse, vid en vald tidpunkt på dagen. Bocka av eller avfärda din vana enkelt direkt i aviseringen.
+
+<b>Widgetar</b>
+Bli påmind om dina vanor när du låser upp din telefon. Färgglada widgetar låter dig hålla koll på dina vanor direkt från din hemskärm, utan att ens behöva öppna appen.
+
+<b>Ta kontroll över din data</b>
+Om du vill analysera din data ytterligare eller byta till en annan tjänst låter Loop dig exportera den till ett kalkylark (CSV) eller en databasfil (SQLite). För avancerade användare kan vanor bockas av via andra appar, t.ex. Tasker.
+
+<b>Inga begränsningar</b>
+Håll koll på hur många vanor du vill. Loop sätter inga godtyckliga gränser för hur många vanor du kan ha. Alla funktioner är tillgängliga för samtliga användare. Det finns inga köp i appen.
+
+<b>Helt fri från annonser och med öppen källkod</b>
+Det finns inga annonser, irriterande aviseringar eller inkräktande behörigheter i den här appen, och så kommer det förbli. Appen har helt öppen källkod (GPLv3).
+
+<b>Fungerar offline och respekterar din integritet</b>
+Loop kräver ingen internetanslutning eller kontoregistrering. Dina konfidentiella uppgifter skickas aldrig till någon. Varken utvecklarna eller någon tredje part har tillgång till dem.
+

@@ -1,0 +1,29 @@
+Loop Alışkanlık Takibi, yaşamınızda uzun vadeli olumlu alışkanlıklar yaratmanıza ve sürdürmenize yardımcı olur. Ayrıntılı grafik ve istatistikler, alışkanlıklarınızın zaman içinde nasıl geliştiğine dair size net bir resim sunar. Uygulama tamamen reklamsız ve açık kaynaklıdır. Gizliliğinize saygı duyar.
+
+<b>Güzel, minimalist ve basit arayüz</b>
+Loop, ilk kez kullananlar için bile kullanımı çok kolay olan zarif ve minimalist bir arayüze sahiptir. Hız için son derece optimize edilmiş olan bu uygulama, eski telefonlarda bile gayet iyi çalışır.
+
+<b>Alışkanlık puanı</b>
+Loop, alışkanlıklarınızın kalıcılığını hesaplamak için gelişmiş bir formül kullanır. Her tekrar, alışkanlığınızı güçlendirir ve kaçırdığınız her gün onu zayıflatır. Ayrıca, uzun bir tekrar serisinin ardından kaçırılan birkaç gün, diğer birçok uygulamanın aksine gelişim grafiğinizi tamamen bozmayacaktır.
+
+<b>Esnek programlar</b>
+Loop, günlük alışkanlıkların yanında, daha karmaşık programları da (örneğin haftada 3 kez veya gün aşırı gibi) destekler.
+
+<b>Hatırlatmalar</b>
+Alışkanlıklarınızı size hatırlatması için bildirimler ayarlayabilirsiniz. Her alışkanlık için özel bir bildirim ayarlayabilirsiniz, belirlediğiniz zamanda hatırlatmak üzere. Alışkanlığınızı doğrudan bildirimlerden kolayca işaretleyin veya erteleyin.
+
+<b>Widget'lar</b>
+Telefonunuzun kilidini her açtığınızda alışkanlıklarınız size hatırlatılır. Renkli widget'lar, uygulamayı açmadan bile alışkanlıklarınızı doğrudan ana ekranınızdan izlemenizi sağlar.
+
+<b>Verilerinizin kontrolünü elinize alın</b>
+Loop, daha ayrıntılı analiz etmek veya başka bir uygulamaya taşımak için alışkanlık verilerinizi elektronik tablolara (CSV) veya bir veritabanı dosyasına (SQLite) aktarmanıza olanak tanır. İleri düzey kullanıcılar için, yapıldı işaretleri Tasker gibi diğer uygulamalar aracılığıyla konulabilir.
+
+<b>Kısıtlama yok</b>
+İstediğiniz kadar alışkanlığı takip edin. Loop, sahip olabileceğiniz alışkanlık miktarına hiçbir kısıtlama getirmez. Tüm özellikler tüm kullanıcılar tarafından kullanılabilir. Tamamen ücretsizdir.
+
+<b>Reklamsız ve açık kaynaktır</b>
+Bu uygulamada hiçbir reklam, sinir bozucu bildirim veya sürekli çıkan izin isteği yoktur ve asla olmayacaktır. Uygulama tamamen açık kaynaklıdır (GPLv3).
+
+<b>Çevrimdışı çalışır ve gizliliğinize saygı duyar</b>
+Loop, internet bağlantısı veya çevrimiçi hesap kaydı gerektirmez. Gizli verileriniz asla kimseye gönderilmez. Ne geliştiricilerin ne de üçüncü şahısların verilerinize erişimi yoktur.
+
