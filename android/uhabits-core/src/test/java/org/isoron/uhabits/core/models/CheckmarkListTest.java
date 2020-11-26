@@ -80,14 +80,14 @@ public class CheckmarkListTest extends BaseUnitTest
         intervals.add(new CheckmarkList.Interval(day(2), day(2), day(1)));
 
         List<Checkmark> expected = new ArrayList<>();
-        expected.add(new Checkmark(day(0), NO));
+        expected.add(new Checkmark(day(0), UNKNOWN));
         expected.add(new Checkmark(day(1), YES_MANUAL));
         expected.add(new Checkmark(day(2), YES_MANUAL));
-        expected.add(new Checkmark(day(3), NO));
+        expected.add(new Checkmark(day(3), UNKNOWN));
         expected.add(new Checkmark(day(4), YES_AUTO));
         expected.add(new Checkmark(day(5), YES_MANUAL));
         expected.add(new Checkmark(day(6), YES_AUTO));
-        expected.add(new Checkmark(day(7), NO));
+        expected.add(new Checkmark(day(7), UNKNOWN));
         expected.add(new Checkmark(day(8), YES_AUTO));
         expected.add(new Checkmark(day(9), YES_AUTO));
         expected.add(new Checkmark(day(10), YES_MANUAL));
@@ -220,9 +220,9 @@ public class CheckmarkListTest extends BaseUnitTest
         travelInTime(3);
 
         int[] expectedValues = {
-                NO,
-                NO,
-                NO,
+                UNKNOWN,
+                UNKNOWN,
+                UNKNOWN,
                 YES_MANUAL,
                 NO,
                 YES_AUTO,
@@ -296,7 +296,7 @@ public class CheckmarkListTest extends BaseUnitTest
         assertThat(checkmarks.getTodayValue(), equalTo(YES_MANUAL));
 
         travelInTime(1);
-        assertThat(checkmarks.getTodayValue(), equalTo(NO));
+        assertThat(checkmarks.getTodayValue(), equalTo(UNKNOWN));
     }
 
     @Test
@@ -320,12 +320,12 @@ public class CheckmarkListTest extends BaseUnitTest
                 YES_AUTO,
                 YES_MANUAL,
                 YES_MANUAL,
-                NO,
-                NO,
-                NO,
-                NO,
-                NO,
-                NO
+                UNKNOWN,
+                UNKNOWN,
+                UNKNOWN,
+                UNKNOWN,
+                UNKNOWN,
+                UNKNOWN
         };
 
         int[] actualValues = nonDailyHabit.getCheckmarks().getValues(from, to);
@@ -475,7 +475,7 @@ public class CheckmarkListTest extends BaseUnitTest
         assertThat(checkmarks.getThisMonthValue(), equalTo(1006));
 
         DateUtils.setFixedLocalTime(unixTime(2000, MAY, 1));
-        assertThat(checkmarks.getTodayValue(), equalTo(0));
+        assertThat(checkmarks.getTodayValue(), equalTo(UNKNOWN));
         assertThat(checkmarks.getThisWeekValue(SATURDAY), equalTo(0));
         assertThat(checkmarks.getThisMonthValue(), equalTo(0));
     }

@@ -142,7 +142,9 @@ public class HabitFixtures
         Timestamp timestamp = DateUtils.getToday();
         for (boolean c : NON_DAILY_HABIT_CHECKS)
         {
-            if (c) habit.getRepetitions().setValue(timestamp, YES_MANUAL);
+            int value = NO;
+            if (c) value = YES_MANUAL;
+            habit.getRepetitions().setValue(timestamp, value);
             timestamp = timestamp.minus(1);
         }
 

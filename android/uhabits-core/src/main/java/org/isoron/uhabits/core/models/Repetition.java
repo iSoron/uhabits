@@ -60,6 +60,7 @@ public final class Repetition
     {
         switch(value) {
             case NO:
+            case UNKNOWN:
             case YES_AUTO:
                 return YES_MANUAL;
             case YES_MANUAL:
@@ -74,6 +75,7 @@ public final class Repetition
     {
         switch(value) {
             case NO:
+            case UNKNOWN:
             case YES_AUTO:
                 return YES_MANUAL;
             default:

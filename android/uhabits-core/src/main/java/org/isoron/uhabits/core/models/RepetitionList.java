@@ -85,7 +85,7 @@ public abstract class RepetitionList
     public int getValue(Timestamp timestamp)
     {
         Repetition rep = getByTimestamp(timestamp);
-        if (rep == null) return Checkmark.NO;
+        if (rep == null) return Checkmark.UNKNOWN;
         return rep.getValue();
     }
 

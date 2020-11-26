@@ -43,26 +43,31 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 public final class Checkmark
 {
     /**
-     * Indicates that there was an explicit skip at the timestamp.
+     * Checkmark value indicating that the habit is not applicable for this timestamp.
      */
     public static final int SKIP = 3;
 
     /**
-     * Indicates that there was a repetition at the timestamp.
+     * Checkmark value indicating that the user has performed the habit at this timestamp.
      */
     public static final int YES_MANUAL = 2;
 
     /**
-     * Indicates that there was no repetition at the timestamp, but one was not
-     * expected in any case, due to the frequency of the habit.
+     * Checkmark value indicating that the user did not perform the habit, but they were not
+     * expected to, because of the frequency of the habit.
      */
     public static final int YES_AUTO = 1;
 
     /**
-     * Indicates that there was no repetition at the timestamp, even though a
-     * repetition was expected.
+     * Checkmark value indicating that the user did not perform the habit, even though they were
+     * expected to perform it.
      */
     public static final int NO = 0;
+
+    /**
+     * Checkmark value indicating that no data is available for the given timestamp.
+     */
+    public static final int UNKNOWN = -1;
 
     private final Timestamp timestamp;
 

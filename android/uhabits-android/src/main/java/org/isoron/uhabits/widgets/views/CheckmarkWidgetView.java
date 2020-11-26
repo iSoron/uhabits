@@ -86,8 +86,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
             case Checkmark.YES_AUTO:
             case Checkmark.NO:
+            case Checkmark.UNKNOWN:
             default:
-                getResources().getString(R.string.fa_times);
                 bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
                 setShadowAlpha(0x00);
@@ -120,6 +120,8 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 return getResources().getString(R.string.fa_check);
             case Checkmark.SKIP:
                 return getResources().getString(R.string.fa_skipped);
+            case Checkmark.UNKNOWN:
+                return getResources().getString(R.string.fa_question);
             case Checkmark.NO:
             default:
                 return getResources().getString(R.string.fa_times);

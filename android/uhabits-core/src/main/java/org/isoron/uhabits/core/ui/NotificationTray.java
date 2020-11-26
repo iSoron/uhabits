@@ -186,7 +186,7 @@ public class NotificationTray
         {
             systemTray.log("Showing notification for habit=" + habit.id);
 
-            if (todayValue != Checkmark.NO) {
+            if (todayValue != Checkmark.UNKNOWN) {
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d already checked. Skipping.",
