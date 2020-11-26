@@ -22,6 +22,8 @@ package org.isoron.uhabits;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.DateUtils;
 
+import static org.isoron.uhabits.core.models.Checkmark.*;
+
 public class HabitFixtures
 {
     public boolean LONG_HABIT_CHECKS[] = {
@@ -73,7 +75,7 @@ public class HabitFixtures
             81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getRepetitions().toggle(today.minus(mark));
+            habit.getRepetitions().setValue(today.minus(mark), YES_MANUAL);
 
         return habit;
     }
@@ -107,7 +109,7 @@ public class HabitFixtures
                        582, 583, 584, 586, 589};
 
         for (int mark : marks)
-            habit.getRepetitions().toggle(today.minus(mark));
+            habit.getRepetitions().setValue(today.minus(mark), YES_MANUAL);
 
         return habit;
     }
@@ -145,7 +147,7 @@ public class HabitFixtures
         Timestamp timestamp = DateUtils.getToday();
         for (boolean c : LONG_HABIT_CHECKS)
         {
-            if (c) habit.getRepetitions().toggle(timestamp);
+            if (c) habit.getRepetitions().setValue(timestamp, YES_MANUAL);
             timestamp = timestamp.minus(1);
         }
 

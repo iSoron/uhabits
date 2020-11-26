@@ -30,6 +30,8 @@ import java.util.*;
 
 import javax.inject.*;
 
+import static org.isoron.uhabits.core.models.Checkmark.*;
+
 /**
  * Class that imports data from database files exported by Tickmate.
  */
@@ -100,7 +102,7 @@ public class TickmateDBImporter extends AbstractImporter
                 GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month, day);
 
-                habit.getRepetitions().toggle(new Timestamp(cal));
+                habit.getRepetitions().setValue(new Timestamp(cal), YES_MANUAL);
             } while (c.moveToNext());
         }
         finally

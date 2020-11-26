@@ -31,6 +31,8 @@ import java.util.*;
 
 import javax.inject.*;
 
+import static org.isoron.uhabits.core.models.Checkmark.*;
+
 
 /**
  * Class that imports data from HabitBull CSV files.
@@ -93,8 +95,7 @@ public class HabitBullCSVImporter extends AbstractImporter
                 map.put(name, h);
             }
 
-            if (!h.getRepetitions().containsTimestamp(timestamp))
-                h.getRepetitions().toggle(timestamp);
+            h.getRepetitions().setValue(timestamp, YES_MANUAL);
         }
     }
 }
