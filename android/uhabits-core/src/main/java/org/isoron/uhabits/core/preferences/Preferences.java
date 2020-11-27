@@ -319,19 +319,9 @@ public class Preferences
         return storage.getString("pref_sync_key", "");
     }
 
-    public void setSyncKey(String key)
-    {
-        storage.putString("pref_sync_key", key);
-    }
-
     public String getEncryptionKey()
     {
         return storage.getString("pref_encryption_key", "");
-    }
-
-    public void setEncryptionKey(String key)
-    {
-        storage.putString("pref_encryption_key", key);
     }
 
     public boolean isSyncEnabled()
@@ -339,10 +329,19 @@ public class Preferences
         return storage.getBoolean("pref_sync_enabled", false);
     }
 
-    public void setSyncEnabled(boolean enabled)
+    public void enableSync(String syncKey, String encKey)
     {
-        storage.putBoolean("pref_sync_enabled", enabled);
-        if(enabled) for (Listener l : listeners) l.onSyncEnabled();
+        storage.putBoolean("pref_sync_enabled", true);
+        storage.putString("pref_sync_key", syncKey);
+        storage.putString("pref_encryption_key", encKey);
+        for (Listener l : listeners) l.onSyncEnabled();
+    }
+
+    public void disableSync()
+    {
+        storage.putBoolean("pref_sync_enabled", false);
+        storage.putString("pref_sync_key", "");
+        storage.putString("pref_encryption_key", "");
     }
 
     public boolean areQuestionMarksEnabled()

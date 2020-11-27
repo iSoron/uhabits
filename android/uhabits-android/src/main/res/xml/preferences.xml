@@ -123,7 +123,7 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="pref_sync_enabled"
+            android:key="pref_sync_enabled_dummy"
             android:summary="@string/pref_sync_summary"
             android:title="@string/pref_sync_title"
             app:iconSpaceReserved="false" />

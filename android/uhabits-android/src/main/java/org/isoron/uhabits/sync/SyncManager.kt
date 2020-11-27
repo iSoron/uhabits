@@ -46,6 +46,9 @@ class SyncManager @Inject constructor(
     private var currVersion = 0L
     private var dirty = true
 
+    private lateinit var encryptionKey: EncryptionKey
+    private lateinit var syncKey: String
+
     init {
         preferences.addListener(this)
         commandRunner.addListener(this)
@@ -53,44 +56,48 @@ class SyncManager @Inject constructor(
 
     suspend fun sync() {
         if (!preferences.isSyncEnabled) {
-            Log.i("SyncManager", "Device sync is disabled. Skipping sync")
+            Log.i("SyncManager", "Device sync is disabled. Skipping sync.")
             return
         }
+        encryptionKey = EncryptionKey.fromBase64(preferences.encryptionKey)
+        syncKey = preferences.syncKey
         try {
-            Log.i("SyncManager", "Starting sync (key: ${preferences.syncKey})")
-            fetchAndMerge()
-            upload()
+            Log.i("SyncManager", "Starting sync (key: ${encryptionKey.base64})")
+            pull()
+            push()
             Log.i("SyncManager", "Sync finished")
         } catch (e: Exception) {
             Log.e("SyncManager", "Unexpected sync exception. Disabling sync", e)
-            preferences.isSyncEnabled = false
-            preferences.syncKey = ""
-            preferences.encryptionKey = ""
+            preferences.disableSync()
         }
     }
 
-    suspend fun upload() {
+    private suspend fun push() {
         if (!dirty) {
             Log.i("SyncManager", "Database not dirty. Skipping upload.")
             return
         }
         Log.i("SyncManager", "Encrypting database...")
         val db = DatabaseUtils.getDatabaseFile(context)
-        val encryptedDB = db.encryptToString(preferences.encryptionKey)
+        val encryptedDB = db.encryptToString(encryptionKey)
         Log.i("SyncManager", "Uploading database (version ${currVersion}, ${encryptedDB.length / 1024} KB)")
         server.put(preferences.syncKey, SyncData(currVersion, encryptedDB))
         dirty = false
     }
 
-    suspend fun fetchAndMerge() {
+    private suspend fun pull() {
         Log.i("SyncManager", "Fetching database from server...")
         val data = server.getData(preferences.syncKey)
         Log.i("SyncManager", "Fetched database (version ${data.version}, ${data.content.length / 1024} KB)")
+        if (data.version == 0L) {
+            Log.i("SyncManager", "Initial upload detected. Marking db as dirty.")
+            dirty = true
+        }
         if (data.version <= currVersion) {
             Log.i("SyncManager", "Local version is up-to-date. Skipping merge.")
         } else {
             Log.i("SyncManager", "Decrypting and merging with local changes...")
-            data.content.decryptToFile(preferences.encryptionKey, tmpFile)
+            data.content.decryptToFile(encryptionKey, tmpFile)
             taskRunner.execute(importDataTaskFactory.create(tmpFile) { tmpFile.delete() })
         }
         currVersion = data.version + 1

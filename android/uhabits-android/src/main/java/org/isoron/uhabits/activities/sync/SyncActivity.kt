@@ -93,7 +93,7 @@ class SyncActivity : BaseActivity() {
     private fun register() {
         displayLoading()
         taskRunner.execute(object : Task {
-            private lateinit var encKey: String
+            private lateinit var encKey: EncryptionKey
             private lateinit var syncKey: String
             private var error = false
             override fun doInBackground() {
@@ -101,11 +101,8 @@ class SyncActivity : BaseActivity() {
                     val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
                     try {
                         syncKey = server.register()
-                        encKey = generateEncryptionKey()
-                        preferences.isSyncEnabled = true
-                        preferences.encryptionKey = encKey
-                        preferences.syncKey = syncKey;
-                        syncManager.sync()
+                        encKey = EncryptionKey.generate()
+                        preferences.enableSync(syncKey, encKey.base64)
                     } catch (e: ServiceUnavailable) {
                         error = true
                     }

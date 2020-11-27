@@ -128,6 +128,18 @@ public class SettingsFragment extends PreferenceFragmentCompat
             startActivity(intent);
             return true;
         }
+        else if (key.equals("pref_sync_enabled_dummy"))
+        {
+            if (prefs.isSyncEnabled())
+            {
+                prefs.disableSync();
+            }
+            else
+            {
+                Context context = getActivity();
+                context.startActivity(new IntentFactory().startSyncActivity(context));
+            }
+        }
 
         return super.onPreferenceTreeClick(preference);
     }
@@ -159,6 +171,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void updateSyncPreferences()
     {
         findPreference("pref_sync_display").setVisible(prefs.isSyncEnabled());
+        ((CheckBoxPreference) findPreference("pref_sync_enabled_dummy")).setChecked(prefs.isSyncEnabled());
     }
 
     private void updateWeekdayPreference()
@@ -182,19 +195,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
             Log.d("SettingsFragment", "updating widgets");
             widgetUpdater.updateWidgets();
         }
-        if (key.equals("pref_sync_enabled"))
-        {
-            if (prefs.isSyncEnabled())
-            {
-                Context context = getActivity();
-                context.startActivity(new IntentFactory().startSyncActivity(context));
-            }
-            else
-            {
-                prefs.setEncryptionKey("");
-                prefs.setSyncKey("");
-            }
-        }
+
         BackupManager.dataChanged("org.isoron.uhabits");
         updateWeekdayPreference();
         updateSyncPreferences();

@@ -165,9 +165,7 @@ public class ListHabitsBehavior
             return;
         }
         screen.showConfirmInstallSyncKey(() -> {
-            prefs.setSyncKey(syncKey);
-            prefs.setEncryptionKey(encryptionKey);
-            prefs.setSyncEnabled(true);
+            prefs.enableSync(syncKey, encryptionKey);
             screen.showMessage(Message.SYNC_ENABLED);
         });
     }

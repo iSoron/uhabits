@@ -24,15 +24,6 @@ import java.io.*
 
 class EncryptionExtTest : BaseAndroidTest() {
     @Test
-    fun test_encrypt_decrypt_string() {
-        val original = "Hello world!"
-        val key = generateEncryptionKey()
-        val encrypted = original.encrypt(key)
-        val decrypted = encrypted.decrypt(key)
-        assertEquals("Hello world!", decrypted)
-    }
-
-    @Test
     fun test_encrypt_decrypt_file() {
         val original = File.createTempFile("file", ".txt")
         val writer = PrintWriter(original.outputStream())
@@ -40,7 +31,7 @@ class EncryptionExtTest : BaseAndroidTest() {
         writer.println("encryption test")
         writer.close()
 
-        val key = generateEncryptionKey()
+        val key = EncryptionKey.generate()
         val encrypted = original.encryptToString(key)
 
         val decrypted = File.createTempFile("file", ".txt")
