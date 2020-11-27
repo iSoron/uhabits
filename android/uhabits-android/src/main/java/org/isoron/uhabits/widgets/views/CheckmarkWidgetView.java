@@ -205,7 +205,7 @@ public class CheckmarkWidgetView extends HabitWidgetView {
     private void init()
     {
         HabitsApplicationComponent appComponent;
-        appComponent = (HabitsApplicationComponent) getContext().getApplicationContext();
+        appComponent = ((HabitsApplication) getContext().getApplicationContext()).getComponent();
         preferences = appComponent.getPreferences();
 
         ring = (RingView) findViewById(R.id.scoreRing);
