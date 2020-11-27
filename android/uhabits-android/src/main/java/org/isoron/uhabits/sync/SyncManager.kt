@@ -24,6 +24,7 @@ import android.util.*
 import kotlinx.coroutines.*
 import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
+import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.tasks.*
@@ -36,17 +37,19 @@ class SyncManager @Inject constructor(
         val preferences: Preferences,
         val taskRunner: TaskRunner,
         val importDataTaskFactory: ImportDataTaskFactory,
+        val commandRunner: CommandRunner,
         @AppContext val context: Context
-) : Preferences.Listener {
+) : Preferences.Listener, CommandRunner.Listener {
 
     private val server = RemoteSyncServer()
     private val tmpFile = File.createTempFile("import", "", context.externalCacheDir)
     private var currVersion = 0L
+    private var dirty = true
 
     init {
         preferences.addListener(this)
+        commandRunner.addListener(this)
     }
-
 
     fun sync() {
         if(!preferences.isSyncEnabled) {
@@ -72,11 +75,16 @@ class SyncManager @Inject constructor(
     }
 
     suspend fun upload() {
+        if(!dirty) {
+            Log.i("SyncManager", "Database not dirty. Skipping upload.")
+            return
+        }
         Log.i("SyncManager", "Encrypting database...")
         val db = DatabaseUtils.getDatabaseFile(context)
         val encryptedDB = db.encryptToString(preferences.encryptionKey)
         Log.i("SyncManager", "Uploading database (version ${currVersion}, ${encryptedDB.length / 1024} KB)")
         server.put(preferences.syncKey, SyncData(currVersion, encryptedDB))
+        dirty = false
     }
 
     suspend fun fetchAndMerge() {
@@ -93,7 +101,16 @@ class SyncManager @Inject constructor(
         currVersion = data.version + 1
     }
 
-    fun onResume() = sync()
-    fun onPause() = sync()
+    fun onResume() {
+        sync()
+    }
+
+    fun onPause() {
+        sync()
+    }
     override fun onSyncEnabled() = sync()
+
+    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
+        dirty = true
+    }
 }
