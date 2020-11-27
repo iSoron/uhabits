@@ -92,6 +92,8 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$KOTLIN_VERSION"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KX_COROUTINES_VERSION"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KX_COROUTINES_VERSION"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
     implementation 'com.google.zxing:core:3.4.1'
     implementation "io.ktor:ktor-client-core:$KTOR_VERSION"

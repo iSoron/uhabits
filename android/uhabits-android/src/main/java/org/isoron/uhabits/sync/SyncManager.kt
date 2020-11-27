@@ -51,31 +51,26 @@ class SyncManager @Inject constructor(
         commandRunner.addListener(this)
     }
 
-    fun sync() {
-        if(!preferences.isSyncEnabled) {
+    suspend fun sync() {
+        if (!preferences.isSyncEnabled) {
             Log.i("SyncManager", "Device sync is disabled. Skipping sync")
             return
         }
-        taskRunner.execute {
-            runBlocking {
-                try {
-                    Log.i("SyncManager", "Starting sync (key: ${preferences.syncKey})")
-                    fetchAndMerge()
-                    upload()
-                    Log.i("SyncManager", "Sync finished")
-                } catch (e: Exception) {
-                    Log.e("SyncManager", "Unexpected sync exception. Disabling sync", e)
-                    preferences.isSyncEnabled = false
-                    preferences.syncKey = ""
-                    preferences.encryptionKey = ""
-                }
-                return@runBlocking
-            }
+        try {
+            Log.i("SyncManager", "Starting sync (key: ${preferences.syncKey})")
+            fetchAndMerge()
+            upload()
+            Log.i("SyncManager", "Sync finished")
+        } catch (e: Exception) {
+            Log.e("SyncManager", "Unexpected sync exception. Disabling sync", e)
+            preferences.isSyncEnabled = false
+            preferences.syncKey = ""
+            preferences.encryptionKey = ""
         }
     }
 
     suspend fun upload() {
-        if(!dirty) {
+        if (!dirty) {
             Log.i("SyncManager", "Database not dirty. Skipping upload.")
             return
         }
@@ -101,14 +96,19 @@ class SyncManager @Inject constructor(
         currVersion = data.version + 1
     }
 
-    fun onResume() {
+    suspend fun onResume() {
         sync()
     }
 
-    fun onPause() {
+    suspend fun onPause() {
         sync()
     }
-    override fun onSyncEnabled() = sync()
+
+    override fun onSyncEnabled() {
+        CoroutineScope(Dispatchers.Main).launch {
+            sync()
+        }
+    }
 
     override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
         dirty = true

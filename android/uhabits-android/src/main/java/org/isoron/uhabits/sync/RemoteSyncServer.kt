@@ -24,6 +24,7 @@ import io.ktor.client.engine.android.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
+import kotlinx.coroutines.*
 
 data class RegisterReponse(val key: String)
 data class GetDataVersionResponse(val version: Long)
@@ -35,16 +36,16 @@ class RemoteSyncServer(
         }
 ) : AbstractSyncServer {
 
-    override suspend fun register(): String {
+    override suspend fun register(): String = Dispatchers.IO {
         try {
             val response: RegisterReponse = httpClient.post("$baseURL/register")
-            return response.key
+            return@IO response.key
         } catch(e: ServerResponseException) {
             throw ServiceUnavailable()
         }
     }
 
-    override suspend fun put(key: String, newData: SyncData) {
+    override suspend fun put(key: String, newData: SyncData) = Dispatchers.IO {
         try {
             val response: String = httpClient.put("$baseURL/db/$key") {
                 header("Content-Type", "application/json")
@@ -57,9 +58,10 @@ class RemoteSyncServer(
         }
     }
 
-    override suspend fun getData(key: String): SyncData {
+    override suspend fun getData(key: String): SyncData = Dispatchers.IO {
         try {
-            return httpClient.get("$baseURL/db/$key")
+            val data: SyncData = httpClient.get("$baseURL/db/$key")
+            return@IO data
         } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
@@ -67,10 +69,10 @@ class RemoteSyncServer(
         }
     }
 
-    override suspend fun getDataVersion(key: String): Long {
+    override suspend fun getDataVersion(key: String): Long = Dispatchers.IO {
         try {
             val response: GetDataVersionResponse = httpClient.get("$baseURL/db/$key/version")
-            return response.version
+            return@IO response.version
         } catch(e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {

@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.os.*
+import kotlinx.coroutines.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
@@ -40,6 +41,7 @@ class ListHabitsActivity : HabitsActivity() {
     lateinit var prefs: Preferences
     lateinit var midnightTimer: MidnightTimer
     lateinit var syncManager: SyncManager
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,9 @@ class ListHabitsActivity : HabitsActivity() {
         midnightTimer.onPause()
         screen.onDettached()
         adapter.cancelRefresh()
-        syncManager.onPause()
+        scope.launch {
+            syncManager.onPause()
+        }
         super.onPause()
     }
 
@@ -70,7 +74,9 @@ class ListHabitsActivity : HabitsActivity() {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
-        syncManager.onResume()
+        scope.launch {
+            syncManager.onResume()
+        }
         taskRunner.run {
             AutoBackup(this@ListHabitsActivity).run()
         }
