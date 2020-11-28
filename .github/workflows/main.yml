@@ -21,11 +21,11 @@ jobs:
         name: debug-apk
         path: android/build/*apk
 
-    - name: Upload build folder
+    - name: Upload build outputs
       uses: actions/upload-artifact@v2
       with:
         name: build
-        path: android/uhabits-android/build/
+        path: android/uhabits-android/build/outputs/
 
   test:
     needs: build
@@ -41,7 +41,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: build
-        path: android/uhabits-android/build/
+        path: android/uhabits-android/build/outputs/
 
     - name: Run medium tests
       uses: ReactiveCircus/android-emulator-runner@v2
