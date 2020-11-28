@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion MIN_SDK_VERSION as Integer
         targetSdkVersion TARGET_SDK_VERSION as Integer
-        versionCode VERSION_CODE as Integer
-        versionName "$VERSION_NAME"
+        buildConfigField 'int', 'VERSION_CODE', "$VERSION_CODE"
+        buildConfigField 'String', 'VERSION_NAME', "\"$VERSION_NAME\""
     }
 
     compileOptions {
