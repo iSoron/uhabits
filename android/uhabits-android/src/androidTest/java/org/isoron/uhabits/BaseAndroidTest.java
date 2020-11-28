@@ -230,9 +230,9 @@ public class BaseAndroidTest extends TestCase
                               int minute) throws Exception
     {
         GregorianCalendar cal = new GregorianCalendar();
-        cal.setTimeZone(TimeZone.getTimeZone(tz));
         cal.set(Calendar.SECOND, 0);
         cal.set(year, javaMonth, day, hourOfDay, minute);
+        cal.setTimeZone(TimeZone.getTimeZone(tz));
         setSystemTime(cal);
     }
 
@@ -249,6 +249,22 @@ public class BaseAndroidTest extends TestCase
         device.executeShellCommand(command);
 
         // Set time
+        String date = String.format("%02d%02d%02d%02d%02d.%02d",
+                cal.get(Calendar.MONTH) + 1,
+                cal.get(Calendar.DAY_OF_MONTH),
+                cal.get(Calendar.HOUR_OF_DAY),
+                cal.get(Calendar.MINUTE),
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.SECOND));
+
+        // Set time (method 1)
+        // Run twice to override daylight saving time
+        device.executeShellCommand("date " + date);
+        device.executeShellCommand("date " + date);
+
+        // Set time (method 2)
+        // Run in addition to the method above because one of these mail fail, depending
+        // on the Android API version.
         command = String.format("date -u @%d", cal.getTimeInMillis() / 1000);
         device.executeShellCommand(command);
 

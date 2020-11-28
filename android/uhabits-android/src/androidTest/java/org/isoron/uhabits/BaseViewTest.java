@@ -33,8 +33,6 @@ import org.isoron.uhabits.widgets.*;
 import java.io.*;
 import java.util.*;
 
-import static android.os.Build.VERSION.*;
-import static android.os.Build.VERSION_CODES.*;
 import static android.view.View.MeasureSpec.*;
 
 public class BaseViewTest extends BaseAndroidTest
@@ -51,7 +49,7 @@ public class BaseViewTest extends BaseAndroidTest
         throws IOException
     {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-        expectedImagePath = getVersionedPath(expectedImagePath);
+        expectedImagePath = "views/" + expectedImagePath;
         Bitmap actual = renderView(view);
         if(actual == null) throw new IllegalStateException("actual is null");
 
@@ -156,16 +154,6 @@ public class BaseViewTest extends BaseAndroidTest
     {
         InputStream stream = testContext.getAssets().open(path);
         return BitmapFactory.decodeStream(stream);
-    }
-
-    private String getVersionedPath(String path)
-    {
-        int version = SDK_INT;
-        if (version >= 26) version = 26;
-        else if (version >= LOLLIPOP) version = LOLLIPOP;
-        else if (version >= KITKAT) version = KITKAT;
-
-        return String.format("views-v%d/%s", version, path);
     }
 
     private String saveBitmap(String filename, String suffix, Bitmap bitmap)

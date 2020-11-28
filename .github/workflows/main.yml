@@ -1,31 +1,50 @@
 name: Build & Test
-
-on:
-  push:
-    branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
-
+on: [push, pull_request]
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Check out source code
+      uses: actions/checkout@v1
+
     - name: Install Java Development Kit 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+
     - name: Build APK & Run small tests
       run: android/build.sh build
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: debug-apk
+        path: android/build/*apk
+
+    - name: Upload build folder
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: android/uhabits-android/build/
+
+  test:
+    needs: build
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        api-level: [23, 24, 25, 26, 27, 28, 29]
+    steps:
+    - name: Check out source code
+      uses: actions/checkout@v1
+
+    - name: Download previous build folder
+      uses: actions/download-artifact@v2
+      with:
+        name: build
+        path: android/uhabits-android/build/
+
     - name: Run medium tests
-      uses: ReactiveCircus/android-emulator-runner@v2.2.0
+      uses: ReactiveCircus/android-emulator-runner@v2
       with:
-        api-level: 29
+        api-level: ${{ matrix.api-level }}
         script: android/build.sh medium-tests
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: Build
-        path: android/uhabits-android/build/outputs/

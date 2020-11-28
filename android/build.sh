@@ -232,7 +232,10 @@ case "$1" in
 
     medium-tests)
         shift; parse_opts $*
-        run_tests medium
+	for attempt in {1..3}; do
+		(run_tests medium) && exit 0
+	done
+	exit 1
         ;;
 
     large-tests)
@@ -253,7 +256,7 @@ case "$1" in
         build_apk
         install_apk
         ;;
-    
+
     clean)
         remove_build_dir
         ;;
