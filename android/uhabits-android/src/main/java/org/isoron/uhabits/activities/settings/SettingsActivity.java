@@ -20,7 +20,7 @@
 package org.isoron.uhabits.activities.settings;
 
 
-import android.graphics.Color;
+import android.graphics.*;
 import android.os.*;
 
 import org.isoron.androidbase.activities.*;
@@ -56,9 +56,8 @@ public class SettingsActivity extends BaseActivity
         int color = BaseScreen.getDefaultActionBarColor(this);
 
         if (res.getBoolean(R.attr.useHabitColorAsPrimary))
-            color = res.getColor(R.attr.colorPrimary);
+            color = res.getColor(R.attr.aboutScreenColor);
 
         BaseScreen.setupActionBarColor(this, color);
     }
-
 }
