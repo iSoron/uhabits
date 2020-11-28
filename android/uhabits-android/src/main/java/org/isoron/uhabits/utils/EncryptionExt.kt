@@ -38,17 +38,17 @@ import javax.crypto.spec.*
  */
 class EncryptionKey private constructor(
         val base64: String,
-        val secretKey: SecretKey,
+        val secretKey: SecretKey
 ) {
     companion object {
 
         fun fromBase64(base64: String): EncryptionKey {
-            val keySpec = SecretKeySpec(Base64.decode(base64, Base64.DEFAULT), "AES")
+            val keySpec = SecretKeySpec(base64.decodeBase64(), "AES")
             return EncryptionKey(base64, keySpec)
         }
 
         private fun fromSecretKey(spec: SecretKey): EncryptionKey {
-            val base64 = Base64.encodeToString(spec.encoded, Base64.DEFAULT).trim()
+            val base64 = spec.encoded.encodeBase64().trim()
             return EncryptionKey(base64, spec)
         }
 
@@ -99,7 +99,7 @@ fun ByteArray.decrypt(key: EncryptionKey): ByteArray {
  * gzip, decrypts it with the provided key, then writes the output to the specified file.
  */
 fun String.decryptToFile(key: EncryptionKey, output: File) {
-    val bytes = Base64.decode(this, Base64.DEFAULT).decrypt(key)
+    val bytes = this.decodeBase64().decrypt(key)
     ByteArrayInputStream(bytes).use { bytesInputStream ->
         GZIPInputStream(bytesInputStream).use { gzipInputStream ->
             FileOutputStream(output).use { fileOutputStream ->
@@ -120,10 +120,14 @@ fun File.encryptToString(key: EncryptionKey): String {
         FileInputStream(this).use { inputStream ->
             GZIPOutputStream(bytesOutputStream).use { gzipOutputStream ->
                 ByteStreams.copy(inputStream, gzipOutputStream)
+                gzipOutputStream.close()
                 val bytes = bytesOutputStream.toByteArray()
-                return Base64.encodeToString(bytes.encrypt(key), Base64.DEFAULT)
+                return bytes.encrypt(key).encodeBase64()
             }
         }
     }
 }
+
+fun ByteArray.encodeBase64(): String = Base64.encodeToString(this, Base64.DEFAULT)
+fun String.decodeBase64(): ByteArray = Base64.decode(this, Base64.DEFAULT)
 

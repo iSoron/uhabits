@@ -18,11 +18,36 @@
  */
 package org.isoron.uhabits.utils
 
+import androidx.test.filters.*
+import org.hamcrest.Matchers.*
 import org.isoron.uhabits.*
 import org.junit.*
+import org.junit.Assert.*
 import java.io.*
+import java.util.*
 
+@MediumTest
 class EncryptionExtTest : BaseAndroidTest() {
+
+    @Test
+    fun test_encode_decode() {
+        val original = ByteArray(5000)
+        Random().nextBytes(original)
+        val encoded = original.encodeBase64()
+        val decoded = encoded.decodeBase64()
+        assertThat(decoded, equalTo(original))
+    }
+
+    @Test
+    fun test_encrypt_decrypt_bytes() {
+        val original = ByteArray(5000)
+        Random().nextBytes(original)
+        val key = EncryptionKey.generate()
+        val encrypted = original.encrypt(key)
+        val decrypted = encrypted.decrypt(key)
+        assertThat(decrypted, equalTo(original))
+    }
+
     @Test
     fun test_encrypt_decrypt_file() {
         val original = File.createTempFile("file", ".txt")
@@ -30,12 +55,15 @@ class EncryptionExtTest : BaseAndroidTest() {
         writer.println("hello world")
         writer.println("encryption test")
         writer.close()
+        assertThat(original.length(), equalTo(28L))
 
         val key = EncryptionKey.generate()
         val encrypted = original.encryptToString(key)
+        assertThat(encrypted.length, greaterThan(10))
 
         val decrypted = File.createTempFile("file", ".txt")
         encrypted.decryptToFile(key, decrypted)
+        assertThat(decrypted.length(), equalTo(28L))
         assertEquals("hello world\nencryption test\n", decrypted.readText())
     }
 }
