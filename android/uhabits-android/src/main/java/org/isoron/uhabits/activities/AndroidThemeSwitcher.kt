@@ -19,16 +19,16 @@
 
 package org.isoron.uhabits.activities
 
-import android.app.Activity
+import android.app.*
+import android.content.res.Configuration.*
 import android.content.Context
-import android.content.res.Configuration.UI_MODE_NIGHT_MASK
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.os.Build.VERSION.SDK_INT
-import androidx.core.content.ContextCompat
-import org.isoron.androidbase.activities.ActivityScope
-import org.isoron.uhabits.R
-import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.ui.ThemeSwitcher
+import android.os.Build.VERSION.*
+import androidx.core.content.*
+import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.*
+import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.ui.*
+import javax.inject.*
 
 @ActivityScope
 class AndroidThemeSwitcher
