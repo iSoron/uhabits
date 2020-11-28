@@ -17,35 +17,30 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.sync.repository
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.jackson.*
-import io.ktor.routing.*
+import com.sun.org.apache.xpath.internal.operations.*
 import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.repository.*
-import org.isoron.uhabits.sync.server.*
-import java.nio.file.*
 
-fun Application.main() = SyncApplication().apply { main() }
+/**
+ * A class that knows how to store and retrieve a large number of [SyncData] items.
+ */
+interface Repository {
+    /**
+     * Stores a data item, under the provided key. The item can be later retrieved with [get].
+     * Replaces existing items silently.
+     */
+    suspend fun put(key: String, data: SyncData)
 
-val REPOSITORY_PATH: Path = Paths.get(System.getenv("LOOP_REPO_PATH")!!)
+    /**
+     * Retrieves a data item that was previously stored using [put].
+     * @throws KeyNotFoundException If no such key exists.
+     */
+    suspend fun get(key: String): SyncData
 
-class SyncApplication(
-    val server: AbstractSyncServer = RepositorySyncServer(
-        FileRepository(REPOSITORY_PATH),
-    ),
-) {
-    fun Application.main() {
-        install(DefaultHeaders)
-        install(CallLogging)
-        install(ContentNegotiation) {
-            jackson { }
-        }
-        routing {
-            registration(this@SyncApplication)
-            storage(this@SyncApplication)
-        }
-    }
+    /**
+     * Returns true if the repository contains a given key.
+     */
+    suspend fun contains(key: String): Boolean
 }
+

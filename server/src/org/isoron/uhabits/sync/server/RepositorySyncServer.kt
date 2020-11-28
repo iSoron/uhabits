@@ -17,64 +17,59 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync
+package org.isoron.uhabits.sync.server
 
+import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.sync.repository.*
 import java.util.*
 import kotlin.streams.*
 
 /**
- * An AbstractSyncServer that stores all data in memory.
+ * An AbstractSyncServer that stores all data in a [Repository].
  */
-class MemorySyncServer : AbstractSyncServer {
-    private val db = mutableMapOf<String, SyncData>()
+class RepositorySyncServer(
+    private val repo: Repository,
+) : AbstractSyncServer {
 
     override suspend fun register(): String {
-        synchronized(db) {
-            val key = generateKey()
-            db[key] = SyncData(0, "")
-            return key
-        }
+        val key = generateKey()
+        repo.put(key, SyncData(0, ""))
+        return key
     }
 
     override suspend fun put(key: String, newData: SyncData) {
-        synchronized(db) {
-            if (!db.containsKey(key)) {
-                throw KeyNotFoundException()
-            }
-            val prevData = db.getValue(key)
-            if (newData.version != prevData.version + 1) {
-                throw EditConflictException()
-            }
-            db[key] = newData
+        if (!repo.contains(key)) {
+            throw KeyNotFoundException()
         }
+        val prevData = repo.get(key)
+        if (newData.version != prevData.version + 1) {
+            throw EditConflictException()
+        }
+        repo.put(key, newData)
     }
 
     override suspend fun getData(key: String): SyncData {
-        synchronized(db) {
-            if (!db.containsKey(key)) {
-                throw KeyNotFoundException()
-            }
-            return db.getValue(key)
+        if (!repo.contains(key)) {
+            throw KeyNotFoundException()
         }
+        return repo.get(key)
     }
 
     override suspend fun getDataVersion(key: String): Long {
-        synchronized(db) {
-            if (!db.containsKey(key)) {
-                throw KeyNotFoundException()
-            }
-            return db.getValue(key).version
+        if (!repo.contains(key)) {
+            throw KeyNotFoundException()
         }
+        return repo.get(key).version
     }
 
-    private fun generateKey(): String {
+    private suspend fun generateKey(): String {
         val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         while (true) {
             val key = Random().ints(64, 0, chars.length)
                 .asSequence()
                 .map(chars::get)
                 .joinToString("")
-            if (!db.containsKey(key))
+            if (!repo.contains(key))
                 return key
         }
 

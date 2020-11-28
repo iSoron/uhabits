@@ -20,12 +20,16 @@
 package org.isoron.uhabits.sync
 
 import kotlinx.coroutines.*
+import org.isoron.uhabits.sync.repository.*
+import org.isoron.uhabits.sync.server.*
 import org.junit.Test
+import java.nio.file.*
 import kotlin.test.*
 
-class MemorySyncServerTest {
+class RepositorySyncServerTest {
 
-    private val server = MemorySyncServer()
+    private val tempdir = Files.createTempDirectory("db")
+    private val server = RepositorySyncServer(FileRepository(tempdir))
     private val key = runBlocking { server.register() }
 
     @Test

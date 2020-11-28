@@ -20,7 +20,7 @@
 package org.isoron.uhabits.sync.app
 
 import io.ktor.application.*
-import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.sync.server.*
 import org.mockito.Mockito.*
 
 open class BaseApplicationTest {
