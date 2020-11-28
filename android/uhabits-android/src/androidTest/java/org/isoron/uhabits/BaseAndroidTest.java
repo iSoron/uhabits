@@ -257,9 +257,16 @@ public class BaseAndroidTest extends TestCase
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.SECOND));
 
+        // Set time (method 1)
         // Run twice to override daylight saving time
         device.executeShellCommand("date " + date);
         device.executeShellCommand("date " + date);
+
+        // Set time (method 2)
+        // Run in addition to the method above because one of these mail fail, depending
+        // on the Android API version.
+        command = String.format("date -u @%d", cal.getTimeInMillis() / 1000);
+        device.executeShellCommand(command);
 
         // Wait for system events to settle
         Thread.sleep(1000);
