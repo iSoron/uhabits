@@ -63,7 +63,7 @@ class SyncManager @Inject constructor(
         encryptionKey = EncryptionKey.fromBase64(preferences.encryptionKey)
         syncKey = preferences.syncKey
         try {
-            Log.i("SyncManager", "Starting sync (key: ${encryptionKey.base64})")
+            Log.i("SyncManager", "Starting sync (key: $syncKey)")
             pull()
             push()
             Log.i("SyncManager", "Sync finished")
