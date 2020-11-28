@@ -29,8 +29,8 @@ fun Routing.registration(app: SyncApplication) {
     post("/register") {
         try {
             val key = app.server.register()
-            call.respond(HttpStatusCode.OK, mapOf("key" to key))
-        } catch (e: RegistrationUnavailableException) {
+            call.respond(HttpStatusCode.OK, RegisterReponse(key))
+        } catch (e: ServiceUnavailable) {
             call.respond(HttpStatusCode.ServiceUnavailable)
         }
     }

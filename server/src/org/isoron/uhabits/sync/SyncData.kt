@@ -22,9 +22,14 @@ package org.isoron.uhabits.sync
 import com.fasterxml.jackson.databind.*
 
 data class SyncData(
-    val version: Int,
-    val content: String,
+    val version: Long,
+    val content: String
 )
+
+data class RegisterReponse(val key: String)
+
+data class GetDataVersionResponse(val version: Long)
 
 val defaultMapper = ObjectMapper()
 fun SyncData.toJson(): String = defaultMapper.writeValueAsString(this)
+fun GetDataVersionResponse.toJson(): String = defaultMapper.writeValueAsString(this)

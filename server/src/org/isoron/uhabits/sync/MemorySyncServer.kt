@@ -28,7 +28,7 @@ import kotlin.streams.*
 class MemorySyncServer : AbstractSyncServer {
     private val db = mutableMapOf<String, SyncData>()
 
-    override fun register(): String {
+    override suspend fun register(): String {
         synchronized(db) {
             val key = generateKey()
             db[key] = SyncData(0, "")
@@ -36,7 +36,7 @@ class MemorySyncServer : AbstractSyncServer {
         }
     }
 
-    override fun put(key: String, newData: SyncData) {
+    override suspend fun put(key: String, newData: SyncData) {
         synchronized(db) {
             if (!db.containsKey(key)) {
                 throw KeyNotFoundException()
@@ -49,12 +49,21 @@ class MemorySyncServer : AbstractSyncServer {
         }
     }
 
-    override fun get(key: String): SyncData {
+    override suspend fun getData(key: String): SyncData {
         synchronized(db) {
             if (!db.containsKey(key)) {
                 throw KeyNotFoundException()
             }
             return db.getValue(key)
+        }
+    }
+
+    override suspend fun getDataVersion(key: String): Long {
+        synchronized(db) {
+            if (!db.containsKey(key)) {
+                throw KeyNotFoundException()
+            }
+            return db.getValue(key).version
         }
     }
 

@@ -31,7 +31,7 @@ fun Routing.storage(app: SyncApplication) {
         get {
             val key = call.parameters["key"]!!
             try {
-                val data = app.server.get(key)
+                val data = app.server.getData(key)
                 call.respond(HttpStatusCode.OK, data)
             } catch(e: KeyNotFoundException) {
                 call.respond(HttpStatusCode.NotFound)
@@ -46,15 +46,14 @@ fun Routing.storage(app: SyncApplication) {
             } catch (e: KeyNotFoundException) {
                 call.respond(HttpStatusCode.NotFound)
             } catch (e: EditConflictException) {
-                val currData = app.server.get(key)
-                call.respond(HttpStatusCode.Conflict, currData)
+                call.respond(HttpStatusCode.Conflict)
             }
         }
         get("version") {
             val key = call.parameters["key"]!!
             try {
-                val data = app.server.get(key)
-                call.respond(HttpStatusCode.OK, data.version)
+                val version = app.server.getDataVersion(key)
+                call.respond(HttpStatusCode.OK, GetDataVersionResponse(version))
             } catch(e: KeyNotFoundException) {
                 call.respond(HttpStatusCode.NotFound)
             }

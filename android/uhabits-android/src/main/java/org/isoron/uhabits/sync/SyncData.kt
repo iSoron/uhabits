@@ -23,3 +23,7 @@ data class SyncData(
     val version: Long,
     val content: String
 )
+
+data class RegisterReponse(val key: String)
+
+data class GetDataVersionResponse(val version: Long)

@@ -24,11 +24,10 @@ interface AbstractSyncServer {
      * Generates and returns a new sync key, which can be used to store and retrive
      * data.
      *
-     * @throws RegistrationUnavailableException If key cannot be generated at this
-     *      time, for example, due to insufficient server resources or temporary
-     *      maintenance.
+     * @throws ServiceUnavailable If key cannot be generated at this time, for example,
+     *      due to insufficient server resources, temporary server maintenance or network problems.
      */
-    fun register(): String
+    suspend fun register(): String
 
     /**
      * Replaces data for a given sync key.
@@ -36,13 +35,26 @@ interface AbstractSyncServer {
      * @throws KeyNotFoundException If key is not found
      * @throws EditConflictException If the version of the data provided is not
      *      exactly the current data version plus one.
+     * @throws ServiceUnavailable If data cannot be put at this time, for example, due
+     *      to insufficient server resources or network problems.
      */
-    fun put(key: String, newData: SyncData)
+    suspend fun put(key: String, newData: SyncData)
 
     /**
      * Returns data for a given sync key.
      *
      * @throws KeyNotFoundException If key is not found
+     * @throws ServiceUnavailable If data cannot be retrieved at this time, for example, due
+     *      to insufficient server resources or network problems.
      */
-    fun get(key: String): SyncData
+    suspend fun getData(key: String): SyncData
+
+    /**
+     * Returns the current data version for the given key
+     *
+     * @throws KeyNotFoundException If key is not found
+     * @throws ServiceUnavailable If data cannot be retrieved at this time, for example, due
+     *      to insufficient server resources or network problems.
+     */
+    suspend fun getDataVersion(key: String): Long
 }

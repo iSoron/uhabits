@@ -19,15 +19,13 @@
 
 package org.isoron.uhabits.sync
 
+import android.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
-
-data class RegisterReponse(val key: String)
-data class GetDataVersionResponse(val version: Long)
 
 class RemoteSyncServer(
         private val baseURL: String = "https://sync.loophabits.org",
@@ -54,7 +52,10 @@ class RemoteSyncServer(
         } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
-            throw KeyNotFoundException()
+            Log.w("RemoteSyncServer", "ClientRequestException", e)
+            if(e.message!!.contains("409")) throw EditConflictException()
+            if(e.message!!.contains("404")) throw KeyNotFoundException()
+            throw e
         }
     }
 
@@ -65,6 +66,7 @@ class RemoteSyncServer(
         } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
+            Log.w("RemoteSyncServer", "ClientRequestException", e)
             throw KeyNotFoundException()
         }
     }
@@ -76,6 +78,7 @@ class RemoteSyncServer(
         } catch(e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
+            Log.w("RemoteSyncServer", "ClientRequestException", e)
             throw KeyNotFoundException()
         }
     }

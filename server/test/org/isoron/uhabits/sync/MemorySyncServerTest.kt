@@ -19,33 +19,34 @@
 
 package org.isoron.uhabits.sync
 
+import kotlinx.coroutines.*
 import org.junit.Test
 import kotlin.test.*
 
 class MemorySyncServerTest {
 
     private val server = MemorySyncServer()
-    private val key = server.register()
+    private val key = runBlocking { server.register() }
 
     @Test
-    fun testUsage() {
+    fun testUsage(): Unit = runBlocking {
         val data0 = SyncData(0, "")
-        assertEquals(server.get(key), data0)
+        assertEquals(server.getData(key), data0)
 
         val data1 = SyncData(1, "Hello world")
         server.put(key, data1)
-        assertEquals(server.get(key), data1)
+        assertEquals(server.getData(key), data1)
 
         val data2 = SyncData(2, "Hello new world")
         server.put(key, data2)
-        assertEquals(server.get(key), data2)
+        assertEquals(server.getData(key), data2)
 
         assertFailsWith<EditConflictException> {
             server.put(key, data2)
         }
 
         assertFailsWith<KeyNotFoundException> {
-            server.get("INVALID")
+            server.getData("INVALID")
         }
 
         assertFailsWith<KeyNotFoundException> {

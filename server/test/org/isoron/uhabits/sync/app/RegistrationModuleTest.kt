@@ -21,6 +21,7 @@ package org.isoron.uhabits.sync.app
 
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import kotlinx.coroutines.*
 import org.isoron.uhabits.sync.*
 import org.junit.Test
 import org.mockito.*
@@ -29,7 +30,7 @@ import kotlin.test.*
 
 class RegistrationModuleTest : BaseApplicationTest() {
     @Test
-    fun `when register succeeds should return generated key`() {
+    fun `when register succeeds should return generated key`():Unit = runBlocking {
         `when`(server.register()).thenReturn("ABCDEF")
         withTestApplication(app()) {
             val call = handleRequest(HttpMethod.Post, "/register")
@@ -39,8 +40,8 @@ class RegistrationModuleTest : BaseApplicationTest() {
     }
 
     @Test
-    fun `when registration is unavailable should return 503`() {
-        `when`(server.register()).thenThrow(RegistrationUnavailableException())
+    fun `when registration is unavailable should return 503`():Unit = runBlocking {
+        `when`(server.register()).thenThrow(ServiceUnavailable())
         withTestApplication(app()) {
             val call = handleRequest(HttpMethod.Post, "/register")
             assertEquals(HttpStatusCode.ServiceUnavailable, call.response.status())

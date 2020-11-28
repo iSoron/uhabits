@@ -19,13 +19,10 @@
 
 package org.isoron.uhabits.sync
 
-/**
- * Generic class for all exceptions thrown by SyncServer.
- */
 open class SyncException: RuntimeException()
 
 class KeyNotFoundException: SyncException()
 
-class RegistrationUnavailableException: SyncException()
+class ServiceUnavailable: SyncException()
 
 class EditConflictException: SyncException()

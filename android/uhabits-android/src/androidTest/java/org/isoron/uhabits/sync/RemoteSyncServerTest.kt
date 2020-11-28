@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.sync
 
+import androidx.test.filters.*
 import com.fasterxml.jackson.databind.*
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -29,6 +30,7 @@ import junit.framework.Assert.*
 import kotlinx.coroutines.*
 import org.junit.*
 
+@MediumTest
 class RemoteSyncServerTest {
 
     private val mapper = ObjectMapper()
@@ -53,7 +55,7 @@ class RemoteSyncServerTest {
 
     @Test
     fun when_get_data_version_succeeds_should_return_version() = runBlocking {
-        server("/ABC/version") {
+        server("/db/ABC/version") {
             respondWithJson(GetDataVersionResponse(5))
         }.apply {
             assertEquals(5, getDataVersion("ABC"))
@@ -63,7 +65,7 @@ class RemoteSyncServerTest {
 
     @Test(expected = ServiceUnavailable::class)
     fun when_get_data_version_with_server_error_should_raise_exception() = runBlocking {
-        server("/ABC/version") {
+        server("/db/ABC/version") {
             respondError(HttpStatusCode.InternalServerError)
         }.apply {
             getDataVersion("ABC")
@@ -73,7 +75,7 @@ class RemoteSyncServerTest {
 
     @Test(expected = KeyNotFoundException::class)
     fun when_get_data_version_with_invalid_key_should_raise_exception() = runBlocking {
-        server("/ABC/version") {
+        server("/db/ABC/version") {
             respondError(HttpStatusCode.NotFound)
         }.apply {
             getDataVersion("ABC")
@@ -83,7 +85,7 @@ class RemoteSyncServerTest {
 
     @Test
     fun when_get_data_succeeds_should_return_data() = runBlocking {
-        server("/ABC") {
+        server("/db/ABC") {
             respondWithJson(data)
         }.apply {
             assertEquals(data, getData("ABC"))
@@ -93,7 +95,7 @@ class RemoteSyncServerTest {
 
     @Test(expected = KeyNotFoundException::class)
     fun when_get_data_with_invalid_key_should_raise_exception() = runBlocking {
-        server("/ABC") {
+        server("/db/ABC") {
             respondError(HttpStatusCode.NotFound)
         }.apply {
             getData("ABC")
@@ -103,7 +105,7 @@ class RemoteSyncServerTest {
 
     @Test
     fun when_put_succeeds_should_not_raise_exceptions() = runBlocking {
-        server("/ABC") {
+        server("/db/ABC") {
             respondOk()
         }.apply {
             put("ABC", data)
