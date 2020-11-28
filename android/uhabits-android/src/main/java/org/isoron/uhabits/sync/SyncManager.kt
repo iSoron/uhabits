@@ -36,7 +36,6 @@ import javax.inject.*
 @AppScope
 class SyncManager @Inject constructor(
         val preferences: Preferences,
-        val taskRunner: TaskRunner,
         val importDataTaskFactory: ImportDataTaskFactory,
         val commandRunner: CommandRunner,
         @AppContext val context: Context
@@ -46,6 +45,7 @@ class SyncManager @Inject constructor(
     private val tmpFile = File.createTempFile("import", "", context.externalCacheDir)
     private var currVersion = 1L
     private var dirty = true
+    private var taskRunner = SingleThreadTaskRunner()
 
     private lateinit var encryptionKey: EncryptionKey
     private lateinit var syncKey: String
