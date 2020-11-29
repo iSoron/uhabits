@@ -1,8 +1,14 @@
 <a href="https://github.com/iSoron/uhabits/actions?query=workflow%3A%22Build+%26+Test%22">
   <img src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
 </a>
-<a href="https://github.com/iSoron/uhabits/releases">
+<a href="https://github.com/iSoron/uhabits/releases/latest">
   <img src="https://img.shields.io/github/v/release/iSoron/uhabits" />
+</a>
+<a href="https://github.com/iSoron/uhabits/releases/latest">
+  <img src="https://img.shields.io/github/v/release/iSoron/uhabits" />
+</a>
+<a href="https://github.com/iSoron/uhabits/releases">
+  <img src="https://img.shields.io/github/v/release/isoron/uhabits?include_prereleases&label=pre-release" />
 </a>
 
 # Loop Habit Tracker
