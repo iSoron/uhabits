@@ -55,7 +55,7 @@ public class PerformanceTest extends BaseAndroidTest
         }
     }
 
-    @Test(timeout = 1000)
+    @Test(timeout = 5000)
     public void benchmarkCreateHabitCommand()
     {
         Database db = ((SQLModelFactory) modelFactory).db;
