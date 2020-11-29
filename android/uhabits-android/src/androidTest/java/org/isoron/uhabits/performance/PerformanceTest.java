@@ -45,6 +45,7 @@ public class PerformanceTest extends BaseAndroidTest
         habit = fixtures.createLongHabit();
     }
 
+    @Ignore
     @Test(timeout = 5000)
     public void testRepeatedGetTodayValue()
     {
@@ -55,6 +56,7 @@ public class PerformanceTest extends BaseAndroidTest
         }
     }
 
+    @Ignore
     @Test(timeout = 5000)
     public void benchmarkCreateHabitCommand()
     {
@@ -69,6 +71,7 @@ public class PerformanceTest extends BaseAndroidTest
         db.endTransaction();
     }
 
+    @Ignore
     @Test(timeout = 5000)
     public void benchmarkCreateRepetitionCommand()
     {
