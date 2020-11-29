@@ -39,11 +39,11 @@ class FileRepositoryTest {
         val original = SyncData(10, "Hello world")
         repo.put("abcdefg", original)
 
-        val metaPath = tempdir.resolve("ab/cd/abcdefg/version")
+        val metaPath = tempdir.resolve("a/b/c/d/abcdefg/version")
         assertTrue("$metaPath should exist", Files.exists(metaPath))
         assertEquals("10", metaPath.toFile().readText())
 
-        val dataPath = tempdir.resolve("ab/cd/abcdefg/content")
+        val dataPath = tempdir.resolve("a/b/c/d/abcdefg/content")
         assertTrue("$dataPath should exist", Files.exists(dataPath))
         assertEquals("Hello world", dataPath.toFile().readText())
 

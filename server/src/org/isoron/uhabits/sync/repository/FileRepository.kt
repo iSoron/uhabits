@@ -68,6 +68,6 @@ class FileRepository(
     }
 
     private fun String.toDataPath(): Path {
-        return basepath.resolve("${this.substring(0..1)}/${this.substring(2..3)}/$this")
+        return basepath.resolve("${this[0]}/${this[1]}/${this[2]}/${this[3]}/$this")
     }
 }
