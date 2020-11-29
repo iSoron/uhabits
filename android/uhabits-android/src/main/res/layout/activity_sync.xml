@@ -121,28 +121,6 @@
                         />
                 </LinearLayout>
             </FrameLayout>
-
-            <!-- Password -->
-            <FrameLayout
-                style="@style/FormOuterBox"
-                android:visibility="gone">
-
-                <LinearLayout style="@style/FormInnerBox">
-
-                    <TextView
-                        style="@style/FormLabel"
-                        android:text="@string/password" />
-
-                    <TextView
-                        android:id="@+id/password"
-                        style="@style/FormInput"
-                        android:singleLine="true"
-                        android:letterSpacing=".5"
-                        android:textSize="24sp"
-                        android:textAlignment="center"
-                        android:text="" />
-                </LinearLayout>
-            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 

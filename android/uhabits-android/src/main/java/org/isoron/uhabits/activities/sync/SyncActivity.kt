@@ -88,7 +88,6 @@ class SyncActivity : BaseActivity() {
 
     private fun displayCurrentKey() {
         displayLink("https://loophabits.org/sync/${preferences.syncKey}#${preferences.encryptionKey}")
-        displayPassword("6B2W9F5X")
     }
 
     private fun register() {
@@ -137,10 +136,6 @@ class SyncActivity : BaseActivity() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipboard.setPrimaryClip(ClipData.newPlainText("Loop Sync Link", binding.syncLink.text))
         baseScreen.showMessage(R.string.copied_to_the_clipboard, binding.root)
-    }
-
-    private fun displayPassword(pin: String) {
-        binding.password.text = pin
     }
 
     private fun displayLink(link: String) {
