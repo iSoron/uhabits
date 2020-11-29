@@ -77,6 +77,7 @@ class SyncManager @Inject constructor(
         try {
             pull()
             push()
+            Log.i("SyncManager", "Sync finished successfully.")
         } catch (e: ConnectionLostException) {
             Log.i("SyncManager", "Network unavailable. Aborting sync.")
         } catch (e: ServiceUnavailable) {
@@ -85,8 +86,6 @@ class SyncManager @Inject constructor(
             Log.e("SyncManager", "Unexpected sync exception. Disabling sync.", e)
             preferences.disableSync()
         }
-
-        Log.i("SyncManager", "Sync finished successfully.")
     }
 
     private suspend fun push(depth: Int = 0) {
