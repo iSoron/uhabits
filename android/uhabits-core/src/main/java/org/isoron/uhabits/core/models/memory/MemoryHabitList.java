@@ -79,8 +79,6 @@ public class MemoryHabitList extends HabitList
         if (id == null) habit.setId((long) list.size());
         list.addLast(habit);
         resort();
-
-        getObservable().notifyListeners();
     }
 
     @Override
@@ -133,7 +131,6 @@ public class MemoryHabitList extends HabitList
         this.primaryOrder = order;
         this.comparator = getComposedComparatorByOrder(this.primaryOrder, this.secondaryOrder);
         resort();
-        getObservable().notifyListeners();
     }
 
     @Override
@@ -142,7 +139,6 @@ public class MemoryHabitList extends HabitList
         this.secondaryOrder = order;
         this.comparator = getComposedComparatorByOrder(this.primaryOrder, this.secondaryOrder);
         resort();
-        getObservable().notifyListeners();
     }
 
     private Comparator<Habit> getComposedComparatorByOrder(Order firstOrder, Order secondOrder)
@@ -265,7 +261,6 @@ public class MemoryHabitList extends HabitList
     public synchronized void update(List<Habit> habits)
     {
         resort();
-        getObservable().notifyListeners();
     }
 
     private void throwIfHasParent()
@@ -284,8 +279,9 @@ public class MemoryHabitList extends HabitList
         resort();
     }
 
-    private synchronized void resort()
+    public synchronized void resort()
     {
         if (comparator != null) Collections.sort(list, comparator);
+        getObservable().notifyListeners();
     }
 }

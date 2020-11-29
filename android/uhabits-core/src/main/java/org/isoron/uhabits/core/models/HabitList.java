@@ -260,7 +260,7 @@ public abstract class HabitList implements Iterable<Habit>
         csv.close();
     }
 
-
+    public abstract void resort();
 
     public enum Order
     {

@@ -19,15 +19,18 @@
 
 package org.isoron.uhabits.performance;
 
+import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
-import androidx.test.runner.*;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.commands.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.models.sqlite.*;
 import org.junit.*;
 import org.junit.runner.*;
+
+import static org.isoron.uhabits.core.models.Timestamp.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -42,7 +45,7 @@ public class PerformanceTest extends BaseAndroidTest
         habit = fixtures.createLongHabit();
     }
 
-    @Test(timeout = 4000)
+    @Test(timeout = 5000)
     public void testRepeatedGetTodayValue()
     {
         for (int i = 0; i < 100000; i++)
@@ -52,4 +55,32 @@ public class PerformanceTest extends BaseAndroidTest
         }
     }
 
+    @Test(timeout = 1000)
+    public void benchmarkCreateHabitCommand()
+    {
+        Database db = ((SQLModelFactory) modelFactory).db;
+        db.beginTransaction();
+        for (int i = 0; i < 1_000; i++)
+        {
+            Habit model = modelFactory.buildHabit();
+            new CreateHabitCommand(modelFactory, habitList, model).execute();
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+    @Test(timeout = 5000)
+    public void benchmarkCreateRepetitionCommand()
+    {
+        Database db = ((SQLModelFactory) modelFactory).db;
+        db.beginTransaction();
+        Habit habit = fixtures.createEmptyHabit();
+        for (int i = 0; i < 5_000; i++)
+        {
+            Timestamp timestamp = new Timestamp(i * DAY_LENGTH);
+            new CreateRepetitionCommand(habitList, habit, timestamp, 1).execute();
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
 }

@@ -60,6 +60,7 @@ public class CreateRepetitionCommand extends Command
         RepetitionList reps = habit.getRepetitions();
         previousValue = reps.getValue(timestamp);
         reps.setValue(timestamp, value);
+        habitList.resort();
     }
 
     @NonNull

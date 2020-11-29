@@ -66,12 +66,20 @@ public class SQLiteHabitList extends HabitList
 
         list.removeAll();
         List<HabitRecord> records = repository.findAll("order by position");
+
+        int expectedPosition = 0;
+        boolean shouldRebuildOrder = false;
         for (HabitRecord rec : records)
         {
+            if (rec.position != expectedPosition) shouldRebuildOrder = true;
+            expectedPosition++;
+
             Habit h = modelFactory.buildHabit();
             rec.copyTo(h);
             list.add(h);
         }
+
+        if(shouldRebuildOrder) rebuildOrder();
     }
 
     @Override
@@ -84,7 +92,6 @@ public class SQLiteHabitList extends HabitList
         record.copyFrom(habit);
         repository.save(record);
         habit.id = record.id;
-        rebuildOrder();
 
         list.add(habit);
         getObservable().notifyListeners();
@@ -166,11 +173,17 @@ public class SQLiteHabitList extends HabitList
     private synchronized void rebuildOrder()
     {
         List<HabitRecord> records = repository.findAll("order by position");
-        repository.executeAsTransaction(() -> {
+        repository.executeAsTransaction(() ->
+        {
             int pos = 0;
-            for (HabitRecord r : records) {
-                r.position = pos++;
-                repository.save(r);
+            for (HabitRecord r : records)
+            {
+                if (r.position != pos)
+                {
+                    r.position = pos;
+                    repository.save(r);
+                }
+                pos++;
             }
         });
     }
@@ -179,6 +192,9 @@ public class SQLiteHabitList extends HabitList
     public synchronized void remove(@NonNull Habit habit)
     {
         loadRecords();
+
+        reorder(habit, list.getByPosition(size() - 1));
+
         list.remove(habit);
 
         HabitRecord record = repository.find(habit.getId());
@@ -189,7 +205,6 @@ public class SQLiteHabitList extends HabitList
             repository.remove(record);
         });
 
-        rebuildOrder();
         getObservable().notifyListeners();
     }
 
@@ -264,6 +279,13 @@ public class SQLiteHabitList extends HabitList
             repository.save(record);
         }
 
+        getObservable().notifyListeners();
+    }
+
+    @Override
+    public void resort()
+    {
+        list.resort();
         getObservable().notifyListeners();
     }
 
