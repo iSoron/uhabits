@@ -43,8 +43,6 @@ class WidgetUpdater
         private val intentScheduler: IntentScheduler
 ) : CommandRunner.Listener {
 
-    private var lastUpdated = 0L
-
     override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
         updateWidgets(refreshKey)
     }
@@ -72,10 +70,6 @@ class WidgetUpdater
     }
 
     fun updateWidgets(modifiedHabitId: Long?) {
-        val now = DateUtils.getLocalTime()
-        if (abs(now - lastUpdated) < 60_000) return
-        lastUpdated = now
-
         taskRunner.execute {
             updateWidgets(modifiedHabitId, CheckmarkWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, HistoryWidgetProvider::class.java)
