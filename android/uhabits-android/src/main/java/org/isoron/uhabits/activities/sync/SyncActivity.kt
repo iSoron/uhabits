@@ -24,6 +24,7 @@ import android.content.ClipboardManager
 import android.graphics.*
 import android.os.*
 import android.text.*
+import android.util.*
 import android.view.*
 import com.google.zxing.*
 import com.google.zxing.qrcode.*
@@ -98,12 +99,13 @@ class SyncActivity : BaseActivity() {
             private var error = false
             override fun doInBackground() {
                 runBlocking {
-                    val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
                     try {
+                        val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
                         syncKey = server.register()
                         encKey = EncryptionKey.generate()
                         preferences.enableSync(syncKey, encKey.base64)
-                    } catch (e: ServiceUnavailable) {
+                    } catch (e: Exception) {
+                        Log.e("SyncActivity", "Unexpected exception", e)
                         error = true
                     }
                 }

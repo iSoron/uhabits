@@ -28,7 +28,7 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.*
 
 class RemoteSyncServer(
-        private val baseURL: String = "https://sync.loophabits.org",
+        private val baseURL: String,
         private val httpClient: HttpClient = HttpClient(Android) {
             install(JsonFeature)
         }
