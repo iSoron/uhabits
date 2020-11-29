@@ -90,7 +90,6 @@ public class LoopDBImporter extends AbstractImporter
 
     @Override
     public synchronized void importHabitsFromFile(@NonNull File file)
-        throws IOException
     {
         Database db = opener.open(file);
         MigrationHelper helper = new MigrationHelper(db);
@@ -138,5 +137,6 @@ public class LoopDBImporter extends AbstractImporter
         }
 
         runner.notifyListeners(null, null);
+        db.close();
     }
 }
