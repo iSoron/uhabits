@@ -126,7 +126,7 @@ class RemoteSyncServerTest {
                     }
                 }
             }
-        })
+        }, baseURL = "")
     }
 
     private fun MockRequestHandleScope.respondWithJson(content: Any) =
