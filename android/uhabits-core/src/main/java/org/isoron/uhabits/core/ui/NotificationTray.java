@@ -73,7 +73,7 @@ public class NotificationTray
     }
 
     @Override
-    public void onCommandExecuted(@NonNull Command command,
+    public void onCommandExecuted(@Nullable Command command,
                                   @Nullable Long refreshKey)
     {
         if (command instanceof CreateRepetitionCommand)

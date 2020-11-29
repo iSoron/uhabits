@@ -26,6 +26,7 @@
 	<string translatable="false" name="fa_skipped">&#xf068;</string>
     <string translatable="false" name="fa_bell_o">&#xf0a2;</string>
 	<string translatable="false" name="fa_calendar">&#xf073;</string>
+	<string translatable="false" name="fa_exclamation_circle">&#xf06a;</string>
 	<string translatable="false" name="fa_question">&#xf128;</string>
 
     <!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
@@ -124,7 +125,6 @@
 	<!--<string translatable="false" name="fa_plus">&#xf067;</string>-->
 	<!--<string translatable="false" name="fa_minus">&#xf068;</string>-->
 	<!--<string translatable="false" name="fa_asterisk">&#xf069;</string>-->
-	<!--<string translatable="false" name="fa_exclamation_circle">&#xf06a;</string>-->
 	<!--<string translatable="false" name="fa_gift">&#xf06b;</string>-->
 	<!--<string translatable="false" name="fa_leaf">&#xf06c;</string>-->
 	<!--<string translatable="false" name="fa_fire">&#xf06d;</string>-->

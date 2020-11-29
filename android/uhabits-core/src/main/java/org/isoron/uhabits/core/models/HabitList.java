@@ -84,6 +84,15 @@ public abstract class HabitList implements Iterable<Habit>
     public abstract Habit getById(long id);
 
     /**
+     * Returns the habit with specified UUID.
+     *
+     * @param uuid the UUID of the habit
+     * @return the habit, or null if none exist
+     */
+    @Nullable
+    public abstract Habit getByUUID(String uuid);
+
+    /**
      * Returns the habit that occupies a certain position.
      *
      * @param position the position of the desired habit

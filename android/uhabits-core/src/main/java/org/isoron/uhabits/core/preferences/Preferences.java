@@ -29,10 +29,6 @@ import java.util.*;
 
 public class Preferences
 {
-
-    public static final String DEFAULT_SYNC_SERVER =
-        "https://sync.loophabits.org";
-
     @NonNull
     private final Storage storage;
 
@@ -130,16 +126,6 @@ public class Preferences
         else return new Timestamp(unixTime);
     }
 
-    public long getLastSync()
-    {
-        return storage.getLong("last_sync", 0);
-    }
-
-    public void setLastSync(long timestamp)
-    {
-        storage.putLong("last_sync", timestamp);
-    }
-
     public boolean getShowArchived()
     {
         return storage.getBoolean("pref_show_archived", false);
@@ -168,39 +154,6 @@ public class Preferences
     public void setSnoozeInterval(int interval)
     {
         storage.putString("pref_snooze_interval", String.valueOf(interval));
-    }
-
-    public String getSyncAddress()
-    {
-        return storage.getString("pref_sync_address", DEFAULT_SYNC_SERVER);
-    }
-
-    public void setSyncAddress(String address)
-    {
-        storage.putString("pref_sync_address", address);
-        for (Listener l : listeners) l.onSyncFeatureChanged();
-    }
-
-    public String getSyncClientId()
-    {
-        String id = storage.getString("pref_sync_client_id", "");
-        if (!id.isEmpty()) return id;
-
-        id = UUID.randomUUID().toString();
-        storage.putString("pref_sync_client_id", id);
-
-        return id;
-    }
-
-    public String getSyncKey()
-    {
-        return storage.getString("pref_sync_key", "");
-    }
-
-    public void setSyncKey(String key)
-    {
-        storage.putString("pref_sync_key", key);
-        for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
     public int getTheme()
@@ -261,17 +214,6 @@ public class Preferences
     public void setShortToggleEnabled(boolean enabled)
     {
         storage.putBoolean("pref_short_toggle", enabled);
-    }
-
-    public boolean isSyncEnabled()
-    {
-        return storage.getBoolean("pref_feature_sync", false);
-    }
-
-    public void setSyncEnabled(boolean isEnabled)
-    {
-        storage.putBoolean("pref_feature_sync", isEnabled);
-        for (Listener l : listeners) l.onSyncFeatureChanged();
     }
 
     public boolean isWidgetStackEnabled()
@@ -367,6 +309,41 @@ public class Preferences
         storage.putBoolean("pref_skip_enabled", value);
     }
 
+    public String getSyncBaseURL()
+    {
+        return storage.getString("pref_sync_base_url", "");
+    }
+
+    public String getSyncKey()
+    {
+        return storage.getString("pref_sync_key", "");
+    }
+
+    public String getEncryptionKey()
+    {
+        return storage.getString("pref_encryption_key", "");
+    }
+
+    public boolean isSyncEnabled()
+    {
+        return storage.getBoolean("pref_sync_enabled", false);
+    }
+
+    public void enableSync(String syncKey, String encKey)
+    {
+        storage.putBoolean("pref_sync_enabled", true);
+        storage.putString("pref_sync_key", syncKey);
+        storage.putString("pref_encryption_key", encKey);
+        for (Listener l : listeners) l.onSyncEnabled();
+    }
+
+    public void disableSync()
+    {
+        storage.putBoolean("pref_sync_enabled", false);
+        storage.putString("pref_sync_key", "");
+        storage.putString("pref_encryption_key", "");
+    }
+
     public boolean areQuestionMarksEnabled()
     {
         return storage.getBoolean("pref_unknown_enabled", false);
@@ -395,7 +372,7 @@ public class Preferences
         {
         }
 
-        default void onSyncFeatureChanged()
+        default void onSyncEnabled()
         {
         }
     }

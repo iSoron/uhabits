@@ -28,6 +28,7 @@ import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.intents.*
 import javax.inject.*
+import kotlin.math.*
 
 /**
  * A WidgetUpdater listens to the commands being executed by the application and
@@ -42,7 +43,9 @@ class WidgetUpdater
         private val intentScheduler: IntentScheduler
 ) : CommandRunner.Listener {
 
-    override fun onCommandExecuted(command: Command, refreshKey: Long?) {
+    private var lastUpdated = 0L
+
+    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
         updateWidgets(refreshKey)
     }
 
@@ -69,6 +72,10 @@ class WidgetUpdater
     }
 
     fun updateWidgets(modifiedHabitId: Long?) {
+        val now = DateUtils.getLocalTime()
+        if (abs(now - lastUpdated) < 60_000) return
+        lastUpdated = now
+
         taskRunner.execute {
             updateWidgets(modifiedHabitId, CheckmarkWidgetProvider::class.java)
             updateWidgets(modifiedHabitId, HistoryWidgetProvider::class.java)

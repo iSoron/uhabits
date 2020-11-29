@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,11 +17,13 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.isoron.uhabits">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".HabitsApplication"
@@ -41,6 +42,14 @@
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
 
+        <activity
+            android:name=".activities.sync.SyncActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.settings.SettingsActivity" />
+        </activity>
+
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw" />
@@ -49,7 +58,18 @@
             android:name=".activities.habits.list.ListHabitsActivity"
             android:exported="true"
             android:label="@string/main_activity_title"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop">
+            <tools:validation testUrl="https://loophabits.org/sync/123" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="loophabits.org"
+                    android:pathPrefix="/sync" />
+            </intent-filter>
+        </activity>
 
         <activity-alias
             android:name=".MainActivity"
@@ -58,7 +78,6 @@
             android:targetActivity=".activities.habits.list.ListHabitsActivity">
             <intent-filter android:label="@string/main_activity_title">
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
@@ -123,11 +142,12 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY"/>
+                <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".notifications.SnoozeDelayPickerActivity"
+        <activity
+            android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -217,14 +237,14 @@
 
         <receiver android:name=".receivers.WidgetReceiver">
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE" />
                 <data
                     android:host="org.isoron.uhabits"
-                    android:scheme="content"/>
+                    android:scheme="content" />
             </intent-filter>
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
                 <action android:name="org.isoron.uhabits.ACTION_TOGGLE_REPETITION" />
 

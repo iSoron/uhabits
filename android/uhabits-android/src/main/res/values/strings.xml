@@ -203,6 +203,18 @@
     <string name="decrement">Decrement</string>
     <string name="pref_skip_title">Enable skip days</string>
     <string name="pref_skip_description">Toggle twice to add a skip instead of a checkmark. Skips keep your score unchanged and don\'t break your streak.</string>
+    <string name="device_sync">Device sync</string>
+    <string name="pref_sync_summary">When enabled, an encrypted copy of your data will be uploaded to our servers. See privacy policy.</string>
+    <string name="pref_sync_title">Sync data across devices</string>
+    <string name="display_sync_code">Show device sync instructions</string>
+    <string name="sync_instructions"><![CDATA[<b>Instructions:</b><br/>1. Install Loop in your second device.<br/>2. Open the link below in your second device.<br/><b>Important:</b> Do not not make this information public. It gives anyone access to your data.]]></string>
+    <string name="sync_link">Sync link</string>
+    <string name="sync_link_qr">Sync link (QR code)</string>
+    <string name="password">Password</string>
+    <string name="copied_to_the_clipboard">Copied to the clipboard</string>
+    <string name="sync_confirm"><![CDATA[Are you trying to enable device sync?\n\nThis feature allows you to sync your data across multiple devices. When enabled, an encrypted copy of your data will be uploaded to our servers.]]></string>
+    <string name="sync_enabled">Device sync enabled</string>
+    <string name="sync_key_already_installed">Sync key already installed</string>
     <string name="pref_unknown_title">Show question marks for missing data</string>
     <string name="pref_unknown_description">Differentiate days without data from actual lapses. To enter a lapse, toggle twice.</string>
 </resources>

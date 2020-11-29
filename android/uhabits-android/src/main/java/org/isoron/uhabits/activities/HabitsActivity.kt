@@ -34,8 +34,11 @@ abstract class HabitsActivity : BaseActivity() {
 
         appComponent = (applicationContext as HabitsApplication).component
 
-        val habit = getHabitFromIntent(appComponent.habitList)
-                    ?: appComponent.modelFactory.buildHabit()
+        var habit = appComponent.modelFactory.buildHabit()
+        if(intent.action != "android.intent.action.VIEW") {
+            val intentHabit = getHabitFromIntent(appComponent.habitList)
+            if (intentHabit != null) habit = intentHabit
+        }
 
         component = DaggerHabitsActivityComponent
                 .builder()

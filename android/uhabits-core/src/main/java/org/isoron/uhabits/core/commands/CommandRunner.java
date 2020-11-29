@@ -66,10 +66,15 @@ public class CommandRunner
             @Override
             public void onPostExecute()
             {
-                for (Listener l : listeners)
-                    l.onCommandExecuted(command, refreshKey);
+                notifyListeners(command, refreshKey);
             }
         });
+    }
+
+    public void notifyListeners(Command command, Long refreshKey)
+    {
+        for (Listener l : listeners)
+            l.onCommandExecuted(command, refreshKey);
     }
 
     public void removeListener(Listener l)
@@ -83,7 +88,7 @@ public class CommandRunner
      */
     public interface Listener
     {
-        void onCommandExecuted(@NonNull Command command,
+        void onCommandExecuted(@Nullable Command command,
                                @Nullable Long refreshKey);
     }
 }

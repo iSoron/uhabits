@@ -99,6 +99,14 @@ public class SQLiteHabitList extends HabitList
     }
 
     @Override
+    @Nullable
+    public synchronized Habit getByUUID(String uuid)
+    {
+        loadRecords();
+        return list.getByUUID(uuid);
+    }
+
+    @Override
     @NonNull
     public synchronized Habit getByPosition(int position)
     {

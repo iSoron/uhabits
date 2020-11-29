@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.io;
 
 import androidx.annotation.*;
 
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
@@ -42,15 +43,19 @@ public class LoopDBImporter extends AbstractImporter
 
     @NonNull
     private final DatabaseOpener opener;
+    @NonNull
+    private final CommandRunner runner;
 
     @Inject
     public LoopDBImporter(@NonNull HabitList habitList,
                           @NonNull ModelFactory modelFactory,
-                          @NonNull DatabaseOpener opener)
+                          @NonNull DatabaseOpener opener,
+                          @NonNull CommandRunner runner)
     {
         super(habitList);
         this.modelFactory = modelFactory;
         this.opener = opener;
+        this.runner = runner;
     }
 
     @Override
@@ -85,7 +90,6 @@ public class LoopDBImporter extends AbstractImporter
 
     @Override
     public synchronized void importHabitsFromFile(@NonNull File file)
-        throws IOException
     {
         Database db = opener.open(file);
         MigrationHelper helper = new MigrationHelper(db);
@@ -96,20 +100,43 @@ public class LoopDBImporter extends AbstractImporter
         habitsRepository = new Repository<>(HabitRecord.class, db);
         repsRepository = new Repository<>(RepetitionRecord.class, db);
 
-        for (HabitRecord habitRecord : habitsRepository.findAll(
-            "order by position"))
+        List<HabitRecord> records = habitsRepository.findAll("order by position");
+        for (HabitRecord habitRecord : records)
         {
-            Habit h = modelFactory.buildHabit();
-            habitRecord.copyTo(h);
-            h.setId(null);
-            habitList.add(h);
-
             List<RepetitionRecord> reps =
-                repsRepository.findAll("where habit = ?",
-                    habitRecord.id.toString());
+                    repsRepository.findAll("where habit = ?",
+                            habitRecord.id.toString());
+
+            Habit habit = habitList.getByUUID(habitRecord.uuid);
+            if (habit == null)
+            {
+                habit = modelFactory.buildHabit();
+                habitRecord.id = null;
+                habitRecord.copyTo(habit);
+                new CreateHabitCommand(modelFactory, habitList, habit).execute();
+            }
+            else
+            {
+                Habit modified = modelFactory.buildHabit();
+                habitRecord.id = habit.id;
+                habitRecord.copyTo(modified);
+                if (!modified.getData().equals(habit.getData()))
+                    new EditHabitCommand(modelFactory, habitList, habit, modified).execute();
+            }
+
+            // Reload saved version of the habit
+            habit = habitList.getByUUID(habitRecord.uuid);
 
             for (RepetitionRecord r : reps)
-                h.getRepetitions().setValue(new Timestamp(r.timestamp), r.value);
+            {
+                Timestamp t = new Timestamp(r.timestamp);
+                Repetition rep = habit.getRepetitions().getByTimestamp(t);
+                if(rep == null || rep.getValue() != r.value)
+                    new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
+            }
         }
+
+        runner.notifyListeners(null, null);
+        db.close();
     }
 }

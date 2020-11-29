@@ -94,6 +94,13 @@ public class MemoryHabitList extends HabitList
         return null;
     }
 
+    @Override
+    public synchronized Habit getByUUID(String uuid)
+    {
+        for (Habit h : list) if (h.getUUID().equals(uuid)) return h;
+        return null;
+    }
+
     @NonNull
     @Override
     public synchronized Habit getByPosition(int position)

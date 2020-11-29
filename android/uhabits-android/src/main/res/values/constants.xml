@@ -27,6 +27,7 @@
     <string name="translateURL">http://translate.loophabits.org/</string>
     <string name="bugReportTo">dev@loophabits.org</string>
     <string name="bugReportSubject">Bug Report - Loop Habit Tracker</string>
+    <string name="syncBaseURL" formatted="false">https://sync.loophabits.org</string>
 
     <string-array name="snooze_interval_names">
         <item>@string/interval_15_minutes</item>

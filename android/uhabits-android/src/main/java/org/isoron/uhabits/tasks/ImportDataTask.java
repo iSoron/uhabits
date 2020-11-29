@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.tasks;
 
+import android.util.*;
+
 import androidx.annotation.NonNull;
 
 import com.google.auto.factory.*;
@@ -83,7 +85,7 @@ public class ImportDataTask implements Task
         catch (Exception e)
         {
             result = FAILED;
-            e.printStackTrace();
+            Log.e("ImportDataTask", "Import failed", e);
         }
 
         modelFactory.db.endTransaction();

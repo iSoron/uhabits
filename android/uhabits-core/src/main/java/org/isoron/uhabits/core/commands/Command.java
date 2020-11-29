@@ -38,18 +38,14 @@ public abstract class Command
 {
     private String id;
 
-    private boolean isRemote;
-
     public Command()
     {
         id = StringUtils.getRandomId();
-        isRemote = false;
     }
 
     public Command(String id)
     {
         this.id = id;
-        isRemote = false;
     }
 
     public abstract void execute();
@@ -62,16 +58,6 @@ public abstract class Command
     public void setId(String id)
     {
         this.id = id;
-    }
-
-    public boolean isRemote()
-    {
-        return isRemote;
-    }
-
-    public void setRemote(boolean remote)
-    {
-        isRemote = remote;
     }
 
     @NonNull
