@@ -20,15 +20,16 @@
 package org.isoron.uhabits.sync.server
 
 import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.sync.links.*
 import org.isoron.uhabits.sync.repository.*
-import java.util.*
-import kotlin.streams.*
+import org.isoron.uhabits.sync.utils.*
 
 /**
  * An AbstractSyncServer that stores all data in a [Repository].
  */
 class RepositorySyncServer(
     private val repo: Repository,
+    private val linkManager: LinkManager = LinkManager(),
 ) : AbstractSyncServer {
 
     override suspend fun register(): String {
@@ -62,16 +63,19 @@ class RepositorySyncServer(
         return repo.get(key).version
     }
 
+    override suspend fun registerLink(syncKey: String): Link {
+        return linkManager.register(syncKey)
+    }
+
+    override suspend fun getLink(id: String): Link {
+        return linkManager.get(id)
+    }
+
     private suspend fun generateKey(): String {
-        val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         while (true) {
-            val key = Random().ints(64, 0, chars.length)
-                .asSequence()
-                .map(chars::get)
-                .joinToString("")
+            val key = randomString(64)
             if (!repo.contains(key))
                 return key
         }
-
     }
 }

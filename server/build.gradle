@@ -80,5 +80,6 @@ dockerRun {
     name = 'uhabits-server'
     image "uhabits-server:$version"
     ports '8080:8080'
-    arguments '--restart=always'
+    daemonize false
+    clean true
 }

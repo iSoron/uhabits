@@ -17,11 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync
+package org.isoron.uhabits.sync.server
 
 import kotlinx.coroutines.*
+import org.isoron.uhabits.sync.*
 import org.isoron.uhabits.sync.repository.*
-import org.isoron.uhabits.sync.server.*
 import org.junit.Test
 import java.nio.file.*
 import kotlin.test.*

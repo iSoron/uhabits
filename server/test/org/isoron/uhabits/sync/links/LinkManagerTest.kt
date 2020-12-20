@@ -17,36 +17,28 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.sync.links
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.jackson.*
-import io.ktor.routing.*
 import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.repository.*
-import org.isoron.uhabits.sync.server.*
-import java.nio.file.*
+import org.junit.Test
+import kotlin.test.*
 
-fun Application.main() = SyncApplication().apply { main() }
+class LinkManagerTest {
 
-val REPOSITORY_PATH: Path = Paths.get(System.getenv("LOOP_REPO_PATH")!!)
+    @Test
+    fun testUsage() {
+        val manager = LinkManager(timeoutInMillis = 250)
+        val originalLink = manager.register(syncKey = "SECRET")
+        val retrievedLink = manager.get(originalLink.id)
+        assertEquals(originalLink, retrievedLink)
 
-class SyncApplication(
-    val server: AbstractSyncServer = RepositorySyncServer(
-        FileRepository(REPOSITORY_PATH),
-    ),
-) {
-    fun Application.main() {
-        install(DefaultHeaders)
-        install(CallLogging)
-        install(ContentNegotiation) {
-            jackson { }
+        Thread.sleep(260) // wait until expiration
+        assertFailsWith<KeyNotFoundException> {
+            manager.get(originalLink.id)
         }
-        routing {
-            registration(this@SyncApplication)
-            storage(this@SyncApplication)
-            links(this@SyncApplication)
+
+        assertFailsWith<KeyNotFoundException> {
+            manager.get("INVALID")
         }
     }
 }

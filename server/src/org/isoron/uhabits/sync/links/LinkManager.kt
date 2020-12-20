@@ -17,36 +17,33 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.sync.links
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.jackson.*
-import io.ktor.routing.*
 import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.repository.*
-import org.isoron.uhabits.sync.server.*
-import java.nio.file.*
+import org.isoron.uhabits.sync.utils.*
 
-fun Application.main() = SyncApplication().apply { main() }
-
-val REPOSITORY_PATH: Path = Paths.get(System.getenv("LOOP_REPO_PATH")!!)
-
-class SyncApplication(
-    val server: AbstractSyncServer = RepositorySyncServer(
-        FileRepository(REPOSITORY_PATH),
-    ),
+class LinkManager(
+    private val timeoutInMillis: Long = 900_000,
 ) {
-    fun Application.main() {
-        install(DefaultHeaders)
-        install(CallLogging)
-        install(ContentNegotiation) {
-            jackson { }
+    private val links = HashMap<String, Link>()
+
+    fun register(syncKey: String): Link {
+        val link = Link(
+            id = randomString(64),
+            syncKey = syncKey,
+            createdAt = System.currentTimeMillis(),
+        )
+        links[link.id] = link
+        return link
+    }
+
+    fun get(id: String): Link {
+        val link = links[id] ?: throw KeyNotFoundException()
+        val ageInMillis = System.currentTimeMillis() - link.createdAt
+        if (ageInMillis > timeoutInMillis) {
+            links.remove(id)
+            throw KeyNotFoundException()
         }
-        routing {
-            registration(this@SyncApplication)
-            storage(this@SyncApplication)
-            links(this@SyncApplication)
-        }
+        return link
     }
 }
