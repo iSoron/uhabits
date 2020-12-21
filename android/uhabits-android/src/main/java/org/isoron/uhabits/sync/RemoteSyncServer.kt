@@ -26,6 +26,7 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
+import org.isoron.uhabits.core.sync.*
 
 class RemoteSyncServer(
         private val baseURL: String,

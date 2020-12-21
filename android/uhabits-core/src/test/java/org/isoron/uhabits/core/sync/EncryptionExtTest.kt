@@ -20,7 +20,6 @@ package org.isoron.uhabits.core.sync
 
 import kotlinx.coroutines.*
 import org.hamcrest.Matchers.*
-import org.isoron.uhabits.sync.*
 import org.junit.*
 import org.junit.Assert.*
 import java.io.*

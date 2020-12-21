@@ -27,6 +27,7 @@ import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.sync.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.tasks.*
 import org.isoron.uhabits.utils.*

@@ -28,6 +28,7 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.*
+import org.isoron.uhabits.core.sync.*
 import org.junit.*
 
 @MediumTest

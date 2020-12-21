@@ -20,7 +20,7 @@
 package org.isoron.uhabits.core.ui.screens.sync
 
 import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.core.sync.*
 
 class SyncBehavior(
         val screen: Screen,

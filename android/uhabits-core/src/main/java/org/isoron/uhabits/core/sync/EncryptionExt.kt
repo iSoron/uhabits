@@ -19,7 +19,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
-package org.isoron.uhabits.sync
+package org.isoron.uhabits.core.sync
 
 import com.google.common.io.*
 import kotlinx.coroutines.*

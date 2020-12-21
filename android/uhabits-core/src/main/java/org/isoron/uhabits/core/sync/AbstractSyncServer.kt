@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync
+package org.isoron.uhabits.core.sync
 
 interface AbstractSyncServer {
     /**
