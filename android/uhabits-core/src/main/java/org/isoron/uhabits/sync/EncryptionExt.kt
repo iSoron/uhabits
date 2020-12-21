@@ -19,10 +19,11 @@
 
 @file:Suppress("UnstableApiUsage")
 
-package org.isoron.uhabits.utils
+package org.isoron.uhabits.sync
 
-import android.util.*
 import com.google.common.io.*
+import kotlinx.coroutines.*
+import org.apache.commons.codec.binary.*
 import java.io.*
 import java.nio.*
 import java.util.zip.*
@@ -52,10 +53,10 @@ class EncryptionKey private constructor(
             return EncryptionKey(base64, spec)
         }
 
-        fun generate(): EncryptionKey {
+        suspend fun generate(): EncryptionKey = Dispatchers.IO {
             try {
                 val generator = KeyGenerator.getInstance("AES").apply { init(256) }
-                return fromSecretKey(generator.generateKey())
+                return@IO fromSecretKey(generator.generateKey())
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
@@ -128,6 +129,6 @@ fun File.encryptToString(key: EncryptionKey): String {
     }
 }
 
-fun ByteArray.encodeBase64(): String = Base64.encodeToString(this, Base64.DEFAULT)
-fun String.decodeBase64(): ByteArray = Base64.decode(this, Base64.DEFAULT)
+fun ByteArray.encodeBase64(): String = Base64.encodeBase64(this).decodeToString()
+fun String.decodeBase64(): ByteArray = Base64.decodeBase64(this.toByteArray())
 

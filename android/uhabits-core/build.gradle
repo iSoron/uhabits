@@ -14,7 +14,11 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'commons-codec:commons-codec:1.15'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.google.guava:guava:30.0-jre"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$KOTLIN_VERSION"
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-library:1.4-atlassian-1'
@@ -23,11 +27,13 @@ dependencies {
     testImplementation 'org.json:json:20160810'
     testImplementation 'org.xerial:sqlite-jdbc:3.18.0'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.4.8'
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$KOTLIN_VERSION"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$KOTLIN_VERSION"
 
     implementation('com.opencsv:opencsv:3.10') {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
+
 }
 
 sourceCompatibility = "1.8"

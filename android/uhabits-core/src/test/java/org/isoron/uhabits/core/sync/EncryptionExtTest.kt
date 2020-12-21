@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.utils
+package org.isoron.uhabits.core.sync
 
-import androidx.test.filters.*
+import kotlinx.coroutines.*
 import org.hamcrest.Matchers.*
-import org.isoron.uhabits.*
+import org.isoron.uhabits.sync.*
 import org.junit.*
 import org.junit.Assert.*
 import java.io.*
 import java.util.*
 
-@MediumTest
-class EncryptionExtTest : BaseAndroidTest() {
+class EncryptionExtTest {
 
     @Test
     fun test_encode_decode() {
@@ -39,7 +38,7 @@ class EncryptionExtTest : BaseAndroidTest() {
     }
 
     @Test
-    fun test_encrypt_decrypt_bytes() {
+    fun test_encrypt_decrypt_bytes() = runBlocking {
         val original = ByteArray(5000)
         Random().nextBytes(original)
         val key = EncryptionKey.generate()
@@ -49,7 +48,7 @@ class EncryptionExtTest : BaseAndroidTest() {
     }
 
     @Test
-    fun test_encrypt_decrypt_file() {
+    fun test_encrypt_decrypt_file() = runBlocking {
         val original = File.createTempFile("file", ".txt")
         val writer = PrintWriter(original.outputStream())
         writer.println("hello world")
