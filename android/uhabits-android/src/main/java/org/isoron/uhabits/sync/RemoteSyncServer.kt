@@ -36,7 +36,9 @@ class RemoteSyncServer(
 
     override suspend fun register(): String = Dispatchers.IO {
         try {
-            val response: RegisterReponse = httpClient.post("$baseURL/register")
+            val url = "$baseURL/register"
+            Log.i("RemoteSyncServer", "POST $url")
+            val response: RegisterReponse = httpClient.post(url)
             return@IO response.key
         } catch(e: ServerResponseException) {
             throw ServiceUnavailable()
@@ -45,7 +47,9 @@ class RemoteSyncServer(
 
     override suspend fun put(key: String, newData: SyncData) = Dispatchers.IO {
         try {
-            val response: String = httpClient.put("$baseURL/db/$key") {
+            val url = "$baseURL/db/$key"
+            Log.i("RemoteSyncServer", "PUT $url")
+            val response: String = httpClient.put(url) {
                 header("Content-Type", "application/json")
                 body = newData
             }
@@ -61,7 +65,9 @@ class RemoteSyncServer(
 
     override suspend fun getData(key: String): SyncData = Dispatchers.IO {
         try {
-            val data: SyncData = httpClient.get("$baseURL/db/$key")
+            val url = "$baseURL/db/$key"
+            Log.i("RemoteSyncServer", "GET $url")
+            val data: SyncData = httpClient.get(url)
             return@IO data
         } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
@@ -73,7 +79,9 @@ class RemoteSyncServer(
 
     override suspend fun getDataVersion(key: String): Long = Dispatchers.IO {
         try {
-            val response: GetDataVersionResponse = httpClient.get("$baseURL/db/$key/version")
+            val url = "$baseURL/db/$key/version"
+            Log.i("RemoteSyncServer", "GET $url")
+            val response: GetDataVersionResponse = httpClient.get(url)
             return@IO response.version
         } catch(e: ServerResponseException) {
             throw ServiceUnavailable()
