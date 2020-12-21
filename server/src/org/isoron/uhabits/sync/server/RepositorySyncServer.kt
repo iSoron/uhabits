@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.sync.server
 
+import io.prometheus.client.*
 import org.isoron.uhabits.sync.*
 import org.isoron.uhabits.sync.links.*
 import org.isoron.uhabits.sync.repository.*
@@ -32,13 +33,21 @@ class RepositorySyncServer(
     private val linkManager: LinkManager = LinkManager(),
 ) : AbstractSyncServer {
 
+    private val requestsCounter: Counter = Counter.build()
+        .name("requests_total")
+        .help("Total number of requests")
+        .labelNames("method")
+        .register()
+
     override suspend fun register(): String {
+        requestsCounter.labels("register").inc()
         val key = generateKey()
         repo.put(key, SyncData(0, ""))
         return key
     }
 
     override suspend fun put(key: String, newData: SyncData) {
+        requestsCounter.labels("put").inc()
         if (!repo.contains(key)) {
             throw KeyNotFoundException()
         }
@@ -50,6 +59,7 @@ class RepositorySyncServer(
     }
 
     override suspend fun getData(key: String): SyncData {
+        requestsCounter.labels("getData").inc()
         if (!repo.contains(key)) {
             throw KeyNotFoundException()
         }
@@ -57,6 +67,7 @@ class RepositorySyncServer(
     }
 
     override suspend fun getDataVersion(key: String): Long {
+        requestsCounter.labels("getDataVersion").inc()
         if (!repo.contains(key)) {
             throw KeyNotFoundException()
         }
@@ -64,10 +75,12 @@ class RepositorySyncServer(
     }
 
     override suspend fun registerLink(syncKey: String): Link {
+        requestsCounter.labels("registerLink").inc()
         return linkManager.register(syncKey)
     }
 
     override suspend fun getLink(id: String): Link {
+        requestsCounter.labels("getLink").inc()
         return linkManager.get(id)
     }
 

@@ -20,34 +20,25 @@
 package org.isoron.uhabits.sync.app
 
 import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.jackson.*
+import io.ktor.http.*
+import io.ktor.response.*
 import io.ktor.routing.*
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.repository.*
-import org.isoron.uhabits.sync.server.*
-import java.nio.file.*
+import io.prometheus.client.*
+import io.prometheus.client.exporter.common.*
+import io.prometheus.client.hotspot.*
+import java.io.*
 
-fun Application.main() = SyncApplication().apply { main() }
 
-val REPOSITORY_PATH: Path = Paths.get(System.getenv("LOOP_REPO_PATH")!!)
+fun Routing.metrics(app: SyncApplication) {
+    // Register JVM metrics
+    DefaultExports.initialize()
 
-class SyncApplication(
-    val server: AbstractSyncServer = RepositorySyncServer(
-        FileRepository(REPOSITORY_PATH),
-    ),
-) {
-    fun Application.main() {
-        install(DefaultHeaders)
-        install(CallLogging)
-        install(ContentNegotiation) {
-            jackson { }
-        }
-        routing {
-            registration(this@SyncApplication)
-            storage(this@SyncApplication)
-            links(this@SyncApplication)
-            metrics(this@SyncApplication)
-        }
+    get("/metrics") {
+        val writer = StringWriter()
+        TextFormat.write004(
+            writer,
+            CollectorRegistry.defaultRegistry.filteredMetricFamilySamples(setOf<String>()),
+        )
+        call.respond(HttpStatusCode.OK, writer.toString())
     }
 }
