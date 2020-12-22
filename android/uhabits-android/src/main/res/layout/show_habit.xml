@@ -78,7 +78,7 @@
                 android:gravity="center"
                 android:paddingBottom="0dp"/>
 
-            <org.isoron.uhabits.activities.habits.show.views.StreakCard
+            <org.isoron.uhabits.activities.habits.show.views.StreakCardView
                 android:id="@+id/streakCard"
                 style="@style/Card"/>
 

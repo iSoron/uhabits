@@ -84,6 +84,7 @@ data class ShowHabitViewModel(
         val overview: OverviewCardViewModel,
         val notes: NotesCardViewModel,
         val target: TargetCardViewModel,
+        val streaks: StreakCardViewModel,
 )
 
 class ShowHabitView(context: Context) : FrameLayout(context) {
@@ -99,7 +100,7 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.overviewCard.update(data.overview)
         binding.notesCard.update(data.notes)
         binding.targetCard.update(data.target)
-
+        binding.streakCard.update(data.streaks)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
@@ -123,11 +124,10 @@ class ShowHabitPresenter(
     private val subtitleCardPresenter = SubtitleCardPresenter(habit, context)
     private val overviewCardPresenter = OverviewCardPresenter(habit)
     private val notesCardPresenter = NotesCardPresenter(habit)
-    private val targetCardPresenter = TargetCardPresenter(
-            habit = habit,
-            firstWeekday = preferences.firstWeekday,
-            resources = context.resources
-    )
+    private val targetCardPresenter = TargetCardPresenter(habit = habit,
+                                                          firstWeekday = preferences.firstWeekday,
+                                                          resources = context.resources)
+    private val streakCartPresenter = StreakCartPresenter(habit)
 
     suspend fun present(): ShowHabitViewModel {
         return ShowHabitViewModel(
@@ -138,6 +138,7 @@ class ShowHabitPresenter(
                 overview = overviewCardPresenter.present(),
                 notes = notesCardPresenter.present(),
                 target = targetCardPresenter.present(),
+                streaks = streakCartPresenter.present(),
         )
     }
 
