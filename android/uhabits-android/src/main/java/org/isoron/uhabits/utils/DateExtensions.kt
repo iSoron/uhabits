@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,24 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.utils;
 
-import androidx.annotation.NonNull;
+package org.isoron.uhabits.utils
 
-import org.isoron.uhabits.core.utils.*;
+import android.text.format.DateFormat
+import org.isoron.uhabits.core.utils.*
+import java.text.*
+import java.util.*
 
-import java.text.*;
-import java.util.*;
-
-import static android.text.format.DateFormat.getBestDateTimePattern;
-
-public class AndroidDateFormats
-{
-    @NonNull
-    public static SimpleDateFormat fromSkeleton(@NonNull String skeleton)
-    {
-        Locale locale = Locale.getDefault();
-        skeleton = getBestDateTimePattern(locale, skeleton);
-        return DateFormats.fromSkeleton(skeleton, locale);
-    }
+fun String.toSimpleDataFormat(): SimpleDateFormat {
+    val locale = Locale.getDefault()
+    return DateFormats.fromSkeleton(DateFormat.getBestDateTimePattern(locale, this), locale)
 }

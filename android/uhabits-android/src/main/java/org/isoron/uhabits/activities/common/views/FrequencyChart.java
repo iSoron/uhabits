@@ -316,8 +316,8 @@ public class FrequencyChart extends ScrollableChart
         }
         else
         {
-            dfMonth = AndroidDateFormats.fromSkeleton("MMM");
-            dfYear = AndroidDateFormats.fromSkeleton("yyyy");
+            dfMonth = DateExtensionsKt.toSimpleDataFormat("MMM");
+            dfYear = DateExtensionsKt.toSimpleDataFormat("yyyy");
         }
     }
 

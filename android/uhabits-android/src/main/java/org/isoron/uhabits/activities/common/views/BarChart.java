@@ -459,9 +459,9 @@ public class BarChart extends ScrollableChart
             return;
         }
 
-        dfYear = AndroidDateFormats.fromSkeleton("yyyy");
-        dfMonth = AndroidDateFormats.fromSkeleton("MMM");
-        dfDay = AndroidDateFormats.fromSkeleton("d");
+        dfYear = DateExtensionsKt.toSimpleDataFormat("yyyy");
+        dfMonth = DateExtensionsKt.toSimpleDataFormat("MMM");
+        dfDay = DateExtensionsKt.toSimpleDataFormat("d");
     }
 
     private void initPaints()

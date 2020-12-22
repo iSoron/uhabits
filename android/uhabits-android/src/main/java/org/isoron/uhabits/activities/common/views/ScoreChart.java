@@ -421,9 +421,9 @@ public class ScoreChart extends ScrollableChart
         }
         else
         {
-            dfMonth = AndroidDateFormats.fromSkeleton("MMM");
-            dfYear = AndroidDateFormats.fromSkeleton("yyyy");
-            dfDay = AndroidDateFormats.fromSkeleton("d");
+            dfMonth = DateExtensionsKt.toSimpleDataFormat("MMM");
+            dfYear = DateExtensionsKt.toSimpleDataFormat("yyyy");
+            dfDay = DateExtensionsKt.toSimpleDataFormat("d");
         }
     }
 
