@@ -23,6 +23,7 @@ import android.annotation.*
 import android.content.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
@@ -36,47 +37,14 @@ import javax.inject.*
 class ShowHabitPresenter
 @Inject constructor(
         val habit: Habit,
-        val commandRunner: CommandRunner,
         val preferences: Preferences,
+        commandRunner: CommandRunner,
         @ActivityContext val context: Context,
-) : CommandRunner.Listener {
+) : Presenter<ShowHabitViewModel>(commandRunner) {
 
-    private val listeners = mutableListOf<Listener>()
-    private var data = ShowHabitViewModel()
     private val resources = context.resources
 
-    fun onResume() {
-        commandRunner.addListener(this)
-        refresh()
-        notifyListeners()
-    }
-
-    fun onPause() {
-        commandRunner.removeListener(this)
-    }
-
-    fun addListener(listener: Listener) {
-        listeners.add(listener)
-    }
-
-    fun removeListener(listener: Listener) {
-        listeners.remove(listener)
-    }
-
-    fun requestData(listener: Listener) {
-        listener.onData(data)
-    }
-
-    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
-        refresh()
-        notifyListeners()
-    }
-
-    private fun notifyListeners() {
-        for (l in listeners) l.onData(data)
-    }
-
-    private fun refresh() {
+    override fun refresh(): ShowHabitViewModel {
         val today = DateUtils.getTodayWithOffset()
         val lastMonth = today.minus(30)
         val lastYear = today.minus(365)
@@ -92,46 +60,7 @@ class ShowHabitPresenter
         val scoreLastMonth = scores.getValue(lastMonth).toFloat()
         val scoreLastYear = scores.getValue(lastYear).toFloat()
 
-        val checkmarks = habit.checkmarks
-        val valueToday = checkmarks.todayValue / 1e3
-        val valueThisWeek = checkmarks.getThisWeekValue(preferences.firstWeekday) / 1e3
-        val valueThisMonth = checkmarks.thisMonthValue / 1e3
-        val valueThisQuarter = checkmarks.thisQuarterValue / 1e3
-        val valueThisYear = checkmarks.thisYearValue / 1e3
-
-        val cal = DateUtils.getStartOfTodayCalendarWithOffset()
-        val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val daysInQuarter = 91
-        val daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
-
-        val targetToday = habit.getTargetValue() / habit.frequency.denominator
-        val targetThisWeek = targetToday * 7
-        val targetThisMonth = targetToday * daysInMonth
-        val targetThisQuarter = targetToday * daysInQuarter
-        val targetThisYear = targetToday * daysInYear
-
-        val targetCompleted = ArrayList<Double>()
-        if (habit.frequency.denominator <= 1) targetCompleted.add(valueToday)
-        if (habit.frequency.denominator <= 7) targetCompleted.add(valueThisWeek)
-        targetCompleted.add(valueThisMonth)
-        targetCompleted.add(valueThisQuarter)
-        targetCompleted.add(valueThisYear)
-
-        val targetTotal = ArrayList<Double>()
-        if (habit.frequency.denominator <= 1) targetTotal.add(targetToday)
-        if (habit.frequency.denominator <= 7) targetTotal.add(targetThisWeek)
-        targetTotal.add(targetThisMonth)
-        targetTotal.add(targetThisQuarter)
-        targetTotal.add(targetThisYear)
-
-        val targetLabels = ArrayList<String>()
-        if (habit.frequency.denominator <= 1) targetLabels.add(resources.getString(R.string.today))
-        if (habit.frequency.denominator <= 7) targetLabels.add(resources.getString(R.string.week))
-        targetLabels.add(resources.getString(R.string.month))
-        targetLabels.add(resources.getString(R.string.quarter))
-        targetLabels.add(resources.getString(R.string.year))
-
-        data = ShowHabitViewModel(
+        return ShowHabitViewModel(
                 title = habit.name,
                 description = habit.description,
                 question = habit.question,
@@ -144,9 +73,6 @@ class ShowHabitPresenter
                 targetText = "${habit.targetValue.toShortString()} ${habit.unit}",
                 frequencyText = habit.frequency.format(),
                 reminderText = reminderText,
-                targetCompleted = targetCompleted,
-                targetTotal = targetTotal,
-                targetLabels = targetLabels,
         )
     }
 
@@ -183,9 +109,5 @@ class ShowHabitPresenter
                 den,
                 resources.getString(R.string.days),
         )
-    }
-
-    interface Listener {
-        fun onData(data: ShowHabitViewModel)
     }
 }

@@ -21,44 +21,21 @@ package org.isoron.uhabits.activities.habits.show.views
 import android.content.*
 import android.util.*
 import android.view.*
-import android.widget.*
 import org.isoron.androidbase.utils.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.show.*
-import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
-class SubtitleCard(
-        context: Context,
-        attrs: AttributeSet,
-) : LinearLayout(context, attrs), ShowHabitPresenter.Listener {
+class SubtitleCard(context: Context, attrs: AttributeSet) : DataView<ShowHabitViewModel>(context, attrs) {
 
     private val binding = ShowHabitSubtitleBinding.inflate(LayoutInflater.from(context), this)
-    lateinit var presenter: ShowHabitPresenter
 
     init {
         val fontAwesome = InterfaceUtils.getFontAwesome(context)
         binding.targetIcon.typeface = fontAwesome
         binding.frequencyIcon.typeface = fontAwesome
         binding.reminderIcon.typeface = fontAwesome
-        if (isInEditMode) onData(ShowHabitViewModel(
-                isNumerical = false,
-                frequencyText = "Every day",
-                question = "How many steps did you walk today?",
-                color = PaletteColor(1),
-
-                ))
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        presenter.addListener(this)
-        presenter.requestData(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        presenter.removeListener(this)
-        super.onDetachedFromWindow()
     }
 
     override fun onData(data: ShowHabitViewModel) {

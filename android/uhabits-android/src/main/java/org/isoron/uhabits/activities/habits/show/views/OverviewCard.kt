@@ -21,48 +21,16 @@ package org.isoron.uhabits.activities.habits.show.views
 import android.content.*
 import android.util.*
 import android.view.*
-import android.widget.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
-class OverviewCard : LinearLayout, ShowHabitPresenter.Listener {
+class OverviewCard(context: Context, attrs: AttributeSet) : DataView<ShowHabitViewModel>(context, attrs) {
 
     private val binding = ShowHabitOverviewBinding.inflate(LayoutInflater.from(context), this)
-    lateinit var presenter: ShowHabitPresenter
-
-    constructor(context: Context) : super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init()
-    }
-
-    private fun init() {
-        if (isInEditMode) initEditMode()
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        presenter.addListener(this)
-        presenter.requestData(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        presenter.removeListener(this)
-        super.onDetachedFromWindow()
-    }
-
-    private fun initEditMode() {
-        onData(ShowHabitViewModel(
-                scoreToday = 0.6f,
-                scoreMonthDiff = 0.42f,
-                scoreYearDiff = 0.75f,
-        ))
-    }
 
     private fun formatPercentageDiff(percentageDiff: Float): String {
         return String.format("%s%.0f%%", if (percentageDiff >= 0) "+" else "\u2212",

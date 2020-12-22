@@ -28,6 +28,7 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.intents.*;
 
@@ -50,6 +51,9 @@ public abstract class BaseWidget
     private final Context context;
 
     @NonNull
+    protected final CommandRunner commandRunner;
+
+    @NonNull
     private WidgetDimensions dimensions;
 
     public BaseWidget(@NonNull Context context, int id)
@@ -62,6 +66,7 @@ public abstract class BaseWidget
 
         widgetPrefs = app.getComponent().getWidgetPreferences();
         prefs = app.getComponent().getPreferences();
+        commandRunner = app.getComponent().getCommandRunner();
         pendingIntentFactory = app.getComponent().getPendingIntentFactory();
         dimensions = new WidgetDimensions(getDefaultWidth(), getDefaultHeight(),
                                           getDefaultWidth(), getDefaultHeight());

@@ -23,6 +23,7 @@ import android.view.*
 import org.isoron.androidbase.activities.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
@@ -35,7 +36,8 @@ class ShowHabitRootView
         @ActivityContext context: Context,
         private val habit: Habit,
         private val presenter: ShowHabitPresenter,
-) : BaseRootView(context), ShowHabitPresenter.Listener {
+        targetCardPresenter: TargetCardPresenter,
+) : BaseRootView(context), Presenter.Listener<ShowHabitViewModel> {
 
     private var controller: Controller = object : Controller {}
     private var binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
@@ -47,7 +49,7 @@ class ShowHabitRootView
         binding.overviewCard.presenter = presenter
         binding.notesCard.presenter = presenter
         binding.subtitleCard.presenter = presenter
-        binding.targetCard.presenter = presenter
+        binding.targetCard.presenter = targetCardPresenter
 
         binding.scoreCard.habit = habit
         binding.historyCard.habit = habit

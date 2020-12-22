@@ -17,21 +17,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show
+package org.isoron.uhabits.activities
 
-import org.isoron.uhabits.core.models.*
+import android.content.*
+import android.util.*
+import android.widget.*
 
-data class ShowHabitViewModel(
-        val title: String = "",
-        val description: String = "",
-        val question: String = "",
-        val isNumerical: Boolean = false,
-        val scoreToday: Float = 0f,
-        val scoreMonthDiff: Float = 0f,
-        val scoreYearDiff: Float = 0f,
-        val totalCount: Long = 0L,
-        val color: PaletteColor = PaletteColor(1),
-        val targetText: String = "",
-        val frequencyText: String = "",
-        val reminderText: String = "",
-)
+abstract class DataView<T>(
+        context: Context,
+        attrs: AttributeSet,
+) : LinearLayout(context, attrs), Presenter.Listener<T> {
+
+    lateinit var presenter: Presenter<T>
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        presenter.addListener(this)
+        presenter.requestData(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        presenter.removeListener(this)
+        super.onDetachedFromWindow()
+    }
+
+    abstract override fun onData(data: T)
+}

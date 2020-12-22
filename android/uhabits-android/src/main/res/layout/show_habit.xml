@@ -57,7 +57,7 @@
                 style="@style/Card"
                 android:paddingTop="12dp"/>
 
-            <org.isoron.uhabits.activities.habits.show.views.TargetCard
+            <org.isoron.uhabits.activities.habits.show.views.TargetCardView
                 android:id="@+id/targetCard"
                 style="@style/Card"
                 android:paddingTop="12dp"/>
