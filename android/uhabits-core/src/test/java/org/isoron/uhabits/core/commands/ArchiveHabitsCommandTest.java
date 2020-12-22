@@ -49,26 +49,11 @@ public class ArchiveHabitsCommandTest extends BaseUnitTest
     }
 
     @Test
-    public void testExecuteUndoRedo()
+    public void testExecute()
     {
         assertFalse(habit.isArchived());
-
-        command.execute();
-        assertTrue(habit.isArchived());
-
-        command.undo();
-        assertFalse(habit.isArchived());
-
         command.execute();
         assertTrue(habit.isArchived());
     }
 
-    @Test
-    public void testRecord()
-    {
-        ArchiveHabitsCommand.Record rec = command.toRecord();
-        ArchiveHabitsCommand other = rec.toCommand(habitList);
-        assertThat(other.selected, equalTo(command.selected));
-        assertThat(other.getId(), equalTo(command.getId()));
-    }
 }

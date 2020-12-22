@@ -25,10 +25,7 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
-/**
- * Command to delete a list of habits.
- */
-public class DeleteHabitsCommand extends Command
+public class DeleteHabitsCommand implements Command
 {
     @NonNull
     final HabitList habitList;
@@ -54,52 +51,5 @@ public class DeleteHabitsCommand extends Command
     public List<Habit> getSelected()
     {
         return Collections.unmodifiableList(selected);
-    }
-
-    @Override
-    @NonNull
-    public Record toRecord()
-    {
-        return new Record(this);
-    }
-
-    @Override
-    public void undo()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public static class Record
-    {
-        @NonNull
-        public String id;
-
-        @NonNull
-        public String event = "DeleteHabit";
-
-        @NonNull
-        public List<Long> habits;
-
-        public Record(DeleteHabitsCommand command)
-        {
-            id = command.getId();
-            habits = new LinkedList<>();
-            for (Habit h : command.selected)
-            {
-                if (!h.hasId()) throw new RuntimeException("Habit not saved");
-                habits.add(h.getId());
-            }
-        }
-
-        public DeleteHabitsCommand toCommand(@NonNull HabitList habitList)
-        {
-            List<Habit> selected = new LinkedList<>();
-            for (Long id : this.habits) selected.add(habitList.getById(id));
-
-            DeleteHabitsCommand command;
-            command = new DeleteHabitsCommand(habitList, selected);
-            command.setId(id);
-            return command;
-        }
     }
 }

@@ -25,10 +25,7 @@ import org.isoron.uhabits.core.models.*;
 
 import java.util.*;
 
-/**
- * Command to toggle a repetition.
- */
-public class CreateRepetitionCommand extends Command
+public class CreateRepetitionCommand implements Command
 {
     @NonNull
     final Habit habit;
@@ -40,8 +37,6 @@ public class CreateRepetitionCommand extends Command
     final Timestamp timestamp;
 
     final int value;
-
-    int previousValue;
 
     public CreateRepetitionCommand(@NonNull HabitList habitList,
                                    @NonNull Habit habit,
@@ -58,7 +53,6 @@ public class CreateRepetitionCommand extends Command
     public void execute()
     {
         RepetitionList reps = habit.getRepetitions();
-        previousValue = reps.getValue(timestamp);
         reps.setValue(timestamp, value);
         habitList.resort();
     }
@@ -67,57 +61,6 @@ public class CreateRepetitionCommand extends Command
     public Habit getHabit()
     {
         return habit;
-    }
-
-    @Override
-    @NonNull
-    public Record toRecord()
-    {
-        return new Record(this);
-    }
-
-    @Override
-    public void undo()
-    {
-        habit.getRepetitions().setValue(timestamp, previousValue);
-    }
-
-    public static class Record
-    {
-        @NonNull
-        public String id;
-
-        @NonNull
-        public String event = "CreateRep";
-
-        public long habit;
-
-        public long repTimestamp;
-
-        public int value;
-
-        public Record(CreateRepetitionCommand command)
-        {
-            id = command.getId();
-            Long habitId = command.habit.getId();
-            if(habitId == null) throw new RuntimeException("Habit not saved");
-
-            this.habit = habitId;
-            this.repTimestamp = command.timestamp.getUnixTime();
-            this.value = command.value;
-        }
-
-        public CreateRepetitionCommand toCommand(@NonNull HabitList habitList)
-        {
-            Habit h = habitList.getById(habit);
-            if(h == null) throw new HabitNotFoundException();
-
-            CreateRepetitionCommand command;
-            command = new CreateRepetitionCommand(
-                habitList, h, new Timestamp(repTimestamp), value);
-            command.setId(id);
-            return command;
-        }
     }
 
     @Override
@@ -136,17 +79,5 @@ public class CreateRepetitionCommand extends Command
     public int hashCode()
     {
         return Objects.hash(habit, habitList, timestamp, value);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "CreateRepetitionCommand{" +
-                "habit=" + habit +
-                ", habitList=" + habitList +
-                ", timestamp=" + timestamp +
-                ", value=" + value +
-                ", previousValue=" + previousValue +
-                '}';
     }
 }

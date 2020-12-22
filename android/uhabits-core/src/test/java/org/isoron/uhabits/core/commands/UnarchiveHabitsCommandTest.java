@@ -26,8 +26,6 @@ import org.junit.*;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 public class UnarchiveHabitsCommandTest extends BaseUnitTest
 {
@@ -53,23 +51,8 @@ public class UnarchiveHabitsCommandTest extends BaseUnitTest
     public void testExecuteUndoRedo()
     {
         assertTrue(habit.isArchived());
-
-        command.execute();
-        assertFalse(habit.isArchived());
-
-        command.undo();
-        assertTrue(habit.isArchived());
-
         command.execute();
         assertFalse(habit.isArchived());
     }
 
-    @Test
-    public void testRecord()
-    {
-        UnarchiveHabitsCommand.Record rec = command.toRecord();
-        UnarchiveHabitsCommand other = rec.toCommand(habitList);
-        assertThat(other.selected, equalTo(command.selected));
-        assertThat(other.getId(), equalTo(command.getId()));
-    }
 }

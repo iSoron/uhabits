@@ -63,14 +63,6 @@ public class EditHabitCommandTest extends BaseUnitTest
         command.execute();
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
-
-        command.undo();
-        assertThat(habit.getName(), equalTo("original"));
-        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
-
-        command.execute();
-        assertThat(habit.getName(), equalTo("modified"));
-        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
     }
 
     @Test
@@ -87,29 +79,5 @@ public class EditHabitCommandTest extends BaseUnitTest
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(),
             lessThan(originalScore));
-
-        command.undo();
-        assertThat(habit.getName(), equalTo("original"));
-        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
-
-        command.execute();
-        assertThat(habit.getName(), equalTo("modified"));
-        assertThat(habit.getScores().getTodayValue(),
-            lessThan(originalScore));
-    }
-
-    @Test
-    public void testRecord()
-    {
-        command =
-            new EditHabitCommand(modelFactory, habitList, habit, modified);
-
-        EditHabitCommand.Record rec = command.toRecord();
-        EditHabitCommand other = rec.toCommand(modelFactory, habitList);
-
-        assertThat(other.getId(), equalTo(command.getId()));
-        assertThat(other.savedId, equalTo(command.savedId));
-        assertThat(other.original.getData(), equalTo(command.original.getData()));
-        assertThat(other.modified.getData(), equalTo(command.modified.getData()));
     }
 }

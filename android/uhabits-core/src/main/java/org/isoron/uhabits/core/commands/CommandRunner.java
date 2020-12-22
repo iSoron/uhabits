@@ -37,9 +37,9 @@ import javax.inject.*;
 @AppScope
 public class CommandRunner
 {
-    private TaskRunner taskRunner;
+    private final TaskRunner taskRunner;
 
-    private LinkedList<Listener> listeners;
+    private final LinkedList<Listener> listeners;
 
     @Inject
     public CommandRunner(@NonNull TaskRunner taskRunner)

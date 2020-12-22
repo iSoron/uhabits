@@ -24,8 +24,6 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.isoron.uhabits.core.models.Checkmark.*;
 import static org.junit.Assert.*;
 
@@ -51,34 +49,15 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
     }
 
     @Test
-    public void testExecuteUndoRedo()
+    public void testExecute()
     {
         RepetitionList reps = habit.getRepetitions();
-
         Repetition rep = reps.getByTimestamp(today);
         assertNotNull(rep);
         assertEquals(YES_MANUAL, rep.getValue());
-
         command.execute();
         rep = reps.getByTimestamp(today);
         assertNotNull(rep);
         assertEquals(100, rep.getValue());
-
-        command.undo();
-        rep = reps.getByTimestamp(today);
-        assertNotNull(rep);
-        assertEquals(YES_MANUAL, rep.getValue());
-    }
-
-    @Test
-    public void testRecord()
-    {
-        CreateRepetitionCommand.Record rec = command.toRecord();
-        CreateRepetitionCommand other = rec.toCommand(habitList);
-
-        assertThat(command.getId(), equalTo(other.getId()));
-        assertThat(command.timestamp, equalTo(other.timestamp));
-        assertThat(command.value, equalTo(other.value));
-        assertThat(command.habit, equalTo(other.habit));
     }
 }

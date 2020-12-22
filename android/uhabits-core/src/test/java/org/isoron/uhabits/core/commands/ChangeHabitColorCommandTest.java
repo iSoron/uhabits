@@ -54,28 +54,11 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
     }
 
     @Test
-    public void testExecuteUndoRedo()
+    public void testExecute()
     {
         checkOriginalColors();
-
         command.execute();
         checkNewColors();
-
-        command.undo();
-        checkOriginalColors();
-
-        command.execute();
-        checkNewColors();
-    }
-
-    @Test
-    public void testRecord()
-    {
-        ChangeHabitColorCommand.Record rec = command.toRecord();
-        ChangeHabitColorCommand other = rec.toCommand(habitList);
-        assertThat(other.getId(), equalTo(command.getId()));
-        assertThat(other.newColor, equalTo(command.newColor));
-        assertThat(other.selected, equalTo(command.selected));
     }
 
     private void checkNewColors()
