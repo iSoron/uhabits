@@ -23,6 +23,7 @@ import android.content.*
 import android.view.*
 import android.view.ViewGroup.*
 import android.view.ViewGroup.LayoutParams.*
+import kotlinx.coroutines.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
@@ -38,17 +39,17 @@ class TargetWidget(
     override fun getOnClickPendingIntent(context: Context) =
             pendingIntentFactory.showHabit(habit)
 
-    override fun refreshData(view: View) {
-        val widgetView = view as GraphWidgetView
-        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
-        if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
-        val chart = (widgetView.dataView as TargetChart)
-        val presenter = TargetCardPresenter(habit, prefs, context, commandRunner)
-        val data = presenter.refresh()
-        chart.setColor(data.color.toThemedAndroidColor(context))
-        chart.setTargets(data.targets)
-        chart.setLabels(data.labels)
-        chart.setValues(data.values)
+    override fun refreshData(view: View) = runBlocking {
+            val widgetView = view as GraphWidgetView
+            widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
+            if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
+            val chart = (widgetView.dataView as TargetChart)
+            val presenter = TargetCardPresenter(habit, prefs.firstWeekday, context.resources)
+            val data = presenter.present()
+            chart.setColor(data.color.toThemedAndroidColor(context))
+            chart.setTargets(data.targets)
+            chart.setLabels(data.labels)
+            chart.setValues(data.values)
     }
 
     override fun buildView(): View {

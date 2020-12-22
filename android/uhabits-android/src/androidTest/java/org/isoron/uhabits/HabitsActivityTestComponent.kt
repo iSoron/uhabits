@@ -38,7 +38,6 @@ class TestModule {
         ActivityContextModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
-        ShowHabitModule::class,
         HabitModule::class,
         TestModule::class
 ), dependencies = arrayOf(HabitsApplicationComponent::class))

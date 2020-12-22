@@ -22,15 +22,15 @@ import android.view.*
 import androidx.test.ext.junit.runners.*
 import androidx.test.filters.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.habits.show.*
+import org.isoron.uhabits.core.models.*
 import org.junit.*
 import org.junit.runner.*
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class NotesCardTest : BaseViewTest() {
-    val PATH = "habits/show/NotesCard"
-    private lateinit var view: NotesCard
+class OverviewCardViewTest : BaseViewTest() {
+    val PATH = "habits/show/OverviewCard/"
+    private lateinit var view: OverviewCardView
 
     @Before
     override fun setUp() {
@@ -38,25 +38,19 @@ class NotesCardTest : BaseViewTest() {
         view = LayoutInflater
                 .from(targetContext)
                 .inflate(R.layout.show_habit, null)
-                .findViewById(R.id.notesCard)
-        view.onData(ShowHabitViewModel(
-                description = "This is a test description",
+                .findViewById<View>(R.id.overviewCard) as OverviewCardView
+        view.update(OverviewCardViewModel(
+                scoreToday = 0.74f,
+                scoreMonthDiff = 0.23f,
+                scoreYearDiff = 0.74f,
+                totalCount = 44,
+                color = PaletteColor(7),
         ))
-        measureView(view, 800f, 200f)
+        measureView(view, 800f, 300f)
     }
 
     @Test
-    @Throws(Exception::class)
     fun testRender() {
-        assertRenders(view, "$PATH/render.png")
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun testRenderEmptyDescription() {
-        view.onData(ShowHabitViewModel(
-                description = "",
-        ))
-        assertRenders(view, "$PATH/render-empty-description.png")
+        assertRenders(view, PATH + "render.png")
     }
 }

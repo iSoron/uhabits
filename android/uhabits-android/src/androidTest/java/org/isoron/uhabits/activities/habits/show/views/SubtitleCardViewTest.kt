@@ -22,16 +22,15 @@ import android.view.*
 import androidx.test.ext.junit.runners.*
 import androidx.test.filters.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.core.models.*
 import org.junit.*
 import org.junit.runner.*
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class OverviewCardTest : BaseViewTest() {
-    val PATH = "habits/show/OverviewCard/"
-    private lateinit var view: OverviewCard
+class SubtitleCardViewTest : BaseViewTest() {
+    val PATH = "habits/show/SubtitleCard/"
+    private lateinit var view: SubtitleCardView
 
     @Before
     override fun setUp() {
@@ -39,15 +38,16 @@ class OverviewCardTest : BaseViewTest() {
         view = LayoutInflater
                 .from(targetContext)
                 .inflate(R.layout.show_habit, null)
-                .findViewById<View>(R.id.overviewCard) as OverviewCard
-        view.onData(ShowHabitViewModel(
-                scoreToday = 0.74f,
-                scoreMonthDiff = 0.23f,
-                scoreYearDiff = 0.74f,
-                totalCount = 44,
+                .findViewById(R.id.subtitleCard)
+        view.update(SubtitleCardViewModel(
                 color = PaletteColor(7),
+                frequencyText = "3 times in 7 days",
+                isNumerical = false,
+                question = "Did you meditate this morning?",
+                reminderText = "8:30 AM",
+                targetText = "",
         ))
-        measureView(view, 800f, 300f)
+        measureView(view, 800f, 200f)
     }
 
     @Test

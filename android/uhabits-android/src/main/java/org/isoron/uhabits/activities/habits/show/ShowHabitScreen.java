@@ -40,8 +40,8 @@ import dagger.*;
 public class ShowHabitScreen extends BaseScreen
     implements ShowHabitMenuBehavior.Screen,
                ShowHabitBehavior.Screen,
-               HistoryEditorDialog.Controller,
-               ShowHabitRootView.Controller
+               HistoryEditorDialog.Controller
+               //ShowHabitRootView.Controller
 {
     @NonNull
     private final Habit habit;
@@ -60,7 +60,7 @@ public class ShowHabitScreen extends BaseScreen
     @Inject
     public ShowHabitScreen(@NonNull BaseActivity activity,
                            @NonNull Habit habit,
-                           @NonNull ShowHabitRootView view,
+                           //@NonNull ShowHabitRootView view,
                            @NonNull ShowHabitsMenu menu,
                            @NonNull ConfirmDeleteDialogFactory confirmDeleteDialogFactory,
                            @NonNull IntentFactory intentFactory,
@@ -70,20 +70,20 @@ public class ShowHabitScreen extends BaseScreen
         super(activity);
         this.intentFactory = intentFactory;
         setMenu(menu);
-        setRootView(view);
+        //setRootView(view);
 
         this.habit = habit;
         this.behavior = behavior;
         this.confirmDeleteDialogFactory = confirmDeleteDialogFactory;
         this.numberPickerFactory = numberPickerFactory;
-        view.setController(this);
+        //view.setController(this);
     }
 
-    @Override
-    public void onEditHistoryButtonClick()
-    {
-        behavior.get().onEditHistory();
-    }
+//    @Override
+//    public void onEditHistoryButtonClick()
+//    {
+//        behavior.get().onEditHistory();
+//    }
 
     @Override
     public void showNumberPicker(double value,
@@ -99,11 +99,11 @@ public class ShowHabitScreen extends BaseScreen
         behavior.get().onToggleCheckmark(timestamp, value);
     }
 
-    @Override
-    public void onToolbarChanged()
-    {
-        invalidateToolbar();
-    }
+//    @Override
+//    public void onToolbarChanged()
+//    {
+//        invalidateToolbar();
+//    }
 
     @Override
     public void reattachDialogs()

@@ -19,19 +19,17 @@
 package org.isoron.uhabits.activities.habits.show.views
 
 import android.content.*
+import android.content.res.*
 import android.util.*
 import android.view.*
-import org.isoron.androidbase.activities.*
+import android.widget.*
+import kotlinx.coroutines.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 import java.util.*
-import javax.inject.*
 
 data class TargetCardViewModel(
         val color: PaletteColor,
@@ -40,35 +38,28 @@ data class TargetCardViewModel(
         val labels: List<String> = listOf(),
 )
 
-class TargetCardView(context: Context, attrs: AttributeSet) : DataView<TargetCardViewModel>(context, attrs) {
-
+class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitTargetBinding.inflate(LayoutInflater.from(context), this)
-
-    override fun onData(data: TargetCardViewModel) {
+    fun update(data: TargetCardViewModel) {
         val androidColor = data.color.toThemedAndroidColor(context)
         binding.targetChart.setValues(data.values)
         binding.targetChart.setTargets(data.targets)
         binding.targetChart.setLabels(data.labels)
         binding.title.setTextColor(androidColor)
         binding.targetChart.setColor(androidColor)
+        postInvalidate()
     }
 }
 
-@ActivityScope
-class TargetCardPresenter
-@Inject constructor(
+class TargetCardPresenter(
         val habit: Habit,
-        val preferences: Preferences,
-        @ActivityContext val context: Context,
-        commandRunner: CommandRunner,
-) : Presenter<TargetCardViewModel>(commandRunner) {
-
-    val resources = context.resources
-
-    override fun refresh(): TargetCardViewModel {
+        val firstWeekday: Int,
+        val resources: Resources,
+) {
+    suspend fun present(): TargetCardViewModel = Dispatchers.IO {
         val checkmarks = habit.checkmarks
         val valueToday = checkmarks.todayValue / 1e3
-        val valueThisWeek = checkmarks.getThisWeekValue(preferences.firstWeekday) / 1e3
+        val valueThisWeek = checkmarks.getThisWeekValue(firstWeekday) / 1e3
         val valueThisMonth = checkmarks.thisMonthValue / 1e3
         val valueThisQuarter = checkmarks.thisQuarterValue / 1e3
         val valueThisYear = checkmarks.thisYearValue / 1e3
@@ -105,7 +96,7 @@ class TargetCardPresenter
         labels.add(resources.getString(R.string.quarter))
         labels.add(resources.getString(R.string.year))
 
-        return TargetCardViewModel(
+        return@IO TargetCardViewModel(
                 color = habit.color,
                 values = values,
                 labels = labels,

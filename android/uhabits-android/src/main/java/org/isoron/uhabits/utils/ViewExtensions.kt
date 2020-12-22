@@ -20,15 +20,18 @@
 package org.isoron.uhabits.utils
 
 import android.graphics.*
-import androidx.annotation.*
-import androidx.appcompat.widget.Toolbar
+import android.graphics.drawable.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import android.widget.RelativeLayout.*
-import com.google.android.material.snackbar.Snackbar
+import androidx.annotation.*
+import androidx.appcompat.app.*
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.core.models.*
 
 fun RelativeLayout.addBelow(view: View,
                             subject: View,
@@ -81,6 +84,23 @@ fun View.showMessage(@StringRes stringId: Int) {
     } catch (e: IllegalArgumentException) {
         return
     }
+}
+
+fun View.setupToolbar(toolbar: Toolbar, title: String, color: PaletteColor) {
+    toolbar.elevation = InterfaceUtils.dpToPixels(context, 2f)
+    val res = StyledResources(context)
+    toolbar.title = title
+    val toolbarColor = if (!res.getBoolean(R.attr.useHabitColorAsPrimary)) {
+        StyledResources(context).getColor(org.isoron.androidbase.R.attr.colorPrimary)
+    } else {
+        color.toThemedAndroidColor(context)
+    }
+    val darkerColor = ColorUtils.mixColors(toolbarColor, Color.BLACK, 0.75f)
+    toolbar.background = ColorDrawable(toolbarColor)
+    val activity = context as AppCompatActivity
+    activity.window.statusBarColor = darkerColor
+    activity.setSupportActionBar(toolbar)
+    activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 }
 
 fun Int.toMeasureSpec(mode: Int) =

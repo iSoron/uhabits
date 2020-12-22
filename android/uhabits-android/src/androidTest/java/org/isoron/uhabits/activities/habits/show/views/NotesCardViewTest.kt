@@ -19,18 +19,20 @@
 package org.isoron.uhabits.activities.habits.show.views
 
 import android.view.*
+import android.view.View.*
 import androidx.test.ext.junit.runners.*
 import androidx.test.filters.*
+import org.hamcrest.Matchers.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.habits.show.*
 import org.junit.*
+import org.junit.Assert.*
 import org.junit.runner.*
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class SubtitleCardTest : BaseViewTest() {
-    val PATH = "habits/show/SubtitleCard/"
-    private lateinit var view: SubtitleCard
+class NotesCardViewTest : BaseViewTest() {
+    val PATH = "habits/show/NotesCard"
+    private lateinit var view: NotesCardView
 
     @Before
     override fun setUp() {
@@ -38,17 +40,19 @@ class SubtitleCardTest : BaseViewTest() {
         view = LayoutInflater
                 .from(targetContext)
                 .inflate(R.layout.show_habit, null)
-                .findViewById(R.id.subtitleCard)
-        view.onData(ShowHabitViewModel(
-                question = "Did you meditate this morning?",
-                reminderText = "8:30 AM",
-                frequencyText = "3 times in 7 days",
-        ))
+                .findViewById(R.id.notesCard)
+        view.update(NotesCardViewModel(description = "This is a test description"))
         measureView(view, 800f, 200f)
     }
 
     @Test
     fun testRender() {
-        assertRenders(view, PATH + "render.png")
+        assertRenders(view, "$PATH/render.png")
+    }
+
+    @Test
+    fun testRenderEmptyDescription() {
+        view.update(NotesCardViewModel(description = ""))
+        assertThat(view.visibility, equalTo(GONE))
     }
 }

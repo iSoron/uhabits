@@ -22,20 +22,27 @@ package org.isoron.uhabits.activities.habits.show.views
 import android.content.*
 import android.util.*
 import android.view.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.habits.show.*
+import android.widget.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
 
-class NotesCard(context: Context, attrs: AttributeSet) : DataView<ShowHabitViewModel>(context, attrs) {
+data class NotesCardViewModel(val description: String)
 
+class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitNotesBinding.inflate(LayoutInflater.from(context), this)
-
-    override fun onData(data: ShowHabitViewModel) {
+    fun update(data: NotesCardViewModel) {
         if (data.description.isEmpty()) {
             visibility = GONE
         } else {
             visibility = VISIBLE
             binding.habitNotes.text = data.description
         }
+        invalidate()
     }
+}
+
+class NotesCardPresenter(val habit: Habit) {
+    fun present() = NotesCardViewModel(
+            description = habit.description,
+    )
 }

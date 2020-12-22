@@ -35,18 +35,19 @@ import dagger.*;
 @ActivityScope
 public class ShowHabitsMenu extends BaseMenu
 {
-    @NonNull
-    private Lazy<ShowHabitMenuBehavior> behavior;
+//    @NonNull
+//    private Lazy<ShowHabitMenuBehavior> behavior;
+
     @NonNull
     private final Preferences prefs;
 
     @Inject
     public ShowHabitsMenu(@NonNull BaseActivity activity,
-                          @NonNull Lazy<ShowHabitMenuBehavior> behavior,
+                          //@NonNull Lazy<ShowHabitMenuBehavior> behavior,
                           @NonNull Preferences prefs)
     {
         super(activity);
-        this.behavior = behavior;
+        //this.behavior = behavior;
         this.prefs = prefs;
     }
 
@@ -64,21 +65,21 @@ public class ShowHabitsMenu extends BaseMenu
     {
         switch (item.getItemId())
         {
-            case R.id.action_edit_habit:
-                behavior.get().onEditHabit();
-                return true;
-
-            case R.id.export:
-                behavior.get().onExportCSV();
-                return true;
-
-            case R.id.action_delete:
-                behavior.get().onDeleteHabit();
-                return true;
-
-            case R.id.action_randomize:
-                behavior.get().onRandomize();
-                return true;
+//            case R.id.action_edit_habit:
+//                behavior.get().onEditHabit();
+//                return true;
+//
+//            case R.id.export:
+//                behavior.get().onExportCSV();
+//                return true;
+//
+//            case R.id.action_delete:
+//                behavior.get().onDeleteHabit();
+//                return true;
+//
+//            case R.id.action_randomize:
+//                behavior.get().onRandomize();
+//                return true;
 
             default:
                 return false;

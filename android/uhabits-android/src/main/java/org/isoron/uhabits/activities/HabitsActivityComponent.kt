@@ -36,11 +36,9 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*
         BaseActivityModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
-        ShowHabitModule::class,
         HabitModule::class
 ), dependencies = arrayOf(HabitsApplicationComponent::class))
 interface HabitsActivityComponent {
-    val showHabitPresenter: ShowHabitPresenter
     val colorPickerDialogFactory: ColorPickerDialogFactory
     val habitCardListAdapter: HabitCardListAdapter
     val listHabitsBehavior: ListHabitsBehavior
@@ -48,6 +46,5 @@ interface HabitsActivityComponent {
     val listHabitsRootView: ListHabitsRootView
     val listHabitsScreen: ListHabitsScreen
     val listHabitsSelectionMenu: ListHabitsSelectionMenu
-    val showHabitScreen: ShowHabitScreen
     val themeSwitcher: ThemeSwitcher
 }

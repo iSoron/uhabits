@@ -21,14 +21,24 @@ package org.isoron.uhabits.activities.habits.show.views
 import android.content.*
 import android.util.*
 import android.view.*
+import android.widget.*
+import kotlinx.coroutines.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.habits.show.*
+import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
-class OverviewCard(context: Context, attrs: AttributeSet) : DataView<ShowHabitViewModel>(context, attrs) {
+data class OverviewCardViewModel(
+        val color: PaletteColor,
+        val scoreMonthDiff: Float,
+        val scoreYearDiff: Float,
+        val scoreToday: Float,
+        val totalCount: Long,
+)
+
+class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private val binding = ShowHabitOverviewBinding.inflate(LayoutInflater.from(context), this)
 
@@ -37,7 +47,7 @@ class OverviewCard(context: Context, attrs: AttributeSet) : DataView<ShowHabitVi
                              Math.abs(percentageDiff) * 100)
     }
 
-    override fun onData(data: ShowHabitViewModel) {
+    fun update(data: OverviewCardViewModel) {
         val androidColor = data.color.toThemedAndroidColor(context)
         val res = StyledResources(context)
         val inactiveColor = res.getColor(R.attr.mediumContrastTextColor)
@@ -53,5 +63,24 @@ class OverviewCard(context: Context, attrs: AttributeSet) : DataView<ShowHabitVi
         binding.yearDiffLabel.setTextColor(if (data.scoreYearDiff >= 0) androidColor else inactiveColor)
         binding.yearDiffLabel.text = formatPercentageDiff(data.scoreYearDiff)
         postInvalidate()
+    }
+}
+
+class OverviewCardPresenter(val habit: Habit) {
+    suspend fun present(): OverviewCardViewModel = Dispatchers.IO {
+        val today = DateUtils.getTodayWithOffset()
+        val lastMonth = today.minus(30)
+        val lastYear = today.minus(365)
+        val scores = habit.scores
+        val scoreToday = scores.todayValue.toFloat()
+        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
+        val scoreLastYear = scores.getValue(lastYear).toFloat()
+        return@IO OverviewCardViewModel(
+                color = habit.color,
+                scoreToday = scoreToday,
+                scoreMonthDiff = scoreToday - scoreLastMonth,
+                scoreYearDiff = scoreToday - scoreLastYear,
+                totalCount = habit.repetitions.totalCount,
+        )
     }
 }
