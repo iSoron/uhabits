@@ -39,7 +39,7 @@ public class AndroidDatabaseTest extends BaseAndroidTest
     public void setUp()
     {
         super.setUp();
-        db = new AndroidDatabase(SQLiteDatabase.create(null));
+        db = new AndroidDatabase(SQLiteDatabase.create(null), null);
         db.execute("create table test(color int, name string)");
     }
 

@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.io;
 
 import androidx.annotation.*;
 
+import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
@@ -47,10 +48,10 @@ public class LoopDBImporter extends AbstractImporter
     private final CommandRunner runner;
 
     @Inject
-    public LoopDBImporter(@NonNull HabitList habitList,
-                          @NonNull ModelFactory modelFactory,
-                          @NonNull DatabaseOpener opener,
-                          @NonNull CommandRunner runner)
+    public LoopDBImporter(@AppScope @NonNull HabitList habitList,
+                          @AppScope @NonNull ModelFactory modelFactory,
+                          @AppScope @NonNull DatabaseOpener opener,
+                          @AppScope @NonNull CommandRunner runner)
     {
         super(habitList);
         this.modelFactory = modelFactory;

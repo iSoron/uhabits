@@ -26,10 +26,11 @@ import android.database.sqlite.*
 
 import org.isoron.uhabits.core.database.*
 import org.isoron.uhabits.database.*
+import java.io.*
 
 class HabitsDatabaseOpener(
         context: Context,
-        databaseFilename: String,
+        private val databaseFilename: String,
         private val version: Int
 ) : SQLiteOpenHelper(context, databaseFilename, null, version) {
 
@@ -49,7 +50,7 @@ class HabitsDatabaseOpener(
                            newVersion: Int) {
         db.disableWriteAheadLogging()
         if (db.version < 8) throw UnsupportedDatabaseVersionException()
-        val helper = MigrationHelper(AndroidDatabase(db))
+        val helper = MigrationHelper(AndroidDatabase(db, File(databaseFilename)))
         helper.migrateTo(newVersion)
     }
 

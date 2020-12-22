@@ -22,14 +22,22 @@ package org.isoron.uhabits.database
 import android.content.*
 import android.database.sqlite.*
 import org.isoron.uhabits.core.database.*
+import java.io.*
 
-class AndroidDatabase(private val db: SQLiteDatabase) : Database {
+class AndroidDatabase(
+        private val db: SQLiteDatabase,
+        private val file: File?,
+) : Database {
 
     override fun beginTransaction() = db.beginTransaction()
     override fun setTransactionSuccessful() = db.setTransactionSuccessful()
     override fun endTransaction() = db.endTransaction()
     override fun close() = db.close()
     override fun getVersion() = db.version
+
+    override fun getFile(): File? {
+        return file
+    }
 
     override fun query(query: String, vararg params: String)
             = AndroidCursor(db.rawQuery(query, params))

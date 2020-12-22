@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.database;
 
+import java.io.*;
 import java.util.*;
 
 public interface Database
@@ -53,6 +54,8 @@ public interface Database
     void close();
 
     int getVersion();
+
+    File getFile();
 
     interface ProcessCallback
     {

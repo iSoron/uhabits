@@ -52,7 +52,7 @@ class SyncActivity : BaseActivity(), SyncBehavior.Screen {
 
         val component = (application as HabitsApplication).component
         val preferences = component.preferences
-        val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
+        val server = RemoteSyncServer(preferences = preferences)
         baseScreen = BaseScreen(this)
         behavior = SyncBehavior(this, preferences, server)
 

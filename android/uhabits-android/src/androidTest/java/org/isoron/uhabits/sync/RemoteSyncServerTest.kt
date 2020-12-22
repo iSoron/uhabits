@@ -28,11 +28,12 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.core.sync.*
 import org.junit.*
 
 @MediumTest
-class RemoteSyncServerTest {
+class RemoteSyncServerTest : BaseAndroidTest() {
 
     private val mapper = ObjectMapper()
     val data = SyncData(1, "Hello world")
@@ -127,7 +128,7 @@ class RemoteSyncServerTest {
                     }
                 }
             }
-        }, baseURL = "")
+        }, preferences = prefs)
     }
 
     private fun MockRequestHandleScope.respondWithJson(content: Any) =

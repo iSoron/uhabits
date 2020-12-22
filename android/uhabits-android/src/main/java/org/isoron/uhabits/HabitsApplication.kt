@@ -43,10 +43,6 @@ class HabitsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        HabitsApplication.component = DaggerHabitsApplicationComponent
-                .builder()
-                .appContextModule(AppContextModule(context))
-                .build()
 
         if (isTestMode()) {
             val db = DatabaseUtils.getDatabaseFile(context)
@@ -60,6 +56,14 @@ class HabitsApplication : Application() {
             db.renameTo(File(db.absolutePath + ".invalid"))
             DatabaseUtils.initializeDatabase(context)
         }
+
+        val db = DatabaseUtils.getDatabaseFile(this)
+        HabitsApplication.component = DaggerHabitsApplicationComponent
+                .builder()
+                .appContextModule(AppContextModule(context))
+                .habitsModule(HabitsModule(db))
+                .build()
+
         DateUtils.setStartDayOffset(3, 0)
 
         widgetUpdater = component.widgetUpdater

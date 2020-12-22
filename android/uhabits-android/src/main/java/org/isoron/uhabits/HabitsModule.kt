@@ -19,24 +19,34 @@
 
 package org.isoron.uhabits
 
+import android.content.*
 import dagger.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.database.*
+import org.isoron.uhabits.core.io.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.sqlite.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.reminders.*
+import org.isoron.uhabits.core.sync.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.database.*
 import org.isoron.uhabits.intents.*
+import org.isoron.uhabits.io.*
 import org.isoron.uhabits.notifications.*
 import org.isoron.uhabits.preferences.*
+import org.isoron.uhabits.sync.*
 import org.isoron.uhabits.utils.*
+import java.io.*
 
 @Module
-class HabitsModule {
+class HabitsModule(dbFile: File) {
+
+    val db: Database = AndroidDatabase(DatabaseUtils.openDatabase(), dbFile)
+
     @Provides
     @AppScope
     fun getPreferences(storage: SharedPreferencesStorage): Preferences {
@@ -76,7 +86,7 @@ class HabitsModule {
     @Provides
     @AppScope
     fun getModelFactory(): ModelFactory {
-        return SQLModelFactory(AndroidDatabase(DatabaseUtils.openDatabase()))
+        return SQLModelFactory(db)
     }
 
     @Provides
@@ -89,6 +99,30 @@ class HabitsModule {
     @AppScope
     fun getDatabaseOpener(opener: AndroidDatabaseOpener): DatabaseOpener {
         return opener
+    }
+
+    @Provides
+    @AppScope
+    fun getLogging(): Logging {
+        return AndroidLogging()
+    }
+
+    @Provides
+    @AppScope
+    fun getNetworkManager(@AppContext context: Context): NetworkManager {
+        return AndroidNetworkManager(context)
+    }
+
+    @Provides
+    @AppScope
+    fun getSyncServer(preferences: Preferences) : AbstractSyncServer {
+        return RemoteSyncServer(preferences)
+    }
+
+    @Provides
+    @AppScope
+    fun getDatabase(): Database {
+        return db
     }
 }
 

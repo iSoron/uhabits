@@ -28,13 +28,13 @@ import org.isoron.uhabits.core.io.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.reminders.*;
+import org.isoron.uhabits.core.sync.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.receivers.*;
-import org.isoron.uhabits.sync.*;
 import org.isoron.uhabits.tasks.*;
 import org.isoron.uhabits.widgets.*;
 

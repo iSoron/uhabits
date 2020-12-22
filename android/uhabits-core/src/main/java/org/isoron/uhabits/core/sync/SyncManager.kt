@@ -17,74 +17,63 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync
+package org.isoron.uhabits.core.sync
 
-import android.content.*
-import android.net.*
-import android.util.*
 import kotlinx.coroutines.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.commands.*
+import org.isoron.uhabits.core.database.*
+import org.isoron.uhabits.core.io.*
 import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.sync.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.tasks.*
-import org.isoron.uhabits.utils.*
 import java.io.*
 import javax.inject.*
 
 @AppScope
 class SyncManager @Inject constructor(
         val preferences: Preferences,
-        private val importDataTaskFactory: ImportDataTaskFactory,
         val commandRunner: CommandRunner,
-        @AppContext val context: Context
-) : Preferences.Listener, CommandRunner.Listener, ConnectivityManager.NetworkCallback() {
+        val logging: Logging,
+        val networkManager: NetworkManager,
+        val server: AbstractSyncServer,
+        val db: Database,
+        val dbImporter: LoopDBImporter,
+) : Preferences.Listener, CommandRunner.Listener, NetworkManager.Listener {
 
+    private var logger = logging.getLogger("SyncManager")
     private var connected = false
-
-    private val server = RemoteSyncServer(baseURL = preferences.syncBaseURL)
-
-    private val tmpFile = File.createTempFile("import", "", context.externalCacheDir)
-
+    private val tmpFile = File.createTempFile("import", "")
     private var currVersion = 1L
-
     private var dirty = true
-
-    private var taskRunner = SingleThreadTaskRunner()
-
     private lateinit var encryptionKey: EncryptionKey
-
     private lateinit var syncKey: String
 
     init {
         preferences.addListener(this)
         commandRunner.addListener(this)
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        cm.registerNetworkCallback(NetworkRequest.Builder().build(), this)
+        networkManager.addListener(this)
     }
 
     fun sync() = CoroutineScope(Dispatchers.Main).launch {
         if (!preferences.isSyncEnabled) {
-            Log.i("SyncManager", "Device sync is disabled. Skipping sync.")
+            logger.info("Device sync is disabled. Skipping sync.")
             return@launch
         }
 
         encryptionKey = EncryptionKey.fromBase64(preferences.encryptionKey)
         syncKey = preferences.syncKey
-        Log.i("SyncManager", "Starting sync (key: $syncKey)")
+        logger.info("Starting sync (key: $syncKey)")
 
         try {
             pull()
             push()
-            Log.i("SyncManager", "Sync finished successfully.")
+            logger.info("Sync finished successfully.")
         } catch (e: ConnectionLostException) {
-            Log.i("SyncManager", "Network unavailable. Aborting sync.")
+            logger.info("Network unavailable. Aborting sync.")
         } catch (e: ServiceUnavailable) {
-            Log.i("SyncManager", "Sync service unavailable. Aborting sync.")
+            logger.info("Sync service unavailable. Aborting sync.")
         } catch (e: Exception) {
-            Log.e("SyncManager", "Unexpected sync exception. Disabling sync.", e)
+            logger.error("Unexpected sync exception. Disabling sync.")
+            logger.error(e)
             preferences.disableSync()
         }
     }
@@ -95,45 +84,55 @@ class SyncManager @Inject constructor(
         }
 
         if (!dirty) {
-            Log.i("SyncManager", "Local database not modified. Skipping push.")
+            logger.info("Local database not modified. Skipping push.")
             return
         }
 
-        Log.i("SyncManager", "Encrypting local database...")
-        val db = DatabaseUtils.getDatabaseFile(context)
-        val encryptedDB = db.encryptToString(encryptionKey)
+        logger.info("Encrypting local database...")
+        val encryptedDB = db.file.encryptToString(encryptionKey)
         val size = encryptedDB.length / 1024
 
         try {
-            Log.i("SyncManager", "Pushing local database (version $currVersion, $size KB)")
+            logger.info("Pushing local database (version $currVersion, $size KB)")
             assertConnected()
             server.put(preferences.syncKey, SyncData(currVersion, encryptedDB))
             dirty = false
         } catch (e: EditConflictException) {
-            Log.i("SyncManager", "Sync conflict detected while pushing.")
+            logger.info("Sync conflict detected while pushing.")
             setCurrentVersion(0)
             pull()
             push(depth = depth + 1)
         }
     }
 
-    private suspend fun pull() {
-        Log.i("SyncManager", "Querying remote database version...")
+    private suspend fun pull() = Dispatchers.IO {
+        logger.info("Querying remote database version...")
         assertConnected()
         val remoteVersion = server.getDataVersion(syncKey)
-        Log.i("SyncManager", "Remote database version: $remoteVersion")
+        logger.info("Remote database version: $remoteVersion")
 
         if (remoteVersion <= currVersion) {
-            Log.i("SyncManager", "Local database is up-to-date. Skipping merge.")
+            logger.info("Local database is up-to-date. Skipping merge.")
         } else {
-            Log.i("SyncManager", "Pulling remote database...")
+            logger.info("Pulling remote database...")
             assertConnected()
             val data = server.getData(syncKey)
             val size = data.content.length / 1024
-            Log.i("SyncManager", "Pulled remote database (version ${data.version}, $size KB)")
-            Log.i("SyncManager", "Decrypting remote database and merging with local changes...")
+            logger.info("Pulled remote database (version ${data.version}, $size KB)")
+            logger.info("Decrypting remote database and merging with local changes...")
             data.content.decryptToFile(encryptionKey, tmpFile)
-            taskRunner.execute(importDataTaskFactory.create(tmpFile) { tmpFile.delete() })
+
+            try {
+                db.beginTransaction()
+                dbImporter.importHabitsFromFile(tmpFile)
+                db.setTransactionSuccessful()
+            } catch (e: Exception) {
+                logger.error("Failed to import database")
+                logger.error(e)
+            } finally {
+                db.endTransaction()
+            }
+
             dirty = true
             setCurrentVersion(data.version + 1)
         }
@@ -144,20 +143,20 @@ class SyncManager @Inject constructor(
     fun onPause() = sync()
 
     override fun onSyncEnabled() {
-        Log.i("SyncManager", "Sync enabled.")
+        logger.info("Sync enabled.")
         setCurrentVersion(1)
         dirty = true
         sync()
     }
 
-    override fun onAvailable(network: Network) {
-        Log.i("SyncManager", "Network available.")
+    override fun onNetworkAvailable() {
+        logger.info("Network available.")
         connected = true
         sync()
     }
 
-    override fun onLost(network: Network) {
-        Log.i("SyncManager", "Network unavailable.")
+    override fun onNetworkLost() {
+        logger.info("Network unavailable.")
         connected = false
     }
 
@@ -172,7 +171,7 @@ class SyncManager @Inject constructor(
 
     private fun setCurrentVersion(v: Long) {
         currVersion = v
-        Log.i("SyncManager", "Setting local database version: $currVersion")
+        logger.info("Setting local database version: $currVersion")
     }
 }
 

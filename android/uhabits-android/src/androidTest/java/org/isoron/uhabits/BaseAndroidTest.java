@@ -35,10 +35,12 @@ import junit.framework.*;
 import org.isoron.androidbase.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.utils.*;
 import org.junit.*;
 
 import java.io.*;
@@ -99,9 +101,12 @@ public class BaseAndroidTest extends TestCase
 
         latch = new CountDownLatch(1);
 
+        Context context = targetContext.getApplicationContext();
+        File dbFile = DatabaseUtils.getDatabaseFile(context);
         appComponent = DaggerHabitsApplicationTestComponent
             .builder()
-            .appContextModule(new AppContextModule(targetContext.getApplicationContext()))
+            .appContextModule(new AppContextModule(context))
+            .habitsModule(new HabitsModule(dbFile))
             .build();
 
         HabitsApplication.Companion.setComponent(appComponent);

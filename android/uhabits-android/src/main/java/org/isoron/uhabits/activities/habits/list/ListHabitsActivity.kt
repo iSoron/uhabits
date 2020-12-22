@@ -25,11 +25,11 @@ import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.sync.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.ThemeSwitcher.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.database.*
-import org.isoron.uhabits.sync.*
 
 class ListHabitsActivity : HabitsActivity() {
 

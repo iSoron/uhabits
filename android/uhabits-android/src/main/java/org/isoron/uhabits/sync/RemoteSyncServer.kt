@@ -26,10 +26,11 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.sync.*
 
 class RemoteSyncServer(
-        private val baseURL: String,
+        private val preferences: Preferences,
         private val httpClient: HttpClient = HttpClient(Android) {
             install(JsonFeature)
         }
@@ -37,7 +38,7 @@ class RemoteSyncServer(
 
     override suspend fun register(): String = Dispatchers.IO {
         try {
-            val url = "$baseURL/register"
+            val url = "${preferences.syncBaseURL}/register"
             Log.i("RemoteSyncServer", "POST $url")
             val response: RegisterReponse = httpClient.post(url)
             return@IO response.key
@@ -48,7 +49,7 @@ class RemoteSyncServer(
 
     override suspend fun put(key: String, newData: SyncData) = Dispatchers.IO {
         try {
-            val url = "$baseURL/db/$key"
+            val url = "${preferences.syncBaseURL}/db/$key"
             Log.i("RemoteSyncServer", "PUT $url")
             val response: String = httpClient.put(url) {
                 header("Content-Type", "application/json")
@@ -66,7 +67,7 @@ class RemoteSyncServer(
 
     override suspend fun getData(key: String): SyncData = Dispatchers.IO {
         try {
-            val url = "$baseURL/db/$key"
+            val url = "${preferences.syncBaseURL}/db/$key"
             Log.i("RemoteSyncServer", "GET $url")
             val data: SyncData = httpClient.get(url)
             return@IO data
@@ -80,7 +81,7 @@ class RemoteSyncServer(
 
     override suspend fun getDataVersion(key: String): Long = Dispatchers.IO {
         try {
-            val url = "$baseURL/db/$key/version"
+            val url = "${preferences.syncBaseURL}/db/$key/version"
             Log.i("RemoteSyncServer", "GET $url")
             val response: GetDataVersionResponse = httpClient.get(url)
             return@IO response.version

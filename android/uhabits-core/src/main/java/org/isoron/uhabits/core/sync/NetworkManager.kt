@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,21 +17,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.database
+package org.isoron.uhabits.core.sync
 
-import android.database.sqlite.*
-import org.isoron.uhabits.core.database.*
-import java.io.*
-import javax.inject.*
-
-class AndroidDatabaseOpener @Inject constructor() : DatabaseOpener {
-    override fun open(file: File): AndroidDatabase {
-        return AndroidDatabase(
-                db = SQLiteDatabase.openDatabase(
-                        file.absolutePath,
-                        null,
-                        SQLiteDatabase.OPEN_READWRITE,
-                ),
-                file = file)
+interface NetworkManager {
+    fun addListener(listener: Listener)
+    fun remoteListener(listener: Listener)
+    interface Listener {
+        fun onNetworkAvailable()
+        fun onNetworkLost()
     }
 }
