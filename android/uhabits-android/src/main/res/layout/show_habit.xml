@@ -31,8 +31,63 @@
         app:popupTheme="?toolbarPopupTheme"
         android:layout_alignParentTop="true"/>
 
-    <!-- Separate file so that we can use the layout editor to preview it -->
-    <include layout="@layout/show_habit_inner"/>
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:background="?windowBackgroundColor"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            style="@style/CardList"
+            android:clipToPadding="false">
+
+            <org.isoron.uhabits.activities.habits.show.views.SubtitleCard
+                android:id="@+id/subtitleCard"
+                style="@style/ShowHabit.Subtitle"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.NotesCard
+                android:id="@+id/notesCard"
+                style="@style/Card"
+                android:gravity="center" />
+
+            <org.isoron.uhabits.activities.habits.show.views.OverviewCard
+                android:id="@+id/overviewCard"
+                style="@style/Card"
+                android:paddingTop="12dp"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.TargetCard
+                android:id="@+id/targetCard"
+                style="@style/Card"
+                android:paddingTop="12dp"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.ScoreCard
+                android:id="@+id/scoreCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.BarCard
+                android:id="@+id/barCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.HistoryCard
+                android:id="@+id/historyCard"
+                style="@style/Card"
+                android:gravity="center"
+                android:paddingBottom="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.StreakCard
+                android:id="@+id/streakCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.FrequencyCard
+                android:id="@+id/frequencyCard"
+                style="@style/Card"/>
+
+        </LinearLayout>
+    </ScrollView>
 
     <View
         android:id="@+id/toolbarShadow"

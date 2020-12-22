@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,22 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.show;
+package org.isoron.uhabits.activities.habits.show
 
-import org.isoron.uhabits.activities.*;
-import org.isoron.uhabits.core.ui.screens.habits.show.*;
-
-import dagger.*;
-
-@Module
-public abstract class ShowHabitModule
-{
-    @Binds
-    abstract ShowHabitBehavior.Screen getScreen(ShowHabitScreen screen);
-
-    @Binds
-    abstract ShowHabitMenuBehavior.Screen getMenuScreen(ShowHabitScreen screen);
-
-    @Binds
-    abstract ShowHabitMenuBehavior.System getSystem(HabitsDirFinder system);
-}
+data class ShowHabitViewModel(
+        val title: String,
+        val isNumerical: Boolean,
+)

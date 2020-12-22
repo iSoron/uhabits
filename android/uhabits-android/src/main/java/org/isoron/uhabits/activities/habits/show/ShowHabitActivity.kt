@@ -16,24 +16,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.activities.habits.show
 
-package org.isoron.uhabits.activities.habits.show;
+import android.os.*
+import org.isoron.uhabits.activities.*
 
-import android.os.*;
-
-import org.isoron.uhabits.activities.*;
-
-/**
- * Activity that allows the user to see more information about a single habit.
- * <p>
- * Shows all the metadata for the habit, in addition to several charts.
- */
-public class ShowHabitActivity extends HabitsActivity
-{
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setScreen(getComponent().getShowHabitScreen());
+class ShowHabitActivity : HabitsActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setScreen(component.showHabitScreen)
     }
 }

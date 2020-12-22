@@ -40,6 +40,7 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*
         HabitModule::class
 ), dependencies = arrayOf(HabitsApplicationComponent::class))
 interface HabitsActivityComponent {
+    val showHabitPresenter: ShowHabitPresenter
     val colorPickerDialogFactory: ColorPickerDialogFactory
     val habitCardListAdapter: HabitCardListAdapter
     val listHabitsBehavior: ListHabitsBehavior
