@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.sync
 
+import org.isoron.uhabits.core.io.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.sync.*
 
@@ -26,7 +27,10 @@ class SyncBehavior(
         val screen: Screen,
         val preferences: Preferences,
         val server: AbstractSyncServer,
+        val logging: Logging,
 ) {
+    val logger = logging.getLogger("SyncBehavior")
+
     suspend fun onResume() {
         if (preferences.syncKey.isBlank()) {
             register()
@@ -47,7 +51,8 @@ class SyncBehavior(
             preferences.enableSync(syncKey, encKey.base64)
             displayCurrentKey()
         } catch (e: Exception) {
-            screen.logError("Unexpected exception $e")
+            logger.error("Unexpected exception")
+            logger.error(e)
             screen.showErrorScreen()
         }
     }
@@ -56,6 +61,5 @@ class SyncBehavior(
         suspend fun showLoadingScreen()
         suspend fun showErrorScreen()
         suspend fun showLink(link: String)
-        fun logError(msg: String)
     }
 }

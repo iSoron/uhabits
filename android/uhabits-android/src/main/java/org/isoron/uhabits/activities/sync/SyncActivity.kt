@@ -47,14 +47,14 @@ class SyncActivity : BaseActivity(), SyncBehavior.Screen {
     private val scope = CoroutineScope(Dispatchers.Main)
     private var styledResources = StyledResources(this)
 
-    override fun onCreate(state: Bundle?) {
-        super.onCreate(state)
+    override fun onCreate(savedInstance: Bundle?) {
+        super.onCreate(savedInstance)
 
         val component = (application as HabitsApplication).component
         val preferences = component.preferences
         val server = RemoteSyncServer(preferences = preferences)
         baseScreen = BaseScreen(this)
-        behavior = SyncBehavior(this, preferences, server)
+        behavior = SyncBehavior(this, preferences, server, component.logging)
 
         binding = ActivitySyncBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -124,9 +124,5 @@ class SyncActivity : BaseActivity(), SyncBehavior.Screen {
         binding.errorPanel.visibility = View.GONE
         binding.syncLink.text = link
         showQR(link)
-    }
-
-    override fun logError(msg: String) {
-        Log.e("SyncActivity", msg)
     }
 }

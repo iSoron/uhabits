@@ -67,6 +67,8 @@ public interface HabitsApplicationComponent
 
     IntentParser getIntentParser();
 
+    Logging getLogging();
+
     MidnightTimer getMidnightTimer();
 
     ModelFactory getModelFactory();
