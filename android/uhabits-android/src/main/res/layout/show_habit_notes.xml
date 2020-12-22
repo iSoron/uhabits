@@ -30,6 +30,5 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="?highContrastTextColor"
-        android:visibility="gone"
         tools:text="This is some example text for the notes" />
 </merge>

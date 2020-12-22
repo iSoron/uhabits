@@ -1,26 +1,37 @@
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.Context
-import android.util.AttributeSet
-import android.view.View
-import android.widget.TextView
-import org.isoron.uhabits.R
-import org.isoron.uhabits.core.tasks.Task
+import android.content.*
+import android.util.*
+import android.view.*
+import android.widget.*
+import org.isoron.uhabits.activities.habits.show.*
+import org.isoron.uhabits.databinding.*
 
-class NotesCard(context: Context?, attrs: AttributeSet?) : HabitCard(context, attrs) {
+class NotesCard(
+        context: Context,
+        attrs: AttributeSet
+) : LinearLayout(context, attrs), ShowHabitPresenter.Listener {
 
-    private val notesTextView: TextView
+    private val binding = ShowHabitNotesBinding.inflate(LayoutInflater.from(context), this)
+    lateinit var presenter: ShowHabitPresenter
 
-    init {
-        View.inflate(getContext(), R.layout.show_habit_notes, this)
-        notesTextView = findViewById(R.id.habitNotes)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        presenter.addListener(this)
+        presenter.requestData(this)
     }
 
-    override fun refreshData() {
-        notesTextView.text = habit.description
-        visibility = if(habit.description.isEmpty()) View.GONE else View.VISIBLE
-        notesTextView.visibility = visibility
+    override fun onDetachedFromWindow() {
+        presenter.removeListener(this)
+        super.onDetachedFromWindow()
     }
 
-    override fun createRefreshTask(): Task = error("refresh task should never be called.")
+    override fun onData(data: ShowHabitViewModel) {
+        if (data.description.isEmpty()) {
+            visibility = GONE
+        } else {
+            visibility = VISIBLE
+            binding.habitNotes.text = data.description
+        }
+    }
 }

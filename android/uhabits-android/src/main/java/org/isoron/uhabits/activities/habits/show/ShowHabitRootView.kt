@@ -45,9 +45,9 @@ class ShowHabitRootView
         displayHomeAsUp = true
 
         binding.overviewCard.presenter = presenter
+        binding.notesCard.presenter = presenter
 
         binding.subtitleCard.habit = habit
-        binding.notesCard.habit = habit
         binding.scoreCard.habit = habit
         binding.historyCard.habit = habit
         binding.streakCard.habit = habit

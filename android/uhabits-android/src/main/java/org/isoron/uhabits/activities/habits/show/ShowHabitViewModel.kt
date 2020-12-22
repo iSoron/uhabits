@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.models.*
 
 data class ShowHabitViewModel(
         val title: String = "",
+        val description: String = "",
         val isNumerical: Boolean = false,
         val scoreToday: Float = 0f,
         val scoreMonthDiff: Float = 0f,

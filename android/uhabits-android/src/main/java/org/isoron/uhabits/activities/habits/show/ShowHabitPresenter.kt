@@ -76,6 +76,7 @@ class ShowHabitPresenter
         val scoreLastYear = scores.getValue(lastYear).toFloat()
         data = ShowHabitViewModel(
                 title = habit.name,
+                description = habit.description,
                 color = habit.color,
                 isNumerical = habit.isNumerical,
                 scoreToday = scoreToday,
