@@ -92,8 +92,7 @@ class SubtitleCard(context: Context?, attrs: AttributeSet?) : HabitCard(context,
     }
 
     private fun updateReminderText(reminder: Reminder) {
-        binding.reminderLabel.text = AndroidDateUtils.formatTime(context, reminder.hour,
-                reminder.minute)
+        binding.reminderLabel.text = formatTime(context, reminder.hour, reminder.minute)
     }
 
     override fun createRefreshTask(): Task {

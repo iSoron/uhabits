@@ -257,12 +257,11 @@ class EditHabitActivity : AppCompatActivity() {
             binding.reminderDatePicker.visibility = View.GONE
             binding.reminderDivider.visibility = View.GONE
         } else {
-            val time = AndroidDateUtils.formatTime(this, reminderHour, reminderMin)
-            val daysArray = reminderDays.toArray()
+            val time = formatTime(this, reminderHour, reminderMin)
             binding.reminderTimePicker.text = time
             binding.reminderDatePicker.visibility = View.VISIBLE
             binding.reminderDivider.visibility = View.VISIBLE
-            binding.reminderDatePicker.text = AndroidDateUtils.formatWeekdayList(this, daysArray)
+            binding.reminderDatePicker.text = reminderDays.toFormattedString(this)
         }
     }
 
