@@ -34,4 +34,7 @@ data class ShowHabitViewModel(
         val targetText: String = "",
         val frequencyText: String = "",
         val reminderText: String = "",
+        val targetCompleted: List<Double> = listOf(),
+        val targetTotal: List<Double> = listOf(),
+        val targetLabels: List<String> = listOf(),
 )

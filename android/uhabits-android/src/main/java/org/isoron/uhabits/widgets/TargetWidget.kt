@@ -38,15 +38,15 @@ class TargetWidget(
             pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
-        val widgetView = view as GraphWidgetView
-        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
-        if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
-        val chart = (widgetView.dataView as TargetChart)
-        with(TargetCard.RefreshTask(context, habit, prefs.firstWeekday, chart, null)) {
-            onPreExecute()
-            doInBackground()
-            onPostExecute()
-        }
+//        val widgetView = view as GraphWidgetView
+//        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
+//        if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
+//        val chart = (widgetView.dataView as TargetChart)
+//        with(TargetCard.RefreshTask(context, habit, prefs.firstWeekday, chart, null)) {
+//            onPreExecute()
+//            doInBackground()
+//            onPostExecute()
+//        }
     }
 
     override fun buildView(): View {

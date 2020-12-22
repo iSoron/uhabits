@@ -47,13 +47,13 @@ class ShowHabitRootView
         binding.overviewCard.presenter = presenter
         binding.notesCard.presenter = presenter
         binding.subtitleCard.presenter = presenter
+        binding.targetCard.presenter = presenter
 
         binding.scoreCard.habit = habit
         binding.historyCard.habit = habit
         binding.streakCard.habit = habit
         binding.frequencyCard.habit = habit
         binding.barCard.habit = habit
-        binding.targetCard.habit = habit
 
         initToolbar()
     }

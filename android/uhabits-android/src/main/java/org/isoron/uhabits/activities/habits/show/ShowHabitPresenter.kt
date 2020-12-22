@@ -21,12 +21,12 @@ package org.isoron.uhabits.activities.habits.show
 
 import android.annotation.*
 import android.content.*
-import android.content.res.*
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 import java.util.*
@@ -37,6 +37,7 @@ class ShowHabitPresenter
 @Inject constructor(
         val habit: Habit,
         val commandRunner: CommandRunner,
+        val preferences: Preferences,
         @ActivityContext val context: Context,
 ) : CommandRunner.Listener {
 
@@ -76,18 +77,60 @@ class ShowHabitPresenter
     }
 
     private fun refresh() {
-        val scores = habit.scores
         val today = DateUtils.getTodayWithOffset()
         val lastMonth = today.minus(30)
         val lastYear = today.minus(365)
-        val scoreToday = scores.todayValue.toFloat()
-        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
-        val scoreLastYear = scores.getValue(lastYear).toFloat()
+
         val reminderText = if (habit.hasReminder()) {
             formatTime(context, habit.reminder.hour, habit.reminder.minute)!!
         } else {
             resources.getString(R.string.reminder_off)
         }
+
+        val scores = habit.scores
+        val scoreToday = scores.todayValue.toFloat()
+        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
+        val scoreLastYear = scores.getValue(lastYear).toFloat()
+
+        val checkmarks = habit.checkmarks
+        val valueToday = checkmarks.todayValue / 1e3
+        val valueThisWeek = checkmarks.getThisWeekValue(preferences.firstWeekday) / 1e3
+        val valueThisMonth = checkmarks.thisMonthValue / 1e3
+        val valueThisQuarter = checkmarks.thisQuarterValue / 1e3
+        val valueThisYear = checkmarks.thisYearValue / 1e3
+
+        val cal = DateUtils.getStartOfTodayCalendarWithOffset()
+        val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+        val daysInQuarter = 91
+        val daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
+
+        val targetToday = habit.getTargetValue() / habit.frequency.denominator
+        val targetThisWeek = targetToday * 7
+        val targetThisMonth = targetToday * daysInMonth
+        val targetThisQuarter = targetToday * daysInQuarter
+        val targetThisYear = targetToday * daysInYear
+
+        val targetCompleted = ArrayList<Double>()
+        if (habit.frequency.denominator <= 1) targetCompleted.add(valueToday)
+        if (habit.frequency.denominator <= 7) targetCompleted.add(valueThisWeek)
+        targetCompleted.add(valueThisMonth)
+        targetCompleted.add(valueThisQuarter)
+        targetCompleted.add(valueThisYear)
+
+        val targetTotal = ArrayList<Double>()
+        if (habit.frequency.denominator <= 1) targetTotal.add(targetToday)
+        if (habit.frequency.denominator <= 7) targetTotal.add(targetThisWeek)
+        targetTotal.add(targetThisMonth)
+        targetTotal.add(targetThisQuarter)
+        targetTotal.add(targetThisYear)
+
+        val targetLabels = ArrayList<String>()
+        if (habit.frequency.denominator <= 1) targetLabels.add(resources.getString(R.string.today))
+        if (habit.frequency.denominator <= 7) targetLabels.add(resources.getString(R.string.week))
+        targetLabels.add(resources.getString(R.string.month))
+        targetLabels.add(resources.getString(R.string.quarter))
+        targetLabels.add(resources.getString(R.string.year))
+
         data = ShowHabitViewModel(
                 title = habit.name,
                 description = habit.description,
@@ -101,6 +144,9 @@ class ShowHabitPresenter
                 targetText = "${habit.targetValue.toShortString()} ${habit.unit}",
                 frequencyText = habit.frequency.format(),
                 reminderText = reminderText,
+                targetCompleted = targetCompleted,
+                targetTotal = targetTotal,
+                targetLabels = targetLabels,
         )
     }
 
