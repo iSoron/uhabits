@@ -19,7 +19,14 @@
 
 package org.isoron.uhabits.activities.habits.show
 
+import org.isoron.uhabits.core.models.*
+
 data class ShowHabitViewModel(
-        val title: String,
-        val isNumerical: Boolean,
+        val title: String = "",
+        val isNumerical: Boolean = false,
+        val scoreToday: Float = 0f,
+        val scoreMonthDiff: Float = 0f,
+        val scoreYearDiff: Float = 0f,
+        val totalCount: Long = 0L,
+        val color: PaletteColor = PaletteColor(1),
 )

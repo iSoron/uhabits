@@ -71,9 +71,14 @@ public class AttributeSetUtils
                                           @NonNull String name,
                                           float defaultValue)
     {
-        String number = getAttribute(context, attrs, name, null);
-        if (number != null) return Float.parseFloat(number);
-        else return defaultValue;
+        try
+        {
+            String number = getAttribute(context, attrs, name, null);
+            if (number != null) return Float.parseFloat(number);
+            else return defaultValue;
+        } catch(NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     public static int getIntAttribute(@NonNull Context context,

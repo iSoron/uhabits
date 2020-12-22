@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.show
 
 import org.isoron.androidbase.activities.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 import javax.inject.*
 
 @ActivityScope
@@ -30,10 +31,24 @@ class ShowHabitPresenter
 ) {
     private val listeners = mutableListOf<Listener>()
 
-    private fun build() = ShowHabitViewModel(
-            title = habit.name,
-            isNumerical = habit.isNumerical,
-    )
+    private fun build(): ShowHabitViewModel {
+        val scores = habit.scores
+        val today = DateUtils.getTodayWithOffset()
+        val lastMonth = today.minus(30)
+        val lastYear = today.minus(365)
+        val scoreToday = scores.todayValue.toFloat()
+        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
+        val scoreLastYear = scores.getValue(lastYear).toFloat()
+        return ShowHabitViewModel(
+                title = habit.name,
+                color = habit.color,
+                isNumerical = habit.isNumerical,
+                scoreToday = scoreToday,
+                scoreMonthDiff = scoreToday - scoreLastMonth,
+                scoreYearDiff = scoreToday - scoreLastYear,
+                totalCount = habit.repetitions.totalCount,
+        )
+    }
 
     fun addListener(listener: Listener) {
         listeners.add(listener)
