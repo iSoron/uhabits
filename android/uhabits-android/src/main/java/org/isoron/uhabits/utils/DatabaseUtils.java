@@ -42,28 +42,6 @@ public abstract class DatabaseUtils
     @Nullable
     private static HabitsDatabaseOpener opener = null;
 
-    @Deprecated
-    public static void executeAsTransaction(Callback callback)
-    {
-        try (SQLiteDatabase db = openDatabase())
-        {
-            db.beginTransaction();
-            try
-            {
-                callback.execute();
-                db.setTransactionSuccessful();
-            }
-            catch (Exception e)
-            {
-                throw new RuntimeException(e);
-            }
-            finally
-            {
-                db.endTransaction();
-            }
-        }
-    }
-
     @NonNull
     public static File getDatabaseFile(Context context)
     {
@@ -113,15 +91,5 @@ public abstract class DatabaseUtils
     {
         if (opener == null) throw new IllegalStateException();
         return opener.getWritableDatabase();
-    }
-
-    public static void dispose()
-    {
-        opener = null;
-    }
-
-    public interface Callback
-    {
-        void execute() throws Exception;
     }
 }
