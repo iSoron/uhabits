@@ -21,12 +21,12 @@ package org.isoron.uhabits.activities.common.views;
 
 import android.content.*;
 import android.graphics.*;
+import android.graphics.Color;
 import android.graphics.Paint.*;
 import android.util.*;
 import android.view.*;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.annotation.*;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;

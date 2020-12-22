@@ -37,14 +37,14 @@ public class ChangeHabitColorCommand extends Command
     final List<Habit> selected;
 
     @NonNull
-    final List<Integer> originalColors;
+    final List<PaletteColor> originalColors;
 
     @NonNull
-    final Integer newColor;
+    final PaletteColor newColor;
 
     public ChangeHabitColorCommand(@NonNull HabitList habitList,
                                    @NonNull List<Habit> selected,
-                                   @NonNull Integer newColor)
+                                   @NonNull PaletteColor newColor)
     {
         this.habitList = habitList;
         this.selected = selected;
@@ -92,7 +92,7 @@ public class ChangeHabitColorCommand extends Command
         public Record(ChangeHabitColorCommand command)
         {
             id = command.getId();
-            color = command.newColor;
+            color = command.newColor.getPaletteIndex();
             habits = new LinkedList<>();
             for (Habit h : command.selected)
             {
@@ -107,7 +107,7 @@ public class ChangeHabitColorCommand extends Command
             for (Long id : this.habits) selected.add(habitList.getById(id));
 
             ChangeHabitColorCommand command;
-            command = new ChangeHabitColorCommand(habitList, selected, color);
+            command = new ChangeHabitColorCommand(habitList, selected, new PaletteColor(color));
             command.setId(id);
             return command;
         }

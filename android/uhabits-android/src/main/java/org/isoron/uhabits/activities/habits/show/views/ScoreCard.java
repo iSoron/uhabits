@@ -160,8 +160,7 @@ public class ScoreCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            int color =
-                PaletteUtils.getColor(getContext(), getHabit().getColor());
+            int color = PaletteUtilsKt.toThemedAndroidColor(getHabit().getColor(), getContext());
             title.setTextColor(color);
             chart.setColor(color);
         }

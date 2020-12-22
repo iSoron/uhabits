@@ -131,7 +131,7 @@ public class HistoryCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            int color = PaletteUtils.getColor(getContext(), habit.getColor());
+            int color = PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), getContext());
             title.setTextColor(color);
             chart.setColor(color);
             if(habit.isNumerical())

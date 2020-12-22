@@ -48,7 +48,7 @@ class EditHabitActivity : AppCompatActivity() {
     var habitId = -1L
     var habitType = -1
     var unit = ""
-    var paletteColor = 11
+    var color = PaletteColor(11)
     var androidColor = 0
     var freqNum = 1
     var freqDen = 1
@@ -71,7 +71,7 @@ class EditHabitActivity : AppCompatActivity() {
             habitId = intent.getLongExtra("habitId", -1)
             val habit = component.habitList.getById(habitId)!!
             habitType = habit.type
-            paletteColor = habit.color
+            color = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
             if (habit.hasReminder()) {
@@ -91,7 +91,7 @@ class EditHabitActivity : AppCompatActivity() {
         if (state != null) {
             habitId = state.getLong("habitId")
             habitType = state.getInt("habitType")
-            paletteColor = state.getInt("paletteColor")
+            color = PaletteColor(state.getInt("paletteColor"))
             freqNum = state.getInt("freqNum")
             freqDen = state.getInt("freqDen")
             reminderHour = state.getInt("reminderHour")
@@ -117,9 +117,9 @@ class EditHabitActivity : AppCompatActivity() {
 
         val colorPickerDialogFactory = ColorPickerDialogFactory(this)
         binding.colorButton.setOnClickListener {
-            val dialog = colorPickerDialogFactory.create(paletteColor)
+            val dialog = colorPickerDialogFactory.create(color)
             dialog.setListener { paletteColor ->
-                this.paletteColor = paletteColor
+                this.color = paletteColor
                 updateColors()
             }
             dialog.show(supportFragmentManager, "colorPicker")
@@ -165,6 +165,7 @@ class EditHabitActivity : AppCompatActivity() {
                     reminderMin = minute
                     populateReminder()
                 }
+
                 override fun onTimeCleared(view: RadialPickerLayout?) {
                     reminderHour = -1
                     reminderMin = -1
@@ -208,7 +209,7 @@ class EditHabitActivity : AppCompatActivity() {
         habit.name = nameInput.text.trim().toString()
         habit.question = questionInput.text.trim().toString()
         habit.description = notesInput.text.trim().toString()
-        habit.color = paletteColor
+        habit.color = color
         if (reminderHour >= 0) {
             habit.setReminder(Reminder(reminderHour, reminderMin, reminderDays))
         } else {
@@ -283,7 +284,7 @@ class EditHabitActivity : AppCompatActivity() {
     }
 
     private fun updateColors() {
-        androidColor = PaletteUtils.getColor(this, paletteColor)
+        androidColor = color.toThemedAndroidColor(this)
         binding.colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
         if (!themeSwitcher.isNightMode) {
             val darkerAndroidColor = ColorUtils.mixColors(Color.BLACK, androidColor, 0.15f)
@@ -297,7 +298,7 @@ class EditHabitActivity : AppCompatActivity() {
         with(state) {
             putLong("habitId", habitId)
             putInt("habitType", habitType)
-            putInt("paletteColor", paletteColor)
+            putInt("paletteColor", color.paletteIndex)
             putInt("androidColor", androidColor)
             putInt("freqNum", freqNum)
             putInt("freqDen", freqDen)

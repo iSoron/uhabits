@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.common.dialogs;
 
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.utils.*;
 
@@ -31,8 +32,8 @@ public class ColorPickerDialog extends com.android.colorpicker.ColorPickerDialog
     {
         super.setOnColorSelectedListener(c ->
         {
-            c = PaletteUtils.colorToPaletteIndex(getContext(), c);
-            callback.onColorPicked(c);
+            PaletteColor pc = PaletteUtilsKt.toPaletteColor(c, getContext());
+            callback.onColorPicked(pc);
         });
     }
 }

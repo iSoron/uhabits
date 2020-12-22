@@ -19,7 +19,9 @@
 
 package org.isoron.uhabits.core.ui.callbacks;
 
+import org.isoron.uhabits.core.models.*;
+
 public interface OnColorPickedCallback
 {
-    void onColorPicked(int color);
+    void onColorPicked(PaletteColor color);
 }

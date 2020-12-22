@@ -19,10 +19,8 @@
 
 package org.isoron.uhabits.activities.common.views;
 
+import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
-import androidx.test.runner.*;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
@@ -49,7 +47,7 @@ public class FrequencyChartTest extends BaseViewTest
 
         view = new FrequencyChart(targetContext);
         view.setFrequency(habit.getRepetitions().getWeekdayFrequency());
-        view.setColor(PaletteUtils.getAndroidTestColor(habit.getColor()));
+        view.setColor(PaletteUtilsKt.toFixedAndroidColor(habit.getColor()));
         measureView(view, dpToPixels(300), dpToPixels(100));
     }
 

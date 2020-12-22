@@ -25,9 +25,9 @@ import android.graphics.*
 import android.graphics.BitmapFactory.*
 import android.os.*
 import android.os.Build.VERSION.*
+import android.util.*
 import androidx.core.app.*
 import androidx.core.app.NotificationCompat.*
-import android.util.*
 import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.*
@@ -44,7 +44,7 @@ class AndroidNotificationTray
         private val pendingIntents: PendingIntentFactory,
         private val preferences: Preferences,
         private val ringtoneManager: RingtoneManager
-                   ) : NotificationTray.SystemTray {
+) : NotificationTray.SystemTray {
     private var active = HashSet<Int>()
 
     override fun log(msg: String) {

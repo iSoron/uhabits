@@ -43,7 +43,7 @@ class FrequencyWidget(
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as FrequencyChart).apply {
             setFirstWeekday(firstWeekday)
-            setColor(PaletteUtils.getColor(context, habit.color))
+            setColor(habit.color.toThemedAndroidColor(context))
             setFrequency(habit.repetitions.weekdayFrequency)
         }
     }

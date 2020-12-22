@@ -173,7 +173,7 @@ public class OverviewCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            color = PaletteUtils.getColor(getContext(), getHabit().getColor());
+            color = PaletteUtilsKt.toThemedAndroidColor(getHabit().getColor(), getContext());
             refreshColors();
         }
     }

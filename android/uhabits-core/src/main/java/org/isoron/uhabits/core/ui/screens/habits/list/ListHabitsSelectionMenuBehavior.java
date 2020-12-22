@@ -133,7 +133,7 @@ public class ListHabitsSelectionMenuBehavior
 
     public interface Screen
     {
-        void showColorPicker(int defaultColor,
+        void showColorPicker(PaletteColor defaultColor,
                              @NonNull OnColorPickedCallback callback);
 
         void showDeleteConfirmationScreen(

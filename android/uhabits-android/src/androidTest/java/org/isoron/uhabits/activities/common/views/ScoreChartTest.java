@@ -54,7 +54,7 @@ public class ScoreChartTest extends BaseViewTest
 
         view = new ScoreChart(targetContext);
         view.setScores(habit.getScores().toList());
-        view.setColor(PaletteUtils.getColor(targetContext, habit.getColor()));
+        view.setColor(PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), targetContext));
         view.setBucketSize(7);
         measureView(view, dpToPixels(300), dpToPixels(200));
     }

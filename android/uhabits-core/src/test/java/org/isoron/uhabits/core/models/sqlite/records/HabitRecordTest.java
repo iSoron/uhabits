@@ -37,7 +37,7 @@ public class HabitRecordTest extends BaseUnitTest
         Habit original = modelFactory.buildHabit();
         original.setName("Hello world");
         original.setQuestion("Did you greet the world today?");
-        original.setColor(1);
+        original.setColor(new PaletteColor(1));
         original.setArchived(true);
         original.setFrequency(Frequency.THREE_TIMES_PER_WEEK);
         original.setReminder(new Reminder(8, 30, WeekdayList.EVERY_DAY));
@@ -59,7 +59,7 @@ public class HabitRecordTest extends BaseUnitTest
         Habit original = modelFactory.buildHabit();
         original.setName("Hello world");
         original.setQuestion("Did you greet the world today?");
-        original.setColor(5);
+        original.setColor(new PaletteColor(5));
         original.setArchived(false);
         original.setFrequency(Frequency.DAILY);
         original.setReminder(null);

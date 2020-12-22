@@ -44,7 +44,7 @@ open class CheckmarkWidget(
         (v as CheckmarkWidgetView).apply {
             setBackgroundAlpha(preferedBackgroundAlpha)
 
-            setActiveColor(PaletteUtils.getColor(context, habit.color))
+            setActiveColor(habit.color.toThemedAndroidColor(context))
             setName(habit.name)
             setCheckmarkValue(habit.checkmarks.todayValue)
             if (habit.isNumerical) {

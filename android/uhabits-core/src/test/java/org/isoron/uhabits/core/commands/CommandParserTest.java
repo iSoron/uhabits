@@ -66,7 +66,7 @@ public class CommandParserTest extends BaseUnitTest
     public void testDecodeChangeColorCommand() throws JSONException
     {
         ChangeHabitColorCommand original, decoded;
-        original = new ChangeHabitColorCommand(habitList, selected, 20);
+        original = new ChangeHabitColorCommand(habitList, selected, new PaletteColor(20));
         decoded = (ChangeHabitColorCommand) parser.parse(original.toJson());
 
         MatcherAssert.assertThat(decoded.getId(), equalTo(original.getId()));
@@ -122,7 +122,7 @@ public class CommandParserTest extends BaseUnitTest
     {
         Habit modified = modelFactory.buildHabit();
         modified.setName("Edited JSON");
-        modified.setColor(2);
+        modified.setColor(new PaletteColor(2));
 
         EditHabitCommand original, decoded;
         original = new EditHabitCommand(modelFactory, habitList, habit, modified);

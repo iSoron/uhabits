@@ -94,15 +94,15 @@ public class ListHabitsSelectionMenuBehaviorTest extends BaseUnitTest
     @Test
     public void onChangeColor() throws Exception
     {
-        assertThat(habit1.getColor(), equalTo(8));
-        assertThat(habit2.getColor(), equalTo(8));
+        assertThat(habit1.getColor(), equalTo(new PaletteColor(8)));
+        assertThat(habit2.getColor(), equalTo(new PaletteColor(8)));
         when(adapter.getSelected()).thenReturn(asList(habit1, habit2));
 
         behavior.onChangeColor();
 
-        verify(screen).showColorPicker(eq(8), colorPickerCallback.capture());
-        colorPickerCallback.getValue().onColorPicked(30);
-        assertThat(habit1.getColor(), equalTo(30));
+        verify(screen).showColorPicker(eq(new PaletteColor(8)), colorPickerCallback.capture());
+        colorPickerCallback.getValue().onColorPicked(new PaletteColor(30));
+        assertThat(habit1.getColor(), equalTo(new PaletteColor(30)));
     }
 
     @Test

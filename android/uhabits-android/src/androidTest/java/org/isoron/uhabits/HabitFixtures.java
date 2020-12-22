@@ -56,7 +56,7 @@ public class HabitFixtures
         habit.setName("Meditate");
         habit.setQuestion("Did you meditate this morning?");
         habit.setDescription("This is a test description");
-        habit.setColor(5);
+        habit.setColor(new PaletteColor(5));
         habit.setFrequency(Frequency.DAILY);
         habit.setId(id);
         habitList.add(habit);
@@ -67,7 +67,7 @@ public class HabitFixtures
     {
         Habit habit = createEmptyHabit();
         habit.setFrequency(new Frequency(3, 7));
-        habit.setColor(7);
+        habit.setColor(new PaletteColor(7));
 
         Timestamp today = DateUtils.getToday();
         int marks[] = { 0, 1, 3, 5, 7, 8, 9, 10, 12, 14, 15, 17, 19, 20, 26, 27,
@@ -84,7 +84,7 @@ public class HabitFixtures
     {
         Habit habit = createEmptyHabit();
         habit.setFrequency(new Frequency(1, 2));
-        habit.setColor(11);
+        habit.setColor(new PaletteColor(11));
 
         Timestamp today = DateUtils.getToday();
         int marks[] = {0, 3, 5, 6, 7, 10, 13, 14, 15, 18, 21, 22, 23, 24, 27, 28, 30, 31, 34, 37,

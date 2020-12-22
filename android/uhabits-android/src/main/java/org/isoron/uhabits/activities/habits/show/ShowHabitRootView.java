@@ -104,7 +104,7 @@ public class ShowHabitRootView extends BaseRootView
         if (!res.getBoolean(R.attr.useHabitColorAsPrimary))
             return super.getToolbarColor();
 
-        return PaletteUtils.getColor(getContext(), habit.getColor());
+        return PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), getContext());
     }
 
     @Override

@@ -45,12 +45,12 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
         for (int i = 0; i < 3; i++)
         {
             Habit habit = fixtures.createShortHabit();
-            habit.setColor(i + 1);
+            habit.setColor(new PaletteColor(i + 1));
             selected.add(habit);
             habitList.add(habit);
         }
 
-        command = new ChangeHabitColorCommand(habitList, selected, 0);
+        command = new ChangeHabitColorCommand(habitList, selected, new PaletteColor(0));
     }
 
     @Test
@@ -81,13 +81,13 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
     private void checkNewColors()
     {
         for (Habit h : selected)
-            assertThat(h.getColor(), equalTo(0));
+            assertThat(h.getColor(), equalTo(new PaletteColor(0)));
     }
 
     private void checkOriginalColors()
     {
         int k = 0;
         for (Habit h : selected)
-            assertThat(h.getColor(), equalTo(++k));
+            assertThat(h.getColor(), equalTo(new PaletteColor(++k)));
     }
 }

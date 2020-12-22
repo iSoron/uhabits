@@ -48,7 +48,7 @@ public class StreakChartTest extends BaseViewTest
         Habit habit = fixtures.createLongHabit();
 
         view = new StreakChart(targetContext);
-        view.setColor(PaletteUtils.getAndroidTestColor(habit.getColor()));
+        view.setColor(PaletteUtilsKt.toFixedAndroidColor(habit.getColor()));
         view.setStreaks(habit.getStreaks().getBest(5));
         measureView(view, dpToPixels(300), dpToPixels(100));
     }

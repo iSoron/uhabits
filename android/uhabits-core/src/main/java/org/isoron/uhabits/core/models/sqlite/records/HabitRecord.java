@@ -90,7 +90,7 @@ public class HabitRecord
         this.name = model.getName();
         this.description = model.getDescription();
         this.highlight = 0;
-        this.color = model.getColor();
+        this.color = model.getColor().getPaletteIndex();
         this.archived = model.isArchived() ? 1 : 0;
         this.type = model.getType();
         this.targetType = model.getTargetType();
@@ -123,7 +123,7 @@ public class HabitRecord
         habit.setDescription(this.description);
         habit.setQuestion(this.question);
         habit.setFrequency(new Frequency(this.freqNum, this.freqDen));
-        habit.setColor(this.color);
+        habit.setColor(new PaletteColor(this.color));
         habit.setArchived(this.archived != 0);
         habit.setType(this.type);
         habit.setTargetType(this.targetType);

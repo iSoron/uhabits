@@ -202,7 +202,7 @@ class ListHabitsScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
-    override fun showColorPicker(defaultColor: Int,
+    override fun showColorPicker(defaultColor: PaletteColor,
                                  callback: OnColorPickedCallback) {
         val picker = colorPickerFactory.create(defaultColor)
         picker.setListener(callback)

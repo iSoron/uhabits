@@ -79,7 +79,7 @@ class HabitCardViewTest : BaseViewTest() {
     @Test
     fun testChangeModel() {
         habit1.name = "Wake up early"
-        habit1.color = 2
+        habit1.color = PaletteColor(2)
         habit1.observable.notifyListeners()
         Thread.sleep(500)
         assertRenders(view, "$PATH/render_changed.png")

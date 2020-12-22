@@ -171,7 +171,7 @@ public class TargetCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            int color = PaletteUtils.getColor(context, habit.getColor());
+            int color = PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), context);
             if(title != null) title.setTextColor(color);
             chart.setColor(color);
         }

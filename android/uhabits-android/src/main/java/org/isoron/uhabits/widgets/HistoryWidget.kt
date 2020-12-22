@@ -45,7 +45,7 @@ class HistoryWidget(
         (widgetView.dataView as HistoryChart).apply {
             setFirstWeekday(firstWeekday)
             setSkipEnabled(prefs.isSkipEnabled)
-            setColor(PaletteUtils.getColor(context, habit.color))
+            setColor(habit.color.toThemedAndroidColor(context))
             setCheckmarks(habit.checkmarks.allValues)
             setNumerical(habit.isNumerical)
             setTarget(habit.targetValue / habit.frequency.denominator)

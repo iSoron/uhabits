@@ -179,7 +179,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             if (getContext() == null || habit == null || historyChart == null)
                 return;
 
-            int color = PaletteUtils.getColor(getContext(), habit.getColor());
+            int color = PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), getContext());
             historyChart.setColor(color);
             historyChart.setCheckmarks(checkmarks);
             historyChart.setNumerical(habit.isNumerical());

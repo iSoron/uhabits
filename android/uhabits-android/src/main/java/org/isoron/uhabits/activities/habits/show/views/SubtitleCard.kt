@@ -30,7 +30,6 @@ import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
-import org.isoron.uhabits.utils.PaletteUtils.getColor
 import java.util.*
 
 class SubtitleCard(context: Context?, attrs: AttributeSet?) : HabitCard(context, attrs) {
@@ -43,7 +42,7 @@ class SubtitleCard(context: Context?, attrs: AttributeSet?) : HabitCard(context,
 
     public override fun refreshData() {
         val habit = habit
-        val color = getColor(context, habit.color)
+        val color = habit.color.toThemedAndroidColor(context)
         if (habit.isNumerical) {
             binding.targetText.text = "${habit.targetValue.toShortString()} ${habit.unit}"
         } else {

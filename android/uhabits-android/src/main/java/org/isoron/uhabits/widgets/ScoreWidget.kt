@@ -50,7 +50,7 @@ class ScoreWidget(
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(size)
-            setColor(PaletteUtils.getColor(context, habit.color))
+            setColor(habit.color.toThemedAndroidColor(context))
             setScores(scores)
         }
     }

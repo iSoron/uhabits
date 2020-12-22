@@ -100,7 +100,7 @@ public class StreakCard extends HabitCard
         public void onPreExecute()
         {
             int color =
-                PaletteUtils.getColor(getContext(), getHabit().getColor());
+                PaletteUtilsKt.toThemedAndroidColor(getHabit().getColor(), getContext());
             title.setTextColor(color);
             streakChart.setColor(color);
         }

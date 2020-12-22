@@ -47,7 +47,7 @@ public class TargetWidgetTest extends BaseViewTest
         prefs.setWidgetOpacity(255);
 
         habit = fixtures.createLongNumericalHabit();
-        habit.setColor(11);
+        habit.setColor(new PaletteColor(11));
         TargetWidget widget = new TargetWidget(targetContext, 0, habit);
         view = convertToView(widget, 400, 400);
     }

@@ -42,7 +42,7 @@ class StreakWidget(
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as StreakChart).apply {
-            setColor(PaletteUtils.getColor(context, habit.color))
+            setColor(habit.color.toThemedAndroidColor(context))
             setStreaks(habit.streaks.getBest(maxStreakCount))
         }
     }

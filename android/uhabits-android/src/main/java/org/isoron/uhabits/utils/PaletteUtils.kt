@@ -4,18 +4,25 @@ import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import org.isoron.androidbase.utils.StyledResources
+import org.isoron.uhabits.core.models.*
 
 object PaletteUtils {
-
     @JvmStatic
-    fun colorToPaletteIndex(context: Context, color: Int): Int {
-        val palette = StyledResources(context).getPalette()
-        return palette.indexOf(color)
+    fun getAndroidTestColor(index: Int) = PaletteColor(index).toFixedAndroidColor()
+}
+
+fun PaletteColor.toThemedAndroidColor(context: Context): Int {
+    val palette = StyledResources(context).getPalette()
+    return if (paletteIndex in palette.indices) {
+        palette[paletteIndex]
+    } else {
+        Log.w("ColorHelper", "Invalid color: $paletteIndex. Returning default.")
+        palette[0]
     }
+}
 
-    @JvmStatic
-    fun getAndroidTestColor(index: Int): Int {
-        val palette = intArrayOf(
+fun PaletteColor.toFixedAndroidColor(): Int {
+    return intArrayOf(
             Color.parseColor("#D32F2F"), //  0 red
             Color.parseColor("#E64A19"), //  1 deep orange
             Color.parseColor("#F57C00"), //  2 orange
@@ -36,19 +43,10 @@ object PaletteUtils {
             Color.parseColor("#303030"), // 17 dark grey
             Color.parseColor("#757575"), // 18 grey
             Color.parseColor("#aaaaaa")  // 19 light grey
-        )
+    )[paletteIndex]
+}
 
-        return palette[index]
-    }
-
-    @JvmStatic
-    fun getColor(context: Context, paletteColor: Int): Int {
-        val palette = StyledResources(context).getPalette()
-        return if (paletteColor in palette.indices) {
-            palette[paletteColor]
-        } else {
-            Log.w("ColorHelper", "Invalid color: $paletteColor. Returning default.")
-            palette[0]
-        }
-    }
+fun Int.toPaletteColor(context: Context): PaletteColor {
+    val palette = StyledResources(context).getPalette()
+    return PaletteColor(palette.indexOf(this))
 }

@@ -113,22 +113,22 @@ public class HabitListTest extends BaseUnitTest
     {
         Habit h1 = fixtures.createEmptyHabit();
         h1.setName("A Habit");
-        h1.setColor(2);
+        h1.setColor(new PaletteColor(2));
         h1.setPosition(1);
 
         Habit h2 = fixtures.createEmptyHabit();
         h2.setName("B Habit");
-        h2.setColor(2);
+        h2.setColor(new PaletteColor(2));
         h2.setPosition(3);
 
         Habit h3 = fixtures.createEmptyHabit();
         h3.setName("C Habit");
-        h3.setColor(0);
+        h3.setColor(new PaletteColor(0));
         h3.setPosition(0);
 
         Habit h4 = fixtures.createEmptyHabit();
         h4.setName("D Habit");
-        h4.setColor(1);
+        h4.setColor(new PaletteColor(1));
         h4.setPosition(2);
 
         HabitList list = modelFactory.buildHabitList();
@@ -246,14 +246,14 @@ public class HabitListTest extends BaseUnitTest
         h1.setQuestion("Did you meditate this morning?");
         h1.setDescription("this is a test description");
         h1.setFrequency(Frequency.DAILY);
-        h1.setColor(3);
+        h1.setColor(new PaletteColor(3));
 
         Habit h2 = fixtures.createEmptyHabit();
         h2.setName("Wake up early");
         h2.setQuestion("Did you wake up before 6am?");
         h2.setDescription("");
         h2.setFrequency(new Frequency(2, 3));
-        h2.setColor(5);
+        h2.setColor(new PaletteColor(5));
 
         list.add(h1);
         list.add(h2);

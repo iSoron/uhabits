@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.common.views;
 
 import androidx.test.filters.*;
-import androidx.test.runner.*;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -49,7 +48,7 @@ public class BarChartTest extends BaseViewTest
         Timestamp today = DateUtils.getToday();
         CheckmarkList checkmarks = habit.getCheckmarks();
         view.setCheckmarks(checkmarks.getByInterval(today.minus(20), today));
-        view.setColor(PaletteUtils.getColor(targetContext, habit.getColor()));
+        view.setColor(PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), targetContext));
         view.setTarget(200.0);
         measureView(view, dpToPixels(300), dpToPixels(200));
     }

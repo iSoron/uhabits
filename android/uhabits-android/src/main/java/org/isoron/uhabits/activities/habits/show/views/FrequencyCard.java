@@ -102,8 +102,7 @@ public class FrequencyCard extends HabitCard
         @Override
         public void onPreExecute()
         {
-            int paletteColor = getHabit().getColor();
-            int color = PaletteUtils.getColor(getContext(), paletteColor);
+            int color = PaletteUtilsKt.toThemedAndroidColor(getHabit().getColor(), getContext());
             title.setTextColor(color);
             chart.setColor(color);
         }

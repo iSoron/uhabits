@@ -24,6 +24,7 @@ import android.content.*;
 import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.utils.*;
 
 import javax.inject.*;
@@ -39,14 +40,14 @@ public class ColorPickerDialogFactory
         this.context = context;
     }
 
-    public ColorPickerDialog create(int paletteColor)
+    public ColorPickerDialog create(PaletteColor color)
     {
         ColorPickerDialog dialog = new ColorPickerDialog();
         StyledResources res = new StyledResources(context);
-        int color = PaletteUtils.getColor(context, paletteColor);
+        int androidColor = PaletteUtilsKt.toThemedAndroidColor(color, context);
 
         dialog.initialize(R.string.color_picker_default_title, res.getPalette(),
-            color, 4, com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);
+            androidColor, 4, com.android.colorpicker.ColorPickerDialog.SIZE_SMALL);
 
         return dialog;
     }

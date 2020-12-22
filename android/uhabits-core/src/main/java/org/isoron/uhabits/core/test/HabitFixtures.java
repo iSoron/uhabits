@@ -46,7 +46,7 @@ public class HabitFixtures
         Habit habit = modelFactory.buildHabit();
         habit.setName("Meditate");
         habit.setQuestion("Did you meditate this morning?");
-        habit.setColor(3);
+        habit.setColor(new PaletteColor(3));
         habit.setFrequency(Frequency.DAILY);
         saveIfSQLite(habit);
 
@@ -57,7 +57,7 @@ public class HabitFixtures
     {
         Habit habit = createEmptyHabit();
         habit.setFrequency(new Frequency(3, 7));
-        habit.setColor(4);
+        habit.setColor(new PaletteColor(4));
 
         Timestamp today = DateUtils.getToday();
         int marks[] = {0, 1, 3, 5, 7, 8, 9, 10, 12, 14, 15, 17, 19, 20, 26, 27,
@@ -79,7 +79,7 @@ public class HabitFixtures
         habit.setUnit("miles");
         habit.setTargetType(Habit.AT_LEAST);
         habit.setTargetValue(2.0);
-        habit.setColor(1);
+        habit.setColor(new PaletteColor(1));
         saveIfSQLite(habit);
 
         Timestamp today = DateUtils.getToday();
@@ -104,7 +104,7 @@ public class HabitFixtures
         habit.setUnit("steps");
         habit.setTargetType(Habit.AT_LEAST);
         habit.setTargetValue(100);
-        habit.setColor(1);
+        habit.setColor(new PaletteColor(1));
         saveIfSQLite(habit);
 
         int times[] = {0, 5, 9, 15, 17, 21, 23, 27, 28, 35, 41, 45, 47, 53, 56, 62, 70, 73, 78,

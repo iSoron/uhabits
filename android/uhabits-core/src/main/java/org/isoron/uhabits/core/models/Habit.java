@@ -123,21 +123,13 @@ public class Habit
         return checkmarks;
     }
 
-    /**
-     * Color of the habit.
-     * <p>
-     * This number is not an android.graphics.Color, but an index to the
-     * activity color palette, which changes according to the theme. To convert
-     * this color into an android.graphics.Color, use ColorHelper.getColor(context,
-     * habit.color).
-     */
     @NonNull
-    public synchronized Integer getColor()
+    public synchronized PaletteColor getColor()
     {
         return data.color;
     }
 
-    public synchronized void setColor(@NonNull Integer color)
+    public synchronized void setColor(@NonNull PaletteColor color)
     {
         data.color = color;
     }
@@ -391,7 +383,7 @@ public class Habit
         @NonNull
         public Frequency frequency;
 
-        public int color;
+        public PaletteColor color;
 
         public boolean archived;
 
@@ -413,7 +405,7 @@ public class Habit
 
         public HabitData()
         {
-            this.color = 8;
+            this.color = new PaletteColor(8);
             this.archived = false;
             this.frequency = new Frequency(3, 7);
             this.type = YES_NO_HABIT;
