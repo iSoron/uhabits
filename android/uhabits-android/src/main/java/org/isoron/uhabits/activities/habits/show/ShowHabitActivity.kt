@@ -26,4 +26,14 @@ class ShowHabitActivity : HabitsActivity() {
         super.onCreate(savedInstanceState)
         setScreen(component.showHabitScreen)
     }
+
+    override fun onResume() {
+        super.onResume()
+        component.showHabitPresenter.onResume()
+    }
+
+    override fun onPause() {
+        component.showHabitPresenter.onPause()
+        super.onPause()
+    }
 }

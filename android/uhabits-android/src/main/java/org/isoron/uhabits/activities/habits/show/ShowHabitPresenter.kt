@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.show
 
 import org.isoron.androidbase.activities.*
+import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.utils.*
 import javax.inject.*
@@ -28,26 +29,20 @@ import javax.inject.*
 class ShowHabitPresenter
 @Inject constructor(
         val habit: Habit,
-) {
-    private val listeners = mutableListOf<Listener>()
+        val commandRunner: CommandRunner,
+) : CommandRunner.Listener {
 
-    private fun build(): ShowHabitViewModel {
-        val scores = habit.scores
-        val today = DateUtils.getTodayWithOffset()
-        val lastMonth = today.minus(30)
-        val lastYear = today.minus(365)
-        val scoreToday = scores.todayValue.toFloat()
-        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
-        val scoreLastYear = scores.getValue(lastYear).toFloat()
-        return ShowHabitViewModel(
-                title = habit.name,
-                color = habit.color,
-                isNumerical = habit.isNumerical,
-                scoreToday = scoreToday,
-                scoreMonthDiff = scoreToday - scoreLastMonth,
-                scoreYearDiff = scoreToday - scoreLastYear,
-                totalCount = habit.repetitions.totalCount,
-        )
+    private val listeners = mutableListOf<Listener>()
+    private var data = ShowHabitViewModel()
+
+    fun onResume() {
+        commandRunner.addListener(this)
+        refresh()
+        notifyListeners()
+    }
+
+    fun onPause() {
+        commandRunner.removeListener(this)
     }
 
     fun addListener(listener: Listener) {
@@ -59,7 +54,35 @@ class ShowHabitPresenter
     }
 
     fun requestData(listener: Listener) {
-        listener.onData(build())
+        listener.onData(data)
+    }
+
+    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
+        refresh()
+        notifyListeners()
+    }
+
+    private fun notifyListeners() {
+        for (l in listeners) l.onData(data)
+    }
+
+    private fun refresh() {
+        val scores = habit.scores
+        val today = DateUtils.getTodayWithOffset()
+        val lastMonth = today.minus(30)
+        val lastYear = today.minus(365)
+        val scoreToday = scores.todayValue.toFloat()
+        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
+        val scoreLastYear = scores.getValue(lastYear).toFloat()
+        data = ShowHabitViewModel(
+                title = habit.name,
+                color = habit.color,
+                isNumerical = habit.isNumerical,
+                scoreToday = scoreToday,
+                scoreMonthDiff = scoreToday - scoreLastMonth,
+                scoreYearDiff = scoreToday - scoreLastYear,
+                totalCount = habit.repetitions.totalCount,
+        )
     }
 
     interface Listener {
