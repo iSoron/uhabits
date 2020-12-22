@@ -18,85 +18,68 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.annotation.*
 import android.content.*
 import android.util.*
 import android.view.*
+import android.widget.*
 import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.habits.list.views.*
+import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
-import java.util.*
 
-class SubtitleCard(context: Context?, attrs: AttributeSet?) : HabitCard(context, attrs) {
+class SubtitleCard(
+        context: Context,
+        attrs: AttributeSet,
+) : LinearLayout(context, attrs), ShowHabitPresenter.Listener {
+
+    private val binding = ShowHabitSubtitleBinding.inflate(LayoutInflater.from(context), this)
+    lateinit var presenter: ShowHabitPresenter
 
     init {
-        init()
-    }
-
-    private lateinit var binding: ShowHabitSubtitleBinding
-
-    public override fun refreshData() {
-        val habit = habit
-        val color = habit.color.toThemedAndroidColor(context)
-        if (habit.isNumerical) {
-            binding.targetText.text = "${habit.targetValue.toShortString()} ${habit.unit}"
-        } else {
-            binding.targetIcon.visibility = View.GONE
-            binding.targetText.visibility = View.GONE
-        }
-        binding.reminderLabel.text = resources.getString(R.string.reminder_off)
-        binding.questionLabel.visibility = View.VISIBLE
-        binding.questionLabel.setTextColor(color)
-        binding.questionLabel.text = habit.question
-        binding.frequencyLabel.text = toText(habit.frequency)
-        if (habit.hasReminder()) updateReminderText(habit.reminder)
-        if (habit.question.isEmpty()) binding.questionLabel.visibility = View.GONE
-        invalidate()
-    }
-
-    private fun init() {
         val fontAwesome = InterfaceUtils.getFontAwesome(context)
-        binding = ShowHabitSubtitleBinding.inflate(LayoutInflater.from(context), this)
         binding.targetIcon.typeface = fontAwesome
         binding.frequencyIcon.typeface = fontAwesome
         binding.reminderIcon.typeface = fontAwesome
-        if (isInEditMode) initEditMode()
+        if (isInEditMode) onData(ShowHabitViewModel(
+                isNumerical = false,
+                frequencyText = "Every day",
+                question = "How many steps did you walk today?",
+                color = PaletteColor(1),
+
+                ))
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun initEditMode() {
-        binding.questionLabel.setTextColor(getAndroidTestColor(1))
-        binding.questionLabel.text = "Have you meditated today?"
-        binding.reminderLabel.text = "08:00"
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        presenter.addListener(this)
+        presenter.requestData(this)
     }
 
-    private fun toText(freq: Frequency): String {
-        val resources = resources
-        val num = freq.numerator
-        val den = freq.denominator
-        if (num == den) return resources.getString(R.string.every_day)
-        if (num == 1) {
-            if (den == 7) return resources.getString(R.string.every_week)
-            if (den % 7 == 0) return resources.getString(R.string.every_x_weeks, den / 7)
-            return if (den >= 30) resources.getString(R.string.every_month) else resources.getString(R.string.every_x_days, den)
+    override fun onDetachedFromWindow() {
+        presenter.removeListener(this)
+        super.onDetachedFromWindow()
+    }
+
+    override fun onData(data: ShowHabitViewModel) {
+        val color = data.color.toThemedAndroidColor(context)
+        binding.frequencyLabel.text = data.frequencyText
+        binding.questionLabel.setTextColor(color)
+        binding.questionLabel.text = data.question
+        binding.reminderLabel.text = data.reminderText
+        binding.targetText.text = data.targetText
+
+        binding.questionLabel.visibility = View.VISIBLE
+        binding.targetIcon.visibility = View.VISIBLE
+        binding.targetText.visibility = View.VISIBLE
+        if (!data.isNumerical) {
+            binding.targetIcon.visibility = View.GONE
+            binding.targetText.visibility = View.GONE
         }
-        val times_every = resources.getString(R.string.times_every)
-        return String.format(Locale.US, "%d %s %d %s", num, times_every, den,
-                resources.getString(R.string.days))
-    }
+        if (data.question.isEmpty()) {
+            binding.questionLabel.visibility = View.GONE
+        }
 
-    private fun updateReminderText(reminder: Reminder) {
-        binding.reminderLabel.text = formatTime(context, reminder.hour, reminder.minute)
+        postInvalidate()
     }
-
-    override fun createRefreshTask(): Task {
-        // Never called
-        throw IllegalStateException()
-    }
-
 }

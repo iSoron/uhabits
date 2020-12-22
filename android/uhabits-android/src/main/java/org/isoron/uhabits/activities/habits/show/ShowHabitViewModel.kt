@@ -24,10 +24,14 @@ import org.isoron.uhabits.core.models.*
 data class ShowHabitViewModel(
         val title: String = "",
         val description: String = "",
+        val question: String = "",
         val isNumerical: Boolean = false,
         val scoreToday: Float = 0f,
         val scoreMonthDiff: Float = 0f,
         val scoreYearDiff: Float = 0f,
         val totalCount: Long = 0L,
         val color: PaletteColor = PaletteColor(1),
+        val targetText: String = "",
+        val frequencyText: String = "",
+        val reminderText: String = "",
 )
