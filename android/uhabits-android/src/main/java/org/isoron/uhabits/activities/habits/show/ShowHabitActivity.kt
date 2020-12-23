@@ -31,11 +31,15 @@ import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.widgets.*
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
-    private lateinit var view: ShowHabitView
-    private lateinit var presenter: ShowHabitPresenter
     private lateinit var commandRunner: CommandRunner
+    private lateinit var preferences: Preferences
+    private lateinit var presenter: ShowHabitPresenter
+    private lateinit var view: ShowHabitView
+    private lateinit var widgetUpdater: WidgetUpdater
+
     private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +47,9 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         val appComponent = (applicationContext as HabitsApplication).component
         val habitList = appComponent.habitList
         val habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
+        preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
+        widgetUpdater = appComponent.widgetUpdater
 
         view = ShowHabitView(this)
         presenter = ShowHabitPresenter(
@@ -51,6 +57,13 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 context = this,
                 preferences = appComponent.preferences
         )
+
+        view.onBucketSizeSelected = { position ->
+            preferences.defaultScoreSpinnerPosition = position
+            widgetUpdater.updateWidgets(habit.id)
+            updateViews()
+        }
+
         setContentView(view)
     }
 
@@ -85,13 +98,17 @@ data class ShowHabitViewModel(
         val notes: NotesCardViewModel,
         val target: TargetCardViewModel,
         val streaks: StreakCardViewModel,
+        val scores: ScoreCardViewModel,
 )
 
 class ShowHabitView(context: Context) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
 
+    var onBucketSizeSelected: (position: Int) -> Unit = {}
+
     init {
         addView(binding.root)
+        binding.scoreCard.onBucketSizeSelected = { position -> onBucketSizeSelected(position) }
     }
 
     fun update(data: ShowHabitViewModel) {
@@ -101,6 +118,7 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.notesCard.update(data.notes)
         binding.targetCard.update(data.target)
         binding.streakCard.update(data.streaks)
+        binding.scoreCard.update(data.scores)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
@@ -128,6 +146,8 @@ class ShowHabitPresenter(
                                                           firstWeekday = preferences.firstWeekday,
                                                           resources = context.resources)
     private val streakCartPresenter = StreakCartPresenter(habit)
+    private val scoreCardPresenter = ScoreCardPresenter(habit = habit,
+                                                        firstWeekday = preferences.firstWeekday)
 
     suspend fun present(): ShowHabitViewModel {
         return ShowHabitViewModel(
@@ -139,7 +159,7 @@ class ShowHabitPresenter(
                 notes = notesCardPresenter.present(),
                 target = targetCardPresenter.present(),
                 streaks = streakCartPresenter.present(),
+                scores = scoreCardPresenter.present(preferences.defaultScoreSpinnerPosition)
         )
     }
-
 }

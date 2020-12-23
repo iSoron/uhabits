@@ -37,8 +37,6 @@ import java.util.*;
 
 import butterknife.*;
 
-import static org.isoron.uhabits.activities.habits.show.views.ScoreCard.getTruncateField;
-
 public class BarCard extends HabitCard
 {
     public static final int[] NUMERICAL_BUCKET_SIZES = {1, 7, 31, 92, 365};
@@ -134,7 +132,7 @@ public class BarCard extends HabitCard
             int firstWeekday = Calendar.SATURDAY;
             if (prefs != null) firstWeekday = prefs.getFirstWeekday();
             if (bucketSize == 1) checkmarks = habit.getCheckmarks().getAll();
-            else checkmarks = habit.getCheckmarks().groupBy(getTruncateField(bucketSize),
+            else checkmarks = habit.getCheckmarks().groupBy(ScoreCardPresenter.Companion.getTruncateField(bucketSize),
                                                             firstWeekday);
             chart.setCheckmarks(checkmarks);
             chart.setBucketSize(bucketSize);

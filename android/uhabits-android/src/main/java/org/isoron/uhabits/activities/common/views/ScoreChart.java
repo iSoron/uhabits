@@ -125,7 +125,6 @@ public class ScoreChart extends ScrollableChart
         }
     }
 
-    @Deprecated
     public void setBucketSize(int bucketSize)
     {
         this.bucketSize = bucketSize;
