@@ -183,7 +183,7 @@
 
         <receiver
             android:name=".widgets.ScoreWidgetProvider"
-            android:label="@string/habit_strength">
+            android:label="@string/score">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
