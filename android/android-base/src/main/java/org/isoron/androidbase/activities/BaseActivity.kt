@@ -93,12 +93,4 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onResume()
         screen?.reattachDialogs()
     }
-
-    override fun startActivity(intent: Intent?) {
-        try {
-            super.startActivity(intent)
-        } catch(e: ActivityNotFoundException) {
-            this.screen?.showMessage(R.string.activity_not_found)
-        }
-    }
 }

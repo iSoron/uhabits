@@ -23,6 +23,7 @@ import android.app.*
 import android.content.*
 import android.graphics.*
 import android.graphics.drawable.*
+import android.util.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
@@ -103,6 +104,14 @@ fun Activity.showSendFileScreen(archiveFilename: String) {
         putExtra(Intent.EXTRA_STREAM, fileUri)
         flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     })
+}
+
+fun Activity.startActivitySafely(intent: Intent) {
+    try {
+        startActivity(intent)
+    } catch(e: ActivityNotFoundException) {
+        this.showMessage(R.string.activity_not_found)
+    }
 }
 
 fun View.setupToolbar(

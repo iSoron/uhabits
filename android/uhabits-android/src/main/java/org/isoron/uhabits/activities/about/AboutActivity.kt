@@ -16,30 +16,25 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.activities.about
 
-package org.isoron.uhabits.activities.about;
-
-import android.os.*;
-
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.*;
+import android.os.*
+import androidx.appcompat.app.*
+import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
 
 /**
  * Activity that allows the user to see information about the app itself.
  * Display current version, link to Google Play and list of contributors.
  */
-public class AboutActivity extends HabitsActivity
-{
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        HabitsApplication app = (HabitsApplication) getApplication();
-        AboutScreen screen = new AboutScreen(this,
-                                             app.getComponent().getIntentFactory(),
-                                             app.getComponent().getPreferences());
-        AboutRootView rootView = new AboutRootView(this, screen);
-        screen.setRootView(rootView);
-        setScreen(screen);
+class AboutActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val app = application as HabitsApplication
+        val screen = AboutScreen(this,
+                                 app.component.intentFactory,
+                                 app.component.preferences)
+        AndroidThemeSwitcher(this, app.component.preferences).apply()
+        setContentView(AboutView(this, screen))
     }
 }
