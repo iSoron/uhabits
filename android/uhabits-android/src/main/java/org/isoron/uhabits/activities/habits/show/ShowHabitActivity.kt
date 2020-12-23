@@ -25,6 +25,8 @@ import android.widget.*
 import androidx.appcompat.app.*
 import kotlinx.coroutines.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.models.*
@@ -50,6 +52,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         widgetUpdater = appComponent.widgetUpdater
+        AndroidThemeSwitcher(this, preferences).apply()
 
         view = ShowHabitView(this)
         presenter = ShowHabitPresenter(
@@ -62,6 +65,14 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             preferences.defaultScoreSpinnerPosition = position
             widgetUpdater.updateWidgets(habit.id)
             updateViews()
+        }
+
+        view.onClickEditHistoryButton = {
+            val dialog = HistoryEditorDialog()
+            dialog.setHabit(habit)
+            dialog.setController(object : HistoryEditorDialog.Controller {
+            })
+            dialog.show(getSupportFragmentManager(), "historyEditor")
         }
 
         setContentView(view)
@@ -100,16 +111,19 @@ data class ShowHabitViewModel(
         val streaks: StreakCardViewModel,
         val scores: ScoreCardViewModel,
         val frequency: FrequencyCardViewModel,
+        val history: HistoryCardViewModel,
 )
 
 class ShowHabitView(context: Context) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
 
     var onBucketSizeSelected: (position: Int) -> Unit = {}
+    var onClickEditHistoryButton: () -> Unit = {}
 
     init {
         addView(binding.root)
         binding.scoreCard.onBucketSizeSelected = { position -> onBucketSizeSelected(position) }
+        binding.historyCard.onClickEditButton = { onClickEditHistoryButton() }
     }
 
     fun update(data: ShowHabitViewModel) {
@@ -121,6 +135,7 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.streakCard.update(data.streaks)
         binding.scoreCard.update(data.scores)
         binding.frequencyCard.update(data.frequency)
+        binding.historyCard.update(data.history)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
@@ -128,12 +143,6 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
             binding.targetCard.visibility = GONE
         }
     }
-
-    fun setController(controller: Controller) {
-        binding.historyCard.setController(controller)
-    }
-
-    interface Controller : HistoryCard.Controller
 }
 
 class ShowHabitPresenter(
@@ -152,6 +161,9 @@ class ShowHabitPresenter(
                                                         firstWeekday = preferences.firstWeekday)
     private val frequencyCardPresenter = FrequencyCardPresenter(habit = habit,
                                                                 firstWeekday = preferences.firstWeekday)
+    private val historyCardViewModel = HistoryCardPresenter(habit = habit,
+                                                            firstWeekday = preferences.firstWeekday,
+                                                            isSkipEnabled = preferences.isSkipEnabled)
 
     suspend fun present(): ShowHabitViewModel {
         return ShowHabitViewModel(
@@ -165,6 +177,7 @@ class ShowHabitPresenter(
                 streaks = streakCartPresenter.present(),
                 scores = scoreCardPresenter.present(preferences.defaultScoreSpinnerPosition),
                 frequency = frequencyCardPresenter.present(),
+                history = historyCardViewModel.present(),
         )
     }
 }
