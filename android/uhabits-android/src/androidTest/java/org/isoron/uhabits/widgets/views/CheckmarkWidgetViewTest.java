@@ -19,10 +19,8 @@
 
 package org.isoron.uhabits.widgets.views;
 
+import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
-import androidx.test.runner.*;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
