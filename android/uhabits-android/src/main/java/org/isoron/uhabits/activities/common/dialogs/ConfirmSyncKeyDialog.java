@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.common.dialogs;
 
 import android.content.*;
+import android.content.res.*;
 
 import androidx.annotation.*;
 import androidx.appcompat.app.*;
@@ -27,32 +28,26 @@ import androidx.appcompat.app.*;
 import com.google.auto.factory.*;
 
 import org.isoron.androidbase.activities.*;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
-import org.isoron.uhabits.R;
-
-import butterknife.*;
 
 @AutoFactory(allowSubclasses = true)
 public class ConfirmSyncKeyDialog extends AlertDialog
 {
-    @BindString(R.string.sync_confirm)
-    protected String question;
-
-    @BindString(R.string.yes)
-    protected String yes;
-
-    @BindString(R.string.no)
-    protected String no;
-
     protected ConfirmSyncKeyDialog(@Provided @ActivityContext Context context,
                                    @NonNull OnConfirmedCallback callback)
     {
         super(context);
-        ButterKnife.bind(this);
-
         setTitle(R.string.device_sync);
-        setMessage(question);
-        setButton(BUTTON_POSITIVE, yes, (dialog, which) -> callback.onConfirmed());
-        setButton(BUTTON_NEGATIVE, no, (dialog, which) -> {});
+        Resources res = context.getResources();
+        setMessage(res.getString(R.string.sync_confirm));
+        setButton(BUTTON_POSITIVE,
+                res.getString(R.string.yes),
+                (dialog, which) -> callback.onConfirmed()
+        );
+        setButton(BUTTON_NEGATIVE,
+                res.getString(R.string.no),
+                (dialog, which) -> { }
+        );
     }
 }

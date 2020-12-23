@@ -20,17 +20,16 @@
 package org.isoron.uhabits.activities.common.dialogs;
 
 import android.content.*;
+import android.content.res.*;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.*;
 import androidx.appcompat.app.*;
 
 import com.google.auto.factory.*;
 
 import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
-
-import butterknife.*;
 
 /**
  * Dialog that asks the user confirmation before executing a delete operation.
@@ -38,24 +37,20 @@ import butterknife.*;
 @AutoFactory(allowSubclasses = true)
 public class ConfirmDeleteDialog extends AlertDialog
 {
-    @BindString(R.string.delete_habits_message)
-    protected String question;
-
-    @BindString(android.R.string.yes)
-    protected String yes;
-
-    @BindString(android.R.string.no)
-    protected String no;
-
     protected ConfirmDeleteDialog(@Provided @ActivityContext Context context,
                                   @NonNull OnConfirmedCallback callback)
     {
         super(context);
-        ButterKnife.bind(this);
-
         setTitle(R.string.delete_habits);
-        setMessage(question);
-        setButton(BUTTON_POSITIVE, yes, (dialog, which) -> callback.onConfirmed());
-        setButton(BUTTON_NEGATIVE, no, (dialog, which) -> {});
+        Resources res = context.getResources();
+        setMessage(res.getString(R.string.delete_habits_message));
+        setButton(BUTTON_POSITIVE,
+                res.getString(R.string.yes),
+                (dialog, which) -> callback.onConfirmed()
+        );
+        setButton(BUTTON_NEGATIVE,
+                res.getString(R.string.no),
+                (dialog, which) -> { }
+        );
     }
 }
