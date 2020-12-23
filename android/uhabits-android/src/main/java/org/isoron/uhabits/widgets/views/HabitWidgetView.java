@@ -29,12 +29,12 @@ import android.widget.*;
 
 import androidx.annotation.*;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public abstract class HabitWidgetView extends FrameLayout
 {

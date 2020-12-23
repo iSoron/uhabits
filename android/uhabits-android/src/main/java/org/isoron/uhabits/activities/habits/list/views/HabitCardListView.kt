@@ -26,10 +26,10 @@ import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
 import com.google.auto.factory.*
 import dagger.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.inject.*
 
 @AutoFactory
 class HabitCardListView(

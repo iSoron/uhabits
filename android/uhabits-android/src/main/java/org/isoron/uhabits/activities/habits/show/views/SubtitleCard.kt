@@ -24,7 +24,6 @@ import android.content.res.*
 import android.util.*
 import android.view.*
 import android.widget.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.models.*

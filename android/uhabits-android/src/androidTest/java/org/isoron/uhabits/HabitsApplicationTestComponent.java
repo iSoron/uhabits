@@ -19,9 +19,9 @@
 
 package org.isoron.uhabits;
 
-import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.inject.*;
 import org.isoron.uhabits.intents.*;
 
 import dagger.*;

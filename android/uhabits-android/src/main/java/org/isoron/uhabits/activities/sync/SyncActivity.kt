@@ -29,7 +29,7 @@ import androidx.appcompat.app.*
 import com.google.zxing.*
 import com.google.zxing.qrcode.*
 import kotlinx.coroutines.*
-import org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome
+import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.models.*

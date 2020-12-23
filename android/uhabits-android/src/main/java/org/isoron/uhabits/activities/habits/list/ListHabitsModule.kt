@@ -21,10 +21,11 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.content.*
 import dagger.*
-import org.isoron.androidbase.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.inject.*
 import javax.inject.*
 
 class BugReporterProxy

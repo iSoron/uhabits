@@ -16,27 +16,24 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits
 
-package org.isoron.androidbase;
+import android.app.*
 
-import android.content.*;
+class BaseExceptionHandler(private val activity: Activity) : Thread.UncaughtExceptionHandler {
 
-import dagger.*;
+    private val originalHandler: Thread.UncaughtExceptionHandler? =
+            Thread.getDefaultUncaughtExceptionHandler()
 
-@Module
-public class ActivityContextModule
-{
-    private Context context;
-
-    public ActivityContextModule(Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return context;
+    override fun uncaughtException(thread: Thread?, ex: Throwable?) {
+        if (ex == null) return
+        if (thread == null) return
+        try {
+            ex.printStackTrace()
+            AndroidBugReporter(activity).dumpBugReportToFile()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        originalHandler?.uncaughtException(thread, ex)
     }
 }

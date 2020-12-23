@@ -26,7 +26,6 @@ import android.util.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
@@ -35,7 +34,7 @@ import org.isoron.uhabits.utils.*;
 import java.text.*;
 import java.util.*;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class ScoreChart extends ScrollableChart
 {

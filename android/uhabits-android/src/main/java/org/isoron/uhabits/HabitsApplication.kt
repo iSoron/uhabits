@@ -21,11 +21,11 @@ package org.isoron.uhabits
 
 import android.app.*
 import android.content.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.core.database.*
 import org.isoron.uhabits.core.reminders.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
 import java.io.*

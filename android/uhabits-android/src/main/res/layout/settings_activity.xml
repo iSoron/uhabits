@@ -39,8 +39,4 @@
         android:layout_gravity="center"
         android:layout_below="@id/toolbar"/>
 
-    <View
-        android:id="@+id/toolbarShadow"
-        style="@style/ToolbarShadow"/>
-
 </RelativeLayout>

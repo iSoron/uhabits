@@ -17,11 +17,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits
+package org.isoron.uhabits.inject
 
 import android.content.*
 import dagger.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.database.*
@@ -34,6 +33,7 @@ import org.isoron.uhabits.core.sync.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.database.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.intents.*
 import org.isoron.uhabits.io.*
 import org.isoron.uhabits.notifications.*

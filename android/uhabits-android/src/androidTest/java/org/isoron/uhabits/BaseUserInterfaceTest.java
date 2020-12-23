@@ -29,10 +29,8 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.screens.habits.list.*;
 import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.inject.*;
 import org.junit.*;
-
-import java.time.*;
-import java.util.*;
 
 import static androidx.test.core.app.ApplicationProvider.*;
 import static androidx.test.platform.app.InstrumentationRegistry.*;

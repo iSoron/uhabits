@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,19 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.androidbase
+package org.isoron.uhabits.inject
 
-import android.content.Context
-import androidx.core.content.ContextCompat
-import org.isoron.androidbase.utils.FileUtils
-import java.io.File
-import javax.inject.Inject
+import javax.inject.*
 
-class AndroidDirFinder @Inject constructor(@param:AppContext private val context: Context) {
-    fun getFilesDir(relativePath: String): File? {
-        return FileUtils.getDir(
-                ContextCompat.getExternalFilesDirs(context, null),
-                relativePath
-        )
-    }
-}
+/**
+ * Scope used by objects that live as long as the activity is alive.
+ */
+@Scope
+annotation class ActivityScope

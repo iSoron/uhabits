@@ -26,8 +26,9 @@ import androidx.annotation.Nullable;
 
 import com.google.auto.factory.*;
 
-import org.isoron.androidbase.*;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.inject.*;
 import org.isoron.uhabits.utils.*;
 
 import java.io.*;

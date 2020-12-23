@@ -24,9 +24,9 @@ import android.media.RingtoneManager.*
 import android.net.*
 import android.preference.*
 import android.provider.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.*
+import org.isoron.uhabits.inject.*
 import javax.inject.*
 
 @AppScope

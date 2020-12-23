@@ -25,8 +25,6 @@ import android.util.*
 import androidx.annotation.*
 import androidx.appcompat.app.*
 import dagger.*
-import org.isoron.androidbase.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.edit.*
@@ -38,6 +36,7 @@ import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.callbacks.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.intents.*
 import org.isoron.uhabits.tasks.*
 import org.isoron.uhabits.utils.*

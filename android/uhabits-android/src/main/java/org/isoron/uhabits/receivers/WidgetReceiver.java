@@ -25,6 +25,7 @@ import android.util.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.widgets.*;
+import org.isoron.uhabits.inject.*;
 import org.isoron.uhabits.intents.*;
 import org.isoron.uhabits.widgets.*;
 import org.isoron.uhabits.widgets.activities.*;

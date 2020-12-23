@@ -27,12 +27,11 @@ import android.view.*;
 
 import androidx.annotation.Nullable;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.utils.*;
 
 import static org.isoron.uhabits.utils.AttributeSetUtils.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class RingView extends View
 {

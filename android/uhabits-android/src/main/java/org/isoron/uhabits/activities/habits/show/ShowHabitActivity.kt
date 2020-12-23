@@ -23,7 +23,6 @@ import android.os.*
 import android.view.*
 import androidx.appcompat.app.*
 import kotlinx.coroutines.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*

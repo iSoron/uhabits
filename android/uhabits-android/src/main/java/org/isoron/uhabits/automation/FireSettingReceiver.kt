@@ -25,6 +25,7 @@ import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.widgets.*
 import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.receivers.*
 
 const val ACTION_CHECK = 0

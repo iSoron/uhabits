@@ -16,24 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.androidbase
 
-import android.app.*
+package org.isoron.uhabits.inject
 
-class BaseExceptionHandler(private val activity: Activity) : Thread.UncaughtExceptionHandler {
+import dagger.*
+import org.isoron.uhabits.core.models.*
 
-    private val originalHandler: Thread.UncaughtExceptionHandler? =
-            Thread.getDefaultUncaughtExceptionHandler()
-
-    override fun uncaughtException(thread: Thread?, ex: Throwable?) {
-        if (ex == null) return
-        if (thread == null) return
-        try {
-            ex.printStackTrace()
-            AndroidBugReporter(activity).dumpBugReportToFile()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        originalHandler?.uncaughtException(thread, ex)
-    }
+@Module
+class HabitModule(private val habit: Habit) {
+    @Provides fun getHabit() = habit
 }

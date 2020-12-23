@@ -26,15 +26,15 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.inject.*;
 import org.isoron.uhabits.utils.*;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.getDimension;
+import static org.isoron.uhabits.utils.InterfaceUtils.getDimension;
 
 public class CheckmarkWidgetView extends HabitWidgetView {
     protected int activeColor;

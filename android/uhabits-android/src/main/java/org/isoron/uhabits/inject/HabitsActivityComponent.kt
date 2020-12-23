@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,11 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities
+package org.isoron.uhabits.inject
 
 import dagger.*
-import org.isoron.androidbase.*
-import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*

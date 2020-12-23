@@ -26,11 +26,11 @@ import android.content.Context.*
 import android.os.Build.VERSION.*
 import android.os.Build.VERSION_CODES.*
 import android.util.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.reminders.ReminderScheduler.*
 import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.inject.*
 import java.util.*
 import javax.inject.*
 

@@ -25,11 +25,11 @@ import android.text.*
 import android.view.*
 import android.view.View.MeasureSpec.*
 import com.google.auto.factory.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
 
 @AutoFactory

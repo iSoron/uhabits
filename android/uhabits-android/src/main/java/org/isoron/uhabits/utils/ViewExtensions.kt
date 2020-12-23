@@ -33,7 +33,6 @@ import androidx.appcompat.app.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.*
 import com.google.android.material.snackbar.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import java.io.*
@@ -148,7 +147,7 @@ fun View.setupToolbar(
     val res = StyledResources(context)
     toolbar.title = title
     val toolbarColor = if (!res.getBoolean(R.attr.useHabitColorAsPrimary)) {
-        StyledResources(context).getColor(org.isoron.androidbase.R.attr.colorPrimary)
+        StyledResources(context).getColor(R.attr.colorPrimary)
     } else {
         color.toThemedAndroidColor(context)
     }

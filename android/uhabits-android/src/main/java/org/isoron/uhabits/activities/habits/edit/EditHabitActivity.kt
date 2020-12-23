@@ -29,7 +29,6 @@ import androidx.appcompat.app.*
 import androidx.fragment.app.*
 import com.android.datetimepicker.time.*
 import kotlinx.android.synthetic.main.activity_edit_habit.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*

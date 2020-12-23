@@ -25,16 +25,16 @@ import android.util.*;
 import android.view.*;
 import android.view.ViewGroup.*;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.utils.*;
 
 import java.text.*;
 import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class StreakChart extends View
 {

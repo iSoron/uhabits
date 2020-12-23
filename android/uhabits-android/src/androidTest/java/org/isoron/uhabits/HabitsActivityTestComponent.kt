@@ -20,11 +20,10 @@
 package org.isoron.uhabits
 
 import dagger.*
-import org.isoron.androidbase.*
-import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.inject.*
 import org.mockito.Mockito.*
 
 @Module

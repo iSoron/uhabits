@@ -79,7 +79,6 @@ android {
 
 dependencies {
     implementation project(":uhabits-core")
-    implementation project(":android-base")
     implementation project(":android-pickers")
 
     implementation 'androidx.appcompat:appcompat:1.0.0'

@@ -21,7 +21,7 @@ package org.isoron.uhabits.database
 
 import android.content.*
 import android.util.*
-import org.isoron.androidbase.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 import java.io.*

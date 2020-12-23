@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.activities
 
-import org.isoron.androidbase.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.screens.habits.show.*
 import java.io.*

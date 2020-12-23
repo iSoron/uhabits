@@ -6,7 +6,7 @@ import android.graphics.*;
 import android.os.*;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.*;
+
 import android.text.format.*;
 import android.view.*;
 import android.widget.*;
@@ -17,6 +17,7 @@ import com.android.datetimepicker.time.TimePickerDialog;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.inject.*;
 import org.isoron.uhabits.receivers.*;
 import org.isoron.uhabits.utils.*;
 

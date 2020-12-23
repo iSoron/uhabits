@@ -25,11 +25,10 @@ import android.text.*
 import android.view.*
 import android.view.View.*
 import com.google.auto.factory.*
-import org.isoron.androidbase.*
-import org.isoron.androidbase.utils.*
-import org.isoron.androidbase.utils.InterfaceUtils.getDimension
+import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
 import java.text.*
 

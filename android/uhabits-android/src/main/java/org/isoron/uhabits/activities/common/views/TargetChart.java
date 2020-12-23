@@ -24,14 +24,14 @@ import android.graphics.*;
 import android.util.*;
 import android.view.*;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.habits.list.views.*;
+import org.isoron.uhabits.utils.*;
 
 import java.util.*;
 
 import static android.view.View.MeasureSpec.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class TargetChart extends View
 {

@@ -23,11 +23,10 @@ import android.app.*
 import android.app.PendingIntent.*
 import android.content.*
 import android.net.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.receivers.*
-import org.isoron.uhabits.widgets.*
 import javax.inject.*
 
 @AppScope

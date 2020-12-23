@@ -20,11 +20,9 @@
 package org.isoron.uhabits;
 
 import androidx.test.filters.*;
-import androidx.test.runner.*;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.isoron.androidbase.*;
 import org.junit.*;
 import org.junit.runner.*;
 

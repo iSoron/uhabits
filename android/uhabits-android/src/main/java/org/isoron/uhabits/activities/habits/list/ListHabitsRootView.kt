@@ -22,7 +22,6 @@ package org.isoron.uhabits.activities.habits.list
 import android.content.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.activities.habits.list.views.*
@@ -31,6 +30,7 @@ import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
 import java.lang.Math.*
 import javax.inject.*

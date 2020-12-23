@@ -21,14 +21,13 @@ package org.isoron.uhabits.widgets
 
 import android.appwidget.*
 import android.content.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.intents.*
 import javax.inject.*
-import kotlin.math.*
 
 /**
  * A WidgetUpdater listens to the commands being executed by the application and

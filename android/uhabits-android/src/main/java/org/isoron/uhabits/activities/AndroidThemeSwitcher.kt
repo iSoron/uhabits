@@ -24,10 +24,10 @@ import android.content.*
 import android.content.res.Configuration.*
 import android.os.Build.VERSION.*
 import androidx.core.content.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.*
+import org.isoron.uhabits.inject.*
 
 @ActivityScope
 class AndroidThemeSwitcher

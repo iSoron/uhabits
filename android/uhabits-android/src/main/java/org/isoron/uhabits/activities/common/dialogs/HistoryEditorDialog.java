@@ -38,7 +38,7 @@ import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
-import static org.isoron.androidbase.utils.InterfaceUtils.*;
+import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
     implements DialogInterface.OnClickListener, ModelObservable.Listener

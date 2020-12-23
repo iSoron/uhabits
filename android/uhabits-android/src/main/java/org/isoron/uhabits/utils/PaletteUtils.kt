@@ -3,7 +3,6 @@ package org.isoron.uhabits.utils
 import android.content.Context
 import android.graphics.Color
 import android.util.Log
-import org.isoron.androidbase.utils.StyledResources
 import org.isoron.uhabits.core.models.*
 
 object PaletteUtils {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -17,26 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.androidbase;
+package org.isoron.uhabits.inject
 
-import android.content.*;
-
-import dagger.*;
+import android.content.*
+import dagger.*
+import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.core.preferences.*
+import org.isoron.uhabits.core.ui.*
 
 @Module
-public class AppContextModule
-{
-    private final Context context;
-
-    public AppContextModule(@AppContext Context context)
-    {
-        this.context = context;
-    }
+class HabitsActivityModule {
 
     @Provides
-    @AppContext
-    Context getContext()
-    {
-        return context;
+    @ActivityScope
+    fun getThemeSwitcher(
+            @ActivityContext context: Context,
+            prefs: Preferences
+    ): ThemeSwitcher {
+        return AndroidThemeSwitcher(context, prefs)
     }
 }

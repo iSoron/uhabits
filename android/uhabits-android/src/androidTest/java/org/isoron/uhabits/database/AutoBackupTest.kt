@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.database
 
-import org.isoron.androidbase.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.utils.*
 import org.junit.*

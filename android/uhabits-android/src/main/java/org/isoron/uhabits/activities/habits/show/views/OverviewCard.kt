@@ -23,7 +23,6 @@ import android.util.*
 import android.view.*
 import android.widget.*
 import kotlinx.coroutines.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.utils.*

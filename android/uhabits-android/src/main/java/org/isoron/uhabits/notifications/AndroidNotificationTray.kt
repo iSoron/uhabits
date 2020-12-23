@@ -28,12 +28,12 @@ import android.os.Build.VERSION.*
 import android.util.*
 import androidx.core.app.*
 import androidx.core.app.NotificationCompat.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.intents.*
 import javax.inject.*
 

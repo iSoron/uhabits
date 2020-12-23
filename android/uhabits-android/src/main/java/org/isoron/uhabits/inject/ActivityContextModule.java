@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,11 +16,27 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.androidbase
 
-import javax.inject.*
+package org.isoron.uhabits.inject;
 
-@Qualifier
-@MustBeDocumented
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityContext
+import android.content.*;
+
+import dagger.*;
+
+@Module
+public class ActivityContextModule
+{
+    private Context context;
+
+    public ActivityContextModule(Context context)
+    {
+        this.context = context;
+    }
+
+    @Provides
+    @ActivityContext
+    public Context getContext()
+    {
+        return context;
+    }
+}

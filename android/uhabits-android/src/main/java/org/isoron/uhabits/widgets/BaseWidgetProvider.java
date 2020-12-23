@@ -34,7 +34,7 @@ import org.isoron.uhabits.core.preferences.*;
 import java.util.*;
 
 import static android.appwidget.AppWidgetManager.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
+import static org.isoron.uhabits.utils.InterfaceUtils.dpToPixels;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider
 {

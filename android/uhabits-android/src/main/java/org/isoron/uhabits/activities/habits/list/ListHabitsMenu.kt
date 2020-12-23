@@ -22,11 +22,11 @@ package org.isoron.uhabits.activities.habits.list
 import android.content.*
 import android.view.*
 import androidx.appcompat.app.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.inject.*
 import javax.inject.*
 
 @ActivityScope

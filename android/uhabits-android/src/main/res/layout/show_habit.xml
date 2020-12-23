@@ -89,9 +89,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <View
-        android:id="@+id/toolbarShadow"
-        style="@style/ToolbarShadow"
-        android:layout_below="@id/toolbar"/>
-
 </RelativeLayout>

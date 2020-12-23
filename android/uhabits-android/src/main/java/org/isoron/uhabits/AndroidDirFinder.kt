@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,24 +16,20 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits
 
-package org.isoron.uhabits.activities
+import android.content.Context
+import androidx.core.content.ContextCompat
+import org.isoron.uhabits.inject.*
+import org.isoron.uhabits.utils.FileUtils
+import java.io.File
+import javax.inject.Inject
 
-import android.content.*
-import dagger.*
-import org.isoron.androidbase.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
-
-@Module
-class HabitsActivityModule {
-
-    @Provides
-    @ActivityScope
-    fun getThemeSwitcher(
-            @ActivityContext context: Context,
-            prefs: Preferences
-    ): ThemeSwitcher {
-        return AndroidThemeSwitcher(context, prefs)
+class AndroidDirFinder @Inject constructor(@param:AppContext private val context: Context) {
+    fun getFilesDir(relativePath: String): File? {
+        return FileUtils.getDir(
+                ContextCompat.getExternalFilesDirs(context, null),
+                relativePath
+        )
     }
 }

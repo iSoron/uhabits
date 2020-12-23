@@ -26,8 +26,7 @@ import android.widget.*;
 import androidx.annotation.*;
 import androidx.test.platform.app.*;
 
-import org.isoron.androidbase.*;
-import org.isoron.androidbase.utils.*;
+import org.isoron.uhabits.utils.*;
 import org.isoron.uhabits.widgets.*;
 
 import java.io.*;

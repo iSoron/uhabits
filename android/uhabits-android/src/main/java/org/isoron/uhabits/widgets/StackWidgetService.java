@@ -16,7 +16,7 @@ import org.isoron.uhabits.core.utils.*;
 import java.util.*;
 
 import static android.appwidget.AppWidgetManager.*;
-import static org.isoron.androidbase.utils.InterfaceUtils.dpToPixels;
+import static org.isoron.uhabits.utils.InterfaceUtils.dpToPixels;
 import static org.isoron.uhabits.widgets.StackWidgetService.*;
 
 public class StackWidgetService extends RemoteViewsService

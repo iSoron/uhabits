@@ -23,7 +23,7 @@ import android.content.*
 import android.os.*
 import android.view.*
 import kotlinx.coroutines.*
-import org.isoron.androidbase.*
+import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.preferences.*

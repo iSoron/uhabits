@@ -26,9 +26,7 @@ import android.util.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.Config;
 import org.isoron.uhabits.core.utils.*;
 

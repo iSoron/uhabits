@@ -26,10 +26,10 @@ import android.view.*
 import android.view.WindowManager.LayoutParams.*
 import android.view.inputmethod.*
 import android.widget.*
-import org.isoron.androidbase.*
-import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import org.isoron.uhabits.inject.*
+import org.isoron.uhabits.utils.*
 import javax.inject.*
 
 class NumberPickerFactory

@@ -22,9 +22,9 @@ package org.isoron.uhabits.activities
 import android.content.*
 import android.os.*
 import androidx.appcompat.app.*
-import org.isoron.androidbase.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.inject.*
 
 abstract class HabitsActivity : AppCompatActivity() {
     lateinit var component: HabitsActivityComponent
