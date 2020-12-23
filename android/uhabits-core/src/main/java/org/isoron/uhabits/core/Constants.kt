@@ -16,11 +16,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core
 
-package org.isoron.uhabits.core;
+const val DATABASE_FILENAME = "uhabits.db"
 
-public class Config
-{
-    public static final String DATABASE_FILENAME = "uhabits.db";
-    public static int DATABASE_VERSION = 24;
-}
+const val DATABASE_VERSION = 24

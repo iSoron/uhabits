@@ -32,7 +32,7 @@ import java.util.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.Config.*;
+import static org.isoron.uhabits.core.ConstantsKt.*;
 
 /**
  * Class that imports data from database files exported by Loop Habit Tracker.
@@ -68,7 +68,7 @@ public class LoopDBImporter extends AbstractImporter
         boolean canHandle = true;
 
         Cursor c = db.query("select count(*) from SQLITE_MASTER " +
-                            "where name='Habits' or name='Repetitions'");
+                "where name='Habits' or name='Repetitions'");
 
         if (!c.moveToNext() || c.getInt(0) != 2)
         {
@@ -132,7 +132,7 @@ public class LoopDBImporter extends AbstractImporter
             {
                 Timestamp t = new Timestamp(r.timestamp);
                 Repetition rep = habit.getRepetitions().getByTimestamp(t);
-                if(rep == null || rep.getValue() != r.value)
+                if (rep == null || rep.getValue() != r.value)
                     new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
             }
         }

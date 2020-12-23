@@ -27,13 +27,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.Config;
 import org.isoron.uhabits.core.utils.*;
 
 import java.io.*;
 import java.text.*;
 
-import static org.isoron.uhabits.core.Config.DATABASE_VERSION;
+import static org.isoron.uhabits.core.ConstantsKt.*;
 
 public abstract class DatabaseUtils
 {
@@ -55,7 +54,7 @@ public abstract class DatabaseUtils
     @NonNull
     public static String getDatabaseFilename()
     {
-        String databaseFilename = Config.DATABASE_FILENAME;
+        String databaseFilename = DATABASE_FILENAME;
         if (HabitsApplication.Companion.isTestMode()) databaseFilename = "test.db";
         return databaseFilename;
     }
