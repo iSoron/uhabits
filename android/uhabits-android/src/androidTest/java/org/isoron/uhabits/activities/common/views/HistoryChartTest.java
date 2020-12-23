@@ -24,6 +24,7 @@ import androidx.test.filters.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
@@ -43,7 +44,7 @@ public class HistoryChartTest extends BaseViewTest
 
     Timestamp today;
 
-    private HistoryChart.Controller controller;
+    private OnToggleCheckmarkListener onToggleCheckmarkListener;
 
     @Override
     @Before
@@ -61,8 +62,8 @@ public class HistoryChartTest extends BaseViewTest
         chart.setColor(PaletteUtilsKt.toFixedAndroidColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));
 
-        controller = mock(HistoryChart.Controller.class);
-        chart.setController(controller);
+        onToggleCheckmarkListener = mock(OnToggleCheckmarkListener.class);
+        chart.setOnToggleCheckmarkListener(onToggleCheckmarkListener);
     }
 
     @Test
@@ -72,21 +73,16 @@ public class HistoryChartTest extends BaseViewTest
         chart.tap(dpToPixels(118), dpToPixels(13)); // header
         chart.tap(dpToPixels(336), dpToPixels(60)); // tomorrow's square
         chart.tap(dpToPixels(370), dpToPixels(60)); // right axis
-        verifyNoMoreInteractions(controller);
+        verifyNoMoreInteractions(onToggleCheckmarkListener);
     }
 
     @Test
     public void tapDate_withEditableView() throws Throwable
     {
         chart.setIsEditable(true);
-
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.SKIP);
-        chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.NO);
-        chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
-        verifyNoMoreInteractions(controller);
+        verify(onToggleCheckmarkListener).onToggleCheckmark(today, Checkmark.SKIP);
+        verifyNoMoreInteractions(onToggleCheckmarkListener);
     }
 
     @Test
@@ -95,8 +91,8 @@ public class HistoryChartTest extends BaseViewTest
         chart.setIsEditable(true);
         chart.setCheckmarks(new int[]{});
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verify(controller).onToggleCheckmark(today, Checkmark.YES_MANUAL);
-        verifyNoMoreInteractions(controller);
+        verify(onToggleCheckmarkListener).onToggleCheckmark(today, Checkmark.YES_MANUAL);
+        verifyNoMoreInteractions(onToggleCheckmarkListener);
     }
 
     @Test
@@ -104,7 +100,7 @@ public class HistoryChartTest extends BaseViewTest
     {
         chart.setIsEditable(false);
         chart.tap(dpToPixels(340), dpToPixels(40));
-        verifyNoMoreInteractions(controller);
+        verifyNoMoreInteractions(onToggleCheckmarkListener);
     }
 
     @Test

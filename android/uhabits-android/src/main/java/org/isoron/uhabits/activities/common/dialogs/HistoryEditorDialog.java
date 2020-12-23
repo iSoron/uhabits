@@ -34,7 +34,9 @@ import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.utils.*;
+import org.jetbrains.annotations.*;
 
 import static org.isoron.androidbase.utils.InterfaceUtils.*;
 
@@ -48,7 +50,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     HistoryChart historyChart;
 
     @NonNull
-    private Controller controller;
+    private OnToggleCheckmarkListener onToggleCheckmarkListener;
 
     private HabitList habitList;
 
@@ -58,7 +60,13 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
     public HistoryEditorDialog()
     {
-        this.controller = new Controller() {};
+        this.onToggleCheckmarkListener = new OnToggleCheckmarkListener()
+        {
+            @Override
+            public void onToggleCheckmark(@NotNull Timestamp timestamp, int value)
+            {
+            }
+        };
     }
 
     @Override
@@ -80,7 +88,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         prefs = app.getComponent().getPreferences();
 
         historyChart = new HistoryChart(context);
-        historyChart.setController(controller);
+        historyChart.setOnToggleCheckmarkListener(onToggleCheckmarkListener);
         historyChart.setFirstWeekday(prefs.getFirstWeekday());
         historyChart.setSkipEnabled(prefs.isSkipEnabled());
 
@@ -144,10 +152,9 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         outState.putParcelable("historyChart", historyChart.onSaveInstanceState());
     }
 
-    public void setController(@NonNull Controller controller)
+    public void setOnToggleCheckmarkListener(@NonNull OnToggleCheckmarkListener onToggleCheckmarkListener)
     {
-        this.controller = controller;
-        if (historyChart != null) historyChart.setController(controller);
+        this.onToggleCheckmarkListener = onToggleCheckmarkListener;
     }
 
     public void setHabit(@Nullable Habit habit)
@@ -160,8 +167,6 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         if (habit == null) return;
         taskRunner.execute(new RefreshTask());
     }
-
-    public interface Controller extends HistoryChart.Controller {}
 
     private class RefreshTask implements Task
     {

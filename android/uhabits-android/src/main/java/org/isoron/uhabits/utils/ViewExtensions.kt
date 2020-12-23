@@ -19,6 +19,8 @@
 
 package org.isoron.uhabits.utils
 
+import android.app.*
+import android.content.*
 import android.graphics.*
 import android.graphics.drawable.*
 import android.view.*
@@ -28,10 +30,12 @@ import android.widget.RelativeLayout.*
 import androidx.annotation.*
 import androidx.appcompat.app.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.*
 import com.google.android.material.snackbar.*
 import org.isoron.androidbase.utils.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
+import java.io.*
 
 fun RelativeLayout.addBelow(view: View,
                             subject: View,
@@ -84,6 +88,21 @@ fun View.showMessage(@StringRes stringId: Int) {
     } catch (e: IllegalArgumentException) {
         return
     }
+}
+
+fun Activity.showMessage(@StringRes stringId: Int) {
+    this.findViewById<View>(android.R.id.content).showMessage(stringId)
+}
+
+fun Activity.showSendFileScreen(archiveFilename: String) {
+    val file = File(archiveFilename)
+    val fileUri = FileProvider.getUriForFile(this, "org.isoron.uhabits", file)
+    this.startActivity(Intent().apply {
+        action = Intent.ACTION_SEND
+        type = "application/zip"
+        putExtra(Intent.EXTRA_STREAM, fileUri)
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    })
 }
 
 fun View.setupToolbar(toolbar: Toolbar, title: String, color: PaletteColor) {

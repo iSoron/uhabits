@@ -27,12 +27,15 @@ import android.util.*;
 import android.view.*;
 
 import androidx.annotation.*;
+import androidx.annotation.Nullable;
 
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
+import org.jetbrains.annotations.*;
 
 import java.text.*;
 import java.util.*;
@@ -100,7 +103,7 @@ public class HistoryChart extends ScrollableChart
     private int firstWeekday = Calendar.SUNDAY;
 
     @NonNull
-    private Controller controller;
+    private OnToggleCheckmarkListener onToggleCheckmarkListener;
 
     private boolean skipsEnabled;
 
@@ -159,10 +162,9 @@ public class HistoryChart extends ScrollableChart
                 newValue = Repetition.nextToggleValueWithSkip(checkmarks[offset]);
             else
                 newValue = Repetition.nextToggleValueWithoutSkip(checkmarks[offset]);
-            checkmarks[offset] = newValue;
         }
 
-        controller.onToggleCheckmark(timestamp, newValue);
+        onToggleCheckmarkListener.onToggleCheckmark(timestamp, newValue);
         postInvalidate();
         return true;
 
@@ -199,9 +201,9 @@ public class HistoryChart extends ScrollableChart
         postInvalidate();
     }
 
-    public void setController(@NonNull Controller controller)
+    public void setOnToggleCheckmarkListener(@NonNull OnToggleCheckmarkListener onToggleCheckmarkListener)
     {
-        this.controller = controller;
+        this.onToggleCheckmarkListener = onToggleCheckmarkListener;
     }
 
     public void setNumerical(boolean numerical)
@@ -450,7 +452,13 @@ public class HistoryChart extends ScrollableChart
     {
         isEditable = false;
         checkmarks = new int[0];
-        controller = new Controller() {};
+        onToggleCheckmarkListener = new OnToggleCheckmarkListener()
+        {
+            @Override
+            public void onToggleCheckmark(@NotNull Timestamp timestamp, int value)
+            {
+            }
+        };
         target = 2;
 
         initColors();
@@ -551,10 +559,5 @@ public class HistoryChart extends ScrollableChart
 
         baseDate.add(Calendar.DAY_OF_YEAR, -nDays);
         baseDate.add(Calendar.DAY_OF_YEAR, -todayPositionInColumn);
-    }
-
-    public interface Controller
-    {
-        default void onToggleCheckmark(Timestamp timestamp, int value) {}
     }
 }
