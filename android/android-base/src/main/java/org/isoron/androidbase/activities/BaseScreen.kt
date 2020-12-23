@@ -87,19 +87,6 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
     open fun reattachDialogs() {}
 
     /**
-     * Sets the menu to be shown by this screen.
-     *
-     *
-     * This menu will be visible if when there is no active selection operation.
-     * If the provided menu is null, then no menu will be shown.
-     *
-     * @param menu the menu to be shown.
-     */
-    fun setMenu(menu: BaseMenu?) {
-        activity.setBaseMenu(menu)
-    }
-
-    /**
      * Sets the root view for this screen.
      *
      * @param rootView the root view for this screen.

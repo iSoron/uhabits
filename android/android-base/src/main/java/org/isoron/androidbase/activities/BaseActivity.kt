@@ -39,18 +39,7 @@ import org.isoron.androidbase.*
  * getExceptionHandler.
  */
 abstract class BaseActivity : AppCompatActivity() {
-    private var baseMenu: BaseMenu? = null
     private var screen: BaseScreen? = null
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (menu != null) baseMenu?.onCreate(menuInflater, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item == null) return false
-        return baseMenu?.onItemSelected(item) ?: false
-    }
 
     fun restartWithFade(cls: Class<*>?) {
         Handler().postDelayed({
@@ -58,10 +47,6 @@ abstract class BaseActivity : AppCompatActivity() {
             overridePendingTransition(anim.fade_in, anim.fade_out)
             startActivity(Intent(this, cls))
         }, 500) // HACK: Let the menu disappear first
-    }
-
-    fun setBaseMenu(baseMenu: BaseMenu?) {
-        this.baseMenu = baseMenu
     }
 
     fun setScreen(screen: BaseScreen?) {

@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.os.*
+import android.view.*
 import kotlinx.coroutines.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
@@ -43,6 +44,8 @@ class ListHabitsActivity : HabitsActivity() {
     lateinit var syncManager: SyncManager
     private val scope = CoroutineScope(Dispatchers.Main)
 
+    private lateinit var menu: ListHabitsMenu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = appComponent.preferences
@@ -53,6 +56,7 @@ class ListHabitsActivity : HabitsActivity() {
         screen = component.listHabitsScreen
         adapter = component.habitCardListAdapter
         taskRunner = appComponent.taskRunner
+        menu = component.listHabitsMenu
 
         setScreen(screen)
         component.listHabitsBehavior.onStartup()
@@ -84,5 +88,14 @@ class ListHabitsActivity : HabitsActivity() {
             restartWithFade(ListHabitsActivity::class.java)
         }
         super.onResume()
+    }
+
+    override fun onCreateOptionsMenu(m: Menu): Boolean {
+        menu.onCreate(menuInflater, m)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return menu.onItemSelected(item)
     }
 }

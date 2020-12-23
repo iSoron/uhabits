@@ -29,23 +29,24 @@ import javax.inject.*
 
 @ActivityScope
 class ListHabitsMenu @Inject constructor(
-        activity: BaseActivity,
+        private val activity: BaseActivity,
         private val preferences: Preferences,
         private val themeSwitcher: ThemeSwitcher,
         private val behavior: ListHabitsMenuBehavior
-) : BaseMenu(activity){
+) {
 
-    override fun onCreate(menu: Menu) {
+    fun onCreate(inflater: MenuInflater, menu: Menu) {
+        menu.clear()
+        inflater.inflate(R.menu.list_habits, menu)
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
         val hideArchivedItem = menu.findItem(R.id.actionHideArchived)
         val hideCompletedItem = menu.findItem(R.id.actionHideCompleted)
-
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
     }
 
-    override fun onItemSelected(item: MenuItem): Boolean {
+    fun onItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionToggleNightMode -> {
                 behavior.onToggleNightMode()
@@ -74,13 +75,13 @@ class ListHabitsMenu @Inject constructor(
 
             R.id.actionHideArchived -> {
                 behavior.onToggleShowArchived()
-                invalidate()
+                activity.invalidateOptionsMenu()
                 return true
             }
 
             R.id.actionHideCompleted -> {
                 behavior.onToggleShowCompleted()
-                invalidate()
+                activity.invalidateOptionsMenu()
                 return true
             }
 
@@ -112,6 +113,4 @@ class ListHabitsMenu @Inject constructor(
             else -> return false
         }
     }
-
-    override fun getMenuResourceId() = R.menu.list_habits
 }
