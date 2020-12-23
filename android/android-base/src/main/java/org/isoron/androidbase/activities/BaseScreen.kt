@@ -43,30 +43,7 @@ import java.io.*
  */
 open class BaseScreen(@JvmField protected var activity: BaseActivity) {
 
-    private var rootView: BaseRootView? = null
     private var snackbar: Snackbar? = null
-
-    /**
-     * Notifies the screen that its contents should be updated.
-     */
-    fun invalidate() {
-        rootView?.invalidate()
-    }
-
-    fun invalidateToolbar() {
-        rootView?.let { root ->
-            activity.runOnUiThread {
-                val toolbar = root.getToolbar()
-                activity.setSupportActionBar(toolbar)
-                activity.supportActionBar?.let { actionBar ->
-                    actionBar.setDisplayHomeAsUpEnabled(root.displayHomeAsUp)
-                    val color = root.getToolbarColor()
-                    setActionBarColor(actionBar, color)
-                    setStatusBarColor(color)
-                }
-            }
-        }
-    }
 
     /**
      * Called when another Activity has finished, and has returned some result.
@@ -85,19 +62,6 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
      */
     open fun reattachDialogs() {}
 
-    /**
-     * Sets the root view for this screen.
-     *
-     * @param rootView the root view for this screen.
-     */
-    fun setRootView(rootView: BaseRootView?) {
-        this.rootView = rootView
-        activity.setContentView(rootView)
-        rootView?.let {
-            it.onAttachedToScreen(this)
-            invalidateToolbar()
-        }
-    }
 
     /**
      * Shows a message on the screen.
@@ -116,10 +80,6 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         }
         snackbar.setText(stringId)
         snackbar.show()
-    }
-
-    fun showMessage(@StringRes stringId: Int?) {
-        showMessage(stringId, this.rootView)
     }
 
     fun showSendEmailScreen(@StringRes toId: Int, @StringRes subjectId: Int, content: String?) {
@@ -143,15 +103,5 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
             putExtra(Intent.EXTRA_STREAM, fileUri)
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         })
-    }
-
-    private fun setActionBarColor(actionBar: ActionBar, color: Int) {
-        val drawable = ColorDrawable(color)
-        actionBar.setBackgroundDrawable(drawable)
-    }
-
-    private fun setStatusBarColor(baseColor: Int) {
-        val darkerColor = mixColors(baseColor, Color.BLACK, 0.75f)
-        activity.window.statusBarColor = darkerColor
     }
 }

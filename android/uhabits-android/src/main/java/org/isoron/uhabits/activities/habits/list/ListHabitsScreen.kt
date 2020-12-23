@@ -39,6 +39,7 @@ import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.*
 import org.isoron.uhabits.intents.*
 import org.isoron.uhabits.tasks.*
+import org.isoron.uhabits.utils.*
 import java.io.*
 import javax.inject.*
 
@@ -73,10 +74,6 @@ class ListHabitsScreen
     ListHabitsMenuBehavior.Screen,
     ListHabitsSelectionMenuBehavior.Screen {
 
-    init {
-        setRootView(rootView)
-    }
-
     fun onAttached() {
         commandRunner.addListener(this)
         if(activity.intent.action == "android.intent.action.VIEW") {
@@ -94,8 +91,11 @@ class ListHabitsScreen
     }
 
     override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
-        if (command != null)
-            showMessage(getExecuteString(command))
+        if (command != null) {
+            val stringId = getExecuteString(command)
+            if (stringId != null)
+                activity.showMessage(stringId)
+        }
     }
 
     override fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -115,7 +115,7 @@ class ListHabitsScreen
             inStream.copyTo(tempFile)
             onImportData(tempFile) { tempFile.delete() }
         } catch (e: IOException) {
-            showMessage(R.string.could_not_import)
+            activity.showMessage(R.string.could_not_import)
             e.printStackTrace()
         }
     }
@@ -175,7 +175,7 @@ class ListHabitsScreen
     }
 
     override fun showMessage(m: ListHabitsBehavior.Message) {
-        showMessage(when (m) {
+        activity.showMessage(when (m) {
             COULD_NOT_EXPORT -> R.string.could_not_export
             IMPORT_SUCCESSFUL -> R.string.habits_imported
             IMPORT_FAILED -> R.string.could_not_import
@@ -232,11 +232,11 @@ class ListHabitsScreen
         taskRunner.execute(importTaskFactory.create(file) { result ->
             if (result == ImportDataTask.SUCCESS) {
                 adapter.refresh()
-                showMessage(R.string.habits_imported)
+                activity.showMessage(R.string.habits_imported)
             } else if (result == ImportDataTask.NOT_RECOGNIZED) {
-                showMessage(R.string.file_not_recognized)
+                activity.showMessage(R.string.file_not_recognized)
             } else {
-                showMessage(R.string.could_not_import)
+                activity.showMessage(R.string.could_not_import)
             }
             onFinished()
         })
@@ -245,7 +245,7 @@ class ListHabitsScreen
     private fun onExportDB() {
         taskRunner.execute(exportDBFactory.create { filename ->
             if (filename != null) showSendFileScreen(filename)
-            else showMessage(R.string.could_not_export)
+            else activity.showMessage(R.string.could_not_export)
         })
     }
 }

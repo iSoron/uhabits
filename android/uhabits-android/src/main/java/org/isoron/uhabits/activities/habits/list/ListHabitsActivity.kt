@@ -60,7 +60,7 @@ class ListHabitsActivity : HabitsActivity() {
 
         setScreen(screen)
         component.listHabitsBehavior.onStartup()
-        setTitle(R.string.main_activity_title)
+        setContentView(rootView)
     }
 
     override fun onPause() {

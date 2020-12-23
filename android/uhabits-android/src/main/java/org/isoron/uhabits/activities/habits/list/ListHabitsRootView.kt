@@ -49,7 +49,7 @@ class ListHabitsRootView @Inject constructor(
         runner: TaskRunner,
         private val listAdapter: HabitCardListAdapter,
         habitCardListViewFactory: HabitCardListViewFactory
-) : BaseRootView(context), ModelObservable.Listener {
+) : FrameLayout(context), ModelObservable.Listener {
 
     val listView: HabitCardListView = habitCardListViewFactory.create()
     val llEmpty = EmptyListView(context)
@@ -63,7 +63,7 @@ class ListHabitsRootView @Inject constructor(
         val hintList = hintListFactory.create(hints)
         hintView = HintView(context, hintList)
 
-        addView(RelativeLayout(context).apply {
+        val rootView = RelativeLayout(context).apply {
             background = sres.getDrawable(R.attr.windowBackgroundColor)
             addAtTop(tbar)
             addBelow(header, tbar)
@@ -73,18 +73,15 @@ class ListHabitsRootView @Inject constructor(
                 it.topMargin = dp(-6.0f).toInt()
             }
             addAtBottom(hintView)
-            if (SDK_INT < LOLLIPOP) {
-                addBelow(ShadowView(context), tbar)
-                addBelow(ShadowView(context), header)
-            }
-        }, MATCH_PARENT, MATCH_PARENT)
-
+        }
+        rootView.setupToolbar(
+                toolbar = tbar,
+                title = resources.getString(R.string.main_activity_title),
+                color = PaletteColor(17),
+                displayHomeAsUpEnabled = false,
+        )
+        addView(rootView, MATCH_PARENT, MATCH_PARENT)
         listAdapter.setListView(listView)
-        initToolbar()
-    }
-
-    override fun getToolbar(): Toolbar {
-        return tbar
     }
 
     override fun onModelChange() {
