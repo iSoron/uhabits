@@ -154,27 +154,4 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         val darkerColor = mixColors(baseColor, Color.BLACK, 0.75f)
         activity.window.statusBarColor = darkerColor
     }
-
-    companion object {
-        @JvmStatic
-        @Deprecated("")
-        fun getDefaultActionBarColor(context: Context) =
-                StyledResources(context).getColor(R.attr.colorPrimary)
-
-        @JvmStatic
-        @Deprecated("")
-        fun setupActionBarColor(activity: AppCompatActivity, color: Int) {
-            val toolbar = activity.findViewById<Toolbar>(R.id.toolbar) ?: return
-            activity.setSupportActionBar(toolbar)
-            val supportActionBar = activity.supportActionBar ?: return
-            supportActionBar.setDisplayHomeAsUpEnabled(true)
-            val drawable = ColorDrawable(color)
-            supportActionBar.setBackgroundDrawable(drawable)
-            val darkerColor = mixColors(color, Color.BLACK, 0.75f)
-            activity.window.statusBarColor = darkerColor
-            toolbar.elevation = dpToPixels(activity, 2f)
-            activity.findViewById<View>(R.id.toolbarShadow)?.visibility = View.GONE
-            activity.findViewById<View>(R.id.headerShadow)?.visibility = View.GONE
-        }
-    }
 }
