@@ -24,49 +24,46 @@ import android.content.ClipboardManager
 import android.graphics.*
 import android.os.*
 import android.text.*
-import android.util.*
 import android.view.*
+import androidx.appcompat.app.*
 import com.google.zxing.*
 import com.google.zxing.qrcode.*
 import kotlinx.coroutines.*
-import org.isoron.androidbase.activities.*
-import org.isoron.androidbase.utils.*
 import org.isoron.androidbase.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.screens.sync.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.utils.*
 
 
-class SyncActivity : BaseActivity(), SyncBehavior.Screen {
+class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
 
-    private lateinit var baseScreen: BaseScreen
     private lateinit var binding: ActivitySyncBinding
     private lateinit var behavior: SyncBehavior
 
     private val scope = CoroutineScope(Dispatchers.Main)
-    private var styledResources = StyledResources(this)
 
     override fun onCreate(savedInstance: Bundle?) {
         super.onCreate(savedInstance)
-
         val component = (application as HabitsApplication).component
         val preferences = component.preferences
         val server = RemoteSyncServer(preferences = preferences)
-        baseScreen = BaseScreen(this)
-        behavior = SyncBehavior(this, preferences, server, component.logging)
+        AndroidThemeSwitcher(this, component.preferences).apply()
 
+        behavior = SyncBehavior(this, preferences, server, component.logging)
         binding = ActivitySyncBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         binding.errorIcon.typeface = getFontAwesome(this)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.elevation = 10.0f
+        binding.root.setupToolbar(
+                toolbar = binding.toolbar,
+                color = PaletteColor(11),
+                title = resources.getString(R.string.device_sync),
+        )
+        binding.syncLink.setOnClickListener { copyToClipboard() }
         binding.instructions.setText(Html.fromHtml(resources.getString(R.string.sync_instructions)))
-        binding.syncLink.setOnClickListener {
-            copyToClipboard()
-        }
+        setContentView(binding.root)
     }
 
     override fun onResume() {
@@ -79,7 +76,7 @@ class SyncActivity : BaseActivity(), SyncBehavior.Screen {
     private fun copyToClipboard() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipboard.setPrimaryClip(ClipData.newPlainText("Loop Sync Link", binding.syncLink.text))
-        baseScreen.showMessage(R.string.copied_to_the_clipboard, binding.root)
+        showMessage(R.string.copied_to_the_clipboard)
     }
 
     suspend fun generateQR(msg: String): Bitmap = Dispatchers.IO {
@@ -88,8 +85,8 @@ class SyncActivity : BaseActivity(), SyncBehavior.Screen {
         val height = matrix.height
         val width = matrix.width
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-        val bgColor = styledResources.getColor(R.attr.highContrastReverseTextColor)
-        val fgColor = styledResources.getColor(R.attr.highContrastTextColor)
+        val bgColor = Color.WHITE
+        val fgColor = Color.BLACK
         for (x in 0 until width) {
             for (y in 0 until height) {
                 val color = if (matrix.get(x, y)) fgColor else bgColor
