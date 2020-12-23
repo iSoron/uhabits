@@ -393,20 +393,6 @@ public class CheckmarkListTest extends BaseUnitTest
     }
 
     @Test
-    public void testToString() throws Exception
-    {
-        Timestamp t = Timestamp.ZERO.plus(100);
-        Checkmark checkmark = new Checkmark(t, 2);
-        assertThat(checkmark.toString(),
-                   equalTo("{timestamp: 1970-04-11, value: 2}"));
-
-        CheckmarkList.Interval interval =
-                new CheckmarkList.Interval(t, t.plus(1), t.plus(2));
-        assertThat(interval.toString(), equalTo(
-                "{begin: 1970-04-11, center: 1970-04-12, end: 1970-04-13}"));
-    }
-
-    @Test
     public void testEquals() throws Exception
     {
         EqualsVerifier.forClass(Checkmark.class).verify();

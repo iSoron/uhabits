@@ -22,7 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.*
 import com.google.auto.factory.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.Checkmark.*
+import org.isoron.uhabits.core.models.Checkmark.Companion.UNKNOWN
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.inject.*

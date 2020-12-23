@@ -19,13 +19,15 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.ext.junit.runners.*
 import androidx.test.filters.*
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.Checkmark.*
+import org.isoron.uhabits.core.models.Checkmark.Companion.NO
+import org.isoron.uhabits.core.models.Checkmark.Companion.YES_AUTO
+import org.isoron.uhabits.core.models.Checkmark.Companion.YES_MANUAL
 import org.isoron.uhabits.utils.*
 import org.junit.*
 import org.junit.runner.*
