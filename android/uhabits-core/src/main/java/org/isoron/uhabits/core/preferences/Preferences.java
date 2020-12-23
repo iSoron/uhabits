@@ -37,7 +37,6 @@ public class Preferences
 
     @Nullable
     private Boolean shouldReverseCheckmarks = null;
-
     public Preferences(@NonNull Storage storage)
     {
         this.storage = storage;
@@ -95,23 +94,34 @@ public class Preferences
         storage.putString("pref_default_secondary_order", order.name());
     }
 
-    public int getDefaultScoreSpinnerPosition()
+    public int getScoreCardSpinnerPosition()
     {
-        int defaultScoreInterval =
-            storage.getInt("pref_score_view_interval", 1);
-
-        if (defaultScoreInterval > 5 || defaultScoreInterval < 0)
-        {
-            defaultScoreInterval = 1;
-            storage.putInt("pref_score_view_interval", 1);
-        }
-
-        return defaultScoreInterval;
+        return Math.min(4, Math.max(0, storage.getInt("pref_score_view_interval", 1)));
     }
 
-    public void setDefaultScoreSpinnerPosition(int position)
+    public void setScoreCardSpinnerPosition(int position)
     {
         storage.putInt("pref_score_view_interval", position);
+    }
+
+    public int getBarCardBoolSpinnerPosition()
+    {
+        return Math.min(3, Math.max(0, storage.getInt("pref_bar_card_bool_spinner", 0)));
+    }
+
+    public void setBarCardBoolSpinnerPosition(int position)
+    {
+        storage.putInt("pref_bar_card_bool_spinner", position);
+    }
+
+    public int getBarCardNumericalSpinnerPosition()
+    {
+        return Math.min(4, Math.max(0, storage.getInt("pref_bar_card_numerical_spinner", 0)));
+    }
+
+    public void setBarCardNumericalSpinnerPosition(int position)
+    {
+        storage.putInt("pref_bar_card_numerical_spinner", position);
     }
 
     public int getLastHintNumber()

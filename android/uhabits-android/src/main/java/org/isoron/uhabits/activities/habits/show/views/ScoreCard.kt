@@ -38,7 +38,7 @@ data class ScoreCardViewModel(
 class ScoreCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private var binding = ShowHabitScoreBinding.inflate(LayoutInflater.from(context), this)
 
-    var onBucketSizeSelected: (position: Int) -> Unit = {}
+    var onSpinnerPosition: (position: Int) -> Unit = {}
 
     fun update(data: ScoreCardViewModel) {
         val androidColor = data.color.toThemedAndroidColor(context)
@@ -51,7 +51,7 @@ class ScoreCard(context: Context, attrs: AttributeSet) : LinearLayout(context, a
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onBucketSizeSelected(position)
+                onSpinnerPosition(position)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }

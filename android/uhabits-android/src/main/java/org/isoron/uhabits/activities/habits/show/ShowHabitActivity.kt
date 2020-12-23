@@ -36,6 +36,8 @@ import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
+
+    private lateinit var habit: Habit
     private lateinit var commandRunner: CommandRunner
     private lateinit var preferences: Preferences
     private lateinit var presenter: ShowHabitPresenter
@@ -48,7 +50,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         super.onCreate(savedInstanceState)
         val appComponent = (applicationContext as HabitsApplication).component
         val habitList = appComponent.habitList
-        val habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
+        habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
         preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         widgetUpdater = appComponent.widgetUpdater
@@ -61,10 +63,22 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 preferences = appComponent.preferences
         )
 
-        view.onBucketSizeSelected = { position ->
-            preferences.defaultScoreSpinnerPosition = position
-            widgetUpdater.updateWidgets(habit.id)
+        view.onScoreCardSpinnerPosition = { position ->
+            preferences.scoreCardSpinnerPosition = position
+            updateWidgets()
             updateViews()
+        }
+
+        view.onBarCardBoolSpinnerPosition = { position ->
+            preferences.barCardBoolSpinnerPosition = position
+            updateViews()
+            updateWidgets()
+        }
+
+        view.onBarCardNumericalSpinnerPosition = { position ->
+            preferences.barCardNumericalSpinnerPosition = position
+            updateViews()
+            updateWidgets()
         }
 
         view.onClickEditHistoryButton = {
@@ -76,6 +90,10 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         }
 
         setContentView(view)
+    }
+
+    private fun updateWidgets() {
+        widgetUpdater.updateWidgets(habit.id)
     }
 
     override fun onResume() {
@@ -112,18 +130,23 @@ data class ShowHabitViewModel(
         val scores: ScoreCardViewModel,
         val frequency: FrequencyCardViewModel,
         val history: HistoryCardViewModel,
+        val bar: BarCardViewModel,
 )
 
 class ShowHabitView(context: Context) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
 
-    var onBucketSizeSelected: (position: Int) -> Unit = {}
+    var onScoreCardSpinnerPosition: (position: Int) -> Unit = {}
     var onClickEditHistoryButton: () -> Unit = {}
+    var onBarCardBoolSpinnerPosition: (position: Int) -> Unit = {}
+    var onBarCardNumericalSpinnerPosition: (position: Int) -> Unit = {}
 
     init {
         addView(binding.root)
-        binding.scoreCard.onBucketSizeSelected = { position -> onBucketSizeSelected(position) }
+        binding.scoreCard.onSpinnerPosition = { onScoreCardSpinnerPosition(it) }
         binding.historyCard.onClickEditButton = { onClickEditHistoryButton() }
+        binding.barCard.onBoolSpinnerPosition = { onBarCardBoolSpinnerPosition(it) }
+        binding.barCard.onNumericalSpinnerPosition = { onBarCardNumericalSpinnerPosition(it) }
     }
 
     fun update(data: ShowHabitViewModel) {
@@ -136,6 +159,7 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.scoreCard.update(data.scores)
         binding.frequencyCard.update(data.frequency)
         binding.historyCard.update(data.history)
+        binding.barCard.update(data.bar)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
@@ -164,6 +188,8 @@ class ShowHabitPresenter(
     private val historyCardViewModel = HistoryCardPresenter(habit = habit,
                                                             firstWeekday = preferences.firstWeekday,
                                                             isSkipEnabled = preferences.isSkipEnabled)
+    private val barCardPresenter = BarCardPresenter(habit = habit,
+                                                    firstWeekday = preferences.firstWeekday)
 
     suspend fun present(): ShowHabitViewModel {
         return ShowHabitViewModel(
@@ -175,9 +201,15 @@ class ShowHabitPresenter(
                 notes = notesCardPresenter.present(),
                 target = targetCardPresenter.present(),
                 streaks = streakCartPresenter.present(),
-                scores = scoreCardPresenter.present(preferences.defaultScoreSpinnerPosition),
+                scores = scoreCardPresenter.present(
+                        spinnerPosition = preferences.scoreCardSpinnerPosition
+                ),
                 frequency = frequencyCardPresenter.present(),
                 history = historyCardViewModel.present(),
+                bar = barCardPresenter.present(
+                        boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
+                        numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
+                ),
         )
     }
 }

@@ -32,7 +32,6 @@ import java.io.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 public class PreferencesTest extends BaseUnitTest
 {
@@ -86,16 +85,15 @@ public class PreferencesTest extends BaseUnitTest
     }
 
     @Test
-    public void testDefaultSpinnerPosition() throws Exception
+    public void testScoreCardSpinnerPosition() throws Exception
     {
-        assertThat(prefs.getDefaultScoreSpinnerPosition(), equalTo(1));
+        assertThat(prefs.getScoreCardSpinnerPosition(), equalTo(1));
 
-        prefs.setDefaultScoreSpinnerPosition(4);
-        assertThat(prefs.getDefaultScoreSpinnerPosition(), equalTo(4));
+        prefs.setScoreCardSpinnerPosition(4);
+        assertThat(prefs.getScoreCardSpinnerPosition(), equalTo(4));
 
         storage.putInt("pref_score_view_interval", 9000);
-        assertThat(prefs.getDefaultScoreSpinnerPosition(), equalTo(1));
-        assertThat(storage.getInt("pref_score_view_interval", 0), equalTo(1));
+        assertThat(prefs.getScoreCardSpinnerPosition(), equalTo(4));
     }
 
     @Test
