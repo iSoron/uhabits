@@ -21,13 +21,12 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
 import android.os.*
-import androidx.appcompat.widget.*
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import android.view.*
 import com.google.auto.factory.*
 import dagger.*
-import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*

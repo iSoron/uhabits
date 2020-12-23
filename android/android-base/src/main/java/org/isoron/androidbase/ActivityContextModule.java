@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,12 +16,27 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.androidbase.activities
 
-import javax.inject.*
+package org.isoron.androidbase;
 
-/**
- * Scope used by objects that live as long as the activity is alive.
- */
-@Scope
-annotation class ActivityScope
+import android.content.*;
+
+import dagger.*;
+
+@Module
+public class ActivityContextModule
+{
+    private Context context;
+
+    public ActivityContextModule(Context context)
+    {
+        this.context = context;
+    }
+
+    @Provides
+    @ActivityContext
+    public Context getContext()
+    {
+        return context;
+    }
+}

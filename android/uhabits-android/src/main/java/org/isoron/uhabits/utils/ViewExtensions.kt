@@ -23,7 +23,7 @@ import android.app.*
 import android.content.*
 import android.graphics.*
 import android.graphics.drawable.*
-import android.util.*
+import android.os.*
 import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
@@ -109,10 +109,34 @@ fun Activity.showSendFileScreen(archiveFilename: String) {
 fun Activity.startActivitySafely(intent: Intent) {
     try {
         startActivity(intent)
-    } catch(e: ActivityNotFoundException) {
+    } catch (e: ActivityNotFoundException) {
         this.showMessage(R.string.activity_not_found)
     }
 }
+
+fun Activity.showSendEmailScreen(@StringRes toId: Int, @StringRes subjectId: Int, content: String?) {
+    val to = this.getString(toId)
+    val subject = this.getString(subjectId)
+    this.startActivity(Intent().apply {
+        action = Intent.ACTION_SEND
+        type = "message/rfc822"
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, content)
+    })
+}
+
+fun Activity.restartWithFade(cls: Class<*>?) {
+    Handler().postDelayed(
+            {
+                finish()
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                startActivity(Intent(this, cls))
+            },
+            500,
+    ) // HACK: Let the menu disappear first
+}
+
 
 fun View.setupToolbar(
         toolbar: Toolbar,

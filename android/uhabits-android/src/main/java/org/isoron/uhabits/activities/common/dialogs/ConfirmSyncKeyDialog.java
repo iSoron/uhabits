@@ -27,9 +27,9 @@ import androidx.appcompat.app.*;
 
 import com.google.auto.factory.*;
 
-import org.isoron.androidbase.activities.*;
-import org.isoron.uhabits.*;
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
+import org.isoron.uhabits.R;
 
 @AutoFactory(allowSubclasses = true)
 public class ConfirmSyncKeyDialog extends AlertDialog

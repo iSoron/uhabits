@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.*
 import com.google.auto.factory.*
-import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Checkmark.*
 import org.isoron.uhabits.core.preferences.*

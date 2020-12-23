@@ -26,7 +26,7 @@ import android.view.*;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.*;
 import org.isoron.uhabits.activities.habits.list.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;

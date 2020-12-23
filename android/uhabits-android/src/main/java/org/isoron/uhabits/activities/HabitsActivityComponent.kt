@@ -20,20 +20,17 @@
 package org.isoron.uhabits.activities
 
 import dagger.*
-import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.about.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.activities.habits.show.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 
 @ActivityScope
 @Component(modules = arrayOf(
         ActivityContextModule::class,
-        BaseActivityModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
         HabitModule::class

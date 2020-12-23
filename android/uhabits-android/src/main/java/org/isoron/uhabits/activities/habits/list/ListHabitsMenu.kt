@@ -19,9 +19,11 @@
 
 package org.isoron.uhabits.activities.habits.list
 
+import android.content.*
 import android.view.*
-import org.isoron.androidbase.activities.*
-import org.isoron.uhabits.*
+import androidx.appcompat.app.*
+import org.isoron.androidbase.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
@@ -29,11 +31,12 @@ import javax.inject.*
 
 @ActivityScope
 class ListHabitsMenu @Inject constructor(
-        private val activity: BaseActivity,
+        @ActivityContext context: Context,
         private val preferences: Preferences,
         private val themeSwitcher: ThemeSwitcher,
         private val behavior: ListHabitsMenuBehavior
 ) {
+    val activity = (context as AppCompatActivity)
 
     fun onCreate(inflater: MenuInflater, menu: Menu) {
         menu.clear()

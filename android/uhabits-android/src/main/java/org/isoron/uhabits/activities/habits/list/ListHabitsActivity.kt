@@ -19,10 +19,11 @@
 
 package org.isoron.uhabits.activities.habits.list
 
+import android.content.*
 import android.os.*
 import android.view.*
 import kotlinx.coroutines.*
-import org.isoron.uhabits.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.preferences.*
@@ -31,6 +32,7 @@ import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.ThemeSwitcher.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.database.*
+import org.isoron.uhabits.utils.*
 
 class ListHabitsActivity : HabitsActivity() {
 
@@ -57,8 +59,7 @@ class ListHabitsActivity : HabitsActivity() {
         adapter = component.habitCardListAdapter
         taskRunner = appComponent.taskRunner
         menu = component.listHabitsMenu
-
-        setScreen(screen)
+        Thread.setDefaultUncaughtExceptionHandler(BaseExceptionHandler(this))
         component.listHabitsBehavior.onStartup()
         setContentView(rootView)
     }
@@ -97,5 +98,10 @@ class ListHabitsActivity : HabitsActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return menu.onItemSelected(item)
+    }
+
+    override fun onActivityResult(request: Int, result: Int, data: Intent?) {
+        super.onActivityResult(request, result, data)
+        screen.onResult(request, result, data)
     }
 }

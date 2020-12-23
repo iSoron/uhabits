@@ -20,14 +20,14 @@ package org.isoron.uhabits.activities.settings
 
 import android.os.*
 import android.view.*
-import org.isoron.androidbase.activities.*
+import androidx.appcompat.app.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (application as HabitsApplication).component

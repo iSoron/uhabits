@@ -33,9 +33,7 @@ import androidx.test.uiautomator.*;
 import junit.framework.*;
 
 import org.isoron.androidbase.*;
-import org.isoron.androidbase.activities.*;
 import org.isoron.androidbase.utils.*;
-import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;

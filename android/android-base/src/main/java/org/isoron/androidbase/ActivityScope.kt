@@ -16,24 +16,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.androidbase
 
-package org.isoron.androidbase.activities;
+import javax.inject.*
 
-import dagger.*;
-
-@Module
-public class BaseActivityModule
-{
-    private BaseActivity activity;
-
-    public BaseActivityModule(BaseActivity activity)
-    {
-        this.activity = activity;
-    }
-
-    @Provides
-    public BaseActivity getBaseActivity()
-    {
-        return activity;
-    }
-}
+/**
+ * Scope used by objects that live as long as the activity is alive.
+ */
+@Scope
+annotation class ActivityScope

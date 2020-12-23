@@ -18,9 +18,9 @@
  */
 package org.isoron.androidbase
 
-import org.isoron.androidbase.activities.BaseActivity
+import android.app.*
 
-class BaseExceptionHandler(private val activity: BaseActivity) : Thread.UncaughtExceptionHandler {
+class BaseExceptionHandler(private val activity: Activity) : Thread.UncaughtExceptionHandler {
 
     private val originalHandler: Thread.UncaughtExceptionHandler? =
             Thread.getDefaultUncaughtExceptionHandler()

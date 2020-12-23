@@ -20,13 +20,10 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.content.*
-import android.os.Build.VERSION.*
-import android.os.Build.VERSION_CODES.*
-import androidx.appcompat.widget.Toolbar
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
-import org.isoron.androidbase.activities.*
-import org.isoron.uhabits.*
+import org.isoron.androidbase.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.models.*

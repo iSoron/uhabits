@@ -28,8 +28,8 @@ import android.view.*
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.*
 import com.google.auto.factory.*
-import org.isoron.androidbase.activities.*
-import org.isoron.uhabits.*
+import org.isoron.androidbase.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*

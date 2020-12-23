@@ -21,7 +21,7 @@ package org.isoron.uhabits.activities.common.dialogs;
 
 import android.content.*;
 
-import org.isoron.androidbase.activities.*;
+import org.isoron.androidbase.*;
 import org.isoron.androidbase.utils.*;
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.models.*;

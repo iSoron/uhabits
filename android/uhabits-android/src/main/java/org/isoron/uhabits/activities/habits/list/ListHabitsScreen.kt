@@ -23,10 +23,11 @@ import android.app.*
 import android.content.*
 import android.util.*
 import androidx.annotation.*
+import androidx.appcompat.app.*
 import dagger.*
-import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.*
 import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.activities.habits.edit.*
 import org.isoron.uhabits.activities.habits.list.views.*
@@ -54,8 +55,7 @@ const val REQUEST_SETTINGS = 107
 @ActivityScope
 class ListHabitsScreen
 @Inject constructor(
-        activity: BaseActivity,
-        rootView: ListHabitsRootView,
+        @ActivityContext val context: Context,
         private val commandRunner: CommandRunner,
         private val intentFactory: IntentFactory,
         private val themeSwitcher: ThemeSwitcher,
@@ -68,11 +68,12 @@ class ListHabitsScreen
         private val colorPickerFactory: ColorPickerDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
         private val behavior: Lazy<ListHabitsBehavior>
-) : BaseScreen(activity),
-    CommandRunner.Listener,
+) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
     ListHabitsSelectionMenuBehavior.Screen {
+
+    val activity = (context as AppCompatActivity)
 
     fun onAttached() {
         commandRunner.addListener(this)
@@ -98,7 +99,7 @@ class ListHabitsScreen
         }
     }
 
-    override fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_OPEN_DOCUMENT -> onOpenDocumentResult(resultCode, data)
             REQUEST_SETTINGS -> onSettingsResult(resultCode)
@@ -142,15 +143,15 @@ class ListHabitsScreen
 
     override fun showSelectHabitTypeDialog() {
         val dialog = HabitTypeDialog()
-        activity.showDialog(dialog, "habitType")
+        dialog.show(activity.supportFragmentManager, "habitType")
     }
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
-        activity.showDialog(confirmDeleteDialogFactory.create(callback))
+        confirmDeleteDialogFactory.create(callback).show()
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {
-        val intent = intentFactory.startEditActivity(activity!!, habits[0])
+        val intent = intentFactory.startEditActivity(activity, habits[0])
         activity.startActivity(intent)
     }
 
@@ -190,7 +191,11 @@ class ListHabitsScreen
     override fun showSendBugReportToDeveloperScreen(log: String) {
         val to = R.string.bugReportTo
         val subject = R.string.bugReportSubject
-        showSendEmailScreen(to, subject, log)
+        activity.showSendEmailScreen(to, subject, log)
+    }
+
+    override fun showSendFileScreen(filename: String) {
+        activity.showSendFileScreen(filename)
     }
 
     override fun showSettingsScreen() {
@@ -202,7 +207,7 @@ class ListHabitsScreen
                                  callback: OnColorPickedCallback) {
         val picker = colorPickerFactory.create(defaultColor)
         picker.setListener(callback)
-        activity.showDialog(picker, "picker")
+        picker.show(activity.supportFragmentManager, "picker")
     }
 
     override fun showNumberPicker(value: Double,
@@ -212,7 +217,7 @@ class ListHabitsScreen
     }
 
     override fun showConfirmInstallSyncKey(callback: OnConfirmedCallback) {
-        activity.showDialog(confirmSyncKeyDialogFactory.create(callback))
+        confirmSyncKeyDialogFactory.create(callback).show()
     }
 
     @StringRes
@@ -244,7 +249,7 @@ class ListHabitsScreen
 
     private fun onExportDB() {
         taskRunner.execute(exportDBFactory.create { filename ->
-            if (filename != null) showSendFileScreen(filename)
+            if (filename != null) activity.showSendFileScreen(filename)
             else activity.showMessage(R.string.could_not_export)
         })
     }

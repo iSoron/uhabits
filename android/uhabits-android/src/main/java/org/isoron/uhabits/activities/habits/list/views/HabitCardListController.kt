@@ -20,7 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import dagger.*
-import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.activities.habits.list.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*

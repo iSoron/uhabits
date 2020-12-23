@@ -26,9 +26,9 @@ import android.view.*
 import android.view.WindowManager.LayoutParams.*
 import android.view.inputmethod.*
 import android.widget.*
-import org.isoron.androidbase.activities.*
+import org.isoron.androidbase.*
 import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import javax.inject.*
 

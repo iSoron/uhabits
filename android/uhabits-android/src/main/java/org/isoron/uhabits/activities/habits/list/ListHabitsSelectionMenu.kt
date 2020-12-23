@@ -19,11 +19,13 @@
 
 package org.isoron.uhabits.activities.habits.list
 
+import android.content.*
 import android.view.*
+import androidx.appcompat.app.*
 import androidx.appcompat.view.ActionMode
 import dagger.*
-import org.isoron.androidbase.activities.*
-import org.isoron.uhabits.*
+import org.isoron.androidbase.*
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.views.*
 import org.isoron.uhabits.core.commands.*
 import org.isoron.uhabits.core.preferences.*
@@ -34,7 +36,7 @@ import javax.inject.*
 
 @ActivityScope
 class ListHabitsSelectionMenu @Inject constructor(
-        private val activity: BaseActivity,
+        @ActivityContext context: Context,
         private val listAdapter: HabitCardListAdapter,
         var commandRunner: CommandRunner,
         private val prefs: Preferences,
@@ -42,6 +44,8 @@ class ListHabitsSelectionMenu @Inject constructor(
         private val listController: Lazy<HabitCardListController>,
         private val notificationTray: NotificationTray
 ) : ActionMode.Callback {
+
+    val activity = (context as AppCompatActivity)
 
     var activeActionMode: ActionMode? = null
 

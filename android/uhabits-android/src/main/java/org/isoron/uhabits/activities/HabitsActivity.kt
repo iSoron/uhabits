@@ -21,11 +21,12 @@ package org.isoron.uhabits.activities
 
 import android.content.*
 import android.os.*
-import org.isoron.androidbase.activities.*
+import androidx.appcompat.app.*
+import org.isoron.androidbase.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
 
-abstract class HabitsActivity : BaseActivity() {
+abstract class HabitsActivity : AppCompatActivity() {
     lateinit var component: HabitsActivityComponent
     lateinit var appComponent: HabitsApplicationComponent
 
@@ -43,8 +44,6 @@ abstract class HabitsActivity : BaseActivity() {
         component = DaggerHabitsActivityComponent
                 .builder()
                 .activityContextModule(ActivityContextModule(this))
-                .baseActivityModule(BaseActivityModule(this))
-                .habitModule(HabitModule(habit))
                 .habitsApplicationComponent(appComponent)
                 .build()
 
