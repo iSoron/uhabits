@@ -44,7 +44,6 @@ import java.io.*
 open class BaseScreen(@JvmField protected var activity: BaseActivity) {
 
     private var rootView: BaseRootView? = null
-    private var selectionMenu: BaseSelectionMenu? = null
     private var snackbar: Snackbar? = null
 
     /**
@@ -101,15 +100,6 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
     }
 
     /**
-     * Sets the menu to be shown when a selection is active on the screen.
-     *
-     * @param menu the menu to be shown during a selection
-     */
-    fun setSelectionMenu(menu: BaseSelectionMenu?) {
-        selectionMenu = menu
-    }
-
-    /**
      * Shows a message on the screen.
      *
      * @param stringId the string resource id for this message.
@@ -155,15 +145,6 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
         })
     }
 
-    /**
-     * Instructs the screen to start a selection.
-     *
-     * If a selection menu was provided, this menu will be shown instead of the regular one.
-     */
-    fun startSelection() {
-        activity.startSupportActionMode(ActionModeWrapper())
-    }
-
     private fun setActionBarColor(actionBar: ActionBar, color: Int) {
         val drawable = ColorDrawable(color)
         actionBar.setBackgroundDrawable(drawable)
@@ -172,31 +153,6 @@ open class BaseScreen(@JvmField protected var activity: BaseActivity) {
     private fun setStatusBarColor(baseColor: Int) {
         val darkerColor = mixColors(baseColor, Color.BLACK, 0.75f)
         activity.window.statusBarColor = darkerColor
-    }
-
-    private inner class ActionModeWrapper : ActionMode.Callback {
-        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-            val selectionMenu = selectionMenu
-            if (item == null || selectionMenu == null) return false
-            return selectionMenu.onItemClicked(item)
-        }
-
-        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            if (mode == null || menu == null) return false
-            val selectionMenu = selectionMenu ?: return false
-            selectionMenu.onCreate(activity.menuInflater, mode, menu)
-            return true
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode?) {
-            selectionMenu?.onFinish()
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            val selectionMenu = selectionMenu
-            if (selectionMenu == null || menu == null) return false
-            return selectionMenu.onPrepare(menu)
-        }
     }
 
     companion object {

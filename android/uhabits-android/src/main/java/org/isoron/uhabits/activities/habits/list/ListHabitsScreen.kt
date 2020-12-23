@@ -66,8 +66,7 @@ class ListHabitsScreen
         private val confirmSyncKeyDialogFactory: ConfirmSyncKeyDialogFactory,
         private val colorPickerFactory: ColorPickerDialogFactory,
         private val numberPickerFactory: NumberPickerFactory,
-        private val behavior: Lazy<ListHabitsBehavior>,
-        private val selectionMenu: Lazy<ListHabitsSelectionMenu>
+        private val behavior: Lazy<ListHabitsBehavior>
 ) : BaseScreen(activity),
     CommandRunner.Listener,
     ListHabitsBehavior.Screen,
@@ -79,7 +78,6 @@ class ListHabitsScreen
     }
 
     fun onAttached() {
-        setSelectionMenu(selectionMenu.get())
         commandRunner.addListener(this)
         if(activity.intent.action == "android.intent.action.VIEW") {
             val uri = activity.intent.data!!.toString()

@@ -25,8 +25,9 @@
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="android:itemBackground">?attr/highContrastReverseTextColor</item>
 
+
         <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/blue_grey_700</item>
+        <item name="actionModeBackground">@color/grey_700</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="selectedBackground">@drawable/selected_box_light</item>
