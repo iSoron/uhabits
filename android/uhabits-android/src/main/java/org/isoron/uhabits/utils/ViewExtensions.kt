@@ -105,7 +105,12 @@ fun Activity.showSendFileScreen(archiveFilename: String) {
     })
 }
 
-fun View.setupToolbar(toolbar: Toolbar, title: String, color: PaletteColor) {
+fun View.setupToolbar(
+        toolbar: Toolbar,
+        title: String,
+        color: PaletteColor,
+        displayHomeAsUpEnabled: Boolean = true,
+) {
     toolbar.elevation = InterfaceUtils.dpToPixels(context, 2f)
     val res = StyledResources(context)
     toolbar.title = title
@@ -119,7 +124,7 @@ fun View.setupToolbar(toolbar: Toolbar, title: String, color: PaletteColor) {
     val activity = context as AppCompatActivity
     activity.window.statusBarColor = darkerColor
     activity.setSupportActionBar(toolbar)
-    activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    activity.supportActionBar?.setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
 }
 
 fun Int.toMeasureSpec(mode: Int) =

@@ -20,12 +20,12 @@
 package org.isoron.uhabits.automation
 
 import android.os.*
-
-import org.isoron.androidbase.activities.*
+import androidx.appcompat.app.*
 import org.isoron.uhabits.*
+import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.core.models.*
 
-class EditSettingActivity : BaseActivity() {
+class EditSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val app = applicationContext as HabitsApplication
@@ -34,13 +34,16 @@ class EditSettingActivity : BaseActivity() {
                         .setArchivedAllowed(false)
                         .setCompletedAllowed(true)
                         .build())
+        AndroidThemeSwitcher(this, app.component.preferences).apply()
 
         val args = SettingUtils.parseIntent(this.intent, habits)
-
         val controller = EditSettingController(this)
-        val rootView = EditSettingRootView(this, habits, controller, args)
-        val screen = BaseScreen(this)
-        screen.setRootView(rootView)
-        setScreen(screen)
+        val view = EditSettingRootView(
+                context = this,
+                habitList = app.component.habitList,
+                onSave = controller::onSave,
+                args = args,
+        )
+        setContentView(view)
     }
 }

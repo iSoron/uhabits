@@ -20,70 +20,56 @@
 package org.isoron.uhabits.automation
 
 import android.R.layout.*
+import android.annotation.*
 import android.content.*
 import android.view.*
-import androidx.appcompat.widget.*
-import androidx.appcompat.widget.Toolbar
 import android.widget.*
-import butterknife.*
-import org.isoron.androidbase.activities.*
-import org.isoron.androidbase.utils.*
-import org.isoron.uhabits.R
+import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.databinding.*
+import org.isoron.uhabits.utils.*
 import java.util.*
 
+@SuppressLint("ViewConstructor")
 class EditSettingRootView(
         context: Context,
         private val habitList: HabitList,
-        private val controller: EditSettingController,
+        private val onSave: (habit: Habit, action: Int) -> Unit,
         args: SettingUtils.Arguments?
-) : BaseRootView(context) {
+) : FrameLayout(context) {
 
-    @BindView(R.id.toolbar)
-    lateinit var tbar: Toolbar
-
-    @BindView(R.id.habitSpinner)
-    lateinit var habitSpinner: AppCompatSpinner
-
-    @BindView(R.id.actionSpinner)
-    lateinit var actionSpinner: AppCompatSpinner
+    private var binding = AutomationBinding.inflate(LayoutInflater.from(context))
 
     init {
-        addView(inflate(getContext(), R.layout.automation, null))
-        ButterKnife.bind(this)
+        addView(binding.root)
+        setupToolbar(
+                toolbar = binding.toolbar,
+                title = resources.getString(R.string.app_name),
+                color = PaletteColor(11),
+                displayHomeAsUpEnabled = false,
+        )
         populateHabitSpinner()
-        habitSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+        binding.habitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 populateActionSpinner(habitList.getByPosition(position).isNumerical)
             }
         }
-        args?.let {
-            habitSpinner.setSelection(habitList.indexOf(it.habit))
-            populateActionSpinner(it.habit.isNumerical)
-            actionSpinner.setSelection(mapActionToSpinnerPosition(it.action))
+        binding.buttonSave.setOnClickListener {
+            val habit = habitList.getByPosition(binding.habitSpinner.selectedItemPosition)
+            val action = mapSpinnerPositionToAction(
+                    isNumerical = habit.isNumerical,
+                    itemPosition = binding.actionSpinner.selectedItemPosition,
+            )
+            onSave(habit, action)
         }
-    }
-
-    override fun getToolbar(): Toolbar {
-        return tbar
-    }
-
-    override fun getToolbarColor(): Int {
-        val res = StyledResources(context)
-        if (!res.getBoolean(R.attr.useHabitColorAsPrimary))
-            return super.getToolbarColor()
-
-        return res.getColor(R.attr.aboutScreenColor)
-    }
-
-    @OnClick(R.id.buttonSave)
-    fun onClickSave() {
-        val habit = habitList.getByPosition(habitSpinner.selectedItemPosition)
-        val action = mapSpinnerPositionToAction(habit.isNumerical,
-                                                actionSpinner.selectedItemPosition)
-        controller.onSave(habit, action)
+        args?.let {
+            binding.habitSpinner.setSelection(habitList.indexOf(it.habit))
+            populateActionSpinner(it.habit.isNumerical)
+            binding.actionSpinner.setSelection(mapActionToSpinnerPosition(it.action))
+        }
     }
 
     private fun mapSpinnerPositionToAction(isNumerical: Boolean, itemPosition: Int): Int {
@@ -102,7 +88,7 @@ class EditSettingRootView(
     }
 
     private fun mapActionToSpinnerPosition(action: Int): Int {
-        return when(action) {
+        return when (action) {
             ACTION_CHECK -> 0
             ACTION_UNCHECK -> 1
             ACTION_TOGGLE -> 2
@@ -116,13 +102,13 @@ class EditSettingRootView(
         val names = habitList.mapTo(LinkedList()) { it.name }
         val adapter = ArrayAdapter(context, simple_spinner_item, names)
         adapter.setDropDownViewResource(simple_spinner_dropdown_item)
-        habitSpinner.adapter = adapter
+        binding.habitSpinner.adapter = adapter
     }
 
     private fun populateActionSpinner(isNumerical: Boolean) {
         val entries = (if (isNumerical) R.array.actions_numerical else R.array.actions_yes_no)
         val adapter = ArrayAdapter.createFromResource(context, entries, simple_spinner_item)
         adapter.setDropDownViewResource(simple_spinner_dropdown_item)
-        actionSpinner.adapter = adapter
+        binding.actionSpinner.adapter = adapter
     }
 }
