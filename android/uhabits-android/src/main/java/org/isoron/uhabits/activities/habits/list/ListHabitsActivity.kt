@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list
 import android.content.*
 import android.os.*
 import android.view.*
+import androidx.appcompat.app.*
 import kotlinx.coroutines.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.*
@@ -32,9 +33,10 @@ import org.isoron.uhabits.core.tasks.*
 import org.isoron.uhabits.core.ui.ThemeSwitcher.*
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.database.*
+import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
 
-class ListHabitsActivity : HabitsActivity() {
+class ListHabitsActivity : AppCompatActivity() {
 
     var pureBlack: Boolean = false
     lateinit var taskRunner: TaskRunner
@@ -50,6 +52,15 @@ class ListHabitsActivity : HabitsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appComponent = (applicationContext as HabitsApplication).component
+        val component = DaggerHabitsActivityComponent
+                .builder()
+                .activityContextModule(ActivityContextModule(this))
+                .habitsApplicationComponent(appComponent)
+                .build()
+        component.themeSwitcher.apply()
+
         prefs = appComponent.preferences
         syncManager = appComponent.syncManager
         pureBlack = prefs.isPureBlackEnabled
