@@ -21,21 +21,37 @@
 
 package org.isoron.uhabits.core.models.sqlite.records;
 
-import org.isoron.uhabits.core.*;
+import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
-import org.junit.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
-
-public class RepetitionRecordTest extends BaseUnitTest
+/**
+ * The SQLite database record corresponding to a {@link Entry}.
+ */
+@Table(name = "Repetitions")
+public class EntryRecord
 {
-    @Test
-    public void testRecord() throws Exception
+    public HabitRecord habit;
+
+    @Column(name = "habit")
+    public Long habitId;
+
+    @Column
+    public Long timestamp;
+
+    @Column
+    public Integer value;
+
+    @Column
+    public Long id;
+
+    public void copyFrom(Entry entry)
     {
-        Entry check = new Entry(Timestamp.ZERO.plus(100), 50);
-        RepetitionRecord record = new RepetitionRecord();
-        record.copyFrom(check);
-        assertThat(check, equalTo(record.toCheckmark()));
+        timestamp = entry.getTimestamp().getUnixTime();
+        value = entry.getValue();
+    }
+
+    public Entry toEntry()
+    {
+        return new Entry(new Timestamp(timestamp), value);
     }
 }

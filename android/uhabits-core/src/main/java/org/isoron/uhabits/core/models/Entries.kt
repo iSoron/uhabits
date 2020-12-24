@@ -26,7 +26,7 @@ import org.isoron.uhabits.core.utils.*
 import kotlin.collections.set
 import kotlin.math.*
 
-class Entries {
+open class Entries {
 
     private val entriesByTimestamp: HashMap<Timestamp, Entry> = HashMap()
 
@@ -34,7 +34,7 @@ class Entries {
      * Returns the entry corresponding to the given timestamp. If no entry with such timestamp
      * has been previously added, returns Entry(timestamp, UNKNOWN).
      */
-    fun get(timestamp: Timestamp): Entry {
+    open fun get(timestamp: Timestamp): Entry {
         return entriesByTimestamp[timestamp] ?: Entry(timestamp, UNKNOWN)
     }
 
@@ -43,7 +43,7 @@ class Entries {
      * newest entry, and the last element corresponds to the oldest. The interval endpoints are
      * included.
      */
-    fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
+    open fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
         val result = mutableListOf<Entry>()
         var current = to
         while (current >= from) {
@@ -57,7 +57,7 @@ class Entries {
      * Adds the given entry to the list. If another entry with the same timestamp already exists,
      * replaces it.
      */
-    fun add(entry: Entry) {
+    open fun add(entry: Entry) {
         entriesByTimestamp[entry.timestamp] = entry
     }
 
@@ -65,7 +65,7 @@ class Entries {
      * Returns all entries whose values are known, sorted by timestamp. The first element
      * corresponds to the newest entry, and the last element corresponds to the oldest.
      */
-    fun getKnown(): List<Entry> {
+    open fun getKnown(): List<Entry> {
         return entriesByTimestamp.values.sortedBy { it.timestamp }.reversed()
     }
 
@@ -78,7 +78,7 @@ class Entries {
      * entries. For numerical habits, the value is the total sum. The field [firstWeekday] is only
      * relevant when grouping by week.
      */
-    fun groupBy(
+    open fun groupBy(
             field: DateUtils.TruncateField,
             firstWeekday: Int,
             isNumerical: Boolean,
@@ -111,7 +111,7 @@ class Entries {
      * For boolean habits, this function creates additional entries (with value YES_AUTO) according
      * to the frequency of the habit. For numerical habits, this function simply copies all entries.
      */
-    fun computeFrom(
+    open fun computeFrom(
             other: Entries,
             frequency: Frequency,
             isNumerical: Boolean,
@@ -129,16 +129,16 @@ class Entries {
         }
     }
 
-    data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {
-        val length: Int
-            get() = begin.daysUntil(end) + 1;
-    }
-
     /**
      * Removes all known entries.
      */
-    fun clear() {
+    open fun clear() {
         entriesByTimestamp.clear()
+    }
+
+    data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {
+        val length: Int
+            get() = begin.daysUntil(end) + 1;
     }
 
     /**

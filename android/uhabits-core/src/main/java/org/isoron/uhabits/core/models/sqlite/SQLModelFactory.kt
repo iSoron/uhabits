@@ -44,5 +44,5 @@ class SQLModelFactory
             Repository(HabitRecord::class.java, database)
 
     override fun buildRepetitionListRepository() =
-            Repository(RepetitionRecord::class.java, database)
+            Repository(EntryRecord::class.java, database)
 }

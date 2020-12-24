@@ -36,7 +36,7 @@ import java.util.*;
  */
 public class SQLiteRepetitionList extends RepetitionList
 {
-    private final Repository<RepetitionRecord> repository;
+    private final Repository<EntryRecord> repository;
 
     private boolean loaded = false;
 
@@ -51,12 +51,12 @@ public class SQLiteRepetitionList extends RepetitionList
         loaded = true;
 
         check(habit.getId());
-        List<RepetitionRecord> records =
+        List<EntryRecord> records =
                 repository.findAll("where habit = ? order by timestamp",
                         habit.getId().toString());
 
-        for (RepetitionRecord rec : records)
-            super.add(rec.toCheckmark());
+        for (EntryRecord rec : records)
+            super.add(rec.toEntry());
     }
 
     @Override
@@ -65,8 +65,8 @@ public class SQLiteRepetitionList extends RepetitionList
         loadRecords();
         super.add(entry);
         check(habit.getId());
-        RepetitionRecord record = new RepetitionRecord();
-        record.habit_id = habit.getId();
+        EntryRecord record = new EntryRecord();
+        record.habitId = habit.getId();
         record.copyFrom(entry);
         repository.save(record);
     }

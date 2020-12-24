@@ -120,7 +120,7 @@ public class BaseUnitTest
 
     }
 
-    protected Database buildMemoryDatabase()
+    public static Database buildMemoryDatabase()
     {
         try
         {

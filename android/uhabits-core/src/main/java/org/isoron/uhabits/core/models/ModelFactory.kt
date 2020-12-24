@@ -51,5 +51,5 @@ interface ModelFactory {
     fun buildScoreList(): ScoreList
     fun buildStreakList(): StreakList
     fun buildHabitListRepository(): Repository<HabitRecord>
-    fun buildRepetitionListRepository(): Repository<RepetitionRecord>
+    fun buildRepetitionListRepository(): Repository<EntryRecord>
 }

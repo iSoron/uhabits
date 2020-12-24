@@ -97,15 +97,15 @@ public class LoopDBImporter extends AbstractImporter
         helper.migrateTo(DATABASE_VERSION);
 
         Repository<HabitRecord> habitsRepository;
-        Repository<RepetitionRecord> repsRepository;
+        Repository<EntryRecord> entryRepository;
         habitsRepository = new Repository<>(HabitRecord.class, db);
-        repsRepository = new Repository<>(RepetitionRecord.class, db);
+        entryRepository = new Repository<>(EntryRecord.class, db);
 
         List<HabitRecord> records = habitsRepository.findAll("order by position");
         for (HabitRecord habitRecord : records)
         {
-            List<RepetitionRecord> reps =
-                    repsRepository.findAll("where habit = ?",
+            List<EntryRecord> reps =
+                    entryRepository.findAll("where habit = ?",
                             habitRecord.id.toString());
 
             Habit habit = habitList.getByUUID(habitRecord.uuid);
@@ -127,7 +127,7 @@ public class LoopDBImporter extends AbstractImporter
             // Reload saved version of the habit
             habit = habitList.getByUUID(habitRecord.uuid);
 
-            for (RepetitionRecord r : reps)
+            for (EntryRecord r : reps)
             {
                 Timestamp t = new Timestamp(r.timestamp);
                 Entry entry = habit.getOriginalEntries().getByTimestamp(t);

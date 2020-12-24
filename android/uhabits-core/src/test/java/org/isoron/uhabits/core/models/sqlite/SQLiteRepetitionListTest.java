@@ -46,7 +46,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
 
     private long day;
 
-    private Repository<RepetitionRecord> repository;
+    private Repository<EntryRecord> repository;
 
     @Override
     public void setUp() throws Exception
@@ -57,7 +57,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         modelFactory = new SQLModelFactory(db);
         habitList = modelFactory.buildHabitList();
         fixtures = new HabitFixtures(modelFactory, habitList);
-        repository = new Repository<>(RepetitionRecord.class, db);
+        repository = new Repository<>(EntryRecord.class, db);
         habit = fixtures.createLongHabit();
 
         originalCheckmarks = habit.getOriginalEntries();
@@ -67,7 +67,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     @Test
     public void testAdd()
     {
-        RepetitionRecord record = getByTimestamp(today.plus(1));
+        EntryRecord record = getByTimestamp(today.plus(1));
         assertNull(record);
 
         Entry rep = new Entry(today.plus(1), YES_MANUAL);
@@ -120,10 +120,10 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     @Test
     public void testRemove()
     {
-        RepetitionRecord record = getByTimestamp(today);
+        EntryRecord record = getByTimestamp(today);
         assertNotNull(record);
 
-        Entry rep = record.toCheckmark();
+        Entry rep = record.toEntry();
         originalCheckmarks.remove(rep);
 
         record = getByTimestamp(today);
@@ -131,7 +131,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     }
 
     @Nullable
-    private RepetitionRecord getByTimestamp(Timestamp timestamp)
+    private EntryRecord getByTimestamp(Timestamp timestamp)
     {
         String query = "where habit = ? and timestamp = ?";
         String params[] = {
