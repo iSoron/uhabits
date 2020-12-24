@@ -126,7 +126,7 @@ public class HabitsCSVExporter
             generateDirs.add(habitDirName);
 
             writeScores(habitDirName, h.getScores());
-            writeCheckmarks(habitDirName, h.getComputedEntries());
+            writeEntries(habitDirName, h.getComputedEntries());
         }
 
         writeMultipleHabits();
@@ -142,13 +142,13 @@ public class HabitsCSVExporter
         out.close();
     }
 
-    private void writeCheckmarks(String habitDirName, CheckmarkList checkmarks)
+    private void writeEntries(String habitDirName, EntryList entries)
         throws IOException
     {
         String filename = habitDirName + "Checkmarks.csv";
         FileWriter out = new FileWriter(exportDirName + filename);
         generateFilenames.add(filename);
-        checkmarks.writeCSV(out);
+        entries.writeCSV(out);
         out.close();
     }
 

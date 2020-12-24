@@ -37,13 +37,13 @@ import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
  * The collection of {@link Entry}s belonging to a habit.
  */
 @ThreadSafe
-public abstract class CheckmarkList
+public abstract class EntryList
 {
     protected final Habit habit;
 
     public final ModelObservable observable;
 
-    public CheckmarkList(Habit habit)
+    public EntryList(Habit habit)
     {
         this.habit = habit;
         this.observable = new ModelObservable();

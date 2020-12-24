@@ -26,13 +26,13 @@ import org.isoron.uhabits.core.models.*;
 import java.util.*;
 
 /**
- * In-memory implementation of {@link CheckmarkList}.
+ * In-memory implementation of {@link EntryList}.
  */
-public class MemoryCheckmarkList extends CheckmarkList
+public class MemoryEntryList extends EntryList
 {
     ArrayList<Entry> list;
 
-    public MemoryCheckmarkList(Habit habit)
+    public MemoryEntryList(Habit habit)
     {
         super(habit);
         list = new ArrayList<>();

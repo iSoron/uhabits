@@ -64,7 +64,7 @@ public class Habit
     private RepetitionList repetitions;
 
     @NonNull
-    private CheckmarkList checkmarks;
+    private EntryList computedEntries;
 
     private ModelObservable observable = new ModelObservable();
 
@@ -78,7 +78,7 @@ public class Habit
     Habit(@NonNull ModelFactory factory)
     {
         this.data = new HabitData();
-        checkmarks = factory.buildCheckmarkList(this);
+        computedEntries = factory.buildEntryList(this);
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
@@ -87,7 +87,7 @@ public class Habit
     Habit(@NonNull ModelFactory factory, @NonNull HabitData data)
     {
         this.data = new HabitData(data);
-        checkmarks = factory.buildCheckmarkList(this);
+        computedEntries = factory.buildEntryList(this);
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
@@ -115,9 +115,9 @@ public class Habit
     }
 
     @NonNull
-    public synchronized CheckmarkList getComputedEntries()
+    public synchronized EntryList getComputedEntries()
     {
-        return checkmarks;
+        return computedEntries;
     }
 
     @NonNull

@@ -28,7 +28,7 @@ import org.isoron.uhabits.core.models.sqlite.records.*;
  */
 public interface ModelFactory
 {
-    CheckmarkList buildCheckmarkList(Habit habit);
+    EntryList buildEntryList(Habit habit);
 
     default Habit buildHabit()
     {

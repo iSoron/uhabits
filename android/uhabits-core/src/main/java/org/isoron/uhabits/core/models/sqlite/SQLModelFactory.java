@@ -42,9 +42,9 @@ public class SQLModelFactory implements ModelFactory
     }
 
     @Override
-    public CheckmarkList buildCheckmarkList(Habit habit)
+    public EntryList buildEntryList(Habit habit)
     {
-        return new MemoryCheckmarkList(habit);
+        return new MemoryEntryList(habit);
     }
 
     @Override

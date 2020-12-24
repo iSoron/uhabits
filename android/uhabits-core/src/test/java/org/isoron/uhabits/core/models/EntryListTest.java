@@ -74,10 +74,10 @@ public class EntryListTest extends BaseUnitTest
                 new Entry(day(1), YES_MANUAL),
         };
 
-        ArrayList<CheckmarkList.Interval> intervals = new ArrayList<>();
-        intervals.add(new CheckmarkList.Interval(day(10), day(8), day(8)));
-        intervals.add(new CheckmarkList.Interval(day(6), day(5), day(4)));
-        intervals.add(new CheckmarkList.Interval(day(2), day(2), day(1)));
+        ArrayList<EntryList.Interval> intervals = new ArrayList<>();
+        intervals.add(new EntryList.Interval(day(10), day(8), day(8)));
+        intervals.add(new EntryList.Interval(day(6), day(5), day(4)));
+        intervals.add(new EntryList.Interval(day(2), day(2), day(1)));
 
         List<Entry> expected = new ArrayList<>();
         expected.add(new Entry(day(0), UNKNOWN));
@@ -93,7 +93,7 @@ public class EntryListTest extends BaseUnitTest
         expected.add(new Entry(day(10), YES_MANUAL));
 
         List<Entry> actual =
-                CheckmarkList.buildEntriesFromInterval(entries, intervals);
+                EntryList.buildEntriesFromInterval(entries, intervals);
         assertThat(actual, equalTo(expected));
     }
 
@@ -104,14 +104,14 @@ public class EntryListTest extends BaseUnitTest
                 new Entry(day(0), YES_MANUAL),
         };
 
-        ArrayList<CheckmarkList.Interval> intervals = new ArrayList<>();
-        intervals.add(new CheckmarkList.Interval(day(0), day(0), day(-10)));
+        ArrayList<EntryList.Interval> intervals = new ArrayList<>();
+        intervals.add(new EntryList.Interval(day(0), day(0), day(-10)));
 
         List<Entry> expected = new ArrayList<>();
         expected.add(new Entry(day(0), YES_MANUAL));
 
         List<Entry> actual =
-                CheckmarkList.buildEntriesFromInterval(entries, intervals);
+                EntryList.buildEntriesFromInterval(entries, intervals);
         assertThat(actual, equalTo(expected));
     }
 
@@ -124,13 +124,13 @@ public class EntryListTest extends BaseUnitTest
                 new Entry(day(8), YES_MANUAL),
         };
 
-        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
-        expected.add(new CheckmarkList.Interval(day(23), day(23), day(17)));
-        expected.add(new CheckmarkList.Interval(day(18), day(18), day(12)));
-        expected.add(new CheckmarkList.Interval(day(8), day(8), day(2)));
+        ArrayList<EntryList.Interval> expected = new ArrayList<>();
+        expected.add(new EntryList.Interval(day(23), day(23), day(17)));
+        expected.add(new EntryList.Interval(day(18), day(18), day(12)));
+        expected.add(new EntryList.Interval(day(8), day(8), day(2)));
 
-        ArrayList<CheckmarkList.Interval> actual;
-        actual = CheckmarkList.buildIntervals(Frequency.WEEKLY, entries);
+        ArrayList<EntryList.Interval> actual;
+        actual = EntryList.buildIntervals(Frequency.WEEKLY, entries);
         assertThat(actual, equalTo(expected));
     }
 
@@ -143,13 +143,13 @@ public class EntryListTest extends BaseUnitTest
                 new Entry(day(8), YES_MANUAL),
         };
 
-        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
-        expected.add(new CheckmarkList.Interval(day(23), day(23), day(23)));
-        expected.add(new CheckmarkList.Interval(day(18), day(18), day(18)));
-        expected.add(new CheckmarkList.Interval(day(8), day(8), day(8)));
+        ArrayList<EntryList.Interval> expected = new ArrayList<>();
+        expected.add(new EntryList.Interval(day(23), day(23), day(23)));
+        expected.add(new EntryList.Interval(day(18), day(18), day(18)));
+        expected.add(new EntryList.Interval(day(8), day(8), day(8)));
 
-        ArrayList<CheckmarkList.Interval> actual;
-        actual = CheckmarkList.buildIntervals(Frequency.DAILY, entries);
+        ArrayList<EntryList.Interval> actual;
+        actual = EntryList.buildIntervals(Frequency.DAILY, entries);
         assertThat(actual, equalTo(expected));
     }
 
@@ -164,14 +164,14 @@ public class EntryListTest extends BaseUnitTest
                 new Entry(day(8), YES_MANUAL),
         };
 
-        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
-        expected.add(new CheckmarkList.Interval(day(23), day(22), day(17)));
-        expected.add(new CheckmarkList.Interval(day(22), day(18), day(16)));
-        expected.add(new CheckmarkList.Interval(day(18), day(15), day(12)));
+        ArrayList<EntryList.Interval> expected = new ArrayList<>();
+        expected.add(new EntryList.Interval(day(23), day(22), day(17)));
+        expected.add(new EntryList.Interval(day(22), day(18), day(16)));
+        expected.add(new EntryList.Interval(day(18), day(15), day(12)));
 
-        ArrayList<CheckmarkList.Interval> actual;
+        ArrayList<EntryList.Interval> actual;
         actual =
-                CheckmarkList.buildIntervals(Frequency.TWO_TIMES_PER_WEEK, entries);
+                EntryList.buildIntervals(Frequency.TWO_TIMES_PER_WEEK, entries);
         assertThat(actual, equalTo(expected));
     }
 
@@ -185,12 +185,12 @@ public class EntryListTest extends BaseUnitTest
                 new Entry(day(10), YES_MANUAL),
         };
 
-        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
-        expected.add(new CheckmarkList.Interval(day(30), day(30), day(28)));
-        expected.add(new CheckmarkList.Interval(day(10), day(10), day(8)));
+        ArrayList<EntryList.Interval> expected = new ArrayList<>();
+        expected.add(new EntryList.Interval(day(30), day(30), day(28)));
+        expected.add(new EntryList.Interval(day(10), day(10), day(8)));
 
-        ArrayList<CheckmarkList.Interval> actual;
-        actual = CheckmarkList.buildIntervals(new Frequency(1, 3), entries);
+        ArrayList<EntryList.Interval> actual;
+        actual = EntryList.buildIntervals(new Frequency(1, 3), entries);
         assertThat(actual, equalTo(expected));
     }
 
@@ -273,7 +273,7 @@ public class EntryListTest extends BaseUnitTest
     @Test
     public void test_getByInterval_withNumericalHabits() throws Exception
     {
-        CheckmarkList entries = numericalHabit.getComputedEntries();
+        EntryList entries = numericalHabit.getComputedEntries();
 
         List<Entry> expected =
                 Arrays.asList(new Entry(day(1), 200), new Entry(day(2), 0),
@@ -287,7 +287,7 @@ public class EntryListTest extends BaseUnitTest
     @Test
     public void test_getTodayValue()
     {
-        CheckmarkList entries = nonDailyHabit.getComputedEntries();
+        EntryList entries = nonDailyHabit.getComputedEntries();
 
         travelInTime(-1);
         assertThat(entries.getTodayValue(), equalTo(NO));
@@ -335,34 +335,34 @@ public class EntryListTest extends BaseUnitTest
     @Test
     public void test_snapIntervalsTogether_1() throws Exception
     {
-        ArrayList<CheckmarkList.Interval> original = new ArrayList<>();
-        original.add(new CheckmarkList.Interval(day(27), day(27), day(21)));
-        original.add(new CheckmarkList.Interval(day(20), day(20), day(14)));
-        original.add(new CheckmarkList.Interval(day(12), day(12), day(6)));
-        original.add(new CheckmarkList.Interval(day(8), day(8), day(2)));
+        ArrayList<EntryList.Interval> original = new ArrayList<>();
+        original.add(new EntryList.Interval(day(27), day(27), day(21)));
+        original.add(new EntryList.Interval(day(20), day(20), day(14)));
+        original.add(new EntryList.Interval(day(12), day(12), day(6)));
+        original.add(new EntryList.Interval(day(8), day(8), day(2)));
 
-        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
-        expected.add(new CheckmarkList.Interval(day(29), day(27), day(23)));
-        expected.add(new CheckmarkList.Interval(day(22), day(20), day(16)));
-        expected.add(new CheckmarkList.Interval(day(15), day(12), day(9)));
-        expected.add(new CheckmarkList.Interval(day(8), day(8), day(2)));
+        ArrayList<EntryList.Interval> expected = new ArrayList<>();
+        expected.add(new EntryList.Interval(day(29), day(27), day(23)));
+        expected.add(new EntryList.Interval(day(22), day(20), day(16)));
+        expected.add(new EntryList.Interval(day(15), day(12), day(9)));
+        expected.add(new EntryList.Interval(day(8), day(8), day(2)));
 
-        CheckmarkList.snapIntervalsTogether(original);
+        EntryList.snapIntervalsTogether(original);
         assertThat(original, equalTo(expected));
     }
 
     @Test
     public void test_snapIntervalsTogether_2() throws Exception
     {
-        ArrayList<CheckmarkList.Interval> original = new ArrayList<>();
-        original.add(new CheckmarkList.Interval(day(11), day(8), day(5)));
-        original.add(new CheckmarkList.Interval(day(6), day(4), day(0)));
+        ArrayList<EntryList.Interval> original = new ArrayList<>();
+        original.add(new EntryList.Interval(day(11), day(8), day(5)));
+        original.add(new EntryList.Interval(day(6), day(4), day(0)));
 
-        ArrayList<CheckmarkList.Interval> expected = new ArrayList<>();
-        expected.add(new CheckmarkList.Interval(day(13), day(8), day(7)));
-        expected.add(new CheckmarkList.Interval(day(6), day(4), day(0)));
+        ArrayList<EntryList.Interval> expected = new ArrayList<>();
+        expected.add(new EntryList.Interval(day(13), day(8), day(7)));
+        expected.add(new EntryList.Interval(day(6), day(4), day(0)));
 
-        CheckmarkList.snapIntervalsTogether(original);
+        EntryList.snapIntervalsTogether(original);
         assertThat(original, equalTo(expected));
     }
 
@@ -397,14 +397,14 @@ public class EntryListTest extends BaseUnitTest
     {
         EqualsVerifier.forClass(Entry.class).verify();
         EqualsVerifier.forClass(Timestamp.class).verify();
-        EqualsVerifier.forClass(CheckmarkList.Interval.class).verify();
+        EqualsVerifier.forClass(EntryList.Interval.class).verify();
     }
 
     @Test
     public void testGroupBy() throws Exception
     {
         Habit habit = fixtures.createLongNumericalHabit(timestamp(2014, JUNE, 1));
-        CheckmarkList entries = habit.getComputedEntries();
+        EntryList entries = habit.getComputedEntries();
 
         List<Entry> byMonth = entries.groupBy(MONTH, Calendar.SATURDAY);
         assertThat(byMonth.size(), equalTo(25)); // from 2013-01-01 to 2015-01-01
@@ -430,7 +430,7 @@ public class EntryListTest extends BaseUnitTest
     public void testGetTodayValue() throws Exception
     {
         Habit habit = fixtures.createLongNumericalHabit(timestamp(2014, JUNE, 1));
-        CheckmarkList checkmarks = habit.getComputedEntries();
+        EntryList checkmarks = habit.getComputedEntries();
 
         DateUtils.setFixedLocalTime(unixTime(2050, MAY, 1));
         assertThat(checkmarks.getTodayValue(), equalTo(0));
