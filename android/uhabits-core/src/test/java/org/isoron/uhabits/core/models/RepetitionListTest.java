@@ -31,7 +31,6 @@ import static java.util.Calendar.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.isoron.uhabits.core.models.Entry.*;
-import static org.mockito.Mockito.*;
 
 public class RepetitionListTest extends BaseUnitTest
 {
@@ -44,9 +43,6 @@ public class RepetitionListTest extends BaseUnitTest
     private Timestamp today;
 
     private long day;
-
-    @NonNull
-    private ModelObservable.Listener listener;
 
     @Override
     @Before
@@ -63,10 +59,6 @@ public class RepetitionListTest extends BaseUnitTest
         reps.setValue(today, YES_MANUAL);
         reps.setValue(today.minus(7), YES_MANUAL);
         reps.setValue(today.minus(5), YES_MANUAL);
-
-        listener = mock(ModelObservable.Listener.class);
-        reps.getObservable().addListener(listener);
-        reset(listener);
     }
 
     @Override
@@ -147,18 +139,12 @@ public class RepetitionListTest extends BaseUnitTest
         assertThat(reps.getValue(today), equalTo(YES_MANUAL));
         reps.setValue(today, NO);
         assertThat(reps.getValue(today), equalTo(NO));
-        verify(listener, times(2)).onModelChange();
-        reset(listener);
 
         habit.setType(Habit.NUMBER_HABIT);
         reps.setValue(today, 100);
         assertThat(reps.getValue(today), equalTo(100));
-        verify(listener, times(2)).onModelChange();
-        reset(listener);
 
         reps.setValue(today, 500);
         assertThat(reps.getValue(today), equalTo(500));
-        verify(listener, times(2)).onModelChange();
-        reset(listener);
     }
 }

@@ -75,7 +75,6 @@ public class SQLiteRepetitionList extends RepetitionList
         record.habit_id = habit.getId();
         record.copyFrom(entry);
         repository.save(record);
-        observable.notifyListeners();
     }
 
     @Override
@@ -116,7 +115,6 @@ public class SQLiteRepetitionList extends RepetitionList
         repository.execSQL(
             "delete from repetitions where habit = ? and timestamp = ?",
             habit.getId(), entry.getTimestamp().getUnixTime());
-        observable.notifyListeners();
     }
 
     public void removeAll()

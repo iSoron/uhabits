@@ -30,13 +30,9 @@ public abstract class RepetitionList
     @NonNull
     protected final Habit habit;
 
-    @NonNull
-    protected final ModelObservable observable;
-
     public RepetitionList(@NonNull Habit habit)
     {
         this.habit = habit;
-        this.observable = new ModelObservable();
     }
 
     /**
@@ -84,12 +80,6 @@ public abstract class RepetitionList
         Entry check = getByTimestamp(timestamp);
         if (check == null) return Entry.UNKNOWN;
         return check.getValue();
-    }
-
-    @NonNull
-    public ModelObservable getObservable()
-    {
-        return observable;
     }
 
     /**

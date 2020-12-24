@@ -42,7 +42,6 @@ public class MemoryRepetitionList extends RepetitionList
     public void add(Entry repetition)
     {
         list.add(repetition);
-        observable.notifyListeners();
     }
 
     @Override
@@ -115,7 +114,6 @@ public class MemoryRepetitionList extends RepetitionList
     public void remove(@NonNull Entry repetition)
     {
         list.remove(repetition);
-        observable.notifyListeners();
     }
 
     @Override
@@ -132,6 +130,5 @@ public class MemoryRepetitionList extends RepetitionList
     public void removeAll()
     {
         list.clear();
-        getObservable().notifyListeners();
     }
 }
