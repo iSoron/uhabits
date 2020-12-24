@@ -40,7 +40,7 @@ public class MemoryModelFactory implements ModelFactory
     @Override
     public RepetitionList buildRepetitionList(Habit habit)
     {
-        return new MemoryRepetitionList(habit);
+        return new RepetitionList(habit);
     }
 
     @Override

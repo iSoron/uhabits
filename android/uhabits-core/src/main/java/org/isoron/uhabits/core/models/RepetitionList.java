@@ -25,10 +25,12 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
-public abstract class RepetitionList
+public class RepetitionList
 {
     @NonNull
     protected final Habit habit;
+
+    private final ArrayList<Entry> list = new ArrayList<>();
 
     public RepetitionList(@NonNull Habit habit)
     {
@@ -43,7 +45,10 @@ public abstract class RepetitionList
      *
      * @param entry the checkmark to be added.
      */
-    public abstract void add(Entry entry);
+    public void add(Entry entry)
+    {
+        list.add(entry);
+    }
 
     /**
      * Returns the list of checkmarks that happened within the given time
@@ -57,8 +62,22 @@ public abstract class RepetitionList
      * @param toTimestamp   timestamp of the end of the interval
      * @return list of checkmarks within given time interval
      */
-    public abstract List<Entry> getByInterval(Timestamp fromTimestamp,
-                                              Timestamp toTimestamp);
+    public List<Entry> getByInterval(Timestamp fromTimestamp, Timestamp toTimestamp)
+    {
+        ArrayList<Entry> filtered = new ArrayList<>();
+
+        for (Entry r : list)
+        {
+            Timestamp t = r.getTimestamp();
+            if (t.isOlderThan(fromTimestamp) || t.isNewerThan(toTimestamp)) continue;
+            filtered.add(r);
+        }
+
+        Collections.sort(filtered,
+                (r1, r2) -> r1.getTimestamp().compare(r2.getTimestamp()));
+
+        return filtered;
+    }
 
     /**
      * Returns the checkmark that has the given timestamp, or null if none
@@ -68,7 +87,13 @@ public abstract class RepetitionList
      * @return the checkmark that has the given timestamp.
      */
     @Nullable
-    public abstract Entry getByTimestamp(Timestamp timestamp);
+    public Entry getByTimestamp(Timestamp timestamp)
+    {
+        for (Entry r : list)
+            if (r.getTimestamp().equals(timestamp)) return r;
+
+        return null;
+    }
 
     /**
      * If a checkmark with the given timestamp exists, return its value. Otherwise, returns
@@ -91,9 +116,23 @@ public abstract class RepetitionList
      * @return oldest checkmark in the list, or null if list is empty.
      */
     @Nullable
-    public abstract Entry getOldest();
+    public Entry getOldest()
+    {
+        Timestamp oldestTimestamp = Timestamp.ZERO.plus(1000000);
+        Entry oldestRep = null;
 
-    @Nullable
+        for (Entry rep : list)
+        {
+            if (rep.getTimestamp().isOlderThan(oldestTimestamp))
+            {
+                oldestRep = rep;
+                oldestTimestamp = rep.getTimestamp();
+            }
+        }
+
+        return oldestRep;
+    }
+
     /**
      * Returns the newest checkmark in the list.
      * <p>
@@ -102,7 +141,23 @@ public abstract class RepetitionList
      *
      * @return newest checkmark in the list, or null if list is empty.
      */
-    public abstract Entry getNewest();
+    @Nullable
+    public Entry getNewest()
+    {
+        Timestamp newestTimestamp = Timestamp.ZERO;
+        Entry newestRep = null;
+
+        for (Entry rep : list)
+        {
+            if (rep.getTimestamp().isNewerThan(newestTimestamp))
+            {
+                newestRep = rep;
+                newestTimestamp = rep.getTimestamp();
+            }
+        }
+
+        return newestRep;
+    }
 
     /**
      * Returns the total number of successful checkmarks for each month, from the first
@@ -159,9 +214,20 @@ public abstract class RepetitionList
      *
      * @param entry the checkmark to be removed
      */
-    public abstract void remove(@NonNull Entry entry);
+    public void remove(@NonNull Entry entry)
+    {
+        list.remove(entry);
+    }
 
-    public abstract long getTotalCount();
+
+    public long getTotalCount()
+    {
+        int count = 0;
+        for (Entry rep : list)
+            if (rep.getValue() == Entry.YES_MANUAL)
+                count++;
+        return count;
+    }
 
     public void setValue(Timestamp timestamp, int value)
     {
@@ -171,5 +237,8 @@ public abstract class RepetitionList
         habit.invalidateNewerThan(timestamp);
     }
 
-    public abstract void removeAll();
+    public void removeAll()
+    {
+        list.clear();
+    }
 }

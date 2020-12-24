@@ -21,12 +21,11 @@
 
 package org.isoron.uhabits.core.models.sqlite;
 
-import androidx.annotation.*;
 import androidx.annotation.Nullable;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
 import org.jetbrains.annotations.*;
 
@@ -39,8 +38,6 @@ public class SQLiteRepetitionList extends RepetitionList
 {
     private final Repository<RepetitionRecord> repository;
 
-    private final MemoryRepetitionList list;
-
     private boolean loaded = false;
 
     public SQLiteRepetitionList(@NonNull Habit habit,
@@ -48,7 +45,6 @@ public class SQLiteRepetitionList extends RepetitionList
     {
         super(habit);
         repository = modelFactory.buildRepetitionListRepository();
-        list = new MemoryRepetitionList(habit);
     }
 
     private void loadRecords()
@@ -58,18 +54,18 @@ public class SQLiteRepetitionList extends RepetitionList
 
         check(habit.getId());
         List<RepetitionRecord> records =
-            repository.findAll("where habit = ? order by timestamp",
-                habit.getId().toString());
+                repository.findAll("where habit = ? order by timestamp",
+                        habit.getId().toString());
 
         for (RepetitionRecord rec : records)
-            list.add(rec.toCheckmark());
+            super.add(rec.toCheckmark());
     }
 
     @Override
     public void add(Entry entry)
     {
         loadRecords();
-        list.add(entry);
+        super.add(entry);
         check(habit.getId());
         RepetitionRecord record = new RepetitionRecord();
         record.habit_id = habit.getId();
@@ -81,7 +77,7 @@ public class SQLiteRepetitionList extends RepetitionList
     public List<Entry> getByInterval(Timestamp timeFrom, Timestamp timeTo)
     {
         loadRecords();
-        return list.getByInterval(timeFrom, timeTo);
+        return super.getByInterval(timeFrom, timeTo);
     }
 
     @Override
@@ -89,53 +85,48 @@ public class SQLiteRepetitionList extends RepetitionList
     public Entry getByTimestamp(Timestamp timestamp)
     {
         loadRecords();
-        return list.getByTimestamp(timestamp);
+        return super.getByTimestamp(timestamp);
     }
 
     @Override
     public Entry getOldest()
     {
         loadRecords();
-        return list.getOldest();
+        return super.getOldest();
     }
 
     @Override
     public Entry getNewest()
     {
         loadRecords();
-        return list.getNewest();
+        return super.getNewest();
     }
 
     @Override
     public void remove(@NonNull Entry entry)
     {
         loadRecords();
-        list.remove(entry);
+        super.remove(entry);
         check(habit.getId());
         repository.execSQL(
-            "delete from repetitions where habit = ? and timestamp = ?",
-            habit.getId(), entry.getTimestamp().getUnixTime());
+                "delete from repetitions where habit = ? and timestamp = ?",
+                habit.getId(), entry.getTimestamp().getUnixTime());
     }
 
     public void removeAll()
     {
         loadRecords();
-        list.removeAll();
+        super.removeAll();
         check(habit.getId());
         repository.execSQL("delete from repetitions where habit = ?",
-            habit.getId());
+                habit.getId());
     }
 
     @Override
     public long getTotalCount()
     {
         loadRecords();
-        return list.getTotalCount();
-    }
-
-    public void reload()
-    {
-        loaded = false;
+        return super.getTotalCount();
     }
 
     @Contract("null -> fail")
