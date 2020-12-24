@@ -31,6 +31,7 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
+import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
@@ -41,7 +42,7 @@ import org.jetbrains.annotations.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
-    implements DialogInterface.OnClickListener
+        implements DialogInterface.OnClickListener, CommandRunner.Listener
 {
     @Nullable
     private Habit habit;
@@ -57,6 +58,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     private TaskRunner taskRunner;
 
     private Preferences prefs;
+
+    private CommandRunner commandRunner;
 
     public HistoryEditorDialog()
     {
@@ -85,6 +88,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             (HabitsApplication) getActivity().getApplicationContext();
         habitList = app.getComponent().getHabitList();
         taskRunner = app.getComponent().getTaskRunner();
+        commandRunner = app.getComponent().getCommandRunner();
         prefs = app.getComponent().getPreferences();
 
         historyChart = new HistoryChart(context);
@@ -127,7 +131,15 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         int height = Math.min(metrics.heightPixels, maxHeight);
 
         getDialog().getWindow().setLayout(width, height);
+        commandRunner.addListener(this);
         refreshData();
+    }
+
+    @Override
+    public void onPause()
+    {
+        commandRunner.removeListener(this);
+        super.onPause();
     }
 
     @Override
@@ -151,6 +163,12 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     {
         if (habit == null) return;
         taskRunner.execute(new RefreshTask());
+    }
+
+    @Override
+    public void onCommandExecuted(@Nullable Command command, @Nullable Long refreshKey)
+    {
+        refreshData();
     }
 
     private class RefreshTask implements Task
