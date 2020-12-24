@@ -41,12 +41,9 @@ public abstract class EntryList
 {
     protected final Habit habit;
 
-    public final ModelObservable observable;
-
     public EntryList(Habit habit)
     {
         this.habit = habit;
-        this.observable = new ModelObservable();
     }
 
     @NonNull

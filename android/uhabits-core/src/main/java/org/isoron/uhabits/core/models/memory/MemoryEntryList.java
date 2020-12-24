@@ -80,7 +80,6 @@ public class MemoryEntryList extends EntryList
     public void invalidateNewerThan(Timestamp timestamp)
     {
         list.clear();
-        observable.notifyListeners();
     }
 
     @Override

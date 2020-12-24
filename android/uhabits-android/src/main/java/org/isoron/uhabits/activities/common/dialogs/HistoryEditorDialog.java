@@ -41,7 +41,7 @@ import org.jetbrains.annotations.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
-    implements DialogInterface.OnClickListener, ModelObservable.Listener
+    implements DialogInterface.OnClickListener
 {
     @Nullable
     private Habit habit;
@@ -116,19 +116,6 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     }
 
     @Override
-    public void onModelChange()
-    {
-        refreshData();
-    }
-
-    @Override
-    public void onPause()
-    {
-        habit.getComputedEntries().observable.removeListener(this);
-        super.onPause();
-    }
-
-    @Override
     public void onResume()
     {
         super.onResume();
@@ -140,9 +127,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         int height = Math.min(metrics.heightPixels, maxHeight);
 
         getDialog().getWindow().setLayout(width, height);
-
         refreshData();
-        habit.getComputedEntries().observable.addListener(this);
     }
 
     @Override
