@@ -158,9 +158,9 @@ public class HistoryChart extends ScrollableChart
         if (offset < checkmarks.length)
         {
             if(skipsEnabled)
-                newValue = Repetition.nextToggleValueWithSkip(checkmarks[offset]);
+                newValue = Checkmark.Companion.nextToggleValueWithSkip(checkmarks[offset]);
             else
-                newValue = Repetition.nextToggleValueWithoutSkip(checkmarks[offset]);
+                newValue = Checkmark.Companion.nextToggleValueWithoutSkip(checkmarks[offset]);
         }
 
         onToggleCheckmarkListener.onToggleCheckmark(timestamp, newValue);

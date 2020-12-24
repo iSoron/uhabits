@@ -161,11 +161,4 @@ public class RepetitionListTest extends BaseUnitTest
         verify(listener, times(2)).onModelChange();
         reset(listener);
     }
-
-    @Test
-    public void testToString() throws Exception
-    {
-        Repetition rep = new Repetition(Timestamp.ZERO.plus(100), 20);
-        assertThat(rep.toString(), equalTo("{timestamp: 1970-04-11, value: 20}"));
-    }
 }

@@ -29,7 +29,6 @@ import org.junit.*;
 import java.util.*;
 
 import static org.isoron.uhabits.core.models.Checkmark.*;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class WidgetBehaviorTest extends BaseUnitTest
@@ -89,8 +88,8 @@ public class WidgetBehaviorTest extends BaseUnitTest
                 when(preferences.isSkipEnabled()).thenReturn(skipEnabled);
 
                 int nextValue;
-                if(skipEnabled) nextValue = Repetition.nextToggleValueWithSkip(currentValue);
-                else nextValue = Repetition.nextToggleValueWithoutSkip(currentValue);
+                if(skipEnabled) nextValue = Checkmark.Companion.nextToggleValueWithSkip(currentValue);
+                else nextValue = Checkmark.Companion.nextToggleValueWithoutSkip(currentValue);
 
                 habit.getRepetitions().setValue(timestamp, currentValue);
                 behavior.onToggleRepetition(habit, timestamp);

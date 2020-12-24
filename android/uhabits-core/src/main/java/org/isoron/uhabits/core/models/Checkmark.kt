@@ -59,5 +59,22 @@ data class Checkmark(
          * Checkmark value indicating that no data is available for the given timestamp.
          */
         const val UNKNOWN = -1
+
+        fun nextToggleValueWithSkip(value: Int): Int {
+            return when (value) {
+                NO, UNKNOWN, YES_AUTO -> YES_MANUAL
+                YES_MANUAL -> SKIP
+                SKIP -> NO
+                else -> NO
+            }
+        }
+
+        fun nextToggleValueWithoutSkip(value: Int): Int {
+            return when (value) {
+                NO, UNKNOWN, YES_AUTO -> YES_MANUAL
+                else -> NO
+            }
+        }
+
     }
 }

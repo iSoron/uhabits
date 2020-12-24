@@ -73,9 +73,9 @@ public class WidgetBehavior
         int currentValue = habit.getRepetitions().getValue(timestamp);
         int newValue;
         if(preferences.isSkipEnabled())
-            newValue = Repetition.nextToggleValueWithSkip(currentValue);
+            newValue = Checkmark.Companion.nextToggleValueWithSkip(currentValue);
         else
-            newValue = Repetition.nextToggleValueWithoutSkip(currentValue);
+            newValue = Checkmark.Companion.nextToggleValueWithoutSkip(currentValue);
         setValue(habit, timestamp, newValue);
         notificationTray.cancel(habit);
     }
