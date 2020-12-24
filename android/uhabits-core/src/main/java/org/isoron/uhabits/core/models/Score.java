@@ -73,7 +73,7 @@ public final class Score
 
     public int compareNewer(Score other)
     {
-        return getTimestamp().compare(other.getTimestamp());
+        return getTimestamp().compareTo(other.getTimestamp());
     }
 
     public Timestamp getTimestamp()

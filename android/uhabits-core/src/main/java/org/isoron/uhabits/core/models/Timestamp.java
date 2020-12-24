@@ -20,15 +20,13 @@
 package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
-import org.isoron.uhabits.core.utils.DateFormats;
-import org.isoron.uhabits.core.utils.DateUtils;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
 import static java.util.Calendar.*;
-import static org.isoron.uhabits.core.utils.StringUtils.*;
 
-public final class Timestamp
+public final class Timestamp implements Comparable<Timestamp>
 {
     public static final long DAY_LENGTH = 86400000;
 
@@ -53,6 +51,13 @@ public final class Timestamp
         this(cal.getTimeInMillis());
     }
 
+    public static Timestamp from(int year, int javaMonth, int day)
+    {
+        GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
+        cal.set(year, javaMonth, day, 0, 0, 0);
+        return new Timestamp(cal.getTimeInMillis());
+    }
+
     public long getUnixTime()
     {
         return unixTime;
@@ -62,7 +67,8 @@ public final class Timestamp
      * Returns -1 if this timestamp is older than the given timestamp, 1 if this
      * timestamp is newer, or zero if they are equal.
      */
-    public int compare(Timestamp other)
+    @Override
+    public int compareTo(Timestamp other)
     {
         return Long.signum(this.unixTime - other.unixTime);
     }
@@ -117,12 +123,12 @@ public final class Timestamp
 
     public boolean isNewerThan(Timestamp other)
     {
-        return compare(other) > 0;
+        return compareTo(other) > 0;
     }
 
     public boolean isOlderThan(Timestamp other)
     {
-        return compare(other) < 0;
+        return compareTo(other) < 0;
     }
 
 

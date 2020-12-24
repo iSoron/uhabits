@@ -74,7 +74,7 @@ public class RepetitionList
         }
 
         Collections.sort(filtered,
-                (r1, r2) -> r1.getTimestamp().compare(r2.getTimestamp()));
+                (r1, r2) -> r1.getTimestamp().compareTo(r2.getTimestamp()));
 
         return filtered;
     }

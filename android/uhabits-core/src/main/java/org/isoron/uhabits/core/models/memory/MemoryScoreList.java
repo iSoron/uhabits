@@ -40,7 +40,7 @@ public class MemoryScoreList extends ScoreList
     {
         list.addAll(scores);
         Collections.sort(list,
-            (s1, s2) -> s2.getTimestamp().compare(s1.getTimestamp()));
+            (s1, s2) -> s2.getTimestamp().compareTo(s1.getTimestamp()));
         getObservable().notifyListeners();
     }
 

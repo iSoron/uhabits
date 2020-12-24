@@ -22,7 +22,6 @@ package org.isoron.uhabits.core.models;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
-import org.mockito.internal.verification.*;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.*;
@@ -38,9 +37,9 @@ public class TimestampTest extends BaseUnitTest
         Timestamp t2 = t1.minus(1);
         Timestamp t3 = t1.plus(3);
 
-        assertThat(t1.compare(t2), greaterThan(0));
-        assertThat(t1.compare(t1), equalTo(0));
-        assertThat(t1.compare(t3), lessThan(0));
+        assertThat(t1.compareTo(t2), greaterThan(0));
+        assertThat(t1.compareTo(t1), equalTo(0));
+        assertThat(t1.compareTo(t3), lessThan(0));
 
         assertTrue(t1.isNewerThan(t2));
         assertFalse(t1.isNewerThan(t1));

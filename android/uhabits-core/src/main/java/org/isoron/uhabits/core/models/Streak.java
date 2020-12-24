@@ -45,7 +45,7 @@ public final class Streak
 
     public int compareNewer(Streak other)
     {
-        return end.compare(other.end);
+        return end.compareTo(other.end);
     }
 
     public Timestamp getEnd()

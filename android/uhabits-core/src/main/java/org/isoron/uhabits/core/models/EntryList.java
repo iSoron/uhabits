@@ -158,7 +158,7 @@ public class EntryList
     {
         list.addAll(entries);
         Collections.sort(list,
-                (c1, c2) -> c2.getTimestamp().compare(c1.getTimestamp()));
+                (c1, c2) -> c2.getTimestamp().compareTo(c1.getTimestamp()));
 
     }
 
