@@ -219,6 +219,7 @@ public class ScoreListTest extends BaseUnitTest
 
         // Missing 2 repetitions out of 4 per week, the score should converge to 50%
         habit.setFrequency(new Frequency(4, 7));
+        habit.invalidateNewerThan(Timestamp.ZERO);
         assertThat(habit.getScores().getTodayValue(), closeTo(0.5, E));
     }
 

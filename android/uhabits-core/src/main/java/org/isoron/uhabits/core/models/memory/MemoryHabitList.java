@@ -95,7 +95,7 @@ public class MemoryHabitList extends HabitList
     @Override
     public synchronized Habit getByUUID(String uuid)
     {
-        for (Habit h : list) if (h.getUUID().equals(uuid)) return h;
+        for (Habit h : list) if (h.getUuid().equals(uuid)) return h;
         return null;
     }
 
@@ -174,7 +174,7 @@ public class MemoryHabitList extends HabitList
                 scoreComparatorDesc.compare(h2, h1);
 
         Comparator<Habit> positionComparator = (h1, h2) ->
-                h1.getPosition().compareTo(h2.getPosition());
+                Integer.compare(h1.getPosition(), h2.getPosition());
 
         Comparator<Habit> statusComparatorDesc = (h1, h2) ->
         {

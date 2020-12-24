@@ -50,7 +50,7 @@ public class HabitRecordTest extends BaseUnitTest
         Habit duplicate = modelFactory.buildHabit();
         record.copyTo(duplicate);
 
-        assertThat(original.getData(), equalTo(duplicate.getData()));
+        assertThat(original, equalTo(duplicate));
     }
 
     @Test
@@ -76,6 +76,6 @@ public class HabitRecordTest extends BaseUnitTest
         Habit duplicate = modelFactory.buildHabit();
         record.copyTo(duplicate);
 
-        assertThat(original.getData(), equalTo(duplicate.getData()));
+        assertThat(original, equalTo(duplicate));
     }
 }

@@ -184,13 +184,13 @@ public class NotificationTray
         @Override
         public void onPostExecute()
         {
-            systemTray.log("Showing notification for habit=" + habit.id);
+            systemTray.log("Showing notification for habit=" + habit.getId());
 
             if (todayValue != Entry.UNKNOWN) {
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d already checked. Skipping.",
-                        habit.id));
+                        habit.getId()));
                 return;
             }
 
@@ -198,7 +198,7 @@ public class NotificationTray
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d does not have a reminder. Skipping.",
-                        habit.id));
+                        habit.getId()));
                 return;
             }
 
@@ -207,7 +207,7 @@ public class NotificationTray
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d is archived. Skipping.",
-                        habit.id));
+                        habit.getId()));
                 return;
             }
 
@@ -215,7 +215,7 @@ public class NotificationTray
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d not supposed to run today. Skipping.",
-                        habit.id));
+                        habit.getId()));
                 return;
             }
 

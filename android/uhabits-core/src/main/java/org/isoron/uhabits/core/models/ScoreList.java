@@ -31,22 +31,13 @@ import static org.isoron.uhabits.core.models.Entry.*;
 
 public abstract class ScoreList implements Iterable<Score>
 {
-    protected final Habit habit;
+    protected Habit habit;
 
-    protected ModelObservable observable;
+    protected ModelObservable observable = new ModelObservable();
 
-    /**
-     * Creates a new ScoreList for the given habit.
-     * <p>
-     * The list is populated automatically according to the repetitions that the
-     * habit has.
-     *
-     * @param habit the habit to which the scores belong.
-     */
-    public ScoreList(Habit habit)
+    public void setHabit(Habit habit)
     {
         this.habit = habit;
-        observable = new ModelObservable();
     }
 
     /**

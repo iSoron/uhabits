@@ -81,7 +81,7 @@ public class ReminderReceiver extends BroadcastReceiver
                     if (habit == null) return;
                     Log.d("ReminderReceiver", String.format(
                             "onShowReminder habit=%d timestamp=%d reminderTime=%d",
-                            habit.id,
+                            habit.getId(),
                             timestamp,
                             reminderTime));
                     reminderController.onShowReminder(habit,
@@ -90,13 +90,13 @@ public class ReminderReceiver extends BroadcastReceiver
 
                 case ACTION_DISMISS_REMINDER:
                     if (habit == null) return;
-                    Log.d("ReminderReceiver", String.format("onDismiss habit=%d", habit.id));
+                    Log.d("ReminderReceiver", String.format("onDismiss habit=%d", habit.getId()));
                     reminderController.onDismiss(habit);
                     break;
 
                 case ACTION_SNOOZE_REMINDER:
                     if (habit == null) return;
-                    Log.d("ReminderReceiver", String.format("onSnoozePressed habit=%d", habit.id));
+                    Log.d("ReminderReceiver", String.format("onSnoozePressed habit=%d", habit.getId()));
                     reminderController.onSnoozePressed(habit, context);
                     break;
 

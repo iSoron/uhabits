@@ -56,7 +56,7 @@ public class ReminderSchedulerTest extends BaseUnitTest
     {
         super.setUp();
         habit = fixtures.createEmptyHabit();
-        habit.id = habitId;
+        habit.setId(habitId);
 
         reminderScheduler =
             new ReminderScheduler(commandRunner, habitList, sys, widgetPreferences);

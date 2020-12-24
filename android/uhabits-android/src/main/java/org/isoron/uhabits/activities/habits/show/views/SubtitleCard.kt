@@ -82,7 +82,7 @@ class SubtitleCardPresenter(
 
     fun present(): SubtitleCardViewModel {
         val reminderText = if (habit.hasReminder()) {
-            formatTime(context, habit.reminder.hour, habit.reminder.minute)!!
+            formatTime(context, habit.reminder!!.hour, habit.reminder!!.minute)!!
         } else {
             resources.getString(R.string.reminder_off)
         }

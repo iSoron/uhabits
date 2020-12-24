@@ -31,6 +31,7 @@ import java.util.*;
 import javax.annotation.concurrent.*;
 
 import static org.isoron.uhabits.core.models.Entry.*;
+import static org.isoron.uhabits.core.models.Habit.*;
 import static org.isoron.uhabits.core.utils.StringUtils.*;
 
 /**
@@ -39,14 +40,18 @@ import static org.isoron.uhabits.core.utils.StringUtils.*;
 @ThreadSafe
 public class EntryList
 {
-    protected final Habit habit;
+    protected Habit habit = null;
 
     protected ArrayList<Entry> list;
 
-    public EntryList(Habit habit)
+    public EntryList()
+    {
+        this.list = new ArrayList<>();
+    }
+
+    public void setHabit(Habit habit)
     {
         this.habit = habit;
-        this.list = new ArrayList<>();
     }
 
     @NonNull
@@ -423,6 +428,22 @@ public class EntryList
         Entry oldest = habit.getOriginalEntries().getOldest();
         if (oldest == null) return new ArrayList<>();
         return getByInterval(oldest.getTimestamp(), DateUtils.getTodayWithOffset());
+    }
+
+    public boolean isCompletedToday()
+    {
+        int todayCheckmark = getTodayValue();
+        if (habit.isNumerical())
+        {
+            if (habit.getTargetType() == AT_LEAST)
+                return todayCheckmark / 1000.0 >= habit.getTargetValue();
+            else
+                return todayCheckmark / 1000.0 <= habit.getTargetValue();
+        }
+        else
+        {
+            return (todayCheckmark != NO && todayCheckmark != UNKNOWN);
+        }
     }
 
     static final class Interval

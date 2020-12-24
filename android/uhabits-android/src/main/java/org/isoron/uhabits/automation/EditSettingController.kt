@@ -28,13 +28,13 @@ import org.isoron.uhabits.core.models.*
 class EditSettingController(private val activity: Activity) {
 
     fun onSave(habit: Habit, action: Int) {
-        if (habit.getId() == null) return
+        if (habit.id == null) return
         val actionName = getActionName(action)
         val blurb = String.format("%s: %s", actionName, habit.name)
 
         val bundle = Bundle()
         bundle.putInt("action", action)
-        bundle.putLong("habit", habit.getId()!!)
+        bundle.putLong("habit", habit.id!!)
 
         activity.setResult(Activity.RESULT_OK, Intent().apply {
             putExtra(EXTRA_STRING_BLURB, blurb)

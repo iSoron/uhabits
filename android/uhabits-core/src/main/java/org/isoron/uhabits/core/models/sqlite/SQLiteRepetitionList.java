@@ -40,10 +40,8 @@ public class SQLiteRepetitionList extends RepetitionList
 
     private boolean loaded = false;
 
-    public SQLiteRepetitionList(@NonNull Habit habit,
-                                @NonNull ModelFactory modelFactory)
+    public SQLiteRepetitionList(@NonNull ModelFactory modelFactory)
     {
-        super(habit);
         repository = modelFactory.buildRepetitionListRepository();
     }
 

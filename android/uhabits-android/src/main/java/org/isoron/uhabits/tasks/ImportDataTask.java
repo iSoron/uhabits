@@ -67,7 +67,7 @@ public class ImportDataTask implements Task
     @Override
     public void doInBackground()
     {
-        modelFactory.db.beginTransaction();
+        modelFactory.getDatabase().beginTransaction();
 
         try
         {
@@ -75,7 +75,7 @@ public class ImportDataTask implements Task
             {
                 importer.importHabitsFromFile(file);
                 result = SUCCESS;
-                modelFactory.db.setTransactionSuccessful();
+                modelFactory.getDatabase().setTransactionSuccessful();
             }
             else
             {
@@ -88,7 +88,7 @@ public class ImportDataTask implements Task
             Log.e("ImportDataTask", "Import failed", e);
         }
 
-        modelFactory.db.endTransaction();
+        modelFactory.getDatabase().endTransaction();
     }
 
     @Override

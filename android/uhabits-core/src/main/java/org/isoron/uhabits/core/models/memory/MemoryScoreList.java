@@ -27,13 +27,7 @@ import java.util.*;
 
 public class MemoryScoreList extends ScoreList
 {
-    ArrayList<Score> list;
-
-    public MemoryScoreList(Habit habit)
-    {
-        super(habit);
-        list = new ArrayList<>();
-    }
+    ArrayList<Score> list = new ArrayList<>();
 
     @Override
     public void add(List<Score> scores)

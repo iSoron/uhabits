@@ -69,7 +69,7 @@ class TargetCardPresenter(
         val daysInQuarter = 91
         val daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
 
-        val targetToday = habit.getTargetValue() / habit.frequency.denominator
+        val targetToday = habit.targetValue / habit.frequency.denominator
         val targetThisWeek = targetToday * 7
         val targetThisMonth = targetToday * daysInMonth
         val targetThisQuarter = targetToday * daysInQuarter

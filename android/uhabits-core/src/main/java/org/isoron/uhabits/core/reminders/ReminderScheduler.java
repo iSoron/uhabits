@@ -74,7 +74,7 @@ public class ReminderScheduler implements CommandRunner.Listener
 
         if (!habit.hasReminder())
         {
-            sys.log("ReminderScheduler", "habit=" + habit.id + " has no reminder. Skipping.");
+            sys.log("ReminderScheduler", "habit=" + habit.getId() + " has no reminder. Skipping.");
             return;
         }
 
@@ -107,17 +107,17 @@ public class ReminderScheduler implements CommandRunner.Listener
 
     public synchronized void scheduleAtTime(@NonNull Habit habit, long reminderTime)
     {
-        sys.log("ReminderScheduler", "Scheduling alarm for habit=" + habit.id);
+        sys.log("ReminderScheduler", "Scheduling alarm for habit=" + habit.getId());
 
         if (!habit.hasReminder())
         {
-            sys.log("ReminderScheduler", "habit=" + habit.id + " has no reminder. Skipping.");
+            sys.log("ReminderScheduler", "habit=" + habit.getId() + " has no reminder. Skipping.");
             return;
         }
 
         if (habit.isArchived())
         {
-            sys.log("ReminderScheduler", "habit=" + habit.id + " is archived. Skipping.");
+            sys.log("ReminderScheduler", "habit=" + habit.getId() + " is archived. Skipping.");
             return;
         }
 

@@ -63,7 +63,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
         behavior.onAddRepetition(habit, timestamp);
         verify(commandRunner).execute(
                 new CreateRepetitionCommand(habitList, habit, timestamp, YES_MANUAL),
-                habit.id);
+                habit.getId());
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }
@@ -74,7 +74,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
         behavior.onRemoveRepetition(habit, timestamp);
         verify(commandRunner).execute(
                 new CreateRepetitionCommand(habitList, habit, timestamp, NO),
-                habit.id);
+                habit.getId());
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }
@@ -96,7 +96,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
                 verify(preferences).isSkipEnabled();
                 verify(commandRunner).execute(
                         new CreateRepetitionCommand(habitList, habit, timestamp, nextValue),
-                        habit.id);
+                        habit.getId());
                 verify(notificationTray).cancel(habit);
                 reset(preferences, commandRunner, notificationTray);
             }
@@ -111,7 +111,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
         behavior.onIncrement(habit, timestamp, 100);
         verify(commandRunner).execute(
                 new CreateRepetitionCommand(habitList, habit, timestamp, 600),
-                habit.id);
+                habit.getId());
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }
@@ -125,7 +125,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
         behavior.onDecrement(habit, timestamp, 100);
         verify(commandRunner).execute(
                 new CreateRepetitionCommand(habitList, habit, timestamp, 400),
-                habit.id);
+                habit.getId());
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }

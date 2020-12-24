@@ -66,7 +66,7 @@ open class CheckmarkWidget(
     override fun getDefaultWidth() = 125
 
     private fun getNumericalEntryState(): Int {
-        return if (habit.isCompletedToday) {
+        return if (habit.isCompletedToday()) {
             Entry.YES_MANUAL
         } else {
             Entry.NO

@@ -80,7 +80,7 @@ class IntentSchedulerTest : BaseAndroidTest() {
     @Test
     @MediumTest
     fun testScheduleShowReminder() {
-        for (h in habitList) h.setReminder(null)
+        for (h in habitList) h.reminder = null
         ReminderReceiver.clearLastReceivedIntent()
 
         setSystemTime("America/Chicago", 2020, JUNE, 1, 12, 30)

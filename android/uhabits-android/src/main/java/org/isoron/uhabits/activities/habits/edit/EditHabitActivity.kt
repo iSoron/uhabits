@@ -73,10 +73,10 @@ class EditHabitActivity : AppCompatActivity() {
             color = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
-            if (habit.hasReminder()) {
-                reminderHour = habit.reminder.hour
-                reminderMin = habit.reminder.minute
-                reminderDays = habit.reminder.days
+            habit.reminder?.let {
+                reminderHour = it.hour
+                reminderMin = it.minute
+                reminderDays = it.days
             }
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
@@ -210,9 +210,9 @@ class EditHabitActivity : AppCompatActivity() {
         habit.description = notesInput.text.trim().toString()
         habit.color = color
         if (reminderHour >= 0) {
-            habit.setReminder(Reminder(reminderHour, reminderMin, reminderDays))
+            habit.reminder = Reminder(reminderHour, reminderMin, reminderDays)
         } else {
-            habit.setReminder(null)
+            habit.reminder = null
         }
 
         habit.frequency = Frequency(freqNum, freqDen)

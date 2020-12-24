@@ -60,7 +60,7 @@ public class PerformanceTest extends BaseAndroidTest
     @Test(timeout = 5000)
     public void benchmarkCreateHabitCommand()
     {
-        Database db = ((SQLModelFactory) modelFactory).db;
+        Database db = ((SQLModelFactory) modelFactory).getDatabase();
         db.beginTransaction();
         for (int i = 0; i < 1_000; i++)
         {
@@ -75,7 +75,7 @@ public class PerformanceTest extends BaseAndroidTest
     @Test(timeout = 5000)
     public void benchmarkCreateRepetitionCommand()
     {
-        Database db = ((SQLModelFactory) modelFactory).db;
+        Database db = ((SQLModelFactory) modelFactory).getDatabase();
         db.beginTransaction();
         Habit habit = fixtures.createEmptyHabit();
         for (int i = 0; i < 5_000; i++)

@@ -32,14 +32,13 @@ import java.util.*;
  */
 public abstract class StreakList
 {
-    protected final Habit habit;
+    protected Habit habit;
 
-    protected ModelObservable observable;
+    protected ModelObservable observable = new ModelObservable();
 
-    protected StreakList(Habit habit)
+    public void setHabit(Habit habit)
     {
         this.habit = habit;
-        observable = new ModelObservable();
     }
 
     public abstract List<Streak> getAll();

@@ -91,7 +91,7 @@ public class SQLiteHabitList extends HabitList
         HabitRecord record = new HabitRecord();
         record.copyFrom(habit);
         repository.save(record);
-        habit.id = record.id;
+        habit.setId(record.id);
 
         list.add(habit);
         getObservable().notifyListeners();

@@ -27,12 +27,11 @@ import java.util.*;
 
 public class RepetitionList
 {
-    @NonNull
-    protected final Habit habit;
+    protected Habit habit;
 
     private final ArrayList<Entry> list = new ArrayList<>();
 
-    public RepetitionList(@NonNull Habit habit)
+    public void setHabit(Habit habit)
     {
         this.habit = habit;
     }

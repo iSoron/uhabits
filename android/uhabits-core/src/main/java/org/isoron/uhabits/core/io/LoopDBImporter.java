@@ -119,10 +119,9 @@ public class LoopDBImporter extends AbstractImporter
             else
             {
                 Habit modified = modelFactory.buildHabit();
-                habitRecord.id = habit.id;
+                habitRecord.id = habit.getId();
                 habitRecord.copyTo(modified);
-                if (!modified.getData().equals(habit.getData()))
-                    new EditHabitCommand(modelFactory, habitList, habit, modified).execute();
+                new EditHabitCommand(modelFactory, habitList, habit, modified).execute();
             }
 
             // Reload saved version of the habit

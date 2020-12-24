@@ -67,7 +67,7 @@ class ShowHabitBehavior(
                                 timestamp,
                                 thousands,
                         ),
-                        habit.getId(),
+                        habit.id,
                 )
             }
         } else {

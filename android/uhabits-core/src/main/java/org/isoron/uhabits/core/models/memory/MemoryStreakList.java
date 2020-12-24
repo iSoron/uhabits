@@ -27,13 +27,7 @@ import java.util.*;
 
 public class MemoryStreakList extends StreakList
 {
-    ArrayList<Streak> list;
-
-    public MemoryStreakList(Habit habit)
-    {
-        super(habit);
-        list = new ArrayList<>();
-    }
+    ArrayList<Streak> list = new ArrayList<>();
 
     @Override
     public Streak getNewestComputed()
