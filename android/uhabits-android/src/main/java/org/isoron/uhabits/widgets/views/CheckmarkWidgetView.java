@@ -48,9 +48,9 @@ public class CheckmarkWidgetView extends HabitWidgetView {
 
     protected TextView label;
 
-    protected int checkmarkValue;
+    protected int entryValue;
 
-    protected int checkmarkState;
+    protected int entryState;
 
     protected boolean isNumerical;
 
@@ -77,9 +77,9 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         int bgColor;
         int fgColor;
 
-        switch (checkmarkState) {
-            case Checkmark.YES_MANUAL:
-            case Checkmark.SKIP:
+        switch (entryState) {
+            case Entry.YES_MANUAL:
+            case Entry.SKIP:
                 bgColor = activeColor;
                 fgColor = res.getColor(R.attr.highContrastReverseTextColor);
                 setShadowAlpha(0x4f);
@@ -87,9 +87,9 @@ public class CheckmarkWidgetView extends HabitWidgetView {
                 frame.setBackgroundDrawable(background);
                 break;
 
-            case Checkmark.YES_AUTO:
-            case Checkmark.NO:
-            case Checkmark.UNKNOWN:
+            case Entry.YES_AUTO:
+            case Entry.NO:
+            case Entry.UNKNOWN:
             default:
                 bgColor = res.getColor(R.attr.cardBgColor);
                 fgColor = res.getColor(R.attr.mediumContrastTextColor);
@@ -109,28 +109,28 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         postInvalidate();
     }
 
-    public void setCheckmarkState(int checkmarkState)
+    public void setEntryState(int entryState)
     {
-        this.checkmarkState = checkmarkState;
+        this.entryState = entryState;
     }
 
     protected String getText()
     {
-        if (isNumerical) return NumberButtonViewKt.toShortString(checkmarkValue / 1000.0);
-        switch (checkmarkState) {
-            case Checkmark.YES_MANUAL:
-            case Checkmark.YES_AUTO:
+        if (isNumerical) return NumberButtonViewKt.toShortString(entryValue / 1000.0);
+        switch (entryState) {
+            case Entry.YES_MANUAL:
+            case Entry.YES_AUTO:
                 return getResources().getString(R.string.fa_check);
-            case Checkmark.SKIP:
+            case Entry.SKIP:
                 return getResources().getString(R.string.fa_skipped);
-            case Checkmark.UNKNOWN:
+            case Entry.UNKNOWN:
             {
                 if (preferences.areQuestionMarksEnabled())
                     return getResources().getString(R.string.fa_question);
                 else
                     getResources().getString(R.string.fa_times);
             }
-            case Checkmark.NO:
+            case Entry.NO:
             default:
                 return getResources().getString(R.string.fa_times);
         }
@@ -141,9 +141,9 @@ public class CheckmarkWidgetView extends HabitWidgetView {
         this.activeColor = activeColor;
     }
 
-    public void setCheckmarkValue(int checkmarkValue)
+    public void setEntryValue(int entryValue)
     {
-        this.checkmarkValue = checkmarkValue;
+        this.entryValue = entryValue;
     }
 
     public void setName(@NonNull String name)
@@ -218,7 +218,7 @@ public class CheckmarkWidgetView extends HabitWidgetView {
             percentage = 0.75f;
             name = "Wake up early";
             activeColor = PaletteUtils.getAndroidTestColor(6);
-            checkmarkValue = Checkmark.YES_MANUAL;
+            entryValue = Entry.YES_MANUAL;
             refresh();
         }
     }

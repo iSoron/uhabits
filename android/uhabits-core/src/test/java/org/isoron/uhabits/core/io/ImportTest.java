@@ -30,7 +30,7 @@ import java.util.*;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 import static org.isoron.uhabits.core.models.Frequency.*;
 import static org.junit.Assert.assertTrue;
 
@@ -123,7 +123,7 @@ public class ImportTest extends BaseUnitTest
         GregorianCalendar date = DateUtils.getStartOfTodayCalendar();
         date.set(year, month - 1, day);
         Timestamp timestamp = new Timestamp(date);
-        return h.getOriginalCheckmarks().getValue(timestamp) == YES_MANUAL;
+        return h.getOriginalEntries().getValue(timestamp) == YES_MANUAL;
     }
 
     private void importFromFile(String assetFilename) throws IOException

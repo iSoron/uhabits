@@ -33,7 +33,7 @@ public class RepetitionRecordTest extends BaseUnitTest
     @Test
     public void testRecord() throws Exception
     {
-        Checkmark check = new Checkmark(Timestamp.ZERO.plus(100), 50);
+        Entry check = new Entry(Timestamp.ZERO.plus(100), 50);
         RepetitionRecord record = new RepetitionRecord();
         record.copyFrom(check);
         assertThat(check, equalTo(record.toCheckmark()));

@@ -178,7 +178,7 @@ public class NotificationTray
         @Override
         public void doInBackground()
         {
-            todayValue = habit.getComputedCheckmarks().getTodayValue();
+            todayValue = habit.getComputedEntries().getTodayValue();
         }
 
         @Override
@@ -186,7 +186,7 @@ public class NotificationTray
         {
             systemTray.log("Showing notification for habit=" + habit.id);
 
-            if (todayValue != Checkmark.UNKNOWN) {
+            if (todayValue != Entry.UNKNOWN) {
                 systemTray.log(String.format(
                         Locale.US,
                         "Habit %d already checked. Skipping.",

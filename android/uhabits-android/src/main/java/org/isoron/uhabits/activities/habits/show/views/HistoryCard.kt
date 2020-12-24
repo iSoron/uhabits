@@ -27,7 +27,7 @@ import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
 data class HistoryCardViewModel(
-        val checkmarks: IntArray,
+        val entries: IntArray,
         val color: PaletteColor,
         val firstWeekday: Int,
         val isNumerical: Boolean,
@@ -48,7 +48,7 @@ class HistoryCard(context: Context, attrs: AttributeSet) : LinearLayout(context,
     fun update(data: HistoryCardViewModel) {
         binding.historyChart.setFirstWeekday(data.firstWeekday)
         binding.historyChart.setSkipEnabled(data.isSkipEnabled)
-        binding.historyChart.setCheckmarks(data.checkmarks)
+        binding.historyChart.setEntries(data.entries)
         val androidColor = data.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
         binding.historyChart.setColor(androidColor)
@@ -66,7 +66,7 @@ class HistoryCardPresenter(
         val isSkipEnabled: Boolean,
 ) {
     fun present() = HistoryCardViewModel(
-            checkmarks = habit.computedCheckmarks.allValues,
+            entries = habit.computedEntries.allValues,
             color = habit.color,
             firstWeekday = firstWeekday,
             isNumerical = habit.isNumerical,

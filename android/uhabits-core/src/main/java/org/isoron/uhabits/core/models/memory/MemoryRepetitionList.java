@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class MemoryRepetitionList extends RepetitionList
 {
-    ArrayList<Checkmark> list;
+    ArrayList<Entry> list;
 
     public MemoryRepetitionList(Habit habit)
     {
@@ -39,18 +39,18 @@ public class MemoryRepetitionList extends RepetitionList
     }
 
     @Override
-    public void add(Checkmark repetition)
+    public void add(Entry repetition)
     {
         list.add(repetition);
         observable.notifyListeners();
     }
 
     @Override
-    public List<Checkmark> getByInterval(Timestamp fromTimestamp, Timestamp toTimestamp)
+    public List<Entry> getByInterval(Timestamp fromTimestamp, Timestamp toTimestamp)
     {
-        ArrayList<Checkmark> filtered = new ArrayList<>();
+        ArrayList<Entry> filtered = new ArrayList<>();
 
-        for (Checkmark r : list)
+        for (Entry r : list)
         {
             Timestamp t = r.getTimestamp();
             if (t.isOlderThan(fromTimestamp) || t.isNewerThan(toTimestamp)) continue;
@@ -65,9 +65,9 @@ public class MemoryRepetitionList extends RepetitionList
 
     @Nullable
     @Override
-    public Checkmark getByTimestamp(Timestamp timestamp)
+    public Entry getByTimestamp(Timestamp timestamp)
     {
-        for (Checkmark r : list)
+        for (Entry r : list)
             if (r.getTimestamp().equals(timestamp)) return r;
 
         return null;
@@ -75,12 +75,12 @@ public class MemoryRepetitionList extends RepetitionList
 
     @Nullable
     @Override
-    public Checkmark getOldest()
+    public Entry getOldest()
     {
         Timestamp oldestTimestamp = Timestamp.ZERO.plus(1000000);
-        Checkmark oldestRep = null;
+        Entry oldestRep = null;
 
-        for (Checkmark rep : list)
+        for (Entry rep : list)
         {
             if (rep.getTimestamp().isOlderThan(oldestTimestamp))
             {
@@ -94,12 +94,12 @@ public class MemoryRepetitionList extends RepetitionList
 
     @Nullable
     @Override
-    public Checkmark getNewest()
+    public Entry getNewest()
     {
         Timestamp newestTimestamp = Timestamp.ZERO;
-        Checkmark newestRep = null;
+        Entry newestRep = null;
 
-        for (Checkmark rep : list)
+        for (Entry rep : list)
         {
             if (rep.getTimestamp().isNewerThan(newestTimestamp))
             {
@@ -112,7 +112,7 @@ public class MemoryRepetitionList extends RepetitionList
     }
 
     @Override
-    public void remove(@NonNull Checkmark repetition)
+    public void remove(@NonNull Entry repetition)
     {
         list.remove(repetition);
         observable.notifyListeners();
@@ -122,8 +122,8 @@ public class MemoryRepetitionList extends RepetitionList
     public long getTotalCount()
     {
         int count = 0;
-        for (Checkmark rep : list)
-            if (rep.getValue() == Checkmark.YES_MANUAL)
+        for (Entry rep : list)
+            if (rep.getValue() == Entry.YES_MANUAL)
                 count++;
         return count;
     }

@@ -27,10 +27,10 @@ import android.view.View.MeasureSpec.*
 import com.google.auto.factory.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.Checkmark.Companion.NO
-import org.isoron.uhabits.core.models.Checkmark.Companion.SKIP
-import org.isoron.uhabits.core.models.Checkmark.Companion.UNKNOWN
-import org.isoron.uhabits.core.models.Checkmark.Companion.YES_MANUAL
+import org.isoron.uhabits.core.models.Entry.Companion.NO
+import org.isoron.uhabits.core.models.Entry.Companion.SKIP
+import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
+import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
@@ -66,9 +66,9 @@ class CheckmarkButtonView(
 
     fun performToggle() {
         value = if(preferences.isSkipEnabled) {
-            Checkmark.nextToggleValueWithSkip(value)
+            Entry.nextToggleValueWithSkip(value)
         } else {
-            Checkmark.nextToggleValueWithoutSkip(value)
+            Entry.nextToggleValueWithoutSkip(value)
         }
         onToggle(value)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)

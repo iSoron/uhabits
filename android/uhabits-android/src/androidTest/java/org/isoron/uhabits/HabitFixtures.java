@@ -22,15 +22,15 @@ package org.isoron.uhabits;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.DateUtils;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 public class HabitFixtures
 {
-    public boolean LONG_HABIT_CHECKS[] = {
+    public boolean LONG_HABIT_ENTRIES[] = {
         true, false, false, true, true, true, false, false, true, true
     };
 
-    public int LONG_NUMERICAL_HABIT_CHECKS[] = {
+    public int LONG_NUMERICAL_HABIT_ENTRIES[] = {
         200000, 0, 150000, 137000, 0, 0, 500000, 30000, 100000, 0, 300000,
         100000, 0, 100000
     };
@@ -75,7 +75,7 @@ public class HabitFixtures
             81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getOriginalCheckmarks().setValue(today.minus(mark), YES_MANUAL);
+            habit.getOriginalEntries().setValue(today.minus(mark), YES_MANUAL);
 
         return habit;
     }
@@ -109,7 +109,7 @@ public class HabitFixtures
                        582, 583, 584, 586, 589};
 
         for (int mark : marks)
-            habit.getOriginalCheckmarks().setValue(today.minus(mark), YES_MANUAL);
+            habit.getOriginalEntries().setValue(today.minus(mark), YES_MANUAL);
 
         return habit;
     }
@@ -126,9 +126,9 @@ public class HabitFixtures
         habitList.add(habit);
 
         Timestamp timestamp = DateUtils.getToday();
-        for (int value : LONG_NUMERICAL_HABIT_CHECKS)
+        for (int value : LONG_NUMERICAL_HABIT_ENTRIES)
         {
-            habit.getOriginalCheckmarks().setValue(timestamp, value);
+            habit.getOriginalEntries().setValue(timestamp, value);
             timestamp = timestamp.minus(1);
         }
 
@@ -144,9 +144,9 @@ public class HabitFixtures
         habitList.add(habit);
 
         Timestamp timestamp = DateUtils.getToday();
-        for (boolean c : LONG_HABIT_CHECKS)
+        for (boolean c : LONG_HABIT_ENTRIES)
         {
-            if (c) habit.getOriginalCheckmarks().setValue(timestamp, YES_MANUAL);
+            if (c) habit.getOriginalEntries().setValue(timestamp, YES_MANUAL);
             timestamp = timestamp.minus(1);
         }
 

@@ -45,9 +45,9 @@ public abstract class RepetitionList
      * Any implementation of this method must call observable.notifyListeners()
      * after the checkmark has been added.
      *
-     * @param checkmark the checkmark to be added.
+     * @param entry the checkmark to be added.
      */
-    public abstract void add(Checkmark checkmark);
+    public abstract void add(Entry entry);
 
     /**
      * Returns the list of checkmarks that happened within the given time
@@ -61,8 +61,8 @@ public abstract class RepetitionList
      * @param toTimestamp   timestamp of the end of the interval
      * @return list of checkmarks within given time interval
      */
-    public abstract List<Checkmark> getByInterval(Timestamp fromTimestamp,
-                                                  Timestamp toTimestamp);
+    public abstract List<Entry> getByInterval(Timestamp fromTimestamp,
+                                              Timestamp toTimestamp);
 
     /**
      * Returns the checkmark that has the given timestamp, or null if none
@@ -72,7 +72,7 @@ public abstract class RepetitionList
      * @return the checkmark that has the given timestamp.
      */
     @Nullable
-    public abstract Checkmark getByTimestamp(Timestamp timestamp);
+    public abstract Entry getByTimestamp(Timestamp timestamp);
 
     /**
      * If a checkmark with the given timestamp exists, return its value. Otherwise, returns
@@ -81,8 +81,8 @@ public abstract class RepetitionList
     @NonNull
     public int getValue(Timestamp timestamp)
     {
-        Checkmark check = getByTimestamp(timestamp);
-        if (check == null) return Checkmark.UNKNOWN;
+        Entry check = getByTimestamp(timestamp);
+        if (check == null) return Entry.UNKNOWN;
         return check.getValue();
     }
 
@@ -101,7 +101,7 @@ public abstract class RepetitionList
      * @return oldest checkmark in the list, or null if list is empty.
      */
     @Nullable
-    public abstract Checkmark getOldest();
+    public abstract Entry getOldest();
 
     @Nullable
     /**
@@ -112,7 +112,7 @@ public abstract class RepetitionList
      *
      * @return newest checkmark in the list, or null if list is empty.
      */
-    public abstract Checkmark getNewest();
+    public abstract Entry getNewest();
 
     /**
      * Returns the total number of successful checkmarks for each month, from the first
@@ -130,17 +130,17 @@ public abstract class RepetitionList
     @NonNull
     public HashMap<Timestamp, Integer[]> getWeekdayFrequency()
     {
-        List<Checkmark> checks =
+        List<Entry> entries =
                 getByInterval(Timestamp.ZERO, DateUtils.getTodayWithOffset());
         HashMap<Timestamp, Integer[]> map = new HashMap<>();
 
-        for (Checkmark c : checks)
+        for (Entry e : entries)
         {
-            if (!habit.isNumerical() && c.getValue() != Checkmark.YES_MANUAL)
+            if (!habit.isNumerical() && e.getValue() != Entry.YES_MANUAL)
                 continue;
 
-            Calendar date = c.getTimestamp().toCalendar();
-            int weekday = c.getTimestamp().getWeekday();
+            Calendar date = e.getTimestamp().toCalendar();
+            int weekday = e.getTimestamp().getWeekday();
             date.set(Calendar.DAY_OF_MONTH, 1);
 
             Timestamp timestamp = new Timestamp(date.getTimeInMillis());
@@ -167,17 +167,17 @@ public abstract class RepetitionList
      * Any implementation of this method must call observable.notifyListeners()
      * after the checkmark has been added.
      *
-     * @param checkmark the checkmark to be removed
+     * @param entry the checkmark to be removed
      */
-    public abstract void remove(@NonNull Checkmark checkmark);
+    public abstract void remove(@NonNull Entry entry);
 
     public abstract long getTotalCount();
 
     public void setValue(Timestamp timestamp, int value)
     {
-        Checkmark check = getByTimestamp(timestamp);
+        Entry check = getByTimestamp(timestamp);
         if (check != null) remove(check);
-        add(new Checkmark(timestamp, value));
+        add(new Entry(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }
 

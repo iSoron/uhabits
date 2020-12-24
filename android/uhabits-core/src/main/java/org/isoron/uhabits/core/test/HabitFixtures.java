@@ -23,7 +23,7 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.sqlite.*;
 import org.isoron.uhabits.core.utils.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 public class HabitFixtures
 {
@@ -65,7 +65,7 @@ public class HabitFixtures
                 81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getOriginalCheckmarks().setValue(today.minus(mark), YES_MANUAL);
+            habit.getOriginalEntries().setValue(today.minus(mark), YES_MANUAL);
 
         return habit;
     }
@@ -89,7 +89,7 @@ public class HabitFixtures
         for (int i = 0; i < times.length; i++)
         {
             Timestamp timestamp = today.minus(times[i]);
-            habit.getOriginalCheckmarks().setValue(timestamp, values[i]);
+            habit.getOriginalEntries().setValue(timestamp, values[i]);
         }
 
         return habit;
@@ -125,7 +125,7 @@ public class HabitFixtures
         for (int i = 0; i < times.length; i++)
         {
             Timestamp timestamp = reference.minus(times[i]);
-            habit.getOriginalCheckmarks().setValue(timestamp, values[i]);
+            habit.getOriginalEntries().setValue(timestamp, values[i]);
         }
 
         return habit;
@@ -144,7 +144,7 @@ public class HabitFixtures
         {
             int value = NO;
             if (c) value = YES_MANUAL;
-            habit.getOriginalCheckmarks().setValue(timestamp, value);
+            habit.getOriginalEntries().setValue(timestamp, value);
             timestamp = timestamp.minus(1);
         }
 
@@ -153,7 +153,7 @@ public class HabitFixtures
 
     private void saveIfSQLite(Habit habit)
     {
-        if (!(habit.getOriginalCheckmarks() instanceof SQLiteRepetitionList)) return;
+        if (!(habit.getOriginalEntries() instanceof SQLiteRepetitionList)) return;
         habitList.add(habit);
     }
 }

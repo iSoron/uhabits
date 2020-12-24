@@ -25,16 +25,16 @@ import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.Checkmark.Companion.NO
-import org.isoron.uhabits.core.models.Checkmark.Companion.YES_AUTO
-import org.isoron.uhabits.core.models.Checkmark.Companion.YES_MANUAL
+import org.isoron.uhabits.core.models.Entry.Companion.NO
+import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
+import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.utils.*
 import org.junit.*
 import org.junit.runner.*
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class CheckmarkPanelViewTest : BaseViewTest() {
+class EntryPanelViewTest : BaseViewTest() {
 
     private val PATH = "habits/list/CheckmarkPanelView"
     private lateinit var view: CheckmarkPanelView

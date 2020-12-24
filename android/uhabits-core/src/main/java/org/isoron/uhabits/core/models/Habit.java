@@ -28,7 +28,7 @@ import java.util.*;
 import javax.annotation.concurrent.*;
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
@@ -115,7 +115,7 @@ public class Habit
     }
 
     @NonNull
-    public synchronized CheckmarkList getComputedCheckmarks()
+    public synchronized CheckmarkList getComputedEntries()
     {
         return checkmarks;
     }
@@ -203,7 +203,7 @@ public class Habit
         data.reminder = reminder;
     }
 
-    public RepetitionList getOriginalCheckmarks()
+    public RepetitionList getOriginalEntries()
     {
         return repetitions;
     }
@@ -296,7 +296,7 @@ public class Habit
     public void invalidateNewerThan(Timestamp timestamp)
     {
         getScores().invalidateNewerThan(timestamp);
-        getComputedCheckmarks().invalidateNewerThan(timestamp);
+        getComputedEntries().invalidateNewerThan(timestamp);
         getStreaks().invalidateNewerThan(timestamp);
     }
 
@@ -312,7 +312,7 @@ public class Habit
 
     public synchronized boolean isCompletedToday()
     {
-        int todayCheckmark = getComputedCheckmarks().getTodayValue();
+        int todayCheckmark = getComputedEntries().getTodayValue();
         if (isNumerical())
         {
             if(getTargetType() == AT_LEAST)

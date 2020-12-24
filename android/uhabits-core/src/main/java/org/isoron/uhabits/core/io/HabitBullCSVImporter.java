@@ -31,7 +31,7 @@ import java.util.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 
 /**
@@ -95,7 +95,7 @@ public class HabitBullCSVImporter extends AbstractImporter
                 map.put(name, h);
             }
 
-            h.getOriginalCheckmarks().setValue(timestamp, YES_MANUAL);
+            h.getOriginalEntries().setValue(timestamp, YES_MANUAL);
         }
     }
 }

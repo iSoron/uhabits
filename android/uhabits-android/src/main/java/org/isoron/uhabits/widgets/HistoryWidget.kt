@@ -46,7 +46,7 @@ class HistoryWidget(
             setFirstWeekday(firstWeekday)
             setSkipEnabled(prefs.isSkipEnabled)
             setColor(habit.color.toThemedAndroidColor(context))
-            setCheckmarks(habit.computedCheckmarks.allValues)
+            setEntries(habit.computedEntries.allValues)
             setNumerical(habit.isNumerical)
             setTarget(habit.targetValue / habit.frequency.denominator)
         }

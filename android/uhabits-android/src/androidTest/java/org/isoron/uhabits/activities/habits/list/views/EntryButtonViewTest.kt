@@ -29,7 +29,7 @@ import org.junit.runner.*
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class CheckmarkButtonViewTest : BaseViewTest() {
+class EntryButtonViewTest : BaseViewTest() {
 
     private val PATH = "habits/list/CheckmarkButtonView"
     lateinit var view: CheckmarkButtonView
@@ -39,8 +39,8 @@ class CheckmarkButtonViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        view = component.getCheckmarkButtonViewFactory().create().apply {
-            value = Checkmark.NO
+        view = component.getEntryButtonViewFactory().create().apply {
+            value = Entry.NO
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { toggled = true }
         }
@@ -49,19 +49,19 @@ class CheckmarkButtonViewTest : BaseViewTest() {
 
     @Test
     fun testRender_explicitCheck() {
-        view.value = Checkmark.YES_MANUAL
+        view.value = Entry.YES_MANUAL
         assertRendersCheckedExplicitly()
     }
 
     @Test
     fun testRender_implicitCheck() {
-        view.value = Checkmark.YES_AUTO
+        view.value = Entry.YES_AUTO
         assertRendersCheckedImplicitly()
     }
 
     @Test
     fun testRender_unchecked() {
-        view.value = Checkmark.NO
+        view.value = Entry.NO
         assertRendersUnchecked()
     }
 

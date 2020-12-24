@@ -30,7 +30,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
 import static org.hamcrest.number.IsCloseTo.*;
 import static org.hamcrest.number.OrderingComparison.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 public class ScoreListTest extends BaseUnitTest
 {
@@ -326,34 +326,34 @@ public class ScoreListTest extends BaseUnitTest
 
     private void check(final int offset)
     {
-        RepetitionList reps = habit.getOriginalCheckmarks();
+        RepetitionList entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
-        reps.setValue(today.minus(offset), YES_MANUAL);
+        entries.setValue(today.minus(offset), YES_MANUAL);
     }
 
     private void check(final int from, final int to)
     {
-        RepetitionList reps = habit.getOriginalCheckmarks();
+        RepetitionList entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
 
         for (int i = from; i < to; i++)
-            reps.setValue(today.minus(i), YES_MANUAL);
+            entries.setValue(today.minus(i), YES_MANUAL);
     }
 
     private void check(ArrayList<Integer> values)
     {
-        RepetitionList reps = habit.getOriginalCheckmarks();
+        RepetitionList entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
         for (int i = 0; i < values.size(); i++)
             if (values.get(i) == YES_MANUAL)
-                reps.setValue(today.minus(i), YES_MANUAL);
+                entries.setValue(today.minus(i), YES_MANUAL);
     }
 
     private void addSkip(final int day)
     {
-        RepetitionList reps = habit.getOriginalCheckmarks();
+        RepetitionList entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
-        reps.setValue(today.minus(day), Checkmark.SKIP);
+        entries.setValue(today.minus(day), Entry.SKIP);
     }
 
     private void checkScoreValues(double[] expectedValues)

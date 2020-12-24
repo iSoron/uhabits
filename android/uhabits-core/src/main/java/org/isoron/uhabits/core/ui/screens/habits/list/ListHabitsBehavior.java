@@ -82,8 +82,8 @@ public class ListHabitsBehavior
 
     public void onEdit(@NonNull Habit habit, Timestamp timestamp)
     {
-        CheckmarkList checkmarks = habit.getComputedCheckmarks();
-        double oldValue = checkmarks.getValues(timestamp, timestamp)[0];
+        CheckmarkList entries = habit.getComputedEntries();
+        double oldValue = entries.getValues(timestamp, timestamp)[0];
 
         screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
         {

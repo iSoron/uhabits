@@ -79,7 +79,7 @@ class OverviewCardPresenter(val habit: Habit) {
                 scoreToday = scoreToday,
                 scoreMonthDiff = scoreToday - scoreLastMonth,
                 scoreYearDiff = scoreToday - scoreLastYear,
-                totalCount = habit.originalCheckmarks.totalCount,
+                totalCount = habit.originalEntries.totalCount,
         )
     }
 }

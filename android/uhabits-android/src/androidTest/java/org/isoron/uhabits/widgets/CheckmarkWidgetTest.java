@@ -31,7 +31,7 @@ import org.junit.runner.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -41,7 +41,7 @@ public class CheckmarkWidgetTest extends BaseViewTest
 
     private Habit habit;
 
-    private CheckmarkList checkmarks;
+    private CheckmarkList entries;
 
     private FrameLayout view;
 
@@ -54,11 +54,11 @@ public class CheckmarkWidgetTest extends BaseViewTest
         prefs.setSkipEnabled(true);
 
         habit = fixtures.createVeryLongHabit();
-        checkmarks = habit.getComputedCheckmarks();
+        entries = habit.getComputedEntries();
         CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
         view = convertToView(widget, 150, 200);
 
-        assertThat(checkmarks.getTodayValue(), equalTo(YES_MANUAL));
+        assertThat(entries.getTodayValue(), equalTo(YES_MANUAL));
     }
 
     @Test
@@ -71,11 +71,11 @@ public class CheckmarkWidgetTest extends BaseViewTest
         // possible to capture intents sent to BroadcastReceivers.
         button.performClick();
         sleep(1000);
-        assertThat(checkmarks.getTodayValue(), equalTo(SKIP));
+        assertThat(entries.getTodayValue(), equalTo(SKIP));
 
         button.performClick();
         sleep(1000);
-        assertThat(checkmarks.getTodayValue(), equalTo(NO));
+        assertThat(entries.getTodayValue(), equalTo(NO));
     }
 
     @Test

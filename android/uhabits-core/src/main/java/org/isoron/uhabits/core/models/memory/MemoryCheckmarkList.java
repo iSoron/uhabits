@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class MemoryCheckmarkList extends CheckmarkList
 {
-    ArrayList<Checkmark> list;
+    ArrayList<Entry> list;
 
     public MemoryCheckmarkList(Habit habit)
     {
@@ -39,36 +39,36 @@ public class MemoryCheckmarkList extends CheckmarkList
     }
 
     @Override
-    public void add(List<Checkmark> checkmarks)
+    public void add(List<Entry> entries)
     {
-        list.addAll(checkmarks);
+        list.addAll(entries);
         Collections.sort(list,
             (c1, c2) -> c2.getTimestamp().compare(c1.getTimestamp()));
     }
 
     @NonNull
     @Override
-    public synchronized List<Checkmark> getByInterval(Timestamp from,
-                                                      Timestamp to)
+    public synchronized List<Entry> getByInterval(Timestamp from,
+                                                  Timestamp to)
     {
         compute();
 
         Timestamp newestComputed = new Timestamp(0);
         Timestamp oldestComputed = new Timestamp(0).plus(1000000);
 
-        Checkmark newest = getNewestComputed();
-        Checkmark oldest = getOldestComputed();
+        Entry newest = getNewestComputed();
+        Entry oldest = getOldestComputed();
         if(newest != null) newestComputed = newest.getTimestamp();
         if(oldest != null) oldestComputed = oldest.getTimestamp();
 
-        List<Checkmark> filtered = new ArrayList<>(
+        List<Entry> filtered = new ArrayList<>(
             Math.max(0, oldestComputed.daysUntil(newestComputed) + 1));
 
         for(int i = 0; i <= from.daysUntil(to); i++)
         {
             Timestamp t = to.minus(i);
             if(t.isNewerThan(newestComputed) || t.isOlderThan(oldestComputed))
-                filtered.add(new Checkmark(t, Checkmark.UNKNOWN));
+                filtered.add(new Entry(t, Entry.UNKNOWN));
             else
                 filtered.add(list.get(t.daysUntil(newestComputed)));
         }
@@ -85,7 +85,7 @@ public class MemoryCheckmarkList extends CheckmarkList
 
     @Override
     @Nullable
-    protected Checkmark getOldestComputed()
+    protected Entry getOldestComputed()
     {
         if(list.isEmpty()) return null;
         return list.get(list.size()-1);
@@ -93,7 +93,7 @@ public class MemoryCheckmarkList extends CheckmarkList
 
     @Override
     @Nullable
-    protected Checkmark getNewestComputed()
+    protected Entry getNewestComputed()
     {
         if(list.isEmpty()) return null;
         return list.get(0);

@@ -27,7 +27,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 public abstract class ScoreList implements Iterable<Score>
 {
@@ -201,9 +201,9 @@ public abstract class ScoreList implements Iterable<Score>
 
         if (newestComputed == null)
         {
-            Checkmark oldestOriginal = habit.getOriginalCheckmarks().getOldest();
-            if (oldestOriginal != null) from =
-                Timestamp.oldest(from, oldestOriginal.getTimestamp());
+            Entry oldest = habit.getOriginalEntries().getOldest();
+            if (oldest != null) from =
+                Timestamp.oldest(from, oldest.getTimestamp());
             forceRecompute(from, to, 0);
         }
         else
@@ -221,11 +221,11 @@ public abstract class ScoreList implements Iterable<Score>
      */
     protected void computeAll()
     {
-        Checkmark oldestRep = habit.getOriginalCheckmarks().getOldest();
-        if (oldestRep == null) return;
+        Entry oldest = habit.getOriginalEntries().getOldest();
+        if (oldest == null) return;
 
         Timestamp today = DateUtils.getTodayWithOffset();
-        compute(oldestRep.getTimestamp(), today);
+        compute(oldest.getTimestamp(), today);
     }
 
     /**
@@ -273,7 +273,7 @@ public abstract class ScoreList implements Iterable<Score>
         int numerator = habit.getFrequency().getNumerator();
         int denominator = habit.getFrequency().getDenominator();
         final double freq = habit.getFrequency().toDouble();
-        final int[] checkmarkValues = habit.getComputedCheckmarks().getValues(from, to);
+        final int[] values = habit.getComputedEntries().getValues(from, to);
 
         // For non-daily boolean habits, we double the numerator and the denominator to smooth
         // out irregular repetition schedules (for example, weekly habits performed on different
@@ -286,26 +286,26 @@ public abstract class ScoreList implements Iterable<Score>
 
         List<Score> scores = new LinkedList<>();
 
-        for (int i = 0; i < checkmarkValues.length; i++)
+        for (int i = 0; i < values.length; i++)
         {
-            int offset = checkmarkValues.length - i - 1;
+            int offset = values.length - i - 1;
             if (habit.isNumerical())
             {
-                rollingSum += checkmarkValues[offset];
-                if (offset + denominator < checkmarkValues.length) {
-                    rollingSum -= checkmarkValues[offset + denominator];
+                rollingSum += values[offset];
+                if (offset + denominator < values.length) {
+                    rollingSum -= values[offset + denominator];
                 }
                 double percentageCompleted = Math.min(1, rollingSum / 1000 / habit.getTargetValue());
                 previousValue = Score.compute(freq, previousValue, percentageCompleted);
             }
             else
             {
-                if (checkmarkValues[offset] == YES_MANUAL)
+                if (values[offset] == YES_MANUAL)
                     rollingSum += 1.0;
-                if (offset + denominator < checkmarkValues.length)
-                    if (checkmarkValues[offset + denominator] == YES_MANUAL)
+                if (offset + denominator < values.length)
+                    if (values[offset + denominator] == YES_MANUAL)
                         rollingSum -= 1.0;
-                if (checkmarkValues[offset] != SKIP)
+                if (values[offset] != SKIP)
                 {
                     double percentageCompleted = Math.min(1, rollingSum / numerator);
                     previousValue = Score.compute(freq, previousValue, percentageCompleted);

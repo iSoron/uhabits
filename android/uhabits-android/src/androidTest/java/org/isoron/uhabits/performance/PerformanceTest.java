@@ -52,7 +52,7 @@ public class PerformanceTest extends BaseAndroidTest
         for (int i = 0; i < 100000; i++)
         {
             habit.getScores().getTodayValue();
-            habit.getComputedCheckmarks().getTodayValue();
+            habit.getComputedEntries().getTodayValue();
         }
     }
 

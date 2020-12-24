@@ -42,7 +42,7 @@ class TestModule {
 interface HabitsActivityTestComponent {
     fun getCheckmarkPanelViewFactory(): CheckmarkPanelViewFactory
     fun getHabitCardViewFactory(): HabitCardViewFactory
-    fun getCheckmarkButtonViewFactory(): CheckmarkButtonViewFactory
+    fun getEntryButtonViewFactory(): CheckmarkButtonViewFactory
     fun getNumberButtonViewFactory(): NumberButtonViewFactory
     fun getNumberPanelViewFactory(): NumberPanelViewFactory
 }

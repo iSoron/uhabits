@@ -178,7 +178,7 @@ public abstract class HabitList implements Iterable<Habit>
     {
         for (Habit h : this)
         {
-            h.getComputedCheckmarks().invalidateNewerThan(Timestamp.ZERO);
+            h.getComputedEntries().invalidateNewerThan(Timestamp.ZERO);
             h.getStreaks().invalidateNewerThan(Timestamp.ZERO);
             h.getScores().invalidateNewerThan(Timestamp.ZERO);
         }

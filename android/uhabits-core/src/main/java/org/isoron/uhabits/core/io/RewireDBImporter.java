@@ -30,7 +30,7 @@ import java.util.*;
 
 import javax.inject.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 /**
  * Class that imports database files exported by Rewire.
@@ -167,7 +167,7 @@ public class RewireDBImporter extends AbstractImporter
                 GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month - 1, day);
 
-                habit.getOriginalCheckmarks().setValue(new Timestamp(cal), YES_MANUAL);
+                habit.getOriginalEntries().setValue(new Timestamp(cal), YES_MANUAL);
             } while (c.moveToNext());
         }
         finally

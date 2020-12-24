@@ -24,7 +24,7 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 import static org.junit.Assert.*;
 
 public class CreateRepetitionCommandTest extends BaseUnitTest
@@ -51,13 +51,13 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
     @Test
     public void testExecute()
     {
-        RepetitionList reps = habit.getOriginalCheckmarks();
-        Checkmark check = reps.getByTimestamp(today);
-        assertNotNull(check);
-        assertEquals(YES_MANUAL, check.getValue());
+        RepetitionList originalEntries = habit.getOriginalEntries();
+        Entry entry = originalEntries.getByTimestamp(today);
+        assertNotNull(entry);
+        assertEquals(YES_MANUAL, entry.getValue());
         command.execute();
-        check = reps.getByTimestamp(today);
-        assertNotNull(check);
-        assertEquals(100, check.getValue());
+        entry = originalEntries.getByTimestamp(today);
+        assertNotNull(entry);
+        assertEquals(100, entry.getValue());
     }
 }

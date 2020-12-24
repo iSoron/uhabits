@@ -46,12 +46,12 @@ open class CheckmarkWidget(
 
             setActiveColor(habit.color.toThemedAndroidColor(context))
             setName(habit.name)
-            setCheckmarkValue(habit.computedCheckmarks.todayValue)
+            setEntryValue(habit.computedEntries.todayValue)
             if (habit.isNumerical) {
                 setNumerical(true)
-                setCheckmarkState(getNumericalCheckmarkState())
+                setEntryState(getNumericalEntryState())
             } else {
-                setCheckmarkState(habit.computedCheckmarks.todayValue)
+                setEntryState(habit.computedEntries.todayValue)
             }
             setPercentage(habit.scores.todayValue.toFloat())
             refresh()
@@ -65,11 +65,11 @@ open class CheckmarkWidget(
     override fun getDefaultHeight() = 125
     override fun getDefaultWidth() = 125
 
-    private fun getNumericalCheckmarkState(): Int {
+    private fun getNumericalEntryState(): Int {
         return if (habit.isCompletedToday) {
-            Checkmark.YES_MANUAL
+            Entry.YES_MANUAL
         } else {
-            Checkmark.NO
+            Entry.NO
         }
     }
 

@@ -34,7 +34,7 @@ import java.util.*;
 import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 public class SQLiteRepetitionListTest extends BaseUnitTest
 {
@@ -60,7 +60,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         repository = new Repository<>(RepetitionRecord.class, db);
         habit = fixtures.createLongHabit();
 
-        originalCheckmarks = habit.getOriginalCheckmarks();
+        originalCheckmarks = habit.getOriginalEntries();
         today = DateUtils.getToday();
     }
 
@@ -70,8 +70,8 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         RepetitionRecord record = getByTimestamp(today.plus(1));
         assertNull(record);
 
-        Checkmark rep = new Checkmark(today.plus(1), YES_MANUAL);
-        habit.getOriginalCheckmarks().add(rep);
+        Entry rep = new Entry(today.plus(1), YES_MANUAL);
+        habit.getOriginalEntries().add(rep);
 
         record = getByTimestamp(today.plus(1));
         assertNotNull(record);
@@ -81,7 +81,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     @Test
     public void testGetByInterval()
     {
-        List<Checkmark> checks =
+        List<Entry> checks =
             originalCheckmarks.getByInterval(today.minus(10), today);
 
         assertThat(checks.size(), equalTo(8));
@@ -93,7 +93,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     @Test
     public void testGetByTimestamp()
     {
-        Checkmark rep = originalCheckmarks.getByTimestamp(today);
+        Entry rep = originalCheckmarks.getByTimestamp(today);
         assertNotNull(rep);
         assertThat(rep.getTimestamp(), equalTo(today));
 
@@ -104,7 +104,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     @Test
     public void testGetOldest()
     {
-        Checkmark rep = originalCheckmarks.getOldest();
+        Entry rep = originalCheckmarks.getOldest();
         assertNotNull(rep);
         assertThat(rep.getTimestamp(), equalTo(today.minus(120)));
     }
@@ -113,7 +113,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
     public void testGetOldest_withEmptyHabit()
     {
         Habit empty = fixtures.createEmptyHabit();
-        Checkmark rep = empty.getOriginalCheckmarks().getOldest();
+        Entry rep = empty.getOriginalEntries().getOldest();
         assertNull(rep);
     }
 
@@ -123,7 +123,7 @@ public class SQLiteRepetitionListTest extends BaseUnitTest
         RepetitionRecord record = getByTimestamp(today);
         assertNotNull(record);
 
-        Checkmark rep = record.toCheckmark();
+        Entry rep = record.toCheckmark();
         originalCheckmarks.remove(rep);
 
         record = getByTimestamp(today);

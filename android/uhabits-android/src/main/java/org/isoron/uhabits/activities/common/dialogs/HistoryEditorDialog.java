@@ -63,7 +63,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         this.onToggleCheckmarkListener = new OnToggleCheckmarkListener()
         {
             @Override
-            public void onToggleCheckmark(@NotNull Timestamp timestamp, int value)
+            public void onToggleEntry(@NotNull Timestamp timestamp, int value)
             {
             }
         };
@@ -124,7 +124,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     @Override
     public void onPause()
     {
-        habit.getComputedCheckmarks().observable.removeListener(this);
+        habit.getComputedEntries().observable.removeListener(this);
         super.onPause();
     }
 
@@ -142,7 +142,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         getDialog().getWindow().setLayout(width, height);
 
         refreshData();
-        habit.getComputedCheckmarks().observable.addListener(this);
+        habit.getComputedEntries().observable.addListener(this);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         @Override
         public void doInBackground()
         {
-            checkmarks = habit.getComputedCheckmarks().getAllValues();
+            checkmarks = habit.getComputedEntries().getAllValues();
         }
 
         @Override
@@ -186,7 +186,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
             int color = PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), getContext());
             historyChart.setColor(color);
-            historyChart.setCheckmarks(checkmarks);
+            historyChart.setEntries(checkmarks);
             historyChart.setNumerical(habit.isNumerical());
             historyChart.setTarget(habit.getTargetValue() / habit.getFrequency().getDenominator());
         }

@@ -54,10 +54,10 @@ class ShowHabitBehavior(
         screen.showHistoryEditorDialog(this)
     }
 
-    override fun onToggleCheckmark(timestamp: Timestamp, value: Int) {
+    override fun onToggleEntry(timestamp: Timestamp, value: Int) {
         if (habit.isNumerical) {
-            val checkmarks = habit.computedCheckmarks
-            val oldValue = checkmarks.getValues(timestamp, timestamp)[0].toDouble()
+            val entries = habit.computedEntries
+            val oldValue = entries.getValues(timestamp, timestamp)[0].toDouble()
             screen.showNumberPicker(oldValue / 1000, habit.unit) { newValue: Double ->
                 val thousands = Math.round(newValue * 1000).toInt()
                 commandRunner.execute(

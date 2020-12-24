@@ -30,11 +30,11 @@ import java.util.*;
 
 import javax.annotation.concurrent.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
 /**
- * The collection of {@link Checkmark}s belonging to a habit.
+ * The collection of {@link Entry}s belonging to a habit.
  */
 @ThreadSafe
 public abstract class CheckmarkList
@@ -50,8 +50,8 @@ public abstract class CheckmarkList
     }
 
     @NonNull
-    static List<Checkmark> buildCheckmarksFromIntervals(Checkmark[] original,
-                                                        ArrayList<Interval> intervals)
+    static List<Entry> buildEntriesFromInterval(Entry[] original,
+                                                ArrayList<Interval> intervals)
     {
         if (original.length == 0) throw new IllegalArgumentException();
 
@@ -60,9 +60,9 @@ public abstract class CheckmarkList
         if (intervals.size() > 0) begin = Timestamp.oldest(begin, intervals.get(0).begin);
 
         int nDays = begin.daysUntil(today) + 1;
-        List<Checkmark> checkmarks = new ArrayList<>(nDays);
+        List<Entry> entries = new ArrayList<>(nDays);
         for (int i = 0; i < nDays; i++)
-            checkmarks.add(new Checkmark(today.minus(i), UNKNOWN));
+            entries.add(new Entry(today.minus(i), UNKNOWN));
 
         for (Interval interval : intervals)
         {
@@ -71,51 +71,50 @@ public abstract class CheckmarkList
                 Timestamp date = interval.begin.plus(i);
                 int offset = date.daysUntil(today);
                 if (offset < 0) continue;
-                checkmarks.set(offset, new Checkmark(date, YES_AUTO));
+                entries.set(offset, new Entry(date, YES_AUTO));
             }
         }
 
-        for (Checkmark c : original)
+        for (Entry e : original)
         {
-            Timestamp date = c.getTimestamp();
+            Timestamp date = e.getTimestamp();
             int offset = date.daysUntil(today);
-            int value = c.getValue();
-            int prevValue = checkmarks.get(offset).getValue();
+            int value = e.getValue();
+            int prevValue = entries.get(offset).getValue();
             if (prevValue < value)
-                checkmarks.set(offset, new Checkmark(date, value));
+                entries.set(offset, new Entry(date, value));
         }
 
-        return checkmarks;
+        return entries;
     }
 
     /**
-     * For non-daily habits, some groups of repetitions generate many
-     * checkmarks. For example, for weekly habits, each repetition generates
+     * For non-daily habits, some manual entries generate many
+     * automatic entries. For example, for weekly habits, each repetition generates
      * seven checkmarks. For twice-a-week habits, two repetitions that are close
      * enough together also generate seven checkmarks.
      * <p>
-     * This group of generated checkmarks, for a given set of repetition, is
-     * represented by an interval. This function computes the list of intervals
-     * for a given list of repetitions. It tries to build the intervals as far
-     * away in the future as possible.
+     * This group of generated entries is represented by an interval. This function
+     * computes the list of intervals for a given list of original entries. It tries
+     * to build the intervals as far away in the future as possible.
      */
     @NonNull
     static ArrayList<Interval> buildIntervals(@NonNull Frequency freq,
-                                              @NonNull Checkmark[] checks)
+                                              @NonNull Entry[] entries)
     {
-        ArrayList<Checkmark> filteredReps = new ArrayList<>();
-        for (Checkmark c : checks)
-            if (c.getValue() == YES_MANUAL)
-                filteredReps.add(c);
+        ArrayList<Entry> filteredEntries = new ArrayList<>();
+        for (Entry e : entries)
+            if (e.getValue() == YES_MANUAL)
+                filteredEntries.add(e);
 
         int num = freq.getNumerator();
         int den = freq.getDenominator();
 
         ArrayList<Interval> intervals = new ArrayList<>();
-        for (int i = 0; i < filteredReps.size() - num + 1; i++)
+        for (int i = 0; i < filteredEntries.size() - num + 1; i++)
         {
-            Checkmark first = filteredReps.get(i);
-            Checkmark last = filteredReps.get(i + num - 1);
+            Entry first = filteredEntries.get(i);
+            Entry last = filteredEntries.get(i + num - 1);
 
             long distance = first.getTimestamp().daysUntil(last.getTimestamp());
             if (distance >= den) continue;
@@ -155,15 +154,7 @@ public abstract class CheckmarkList
         }
     }
 
-    /**
-     * Adds all the given checkmarks to the list.
-     * <p>
-     * This should never be called by the application, since the checkmarks are
-     * computed automatically from the list of repetitions.
-     *
-     * @param checkmarks the checkmarks to be added.
-     */
-    public abstract void add(List<Checkmark> checkmarks);
+    public abstract void add(List<Entry> entries);
 
     /**
      * Returns the values for all the checkmarks, since the oldest repetition of
@@ -180,7 +171,7 @@ public abstract class CheckmarkList
     @NonNull
     public synchronized final int[] getAllValues()
     {
-        Checkmark oldestOriginal = habit.getOriginalCheckmarks().getOldest();
+        Entry oldestOriginal = habit.getOriginalEntries().getOldest();
         if (oldestOriginal == null) return new int[0];
 
         Timestamp fromTimestamp = oldestOriginal.getTimestamp();
@@ -202,8 +193,8 @@ public abstract class CheckmarkList
      * @return the list of checkmarks within the interval.
      */
     @NonNull
-    public abstract List<Checkmark> getByInterval(Timestamp fromTimestamp,
-                                                  Timestamp toTimestamp);
+    public abstract List<Entry> getByInterval(Timestamp fromTimestamp,
+                                              Timestamp toTimestamp);
 
     /**
      * Returns the checkmark for today.
@@ -211,7 +202,7 @@ public abstract class CheckmarkList
      * @return checkmark for today
      */
     @Nullable
-    public synchronized final Checkmark getToday()
+    public synchronized final Entry getToday()
     {
         compute();
         Timestamp today = DateUtils.getTodayWithOffset();
@@ -225,7 +216,7 @@ public abstract class CheckmarkList
      */
     public synchronized int getTodayValue()
     {
-        Checkmark today = getToday();
+        Entry today = getToday();
         if (today != null) return today.getValue();
         else return UNKNOWN;
     }
@@ -254,7 +245,7 @@ public abstract class CheckmarkList
 
     private int getThisIntervalValue(DateUtils.TruncateField truncateField, int firstWeekday)
     {
-        List<Checkmark> groups = habit.getComputedCheckmarks().groupBy(truncateField, firstWeekday, 1);
+        List<Entry> groups = habit.getComputedEntries().groupBy(truncateField, firstWeekday, 1);
         if (groups.isEmpty()) return 0;
         return groups.get(0).getValue();
     }
@@ -276,11 +267,11 @@ public abstract class CheckmarkList
     {
         if (from.isNewerThan(to)) return new int[0];
 
-        List<Checkmark> checkmarks = getByInterval(from, to);
-        int values[] = new int[checkmarks.size()];
+        List<Entry> entries = getByInterval(from, to);
+        int values[] = new int[entries.size()];
 
         int i = 0;
-        for (Checkmark c : checkmarks)
+        for (Entry c : entries)
             values[i++] = c.getValue();
 
         return values;
@@ -330,20 +321,20 @@ public abstract class CheckmarkList
     {
         final Timestamp today = DateUtils.getTodayWithOffset();
 
-        Checkmark newest = getNewestComputed();
+        Entry newest = getNewestComputed();
         if (newest != null && newest.getTimestamp().equals(today)) return;
         invalidateNewerThan(Timestamp.ZERO);
 
-        Checkmark oldestRep = habit.getOriginalCheckmarks().getOldest();
+        Entry oldestRep = habit.getOriginalEntries().getOldest();
         if (oldestRep == null) return;
         final Timestamp from = oldestRep.getTimestamp();
 
         if (from.isNewerThan(today)) return;
 
-        Checkmark reps[] = habit
-            .getOriginalCheckmarks()
+        Entry reps[] = habit
+            .getOriginalEntries()
             .getByInterval(from, today)
-            .toArray(new Checkmark[0]);
+            .toArray(new Entry[0]);
 
         if (habit.isNumerical()) computeNumerical(reps);
         else computeYesNo(reps);
@@ -355,7 +346,7 @@ public abstract class CheckmarkList
      * @return newest checkmark already computed
      */
     @Nullable
-    protected abstract Checkmark getNewestComputed();
+    protected abstract Entry getNewestComputed();
 
     /**
      * Returns oldest checkmark that has already been computed.
@@ -363,9 +354,9 @@ public abstract class CheckmarkList
      * @return oldest checkmark already computed
      */
     @Nullable
-    protected abstract Checkmark getOldestComputed();
+    protected abstract Entry getOldestComputed();
 
-    private void computeNumerical(Checkmark[] original)
+    private void computeNumerical(Entry[] original)
     {
         if (original.length == 0) return;
 
@@ -373,29 +364,29 @@ public abstract class CheckmarkList
         Timestamp begin = original[0].getTimestamp();
 
         int nDays = begin.daysUntil(today) + 1;
-        List<Checkmark> computed = new ArrayList<>(nDays);
+        List<Entry> computed = new ArrayList<>(nDays);
         for (int i = 0; i < nDays; i++)
-            computed.add(new Checkmark(today.minus(i), 0));
+            computed.add(new Entry(today.minus(i), 0));
 
-        for (Checkmark c : original)
+        for (Entry e : original)
         {
-            int offset = c.getTimestamp().daysUntil(today);
-            computed.set(offset, new Checkmark(c.getTimestamp(), c.getValue()));
+            int offset = e.getTimestamp().daysUntil(today);
+            computed.set(offset, new Entry(e.getTimestamp(), e.getValue()));
         }
 
         add(computed);
     }
 
-    private void computeYesNo(Checkmark[] original)
+    private void computeYesNo(Entry[] original)
     {
         ArrayList<Interval> intervals;
         intervals = buildIntervals(habit.getFrequency(), original);
         snapIntervalsTogether(intervals);
-        add(buildCheckmarksFromIntervals(original, intervals));
+        add(buildEntriesFromInterval(original, intervals));
     }
 
-    public List<Checkmark> getAll() {
-        Checkmark oldest = habit.getOriginalCheckmarks().getOldest();
+    public List<Entry> getAll() {
+        Entry oldest = habit.getOriginalEntries().getOldest();
         if(oldest == null) return new ArrayList<>();
         return getByInterval(oldest.getTimestamp(), DateUtils.getTodayWithOffset());
     }
@@ -457,24 +448,24 @@ public abstract class CheckmarkList
     }
 
     @NonNull
-    public List<Checkmark> groupBy(DateUtils.TruncateField field, int firstWeekday)
+    public List<Entry> groupBy(DateUtils.TruncateField field, int firstWeekday)
     {
         return groupBy(field, firstWeekday, 0);
     }
 
 
     @NonNull
-    public List<Checkmark> groupBy(DateUtils.TruncateField field,
-                                   int firstWeekday,
-                                   int maxGroups)
+    public List<Entry> groupBy(DateUtils.TruncateField field,
+                               int firstWeekday,
+                               int maxGroups)
     {
-        List<Checkmark> checks = getAll();
+        List<Entry> checks = getAll();
 
         int count = 0;
         Timestamp[] truncatedTimestamps = new Timestamp[checks.size()];
         int[] values = new int[checks.size()];
 
-        for (Checkmark rep : checks)
+        for (Entry rep : checks)
         {
             Timestamp tt = rep.getTimestamp().truncate(field, firstWeekday);
             if (count == 0 || !truncatedTimestamps[count - 1].equals(tt))
@@ -485,18 +476,18 @@ public abstract class CheckmarkList
 
             if(habit.isNumerical())
                 values[count - 1] += rep.getValue();
-            else if(rep.getValue() == Checkmark.YES_MANUAL)
+            else if(rep.getValue() == Entry.YES_MANUAL)
                 values[count - 1] += 1000;
 
         }
 
-        ArrayList<Checkmark> groupedCheckmarks = new ArrayList<>();
+        ArrayList<Entry> groupedEntries = new ArrayList<>();
         for (int i = 0; i < count; i++)
         {
-            Checkmark rep = new Checkmark(truncatedTimestamps[i], values[i]);
-            groupedCheckmarks.add(rep);
+            Entry rep = new Entry(truncatedTimestamps[i], values[i]);
+            groupedEntries.add(rep);
         }
 
-        return groupedCheckmarks;
+        return groupedEntries;
     }
 }

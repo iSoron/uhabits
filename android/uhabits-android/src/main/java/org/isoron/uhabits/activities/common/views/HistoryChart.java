@@ -40,7 +40,7 @@ import java.text.*;
 import java.util.*;
 
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 
 public class HistoryChart extends ScrollableChart
 {
@@ -158,12 +158,12 @@ public class HistoryChart extends ScrollableChart
         if (offset < checkmarks.length)
         {
             if(skipsEnabled)
-                newValue = Checkmark.Companion.nextToggleValueWithSkip(checkmarks[offset]);
+                newValue = Entry.Companion.nextToggleValueWithSkip(checkmarks[offset]);
             else
-                newValue = Checkmark.Companion.nextToggleValueWithoutSkip(checkmarks[offset]);
+                newValue = Entry.Companion.nextToggleValueWithoutSkip(checkmarks[offset]);
         }
 
-        onToggleCheckmarkListener.onToggleCheckmark(timestamp, newValue);
+        onToggleCheckmarkListener.onToggleEntry(timestamp, newValue);
         postInvalidate();
         return true;
 
@@ -187,7 +187,7 @@ public class HistoryChart extends ScrollableChart
         }
     }
 
-    public void setCheckmarks(int[] checkmarks)
+    public void setEntries(int[] checkmarks)
     {
         this.checkmarks = checkmarks;
         postInvalidate();
@@ -454,7 +454,7 @@ public class HistoryChart extends ScrollableChart
         onToggleCheckmarkListener = new OnToggleCheckmarkListener()
         {
             @Override
-            public void onToggleCheckmark(@NotNull Timestamp timestamp, int value)
+            public void onToggleEntry(@NotNull Timestamp timestamp, int value)
             {
             }
         };

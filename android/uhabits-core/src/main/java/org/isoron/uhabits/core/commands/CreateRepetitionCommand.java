@@ -52,7 +52,7 @@ public class CreateRepetitionCommand implements Command
     @Override
     public void execute()
     {
-        RepetitionList checks = habit.getOriginalCheckmarks();
+        RepetitionList checks = habit.getOriginalEntries();
         checks.setValue(timestamp, value);
         habitList.resort();
     }

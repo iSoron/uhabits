@@ -52,7 +52,7 @@ class FrequencyCardPresenter(
 ) {
     fun present() = FrequencyCardViewModel(
             color = habit.color,
-            frequency = habit.originalCheckmarks.weekdayFrequency,
+            frequency = habit.originalEntries.weekdayFrequency,
             firstWeekday = firstWeekday,
     )
 }

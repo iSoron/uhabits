@@ -66,20 +66,20 @@ public class SQLiteRepetitionList extends RepetitionList
     }
 
     @Override
-    public void add(Checkmark check)
+    public void add(Entry entry)
     {
         loadRecords();
-        list.add(check);
+        list.add(entry);
         check(habit.getId());
         RepetitionRecord record = new RepetitionRecord();
         record.habit_id = habit.getId();
-        record.copyFrom(check);
+        record.copyFrom(entry);
         repository.save(record);
         observable.notifyListeners();
     }
 
     @Override
-    public List<Checkmark> getByInterval(Timestamp timeFrom, Timestamp timeTo)
+    public List<Entry> getByInterval(Timestamp timeFrom, Timestamp timeTo)
     {
         loadRecords();
         return list.getByInterval(timeFrom, timeTo);
@@ -87,35 +87,35 @@ public class SQLiteRepetitionList extends RepetitionList
 
     @Override
     @Nullable
-    public Checkmark getByTimestamp(Timestamp timestamp)
+    public Entry getByTimestamp(Timestamp timestamp)
     {
         loadRecords();
         return list.getByTimestamp(timestamp);
     }
 
     @Override
-    public Checkmark getOldest()
+    public Entry getOldest()
     {
         loadRecords();
         return list.getOldest();
     }
 
     @Override
-    public Checkmark getNewest()
+    public Entry getNewest()
     {
         loadRecords();
         return list.getNewest();
     }
 
     @Override
-    public void remove(@NonNull Checkmark checkmark)
+    public void remove(@NonNull Entry entry)
     {
         loadRecords();
-        list.remove(checkmark);
+        list.remove(entry);
         check(habit.getId());
         repository.execSQL(
             "delete from repetitions where habit = ? and timestamp = ?",
-            habit.getId(), checkmark.getTimestamp().getUnixTime());
+            habit.getId(), entry.getTimestamp().getUnixTime());
         observable.notifyListeners();
     }
 

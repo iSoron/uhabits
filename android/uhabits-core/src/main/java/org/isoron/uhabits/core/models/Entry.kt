@@ -18,45 +18,35 @@
  */
 package org.isoron.uhabits.core.models
 
-/**
- * A Checkmark represents the completion status of the habit for a given day.
- *
- * While repetitions simply record that the habit was performed at a given date, a checkmark
- * provides more information, such as whether a repetition was expected at that day or not.
- *
- * Checkmarks are computed automatically from the list of repetitions.
- *
- * Note that the status comparator in relies on SKIP > YES_MANUAL > YES_AUTO > NO.
- */
-data class Checkmark(
+data class Entry(
         val timestamp: Timestamp,
         val value: Int,
 ) {
     companion object {
         /**
-         * Checkmark value indicating that the habit is not applicable for this timestamp.
+         * Value indicating that the habit is not applicable for this timestamp.
          */
         const val SKIP = 3
 
         /**
-         * Checkmark value indicating that the user has performed the habit at this timestamp.
+         * Value indicating that the user has performed the habit at this timestamp.
          */
         const val YES_MANUAL = 2
 
         /**
-         * Checkmark value indicating that the user did not perform the habit, but they were not
+         * Value indicating that the user did not perform the habit, but they were not
          * expected to, because of the frequency of the habit.
          */
         const val YES_AUTO = 1
 
         /**
-         * Checkmark value indicating that the user did not perform the habit, even though they were
+         * Value indicating that the user did not perform the habit, even though they were
          * expected to perform it.
          */
         const val NO = 0
 
         /**
-         * Checkmark value indicating that no data is available for the given timestamp.
+         * Value indicating that no data is available for the given timestamp.
          */
         const val UNKNOWN = -1
 

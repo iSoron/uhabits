@@ -28,7 +28,7 @@ import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
 data class BarCardViewModel(
-        val checkmarks: List<Checkmark>,
+        val entries: List<Entry>,
         val bucketSize: Int,
         val color: PaletteColor,
         val isNumerical: Boolean,
@@ -44,7 +44,7 @@ class BarCard(context: Context, attrs: AttributeSet) : LinearLayout(context, att
     var onBoolSpinnerPosition: (position: Int) -> Unit = {}
 
     fun update(data: BarCardViewModel) {
-        binding.barChart.setCheckmarks(data.checkmarks)
+        binding.barChart.setEntries(data.entries)
         binding.barChart.setBucketSize(data.bucketSize)
         val androidColor = data.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
@@ -95,13 +95,13 @@ class BarCardPresenter(
         } else {
             boolBucketSizes[boolSpinnerPosition]
         }
-        val checkmarks = if (bucketSize == 1) {
-            habit.computedCheckmarks.all
+        val entries = if (bucketSize == 1) {
+            habit.computedEntries.all
         } else {
-            habit.computedCheckmarks.groupBy(getTruncateField(bucketSize), firstWeekday)
+            habit.computedEntries.groupBy(getTruncateField(bucketSize), firstWeekday)
         }
         return BarCardViewModel(
-                checkmarks = checkmarks,
+                entries = entries,
                 bucketSize = bucketSize,
                 color = habit.color,
                 isNumerical = habit.isNumerical,

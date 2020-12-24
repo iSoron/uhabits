@@ -86,7 +86,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         behavior.onEdit(habit2, DateUtils.getToday());
         verify(screen).showNumberPicker(eq(0.1), eq("miles"), picker.capture());
         picker.getValue().onNumberPicked(100);
-        assertThat(habit2.getComputedCheckmarks().getTodayValue(), equalTo(100000));
+        assertThat(habit2.getComputedEntries().getTodayValue(), equalTo(100000));
     }
 
     @Test
@@ -173,7 +173,7 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
     public void testOnToggle()
     {
         assertTrue(habit1.isCompletedToday());
-        behavior.onToggle(habit1, DateUtils.getToday(), Checkmark.NO);
+        behavior.onToggle(habit1, DateUtils.getToday(), Entry.NO);
         assertFalse(habit1.isCompletedToday());
     }
 

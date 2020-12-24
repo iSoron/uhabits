@@ -74,7 +74,7 @@ public class BarChart extends ScrollableChart
     private int gridColor;
 
     @Nullable
-    private List<Checkmark> checkmarks;
+    private List<Entry> entries;
 
     private int bucketSize = 7;
 
@@ -115,17 +115,17 @@ public class BarChart extends ScrollableChart
     public void populateWithRandomData()
     {
         Random random = new Random();
-        List<Checkmark> checkmarks = new LinkedList<>();
+        List<Entry> entries = new LinkedList<>();
 
         Timestamp today = DateUtils.getToday();
 
         for (int i = 1; i < 100; i++)
         {
             int value = random.nextInt(1000);
-            checkmarks.add(new Checkmark(today.minus(i), value));
+            entries.add(new Entry(today.minus(i), value));
         }
 
-        setCheckmarks(checkmarks);
+        setEntries(entries);
         setTarget(0.5);
     }
 
@@ -135,13 +135,13 @@ public class BarChart extends ScrollableChart
         postInvalidate();
     }
 
-    public void setCheckmarks(@NonNull List<Checkmark> checkmarks)
+    public void setEntries(@NonNull List<Entry> entries)
     {
-        this.checkmarks = checkmarks;
+        this.entries = entries;
 
         maxValue = 1.0;
-        for (Checkmark c : checkmarks)
-            maxValue = Math.max(maxValue, c.getValue());
+        for (Entry e : entries)
+            maxValue = Math.max(maxValue, e.getValue());
         maxValue = Math.ceil(maxValue / 1000 * 1.05) * 1000;
 
         postInvalidate();
@@ -186,7 +186,7 @@ public class BarChart extends ScrollableChart
             activeCanvas = canvas;
         }
 
-        if (checkmarks == null) return;
+        if (entries == null) return;
 
         rect.set(0, 0, nColumns * columnWidth, columnHeight);
         rect.offset(0, paddingTop);
@@ -204,10 +204,10 @@ public class BarChart extends ScrollableChart
         for (int k = 0; k < nColumns; k++)
         {
             int offset = nColumns - k - 1 + getDataOffset();
-            if (offset >= checkmarks.size()) continue;
+            if (offset >= entries.size()) continue;
 
-            double value = checkmarks.get(offset).getValue();
-            Timestamp timestamp = checkmarks.get(offset).getTimestamp();
+            double value = entries.get(offset).getValue();
+            Timestamp timestamp = entries.get(offset).getTimestamp();
             int height = (int) (columnHeight * value / maxValue);
 
             rect.set(0, 0, baseSize, height);

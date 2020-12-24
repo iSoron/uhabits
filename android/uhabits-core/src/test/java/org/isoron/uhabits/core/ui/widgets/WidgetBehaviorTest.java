@@ -28,7 +28,7 @@ import org.junit.*;
 
 import java.util.*;
 
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 import static org.mockito.Mockito.*;
 
 public class WidgetBehaviorTest extends BaseUnitTest
@@ -88,10 +88,10 @@ public class WidgetBehaviorTest extends BaseUnitTest
                 when(preferences.isSkipEnabled()).thenReturn(skipEnabled);
 
                 int nextValue;
-                if(skipEnabled) nextValue = Checkmark.Companion.nextToggleValueWithSkip(currentValue);
-                else nextValue = Checkmark.Companion.nextToggleValueWithoutSkip(currentValue);
+                if(skipEnabled) nextValue = Entry.Companion.nextToggleValueWithSkip(currentValue);
+                else nextValue = Entry.Companion.nextToggleValueWithoutSkip(currentValue);
 
-                habit.getOriginalCheckmarks().setValue(timestamp, currentValue);
+                habit.getOriginalEntries().setValue(timestamp, currentValue);
                 behavior.onToggleRepetition(habit, timestamp);
                 verify(preferences).isSkipEnabled();
                 verify(commandRunner).execute(
@@ -106,7 +106,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnIncrement()
     {
         habit = fixtures.createNumericalHabit();
-        habit.getOriginalCheckmarks().setValue(timestamp, 500);
+        habit.getOriginalEntries().setValue(timestamp, 500);
 
         behavior.onIncrement(habit, timestamp, 100);
         verify(commandRunner).execute(
@@ -120,7 +120,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnDecrement()
     {
         habit = fixtures.createNumericalHabit();
-        habit.getOriginalCheckmarks().setValue(timestamp, 500);
+        habit.getOriginalEntries().setValue(timestamp, 500);
 
         behavior.onDecrement(habit, timestamp, 100);
         verify(commandRunner).execute(

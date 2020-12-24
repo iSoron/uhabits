@@ -51,8 +51,8 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         float percentage = (float) score;
 
         view.setActiveColor(PaletteUtils.getAndroidTestColor(0));
-        view.setCheckmarkState(habit.getComputedCheckmarks().getTodayValue());
-        view.setCheckmarkValue(habit.getComputedCheckmarks().getTodayValue());
+        view.setEntryState(habit.getComputedEntries().getTodayValue());
+        view.setEntryValue(habit.getComputedEntries().getTodayValue());
         view.setPercentage(percentage);
         view.setName(habit.getName());
         view.refresh();

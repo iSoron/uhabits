@@ -49,8 +49,8 @@ public class HabitTest extends BaseUnitTest
         assertThat(habit.hasReminder(), is(false));
         assertNotNull(habit.getStreaks());
         assertNotNull(habit.getScores());
-        assertNotNull(habit.getOriginalCheckmarks());
-        assertNotNull(habit.getComputedCheckmarks());
+        assertNotNull(habit.getOriginalEntries());
+        assertNotNull(habit.getComputedEntries());
     }
 
     @Test
@@ -89,7 +89,7 @@ public class HabitTest extends BaseUnitTest
     {
         Habit h = modelFactory.buildHabit();
         assertFalse(h.isCompletedToday());
-        h.getOriginalCheckmarks().setValue(getToday(), Checkmark.YES_MANUAL);
+        h.getOriginalEntries().setValue(getToday(), Entry.YES_MANUAL);
         assertTrue(h.isCompletedToday());
     }
 
@@ -102,19 +102,19 @@ public class HabitTest extends BaseUnitTest
         h.setTargetValue(100.0);
         assertFalse(h.isCompletedToday());
 
-        h.getOriginalCheckmarks().setValue(getToday(), 200_000);
+        h.getOriginalEntries().setValue(getToday(), 200_000);
         assertTrue(h.isCompletedToday());
-        h.getOriginalCheckmarks().setValue(getToday(), 100_000);
+        h.getOriginalEntries().setValue(getToday(), 100_000);
         assertTrue(h.isCompletedToday());
-        h.getOriginalCheckmarks().setValue(getToday(), 50_000);
+        h.getOriginalEntries().setValue(getToday(), 50_000);
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
-        h.getOriginalCheckmarks().setValue(getToday(), 200_000);
+        h.getOriginalEntries().setValue(getToday(), 200_000);
         assertFalse(h.isCompletedToday());
-        h.getOriginalCheckmarks().setValue(getToday(), 100_000);
+        h.getOriginalEntries().setValue(getToday(), 100_000);
         assertTrue(h.isCompletedToday());
-        h.getOriginalCheckmarks().setValue(getToday(), 50_000);
+        h.getOriginalEntries().setValue(getToday(), 50_000);
         assertTrue(h.isCompletedToday());
     }
 

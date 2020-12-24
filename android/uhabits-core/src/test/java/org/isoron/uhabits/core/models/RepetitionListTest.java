@@ -30,7 +30,7 @@ import java.util.*;
 import static java.util.Calendar.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.IsEqual.*;
-import static org.isoron.uhabits.core.models.Checkmark.*;
+import static org.isoron.uhabits.core.models.Entry.*;
 import static org.mockito.Mockito.*;
 
 public class RepetitionListTest extends BaseUnitTest
@@ -54,7 +54,7 @@ public class RepetitionListTest extends BaseUnitTest
     {
         super.setUp();
         habit = fixtures.createEmptyHabit();
-        reps = habit.getOriginalCheckmarks();
+        reps = habit.getOriginalEntries();
 
         today = DateUtils.getToday();
 
@@ -79,7 +79,7 @@ public class RepetitionListTest extends BaseUnitTest
     @Test
     public void test_getOldest()
     {
-        Checkmark check = reps.getOldest();
+        Entry check = reps.getOldest();
         assertThat(check.getTimestamp(), equalTo(today.minus(7)));
     }
 
@@ -87,7 +87,7 @@ public class RepetitionListTest extends BaseUnitTest
     public void test_getWeekDayFrequency()
     {
         habit = fixtures.createEmptyHabit();
-        reps = habit.getOriginalCheckmarks();
+        reps = habit.getOriginalEntries();
 
         Random random = new Random(123L);
         Integer weekdayCount[][] = new Integer[12][7];
