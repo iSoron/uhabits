@@ -80,6 +80,7 @@ public class EditHabitCommand implements Command
 
         habit.copyFrom(model);
         habitList.update(habit);
+        habit.getObservable().notifyListeners();
 
         if (hasFrequencyChanged || hasTargetChanged)
             habit.invalidateNewerThan(Timestamp.ZERO);
