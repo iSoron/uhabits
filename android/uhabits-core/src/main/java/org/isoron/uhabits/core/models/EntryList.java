@@ -31,19 +31,22 @@ import java.util.*;
 import javax.annotation.concurrent.*;
 
 import static org.isoron.uhabits.core.models.Entry.*;
-import static org.isoron.uhabits.core.utils.StringUtils.defaultToStringStyle;
+import static org.isoron.uhabits.core.utils.StringUtils.*;
 
 /**
  * The collection of {@link Entry}s belonging to a habit.
  */
 @ThreadSafe
-public abstract class EntryList
+public class EntryList
 {
     protected final Habit habit;
+
+    protected ArrayList<Entry> list;
 
     public EntryList(Habit habit)
     {
         this.habit = habit;
+        this.list = new ArrayList<>();
     }
 
     @NonNull
@@ -145,13 +148,19 @@ public abstract class EntryList
             {
                 int shift = Math.min(gapCenterToEnd, gapNextToCurrent + 1);
                 intervals.set(i, new Interval(curr.begin.minus(shift),
-                                              curr.center,
-                                              curr.end.minus(shift)));
+                        curr.center,
+                        curr.end.minus(shift)));
             }
         }
     }
 
-    public abstract void add(List<Entry> entries);
+    public void add(List<Entry> entries)
+    {
+        list.addAll(entries);
+        Collections.sort(list,
+                (c1, c2) -> c2.getTimestamp().compare(c1.getTimestamp()));
+
+    }
 
     /**
      * Returns the values for all the checkmarks, since the oldest repetition of
@@ -185,13 +194,39 @@ public abstract class EntryList
      * That is, the first checkmark corresponds to the newest timestamp, and the
      * last checkmark corresponds to the oldest timestamp.
      *
-     * @param fromTimestamp timestamp of the beginning of the interval.
-     * @param toTimestamp   timestamp of the end of the interval.
+     * @param from timestamp of the beginning of the interval.
+     * @param to   timestamp of the end of the interval.
      * @return the list of checkmarks within the interval.
      */
     @NonNull
-    public abstract List<Entry> getByInterval(Timestamp fromTimestamp,
-                                              Timestamp toTimestamp);
+    public List<Entry> getByInterval(Timestamp from,
+                                     Timestamp to)
+    {
+        compute();
+
+        Timestamp newestComputed = new Timestamp(0);
+        Timestamp oldestComputed = new Timestamp(0).plus(1000000);
+
+        Entry newest = getNewestComputed();
+        Entry oldest = getOldestComputed();
+        if (newest != null) newestComputed = newest.getTimestamp();
+        if (oldest != null) oldestComputed = oldest.getTimestamp();
+
+        List<Entry> filtered = new ArrayList<>(
+                Math.max(0, oldestComputed.daysUntil(newestComputed) + 1));
+
+        for (int i = 0; i <= from.daysUntil(to); i++)
+        {
+            Timestamp t = to.minus(i);
+            if (t.isNewerThan(newestComputed) || t.isOlderThan(oldestComputed))
+                filtered.add(new Entry(t, Entry.UNKNOWN));
+            else
+                filtered.add(list.get(t.daysUntil(newestComputed)));
+        }
+
+        return filtered;
+
+    }
 
     /**
      * Returns the checkmark for today.
@@ -281,7 +316,10 @@ public abstract class EntryList
      *
      * @param timestamp the timestamp
      */
-    public abstract void invalidateNewerThan(Timestamp timestamp);
+    public void invalidateNewerThan(Timestamp timestamp)
+    {
+        list.clear();
+    }
 
     /**
      * Writes the entire list of checkmarks to the given writer, in CSV format.
@@ -329,29 +367,27 @@ public abstract class EntryList
         if (from.isNewerThan(today)) return;
 
         Entry reps[] = habit
-            .getOriginalEntries()
-            .getByInterval(from, today)
-            .toArray(new Entry[0]);
+                .getOriginalEntries()
+                .getByInterval(from, today)
+                .toArray(new Entry[0]);
 
         if (habit.isNumerical()) computeNumerical(reps);
         else computeYesNo(reps);
     }
 
-    /**
-     * Returns newest checkmark that has already been computed.
-     *
-     * @return newest checkmark already computed
-     */
     @Nullable
-    protected abstract Entry getNewestComputed();
+    protected Entry getNewestComputed()
+    {
+        if (list.isEmpty()) return null;
+        return list.get(0);
+    }
 
-    /**
-     * Returns oldest checkmark that has already been computed.
-     *
-     * @return oldest checkmark already computed
-     */
     @Nullable
-    protected abstract Entry getOldestComputed();
+    protected Entry getOldestComputed()
+    {
+        if (list.isEmpty()) return null;
+        return list.get(list.size() - 1);
+    }
 
     private void computeNumerical(Entry[] original)
     {
@@ -382,9 +418,10 @@ public abstract class EntryList
         add(buildEntriesFromInterval(original, intervals));
     }
 
-    public List<Entry> getAll() {
+    public List<Entry> getAll()
+    {
         Entry oldest = habit.getOriginalEntries().getOldest();
-        if(oldest == null) return new ArrayList<>();
+        if (oldest == null) return new ArrayList<>();
         return getByInterval(oldest.getTimestamp(), DateUtils.getTodayWithOffset());
     }
 
@@ -403,7 +440,8 @@ public abstract class EntryList
             this.end = end;
         }
 
-        public int length() {
+        public int length()
+        {
             return begin.daysUntil(end) + 1;
         }
 
@@ -417,30 +455,30 @@ public abstract class EntryList
             Interval interval = (Interval) o;
 
             return new EqualsBuilder()
-                .append(begin, interval.begin)
-                .append(center, interval.center)
-                .append(end, interval.end)
-                .isEquals();
+                    .append(begin, interval.begin)
+                    .append(center, interval.center)
+                    .append(end, interval.end)
+                    .isEquals();
         }
 
         @Override
         public int hashCode()
         {
             return new HashCodeBuilder(17, 37)
-                .append(begin)
-                .append(center)
-                .append(end)
-                .toHashCode();
+                    .append(begin)
+                    .append(center)
+                    .append(end)
+                    .toHashCode();
         }
 
         @Override
         public String toString()
         {
             return new ToStringBuilder(this, defaultToStringStyle())
-                .append("begin", begin)
-                .append("center", center)
-                .append("end", end)
-                .toString();
+                    .append("begin", begin)
+                    .append("center", center)
+                    .append("end", end)
+                    .toString();
         }
     }
 
@@ -471,9 +509,9 @@ public abstract class EntryList
                 truncatedTimestamps[count++] = tt;
             }
 
-            if(habit.isNumerical())
+            if (habit.isNumerical())
                 values[count - 1] += rep.getValue();
-            else if(rep.getValue() == Entry.YES_MANUAL)
+            else if (rep.getValue() == Entry.YES_MANUAL)
                 values[count - 1] += 1000;
 
         }

@@ -44,7 +44,7 @@ public class SQLModelFactory implements ModelFactory
     @Override
     public EntryList buildEntryList(Habit habit)
     {
-        return new MemoryEntryList(habit);
+        return new EntryList(habit);
     }
 
     @Override
