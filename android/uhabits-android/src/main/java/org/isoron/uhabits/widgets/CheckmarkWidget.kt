@@ -46,12 +46,12 @@ open class CheckmarkWidget(
 
             setActiveColor(habit.color.toThemedAndroidColor(context))
             setName(habit.name)
-            setCheckmarkValue(habit.checkmarks.todayValue)
+            setCheckmarkValue(habit.computedCheckmarks.todayValue)
             if (habit.isNumerical) {
                 setNumerical(true)
                 setCheckmarkState(getNumericalCheckmarkState())
             } else {
-                setCheckmarkState(habit.checkmarks.todayValue)
+                setCheckmarkState(habit.computedCheckmarks.todayValue)
             }
             setPercentage(habit.scores.todayValue.toFloat())
             refresh()

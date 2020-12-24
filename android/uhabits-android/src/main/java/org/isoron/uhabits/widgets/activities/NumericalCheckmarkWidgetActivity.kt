@@ -71,9 +71,9 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         val app = this.applicationContext as HabitsApplication
         AndroidThemeSwitcher(this, app.component.preferences).apply()
         val numberPickerFactory = NumberPickerFactory(context)
-        numberPickerFactory.create(data.habit.checkmarks.today!!.value.toDouble() / 1000,
-                data.habit.unit,
-                this).show()
+        numberPickerFactory.create(data.habit.computedCheckmarks.today!!.value.toDouble() / 1000,
+                                   data.habit.unit,
+                                   this).show()
     }
 
     companion object {

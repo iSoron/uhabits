@@ -25,9 +25,6 @@ import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
-/**
- * The collection of {@link Repetition}s belonging to a habit.
- */
 public abstract class RepetitionList
 {
     @NonNull
@@ -43,17 +40,17 @@ public abstract class RepetitionList
     }
 
     /**
-     * Adds a repetition to the list.
+     * Adds a checkmark to the list.
      * <p>
      * Any implementation of this method must call observable.notifyListeners()
-     * after the repetition has been added.
+     * after the checkmark has been added.
      *
-     * @param repetition the repetition to be added.
+     * @param checkmark the checkmark to be added.
      */
-    public abstract void add(Repetition repetition);
+    public abstract void add(Checkmark checkmark);
 
     /**
-     * Returns the list of repetitions that happened within the given time
+     * Returns the list of checkmarks that happened within the given time
      * interval.
      * <p>
      * The list is sorted by timestamp in increasing order. That is, the first
@@ -62,31 +59,31 @@ public abstract class RepetitionList
      *
      * @param fromTimestamp timestamp of the beginning of the interval
      * @param toTimestamp   timestamp of the end of the interval
-     * @return list of repetitions within given time interval
+     * @return list of checkmarks within given time interval
      */
-    public abstract List<Repetition> getByInterval(Timestamp fromTimestamp,
-                                                   Timestamp toTimestamp);
+    public abstract List<Checkmark> getByInterval(Timestamp fromTimestamp,
+                                                  Timestamp toTimestamp);
 
     /**
-     * Returns the repetition that has the given timestamp, or null if none
+     * Returns the checkmark that has the given timestamp, or null if none
      * exists.
      *
-     * @param timestamp the repetition timestamp.
-     * @return the repetition that has the given timestamp.
+     * @param timestamp the checkmark timestamp.
+     * @return the checkmark that has the given timestamp.
      */
     @Nullable
-    public abstract Repetition getByTimestamp(Timestamp timestamp);
+    public abstract Checkmark getByTimestamp(Timestamp timestamp);
 
     /**
-     * If a repetition with the given timestamp exists, return its value. Otherwise, returns
+     * If a checkmark with the given timestamp exists, return its value. Otherwise, returns
      * Checkmark.NO for boolean habits and zero for numerical habits.
      */
     @NonNull
     public int getValue(Timestamp timestamp)
     {
-        Repetition rep = getByTimestamp(timestamp);
-        if (rep == null) return Checkmark.UNKNOWN;
-        return rep.getValue();
+        Checkmark check = getByTimestamp(timestamp);
+        if (check == null) return Checkmark.UNKNOWN;
+        return check.getValue();
     }
 
     @NonNull
@@ -96,54 +93,54 @@ public abstract class RepetitionList
     }
 
     /**
-     * Returns the oldest repetition in the list.
+     * Returns the oldest checkmark in the list.
      * <p>
      * If the list is empty, returns null. Repetitions in the future are
      * discarded.
      *
-     * @return oldest repetition in the list, or null if list is empty.
+     * @return oldest checkmark in the list, or null if list is empty.
      */
     @Nullable
-    public abstract Repetition getOldest();
+    public abstract Checkmark getOldest();
 
     @Nullable
     /**
-     * Returns the newest repetition in the list.
+     * Returns the newest checkmark in the list.
      * <p>
      * If the list is empty, returns null. Repetitions in the past are
      * discarded.
      *
-     * @return newest repetition in the list, or null if list is empty.
+     * @return newest checkmark in the list, or null if list is empty.
      */
-    public abstract Repetition getNewest();
+    public abstract Checkmark getNewest();
 
     /**
-     * Returns the total number of successful repetitions for each month, from the first
-     * repetition until today, grouped by day of week.
+     * Returns the total number of successful checkmarks for each month, from the first
+     * checkmark until today, grouped by day of week.
      * <p>
-     * The repetitions are returned in a HashMap. The key is the timestamp for
+     * The checkmarks are returned in a HashMap. The key is the timestamp for
      * the first day of the month, at midnight (00:00). The value is an integer
      * array with 7 entries. The first entry contains the total number of
-     * successful repetitions during the specified month that occurred on a Saturday. The
+     * successful checkmarks during the specified month that occurred on a Saturday. The
      * second entry corresponds to Sunday, and so on. If there are no
-     * successful repetitions during a certain month, the value is null.
+     * successful checkmarks during a certain month, the value is null.
      *
-     * @return total number of repetitions by month versus day of week
+     * @return total number of checkmarks by month versus day of week
      */
     @NonNull
     public HashMap<Timestamp, Integer[]> getWeekdayFrequency()
     {
-        List<Repetition> reps =
+        List<Checkmark> checks =
                 getByInterval(Timestamp.ZERO, DateUtils.getTodayWithOffset());
         HashMap<Timestamp, Integer[]> map = new HashMap<>();
 
-        for (Repetition r : reps)
+        for (Checkmark c : checks)
         {
-            if (!habit.isNumerical() && r.getValue() != Checkmark.YES_MANUAL)
+            if (!habit.isNumerical() && c.getValue() != Checkmark.YES_MANUAL)
                 continue;
 
-            Calendar date = r.getTimestamp().toCalendar();
-            int weekday = r.getTimestamp().getWeekday();
+            Calendar date = c.getTimestamp().toCalendar();
+            int weekday = c.getTimestamp().getWeekday();
             date.set(Calendar.DAY_OF_MONTH, 1);
 
             Timestamp timestamp = new Timestamp(date.getTimeInMillis());
@@ -163,24 +160,24 @@ public abstract class RepetitionList
     }
 
     /**
-     * Removes a given repetition from the list.
+     * Removes a given checkmark from the list.
      * <p>
-     * If the list does not contain the repetition, it is unchanged.
+     * If the list does not contain the checkmark, it is unchanged.
      * <p>
      * Any implementation of this method must call observable.notifyListeners()
-     * after the repetition has been added.
+     * after the checkmark has been added.
      *
-     * @param repetition the repetition to be removed
+     * @param checkmark the checkmark to be removed
      */
-    public abstract void remove(@NonNull Repetition repetition);
+    public abstract void remove(@NonNull Checkmark checkmark);
 
     public abstract long getTotalCount();
 
     public void setValue(Timestamp timestamp, int value)
     {
-        Repetition rep = getByTimestamp(timestamp);
-        if (rep != null) remove(rep);
-        add(new Repetition(timestamp, value));
+        Checkmark check = getByTimestamp(timestamp);
+        if (check != null) remove(check);
+        add(new Checkmark(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }
 

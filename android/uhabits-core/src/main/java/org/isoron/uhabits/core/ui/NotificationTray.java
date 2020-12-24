@@ -178,7 +178,7 @@ public class NotificationTray
         @Override
         public void doInBackground()
         {
-            todayValue = habit.getCheckmarks().getTodayValue();
+            todayValue = habit.getComputedCheckmarks().getTodayValue();
         }
 
         @Override

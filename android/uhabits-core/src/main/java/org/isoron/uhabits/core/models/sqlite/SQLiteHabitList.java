@@ -201,7 +201,7 @@ public class SQLiteHabitList extends HabitList
         if (record == null) throw new RuntimeException("habit not in database");
         repository.executeAsTransaction(() ->
         {
-            ((SQLiteRepetitionList) habit.getRepetitions()).removeAll();
+            habit.getOriginalCheckmarks().removeAll();
             repository.remove(record);
         });
 

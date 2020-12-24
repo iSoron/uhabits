@@ -196,22 +196,22 @@ public abstract class ScoreList implements Iterable<Score>
     protected synchronized void compute(@NonNull Timestamp from,
                                         @NonNull Timestamp to)
     {
-        Score newest = getNewestComputed();
-        Score oldest = getOldestComputed();
+        Score newestComputed = getNewestComputed();
+        Score oldestComputed = getOldestComputed();
 
-        if (newest == null)
+        if (newestComputed == null)
         {
-            Repetition oldestRep = habit.getRepetitions().getOldest();
-            if (oldestRep != null) from =
-                Timestamp.oldest(from, oldestRep.getTimestamp());
+            Checkmark oldestOriginal = habit.getOriginalCheckmarks().getOldest();
+            if (oldestOriginal != null) from =
+                Timestamp.oldest(from, oldestOriginal.getTimestamp());
             forceRecompute(from, to, 0);
         }
         else
         {
-            if (oldest == null) throw new IllegalStateException();
-            forceRecompute(from, oldest.getTimestamp().minus(1), 0);
-            forceRecompute(newest.getTimestamp().plus(1), to,
-                newest.getValue());
+            if (oldestComputed == null) throw new IllegalStateException();
+            forceRecompute(from, oldestComputed.getTimestamp().minus(1), 0);
+            forceRecompute(newestComputed.getTimestamp().plus(1), to,
+                newestComputed.getValue());
         }
     }
 
@@ -221,7 +221,7 @@ public abstract class ScoreList implements Iterable<Score>
      */
     protected void computeAll()
     {
-        Repetition oldestRep = habit.getRepetitions().getOldest();
+        Checkmark oldestRep = habit.getOriginalCheckmarks().getOldest();
         if (oldestRep == null) return;
 
         Timestamp today = DateUtils.getTodayWithOffset();
@@ -273,7 +273,7 @@ public abstract class ScoreList implements Iterable<Score>
         int numerator = habit.getFrequency().getNumerator();
         int denominator = habit.getFrequency().getDenominator();
         final double freq = habit.getFrequency().toDouble();
-        final int[] checkmarkValues = habit.getCheckmarks().getValues(from, to);
+        final int[] checkmarkValues = habit.getComputedCheckmarks().getValues(from, to);
 
         // For non-daily boolean habits, we double the numerator and the denominator to smooth
         // out irregular repetition schedules (for example, weekly habits performed on different

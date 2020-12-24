@@ -58,7 +58,7 @@ public class HistoryChartTest extends BaseViewTest
 
         chart = new HistoryChart(targetContext);
         chart.setSkipEnabled(true);
-        chart.setCheckmarks(habit.getCheckmarks().getAllValues());
+        chart.setCheckmarks(habit.getComputedCheckmarks().getAllValues());
         chart.setColor(PaletteUtilsKt.toFixedAndroidColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));
 

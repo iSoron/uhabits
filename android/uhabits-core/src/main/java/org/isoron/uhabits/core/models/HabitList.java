@@ -23,8 +23,6 @@ import androidx.annotation.*;
 
 import com.opencsv.*;
 
-import org.isoron.uhabits.core.utils.*;
-
 import java.io.*;
 import java.util.*;
 
@@ -180,7 +178,7 @@ public abstract class HabitList implements Iterable<Habit>
     {
         for (Habit h : this)
         {
-            h.getCheckmarks().invalidateNewerThan(Timestamp.ZERO);
+            h.getComputedCheckmarks().invalidateNewerThan(Timestamp.ZERO);
             h.getStreaks().invalidateNewerThan(Timestamp.ZERO);
             h.getScores().invalidateNewerThan(Timestamp.ZERO);
         }

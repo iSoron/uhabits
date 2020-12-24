@@ -114,11 +114,8 @@ public class Habit
         observable.notifyListeners();
     }
 
-    /**
-     * List of checkmarks belonging to this habit.
-     */
     @NonNull
-    public synchronized CheckmarkList getCheckmarks()
+    public synchronized CheckmarkList getComputedCheckmarks()
     {
         return checkmarks;
     }
@@ -206,8 +203,7 @@ public class Habit
         data.reminder = reminder;
     }
 
-    @NonNull
-    public RepetitionList getRepetitions()
+    public RepetitionList getOriginalCheckmarks()
     {
         return repetitions;
     }
@@ -300,7 +296,7 @@ public class Habit
     public void invalidateNewerThan(Timestamp timestamp)
     {
         getScores().invalidateNewerThan(timestamp);
-        getCheckmarks().invalidateNewerThan(timestamp);
+        getComputedCheckmarks().invalidateNewerThan(timestamp);
         getStreaks().invalidateNewerThan(timestamp);
     }
 
@@ -316,7 +312,7 @@ public class Habit
 
     public synchronized boolean isCompletedToday()
     {
-        int todayCheckmark = getCheckmarks().getTodayValue();
+        int todayCheckmark = getComputedCheckmarks().getTodayValue();
         if (isNumerical())
         {
             if(getTargetType() == AT_LEAST)

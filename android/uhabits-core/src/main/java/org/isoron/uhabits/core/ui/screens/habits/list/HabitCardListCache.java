@@ -361,7 +361,7 @@ public class HabitCardListCache implements CommandRunner.Listener
                 newData.scores.put(id, habit.getScores().getTodayValue());
                 newData.checkmarks.put(
                         id,
-                        habit.getCheckmarks().getValues(dateFrom, dateTo));
+                        habit.getComputedCheckmarks().getValues(dateFrom, dateTo));
 
                 runner.publishProgress(this, position);
             }

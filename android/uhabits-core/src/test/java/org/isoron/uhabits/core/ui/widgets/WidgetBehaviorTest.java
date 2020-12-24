@@ -91,7 +91,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
                 if(skipEnabled) nextValue = Checkmark.Companion.nextToggleValueWithSkip(currentValue);
                 else nextValue = Checkmark.Companion.nextToggleValueWithoutSkip(currentValue);
 
-                habit.getRepetitions().setValue(timestamp, currentValue);
+                habit.getOriginalCheckmarks().setValue(timestamp, currentValue);
                 behavior.onToggleRepetition(habit, timestamp);
                 verify(preferences).isSkipEnabled();
                 verify(commandRunner).execute(
@@ -106,7 +106,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnIncrement()
     {
         habit = fixtures.createNumericalHabit();
-        habit.getRepetitions().setValue(timestamp, 500);
+        habit.getOriginalCheckmarks().setValue(timestamp, 500);
 
         behavior.onIncrement(habit, timestamp, 100);
         verify(commandRunner).execute(
@@ -120,7 +120,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnDecrement()
     {
         habit = fixtures.createNumericalHabit();
-        habit.getRepetitions().setValue(timestamp, 500);
+        habit.getOriginalCheckmarks().setValue(timestamp, 500);
 
         behavior.onDecrement(habit, timestamp, 100);
         verify(commandRunner).execute(

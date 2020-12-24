@@ -96,9 +96,9 @@ class BarCardPresenter(
             boolBucketSizes[boolSpinnerPosition]
         }
         val checkmarks = if (bucketSize == 1) {
-            habit.checkmarks.all
+            habit.computedCheckmarks.all
         } else {
-            habit.checkmarks.groupBy(getTruncateField(bucketSize), firstWeekday)
+            habit.computedCheckmarks.groupBy(getTruncateField(bucketSize), firstWeekday)
         }
         return BarCardViewModel(
                 checkmarks = checkmarks,

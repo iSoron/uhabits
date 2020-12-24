@@ -54,7 +54,7 @@ public class CheckmarkWidgetTest extends BaseViewTest
         prefs.setSkipEnabled(true);
 
         habit = fixtures.createVeryLongHabit();
-        checkmarks = habit.getCheckmarks();
+        checkmarks = habit.getComputedCheckmarks();
         CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
         view = convertToView(widget, 150, 200);
 

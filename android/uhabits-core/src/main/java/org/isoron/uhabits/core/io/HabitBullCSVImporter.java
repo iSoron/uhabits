@@ -95,7 +95,7 @@ public class HabitBullCSVImporter extends AbstractImporter
                 map.put(name, h);
             }
 
-            h.getRepetitions().setValue(timestamp, YES_MANUAL);
+            h.getOriginalCheckmarks().setValue(timestamp, YES_MANUAL);
         }
     }
 }

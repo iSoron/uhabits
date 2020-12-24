@@ -54,7 +54,7 @@ public class RepetitionListTest extends BaseUnitTest
     {
         super.setUp();
         habit = fixtures.createEmptyHabit();
-        reps = habit.getRepetitions();
+        reps = habit.getOriginalCheckmarks();
 
         today = DateUtils.getToday();
 
@@ -79,15 +79,15 @@ public class RepetitionListTest extends BaseUnitTest
     @Test
     public void test_getOldest()
     {
-        Repetition rep = reps.getOldest();
-        assertThat(rep.getTimestamp(), equalTo(today.minus(7)));
+        Checkmark check = reps.getOldest();
+        assertThat(check.getTimestamp(), equalTo(today.minus(7)));
     }
 
     @Test
     public void test_getWeekDayFrequency()
     {
         habit = fixtures.createEmptyHabit();
-        reps = habit.getRepetitions();
+        reps = habit.getOriginalCheckmarks();
 
         Random random = new Random(123L);
         Integer weekdayCount[][] = new Integer[12][7];

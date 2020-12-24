@@ -56,7 +56,7 @@ class ShowHabitBehavior(
 
     override fun onToggleCheckmark(timestamp: Timestamp, value: Int) {
         if (habit.isNumerical) {
-            val checkmarks = habit.checkmarks
+            val checkmarks = habit.computedCheckmarks
             val oldValue = checkmarks.getValues(timestamp, timestamp)[0].toDouble()
             screen.showNumberPicker(oldValue / 1000, habit.unit) { newValue: Double ->
                 val thousands = Math.round(newValue * 1000).toInt()

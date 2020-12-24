@@ -71,7 +71,7 @@ public abstract class StreakList
         Timestamp beginning = findBeginning();
         if (beginning == null || beginning.isNewerThan(today)) return;
 
-        int checks[] = habit.getCheckmarks().getValues(beginning, today);
+        int checks[] = habit.getComputedCheckmarks().getValues(beginning, today);
         List<Streak> streaks = checkmarksToStreaks(beginning, checks);
 
         removeNewestComputed();
@@ -113,8 +113,8 @@ public abstract class StreakList
         Streak newestStreak = getNewestComputed();
         if (newestStreak != null) return newestStreak.getStart();
 
-        Repetition oldestRep = habit.getRepetitions().getOldest();
-        if (oldestRep != null) return oldestRep.getTimestamp();
+        Checkmark oldestOriginal = habit.getOriginalCheckmarks().getOldest();
+        if (oldestOriginal != null) return oldestOriginal.getTimestamp();
         return null;
     }
 

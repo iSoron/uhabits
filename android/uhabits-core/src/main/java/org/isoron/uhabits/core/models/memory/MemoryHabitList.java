@@ -186,8 +186,8 @@ public class MemoryHabitList extends HabitList
                 return h1.isNumerical() ? -1 : 1;
             }
 
-            Integer v1 = Objects.requireNonNull(h1.getCheckmarks().getToday()).getValue();
-            Integer v2 = Objects.requireNonNull(h2.getCheckmarks().getToday()).getValue();
+            Integer v1 = Objects.requireNonNull(h1.getComputedCheckmarks().getToday()).getValue();
+            Integer v2 = Objects.requireNonNull(h2.getComputedCheckmarks().getToday()).getValue();
 
             return v2.compareTo(v1);
         };

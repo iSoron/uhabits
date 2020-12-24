@@ -70,7 +70,7 @@ public class WidgetBehavior
 
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
-        int currentValue = habit.getRepetitions().getValue(timestamp);
+        int currentValue = habit.getOriginalCheckmarks().getValue(timestamp);
         int newValue;
         if(preferences.isSkipEnabled())
             newValue = Checkmark.Companion.nextToggleValueWithSkip(currentValue);
@@ -81,13 +81,13 @@ public class WidgetBehavior
     }
 
     public void onIncrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
-        int currentValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
+        int currentValue = habit.getComputedCheckmarks().getValues(timestamp, timestamp)[0];
         setValue(habit, timestamp, currentValue + amount);
         notificationTray.cancel(habit);
     }
 
     public void onDecrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
-        int currentValue = habit.getCheckmarks().getValues(timestamp, timestamp)[0];
+        int currentValue = habit.getComputedCheckmarks().getValues(timestamp, timestamp)[0];
         setValue(habit, timestamp, currentValue - amount);
         notificationTray.cancel(habit);
     }

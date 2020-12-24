@@ -126,7 +126,7 @@ public class HabitsCSVExporter
             generateDirs.add(habitDirName);
 
             writeScores(habitDirName, h.getScores());
-            writeCheckmarks(habitDirName, h.getCheckmarks());
+            writeCheckmarks(habitDirName, h.getComputedCheckmarks());
         }
 
         writeMultipleHabits();
@@ -181,7 +181,7 @@ public class HabitsCSVExporter
         List<double[]> scores = new ArrayList<>();
         for (Habit h : selectedHabits)
         {
-            checkmarks.add(h.getCheckmarks().getValues(oldest, newest));
+            checkmarks.add(h.getComputedCheckmarks().getValues(oldest, newest));
             scores.add(h.getScores().getValues(oldest, newest));
         }
 
@@ -244,10 +244,10 @@ public class HabitsCSVExporter
         Timestamp newest = Timestamp.ZERO;
         for (Habit h : selectedHabits)
         {
-            if(h.getRepetitions().getOldest() == null || h.getRepetitions().getNewest() == null)
+            if(h.getOriginalCheckmarks().getOldest() == null || h.getOriginalCheckmarks().getNewest() == null)
                 continue;
-            Timestamp currOld = h.getRepetitions().getOldest().getTimestamp();
-            Timestamp currNew = h.getRepetitions().getNewest().getTimestamp();
+            Timestamp currOld = h.getOriginalCheckmarks().getOldest().getTimestamp();
+            Timestamp currNew = h.getOriginalCheckmarks().getNewest().getTimestamp();
             oldest = currOld.isOlderThan(oldest) ? currOld : oldest;
             newest = currNew.isNewerThan(newest) ? currNew : newest;
         }

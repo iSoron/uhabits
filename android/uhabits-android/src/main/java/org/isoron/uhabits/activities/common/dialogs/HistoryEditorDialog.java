@@ -124,7 +124,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     @Override
     public void onPause()
     {
-        habit.getCheckmarks().observable.removeListener(this);
+        habit.getComputedCheckmarks().observable.removeListener(this);
         super.onPause();
     }
 
@@ -142,7 +142,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         getDialog().getWindow().setLayout(width, height);
 
         refreshData();
-        habit.getCheckmarks().observable.addListener(this);
+        habit.getComputedCheckmarks().observable.addListener(this);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         @Override
         public void doInBackground()
         {
-            checkmarks = habit.getCheckmarks().getAllValues();
+            checkmarks = habit.getComputedCheckmarks().getAllValues();
         }
 
         @Override

@@ -131,8 +131,8 @@ public class LoopDBImporter extends AbstractImporter
             for (RepetitionRecord r : reps)
             {
                 Timestamp t = new Timestamp(r.timestamp);
-                Repetition rep = habit.getRepetitions().getByTimestamp(t);
-                if (rep == null || rep.getValue() != r.value)
+                Checkmark check = habit.getOriginalCheckmarks().getByTimestamp(t);
+                if (check == null || check.getValue() != r.value)
                     new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
             }
         }

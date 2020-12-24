@@ -46,7 +46,7 @@ public class FrequencyChartTest extends BaseViewTest
         Habit habit = fixtures.createLongHabit();
 
         view = new FrequencyChart(targetContext);
-        view.setFrequency(habit.getRepetitions().getWeekdayFrequency());
+        view.setFrequency(habit.getOriginalCheckmarks().getWeekdayFrequency());
         view.setColor(PaletteUtilsKt.toFixedAndroidColor(habit.getColor()));
         measureView(view, dpToPixels(300), dpToPixels(100));
     }

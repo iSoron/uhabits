@@ -62,24 +62,24 @@ public class SQLiteRepetitionList extends RepetitionList
                 habit.getId().toString());
 
         for (RepetitionRecord rec : records)
-            list.add(rec.toRepetition());
+            list.add(rec.toCheckmark());
     }
 
     @Override
-    public void add(Repetition rep)
+    public void add(Checkmark check)
     {
         loadRecords();
-        list.add(rep);
+        list.add(check);
         check(habit.getId());
         RepetitionRecord record = new RepetitionRecord();
         record.habit_id = habit.getId();
-        record.copyFrom(rep);
+        record.copyFrom(check);
         repository.save(record);
         observable.notifyListeners();
     }
 
     @Override
-    public List<Repetition> getByInterval(Timestamp timeFrom, Timestamp timeTo)
+    public List<Checkmark> getByInterval(Timestamp timeFrom, Timestamp timeTo)
     {
         loadRecords();
         return list.getByInterval(timeFrom, timeTo);
@@ -87,35 +87,35 @@ public class SQLiteRepetitionList extends RepetitionList
 
     @Override
     @Nullable
-    public Repetition getByTimestamp(Timestamp timestamp)
+    public Checkmark getByTimestamp(Timestamp timestamp)
     {
         loadRecords();
         return list.getByTimestamp(timestamp);
     }
 
     @Override
-    public Repetition getOldest()
+    public Checkmark getOldest()
     {
         loadRecords();
         return list.getOldest();
     }
 
     @Override
-    public Repetition getNewest()
+    public Checkmark getNewest()
     {
         loadRecords();
         return list.getNewest();
     }
 
     @Override
-    public void remove(@NonNull Repetition repetition)
+    public void remove(@NonNull Checkmark checkmark)
     {
         loadRecords();
-        list.remove(repetition);
+        list.remove(checkmark);
         check(habit.getId());
         repository.execSQL(
             "delete from repetitions where habit = ? and timestamp = ?",
-            habit.getId(), repetition.getTimestamp().getUnixTime());
+            habit.getId(), checkmark.getTimestamp().getUnixTime());
         observable.notifyListeners();
     }
 

@@ -44,7 +44,7 @@ class FrequencyWidget(
         (widgetView.dataView as FrequencyChart).apply {
             setFirstWeekday(firstWeekday)
             setColor(habit.color.toThemedAndroidColor(context))
-            setFrequency(habit.repetitions.weekdayFrequency)
+            setFrequency(habit.originalCheckmarks.weekdayFrequency)
         }
     }
 

@@ -326,14 +326,14 @@ public class ScoreListTest extends BaseUnitTest
 
     private void check(final int offset)
     {
-        RepetitionList reps = habit.getRepetitions();
+        RepetitionList reps = habit.getOriginalCheckmarks();
         Timestamp today = DateUtils.getToday();
         reps.setValue(today.minus(offset), YES_MANUAL);
     }
 
     private void check(final int from, final int to)
     {
-        RepetitionList reps = habit.getRepetitions();
+        RepetitionList reps = habit.getOriginalCheckmarks();
         Timestamp today = DateUtils.getToday();
 
         for (int i = from; i < to; i++)
@@ -342,7 +342,7 @@ public class ScoreListTest extends BaseUnitTest
 
     private void check(ArrayList<Integer> values)
     {
-        RepetitionList reps = habit.getRepetitions();
+        RepetitionList reps = habit.getOriginalCheckmarks();
         Timestamp today = DateUtils.getToday();
         for (int i = 0; i < values.size(); i++)
             if (values.get(i) == YES_MANUAL)
@@ -351,7 +351,7 @@ public class ScoreListTest extends BaseUnitTest
 
     private void addSkip(final int day)
     {
-        RepetitionList reps = habit.getRepetitions();
+        RepetitionList reps = habit.getOriginalCheckmarks();
         Timestamp today = DateUtils.getToday();
         reps.setValue(today.minus(day), Checkmark.SKIP);
     }

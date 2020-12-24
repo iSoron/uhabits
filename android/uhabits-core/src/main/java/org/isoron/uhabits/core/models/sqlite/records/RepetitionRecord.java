@@ -25,7 +25,7 @@ import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 
 /**
- * The SQLite database record corresponding to a {@link Repetition}.
+ * The SQLite database record corresponding to a {@link Checkmark}.
  */
 @Table(name = "Repetitions")
 public class RepetitionRecord
@@ -44,14 +44,14 @@ public class RepetitionRecord
     @Column
     public Long id;
 
-    public void copyFrom(Repetition repetition)
+    public void copyFrom(Checkmark checkmark)
     {
-        timestamp = repetition.getTimestamp().getUnixTime();
-        value = repetition.getValue();
+        timestamp = checkmark.getTimestamp().getUnixTime();
+        value = checkmark.getValue();
     }
 
-    public Repetition toRepetition()
+    public Checkmark toCheckmark()
     {
-        return new Repetition(new Timestamp(timestamp), value);
+        return new Checkmark(new Timestamp(timestamp), value);
     }
 }
