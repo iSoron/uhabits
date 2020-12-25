@@ -23,6 +23,8 @@ import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.utils.*
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.collections.set
 import kotlin.math.*
 
@@ -134,6 +136,42 @@ open class Entries {
      */
     open fun clear() {
         entriesByTimestamp.clear()
+    }
+
+    /**
+     * Returns the total number of successful entries for each month, grouped by day of week.
+     * <p>
+     * The checkmarks are returned in a HashMap. The key is the timestamp for
+     * the first day of the month, at midnight (00:00). The value is an integer
+     * array with 7 entries. The first entry contains the total number of
+     * successful checkmarks during the specified month that occurred on a Saturday. The
+     * second entry corresponds to Sunday, and so on. If there are no
+     * successful checkmarks during a certain month, the value is null.
+     *
+     * @return total number of checkmarks by month versus day of week
+     */
+    fun computeWeekdayFrequency(isNumerical: Boolean): HashMap<Timestamp, Array<Int>> {
+        val entries = getKnown()
+        val map = hashMapOf<Timestamp, Array<Int>>()
+        for ((originalTimestamp, value) in entries) {
+            val weekday = originalTimestamp.weekday
+            val truncatedTimestamp = Timestamp(originalTimestamp.toCalendar().apply {
+                set(Calendar.DAY_OF_MONTH, 1)
+            }.timeInMillis)
+
+            var list = map[truncatedTimestamp]
+            if (list == null) {
+                list = arrayOf(0, 0, 0, 0, 0, 0, 0)
+                map[truncatedTimestamp] = list
+            }
+
+            if (isNumerical) {
+                list[weekday] += value
+            } else if (value == YES_MANUAL) {
+                list[weekday] += 1
+            }
+        }
+        return map
     }
 
     data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {

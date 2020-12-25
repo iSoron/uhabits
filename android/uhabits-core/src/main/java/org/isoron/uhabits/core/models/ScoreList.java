@@ -192,9 +192,11 @@ public abstract class ScoreList implements Iterable<Score>
 
         if (newestComputed == null)
         {
-            Entry oldest = habit.getOriginalEntries().getOldest();
-            if (oldest != null) from =
-                Timestamp.oldest(from, oldest.getTimestamp());
+            List<Entry> entries = habit.getOriginalEntries().getKnown();
+            if (!entries.isEmpty())
+                from = Timestamp.oldest(
+                        from,
+                        entries.get(entries.size() - 1).getTimestamp());
             forceRecompute(from, to, 0);
         }
         else
@@ -212,8 +214,9 @@ public abstract class ScoreList implements Iterable<Score>
      */
     protected void computeAll()
     {
-        Entry oldest = habit.getOriginalEntries().getOldest();
-        if (oldest == null) return;
+        List<Entry> entries = habit.getOriginalEntries().getKnown();
+        if(entries.isEmpty()) return;
+        Entry oldest = entries.get(entries.size() - 1);
 
         Timestamp today = DateUtils.getTodayWithOffset();
         compute(oldest.getTimestamp(), today);

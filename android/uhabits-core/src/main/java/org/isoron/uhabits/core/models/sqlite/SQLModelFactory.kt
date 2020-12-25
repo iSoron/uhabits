@@ -33,10 +33,9 @@ class SQLModelFactory
 @Inject constructor(
         val database: Database,
 ) : ModelFactory {
-
+    override fun buildOriginalEntries() = SQLiteEntries(database)
     override fun buildEntryList() = EntryList()
     override fun buildHabitList() = SQLiteHabitList(this)
-    override fun buildRepetitionList() = SQLiteRepetitionList(this)
     override fun buildScoreList() = MemoryScoreList()
     override fun buildStreakList() = MemoryStreakList()
 

@@ -182,8 +182,9 @@ public class EntryList
     @NonNull
     public synchronized final int[] getAllValues()
     {
-        Entry oldestOriginal = habit.getOriginalEntries().getOldest();
-        if (oldestOriginal == null) return new int[0];
+        List<Entry> entries = habit.getOriginalEntries().getKnown();
+        if(entries.isEmpty()) return new int[0];
+        Entry oldestOriginal = entries.get(entries.size() - 1);
 
         Timestamp fromTimestamp = oldestOriginal.getTimestamp();
         Timestamp toTimestamp = DateUtils.getTodayWithOffset();
@@ -365,16 +366,18 @@ public class EntryList
         if (newest != null && newest.getTimestamp().equals(today)) return;
         invalidateNewerThan(Timestamp.ZERO);
 
-        Entry oldestRep = habit.getOriginalEntries().getOldest();
-        if (oldestRep == null) return;
-        final Timestamp from = oldestRep.getTimestamp();
+        List<Entry> entries = habit.getOriginalEntries().getKnown();
+        if(entries.isEmpty()) return;
+        final Timestamp from = entries.get(entries.size() - 1).getTimestamp();
 
         if (from.isNewerThan(today)) return;
 
-        Entry reps[] = habit
-                .getOriginalEntries()
-                .getByInterval(from, today)
-                .toArray(new Entry[0]);
+        Entry[] reps = entries.stream().filter(e ->
+                !e.getTimestamp().isOlderThan(from) && !e.getTimestamp().isNewerThan(today)
+        ).toArray(Entry[]::new);
+        List<Entry> repsAsList = Arrays.asList(reps);
+        Collections.reverse(repsAsList);
+        reps = repsAsList.toArray(reps);
 
         if (habit.isNumerical()) computeNumerical(reps);
         else computeYesNo(reps);
@@ -425,8 +428,9 @@ public class EntryList
 
     public List<Entry> getAll()
     {
-        Entry oldest = habit.getOriginalEntries().getOldest();
-        if (oldest == null) return new ArrayList<>();
+        List<Entry> entries = habit.getOriginalEntries().getKnown();
+        if(entries.isEmpty()) return new ArrayList<>();
+        Entry oldest = entries.get(entries.size() - 1);
         return getByInterval(oldest.getTimestamp(), DateUtils.getTodayWithOffset());
     }
 
@@ -456,6 +460,9 @@ public class EntryList
 
         Interval(Timestamp begin, Timestamp center, Timestamp end)
         {
+            if(begin.isNewerThan(center)) throw new IllegalArgumentException();
+            if(center.isNewerThan(end)) throw new IllegalArgumentException();
+
             this.begin = begin;
             this.center = center;
             this.end = end;

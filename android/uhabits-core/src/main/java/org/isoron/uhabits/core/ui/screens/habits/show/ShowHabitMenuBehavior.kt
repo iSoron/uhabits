@@ -58,14 +58,14 @@ class ShowHabitMenuBehavior(
 
     fun onRandomize() {
         val random = Random()
-        habit.originalEntries.removeAll()
+        habit.originalEntries.clear()
         var strength = 50.0
         for (i in 0 until 365 * 5) {
             if (i % 7 == 0) strength = Math.max(0.0, Math.min(100.0, strength + 10 * random.nextGaussian()))
             if (random.nextInt(100) > strength) continue
             var value = Entry.YES_MANUAL
             if (habit.isNumerical) value = (1000 + 250 * random.nextGaussian() * strength / 100).toInt() * 1000
-            habit.originalEntries.setValue(DateUtils.getToday().minus(i), value)
+            habit.originalEntries.add(Entry(DateUtils.getToday().minus(i), value))
         }
         habit.invalidateNewerThan(Timestamp.ZERO)
         screen.refresh()

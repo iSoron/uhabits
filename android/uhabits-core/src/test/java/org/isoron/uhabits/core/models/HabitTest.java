@@ -41,19 +41,6 @@ public class HabitTest extends BaseUnitTest
     }
 
     @Test
-    public void testConstructor_default()
-    {
-        Habit habit = modelFactory.buildHabit();
-        assertFalse(habit.isArchived());
-
-        assertThat(habit.hasReminder(), is(false));
-        assertNotNull(habit.getStreaks());
-        assertNotNull(habit.getScores());
-        assertNotNull(habit.getOriginalEntries());
-        assertNotNull(habit.getComputedEntries());
-    }
-
-    @Test
     public void test_copyAttributes()
     {
         Habit model = modelFactory.buildHabit();
@@ -86,7 +73,7 @@ public class HabitTest extends BaseUnitTest
     {
         Habit h = modelFactory.buildHabit();
         assertFalse(h.isCompletedToday());
-        h.getOriginalEntries().setValue(getToday(), Entry.YES_MANUAL);
+        h.getOriginalEntries().add(new Entry(getToday(), Entry.YES_MANUAL));
         assertTrue(h.isCompletedToday());
     }
 
@@ -99,19 +86,29 @@ public class HabitTest extends BaseUnitTest
         h.setTargetValue(100.0);
         assertFalse(h.isCompletedToday());
 
-        h.getOriginalEntries().setValue(getToday(), 200_000);
+        h.getOriginalEntries().add(new Entry(getToday(), 200_000));
+        h.invalidateNewerThan(Timestamp.ZERO);
         assertTrue(h.isCompletedToday());
-        h.getOriginalEntries().setValue(getToday(), 100_000);
+
+        h.getOriginalEntries().add(new Entry(getToday(), 100_000));
+        h.invalidateNewerThan(Timestamp.ZERO);
         assertTrue(h.isCompletedToday());
-        h.getOriginalEntries().setValue(getToday(), 50_000);
+
+        h.getOriginalEntries().add(new Entry(getToday(), 50_000));
+        h.invalidateNewerThan(Timestamp.ZERO);
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
-        h.getOriginalEntries().setValue(getToday(), 200_000);
+        h.getOriginalEntries().add(new Entry(getToday(), 200_000));
+        h.invalidateNewerThan(Timestamp.ZERO);
         assertFalse(h.isCompletedToday());
-        h.getOriginalEntries().setValue(getToday(), 100_000);
+
+        h.getOriginalEntries().add(new Entry(getToday(), 100_000));
+        h.invalidateNewerThan(Timestamp.ZERO);
         assertTrue(h.isCompletedToday());
-        h.getOriginalEntries().setValue(getToday(), 50_000);
+
+        h.getOriginalEntries().add(new Entry(getToday(), 50_000));
+        h.invalidateNewerThan(Timestamp.ZERO);
         assertTrue(h.isCompletedToday());
     }
 

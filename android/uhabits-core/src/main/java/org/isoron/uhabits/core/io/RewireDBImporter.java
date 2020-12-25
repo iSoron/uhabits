@@ -167,7 +167,7 @@ public class RewireDBImporter extends AbstractImporter
                 GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
                 cal.set(year, month - 1, day);
 
-                habit.getOriginalEntries().setValue(new Timestamp(cal), YES_MANUAL);
+                habit.getOriginalEntries().add(new Entry(new Timestamp(cal), YES_MANUAL));
             } while (c.moveToNext());
         }
         finally

@@ -327,34 +327,35 @@ public class ScoreListTest extends BaseUnitTest
 
     private void check(final int offset)
     {
-        RepetitionList entries = habit.getOriginalEntries();
+        Entries entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
-        entries.setValue(today.minus(offset), YES_MANUAL);
+        entries.add(new Entry(today.minus(offset), YES_MANUAL));
     }
 
     private void check(final int from, final int to)
     {
-        RepetitionList entries = habit.getOriginalEntries();
+        Entries entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
 
         for (int i = from; i < to; i++)
-            entries.setValue(today.minus(i), YES_MANUAL);
+            entries.add(new Entry(today.minus(i), YES_MANUAL));
+        habit.invalidateNewerThan(Timestamp.ZERO);
     }
 
     private void check(ArrayList<Integer> values)
     {
-        RepetitionList entries = habit.getOriginalEntries();
+        Entries entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
         for (int i = 0; i < values.size(); i++)
             if (values.get(i) == YES_MANUAL)
-                entries.setValue(today.minus(i), YES_MANUAL);
+                entries.add(new Entry(today.minus(i), YES_MANUAL));
     }
 
     private void addSkip(final int day)
     {
-        RepetitionList entries = habit.getOriginalEntries();
+        Entries entries = habit.getOriginalEntries();
         Timestamp today = DateUtils.getToday();
-        entries.setValue(today.minus(day), Entry.SKIP);
+        entries.add(new Entry(today.minus(day), Entry.SKIP));
     }
 
     private void checkScoreValues(double[] expectedValues)

@@ -297,6 +297,45 @@ class EntriesTest {
         assertThat(actual, equalTo(expected))
     }
 
+    @Test
+    fun testWeekdayFrequency() {
+        val entries = Entries()
+        val random = Random(123L)
+        val weekdayCount = Array(12) { Array(7) { 0 } }
+        val monthCount = Array(12) { 0 }
+        val day = DateUtils.getStartOfTodayCalendar()
+
+        // Add repetitions randomly from January to December
+        day.set(2015, Calendar.JANUARY, 1, 0, 0, 0)
+        for (i in 0..364) {
+            if (random.nextBoolean()) {
+                val month = day[Calendar.MONTH]
+                val week = day[Calendar.DAY_OF_WEEK] % 7
+
+                // Leave the month of March empty, to check that it returns null
+                if (month == Calendar.MARCH) continue
+
+                entries.add(Entry(Timestamp(day), YES_MANUAL))
+                weekdayCount[month][week]++
+                monthCount[month]++
+            }
+            day.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
+        val freq = entries.computeWeekdayFrequency(isNumerical = false)
+
+        // Repetitions should be counted correctly
+        for (month in 0..11) {
+            day.set(2015, month, 1, 0, 0, 0)
+            val actualCount = freq[Timestamp(day)]
+            if (monthCount[month] == 0) {
+                assertThat(actualCount, equalTo(null))
+            } else {
+                assertThat(actualCount, equalTo(weekdayCount[month]))
+            }
+        }
+    }
+
     fun day(offset: Int) = DateUtils.getToday().minus(offset)
 
 }

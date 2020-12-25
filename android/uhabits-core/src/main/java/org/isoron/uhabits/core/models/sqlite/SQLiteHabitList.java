@@ -37,8 +37,6 @@ import javax.inject.*;
  */
 public class SQLiteHabitList extends HabitList
 {
-    private static SQLiteHabitList instance;
-
     @NonNull
     private final Repository<HabitRecord> repository;
 
@@ -76,6 +74,7 @@ public class SQLiteHabitList extends HabitList
 
             Habit h = modelFactory.buildHabit();
             rec.copyTo(h);
+            ((SQLiteEntries) h.getOriginalEntries()).setHabitId(h.getId());
             list.add(h);
         }
 
@@ -92,6 +91,7 @@ public class SQLiteHabitList extends HabitList
         record.copyFrom(habit);
         repository.save(record);
         habit.setId(record.id);
+        ((SQLiteEntries) habit.getOriginalEntries()).setHabitId(record.id);
 
         list.add(habit);
         getObservable().notifyListeners();
@@ -201,7 +201,7 @@ public class SQLiteHabitList extends HabitList
         if (record == null) throw new RuntimeException("habit not in database");
         repository.executeAsTransaction(() ->
         {
-            habit.getOriginalEntries().removeAll();
+            habit.getOriginalEntries().clear();
             repository.remove(record);
         });
 

@@ -70,7 +70,7 @@ public class WidgetBehavior
 
     public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
     {
-        int currentValue = habit.getOriginalEntries().getValue(timestamp);
+        int currentValue = habit.getOriginalEntries().get(timestamp).getValue();
         int newValue;
         if(preferences.isSkipEnabled())
             newValue = Entry.Companion.nextToggleValueWithSkip(currentValue);

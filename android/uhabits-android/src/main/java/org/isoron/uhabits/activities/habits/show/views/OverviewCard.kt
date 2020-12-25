@@ -25,6 +25,7 @@ import android.widget.*
 import kotlinx.coroutines.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
@@ -74,12 +75,16 @@ class OverviewCardPresenter(val habit: Habit) {
         val scoreToday = scores.todayValue.toFloat()
         val scoreLastMonth = scores.getValue(lastMonth).toFloat()
         val scoreLastYear = scores.getValue(lastYear).toFloat()
+        val totalCount = habit.originalEntries.getKnown()
+                .filter { it.value == YES_MANUAL }
+                .count()
+                .toLong()
         return@IO OverviewCardViewModel(
                 color = habit.color,
                 scoreToday = scoreToday,
                 scoreMonthDiff = scoreToday - scoreLastMonth,
                 scoreYearDiff = scoreToday - scoreLastYear,
-                totalCount = habit.originalEntries.totalCount,
+                totalCount = totalCount,
         )
     }
 }

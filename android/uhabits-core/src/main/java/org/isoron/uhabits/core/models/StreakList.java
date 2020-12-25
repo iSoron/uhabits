@@ -112,9 +112,9 @@ public abstract class StreakList
         Streak newestStreak = getNewestComputed();
         if (newestStreak != null) return newestStreak.getStart();
 
-        Entry oldestOriginal = habit.getOriginalEntries().getOldest();
-        if (oldestOriginal != null) return oldestOriginal.getTimestamp();
-        return null;
+        List<Entry> entries = habit.getOriginalEntries().getKnown();
+        if(entries.isEmpty()) return null;
+        return entries.get(entries.size() - 1).getTimestamp();
     }
 
     /**

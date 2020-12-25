@@ -29,25 +29,23 @@ interface ModelFactory {
 
     fun buildHabit(): Habit {
         val computedEntries = buildEntryList()
-        val originalEntries = buildRepetitionList()
         val scores = buildScoreList()
         val streaks = buildStreakList()
         val habit = Habit(
                 computedEntries = computedEntries,
-                originalEntries = originalEntries,
                 scores = scores,
                 streaks = streaks,
+                originalEntries = buildOriginalEntries(),
         )
         computedEntries.setHabit(habit)
-        originalEntries.setHabit(habit)
         scores.setHabit(habit)
         streaks.setHabit(habit)
         return habit
     }
 
+    fun buildOriginalEntries(): Entries
     fun buildEntryList(): EntryList
     fun buildHabitList(): HabitList
-    fun buildRepetitionList(): RepetitionList
     fun buildScoreList(): ScoreList
     fun buildStreakList(): StreakList
     fun buildHabitListRepository(): Repository<HabitRecord>

@@ -81,6 +81,8 @@ class SQLiteEntries(database: Database) : Entries() {
     }
 
     override fun clear() {
-        throw UnsupportedOperationException()
+        super.clear()
+        repository.execSQL("delete from repetitions where habit = ?",
+                           habitId.toString())
     }
 }

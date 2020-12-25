@@ -52,8 +52,9 @@ public class CreateRepetitionCommand implements Command
     @Override
     public void execute()
     {
-        RepetitionList checks = habit.getOriginalEntries();
-        checks.setValue(timestamp, value);
+        Entries checks = habit.getOriginalEntries();
+        checks.add(new Entry(timestamp, value));
+        habit.invalidateNewerThan(Timestamp.ZERO);
         habitList.resort();
     }
 

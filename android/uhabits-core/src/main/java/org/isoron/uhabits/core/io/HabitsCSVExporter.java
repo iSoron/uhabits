@@ -244,10 +244,10 @@ public class HabitsCSVExporter
         Timestamp newest = Timestamp.ZERO;
         for (Habit h : selectedHabits)
         {
-            if(h.getOriginalEntries().getOldest() == null || h.getOriginalEntries().getNewest() == null)
-                continue;
-            Timestamp currOld = h.getOriginalEntries().getOldest().getTimestamp();
-            Timestamp currNew = h.getOriginalEntries().getNewest().getTimestamp();
+            List<Entry> entries = h.getOriginalEntries().getKnown();
+            if (entries.isEmpty()) continue;
+            Timestamp currNew = entries.get(0).getTimestamp();
+            Timestamp currOld = entries.get(entries.size() - 1).getTimestamp();
             oldest = currOld.isOlderThan(oldest) ? currOld : oldest;
             newest = currNew.isNewerThan(newest) ? currNew : newest;
         }

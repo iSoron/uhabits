@@ -101,10 +101,10 @@ public class LoopDBImporter extends AbstractImporter
         habitsRepository = new Repository<>(HabitRecord.class, db);
         entryRepository = new Repository<>(EntryRecord.class, db);
 
-        List<HabitRecord> records = habitsRepository.findAll("order by position");
-        for (HabitRecord habitRecord : records)
+        List<HabitRecord> habitRecords = habitsRepository.findAll("order by position");
+        for (HabitRecord habitRecord : habitRecords)
         {
-            List<EntryRecord> reps =
+            List<EntryRecord> entryRecords =
                     entryRepository.findAll("where habit = ?",
                             habitRecord.id.toString());
 
@@ -127,11 +127,11 @@ public class LoopDBImporter extends AbstractImporter
             // Reload saved version of the habit
             habit = habitList.getByUUID(habitRecord.uuid);
 
-            for (EntryRecord r : reps)
+            for (EntryRecord r : entryRecords)
             {
                 Timestamp t = new Timestamp(r.timestamp);
-                Entry entry = habit.getOriginalEntries().getByTimestamp(t);
-                if (entry == null || entry.getValue() != r.value)
+                Entry existingEntry = habit.getOriginalEntries().get(t);
+                if (existingEntry.getValue() != r.value)
                     new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
             }
         }

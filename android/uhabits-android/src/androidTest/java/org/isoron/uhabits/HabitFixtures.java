@@ -75,7 +75,7 @@ public class HabitFixtures
             81, 83, 89, 90, 91, 95, 102, 103, 108, 109, 120};
 
         for (int mark : marks)
-            habit.getOriginalEntries().setValue(today.minus(mark), YES_MANUAL);
+            habit.getOriginalEntries().add(new Entry(today.minus(mark), YES_MANUAL));
 
         return habit;
     }
@@ -109,7 +109,7 @@ public class HabitFixtures
                        582, 583, 584, 586, 589};
 
         for (int mark : marks)
-            habit.getOriginalEntries().setValue(today.minus(mark), YES_MANUAL);
+            habit.getOriginalEntries().add(new Entry(today.minus(mark), YES_MANUAL));
 
         return habit;
     }
@@ -128,7 +128,7 @@ public class HabitFixtures
         Timestamp timestamp = DateUtils.getToday();
         for (int value : LONG_NUMERICAL_HABIT_ENTRIES)
         {
-            habit.getOriginalEntries().setValue(timestamp, value);
+            habit.getOriginalEntries().add(new Entry(timestamp, value));
             timestamp = timestamp.minus(1);
         }
 
@@ -146,7 +146,7 @@ public class HabitFixtures
         Timestamp timestamp = DateUtils.getToday();
         for (boolean c : LONG_HABIT_ENTRIES)
         {
-            if (c) habit.getOriginalEntries().setValue(timestamp, YES_MANUAL);
+            if (c) habit.getOriginalEntries().add(new Entry(timestamp, YES_MANUAL));
             timestamp = timestamp.minus(1);
         }
 

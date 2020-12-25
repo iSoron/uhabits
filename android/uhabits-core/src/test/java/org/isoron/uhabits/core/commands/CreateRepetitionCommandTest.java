@@ -51,13 +51,12 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
     @Test
     public void testExecute()
     {
-        RepetitionList originalEntries = habit.getOriginalEntries();
-        Entry entry = originalEntries.getByTimestamp(today);
-        assertNotNull(entry);
+        Entries originalEntries = habit.getOriginalEntries();
+        Entry entry = originalEntries.get(today);
         assertEquals(YES_MANUAL, entry.getValue());
+
         command.execute();
-        entry = originalEntries.getByTimestamp(today);
-        assertNotNull(entry);
+        entry = originalEntries.get(today);
         assertEquals(100, entry.getValue());
     }
 }
