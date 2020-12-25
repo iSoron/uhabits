@@ -174,6 +174,26 @@ open class Entries {
         return map
     }
 
+    /**
+     * Returns the values of the entries that fall inside a certain interval of time. The values
+     * are returned in an array containing one integer value for each day of the interval. The
+     * first entry corresponds to the most recent day in the interval. Each subsequent entry
+     * corresponds to one day older than the previous entry. The boundaries of the time interval
+     * are included.
+     */
+    fun getValues(from: Timestamp, to: Timestamp): IntArray {
+        if (from.isNewerThan(to)) throw IllegalArgumentException()
+        val nDays = from.daysUntil(to) + 1
+        val result = IntArray(nDays) { UNKNOWN }
+        getKnown().filter { entry ->
+            !entry.timestamp.isNewerThan(to) && !entry.timestamp.isOlderThan(from)
+        }.forEach { entry ->
+            val offset = entry.timestamp.daysUntil(to)
+            result[offset] = entry.value
+        }
+        return result
+    }
+
     data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {
         val length: Int
             get() = begin.daysUntil(end) + 1;
