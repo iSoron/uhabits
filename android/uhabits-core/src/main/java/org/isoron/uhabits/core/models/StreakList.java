@@ -62,7 +62,7 @@ public abstract class StreakList
         return observable;
     }
 
-    public abstract void invalidateNewerThan(Timestamp timestamp);
+    public abstract void recompute();
 
     public synchronized void rebuild()
     {

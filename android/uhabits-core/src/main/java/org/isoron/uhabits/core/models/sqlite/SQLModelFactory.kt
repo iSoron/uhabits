@@ -34,6 +34,7 @@ class SQLModelFactory
         val database: Database,
 ) : ModelFactory {
     override fun buildOriginalEntries() = SQLiteEntries(database)
+    override fun buildNewComputedEntries() = Entries()
     override fun buildEntryList() = EntryList()
     override fun buildHabitList() = SQLiteHabitList(this)
     override fun buildScoreList() = MemoryScoreList()

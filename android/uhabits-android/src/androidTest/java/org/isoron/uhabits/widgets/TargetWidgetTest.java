@@ -49,7 +49,7 @@ public class TargetWidgetTest extends BaseViewTest
         habit = fixtures.createLongNumericalHabit();
         habit.setColor(new PaletteColor(11));
         habit.setFrequency(Frequency.WEEKLY);
-        habit.invalidateNewerThan(Timestamp.ZERO);
+        habit.recompute();
         TargetWidget widget = new TargetWidget(targetContext, 0, habit);
         view = convertToView(widget, 400, 400);
     }

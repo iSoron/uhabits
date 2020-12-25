@@ -87,28 +87,28 @@ public class HabitTest extends BaseUnitTest
         assertFalse(h.isCompletedToday());
 
         h.getOriginalEntries().add(new Entry(getToday(), 200_000));
-        h.invalidateNewerThan(Timestamp.ZERO);
+        h.recompute();
         assertTrue(h.isCompletedToday());
 
         h.getOriginalEntries().add(new Entry(getToday(), 100_000));
-        h.invalidateNewerThan(Timestamp.ZERO);
+        h.recompute();
         assertTrue(h.isCompletedToday());
 
         h.getOriginalEntries().add(new Entry(getToday(), 50_000));
-        h.invalidateNewerThan(Timestamp.ZERO);
+        h.recompute();
         assertFalse(h.isCompletedToday());
 
         h.setTargetType(Habit.AT_MOST);
         h.getOriginalEntries().add(new Entry(getToday(), 200_000));
-        h.invalidateNewerThan(Timestamp.ZERO);
+        h.recompute();
         assertFalse(h.isCompletedToday());
 
         h.getOriginalEntries().add(new Entry(getToday(), 100_000));
-        h.invalidateNewerThan(Timestamp.ZERO);
+        h.recompute();
         assertTrue(h.isCompletedToday());
 
         h.getOriginalEntries().add(new Entry(getToday(), 50_000));
-        h.invalidateNewerThan(Timestamp.ZERO);
+        h.recompute();
         assertTrue(h.isCompletedToday());
     }
 

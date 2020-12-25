@@ -36,13 +36,15 @@ interface ModelFactory {
                 scores = scores,
                 streaks = streaks,
                 originalEntries = buildOriginalEntries(),
+                newComputedEntries = buildNewComputedEntries(),
         )
         computedEntries.setHabit(habit)
         scores.setHabit(habit)
         streaks.setHabit(habit)
+        habit.recompute()
         return habit
     }
-
+    fun buildNewComputedEntries(): Entries
     fun buildOriginalEntries(): Entries
     fun buildEntryList(): EntryList
     fun buildHabitList(): HabitList

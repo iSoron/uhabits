@@ -67,7 +67,7 @@ class ShowHabitMenuBehavior(
             if (habit.isNumerical) value = (1000 + 250 * random.nextGaussian() * strength / 100).toInt() * 1000
             habit.originalEntries.add(Entry(DateUtils.getToday().minus(i), value))
         }
-        habit.invalidateNewerThan(Timestamp.ZERO)
+        habit.recompute()
         screen.refresh()
     }
 

@@ -54,7 +54,7 @@ public class CreateRepetitionCommand implements Command
     {
         Entries checks = habit.getOriginalEntries();
         checks.add(new Entry(timestamp, value));
-        habit.invalidateNewerThan(Timestamp.ZERO);
+        habit.recompute();
         habitList.resort();
     }
 

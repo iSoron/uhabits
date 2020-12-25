@@ -113,13 +113,13 @@ open class Entries {
      * For boolean habits, this function creates additional entries (with value YES_AUTO) according
      * to the frequency of the habit. For numerical habits, this function simply copies all entries.
      */
-    open fun computeFrom(
-            other: Entries,
+    open fun recomputeFrom(
+            originalEntries: Entries,
             frequency: Frequency,
             isNumerical: Boolean,
     ) {
         clear()
-        val original = other.getKnown()
+        val original = originalEntries.getKnown()
         if (isNumerical) {
             original.forEach { add(it) }
         } else {

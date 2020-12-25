@@ -320,9 +320,8 @@ public class EntryList
      * than a given timestamp. These checkmarks will be recomputed at the next
      * time they are queried.
      *
-     * @param timestamp the timestamp
      */
-    public void invalidateNewerThan(Timestamp timestamp)
+    public void recompute()
     {
         list.clear();
     }
@@ -364,7 +363,7 @@ public class EntryList
 
         Entry newest = getNewestComputed();
         if (newest != null && newest.getTimestamp().equals(today)) return;
-        invalidateNewerThan(Timestamp.ZERO);
+        recompute();
 
         List<Entry> entries = habit.getOriginalEntries().getKnown();
         if(entries.isEmpty()) return;

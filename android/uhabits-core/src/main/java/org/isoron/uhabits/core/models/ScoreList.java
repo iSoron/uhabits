@@ -131,14 +131,7 @@ public abstract class ScoreList implements Iterable<Score>
         return scores;
     }
 
-    /**
-     * Marks all scores that have timestamp equal to or newer than the given
-     * timestamp as invalid. Any following getValue calls will trigger the
-     * scores to be recomputed.
-     *
-     * @param timestamp the oldest timestamp that should be invalidated
-     */
-    public abstract void invalidateNewerThan(Timestamp timestamp);
+    public abstract void recompute();
 
     @Override
     public Iterator<Score> iterator()

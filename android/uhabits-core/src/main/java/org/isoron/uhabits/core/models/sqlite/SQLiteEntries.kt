@@ -76,7 +76,7 @@ class SQLiteEntries(database: Database) : Entries() {
         return super.groupBy(field, firstWeekday, isNumerical)
     }
 
-    override fun computeFrom(other: Entries, frequency: Frequency, isNumerical: Boolean) {
+    override fun recomputeFrom(originalEntries: Entries, frequency: Frequency, isNumerical: Boolean) {
         throw UnsupportedOperationException()
     }
 

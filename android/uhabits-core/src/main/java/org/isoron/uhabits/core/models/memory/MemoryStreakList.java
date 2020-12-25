@@ -42,7 +42,7 @@ public class MemoryStreakList extends StreakList
     }
 
     @Override
-    public void invalidateNewerThan(Timestamp timestamp)
+    public void recompute()
     {
         list.clear();
         observable.notifyListeners();

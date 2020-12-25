@@ -95,7 +95,7 @@ class EntriesTest {
         original.add(Entry(today.minus(10), YES_MANUAL))
 
         val computed = Entries()
-        computed.computeFrom(original, Frequency(1, 3), isNumerical = false)
+        computed.recomputeFrom(original, Frequency(1, 3), isNumerical = false)
 
         val expected = listOf(
                 Entry(today.minus(2), YES_AUTO),
@@ -111,7 +111,7 @@ class EntriesTest {
         assertEquals(expected, computed.getKnown())
 
         // Second call should replace all previously added entries
-        computed.computeFrom(Entries(), Frequency(1, 3), isNumerical = false)
+        computed.recomputeFrom(Entries(), Frequency(1, 3), isNumerical = false)
         assertEquals(listOf(), computed.getKnown())
 
     }
@@ -126,7 +126,7 @@ class EntriesTest {
         original.add(Entry(today.minus(10), 300))
 
         val computed = Entries()
-        computed.computeFrom(original, Frequency.DAILY, isNumerical = true)
+        computed.recomputeFrom(original, Frequency.DAILY, isNumerical = true)
 
         val expected = listOf(
                 Entry(today.minus(4), 100),

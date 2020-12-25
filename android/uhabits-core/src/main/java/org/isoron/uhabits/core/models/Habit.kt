@@ -34,6 +34,7 @@ data class Habit(
         var unit: String = "",
         var uuid: String? = null,
         val computedEntries: EntryList,
+        val newComputedEntries: Entries,
         val originalEntries: Entries,
         val scores: ScoreList,
         val streaks: StreakList,
@@ -50,10 +51,15 @@ data class Habit(
 
     fun isCompletedToday(): Boolean = computedEntries.isCompletedToday
 
-    fun invalidateNewerThan(timestamp: Timestamp?) {
-        scores.invalidateNewerThan(timestamp)
-        computedEntries.invalidateNewerThan(timestamp)
-        streaks.invalidateNewerThan(timestamp)
+    fun recompute() {
+        scores.recompute()
+        computedEntries.recompute()
+        streaks.recompute()
+        newComputedEntries.recomputeFrom(
+                originalEntries = originalEntries,
+                frequency = frequency,
+                isNumerical = isNumerical,
+        )
     }
 
     fun copyFrom(other: Habit) {

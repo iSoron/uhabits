@@ -69,7 +69,7 @@ public class StreakListTest extends BaseUnitTest
     public void testFindBeginning_withLongHistory()
     {
         streaks.rebuild();
-        streaks.invalidateNewerThan(new Timestamp(0));
+        streaks.recompute();
         assertThat(streaks.findBeginning(), equalTo(today.minus(120)));
     }
 
@@ -111,7 +111,7 @@ public class StreakListTest extends BaseUnitTest
         Streak s = streaks.getNewestComputed();
         assertThat(s.getEnd(), equalTo(today));
 
-        streaks.invalidateNewerThan(today.minus(8));
+        streaks.recompute();
         verify(listener).onModelChange();
 
         s = streaks.getNewestComputed();

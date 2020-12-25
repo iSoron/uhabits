@@ -83,7 +83,7 @@ public class EditHabitCommand implements Command
         habit.getObservable().notifyListeners();
 
         if (hasFrequencyChanged || hasTargetChanged)
-            habit.invalidateNewerThan(Timestamp.ZERO);
+            habit.recompute();
     }
 
 }

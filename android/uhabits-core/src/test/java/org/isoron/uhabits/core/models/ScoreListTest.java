@@ -219,7 +219,7 @@ public class ScoreListTest extends BaseUnitTest
 
         // Missing 2 repetitions out of 4 per week, the score should converge to 50%
         habit.setFrequency(new Frequency(4, 7));
-        habit.invalidateNewerThan(Timestamp.ZERO);
+        habit.recompute();
         assertThat(habit.getScores().getTodayValue(), closeTo(0.5, E));
     }
 
@@ -289,7 +289,7 @@ public class ScoreListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_invalidateNewerThan()
+    public void test_recompute()
     {
         assertThat(habit.getScores().getTodayValue(), closeTo(0.0, E));
 
@@ -297,7 +297,7 @@ public class ScoreListTest extends BaseUnitTest
         assertThat(habit.getScores().getTodayValue(), closeTo(0.101149, E));
 
         habit.setFrequency(new Frequency(1, 2));
-        habit.getScores().invalidateNewerThan(new Timestamp(0));
+        habit.getScores().recompute();
 
         assertThat(habit.getScores().getTodayValue(), closeTo(0.054816, E));
     }
@@ -339,7 +339,7 @@ public class ScoreListTest extends BaseUnitTest
 
         for (int i = from; i < to; i++)
             entries.add(new Entry(today.minus(i), YES_MANUAL));
-        habit.invalidateNewerThan(Timestamp.ZERO);
+        habit.recompute();
     }
 
     private void check(ArrayList<Integer> values)

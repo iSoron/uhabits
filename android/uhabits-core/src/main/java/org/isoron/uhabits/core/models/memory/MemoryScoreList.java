@@ -68,7 +68,7 @@ public class MemoryScoreList extends ScoreList
     }
 
     @Override
-    public void invalidateNewerThan(Timestamp timestamp)
+    public void recompute()
     {
         list.clear();
         getObservable().notifyListeners();
