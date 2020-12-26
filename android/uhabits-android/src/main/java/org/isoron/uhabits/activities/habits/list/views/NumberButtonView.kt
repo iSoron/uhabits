@@ -25,11 +25,11 @@ import android.text.*
 import android.view.*
 import android.view.View.*
 import com.google.auto.factory.*
-import org.isoron.uhabits.utils.InterfaceUtils.getDimension
-import org.isoron.uhabits.R
+import org.isoron.uhabits.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.inject.*
 import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import java.text.*
 
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
@@ -140,13 +140,27 @@ class NumberButtonView(
 
         fun draw(canvas: Canvas) {
             val activeColor = when {
-                value == 0.0 -> lightGrey
+                value <= 0.0 -> lightGrey
                 value < threshold -> darkGrey
                 else -> color
             }
 
-            val label = value.toShortString()
+            val label: String
+            val typeface: Typeface
+
+            if(value >= 0) {
+                label = value.toShortString()
+                typeface = BOLD_TYPEFACE
+            } else if(preferences.areQuestionMarksEnabled()) {
+                label = resources.getString(R.string.fa_question)
+                typeface = getFontAwesome()
+            } else {
+                label = "0"
+                typeface = BOLD_TYPEFACE
+            }
+
             pBold.color = activeColor
+            pBold.typeface = typeface
             pRegular.color = activeColor
 
             rect.set(0f, 0f, width.toFloat(), height.toFloat())
