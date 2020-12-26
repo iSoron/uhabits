@@ -74,7 +74,7 @@ public class SQLiteHabitList extends HabitList
 
             Habit h = modelFactory.buildHabit();
             rec.copyTo(h);
-            ((SQLiteEntries) h.getOriginalEntries()).setHabitId(h.getId());
+            ((SQLiteEntryList) h.getOriginalEntries()).setHabitId(h.getId());
             list.add(h);
         }
 
@@ -91,7 +91,7 @@ public class SQLiteHabitList extends HabitList
         record.copyFrom(habit);
         repository.save(record);
         habit.setId(record.id);
-        ((SQLiteEntries) habit.getOriginalEntries()).setHabitId(record.id);
+        ((SQLiteEntryList) habit.getOriginalEntries()).setHabitId(record.id);
 
         list.add(habit);
         getObservable().notifyListeners();

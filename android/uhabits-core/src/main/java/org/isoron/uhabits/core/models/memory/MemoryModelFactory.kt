@@ -21,8 +21,8 @@ package org.isoron.uhabits.core.models.memory
 import org.isoron.uhabits.core.models.*
 
 class MemoryModelFactory : ModelFactory {
-    override fun buildNewComputedEntries() = Entries()
-    override fun buildOriginalEntries() = Entries()
+    override fun buildComputedEntries() = EntryList()
+    override fun buildOriginalEntries() = EntryList()
     override fun buildHabitList() = MemoryHabitList()
     override fun buildScoreList() = MemoryScoreList()
     override fun buildStreakList() = MemoryStreakList()

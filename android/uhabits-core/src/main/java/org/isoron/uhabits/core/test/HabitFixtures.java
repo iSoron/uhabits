@@ -157,7 +157,7 @@ public class HabitFixtures
 
     private void saveIfSQLite(Habit habit)
     {
-        if (!(habit.getOriginalEntries() instanceof SQLiteEntries)) return;
+        if (!(habit.getOriginalEntries() instanceof SQLiteEntryList)) return;
         habitList.add(habit);
     }
 }

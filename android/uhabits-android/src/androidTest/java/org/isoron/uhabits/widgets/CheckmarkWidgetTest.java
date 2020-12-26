@@ -42,7 +42,7 @@ public class CheckmarkWidgetTest extends BaseViewTest
 
     private Habit habit;
 
-    private Entries entries;
+    private EntryList entries;
 
     private FrameLayout view;
 

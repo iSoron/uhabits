@@ -34,14 +34,14 @@ interface ModelFactory {
                 scores = scores,
                 streaks = streaks,
                 originalEntries = buildOriginalEntries(),
-                computedEntries = buildNewComputedEntries(),
+                computedEntries = buildComputedEntries(),
         )
         scores.setHabit(habit)
         streaks.setHabit(habit)
         return habit
     }
-    fun buildNewComputedEntries(): Entries
-    fun buildOriginalEntries(): Entries
+    fun buildComputedEntries(): EntryList
+    fun buildOriginalEntries(): EntryList
     fun buildHabitList(): HabitList
     fun buildScoreList(): ScoreList
     fun buildStreakList(): StreakList

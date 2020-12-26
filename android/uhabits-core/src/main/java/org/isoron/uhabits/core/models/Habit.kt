@@ -35,8 +35,8 @@ data class Habit(
         var type: Int = YES_NO_HABIT,
         var unit: String = "",
         var uuid: String? = null,
-        val computedEntries: Entries,
-        val originalEntries: Entries,
+        val computedEntries: EntryList,
+        val originalEntries: EntryList,
         val scores: ScoreList,
         val streaks: StreakList,
 ) {

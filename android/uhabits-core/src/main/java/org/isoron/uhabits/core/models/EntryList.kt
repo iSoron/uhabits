@@ -28,7 +28,7 @@ import kotlin.collections.HashMap
 import kotlin.collections.set
 import kotlin.math.*
 
-open class Entries {
+open class EntryList {
 
     private val entriesByTimestamp: HashMap<Timestamp, Entry> = HashMap()
 
@@ -114,7 +114,7 @@ open class Entries {
      * to the frequency of the habit. For numerical habits, this function simply copies all entries.
      */
     open fun recomputeFrom(
-            originalEntries: Entries,
+            originalEntries: EntryList,
             frequency: Frequency,
             isNumerical: Boolean,
     ) {

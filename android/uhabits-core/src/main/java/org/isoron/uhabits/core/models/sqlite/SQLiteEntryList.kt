@@ -24,7 +24,7 @@ import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.sqlite.records.*
 import org.isoron.uhabits.core.utils.*
 
-class SQLiteEntries(database: Database) : Entries() {
+class SQLiteEntryList(database: Database) : EntryList() {
     val repository = Repository(EntryRecord::class.java, database)
     var habitId: Long? = null
     var isLoaded = false
@@ -76,7 +76,7 @@ class SQLiteEntries(database: Database) : Entries() {
         return super.groupBy(field, firstWeekday, isNumerical)
     }
 
-    override fun recomputeFrom(originalEntries: Entries, frequency: Frequency, isNumerical: Boolean) {
+    override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean) {
         throw UnsupportedOperationException()
     }
 

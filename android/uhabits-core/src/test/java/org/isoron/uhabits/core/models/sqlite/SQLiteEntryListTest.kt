@@ -28,11 +28,11 @@ import org.isoron.uhabits.core.models.sqlite.records.*
 import org.isoron.uhabits.core.utils.*
 import org.junit.*
 
-class SQLiteEntriesTest {
+class SQLiteEntryListTest {
 
     private val database = buildMemoryDatabase()
     private val repository = Repository(EntryRecord::class.java, database)
-    private val entries = SQLiteEntries(database)
+    private val entries = SQLiteEntryList(database)
     private val today = DateUtils.getToday()
 
     @Before

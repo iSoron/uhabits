@@ -142,7 +142,7 @@ public class HabitsCSVExporter
         out.close();
     }
 
-    private void writeEntries(String habitDirName, Entries entries)
+    private void writeEntries(String habitDirName, EntryList entries)
         throws IOException
     {
         String filename = habitDirName + "Checkmarks.csv";
