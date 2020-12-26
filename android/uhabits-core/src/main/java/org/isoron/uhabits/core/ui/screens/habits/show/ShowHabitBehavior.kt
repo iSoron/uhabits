@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.preferences.*
 import org.isoron.uhabits.core.ui.callbacks.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
+import kotlin.math.*
 
 class ShowHabitBehavior(
         private val habitList: HabitList,
@@ -57,9 +58,9 @@ class ShowHabitBehavior(
     override fun onToggleEntry(timestamp: Timestamp, value: Int) {
         if (habit.isNumerical) {
             val entries = habit.computedEntries
-            val oldValue = entries.getValues(timestamp, timestamp)[0].toDouble()
-            screen.showNumberPicker(oldValue / 1000, habit.unit) { newValue: Double ->
-                val thousands = Math.round(newValue * 1000).toInt()
+            val oldValue = entries.get(timestamp).value
+            screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
+                val thousands = (newValue * 1000).roundToInt()
                 commandRunner.execute(
                         CreateRepetitionCommand(
                                 habitList,

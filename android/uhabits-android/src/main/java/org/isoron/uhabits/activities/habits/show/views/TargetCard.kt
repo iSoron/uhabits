@@ -57,12 +57,13 @@ class TargetCardPresenter(
         val resources: Resources,
 ) {
     suspend fun present(): TargetCardViewModel = Dispatchers.IO {
+        val today = DateUtils.getTodayWithOffset()
         val entries = habit.computedEntries
-        val valueToday = entries.todayValue / 1e3
-        val valueThisWeek = entries.getThisWeekValue(firstWeekday) / 1e3
-        val valueThisMonth = entries.thisMonthValue / 1e3
-        val valueThisQuarter = entries.thisQuarterValue / 1e3
-        val valueThisYear = entries.thisYearValue / 1e3
+        val valueToday = entries.get(today).value / 1e3
+        val valueThisWeek = entries.getThisWeekValue(firstWeekday, habit.isNumerical) / 1e3
+        val valueThisMonth = entries.getThisMonthValue(habit.isNumerical) / 1e3
+        val valueThisQuarter = entries.getThisQuarterValue(habit.isNumerical) / 1e3
+        val valueThisYear = entries.getThisYearValue(habit.isNumerical) / 1e3
 
         val cal = DateUtils.getStartOfTodayCalendarWithOffset()
         val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)

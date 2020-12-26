@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.models.memory;
 import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
@@ -186,8 +187,9 @@ public class MemoryHabitList extends HabitList
                 return h1.isNumerical() ? -1 : 1;
             }
 
-            Integer v1 = Objects.requireNonNull(h1.getComputedEntries().getToday()).getValue();
-            Integer v2 = Objects.requireNonNull(h2.getComputedEntries().getToday()).getValue();
+            Timestamp today = DateUtils.getTodayWithOffset();
+            Integer v1 = h1.getComputedEntries().get(today).getValue();
+            Integer v2 = h2.getComputedEntries().get(today).getValue();
 
             return v2.compareTo(v1);
         };

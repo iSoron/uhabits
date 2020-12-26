@@ -24,6 +24,7 @@ import androidx.test.filters.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -50,9 +51,10 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         double score = habit.getScores().getTodayValue();
         float percentage = (float) score;
 
+        Timestamp today = DateUtils.getTodayWithOffset();
         view.setActiveColor(PaletteUtils.getAndroidTestColor(0));
-        view.setEntryState(habit.getComputedEntries().getTodayValue());
-        view.setEntryValue(habit.getComputedEntries().getTodayValue());
+        view.setEntryState(habit.getComputedEntries().get(today).getValue());
+        view.setEntryValue(habit.getComputedEntries().get(today).getValue());
         view.setPercentage(percentage);
         view.setName(habit.getName());
         view.refresh();

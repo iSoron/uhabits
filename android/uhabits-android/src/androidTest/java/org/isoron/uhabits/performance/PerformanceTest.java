@@ -47,17 +47,6 @@ public class PerformanceTest extends BaseAndroidTest
 
     @Ignore
     @Test(timeout = 5000)
-    public void testRepeatedGetTodayValue()
-    {
-        for (int i = 0; i < 100000; i++)
-        {
-            habit.getScores().getTodayValue();
-            habit.getComputedEntries().getTodayValue();
-        }
-    }
-
-    @Ignore
-    @Test(timeout = 5000)
     public void benchmarkCreateHabitCommand()
     {
         Database db = ((SQLModelFactory) modelFactory).getDatabase();

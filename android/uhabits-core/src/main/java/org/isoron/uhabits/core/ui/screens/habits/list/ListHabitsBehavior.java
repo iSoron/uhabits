@@ -82,8 +82,8 @@ public class ListHabitsBehavior
 
     public void onEdit(@NonNull Habit habit, Timestamp timestamp)
     {
-        EntryList entries = habit.getComputedEntries();
-        double oldValue = entries.getValues(timestamp, timestamp)[0];
+        Entries entries = habit.getComputedEntries();
+        double oldValue = entries.get(timestamp).getValue();
 
         screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
         {

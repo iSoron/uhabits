@@ -128,6 +128,7 @@ public class ScoreListTest extends BaseUnitTest
         addSkip(5);
         addSkip(10);
         addSkip(11);
+        habit.recompute();
 
         double expectedValues[] = {
                 0.596033,
@@ -163,6 +164,7 @@ public class ScoreListTest extends BaseUnitTest
     {
         check(5);
         addSkip(4);
+        habit.recompute();
 
         double[] expectedValues = {
                 0.041949,
@@ -261,17 +263,20 @@ public class ScoreListTest extends BaseUnitTest
         habit = fixtures.createEmptyHabit();
         habit.setFrequency(Frequency.DAILY);
         for (int i = 0; i < 90; i++) check(i);
+        habit.recompute();
         assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
 
         // Weekly habits should achieve at least 99% in 9 months
         habit = fixtures.createEmptyHabit();
         habit.setFrequency(Frequency.WEEKLY);
         for (int i = 0; i < 39; i++) check(7 * i);
+        habit.recompute();
         assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
 
         // Monthly habits should achieve at least 99% in 18 months
         habit.setFrequency(new Frequency(1, 30));
         for (int i = 0; i < 18; i++) check(30 * i);
+        habit.recompute();
         assertThat(habit.getScores().getTodayValue(), greaterThan(0.99));
     }
 
@@ -349,6 +354,7 @@ public class ScoreListTest extends BaseUnitTest
         for (int i = 0; i < values.size(); i++)
             if (values.get(i) == YES_MANUAL)
                 entries.add(new Entry(today.minus(i), YES_MANUAL));
+        habit.recompute();
     }
 
     private void addSkip(final int day)

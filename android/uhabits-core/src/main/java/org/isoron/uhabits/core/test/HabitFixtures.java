@@ -67,6 +67,7 @@ public class HabitFixtures
         for (int mark : marks)
             habit.getOriginalEntries().add(new Entry(today.minus(mark), YES_MANUAL));
 
+        habit.recompute();
         return habit;
     }
 
@@ -92,6 +93,7 @@ public class HabitFixtures
             habit.getOriginalEntries().add(new Entry(timestamp, values[i]));
         }
 
+        habit.recompute();
         return habit;
     }
 
@@ -128,6 +130,7 @@ public class HabitFixtures
             habit.getOriginalEntries().add(new Entry(timestamp, values[i]));
         }
 
+        habit.recompute();
         return habit;
     }
 
@@ -148,6 +151,7 @@ public class HabitFixtures
             timestamp = timestamp.minus(1);
         }
 
+        habit.recompute();
         return habit;
     }
 

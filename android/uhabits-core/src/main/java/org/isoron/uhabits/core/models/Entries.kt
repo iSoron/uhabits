@@ -99,7 +99,7 @@ open class Entries {
             if (isNumerical) {
                 values[values.lastIndex] += truncated[i].value
             } else {
-                if (values[values.lastIndex] == YES_MANUAL) {
+                if (truncated[i].value == YES_MANUAL) {
                     values[values.lastIndex] += 1
                 }
             }
@@ -124,7 +124,6 @@ open class Entries {
             original.forEach { add(it) }
         } else {
             val intervals = buildIntervals(frequency, original)
-            if (intervals.isEmpty()) return
             snapIntervalsTogether(intervals)
             val computed = buildEntriesFromInterval(original, intervals)
             computed.filter { it.value != UNKNOWN }.forEach { add(it) }
@@ -181,6 +180,7 @@ open class Entries {
      * corresponds to one day older than the previous entry. The boundaries of the time interval
      * are included.
      */
+    @Deprecated("")
     fun getValues(from: Timestamp, to: Timestamp): IntArray {
         if (from.isNewerThan(to)) throw IllegalArgumentException()
         val nDays = from.daysUntil(to) + 1
@@ -192,6 +192,60 @@ open class Entries {
             result[offset] = entry.value
         }
         return result
+    }
+
+    @Deprecated("")
+    fun getAllValues(): IntArray {
+        val entries = getKnown()
+        if (entries.isEmpty()) return IntArray(0)
+        val (fromTimestamp, _) = entries.last()
+        val toTimestamp = DateUtils.getTodayWithOffset()
+        return getValues(fromTimestamp, toTimestamp)
+    }
+
+    @Deprecated("")
+    open fun getThisWeekValue(firstWeekday: Int, isNumerical: Boolean): Int {
+        return getThisIntervalValue(
+                truncateField = DateUtils.TruncateField.WEEK_NUMBER,
+                firstWeekday = firstWeekday,
+                isNumerical = isNumerical
+        )
+    }
+
+    @Deprecated("")
+    open fun getThisMonthValue(isNumerical: Boolean): Int {
+        return getThisIntervalValue(
+                truncateField = DateUtils.TruncateField.MONTH,
+                firstWeekday = Calendar.SATURDAY,
+                isNumerical = isNumerical
+        )
+    }
+
+    @Deprecated("")
+    open fun getThisQuarterValue(isNumerical: Boolean): Int {
+        return getThisIntervalValue(
+                truncateField = DateUtils.TruncateField.QUARTER,
+                firstWeekday = Calendar.SATURDAY,
+                isNumerical = isNumerical
+        )
+    }
+
+    @Deprecated("")
+    open fun getThisYearValue(isNumerical: Boolean): Int {
+        return getThisIntervalValue(
+                truncateField = DateUtils.TruncateField.YEAR,
+                firstWeekday = Calendar.SATURDAY,
+                isNumerical = isNumerical
+        )
+    }
+
+    private fun getThisIntervalValue(
+            truncateField: DateUtils.TruncateField,
+            firstWeekday: Int,
+            isNumerical: Boolean,
+    ): Int {
+        val groups: List<Entry> = groupBy(truncateField, firstWeekday, isNumerical)
+        return if (groups.isEmpty()) 0 else groups[0].value
     }
 
     data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {
@@ -212,13 +266,24 @@ open class Entries {
                 original: List<Entry>,
                 intervals: List<Interval>,
         ): List<Entry> {
-            val toTimestamp = intervals.first().end
-            val fromTimstamp = intervals.last().begin
             val result = arrayListOf<Entry>()
+            if (original.isEmpty()) return result
+
+            var from = original[0].timestamp
+            var to = original[0].timestamp
+
+            for (e in original) {
+                if (e.timestamp < from) from = e.timestamp
+                if (e.timestamp > to) to = e.timestamp
+            }
+            for (interval in intervals) {
+                if (interval.begin < from) from = interval.begin
+                if (interval.end > to) to = interval.end
+            }
 
             // Create unknown entries
-            var current = toTimestamp
-            while (current >= fromTimstamp) {
+            var current = to
+            while (current >= from) {
                 result.add(Entry(current, UNKNOWN))
                 current = current.minus(1)
             }
@@ -227,7 +292,7 @@ open class Entries {
             intervals.forEach { interval ->
                 current = interval.end
                 while (current >= interval.begin) {
-                    val offset = current.daysUntil(toTimestamp)
+                    val offset = current.daysUntil(to)
                     result[offset] = Entry(current, YES_AUTO)
                     current = current.minus(1)
                 }
@@ -235,7 +300,7 @@ open class Entries {
 
             // Copy original entries
             original.forEach { entry ->
-                val offset = entry.timestamp.daysUntil(toTimestamp)
+                val offset = entry.timestamp.daysUntil(to)
                 result[offset] = entry
             }
 

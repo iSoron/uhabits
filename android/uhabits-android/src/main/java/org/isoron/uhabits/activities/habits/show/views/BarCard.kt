@@ -96,9 +96,13 @@ class BarCardPresenter(
             boolBucketSizes[boolSpinnerPosition]
         }
         val entries = if (bucketSize == 1) {
-            habit.computedEntries.all
+            habit.computedEntries.getKnown()
         } else {
-            habit.computedEntries.groupBy(getTruncateField(bucketSize), firstWeekday)
+            habit.computedEntries.groupBy(
+                    field = getTruncateField(bucketSize),
+                    firstWeekday = firstWeekday,
+                    isNumerical = habit.isNumerical,
+            ).map { Entry(it.timestamp, it.value * 1000) }
         }
         return BarCardViewModel(
                 entries = entries,

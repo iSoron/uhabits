@@ -104,8 +104,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
 
         Timestamp today = DateUtils.getToday();
         int[] actualCheckmarks = cache.getCheckmarks(h.getId());
-        int[] expectedCheckmarks =
-            h.getComputedEntries().getValues(today.minus(9), today);
+        int[] expectedCheckmarks = h.getComputedEntries().getValues(today.minus(9), today);
 
         assertThat(actualCheckmarks, equalTo(expectedCheckmarks));
     }

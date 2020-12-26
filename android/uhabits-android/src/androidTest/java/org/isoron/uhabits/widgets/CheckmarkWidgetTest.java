@@ -26,6 +26,7 @@ import androidx.test.filters.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
 
@@ -41,9 +42,11 @@ public class CheckmarkWidgetTest extends BaseViewTest
 
     private Habit habit;
 
-    private EntryList entries;
+    private Entries entries;
 
     private FrameLayout view;
+
+    private Timestamp today = DateUtils.getTodayWithOffset();
 
     @Override
     public void setUp()
@@ -58,7 +61,7 @@ public class CheckmarkWidgetTest extends BaseViewTest
         CheckmarkWidget widget = new CheckmarkWidget(targetContext, 0, habit);
         view = convertToView(widget, 150, 200);
 
-        assertThat(entries.getTodayValue(), equalTo(YES_MANUAL));
+        assertThat(entries.get(today).getValue(), equalTo(YES_MANUAL));
     }
 
     @Test
@@ -71,11 +74,11 @@ public class CheckmarkWidgetTest extends BaseViewTest
         // possible to capture intents sent to BroadcastReceivers.
         button.performClick();
         sleep(1000);
-        assertThat(entries.getTodayValue(), equalTo(SKIP));
+        assertThat(entries.get(today).getValue(), equalTo(SKIP));
 
         button.performClick();
         sleep(1000);
-        assertThat(entries.getTodayValue(), equalTo(NO));
+        assertThat(entries.get(today).getValue(), equalTo(NO));
     }
 
     @Test

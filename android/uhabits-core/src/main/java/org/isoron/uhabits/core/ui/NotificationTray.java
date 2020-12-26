@@ -26,6 +26,7 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.utils.*;
 
 import java.util.*;
 
@@ -178,7 +179,8 @@ public class NotificationTray
         @Override
         public void doInBackground()
         {
-            todayValue = habit.getComputedEntries().getTodayValue();
+            Timestamp today = DateUtils.getTodayWithOffset();
+            todayValue = habit.getComputedEntries().get(today).getValue();
         }
 
         @Override

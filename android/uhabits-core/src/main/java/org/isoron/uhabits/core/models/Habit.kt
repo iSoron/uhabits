@@ -18,6 +18,8 @@
  */
 package org.isoron.uhabits.core.models
 
+import org.isoron.uhabits.core.utils.*
+
 data class Habit(
         var color: PaletteColor = PaletteColor(8),
         var description: String = "",
@@ -33,8 +35,7 @@ data class Habit(
         var type: Int = YES_NO_HABIT,
         var unit: String = "",
         var uuid: String? = null,
-        val computedEntries: EntryList,
-        val newComputedEntries: Entries,
+        val computedEntries: Entries,
         val originalEntries: Entries,
         val scores: ScoreList,
         val streaks: StreakList,
@@ -49,13 +50,24 @@ data class Habit(
 
     fun hasReminder(): Boolean = reminder != null
 
-    fun isCompletedToday(): Boolean = computedEntries.isCompletedToday
+    fun isCompletedToday(): Boolean {
+        val today = DateUtils.getTodayWithOffset()
+        val value = computedEntries.get(today).value
+        return if (isNumerical) {
+            if (targetType == AT_LEAST) {
+                value / 1000.0 >= targetValue
+            } else {
+                value / 1000.0 <= targetValue
+            }
+        } else {
+            value != Entry.NO && value != Entry.UNKNOWN
+        }
+    }
 
     fun recompute() {
         scores.recompute()
-        computedEntries.recompute()
         streaks.recompute()
-        newComputedEntries.recomputeFrom(
+        computedEntries.recomputeFrom(
                 originalEntries = originalEntries,
                 frequency = frequency,
                 isNumerical = isNumerical,

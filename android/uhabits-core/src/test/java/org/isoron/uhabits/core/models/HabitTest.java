@@ -74,6 +74,7 @@ public class HabitTest extends BaseUnitTest
         Habit h = modelFactory.buildHabit();
         assertFalse(h.isCompletedToday());
         h.getOriginalEntries().add(new Entry(getToday(), Entry.YES_MANUAL));
+        h.recompute();
         assertTrue(h.isCompletedToday());
     }
 

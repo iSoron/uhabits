@@ -142,13 +142,20 @@ public class HabitsCSVExporter
         out.close();
     }
 
-    private void writeEntries(String habitDirName, EntryList entries)
+    private void writeEntries(String habitDirName, Entries entries)
         throws IOException
     {
         String filename = habitDirName + "Checkmarks.csv";
         FileWriter out = new FileWriter(exportDirName + filename);
         generateFilenames.add(filename);
-        entries.writeCSV(out);
+
+        SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
+        for (Entry e : entries.getKnown())
+        {
+            String date = dateFormat.format(e.getTimestamp().toJavaDate());
+            out.write(String.format(Locale.US, "%s,%d\n", date, e.getValue()));
+        }
+
         out.close();
     }
 

@@ -43,7 +43,7 @@ class HabitCardViewTest : BaseViewTest() {
         habit2 = fixtures.createLongNumericalHabit()
         view = component.getHabitCardViewFactory().create().apply {
             habit = habit1
-            values = habit1.computedEntries.allValues
+            values = habit1.computedEntries.getAllValues()
             score = habit1.scores.todayValue
             isSelected = false
             buttonCount = 5
@@ -70,7 +70,7 @@ class HabitCardViewTest : BaseViewTest() {
     fun testRender_numerical() {
         view.apply {
             habit = habit2
-            values = habit2.computedEntries.allValues
+            values = habit2.computedEntries.getAllValues()
         }
         assertRenders(view, "$PATH/render_numerical.png")
     }

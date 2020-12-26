@@ -23,6 +23,7 @@ import android.app.*
 import android.content.*
 import android.view.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
@@ -42,16 +43,16 @@ open class CheckmarkWidget(
 
     override fun refreshData(v: View) {
         (v as CheckmarkWidgetView).apply {
+            val today = DateUtils.getTodayWithOffset()
             setBackgroundAlpha(preferedBackgroundAlpha)
-
             setActiveColor(habit.color.toThemedAndroidColor(context))
             setName(habit.name)
-            setEntryValue(habit.computedEntries.todayValue)
+            setEntryValue(habit.computedEntries.get(today).value)
             if (habit.isNumerical) {
                 setNumerical(true)
                 setEntryState(getNumericalEntryState())
             } else {
-                setEntryState(habit.computedEntries.todayValue)
+                setEntryState(habit.computedEntries.get(today).value)
             }
             setPercentage(habit.scores.todayValue.toFloat())
             refresh()

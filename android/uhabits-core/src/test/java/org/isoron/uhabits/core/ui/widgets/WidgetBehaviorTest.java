@@ -107,6 +107,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
     {
         habit = fixtures.createNumericalHabit();
         habit.getOriginalEntries().add(new Entry(timestamp, 500));
+        habit.recompute();
 
         behavior.onIncrement(habit, timestamp, 100);
         verify(commandRunner).execute(
@@ -121,6 +122,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
     {
         habit = fixtures.createNumericalHabit();
         habit.getOriginalEntries().add(new Entry(timestamp, 500));
+        habit.recompute();
 
         behavior.onDecrement(habit, timestamp, 100);
         verify(commandRunner).execute(

@@ -66,6 +66,9 @@ class HabitsApplication : Application() {
 
         DateUtils.setStartDayOffset(3, 0)
 
+        val habitList = component.habitList
+        for (h in habitList) h.recompute()
+
         widgetUpdater = component.widgetUpdater
         widgetUpdater.startListening()
         widgetUpdater.scheduleStartDayWidgetUpdate()

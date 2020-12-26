@@ -29,6 +29,7 @@ import org.isoron.uhabits.activities.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.ui.screens.habits.list.*
 import org.isoron.uhabits.core.ui.widgets.*
+import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.intents.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.*
@@ -71,7 +72,9 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         val app = this.applicationContext as HabitsApplication
         AndroidThemeSwitcher(this, app.component.preferences).apply()
         val numberPickerFactory = NumberPickerFactory(context)
-        numberPickerFactory.create(data.habit.computedEntries.today!!.value.toDouble() / 1000,
+        val today = DateUtils.getTodayWithOffset()
+        val entry = data.habit.computedEntries.get(today)
+        numberPickerFactory.create(entry.value / 1000.0,
                                    data.habit.unit,
                                    this).show()
     }

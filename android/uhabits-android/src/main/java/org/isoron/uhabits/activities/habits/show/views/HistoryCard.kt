@@ -66,7 +66,7 @@ class HistoryCardPresenter(
         val isSkipEnabled: Boolean,
 ) {
     fun present() = HistoryCardViewModel(
-            entries = habit.computedEntries.allValues,
+            entries = habit.computedEntries.getAllValues(),
             color = habit.color,
             firstWeekday = firstWeekday,
             isNumerical = habit.isNumerical,

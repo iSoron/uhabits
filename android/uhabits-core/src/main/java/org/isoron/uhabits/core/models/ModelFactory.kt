@@ -28,25 +28,20 @@ import org.isoron.uhabits.core.models.sqlite.records.*
 interface ModelFactory {
 
     fun buildHabit(): Habit {
-        val computedEntries = buildEntryList()
         val scores = buildScoreList()
         val streaks = buildStreakList()
         val habit = Habit(
-                computedEntries = computedEntries,
                 scores = scores,
                 streaks = streaks,
                 originalEntries = buildOriginalEntries(),
-                newComputedEntries = buildNewComputedEntries(),
+                computedEntries = buildNewComputedEntries(),
         )
-        computedEntries.setHabit(habit)
         scores.setHabit(habit)
         streaks.setHabit(habit)
-        habit.recompute()
         return habit
     }
     fun buildNewComputedEntries(): Entries
     fun buildOriginalEntries(): Entries
-    fun buildEntryList(): EntryList
     fun buildHabitList(): HabitList
     fun buildScoreList(): ScoreList
     fun buildStreakList(): StreakList

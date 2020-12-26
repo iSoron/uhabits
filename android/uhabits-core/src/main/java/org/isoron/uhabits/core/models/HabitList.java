@@ -178,7 +178,6 @@ public abstract class HabitList implements Iterable<Habit>
     {
         for (Habit h : this)
         {
-            h.getComputedEntries().recompute();
             h.getStreaks().recompute();
             h.getScores().recompute();
         }

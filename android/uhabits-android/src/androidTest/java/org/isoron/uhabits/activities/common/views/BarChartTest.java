@@ -46,7 +46,7 @@ public class BarChartTest extends BaseViewTest
         Habit habit = fixtures.createLongNumericalHabit();
         view = new BarChart(targetContext);
         Timestamp today = DateUtils.getToday();
-        EntryList entries = habit.getComputedEntries();
+        Entries entries = habit.getComputedEntries();
         view.setEntries(entries.getByInterval(today.minus(20), today));
         view.setColor(PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), targetContext));
         view.setTarget(200.0);

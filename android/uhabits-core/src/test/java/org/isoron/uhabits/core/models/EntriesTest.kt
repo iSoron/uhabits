@@ -137,7 +137,7 @@ class EntriesTest {
     }
 
     @Test
-    fun testGroupBy() {
+    fun testGroupByNumerical() {
         val offsets = intArrayOf(
                 0, 5, 9, 15, 17, 21, 23, 27, 28, 35, 41, 45, 47, 53, 56, 62, 70, 73, 78,
                 83, 86, 94, 101, 106, 113, 114, 120, 126, 130, 133, 141, 143, 148, 151, 157, 164,
@@ -189,6 +189,52 @@ class EntriesTest {
         assertThat(byYear.size, equalTo(2))
         assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 8227)))
         assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 16172)))
+    }
+
+    @Test
+    fun testGroupByBoolean() {
+        val offsets = intArrayOf(
+                0, 5, 9, 15, 17, 21, 23, 27, 28, 35, 41, 45, 47, 53, 56, 62, 70, 73, 78,
+                83, 86, 94, 101, 106, 113, 114, 120, 126, 130, 133, 141, 143, 148, 151, 157, 164,
+                166, 171, 173, 176, 179, 183, 191, 259, 264, 268, 270, 275, 282, 284, 289, 295,
+                302, 306, 310, 315, 323, 325, 328, 335, 343, 349, 351, 353, 357, 359, 360, 367,
+                372, 376, 380, 385, 393, 400, 404, 412, 415, 418, 422, 425, 433, 437, 444, 449,
+                455, 460, 462, 465, 470, 471, 479, 481, 485, 489, 494, 495, 500, 501, 503, 507)
+
+        val reference = Timestamp.from(2014, Calendar.JUNE, 1)
+        val entries = Entries()
+        offsets.indices.forEach {
+            entries.add(Entry(reference.minus(offsets[it]), YES_MANUAL))
+        }
+
+        val byMonth = entries.groupBy(
+                field = DateUtils.TruncateField.MONTH,
+                firstWeekday = Calendar.SATURDAY,
+                isNumerical = false,
+        )
+        assertThat(byMonth.size, equalTo(17))
+        assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 1)))
+        assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 7)))
+        assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 6)))
+
+        val byQuarter = entries.groupBy(
+                field = DateUtils.TruncateField.QUARTER,
+                firstWeekday = Calendar.SATURDAY,
+                isNumerical = true,
+        )
+        assertThat(byQuarter.size, equalTo(6))
+        assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 30)))
+        assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 34)))
+        assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 40)))
+
+        val byYear = entries.groupBy(
+                field = DateUtils.TruncateField.YEAR,
+                firstWeekday = Calendar.SATURDAY,
+                isNumerical = true,
+        )
+        assertThat(byYear.size, equalTo(2))
+        assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 68)))
+        assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 132)))
     }
 
     @Test

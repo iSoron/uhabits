@@ -86,7 +86,8 @@ public class ListHabitsBehaviorTest extends BaseUnitTest
         behavior.onEdit(habit2, DateUtils.getToday());
         verify(screen).showNumberPicker(eq(0.1), eq("miles"), picker.capture());
         picker.getValue().onNumberPicked(100);
-        assertThat(habit2.getComputedEntries().getTodayValue(), equalTo(100000));
+        Timestamp today = DateUtils.getTodayWithOffset();
+        assertThat(habit2.getComputedEntries().get(today).getValue(), equalTo(100000));
     }
 
     @Test
