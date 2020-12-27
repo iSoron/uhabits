@@ -74,8 +74,10 @@ contribute, even if you are not a software developer.
 
 * **Report bugs, suggest features.** The easiest way to contribute is to simply
   use the app and let us know if you find any problems or have any suggestions
-  to improve it. You can either use the link inside the app, or open an issue
-  at GitHub. If you would like to receive the newest versions of the app
+  to improve it. To report a problem, please [create a new bug report](https://github.com/iSoron/uhabits/issues/new/choose).
+  To request a new feature or vote on existing feature requests, please visit
+  our [GitHub Discussions page](https://github.com/iSoron/uhabits/discussions/categories/feature-requests).
+  If you would like to receive the newest versions of the app
   earlier than everyone else, [join our open beta on Google Play][beta].
 
 * **Spread the word.** If you like the app, share it with your family, friends
