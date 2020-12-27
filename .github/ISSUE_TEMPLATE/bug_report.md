@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ## Pre-submission checklist
-- [ ] I am submitting a bug report, not a feature request. Feature requests should be posted under the Discussions tab.
+- [ ] I am submitting a bug report, not a feature request.
 - [ ] I am running the latest version of Loop Habit Tracker.
 - [ ] I have have searched for similar issues, but did not find any matches.
 
