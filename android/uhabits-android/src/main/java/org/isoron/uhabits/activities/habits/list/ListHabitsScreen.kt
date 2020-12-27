@@ -90,12 +90,10 @@ class ListHabitsScreen
         commandRunner.removeListener(this)
     }
 
-    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
-        if (command != null) {
-            val stringId = getExecuteString(command)
-            if (stringId != null)
-                activity.showMessage(stringId)
-        }
+    override fun onCommandFinished(command: Command) {
+        val stringId = getExecuteString(command)
+        if (stringId != null)
+            activity.showMessage(stringId)
     }
 
     fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {

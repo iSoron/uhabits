@@ -88,9 +88,9 @@ public class ListHabitsBehavior
         screen.showNumberPicker(oldValue / 1000, habit.getUnit(), newValue ->
         {
             newValue = Math.round(newValue * 1000);
-            commandRunner.execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue),
-                habit.getId());
+            commandRunner.run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, (int) newValue)
+            );
         });
     }
 
@@ -153,9 +153,9 @@ public class ListHabitsBehavior
 
     public void onToggle(@NonNull Habit habit, Timestamp timestamp, int value)
     {
-        commandRunner.execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, value),
-                habit.getId());
+        commandRunner.run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, value)
+        );
     }
 
     public void onSyncKeyOffer(@NotNull String syncKey, @NotNull String encryptionKey)

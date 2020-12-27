@@ -115,7 +115,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         super.onPause()
     }
 
-    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
+    override fun onCommandFinished(command: Command) {
         refresh()
     }
 

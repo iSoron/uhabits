@@ -228,7 +228,7 @@ class EditHabitActivity : AppCompatActivity() {
         } else {
             component.createHabitCommandFactory.create(component.habitList, habit)
         }
-        component.commandRunner.execute(command, null)
+        component.commandRunner.run(command)
         finish()
     }
 

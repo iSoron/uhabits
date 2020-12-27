@@ -61,25 +61,23 @@ class ShowHabitBehavior(
             val oldValue = entries.get(timestamp).value
             screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
                 val thousands = (newValue * 1000).roundToInt()
-                commandRunner.execute(
+                commandRunner.run(
                         CreateRepetitionCommand(
                                 habitList,
                                 habit,
                                 timestamp,
                                 thousands,
                         ),
-                        habit.id,
                 )
             }
         } else {
-            commandRunner.execute(
+            commandRunner.run(
                     CreateRepetitionCommand(
                             habitList,
                             habit,
                             timestamp,
                             value,
                     ),
-                    null,
             )
         }
     }

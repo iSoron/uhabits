@@ -78,8 +78,8 @@ public class ListHabitsSelectionMenuBehavior
 
     public void onArchiveHabits()
     {
-        commandRunner.execute(
-            new ArchiveHabitsCommand(habitList, adapter.getSelected()), null);
+        commandRunner.run(
+            new ArchiveHabitsCommand(habitList, adapter.getSelected()));
         adapter.clearSelection();
     }
 
@@ -90,9 +90,9 @@ public class ListHabitsSelectionMenuBehavior
 
         screen.showColorPicker(first.getColor(), selectedColor ->
         {
-            commandRunner.execute(
-                new ChangeHabitColorCommand(habitList, selected, selectedColor),
-                null);
+            commandRunner.run(
+                new ChangeHabitColorCommand(habitList, selected, selectedColor)
+            );
             adapter.clearSelection();
         });
     }
@@ -103,8 +103,8 @@ public class ListHabitsSelectionMenuBehavior
         screen.showDeleteConfirmationScreen(() ->
         {
             adapter.performRemove(selected);
-            commandRunner.execute(new DeleteHabitsCommand(habitList, selected),
-                null);
+            commandRunner.run(new DeleteHabitsCommand(habitList, selected)
+            );
             adapter.clearSelection();
         });
     }
@@ -117,8 +117,8 @@ public class ListHabitsSelectionMenuBehavior
 
     public void onUnarchiveHabits()
     {
-        commandRunner.execute(
-            new UnarchiveHabitsCommand(habitList, adapter.getSelected()), null);
+        commandRunner.run(
+            new UnarchiveHabitsCommand(habitList, adapter.getSelected()));
         adapter.clearSelection();
     }
 

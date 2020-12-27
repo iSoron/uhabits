@@ -166,7 +166,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     }
 
     @Override
-    public void onCommandExecuted(@Nullable Command command, @Nullable Long refreshKey)
+    public void onCommandFinished(@NonNull Command command)
     {
         refreshData();
     }

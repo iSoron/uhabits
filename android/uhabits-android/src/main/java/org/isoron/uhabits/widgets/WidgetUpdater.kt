@@ -42,8 +42,12 @@ class WidgetUpdater
         private val intentScheduler: IntentScheduler
 ) : CommandRunner.Listener {
 
-    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
-        updateWidgets(refreshKey)
+    override fun onCommandFinished(command: Command) {
+        if (command is CreateRepetitionCommand) {
+            updateWidgets(command.habit.id)
+        } else {
+            updateWidgets()
+        }
     }
 
     /**

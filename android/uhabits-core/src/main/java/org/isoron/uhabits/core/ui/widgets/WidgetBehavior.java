@@ -93,8 +93,8 @@ public class WidgetBehavior
     }
 
     public void setValue(@NonNull Habit habit, Timestamp timestamp, int newValue) {
-        commandRunner.execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, newValue),
-                habit.getId());
+        commandRunner.run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, newValue)
+        );
     }
 }

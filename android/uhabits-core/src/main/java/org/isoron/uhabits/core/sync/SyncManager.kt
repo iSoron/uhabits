@@ -160,7 +160,7 @@ class SyncManager @Inject constructor(
         connected = false
     }
 
-    override fun onCommandExecuted(command: Command?, refreshKey: Long?) {
+    override fun onCommandFinished(command: Command) {
         if (!dirty) setCurrentVersion(currVersion + 1)
         dirty = true
     }

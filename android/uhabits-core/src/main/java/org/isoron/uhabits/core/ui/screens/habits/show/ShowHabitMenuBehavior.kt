@@ -51,7 +51,7 @@ class ShowHabitMenuBehavior(
 
     fun onDeleteHabit() {
         screen.showDeleteConfirmationScreen {
-            commandRunner.execute(DeleteHabitsCommand(habitList, listOf(habit)), null)
+            commandRunner.run(DeleteHabitsCommand(habitList, listOf(habit)))
             screen.close()
         }
     }

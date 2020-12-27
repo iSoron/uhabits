@@ -56,8 +56,7 @@ public class ReminderScheduler implements CommandRunner.Listener
     }
 
     @Override
-    public synchronized void onCommandExecuted(@Nullable Command command,
-                                               @Nullable Long refreshKey)
+    public synchronized void onCommandFinished(@Nullable Command command)
     {
         if (command instanceof CreateRepetitionCommand) return;
         if (command instanceof ChangeHabitColorCommand) return;

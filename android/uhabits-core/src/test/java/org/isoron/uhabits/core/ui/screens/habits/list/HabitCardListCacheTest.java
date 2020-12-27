@@ -70,9 +70,9 @@ public class HabitCardListCacheTest extends BaseUnitTest
         assertThat(cache.getHabitCount(), equalTo(10));
 
         Habit h = habitList.getByPosition(0);
-        commandRunner.execute(
-            new DeleteHabitsCommand(habitList, Collections.singletonList(h)),
-            null);
+        commandRunner.run(
+            new DeleteHabitsCommand(habitList, Collections.singletonList(h))
+        );
 
         verify(listener).onItemRemoved(0);
         verify(listener).onRefreshFinished();
@@ -84,7 +84,7 @@ public class HabitCardListCacheTest extends BaseUnitTest
     {
         Habit h2 = habitList.getByPosition(2);
         Timestamp today = DateUtils.getToday();
-        commandRunner.execute(new CreateRepetitionCommand(habitList, h2, today, Entry.NO), h2.getId());
+        commandRunner.run(new CreateRepetitionCommand(habitList, h2, today, Entry.NO));
         verify(listener).onItemChanged(2);
         verify(listener).onRefreshFinished();
         verifyNoMoreInteractions(listener);

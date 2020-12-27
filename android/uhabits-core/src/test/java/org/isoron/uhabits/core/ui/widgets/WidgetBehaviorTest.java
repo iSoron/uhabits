@@ -61,9 +61,9 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnAddRepetition()
     {
         behavior.onAddRepetition(habit, timestamp);
-        verify(commandRunner).execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, YES_MANUAL),
-                habit.getId());
+        verify(commandRunner).run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, YES_MANUAL)
+        );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }
@@ -72,9 +72,9 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnRemoveRepetition()
     {
         behavior.onRemoveRepetition(habit, timestamp);
-        verify(commandRunner).execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, NO),
-                habit.getId());
+        verify(commandRunner).run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, NO)
+        );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }
@@ -94,9 +94,9 @@ public class WidgetBehaviorTest extends BaseUnitTest
                 habit.getOriginalEntries().add(new Entry(timestamp, currentValue));
                 behavior.onToggleRepetition(habit, timestamp);
                 verify(preferences).isSkipEnabled();
-                verify(commandRunner).execute(
-                        new CreateRepetitionCommand(habitList, habit, timestamp, nextValue),
-                        habit.getId());
+                verify(commandRunner).run(
+                        new CreateRepetitionCommand(habitList, habit, timestamp, nextValue)
+                );
                 verify(notificationTray).cancel(habit);
                 reset(preferences, commandRunner, notificationTray);
             }
@@ -110,9 +110,9 @@ public class WidgetBehaviorTest extends BaseUnitTest
         habit.recompute();
 
         behavior.onIncrement(habit, timestamp, 100);
-        verify(commandRunner).execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, 600),
-                habit.getId());
+        verify(commandRunner).run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, 600)
+        );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }
@@ -125,9 +125,9 @@ public class WidgetBehaviorTest extends BaseUnitTest
         habit.recompute();
 
         behavior.onDecrement(habit, timestamp, 100);
-        verify(commandRunner).execute(
-                new CreateRepetitionCommand(habitList, habit, timestamp, 400),
-                habit.getId());
+        verify(commandRunner).run(
+                new CreateRepetitionCommand(habitList, habit, timestamp, 400)
+        );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
     }

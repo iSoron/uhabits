@@ -109,19 +109,22 @@ public class LoopDBImporter extends AbstractImporter
                             habitRecord.id.toString());
 
             Habit habit = habitList.getByUUID(habitRecord.uuid);
+            Command command;
             if (habit == null)
             {
                 habit = modelFactory.buildHabit();
                 habitRecord.id = null;
                 habitRecord.copyTo(habit);
-                new CreateHabitCommand(modelFactory, habitList, habit).execute();
+                command = new CreateHabitCommand(modelFactory, habitList, habit);
+                command.execute();
             }
             else
             {
                 Habit modified = modelFactory.buildHabit();
                 habitRecord.id = habit.getId();
                 habitRecord.copyTo(modified);
-                new EditHabitCommand(modelFactory, habitList, habit, modified).execute();
+                command = new EditHabitCommand(modelFactory, habitList, habit, modified);
+                command.execute();
             }
 
             // Reload saved version of the habit
@@ -134,9 +137,9 @@ public class LoopDBImporter extends AbstractImporter
                 if (existingEntry.getValue() != r.value)
                     new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
             }
-        }
 
-        runner.notifyListeners(null, null);
+            runner.notifyListeners(command);
+        }
         db.close();
     }
 }

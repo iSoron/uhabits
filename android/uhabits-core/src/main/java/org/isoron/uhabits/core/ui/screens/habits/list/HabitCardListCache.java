@@ -138,11 +138,15 @@ public class HabitCardListCache implements CommandRunner.Listener
     }
 
     @Override
-    public synchronized void onCommandExecuted(@Nullable Command command,
-                                               @Nullable Long refreshKey)
+    public synchronized void onCommandFinished(@Nullable Command command)
     {
-        if (refreshKey == null) refreshAllHabits();
-        else refreshHabit(refreshKey);
+        if (command instanceof CreateRepetitionCommand) {
+            Habit h = ((CreateRepetitionCommand) command).getHabit();
+            Long id = h.getId();
+            if (id != null) refreshHabit(id);
+        } else {
+            refreshAllHabits();
+        }
     }
 
     public synchronized void onDetached()
