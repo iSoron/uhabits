@@ -52,10 +52,6 @@ public interface HabitsApplicationComponent
     @AppContext
     Context getContext();
 
-    CreateHabitCommandFactory getCreateHabitCommandFactory();
-
-    EditHabitCommandFactory getEditHabitCommandFactory();
-
     GenericImporter getGenericImporter();
 
     HabitCardListCache getHabitCardListCache();

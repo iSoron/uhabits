@@ -50,7 +50,7 @@ public class CreateHabitCommandTest extends BaseUnitTest
     public void testExecute()
     {
         assertTrue(habitList.isEmpty());
-        command.execute();
+        command.run();
         assertThat(habitList.size(), equalTo(1));
         Habit habit = habitList.getByPosition(0);
         assertThat(habit.getName(), equalTo(model.getName()));

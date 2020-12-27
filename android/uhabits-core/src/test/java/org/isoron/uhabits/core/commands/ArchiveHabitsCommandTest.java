@@ -27,7 +27,6 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 public class ArchiveHabitsCommandTest extends BaseUnitTest
 {
@@ -52,7 +51,7 @@ public class ArchiveHabitsCommandTest extends BaseUnitTest
     public void testExecute()
     {
         assertFalse(habit.isArchived());
-        command.execute();
+        command.run();
         assertTrue(habit.isArchived());
     }
 

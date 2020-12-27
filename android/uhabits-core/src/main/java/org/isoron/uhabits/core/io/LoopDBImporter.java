@@ -116,15 +116,15 @@ public class LoopDBImporter extends AbstractImporter
                 habitRecord.id = null;
                 habitRecord.copyTo(habit);
                 command = new CreateHabitCommand(modelFactory, habitList, habit);
-                command.execute();
+                command.run();
             }
             else
             {
                 Habit modified = modelFactory.buildHabit();
                 habitRecord.id = habit.getId();
                 habitRecord.copyTo(modified);
-                command = new EditHabitCommand(modelFactory, habitList, habit, modified);
-                command.execute();
+                command = new EditHabitCommand(habitList, habit.getId(), modified);
+                command.run();
             }
 
             // Reload saved version of the habit
@@ -135,7 +135,7 @@ public class LoopDBImporter extends AbstractImporter
                 Timestamp t = new Timestamp(r.timestamp);
                 Entry existingEntry = habit.getOriginalEntries().get(t);
                 if (existingEntry.getValue() != r.value)
-                    new CreateRepetitionCommand(habitList, habit, t, r.value).execute();
+                    new CreateRepetitionCommand(habitList, habit, t, r.value).run();
             }
 
             runner.notifyListeners(command);

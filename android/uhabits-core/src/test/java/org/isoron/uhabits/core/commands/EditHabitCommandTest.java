@@ -54,12 +54,12 @@ public class EditHabitCommandTest extends BaseUnitTest
     @Test
     public void testExecute()
     {
-        command = new EditHabitCommand(modelFactory, habitList, habit, modified);
+        command = new EditHabitCommand(habitList, habit.getId(), modified);
 
         double originalScore = habit.getScores().getTodayValue();
         assertThat(habit.getName(), equalTo("original"));
 
-        command.execute();
+        command.run();
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
     }
@@ -69,12 +69,12 @@ public class EditHabitCommandTest extends BaseUnitTest
     {
         modified.setFrequency(Frequency.TWO_TIMES_PER_WEEK);
         command =
-            new EditHabitCommand(modelFactory, habitList, habit, modified);
+            new EditHabitCommand(habitList, habit.getId(), modified);
 
         double originalScore = habit.getScores().getTodayValue();
         assertThat(habit.getName(), equalTo("original"));
 
-        command.execute();
+        command.run();
         assertThat(habit.getName(), equalTo("modified"));
         assertThat(habit.getScores().getTodayValue(),
             lessThan(originalScore));

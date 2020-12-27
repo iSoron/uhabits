@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.edit
 
+import android.annotation.*
 import android.content.res.*
 import android.graphics.*
 import android.os.*
@@ -224,9 +225,15 @@ class EditHabitActivity : AppCompatActivity() {
         habit.type = habitType
 
         val command = if (habitId >= 0) {
-            component.editHabitCommandFactory.create(component.habitList, original, habit)
+            EditHabitCommand(
+                    component.habitList,
+                    habitId,
+                    habit)
         } else {
-            component.createHabitCommandFactory.create(component.habitList, habit)
+            CreateHabitCommand(
+                    component.modelFactory,
+                    component.habitList,
+                    habit)
         }
         component.commandRunner.run(command)
         finish()
@@ -265,6 +272,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun populateFrequency() {
         binding.booleanFrequencyPicker.text = when {
             freqNum == 1 && freqDen == 1 -> getString(R.string.every_day)

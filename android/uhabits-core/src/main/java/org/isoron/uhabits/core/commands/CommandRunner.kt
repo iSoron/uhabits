@@ -33,7 +33,7 @@ open class CommandRunner
     open fun run(command: Command) {
         taskRunner.execute(object : Task {
             override fun doInBackground() {
-                command.execute()
+                command.run()
             }
             override fun onPostExecute() {
                 notifyListeners(command)

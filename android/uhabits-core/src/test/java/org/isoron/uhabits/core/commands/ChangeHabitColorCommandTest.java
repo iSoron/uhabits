@@ -57,7 +57,7 @@ public class ChangeHabitColorCommandTest extends BaseUnitTest
     public void testExecute()
     {
         checkOriginalColors();
-        command.execute();
+        command.run();
         checkNewColors();
     }
 

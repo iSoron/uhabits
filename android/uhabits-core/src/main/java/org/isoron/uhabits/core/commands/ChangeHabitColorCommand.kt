@@ -16,39 +16,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.commands
 
-package org.isoron.uhabits.core.commands;
+import org.isoron.uhabits.core.models.*
 
-import androidx.annotation.*;
-
-import com.google.auto.factory.*;
-
-import org.isoron.uhabits.core.models.*;
-
-@AutoFactory
-public class CreateHabitCommand implements Command
-{
-    ModelFactory modelFactory;
-
-    HabitList habitList;
-
-    @NonNull
-    Habit model;
-
-    public CreateHabitCommand(@Provided @NonNull ModelFactory modelFactory,
-                              @NonNull HabitList habitList,
-                              @NonNull Habit model)
-    {
-        this.modelFactory = modelFactory;
-        this.habitList = habitList;
-        this.model = model;
-    }
-
-    @Override
-    public void execute()
-    {
-        Habit habit = modelFactory.buildHabit();
-        habit.copyFrom(model);
-        habitList.add(habit);
+data class ChangeHabitColorCommand(
+        val habitList: HabitList,
+        val selected: List<Habit>,
+        val newColor: PaletteColor,
+) : Command {
+    override fun run() {
+        for (h in selected) h.color = newColor
+        habitList.update(selected)
     }
 }

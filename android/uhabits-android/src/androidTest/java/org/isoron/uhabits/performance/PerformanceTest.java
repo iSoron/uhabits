@@ -54,7 +54,7 @@ public class PerformanceTest extends BaseAndroidTest
         for (int i = 0; i < 1_000; i++)
         {
             Habit model = modelFactory.buildHabit();
-            new CreateHabitCommand(modelFactory, habitList, model).execute();
+            new CreateHabitCommand(modelFactory, habitList, model).run();
         }
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -70,7 +70,7 @@ public class PerformanceTest extends BaseAndroidTest
         for (int i = 0; i < 5_000; i++)
         {
             Timestamp timestamp = new Timestamp(i * DAY_LENGTH);
-            new CreateRepetitionCommand(habitList, habit, timestamp, 1).execute();
+            new CreateRepetitionCommand(habitList, habit, timestamp, 1).run();
         }
         db.setTransactionSuccessful();
         db.endTransaction();

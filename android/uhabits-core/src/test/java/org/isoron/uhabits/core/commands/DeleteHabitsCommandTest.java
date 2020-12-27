@@ -66,7 +66,7 @@ public class DeleteHabitsCommandTest extends BaseUnitTest
     {
         assertThat(habitList.size(), equalTo(4));
 
-        command.execute();
+        command.run();
         assertThat(habitList.size(), equalTo(1));
         assertThat(habitList.getByPosition(0).getName(), equalTo("extra"));
     }

@@ -55,7 +55,7 @@ public class CreateRepetitionCommandTest extends BaseUnitTest
         Entry entry = entries.get(today);
         assertEquals(YES_MANUAL, entry.getValue());
 
-        command.execute();
+        command.run();
         entry = entries.get(today);
         assertEquals(100, entry.getValue());
     }

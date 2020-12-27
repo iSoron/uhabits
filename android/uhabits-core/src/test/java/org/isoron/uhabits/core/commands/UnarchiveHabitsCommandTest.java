@@ -51,7 +51,7 @@ public class UnarchiveHabitsCommandTest extends BaseUnitTest
     public void testExecuteUndoRedo()
     {
         assertTrue(habit.isArchived());
-        command.execute();
+        command.run();
         assertFalse(habit.isArchived());
     }
 

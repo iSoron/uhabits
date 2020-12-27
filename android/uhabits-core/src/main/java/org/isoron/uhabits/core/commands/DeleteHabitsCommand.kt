@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.commands
 
-package org.isoron.uhabits.core.commands;
+import org.isoron.uhabits.core.models.*
 
-/**
- * A Command represents a desired set of changes that should be performed on the
- * models. In general, commands should always be executed by a {@link CommandRunner}.
- */
-public interface Command
-{
-    void execute();
+data class DeleteHabitsCommand(
+        val habitList: HabitList,
+        val selected: List<Habit>,
+) : Command {
+    override fun run() {
+        for (h in selected) habitList.remove(h)
+    }
 }

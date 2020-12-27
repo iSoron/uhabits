@@ -16,40 +16,20 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.commands
 
-package org.isoron.uhabits.core.commands;
+import org.isoron.uhabits.core.models.*
 
-import androidx.annotation.*;
-
-import org.isoron.uhabits.core.models.*;
-
-import java.util.*;
-
-public class DeleteHabitsCommand implements Command
-{
-    @NonNull
-    final HabitList habitList;
-
-    @NonNull
-    final List<Habit> selected;
-
-    public DeleteHabitsCommand(@NonNull HabitList habitList,
-                               @NonNull List<Habit> selected)
-    {
-        this.selected = new LinkedList<>(selected);
-        this.habitList = habitList;
-    }
-
-
-    @Override
-    public void execute()
-    {
-        for (Habit h : selected)
-            habitList.remove(h);
-    }
-
-    public List<Habit> getSelected()
-    {
-        return Collections.unmodifiableList(selected);
+data class EditHabitCommand(
+        val habitList: HabitList,
+        val habitId: Long,
+        val modified: Habit,
+) : Command {
+    override fun run() {
+        val habit = habitList.getById(habitId) ?: throw HabitNotFoundException()
+        habit.copyFrom(modified)
+        habitList.update(habit)
+        habit.observable.notifyListeners()
+        habit.recompute()
     }
 }

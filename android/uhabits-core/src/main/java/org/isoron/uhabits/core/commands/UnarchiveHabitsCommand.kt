@@ -16,36 +16,16 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.commands
 
-package org.isoron.uhabits.core.commands;
+import org.isoron.uhabits.core.models.*
 
-import androidx.annotation.*;
-
-import org.isoron.uhabits.core.models.*;
-
-import java.util.*;
-
-/**
- * Command to archive a list of habits.
- */
-public class ArchiveHabitsCommand implements Command
-{
-    final List<Habit> selected;
-
-    final HabitList habitList;
-
-    public ArchiveHabitsCommand(@NonNull HabitList habitList,
-                                @NonNull List<Habit> selected)
-    {
-        super();
-        this.habitList = habitList;
-        this.selected = new LinkedList<>(selected);
-    }
-
-    @Override
-    public void execute()
-    {
-        for (Habit h : selected) h.setArchived(true);
-        habitList.update(selected);
+data class UnarchiveHabitsCommand(
+        val habitList: HabitList,
+        val selected: List<Habit>,
+) : Command {
+    override fun run() {
+        for (h in selected) h.isArchived = false
+        habitList.update(selected)
     }
 }
