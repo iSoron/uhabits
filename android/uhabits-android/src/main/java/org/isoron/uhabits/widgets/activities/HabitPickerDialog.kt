@@ -54,7 +54,6 @@ open class HabitPickerDialog : Activity() {
         super.onCreate(savedInstanceState)
         val component = (applicationContext as HabitsApplication).component
         val habitList = component.habitList
-        val preferences = component.preferences
         widgetPreferences = component.widgetPreferences
         widgetUpdater = component.widgetUpdater
         widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: 0
@@ -79,35 +78,21 @@ open class HabitPickerDialog : Activity() {
         val listView = findViewById<ListView>(R.id.listView)
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
-        if(preferences.isWidgetStackEnabled) {
-            with(listView) {
-                adapter = ArrayAdapter(context,
-                                       android.R.layout.simple_list_item_multiple_choice,
-                                       habitNames)
-                choiceMode = CHOICE_MODE_MULTIPLE
-                itemsCanFocus = false
-            }
-            saveButton.setOnClickListener {
-                val selectedIds = mutableListOf<Long>()
-                for (i in 0..listView.count) {
-                    if (listView.isItemChecked(i)) {
-                        selectedIds.add(habitIds[i])
-                    }
+        with(listView) {
+            adapter = ArrayAdapter(context,
+                                   android.R.layout.simple_list_item_multiple_choice,
+                                   habitNames)
+            choiceMode = CHOICE_MODE_MULTIPLE
+            itemsCanFocus = false
+        }
+        saveButton.setOnClickListener {
+            val selectedIds = mutableListOf<Long>()
+            for (i in 0..listView.count) {
+                if (listView.isItemChecked(i)) {
+                    selectedIds.add(habitIds[i])
                 }
-                confirm(selectedIds)
             }
-        } else {
-            saveButton.visibility = GONE
-            with(listView) {
-                adapter = ArrayAdapter(context,
-                                       android.R.layout.simple_list_item_1,
-                                       habitNames)
-                choiceMode = CHOICE_MODE_SINGLE
-                itemsCanFocus = false
-            }
-            listView.setOnItemClickListener { _, _, position, _ ->
-                confirm(listOf(habitIds[position]))
-            }
+            confirm(selectedIds)
         }
     }
 

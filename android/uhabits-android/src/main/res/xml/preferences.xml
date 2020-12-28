@@ -222,12 +222,6 @@
                 android:title="Enable developer mode"
                 app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="pref_feature_widget_stack"
-                android:title="Enable widget stacks"
-                app:iconSpaceReserved="false" />
-
         <EditTextPreference
             android:defaultValue="@string/syncBaseURL"
             android:key="pref_sync_base_url"

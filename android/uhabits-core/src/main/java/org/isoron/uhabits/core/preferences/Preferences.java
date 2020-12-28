@@ -226,11 +226,6 @@ public class Preferences
         storage.putBoolean("pref_short_toggle", enabled);
     }
 
-    public boolean isWidgetStackEnabled()
-    {
-        return storage.getBoolean("pref_feature_widget_stack", false);
-    }
-
     public void removeListener(Listener listener)
     {
         listeners.remove(listener);
