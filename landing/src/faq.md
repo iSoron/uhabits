@@ -4,7 +4,7 @@
 
 #### How can I track bad habits I want to break?
 
-Loop can currently only supports tracking positive habits. Instead of tracking bad habits, an alternative is to rephrase your habit in a positive way. For example, instead of having the bad habit "Did you smoke today?" you could have the good habit "Did you have a smoke-free day today?".  Another example, instead of "Did you eat junk food today?" you could have "Did you eat healthy today?".
+Loop currently only supports tracking positive habits. Instead of tracking bad habits, an alternative is to rephrase your habit in a positive way. For example, instead of having the bad habit "Did you smoke today?" you could have the good habit "Did you have a smoke-free day today?".  Another example, instead of "Did you eat junk food today?" you could have "Did you eat healthy today?".
 
 #### How can I specify that a habit should be performed on certain days of the week?
 
