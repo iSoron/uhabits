@@ -1,0 +1,106 @@
+!!! 5
+%html
+  %head
+    %meta(charset="UTF-8")
+    %link(href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css")
+    %meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    %title Loop Habit Tracker
+    %link(rel="stylesheet" type="text/css" href="lib/css/bootstrap.min.css")
+    %link(rel="stylesheet" type="text/css" href="index.css")
+
+  %body
+    .navbar.navbar-expand-md.navbar-light.bg-light
+      %a.navbar-brand(href="/")
+        %b Loop
+        Habit Tracker
+      %button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation")
+        %span.navbar-toggler-icon
+      #navbar.collapse.navbar-collapse
+        %ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+          %li.nav-item
+            %a.nav-link(href="faq.html") FAQ
+          %li.nav-item
+            %a.nav-link(href="privacy.html") Privacy
+          %li.nav-item
+            %a.nav-link(href="https://source.loophabits.org") Source Code
+          %li.nav-item
+            %a.nav-link(href="https://translate.loophabits.org") Translate
+
+    .jumbotron.jumbotron-fluid
+      .site-wrapper
+        .container
+          .row.vertical-align
+            .col-md
+              %h1.display-4
+                Get your life on track
+              %p.lead
+                With daily reminders, beautiful charts and insightful statistics,
+                Loop Habit Tracker&trade; helps you create and maintain great habits. Completely free and open-source.
+
+              .store-badges
+                %a(href="https://play.google.com/store/apps/details?id=org.isoron.uhabits")
+                  %img(src="images/google-play.png")
+                %a(href="https://f-droid.org/en/packages/org.isoron.uhabits/")
+                  %img(src="images/f-droid.png")
+            .col-md
+              .s2
+                %img.screenshot(src="screenshots/uhabits1.png")
+              .s1
+                %img.screenshot(src="screenshots/uhabits4.png")
+
+    .section.screenshots
+      %span
+        %a(href="screenshots/uhabits1.png")
+          %img(src="screenshots/uhabits1_th.png")
+        %a(href="screenshots/uhabits2.png")
+          %img(src="screenshots/uhabits2_th.png")
+        %a(href="screenshots/uhabits3.png")
+          %img(src="screenshots/uhabits3_th.png")
+      %span
+        %a(href="screenshots/uhabits4.png")
+          %img(src="screenshots/uhabits4_th.png")
+        %a(href="screenshots/uhabits5.png")
+          %img(src="screenshots/uhabits5_th.png")
+
+    .section
+      .feature-header
+        %h1
+          Features
+      .container
+        .row
+          .col-md
+            %ul
+              %li
+                %h3 Habit score
+                Loop has an advanced formula for calculating the strength of your habits. Every repetition makes your habit stronger and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your progress, unlike many other don't-break-the-chain apps.
+
+              %li
+                %h3 Flexible schedules
+                In addition to daily habits, Loop supports habits with more complex schedules, such as 3 times per week or every other day.
+              %li
+                %h3 Reminders
+                Schedule notifications to remind you of your habits. Each habit can have its own reminder, at a chosen time of the day. Easily check or dismiss your habit directly from the notification.
+              %li
+                %h3 Widgets
+                Be reminded of your habits whenever you unlock your phone. Colorful widgets allow you to track your habits directly from your home screen, without even opening the app.
+          .col-md
+            %ul
+              %li
+                %h3 Take control of your data
+                If you want to further analyze your data, or move it to another service, Loop allows you to export it to spreadsheets (CSV) or to a database file (SQLite). For power users, check marks can be added through task automation apps such as Tasker.
+              %li
+                %h3 No limitations
+                Track as many habits as you wish. Loop imposes no artificial limits on how many habits you can have. All features are available to all users, and there are no in-app purchases.
+              %li
+                %h3 Completely ad-free and open source
+                There are no advertisements, annoying notifications or intrusive permissions in this app, and there will never be. The app is completely open-source (GPLv3).
+              %li
+                %h3 Works offline and respects your privacy
+                Loop doesn't require an Internet connection or online account registration. Your confidential data is never sent to anyone. Neither the developers nor any third-parties have access to it.
+
+    .section.footer
+      Copyright © 2016&ndash;2020, Alinson Santos Xavier. All Rights Reserved.
+
+
+    %script(type="text/javascript" src="lib/js/jquery.min.js")
+    %script(type="text/javascript" src="lib/js/bootstrap.bundle.min.js")

@@ -1,0 +1,32 @@
+!!! 5
+%html
+  %head
+    %meta(charset="UTF-8")
+    %link(href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css")
+    %meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    %title Privacy | Loop Habit Tracker
+    %link(rel="stylesheet" type="text/css" href="lib/css/bootstrap.min.css")
+    %link(rel="stylesheet" type="text/css" href="index.css")
+
+  %body
+    .navbar.navbar-expand-md.navbar-light.bg-light
+      %a.navbar-brand(href="/")
+        %b Loop
+        Habit Tracker
+      %button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation")
+        %span.navbar-toggler-icon
+      #navbar.collapse.navbar-collapse
+        %ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+          %li.nav-item
+            %a.nav-link(href="faq.html") FAQ
+          %li.nav-item
+            %a.nav-link(href="privacy.html") Privacy
+          %li.nav-item
+            %a.nav-link(href="https://source.loophabits.org") Source Code
+          %li.nav-item
+            %a.nav-link(href="https://translate.loophabits.org") Translate
+
+  %body
+    .content
+      :markdown
+        #{File.open("src/privacy.md").read}
