@@ -12,11 +12,10 @@ assignees: ''
 - [ ] I am running the latest version of Loop Habit Tracker.
 - [ ] I have have searched for similar issues, but did not find any matches.
 
-## Bug description
+## Description
 A clear and concise description of what the problem is.
 
 ## Steps to reproduce
-Steps to reproduce the behaviour:
 1. Go to ...
 2. Click on ....
 3. Scroll down to ....
@@ -25,7 +24,7 @@ Steps to reproduce the behaviour:
 ## Screenshots
 If applicable, add screenshots to help explain your problem.
 
-## Environment
+## System information
  - Phone: [e.g. Google Pixel 4]
- - Operating System: [e.g. Android 10]
- - Loop Habit Tracker version: [e.g. 1.8.9]
+ - Phone Operating System: [e.g. Android 10]
+ - App version: [e.g. 1.8.9]
