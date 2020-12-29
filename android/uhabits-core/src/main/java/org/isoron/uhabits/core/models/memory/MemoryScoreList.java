@@ -35,7 +35,6 @@ public class MemoryScoreList extends ScoreList
         list.addAll(scores);
         Collections.sort(list,
             (s1, s2) -> s2.getTimestamp().compareTo(s1.getTimestamp()));
-        getObservable().notifyListeners();
     }
 
     @NonNull
@@ -71,7 +70,6 @@ public class MemoryScoreList extends ScoreList
     public void recompute()
     {
         list.clear();
-        getObservable().notifyListeners();
     }
 
     @Override

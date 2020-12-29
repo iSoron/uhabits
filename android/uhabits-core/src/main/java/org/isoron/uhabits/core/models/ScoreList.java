@@ -33,8 +33,6 @@ public abstract class ScoreList implements Iterable<Score>
 {
     protected Habit habit;
 
-    protected ModelObservable observable = new ModelObservable();
-
     public void setHabit(Habit habit)
     {
         this.habit = habit;
@@ -49,11 +47,6 @@ public abstract class ScoreList implements Iterable<Score>
      * @param scores the scores to add.
      */
     public abstract void add(List<Score> scores);
-
-    public ModelObservable getObservable()
-    {
-        return observable;
-    }
 
     /**
      * Returns the value of the score for today.
