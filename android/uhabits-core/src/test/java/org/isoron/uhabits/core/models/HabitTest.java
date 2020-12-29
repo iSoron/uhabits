@@ -133,13 +133,4 @@ public class HabitTest extends BaseUnitTest
         assertThat(h.getUriString(),
             equalTo("content://org.isoron.uhabits/habit/0"));
     }
-
-    @Test
-    public void testEquals() throws Exception
-    {
-        EqualsVerifier.forClass(Score.class).verify();
-        EqualsVerifier.forClass(Streak.class).verify();
-        EqualsVerifier.forClass(Reminder.class).verify();
-        EqualsVerifier.forClass(WeekdayList.class).verify();
-    }
 }

@@ -68,12 +68,4 @@ public class ScoreTest extends BaseUnitTest
         assertThat(compute(freq, 0.5, check), closeTo(0.484842, E));
         assertThat(compute(freq, 0.75, check), closeTo(0.727263, E));
     }
-
-
-    @Test
-    public void testToString() throws Exception
-    {
-        Score score = new Score(Timestamp.ZERO.plus(100), 150.0);
-        assertThat(score.toString(), equalTo( "{timestamp: 1970-04-11, value: 150.0}"));
-    }
 }
