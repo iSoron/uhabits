@@ -236,20 +236,22 @@ create_avd() {
             --device pixel_xl || fail
 }
 
+wait_for_device() {
+    log_info "Waiting for device..."
+    adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+}
+
 run_avd() {
     log_info "Launching emulator"
     $EMULATOR @$AVDNAME &
-
-    log_info "Waiting for device..."
-    $ADB wait-for-device
-    sleep 5
+    wait_for_device
 }
 
 stop_avd() {
     log_info "Stopping emulator..."
     # https://stackoverflow.com/a/38652520
     adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
-    sleep 15
+    while [[ ! -z $(pgrep emulator) ]]; do sleep 1; done
 }
 
 case "$1" in
