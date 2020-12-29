@@ -29,8 +29,10 @@ import java.util.*;
 
 import static org.isoron.uhabits.core.models.Entry.*;
 
-public abstract class ScoreList implements Iterable<Score>
+public class ScoreList implements Iterable<Score>
 {
+    ArrayList<Score> list = new ArrayList<>();
+
     protected Habit habit;
 
     public void setHabit(Habit habit)
@@ -46,7 +48,12 @@ public abstract class ScoreList implements Iterable<Score>
      *
      * @param scores the scores to add.
      */
-    public abstract void add(List<Score> scores);
+    public void add(List<Score> scores)
+    {
+        list.addAll(scores);
+        Collections.sort(list,
+                (s1, s2) -> s2.getTimestamp().compareTo(s1.getTimestamp()));
+    }
 
     /**
      * Returns the value of the score for today.
@@ -88,8 +95,23 @@ public abstract class ScoreList implements Iterable<Score>
      * @return the list of scores within the interval.
      */
     @NonNull
-    public abstract List<Score> getByInterval(@NonNull Timestamp fromTimestamp,
-                                              @NonNull Timestamp toTimestamp);
+    public List<Score> getByInterval(@NonNull Timestamp fromTimestamp,
+                                     @NonNull Timestamp toTimestamp)
+    {
+        compute(fromTimestamp, toTimestamp);
+
+        List<Score> filtered = new LinkedList<>();
+
+        for (Score s : list)
+        {
+            if (s.getTimestamp().isNewerThan(toTimestamp) ||
+                    s.getTimestamp().isOlderThan(fromTimestamp)) continue;
+            filtered.add(s);
+        }
+
+        return filtered;
+
+    }
 
     /**
      * Returns the values of the scores that fall inside a certain interval
@@ -124,7 +146,10 @@ public abstract class ScoreList implements Iterable<Score>
         return scores;
     }
 
-    public abstract void recompute();
+    public void recompute()
+    {
+        list.clear();
+    }
 
     @Override
     public Iterator<Score> iterator()
@@ -141,7 +166,11 @@ public abstract class ScoreList implements Iterable<Score>
      *
      * @return list of scores
      */
-    public abstract List<Score> toList();
+    public List<Score> toList()
+    {
+        computeAll();
+        return new LinkedList<>(list);
+    }
 
     public void writeCSV(Writer out) throws IOException
     {
@@ -216,21 +245,36 @@ public abstract class ScoreList implements Iterable<Score>
      * @return the score with given timestamp, or null not yet computed.
      */
     @Nullable
-    protected abstract Score getComputedByTimestamp(Timestamp timestamp);
+    protected Score getComputedByTimestamp(Timestamp timestamp)
+    {
+        for (Score s : list)
+            if (s.getTimestamp().equals(timestamp)) return s;
+
+        return null;
+    }
 
     /**
      * Returns the most recent score that has already been computed. If no score
      * has been computed yet, returns null.
      */
     @Nullable
-    protected abstract Score getNewestComputed();
+    protected Score getNewestComputed()
+    {
+        if (list.isEmpty()) return null;
+        return list.get(0);
+
+    }
 
     /**
      * Returns oldest score already computed. If no score has been computed yet,
      * returns null.
      */
     @Nullable
-    protected abstract Score getOldestComputed();
+    protected Score getOldestComputed()
+    {
+        if (list.isEmpty()) return null;
+        return list.get(list.size() - 1);
+    }
 
     /**
      * Computes and stores one score for each day inside the given interval.

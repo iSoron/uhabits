@@ -36,7 +36,7 @@ class SQLModelFactory
     override fun buildOriginalEntries() = SQLiteEntryList(database)
     override fun buildComputedEntries() = EntryList()
     override fun buildHabitList() = SQLiteHabitList(this)
-    override fun buildScoreList() = MemoryScoreList()
+    override fun buildScoreList() = ScoreList()
     override fun buildStreakList() = MemoryStreakList()
 
     override fun buildHabitListRepository() =
