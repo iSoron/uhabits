@@ -102,7 +102,7 @@ open class EntryList {
                 }
             } else {
                 if (truncated[i].value == YES_MANUAL) {
-                    values[values.lastIndex] += 1
+                    values[values.lastIndex] += 1000
                 }
             }
         }

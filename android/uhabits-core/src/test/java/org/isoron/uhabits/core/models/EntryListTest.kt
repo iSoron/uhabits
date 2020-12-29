@@ -217,9 +217,9 @@ class EntryListTest {
                 isNumerical = false,
         )
         assertThat(byMonth.size, equalTo(17))
-        assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 1)))
-        assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 7)))
-        assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 6)))
+        assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 1_000)))
+        assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 7_000)))
+        assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 6_000)))
 
         val byQuarter = entries.groupBy(
                 original = entries.getKnown(),
@@ -228,9 +228,9 @@ class EntryListTest {
                 isNumerical = true,
         )
         assertThat(byQuarter.size, equalTo(6))
-        assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 30)))
-        assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 34)))
-        assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 40)))
+        assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 30_000)))
+        assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 34_000)))
+        assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 40_000)))
 
         val byYear = entries.groupBy(
                 original = entries.getKnown(),
@@ -239,8 +239,8 @@ class EntryListTest {
                 isNumerical = true,
         )
         assertThat(byYear.size, equalTo(2))
-        assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 68)))
-        assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 132)))
+        assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 68_000)))
+        assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 132_000)))
     }
 
     @Test
