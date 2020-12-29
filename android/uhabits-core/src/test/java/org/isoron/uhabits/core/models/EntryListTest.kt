@@ -248,8 +248,10 @@ class EntryListTest {
         val entries = listOf(
                 Entry(day(1), YES_MANUAL),
                 Entry(day(2), NO),
+                Entry(day(4), NO),
                 Entry(day(5), YES_MANUAL),
                 Entry(day(10), YES_MANUAL),
+                Entry(day(11), NO),
         )
         val intervals = listOf(
                 EntryList.Interval(day(2), day(2), day(1)),
@@ -258,7 +260,7 @@ class EntryListTest {
         )
         val expected = listOf(
                 Entry(day(1), YES_MANUAL),
-                Entry(day(2), NO),
+                Entry(day(2), YES_AUTO),
                 Entry(day(3), UNKNOWN),
                 Entry(day(4), YES_AUTO),
                 Entry(day(5), YES_MANUAL),
@@ -267,6 +269,7 @@ class EntryListTest {
                 Entry(day(8), YES_AUTO),
                 Entry(day(9), YES_AUTO),
                 Entry(day(10), YES_MANUAL),
+                Entry(day(11), NO),
         )
         val actual = EntryList.buildEntriesFromInterval(entries, intervals)
         assertThat(actual, equalTo(expected))

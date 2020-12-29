@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.models
 
+import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
@@ -258,7 +259,7 @@ open class EntryList {
     /**
      * Converts a list of intervals into a list of entries. Entries that fall outside of any
      * interval receive value UNKNOWN. Entries that fall within an interval but do not appear
-     * in [original] receive value YES_AUTO. Entries provided in [original] are just copied over.
+     * in [original] receive value YES_AUTO. Entries provided in [original] are copied over.
      *
      * The intervals should be sorted by timestamp. The first element in the list should
      * correspond to the newest interval.
@@ -303,7 +304,9 @@ open class EntryList {
             // Copy original entries
             original.forEach { entry ->
                 val offset = entry.timestamp.daysUntil(to)
-                result[offset] = entry
+                if (result[offset].value == UNKNOWN || entry.value == SKIP || entry.value == YES_MANUAL) {
+                    result[offset] = entry
+                }
             }
 
             return result
