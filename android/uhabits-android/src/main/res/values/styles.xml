@@ -19,151 +19,126 @@
 
 <resources>
     <style name="AppBaseTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
-        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
-        <item name="android:navigationBarColor">?attr/colorPrimary</item>
-        <item name="android:itemBackground">?attr/highContrastReverseTextColor</item>
-
-
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/grey_700</item>
+        <item name="aboutScreenColor">@color/blue_800</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-
-        <item name="selectedBackground">@drawable/selected_box_light</item>
+        <item name="actionModeBackground">@color/grey_700</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:itemBackground">?attr/highContrastReverseTextColor</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:textColor">@color/grey_800</item>
         <item name="cardBackground">@drawable/card_light_background</item>
-
+        <item name="cardBgColor">@color/grey_50</item>
+        <item name="colorAccent">#303030</item>
         <item name="colorPrimary">#363636</item>
         <item name="colorPrimaryDark">#303030</item>
-        <item name="colorAccent">#303030</item>
-        <item name="cardBgColor">@color/grey_50</item>
-        <item name="windowBackgroundColor">@color/grey_200</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
         <item name="headerBackgroundColor">@color/grey_200</item>
-        <item name="highlightedBackgroundColor">@color/grey_100</item>
-
-        <item name="android:textColor">@color/grey_800</item>
-        <item name="useHabitColorAsPrimary">true</item>
-        <item name="palette">@array/lightPalette</item>
-
         <item name="highContrastReverseTextColor">@color/white</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
-        <item name="lowContrastReverseTextColor">@color/grey_700</item>
-
         <item name="highContrastTextColor">@color/grey_800</item>
-        <item name="mediumContrastTextColor">@color/grey_500</item>
-        <item name="lowContrastTextColor">@color/grey_300</item>
-
+        <item name="highlightedBackgroundColor">@color/grey_100</item>
         <item name="iconAdd">@drawable/ic_action_add_dark</item>
         <item name="iconArchive">@drawable/ic_action_archive_dark</item>
-        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
-        <item name="iconDownload">@drawable/ic_action_download_dark</item>
-        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="iconDownload">@drawable/ic_action_download_dark</item>
+        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
         <item name="iconFilter">@drawable/ic_action_filter_dark</item>
-        <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
-        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-
-        <item name="aboutScreenColor">@color/blue_800</item>
-        <item name="widgetShadowAlpha">0.25</item>
-        <item name="widgetBackgroundAlpha">1</item>
-
+        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
+        <item name="lowContrastReverseTextColor">@color/grey_700</item>
+        <item name="lowContrastTextColor">@color/grey_300</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="palette">@array/lightPalette</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
+        <item name="selectedBackground">@drawable/selected_box_light</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="useHabitColorAsPrimary">true</item>
+        <item name="widgetBackgroundAlpha">1</item>
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowBackgroundColor">@color/grey_200</item>
+    </style>
+
+    <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="aboutScreenColor">@color/blue_300</item>
+        <item name="actionModeBackground">@color/grey_800</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
+        <item name="android:textColor">@color/grey_100</item>
+        <item name="cardBackground">@drawable/card_dark_background</item>
+        <item name="cardBgColor">@color/grey_850</item>
+        <item name="colorAccent">?aboutScreenColor</item>
+        <item name="colorPrimary">@color/grey_950</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="headerBackgroundColor">@color/grey_900</item>
+        <item name="highContrastReverseTextColor">@color/grey_900</item>
+        <item name="highContrastTextColor">@color/grey_100</item>
+        <item name="highlightedBackgroundColor">@color/grey_800</item>
+        <item name="iconAdd">@drawable/ic_action_add_dark</item>
+        <item name="iconArchive">@drawable/ic_action_archive_dark</item>
+        <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
+        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
+        <item name="iconFilter">@drawable/ic_action_filter_dark</item>
+        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
+        <item name="lowContrastReverseTextColor">@color/grey_300</item>
+        <item name="lowContrastTextColor">@color/grey_800</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_750</item>
+        <item name="mediumContrastTextColor">@color/grey_500</item>
+        <item name="palette">@array/darkPalette</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
+        <item name="selectedBackground">@drawable/selected_box_dark</item>
+        <item name="textColorAlertDialogListItem">@color/grey_100</item>
+        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+        <item name="useHabitColorAsPrimary">false</item>
+        <item name="widgetBackgroundAlpha">1</item>
+        <item name="widgetShadowAlpha">0.25</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowBackgroundColor">@color/grey_900</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="AppBaseThemeDark.PureBlack">
+        <item name="android:textColor">@color/grey_200</item>
+        <item name="cardBackground">@drawable/card_amoled_background</item>
+        <item name="cardBgColor">@color/black</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="headerBackgroundColor">@color/black</item>
+        <item name="highContrastReverseTextColor">@color/black</item>
+        <item name="highContrastTextColor">@color/grey_200</item>
+        <item name="highlightedBackgroundColor">@color/black</item>
+        <item name="lowContrastReverseTextColor">@color/grey_700</item>
+        <item name="lowContrastTextColor">@color/grey_900</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_900</item>
+        <item name="mediumContrastTextColor">@color/grey_700</item>
+        <item name="selectedBackground">@drawable/selected_box_amoled</item>
+        <item name="textColorAlertDialogListItem">@color/grey_100</item>
+        <item name="windowBackgroundColor">@color/black</item>
+    </style>
+
+    <style name="WidgetTheme" parent="AppBaseThemeDark">
+        <item name="cardBgColor">@color/grey_850</item>
+        <item name="highContrastReverseTextColor">@color/white</item>
+        <item name="highContrastTextColor">@color/white</item>
+        <item name="lowContrastReverseTextColor">@color/grey_800</item>
+        <item name="lowContrastTextColor">@color/white_a0</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
+        <item name="mediumContrastTextColor">@color/white_aa</item>
+        <item name="palette">@array/transparentWidgetPalette</item>
+        <item name="widgetShadowAlpha">0</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/grey_100</item>
     </style>
 
     <style name="SmallSpinner">
         <item name="android:textColor">?mediumContrastTextColor</item>
         <item name="android:textSize">@dimen/smallTextSize</item>
-    </style>
-
-    <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
-        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
-
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/grey_800</item>
-
-        <item name="selectedBackground">@drawable/selected_box_dark</item>
-        <item name="cardBackground">@drawable/card_dark_background</item>
-
-        <item name="colorPrimary">@color/grey_950</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">?aboutScreenColor</item>
-        <item name="cardBgColor">@color/grey_850</item>
-        <item name="windowBackgroundColor">@color/grey_900</item>
-        <item name="headerBackgroundColor">@color/grey_900</item>
-        <item name="highlightedBackgroundColor">@color/grey_800</item>
-
-        <item name="android:textColor">@color/grey_100</item>
-        <item name="textColorAlertDialogListItem">@color/grey_100</item>
-        <item name="useHabitColorAsPrimary">false</item>
-
-        <item name="highContrastTextColor">@color/grey_100</item>
-        <item name="mediumContrastTextColor">@color/grey_500</item>
-        <item name="lowContrastTextColor">@color/grey_800</item>
-
-        <item name="highContrastReverseTextColor">@color/grey_900</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_750</item>
-        <item name="lowContrastReverseTextColor">@color/grey_300</item>
-
-        <item name="iconAdd">@drawable/ic_action_add_dark</item>
-        <item name="iconArchive">@drawable/ic_action_archive_dark</item>
-        <item name="iconEdit">@drawable/ic_action_edit_dark</item>
-        <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
-        <item name="iconFilter">@drawable/ic_action_filter_dark</item>
-        <item name="iconChangeColor">@drawable/ic_action_color_dark</item>
-        <item name="dialogIconChangeColor">@drawable/ic_action_color_dark</item>
-
-        <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
-
-        <item name="palette">@array/darkPalette</item>
-
-        <item name="aboutScreenColor">@color/blue_300</item>
-
-        <item name="widgetShadowAlpha">0.25</item>
-        <item name="widgetBackgroundAlpha">1</item>
-
-        <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
-    </style>
-
-    <style name="AppBaseThemeDark.PureBlack">
-        <item name="selectedBackground">@drawable/selected_box_amoled</item>
-        <item name="cardBackground">@drawable/card_amoled_background</item>
-
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="cardBgColor">@color/black</item>
-        <item name="windowBackgroundColor">@color/black</item>
-        <item name="headerBackgroundColor">@color/black</item>
-        <item name="highlightedBackgroundColor">@color/black</item>
-
-        <item name="highContrastTextColor">@color/grey_200</item>
-        <item name="mediumContrastTextColor">@color/grey_700</item>
-        <item name="lowContrastTextColor">@color/grey_900</item>
-
-        <item name="highContrastReverseTextColor">@color/black</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_900</item>
-        <item name="lowContrastReverseTextColor">@color/grey_700</item>
-
-        <item name="android:textColor">@color/grey_200</item>
-        <item name="textColorAlertDialogListItem">@color/grey_100</item>
-
-    </style>
-
-    <style name="WidgetTheme" parent="AppBaseThemeDark">
-        <item name="cardBgColor">@color/grey_850</item>
-
-        <item name="highContrastTextColor">@color/white</item>
-        <item name="mediumContrastTextColor">@color/white_aa</item>
-        <item name="lowContrastTextColor">@color/white_a0</item>
-
-        <item name="highContrastReverseTextColor">@color/white</item>
-        <item name="mediumContrastReverseTextColor">@color/grey_500</item>
-        <item name="lowContrastReverseTextColor">@color/grey_800</item>
-
-        <item name="palette">@array/transparentWidgetPalette</item>
-
-        <item name="widgetShadowAlpha">0</item>
     </style>
 
     <style name="CardList">
