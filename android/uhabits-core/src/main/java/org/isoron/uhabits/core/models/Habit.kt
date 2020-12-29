@@ -76,11 +76,19 @@ data class Habit(
                 frequency = frequency,
                 isNumerical = isNumerical,
         )
+
+        val to = DateUtils.getTodayWithOffset()
+        val entries = computedEntries.getKnown()
+        var from = entries.lastOrNull()?.timestamp ?: to
+        if (from.isNewerThan(to)) from = to
+
         scores.recompute(
                 this.frequency,
                 this.isNumerical,
                 this.targetValue,
-                this.computedEntries
+                this.computedEntries,
+                from,
+                to
         )
     }
 

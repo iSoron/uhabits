@@ -249,6 +249,22 @@ public class ScoreListTest extends BaseUnitTest
         assertThat(habit.getScores().get(today).getValue(), closeTo(0.054816, E));
     }
 
+    @Test
+    public void test_addThenRemove()
+    {
+        Habit habit = fixtures.createEmptyHabit();
+        habit.recompute();
+        assertThat(habit.getScores().get(today).getValue(), closeTo(0.0, E));
+
+        habit.getOriginalEntries().add(new Entry(today, YES_MANUAL));
+        habit.recompute();
+        assertThat(habit.getScores().get(today).getValue(), closeTo(0.051922, E));
+
+        habit.getOriginalEntries().add(new Entry(today, UNKNOWN));
+        habit.recompute();
+        assertThat(habit.getScores().get(today).getValue(), closeTo(0.0, E));
+    }
+
     private void check(final int offset)
     {
         EntryList entries = habit.getOriginalEntries();

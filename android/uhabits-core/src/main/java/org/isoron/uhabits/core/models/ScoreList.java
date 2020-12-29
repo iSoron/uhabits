@@ -80,25 +80,21 @@ public class ScoreList
             Frequency frequency,
             boolean isNumerical,
             double targetValue,
-            EntryList computedEntries
+            EntryList computedEntries,
+            Timestamp from,
+            Timestamp to
     )
     {
         list.clear();
-
-        List<Entry> entries = computedEntries.getKnown();
-        if (entries.isEmpty()) return;
-        Entry oldest = entries.get(entries.size() - 1);
-
-        Timestamp today = DateUtils.getTodayWithOffset();
-        Timestamp from = oldest.getTimestamp();
-        if (from.isNewerThan(today)) return;
+        if (computedEntries.getKnown().isEmpty()) return;
+        if (from.isNewerThan(to)) return;
 
         double rollingSum = 0.0;
         int numerator = frequency.getNumerator();
         int denominator = frequency.getDenominator();
         final double freq = frequency.toDouble();
         final Integer[] values = computedEntries
-                .getByInterval(from, today)
+                .getByInterval(from, to)
                 .stream()
                 .map(Entry::getValue)
                 .toArray(Integer[]::new);
