@@ -36,7 +36,6 @@ interface ModelFactory {
                 originalEntries = buildOriginalEntries(),
                 computedEntries = buildComputedEntries(),
         )
-        scores.setHabit(habit)
         streaks.setHabit(habit)
         return habit
     }

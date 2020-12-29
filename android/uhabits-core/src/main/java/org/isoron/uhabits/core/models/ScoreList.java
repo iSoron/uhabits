@@ -31,13 +31,6 @@ public class ScoreList
 {
     private final HashMap<Timestamp, Score> list = new HashMap<>();
 
-    private Habit habit;
-
-    public void setHabit(Habit habit)
-    {
-        this.habit = habit;
-    }
-
     /**
      * Returns the score for a given day. If the timestamp given happens before the first
      * repetition of the habit or after the last computed score, returns a score with value zero.
@@ -83,11 +76,16 @@ public class ScoreList
         return scores;
     }
 
-    public void recompute()
+    public void recompute(
+            Frequency frequency,
+            boolean isNumerical,
+            double targetValue,
+            EntryList computedEntries
+    )
     {
         list.clear();
 
-        List<Entry> entries = habit.getOriginalEntries().getKnown();
+        List<Entry> entries = computedEntries.getKnown();
         if (entries.isEmpty()) return;
         Entry oldest = entries.get(entries.size() - 1);
 
@@ -96,10 +94,10 @@ public class ScoreList
         if (from.isNewerThan(today)) return;
 
         double rollingSum = 0.0;
-        int numerator = habit.getFrequency().getNumerator();
-        int denominator = habit.getFrequency().getDenominator();
-        final double freq = habit.getFrequency().toDouble();
-        final Integer[] values = habit.getComputedEntries()
+        int numerator = frequency.getNumerator();
+        int denominator = frequency.getDenominator();
+        final double freq = frequency.toDouble();
+        final Integer[] values = computedEntries
                 .getByInterval(from, today)
                 .stream()
                 .map(Entry::getValue)
@@ -108,7 +106,7 @@ public class ScoreList
         // For non-daily boolean habits, we double the numerator and the denominator to smooth
         // out irregular repetition schedules (for example, weekly habits performed on different
         // days of the week)
-        if (!habit.isNumerical() && freq < 1.0)
+        if (!isNumerical && freq < 1.0)
         {
             numerator *= 2;
             denominator *= 2;
@@ -118,14 +116,14 @@ public class ScoreList
         for (int i = 0; i < values.length; i++)
         {
             int offset = values.length - i - 1;
-            if (habit.isNumerical())
+            if (isNumerical)
             {
                 rollingSum += values[offset];
                 if (offset + denominator < values.length)
                 {
                     rollingSum -= values[offset + denominator];
                 }
-                double percentageCompleted = Math.min(1, rollingSum / 1000 / habit.getTargetValue());
+                double percentageCompleted = Math.min(1, rollingSum / 1000 / targetValue);
                 previousValue = Score.compute(freq, previousValue, percentageCompleted);
             }
             else

@@ -76,7 +76,12 @@ data class Habit(
                 frequency = frequency,
                 isNumerical = isNumerical,
         )
-        scores.recompute()
+        scores.recompute(
+                this.frequency,
+                this.isNumerical,
+                this.targetValue,
+                this.computedEntries
+        )
     }
 
     fun copyFrom(other: Habit) {
