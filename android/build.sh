@@ -19,6 +19,8 @@ cd "$(dirname "$0")"
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
+AVDMANAGER="${ANDROID_HOME}/tools/bin/avdmanager"
+AVDNAME="uhabitsTest"
 GRADLE="./gradlew --stacktrace"
 PACKAGE_NAME=org.isoron.uhabits
 OUTPUTS_DIR=uhabits-android/build/outputs
@@ -208,7 +210,7 @@ parse_opts() {
             -r | --release ) RELEASE=1; shift ;;
             * ) break ;;
         esac
-    done    
+    done
 }
 
 remove_build_dir() {
@@ -218,6 +220,36 @@ remove_build_dir() {
     rm -rfv android-pickers/build
     rm -rfv uhabits-android/build
     rm -rfv uhabits-core/build
+}
+
+remove_avd() {
+    log_info "Removing avd"
+    $AVDMANAGER delete avd --name $AVDNAME
+}
+
+create_avd() {
+    API=$1
+    log_info "Creating avd"
+    $AVDMANAGER create avd \
+            --name $AVDNAME \
+            --package "system-images;android-$API;default;x86_64" \
+            --device pixel_xl || fail
+}
+
+run_avd() {
+    log_info "Launching emulator"
+    $EMULATOR @$AVDNAME &
+
+    log_info "Waiting for device..."
+    $ADB wait-for-device
+    sleep 5
+}
+
+stop_avd() {
+    log_info "Stopping emulator..."
+    # https://stackoverflow.com/a/38652520
+    adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
+    sleep 15
 }
 
 case "$1" in
@@ -232,15 +264,23 @@ case "$1" in
 
     medium-tests)
         shift; parse_opts $*
-	for attempt in {1..3}; do
-		(run_tests medium) && exit 0
-	done
+        for attempt in {1..3}; do
+            (run_tests medium) && exit 0
+        done
 	exit 1
         ;;
 
     large-tests)
         shift; parse_opts $*
-        run_tests large
+        stop_avd
+        remove_avd
+        for api in 28; do
+            create_avd $api
+            run_avd
+            run_tests large
+            stop_avd
+            remove_avd
+        done
         ;;
 
     fetch-images)
