@@ -21,8 +21,6 @@ package org.isoron.uhabits.core.models;
 
 import androidx.annotation.*;
 
-import org.isoron.uhabits.core.utils.*;
-
 import java.util.*;
 
 import static org.isoron.uhabits.core.models.Entry.*;
@@ -68,22 +66,13 @@ public class ScoreList
         return result;
     }
 
-    public List<Score> groupBy(DateUtils.TruncateField field, int firstWeekday)
-    {
-        HashMap<Timestamp, ArrayList<Double>> groups = getGroupedValues(field, firstWeekday);
-        List<Score> scores = groupsToAvgScores(groups);
-        Collections.sort(scores, (s1, s2) -> s2.compareNewer(s1));
-        return scores;
-    }
-
     public void recompute(
             Frequency frequency,
             boolean isNumerical,
             double targetValue,
             EntryList computedEntries,
             Timestamp from,
-            Timestamp to
-    )
+            Timestamp to)
     {
         list.clear();
         if (computedEntries.getKnown().isEmpty()) return;
@@ -138,48 +127,5 @@ public class ScoreList
             Timestamp timestamp = from.plus(i);
             list.put(timestamp, new Score(timestamp, previousValue));
         }
-    }
-
-
-    @NonNull
-    private HashMap<Timestamp, ArrayList<Double>> getGroupedValues(DateUtils.TruncateField field,
-                                                                   int firstWeekday)
-    {
-        HashMap<Timestamp, ArrayList<Double>> groups = new HashMap<>();
-
-        for (Score s : list.values())
-        {
-            Timestamp groupTimestamp = new Timestamp(
-                    DateUtils.truncate(
-                            field,
-                            s.getTimestamp().getUnixTime(),
-                            firstWeekday));
-
-            if (!groups.containsKey(groupTimestamp))
-                groups.put(groupTimestamp, new ArrayList<>());
-
-            groups.get(groupTimestamp).add(s.getValue());
-        }
-
-        return groups;
-    }
-
-    @NonNull
-    private List<Score> groupsToAvgScores(HashMap<Timestamp, ArrayList<Double>> groups)
-    {
-        List<Score> scores = new LinkedList<>();
-
-        for (Timestamp timestamp : groups.keySet())
-        {
-            double meanValue = 0.0;
-            ArrayList<Double> groupValues = groups.get(timestamp);
-
-            for (Double v : groupValues) meanValue += v;
-            meanValue /= groupValues.size();
-
-            scores.add(new Score(timestamp, meanValue));
-        }
-
-        return scores;
     }
 }

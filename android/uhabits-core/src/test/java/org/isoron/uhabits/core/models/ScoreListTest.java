@@ -223,19 +223,6 @@ public class ScoreListTest extends BaseUnitTest
     }
 
     @Test
-    public void test_groupBy()
-    {
-        Habit habit = fixtures.createLongHabit();
-        List<Score> list =
-            habit.getScores().groupBy(DateUtils.TruncateField.MONTH, Calendar.SATURDAY);
-
-        assertThat(list.size(), equalTo(5));
-        assertThat(list.get(0).getValue(), closeTo(0.644120, E));
-        assertThat(list.get(1).getValue(), closeTo(0.713651, E));
-        assertThat(list.get(2).getValue(), closeTo(0.571922, E));
-    }
-
-    @Test
     public void test_recompute()
     {
         assertThat(habit.getScores().get(today).getValue(), closeTo(0.0, E));

@@ -38,23 +38,16 @@ class ScoreWidget(
             pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
-        val size = ScoreCardPresenter.BUCKET_SIZES[prefs.scoreCardSpinnerPosition]
-        val today = DateUtils.getTodayWithOffset()
-        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-
-        val scores = when(size) {
-            1 -> habit.scores.getByInterval(oldest, today)
-            else -> habit.scores.groupBy(ScoreCardPresenter.getTruncateField(size), prefs.firstWeekday)
-        }
-
+        val presenter = ScoreCardPresenter(habit, prefs.firstWeekday)
+        val viewModel = presenter.present(prefs.scoreCardSpinnerPosition)
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
-            setBucketSize(size)
+            setBucketSize(viewModel.bucketSize)
             setColor(habit.color.toThemedAndroidColor(context))
-            setScores(scores)
+            setScores(viewModel.scores)
         }
     }
 

@@ -67,6 +67,7 @@ class ScoreCardPresenter(
         val BUCKET_SIZES = intArrayOf(1, 7, 31, 92, 365)
         fun getTruncateField(bucketSize: Int): DateUtils.TruncateField {
             when (bucketSize) {
+                1 -> return DAY
                 7 -> return WEEK_NUMBER
                 31 -> return MONTH
                 92 -> return QUARTER
@@ -78,12 +79,20 @@ class ScoreCardPresenter(
 
     fun present(spinnerPosition: Int): ScoreCardViewModel {
         val bucketSize = BUCKET_SIZES[spinnerPosition]
-        val scoreList = habit.scores
         val today = DateUtils.getTodayWithOffset()
         val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
 
-        val scores = if (bucketSize == 1) scoreList.getByInterval(oldest, today)
-        else scoreList.groupBy(getTruncateField(bucketSize), firstWeekday)
+        val field = getTruncateField(bucketSize)
+        val scores = habit.scores.getByInterval(oldest, today).groupBy {
+            DateUtils.truncate(field, it.timestamp, firstWeekday)
+        }.map { (timestamp, scores) ->
+            Score(timestamp, scores.map {
+                it.value
+            }.average())
+        }.sortedBy {
+            it.timestamp
+        }.reversed()
+
         return ScoreCardViewModel(
                 color = habit.color,
                 scores = scores,
@@ -91,5 +100,4 @@ class ScoreCardPresenter(
                 spinnerPosition = spinnerPosition,
         )
     }
-
 }

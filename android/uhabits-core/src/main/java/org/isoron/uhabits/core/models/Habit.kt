@@ -77,7 +77,7 @@ data class Habit(
                 isNumerical = isNumerical,
         )
 
-        val to = DateUtils.getTodayWithOffset()
+        val to = DateUtils.getTodayWithOffset().plus(30)
         val entries = computedEntries.getKnown()
         var from = entries.lastOrNull()?.timestamp ?: to
         if (from.isNewerThan(to)) from = to

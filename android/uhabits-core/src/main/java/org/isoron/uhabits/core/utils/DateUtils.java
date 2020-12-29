@@ -266,6 +266,13 @@ public abstract class DateUtils
         return Locale.getDefault();
     }
 
+    public static Timestamp truncate(TruncateField field,
+                                     Timestamp timestamp,
+                                     int firstWeekday)
+    {
+        return new Timestamp(truncate(field, timestamp.getUnixTime(), firstWeekday));
+    }
+
     public static Long truncate(TruncateField field,
                                 long timestamp,
                                 int firstWeekday)
@@ -275,6 +282,9 @@ public abstract class DateUtils
 
         switch (field)
         {
+            case DAY:
+                return cal.getTimeInMillis();
+
             case MONTH:
                 cal.set(DAY_OF_MONTH, 1);
                 return cal.getTimeInMillis();
@@ -318,6 +328,6 @@ public abstract class DateUtils
 
     public enum TruncateField
     {
-        MONTH, WEEK_NUMBER, YEAR, QUARTER
+        DAY, MONTH, WEEK_NUMBER, YEAR, QUARTER
     }
 }

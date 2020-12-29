@@ -19,19 +19,15 @@
 
 package org.isoron.uhabits.activities.common.views;
 
+import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
-import androidx.test.runner.*;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.isoron.uhabits.*;
+import org.isoron.uhabits.activities.habits.show.views.*;
 import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
-
-import java.util.*;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -43,6 +39,8 @@ public class ScoreChartTest extends BaseViewTest
 
     private ScoreChart view;
 
+    private ScoreCardPresenter presenter;
+
     @Override
     @Before
     public void setUp()
@@ -51,15 +49,13 @@ public class ScoreChartTest extends BaseViewTest
 
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
-
-        Timestamp today = DateUtils.getTodayWithOffset();
-        List<Entry> known = habit.getComputedEntries().getKnown();
-        Timestamp oldest = known.get(known.size() - 1).getTimestamp();
+        presenter = new ScoreCardPresenter(habit, prefs.getFirstWeekday());
+        ScoreCardViewModel model = presenter.present(0);
 
         view = new ScoreChart(targetContext);
-        view.setScores(habit.getScores().getByInterval(oldest, today));
-        view.setColor(PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), targetContext));
-        view.setBucketSize(7);
+        view.setScores(model.getScores());
+        view.setColor(PaletteUtilsKt.toFixedAndroidColor(model.getColor()));
+        view.setBucketSize(model.getBucketSize());
         measureView(view, dpToPixels(300), dpToPixels(200));
     }
 
@@ -88,8 +84,9 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
-        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.MONTH, Calendar.SUNDAY));
-        view.setBucketSize(30);
+        ScoreCardViewModel model = presenter.present(2);
+        view.setScores(model.getScores());
+        view.setBucketSize(model.getBucketSize());
         view.invalidate();
 
         assertRenders(view, BASE_PATH + "renderMonthly.png");
@@ -105,8 +102,9 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withYearlyBucket() throws Throwable
     {
-        view.setScores(habit.getScores().groupBy(DateUtils.TruncateField.YEAR, Calendar.SUNDAY));
-        view.setBucketSize(365);
+        ScoreCardViewModel model = presenter.present(4);
+        view.setScores(model.getScores());
+        view.setBucketSize(model.getBucketSize());
         view.invalidate();
 
         assertRenders(view, BASE_PATH + "renderYearly.png");
