@@ -24,6 +24,7 @@ import android.view.*
 import android.widget.*
 import org.isoron.uhabits.activities.habits.show.views.ScoreCardPresenter.Companion.getTruncateField
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.databinding.*
 import org.isoron.uhabits.utils.*
 
@@ -95,14 +96,19 @@ class BarCardPresenter(
         } else {
             boolBucketSizes[boolSpinnerPosition]
         }
+        val today = DateUtils.getToday()
+        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
         val entries = if (bucketSize == 1) {
-            habit.computedEntries.getKnown()
+            habit.computedEntries.getByInterval(oldest, today).map {
+                if (it.value < 0) Entry(it.timestamp, 0) else it
+            }
         } else {
             habit.computedEntries.groupBy(
+                    original = habit.computedEntries.getByInterval(oldest, today),
                     field = getTruncateField(bucketSize),
                     firstWeekday = firstWeekday,
                     isNumerical = habit.isNumerical,
-            ).map { Entry(it.timestamp, it.value * 1000) }
+            )
         }
         return BarCardViewModel(
                 entries = entries,

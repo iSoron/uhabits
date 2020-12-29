@@ -71,9 +71,14 @@ class SQLiteEntryList(database: Database) : EntryList() {
         return super.getKnown()
     }
 
-    override fun groupBy(field: DateUtils.TruncateField, firstWeekday: Int, isNumerical: Boolean): List<Entry> {
+    override fun groupBy(
+            original: List<Entry>,
+            field: DateUtils.TruncateField,
+            firstWeekday: Int,
+            isNumerical: Boolean
+    ): List<Entry> {
         loadRecords()
-        return super.groupBy(field, firstWeekday, isNumerical)
+        return super.groupBy(original, field, firstWeekday, isNumerical)
     }
 
     override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean) {

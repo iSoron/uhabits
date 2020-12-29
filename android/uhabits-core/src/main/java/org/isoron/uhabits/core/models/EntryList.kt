@@ -81,11 +81,11 @@ open class EntryList {
      * relevant when grouping by week.
      */
     open fun groupBy(
+            original: List<Entry>,
             field: DateUtils.TruncateField,
             firstWeekday: Int,
             isNumerical: Boolean,
     ): List<Entry> {
-        val original = getKnown()
         val truncated = original.map {
             Entry(it.timestamp.truncate(field, firstWeekday), it.value)
         }
@@ -97,7 +97,9 @@ open class EntryList {
                 values.add(0)
             }
             if (isNumerical) {
-                values[values.lastIndex] += truncated[i].value
+                if (truncated[i].value > 0) {
+                    values[values.lastIndex] += truncated[i].value
+                }
             } else {
                 if (truncated[i].value == YES_MANUAL) {
                     values[values.lastIndex] += 1
@@ -244,7 +246,7 @@ open class EntryList {
             firstWeekday: Int,
             isNumerical: Boolean,
     ): Int {
-        val groups: List<Entry> = groupBy(truncateField, firstWeekday, isNumerical)
+        val groups: List<Entry> = groupBy(getKnown(), truncateField, firstWeekday, isNumerical)
         return if (groups.isEmpty()) 0 else groups[0].value
     }
 

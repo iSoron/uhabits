@@ -162,6 +162,7 @@ class EntryListTest {
         }
 
         val byMonth = entries.groupBy(
+                original = entries.getKnown(),
                 field = DateUtils.TruncateField.MONTH,
                 firstWeekday = Calendar.SATURDAY,
                 isNumerical = true,
@@ -172,6 +173,7 @@ class EntryListTest {
         assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 1271)))
 
         val byQuarter = entries.groupBy(
+                original = entries.getKnown(),
                 field = DateUtils.TruncateField.QUARTER,
                 firstWeekday = Calendar.SATURDAY,
                 isNumerical = true,
@@ -182,6 +184,7 @@ class EntryListTest {
         assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 4975)))
 
         val byYear = entries.groupBy(
+                original = entries.getKnown(),
                 field = DateUtils.TruncateField.YEAR,
                 firstWeekday = Calendar.SATURDAY,
                 isNumerical = true,
@@ -208,6 +211,7 @@ class EntryListTest {
         }
 
         val byMonth = entries.groupBy(
+                original = entries.getKnown(),
                 field = DateUtils.TruncateField.MONTH,
                 firstWeekday = Calendar.SATURDAY,
                 isNumerical = false,
@@ -218,6 +222,7 @@ class EntryListTest {
         assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 6)))
 
         val byQuarter = entries.groupBy(
+                original = entries.getKnown(),
                 field = DateUtils.TruncateField.QUARTER,
                 firstWeekday = Calendar.SATURDAY,
                 isNumerical = true,
@@ -228,6 +233,7 @@ class EntryListTest {
         assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 40)))
 
         val byYear = entries.groupBy(
+                original = entries.getKnown(),
                 field = DateUtils.TruncateField.YEAR,
                 firstWeekday = Calendar.SATURDAY,
                 isNumerical = true,
