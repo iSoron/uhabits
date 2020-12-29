@@ -89,7 +89,7 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyShowsScreen(LIST_HABITS);
         longClickText("Track time");
         clickMenu(DELETE);
-        clickYes();
+        clickText("Yes");
         verifyDoesNotDisplayText("Track time");
     }
 
@@ -196,13 +196,5 @@ public class HabitsTest extends BaseUserInterfaceTest
         clickMenu(TOGGLE_COMPLETED);
         verifyDisplaysText("Track time");
         verifyDisplaysText("Wake up early");
-    }
-
-    @Test
-    public void shouldHideNotesCard() throws Exception
-    {
-        launchApp();
-        clickText(EMPTY_DESCRIPTION_HABIT_NAME);
-        verifyShowsScreen(SHOW_HABIT, false);
     }
 }

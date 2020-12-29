@@ -35,7 +35,9 @@ public class WidgetTest extends BaseUserInterfaceTest
     public void shouldCreateAndToggleCheckmarkWidget() throws Exception
     {
         dragCheckmarkWidgetToHomeScreen();
+        Thread.sleep(3000);
         clickText("Wake up early");
+        clickText("Save");
         verifyCheckmarkWidgetIsShown();
         clickCheckmarkWidget();
 
@@ -44,7 +46,6 @@ public class WidgetTest extends BaseUserInterfaceTest
         verifyDisplaysText("5%");
 
         pressHome();
-        clickCheckmarkWidget();
         clickCheckmarkWidget();
 
         launchApp();

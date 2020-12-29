@@ -42,23 +42,23 @@ public class LinksTest extends BaseUserInterfaceTest
         launchApp();
         clickMenu(ABOUT);
         clickText("View source code at GitHub");
-        verifyOpensWebsite("https://github.com/iSoron/uhabits");
+        verifyOpensWebsite("github.com");
     }
 
-//    @Test
-//    public void shouldLinkToTranslationWebsite() throws Exception
-//    {
-//        launchApp();
-//        clickMenu(ABOUT);
-//        clickText("Help translate this app");
-//        verifyOpensWebsite("translate.loophabits.org");
-//    }
+    @Test
+    public void shouldLinkToTranslationWebsite() throws Exception
+    {
+        launchApp();
+        clickMenu(ABOUT);
+        clickText("Help translate this app");
+        verifyOpensWebsite("translate.loophabits.org");
+    }
 
     @Test
     public void shouldLinkToHelp() throws Exception {
         launchApp();
         clickMenu(HELP);
-        verifyOpensWebsite("loophabits.org/faq.html");
+        verifyOpensWebsite("github.com");
     }
 
     @Test
@@ -66,6 +66,6 @@ public class LinksTest extends BaseUserInterfaceTest
         launchApp();
         clickMenu(SETTINGS);
         clickText("Help & FAQ");
-        verifyOpensWebsite("loophabits.org/faq.html");
+        verifyOpensWebsite("github.com");
     }
 }

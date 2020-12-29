@@ -48,7 +48,7 @@ public class WidgetSteps {
         int height = device.getDisplayHeight();
         int width = device.getDisplayWidth();
         device.findObject(new UiSelector().text("Checkmark"))
-                .dragTo(width / 2, height / 2, 8);
+                .dragTo(width / 2, height / 2, 40);
     }
 
     private static void openWidgetScreen() throws Exception {

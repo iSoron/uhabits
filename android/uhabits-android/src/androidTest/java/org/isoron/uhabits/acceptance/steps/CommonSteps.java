@@ -43,11 +43,6 @@ import static org.junit.Assert.*;
 
 public class CommonSteps extends BaseUserInterfaceTest
 {
-    public static void clickYes()
-    {
-        clickText("Yes");
-    }
-
     public static void pressBack()
     {
         device.pressBack();
@@ -154,11 +149,7 @@ public class CommonSteps extends BaseUserInterfaceTest
         LIST_HABITS, SHOW_HABIT, EDIT_HABIT, SELECT_HABIT_TYPE
     }
 
-    public static void verifyShowsScreen(Screen screen) {
-        verifyShowsScreen(screen, true);
-    }
-
-    public static void verifyShowsScreen(Screen screen, boolean notesCardVisibleExpected)
+    public static void verifyShowsScreen(Screen screen)
     {
         switch(screen)
         {
@@ -168,10 +159,7 @@ public class CommonSteps extends BaseUserInterfaceTest
                 break;
 
             case SHOW_HABIT:
-                Matcher<View> noteCardViewMatcher = notesCardVisibleExpected ? isDisplayed() :
-                        withEffectiveVisibility(Visibility.GONE);
                 onView(withId(R.id.subtitleCard)).check(matches(isDisplayed()));
-                onView(withId(R.id.notesCard)).check(matches(noteCardViewMatcher));
                 break;
 
             case EDIT_HABIT:

@@ -37,7 +37,7 @@ class BackupTest : BaseUserInterfaceTest() {
 
         longClickText("Wake up early")
         ListHabitsSteps.clickMenu(ListHabitsSteps.MenuItem.DELETE)
-        clickYes()
+        clickText("Yes")
         verifyDoesNotDisplayText("Wake up early")
 
         importBackupFromDownloadFolder()

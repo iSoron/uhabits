@@ -49,15 +49,9 @@ fun copyBackupToDownloadFolder() {
 fun importBackupFromDownloadFolder() {
     clickMenu(SETTINGS)
     clickText("Import data")
+    device.click(100, 180) // Click menu button
+    device.findObject(UiSelector().textContains("Download")).click()
     device.findObject(UiSelector().textContains("Loop")).click()
-}
-
-fun clearAppData() {
-    openLauncher()
-    device.findObject(UiSelector().textContains("Habits")).longClick()
-    device.findObject(UiSelector().textContains("App info")).click()
-    device.findObject(UiSelector().textContains("Storage")).click()
-    device.findObject(UiSelector().textContains("Clear storage")).click()
 }
 
 fun openLauncher() {
