@@ -94,6 +94,7 @@
         <item name="highlightedBackgroundColor">@color/grey_800</item>
 
         <item name="android:textColor">@color/grey_100</item>
+        <item name="textColorAlertDialogListItem">@color/grey_100</item>
         <item name="useHabitColorAsPrimary">false</item>
 
         <item name="highContrastTextColor">@color/grey_100</item>
@@ -135,8 +136,17 @@
         <item name="headerBackgroundColor">@color/black</item>
         <item name="highlightedBackgroundColor">@color/black</item>
 
+        <item name="highContrastTextColor">@color/grey_200</item>
+        <item name="mediumContrastTextColor">@color/grey_700</item>
         <item name="lowContrastTextColor">@color/grey_900</item>
+
         <item name="highContrastReverseTextColor">@color/black</item>
+        <item name="mediumContrastReverseTextColor">@color/grey_900</item>
+        <item name="lowContrastReverseTextColor">@color/grey_700</item>
+
+        <item name="android:textColor">@color/grey_200</item>
+        <item name="textColorAlertDialogListItem">@color/grey_100</item>
+
     </style>
 
     <style name="WidgetTheme" parent="AppBaseThemeDark">
