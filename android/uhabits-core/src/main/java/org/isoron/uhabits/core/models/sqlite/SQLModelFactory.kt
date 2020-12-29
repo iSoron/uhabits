@@ -22,7 +22,6 @@ package org.isoron.uhabits.core.models.sqlite
 
 import org.isoron.uhabits.core.database.*
 import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.memory.*
 import org.isoron.uhabits.core.models.sqlite.records.*
 import javax.inject.*
 
@@ -37,7 +36,7 @@ class SQLModelFactory
     override fun buildComputedEntries() = EntryList()
     override fun buildHabitList() = SQLiteHabitList(this)
     override fun buildScoreList() = ScoreList()
-    override fun buildStreakList() = MemoryStreakList()
+    override fun buildStreakList() = StreakList()
 
     override fun buildHabitListRepository() =
             Repository(HabitRecord::class.java, database)

@@ -30,18 +30,24 @@ import java.util.*;
  * <p>
  * This list is populated automatically from the list of repetitions.
  */
-public abstract class StreakList
+public class StreakList
 {
     protected Habit habit;
 
     protected ModelObservable observable = new ModelObservable();
+
+    ArrayList<Streak> list = new ArrayList<>();
 
     public void setHabit(Habit habit)
     {
         this.habit = habit;
     }
 
-    public abstract List<Streak> getAll();
+    public List<Streak> getAll()
+    {
+        rebuild();
+        return new LinkedList<>(list);
+    }
 
     @NonNull
     public List<Streak> getBest(int limit)
@@ -54,7 +60,17 @@ public abstract class StreakList
     }
 
     @Nullable
-    public abstract Streak getNewestComputed();
+    public Streak getNewestComputed()
+    {
+        Streak newest = null;
+
+        for (Streak s : list)
+            if (newest == null || s.getEnd().isNewerThan(newest.getEnd()))
+                newest = s;
+
+        return newest;
+
+    }
 
     @NonNull
     public ModelObservable getObservable()
@@ -62,7 +78,11 @@ public abstract class StreakList
         return observable;
     }
 
-    public abstract void recompute();
+    public void recompute()
+    {
+        list.clear();
+        observable.notifyListeners();
+    }
 
     public synchronized void rebuild()
     {
@@ -146,7 +166,18 @@ public abstract class StreakList
         return list;
     }
 
-    protected abstract void add(@NonNull List<Streak> streaks);
+    protected void add(@NonNull List<Streak> streaks)
+    {
+        list.addAll(streaks);
+        Collections.sort(list, (s1, s2) -> s2.compareNewer(s1));
+        observable.notifyListeners();
 
-    protected abstract void removeNewestComputed();
+    }
+
+    protected void removeNewestComputed()
+    {
+        Streak newest = getNewestComputed();
+        if (newest != null) list.remove(newest);
+
+    }
 }
