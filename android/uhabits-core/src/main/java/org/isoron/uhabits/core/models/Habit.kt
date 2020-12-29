@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.models
 
 import org.isoron.uhabits.core.utils.*
+import java.util.*
 
 data class Habit(
         var color: PaletteColor = PaletteColor(8),
@@ -40,6 +41,10 @@ data class Habit(
         val scores: ScoreList,
         val streaks: StreakList,
 ) {
+    init {
+        if(uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "");
+    }
+
     var observable = ModelObservable()
 
     val isNumerical: Boolean

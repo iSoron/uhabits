@@ -41,7 +41,7 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
         verifyShowsScreen(LIST_HABITS)
         longClickText("Track time")
         clickMenu(DELETE)
-        clickOK()
+        clickYes()
 
         clickMenu(ADD)
         verifyShowsScreen(SELECT_HABIT_TYPE)

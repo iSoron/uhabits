@@ -89,7 +89,7 @@ public class HabitsTest extends BaseUserInterfaceTest
         verifyShowsScreen(LIST_HABITS);
         longClickText("Track time");
         clickMenu(DELETE);
-        clickOK();
+        clickYes();
         verifyDoesNotDisplayText("Track time");
     }
 

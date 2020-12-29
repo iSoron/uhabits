@@ -41,6 +41,16 @@ public class HabitTest extends BaseUnitTest
     }
 
     @Test
+    public void testUuidGeneration()
+    {
+        Habit habit1 = modelFactory.buildHabit();
+        Habit habit2 = modelFactory.buildHabit();
+        assertNotNull(habit1.getUuid());
+        assertNotNull(habit2.getUuid());
+        assertNotEquals(habit1.getUuid(), habit2.getUuid());
+    }
+
+    @Test
     public void test_copyAttributes()
     {
         Habit model = modelFactory.buildHabit();

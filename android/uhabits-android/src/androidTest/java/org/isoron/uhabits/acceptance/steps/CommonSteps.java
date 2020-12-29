@@ -43,9 +43,9 @@ import static org.junit.Assert.*;
 
 public class CommonSteps extends BaseUserInterfaceTest
 {
-    public static void clickOK()
+    public static void clickYes()
     {
-        clickText("OK");
+        clickText("Yes");
     }
 
     public static void pressBack()
