@@ -115,7 +115,7 @@ public class ListHabitsSelectionMenuBehaviorTest extends BaseUnitTest
 
         behavior.onDeleteHabits();
 
-        verify(screen).showDeleteConfirmationScreen(deleteCallback.capture());
+        verify(screen).showDeleteConfirmationScreen(deleteCallback.capture(), eq(1));
         deleteCallback.getValue().onConfirmed();
         assertNull(habitList.getById(id));
     }
