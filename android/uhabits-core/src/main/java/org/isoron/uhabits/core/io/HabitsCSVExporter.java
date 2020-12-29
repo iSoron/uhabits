@@ -125,20 +125,32 @@ public class HabitsCSVExporter
             new File(exportDirName + habitDirName).mkdirs();
             generateDirs.add(habitDirName);
 
-            writeScores(habitDirName, h.getScores());
+            writeScores(habitDirName, h);
             writeEntries(habitDirName, h.getComputedEntries());
         }
 
         writeMultipleHabits();
     }
 
-    private void writeScores(String habitDirName, ScoreList scores)
+    private void writeScores(String habitDirName, Habit habit)
         throws IOException
     {
         String path = habitDirName + "Scores.csv";
         FileWriter out = new FileWriter(exportDirName + path);
         generateFilenames.add(path);
-        scores.writeCSV(out);
+        SimpleDateFormat dateFormat = DateFormats.getCSVDateFormat();
+
+        Timestamp today = DateUtils.getTodayWithOffset();
+        Timestamp oldest = today;
+        List<Entry> known = habit.getComputedEntries().getKnown();
+        if(!known.isEmpty()) oldest = known.get(known.size() - 1).getTimestamp();
+
+        for (Score s : habit.getScores().getByInterval(oldest, today))
+        {
+            String timestamp = dateFormat.format(s.getTimestamp().getUnixTime());
+            String score = String.format(Locale.US, "%.4f", s.getValue());
+            out.write(String.format("%s,%s\n", timestamp, score));
+        }
         out.close();
     }
 
@@ -185,11 +197,11 @@ public class HabitsCSVExporter
         Timestamp newest = DateUtils.getToday();
 
         List<int[]> checkmarks = new ArrayList<>();
-        List<double[]> scores = new ArrayList<>();
+        List<ArrayList<Score>> scores = new ArrayList<>();
         for (Habit h : selectedHabits)
         {
             checkmarks.add(h.getComputedEntries().getValues(oldest, newest));
-            scores.add(h.getScores().getValues(oldest, newest));
+            scores.add(new ArrayList<>(h.getScores().getByInterval(oldest, newest)));
         }
 
         int days = oldest.daysUntil(newest);
@@ -208,8 +220,7 @@ public class HabitsCSVExporter
             {
                 checksWriter.write(String.valueOf(checkmarks.get(j)[i]));
                 checksWriter.write(DELIMITER);
-                String score =
-                        String.format(Locale.US, "%.4f", ((float) scores.get(j)[i]));
+                String score = String.format(Locale.US, "%.4f", scores.get(j).get(i).getValue());
                 scoresWriter.write(score);
                 scoresWriter.write(DELIMITER);
             }

@@ -169,7 +169,12 @@ public class MemoryHabitList extends HabitList
                 colorComparatorAsc.compare(h2, h1);
 
         Comparator<Habit> scoreComparatorDesc = (h1, h2) ->
-                Double.compare(h1.getScores().getTodayValue(), h2.getScores().getTodayValue());
+        {
+            Timestamp today = DateUtils.getTodayWithOffset();
+            return Double.compare(
+                    h1.getScores().get(today).getValue(),
+                    h2.getScores().get(today).getValue());
+        };
 
         Comparator<Habit> scoreComparatorAsc = (h1, h2) ->
                 scoreComparatorDesc.compare(h2, h1);

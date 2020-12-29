@@ -52,8 +52,12 @@ public class ScoreChartTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
 
+        Timestamp today = DateUtils.getTodayWithOffset();
+        List<Entry> known = habit.getComputedEntries().getKnown();
+        Timestamp oldest = known.get(known.size() - 1).getTimestamp();
+
         view = new ScoreChart(targetContext);
-        view.setScores(habit.getScores().toList());
+        view.setScores(habit.getScores().getByInterval(oldest, today));
         view.setColor(PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), targetContext));
         view.setBucketSize(7);
         measureView(view, dpToPixels(300), dpToPixels(200));

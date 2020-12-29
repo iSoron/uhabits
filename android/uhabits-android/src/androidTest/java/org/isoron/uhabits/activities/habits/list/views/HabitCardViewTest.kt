@@ -23,6 +23,7 @@ import androidx.test.ext.junit.runners.*
 import androidx.test.filters.*
 import org.isoron.uhabits.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 import org.junit.*
 import org.junit.runner.*
 
@@ -41,10 +42,12 @@ class HabitCardViewTest : BaseViewTest() {
 
         habit1 = fixtures.createLongHabit()
         habit2 = fixtures.createLongNumericalHabit()
+        val today = DateUtils.getTodayWithOffset()
+
         view = component.getHabitCardViewFactory().create().apply {
             habit = habit1
             values = habit1.computedEntries.getAllValues()
-            score = habit1.scores.todayValue
+            score = habit1.scores.get(today).value
             isSelected = false
             buttonCount = 5
         }

@@ -24,6 +24,7 @@ import android.view.*
 import org.isoron.uhabits.activities.common.views.*
 import org.isoron.uhabits.activities.habits.show.views.*
 import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.utils.*
 import org.isoron.uhabits.utils.*
 import org.isoron.uhabits.widgets.views.*
 
@@ -38,8 +39,11 @@ class ScoreWidget(
 
     override fun refreshData(view: View) {
         val size = ScoreCardPresenter.BUCKET_SIZES[prefs.scoreCardSpinnerPosition]
+        val today = DateUtils.getTodayWithOffset()
+        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+
         val scores = when(size) {
-            1 -> habit.scores.toList()
+            1 -> habit.scores.getByInterval(oldest, today)
             else -> habit.scores.groupBy(ScoreCardPresenter.getTruncateField(size), prefs.firstWeekday)
         }
 

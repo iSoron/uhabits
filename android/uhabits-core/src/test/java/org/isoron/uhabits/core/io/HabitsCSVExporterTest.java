@@ -29,8 +29,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.zip.*;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HabitsCSVExporterTest extends BaseUnitTest
 {
@@ -99,6 +98,29 @@ public class HabitsCSVExporterTest extends BaseUnitTest
 
         zip.close();
     }
+
+//    @Test
+//    public void test_writeCSV() throws IOException
+//    {
+//        Habit habit = fixtures.createShortHabit();
+//
+//        String expectedCSV =
+//                "2015-01-25,0.2557\n" +
+//                        "2015-01-24,0.2226\n" +
+//                        "2015-01-23,0.1991\n" +
+//                        "2015-01-22,0.1746\n" +
+//                        "2015-01-21,0.1379\n" +
+//                        "2015-01-20,0.0995\n" +
+//                        "2015-01-19,0.0706\n" +
+//                        "2015-01-18,0.0515\n" +
+//                        "2015-01-17,0.0315\n" +
+//                        "2015-01-16,0.0107\n";
+//
+//        StringWriter writer = new StringWriter();
+//        habit.getScores().writeCSV(writer);
+//
+//        assertThat(writer.toString(), equalTo(expectedCSV));
+//    }
 
     private void assertPathExists(String s)
     {

@@ -37,6 +37,8 @@ public class HabitCardListCacheTest extends BaseUnitTest
 
     private HabitCardListCache.Listener listener;
 
+    Timestamp today = DateUtils.getToday();
+
     @Override
     public void setUp() throws Exception
     {
@@ -83,7 +85,6 @@ public class HabitCardListCacheTest extends BaseUnitTest
     public void testCommandListener_single()
     {
         Habit h2 = habitList.getByPosition(2);
-        Timestamp today = DateUtils.getToday();
         commandRunner.run(new CreateRepetitionCommand(habitList, h2, today, Entry.NO));
         verify(listener).onItemChanged(2);
         verify(listener).onRefreshFinished();
@@ -97,12 +98,11 @@ public class HabitCardListCacheTest extends BaseUnitTest
 
         Habit h = habitList.getByPosition(3);
         Assert.assertNotNull(h.getId());
-        double score = h.getScores().getTodayValue();
+        double score = h.getScores().get(today).getValue();
 
         assertThat(cache.getHabitByPosition(3), equalTo(h));
         assertThat(cache.getScore(h.getId()), equalTo(score));
 
-        Timestamp today = DateUtils.getToday();
         int[] actualCheckmarks = cache.getCheckmarks(h.getId());
         int[] expectedCheckmarks = h.getComputedEntries().getValues(today.minus(9), today);
 

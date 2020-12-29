@@ -47,11 +47,12 @@ public class CheckmarkWidgetViewTest extends BaseViewTest
         setTheme(R.style.WidgetTheme);
 
         Habit habit = fixtures.createShortHabit();
+        Timestamp today = DateUtils.getTodayWithOffset();
+
         view = new CheckmarkWidgetView(targetContext);
-        double score = habit.getScores().getTodayValue();
+        double score = habit.getScores().get(today).getValue();
         float percentage = (float) score;
 
-        Timestamp today = DateUtils.getTodayWithOffset();
         view.setActiveColor(PaletteUtils.getAndroidTestColor(0));
         view.setEntryState(habit.getComputedEntries().get(today).getValue());
         view.setEntryValue(habit.getComputedEntries().get(today).getValue());

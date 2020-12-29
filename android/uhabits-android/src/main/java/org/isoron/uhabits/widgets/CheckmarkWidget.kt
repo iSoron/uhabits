@@ -54,7 +54,7 @@ open class CheckmarkWidget(
             } else {
                 setEntryState(habit.computedEntries.get(today).value)
             }
-            setPercentage(habit.scores.todayValue.toFloat())
+            setPercentage(habit.scores.get(today).value.toFloat())
             refresh()
         }
     }

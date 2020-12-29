@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.commands;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -34,6 +35,8 @@ public class EditHabitCommandTest extends BaseUnitTest
 
     private Habit modified;
 
+    private Timestamp today;
+
     @Override
     @Before
     public void setUp() throws Exception
@@ -43,12 +46,15 @@ public class EditHabitCommandTest extends BaseUnitTest
         habit = fixtures.createShortHabit();
         habit.setName("original");
         habit.setFrequency(Frequency.DAILY);
+        habit.recompute();
         habitList.add(habit);
 
         modified = fixtures.createEmptyHabit();
         modified.copyFrom(habit);
         modified.setName("modified");
         habitList.add(modified);
+
+        today =  DateUtils.getTodayWithOffset();
     }
 
     @Test
@@ -56,27 +62,11 @@ public class EditHabitCommandTest extends BaseUnitTest
     {
         command = new EditHabitCommand(habitList, habit.getId(), modified);
 
-        double originalScore = habit.getScores().getTodayValue();
+        double originalScore = habit.getScores().get(today).getValue();
         assertThat(habit.getName(), equalTo("original"));
 
         command.run();
         assertThat(habit.getName(), equalTo("modified"));
-        assertThat(habit.getScores().getTodayValue(), equalTo(originalScore));
-    }
-
-    @Test
-    public void testExecute_withModifiedInterval()
-    {
-        modified.setFrequency(Frequency.TWO_TIMES_PER_WEEK);
-        command =
-            new EditHabitCommand(habitList, habit.getId(), modified);
-
-        double originalScore = habit.getScores().getTodayValue();
-        assertThat(habit.getName(), equalTo("original"));
-
-        command.run();
-        assertThat(habit.getName(), equalTo("modified"));
-        assertThat(habit.getScores().getTodayValue(),
-            lessThan(originalScore));
+        assertThat(habit.getScores().get(today).getValue(), equalTo(originalScore));
     }
 }

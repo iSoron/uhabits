@@ -48,6 +48,7 @@ open class EntryList {
      */
     open fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
         val result = mutableListOf<Entry>()
+        if (from.isNewerThan(to)) return result
         var current = to
         while (current >= from) {
             result.add(get(current))
@@ -201,8 +202,9 @@ open class EntryList {
     fun getAllValues(): IntArray {
         val entries = getKnown()
         if (entries.isEmpty()) return IntArray(0)
-        val (fromTimestamp, _) = entries.last()
+        var (fromTimestamp, _) = entries.last()
         val toTimestamp = DateUtils.getTodayWithOffset()
+        if (fromTimestamp.isNewerThan(toTimestamp)) fromTimestamp = toTimestamp
         return getValues(fromTimestamp, toTimestamp)
     }
 

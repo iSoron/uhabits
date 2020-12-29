@@ -26,8 +26,10 @@ data class Score(
 ) {
 
     fun compareNewer(other: Score): Int {
-        return timestamp.compareTo(other.timestamp)
+        return this.timestamp.compareTo(other.timestamp)
     }
+
+    fun compareOlder(other: Score) = -compareNewer(other)
 
     companion object {
         /**

@@ -72,9 +72,9 @@ class OverviewCardPresenter(val habit: Habit) {
         val lastMonth = today.minus(30)
         val lastYear = today.minus(365)
         val scores = habit.scores
-        val scoreToday = scores.todayValue.toFloat()
-        val scoreLastMonth = scores.getValue(lastMonth).toFloat()
-        val scoreLastYear = scores.getValue(lastYear).toFloat()
+        val scoreToday = scores.get(today).value.toFloat()
+        val scoreLastMonth = scores.get(lastMonth).value.toFloat()
+        val scoreLastYear = scores.get(lastYear).value.toFloat()
         val totalCount = habit.originalEntries.getKnown()
                 .filter { it.value == YES_MANUAL }
                 .count()

@@ -70,13 +70,13 @@ data class Habit(
     }
 
     fun recompute() {
-        scores.recompute()
         streaks.recompute()
         computedEntries.recomputeFrom(
                 originalEntries = originalEntries,
                 frequency = frequency,
                 isNumerical = isNumerical,
         )
+        scores.recompute()
     }
 
     fun copyFrom(other: Habit) {

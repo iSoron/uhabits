@@ -24,6 +24,7 @@ import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.ui.*;
+import org.isoron.uhabits.core.utils.*;
 import org.junit.*;
 
 import java.util.*;
@@ -43,7 +44,7 @@ public class WidgetBehaviorTest extends BaseUnitTest
 
     private Habit habit;
 
-    private Timestamp timestamp = new Timestamp(0L);
+    private Timestamp today;
 
     @Before
     @Override
@@ -55,14 +56,15 @@ public class WidgetBehaviorTest extends BaseUnitTest
         notificationTray = mock(NotificationTray.class);
         preferences = mock(Preferences.class);
         behavior = new WidgetBehavior(habitList, commandRunner, notificationTray, preferences);
+        today = DateUtils.getTodayWithOffset();
     }
 
     @Test
     public void testOnAddRepetition()
     {
-        behavior.onAddRepetition(habit, timestamp);
+        behavior.onAddRepetition(habit, today);
         verify(commandRunner).run(
-                new CreateRepetitionCommand(habitList, habit, timestamp, YES_MANUAL)
+                new CreateRepetitionCommand(habitList, habit, today, YES_MANUAL)
         );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
@@ -71,9 +73,9 @@ public class WidgetBehaviorTest extends BaseUnitTest
     @Test
     public void testOnRemoveRepetition()
     {
-        behavior.onRemoveRepetition(habit, timestamp);
+        behavior.onRemoveRepetition(habit, today);
         verify(commandRunner).run(
-                new CreateRepetitionCommand(habitList, habit, timestamp, NO)
+                new CreateRepetitionCommand(habitList, habit, today, NO)
         );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
@@ -91,11 +93,11 @@ public class WidgetBehaviorTest extends BaseUnitTest
                 if(skipEnabled) nextValue = Entry.Companion.nextToggleValueWithSkip(currentValue);
                 else nextValue = Entry.Companion.nextToggleValueWithoutSkip(currentValue);
 
-                habit.getOriginalEntries().add(new Entry(timestamp, currentValue));
-                behavior.onToggleRepetition(habit, timestamp);
+                habit.getOriginalEntries().add(new Entry(today, currentValue));
+                behavior.onToggleRepetition(habit, today);
                 verify(preferences).isSkipEnabled();
                 verify(commandRunner).run(
-                        new CreateRepetitionCommand(habitList, habit, timestamp, nextValue)
+                        new CreateRepetitionCommand(habitList, habit, today, nextValue)
                 );
                 verify(notificationTray).cancel(habit);
                 reset(preferences, commandRunner, notificationTray);
@@ -106,12 +108,12 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnIncrement()
     {
         habit = fixtures.createNumericalHabit();
-        habit.getOriginalEntries().add(new Entry(timestamp, 500));
+        habit.getOriginalEntries().add(new Entry(today, 500));
         habit.recompute();
 
-        behavior.onIncrement(habit, timestamp, 100);
+        behavior.onIncrement(habit, today, 100);
         verify(commandRunner).run(
-                new CreateRepetitionCommand(habitList, habit, timestamp, 600)
+                new CreateRepetitionCommand(habitList, habit, today, 600)
         );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);
@@ -121,12 +123,12 @@ public class WidgetBehaviorTest extends BaseUnitTest
     public void testOnDecrement()
     {
         habit = fixtures.createNumericalHabit();
-        habit.getOriginalEntries().add(new Entry(timestamp, 500));
+        habit.getOriginalEntries().add(new Entry(today, 500));
         habit.recompute();
 
-        behavior.onDecrement(habit, timestamp, 100);
+        behavior.onDecrement(habit, today, 100);
         verify(commandRunner).run(
-                new CreateRepetitionCommand(habitList, habit, timestamp, 400)
+                new CreateRepetitionCommand(habitList, habit, today, 400)
         );
         verify(notificationTray).cancel(habit);
         verifyZeroInteractions(preferences);

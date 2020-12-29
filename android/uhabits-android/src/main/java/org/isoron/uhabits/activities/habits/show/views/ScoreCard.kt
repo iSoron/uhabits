@@ -79,7 +79,10 @@ class ScoreCardPresenter(
     fun present(spinnerPosition: Int): ScoreCardViewModel {
         val bucketSize = BUCKET_SIZES[spinnerPosition]
         val scoreList = habit.scores
-        val scores = if (bucketSize == 1) scoreList.toList()
+        val today = DateUtils.getTodayWithOffset()
+        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+
+        val scores = if (bucketSize == 1) scoreList.getByInterval(oldest, today)
         else scoreList.groupBy(getTruncateField(bucketSize), firstWeekday)
         return ScoreCardViewModel(
                 color = habit.color,
