@@ -83,12 +83,12 @@ data class Habit(
         if (from.isNewerThan(to)) from = to
 
         scores.recompute(
-                this.frequency,
-                this.isNumerical,
-                this.targetValue,
-                this.computedEntries,
-                from,
-                to
+                frequency = frequency,
+                isNumerical = isNumerical,
+                targetValue = targetValue,
+                computedEntries = computedEntries,
+                from = from,
+                to = to,
         )
     }
 

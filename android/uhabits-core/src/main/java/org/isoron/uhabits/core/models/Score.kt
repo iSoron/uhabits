@@ -25,12 +25,6 @@ data class Score(
         val value: Double,
 ) {
 
-    fun compareNewer(other: Score): Int {
-        return this.timestamp.compareTo(other.timestamp)
-    }
-
-    fun compareOlder(other: Score) = -compareNewer(other)
-
     companion object {
         /**
          * Given the frequency of the habit, the previous score, and the value of
@@ -39,11 +33,6 @@ data class Score(
          * The frequency of the habit is the number of repetitions divided by the
          * length of the interval. For example, a habit that should be repeated 3
          * times in 8 days has frequency 3.0 / 8.0 = 0.375.
-         *
-         * @param frequency      the frequency of the habit
-         * @param previousScore  the previous score of the habit
-         * @param checkmarkValue the value of the current checkmark
-         * @return the current score
          */
         @JvmStatic
         fun compute(
