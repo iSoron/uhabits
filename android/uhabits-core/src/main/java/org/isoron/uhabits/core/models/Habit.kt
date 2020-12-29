@@ -70,7 +70,6 @@ data class Habit(
     }
 
     fun recompute() {
-        streaks.recompute()
         computedEntries.recomputeFrom(
                 originalEntries = originalEntries,
                 frequency = frequency,
@@ -89,6 +88,12 @@ data class Habit(
                 computedEntries = computedEntries,
                 from = from,
                 to = to,
+        )
+
+        streaks.recompute(
+                computedEntries,
+                from,
+                to,
         )
     }
 

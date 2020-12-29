@@ -20,8 +20,10 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.uhabits.core.models.Score.Companion.compute
 import java.util.*
+import javax.annotation.concurrent.*
 import kotlin.math.*
 
+@ThreadSafe
 class ScoreList {
 
     private val map = HashMap<Timestamp, Score>()
@@ -30,6 +32,7 @@ class ScoreList {
      * Returns the score for a given day. If the timestamp given happens before the first
      * repetition of the habit or after the last computed score, returns a score with value zero.
      */
+    @Synchronized
     operator fun get(timestamp: Timestamp): Score {
         return map[timestamp] ?: Score(timestamp, 0.0)
     }
@@ -41,6 +44,7 @@ class ScoreList {
      * included. The list is ordered by timestamp (decreasing). That is, the first score
      * corresponds to the newest timestamp, and the last score corresponds to the oldest timestamp.
      */
+    @Synchronized
     fun getByInterval(
             fromTimestamp: Timestamp,
             toTimestamp: Timestamp,
@@ -58,6 +62,7 @@ class ScoreList {
     /**
      * Recomputes all scores between the provided [from] and [to] timestamps.
      */
+    @Synchronized
     fun recompute(
             frequency: Frequency,
             isNumerical: Boolean,

@@ -25,10 +25,12 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.utils.*
 import java.util.*
+import javax.annotation.concurrent.*
 import kotlin.collections.HashMap
 import kotlin.collections.set
 import kotlin.math.*
 
+@ThreadSafe
 open class EntryList {
 
     private val entriesByTimestamp: HashMap<Timestamp, Entry> = HashMap()
@@ -37,6 +39,7 @@ open class EntryList {
      * Returns the entry corresponding to the given timestamp. If no entry with such timestamp
      * has been previously added, returns Entry(timestamp, UNKNOWN).
      */
+    @Synchronized
     open fun get(timestamp: Timestamp): Entry {
         return entriesByTimestamp[timestamp] ?: Entry(timestamp, UNKNOWN)
     }
@@ -46,6 +49,7 @@ open class EntryList {
      * newest entry, and the last element corresponds to the oldest. The interval endpoints are
      * included.
      */
+    @Synchronized
     open fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
         val result = mutableListOf<Entry>()
         if (from.isNewerThan(to)) return result
@@ -61,6 +65,7 @@ open class EntryList {
      * Adds the given entry to the list. If another entry with the same timestamp already exists,
      * replaces it.
      */
+    @Synchronized
     open fun add(entry: Entry) {
         entriesByTimestamp[entry.timestamp] = entry
     }
@@ -69,6 +74,7 @@ open class EntryList {
      * Returns all entries whose values are known, sorted by timestamp. The first element
      * corresponds to the newest entry, and the last element corresponds to the oldest.
      */
+    @Synchronized
     open fun getKnown(): List<Entry> {
         return entriesByTimestamp.values.sortedBy { it.timestamp }.reversed()
     }
@@ -82,6 +88,7 @@ open class EntryList {
      * entries. For numerical habits, the value is the total sum. The field [firstWeekday] is only
      * relevant when grouping by week.
      */
+    @Synchronized
     open fun groupBy(
             original: List<Entry>,
             field: DateUtils.TruncateField,
@@ -117,6 +124,7 @@ open class EntryList {
      * For boolean habits, this function creates additional entries (with value YES_AUTO) according
      * to the frequency of the habit. For numerical habits, this function simply copies all entries.
      */
+    @Synchronized
     open fun recomputeFrom(
             originalEntries: EntryList,
             frequency: Frequency,
@@ -137,6 +145,7 @@ open class EntryList {
     /**
      * Removes all known entries.
      */
+    @Synchronized
     open fun clear() {
         entriesByTimestamp.clear()
     }
@@ -153,6 +162,7 @@ open class EntryList {
      *
      * @return total number of checkmarks by month versus day of week
      */
+    @Synchronized
     fun computeWeekdayFrequency(isNumerical: Boolean): HashMap<Timestamp, Array<Int>> {
         val entries = getKnown()
         val map = hashMapOf<Timestamp, Array<Int>>()
@@ -185,6 +195,7 @@ open class EntryList {
      * are included.
      */
     @Deprecated("")
+    @Synchronized
     fun getValues(from: Timestamp, to: Timestamp): IntArray {
         if (from.isNewerThan(to)) throw IllegalArgumentException()
         val nDays = from.daysUntil(to) + 1
@@ -199,6 +210,7 @@ open class EntryList {
     }
 
     @Deprecated("")
+    @Synchronized
     fun getAllValues(): IntArray {
         val entries = getKnown()
         if (entries.isEmpty()) return IntArray(0)
@@ -209,6 +221,7 @@ open class EntryList {
     }
 
     @Deprecated("")
+    @Synchronized
     open fun getThisWeekValue(firstWeekday: Int, isNumerical: Boolean): Int {
         return getThisIntervalValue(
                 truncateField = DateUtils.TruncateField.WEEK_NUMBER,
@@ -218,6 +231,7 @@ open class EntryList {
     }
 
     @Deprecated("")
+    @Synchronized
     open fun getThisMonthValue(isNumerical: Boolean): Int {
         return getThisIntervalValue(
                 truncateField = DateUtils.TruncateField.MONTH,
@@ -227,6 +241,7 @@ open class EntryList {
     }
 
     @Deprecated("")
+    @Synchronized
     open fun getThisQuarterValue(isNumerical: Boolean): Int {
         return getThisIntervalValue(
                 truncateField = DateUtils.TruncateField.QUARTER,
@@ -236,6 +251,7 @@ open class EntryList {
     }
 
     @Deprecated("")
+    @Synchronized
     open fun getThisYearValue(isNumerical: Boolean): Int {
         return getThisIntervalValue(
                 truncateField = DateUtils.TruncateField.YEAR,

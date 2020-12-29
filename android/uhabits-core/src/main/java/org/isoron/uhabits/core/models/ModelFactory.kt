@@ -36,7 +36,6 @@ interface ModelFactory {
                 originalEntries = buildOriginalEntries(),
                 computedEntries = buildComputedEntries(),
         )
-        streaks.setHabit(habit)
         return habit
     }
     fun buildComputedEntries(): EntryList

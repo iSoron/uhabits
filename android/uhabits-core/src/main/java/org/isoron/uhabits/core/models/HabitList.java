@@ -176,10 +176,6 @@ public abstract class HabitList implements Iterable<Habit>
 
     public void repair()
     {
-        for (Habit h : this)
-        {
-            h.getStreaks().recompute();
-        }
     }
 
     /**
