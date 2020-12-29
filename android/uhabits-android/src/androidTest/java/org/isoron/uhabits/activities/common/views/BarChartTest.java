@@ -49,7 +49,6 @@ public class BarChartTest extends BaseViewTest
         EntryList entries = habit.getComputedEntries();
         view.setEntries(entries.getByInterval(today.minus(20), today));
         view.setColor(PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), targetContext));
-        view.setTarget(200.0);
         measureView(view, dpToPixels(300), dpToPixels(200));
     }
 
